@@ -7,7 +7,7 @@ android {
 
     defaultConfig {
         applicationId "tech.sud.mgp.hello"
-        minSdk 21
+        minSdk 15
         targetSdk 30
         versionCode 1
         versionName "1.0"

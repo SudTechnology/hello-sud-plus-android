@@ -36,4 +36,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
     implementation project(':common')
+
+    //屏幕适配：https://github.com/JessYanCoding/AndroidAutoSize
+    implementation "me.jessyan:autosize:v1.2.1"
 }

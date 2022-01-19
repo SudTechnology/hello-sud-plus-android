@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">hello-sud-android</string>
+
+    <string name="login_welcome">欢迎体验HelloSud</string>
+    <string name="login_edit_name">请输入你的昵称</string>
+    <string name="male">男</string>
+    <string name="female">女</string>
 </resources>

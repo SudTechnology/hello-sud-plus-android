@@ -13,6 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Hellosudandroid">
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -22,6 +23,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".login.LoginActivity"
+            android:exported="false" />
 
         <!-- 屏幕适配 -->
         <meta-data

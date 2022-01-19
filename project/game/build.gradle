@@ -34,12 +34,6 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
-    // 依赖okhttp
-    api 'com.squareup.okhttp3:okhttp:4.9.2'
-
-    // 工具类库
-    api 'com.blankj:utilcodex:1.31.0'
-
-    // 图片加载库
-    api 'com.github.bumptech.glide:glide:4.12.0'
+    // 导入游戏SDK
+    api files('libs/SudMGP-v1.1.39.335.aar')
 }

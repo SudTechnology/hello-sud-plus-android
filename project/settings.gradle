@@ -9,3 +9,5 @@ dependencyResolutionManagement {
 rootProject.name = "hello-sud-android"
 include ':app'
 include ':common'
+include ':audio'
+include ':game'

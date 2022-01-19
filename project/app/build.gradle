@@ -38,5 +38,5 @@ dependencies {
     implementation project(':common')
 
     //屏幕适配：https://github.com/JessYanCoding/AndroidAutoSize
-    implementation "me.jessyan:autosize:v1.2.1"
+    implementation "me.jessyan:autosize:1.2.1"
 }

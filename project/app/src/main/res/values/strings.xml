@@ -2,7 +2,14 @@
     <string name="app_name">hello-sud-android</string>
 
     <string name="login_welcome">欢迎体验HelloSud</string>
+    <string name="title_hellosud">HelloSud</string>
     <string name="login_edit_name">请输入你的昵称</string>
     <string name="male">男</string>
     <string name="female">女</string>
+    <string name="play_now">立即体验</string>
+    <string name="search_hint">房间ID</string>
+
+    <string name="tabs_index">首页</string>
+    <string name="tabs_room">房间</string>
+    <string name="tabs_set">设置</string>
 </resources>

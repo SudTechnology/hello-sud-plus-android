@@ -15,8 +15,8 @@ public class HelloSudApplication extends Application {
     // Bugly config
     private void configBugly() {
         CrashReport.UserStrategy strategy = new CrashReport.UserStrategy(getApplicationContext());
-        String versionAndCode = AppUtils.getAppVersionName() + AppUtils.getAppVersionCode();
+        String versionAndCode = AppUtils.getAppVersionName() + "." + AppUtils.getAppVersionCode();
         strategy.setAppVersion(versionAndCode);
-        CrashReport.initCrashReport(getApplicationContext(), "2224b284b5", true, strategy);
+        CrashReport.initCrashReport(getApplicationContext(), "f471ed313c", true, strategy);
     }
 }

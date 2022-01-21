@@ -1,23 +1,27 @@
 package tech.sud.mgp.hello.login;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
+import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.home.HomeActivity;
+import tech.sud.mgp.hello.login.callback.DialogSecondaryCallbck;
+import tech.sud.mgp.hello.login.callback.DialogSelectCallbck;
+import tech.sud.mgp.hello.login.dialog.UserAgreementDialog;
+import tech.sud.mgp.hello.login.dialog.UserSecondaryDialog;
 import tech.sud.mgp.hello.utils.AppSharedPreferences;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener, DialogSelectCallbck, DialogSecondaryCallbck {
 
     private EditText nameEt;
     private ConstraintLayout maleBut;
@@ -41,6 +45,53 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         goPlayBut.setOnClickListener(this);
         //默认性别选中男
         maleBut.callOnClick();
+        //是否同意隐私政策
+        boolean isAgree = AppSharedPreferences.getSP().getBoolean(AppSharedPreferences.AGREEMENT_STATE, false);
+        if (!isAgree) {
+            showAgreementDialog();
+        }
+    }
+
+    private void showAgreementDialog() {
+        UserAgreementDialog agreementDialog = new UserAgreementDialog();
+        agreementDialog.setDialogSelectCallbck(this);
+        agreementDialog.show(getSupportFragmentManager(), "argeement");
+    }
+
+    private void showSecondaryDialog() {
+        UserSecondaryDialog secondaryDialog = new UserSecondaryDialog();
+        secondaryDialog.setDialogSecondaryCallbck(this);
+        secondaryDialog.show(getSupportFragmentManager(), "secondary");
+    }
+
+    @Override
+    public void secondaryResult(boolean isAgree) {
+        if (!isAgree) {
+            finish();
+        } else {
+            AppSharedPreferences.getSP().put(AppSharedPreferences.AGREEMENT_STATE, true);
+        }
+    }
+
+    @Override
+    public void agreementType(int type) {
+        switch (type) {
+            case 1: {
+                LogUtils.i("agreementType 1");
+            }
+            case 2: {
+                LogUtils.i("agreementType 2");
+            }
+        }
+    }
+
+    @Override
+    public void selectResult(boolean isAgree) {
+        if (!isAgree) {
+            showSecondaryDialog();
+        } else {
+            AppSharedPreferences.getSP().put(AppSharedPreferences.AGREEMENT_STATE, true);
+        }
     }
 
     @Override
@@ -73,4 +124,5 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         startActivity(intent);
         finish();
     }
+
 }

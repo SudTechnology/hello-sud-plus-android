@@ -12,4 +12,20 @@
     <string name="tabs_index">首页</string>
     <string name="tabs_room">房间</string>
     <string name="tabs_set">设置</string>
+
+    <string name="useragreement_title">欢迎使用HelloSud</string>
+    <string name="useragreement_content_part1">我们非常重视您的个人信息保护。关于个人信息收集和使用的详细信息，您可以点击</string>
+    <string name="useragreement_content_part2">《用户协议》</string>
+    <string name="useragreement_content_part3">和</string>
+    <string name="useragreement_content_part4">《隐私政策》</string>
+    <string name="useragreement_content_part5">进行了解。点击同意及表示您已阅读并同意全部上述协议</string>
+    <string name="useragreement_reject">不同意</string>
+    <string name="useragreement_agree">同意</string>
+
+    <string name="user_secondary_title">温馨提示</string>
+    <string name="user_secondary_content">
+        HelloSud仅会将您的信息用于提供服务和改善体验，我们将全力保障您的信息安全，请同意后使用。
+        \n若您不同意本隐私政策，很遗憾我们将无法为您提供完整的产品和服务</string>
+    <string name="user_secondary_reject">退出应用</string>
+    <string name="user_secondary_agree">同意并继续使用</string>
 </resources>

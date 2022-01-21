@@ -17,6 +17,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
+        android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,13 +26,6 @@
         android:gravity="center_vertical"
         android:layout_height="63dp">
 
-        <TextView
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-
     </LinearLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

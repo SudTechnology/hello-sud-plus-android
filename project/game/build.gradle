@@ -28,12 +28,15 @@ android {
 }
 
 dependencies {
+    // 导入游戏SDK
+    api fileTree(include: ['*.jar', "*.aar"], dir: 'libs')
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.3.0'
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
-    // 导入游戏SDK
-    api files('libs/SudMGP-v1.1.39.335.aar')
+    // 此种方式会莫名出现：Direct local .aar file dependencies are not supported when building an AAR.
+//    api files('libs/SudMGP-v1.1.39.335.aar')
+
 }

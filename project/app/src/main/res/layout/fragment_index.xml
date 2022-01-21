@@ -6,12 +6,10 @@
     android:background="#F5F6FB"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="44dp"
         android:background="@color/white"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
         android:paddingStart="24dp"
         android:paddingEnd="24dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -19,6 +17,9 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -28,17 +29,25 @@
             android:textStyle="bold" />
 
         <EditText
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             android:id="@+id/search_et"
             android:layout_width="120dp"
             android:layout_height="32dp"
             android:background="#F2F3F7"
             android:hint="@string/search_hint"
+            android:singleLine="true"
             android:paddingStart="8dp"
-            android:paddingEnd="8dp"
+            android:paddingEnd="47dp"
             android:textColor="@color/black"
             android:textSize="14sp" />
 
         <ImageView
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/go_search"
             android:layout_width="39dp"
             android:layout_height="32dp"
             android:background="@color/black"
@@ -49,6 +58,6 @@
             android:src="@mipmap/icon_check"
             android:visibility="gone" />
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

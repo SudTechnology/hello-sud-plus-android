@@ -28,4 +28,11 @@
         \n若您不同意本隐私政策，很遗憾我们将无法为您提供完整的产品和服务</string>
     <string name="user_secondary_reject">退出应用</string>
     <string name="user_secondary_agree">同意并继续使用</string>
+
+    <string name="setting_sdk_version">SDK版本</string>
+    <string name="setting_app_version">App版本</string>
+    <string name="setting_useragreement">用户协议</string>
+    <string name="setting_privacy">隐私政策</string>
+    <string name="setting_version">v%1$s</string>
+    <string name="setting_userid">用户ID：%1$s</string>
 </resources>

@@ -119,7 +119,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void loginSuccess() {
         AppSharedPreferences.getSP().put(AppSharedPreferences.USER_ID_KEY, 1234L);
         AppSharedPreferences.getSP().put(AppSharedPreferences.USER_SEX_KEY, "male");
-        AppSharedPreferences.getSP().put(AppSharedPreferences.USER_NAME_KEY, "TestName");
+        AppSharedPreferences.getSP().put(AppSharedPreferences.USER_NAME_KEY, nameEt.getText().toString());
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
         finish();

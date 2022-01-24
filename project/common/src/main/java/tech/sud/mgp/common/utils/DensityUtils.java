@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.utils;
+package tech.sud.mgp.common.utils;
 
 import android.content.Context;
 

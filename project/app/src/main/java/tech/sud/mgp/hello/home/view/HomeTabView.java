@@ -12,9 +12,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import tech.sud.mgp.common.utils.DensityUtils;
 import tech.sud.mgp.hello.home.callback.TabClickCallback;
 import tech.sud.mgp.hello.home.model.TabModel;
-import tech.sud.mgp.hello.utils.DensityUtils;
 
 public class HomeTabView extends LinearLayout implements View.OnClickListener {
     private ImageView icon;

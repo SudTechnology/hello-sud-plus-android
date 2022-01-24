@@ -7,6 +7,7 @@
     android:background="#F5F6FB">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/index_header"
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:background="@color/white"
@@ -56,12 +57,12 @@
             android:layout_marginTop="15dp"
             android:background="#F2F3F7"
             android:hint="@string/search_hint"
+            android:imeOptions="actionSearch"
             android:paddingStart="8dp"
             android:paddingEnd="47dp"
             android:singleLine="true"
             android:textColor="@color/black"
             android:textSize="14sp"
-            android:imeOptions="actionSearch"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/header_iv" />
@@ -83,5 +84,20 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/index_header">
+
+        <LinearLayout
+            android:id="@+id/scene_root"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical" />
+
+    </androidx.core.widget.NestedScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

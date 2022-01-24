@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide;
 import tech.sud.mgp.common.base.BaseFragment;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.utils.AppSharedPreferences;
+import tech.sud.mgp.hello.utils.GlideImageLoader;
 
 public class SetFragment extends BaseFragment implements View.OnClickListener {
 
@@ -54,7 +55,7 @@ public class SetFragment extends BaseFragment implements View.OnClickListener {
         if (header.isEmpty()) {
             headerIv.setImageResource(R.mipmap.icon_logo);
         } else {
-            Glide.with(this).load(header).into(headerIv);
+            GlideImageLoader.loadImage(headerIv,header);
         }
     }
 

@@ -1,0 +1,31 @@
+package tech.sud.mgp.hello.home;
+
+import android.text.TextUtils;
+import android.widget.ImageView;
+
+import androidx.annotation.Nullable;
+
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
+
+import java.util.List;
+
+import tech.sud.mgp.hello.R;
+import tech.sud.mgp.hello.home.model.GameModel;
+import tech.sud.mgp.hello.utils.GlideImageLoader;
+
+public class GameAdapter extends BaseQuickAdapter<GameModel,BaseViewHolder> {
+    public GameAdapter(@Nullable List<GameModel> data) {
+        super(R.layout.item_game_view, data);
+    }
+
+    @Override
+    protected void convert(BaseViewHolder helper, GameModel item) {
+        helper.setText(R.id.game_name, item.getGameName());
+        ImageView iconView = helper.getView(R.id.game_icon);
+        if (!TextUtils.isEmpty(item.getGamePic())) {
+            GlideImageLoader.loadImage(iconView, item.getGamePic());
+        }
+    }
+
+}

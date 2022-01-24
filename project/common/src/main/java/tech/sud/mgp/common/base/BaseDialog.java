@@ -38,10 +38,6 @@ public abstract class BaseDialog extends Dialog {
         int layoutId = getLayoutId();
         if (layoutId > 0) {
             mRootView = View.inflate(getContext(), layoutId, null);
-        } else {
-            mRootView = getContentView();
-        }
-        if (mRootView != null) {
             setContentView(mRootView);
         }
         Window window = getWindow();
@@ -58,10 +54,6 @@ public abstract class BaseDialog extends Dialog {
         initWidget();
         initData();
         setListeners();
-    }
-
-    protected View getContentView() {
-        return null;
     }
 
     protected int getLayoutId() {

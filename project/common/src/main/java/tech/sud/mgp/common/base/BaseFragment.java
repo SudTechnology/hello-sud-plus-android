@@ -24,17 +24,20 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initView();
+        initWidget();
         initData();
         setListeners();
     }
 
     protected abstract int getLayoutId();
 
-    protected abstract void initView();
+    protected void initWidget() {
+    }
 
-    protected abstract void initData();
+    protected void initData() {
+    }
 
-    protected abstract void setListeners();
+    protected void setListeners() {
+    }
 
 }

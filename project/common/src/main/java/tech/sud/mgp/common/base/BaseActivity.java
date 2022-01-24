@@ -15,17 +15,20 @@ public abstract class BaseActivity extends RxAppCompatActivity {
         if (layoutId > 0) {
             setContentView(layoutId);
         }
-        initView();
+        initWidget();
         initData();
         setListeners();
     }
 
     protected abstract int getLayoutId();
 
-    protected abstract void initView();
+    protected void initWidget() {
+    }
 
-    protected abstract void initData();
+    protected void initData() {
+    }
 
-    protected abstract void setListeners();
+    protected void setListeners() {
+    }
 
 }

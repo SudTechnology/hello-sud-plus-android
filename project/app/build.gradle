@@ -39,6 +39,7 @@ dependencies {
     // 引入common工程依赖
     implementation project(':common')
     implementation project(':game')
+    implementation project(':audio')
 
     // 屏幕适配：https://github.com/JessYanCoding/AndroidAutoSize
     implementation 'com.github.JessYanCoding:AndroidAutoSize:v1.2.1'

@@ -3,8 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="20dp"
     android:background="@drawable/shape_scene_item_bg"
-    android:paddingVertical="18dp">
+    android:paddingVertical="18dp"
+    app:layout_constraintTop_toTopOf="parent">
 
     <TextView
         android:id="@+id/scene_name"
@@ -22,6 +24,7 @@
         android:layout_width="146dp"
         android:layout_height="307dp"
         android:layout_marginStart="15dp"
+        android:layout_marginTop="18dp"
         android:layout_marginEnd="11dp"
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toStartOf="@id/gridlayout"
@@ -33,19 +36,36 @@
         android:layout_width="0dp"
         android:layout_height="307dp"
         android:columnCount="2"
-        android:rowCount="3"
         android:paddingEnd="7dp"
+        android:rowCount="3"
         app:layout_constraintBottom_toBottomOf="@id/scene_img"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/scene_img"
         app:layout_constraintTop_toTopOf="@id/scene_img" />
 
+    <TextView
+        android:id="@+id/empty_tv"
+        android:layout_width="0dp"
+        android:layout_height="307dp"
+        android:gravity="center"
+        android:text="@string/coming_soon"
+        android:textColor="#aaaaaa"
+        android:textSize="18sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/scene_img"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/scene_img"
+        app:layout_constraintTop_toTopOf="@id/scene_img" />
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/more6_game_rv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="none"
+        android:layout_marginTop="8dp"
         android:paddingHorizontal="8dp"
+        android:scrollbars="none"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/scene_img" />

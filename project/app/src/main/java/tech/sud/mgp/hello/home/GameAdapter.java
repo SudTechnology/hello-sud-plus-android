@@ -14,7 +14,8 @@ import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.home.model.GameModel;
 import tech.sud.mgp.hello.utils.GlideImageLoader;
 
-public class GameAdapter extends BaseQuickAdapter<GameModel,BaseViewHolder> {
+public class GameAdapter extends BaseQuickAdapter<GameModel, BaseViewHolder> {
+
     public GameAdapter(@Nullable List<GameModel> data) {
         super(R.layout.item_game_view, data);
     }
@@ -25,7 +26,8 @@ public class GameAdapter extends BaseQuickAdapter<GameModel,BaseViewHolder> {
         ImageView iconView = helper.getView(R.id.game_icon);
         if (!TextUtils.isEmpty(item.getGamePic())) {
             GlideImageLoader.loadImage(iconView, item.getGamePic());
+        } else {
+            iconView.setImageResource(R.mipmap.icon_logo);
         }
     }
-
 }

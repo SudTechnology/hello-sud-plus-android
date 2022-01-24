@@ -2,6 +2,7 @@ package tech.sud.mgp.hello.home.fragment;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -15,6 +16,7 @@ import java.util.Random;
 
 import tech.sud.mgp.common.base.BaseFragment;
 import tech.sud.mgp.hello.R;
+import tech.sud.mgp.hello.home.callback.GameItemCallback;
 import tech.sud.mgp.hello.home.model.GameModel;
 import tech.sud.mgp.hello.home.model.SceneModel;
 import tech.sud.mgp.hello.home.view.HomeRoomTypeView;
@@ -22,7 +24,7 @@ import tech.sud.mgp.hello.home.view.HomeTabView;
 import tech.sud.mgp.hello.utils.AppSharedPreferences;
 import tech.sud.mgp.hello.utils.GlideImageLoader;
 
-public class IndexFragment extends BaseFragment {
+public class IndexFragment extends BaseFragment implements GameItemCallback {
 
     private EditText searchEt;
     private ImageView goSearch;
@@ -67,14 +69,15 @@ public class IndexFragment extends BaseFragment {
             GlideImageLoader.loadImage(headerIv, header);
         }
         //生成测试数据
-//        for (int i = 0; i < 4; i++) {
-//            SceneModel model = new SceneModel();
-//            model.setSceneId(i);
-//            model.setSceneName("场景" + i);
-//            HomeRoomTypeView sceneView = new HomeRoomTypeView(requireContext());
-//            sceneView.setData(model, creatGame());
-//            sceneView.addView(sceneView);
-//        }
+        for (int i = 0; i < 4; i++) {
+            SceneModel model = new SceneModel();
+            model.setSceneId(i);
+            model.setSceneName("场景" + i);
+            HomeRoomTypeView sceneView = new HomeRoomTypeView(requireContext());
+            sceneView.setItemCallback(this);
+            sceneView.setData(model, creatGame());
+            sceneLayout.addView(sceneView);
+        }
     }
 
     @Override
@@ -118,7 +121,7 @@ public class IndexFragment extends BaseFragment {
 
     private List<GameModel> creatGame() {
         List<GameModel> lists = new ArrayList<>();
-        int total = new Random().nextInt(20) + 1;
+        int total = new Random().nextInt(10) + 1;
         for (int i = 0; i < total; i++) {
             GameModel gameModel = new GameModel();
             gameModel.setGameId(i);
@@ -126,5 +129,10 @@ public class IndexFragment extends BaseFragment {
             lists.add(gameModel);
         }
         return lists;
+    }
+
+    @Override
+    public void gameClick(GameModel model) {
+        Log.i("gameClick::::", "gameClick" + model.getGameName());
     }
 }

@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"
     android:background="#F5F6FB">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -57,6 +59,8 @@
             android:layout_marginTop="15dp"
             android:background="#F2F3F7"
             android:hint="@string/search_hint"
+            android:inputType="number"
+            android:textColorHint="#aaaaaa"
             android:imeOptions="actionSearch"
             android:paddingStart="8dp"
             android:paddingEnd="47dp"
@@ -87,8 +91,10 @@
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:overScrollMode="never"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/index_header">
 
         <LinearLayout
@@ -96,6 +102,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
+            android:paddingBottom="10dp"
             android:orientation="vertical" />
 
     </androidx.core.widget.NestedScrollView>

@@ -36,9 +36,6 @@
     <string name="setting_version">v%1$s</string>
     <string name="setting_userid">用户ID：%1$s</string>
 
-    <string name="index_text_audio">语聊房场景</string>
-    <string name="index_text_1v1">1v1场景</string>
-    <string name="index_text_art">才艺房场景</string>
-    <string name="index_text_show">秀场场景</string>
+    <string name="coming_soon">敬请期待</string>
 
 </resources>

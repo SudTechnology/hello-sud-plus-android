@@ -7,3 +7,5 @@ project/captures
 .externalNativeBuild
 .cxx
 project/local.properties
+project/fastlane/report.xml
+project/fastlane/README.md

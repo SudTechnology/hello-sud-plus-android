@@ -15,9 +15,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import tech.sud.mgp.common.utils.DensityUtils;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.login.callback.DialogSecondaryCallbck;
-import tech.sud.mgp.hello.utils.DensityUtils;
 
 public class UserSecondaryDialog extends DialogFragment {
 

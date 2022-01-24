@@ -1,6 +1,5 @@
 package tech.sud.mgp.hello.login.dialog;
 
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -20,9 +19,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import tech.sud.mgp.common.utils.DensityUtils;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.login.callback.DialogSelectCallbck;
-import tech.sud.mgp.hello.utils.DensityUtils;
 
 public class UserAgreementDialog extends DialogFragment {
 

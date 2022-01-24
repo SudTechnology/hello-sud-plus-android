@@ -3,6 +3,7 @@ package tech.sud.mgp.hello.home.view;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -11,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import tech.sud.mgp.hello.R;
+import tech.sud.mgp.hello.home.callback.GameItemCallback;
 import tech.sud.mgp.hello.home.model.GameModel;
 import tech.sud.mgp.hello.utils.GlideImageLoader;
 
@@ -19,6 +21,11 @@ public class GameItemView extends ConstraintLayout {
     private ImageView gameIv;
     private TextView gameTv;
     private GameModel model;
+    private GameItemCallback itemCallback;
+
+    public void setItemCallback(GameItemCallback itemCallback) {
+        this.itemCallback = itemCallback;
+    }
 
     public GameItemView(@NonNull Context context) {
         super(context);
@@ -55,6 +62,11 @@ public class GameItemView extends ConstraintLayout {
             gameTv.setText(model.getGameName());
         }
 
+        this.setOnClickListener(v -> {
+            if (itemCallback!=null){
+                itemCallback.gameClick(model);
+            }
+        });
     }
 
 }

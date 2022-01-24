@@ -14,11 +14,14 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.home.GameAdapter;
+import tech.sud.mgp.hello.home.callback.GameItemCallback;
 import tech.sud.mgp.hello.home.model.GameModel;
 import tech.sud.mgp.hello.home.model.SceneModel;
 import tech.sud.mgp.hello.utils.GlideImageLoader;
@@ -28,7 +31,13 @@ public class HomeRoomTypeView extends ConstraintLayout {
     private ImageView sceneIv;
     private GridLayout gridLayout;
     private RecyclerView gameRecyclerview;
+    private TextView emptyTv;
     private GameAdapter gameAdapter;
+    private GameItemCallback itemCallback;
+
+    public void setItemCallback(GameItemCallback itemCallback) {
+        this.itemCallback = itemCallback;
+    }
 
     public HomeRoomTypeView(@NonNull Context context) {
         super(context);
@@ -51,6 +60,7 @@ public class HomeRoomTypeView extends ConstraintLayout {
         sceneIv = findViewById(R.id.scene_img);
         gridLayout = findViewById(R.id.gridlayout);
         gameRecyclerview = findViewById(R.id.more6_game_rv);
+        emptyTv = findViewById(R.id.empty_tv);
     }
 
     public void setData(SceneModel model, List<GameModel> datas) {
@@ -59,10 +69,11 @@ public class HomeRoomTypeView extends ConstraintLayout {
         }
         if (!TextUtils.isEmpty(model.getSceneImage())) {
             GlideImageLoader.loadImage(sceneIv, model.getSceneImage());
-        }else {
+        } else {
             sceneIv.setImageResource(R.mipmap.icon_audio_room);
         }
         if (datas != null && datas.size() > 0) {
+            emptyTv.setVisibility(View.GONE);
             List<GameModel> models = new ArrayList<>();
             for (int i = 0; i < datas.size(); i++) {
                 if (i > 6) {
@@ -73,17 +84,25 @@ public class HomeRoomTypeView extends ConstraintLayout {
             }
             if (models.size() > 0) {
                 gameAdapter = new GameAdapter(models);
+                gameAdapter.setOnItemClickListener((adapter, view, position) -> {
+                    if (itemCallback != null) {
+                        itemCallback.gameClick(models.get(position));
+                    }
+                });
                 gameRecyclerview.setLayoutManager(new GridLayoutManager(getContext(), 4));
                 gameRecyclerview.setAdapter(gameAdapter);
                 gameRecyclerview.setVisibility(View.VISIBLE);
             } else {
                 gameRecyclerview.setVisibility(View.GONE);
             }
+        } else {
+            emptyTv.setVisibility(View.VISIBLE);
         }
     }
 
     private void addGameView(GameModel gameModel) {
         GameItemView gameItemView = new GameItemView(getContext());
+        gameItemView.setItemCallback(itemCallback);
         gameItemView.setModel(gameModel);
         gridLayout.addView(gameItemView);
     }

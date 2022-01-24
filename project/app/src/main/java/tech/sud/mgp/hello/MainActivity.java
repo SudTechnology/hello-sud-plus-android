@@ -1,25 +1,26 @@
 package tech.sud.mgp.hello;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.Handler;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import tech.sud.mgp.common.base.BaseActivity;
 import tech.sud.mgp.hello.home.HomeActivity;
 import tech.sud.mgp.hello.login.LoginActivity;
 import tech.sud.mgp.hello.utils.AppSharedPreferences;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     private Handler handler = new Handler();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    protected int getLayoutId() {
+        return R.layout.activity_main;
+    }
+
+    @Override
+    protected void initData() {
+        super.initData();
         handler.postDelayed(this::jumpPage, 2000);
-//        LoginRepository.login();
     }
 
     private void jumpPage() {

@@ -1,18 +1,17 @@
 package tech.sud.mgp.hello.login;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 
+import tech.sud.mgp.common.base.BaseActivity;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.home.HomeActivity;
 import tech.sud.mgp.hello.login.callback.DialogSecondaryCallbck;
@@ -21,7 +20,7 @@ import tech.sud.mgp.hello.login.dialog.UserAgreementDialog;
 import tech.sud.mgp.hello.login.dialog.UserSecondaryDialog;
 import tech.sud.mgp.hello.utils.AppSharedPreferences;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener, DialogSelectCallbck, DialogSecondaryCallbck {
+public class LoginActivity extends BaseActivity implements View.OnClickListener, DialogSelectCallbck, DialogSecondaryCallbck {
 
     private EditText nameEt;
     private ConstraintLayout maleBut;
@@ -31,15 +30,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private TextView goPlayBut;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+    protected int getLayoutId() {
+        return R.layout.activity_login;
+    }
+
+    @Override
+    protected void initWidget() {
+        super.initWidget();
         goPlayBut = findViewById(R.id.go_play_but);
         nameEt = findViewById(R.id.name_et);
         maleBut = findViewById(R.id.male_but);
         femaleBut = findViewById(R.id.female_but);
         maleCheck = findViewById(R.id.male_check);
         femaleCheck = findViewById(R.id.female_check);
+    }
+
+    @Override
+    protected void setListeners() {
+        super.setListeners();
         maleBut.setOnClickListener(this);
         femaleBut.setOnClickListener(this);
         goPlayBut.setOnClickListener(this);

@@ -1,22 +1,16 @@
 package tech.sud.mgp.hello.home.fragment;
 
-import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 
+import tech.sud.mgp.common.base.BaseFragment;
 import tech.sud.mgp.hello.R;
 
-public class IndexFragment extends Fragment {
+public class IndexFragment extends BaseFragment {
 
     private EditText searchEt;
     private ImageView goSearch;
@@ -30,21 +24,20 @@ public class IndexFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected int getLayoutId() {
+        return R.layout.fragment_index;
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_index, container, false);
-        searchEt = root.findViewById(R.id.search_et);
-        goSearch = root.findViewById(R.id.go_search);
-        setListener();
-        return root;
+    protected void initWidget() {
+        super.initWidget();
+        searchEt = mRootView.findViewById(R.id.search_et);
+        goSearch = mRootView.findViewById(R.id.go_search);
     }
 
-    private void setListener() {
+    @Override
+    protected void setListeners() {
+        super.setListeners();
         searchEt.setOnFocusChangeListener((v, hasFocus) -> {
             String keyword = searchEt.getText().toString();
             if (keyword.length() > 0) {
@@ -61,7 +54,11 @@ public class IndexFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                if (s.length() > 0) {
+                    goSearch.setVisibility(View.VISIBLE);
+                } else {
+                    goSearch.setVisibility(View.GONE);
+                }
             }
 
             @Override
@@ -70,7 +67,9 @@ public class IndexFragment extends Fragment {
             }
         });
         searchEt.setOnEditorActionListener((v, actionId, event) -> {
-            
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+
+            }
             return false;
         });
     }

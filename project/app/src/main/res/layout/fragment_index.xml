@@ -3,50 +3,70 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="#F5F6FB"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#F5F6FB">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="44dp"
+        android:layout_height="120dp"
         android:background="@color/white"
-        android:paddingStart="24dp"
-        android:paddingEnd="24dp"
+        android:paddingHorizontal="24dp"
+        android:paddingTop="7dp"
+        android:paddingBottom="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
+        <ImageView
+            android:id="@+id/header_iv"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/name_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/title_hellosud"
-            android:textColor="@color/black"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            android:layout_marginStart="16dp"
+            android:singleLine="true"
+            android:textColor="#1a1a1a"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@id/userid_tv"
+            app:layout_constraintStart_toEndOf="@id/header_iv"
+            app:layout_constraintTop_toTopOf="@id/header_iv" />
+
+        <TextView
+            android:id="@+id/userid_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:singleLine="true"
+            android:textColor="#8a8a8e"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@id/header_iv"
+            app:layout_constraintStart_toEndOf="@id/header_iv"
+            app:layout_constraintTop_toBottomOf="@id/name_tv" />
 
         <EditText
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             android:id="@+id/search_et"
-            android:layout_width="120dp"
+            android:layout_width="match_parent"
             android:layout_height="32dp"
+            android:layout_marginTop="15dp"
             android:background="#F2F3F7"
             android:hint="@string/search_hint"
-            android:singleLine="true"
             android:paddingStart="8dp"
             android:paddingEnd="47dp"
+            android:singleLine="true"
             android:textColor="@color/black"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:imeOptions="actionSearch"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/header_iv" />
 
         <ImageView
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             android:id="@+id/go_search"
             android:layout_width="39dp"
             android:layout_height="32dp"
@@ -56,8 +76,12 @@
             android:paddingEnd="10dp"
             android:paddingBottom="9dp"
             android:src="@mipmap/icon_check"
-            android:visibility="gone" />
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/search_et"
+            app:layout_constraintEnd_toEndOf="@id/search_et"
+            app:layout_constraintTop_toTopOf="@id/search_et" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

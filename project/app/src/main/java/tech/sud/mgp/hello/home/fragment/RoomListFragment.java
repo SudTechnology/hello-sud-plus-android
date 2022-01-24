@@ -1,15 +1,9 @@
 package tech.sud.mgp.hello.home.fragment;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import androidx.fragment.app.Fragment;
-
+import tech.sud.mgp.common.base.BaseFragment;
 import tech.sud.mgp.hello.R;
 
-public class RoomListFragment extends Fragment {
+public class RoomListFragment extends BaseFragment {
 
     public RoomListFragment() { }
 
@@ -19,13 +13,17 @@ public class RoomListFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected int getLayoutId() {
+        return R.layout.fragment_room;
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_room, container, false);
+    protected void initWidget() {
+        super.initWidget();
+    }
+
+    @Override
+    protected void setListeners() {
+        super.setListeners();
     }
 }

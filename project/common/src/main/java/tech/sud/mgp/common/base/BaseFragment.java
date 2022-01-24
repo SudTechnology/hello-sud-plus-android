@@ -12,12 +12,15 @@ import com.trello.rxlifecycle4.components.RxFragment;
 
 public abstract class BaseFragment extends RxFragment {
 
+    protected View mRootView;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         int layoutId = getLayoutId();
         if (layoutId > 0) {
-            return inflater.inflate(layoutId, container, false);
+            mRootView = inflater.inflate(layoutId, container, false);
+            return mRootView;
         }
         return super.onCreateView(inflater, container, savedInstanceState);
     }

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- 房间名称 -->
+    <TextView
+        android:id="@+id/top_tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxWidth="200dp"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:textSize="14sp"
+        android:textColor="@color/c_ffffff"
+        android:layout_marginStart="16dp"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/top_tv_room_id"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- 房间id -->
+    <TextView
+        android:id="@+id/top_tv_room_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="10sp"
+        android:textColor="@color/c_99ffffff"
+        app:layout_constraintStart_toStartOf="@id/top_tv_name"
+        app:layout_constraintTop_toBottomOf="@id/top_tv_name"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <!-- 房间人数图标 -->
+    <View
+        android:layout_width="8dp"
+        android:layout_height="8dp"
+        android:background="@drawable/audio_ic_room_number"
+        android:layout_marginStart="6dp"
+        app:layout_constraintTop_toTopOf="@id/top_tv_room_id"
+        app:layout_constraintBottom_toBottomOf="@id/top_tv_room_id"
+        app:layout_constraintStart_toEndOf="@id/top_tv_room_id" />
+
+    <!-- 房间人数 -->
+    <TextView
+        android:id="@+id/top_tv_room_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="10sp"
+        android:textColor="@color/c_99ffffff"
+        android:layout_marginStart="17dp"
+        app:layout_constraintTop_toTopOf="@id/top_tv_room_id"
+        app:layout_constraintBottom_toBottomOf="@id/top_tv_room_id"
+        app:layout_constraintStart_toEndOf="@id/top_tv_room_id" />
+
+    <!-- 选择模式 -->
+    <LinearLayout
+        android:id="@+id/top_ll_select_mode"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:orientation="horizontal"
+        android:layout_marginEnd="52dp"
+        android:paddingHorizontal="8dp"
+        android:gravity="center"
+        android:background="@drawable/audio_shape_select_mode"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/top_tv_mode_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="@color/c_ffffff" />
+
+        <View
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_marginStart="4dp"
+            android:background="@drawable/audio_ic_select_mode_arrow" />
+
+    </LinearLayout>
+
+    <!-- 关闭 -->
+    <ImageView
+        android:id="@+id/top_iv_close"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/audio_ic_room_close"
+        android:scaleType="fitCenter"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:contentDescription="@null" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="tech.sud.mgp.audio">
+<manifest package="tech.sud.mgp.audio"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application>
+        <activity android:name=".example.activity.AudioRoomActivity" />
+    </application>
 
 </manifest>

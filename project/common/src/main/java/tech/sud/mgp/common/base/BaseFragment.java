@@ -7,9 +7,10 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
-public abstract class BaseFragment extends Fragment {
+import com.trello.rxlifecycle4.components.RxFragment;
+
+public abstract class BaseFragment extends RxFragment {
 
     @Nullable
     @Override

@@ -8,7 +8,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.trello.rxlifecycle4.components.RxFragment;
+import com.trello.rxlifecycle4.components.support.RxFragment;
+
 
 public abstract class BaseFragment extends RxFragment {
 

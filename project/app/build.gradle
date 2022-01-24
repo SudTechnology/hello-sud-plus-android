@@ -43,6 +43,8 @@ dependencies {
 
     // 屏幕适配：https://github.com/JessYanCoding/AndroidAutoSize
     implementation 'com.github.JessYanCoding:AndroidAutoSize:v1.2.1'
+    //BRVAH，配合recyclerview使用
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.22'
     // 腾讯bugly奔溃统计
     implementation 'com.tencent.bugly:crashreport:4.0.0'
 }

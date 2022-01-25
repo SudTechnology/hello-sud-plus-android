@@ -3,7 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application>
-        <activity android:name=".example.activity.AudioRoomActivity" />
+        <activity
+            android:name=".example.activity.AudioRoomActivity"
+            android:launchMode="singleTask" />
     </application>
 
 </manifest>

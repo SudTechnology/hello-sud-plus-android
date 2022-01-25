@@ -4,5 +4,6 @@
     <color name="c_ffffff">#ffffff</color>
     <color name="c_99ffffff">#99ffffff</color>
     <color name="c_33ffffff">#33ffffff</color>
+    <color name="transparent">#00000000</color>
 
 </resources>

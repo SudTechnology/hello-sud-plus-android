@@ -18,4 +18,12 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/room_top_view" />
 
+    <tech.sud.mgp.audio.example.widget.view.chat.AudioRoomChatView
+        android:id="@+id/room_chat_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginEnd="60dp"
+        app:layout_constraintTop_toBottomOf="@id/room_mic_view"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

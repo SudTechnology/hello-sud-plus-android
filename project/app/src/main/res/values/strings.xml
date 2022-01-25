@@ -37,5 +37,7 @@
     <string name="setting_userid">用户ID：%1$s</string>
 
     <string name="coming_soon">敬请期待</string>
-
+    <string name="room_list_enter">进入</string>
+    <string name="room_list_roomid">房间号：%1$s</string>
+    <string name="room_list_online">%1$s人</string>
 </resources>

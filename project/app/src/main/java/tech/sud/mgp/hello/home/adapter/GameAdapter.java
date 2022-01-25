@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.home;
+package tech.sud.mgp.hello.home.adapter;
 
 import android.text.TextUtils;
 import android.widget.ImageView;

@@ -12,7 +12,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import tech.sud.mgp.audio.R;
 
-public class RoomTopView extends ConstraintLayout {
+public class AudioRoomTopView extends ConstraintLayout {
 
     private TextView mTvName;
     private TextView mTvId;
@@ -21,15 +21,15 @@ public class RoomTopView extends ConstraintLayout {
     private TextView mTvMode;
     private ImageView mIvClose;
 
-    public RoomTopView(@NonNull Context context) {
+    public AudioRoomTopView(@NonNull Context context) {
         this(context, null);
     }
 
-    public RoomTopView(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public AudioRoomTopView(@NonNull Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public RoomTopView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public AudioRoomTopView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initView(context);
     }

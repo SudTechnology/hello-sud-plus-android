@@ -2,5 +2,8 @@
 <resources>
 
     <string name="audio_select_room_mode">选择房间模式</string>
+    <string name="audio_click_got_mic">点击上麦</string>
+    <string name="audio_has_ready">已准备</string>
+    <string name="audio_not_ready">未准备</string>
 
 </resources>

@@ -15,12 +15,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tech.sud.mgp.common.base.BaseFragment;
+import tech.sud.mgp.common.utils.ImageLoader;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.home.manager.HomeManager;
 import tech.sud.mgp.hello.home.adapter.RoomListAdapter;
 import tech.sud.mgp.hello.home.model.RoomItemModel;
 import tech.sud.mgp.hello.utils.AppSharedPreferences;
-import tech.sud.mgp.hello.utils.GlideImageLoader;
 
 public class RoomListFragment extends BaseFragment {
 
@@ -75,7 +75,7 @@ public class RoomListFragment extends BaseFragment {
         if (header.isEmpty()) {
             headerIv.setImageResource(R.mipmap.icon_logo);
         } else {
-            GlideImageLoader.loadImage(headerIv, header);
+            ImageLoader.loadImage(headerIv, header);
         }
         searchEt.setOnFocusChangeListener((v, hasFocus) -> {
             String keyword = searchEt.getText().toString();

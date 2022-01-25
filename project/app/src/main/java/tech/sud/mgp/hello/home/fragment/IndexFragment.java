@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import tech.sud.mgp.common.base.BaseFragment;
+import tech.sud.mgp.common.utils.ImageLoader;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.home.manager.HomeManager;
 import tech.sud.mgp.hello.home.callback.GameItemCallback;
@@ -19,7 +20,6 @@ import tech.sud.mgp.hello.home.model.GameModel;
 import tech.sud.mgp.hello.home.model.SceneModel;
 import tech.sud.mgp.hello.home.view.HomeRoomTypeView;
 import tech.sud.mgp.hello.utils.AppSharedPreferences;
-import tech.sud.mgp.hello.utils.GlideImageLoader;
 
 public class IndexFragment extends BaseFragment implements GameItemCallback {
 
@@ -63,7 +63,7 @@ public class IndexFragment extends BaseFragment implements GameItemCallback {
         if (header.isEmpty()) {
             headerIv.setImageResource(R.mipmap.icon_logo);
         } else {
-            GlideImageLoader.loadImage(headerIv, header);
+            ImageLoader.loadImage(headerIv, header);
         }
 
         //生成测试数据

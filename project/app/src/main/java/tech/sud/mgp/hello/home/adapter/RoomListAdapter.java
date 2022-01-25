@@ -10,10 +10,10 @@ import com.chad.library.adapter.base.BaseViewHolder;
 
 import java.util.List;
 
+import tech.sud.mgp.common.utils.ImageLoader;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.home.manager.HomeManager;
 import tech.sud.mgp.hello.home.model.RoomItemModel;
-import tech.sud.mgp.hello.utils.GlideImageLoader;
 
 public class RoomListAdapter extends BaseQuickAdapter<RoomItemModel, BaseViewHolder> {
 
@@ -29,7 +29,7 @@ public class RoomListAdapter extends BaseQuickAdapter<RoomItemModel, BaseViewHol
         helper.setText(R.id.room_online, cover.getContext().getString(R.string.room_list_online, item.getMemberCount() + ""));
         helper.setText(R.id.room_scene, HomeManager.getInstance().sceneName(item.getSceneType()));
         if (!TextUtils.isEmpty(item.getRoomPic())) {
-            GlideImageLoader.loadImage(cover, item.getRoomPic());
+            ImageLoader.loadImage(cover, item.getRoomPic());
         } else {
             cover.setImageResource(R.mipmap.icon_logo);
         }

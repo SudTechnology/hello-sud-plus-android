@@ -5,15 +5,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-
 import tech.sud.mgp.common.base.BaseFragment;
-import tech.sud.mgp.core.ISudAPPD;
+import tech.sud.mgp.common.utils.ImageLoader;
 import tech.sud.mgp.core.SudMGP;
 import tech.sud.mgp.hello.BuildConfig;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.utils.AppSharedPreferences;
-import tech.sud.mgp.hello.utils.GlideImageLoader;
 
 public class SetFragment extends BaseFragment implements View.OnClickListener {
 
@@ -58,10 +55,10 @@ public class SetFragment extends BaseFragment implements View.OnClickListener {
         if (header.isEmpty()) {
             headerIv.setImageResource(R.mipmap.icon_logo);
         } else {
-            GlideImageLoader.loadImage(headerIv, header);
+            ImageLoader.loadImage(headerIv, header);
         }
-        sdkVersionTv.setText(getString(R.string.setting_version,SudMGP.getVersion()));
-        appVersionTv.setText(getString(R.string.setting_version,BuildConfig.VERSION_NAME));
+        sdkVersionTv.setText(getString(R.string.setting_version, SudMGP.getVersion()));
+        appVersionTv.setText(getString(R.string.setting_version, BuildConfig.VERSION_NAME));
     }
 
     @Override

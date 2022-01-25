@@ -2,9 +2,12 @@ package tech.sud.mgp.common.base;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.trello.rxlifecycle4.components.support.RxAppCompatActivity;
+
+import tech.sud.mgp.common.model.HsUserInfo;
 
 public abstract class BaseActivity extends RxAppCompatActivity {
 
@@ -29,6 +32,22 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     }
 
     protected void setListeners() {
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putLong("userId", HsUserInfo.getInstance().userId);
+        outState.putString("nickName", HsUserInfo.getInstance().nickName);
+        outState.putString("gender", HsUserInfo.getInstance().gender);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        HsUserInfo.getInstance().userId = savedInstanceState.getLong("userId");
+        HsUserInfo.getInstance().nickName = savedInstanceState.getString("nickName");
+        HsUserInfo.getInstance().gender = savedInstanceState.getString("gender");
     }
 
 }

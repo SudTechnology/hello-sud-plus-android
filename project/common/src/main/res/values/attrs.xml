@@ -30,4 +30,14 @@
         </attr>
     </declare-styleable>
 
+    <declare-styleable name="SoundLevelView">
+        <attr name="slv_circle_color" format="color" /> <!--圆圈颜色-->
+        <attr name="slv_start_width" format="dimension" /> <!--圆圈的起始直径-->
+        <attr name="slv_end_alpha" format="integer" /> <!-- 圆圈到最后要消失时的一个透明度 -->
+        <attr name="slv_speed" format="dimension" />    <!-- 扩散速度，直径增长值 -->
+        <attr name="slv_circle_interval" format="dimension" />  <!-- 每个圆圈之间的间隔，也就是直径之间的距离 -->
+        <attr name="slv_anim_duration" format="integer" />   <!-- 动画持续时间 -->
+        <attr name="slv_stroke_width" format="dimension" />   <!-- 圆圈的大小 -->
+    </declare-styleable>
+
 </resources>

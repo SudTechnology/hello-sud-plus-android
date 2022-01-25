@@ -10,17 +10,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 import tech.sud.mgp.common.base.BaseFragment;
 import tech.sud.mgp.hello.R;
+import tech.sud.mgp.hello.home.manager.HomeManager;
 import tech.sud.mgp.hello.home.callback.GameItemCallback;
+import tech.sud.mgp.hello.home.http.resp.GameListResp;
 import tech.sud.mgp.hello.home.model.GameModel;
 import tech.sud.mgp.hello.home.model.SceneModel;
 import tech.sud.mgp.hello.home.view.HomeRoomTypeView;
-import tech.sud.mgp.hello.home.view.HomeTabView;
 import tech.sud.mgp.hello.utils.AppSharedPreferences;
 import tech.sud.mgp.hello.utils.GlideImageLoader;
 
@@ -68,14 +65,14 @@ public class IndexFragment extends BaseFragment implements GameItemCallback {
         } else {
             GlideImageLoader.loadImage(headerIv, header);
         }
+
         //生成测试数据
-        for (int i = 0; i < 4; i++) {
-            SceneModel model = new SceneModel();
-            model.setSceneId(i);
-            model.setSceneName("场景" + i);
+        GameListResp resp = HomeManager.getInstance().testGameListResp();
+        for (int i = 0; i < resp.getSceneList().size(); i++) {
+            SceneModel model = resp.getSceneList().get(i);
             HomeRoomTypeView sceneView = new HomeRoomTypeView(requireContext());
             sceneView.setItemCallback(this);
-            sceneView.setData(model, creatGame());
+            sceneView.setData(model, HomeManager.getInstance().testCreatGame());
             sceneLayout.addView(sceneView);
         }
     }
@@ -117,18 +114,6 @@ public class IndexFragment extends BaseFragment implements GameItemCallback {
             }
             return false;
         });
-    }
-
-    private List<GameModel> creatGame() {
-        List<GameModel> lists = new ArrayList<>();
-        int total = new Random().nextInt(10) + 1;
-        for (int i = 0; i < total; i++) {
-            GameModel gameModel = new GameModel();
-            gameModel.setGameId(i);
-            gameModel.setGameName("GameName" + i);
-            lists.add(gameModel);
-        }
-        return lists;
     }
 
     @Override

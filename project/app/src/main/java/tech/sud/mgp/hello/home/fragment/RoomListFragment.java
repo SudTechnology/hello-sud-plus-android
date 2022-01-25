@@ -13,12 +13,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import tech.sud.mgp.common.base.BaseFragment;
 import tech.sud.mgp.hello.R;
+import tech.sud.mgp.hello.home.manager.HomeManager;
 import tech.sud.mgp.hello.home.adapter.RoomListAdapter;
-import tech.sud.mgp.hello.home.model.GameModel;
 import tech.sud.mgp.hello.home.model.RoomItemModel;
 import tech.sud.mgp.hello.utils.AppSharedPreferences;
 import tech.sud.mgp.hello.utils.GlideImageLoader;
@@ -60,7 +59,7 @@ public class RoomListFragment extends BaseFragment {
     @Override
     protected void initData() {
         super.initData();
-        creatRoom();
+        datas.addAll(HomeManager.getInstance().testCreatRoom());
         adapter = new RoomListAdapter(datas);
         roomRecyclerView.setAdapter(adapter);
         roomRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
@@ -117,15 +116,4 @@ public class RoomListFragment extends BaseFragment {
         });
     }
 
-    private void creatRoom() {
-        int total = new Random().nextInt(10) + 1;
-        for (int i = 0; i < total; i++) {
-            RoomItemModel itemModel = new RoomItemModel();
-            itemModel.setRoomId(i);
-            itemModel.setRoomName("Room" + i);
-            itemModel.setMemberCount(i * 2);
-            itemModel.setSceneType(3);
-            datas.add(itemModel);
-        }
-    }
 }

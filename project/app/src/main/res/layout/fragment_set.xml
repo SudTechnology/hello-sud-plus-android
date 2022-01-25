@@ -44,21 +44,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="26dp"
             android:singleLine="true"
             android:textColor="#1a1a1a"
             android:textSize="20sp"
-            android:layout_marginTop="26dp"
             app:layout_constraintBottom_toTopOf="@id/userid_tv"
             app:layout_constraintStart_toEndOf="@+id/header_iv"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/userid_tv"
-            android:layout_marginBottom="29dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
+            android:layout_marginBottom="29dp"
             android:singleLine="true"
             android:textColor="#8a8a8e"
             android:textSize="12sp"
@@ -72,7 +72,6 @@
         android:id="@+id/sdk_version_ll"
         android:layout_width="343dp"
         android:layout_height="56dp"
-        android:layout_marginTop="10dp"
         android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="horizontal"
@@ -135,19 +134,10 @@
 
     </LinearLayout>
 
-    <View
-        android:layout_width="303dp"
-        android:layout_height="1dp"
-        android:background="#DDDDDD"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sdk_version_ll" />
-
     <LinearLayout
         android:id="@+id/user_agreement_ll"
         android:layout_width="343dp"
         android:layout_height="56dp"
-        android:layout_marginTop="10dp"
         android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="horizontal"
@@ -202,6 +192,51 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/user_contact_ll"
+        android:layout_width="343dp"
+        android:layout_height="56dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/user_privacy_ll">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="start"
+            android:text="@string/setting_contact"
+            android:textColor="#1a1a1a"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:src="@mipmap/icon_back" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="303dp"
+        android:layout_height="1dp"
+        android:background="#DDDDDD"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sdk_version_ll" />
+
+    <View
+        android:layout_width="303dp"
+        android:layout_height="1dp"
+        android:background="#DDDDDD"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/app_version_ll" />
+
     <View
         android:layout_width="303dp"
         android:layout_height="1dp"
@@ -209,5 +244,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/user_agreement_ll" />
+
+    <View
+        android:layout_width="303dp"
+        android:layout_height="1dp"
+        android:background="#DDDDDD"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/user_privacy_ll" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

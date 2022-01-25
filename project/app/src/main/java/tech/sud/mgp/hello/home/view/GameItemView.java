@@ -3,7 +3,6 @@ package tech.sud.mgp.hello.home.view;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -11,10 +10,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import tech.sud.mgp.common.utils.ImageLoader;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.home.callback.GameItemCallback;
 import tech.sud.mgp.hello.home.model.GameModel;
-import tech.sud.mgp.hello.utils.GlideImageLoader;
 
 public class GameItemView extends ConstraintLayout {
 
@@ -53,7 +52,7 @@ public class GameItemView extends ConstraintLayout {
         if (TextUtils.isEmpty(model.getGamePic())) {
             gameIv.setImageResource(R.mipmap.icon_logo);
         } else {
-            GlideImageLoader.loadImage(gameIv, model.getGamePic());
+            ImageLoader.loadImage(gameIv, model.getGamePic());
         }
 
         if (TextUtils.isEmpty(model.getGameName())) {
@@ -63,7 +62,7 @@ public class GameItemView extends ConstraintLayout {
         }
 
         this.setOnClickListener(v -> {
-            if (itemCallback!=null){
+            if (itemCallback != null) {
                 itemCallback.gameClick(model);
             }
         });

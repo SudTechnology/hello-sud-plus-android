@@ -17,12 +17,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import tech.sud.mgp.common.utils.ImageLoader;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.home.adapter.GameAdapter;
 import tech.sud.mgp.hello.home.callback.GameItemCallback;
 import tech.sud.mgp.hello.home.model.GameModel;
 import tech.sud.mgp.hello.home.model.SceneModel;
-import tech.sud.mgp.hello.utils.GlideImageLoader;
 
 public class HomeRoomTypeView extends ConstraintLayout {
     private TextView sceneNameTv;
@@ -66,7 +66,7 @@ public class HomeRoomTypeView extends ConstraintLayout {
             sceneNameTv.setText(model.getSceneName());
         }
         if (!TextUtils.isEmpty(model.getSceneImage())) {
-            GlideImageLoader.loadImage(sceneIv, model.getSceneImage());
+            ImageLoader.loadImage(sceneIv, model.getSceneImage());
         } else {
             sceneIv.setImageResource(R.mipmap.icon_audio_room);
         }

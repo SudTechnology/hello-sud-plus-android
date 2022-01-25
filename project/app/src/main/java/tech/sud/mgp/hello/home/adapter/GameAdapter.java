@@ -10,9 +10,9 @@ import com.chad.library.adapter.base.BaseViewHolder;
 
 import java.util.List;
 
+import tech.sud.mgp.common.utils.ImageLoader;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.home.model.GameModel;
-import tech.sud.mgp.hello.utils.GlideImageLoader;
 
 public class GameAdapter extends BaseQuickAdapter<GameModel, BaseViewHolder> {
 
@@ -25,7 +25,7 @@ public class GameAdapter extends BaseQuickAdapter<GameModel, BaseViewHolder> {
         helper.setText(R.id.game_name, item.getGameName());
         ImageView iconView = helper.getView(R.id.game_icon);
         if (!TextUtils.isEmpty(item.getGamePic())) {
-            GlideImageLoader.loadImage(iconView, item.getGamePic());
+            ImageLoader.loadImage(iconView, item.getGamePic());
         } else {
             iconView.setImageResource(R.mipmap.icon_logo);
         }

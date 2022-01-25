@@ -1,13 +1,13 @@
 package tech.sud.mgp.common.model;
 
-public class HsUserInfo {
+public class HSUserInfo {
 
-    private static final HsUserInfo sInstance = new HsUserInfo();
+    private static final HSUserInfo sInstance = new HSUserInfo();
 
-    private HsUserInfo() {
+    private HSUserInfo() {
     }
 
-    public static HsUserInfo getInstance() {
+    public static HSUserInfo getInstance() {
         return sInstance;
     }
 

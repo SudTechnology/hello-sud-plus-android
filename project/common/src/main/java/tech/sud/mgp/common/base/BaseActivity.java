@@ -7,7 +7,7 @@ import androidx.annotation.Nullable;
 
 import com.trello.rxlifecycle4.components.support.RxAppCompatActivity;
 
-import tech.sud.mgp.common.model.HsUserInfo;
+import tech.sud.mgp.common.model.HSUserInfo;
 
 public abstract class BaseActivity extends RxAppCompatActivity {
 
@@ -37,17 +37,17 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putLong("userId", HsUserInfo.getInstance().userId);
-        outState.putString("nickName", HsUserInfo.getInstance().nickName);
-        outState.putString("gender", HsUserInfo.getInstance().gender);
+        outState.putLong("userId", HSUserInfo.getInstance().userId);
+        outState.putString("nickName", HSUserInfo.getInstance().nickName);
+        outState.putString("gender", HSUserInfo.getInstance().gender);
     }
 
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        HsUserInfo.getInstance().userId = savedInstanceState.getLong("userId");
-        HsUserInfo.getInstance().nickName = savedInstanceState.getString("nickName");
-        HsUserInfo.getInstance().gender = savedInstanceState.getString("gender");
+        HSUserInfo.getInstance().userId = savedInstanceState.getLong("userId");
+        HSUserInfo.getInstance().nickName = savedInstanceState.getString("nickName");
+        HSUserInfo.getInstance().gender = savedInstanceState.getString("gender");
     }
 
 }

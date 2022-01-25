@@ -52,6 +52,6 @@ dependencies {
     api 'com.trello.rxlifecycle4:rxlifecycle-components:4.0.2'
 
     // RecyclerView的Adapter: https://github.com/CymChad/BaseRecyclerViewAdapterHelper
-    api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.7'
+    api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.4'
 
 }

@@ -14,6 +14,10 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (beforeSetContentView()) {
+            finish();
+            return;
+        }
         int layoutId = getLayoutId();
         if (layoutId > 0) {
             setContentView(layoutId);
@@ -21,6 +25,10 @@ public abstract class BaseActivity extends RxAppCompatActivity {
         initWidget();
         initData();
         setListeners();
+    }
+
+    protected boolean beforeSetContentView() {
+        return false;
     }
 
     protected abstract int getLayoutId();

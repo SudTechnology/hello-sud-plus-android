@@ -1,5 +1,6 @@
 package tech.sud.mgp.common.http.rx;
 
+import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.ToastUtils;
 
@@ -33,6 +34,7 @@ public class RxCallback<T> implements Observer<BaseResponse<T>> {
 
     @Override
     public void onError(Throwable e) {
+        LogUtils.d("onError", e);
         ThreadUtils.runOnUiThread(() -> {
             if (e instanceof SocketTimeoutException) { // 连接超时
                 onError(e, ErrorStatus.HTTP_TIMEOUT);

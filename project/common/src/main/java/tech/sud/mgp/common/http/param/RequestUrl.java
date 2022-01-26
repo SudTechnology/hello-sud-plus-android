@@ -6,7 +6,9 @@ package tech.sud.mgp.common.http.param;
  */
 public interface RequestUrl {
 
-    String BASE_URL = "https://www.divtoss.com/";
+    //    String BASE_URL = "https://www.divtoss.com/";
+//    String BASE_URL = "http://192.168.101.223:8081/"; // 小飞本地
+    String BASE_URL = "http://192.168.101.210:8090/"; // 玉兵本地
 
     /**
      * xxx

@@ -1,6 +1,5 @@
 package tech.sud.mgp.common.http.retrofit;
 
-import com.blankj.utilcode.BuildConfig;
 import com.google.gson.Gson;
 
 import java.util.concurrent.TimeUnit;
@@ -12,6 +11,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import tech.sud.mgp.common.BuildConfig;
 import tech.sud.mgp.common.http.param.RequestUrl;
 
 public class RetrofitManager {

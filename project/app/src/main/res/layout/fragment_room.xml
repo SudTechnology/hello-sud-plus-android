@@ -18,12 +18,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
+        <tech.sud.mgp.common.widget.view.round.RoundedImageView
             android:id="@+id/header_iv"
             android:layout_width="56dp"
             android:layout_height="56dp"
+            android:src="@color/black"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:riv_corner_radius="28dp" />
 
         <TextView
             android:id="@+id/name_tv"

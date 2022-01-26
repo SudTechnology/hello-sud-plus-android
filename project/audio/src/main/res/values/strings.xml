@@ -8,4 +8,9 @@
     <string name="audio_got_mic">上麦</string>
     <string name="audio_chat_hint">聊一聊~</string>
 
+    <string name="audio_dialog_gift_present">赠送</string>
+    <string name="audio_dialog_present">送给</string>
+    <string name="audio_cancle">取消</string>
+    <string name="audio_all">全选</string>
+
 </resources>

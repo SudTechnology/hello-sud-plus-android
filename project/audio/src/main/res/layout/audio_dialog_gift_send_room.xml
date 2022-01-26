@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/dialog_root_view"
+    >
+<!--    android:animateLayoutChanges="true"-->
+
+    <View
+        android:background="@color/transparent"
+        android:id="@+id/send_gift_empty_view"
+        app:layout_constraintVertical_weight="1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/content_cl"
+        android:layout_width="match_parent"
+        android:layout_height="0dip"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        app:layout_constraintTop_toBottomOf="@id/send_gift_empty_view"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/content_cl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <tech.sud.mgp.audio.gift.view.GiftDialogTopView
+        android:id="@+id/gift_top_view"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="72dip"/>
+
+    <tech.sud.mgp.audio.gift.view.BottomFadingEdgeRecyclerView
+        android:background="@color/transparent"
+        android:id="@+id/gift_data_rv"
+        android:requiresFadingEdge="vertical"
+        android:fadingEdgeLength="22dip"
+        android:overScrollMode="never"
+        app:layout_constraintTop_toBottomOf="@id/gift_top_view"
+        app:layout_constraintBottom_toTopOf="@id/gift_bottom_view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="134dip" />
+
+    <tech.sud.mgp.audio.gift.view.GiftDialogBottomView
+        android:id="@+id/gift_bottom_view"
+        app:layout_constraintTop_toBottomOf="@id/gift_data_rv"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="40dip"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

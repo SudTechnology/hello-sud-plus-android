@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:layout_constraintTop_toTopOf="parent"
+    android:background="#F5F6FB"
     app:layout_constraintBottom_toBottomOf="parent"
-    android:background="#F5F6FB">
+    app:layout_constraintTop_toTopOf="parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/index_header"
@@ -20,12 +20,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
+        <tech.sud.mgp.common.widget.view.round.RoundedImageView
             android:id="@+id/header_iv"
             android:layout_width="56dp"
             android:layout_height="56dp"
+            android:src="@color/black"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:riv_corner_radius="28dp" />
 
         <TextView
             android:id="@+id/name_tv"
@@ -59,13 +61,13 @@
             android:layout_marginTop="15dp"
             android:background="#F2F3F7"
             android:hint="@string/search_hint"
-            android:inputType="number"
-            android:textColorHint="#aaaaaa"
             android:imeOptions="actionSearch"
+            android:inputType="number"
             android:paddingStart="8dp"
             android:paddingEnd="47dp"
             android:singleLine="true"
             android:textColor="@color/black"
+            android:textColorHint="#aaaaaa"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -91,9 +93,9 @@
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:overScrollMode="never"
         android:layout_height="0dp"
         android:layout_marginHorizontal="16dp"
+        android:overScrollMode="never"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/index_header">
 
@@ -102,8 +104,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:paddingBottom="10dp"
-            android:orientation="vertical" />
+            android:orientation="vertical"
+            android:paddingBottom="10dp" />
 
     </androidx.core.widget.NestedScrollView>
 

@@ -5,6 +5,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import tech.sud.mgp.audio.gift.view.RoomGiftDialog;
 import tech.sud.mgp.common.base.BaseFragment;
 import tech.sud.mgp.common.utils.ImageLoader;
 import tech.sud.mgp.core.SudMGP;
@@ -73,7 +74,8 @@ public class SetFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if (v == sdkVersionLl) {
-
+            RoomGiftDialog dialog = new RoomGiftDialog();
+            dialog.show(getChildFragmentManager(), "gift");
         } else if (v == appVersionLl) {
 
         } else if (v == userAgreementLl) {

@@ -11,7 +11,7 @@ class RequestHeaderInterceptor : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request().newBuilder()
-            .addHeader("token", HSUserInfo.token)
+            .addHeader("Authorization", HSUserInfo.token)
             .build()
         return chain.proceed(request)
     }

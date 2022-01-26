@@ -1,9 +1,15 @@
 package tech.sud.mgp.audio.example.activity;
 
+import android.os.Bundle;
+
+import androidx.annotation.Nullable;
+
 import java.io.Serializable;
 
 import tech.sud.mgp.audio.R;
 import tech.sud.mgp.audio.example.model.RoomInfoModel;
+import tech.sud.mgp.audio.example.service.AudioRoomService;
+import tech.sud.mgp.audio.example.viewmodel.AudioRoomViewModel;
 import tech.sud.mgp.audio.example.widget.view.AudioRoomBottomView;
 import tech.sud.mgp.audio.example.widget.view.AudioRoomTopView;
 import tech.sud.mgp.audio.example.widget.view.chat.AudioRoomChatView;
@@ -17,6 +23,9 @@ public class AudioRoomActivity extends BaseActivity {
     private AudioRoomMicWrapView mMicView;
     private AudioRoomChatView mChatView;
     private AudioRoomBottomView mBottomView;
+
+    private final AudioRoomService mAudioRoomService = new AudioRoomService();
+    private final AudioRoomViewModel mViewModel = new AudioRoomViewModel();
 
     @Override
     protected boolean beforeSetContentView() {
@@ -51,4 +60,15 @@ public class AudioRoomActivity extends BaseActivity {
         mTopView.setId(mRoomInfoModel.roomId + "");
     }
 
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mAudioRoomService.onCreate();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mAudioRoomService.onDestroy();
+    }
 }

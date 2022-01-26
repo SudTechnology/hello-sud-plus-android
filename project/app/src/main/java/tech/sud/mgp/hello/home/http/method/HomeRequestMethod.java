@@ -15,13 +15,13 @@ public interface HomeRequestMethod {
     /**
      * 游戏列表
      */
-    @POST(RequestUrl.GAMELIST)
+    @POST(RequestUrl.GAME_LIST)
     Observable<BaseResponse<GameListResp>> gameList();
 
     /**
      * 房间列表
      */
-    @POST(RequestUrl.ROOMLIST)
+    @POST(RequestUrl.ROOM_LIST)
     Observable<BaseResponse<RoomListResp>> roomList();
 
 }

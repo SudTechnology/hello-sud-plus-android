@@ -18,15 +18,20 @@ public interface RequestUrl {
     /**
      * 主页接口
      */
-    String GAMELIST = "game/list/v1";
+    String GAME_LIST = "game/list/v1";
 
     /**
      * 房间列表
      */
-    String ROOMLIST = "room/list/v1";
+    String ROOM_LIST = "room/list/v1";
 
     /**
      * 进入房间
      */
-    String ENTERROOM = "room/enter/v1";
+    String ENTER_ROOM = "room/enter/v1";
+
+    /**
+     * 查询麦位列表接口
+     */
+    String ROOM_MIC_LIST = "room/mic/list/v1";
 }

@@ -7,6 +7,7 @@ import tech.sud.mgp.audio.example.http.req.EnterRoomReq;
 import tech.sud.mgp.audio.example.http.req.RoomMicListReq;
 import tech.sud.mgp.audio.example.http.response.EnterRoomResp;
 import tech.sud.mgp.audio.example.http.response.RoomMicListResp;
+import tech.sud.mgp.common.http.param.BaseUrlManager;
 import tech.sud.mgp.common.http.rx.RxCallback;
 import tech.sud.mgp.common.http.rx.RxUtil;
 
@@ -23,7 +24,7 @@ public class AudioRepository {
             req.roomId = roomId;
         }
         AudioRequestMethodFactory.getMethod()
-                .enterRoom(req)
+                .enterRoom(BaseUrlManager.getInteractBaseUrl(), req)
                 .compose(RxUtil.schedulers(owner))
                 .subscribe(callback);
     }
@@ -37,7 +38,7 @@ public class AudioRepository {
         RoomMicListReq req = new RoomMicListReq();
         req.roomId = roomId;
         AudioRequestMethodFactory.getMethod()
-                .roomMicList(req)
+                .roomMicList(BaseUrlManager.getInteractBaseUrl(), req)
                 .compose(RxUtil.schedulers(owner))
                 .subscribe(callback);
     }

@@ -3,6 +3,7 @@ package tech.sud.mgp.hello.login.http.repository;
 
 import androidx.lifecycle.LifecycleOwner;
 
+import tech.sud.mgp.common.http.param.BaseUrlManager;
 import tech.sud.mgp.common.http.rx.RxCallback;
 import tech.sud.mgp.common.http.rx.RxUtil;
 import tech.sud.mgp.hello.login.http.method.LoginRequestMethodFactory;
@@ -15,10 +16,10 @@ public class LoginRepository {
         // TODO: 2022/1/21 调用示例
         LoginRequestBody loginRequestBody = new LoginRequestBody();
         LoginRequestMethodFactory.getMethod()
-                .login(loginRequestBody)
+                .login(BaseUrlManager.getBaseUrl(), loginRequestBody)
                 .compose(RxUtil.schedulers(owner))
                 .subscribe(callback);
-        
+
         //下面是返回示例
 //        new RxCallback<LoginResponse>() {
 //            @Override

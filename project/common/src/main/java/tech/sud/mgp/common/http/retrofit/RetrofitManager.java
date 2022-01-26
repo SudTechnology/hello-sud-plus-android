@@ -12,6 +12,7 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import tech.sud.mgp.common.BuildConfig;
+import tech.sud.mgp.common.http.interceptor.RequestHeaderInterceptor;
 import tech.sud.mgp.common.http.param.RequestUrl;
 
 public class RetrofitManager {
@@ -48,7 +49,8 @@ public class RetrofitManager {
                 .connectTimeout(30, TimeUnit.SECONDS)
                 .readTimeout(30, TimeUnit.SECONDS)
                 .writeTimeout(30, TimeUnit.SECONDS)
-                .addInterceptor(loggingInterceptor); // 添加控制台网络请求消息拦截器,直接在控制台输出
+                .addInterceptor(loggingInterceptor) // 添加控制台网络请求消息拦截器,直接在控制台输出
+                .addInterceptor(new RequestHeaderInterceptor());
         return builder.build();
     }
 

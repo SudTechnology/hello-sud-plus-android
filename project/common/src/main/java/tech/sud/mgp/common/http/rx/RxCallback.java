@@ -15,6 +15,7 @@ import io.reactivex.rxjava3.disposables.Disposable;
 import retrofit2.HttpException;
 import tech.sud.mgp.common.http.param.BaseResponse;
 import tech.sud.mgp.common.http.param.ErrorStatus;
+import tech.sud.mgp.common.http.param.RetCode;
 
 /**
  * 请求回调
@@ -30,6 +31,9 @@ public class RxCallback<T> implements Observer<BaseResponse<T>> {
 
     @Override
     public void onNext(BaseResponse<T> t) {
+        if (t.getRetCode() == RetCode.SUCCESS) {
+            onSuccess(t.getData());
+        }
     }
 
     @Override
@@ -62,6 +66,9 @@ public class RxCallback<T> implements Observer<BaseResponse<T>> {
     }
 
     public void onStart() {
+    }
+
+    public void onSuccess(T t) {
     }
 
 }

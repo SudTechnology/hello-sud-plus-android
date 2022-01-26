@@ -5,8 +5,10 @@ import androidx.lifecycle.LifecycleOwner;
 import tech.sud.mgp.audio.example.http.method.AudioRequestMethodFactory;
 import tech.sud.mgp.audio.example.http.req.EnterRoomReq;
 import tech.sud.mgp.audio.example.http.req.RoomMicListReq;
+import tech.sud.mgp.audio.example.http.req.RoomMicSwitchReq;
 import tech.sud.mgp.audio.example.http.response.EnterRoomResp;
 import tech.sud.mgp.audio.example.http.response.RoomMicListResp;
+import tech.sud.mgp.audio.example.http.response.RoomMicSwitchResp;
 import tech.sud.mgp.common.http.param.BaseUrlManager;
 import tech.sud.mgp.common.http.rx.RxCallback;
 import tech.sud.mgp.common.http.rx.RxUtil;
@@ -39,6 +41,28 @@ public class AudioRepository {
         req.roomId = roomId;
         AudioRequestMethodFactory.getMethod()
                 .roomMicList(BaseUrlManager.getInteractBaseUrl(), req)
+                .compose(RxUtil.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /**
+     * 房间上下麦接口
+     *
+     * @param roomId   房间id
+     * @param micIndex 麦位索引
+     * @param operate  true上麦 false下麦
+     */
+    public static void roomMicSwitch(LifecycleOwner owner, long roomId, int micIndex, boolean operate, RxCallback<RoomMicSwitchResp> callback) {
+        RoomMicSwitchReq req = new RoomMicSwitchReq();
+        req.roomId = roomId;
+        req.micIndex = micIndex;
+        if (operate) {
+            req.handleType = 0;
+        } else {
+            req.handleType = 1;
+        }
+        AudioRequestMethodFactory.getMethod()
+                .roomMicSwitch(BaseUrlManager.getInteractBaseUrl(), req)
                 .compose(RxUtil.schedulers(owner))
                 .subscribe(callback);
     }

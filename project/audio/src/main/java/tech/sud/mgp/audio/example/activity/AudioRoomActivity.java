@@ -1,5 +1,7 @@
 package tech.sud.mgp.audio.example.activity;
 
+import android.view.View;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -13,7 +15,9 @@ import tech.sud.mgp.audio.example.widget.view.AudioRoomBottomView;
 import tech.sud.mgp.audio.example.widget.view.AudioRoomTopView;
 import tech.sud.mgp.audio.example.widget.view.chat.AudioRoomChatView;
 import tech.sud.mgp.audio.example.widget.view.mic.AudioRoomMicWrapView;
+import tech.sud.mgp.audio.example.widget.view.mic.OnMicItemClickListener;
 import tech.sud.mgp.common.base.BaseActivity;
+import tech.sud.mgp.common.model.HSUserInfo;
 
 public class AudioRoomActivity extends BaseActivity {
 
@@ -65,6 +69,24 @@ public class AudioRoomActivity extends BaseActivity {
         audioRoomService.onCreate();
         binder.setCallback(callback);
         binder.enterRoom(roomInfoModel);
+    }
+
+    @Override
+    protected void setListeners() {
+        super.setListeners();
+        micView.setOnMicItemClickListener(new OnMicItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                AudioRoomMicModel model = micView.getItem(position);
+                if (model != null) {
+                    if (model.userId == 0) {
+                        binder.micSwitch(position, model.userId, true);
+                    } else if (model.userId == HSUserInfo.userId) {
+                        binder.micSwitch(position, model.userId, false);
+                    }
+                }
+            }
+        });
     }
 
     @Override

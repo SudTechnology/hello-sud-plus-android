@@ -10,6 +10,7 @@ import tech.sud.mgp.audio.example.service.AudioRoomServiceCallback;
 public class AudioRoomServiceManager extends BaseServiceManager {
 
     private AudioRoomServiceCallback audioRoomServiceCallback;
+    private RoomInfoModel roomInfoModel;
 
     public final AudioRoomData audioRoomData = new AudioRoomData();
     public final AudioEngineManager audioEngineManager = new AudioEngineManager(this);
@@ -41,6 +42,15 @@ public class AudioRoomServiceManager extends BaseServiceManager {
 
     public AudioRoomServiceCallback getCallback() {
         return audioRoomServiceCallback;
+    }
+
+    public long getRoomId() {
+        RoomInfoModel model = roomInfoModel;
+        if (model == null || model.roomId == null) {
+            return 0;
+        } else {
+            return model.roomId;
+        }
     }
 
     public void enterRoom(RoomInfoModel model) {

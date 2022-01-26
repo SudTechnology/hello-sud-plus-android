@@ -11,11 +11,11 @@ import tech.sud.mgp.common.model.HSUserInfo;
  * 语音引擎
  */
 public class AudioEngineManager extends BaseServiceManager {
-    private AudioRoomServiceManager audioRoomServiceManager;
+    private AudioRoomServiceManager parentManager;
 
     public AudioEngineManager(AudioRoomServiceManager audioRoomServiceManager) {
         super();
-        this.audioRoomServiceManager = audioRoomServiceManager;
+        this.parentManager = audioRoomServiceManager;
     }
 
     public void enterRoom(RoomInfoModel model) {
@@ -24,6 +24,19 @@ public class AudioEngineManager extends BaseServiceManager {
         MediaRoomConfig config = new MediaRoomConfig();
         config.isUserStatusNotify = true;
         engine.loginRoom(model.roomId + "", new MediaUser(HSUserInfo.userId + "", HSUserInfo.nickName), config);
+    }
+
+    /**
+     * 发送信令
+     *
+     * @param command 信令内容
+     * @param result  回调
+     */
+    public void sendCommand(String command, MediaAudioEngineProtocol.SendCommandResult result) {
+        MediaAudioEngineProtocol engine = getEngine();
+        if (engine != null) {
+            engine.sendCommand(parentManager.getRoomId() + "", command, result);
+        }
     }
 
     private MediaAudioEngineProtocol getEngine() {

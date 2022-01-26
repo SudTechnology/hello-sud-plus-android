@@ -93,6 +93,20 @@ public class AudioRoomMicWrapView extends ConstraintLayout {
         }
     }
 
+    public AudioRoomMicModel getItem(int position) {
+        if (position >= 0 && position < mDatas.size()) {
+            return mDatas.get(position);
+        }
+        return null;
+    }
+
+    public void setOnMicItemClickListener(OnMicItemClickListener listener) {
+        BaseMicView baseMicView = mBaseMicView;
+        if (baseMicView != null) {
+            baseMicView.setOnMicItemClickListener(listener);
+        }
+    }
+
     public enum AudioRoomMicStyle {
         NORMAL, // 1+8麦位样式
         GAME    // 游戏样式

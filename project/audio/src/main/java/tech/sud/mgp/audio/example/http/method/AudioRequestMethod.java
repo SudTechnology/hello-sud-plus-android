@@ -6,8 +6,10 @@ import retrofit2.http.Header;
 import retrofit2.http.POST;
 import tech.sud.mgp.audio.example.http.req.EnterRoomReq;
 import tech.sud.mgp.audio.example.http.req.RoomMicListReq;
+import tech.sud.mgp.audio.example.http.req.RoomMicSwitchReq;
 import tech.sud.mgp.audio.example.http.response.EnterRoomResp;
 import tech.sud.mgp.audio.example.http.response.RoomMicListResp;
+import tech.sud.mgp.audio.example.http.response.RoomMicSwitchResp;
 import tech.sud.mgp.common.http.param.BaseResponse;
 import tech.sud.mgp.common.http.param.IBaseUrl;
 import tech.sud.mgp.common.http.param.RequestUrl;
@@ -28,5 +30,11 @@ public interface AudioRequestMethod {
      */
     @POST(RequestUrl.ROOM_MIC_LIST)
     Observable<BaseResponse<RoomMicListResp>> roomMicList(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body RoomMicListReq req);
+
+    /**
+     * 房间上下麦接口
+     */
+    @POST(RequestUrl.ROOM_MIC_SWITCH)
+    Observable<BaseResponse<RoomMicSwitchResp>> roomMicSwitch(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body RoomMicSwitchReq req);
 
 }

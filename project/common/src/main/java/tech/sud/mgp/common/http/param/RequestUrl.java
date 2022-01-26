@@ -30,4 +30,15 @@ public interface RequestUrl {
      * 查询麦位列表接口
      */
     String ROOM_MIC_LIST = "room/mic/list/v1";
+
+    /**
+     * 批量查询用户信息
+     */
+    String USER_INFO_LIST = "batch/user_info/v1";
+
+    /**
+     * 房间上下麦接口
+     */
+    String ROOM_MIC_SWITCH = "room/mic/switch/v1";
+
 }

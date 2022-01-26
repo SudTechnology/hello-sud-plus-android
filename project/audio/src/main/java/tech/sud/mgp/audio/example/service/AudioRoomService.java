@@ -31,6 +31,10 @@ public class AudioRoomService {
         public void enterRoom(RoomInfoModel model) {
             serviceManager.enterRoom(model);
         }
+
+        public void micSwitch(int micIndex, long userId, boolean operate) {
+            serviceManager.audioMicManager.micSwitch(micIndex, userId, operate);
+        }
     }
 
 }

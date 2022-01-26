@@ -2,8 +2,8 @@ package tech.sud.mgp.audio.middle;
 
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * 多媒体语音事件处理协议,SDK回调事件，用户根据业务需求选择实现自己业务逻辑
@@ -32,7 +32,7 @@ public interface MediaAudioEventHandler {
      * @param streamList   变动流列表
      * @param extendedData 扩展信息
      */
-    void onRoomStreamUpdate(String roomId, MediaAudioEngineUpdateType type, ArrayList<MediaStream> streamList, JSONObject extendedData);
+    void onRoomStreamUpdate(String roomId, MediaAudioEngineUpdateType type, List<MediaStream> streamList, JSONObject extendedData);
 
     /**
      * 房间推流状态更新

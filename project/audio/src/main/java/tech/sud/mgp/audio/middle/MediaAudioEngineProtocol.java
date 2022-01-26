@@ -76,7 +76,7 @@ public interface MediaAudioEngineProtocol {
      * @param isMute   是否静音 true静音 false开启声音
      * @param streamId 流ID
      */
-    void mutePlayStreamAudio(boolean isMute, String streamId);
+    void mutePlayStreamAudio(String streamId, boolean isMute);
 
     /**
      * 开、关所有流声音
@@ -96,7 +96,7 @@ public interface MediaAudioEngineProtocol {
      * @param volume   音量值 [0, 200]
      * @param streamId 流ID
      */
-    void setPlayVolume(int volume, String streamId);
+    void setPlayVolume(String streamId, int volume);
 
     /**
      * 设置所有流音量
@@ -119,7 +119,7 @@ public interface MediaAudioEngineProtocol {
      * @param roomId  房间ID
      * @param result  回调
      */
-    void sendCommand(String command, String roomId, SendCommandResult result);
+    void sendCommand(String roomId, String command, SendCommandResult result);
 
     /**
      * 发送指令回调接口

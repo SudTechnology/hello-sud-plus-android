@@ -5,11 +5,15 @@ import android.app.Application;
 import com.blankj.utilcode.util.AppUtils;
 import com.tencent.bugly.crashreport.CrashReport;
 
+import tech.sud.mgp.audio.middle.MediaAudioEngineManager;
+import tech.sud.mgp.audio.middle.impl.ZegoAudioEngine;
+
 public class HelloSudApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
         configBugly();
+        configAudioEngine();
     }
 
     // Bugly config
@@ -19,4 +23,12 @@ public class HelloSudApplication extends Application {
         strategy.setAppVersion(versionAndCode);
         CrashReport.initCrashReport(getApplicationContext(), "f471ed313c", true, strategy);
     }
+
+    private void configAudioEngine() {
+        // 使用zego语音引擎
+        MediaAudioEngineManager.shared().makeEngine(ZegoAudioEngine.class);
+        // 初始化引擎SDK
+        MediaAudioEngineManager.shared().audioEngine.config("581733944", "8d8c5698d49929056462dba41cb48cdd4d05babd8c2c68e450b3883096656b87");
+    }
+
 }

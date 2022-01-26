@@ -9,7 +9,7 @@ public interface RequestUrl {
     /**
      * xxx
      */
-    String LOGIN = "api/login";
+    String LOGIN = "login/v1";
 
     /**
      * 主页接口

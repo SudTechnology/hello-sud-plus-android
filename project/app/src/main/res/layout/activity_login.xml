@@ -29,20 +29,28 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/logo_iv" />
 
-    <EditText
-        android:id="@+id/name_et"
+    <TextView
+        android:id="@+id/name_tv"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginTop="32dp"
         android:background="@drawable/shape_stroke_black"
         android:gravity="center_vertical"
-        android:hint="@string/login_edit_name"
         android:paddingHorizontal="16dp"
         android:singleLine="true"
         android:textColor="#1a1a1a"
         android:textSize="16sp"
-        android:maxLength="12"
         app:layout_constraintTop_toBottomOf="@+id/welcome_tv" />
+
+    <ImageView
+        android:id="@+id/random_iv"
+        android:src="@drawable/icon_random_"
+        app:layout_constraintTop_toTopOf="@id/name_tv"
+        app:layout_constraintBottom_toBottomOf="@id/name_tv"
+        app:layout_constraintEnd_toEndOf="@id/name_tv"
+        android:layout_width="24dp"
+        android:layout_marginEnd="16dp"
+        android:layout_height="24dp"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/male_but"
@@ -54,7 +62,7 @@
         app:layout_constraintEnd_toStartOf="@id/female_but"
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/name_et">
+        app:layout_constraintTop_toBottomOf="@+id/name_tv">
 
         <ImageView
             android:id="@+id/male_check"
@@ -95,7 +103,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toEndOf="@id/male_but"
-        app:layout_constraintTop_toBottomOf="@+id/name_et">
+        app:layout_constraintTop_toBottomOf="@+id/name_tv">
 
         <ImageView
             android:id="@+id/female_check"

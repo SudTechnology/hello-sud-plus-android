@@ -13,4 +13,7 @@ public class MediaUser {
         this.userID = userID;
         this.userName = userID;
     }
+
+    public MediaUser() {
+    }
 }

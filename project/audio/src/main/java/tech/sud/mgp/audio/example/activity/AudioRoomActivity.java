@@ -1,14 +1,13 @@
 package tech.sud.mgp.audio.example.activity;
 
-import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-
 import java.io.Serializable;
+import java.util.List;
 
 import tech.sud.mgp.audio.R;
+import tech.sud.mgp.audio.example.model.AudioRoomMicModel;
 import tech.sud.mgp.audio.example.model.RoomInfoModel;
 import tech.sud.mgp.audio.example.service.AudioRoomService;
+import tech.sud.mgp.audio.example.service.AudioRoomServiceCallback;
 import tech.sud.mgp.audio.example.viewmodel.AudioRoomViewModel;
 import tech.sud.mgp.audio.example.widget.view.AudioRoomBottomView;
 import tech.sud.mgp.audio.example.widget.view.AudioRoomTopView;
@@ -18,22 +17,23 @@ import tech.sud.mgp.common.base.BaseActivity;
 
 public class AudioRoomActivity extends BaseActivity {
 
-    public RoomInfoModel mRoomInfoModel;
-    private AudioRoomTopView mTopView;
-    private AudioRoomMicWrapView mMicView;
-    private AudioRoomChatView mChatView;
-    private AudioRoomBottomView mBottomView;
+    public RoomInfoModel roomInfoModel;
+    private AudioRoomTopView topView;
+    private AudioRoomMicWrapView micView;
+    private AudioRoomChatView chatView;
+    private AudioRoomBottomView bottomView;
 
-    private final AudioRoomService mAudioRoomService = new AudioRoomService();
-    private final AudioRoomViewModel mViewModel = new AudioRoomViewModel();
+    private final AudioRoomService audioRoomService = new AudioRoomService();
+    private final AudioRoomService.MyBinder binder = audioRoomService.getBinder();
+    private final AudioRoomViewModel viewModel = new AudioRoomViewModel();
 
     @Override
     protected boolean beforeSetContentView() {
         Serializable roomInfoModel = getIntent().getSerializableExtra("RoomInfoModel");
         if (roomInfoModel instanceof RoomInfoModel) {
-            mRoomInfoModel = (RoomInfoModel) roomInfoModel;
+            this.roomInfoModel = (RoomInfoModel) roomInfoModel;
         }
-        if (mRoomInfoModel == null || mRoomInfoModel.roomId == 0) {
+        if (this.roomInfoModel == null || this.roomInfoModel.roomId == 0) {
             return true;
         }
         return super.beforeSetContentView();
@@ -47,28 +47,39 @@ public class AudioRoomActivity extends BaseActivity {
     @Override
     protected void initWidget() {
         super.initWidget();
-        mTopView = findViewById(R.id.room_top_view);
-        mMicView = findViewById(R.id.room_mic_view);
-        mChatView = findViewById(R.id.room_chat_view);
-        mBottomView = findViewById(R.id.room_bottom_view);
+        topView = findViewById(R.id.room_top_view);
+        micView = findViewById(R.id.room_mic_view);
+        chatView = findViewById(R.id.room_chat_view);
+        bottomView = findViewById(R.id.room_bottom_view);
     }
 
     @Override
     protected void initData() {
         super.initData();
-        mTopView.setName(mRoomInfoModel.roomName);
-        mTopView.setId(mRoomInfoModel.roomId + "");
+        topView.setName(roomInfoModel.roomName);
+        topView.setId(roomInfoModel.roomId + "");
+        enterRoom();
     }
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mAudioRoomService.onCreate();
+    private void enterRoom() {
+        audioRoomService.onCreate();
+        binder.setCallback(callback);
+        binder.enterRoom(roomInfoModel);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mAudioRoomService.onDestroy();
+        audioRoomService.onDestroy();
+        binder.setCallback(null);
     }
+
+    private final AudioRoomServiceCallback callback = new AudioRoomServiceCallback() {
+
+        @Override
+        public void setMicList(List<AudioRoomMicModel> list) {
+            micView.setList(list);
+        }
+    };
+
 }

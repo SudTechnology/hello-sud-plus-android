@@ -44,6 +44,7 @@ public abstract class BaseDialogFragment extends DialogFragment {
                 attributes.height = getHeight();
                 attributes.gravity = getGravity();
                 window.setAttributes(attributes);
+                customStyle(window);
             }
             dialog.setCancelable(cancelable());
             dialog.setCanceledOnTouchOutside(canceledOnTouchOutside());
@@ -52,6 +53,8 @@ public abstract class BaseDialogFragment extends DialogFragment {
         initData();
         setListeners();
     }
+
+    protected void customStyle(Window window){};
 
     protected abstract int getLayoutId();
 

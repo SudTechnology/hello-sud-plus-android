@@ -25,7 +25,7 @@ public class RoomTextProvider extends BaseItemProvider<Object> {
     public void convert(@NonNull BaseViewHolder baseViewHolder, Object o) {
         RoomTextModel item = (RoomTextModel) o;
         RoundedImageView ivIcon = baseViewHolder.getView(R.id.riv_avatar);
-        ImageLoader.loadImage(ivIcon, item.avatar);
+        ImageLoader.loadAvatar(ivIcon, item.avatar);
         String nickName = item.nickName.isEmpty() ? "" : item.nickName;
         baseViewHolder.setText(R.id.tv_name, nickName + "：");
         baseViewHolder.setText(R.id.tv_text, item.text);

@@ -38,6 +38,11 @@
         app:layout_constraintStart_toStartOf="parent"
         android:id="@+id/gift_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
+
+    <tech.sud.mgp.audio.example.widget.view.chat.RoomInputMsgView
+        android:id="@+id/room_input_msg_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

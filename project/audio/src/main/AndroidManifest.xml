@@ -5,7 +5,8 @@
     <application>
         <activity
             android:name=".example.activity.AudioRoomActivity"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustPan" />
     </application>
 
 </manifest>

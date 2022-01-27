@@ -26,4 +26,9 @@ public interface AudioRoomServiceCallback {
      */
     void selfMicIndex(int micIndex);
 
+    /**
+     * 增加一条公屏消息
+     */
+    void addPublicMsg(Object msg);
+
 }

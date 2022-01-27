@@ -43,6 +43,7 @@ public class AudioRoomChatView extends ConstraintLayout {
         mRecyclerView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.transparent));
         LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, 0);
         params.topMargin = DensityUtils.dp2px(getContext(), 36);
+        params.topToTop = LayoutParams.PARENT_ID;
         params.bottomToBottom = LayoutParams.BOTTOM;
         addView(mRecyclerView, params);
 
@@ -58,6 +59,7 @@ public class AudioRoomChatView extends ConstraintLayout {
 
     public void addMsg(Object obj) {
         mAdapter.addData(obj);
+        moveToBottom();
     }
 
     public void moveToBottom() {

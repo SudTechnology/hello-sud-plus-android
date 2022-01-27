@@ -3,10 +3,11 @@ package tech.sud.mgp.audio.example.activity;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.blankj.utilcode.util.KeyboardUtils;
+
 import java.io.Serializable;
 import java.util.List;
 
-import tech.sud.mgp.audio.BuildConfig;
 import tech.sud.mgp.audio.R;
 import tech.sud.mgp.audio.example.model.AudioRoomMicModel;
 import tech.sud.mgp.audio.example.model.RoomInfoModel;
@@ -16,9 +17,9 @@ import tech.sud.mgp.audio.example.viewmodel.AudioRoomViewModel;
 import tech.sud.mgp.audio.example.widget.view.AudioRoomBottomView;
 import tech.sud.mgp.audio.example.widget.view.AudioRoomTopView;
 import tech.sud.mgp.audio.example.widget.view.chat.AudioRoomChatView;
+import tech.sud.mgp.audio.example.widget.view.chat.RoomInputMsgView;
 import tech.sud.mgp.audio.example.widget.view.mic.AudioRoomMicWrapView;
 import tech.sud.mgp.audio.example.widget.view.mic.OnMicItemClickListener;
-import tech.sud.mgp.audio.gift.manager.GiftHelper;
 import tech.sud.mgp.audio.gift.model.GiftModel;
 import tech.sud.mgp.audio.gift.view.GiftEffectView;
 import tech.sud.mgp.common.base.BaseActivity;
@@ -33,6 +34,7 @@ public class AudioRoomActivity extends BaseActivity {
     private AudioRoomBottomView bottomView;
     private FrameLayout giftContainer;
     private GiftEffectView effectView;
+    private RoomInputMsgView inputMsgView;
 
     private final AudioRoomService audioRoomService = new AudioRoomService();
     private final AudioRoomService.MyBinder binder = audioRoomService.getBinder();
@@ -63,6 +65,8 @@ public class AudioRoomActivity extends BaseActivity {
         chatView = findViewById(R.id.room_chat_view);
         bottomView = findViewById(R.id.room_bottom_view);
         giftContainer = findViewById(R.id.gift_container);
+        inputMsgView = findViewById(R.id.room_input_msg_view);
+        inputMsgView.hide();
     }
 
     @Override
@@ -106,9 +110,28 @@ public class AudioRoomActivity extends BaseActivity {
                 binder.autoUpMic();
             }
         });
+        bottomView.setInputClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                inputMsgView.show();
+            }
+        });
+        inputMsgView.setSendMsgListener(new RoomInputMsgView.SendMsgListener() {
+            @Override
+            public void onSendMsg(CharSequence msg) {
+                binder.sendPublicMsg(msg);
+                inputMsgView.hide();
+            }
+        });
+        KeyboardUtils.registerSoftInputChangedListener(this, new KeyboardUtils.OnSoftInputChangedListener() {
+            @Override
+            public void onSoftInputChanged(int height) {
+                inputMsgView.onSoftInputChanged(height);
+            }
+        });
     }
 
-    private void showGift(GiftModel giftModel){
+    private void showGift(GiftModel giftModel) {
         if (effectView == null) {
             effectView = new GiftEffectView(AudioRoomActivity.this);
             effectView.addLifecycleObserver(AudioRoomActivity.this);
@@ -145,6 +168,11 @@ public class AudioRoomActivity extends BaseActivity {
                 bottomView.showGotMic();
                 bottomView.hideMicState();
             }
+        }
+
+        @Override
+        public void addPublicMsg(Object msg) {
+            chatView.addMsg(msg);
         }
 
     };

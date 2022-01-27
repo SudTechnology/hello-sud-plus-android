@@ -39,6 +39,10 @@ public class AudioRoomService {
         public void autoUpMic() {
             serviceManager.audioMicManager.autoUpMic();
         }
+
+        public void sendPublicMsg(CharSequence msg) {
+            serviceManager.audioChatManager.sendPublicMsg(msg);
+        }
     }
 
 }

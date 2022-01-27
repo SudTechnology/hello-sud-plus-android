@@ -7,7 +7,6 @@ import androidx.lifecycle.LifecycleOwner;
 
 import com.blankj.utilcode.util.ToastUtils;
 
-import tech.sud.mgp.audio.BuildConfig;
 import tech.sud.mgp.audio.example.activity.AudioRoomActivity;
 import tech.sud.mgp.audio.example.http.repository.AudioRepository;
 import tech.sud.mgp.audio.example.http.response.EnterRoomResp;
@@ -50,9 +49,9 @@ public class EnterRoomUtils {
                 isRunning = false;
             }
         });
-        if (BuildConfig.DEBUG) {
-            startAudioRoomActivity(context, 11, "asdfasdf", 0);
-        }
+//        if (BuildConfig.DEBUG) {
+//            startAudioRoomActivity(context, 11, "asdfasdf", 0);
+//        }
     }
 
     private static void startAudioRoomActivity(Context context, long roomId, String roomName, long gameId) {

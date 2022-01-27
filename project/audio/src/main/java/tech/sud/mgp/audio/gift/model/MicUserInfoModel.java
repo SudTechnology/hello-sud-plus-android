@@ -1,9 +1,9 @@
 package tech.sud.mgp.audio.gift.model;
 
-import tech.sud.mgp.common.model.HSUserInfo;
+import tech.sud.mgp.audio.example.model.AudioRoomMicModel;
 
 public class MicUserInfoModel {
-    public HSUserInfo userInfo;
+    public AudioRoomMicModel userInfo;
     public int indexMic;
     public boolean checked;
 }

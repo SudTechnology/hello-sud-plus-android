@@ -17,6 +17,7 @@ public class AudioRoomServiceManager extends BaseServiceManager {
     public final AudioChatManager audioChatManager = new AudioChatManager(this);
     public final AudioMicManager audioMicManager = new AudioMicManager(this);
     public final AudioStreamManager audioStreamManager = new AudioStreamManager(this);
+    public final AudioGiftManager audioGiftManager = new AudioGiftManager(this);
 
     @Override
     public void onCreate() {
@@ -25,6 +26,7 @@ public class AudioRoomServiceManager extends BaseServiceManager {
         audioChatManager.onCreate();
         audioMicManager.onCreate();
         audioStreamManager.onCreate();
+        audioGiftManager.onCreate();
     }
 
     @Override
@@ -34,6 +36,7 @@ public class AudioRoomServiceManager extends BaseServiceManager {
         audioChatManager.onDestroy();
         audioMicManager.onDestroy();
         audioStreamManager.onDestroy();
+        audioGiftManager.onDestroy();
     }
 
     public void setCallback(AudioRoomServiceCallback callback) {

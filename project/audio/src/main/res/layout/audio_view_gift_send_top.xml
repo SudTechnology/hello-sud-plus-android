@@ -37,7 +37,7 @@
             android:layout_marginStart="6dip"
             android:background="@color/c_ffffff"
             android:layout_width="42dp"
-            android:text="@string/audio_cancle"
+            android:text="@string/audio_all"
             android:layout_height="22dp"/>
 
     </LinearLayout>

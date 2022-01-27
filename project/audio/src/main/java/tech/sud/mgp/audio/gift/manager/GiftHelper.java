@@ -6,14 +6,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tech.sud.mgp.audio.R;
+import tech.sud.mgp.audio.example.model.AudioRoomMicModel;
+import tech.sud.mgp.audio.example.model.UserInfo;
 import tech.sud.mgp.audio.gift.model.EffectAnimationFormat;
 import tech.sud.mgp.audio.gift.model.GiftModel;
+import tech.sud.mgp.audio.gift.model.MicUserInfoModel;
 
 public class GiftHelper {
 
     private static GiftHelper helper;
     private List<GiftModel> gifts = new ArrayList<>();
     private int testIndex = 0;
+    public boolean testIsMic = false;
 
     private GiftHelper() {
     }
@@ -59,14 +63,14 @@ public class GiftHelper {
             model3.giftSmallImage = R.drawable.audio_webp_128;
             gifts.add(model3);
 
-//            GiftModel model4 = new GiftModel();
-//            model4.giftId = 4;
-//            model4.giftName = "mp4";
-//            model4.animationType = EffectAnimationFormat.MP4;
-//            model4.resId = R.raw.audio_mp4_600;
-//            model4.giftImage = R.drawable.audio_mp4_128;
-//            model4.giftSmallImage = R.drawable.audio_mp4_128;
-//            gifts.add(model4);
+            GiftModel model4 = new GiftModel();
+            model4.giftId = 4;
+            model4.giftName = "mp4";
+            model4.animationType = EffectAnimationFormat.MP4;
+            model4.resId = R.raw.audio_mp4_600;
+            model4.giftImage = R.drawable.audio_mp4_128;
+            model4.giftSmallImage = R.drawable.audio_mp4_128;
+            gifts.add(model4);
 
             this.gifts.clear();
             this.gifts.addAll(gifts);
@@ -83,5 +87,36 @@ public class GiftHelper {
         Log.i("getGift  ", testIndex + "");
         GiftModel model = creatGifts().get(testIndex);
         return model;
+    }
+
+    public UserInfo testCreatUserInfo() {
+        UserInfo userInfo = new UserInfo();
+        userInfo.icon = "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fup.enterdesk.com%2F2021%2Fedpic%2Fc4%2F9f%2F09%2Fc49f090757360f843141fe2bab2cfc8f_1.jpg";
+        userInfo.name = "阿娇安静案件";
+        userInfo.userID = 100866;
+        testIsMic = !testIsMic;
+        return userInfo;
+    }
+
+    public List<MicUserInfoModel> testMicsUser() {
+        List<MicUserInfoModel> users = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            MicUserInfoModel model = new MicUserInfoModel();
+            model.checked = false;
+            model.indexMic = i;
+            AudioRoomMicModel micModel = new AudioRoomMicModel();
+            if (i > 1) {
+                micModel.avatar = "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fup.enterdesk.com%2F2021%2Fedpic%2Fc4%2F9f%2F09%2Fc49f090757360f843141fe2bab2cfc8f_1.jpg";
+            } else {
+                micModel.avatar = "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fup.enterdesk.com%2Fedpic%2Ff7%2F80%2F97%2Ff7809705cbe5c0fc580e401270522a0a.jpg";
+            }
+            micModel.userId = 12345 + i;
+            micModel.micIndex = i;
+            micModel.nickName = i + "Name";
+            model.userInfo = micModel;
+            users.add(model);
+        }
+        testIsMic = !testIsMic;
+        return users;
     }
 }

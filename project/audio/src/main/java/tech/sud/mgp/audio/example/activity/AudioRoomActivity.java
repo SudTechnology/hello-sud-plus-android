@@ -1,10 +1,12 @@
 package tech.sud.mgp.audio.example.activity;
 
 import android.view.View;
+import android.widget.FrameLayout;
 
 import java.io.Serializable;
 import java.util.List;
 
+import tech.sud.mgp.audio.BuildConfig;
 import tech.sud.mgp.audio.R;
 import tech.sud.mgp.audio.example.model.AudioRoomMicModel;
 import tech.sud.mgp.audio.example.model.RoomInfoModel;
@@ -16,6 +18,8 @@ import tech.sud.mgp.audio.example.widget.view.AudioRoomTopView;
 import tech.sud.mgp.audio.example.widget.view.chat.AudioRoomChatView;
 import tech.sud.mgp.audio.example.widget.view.mic.AudioRoomMicWrapView;
 import tech.sud.mgp.audio.example.widget.view.mic.OnMicItemClickListener;
+import tech.sud.mgp.audio.gift.manager.GiftHelper;
+import tech.sud.mgp.audio.gift.view.GiftEffectView;
 import tech.sud.mgp.common.base.BaseActivity;
 import tech.sud.mgp.common.model.HSUserInfo;
 
@@ -26,6 +30,8 @@ public class AudioRoomActivity extends BaseActivity {
     private AudioRoomMicWrapView micView;
     private AudioRoomChatView chatView;
     private AudioRoomBottomView bottomView;
+    private FrameLayout giftContainer;
+    private GiftEffectView effectView;
 
     private final AudioRoomService audioRoomService = new AudioRoomService();
     private final AudioRoomService.MyBinder binder = audioRoomService.getBinder();
@@ -55,6 +61,7 @@ public class AudioRoomActivity extends BaseActivity {
         micView = findViewById(R.id.room_mic_view);
         chatView = findViewById(R.id.room_chat_view);
         bottomView = findViewById(R.id.room_bottom_view);
+        giftContainer = findViewById(R.id.gift_container);
     }
 
     @Override
@@ -85,6 +92,16 @@ public class AudioRoomActivity extends BaseActivity {
                         binder.micSwitch(position, model.userId, false);
                     }
                 }
+            }
+        });
+        bottomView.setGiftClickListener(v -> {
+            if (BuildConfig.DEBUG) {
+                if (effectView == null) {
+                    effectView = new GiftEffectView(AudioRoomActivity.this);
+                    effectView.addLifecycleObserver(AudioRoomActivity.this);
+                    giftContainer.addView(effectView);
+                }
+                effectView.showEffect(GiftHelper.getInstance().getGift());
             }
         });
     }

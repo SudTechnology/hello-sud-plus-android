@@ -99,9 +99,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         switch (type) {
             case 1: {
                 LogUtils.i("agreementType 1");
+                break;
             }
             case 2: {
                 LogUtils.i("agreementType 2");
+                break;
             }
         }
     }

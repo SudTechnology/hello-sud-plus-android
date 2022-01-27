@@ -4,6 +4,7 @@ import tech.sud.mgp.audio.gift.callback.PlayResultCallback;
 
 public class PlayGiftModel {
     private String path;
+    private int resId;
     private PlayResultCallback callback;
 
     public String getPath() {
@@ -20,5 +21,13 @@ public class PlayGiftModel {
 
     public void setCallback(PlayResultCallback callback) {
         this.callback = callback;
+    }
+
+    public int getResId() {
+        return resId;
+    }
+
+    public void setResId(int resId) {
+        this.resId = resId;
     }
 }

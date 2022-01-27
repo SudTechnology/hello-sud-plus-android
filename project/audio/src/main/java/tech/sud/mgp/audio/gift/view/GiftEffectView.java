@@ -53,22 +53,26 @@ public class GiftEffectView extends ConstraintLayout implements LifecycleObserve
         aContainer = findViewById(R.id.gift_a_container);
         bContainer = findViewById(R.id.gift_b_container);
         cContainer = findViewById(R.id.gift_c_container);
-        giftDisplayManager = new GiftDisplayManager();
+        giftDisplayManager = new GiftDisplayManager(context);
     }
 
     public void showEffect(GiftModel giftModel) {
         switch (giftModel.animationType) {
             case SVGA: {
                 playSVGA(giftModel);
+                break;
             }
             case MP4: {
                 playMp4(giftModel);
+                break;
             }
             case JSON: {
                 playJson(giftModel);
+                break;
             }
             default: {
                 showImage(giftModel);
+                break;
             }
         }
     }
@@ -86,17 +90,14 @@ public class GiftEffectView extends ConstraintLayout implements LifecycleObserve
         svgaModel.setCallback(result -> {
             switch (result) {
                 case START: {
-
+                    break;
                 }
-                case PLAYEND: {
-                    aContainer.post(() -> {
-                        aContainer.removeView(svgaImageView);
-                    });
-                }
+                case PLAYEND:
                 case PLAYERROR: {
                     aContainer.post(() -> {
                         aContainer.removeView(svgaImageView);
                     });
+                    break;
                 }
             }
         });
@@ -109,7 +110,7 @@ public class GiftEffectView extends ConstraintLayout implements LifecycleObserve
         GiftVideoView giftVideoView = creatGiftVideoView();
         model.setMp4View(giftVideoView);
         model.setLifecycleOwner(lifecycleOwner);
-        model.setPath(giftModel.path);
+        model.setResId(giftModel.resId);
 
         aContainer.addView(giftVideoView);
         giftVideoView.setVisibility(View.VISIBLE);
@@ -117,21 +118,16 @@ public class GiftEffectView extends ConstraintLayout implements LifecycleObserve
         model.setCallback(result -> {
             switch (result) {
                 case START: {
-
+                    break;
                 }
-                case PLAYEND: {
-                    aContainer.post(() -> {
-                        aContainer.removeView(giftVideoView);
-                        giftVideoView.detachView();
-                        giftVideoView.releasePlayerController();
-                    });
-                }
+                case PLAYEND:
                 case PLAYERROR: {
                     aContainer.post(() -> {
                         aContainer.removeView(giftVideoView);
                         giftVideoView.detachView();
                         giftVideoView.releasePlayerController();
                     });
+                    break;
                 }
             }
         });
@@ -151,18 +147,15 @@ public class GiftEffectView extends ConstraintLayout implements LifecycleObserve
         model.setCallback(result -> {
             switch (result) {
                 case START: {
-
+                    break;
                 }
-                case PLAYEND: {
-                    aContainer.post(() -> {
-                        aContainer.removeView(lottieAnimationView);
-                    });
-                }
+                case PLAYEND:
                 case PLAYERROR: {
                     aContainer.post(() -> {
                         aContainer.removeView(lottieAnimationView);
                         lottieAnimationView.cancelAnimation();
                     });
+                    break;
                 }
             }
         });
@@ -173,20 +166,17 @@ public class GiftEffectView extends ConstraintLayout implements LifecycleObserve
         ImageView imageView = creatImageView();
         aContainer.addView(imageView);
         imageView.setVisibility(View.VISIBLE);
-        giftDisplayManager.loadDefualtImageInImageView(giftModel.path, true, imageView, result -> {
+        giftDisplayManager.loadDefualtImageInImageView(giftModel.resId, true, imageView, result -> {
             switch (result) {
                 case START: {
-
+                    break;
                 }
-                case PLAYEND: {
-                    aContainer.post(() -> {
-                        aContainer.removeView(imageView);
-                    });
-                }
+                case PLAYEND:
                 case PLAYERROR: {
                     aContainer.post(() -> {
                         aContainer.removeView(imageView);
                     });
+                    break;
                 }
             }
         });
@@ -195,7 +185,6 @@ public class GiftEffectView extends ConstraintLayout implements LifecycleObserve
     private SVGAImageView creatSVGAImageView() {
         SVGAImageView svgaImageView = new SVGAImageView(getContext());
         svgaImageView.setLayoutParams(new LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT));
-        svgaImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         svgaImageView.setLoops(1);
         return svgaImageView;
     }
@@ -209,16 +198,12 @@ public class GiftEffectView extends ConstraintLayout implements LifecycleObserve
     private AppCompatImageView creatImageView() {
         AppCompatImageView imageView = new AppCompatImageView(getContext());
         imageView.setLayoutParams(new LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT));
-        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         return imageView;
     }
 
     private LottieAnimationView creatLottieAnimationView() {
         LottieAnimationView iconView = new LottieAnimationView(getContext());
-        iconView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         iconView.setLayoutParams(new LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT));
-        iconView.setRepeatCount(0);
-        iconView.setFrame(1);
         return iconView;
     }
 

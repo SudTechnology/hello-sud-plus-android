@@ -1,10 +1,14 @@
 package tech.sud.mgp.hello.home.fragment;
 
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import tech.sud.mgp.audio.example.activity.AudioRoomActivity;
+import tech.sud.mgp.audio.gift.manager.GiftHelper;
+import tech.sud.mgp.audio.gift.view.GiftEffectView;
 import tech.sud.mgp.audio.gift.view.RoomGiftDialog;
 import tech.sud.mgp.common.base.BaseFragment;
 import tech.sud.mgp.common.utils.ImageLoader;
@@ -18,6 +22,7 @@ public class SetFragment extends BaseFragment implements View.OnClickListener {
     private LinearLayout sdkVersionLl, appVersionLl, userAgreementLl, userPrivacyLl;
     private TextView nameTv, useridTv, sdkVersionTv, appVersionTv;
     private ImageView headerIv;
+    private GiftEffectView effectView;
 
     public SetFragment() {
     }
@@ -74,10 +79,17 @@ public class SetFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if (v == sdkVersionLl) {
-            RoomGiftDialog dialog = new RoomGiftDialog();
-            dialog.show(getChildFragmentManager(), "gift");
+//            RoomGiftDialog dialog = new RoomGiftDialog();
+//            dialog.show(getChildFragmentManager(), "gift");
         } else if (v == appVersionLl) {
-
+//            if (tech.sud.mgp.audio.BuildConfig.DEBUG) {
+//                if (effectView == null) {
+//                    effectView = new GiftEffectView(requireContext());
+//                    effectView.addLifecycleObserver(this);
+//                    ((ViewGroup) mRootView).addView(effectView);
+//                }
+//                effectView.showEffect(GiftHelper.getInstance().getGift());
+//            }
         } else if (v == userAgreementLl) {
 
         } else if (v == userPrivacyLl) {

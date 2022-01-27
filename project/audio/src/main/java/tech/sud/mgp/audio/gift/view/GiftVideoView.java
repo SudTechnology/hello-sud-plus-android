@@ -61,7 +61,6 @@ public class GiftVideoView extends ConstraintLayout {
         mPlayerController = PlayerController.Companion.get(configuration, new ExoPlayerImpl(context));
         mPlayerController.setPlayerAction(playerAction);
         mPlayerController.setMonitor(monitor);
-
     }
 
     public void startVideoGift(String filePath, Mp4PlayErrorCallback playError) {

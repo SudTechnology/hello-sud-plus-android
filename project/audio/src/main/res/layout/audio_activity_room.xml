@@ -33,4 +33,11 @@
         android:layout_marginBottom="14dp"
         app:layout_constraintBottom_toBottomOf="parent" />
 
+    <FrameLayout
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/gift_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

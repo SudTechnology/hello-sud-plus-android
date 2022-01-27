@@ -1,6 +1,13 @@
 package tech.sud.mgp.audio.gift.manager;
 
+import android.content.Context;
+import android.net.http.HttpResponseCache;
 import android.widget.ImageView;
+
+import com.opensource.svgaplayer.SVGAParser;
+
+import java.io.File;
+import java.io.IOException;
 
 import tech.sud.mgp.audio.gift.callback.PlayResultCallback;
 import tech.sud.mgp.audio.gift.manager.stategy.PlayStrategy;
@@ -10,6 +17,17 @@ import tech.sud.mgp.common.utils.ImageLoader;
 
 public class GiftDisplayManager extends GiftBaseManager {
 
+    public GiftDisplayManager(Context context) {
+        //后面需要改成app的上下文
+        File cacheDir = new File(context.getCacheDir().getName());
+        try {
+            HttpResponseCache.install(cacheDir, 1024 * 1024 * 512);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        SVGAParser.Companion.shareParser().init(context);
+    }
+
     public void showEffect(PlayGiftModel info, PlayStrategy strategy) {
         strategy.play(info);
     }
@@ -17,9 +35,9 @@ public class GiftDisplayManager extends GiftBaseManager {
     /**
      * 展示一张图片给imageview
      */
-    public void loadDefualtImageInImageView(String path, boolean showEnable, ImageView imageView, PlayResultCallback resultBack) {
+    public void loadDefualtImageInImageView(int imageId, boolean showEnable, ImageView imageView, PlayResultCallback resultBack) {
         if (showEnable) {
-            ImageLoader.loadImage(imageView, path);
+           imageView.setImageResource(imageId);
         }
         imageView.postDelayed(() -> {
             if (resultBack != null) {

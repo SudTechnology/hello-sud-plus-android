@@ -29,12 +29,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/avatar_text_bg_cl"
-        android:layout_width="wrap_content"
+        android:layout_width="28dip"
         android:layout_height="14dip"
-        android:background="@color/c_ffffff"
-        android:paddingStart="4dip"
-        android:paddingEnd="4dip"
-        android:minWidth="26dip"
+        android:padding="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -42,8 +39,8 @@
         <TextView
             android:background="@color/c_000000"
             android:id="@+id/avatar_text_tv"
-            android:layout_width="26dp"
-            android:layout_height="11dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:gravity="center"
             android:textColor="@color/c_ffffff"
             android:textSize="10sp"

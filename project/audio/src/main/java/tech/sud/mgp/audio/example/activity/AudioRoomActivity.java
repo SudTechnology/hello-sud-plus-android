@@ -19,6 +19,7 @@ import tech.sud.mgp.audio.example.widget.view.chat.AudioRoomChatView;
 import tech.sud.mgp.audio.example.widget.view.mic.AudioRoomMicWrapView;
 import tech.sud.mgp.audio.example.widget.view.mic.OnMicItemClickListener;
 import tech.sud.mgp.audio.gift.manager.GiftHelper;
+import tech.sud.mgp.audio.gift.model.GiftModel;
 import tech.sud.mgp.audio.gift.view.GiftEffectView;
 import tech.sud.mgp.common.base.BaseActivity;
 import tech.sud.mgp.common.model.HSUserInfo;
@@ -95,14 +96,9 @@ public class AudioRoomActivity extends BaseActivity {
             }
         });
         bottomView.setGiftClickListener(v -> {
-            if (BuildConfig.DEBUG) {
-                if (effectView == null) {
-                    effectView = new GiftEffectView(AudioRoomActivity.this);
-                    effectView.addLifecycleObserver(AudioRoomActivity.this);
-                    giftContainer.addView(effectView);
-                }
-                effectView.showEffect(GiftHelper.getInstance().getGift());
-            }
+            //模拟礼物展示
+//            showGift(GiftHelper.getInstance().getGift());
+
         });
         bottomView.setGotMicClickListener(new View.OnClickListener() {
             @Override
@@ -110,6 +106,15 @@ public class AudioRoomActivity extends BaseActivity {
                 binder.autoUpMic();
             }
         });
+    }
+
+    private void showGift(GiftModel giftModel){
+        if (effectView == null) {
+            effectView = new GiftEffectView(AudioRoomActivity.this);
+            effectView.addLifecycleObserver(AudioRoomActivity.this);
+            giftContainer.addView(effectView);
+        }
+        effectView.showEffect(giftModel);
     }
 
     @Override

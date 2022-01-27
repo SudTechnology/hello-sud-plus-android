@@ -36,7 +36,6 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
-    // 此种方式会莫名出现：Direct local .aar file dependencies are not supported when building an AAR.
-    implementation files('libs/SudMGP-v1.1.39.335.aar')
+    api project(':SudMGPSDK')
 
 }

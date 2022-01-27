@@ -80,7 +80,7 @@ public class SetFragment extends BaseFragment implements View.OnClickListener {
     public void onClick(View v) {
         if (v == sdkVersionLl) {
 //            RoomGiftDialog dialog = new RoomGiftDialog();
-//            dialog.show(getChildFragmentManager(), "gift");
+//            dialog.show(getFragmentManager(), "gift");
         } else if (v == appVersionLl) {
 //            if (tech.sud.mgp.audio.BuildConfig.DEBUG) {
 //                if (effectView == null) {

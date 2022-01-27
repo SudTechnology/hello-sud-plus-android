@@ -1,8 +1,11 @@
 package tech.sud.mgp.audio.gift.view;
 
+import android.os.Bundle;
 import android.view.Gravity;
 import android.view.ViewGroup;
+import android.view.Window;
 
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,6 +26,19 @@ public class RoomGiftDialog extends BaseDialogFragment {
     private RecyclerView giftRv;
     private GiftListAdapter giftListAdapter;
     private List<GiftModel> gifts = GiftHelper.getInstance().creatGifts();
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setStyle(STYLE_NORMAL, R.style.audio_dialog_soft_input);
+    }
+
+    @Override
+    protected void customStyle(Window window) {
+        super.customStyle(window);
+        window.setDimAmount(0f);
+        window.setWindowAnimations(R.style.DtBottomToTopAnim);
+    }
 
     @Override
     protected int getLayoutId() {
@@ -55,6 +71,12 @@ public class RoomGiftDialog extends BaseDialogFragment {
                 giftListAdapter.setList(gifts);
             }
         });
+
+        if (GiftHelper.getInstance().testIsMic) {
+            topView.setInMic(GiftHelper.getInstance().testMicsUser());
+        } else {
+            topView.setMicOut(GiftHelper.getInstance().testCreatUserInfo());
+        }
     }
 
     @Override

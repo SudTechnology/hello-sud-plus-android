@@ -1,6 +1,6 @@
-package tech.sud.mgp.audio.example.model.command;
+package tech.sud.mgp.audio.example.model;
 
-public class SendUser {
+public class UserInfo {
     public long userID; // 用户id
     public String name; // 用户昵称
     public String icon; // 	用户头像

@@ -2,10 +2,10 @@ package tech.sud.mgp.audio.example.utils;
 
 import com.blankj.utilcode.util.GsonUtils;
 
+import tech.sud.mgp.audio.example.model.UserInfo;
 import tech.sud.mgp.audio.example.model.command.DownMicCommand;
 import tech.sud.mgp.audio.example.model.command.PublicMsgCommand;
 import tech.sud.mgp.audio.example.model.command.SendGiftCommand;
-import tech.sud.mgp.audio.example.model.command.SendUser;
 import tech.sud.mgp.audio.example.model.command.UpMicCommand;
 import tech.sud.mgp.common.model.Gender;
 import tech.sud.mgp.common.model.HSUserInfo;
@@ -52,8 +52,8 @@ public class AudioRoomCommandUtils {
         return GsonUtils.toJson(command);
     }
 
-    private static SendUser getSendUser() {
-        SendUser user = new SendUser();
+    private static UserInfo getSendUser() {
+        UserInfo user = new UserInfo();
         user.userID = HSUserInfo.userId;
         user.name = HSUserInfo.nickName;
         user.icon = HSUserInfo.avatar;

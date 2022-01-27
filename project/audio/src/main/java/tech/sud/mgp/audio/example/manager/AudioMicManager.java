@@ -9,8 +9,8 @@ import tech.sud.mgp.audio.example.http.response.RoomMicResp;
 import tech.sud.mgp.audio.example.model.AudioRoomMicModel;
 import tech.sud.mgp.audio.example.model.AudioRoomMicModelConverter;
 import tech.sud.mgp.audio.example.model.RoomInfoModel;
+import tech.sud.mgp.audio.example.model.UserInfo;
 import tech.sud.mgp.audio.example.model.command.DownMicCommand;
-import tech.sud.mgp.audio.example.model.command.SendUser;
 import tech.sud.mgp.audio.example.model.command.UpMicCommand;
 import tech.sud.mgp.audio.example.service.AudioRoomServiceCallback;
 import tech.sud.mgp.audio.example.utils.AudioRoomCommandUtils;
@@ -253,7 +253,7 @@ public class AudioMicManager extends BaseServiceManager {
     private final AudioCommandManager.UpMicCommandListener upMicCommandListener = new AudioCommandManager.UpMicCommandListener() {
         @Override
         public void onRecvCommand(UpMicCommand command, MediaUser user, String roomId) {
-            SendUser sendUser = command.sendUser;
+            UserInfo sendUser = command.sendUser;
             if (sendUser == null) {
                 return;
             }

@@ -35,6 +35,7 @@ public class MainActivity extends BaseActivity {
         long userId = AppSharedPreferences.getSP().getLong(AppSharedPreferences.USER_ID_KEY, -1L);
         if (userId == -1L) {
             startActivity(new Intent(this, LoginActivity.class));
+            finish();
         } else {
             String name = AppSharedPreferences.getSP().getString(AppSharedPreferences.USER_NAME_KEY);
             LoginRepository.login(userId,name, this, new RxCallback<LoginResponse>() {
@@ -56,14 +57,12 @@ public class MainActivity extends BaseActivity {
                         HSUserInfo.avatar = t.getData().avatar;
                         HSUserInfo.token = t.getData().token;
                     } else {
-                        ToastUtils.showShort(t.getRetMsg() + t.getRetCode());
+                        ToastUtils.showShort("fail" + t.getRetCode());
                     }
                     loginSuccess();
                 }
             });
-            startActivity(new Intent(this, HomeActivity.class));
         }
-        finish();
     }
 
     private void loginSuccess() {

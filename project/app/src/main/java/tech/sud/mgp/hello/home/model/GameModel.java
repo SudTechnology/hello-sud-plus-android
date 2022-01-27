@@ -1,9 +1,12 @@
 package tech.sud.mgp.hello.home.model;
 
+import java.util.List;
+
 public class GameModel {
     String gameName;
     long gameId;
     String gamePic;
+    List<Integer> suitScene;
 
     public String getGameName() {
         return gameName;
@@ -27,5 +30,13 @@ public class GameModel {
 
     public void setGamePic(String gamePic) {
         this.gamePic = gamePic;
+    }
+
+    public List<Integer> getSuitScene() {
+        return suitScene;
+    }
+
+    public void setSuitScene(List<Integer> suitScene) {
+        this.suitScene = suitScene;
     }
 }

@@ -147,4 +147,6 @@
         <item>朱丽叶</item>
         <item>吉姆</item>
     </string-array>
+
+    <string name="search_room_error">请输入正确的房间号</string>
 </resources>

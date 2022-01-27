@@ -1,8 +1,8 @@
 package tech.sud.mgp.hello.home.fragment;
 
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -10,13 +10,22 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.KeyboardUtils;
+import com.blankj.utilcode.util.ToastUtils;
+
+import tech.sud.mgp.audio.example.utils.EnterRoomUtils;
 import tech.sud.mgp.common.base.BaseFragment;
+import tech.sud.mgp.common.http.param.BaseResponse;
+import tech.sud.mgp.common.http.param.RetCode;
+import tech.sud.mgp.common.http.rx.RxCallback;
 import tech.sud.mgp.common.utils.ImageLoader;
 import tech.sud.mgp.hello.R;
-import tech.sud.mgp.hello.home.manager.HomeManager;
 import tech.sud.mgp.hello.home.callback.GameItemCallback;
+import tech.sud.mgp.hello.home.http.repository.HomeRepository;
 import tech.sud.mgp.hello.home.http.resp.GameListResp;
+import tech.sud.mgp.hello.home.manager.HomeManager;
 import tech.sud.mgp.hello.home.model.GameModel;
+import tech.sud.mgp.hello.home.model.MatchRoomModel;
 import tech.sud.mgp.hello.home.model.SceneModel;
 import tech.sud.mgp.hello.home.view.HomeRoomTypeView;
 import tech.sud.mgp.hello.utils.AppSharedPreferences;
@@ -56,6 +65,18 @@ public class IndexFragment extends BaseFragment implements GameItemCallback {
     @Override
     protected void initData() {
         super.initData();
+        HomeRepository.gameList(this, new RxCallback<GameListResp>() {
+            @Override
+            public void onNext(BaseResponse<GameListResp> t) {
+                super.onNext(t);
+                if (t.getRetCode() == RetCode.SUCCESS) {
+                    HomeManager.getInstance().updateGameList(t.getData());
+                    creatScene(t.getData());
+                } else {
+                    ToastUtils.showShort("fail" + t.getRetCode());
+                }
+            }
+        });
         nameTv.setText(AppSharedPreferences.getSP().getString(AppSharedPreferences.USER_NAME_KEY, ""));
         String userId = AppSharedPreferences.getSP().getLong(AppSharedPreferences.USER_ID_KEY, 0L) + "";
         useridTv.setText(userId);
@@ -64,16 +85,6 @@ public class IndexFragment extends BaseFragment implements GameItemCallback {
             headerIv.setImageResource(R.mipmap.icon_logo);
         } else {
             ImageLoader.loadImage(headerIv, header);
-        }
-
-        //生成测试数据
-        GameListResp resp = HomeManager.getInstance().testGameListResp();
-        for (int i = 0; i < resp.getSceneList().size(); i++) {
-            SceneModel model = resp.getSceneList().get(i);
-            HomeRoomTypeView sceneView = new HomeRoomTypeView(requireContext());
-            sceneView.setItemCallback(this);
-            sceneView.setData(model, HomeManager.getInstance().testCreatGame());
-            sceneLayout.addView(sceneView);
         }
     }
 
@@ -110,14 +121,55 @@ public class IndexFragment extends BaseFragment implements GameItemCallback {
         });
         searchEt.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-
+                enterRoom();
             }
             return false;
         });
+        goSearch.setOnClickListener(v -> enterRoom());
+    }
+
+    private void enterRoom() {
+        try {
+            String roomIdString = searchEt.getText().toString().trim();
+            if (!TextUtils.isEmpty(roomIdString)) {
+                Long roomId = Long.parseLong(roomIdString);
+                EnterRoomUtils.enterRoom(requireContext(), roomId);
+            }
+            KeyboardUtils.hideSoftInput(searchEt);
+        } catch (Exception e) {
+            ToastUtils.showShort(getString(R.string.search_room_error));
+        }
+    }
+
+    private void creatScene(GameListResp resp) {
+        if (resp != null && resp.getSceneList().size() > 0) {
+            for (int i = 0; i < resp.getSceneList().size(); i++) {
+                SceneModel model = resp.getSceneList().get(i);
+                HomeRoomTypeView sceneView = new HomeRoomTypeView(requireContext());
+                sceneView.setItemCallback(this);
+                sceneView.setData(model, HomeManager.getInstance().getSceneGame(model));
+                sceneLayout.addView(sceneView);
+            }
+        }
     }
 
     @Override
-    public void gameClick(GameModel model) {
-        Log.i("gameClick::::", "gameClick" + model.getGameName());
+    public void gameClick(SceneModel sceneModel, GameModel gameModel) {
+        matchGame(sceneModel.getSceneId(), gameModel.getGameId());
     }
+
+    private void matchGame(Integer sceneId, Long gameId) {
+        HomeRepository.matchGame(sceneId, gameId, this, new RxCallback<MatchRoomModel>() {
+            @Override
+            public void onNext(BaseResponse<MatchRoomModel> t) {
+                super.onNext(t);
+                if (t.getRetCode() == RetCode.SUCCESS) {
+                    EnterRoomUtils.enterRoom(requireContext(), t.getData().roomId);
+                } else {
+                    ToastUtils.showLong("fail:" + t.getRetCode());
+                }
+            }
+        });
+    }
+
 }

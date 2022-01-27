@@ -1,6 +1,7 @@
 package tech.sud.mgp.hello.home.fragment;
 
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -11,14 +12,23 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.blankj.utilcode.util.KeyboardUtils;
+import com.blankj.utilcode.util.ToastUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import tech.sud.mgp.audio.example.utils.EnterRoomUtils;
 import tech.sud.mgp.common.base.BaseFragment;
+import tech.sud.mgp.common.http.param.BaseResponse;
+import tech.sud.mgp.common.http.param.RetCode;
+import tech.sud.mgp.common.http.rx.RxCallback;
 import tech.sud.mgp.common.utils.ImageLoader;
 import tech.sud.mgp.hello.R;
-import tech.sud.mgp.hello.home.manager.HomeManager;
 import tech.sud.mgp.hello.home.adapter.RoomListAdapter;
+import tech.sud.mgp.hello.home.http.repository.HomeRepository;
+import tech.sud.mgp.hello.home.http.resp.RoomListResp;
+import tech.sud.mgp.hello.home.manager.HomeManager;
 import tech.sud.mgp.hello.home.model.RoomItemModel;
 import tech.sud.mgp.hello.utils.AppSharedPreferences;
 
@@ -59,7 +69,20 @@ public class RoomListFragment extends BaseFragment {
     @Override
     protected void initData() {
         super.initData();
-        datas.addAll(HomeManager.getInstance().testCreatRoom());
+        HomeRepository.roomList(this, new RxCallback<RoomListResp>() {
+            @Override
+            public void onNext(BaseResponse<RoomListResp> t) {
+                super.onNext(t);
+                if (t.getRetCode() == RetCode.SUCCESS) {
+                    HomeManager.getInstance().updateRoomList(t.getData());
+                    datas.clear();
+                    datas.addAll(t.getData().getRoomInfoList());
+                    adapter.setList(datas);
+                } else {
+                    ToastUtils.showShort("fail" + t.getRetCode());
+                }
+            }
+        });
         adapter = new RoomListAdapter(datas);
         roomRecyclerView.setAdapter(adapter);
         roomRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
@@ -107,13 +130,26 @@ public class RoomListFragment extends BaseFragment {
         });
         searchEt.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-
+                enterRoom();
             }
             return false;
         });
         adapter.setOnItemClickListener((adapter, view, position) -> {
-
+            EnterRoomUtils.enterRoom(requireContext(), datas.get(position).getRoomId());
         });
+        goSearch.setOnClickListener(v -> enterRoom());
     }
 
+    private void enterRoom() {
+        try {
+            String roomIdString = searchEt.getText().toString().trim();
+            if (!TextUtils.isEmpty(roomIdString)) {
+                Long roomId = Long.parseLong(roomIdString);
+                EnterRoomUtils.enterRoom(requireContext(), roomId);
+            }
+            KeyboardUtils.hideSoftInput(searchEt);
+        } catch (Exception e) {
+            ToastUtils.showShort(getString(R.string.search_room_error));
+        }
+    }
 }

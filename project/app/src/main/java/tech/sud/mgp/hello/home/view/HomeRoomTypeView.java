@@ -32,6 +32,7 @@ public class HomeRoomTypeView extends ConstraintLayout {
     private TextView emptyTv;
     private GameAdapter gameAdapter;
     private GameItemCallback itemCallback;
+    private SceneModel sceneModel;
 
     public void setItemCallback(GameItemCallback itemCallback) {
         this.itemCallback = itemCallback;
@@ -61,12 +62,13 @@ public class HomeRoomTypeView extends ConstraintLayout {
         emptyTv = findViewById(R.id.empty_tv);
     }
 
-    public void setData(SceneModel model, List<GameModel> datas) {
-        if (!TextUtils.isEmpty(model.getSceneName())) {
-            sceneNameTv.setText(model.getSceneName());
+    public void setData(SceneModel sceneModel, List<GameModel> datas) {
+        this.sceneModel = sceneModel;
+        if (!TextUtils.isEmpty(sceneModel.getSceneName())) {
+            sceneNameTv.setText(sceneModel.getSceneName());
         }
-        if (!TextUtils.isEmpty(model.getSceneImage())) {
-            ImageLoader.loadImage(sceneIv, model.getSceneImage());
+        if (!TextUtils.isEmpty(sceneModel.getSceneImage())) {
+            ImageLoader.loadImage(sceneIv, sceneModel.getSceneImage());
         } else {
             sceneIv.setImageResource(R.mipmap.icon_audio_room);
         }
@@ -77,14 +79,14 @@ public class HomeRoomTypeView extends ConstraintLayout {
                 if (i > 6) {
                     models.add(datas.get(i));
                 } else {
-                    addGameView(datas.get(i));
+                    addGameView(sceneModel,datas.get(i));
                 }
             }
             if (models.size() > 0) {
                 gameAdapter = new GameAdapter(models);
                 gameAdapter.setOnItemClickListener((adapter, view, position) -> {
                     if (itemCallback != null) {
-                        itemCallback.gameClick(models.get(position));
+                        itemCallback.gameClick(sceneModel,models.get(position));
                     }
                 });
                 gameRecyclerview.setLayoutManager(new GridLayoutManager(getContext(), 4));
@@ -98,10 +100,10 @@ public class HomeRoomTypeView extends ConstraintLayout {
         }
     }
 
-    private void addGameView(GameModel gameModel) {
+    private void addGameView(SceneModel sceneModel,GameModel gameModel) {
         GameItemView gameItemView = new GameItemView(getContext());
         gameItemView.setItemCallback(itemCallback);
-        gameItemView.setModel(gameModel);
+        gameItemView.setModel(sceneModel,gameModel);
         gridLayout.addView(gameItemView);
     }
 }

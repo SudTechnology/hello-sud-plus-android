@@ -41,4 +41,9 @@ public interface RequestUrl {
      */
     String ROOM_MIC_SWITCH = "room/mic/switch/v1";
 
+    /**
+     * 房间列表
+     */
+    String ROOM_MATCH = "room/match/v1";
+
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import tech.sud.mgp.hello.home.http.resp.GameListResp;
+import tech.sud.mgp.hello.home.http.resp.RoomListResp;
 import tech.sud.mgp.hello.home.model.GameModel;
 import tech.sud.mgp.hello.home.model.RoomItemModel;
 import tech.sud.mgp.hello.home.model.SceneModel;
@@ -14,6 +15,7 @@ public class HomeManager {
     private static HomeManager homeManager;
 
     private GameListResp gameListResp;
+    private RoomListResp roomListResp;
 
     private HomeManager() {
     }
@@ -33,6 +35,10 @@ public class HomeManager {
         this.gameListResp = gameListResp;
     }
 
+    public void updateRoomList(RoomListResp roomListResp) {
+        this.roomListResp = roomListResp;
+    }
+
     /**
      * 获取场景名字
      * sceneType:场景id
@@ -47,6 +53,23 @@ public class HomeManager {
             }
         }
         return sceneType + "";
+    }
+
+    /**
+     * 获取场景下可用的游戏
+     */
+    public List<GameModel> getSceneGame(SceneModel model) {
+        List<GameModel> gameModels = new ArrayList<>();
+        if (gameListResp != null && gameListResp.getGameList() != null && gameListResp.getGameList().size() > 0) {
+            for (int i = 0; i < gameListResp.getGameList().size(); i++) {
+                GameModel game = gameListResp.getGameList().get(i);
+                List<Integer> suitScene = game.getSuitScene();
+                if (suitScene.contains(model.getSceneId())) {
+                    gameModels.add(game);
+                }
+            }
+        }
+        return gameModels;
     }
 
     /**

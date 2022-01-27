@@ -14,12 +14,14 @@ import tech.sud.mgp.common.utils.ImageLoader;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.home.callback.GameItemCallback;
 import tech.sud.mgp.hello.home.model.GameModel;
+import tech.sud.mgp.hello.home.model.SceneModel;
 
 public class GameItemView extends ConstraintLayout {
 
     private ImageView gameIv;
     private TextView gameTv;
-    private GameModel model;
+    private SceneModel sceneModel;
+    private GameModel gameModel;
     private GameItemCallback itemCallback;
 
     public void setItemCallback(GameItemCallback itemCallback) {
@@ -47,23 +49,24 @@ public class GameItemView extends ConstraintLayout {
         gameTv = findViewById(R.id.game_name);
     }
 
-    public void setModel(GameModel model) {
-        this.model = model;
-        if (TextUtils.isEmpty(model.getGamePic())) {
+    public void setModel(SceneModel sceneModel, GameModel gameModel) {
+        this.sceneModel = sceneModel;
+        this.gameModel = gameModel;
+        if (TextUtils.isEmpty(gameModel.getGamePic())) {
             gameIv.setImageResource(R.mipmap.icon_logo);
         } else {
-            ImageLoader.loadImage(gameIv, model.getGamePic());
+            ImageLoader.loadImage(gameIv, gameModel.getGamePic());
         }
 
-        if (TextUtils.isEmpty(model.getGameName())) {
+        if (TextUtils.isEmpty(gameModel.getGameName())) {
             gameTv.setText("Game");
         } else {
-            gameTv.setText(model.getGameName());
+            gameTv.setText(gameModel.getGameName());
         }
 
         this.setOnClickListener(v -> {
             if (itemCallback != null) {
-                itemCallback.gameClick(model);
+                itemCallback.gameClick(sceneModel,gameModel);
             }
         });
     }

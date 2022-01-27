@@ -35,6 +35,10 @@ public class AudioRoomService {
         public void micSwitch(int micIndex, long userId, boolean operate) {
             serviceManager.audioMicManager.micSwitch(micIndex, userId, operate);
         }
+
+        public void autoUpMic() {
+            serviceManager.audioMicManager.autoUpMic();
+        }
     }
 
 }

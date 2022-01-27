@@ -21,10 +21,6 @@ public class EnterRoomUtils {
     private static boolean isRunning = false;
 
     public static void enterRoom(Context context, long roomId) {
-        enterRoom(context, roomId, null, 0);
-    }
-
-    public static void enterRoom(Context context, Long roomId, String roomName, long gameId) {
         if (isRunning) {
             return;
         }
@@ -52,7 +48,6 @@ public class EnterRoomUtils {
             public void onError(Throwable e) {
                 super.onError(e);
                 isRunning = false;
-
             }
         });
         if (BuildConfig.DEBUG) {

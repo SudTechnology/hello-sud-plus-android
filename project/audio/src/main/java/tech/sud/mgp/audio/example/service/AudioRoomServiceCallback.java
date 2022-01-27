@@ -13,4 +13,17 @@ public interface AudioRoomServiceCallback {
      */
     void setMicList(List<AudioRoomMicModel> list);
 
+    /**
+     * 更新某个麦位
+     *
+     * @param micIndex
+     * @param model
+     */
+    void notifyMicItemChange(int micIndex, AudioRoomMicModel model);
+
+    /**
+     * 自己在哪个麦位上，-1表示不在麦位上
+     */
+    void selfMicIndex(int micIndex);
+
 }

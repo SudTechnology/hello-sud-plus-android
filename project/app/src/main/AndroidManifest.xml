@@ -25,7 +25,8 @@
         <activity
             android:name=".home.HomeActivity"
             android:windowSoftInputMode="adjustPan"
-            android:exported="false" />
+            android:exported="false"
+            android:launchMode="singleTask" />
         <activity
             android:name=".MainActivity"
             android:exported="true">

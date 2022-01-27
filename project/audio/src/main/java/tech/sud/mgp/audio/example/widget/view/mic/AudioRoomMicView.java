@@ -27,7 +27,9 @@ public class AudioRoomMicView extends BaseMicView {
 
     private void initView() {
         inflate(getContext(), R.layout.audio_view_room_mic, this);
-        mItemViews.add(findViewById(R.id.single_item_view));
+        AudioRoomMicSingleItemView singleItemView = findViewById(R.id.single_item_view);
+        mItemViews.add(singleItemView);
+        setItemViewClickListener(0, singleItemView);
         LinearLayout firstContainer = findViewById(R.id.first_line_container);
         LinearLayout secondContainer = findViewById(R.id.second_line_container);
         createLineContainer(firstContainer);
@@ -42,16 +44,20 @@ public class AudioRoomMicView extends BaseMicView {
             params.weight = 1;
             container.addView(itemView, params);
             mItemViews.add(itemView);
-            itemView.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    OnMicItemClickListener listener = mOnMicItemClickListener;
-                    if (listener != null) {
-                        listener.onItemClick(v, position);
-                    }
-                }
-            });
+            setItemViewClickListener(position, itemView);
         }
     }
-    
+
+    private void setItemViewClickListener(int position, View itemView) {
+        itemView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OnMicItemClickListener listener = mOnMicItemClickListener;
+                if (listener != null) {
+                    listener.onItemClick(v, position);
+                }
+            }
+        });
+    }
+
 }

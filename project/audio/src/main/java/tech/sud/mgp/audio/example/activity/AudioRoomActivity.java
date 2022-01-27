@@ -87,7 +87,7 @@ public class AudioRoomActivity extends BaseActivity {
                 AudioRoomMicModel model = micView.getItem(position);
                 if (model != null) {
                     if (model.userId == 0) {
-                        binder.micSwitch(position, model.userId, true);
+                        binder.micSwitch(position, HSUserInfo.userId, true);
                     } else if (model.userId == HSUserInfo.userId) {
                         binder.micSwitch(position, model.userId, false);
                     }
@@ -102,6 +102,12 @@ public class AudioRoomActivity extends BaseActivity {
                     giftContainer.addView(effectView);
                 }
                 effectView.showEffect(GiftHelper.getInstance().getGift());
+            }
+        });
+        bottomView.setGotMicClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                binder.autoUpMic();
             }
         });
     }
@@ -119,6 +125,23 @@ public class AudioRoomActivity extends BaseActivity {
         public void setMicList(List<AudioRoomMicModel> list) {
             micView.setList(list);
         }
+
+        @Override
+        public void notifyMicItemChange(int micIndex, AudioRoomMicModel model) {
+            micView.notifyItemChange(micIndex, model);
+        }
+
+        @Override
+        public void selfMicIndex(int micIndex) {
+            if (micIndex >= 0) {
+                bottomView.hideGotMic();
+                bottomView.showMicState();
+            } else {
+                bottomView.showGotMic();
+                bottomView.hideMicState();
+            }
+        }
+
     };
 
 }

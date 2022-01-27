@@ -9,6 +9,8 @@ import androidx.annotation.DrawableRes;
 
 import com.bumptech.glide.Glide;
 
+import tech.sud.mgp.common.R;
+
 public class ImageLoader {
 
     public static void loadImage(ImageView view, String url) {
@@ -18,7 +20,11 @@ public class ImageLoader {
 
     public static void loadAvatar(ImageView view, String url) {
         if (isDestroy(view)) return;
-        Glide.with(view).load(url).into(view);
+        Glide.with(view)
+                .load(url)
+                .placeholder(R.drawable.common_ic_default_avatar)
+                .error(R.drawable.common_ic_default_avatar)
+                .into(view);
     }
 
     public static void loadDrawable(ImageView view, @DrawableRes int drawableResId) {

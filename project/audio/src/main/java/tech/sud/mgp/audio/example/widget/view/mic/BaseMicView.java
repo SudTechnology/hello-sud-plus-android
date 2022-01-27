@@ -84,4 +84,19 @@ public abstract class BaseMicView extends ConstraintLayout {
         }
     }
 
+    public void notifyItemChange(int micIndex, AudioRoomMicModel model) {
+        if (micIndex >= 0 && micIndex < mDatas.size()) {
+            mDatas.set(micIndex, model);
+        }
+        BaseMicItemView itemView = getItemView(micIndex);
+        if (itemView != null) {
+            if (model == null) {
+                itemView.setVisibility(View.GONE);
+            } else {
+                itemView.setVisibility(View.VISIBLE);
+                itemView.convert(micIndex, model);
+            }
+        }
+    }
+
 }

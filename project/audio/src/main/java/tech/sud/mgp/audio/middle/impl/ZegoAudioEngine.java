@@ -1,5 +1,6 @@
 package tech.sud.mgp.audio.middle.impl;
 
+import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.Utils;
 
 import org.json.JSONObject;
@@ -14,6 +15,7 @@ import im.zego.zegoexpress.callback.IZegoIMSendCustomCommandCallback;
 import im.zego.zegoexpress.constants.ZegoNetworkMode;
 import im.zego.zegoexpress.constants.ZegoPlayerState;
 import im.zego.zegoexpress.constants.ZegoPublisherState;
+import im.zego.zegoexpress.constants.ZegoRoomState;
 import im.zego.zegoexpress.constants.ZegoScenario;
 import im.zego.zegoexpress.constants.ZegoUpdateType;
 import im.zego.zegoexpress.entity.ZegoEngineConfig;
@@ -173,13 +175,22 @@ public class ZegoAudioEngine implements MediaAudioEngineProtocol {
             engine.sendCustomCommand(roomId, command, null, new IZegoIMSendCustomCommandCallback() {
                 @Override
                 public void onIMSendCustomCommandResult(int errorCode) {
-                    result.result(errorCode);
+                    if (result != null) {
+                        result.result(errorCode);
+                    }
                 }
             });
         }
     }
 
     private final IZegoEventHandler mIZegoEventHandler = new IZegoEventHandler() {
+
+        @Override
+        public void onRoomStateUpdate(String roomID, ZegoRoomState state, int errorCode, JSONObject extendedData) {
+            super.onRoomStateUpdate(roomID, state, errorCode, extendedData);
+            LogUtils.d("onRoomStateUpdate:" + state);
+        }
+
         @Override
         public void onCapturedSoundLevelUpdate(float soundLevel) {
             super.onCapturedSoundLevelUpdate(soundLevel);

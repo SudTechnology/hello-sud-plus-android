@@ -54,8 +54,10 @@ public class AudioRoomServiceManager extends BaseServiceManager {
     }
 
     public void enterRoom(RoomInfoModel model) {
+        roomInfoModel = model;
         audioEngineManager.enterRoom(model);
         audioMicManager.enterRoom(model);
     }
+
 
 }

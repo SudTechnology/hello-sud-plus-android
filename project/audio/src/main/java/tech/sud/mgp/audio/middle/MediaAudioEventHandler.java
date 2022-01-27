@@ -64,10 +64,10 @@ public interface MediaAudioEventHandler {
     /**
      * 接收自定义指令信息回调
      *
-     * @param command  指令内容
-     * @param fromUser 用户
      * @param roomId   房间ID
+     * @param fromUser 用户
+     * @param command  指令内容
      */
-    void onIMRecvCustomCommand(String command, MediaUser fromUser, String roomId);
+    void onIMRecvCustomCommand(String roomId, MediaUser fromUser, String command);
 
 }

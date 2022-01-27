@@ -9,10 +9,16 @@ import tech.sud.mgp.audio.example.http.response.RoomMicResp;
 import tech.sud.mgp.audio.example.model.AudioRoomMicModel;
 import tech.sud.mgp.audio.example.model.AudioRoomMicModelConverter;
 import tech.sud.mgp.audio.example.model.RoomInfoModel;
+import tech.sud.mgp.audio.example.model.command.DownMicCommand;
+import tech.sud.mgp.audio.example.model.command.SendUser;
+import tech.sud.mgp.audio.example.model.command.UpMicCommand;
 import tech.sud.mgp.audio.example.service.AudioRoomServiceCallback;
+import tech.sud.mgp.audio.example.utils.AudioRoomCommandUtils;
+import tech.sud.mgp.audio.middle.MediaUser;
 import tech.sud.mgp.common.http.rx.RxCallback;
 import tech.sud.mgp.common.http.use.repository.UserInfoRepository;
 import tech.sud.mgp.common.http.use.resp.UserInfoResp;
+import tech.sud.mgp.common.model.HSUserInfo;
 
 /**
  * 房间麦位
@@ -35,6 +41,8 @@ public class AudioMicManager extends BaseServiceManager {
             model.micIndex = i;
             micList.add(model);
         }
+        parentManager.audioEngineManager.setCommandListener(upMicCommandListener);
+        parentManager.audioEngineManager.setCommandListener(downMicCommandListener);
     }
 
     public void enterRoom(RoomInfoModel model) {
@@ -93,6 +101,7 @@ public class AudioMicManager extends BaseServiceManager {
         AudioRoomServiceCallback callback = parentManager.getCallback();
         if (callback != null) {
             callback.setMicList(micList);
+            callbackSelfMicIndex();
         }
     }
 
@@ -115,7 +124,157 @@ public class AudioMicManager extends BaseServiceManager {
      * @param operate  true上麦 false下麦
      */
     public void micSwitch(int micIndex, long userId, boolean operate) {
-
+        AudioRepository.roomMicSwitch(null, parentManager.getRoomId(), micIndex, operate, new RxCallback<>());
+        String command;
+        if (operate) {
+            downMic();
+            command = AudioRoomCommandUtils.buildUpMicCommand(micIndex);
+            addUser2MicList(micIndex, userId);
+        } else {
+            command = AudioRoomCommandUtils.buildDownMicCommand(micIndex);
+            removeUser2MicList(micIndex, userId);
+        }
+        parentManager.audioEngineManager.sendCommand(command, null);
     }
+
+    /**
+     * 添加一个用户到麦位列表当中
+     *
+     * @param micIndex 麦位索引
+     * @param userId   用户id
+     */
+    private void addUser2MicList(int micIndex, long userId) {
+        if (micIndex >= 0 && micIndex < micList.size()) {
+            AudioRoomMicModel model = micList.get(micIndex);
+            model.userId = userId;
+            if (userId == HSUserInfo.userId) {
+                model.nickName = HSUserInfo.nickName;
+                model.avatar = HSUserInfo.avatar;
+                notifyItemChange(micIndex, model);
+            } else {
+                List<Long> userIds = new ArrayList<>();
+                userIds.add(userId);
+                UserInfoRepository.getUserInfoList(null, userIds, new UserInfoRepository.UserInfoResultListener() {
+                    @Override
+                    public void userInfoList(List<UserInfoResp> userInfos) {
+                        if (userInfos != null) {
+                            for (UserInfoResp userInfo : userInfos) {
+                                if (model.userId == userInfo.userId) {
+                                    model.nickName = userInfo.nickname;
+                                    model.avatar = userInfo.avatar;
+                                    break;
+                                }
+                            }
+                        }
+                        notifyItemChange(micIndex, model);
+                    }
+                });
+            }
+        }
+    }
+
+    private void notifyItemChange(int micIndex, AudioRoomMicModel model) {
+        AudioRoomServiceCallback callback = parentManager.getCallback();
+        if (callback != null) {
+            callback.notifyMicItemChange(micIndex, model);
+            callbackSelfMicIndex();
+        }
+    }
+
+    /**
+     * 从麦位列表当中删除一个用户
+     *
+     * @param micIndex 麦位索引
+     */
+    private void removeUser2MicList(int micIndex, long userId) {
+        if (micIndex >= 0 && micIndex < micList.size()) {
+            AudioRoomMicModel model = micList.get(micIndex);
+            if (userId == model.userId) {
+                model.clearUser();
+                notifyItemChange(micIndex, model);
+            }
+        }
+    }
+
+    /**
+     * 如果自己在麦上，则先下麦
+     */
+    public void downMic() {
+        int micIndex = findSelfMicIndex();
+        if (micIndex >= 0) {
+            micSwitch(micIndex, HSUserInfo.userId, false);
+        }
+    }
+
+    public void callbackSelfMicIndex() {
+        AudioRoomServiceCallback callback = parentManager.getCallback();
+        if (callback != null) {
+            callback.selfMicIndex(findSelfMicIndex());
+        }
+    }
+
+    /**
+     * 查找自己所在的麦位
+     *
+     * @return 如果为-1,则表示不在麦上
+     */
+    public int findSelfMicIndex() {
+        for (AudioRoomMicModel audioRoomMicModel : micList) {
+            if (audioRoomMicModel.userId == HSUserInfo.userId) {
+                return audioRoomMicModel.micIndex;
+            }
+        }
+        return -1;
+    }
+
+    public void autoUpMic() {
+        int selfMicIndex = findSelfMicIndex();
+        if (selfMicIndex >= 0) return; // 在麦上就不再上麦了
+        int emptyMicIndex = findEmptyMicIndex();
+        if (emptyMicIndex >= 0) {
+            micSwitch(emptyMicIndex, HSUserInfo.userId, true);
+        }
+    }
+
+    /**
+     * 寻找无人的空麦位
+     *
+     * @return
+     */
+    private int findEmptyMicIndex() {
+        for (AudioRoomMicModel model : micList) {
+            if (model.userId == 0) {
+                return model.micIndex;
+            }
+        }
+        return -1;
+    }
+
+    private final AudioCommandManager.UpMicCommandListener upMicCommandListener = new AudioCommandManager.UpMicCommandListener() {
+        @Override
+        public void onRecvCommand(UpMicCommand command, MediaUser user, String roomId) {
+            SendUser sendUser = command.sendUser;
+            if (sendUser == null) {
+                return;
+            }
+            int micIndex = command.micIndex;
+            if (micIndex >= 0 && micIndex < micList.size()) {
+                AudioRoomMicModel model = micList.get(micIndex);
+                model.userId = sendUser.userID;
+                model.nickName = sendUser.name;
+                model.avatar = sendUser.icon;
+                notifyItemChange(micIndex, model);
+            }
+        }
+    };
+
+    private final AudioCommandManager.DownMicCommandListener downMicCommandListener = new AudioCommandManager.DownMicCommandListener() {
+        @Override
+        public void onRecvCommand(DownMicCommand command, MediaUser user, String roomId) {
+            if (command.sendUser != null) {
+                removeUser2MicList(command.micIndex, command.sendUser.userID);
+            }
+        }
+    };
 
 }

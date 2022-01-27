@@ -17,6 +17,21 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        release {
+            storeFile file('../../certs/debug/hs_debug.jks')
+            storePassword 'HSDebug'
+            keyAlias 'helloSud'
+            keyPassword 'HSDebug'
+        }
+        debug {
+            storeFile file('../../certs/debug/hs_debug.jks')
+            storePassword 'HSDebug'
+            keyAlias 'helloSud'
+            keyPassword 'HSDebug'
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false

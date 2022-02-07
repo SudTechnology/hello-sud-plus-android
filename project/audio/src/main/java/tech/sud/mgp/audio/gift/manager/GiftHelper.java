@@ -17,7 +17,9 @@ public class GiftHelper {
     private static GiftHelper helper;
     private List<GiftModel> gifts = new ArrayList<>();
     private int testIndex = 0;
-    public boolean testIsMic = false;
+    public boolean inMic = false;
+    public UserInfo underMicUser;
+    public List<MicUserInfoModel> inMics = new ArrayList<>();
 
     private GiftHelper() {
     }
@@ -78,6 +80,24 @@ public class GiftHelper {
         return gifts;
     }
 
+    public GiftModel getGift(int giftId) {
+        for (GiftModel model : gifts) {
+            if (giftId == model.giftId) {
+                return model;
+            }
+        }
+        return null;
+    }
+
+    public GiftModel getCheckedGift() {
+        for (GiftModel giftModel : gifts) {
+            if (giftModel.checkState) {
+                return giftModel;
+            }
+        }
+        return null;
+    }
+
     public GiftModel getGift() {
         if (testIndex < creatGifts().size() - 1) {
             testIndex++;
@@ -94,7 +114,8 @@ public class GiftHelper {
         userInfo.icon = "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fup.enterdesk.com%2F2021%2Fedpic%2Fc4%2F9f%2F09%2Fc49f090757360f843141fe2bab2cfc8f_1.jpg";
         userInfo.name = "阿娇安静案件";
         userInfo.userID = 100866;
-        testIsMic = !testIsMic;
+        inMic = false;
+        underMicUser = userInfo;
         return userInfo;
     }
 
@@ -116,7 +137,9 @@ public class GiftHelper {
             model.userInfo = micModel;
             users.add(model);
         }
-        testIsMic = !testIsMic;
+        inMic = true;
+        inMics.clear();
+        inMics.addAll(users);
         return users;
     }
 }

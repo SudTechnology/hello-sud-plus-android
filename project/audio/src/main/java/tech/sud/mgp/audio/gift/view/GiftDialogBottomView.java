@@ -17,7 +17,7 @@ public class GiftDialogBottomView extends ConstraintLayout {
 
     private TextView presentTv,sendGiftCountTv;
     private ImageView arrowIv;
-    private PresentClickCallback callback;
+    public PresentClickCallback callback;
 
     public GiftDialogBottomView(@NonNull Context context) {
         super(context);

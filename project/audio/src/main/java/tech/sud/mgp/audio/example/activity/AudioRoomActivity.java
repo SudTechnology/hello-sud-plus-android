@@ -11,6 +11,7 @@ import java.util.List;
 import tech.sud.mgp.audio.R;
 import tech.sud.mgp.audio.example.model.AudioRoomMicModel;
 import tech.sud.mgp.audio.example.model.RoomInfoModel;
+import tech.sud.mgp.audio.example.model.UserInfo;
 import tech.sud.mgp.audio.example.service.AudioRoomService;
 import tech.sud.mgp.audio.example.service.AudioRoomServiceCallback;
 import tech.sud.mgp.audio.example.viewmodel.AudioRoomViewModel;
@@ -20,8 +21,11 @@ import tech.sud.mgp.audio.example.widget.view.chat.AudioRoomChatView;
 import tech.sud.mgp.audio.example.widget.view.chat.RoomInputMsgView;
 import tech.sud.mgp.audio.example.widget.view.mic.AudioRoomMicWrapView;
 import tech.sud.mgp.audio.example.widget.view.mic.OnMicItemClickListener;
+import tech.sud.mgp.audio.gift.callback.GiftSendClickCallback;
+import tech.sud.mgp.audio.gift.manager.GiftHelper;
 import tech.sud.mgp.audio.gift.model.GiftModel;
 import tech.sud.mgp.audio.gift.view.GiftEffectView;
+import tech.sud.mgp.audio.gift.view.RoomGiftDialog;
 import tech.sud.mgp.common.base.BaseActivity;
 import tech.sud.mgp.common.model.HSUserInfo;
 
@@ -102,7 +106,18 @@ public class AudioRoomActivity extends BaseActivity {
         bottomView.setGiftClickListener(v -> {
             //模拟礼物展示
 //            showGift(GiftHelper.getInstance().getGift());
-
+            RoomGiftDialog dialog = new RoomGiftDialog();
+            dialog.clickCallback = new GiftSendClickCallback() {
+                @Override
+                public void sendClick(int gftId, int giftCount, List<UserInfo> toUsers) {
+                    if (toUsers != null && toUsers.size() > 0) {
+                        for (UserInfo user : toUsers) {
+                            binder.sendGift(gftId, giftCount, user);
+                        }
+                    }
+                }
+            };
+            dialog.show(getSupportFragmentManager(), "gift");
         });
         bottomView.setGotMicClickListener(new View.OnClickListener() {
             @Override
@@ -175,6 +190,9 @@ public class AudioRoomActivity extends BaseActivity {
             chatView.addMsg(msg);
         }
 
+        @Override
+        public void sendGiftsNotify(int giftId, int giftCount) {
+            showGift(GiftHelper.getInstance().getGift(giftId));
+        }
     };
-
 }

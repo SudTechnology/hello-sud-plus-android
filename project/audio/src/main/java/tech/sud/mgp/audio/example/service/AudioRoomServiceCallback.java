@@ -31,4 +31,8 @@ public interface AudioRoomServiceCallback {
      */
     void addPublicMsg(Object msg);
 
+    /**
+     * 礼物通知
+     */
+    void sendGiftsNotify(int giftId,int giftCount);
 }

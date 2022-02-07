@@ -62,12 +62,12 @@ public class GiftDialogTopView extends ConstraintLayout {
                 setChecked(false);
                 this.userAdapter.setList(this.micUsers);
                 cancelTv.setText(context.getString(R.string.audio_all));
-                cancelTv.setSelected(true);
+                cancelTv.setSelected(false);
             } else {
                 setChecked(true);
                 this.userAdapter.setList(this.micUsers);
                 cancelTv.setText(context.getString(R.string.audio_cancle));
-                cancelTv.setSelected(false);
+                cancelTv.setSelected(true);
             }
         });
     }

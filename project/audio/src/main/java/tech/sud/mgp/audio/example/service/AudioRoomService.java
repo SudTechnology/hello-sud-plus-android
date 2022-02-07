@@ -2,6 +2,8 @@ package tech.sud.mgp.audio.example.service;
 
 import tech.sud.mgp.audio.example.manager.AudioRoomServiceManager;
 import tech.sud.mgp.audio.example.model.RoomInfoModel;
+import tech.sud.mgp.audio.example.model.UserInfo;
+import tech.sud.mgp.audio.example.model.command.SendGiftCommand;
 
 /**
  * 房间服务
@@ -39,10 +41,15 @@ public class AudioRoomService {
         public void autoUpMic() {
             serviceManager.audioMicManager.autoUpMic();
         }
-
+        
         public void sendPublicMsg(CharSequence msg) {
             serviceManager.audioChatManager.sendPublicMsg(msg);
         }
+
+        public void sendGift(int giftID,
+                             int giftCount,
+                             UserInfo toUser){
+            serviceManager.audioGiftManager.sendGift(giftID, giftCount,toUser);}
     }
 
 }

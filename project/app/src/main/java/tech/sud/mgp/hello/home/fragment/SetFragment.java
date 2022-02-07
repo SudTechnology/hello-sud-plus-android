@@ -79,17 +79,15 @@ public class SetFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if (v == sdkVersionLl) {
-//            RoomGiftDialog dialog = new RoomGiftDialog();
-//            dialog.show(getFragmentManager(), "gift");
+            RoomGiftDialog dialog = new RoomGiftDialog();
+            dialog.show(getFragmentManager(), "gift");
         } else if (v == appVersionLl) {
-//            if (tech.sud.mgp.audio.BuildConfig.DEBUG) {
-//                if (effectView == null) {
-//                    effectView = new GiftEffectView(requireContext());
-//                    effectView.addLifecycleObserver(this);
-//                    ((ViewGroup) mRootView).addView(effectView);
-//                }
-//                effectView.showEffect(GiftHelper.getInstance().getGift());
-//            }
+            if (effectView == null) {
+                effectView = new GiftEffectView(requireContext());
+                effectView.addLifecycleObserver(this);
+                ((ViewGroup) mRootView).addView(effectView);
+            }
+            effectView.showEffect(GiftHelper.getInstance().getGift());
         } else if (v == userAgreementLl) {
 
         } else if (v == userPrivacyLl) {

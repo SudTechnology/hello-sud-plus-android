@@ -39,6 +39,7 @@ public abstract class BaseDialogFragment extends DialogFragment {
             Window window = dialog.getWindow();
             if (window != null) {
                 window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); // 去掉默认的背景
+                window.getDecorView().setBackgroundColor(Color.TRANSPARENT);//不加这个行代码 dialog宽度无法铺满
                 WindowManager.LayoutParams attributes = window.getAttributes();
                 attributes.width = getWidth();
                 attributes.height = getHeight();

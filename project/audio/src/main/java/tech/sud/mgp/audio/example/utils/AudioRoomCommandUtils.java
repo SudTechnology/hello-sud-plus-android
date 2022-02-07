@@ -27,10 +27,13 @@ public class AudioRoomCommandUtils {
     /**
      * 构建发礼消息信令
      */
-    public static String buildSendGiftCommand(int giftID, int giftCount) {
+    public static String buildSendGiftCommand(int giftID,
+                                              int giftCount,
+                                              UserInfo toUser) {
         SendGiftCommand command = new SendGiftCommand(getSendUser());
         command.giftID = giftID;
         command.giftCount = giftCount;
+        command.toUser = toUser;
         return GsonUtils.toJson(command);
     }
 

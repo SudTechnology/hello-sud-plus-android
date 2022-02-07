@@ -12,4 +12,5 @@ public class SendGiftCommand extends BaseCommand {
 
     public int giftID; // 礼物ID
     public int giftCount; // 礼物数量
+    public UserInfo toUser; // 收礼人
 }

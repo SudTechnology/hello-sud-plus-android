@@ -2,6 +2,7 @@ package tech.sud.mgp.audio.gift.view;
 
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 
@@ -11,12 +12,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.ScreenUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import tech.sud.mgp.audio.R;
+import tech.sud.mgp.audio.example.model.UserInfo;
 import tech.sud.mgp.audio.gift.adapter.GiftListAdapter;
+import tech.sud.mgp.audio.gift.callback.GiftSendClickCallback;
+import tech.sud.mgp.audio.gift.callback.PresentClickCallback;
 import tech.sud.mgp.audio.gift.manager.GiftHelper;
 import tech.sud.mgp.audio.gift.model.GiftModel;
+import tech.sud.mgp.audio.gift.model.MicUserInfoModel;
 import tech.sud.mgp.common.base.BaseDialogFragment;
 
 public class RoomGiftDialog extends BaseDialogFragment {
@@ -26,6 +32,7 @@ public class RoomGiftDialog extends BaseDialogFragment {
     private RecyclerView giftRv;
     private GiftListAdapter giftListAdapter;
     private List<GiftModel> gifts = GiftHelper.getInstance().creatGifts();
+    public GiftSendClickCallback clickCallback;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,6 +58,27 @@ public class RoomGiftDialog extends BaseDialogFragment {
         topView = mRootView.findViewById(R.id.gift_top_view);
         bottomView = mRootView.findViewById(R.id.gift_bottom_view);
         giftRv = mRootView.findViewById(R.id.gift_data_rv);
+        mRootView.findViewById(R.id.send_gift_empty_view).setOnClickListener(v -> dismiss());
+        bottomView.callback = count -> {
+            GiftModel checkedGift = GiftHelper.getInstance().getCheckedGift();
+            if (clickCallback != null && checkedGift != null) {
+                List<UserInfo> userInfos = new ArrayList<>();
+                if (GiftHelper.getInstance().inMic) {
+                    if (GiftHelper.getInstance().inMics.size() > 0) {
+                        for (MicUserInfoModel userInfo : GiftHelper.getInstance().inMics) {
+                            UserInfo info = new UserInfo();
+                            info.userID = userInfo.userInfo.userId;
+                            info.name = userInfo.userInfo.nickName;
+                            info.icon = userInfo.userInfo.avatar;
+                            userInfos.add(info);
+                        }
+                    }
+                } else {
+                    userInfos.add(GiftHelper.getInstance().underMicUser);
+                }
+                clickCallback.sendClick(checkedGift.giftId, 1, userInfos);
+            }
+        };
     }
 
     @Override
@@ -63,16 +91,16 @@ public class RoomGiftDialog extends BaseDialogFragment {
             if (gifts.size() > 0) {
                 for (int i = 0; i < gifts.size(); i++) {
                     if (i == position) {
-                        gifts.get(position).checkState = true;
+                        gifts.get(i).checkState = true;
                     } else {
-                        gifts.get(position).checkState = false;
+                        gifts.get(i).checkState = false;
                     }
                 }
                 giftListAdapter.setList(gifts);
             }
         });
 
-        if (GiftHelper.getInstance().testIsMic) {
+        if (GiftHelper.getInstance().inMic) {
             topView.setInMic(GiftHelper.getInstance().testMicsUser());
         } else {
             topView.setMicOut(GiftHelper.getInstance().testCreatUserInfo());
@@ -91,7 +119,7 @@ public class RoomGiftDialog extends BaseDialogFragment {
 
     @Override
     protected int getHeight() {
-        return ScreenUtils.getScreenHeight() - 1;
+        return ScreenUtils.getAppScreenHeight() - 1;
     }
 
     @Override

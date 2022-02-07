@@ -1,6 +1,5 @@
 package tech.sud.mgp.audio.gift.manager.stategy;
 
-import android.net.http.HttpResponseCache;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -11,7 +10,6 @@ import com.opensource.svgaplayer.SVGAImageView;
 import com.opensource.svgaplayer.SVGAParser;
 import com.opensource.svgaplayer.SVGAVideoEntity;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 

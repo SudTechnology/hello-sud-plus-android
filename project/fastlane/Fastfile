@@ -26,8 +26,7 @@ platform :android do
   desc "Android-test 测试包"
   lane :fat do |options|
     parentOutputDir = OUTPUT_DIR
-    # versionCode=options[:code]
-    versionCode = 1
+    versionCode=options[:code]
     puts versionCode
     # outputDir = parentOutputDir + "/fat/" + versionCode
     # puts outputDir

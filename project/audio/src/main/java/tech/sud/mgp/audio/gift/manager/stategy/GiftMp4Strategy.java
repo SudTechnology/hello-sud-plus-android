@@ -61,22 +61,16 @@ public class GiftMp4Strategy extends PlayStrategy<GiftMp4Model> {
             if (file.exists() && file.isFile()) {
                 mp4View.attachView();
                 mp4View.startVideoGift(filePath, () -> callback.result(PlayResult.PLAYERROR));
-            }else {
+            } else {
                 callback.result(PlayResult.PLAYERROR);
             }
         }
     }
 
     /**
-     * 是否展示静态图
+     * 是否模拟器
      */
-    public boolean showImage() {
-        //模拟器显示静态图片
-        boolean isEmulator = DeviceUtils.isEmulator();
-        if (isEmulator) {
-            return true;
-        }
-        return false;
+    public boolean isEmulator() {
+        return DeviceUtils.isEmulator();
     }
-
 }

@@ -7,7 +7,7 @@ package tech.sud.mgp.common.http.param;
 public interface RequestUrl {
 
     /**
-     * xxx
+     * 登录
      */
     String LOGIN = "login/v1";
 
@@ -45,5 +45,10 @@ public interface RequestUrl {
      * 房间列表
      */
     String ROOM_MATCH = "room/match/v1";
+
+    /**
+     * 查询基础配置
+     */
+    String GET_BASE_CONFIG = "base/config/v1";
 
 }

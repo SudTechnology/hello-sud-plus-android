@@ -35,7 +35,7 @@ public class EnterRoomUtils {
                 EnterRoomResp resp = t.getData();
                 if (t.getRetCode() == RetCode.SUCCESS) {
                     if (resp != null) {
-                        startAudioRoomActivity(context, resp.roomId, resp.roomName, resp.gameId);
+                        startAudioRoomActivity(context, resp.roomId, resp.roomName, resp.gameId, resp.roleType);
                     }
                 } else {
                     ToastUtils.showLong("fail:" + t.getRetCode());
@@ -51,11 +51,12 @@ public class EnterRoomUtils {
         });
     }
 
-    private static void startAudioRoomActivity(Context context, long roomId, String roomName, long gameId) {
+    private static void startAudioRoomActivity(Context context, long roomId, String roomName, long gameId, int roleType) {
         RoomInfoModel model = new RoomInfoModel();
         model.roomId = roomId;
         model.roomName = roomName;
         model.gameId = gameId;
+        model.roleType = roleType;
         Intent intent = new Intent(context, AudioRoomActivity.class);
         intent.putExtra("RoomInfoModel", model);
         context.startActivity(intent);

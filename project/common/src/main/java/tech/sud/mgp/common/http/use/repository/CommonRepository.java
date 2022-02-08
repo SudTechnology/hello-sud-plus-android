@@ -9,6 +9,7 @@ import tech.sud.mgp.common.http.rx.RxCallback;
 import tech.sud.mgp.common.http.rx.RxUtil;
 import tech.sud.mgp.common.http.use.method.CommonRequestMethodFactory;
 import tech.sud.mgp.common.http.use.req.UserInfoReq;
+import tech.sud.mgp.common.http.use.resp.GameListResp;
 import tech.sud.mgp.common.http.use.resp.UserInfoListResp;
 
 public class CommonRepository {
@@ -23,6 +24,16 @@ public class CommonRepository {
         req.userIds = userIds;
         CommonRequestMethodFactory.getMethod()
                 .getUserInfoList(BaseUrlManager.getBaseUrl(), req)
+                .compose(RxUtil.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /**
+     * 游戏列表
+     */
+    public static void gameList(LifecycleOwner owner, RxCallback<GameListResp> callback) {
+        CommonRequestMethodFactory.getMethod()
+                .gameList(BaseUrlManager.getInteractBaseUrl())
                 .compose(RxUtil.schedulers(owner))
                 .subscribe(callback);
     }

@@ -10,11 +10,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import tech.sud.mgp.common.http.use.resp.GameModel;
+import tech.sud.mgp.common.http.use.resp.SceneModel;
 import tech.sud.mgp.common.utils.ImageLoader;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.home.callback.GameItemCallback;
-import tech.sud.mgp.hello.home.model.GameModel;
-import tech.sud.mgp.hello.home.model.SceneModel;
 
 public class GameItemView extends ConstraintLayout {
 
@@ -66,7 +66,7 @@ public class GameItemView extends ConstraintLayout {
 
         this.setOnClickListener(v -> {
             if (itemCallback != null) {
-                itemCallback.gameClick(sceneModel,gameModel);
+                itemCallback.gameClick(sceneModel, gameModel);
             }
         });
     }

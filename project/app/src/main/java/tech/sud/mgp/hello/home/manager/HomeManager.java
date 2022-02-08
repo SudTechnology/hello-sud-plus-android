@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import tech.sud.mgp.hello.home.http.resp.GameListResp;
+import tech.sud.mgp.common.http.use.resp.GameListResp;
+import tech.sud.mgp.common.http.use.resp.GameModel;
+import tech.sud.mgp.common.http.use.resp.SceneModel;
 import tech.sud.mgp.hello.home.http.resp.RoomListResp;
-import tech.sud.mgp.hello.home.model.GameModel;
 import tech.sud.mgp.hello.home.model.RoomItemModel;
-import tech.sud.mgp.hello.home.model.SceneModel;
 
 public class HomeManager {
 

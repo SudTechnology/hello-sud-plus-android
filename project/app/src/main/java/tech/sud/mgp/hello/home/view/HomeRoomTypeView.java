@@ -17,12 +17,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import tech.sud.mgp.common.http.use.resp.GameModel;
+import tech.sud.mgp.common.http.use.resp.SceneModel;
 import tech.sud.mgp.common.utils.ImageLoader;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.home.adapter.GameAdapter;
 import tech.sud.mgp.hello.home.callback.GameItemCallback;
-import tech.sud.mgp.hello.home.model.GameModel;
-import tech.sud.mgp.hello.home.model.SceneModel;
 
 public class HomeRoomTypeView extends ConstraintLayout {
     private TextView sceneNameTv;
@@ -79,14 +79,14 @@ public class HomeRoomTypeView extends ConstraintLayout {
                 if (i > 6) {
                     models.add(datas.get(i));
                 } else {
-                    addGameView(sceneModel,datas.get(i));
+                    addGameView(sceneModel, datas.get(i));
                 }
             }
             if (models.size() > 0) {
                 gameAdapter = new GameAdapter(models);
                 gameAdapter.setOnItemClickListener((adapter, view, position) -> {
                     if (itemCallback != null) {
-                        itemCallback.gameClick(sceneModel,models.get(position));
+                        itemCallback.gameClick(sceneModel, models.get(position));
                     }
                 });
                 gameRecyclerview.setLayoutManager(new GridLayoutManager(getContext(), 4));
@@ -100,10 +100,10 @@ public class HomeRoomTypeView extends ConstraintLayout {
         }
     }
 
-    private void addGameView(SceneModel sceneModel,GameModel gameModel) {
+    private void addGameView(SceneModel sceneModel, GameModel gameModel) {
         GameItemView gameItemView = new GameItemView(getContext());
         gameItemView.setItemCallback(itemCallback);
-        gameItemView.setModel(sceneModel,gameModel);
+        gameItemView.setModel(sceneModel, gameModel);
         gridLayout.addView(gameItemView);
     }
 }

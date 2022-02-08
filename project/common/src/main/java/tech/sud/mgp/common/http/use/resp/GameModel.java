@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.home.model;
+package tech.sud.mgp.common.http.use.resp;
 
 import java.util.List;
 

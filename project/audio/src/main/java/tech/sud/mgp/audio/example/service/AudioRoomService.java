@@ -1,6 +1,9 @@
 package tech.sud.mgp.audio.example.service;
 
+import java.util.List;
+
 import tech.sud.mgp.audio.example.manager.AudioRoomServiceManager;
+import tech.sud.mgp.audio.example.model.AudioRoomMicModel;
 import tech.sud.mgp.audio.example.model.RoomInfoModel;
 import tech.sud.mgp.audio.example.model.UserInfo;
 
@@ -25,22 +28,46 @@ public class AudioRoomService {
     }
 
     public class MyBinder {
+
+        /**
+         * 设置回调
+         */
         public void setCallback(AudioRoomServiceCallback callback) {
             serviceManager.setCallback(callback);
         }
 
+        /**
+         * 进入房间
+         *
+         * @param model
+         */
         public void enterRoom(RoomInfoModel model) {
             serviceManager.enterRoom(model);
         }
 
+        /**
+         * 设置麦位
+         *
+         * @param micIndex 麦位索引
+         * @param userId   用户id
+         * @param operate  true为上麦位 false为下麦位
+         */
         public void micLocationSwitch(int micIndex, long userId, boolean operate) {
             serviceManager.audioMicManager.micLocationSwitch(micIndex, userId, operate);
         }
 
+        /**
+         * 自动上麦
+         */
         public void autoUpMic() {
             serviceManager.audioMicManager.autoUpMic();
         }
 
+        /**
+         * 发送公屏消息
+         *
+         * @param msg
+         */
         public void sendPublicMsg(CharSequence msg) {
             serviceManager.audioChatManager.sendPublicMsg(msg);
         }
@@ -51,8 +78,20 @@ public class AudioRoomService {
             serviceManager.audioGiftManager.sendGift(giftID, giftCount, toUser);
         }
 
+        /**
+         * 设置麦克风开关
+         *
+         * @param isOpen true为开 false为关
+         */
         public void setMicState(boolean isOpen) {
             serviceManager.setMicState(isOpen);
+        }
+
+        /**
+         * 获取麦位列表
+         */
+        public List<AudioRoomMicModel> getMicList() {
+            return serviceManager.audioMicManager.getMicList();
         }
     }
 

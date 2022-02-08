@@ -117,6 +117,10 @@ public class AudioMicManager extends BaseServiceManager {
         }
     }
 
+    public List<AudioRoomMicModel> getMicList() {
+        return new ArrayList<>(micList);
+    }
+
     /**
      * 上下麦
      *

@@ -3,7 +3,6 @@ package tech.sud.mgp.audio.example.service;
 import tech.sud.mgp.audio.example.manager.AudioRoomServiceManager;
 import tech.sud.mgp.audio.example.model.RoomInfoModel;
 import tech.sud.mgp.audio.example.model.UserInfo;
-import tech.sud.mgp.audio.example.model.command.SendGiftCommand;
 
 /**
  * 房间服务
@@ -34,22 +33,23 @@ public class AudioRoomService {
             serviceManager.enterRoom(model);
         }
 
-        public void micSwitch(int micIndex, long userId, boolean operate) {
-            serviceManager.audioMicManager.micSwitch(micIndex, userId, operate);
+        public void micLocationSwitch(int micIndex, long userId, boolean operate) {
+            serviceManager.audioMicManager.micLocationSwitch(micIndex, userId, operate);
         }
 
         public void autoUpMic() {
             serviceManager.audioMicManager.autoUpMic();
         }
-        
+
         public void sendPublicMsg(CharSequence msg) {
             serviceManager.audioChatManager.sendPublicMsg(msg);
         }
 
         public void sendGift(int giftID,
                              int giftCount,
-                             UserInfo toUser){
-            serviceManager.audioGiftManager.sendGift(giftID, giftCount,toUser);}
+                             UserInfo toUser) {
+            serviceManager.audioGiftManager.sendGift(giftID, giftCount, toUser);
+        }
     }
 
 }

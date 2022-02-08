@@ -52,7 +52,7 @@ public class AudioRepository {
      * @param micIndex 麦位索引
      * @param operate  true上麦 false下麦
      */
-    public static void roomMicSwitch(LifecycleOwner owner, long roomId, int micIndex, boolean operate, RxCallback<RoomMicSwitchResp> callback) {
+    public static void roomMicLocationSwitch(LifecycleOwner owner, long roomId, int micIndex, boolean operate, RxCallback<RoomMicSwitchResp> callback) {
         RoomMicSwitchReq req = new RoomMicSwitchReq();
         req.roomId = roomId;
         req.micIndex = micIndex;

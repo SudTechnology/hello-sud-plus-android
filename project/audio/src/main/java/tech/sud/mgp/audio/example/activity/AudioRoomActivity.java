@@ -96,9 +96,9 @@ public class AudioRoomActivity extends BaseActivity {
                 AudioRoomMicModel model = micView.getItem(position);
                 if (model != null) {
                     if (model.userId == 0) {
-                        binder.micSwitch(position, HSUserInfo.userId, true);
+                        binder.micLocationSwitch(position, HSUserInfo.userId, true);
                     } else if (model.userId == HSUserInfo.userId) {
-                        binder.micSwitch(position, model.userId, false);
+                        binder.micLocationSwitch(position, model.userId, false);
                     }
                 }
             }

@@ -123,8 +123,8 @@ public class AudioMicManager extends BaseServiceManager {
      * @param userId   用户id
      * @param operate  true上麦 false下麦
      */
-    public void micSwitch(int micIndex, long userId, boolean operate) {
-        AudioRepository.roomMicSwitch(null, parentManager.getRoomId(), micIndex, operate, new RxCallback<>());
+    public void micLocationSwitch(int micIndex, long userId, boolean operate) {
+        AudioRepository.roomMicLocationSwitch(null, parentManager.getRoomId(), micIndex, operate, new RxCallback<>());
         String command;
         if (operate) {
             downMic();
@@ -202,7 +202,7 @@ public class AudioMicManager extends BaseServiceManager {
     public void downMic() {
         int micIndex = findSelfMicIndex();
         if (micIndex >= 0) {
-            micSwitch(micIndex, HSUserInfo.userId, false);
+            micLocationSwitch(micIndex, HSUserInfo.userId, false);
         }
     }
 
@@ -232,7 +232,7 @@ public class AudioMicManager extends BaseServiceManager {
         if (selfMicIndex >= 0) return; // 在麦上就不再上麦了
         int emptyMicIndex = findEmptyMicIndex();
         if (emptyMicIndex >= 0) {
-            micSwitch(emptyMicIndex, HSUserInfo.userId, true);
+            micLocationSwitch(emptyMicIndex, HSUserInfo.userId, true);
         }
     }
 

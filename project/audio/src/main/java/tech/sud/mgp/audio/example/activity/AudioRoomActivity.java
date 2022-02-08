@@ -31,7 +31,7 @@ import tech.sud.mgp.common.base.BaseActivity;
 import tech.sud.mgp.common.model.HSUserInfo;
 import tech.sud.mgp.common.permission.PermissionFragment;
 import tech.sud.mgp.common.permission.SudPermissionUtils;
-import tech.sud.mgp.game.example.GameViewModel;
+import tech.sud.mgp.game.example.viewmodel.GameViewModel;
 
 public class AudioRoomActivity extends BaseActivity {
 

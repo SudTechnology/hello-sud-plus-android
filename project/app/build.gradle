@@ -61,8 +61,6 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
     // 引入common工程依赖
-    implementation project(':common')
-    implementation project(':game')
     implementation project(':audio')
 
     // 屏幕适配：https://github.com/JessYanCoding/AndroidAutoSize

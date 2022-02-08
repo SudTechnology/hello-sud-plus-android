@@ -1,7 +1,9 @@
 package tech.sud.mgp.audio.gift.manager;
 
+import android.content.Context;
 import android.util.Log;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +13,7 @@ import tech.sud.mgp.audio.example.model.UserInfo;
 import tech.sud.mgp.audio.gift.model.EffectAnimationFormat;
 import tech.sud.mgp.audio.gift.model.GiftModel;
 import tech.sud.mgp.audio.gift.model.MicUserInfoModel;
+import tech.sud.mgp.audio.gift.utils.FileUtils;
 
 public class GiftHelper {
 
@@ -35,7 +38,7 @@ public class GiftHelper {
         return helper;
     }
 
-    public List<GiftModel> creatGifts() {
+    public List<GiftModel> creatGifts(Context context) {
         if (this.gifts.size() == 0) {
             List<GiftModel> gifts = new ArrayList<>();
             GiftModel model1 = new GiftModel();
@@ -65,12 +68,14 @@ public class GiftHelper {
             model3.giftSmallImage = R.drawable.audio_webp_128;
             gifts.add(model3);
 
+            copyMp4ToSdcrad(context);
             GiftModel model4 = new GiftModel();
             model4.giftId = 4;
             model4.giftName = "mp4";
             model4.animationType = EffectAnimationFormat.MP4;
             model4.resId = R.raw.audio_mp4_600;
-            model4.giftImage = R.drawable.audio_mp4_128;
+            model4.path = context.getCacheDir().getAbsolutePath() + File.separator + "audio_mp4_600.mp4";
+            model4.giftImage = R.drawable.audio_mp4_600;
             model4.giftSmallImage = R.drawable.audio_mp4_128;
             gifts.add(model4);
 
@@ -78,6 +83,13 @@ public class GiftHelper {
             this.gifts.addAll(gifts);
         }
         return gifts;
+    }
+
+    public void copyMp4ToSdcrad(Context context) {
+        File file = new File(context.getCacheDir().getAbsolutePath() + File.separator + "audio_mp4_600.mp4");
+        if (!file.exists() || !file.isFile()) {
+            FileUtils.copyFilesFromRaw(context, R.raw.audio_mp4_600, "audio_mp4_600.mp4", context.getCacheDir().getAbsolutePath());
+        }
     }
 
     public GiftModel getGift(int giftId) {
@@ -99,13 +111,13 @@ public class GiftHelper {
     }
 
     public GiftModel getGift() {
-        if (testIndex < creatGifts().size() - 1) {
+        if (testIndex < this.gifts.size() - 1) {
             testIndex++;
         } else {
             testIndex = 0;
         }
         Log.i("getGift  ", testIndex + "");
-        GiftModel model = creatGifts().get(testIndex);
+        GiftModel model = this.gifts.get(testIndex);
         return model;
     }
 

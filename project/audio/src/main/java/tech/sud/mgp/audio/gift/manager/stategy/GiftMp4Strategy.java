@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
 
 import com.blankj.utilcode.util.DeviceUtils;
+import com.ss.ugc.android.alpha_player.IMonitor;
 import com.ss.ugc.android.alpha_player.IPlayerAction;
 import com.ss.ugc.android.alpha_player.model.ScaleType;
 
@@ -16,13 +17,13 @@ import tech.sud.mgp.audio.gift.view.GiftVideoView;
 public class GiftMp4Strategy extends PlayStrategy<GiftMp4Model> {
     @Override
     public void play(GiftMp4Model giftMp4Model) {
-        loadMp4(giftMp4Model.getResId(), giftMp4Model.getMp4View(), giftMp4Model.getLifecycleOwner(), giftMp4Model.getCallback());
+        loadMp4(giftMp4Model.getPath(), giftMp4Model.getMp4View(), giftMp4Model.getLifecycleOwner(), giftMp4Model.getCallback());
     }
 
     /**
      * 加载mp4
      */
-    public void loadMp4(int resId,
+    public void loadMp4(String filePath,
                         GiftVideoView mp4View,
                         LifecycleOwner lifecycleOwner,
                         PlayResultCallback callback) {
@@ -42,10 +43,13 @@ public class GiftMp4Strategy extends PlayStrategy<GiftMp4Model> {
                 public void endAction() {
                     callback.result(PlayResult.PLAYEND);
                 }
-            }, (b, s, i, i1, s1) -> {
-                if (!b) {
-                    //加载mp4错误时候进行处理
-                    callback.result(PlayResult.PLAYERROR);
+            }, new IMonitor() {
+                @Override
+                public void monitor(boolean b, @NonNull String s, int i, int i1, @NonNull String s1) {
+                    if (!b) {
+                        //加载mp4错误时候进行处理
+                        callback.result(PlayResult.PLAYERROR);
+                    }
                 }
             });
         }
@@ -53,12 +57,9 @@ public class GiftMp4Strategy extends PlayStrategy<GiftMp4Model> {
         if (lifecycleOwner == null) {
             callback.result(PlayResult.PLAYERROR);
         } else {
-            // TODO 需要修改
-            String filePath = "/storage/emulated/0/Android/audio_mp4_600.mp4";
             File file = new File(filePath);
             if (file.exists() && file.isFile()) {
                 mp4View.attachView();
-                mp4View.post(() -> mp4View.startDefaultImage(false));
                 mp4View.startVideoGift(filePath, () -> callback.result(PlayResult.PLAYERROR));
             }else {
                 callback.result(PlayResult.PLAYERROR);

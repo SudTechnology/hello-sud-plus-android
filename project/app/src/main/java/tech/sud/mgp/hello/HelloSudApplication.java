@@ -37,7 +37,7 @@ public class HelloSudApplication extends Application {
     }
 
     private void configGift() {
-        GiftHelper.getInstance().creatGifts();
+        GiftHelper.getInstance().creatGifts(this);
     }
 
 }

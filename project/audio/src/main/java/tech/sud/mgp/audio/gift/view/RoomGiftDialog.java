@@ -2,7 +2,6 @@ package tech.sud.mgp.audio.gift.view;
 
 import android.os.Bundle;
 import android.view.Gravity;
-import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 
@@ -19,7 +18,6 @@ import tech.sud.mgp.audio.R;
 import tech.sud.mgp.audio.example.model.UserInfo;
 import tech.sud.mgp.audio.gift.adapter.GiftListAdapter;
 import tech.sud.mgp.audio.gift.callback.GiftSendClickCallback;
-import tech.sud.mgp.audio.gift.callback.PresentClickCallback;
 import tech.sud.mgp.audio.gift.manager.GiftHelper;
 import tech.sud.mgp.audio.gift.model.GiftModel;
 import tech.sud.mgp.audio.gift.model.MicUserInfoModel;
@@ -31,7 +29,7 @@ public class RoomGiftDialog extends BaseDialogFragment {
     private GiftDialogBottomView bottomView;
     private RecyclerView giftRv;
     private GiftListAdapter giftListAdapter;
-    private List<GiftModel> gifts = GiftHelper.getInstance().creatGifts();
+    private List<GiftModel> gifts = new ArrayList<>();
     public GiftSendClickCallback clickCallback;
 
     @Override
@@ -84,6 +82,7 @@ public class RoomGiftDialog extends BaseDialogFragment {
     @Override
     protected void initData() {
         super.initData();
+        gifts.addAll(GiftHelper.getInstance().creatGifts(requireContext()));
         giftListAdapter = new GiftListAdapter(gifts);
         giftRv.setAdapter(giftListAdapter);
         giftRv.setLayoutManager(new GridLayoutManager(requireContext(), 4));

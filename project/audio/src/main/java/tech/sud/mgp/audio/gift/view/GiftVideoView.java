@@ -31,7 +31,6 @@ import tech.sud.mgp.common.utils.ImageLoader;
 public class GiftVideoView extends ConstraintLayout {
 
     private ConstraintLayout mVideoContainer;
-    private AppCompatImageView mGiftImage;
     private IPlayerController mPlayerController;
     private static String TAG = "GiftVideoView";
 
@@ -53,12 +52,11 @@ public class GiftVideoView extends ConstraintLayout {
     private void init(Context context) {
         LayoutInflater.from(context).inflate(R.layout.audio_view_video_gift, this);
         mVideoContainer = findViewById(R.id.video_view);
-        mGiftImage = findViewById(R.id.gift_image_iv);
     }
 
     public void initPlayerController(Context context, LifecycleOwner owner, IPlayerAction playerAction, IMonitor monitor) {
         Configuration configuration = new Configuration(context, owner);
-        configuration.setAlphaVideoViewType(AlphaVideoViewType.GL_TEXTURE_VIEW);
+        configuration.setAlphaVideoViewType(AlphaVideoViewType.GL_SURFACE_VIEW);
         mPlayerController = PlayerController.Companion.get(configuration, new ExoPlayerImpl(context));
         mPlayerController.setPlayerAction(playerAction);
         mPlayerController.setMonitor(monitor);
@@ -77,28 +75,11 @@ public class GiftVideoView extends ConstraintLayout {
         int landscapeScaleType = 2;
 
         DataSource dataSource = new DataSource();
-        dataSource.baseDir = file.getParent();
+        dataSource.baseDir = file.getParent()+File.separator;
         dataSource.setPortraitPath(portraitFileName, portraitScaleType);
         dataSource.setLandscapePath(landscapeFileName, landscapeScaleType);
 //        dataSource.isLooping = false;
         startDataSource(dataSource, playError);
-    }
-
-    public void startDefaultImage(Boolean visibility) {
-        if (mGiftImage != null) {
-            if (visibility) {
-                mGiftImage.setVisibility(View.VISIBLE);
-            } else {
-                mGiftImage.setVisibility(View.GONE);
-
-            }
-        }
-    }
-
-    public void showImage(String image) {
-        if (mGiftImage != null) {
-            ImageLoader.loadImage(mGiftImage, image);
-        }
     }
 
     private void startDataSource(DataSource dataSource, Mp4PlayErrorCallback playError) {

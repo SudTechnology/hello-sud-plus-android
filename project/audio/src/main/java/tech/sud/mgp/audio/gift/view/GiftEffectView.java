@@ -15,6 +15,8 @@ import androidx.lifecycle.LifecycleOwner;
 import com.airbnb.lottie.LottieAnimationView;
 import com.opensource.svgaplayer.SVGAImageView;
 
+import java.io.File;
+
 import tech.sud.mgp.audio.R;
 import tech.sud.mgp.audio.gift.manager.GiftDisplayManager;
 import tech.sud.mgp.audio.gift.manager.stategy.GiftJsonModel;
@@ -112,6 +114,7 @@ public class GiftEffectView extends ConstraintLayout implements LifecycleObserve
         model.setMp4View(giftVideoView);
         model.setLifecycleOwner(lifecycleOwner);
         model.setResId(giftModel.resId);
+        model.setPath(giftModel.path);
 
         aContainer.addView(giftVideoView);
         giftVideoView.setVisibility(View.VISIBLE);
@@ -123,6 +126,7 @@ public class GiftEffectView extends ConstraintLayout implements LifecycleObserve
                 }
                 case PLAYERROR:
                     showImage(giftModel);
+                    break;
                 case PLAYEND: {
                     aContainer.post(() -> {
                         aContainer.removeView(giftVideoView);

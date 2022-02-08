@@ -136,6 +136,7 @@ public class AudioRoomActivity extends BaseActivity {
             public void onSendMsg(CharSequence msg) {
                 binder.sendPublicMsg(msg);
                 inputMsgView.hide();
+                inputMsgView.clearInput();
             }
         });
         KeyboardUtils.registerSoftInputChangedListener(this, new KeyboardUtils.OnSoftInputChangedListener() {

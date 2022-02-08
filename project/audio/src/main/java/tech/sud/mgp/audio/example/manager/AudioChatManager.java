@@ -28,6 +28,7 @@ public class AudioChatManager extends BaseServiceManager {
 
     public void sendPublicMsg(CharSequence msg) {
         if (msg == null) return;
+        // 往公屏列表当中插入一条数据
         RoomTextModel model = new RoomTextModel();
         model.userId = HSUserInfo.userId;
         model.avatar = HSUserInfo.avatar;
@@ -35,6 +36,7 @@ public class AudioChatManager extends BaseServiceManager {
         model.text = msg.toString();
         addMsg(model);
 
+        // 发送公屏消息信令
         String command = AudioRoomCommandUtils.buildPublicMsgCommand(msg.toString());
         parentManager.audioEngineManager.sendCommand(command, null);
     }

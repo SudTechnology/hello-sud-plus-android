@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.ScreenUtils;
+import com.blankj.utilcode.util.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,17 +67,25 @@ public class RoomGiftDialog extends BaseDialogFragment {
                 if (GiftHelper.getInstance().inMic) {
                     if (GiftHelper.getInstance().inMics.size() > 0) {
                         for (MicUserInfoModel userInfo : GiftHelper.getInstance().inMics) {
-                            UserInfo info = new UserInfo();
-                            info.userID = userInfo.userInfo.userId;
-                            info.name = userInfo.userInfo.nickName;
-                            info.icon = userInfo.userInfo.avatar;
-                            userInfos.add(info);
+                            if (userInfo.checked) {
+                                UserInfo info = new UserInfo();
+                                info.userID = userInfo.userInfo.userId;
+                                info.name = userInfo.userInfo.nickName;
+                                info.icon = userInfo.userInfo.avatar;
+                                userInfos.add(info);
+                            }
                         }
                     }
                 } else {
                     userInfos.add(GiftHelper.getInstance().underMicUser);
                 }
-                clickCallback.sendClick(checkedGift.giftId, 1, userInfos);
+                if (userInfos.size() > 0) {
+                    clickCallback.sendClick(checkedGift.giftId, 1, userInfos);
+                } else {
+                    ToastUtils.showShort(R.string.audio_send_gift_user_empty);
+                }
+            } else {
+                ToastUtils.showShort(R.string.audio_send_gift_empty);
             }
         };
     }

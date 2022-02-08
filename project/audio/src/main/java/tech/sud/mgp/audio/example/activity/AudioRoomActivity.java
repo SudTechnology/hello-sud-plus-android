@@ -25,6 +25,7 @@ import tech.sud.mgp.audio.example.widget.view.mic.OnMicItemClickListener;
 import tech.sud.mgp.audio.gift.callback.GiftSendClickCallback;
 import tech.sud.mgp.audio.gift.manager.GiftHelper;
 import tech.sud.mgp.audio.gift.model.GiftModel;
+import tech.sud.mgp.audio.gift.model.GiftNotifyDetailodel;
 import tech.sud.mgp.audio.gift.view.GiftEffectView;
 import tech.sud.mgp.audio.gift.view.RoomGiftDialog;
 import tech.sud.mgp.common.base.BaseActivity;
@@ -188,9 +189,7 @@ public class AudioRoomActivity extends BaseActivity {
                         binder.sendGift(giftId, giftCount, user);
                     }
                 }
-//                if (BuildConfig.DEBUG) {
-//                    showGift(GiftHelper.getInstance().getGift(giftId));
-//                }
+                showGift(GiftHelper.getInstance().getGift(giftId));
             }
         };
         dialog.show(getSupportFragmentManager(), "gift");
@@ -244,8 +243,8 @@ public class AudioRoomActivity extends BaseActivity {
         }
 
         @Override
-        public void sendGiftsNotify(int giftId, int giftCount) {
-            showGift(GiftHelper.getInstance().getGift(giftId));
+        public void sendGiftsNotify(GiftNotifyDetailodel notify) {
+            showGift(notify.gift);
         }
 
         @Override

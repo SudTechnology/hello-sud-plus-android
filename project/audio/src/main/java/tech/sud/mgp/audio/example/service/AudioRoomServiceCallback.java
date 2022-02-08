@@ -3,6 +3,7 @@ package tech.sud.mgp.audio.example.service;
 import java.util.List;
 
 import tech.sud.mgp.audio.example.model.AudioRoomMicModel;
+import tech.sud.mgp.audio.gift.model.GiftNotifyDetailodel;
 
 public interface AudioRoomServiceCallback {
 
@@ -34,7 +35,7 @@ public interface AudioRoomServiceCallback {
     /**
      * 礼物通知
      */
-    void sendGiftsNotify(int giftId, int giftCount);
+    void sendGiftsNotify(GiftNotifyDetailodel notify);
 
     /**
      * 麦克风开关状态变化

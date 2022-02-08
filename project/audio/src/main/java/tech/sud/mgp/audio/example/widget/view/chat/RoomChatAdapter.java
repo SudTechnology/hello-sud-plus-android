@@ -7,15 +7,18 @@ import com.chad.library.adapter.base.BaseProviderMultiAdapter;
 import java.util.List;
 
 import tech.sud.mgp.audio.example.model.RoomTextModel;
+import tech.sud.mgp.audio.gift.model.GiftNotifyDetailodel;
 import tech.sud.mgp.common.widget.adapter.EmptyProvider;
 
 public class RoomChatAdapter extends BaseProviderMultiAdapter<Object> {
 
     public static final int TYPE_TEXT = 1;
+    public static final int TYPE_GIFT_NOTIFY = 2;
 
     public RoomChatAdapter() {
         addItemProvider(new RoomTextProvider());
         addItemProvider(new EmptyProvider());
+        addItemProvider(new RoomGiftNotifyProvider());
     }
 
     @Override
@@ -23,6 +26,8 @@ public class RoomChatAdapter extends BaseProviderMultiAdapter<Object> {
         Object item = list.get(position);
         if (item instanceof RoomTextModel) {
             return TYPE_TEXT;
+        } else if (item instanceof GiftNotifyDetailodel) {
+            return TYPE_GIFT_NOTIFY;
         }
         return EmptyProvider.TYPE_EMPTY;
     }

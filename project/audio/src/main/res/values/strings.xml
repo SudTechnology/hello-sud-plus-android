@@ -15,5 +15,6 @@
     <string name="audio_room_admin">房主</string>
     <string name="audio_send">发送</string>
     <string name="audio_send_msg_hint">发消息…</string>
-
+    <string name="audio_send_gift_user_empty">请选择收礼对象</string>
+    <string name="audio_send_gift_empty">请选择礼物</string>
 </resources>

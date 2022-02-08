@@ -41,6 +41,8 @@
     <string name="room_list_enter">进入</string>
     <string name="room_list_roomid">房间号：%1$s</string>
     <string name="room_list_online">%1$s人</string>
+    <string name="setting_contact1_content" tools:ignore="ExtraTranslation">如需了解更多资讯或反馈问题，可联系：help@sud.tech</string>
+    <string name="setting_contact1_but" tools:ignore="ExtraTranslation">好的</string>
     <string-array name="names_list" tools:ignore="ExtraTranslation">
         <item>哈利</item>
         <item>祺祥</item>
@@ -149,4 +151,5 @@
     </string-array>
 
     <string name="search_room_error">请输入正确的房间号</string>
+
 </resources>

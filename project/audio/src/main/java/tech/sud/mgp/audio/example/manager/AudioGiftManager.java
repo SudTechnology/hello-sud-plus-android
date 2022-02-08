@@ -3,7 +3,11 @@ package tech.sud.mgp.audio.example.manager;
 import tech.sud.mgp.audio.example.model.UserInfo;
 import tech.sud.mgp.audio.example.model.command.SendGiftCommand;
 import tech.sud.mgp.audio.example.utils.AudioRoomCommandUtils;
+import tech.sud.mgp.audio.gift.manager.GiftHelper;
+import tech.sud.mgp.audio.gift.model.GiftModel;
+import tech.sud.mgp.audio.gift.model.GiftNotifyDetailodel;
 import tech.sud.mgp.audio.middle.MediaUser;
+import tech.sud.mgp.common.model.HSUserInfo;
 
 /**
  * 房间礼物
@@ -31,14 +35,38 @@ public class AudioGiftManager extends BaseServiceManager {
     public void sendGift(int giftID,
                          int giftCount,
                          UserInfo toUser) {
-        String command = AudioRoomCommandUtils.buildSendGiftCommand(giftID, giftCount,toUser);
+        String command = AudioRoomCommandUtils.buildSendGiftCommand(giftID, giftCount, toUser);
+
+        GiftModel giftModel = GiftHelper.getInstance().getGift(giftID);
+        GiftNotifyDetailodel notify = new GiftNotifyDetailodel();
+        notify.gift = giftModel;
+
+        UserInfo user = new UserInfo();
+        user.userID = HSUserInfo.userId;
+        user.name = HSUserInfo.nickName;
+        user.icon = HSUserInfo.avatar;
+
+        notify.sendUser = user;
+        notify.toUser = toUser;
+        notify.giftCount = giftCount;
+        notify.giftID = giftID;
+        parentManager.audioChatManager.addMsg(notify);
+
         parentManager.audioEngineManager.sendCommand(command, null);
     }
 
     private final AudioCommandManager.SendGiftCommandListener sendGiftCommandListener = new AudioCommandManager.SendGiftCommandListener() {
         @Override
         public void onRecvCommand(SendGiftCommand command, MediaUser user, String roomId) {
-            parentManager.getCallback().sendGiftsNotify(command.giftID,command.giftCount);
+            GiftModel giftModel = GiftHelper.getInstance().getGift(command.giftID);
+            GiftNotifyDetailodel notify = new GiftNotifyDetailodel();
+            notify.gift = giftModel;
+            notify.sendUser = command.sendUser;
+            notify.toUser = command.toUser;
+            notify.giftCount = command.giftCount;
+            notify.giftID = command.giftID;
+            parentManager.getCallback().sendGiftsNotify(notify);
+            parentManager.audioChatManager.addMsg(notify);
         }
     };
 }

@@ -50,6 +50,10 @@ public class AudioRoomService {
                              UserInfo toUser) {
             serviceManager.audioGiftManager.sendGift(giftID, giftCount, toUser);
         }
+
+        public void setMicState(boolean isOpen) {
+            serviceManager.setMicState(isOpen);
+        }
     }
 
 }

@@ -7,6 +7,7 @@ public class AudioRoomMicModel {
     public String avatar;
     public int micIndex;
     public int roleType; // 1:房主 0：普通用户
+    public String streamId; // 流id
 
     public Boolean isCaptain; // 是否是队长，空值不显示
     public int readyStatus; // 0没有状态，1已准备，2未准备
@@ -18,6 +19,7 @@ public class AudioRoomMicModel {
         roleType = 0;
         isCaptain = false;
         readyStatus = 0;
+        streamId = null;
     }
 
 }

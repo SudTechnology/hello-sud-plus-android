@@ -47,7 +47,7 @@
             android:layout_height="32dp"
             android:background="@drawable/audio_shape_content_bg"
             android:scaleType="fitCenter"
-            android:src="@drawable/audio_ic_mic_opened"
+            android:src="@drawable/audio_ic_mic_closed"
             android:visibility="gone"
             android:paddingHorizontal="18dp"
             android:paddingVertical="6dp"

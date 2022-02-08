@@ -60,9 +60,10 @@ public class ZegoAudioEngine implements MediaAudioEngineProtocol {
         profile.scenario = ZegoScenario.GENERAL;
         profile.application = Utils.getApp();
         ZegoExpressEngine engine = ZegoExpressEngine.createEngine(profile, mIZegoEventHandler);
-        if (engine != null) {
-            engine.enableAudioCaptureDevice(false);
-        }
+        // 推送音乐流时需要开启
+//        if (engine != null) {
+//            engine.enableAudioCaptureDevice(false);
+//        }
     }
 
     @Override

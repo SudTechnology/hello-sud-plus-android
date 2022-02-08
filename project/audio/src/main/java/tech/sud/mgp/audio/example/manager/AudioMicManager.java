@@ -6,6 +6,7 @@ import java.util.List;
 import tech.sud.mgp.audio.example.http.repository.AudioRepository;
 import tech.sud.mgp.audio.example.http.response.RoomMicListResp;
 import tech.sud.mgp.audio.example.http.response.RoomMicResp;
+import tech.sud.mgp.audio.example.http.response.RoomMicSwitchResp;
 import tech.sud.mgp.audio.example.model.AudioRoomMicModel;
 import tech.sud.mgp.audio.example.model.AudioRoomMicModelConverter;
 import tech.sud.mgp.audio.example.model.RoomInfoModel;
@@ -124,17 +125,54 @@ public class AudioMicManager extends BaseServiceManager {
      * @param operate  true上麦 false下麦
      */
     public void micLocationSwitch(int micIndex, long userId, boolean operate) {
-        AudioRepository.roomMicLocationSwitch(null, parentManager.getRoomId(), micIndex, operate, new RxCallback<>());
-        String command;
         if (operate) {
-            downMic();
-            command = AudioRoomCommandUtils.buildUpMicCommand(micIndex);
-            addUser2MicList(micIndex, userId);
+            upMicLocation(micIndex, userId);
         } else {
-            command = AudioRoomCommandUtils.buildDownMicCommand(micIndex);
-            removeUser2MicList(micIndex, userId);
+            downMicLocation(micIndex, userId);
         }
+    }
+
+    public void upMicLocation(int micIndex, long userId) {
+        // 查找当前自己已经在的麦位
+        int selfMicIndex = findSelfMicIndex();
+        if (selfMicIndex == micIndex) {
+            return;
+        }
+
+        // 发送http告知后端
+        AudioRepository.roomMicLocationSwitch(null, parentManager.getRoomId(), micIndex, true, new RxCallback<RoomMicSwitchResp>() {
+            @Override
+            public void onSuccess(RoomMicSwitchResp roomMicSwitchResp) {
+                super.onSuccess(roomMicSwitchResp);
+                // 把旧的麦位给下掉
+                if (selfMicIndex > 0) {
+                    downMicLocation(selfMicIndex, HSUserInfo.userId);
+                }
+
+                // 发送信令
+                String command = AudioRoomCommandUtils.buildUpMicCommand(micIndex);
+                parentManager.audioEngineManager.sendCommand(command, null);
+
+                // 麦位列表
+                addUser2MicList(micIndex, userId, roomMicSwitchResp.streamId);
+            }
+        });
+
+    }
+
+    public void downMicLocation(int micIndex, long userId) {
+        // 发送http告知后端
+        AudioRepository.roomMicLocationSwitch(null, parentManager.getRoomId(), micIndex, false, new RxCallback<>());
+
+        // 发送信令
+        String command = AudioRoomCommandUtils.buildDownMicCommand(micIndex);
         parentManager.audioEngineManager.sendCommand(command, null);
+
+        // 麦位列表
+        removeUser2MicList(micIndex, userId);
+
+        // 关闭麦位风
+        parentManager.setMicState(false);
     }
 
     /**
@@ -142,14 +180,16 @@ public class AudioMicManager extends BaseServiceManager {
      *
      * @param micIndex 麦位索引
      * @param userId   用户id
+     * @param streamId 流id
      */
-    private void addUser2MicList(int micIndex, long userId) {
+    private void addUser2MicList(int micIndex, long userId, String streamId) {
         if (micIndex >= 0 && micIndex < micList.size()) {
             AudioRoomMicModel model = micList.get(micIndex);
             model.userId = userId;
-            if (userId == HSUserInfo.userId) {
+            if (userId == HSUserInfo.userId) { // 如果是自己
                 model.nickName = HSUserInfo.nickName;
                 model.avatar = HSUserInfo.avatar;
+                model.streamId = streamId;
                 notifyItemChange(micIndex, model);
             } else {
                 List<Long> userIds = new ArrayList<>();
@@ -196,16 +236,6 @@ public class AudioMicManager extends BaseServiceManager {
         }
     }
 
-    /**
-     * 如果自己在麦上，则先下麦
-     */
-    public void downMic() {
-        int micIndex = findSelfMicIndex();
-        if (micIndex >= 0) {
-            micLocationSwitch(micIndex, HSUserInfo.userId, false);
-        }
-    }
-
     public void callbackSelfMicIndex() {
         AudioRoomServiceCallback callback = parentManager.getCallback();
         if (callback != null) {
@@ -219,12 +249,26 @@ public class AudioMicManager extends BaseServiceManager {
      * @return 如果为-1,则表示不在麦上
      */
     public int findSelfMicIndex() {
+        AudioRoomMicModel selfMicModel = findSelfMicModel();
+        if (selfMicModel == null) {
+            return -1;
+        } else {
+            return selfMicModel.micIndex;
+        }
+    }
+
+    /**
+     * 查找自己所在的麦位
+     *
+     * @return 如果为null, 则表示不在麦上
+     */
+    public AudioRoomMicModel findSelfMicModel() {
         for (AudioRoomMicModel audioRoomMicModel : micList) {
             if (audioRoomMicModel.userId == HSUserInfo.userId) {
-                return audioRoomMicModel.micIndex;
+                return audioRoomMicModel;
             }
         }
-        return -1;
+        return null;
     }
 
     public void autoUpMic() {

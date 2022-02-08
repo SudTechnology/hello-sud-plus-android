@@ -25,6 +25,7 @@ public class AudioEngineManager extends BaseServiceManager {
     private final AudioRoomServiceManager parentManager;
 
     public final AudioCommandManager commandManager = new AudioCommandManager();
+    private OnRoomStreamUpdateListener onRoomStreamUpdateListener;
 
     @Override
     public void onCreate() {
@@ -54,6 +55,16 @@ public class AudioEngineManager extends BaseServiceManager {
         commandManager.removeCommandListener(listener);
     }
 
+    public void setOnRoomStreamUpdateListener(OnRoomStreamUpdateListener listener) {
+        this.onRoomStreamUpdateListener = listener;
+    }
+
+    public void removeOnRoomStreamUpdateListener(OnRoomStreamUpdateListener listener) {
+        if (onRoomStreamUpdateListener == listener) {
+            onRoomStreamUpdateListener = null;
+        }
+    }
+
     /**
      * 发送信令
      *
@@ -64,6 +75,52 @@ public class AudioEngineManager extends BaseServiceManager {
         MediaAudioEngineProtocol engine = getEngine();
         if (engine != null) {
             engine.sendCommand(parentManager.getRoomId() + "", command, result);
+        }
+    }
+
+    /**
+     * 开启推流
+     *
+     * @param streamId
+     */
+    public void startPublish(String streamId) {
+        MediaAudioEngineProtocol engine = getEngine();
+        if (engine != null) {
+            engine.startPublish(streamId);
+        }
+    }
+
+    /**
+     * 停止推流
+     */
+    public void stopPublishStream() {
+        MediaAudioEngineProtocol engine = getEngine();
+        if (engine != null) {
+            engine.stopPublishStream();
+        }
+    }
+
+    /**
+     * 播放流
+     *
+     * @param streamId 流ID
+     */
+    void startPlayingStream(String streamId) {
+        MediaAudioEngineProtocol engine = getEngine();
+        if (engine != null) {
+            engine.startPlayingStream(streamId);
+        }
+    }
+
+    /**
+     * 停止播放流
+     *
+     * @param streamId 流ID
+     */
+    void stopPlayingStream(String streamId) {
+        MediaAudioEngineProtocol engine = getEngine();
+        if (engine != null) {
+            engine.stopPlayingStream(streamId);
         }
     }
 
@@ -84,7 +141,10 @@ public class AudioEngineManager extends BaseServiceManager {
 
         @Override
         public void onRoomStreamUpdate(String roomId, MediaAudioEngineUpdateType type, List<MediaStream> streamList, JSONObject extendedData) {
-
+            OnRoomStreamUpdateListener listener = onRoomStreamUpdateListener;
+            if (listener != null) {
+                listener.onRoomStreamUpdate(roomId, type, streamList, extendedData);
+            }
         }
 
         @Override
@@ -116,6 +176,10 @@ public class AudioEngineManager extends BaseServiceManager {
         if (engine == null) return;
         engine.logoutRoom();
         engine.setEventHandler(null);
+    }
+
+    public interface OnRoomStreamUpdateListener {
+        void onRoomStreamUpdate(String roomId, MediaAudioEngineUpdateType type, List<MediaStream> streamList, JSONObject extendedData);
     }
 
 }

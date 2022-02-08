@@ -1,5 +1,6 @@
 package tech.sud.mgp.audio.example.activity;
 
+import android.Manifest;
 import android.view.View;
 import android.widget.FrameLayout;
 
@@ -29,6 +30,8 @@ import tech.sud.mgp.audio.gift.view.GiftEffectView;
 import tech.sud.mgp.audio.gift.view.RoomGiftDialog;
 import tech.sud.mgp.common.base.BaseActivity;
 import tech.sud.mgp.common.model.HSUserInfo;
+import tech.sud.mgp.common.permission.PermissionFragment;
+import tech.sud.mgp.common.permission.SudPermissionUtils;
 
 public class AudioRoomActivity extends BaseActivity {
 
@@ -133,6 +136,17 @@ public class AudioRoomActivity extends BaseActivity {
                 inputMsgView.show();
             }
         });
+        bottomView.setMicStateClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean micOpened = bottomView.isMicOpened();
+                if (micOpened) {
+                    closeMic();
+                } else {
+                    openMic();
+                }
+            }
+        });
         inputMsgView.setSendMsgListener(new RoomInputMsgView.SendMsgListener() {
             @Override
             public void onSendMsg(CharSequence msg) {
@@ -147,6 +161,21 @@ public class AudioRoomActivity extends BaseActivity {
                 inputMsgView.onSoftInputChanged(height);
             }
         });
+    }
+
+    private void openMic() {
+        SudPermissionUtils.requirePermission(this, getSupportFragmentManager(),
+                new String[]{Manifest.permission.RECORD_AUDIO},
+                new PermissionFragment.OnPermissionListener() {
+                    @Override
+                    public void onPermission(boolean success) {
+                        binder.setMicState(true);
+                    }
+                });
+    }
+
+    private void closeMic() {
+        binder.setMicState(false);
     }
 
     private void showGift(GiftModel giftModel) {
@@ -200,5 +229,11 @@ public class AudioRoomActivity extends BaseActivity {
         public void sendGiftsNotify(int giftId, int giftCount) {
             showGift(GiftHelper.getInstance().getGift(giftId));
         }
+
+        @Override
+        public void onMicStateChanged(boolean isOpened) {
+            bottomView.setMicOpened(isOpened);
+        }
+
     };
 }

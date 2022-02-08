@@ -1,6 +1,7 @@
 package tech.sud.mgp.audio.example.manager;
 
 import tech.sud.mgp.audio.example.model.AudioRoomData;
+import tech.sud.mgp.audio.example.model.AudioRoomMicModel;
 import tech.sud.mgp.audio.example.model.RoomInfoModel;
 import tech.sud.mgp.audio.example.service.AudioRoomServiceCallback;
 
@@ -62,5 +63,17 @@ public class AudioRoomServiceManager extends BaseServiceManager {
         audioMicManager.enterRoom(model);
     }
 
+    public void setMicState(boolean isOpen) {
+        if (isOpen) {
+            String streamId = null;
+            AudioRoomMicModel selfMicModel = audioMicManager.findSelfMicModel();
+            if (selfMicModel != null) {
+                streamId = selfMicModel.streamId;
+            }
+            audioStreamManager.openMic(streamId);
+        } else {
+            audioStreamManager.closeMic();
+        }
+    }
 
 }

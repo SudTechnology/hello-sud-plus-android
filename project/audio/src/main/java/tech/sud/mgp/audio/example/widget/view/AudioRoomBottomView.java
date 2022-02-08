@@ -65,6 +65,11 @@ public class AudioRoomBottomView extends ConstraintLayout {
 
     public void setMicOpened(boolean micOpened) {
         this.micOpened = micOpened;
+        if (micOpened) {
+            mIvMicState.setImageResource(R.drawable.audio_ic_mic_opened);
+        } else {
+            mIvMicState.setImageResource(R.drawable.audio_ic_mic_closed);
+        }
     }
 
     public void setInputClickListener(OnClickListener listener) {
@@ -75,6 +80,9 @@ public class AudioRoomBottomView extends ConstraintLayout {
         mViewGotMic.setOnClickListener(listener);
     }
 
+    /**
+     * 麦克风按钮点击监听
+     */
     public void setMicStateClickListener(OnClickListener listener) {
         mIvMicState.setOnClickListener(listener);
     }

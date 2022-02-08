@@ -10,6 +10,7 @@ public class AudioRoomMicModelConverter {
         model.userId = resp.userId;
         model.micIndex = resp.micIndex;
         model.roleType = resp.roleType;
+        model.streamId = resp.streamId;
         return model;
     }
 

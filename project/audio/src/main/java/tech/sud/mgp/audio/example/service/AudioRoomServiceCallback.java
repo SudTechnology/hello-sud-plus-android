@@ -34,5 +34,10 @@ public interface AudioRoomServiceCallback {
     /**
      * 礼物通知
      */
-    void sendGiftsNotify(int giftId,int giftCount);
+    void sendGiftsNotify(int giftId, int giftCount);
+
+    /**
+     * 麦克风开关状态变化
+     */
+    void onMicStateChanged(boolean isOpened);
 }

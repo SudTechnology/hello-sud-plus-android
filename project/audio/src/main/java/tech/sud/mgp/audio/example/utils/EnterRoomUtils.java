@@ -49,9 +49,6 @@ public class EnterRoomUtils {
                 isRunning = false;
             }
         });
-//        if (BuildConfig.DEBUG) {
-//            startAudioRoomActivity(context, 11, "asdfasdf", 0);
-//        }
     }
 
     private static void startAudioRoomActivity(Context context, long roomId, String roomName, long gameId) {

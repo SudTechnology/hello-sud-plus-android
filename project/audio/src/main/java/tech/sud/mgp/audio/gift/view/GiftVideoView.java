@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -50,7 +51,7 @@ public class GiftVideoView extends ConstraintLayout {
     }
 
     private void init(Context context) {
-        inflate(context, R.layout.audio_view_video_gift, this);
+        LayoutInflater.from(context).inflate(R.layout.audio_view_video_gift, this);
         mVideoContainer = findViewById(R.id.video_view);
         mGiftImage = findViewById(R.id.gift_image_iv);
     }
@@ -76,10 +77,10 @@ public class GiftVideoView extends ConstraintLayout {
         int landscapeScaleType = 2;
 
         DataSource dataSource = new DataSource();
-//        dataSource.setBaseDir(file.getParent());
+        dataSource.baseDir = file.getParent();
         dataSource.setPortraitPath(portraitFileName, portraitScaleType);
         dataSource.setLandscapePath(landscapeFileName, landscapeScaleType);
-//        dataSource.setLooping(false);
+//        dataSource.isLooping = false;
         startDataSource(dataSource, playError);
     }
 

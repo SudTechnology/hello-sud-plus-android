@@ -34,7 +34,7 @@ public interface RequestUrl {
     /**
      * 批量查询用户信息
      */
-    String USER_INFO_LIST = "batch/user_info/v1";
+    String USER_INFO_LIST = "batch/user-info/v1";
 
     /**
      * 房间上下麦接口

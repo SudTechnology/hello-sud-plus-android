@@ -8,6 +8,7 @@ import com.blankj.utilcode.util.KeyboardUtils;
 import java.io.Serializable;
 import java.util.List;
 
+import tech.sud.mgp.audio.BuildConfig;
 import tech.sud.mgp.audio.R;
 import tech.sud.mgp.audio.example.model.AudioRoomMicModel;
 import tech.sud.mgp.audio.example.model.RoomInfoModel;
@@ -96,24 +97,25 @@ public class AudioRoomActivity extends BaseActivity {
                 AudioRoomMicModel model = micView.getItem(position);
                 if (model != null) {
                     if (model.userId == 0) {
-                        binder.micSwitch(position, HSUserInfo.userId, true);
+                        binder.micLocationSwitch(position, HSUserInfo.userId, true);
                     } else if (model.userId == HSUserInfo.userId) {
-                        binder.micSwitch(position, model.userId, false);
+                        binder.micLocationSwitch(position, model.userId, false);
                     }
                 }
             }
         });
         bottomView.setGiftClickListener(v -> {
-            //模拟礼物展示
-//            showGift(GiftHelper.getInstance().getGift());
             RoomGiftDialog dialog = new RoomGiftDialog();
             dialog.clickCallback = new GiftSendClickCallback() {
                 @Override
-                public void sendClick(int gftId, int giftCount, List<UserInfo> toUsers) {
+                public void sendClick(int giftId, int giftCount, List<UserInfo> toUsers) {
                     if (toUsers != null && toUsers.size() > 0) {
                         for (UserInfo user : toUsers) {
-                            binder.sendGift(gftId, giftCount, user);
+                            binder.sendGift(giftId, giftCount, user);
                         }
+                    }
+                    if (BuildConfig.DEBUG) {
+                        showGift(GiftHelper.getInstance().getGift(giftId));
                     }
                 }
             };
@@ -136,6 +138,7 @@ public class AudioRoomActivity extends BaseActivity {
             public void onSendMsg(CharSequence msg) {
                 binder.sendPublicMsg(msg);
                 inputMsgView.hide();
+                inputMsgView.clearInput();
             }
         });
         KeyboardUtils.registerSoftInputChangedListener(this, new KeyboardUtils.OnSoftInputChangedListener() {
@@ -160,6 +163,9 @@ public class AudioRoomActivity extends BaseActivity {
         super.onDestroy();
         audioRoomService.onDestroy();
         binder.setCallback(null);
+        if (effectView != null) {
+            effectView.onDestory();
+        }
     }
 
     private final AudioRoomServiceCallback callback = new AudioRoomServiceCallback() {

@@ -82,6 +82,10 @@ public class RoomInputMsgView extends ConstraintLayout {
         setVisibility(View.GONE);
     }
 
+    public void clearInput() {
+        editText.setText(null);
+    }
+
     public void setSendMsgListener(SendMsgListener listener) {
         sendMsgListener = listener;
     }

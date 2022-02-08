@@ -108,21 +108,7 @@ public class AudioRoomActivity extends BaseActivity {
             }
         });
         bottomView.setGiftClickListener(v -> {
-            RoomGiftDialog dialog = new RoomGiftDialog();
-            dialog.clickCallback = new GiftSendClickCallback() {
-                @Override
-                public void sendClick(int giftId, int giftCount, List<UserInfo> toUsers) {
-                    if (toUsers != null && toUsers.size() > 0) {
-                        for (UserInfo user : toUsers) {
-                            binder.sendGift(giftId, giftCount, user);
-                        }
-                    }
-                    if (BuildConfig.DEBUG) {
-                        showGift(GiftHelper.getInstance().getGift(giftId));
-                    }
-                }
-            };
-            dialog.show(getSupportFragmentManager(), "gift");
+            showSendGiftDialog(null, 0);
         });
         bottomView.setGotMicClickListener(new View.OnClickListener() {
             @Override
@@ -176,6 +162,37 @@ public class AudioRoomActivity extends BaseActivity {
 
     private void closeMic() {
         binder.setMicState(false);
+    }
+
+    /**
+     * 1.如果送给单个对象
+     * underUser:代表送礼人信息
+     * index:传0
+     * 2.展示麦上列表
+     * underUser:null
+     * index:默认选中的麦上用户麦序号
+     */
+    private void showSendGiftDialog(UserInfo underUser, int index) {
+        RoomGiftDialog dialog = new RoomGiftDialog();
+        if (underUser == null) {
+            dialog.setMicUsers(binder.getMicList(), index);
+        } else {
+            dialog.setToUser(underUser);
+        }
+        dialog.clickCallback = new GiftSendClickCallback() {
+            @Override
+            public void sendClick(int giftId, int giftCount, List<UserInfo> toUsers) {
+                if (toUsers != null && toUsers.size() > 0) {
+                    for (UserInfo user : toUsers) {
+                        binder.sendGift(giftId, giftCount, user);
+                    }
+                }
+//                if (BuildConfig.DEBUG) {
+//                    showGift(GiftHelper.getInstance().getGift(giftId));
+//                }
+            }
+        };
+        dialog.show(getSupportFragmentManager(), "gift");
     }
 
     private void showGift(GiftModel giftModel) {

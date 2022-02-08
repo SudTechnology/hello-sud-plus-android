@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tech.sud.mgp.audio.R;
+import tech.sud.mgp.audio.example.model.AudioRoomMicModel;
 import tech.sud.mgp.audio.example.model.UserInfo;
 import tech.sud.mgp.audio.gift.adapter.GiftListAdapter;
 import tech.sud.mgp.audio.gift.callback.GiftSendClickCallback;
@@ -22,6 +23,7 @@ import tech.sud.mgp.audio.gift.manager.GiftHelper;
 import tech.sud.mgp.audio.gift.model.GiftModel;
 import tech.sud.mgp.audio.gift.model.MicUserInfoModel;
 import tech.sud.mgp.common.base.BaseDialogFragment;
+import tech.sud.mgp.common.model.HSUserInfo;
 
 public class RoomGiftDialog extends BaseDialogFragment {
 
@@ -100,10 +102,36 @@ public class RoomGiftDialog extends BaseDialogFragment {
         });
 
         if (GiftHelper.getInstance().inMic) {
-            topView.setInMic(GiftHelper.getInstance().testMicsUser());
+            topView.setInMic(GiftHelper.getInstance().inMics);
         } else {
-            topView.setMicOut(GiftHelper.getInstance().testCreatUserInfo());
+            topView.setMicOut(GiftHelper.getInstance().underMicUser);
         }
+    }
+
+    //设置收礼人数据
+    public void setMicUsers(List<AudioRoomMicModel> mDatas, int selectedIndex) {
+        if (mDatas != null && mDatas.size() > 0) {
+            GiftHelper.getInstance().inMic = true;
+            GiftHelper.getInstance().inMics.clear();
+            if (selectedIndex < 0 || selectedIndex >= mDatas.size()) {
+                selectedIndex = 0;
+            }
+            for (AudioRoomMicModel model : mDatas) {
+                if (model.userId != 0 && model.userId != HSUserInfo.userId) {
+                    MicUserInfoModel user = new MicUserInfoModel();
+                    user.userInfo = model;
+                    user.indexMic = model.micIndex;
+                    user.checked = model.micIndex == selectedIndex;
+                    GiftHelper.getInstance().inMics.add(user);
+                }
+            }
+        }
+    }
+
+    //设置单个收礼人数据
+    public void setToUser(UserInfo user) {
+        GiftHelper.getInstance().inMic = false;
+        GiftHelper.getInstance().underMicUser = user;
     }
 
     @Override

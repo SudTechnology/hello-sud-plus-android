@@ -9,12 +9,18 @@ android {
         applicationId "tech.sud.mgp.hello"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 1
+        versionCode Integer.parseInt(project.versionCode)
         versionName "1.0"
         ndk {
             abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86_64'
         }
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        applicationVariants.all { variant ->
+            variant.outputs.all {
+                outputFileName = "Demo-${project.versionCode}.apk"
+            }
+        }
     }
 
     signingConfigs {

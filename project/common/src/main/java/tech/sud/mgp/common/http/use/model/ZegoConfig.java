@@ -1,6 +1,9 @@
 package tech.sud.mgp.common.http.use.model;
 
-public class AgoraCfg {
+/**
+ * 即构配置
+ */
+public class ZegoConfig {
     public String appId;
     public String appKey;
 }

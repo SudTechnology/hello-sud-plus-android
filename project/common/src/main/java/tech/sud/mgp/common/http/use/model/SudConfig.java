@@ -1,6 +1,9 @@
 package tech.sud.mgp.common.http.use.model;
 
-public class ZegoCfg {
+/**
+ * 游戏sdk配置
+ */
+public class SudConfig {
     public String appId;
     public String appKey;
 }

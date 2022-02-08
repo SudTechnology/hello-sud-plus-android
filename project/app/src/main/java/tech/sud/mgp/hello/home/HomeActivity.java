@@ -9,10 +9,18 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.blankj.utilcode.util.ThreadUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import tech.sud.mgp.common.base.BaseActivity;
+import tech.sud.mgp.common.http.param.BaseResponse;
+import tech.sud.mgp.common.http.param.RetCode;
+import tech.sud.mgp.common.http.rx.RxCallback;
+import tech.sud.mgp.common.http.use.repository.CommonRepository;
+import tech.sud.mgp.common.http.use.resp.BaseConfigResp;
+import tech.sud.mgp.common.model.AppConfig;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.home.callback.TabClickCallback;
 import tech.sud.mgp.hello.home.fragment.IndexFragment;
@@ -32,6 +40,44 @@ public class HomeActivity extends BaseActivity implements TabClickCallback {
     @Override
     protected int getLayoutId() {
         return R.layout.activity_home;
+    }
+
+    @Override
+    protected void initData() {
+        super.initData();
+        getBaseConfig();
+    }
+
+    private void getBaseConfig() {
+        CommonRepository.getBaseConfig(this, new RxCallback<BaseConfigResp>() {
+            @Override
+            public void onNext(BaseResponse<BaseConfigResp> t) {
+                super.onNext(t);
+                if (t.getRetCode() == RetCode.SUCCESS) {
+                    AppConfig.getInstance().setBaseConfigResp(t.getData());
+                } else {
+                    delayGetBaseConfig();
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                delayGetBaseConfig();
+            }
+        });
+    }
+
+    private void delayGetBaseConfig() {
+        ThreadUtils.runOnUiThreadDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (isDestroyed()) {
+                    return;
+                }
+                getBaseConfig();
+            }
+        }, 3000);
     }
 
     @Override

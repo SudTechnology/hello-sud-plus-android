@@ -1,6 +1,9 @@
 package tech.sud.mgp.common.http.use.model;
 
-public class SudCfg {
+/**
+ * 声网配置
+ */
+public class AgoraConfig {
     public String appId;
     public String appKey;
 }

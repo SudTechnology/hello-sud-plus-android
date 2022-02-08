@@ -1,15 +1,15 @@
 package tech.sud.mgp.common.http.use.resp;
 
-import tech.sud.mgp.common.http.use.model.AgoraCfg;
-import tech.sud.mgp.common.http.use.model.SudCfg;
-import tech.sud.mgp.common.http.use.model.ZegoCfg;
+import tech.sud.mgp.common.http.use.model.AgoraConfig;
+import tech.sud.mgp.common.http.use.model.SudConfig;
+import tech.sud.mgp.common.http.use.model.ZegoConfig;
 
 /**
  * 基础配置返回
  */
 public class BaseConfigResp {
     public int rtcThirdPlatform;
-    public ZegoCfg zegoCfg;
-    public SudCfg sudCfg;
-    public AgoraCfg agoraCfg;
+    public ZegoConfig zegoCfg;
+    public SudConfig sudCfg;
+    public AgoraConfig agoraCfg;
 }

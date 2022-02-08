@@ -5,6 +5,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/audio_ic_room_bg">
 
+    <!-- 游戏View容器 -->
+    <FrameLayout
+        android:id="@+id/game_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
     <tech.sud.mgp.audio.example.widget.view.AudioRoomTopView
         android:id="@+id/room_top_view"
         android:layout_width="match_parent"

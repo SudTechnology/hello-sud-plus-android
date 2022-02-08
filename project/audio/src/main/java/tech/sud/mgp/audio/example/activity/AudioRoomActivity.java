@@ -9,7 +9,6 @@ import com.blankj.utilcode.util.KeyboardUtils;
 import java.io.Serializable;
 import java.util.List;
 
-import tech.sud.mgp.audio.BuildConfig;
 import tech.sud.mgp.audio.R;
 import tech.sud.mgp.audio.example.model.AudioRoomMicModel;
 import tech.sud.mgp.audio.example.model.RoomInfoModel;
@@ -32,6 +31,7 @@ import tech.sud.mgp.common.base.BaseActivity;
 import tech.sud.mgp.common.model.HSUserInfo;
 import tech.sud.mgp.common.permission.PermissionFragment;
 import tech.sud.mgp.common.permission.SudPermissionUtils;
+import tech.sud.mgp.game.example.GameViewModel;
 
 public class AudioRoomActivity extends BaseActivity {
 
@@ -47,6 +47,7 @@ public class AudioRoomActivity extends BaseActivity {
     private final AudioRoomService audioRoomService = new AudioRoomService();
     private final AudioRoomService.MyBinder binder = audioRoomService.getBinder();
     private final AudioRoomViewModel viewModel = new AudioRoomViewModel();
+    private final GameViewModel gameViewModel = new GameViewModel();
 
     @Override
     protected boolean beforeSetContentView() {

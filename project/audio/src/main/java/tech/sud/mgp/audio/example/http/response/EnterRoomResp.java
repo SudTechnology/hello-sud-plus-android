@@ -5,4 +5,5 @@ public class EnterRoomResp {
     public String roomName;
     public long memberCount;
     public long gameId;
+    public int roleType; // 1:房主 0：普通用户
 }

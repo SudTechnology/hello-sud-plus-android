@@ -43,6 +43,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
     implementation project(':common')
+    implementation project(':game')
     //增加mp4 sdk
     implementation 'com.github.bytedance:AlphaPlayer:1.2.0'
     implementation 'com.google.android.exoplayer:exoplayer-core:2.9.6'

@@ -18,15 +18,16 @@ import tech.sud.mgp.common.base.BaseFragment;
 import tech.sud.mgp.common.http.param.BaseResponse;
 import tech.sud.mgp.common.http.param.RetCode;
 import tech.sud.mgp.common.http.rx.RxCallback;
+import tech.sud.mgp.common.http.use.repository.CommonRepository;
+import tech.sud.mgp.common.http.use.resp.GameListResp;
+import tech.sud.mgp.common.http.use.resp.GameModel;
+import tech.sud.mgp.common.http.use.resp.SceneModel;
 import tech.sud.mgp.common.utils.ImageLoader;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.home.callback.GameItemCallback;
 import tech.sud.mgp.hello.home.http.repository.HomeRepository;
-import tech.sud.mgp.hello.home.http.resp.GameListResp;
 import tech.sud.mgp.hello.home.manager.HomeManager;
-import tech.sud.mgp.hello.home.model.GameModel;
 import tech.sud.mgp.hello.home.model.MatchRoomModel;
-import tech.sud.mgp.hello.home.model.SceneModel;
 import tech.sud.mgp.hello.home.view.HomeRoomTypeView;
 import tech.sud.mgp.hello.utils.AppSharedPreferences;
 
@@ -65,7 +66,7 @@ public class IndexFragment extends BaseFragment implements GameItemCallback {
     @Override
     protected void initData() {
         super.initData();
-        HomeRepository.gameList(this, new RxCallback<GameListResp>() {
+        CommonRepository.gameList(this, new RxCallback<GameListResp>() {
             @Override
             public void onNext(BaseResponse<GameListResp> t) {
                 super.onNext(t);

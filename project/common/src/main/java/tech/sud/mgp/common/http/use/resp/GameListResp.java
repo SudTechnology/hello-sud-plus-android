@@ -1,9 +1,7 @@
-package tech.sud.mgp.hello.home.http.resp;
+package tech.sud.mgp.common.http.use.resp;
 
 import java.util.List;
 
-import tech.sud.mgp.hello.home.model.GameModel;
-import tech.sud.mgp.hello.home.model.SceneModel;
 
 public class GameListResp {
     private List<GameModel> gameList;

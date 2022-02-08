@@ -10,9 +10,9 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
 import java.util.List;
 
+import tech.sud.mgp.common.http.use.resp.GameModel;
 import tech.sud.mgp.common.utils.ImageLoader;
 import tech.sud.mgp.hello.R;
-import tech.sud.mgp.hello.home.model.GameModel;
 
 public class GameAdapter extends BaseQuickAdapter<GameModel, BaseViewHolder> {
 

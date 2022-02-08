@@ -1,6 +1,4 @@
-package tech.sud.mgp.hello.home.model;
-
-import java.util.List;
+package tech.sud.mgp.common.http.use.resp;
 
 public class SceneModel {
     int sceneId;

@@ -92,6 +92,7 @@ public class GiftEffectView extends ConstraintLayout implements LifecycleObserve
                 case START: {
                     break;
                 }
+                //END和ERROR状态根据具体业务需求去处理，这里资源文件一定存在所以统一处理了
                 case PLAYEND:
                 case PLAYERROR: {
                     aContainer.post(() -> {
@@ -120,8 +121,9 @@ public class GiftEffectView extends ConstraintLayout implements LifecycleObserve
                 case START: {
                     break;
                 }
-                case PLAYEND:
-                case PLAYERROR: {
+                case PLAYERROR:
+                    showImage(giftModel);
+                case PLAYEND: {
                     aContainer.post(() -> {
                         aContainer.removeView(giftVideoView);
                         giftVideoView.detachView();
@@ -166,7 +168,7 @@ public class GiftEffectView extends ConstraintLayout implements LifecycleObserve
         ImageView imageView = creatImageView();
         aContainer.addView(imageView);
         imageView.setVisibility(View.VISIBLE);
-        giftDisplayManager.loadDefualtImageInImageView(giftModel.resId, true, imageView, result -> {
+        giftDisplayManager.loadDefualtImageInImageView(giftModel.giftImage, true, imageView, result -> {
             switch (result) {
                 case START: {
                     break;

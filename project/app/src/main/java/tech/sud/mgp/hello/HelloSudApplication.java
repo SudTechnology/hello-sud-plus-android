@@ -8,6 +8,7 @@ import com.tencent.bugly.crashreport.CrashReport;
 
 import java.io.File;
 
+import tech.sud.mgp.audio.gift.manager.GiftHelper;
 import tech.sud.mgp.audio.middle.MediaAudioEngineManager;
 import tech.sud.mgp.audio.middle.impl.ZegoAudioEngine;
 
@@ -17,6 +18,7 @@ public class HelloSudApplication extends Application {
         super.onCreate();
         configBugly();
         configAudioEngine();
+        configGift();
     }
 
     // Bugly config
@@ -34,6 +36,8 @@ public class HelloSudApplication extends Application {
         MediaAudioEngineManager.shared().audioEngine.config("581733944", "8d8c5698d49929056462dba41cb48cdd4d05babd8c2c68e450b3883096656b87");
     }
 
-
+    private void configGift() {
+        GiftHelper.getInstance().creatGifts();
+    }
 
 }

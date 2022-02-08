@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
 
 import com.blankj.utilcode.util.DeviceUtils;
-import com.ss.ugc.android.alpha_player.IMonitor;
 import com.ss.ugc.android.alpha_player.IPlayerAction;
 import com.ss.ugc.android.alpha_player.model.ScaleType;
 
@@ -23,7 +22,7 @@ public class GiftMp4Strategy extends PlayStrategy<GiftMp4Model> {
     /**
      * 加载mp4
      */
-    public void loadMp4(int filePath,
+    public void loadMp4(int resId,
                         GiftVideoView mp4View,
                         LifecycleOwner lifecycleOwner,
                         PlayResultCallback callback) {
@@ -54,15 +53,18 @@ public class GiftMp4Strategy extends PlayStrategy<GiftMp4Model> {
         if (lifecycleOwner == null) {
             callback.result(PlayResult.PLAYERROR);
         } else {
-//            File file = new File(filePath);
-//            if (file.exists() && file.isFile()) {
-//                mp4View.attachView();
-//                mp4View.post(() -> mp4View.startDefaultImage(false));
-//                mp4View.startVideoGift(filePath, () -> callback.result(PlayResult.PLAYERROR));
-//            }
+            // TODO 需要修改
+            String filePath = "/storage/emulated/0/Android/audio_mp4_600.mp4";
+            File file = new File(filePath);
+            if (file.exists() && file.isFile()) {
+                mp4View.attachView();
+                mp4View.post(() -> mp4View.startDefaultImage(false));
+                mp4View.startVideoGift(filePath, () -> callback.result(PlayResult.PLAYERROR));
+            }else {
+                callback.result(PlayResult.PLAYERROR);
+            }
         }
     }
-
 
     /**
      * 是否展示静态图

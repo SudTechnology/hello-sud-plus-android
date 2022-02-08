@@ -2,6 +2,7 @@ package tech.sud.mgp.audio.gift.video;
 
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 import android.view.Surface;
 
 import androidx.annotation.NonNull;
@@ -32,6 +33,7 @@ public class ExoPlayerImpl extends AbsPlayer {
     private Context context;
 
     public ExoPlayerImpl(Context context) {
+        super(context);
         dataSourceFactory = new DefaultDataSourceFactory(context,
                 Util.getUserAgent(context, "player"));
         this.context = context;
@@ -40,27 +42,39 @@ public class ExoPlayerImpl extends AbsPlayer {
     private Player.EventListener exoPlayerListener = new Player.EventListener() {
         @Override
         public void onPlayerError(ExoPlaybackException error) {
-
+            if (getErrorListener() != null) {
+                getErrorListener().onError(0, 0, "ExoPlayer on error: " + Log.getStackTraceString(error));
+            }
         }
 
         @Override
         public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
-
+            if (playbackState == Player.STATE_READY) {
+                if (playWhenReady && getPreparedListener() != null) {
+                    getPreparedListener().onPrepared();
+                }
+            } else if (playbackState == Player.STATE_ENDED) {
+                if (getCompletionListener() != null) {
+                    getCompletionListener().onCompletion();
+                }
+            }
         }
     };
 
     private VideoListener exoVideoListener = new VideoListener() {
         @Override
         public void onVideoSizeChanged(int width, int height, int unappliedRotationDegrees, float pixelWidthHeightRatio) {
-
+            currVideoWidth = width;
+            currVideoHeight = height;
         }
 
         @Override
         public void onRenderedFirstFrame() {
-
+            if (getFirstFrameListener() != null) {
+                getFirstFrameListener().onFirstFrame();
+            }
         }
     };
-
 
     @NonNull
     @Override

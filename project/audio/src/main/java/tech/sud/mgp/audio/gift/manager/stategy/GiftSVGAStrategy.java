@@ -23,7 +23,7 @@ public class GiftSVGAStrategy extends PlayStrategy<GiftSVGAModel>{
     }
 
     /**
-     * 播放svga
+     * 播放svga（asset资源文件
      */
     public void playSvgaAsset(String svgaPath, SVGAImageView svgaView,PlayResultCallback callback) {
         SVGAParser parser = SVGAParser.Companion.shareParser();
@@ -72,7 +72,7 @@ public class GiftSVGAStrategy extends PlayStrategy<GiftSVGAModel>{
     }
 
     /**
-     * 播放svga
+     * 播放svga（本地文件
      */
     public void playSvga(String svgaPath, SVGAImageView svgaView,PlayResultCallback callback) {
         SVGAParser parser = SVGAParser.Companion.shareParser();

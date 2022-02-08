@@ -5,5 +5,5 @@ import java.util.List;
 import tech.sud.mgp.audio.example.model.UserInfo;
 
 public interface GiftSendClickCallback {
-    void sendClick(int gftId, int giftCount, List<UserInfo> toUsers);
+    void sendClick(int giftId, int giftCount, List<UserInfo> toUsers);
 }

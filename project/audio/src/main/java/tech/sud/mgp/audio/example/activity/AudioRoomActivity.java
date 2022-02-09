@@ -88,7 +88,7 @@ public class AudioRoomActivity extends BaseActivity {
     protected void initData() {
         super.initData();
         topView.setName(roomInfoModel.roomName);
-        topView.setId(roomInfoModel.roomId + "");
+        topView.setId(getString(R.string.audio_room_number) + " " + roomInfoModel.roomId);
         enterRoom();
     }
 
@@ -225,6 +225,13 @@ public class AudioRoomActivity extends BaseActivity {
     private void initGame() {
         gameViewModel.setRoomId(roomInfoModel.roomId);
         gameViewModel.loadGame(this, roomInfoModel.gameId);
+        if (roomInfoModel.gameId > 0) {
+            micView.setMicStyle(AudioRoomMicWrapView.AudioRoomMicStyle.GAME);
+            chatView.setChatStyle(AudioRoomChatView.AudioRoomChatStyle.GAME);
+        } else {
+            micView.setMicStyle(AudioRoomMicWrapView.AudioRoomMicStyle.NORMAL);
+            chatView.setChatStyle(AudioRoomChatView.AudioRoomChatStyle.NORMAL);
+        }
     }
 
     private final AudioRoomServiceCallback callback = new AudioRoomServiceCallback() {

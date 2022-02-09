@@ -14,12 +14,14 @@ import java.util.List;
 
 import tech.sud.mgp.audio.R;
 import tech.sud.mgp.common.utils.DensityUtils;
+import tech.sud.mgp.common.widget.view.TopFadingEdgeRecyclerView;
 
 public class AudioRoomChatView extends ConstraintLayout {
 
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private RoomChatAdapter mAdapter;
+    private AudioRoomChatStyle chatStyle = AudioRoomChatStyle.NORMAL;
 
     public AudioRoomChatView(@NonNull Context context) {
         this(context, null);
@@ -35,22 +37,38 @@ public class AudioRoomChatView extends ConstraintLayout {
     }
 
     private void initView() {
-        mRecyclerView = new RecyclerView(getContext());
+        mRecyclerView = new TopFadingEdgeRecyclerView(getContext());
         mRecyclerView.setClipToPadding(false);
         mRecyclerView.setPadding(0, 0, 0, DensityUtils.dp2px(getContext(), 16));
         mRecyclerView.setVerticalFadingEdgeEnabled(true);
         mRecyclerView.setFadingEdgeLength(DensityUtils.dp2px(getContext(), 30));
         mRecyclerView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.transparent));
-        LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, 0);
-        params.topMargin = DensityUtils.dp2px(getContext(), 36);
-        params.topToTop = LayoutParams.PARENT_ID;
-        params.bottomToBottom = LayoutParams.BOTTOM;
-        addView(mRecyclerView, params);
+        addView(mRecyclerView);
 
         mAdapter = new RoomChatAdapter();
         mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
+    }
+
+    /**
+     * 根据不同的模式，显示不同规格的UI
+     */
+    private void updateStyle() {
+        switch (chatStyle) {
+            case NORMAL:
+                LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, 0);
+                params.topMargin = DensityUtils.dp2px(getContext(), 36);
+                params.topToTop = LayoutParams.PARENT_ID;
+                params.bottomToBottom = LayoutParams.PARENT_ID;
+                mRecyclerView.setLayoutParams(params);
+                break;
+            case GAME:
+                params = new LayoutParams(LayoutParams.MATCH_PARENT, DensityUtils.dp2px(getContext(), 106));
+                params.bottomToBottom = LayoutParams.PARENT_ID;
+                mRecyclerView.setLayoutParams(params);
+                break;
+        }
     }
 
     public void setList(List<Object> list) {
@@ -65,6 +83,16 @@ public class AudioRoomChatView extends ConstraintLayout {
     public void moveToBottom() {
         int scrollToPosition = mAdapter.getData().size() - 1;
         mLayoutManager.scrollToPosition(scrollToPosition);
+    }
+
+    public void setChatStyle(AudioRoomChatStyle style) {
+        chatStyle = style;
+        updateStyle();
+    }
+
+    public enum AudioRoomChatStyle {
+        NORMAL, // 纯语音聊天时的样式
+        GAME    // 玩游戏时的样式
     }
 
 }

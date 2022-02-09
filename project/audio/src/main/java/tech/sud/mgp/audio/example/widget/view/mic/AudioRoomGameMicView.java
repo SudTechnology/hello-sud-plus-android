@@ -12,7 +12,7 @@ import tech.sud.mgp.audio.R;
 import tech.sud.mgp.common.utils.DensityUtils;
 
 /**
- * 开启游戏时显示的麦位
+ * 语聊房开启游戏时显示的麦位
  */
 public class AudioRoomGameMicView extends BaseMicView {
 
@@ -34,7 +34,7 @@ public class AudioRoomGameMicView extends BaseMicView {
         LinearLayout container = findViewById(R.id.ll_container);
         for (int i = 0; i < 9; i++) {
             AudioRoomGameMicItemView itemView = new AudioRoomGameMicItemView(getContext());
-            container.addView(itemView, DensityUtils.dp2px(getContext(), 48), LayoutParams.MATCH_CONSTRAINT_WRAP);
+            container.addView(itemView, DensityUtils.dp2px(getContext(), 48), LayoutParams.WRAP_CONTENT);
             mItemViews.add(itemView);
             int finalI = i;
             itemView.setOnClickListener(new OnClickListener() {

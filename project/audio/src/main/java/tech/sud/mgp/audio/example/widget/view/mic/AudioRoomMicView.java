@@ -10,6 +10,9 @@ import androidx.annotation.Nullable;
 
 import tech.sud.mgp.audio.R;
 
+/**
+ * 语聊房时的麦位UI
+ */
 public class AudioRoomMicView extends BaseMicView {
 
     public AudioRoomMicView(@NonNull Context context) {

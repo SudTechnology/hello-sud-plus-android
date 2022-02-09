@@ -13,6 +13,9 @@ import java.util.List;
 
 import tech.sud.mgp.audio.example.model.AudioRoomMicModel;
 
+/**
+ * 语聊房顶层的麦位View，管理切换不同形态
+ */
 public class AudioRoomMicWrapView extends ConstraintLayout {
 
     private AudioRoomMicStyle micStyle = AudioRoomMicStyle.NORMAL;

@@ -20,4 +20,6 @@
     <string name="audio_recreation_chat">娱乐聊天</string>
     <string name="audio_chat_room">语聊房</string>
     <string name="audio_gameing">游戏中</string>
+    <string name="audio_room_number">房号</string>
+
 </resources>

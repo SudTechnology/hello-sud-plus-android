@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-<item android:drawable="@drawable/audio_shape_arc_20_ff3b2f" android:state_selected="true"/>
+<item android:drawable="@drawable/audio_shape_white" android:state_selected="true"/>
 </selector>

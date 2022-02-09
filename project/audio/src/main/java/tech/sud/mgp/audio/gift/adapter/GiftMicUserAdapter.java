@@ -14,7 +14,9 @@ import java.util.List;
 
 import tech.sud.mgp.audio.R;
 import tech.sud.mgp.audio.gift.model.MicUserInfoModel;
+import tech.sud.mgp.common.utils.DensityUtils;
 import tech.sud.mgp.common.utils.ImageLoader;
+import tech.sud.mgp.common.widget.view.round.RoundedImageView;
 
 public class GiftMicUserAdapter extends BaseQuickAdapter<MicUserInfoModel, BaseViewHolder> {
 
@@ -24,7 +26,7 @@ public class GiftMicUserAdapter extends BaseQuickAdapter<MicUserInfoModel, BaseV
 
     @Override
     protected void convert(@NonNull BaseViewHolder baseViewHolder, MicUserInfoModel micUserInfoModel) {
-        ImageView headerIv = baseViewHolder.getView(R.id.avatar_riv);
+        RoundedImageView headerIv = baseViewHolder.getView(R.id.avatar_riv);
         ConstraintLayout textCl = baseViewHolder.getView(R.id.avatar_text_bg_cl);
         if (micUserInfoModel.userInfo.roleType == 1) {
             baseViewHolder.setText(R.id.avatar_text_tv, headerIv.getContext().getString(R.string.audio_room_admin));
@@ -34,9 +36,11 @@ public class GiftMicUserAdapter extends BaseQuickAdapter<MicUserInfoModel, BaseV
         if (micUserInfoModel.checked) {
             baseViewHolder.setVisible(R.id.checked_iv, true);
             textCl.setBackgroundColor(Color.WHITE);
+            headerIv.setBorderColor(Color.WHITE);
         } else {
             baseViewHolder.setVisible(R.id.checked_iv, false);
             textCl.setBackgroundColor(Color.GRAY);
+            headerIv.setBorderColor(Color.TRANSPARENT);
         }
         ImageLoader.loadAvatar(headerIv, micUserInfoModel.userInfo.avatar);
     }

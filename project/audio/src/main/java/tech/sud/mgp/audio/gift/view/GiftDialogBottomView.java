@@ -11,13 +11,13 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import tech.sud.mgp.audio.R;
-import tech.sud.mgp.audio.gift.callback.PresentClickCallback;
+import tech.sud.mgp.audio.gift.listener.PresentClickListener;
 
 public class GiftDialogBottomView extends ConstraintLayout {
 
     private TextView presentTv,sendGiftCountTv;
     private ImageView arrowIv;
-    public PresentClickCallback callback;
+    public PresentClickListener presentClickListener;
 
     public GiftDialogBottomView(@NonNull Context context) {
         super(context);
@@ -42,8 +42,8 @@ public class GiftDialogBottomView extends ConstraintLayout {
         presentTv.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (callback!=null){
-                    callback.present(1);
+                if (presentClickListener !=null){
+                    presentClickListener.onPresent(1);
                 }
             }
         });

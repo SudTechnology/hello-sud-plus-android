@@ -15,8 +15,6 @@ import androidx.lifecycle.LifecycleOwner;
 import com.airbnb.lottie.LottieAnimationView;
 import com.opensource.svgaplayer.SVGAImageView;
 
-import java.io.File;
-
 import tech.sud.mgp.audio.R;
 import tech.sud.mgp.audio.gift.manager.GiftDisplayManager;
 import tech.sud.mgp.audio.gift.manager.stategy.GiftJsonModel;
@@ -95,7 +93,7 @@ public class GiftEffectView extends ConstraintLayout implements LifecycleObserve
         aContainer.addView(svgaImageView);
         svgaImageView.setVisibility(View.VISIBLE);
 
-        svgaModel.setCallback(result -> {
+        svgaModel.setPlayResultListener(result -> {
             switch (result) {
                 case START: {
                     break;
@@ -125,7 +123,7 @@ public class GiftEffectView extends ConstraintLayout implements LifecycleObserve
         aContainer.addView(giftVideoView);
         giftVideoView.setVisibility(View.VISIBLE);
 
-        model.setCallback(result -> {
+        model.setPlayResultListener(result -> {
             switch (result) {
                 case START: {
                     break;
@@ -156,7 +154,7 @@ public class GiftEffectView extends ConstraintLayout implements LifecycleObserve
         aContainer.addView(lottieAnimationView);
         lottieAnimationView.setVisibility(View.VISIBLE);
 
-        model.setCallback(result -> {
+        model.setPlayResultListener(result -> {
             switch (result) {
                 case START: {
                     break;
@@ -185,7 +183,7 @@ public class GiftEffectView extends ConstraintLayout implements LifecycleObserve
         aContainer.addView(imageView);
         imageView.setVisibility(View.VISIBLE);
 
-        model.setCallback(result -> {
+        model.setPlayResultListener(result -> {
             switch (result) {
                 case START: {
                     break;

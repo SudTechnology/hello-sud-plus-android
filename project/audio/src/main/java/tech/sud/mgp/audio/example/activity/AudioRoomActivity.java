@@ -25,7 +25,7 @@ import tech.sud.mgp.audio.example.widget.view.chat.AudioRoomChatView;
 import tech.sud.mgp.audio.example.widget.view.chat.RoomInputMsgView;
 import tech.sud.mgp.audio.example.widget.view.mic.AudioRoomMicWrapView;
 import tech.sud.mgp.audio.example.widget.view.mic.OnMicItemClickListener;
-import tech.sud.mgp.audio.gift.callback.GiftSendClickCallback;
+import tech.sud.mgp.audio.gift.listener.GiftSendClickListener;
 import tech.sud.mgp.audio.gift.manager.GiftHelper;
 import tech.sud.mgp.audio.gift.model.GiftModel;
 import tech.sud.mgp.audio.gift.model.GiftNotifyDetailodel;
@@ -199,9 +199,9 @@ public class AudioRoomActivity extends BaseActivity {
         } else {
             dialog.setToUser(underUser);
         }
-        dialog.clickCallback = new GiftSendClickCallback() {
+        dialog.giftSendClickListener = new GiftSendClickListener() {
             @Override
-            public void sendClick(int giftId, int giftCount, List<UserInfo> toUsers) {
+            public void onSendClick(int giftId, int giftCount, List<UserInfo> toUsers) {
                 if (toUsers != null && toUsers.size() > 0) {
                     for (UserInfo user : toUsers) {
                         binder.sendGift(giftId, giftCount, user);

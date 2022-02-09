@@ -9,11 +9,10 @@ import com.opensource.svgaplayer.SVGAParser;
 import java.io.File;
 import java.io.IOException;
 
-import tech.sud.mgp.audio.gift.callback.PlayResultCallback;
+import tech.sud.mgp.audio.gift.listener.PlayResultListener;
 import tech.sud.mgp.audio.gift.manager.stategy.PlayStrategy;
 import tech.sud.mgp.audio.gift.model.PlayGiftModel;
 import tech.sud.mgp.audio.gift.model.PlayResult;
-import tech.sud.mgp.common.utils.ImageLoader;
 
 public class GiftDisplayManager extends GiftBaseManager {
 
@@ -35,13 +34,13 @@ public class GiftDisplayManager extends GiftBaseManager {
     /**
      * 展示一张图片给imageview
      */
-    public void loadDefualtImageInImageView(int imageId, boolean showEnable, ImageView imageView, PlayResultCallback resultBack) {
+    public void loadDefualtImageInImageView(int imageId, boolean showEnable, ImageView imageView, PlayResultListener listener) {
         if (showEnable) {
            imageView.setImageResource(imageId);
         }
         imageView.postDelayed(() -> {
-            if (resultBack != null) {
-                resultBack.result(PlayResult.PLAYEND);
+            if (listener != null) {
+                listener.onResult(PlayResult.PLAYEND);
             }
         }, 2000);
     }

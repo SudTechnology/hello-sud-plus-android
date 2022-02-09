@@ -5,11 +5,9 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatImageView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.LifecycleOwner;
 
@@ -24,9 +22,8 @@ import com.ss.ugc.android.alpha_player.model.DataSource;
 import java.io.File;
 
 import tech.sud.mgp.audio.R;
-import tech.sud.mgp.audio.gift.callback.Mp4PlayErrorCallback;
+import tech.sud.mgp.audio.gift.listener.Mp4PlayErrorListener;
 import tech.sud.mgp.audio.gift.video.ExoPlayerImpl;
-import tech.sud.mgp.common.utils.ImageLoader;
 
 public class GiftVideoView extends ConstraintLayout {
 
@@ -62,9 +59,9 @@ public class GiftVideoView extends ConstraintLayout {
         mPlayerController.setMonitor(monitor);
     }
 
-    public void startVideoGift(String filePath, Mp4PlayErrorCallback playError) {
+    public void startVideoGift(String filePath, Mp4PlayErrorListener playError) {
         if (TextUtils.isEmpty(filePath)) {
-            playError.playError();
+            playError.onPlayError();
             return;
         }
 
@@ -82,16 +79,16 @@ public class GiftVideoView extends ConstraintLayout {
         startDataSource(dataSource, playError);
     }
 
-    private void startDataSource(DataSource dataSource, Mp4PlayErrorCallback playError) {
+    private void startDataSource(DataSource dataSource, Mp4PlayErrorListener playError) {
         if (!dataSource.isValid()) {
             Log.e(TAG, "startDataSource: dataSource is invalid.");
-            playError.playError();
+            playError.onPlayError();
             return;
         }
         try {
             mPlayerController.start(dataSource);
         } catch (Exception e) {
-            playError.playError();
+            playError.onPlayError();
         }
     }
 

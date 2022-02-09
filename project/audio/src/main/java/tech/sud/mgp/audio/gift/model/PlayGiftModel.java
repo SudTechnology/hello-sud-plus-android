@@ -1,11 +1,11 @@
 package tech.sud.mgp.audio.gift.model;
 
-import tech.sud.mgp.audio.gift.callback.PlayResultCallback;
+import tech.sud.mgp.audio.gift.listener.PlayResultListener;
 
 public class PlayGiftModel {
     private String path;
     private int resId;
-    private PlayResultCallback callback;
+    private PlayResultListener playResultListener;
 
     public String getPath() {
         return path;
@@ -15,12 +15,12 @@ public class PlayGiftModel {
         this.path = path;
     }
 
-    public PlayResultCallback getCallback() {
-        return callback;
+    public PlayResultListener getPlayResultListener() {
+        return playResultListener;
     }
 
-    public void setCallback(PlayResultCallback callback) {
-        this.callback = callback;
+    public void setPlayResultListener(PlayResultListener playResultListener) {
+        this.playResultListener = playResultListener;
     }
 
     public int getResId() {

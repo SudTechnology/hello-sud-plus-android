@@ -19,16 +19,16 @@ import com.bumptech.glide.load.resource.bitmap.CenterInside;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 
-import tech.sud.mgp.audio.gift.callback.PlayResultCallback;
+import tech.sud.mgp.audio.gift.listener.PlayResultListener;
 import tech.sud.mgp.audio.gift.model.PlayResult;
 
 public class GiftWebpStrategy extends PlayStrategy<GiftWebpModel> {
     @Override
     public void play(GiftWebpModel giftWebpModel) {
-        loadWebp(giftWebpModel.imageView, giftWebpModel.getResId(), giftWebpModel.getCallback());
+        loadWebp(giftWebpModel.imageView, giftWebpModel.getResId(), giftWebpModel.getPlayResultListener());
     }
 
-    private void loadWebp(ImageView imageView, int resId, PlayResultCallback listener) {
+    private void loadWebp(ImageView imageView, int resId, PlayResultListener listener) {
         Context context = imageView.getContext();
         if (context instanceof Activity) {
             if (((Activity) context).isDestroyed()) {
@@ -45,7 +45,7 @@ public class GiftWebpStrategy extends PlayStrategy<GiftWebpModel> {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                         if (listener != null) {
-                            listener.result(PlayResult.PLAYERROR);
+                            listener.onResult(PlayResult.PLAYERROR);
                         }
                         return false;
                     }
@@ -60,7 +60,7 @@ public class GiftWebpStrategy extends PlayStrategy<GiftWebpModel> {
                             public void onAnimationStart(Drawable drawable) {
                                 super.onAnimationStart(drawable);
                                 if (listener != null) {
-                                    listener.result(PlayResult.START);
+                                    listener.onResult(PlayResult.START);
                                 }
                             }
 
@@ -69,7 +69,7 @@ public class GiftWebpStrategy extends PlayStrategy<GiftWebpModel> {
                                 super.onAnimationEnd(drawable);
                                 webpDrawable.unregisterAnimationCallback(this);
                                 if (listener != null) {
-                                    listener.result(PlayResult.PLAYEND);
+                                    listener.onResult(PlayResult.PLAYEND);
                                 }
                             }
                         });

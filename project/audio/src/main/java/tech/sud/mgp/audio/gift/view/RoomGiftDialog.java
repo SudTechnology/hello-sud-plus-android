@@ -19,7 +19,7 @@ import tech.sud.mgp.audio.R;
 import tech.sud.mgp.audio.example.model.AudioRoomMicModel;
 import tech.sud.mgp.audio.example.model.UserInfo;
 import tech.sud.mgp.audio.gift.adapter.GiftListAdapter;
-import tech.sud.mgp.audio.gift.callback.GiftSendClickCallback;
+import tech.sud.mgp.audio.gift.listener.GiftSendClickListener;
 import tech.sud.mgp.audio.gift.manager.GiftHelper;
 import tech.sud.mgp.audio.gift.model.GiftModel;
 import tech.sud.mgp.audio.gift.model.MicUserInfoModel;
@@ -33,7 +33,7 @@ public class RoomGiftDialog extends BaseDialogFragment {
     private RecyclerView giftRv;
     private GiftListAdapter giftListAdapter;
     private List<GiftModel> gifts = new ArrayList<>();
-    public GiftSendClickCallback clickCallback;
+    public GiftSendClickListener giftSendClickListener;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,9 +60,9 @@ public class RoomGiftDialog extends BaseDialogFragment {
         bottomView = mRootView.findViewById(R.id.gift_bottom_view);
         giftRv = mRootView.findViewById(R.id.gift_data_rv);
         mRootView.findViewById(R.id.send_gift_empty_view).setOnClickListener(v -> dismiss());
-        bottomView.callback = count -> {
+        bottomView.presentClickListener = count -> {
             GiftModel checkedGift = GiftHelper.getInstance().getCheckedGift();
-            if (clickCallback != null && checkedGift != null) {
+            if (giftSendClickListener != null && checkedGift != null) {
                 List<UserInfo> userInfos = new ArrayList<>();
                 if (GiftHelper.getInstance().inMic) {
                     if (GiftHelper.getInstance().inMics.size() > 0) {
@@ -80,7 +80,7 @@ public class RoomGiftDialog extends BaseDialogFragment {
                     userInfos.add(GiftHelper.getInstance().underMicUser);
                 }
                 if (userInfos.size() > 0) {
-                    clickCallback.sendClick(checkedGift.giftId, 1, userInfos);
+                    giftSendClickListener.onSendClick(checkedGift.giftId, 1, userInfos);
                 } else {
                     ToastUtils.showShort(R.string.audio_send_gift_user_empty);
                 }
@@ -130,9 +130,12 @@ public class RoomGiftDialog extends BaseDialogFragment {
                     MicUserInfoModel user = new MicUserInfoModel();
                     user.userInfo = model;
                     user.indexMic = model.micIndex;
-                    user.checked = model.micIndex == selectedIndex;
+                    user.checked = false;
                     GiftHelper.getInstance().inMics.add(user);
                 }
+            }
+            if (GiftHelper.getInstance().inMics.size() > 0) {
+                GiftHelper.getInstance().inMics.get(0).checked = true;
             }
         }
     }

@@ -17,4 +17,7 @@
     <string name="audio_send_msg_hint">发消息…</string>
     <string name="audio_send_gift_user_empty">请选择收礼对象</string>
     <string name="audio_send_gift_empty">请选择礼物</string>
+    <string name="audio_recreation_chat">娱乐聊天</string>
+    <string name="audio_chat_room">语聊房</string>
+    <string name="audio_gameing">游戏中</string>
 </resources>

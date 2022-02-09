@@ -4,6 +4,8 @@ import android.Manifest;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import androidx.lifecycle.Observer;
+
 import com.blankj.utilcode.util.KeyboardUtils;
 
 import java.io.Serializable;
@@ -16,6 +18,7 @@ import tech.sud.mgp.audio.example.model.UserInfo;
 import tech.sud.mgp.audio.example.service.AudioRoomService;
 import tech.sud.mgp.audio.example.service.AudioRoomServiceCallback;
 import tech.sud.mgp.audio.example.viewmodel.AudioRoomViewModel;
+import tech.sud.mgp.audio.example.widget.dialog.GameModeDialog;
 import tech.sud.mgp.audio.example.widget.view.AudioRoomBottomView;
 import tech.sud.mgp.audio.example.widget.view.AudioRoomTopView;
 import tech.sud.mgp.audio.example.widget.view.chat.AudioRoomChatView;
@@ -44,6 +47,7 @@ public class AudioRoomActivity extends BaseActivity {
     private FrameLayout giftContainer;
     private GiftEffectView effectView;
     private RoomInputMsgView inputMsgView;
+    private FrameLayout gameContainer;
 
     private final AudioRoomService audioRoomService = new AudioRoomService();
     private final AudioRoomService.MyBinder binder = audioRoomService.getBinder();
@@ -76,6 +80,7 @@ public class AudioRoomActivity extends BaseActivity {
         bottomView = findViewById(R.id.room_bottom_view);
         giftContainer = findViewById(R.id.gift_container);
         inputMsgView = findViewById(R.id.room_input_msg_view);
+        gameContainer = findViewById(R.id.game_container);
         inputMsgView.hide();
     }
 
@@ -149,6 +154,19 @@ public class AudioRoomActivity extends BaseActivity {
                 inputMsgView.onSoftInputChanged(height);
             }
         });
+        topView.setSelectModeClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GameModeDialog dialog = new GameModeDialog();
+                dialog.show(getSupportFragmentManager(), null);
+            }
+        });
+        gameViewModel.gameViewLiveData.observe(this, new Observer<View>() {
+            @Override
+            public void onChanged(View view) {
+                gameContainer.addView(view, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+            }
+        });
     }
 
     private void openMic() {
@@ -204,17 +222,17 @@ public class AudioRoomActivity extends BaseActivity {
         effectView.showEffect(giftModel);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        audioRoomService.onDestroy();
-        binder.setCallback(null);
-        if (effectView != null) {
-            effectView.onDestory();
-        }
+    private void initGame() {
+        gameViewModel.setRoomId(roomInfoModel.roomId);
+        gameViewModel.loadGame(this, roomInfoModel.gameId);
     }
 
     private final AudioRoomServiceCallback callback = new AudioRoomServiceCallback() {
+
+        @Override
+        public void onEnterRoomSuccess() {
+            initGame();
+        }
 
         @Override
         public void setMicList(List<AudioRoomMicModel> list) {
@@ -253,4 +271,14 @@ public class AudioRoomActivity extends BaseActivity {
         }
 
     };
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        audioRoomService.onDestroy();
+        binder.setCallback(null);
+        if (effectView != null) {
+            effectView.onDestory();
+        }
+    }
 }

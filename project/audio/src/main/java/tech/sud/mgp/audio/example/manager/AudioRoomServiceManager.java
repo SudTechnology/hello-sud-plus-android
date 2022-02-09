@@ -61,6 +61,10 @@ public class AudioRoomServiceManager extends BaseServiceManager {
         roomInfoModel = model;
         audioEngineManager.enterRoom(model);
         audioMicManager.enterRoom(model);
+        AudioRoomServiceCallback callback = getCallback();
+        if (callback != null) {
+            callback.onEnterRoomSuccess();
+        }
     }
 
     public void setMicState(boolean isOpen) {

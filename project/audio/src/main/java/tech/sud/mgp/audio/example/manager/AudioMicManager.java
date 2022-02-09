@@ -64,6 +64,9 @@ public class AudioMicManager extends BaseServiceManager {
                 super.onSuccess(roomMicListResp);
                 if (roomMicListResp == null) return;
                 List<RoomMicResp> backList = roomMicListResp.roomMicList;
+                if (backList == null || backList.size() == 0) {
+                    return;
+                }
                 List<AudioRoomMicModel> list = new ArrayList<>();
                 List<Long> userIds = new ArrayList<>();
                 for (int i = 0; i < backList.size(); i++) {

@@ -31,14 +31,15 @@ public class GameViewModel {
     private long roomId;
     private final FsmApp2MgManager fsmapp2MGManager = new FsmApp2MgManager();
 
-    final MutableLiveData<View> gameViewLiveData = new MutableLiveData<>(); // 游戏View回调
+    public final MutableLiveData<View> gameViewLiveData = new MutableLiveData<>(); // 游戏View回调
+    public final MutableLiveData<Object> gameStartLiveData = new MutableLiveData<>(); // 游戏开始时的回调
 
     public void setRoomId(long roomId) {
         this.roomId = roomId;
     }
 
     public void loadGame(AppCompatActivity activity, long gameId) {
-        if (activity.isDestroyed()) {
+        if (activity.isDestroyed() || gameId <= 0) {
             return;
         }
         // 请求登录code
@@ -76,8 +77,10 @@ public class GameViewModel {
             ToastUtils.showLong("SudConfig is empty");
             return;
         }
+        sudConfig.appId = "1486637108889305089";
+        sudConfig.appKey = "wVC9gUtJNIDzAqOjIVdIHqU3MY6zF6SR";
         // 初始化sdk
-        SudMGP.initSDK(activity, sudConfig.appId, sudConfig.appKey, false, new ISudListenerInitSDK() {
+        SudMGP.initSDK(activity, sudConfig.appId, sudConfig.appKey, true, new ISudListenerInitSDK() {
             @Override
             public void onSuccess() {
                 // 加载游戏
@@ -87,7 +90,7 @@ public class GameViewModel {
             }
 
             @Override
-            public void onFailure(int i, String s) {
+            public void onFailure(int errCode, String errMsg) {
                 delayLoadGame(activity, gameId);
             }
         });
@@ -101,7 +104,7 @@ public class GameViewModel {
 
         @Override
         public void onGameStarted() {
-
+            gameStartLiveData.setValue(null);
         }
 
         @Override
@@ -110,27 +113,27 @@ public class GameViewModel {
         }
 
         @Override
-        public void onExpireCode(ISudFSMStateHandle iSudFSMStateHandle, String s) {
+        public void onExpireCode(ISudFSMStateHandle handle, String dataJson) {
 
         }
 
         @Override
-        public void onGetGameViewInfo(ISudFSMStateHandle iSudFSMStateHandle, String s) {
+        public void onGetGameViewInfo(ISudFSMStateHandle handle, String dataJson) {
 
         }
 
         @Override
-        public void onGetGameCfg(ISudFSMStateHandle iSudFSMStateHandle, String s) {
+        public void onGetGameCfg(ISudFSMStateHandle handle, String dataJson) {
 
         }
 
         @Override
-        public void onGameStateChange(ISudFSMStateHandle iSudFSMStateHandle, String s, String s1) {
+        public void onGameStateChange(ISudFSMStateHandle handle, String state, String dataJson) {
 
         }
 
         @Override
-        public void onPlayerStateChange(ISudFSMStateHandle iSudFSMStateHandle, String s, String s1, String s2) {
+        public void onPlayerStateChange(ISudFSMStateHandle handle, String userId, String state, String dataJson) {
 
         }
     };

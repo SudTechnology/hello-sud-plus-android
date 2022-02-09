@@ -8,6 +8,11 @@ import tech.sud.mgp.audio.gift.model.GiftNotifyDetailodel;
 public interface AudioRoomServiceCallback {
 
     /**
+     * 进入房间成功
+     */
+    void onEnterRoomSuccess();
+
+    /**
      * 麦位数据
      *
      * @param list 麦位列表

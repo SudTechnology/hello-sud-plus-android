@@ -46,4 +46,12 @@ public interface AudioRoomServiceCallback {
      * 麦克风开关状态变化
      */
     void onMicStateChanged(boolean isOpened);
+
+    /**
+     * 某个麦位下产生的声浪
+     *
+     * @param micIndex 麦位索引
+     */
+    void onSoundLevel(int micIndex);
+
 }

@@ -4,8 +4,11 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import tech.sud.mgp.audio.example.model.RoomInfoModel;
+import tech.sud.mgp.audio.example.service.AudioRoomServiceCallback;
 import tech.sud.mgp.audio.middle.MediaAudioEngineManager;
 import tech.sud.mgp.audio.middle.MediaAudioEngineNetworkStateType;
 import tech.sud.mgp.audio.middle.MediaAudioEnginePlayerStateType;
@@ -26,11 +29,16 @@ public class AudioEngineManager extends BaseServiceManager {
 
     public final AudioCommandManager commandManager = new AudioCommandManager();
     private OnRoomStreamUpdateListener onRoomStreamUpdateListener;
+    private final int soundLevelThreshold = 1; // 触发声浪显示的阀值
 
     @Override
     public void onCreate() {
         super.onCreate();
         commandManager.onCreate();
+        MediaAudioEngineProtocol engine = getEngine();
+        if (engine != null) {
+            engine.startSoundLevelMonitor();
+        }
     }
 
     public AudioEngineManager(AudioRoomServiceManager audioRoomServiceManager) {
@@ -131,12 +139,36 @@ public class AudioEngineManager extends BaseServiceManager {
     private final MediaAudioEventHandler eventHandler = new MediaAudioEventHandler() {
         @Override
         public void onCapturedSoundLevelUpdate(float soundLevel) {
-
+            if (parentManager.audioStreamManager.isPublishingStream() && soundLevel > soundLevelThreshold) {
+                int selfMicIndex = parentManager.audioMicManager.findSelfMicIndex();
+                if (selfMicIndex >= 0) {
+                    AudioRoomServiceCallback callback = parentManager.getCallback();
+                    if (callback != null) {
+                        callback.onSoundLevel(selfMicIndex);
+                    }
+                }
+            }
         }
 
         @Override
         public void onRemoteSoundLevelUpdate(HashMap<String, Float> soundLevels) {
-
+            if (soundLevels == null || soundLevels.size() == 0) {
+                return;
+            }
+            Set<Map.Entry<String, Float>> entries = soundLevels.entrySet();
+            for (Map.Entry<String, Float> entry : entries) {
+                String streamId = entry.getKey();
+                Float soundLevel = entry.getValue();
+                if (soundLevel > soundLevelThreshold) {
+                    int micIndex = parentManager.audioMicManager.findMicIndexByStreamId(streamId);
+                    if (micIndex >= 0) {
+                        AudioRoomServiceCallback callback = parentManager.getCallback();
+                        if (callback != null) {
+                            callback.onSoundLevel(micIndex);
+                        }
+                    }
+                }
+            }
         }
 
         @Override

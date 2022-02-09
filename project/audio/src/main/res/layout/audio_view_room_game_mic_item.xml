@@ -7,13 +7,14 @@
 
     <tech.sud.mgp.common.widget.view.SoundLevelView
         android:id="@+id/sound_level_view"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         app:slv_start_width="20dp"
         app:slv_speed="0.8dp"
         app:slv_end_alpha="0"
         app:slv_circle_color="@color/c_ffffff"
-        app:slv_circle_interval="15dp"
+        app:slv_circle_interval="10dp"
+        app:slv_stroke_width="1dp"
         app:layout_constraintStart_toStartOf="@id/riv_avatar"
         app:layout_constraintEnd_toEndOf="@id/riv_avatar"
         app:layout_constraintTop_toTopOf="@id/riv_avatar"
@@ -25,7 +26,7 @@
         android:layout_height="32dp"
         app:riv_oval="true"
         android:scaleType="centerCrop"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

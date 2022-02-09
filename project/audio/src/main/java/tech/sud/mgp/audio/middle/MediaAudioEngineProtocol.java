@@ -122,6 +122,11 @@ public interface MediaAudioEngineProtocol {
     void sendCommand(String roomId, String command, SendCommandResult result);
 
     /**
+     * 启动声浪监控器
+     */
+    void startSoundLevelMonitor();
+
+    /**
      * 发送指令回调接口
      */
     interface SendCommandResult {

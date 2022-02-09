@@ -184,6 +184,14 @@ public class ZegoAudioEngine implements MediaAudioEngineProtocol {
         }
     }
 
+    @Override
+    public void startSoundLevelMonitor() {
+        ZegoExpressEngine engine = getEngine();
+        if (engine != null) {
+            engine.startSoundLevelMonitor();
+        }
+    }
+
     private final IZegoEventHandler mIZegoEventHandler = new IZegoEventHandler() {
 
         @Override

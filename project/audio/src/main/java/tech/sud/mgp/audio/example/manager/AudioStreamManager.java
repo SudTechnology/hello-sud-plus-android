@@ -61,6 +61,18 @@ public class AudioStreamManager extends BaseServiceManager {
         }
     }
 
+    /**
+     * 是否正在推流当中
+     *
+     * @return true为推流中
+     */
+    public boolean isPublishingStream() {
+        if (state == StreamState.MIC_STREAM) {
+            return true;
+        }
+        return false;
+    }
+
     private AudioEngineManager.OnRoomStreamUpdateListener onRoomStreamUpdateListener = new AudioEngineManager.OnRoomStreamUpdateListener() {
         @Override
         public void onRoomStreamUpdate(String roomId, MediaAudioEngineUpdateType type, List<MediaStream> streamList, JSONObject extendedData) {

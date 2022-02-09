@@ -277,6 +277,11 @@ public class AudioRoomActivity extends BaseActivity {
             bottomView.setMicOpened(isOpened);
         }
 
+        @Override
+        public void onSoundLevel(int micIndex) {
+            micView.startSoundLevel(micIndex);
+        }
+
     };
 
     @Override

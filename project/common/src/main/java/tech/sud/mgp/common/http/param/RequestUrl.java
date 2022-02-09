@@ -39,7 +39,7 @@ public interface RequestUrl {
     /**
      * 房间上下麦接口
      */
-    String ROOM_MIC_SWITCH = "room/mic/switch/v1";
+    String ROOM_MIC_SWITCH = "room/switch-mic/v1";
 
     /**
      * 房间列表

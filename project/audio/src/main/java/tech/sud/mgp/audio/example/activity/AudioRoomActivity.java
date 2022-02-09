@@ -40,6 +40,7 @@ import tech.sud.mgp.common.permission.PermissionFragment;
 import tech.sud.mgp.common.permission.SudPermissionUtils;
 import tech.sud.mgp.common.widget.dialog.SimpleChooseDialog;
 import tech.sud.mgp.game.example.viewmodel.GameViewModel;
+import tech.sud.mgp.game.middle.model.GameMessageModel;
 
 public class AudioRoomActivity extends BaseActivity {
 
@@ -196,6 +197,24 @@ public class AudioRoomActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 intentClose();
+            }
+        });
+        gameViewModel.gameMessageLiveData.observe(this, new Observer<GameMessageModel>() {
+            @Override
+            public void onChanged(GameMessageModel gameMessageModel) {
+                if (gameMessageModel != null) {
+                    binder.addChatMsg(gameMessageModel);
+                }
+            }
+        });
+        gameViewModel.captainChangeLiveData.observe(this, new Observer<Long>() {
+            @Override
+            public void onChanged(Long userId) {
+                long captainUserId = 0;
+                if (userId != null) {
+                    captainUserId = userId;
+                }
+                binder.captainChange(captainUserId);
             }
         });
     }

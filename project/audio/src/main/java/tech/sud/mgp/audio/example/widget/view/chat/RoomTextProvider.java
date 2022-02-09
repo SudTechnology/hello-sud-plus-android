@@ -10,6 +10,9 @@ import tech.sud.mgp.audio.example.model.RoomTextModel;
 import tech.sud.mgp.common.utils.ImageLoader;
 import tech.sud.mgp.common.widget.view.round.RoundedImageView;
 
+/**
+ * 房间内用户说话，公屏消息样式
+ */
 public class RoomTextProvider extends BaseItemProvider<Object> {
     @Override
     public int getItemViewType() {

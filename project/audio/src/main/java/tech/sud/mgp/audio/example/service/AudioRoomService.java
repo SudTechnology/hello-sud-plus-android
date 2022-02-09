@@ -7,6 +7,7 @@ import tech.sud.mgp.audio.example.manager.AudioRoomServiceManager;
 import tech.sud.mgp.audio.example.model.AudioRoomMicModel;
 import tech.sud.mgp.audio.example.model.RoomInfoModel;
 import tech.sud.mgp.audio.example.model.UserInfo;
+import tech.sud.mgp.game.middle.model.GameMessageModel;
 
 /**
  * 房间服务
@@ -108,6 +109,24 @@ public class AudioRoomService {
         public void updateGiftIcon(Map<Long, Boolean> userState) {
             serviceManager.audioMicManager.updateGiftIcon(userState);
 
+        }
+
+        /**
+         * 添加一条公屏消息
+         *
+         * @param gameMessageModel
+         */
+        public void addChatMsg(GameMessageModel gameMessageModel) {
+            serviceManager.audioChatManager.addMsg(gameMessageModel);
+        }
+
+        /**
+         * 队长用户变化了
+         *
+         * @param captainUserId 队长用户id
+         */
+        public void captainChange(long captainUserId) {
+            serviceManager.audioMicManager.captainChange(captainUserId);
         }
     }
 }

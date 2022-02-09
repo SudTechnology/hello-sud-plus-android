@@ -31,6 +31,7 @@ public class AudioMicManager extends BaseServiceManager {
     private final AudioRoomServiceManager parentManager;
 
     private final List<AudioRoomMicModel> micList = new ArrayList<>();
+    private long captainUserId; // 游戏队长的用户id
 
     public AudioMicManager(AudioRoomServiceManager audioRoomServiceManager) {
         super();
@@ -50,10 +51,7 @@ public class AudioMicManager extends BaseServiceManager {
     }
 
     public void enterRoom(RoomInfoModel model) {
-        AudioRoomServiceCallback callback = parentManager.getCallback();
-        if (callback != null) {
-            callback.setMicList(micList);
-        }
+        notifyDataSetChange();
         refreshMicList();
     }
 
@@ -105,11 +103,7 @@ public class AudioMicManager extends BaseServiceManager {
                 updateMicModel(audioRoomMicModel);
             }
         }
-        AudioRoomServiceCallback callback = parentManager.getCallback();
-        if (callback != null) {
-            callback.setMicList(micList);
-            callbackSelfMicIndex();
-        }
+        notifyDataSetChange();
     }
 
     private void updateMicModel(AudioRoomMicModel model) {
@@ -223,10 +217,45 @@ public class AudioMicManager extends BaseServiceManager {
         }
     }
 
+    /**
+     * 通知单条数据的变动
+     *
+     * @param micIndex 麦位索引
+     * @param model    数据
+     */
     private void notifyItemChange(int micIndex, AudioRoomMicModel model) {
         AudioRoomServiceCallback callback = parentManager.getCallback();
         if (callback != null) {
+            wrapMicModel(model);
             callback.notifyMicItemChange(micIndex, model);
+            callbackSelfMicIndex();
+        }
+    }
+
+    /**
+     * 对麦位模型进行数据赋值
+     *
+     * @param model
+     */
+    private void wrapMicModel(AudioRoomMicModel model) {
+        // 是否是游戏中的队长
+        if (model.userId > 0 && model.userId == captainUserId) {
+            model.isCaptain = true;
+        } else {
+            model.isCaptain = false;
+        }
+    }
+
+    /**
+     * 通知页面刷新整个麦位
+     */
+    private void notifyDataSetChange() {
+        AudioRoomServiceCallback callback = parentManager.getCallback();
+        if (callback != null) {
+            for (AudioRoomMicModel audioRoomMicModel : micList) {
+                wrapMicModel(audioRoomMicModel);
+            }
+            callback.setMicList(micList);
             callbackSelfMicIndex();
         }
     }
@@ -333,11 +362,7 @@ public class AudioMicManager extends BaseServiceManager {
                     model.giftEnable = false;
                 }
             }
-            AudioRoomServiceCallback callback = parentManager.getCallback();
-            if (callback != null) {
-                callback.setMicList(micList);
-                callbackSelfMicIndex();
-            }
+            notifyDataSetChange();
         }
     }
 
@@ -367,5 +392,10 @@ public class AudioMicManager extends BaseServiceManager {
             }
         }
     };
+
+    public void captainChange(long captainUserId) {
+        this.captainUserId = captainUserId;
+        notifyDataSetChange();
+    }
 
 }

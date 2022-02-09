@@ -1,5 +1,6 @@
 package tech.sud.mgp.game.example.viewmodel;
 
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewTreeObserver;
 
@@ -27,10 +28,15 @@ import tech.sud.mgp.core.SudMGP;
 import tech.sud.mgp.game.example.http.repository.GameRepository;
 import tech.sud.mgp.game.example.http.resp.GameLoginResp;
 import tech.sud.mgp.game.middle.manager.FsmApp2MgManager;
+import tech.sud.mgp.game.middle.model.GameMessageModel;
 import tech.sud.mgp.game.middle.model.GameViewInfoModel;
 import tech.sud.mgp.game.middle.model.GameViewRectModel;
 import tech.sud.mgp.game.middle.model.GameViewSizeModel;
 import tech.sud.mgp.game.middle.state.MGStateResponse;
+import tech.sud.mgp.game.middle.state.SudMGPMGState;
+import tech.sud.mgp.game.middle.state.mg.player.PlayerCaptainState;
+import tech.sud.mgp.game.middle.utils.GameCommonStateUtils;
+import tech.sud.mgp.game.middle.utils.GamePlayerStateUtils;
 
 /**
  * 游戏业务逻辑
@@ -43,8 +49,12 @@ public class GameViewModel {
 
     public final MutableLiveData<View> gameViewLiveData = new MutableLiveData<>(); // 游戏View回调
     public final MutableLiveData<Object> gameStartLiveData = new MutableLiveData<>(); // 游戏开始时的回调
+    public final MutableLiveData<GameMessageModel> gameMessageLiveData = new MutableLiveData<>(); // 游戏消息
+    public final MutableLiveData<Long> captainChangeLiveData = new MutableLiveData<>(); // 游戏消息
+
     private View gameView; // 游戏View
     private ISudFSTAPP iSudFSTAPP;
+    private long captainUserId; // 记录当前队长的用户id
 
     /**
      * 设置当前房间id
@@ -189,12 +199,70 @@ public class GameViewModel {
 
         @Override
         public void onGameStateChange(ISudFSMStateHandle handle, String state, String dataJson) {
+            MGStateResponse response = new MGStateResponse();
+            response.ret_code = 0;
+            handle.success(GsonUtils.toJson(response));
+            parseCommonState(state, dataJson);
         }
 
         @Override
         public void onPlayerStateChange(ISudFSMStateHandle handle, String userId, String state, String dataJson) {
+            MGStateResponse response = new MGStateResponse();
+            response.ret_code = 0;
+            handle.success(GsonUtils.toJson(response));
+            parsePlayerState(userId, state, dataJson);
         }
     };
+
+    /**
+     * 解析游戏侧发送的玩家状态
+     */
+    private void parsePlayerState(String userId, String state, String dataJson) {
+        switch (state) {
+            case SudMGPMGState.MG_COMMON_PLAYER_CAPTAIN: // 队长状态
+                PlayerCaptainState playerCaptainState = GamePlayerStateUtils.parseCaptainState(dataJson);
+                if (playerCaptainState != null && playerCaptainState.retCode == 0) {
+                    if (playerCaptainState.isCaptain) { // 该用户成为了队长
+                        captainChange(userId);
+                    } else {
+                        if ((captainUserId + "").equals(userId)) { // 当前队长变为了非队长
+                            captainChange(null);
+                        }
+                    }
+                }
+                break;
+        }
+    }
+
+    /**
+     * 队长变化了
+     *
+     * @param userId
+     */
+    private void captainChange(String userId) {
+        try {
+            if (TextUtils.isEmpty(userId)) {
+                captainUserId = 0;
+            } else {
+                captainUserId = Long.parseLong(userId);
+            }
+            captainChangeLiveData.setValue(captainUserId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 解析游戏侧发送的通用状态
+     */
+    private void parseCommonState(String state, String dataJson) {
+        switch (state) {
+            case SudMGPMGState.MG_COMMON_PUBLIC_MESSAGE: // 公屏消息
+                GameMessageModel model = GameCommonStateUtils.parseMsgState(dataJson);
+                gameMessageLiveData.setValue(model);
+                break;
+        }
+    }
 
     /**
      * 处理code过期
@@ -224,7 +292,7 @@ public class GameViewModel {
             }
         });
     }
-
+ 
     /**
      * 处理游戏视图
      */

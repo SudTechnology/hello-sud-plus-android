@@ -54,18 +54,21 @@ public class AudioRoomGameMicItemView extends BaseMicItemView {
 
         mSoundLevelView.setCurUserId(item.userId);
 
+        // 头像
         if (hasUser) {
             ImageLoader.loadAvatar(mRivIcon, item.avatar);
         } else {
             ImageLoader.loadDrawable(mRivIcon, R.drawable.audio_ic_seat);
         }
 
+        // 昵称
         if (hasUser) {
             mTvName.setText(item.nickName);
         } else {
             mTvName.setText("");
         }
 
+        // 队长标识
         if (hasUser) {
             if (item.isCaptain != null && item.isCaptain) {
                 mViewCaptain.setVisibility(View.VISIBLE);
@@ -76,6 +79,7 @@ public class AudioRoomGameMicItemView extends BaseMicItemView {
             mViewCaptain.setVisibility(View.GONE);
         }
 
+        // 准备状态
         if (hasUser) {
             mTvState.setVisibility(View.GONE);
         } else {

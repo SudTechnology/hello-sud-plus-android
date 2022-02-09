@@ -54,4 +54,12 @@ public interface AudioRoomServiceCallback {
      */
     void onSoundLevel(int micIndex);
 
+    /**
+     * 房间内当前在线用户数量回调
+     *
+     * @param roomID 房间ID
+     * @param count  人数
+     */
+    void onRoomOnlineUserCountUpdate(String roomID, int count);
+
 }

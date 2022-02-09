@@ -264,7 +264,15 @@ public class ZegoAudioEngine implements MediaAudioEngineProtocol {
                 handler.onIMRecvCustomCommand(roomID, ZegoUserConverter.converMediaUser(fromUser), command);
             }
         }
-    };
 
+        @Override
+        public void onRoomOnlineUserCountUpdate(String roomID, int count) {
+            super.onRoomOnlineUserCountUpdate(roomID, count);
+            MediaAudioEventHandler handler = mMediaAudioEventHandler;
+            if (handler != null) {
+                handler.onRoomOnlineUserCountUpdate(roomID, count);
+            }
+        }
+    };
 
 }

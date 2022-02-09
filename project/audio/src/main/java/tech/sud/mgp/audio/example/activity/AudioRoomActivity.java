@@ -282,6 +282,11 @@ public class AudioRoomActivity extends BaseActivity {
             micView.startSoundLevel(micIndex);
         }
 
+        @Override
+        public void onRoomOnlineUserCountUpdate(String roomID, int count) {
+            topView.setNumber(count + "");
+        }
+
     };
 
     @Override

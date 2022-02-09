@@ -198,6 +198,14 @@ public class AudioEngineManager extends BaseServiceManager {
         public void onIMRecvCustomCommand(String roomId, MediaUser fromUser, String command) {
             commandManager.onIMRecvCustomCommand(roomId, fromUser, command);
         }
+
+        @Override
+        public void onRoomOnlineUserCountUpdate(String roomID, int count) {
+            AudioRoomServiceCallback callback = parentManager.getCallback();
+            if (callback != null) {
+                callback.onRoomOnlineUserCountUpdate(roomID, count);
+            }
+        }
     };
 
     @Override

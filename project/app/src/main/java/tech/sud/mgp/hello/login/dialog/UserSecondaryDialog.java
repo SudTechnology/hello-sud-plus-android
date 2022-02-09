@@ -17,12 +17,12 @@ import androidx.fragment.app.DialogFragment;
 
 import tech.sud.mgp.common.utils.DensityUtils;
 import tech.sud.mgp.hello.R;
-import tech.sud.mgp.hello.login.callback.DialogSecondaryCallbck;
+import tech.sud.mgp.hello.login.listener.DialogSecondaryListener;
 
 public class UserSecondaryDialog extends DialogFragment {
 
     private TextView contentTv, rejectTv, agreeTv;
-    private DialogSecondaryCallbck selectCallbck;
+    private DialogSecondaryListener secondaryListener;
 
     @Nullable
     @Override
@@ -56,20 +56,20 @@ public class UserSecondaryDialog extends DialogFragment {
 
     private void init() {
         rejectTv.setOnClickListener(v -> {
-            if (this.selectCallbck != null) {
-                this.selectCallbck.secondaryResult(false);
+            if (this.secondaryListener != null) {
+                this.secondaryListener.onSecondaryResult(false);
             }
             dismiss();
         });
         agreeTv.setOnClickListener(v -> {
-            if (this.selectCallbck != null) {
-                this.selectCallbck.secondaryResult(true);
+            if (this.secondaryListener != null) {
+                this.secondaryListener.onSecondaryResult(true);
             }
             dismiss();
         });
     }
 
-    public void setDialogSecondaryCallbck(DialogSecondaryCallbck selectCallbck) {
-        this.selectCallbck = selectCallbck;
+    public void setDialogSecondaryListener(DialogSecondaryListener secondaryListener) {
+        this.secondaryListener = secondaryListener;
     }
 }

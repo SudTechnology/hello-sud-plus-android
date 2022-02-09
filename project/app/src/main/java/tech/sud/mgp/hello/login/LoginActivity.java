@@ -19,15 +19,15 @@ import tech.sud.mgp.common.http.rx.RxCallback;
 import tech.sud.mgp.common.model.HSUserInfo;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.home.HomeActivity;
-import tech.sud.mgp.hello.login.callback.DialogSecondaryCallbck;
-import tech.sud.mgp.hello.login.callback.DialogSelectCallbck;
+import tech.sud.mgp.hello.login.listener.DialogSecondaryListener;
+import tech.sud.mgp.hello.login.listener.DialogSelectListener;
 import tech.sud.mgp.hello.login.dialog.UserAgreementDialog;
 import tech.sud.mgp.hello.login.dialog.UserSecondaryDialog;
 import tech.sud.mgp.hello.login.http.repository.LoginRepository;
 import tech.sud.mgp.hello.login.http.resp.LoginResponse;
 import tech.sud.mgp.hello.utils.AppSharedPreferences;
 
-public class LoginActivity extends BaseActivity implements View.OnClickListener, DialogSelectCallbck, DialogSecondaryCallbck {
+public class LoginActivity extends BaseActivity implements View.OnClickListener, DialogSelectListener, DialogSecondaryListener {
 
     private TextView nameTv;
     private ConstraintLayout maleBut;
@@ -75,18 +75,18 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     private void showAgreementDialog() {
         UserAgreementDialog agreementDialog = new UserAgreementDialog();
-        agreementDialog.setDialogSelectCallbck(this);
+        agreementDialog.setDialogSelectListener(this);
         agreementDialog.show(getSupportFragmentManager(), "argeement");
     }
 
     private void showSecondaryDialog() {
         UserSecondaryDialog secondaryDialog = new UserSecondaryDialog();
-        secondaryDialog.setDialogSecondaryCallbck(this);
+        secondaryDialog.setDialogSecondaryListener(this);
         secondaryDialog.show(getSupportFragmentManager(), "secondary");
     }
 
     @Override
-    public void secondaryResult(boolean isAgree) {
+    public void onSecondaryResult(boolean isAgree) {
         if (!isAgree) {
             finish();
         } else {
@@ -95,7 +95,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     }
 
     @Override
-    public void agreementType(int type) {
+    public void onAgreementType(int type) {
         switch (type) {
             case 1: {
                 LogUtils.i("agreementType 1");
@@ -109,7 +109,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     }
 
     @Override
-    public void selectResult(boolean isAgree) {
+    public void onSelectResult(boolean isAgree) {
         if (!isAgree) {
             showSecondaryDialog();
         } else {

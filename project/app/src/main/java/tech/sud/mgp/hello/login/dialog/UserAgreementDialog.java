@@ -21,12 +21,12 @@ import androidx.fragment.app.DialogFragment;
 
 import tech.sud.mgp.common.utils.DensityUtils;
 import tech.sud.mgp.hello.R;
-import tech.sud.mgp.hello.login.callback.DialogSelectCallbck;
+import tech.sud.mgp.hello.login.listener.DialogSelectListener;
 
 public class UserAgreementDialog extends DialogFragment {
 
     private TextView contentTv, rejectTv, agreeTv;
-    private DialogSelectCallbck selectCallbck;
+    private DialogSelectListener selectListener;
 
     @Nullable
     @Override
@@ -61,14 +61,14 @@ public class UserAgreementDialog extends DialogFragment {
     private void init() {
         contentText();
         rejectTv.setOnClickListener(v -> {
-            if (this.selectCallbck != null) {
-                this.selectCallbck.selectResult(false);
+            if (this.selectListener != null) {
+                this.selectListener.onSelectResult(false);
             }
             dismiss();
         });
         agreeTv.setOnClickListener(v -> {
-            if (this.selectCallbck != null) {
-                this.selectCallbck.selectResult(true);
+            if (this.selectListener != null) {
+                this.selectListener.onSelectResult(true);
             }
             dismiss();
         });
@@ -87,8 +87,8 @@ public class UserAgreementDialog extends DialogFragment {
 
             @Override
             public void onClick(@NonNull View widget) {
-                if (UserAgreementDialog.this.selectCallbck != null) {
-                    UserAgreementDialog.this.selectCallbck.agreementType(0);
+                if (UserAgreementDialog.this.selectListener != null) {
+                    UserAgreementDialog.this.selectListener.onAgreementType(0);
                 }
             }
         }, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -104,8 +104,8 @@ public class UserAgreementDialog extends DialogFragment {
 
             @Override
             public void onClick(@NonNull View widget) {
-                if (UserAgreementDialog.this.selectCallbck != null) {
-                    UserAgreementDialog.this.selectCallbck.agreementType(1);
+                if (UserAgreementDialog.this.selectListener != null) {
+                    UserAgreementDialog.this.selectListener.onAgreementType(1);
                 }
             }
         }, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -113,7 +113,7 @@ public class UserAgreementDialog extends DialogFragment {
         contentTv.setText(builder);
     }
 
-    public void setDialogSelectCallbck(DialogSelectCallbck selectCallbck) {
-        this.selectCallbck = selectCallbck;
+    public void setDialogSelectListener(DialogSelectListener selectListener) {
+        this.selectListener = selectListener;
     }
 }

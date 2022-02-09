@@ -22,14 +22,14 @@ import tech.sud.mgp.common.http.use.repository.CommonRepository;
 import tech.sud.mgp.common.http.use.resp.BaseConfigResp;
 import tech.sud.mgp.common.model.AppConfig;
 import tech.sud.mgp.hello.R;
-import tech.sud.mgp.hello.home.callback.TabClickCallback;
+import tech.sud.mgp.hello.home.listener.TabClickListener;
 import tech.sud.mgp.hello.home.fragment.IndexFragment;
 import tech.sud.mgp.hello.home.fragment.RoomListFragment;
-import tech.sud.mgp.hello.home.fragment.SetFragment;
+import tech.sud.mgp.hello.home.fragment.SettingsFragment;
 import tech.sud.mgp.hello.home.model.TabModel;
 import tech.sud.mgp.hello.home.view.HomeTabView;
 
-public class HomeActivity extends BaseActivity implements TabClickCallback {
+public class HomeActivity extends BaseActivity implements TabClickListener {
 
     private ViewPager2 viewPager;
     private LinearLayout tabLayout;
@@ -98,7 +98,7 @@ public class HomeActivity extends BaseActivity implements TabClickCallback {
         for (int i = 0; i < tabs.size(); i++) {
             HomeTabView tabView = new HomeTabView(this);
             tabView.setData(tabs.get(i));
-            tabView.setTabClickCallback(this);
+            tabView.setTabClickListener(this);
             if (i == 0) {
                 tabView.setViewState(true);
                 currentTabView = tabView;
@@ -136,7 +136,7 @@ public class HomeActivity extends BaseActivity implements TabClickCallback {
     }
 
     @Override
-    public void changePage(int index) {
+    public void onChangePage(int index) {
         viewPager.setCurrentItem(index);
     }
 
@@ -156,7 +156,7 @@ public class HomeActivity extends BaseActivity implements TabClickCallback {
                     return RoomListFragment.newInstance();
                 }
                 default: {
-                    return SetFragment.newInstance();
+                    return SettingsFragment.newInstance();
                 }
             }
         }

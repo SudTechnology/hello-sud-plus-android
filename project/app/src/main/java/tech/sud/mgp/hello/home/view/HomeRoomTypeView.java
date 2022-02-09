@@ -22,7 +22,7 @@ import tech.sud.mgp.common.http.use.resp.SceneModel;
 import tech.sud.mgp.common.utils.ImageLoader;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.home.adapter.GameAdapter;
-import tech.sud.mgp.hello.home.callback.GameItemCallback;
+import tech.sud.mgp.hello.home.listener.GameItemListener;
 
 public class HomeRoomTypeView extends ConstraintLayout {
     private TextView sceneNameTv;
@@ -31,11 +31,11 @@ public class HomeRoomTypeView extends ConstraintLayout {
     private RecyclerView gameRecyclerview;
     private TextView emptyTv;
     private GameAdapter gameAdapter;
-    private GameItemCallback itemCallback;
+    private GameItemListener gameItemListener;
     private SceneModel sceneModel;
 
-    public void setItemCallback(GameItemCallback itemCallback) {
-        this.itemCallback = itemCallback;
+    public void setGameItemListener(GameItemListener gameItemListener) {
+        this.gameItemListener = gameItemListener;
     }
 
     public HomeRoomTypeView(@NonNull Context context) {
@@ -85,8 +85,8 @@ public class HomeRoomTypeView extends ConstraintLayout {
             if (models.size() > 0) {
                 gameAdapter = new GameAdapter(models);
                 gameAdapter.setOnItemClickListener((adapter, view, position) -> {
-                    if (itemCallback != null) {
-                        itemCallback.gameClick(sceneModel, models.get(position));
+                    if (gameItemListener != null) {
+                        gameItemListener.onGameClick(sceneModel, models.get(position));
                     }
                 });
                 gameRecyclerview.setLayoutManager(new GridLayoutManager(getContext(), 4));
@@ -102,7 +102,7 @@ public class HomeRoomTypeView extends ConstraintLayout {
 
     private void addGameView(SceneModel sceneModel, GameModel gameModel) {
         GameItemView gameItemView = new GameItemView(getContext());
-        gameItemView.setItemCallback(itemCallback);
+        gameItemView.setGameItemListener(gameItemListener);
         gameItemView.setModel(sceneModel, gameModel);
         gridLayout.addView(gameItemView);
     }

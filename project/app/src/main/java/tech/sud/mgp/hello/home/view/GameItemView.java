@@ -14,7 +14,7 @@ import tech.sud.mgp.common.http.use.resp.GameModel;
 import tech.sud.mgp.common.http.use.resp.SceneModel;
 import tech.sud.mgp.common.utils.ImageLoader;
 import tech.sud.mgp.hello.R;
-import tech.sud.mgp.hello.home.callback.GameItemCallback;
+import tech.sud.mgp.hello.home.listener.GameItemListener;
 
 public class GameItemView extends ConstraintLayout {
 
@@ -22,10 +22,10 @@ public class GameItemView extends ConstraintLayout {
     private TextView gameTv;
     private SceneModel sceneModel;
     private GameModel gameModel;
-    private GameItemCallback itemCallback;
+    private GameItemListener gameItemListener;
 
-    public void setItemCallback(GameItemCallback itemCallback) {
-        this.itemCallback = itemCallback;
+    public void setGameItemListener(GameItemListener gameItemListener) {
+        this.gameItemListener = gameItemListener;
     }
 
     public GameItemView(@NonNull Context context) {
@@ -65,8 +65,8 @@ public class GameItemView extends ConstraintLayout {
         }
 
         this.setOnClickListener(v -> {
-            if (itemCallback != null) {
-                itemCallback.gameClick(sceneModel, gameModel);
+            if (gameItemListener != null) {
+                gameItemListener.onGameClick(sceneModel, gameModel);
             }
         });
     }

@@ -16,18 +16,18 @@ import tech.sud.mgp.hello.agreement.UserAgreementActivity;
 import tech.sud.mgp.hello.home.dialog.ContactDialog;
 import tech.sud.mgp.hello.utils.AppSharedPreferences;
 
-public class SetFragment extends BaseFragment implements View.OnClickListener {
+public class SettingsFragment extends BaseFragment implements View.OnClickListener {
 
     private LinearLayout sdkVersionLl, appVersionLl, userAgreementLl, userPrivacyLl, userContactLl;
     private TextView nameTv, useridTv, sdkVersionTv, appVersionTv;
     private ImageView headerIv;
     private GiftEffectView effectView;
 
-    public SetFragment() {
+    public SettingsFragment() {
     }
 
-    public static SetFragment newInstance() {
-        SetFragment fragment = new SetFragment();
+    public static SettingsFragment newInstance() {
+        SettingsFragment fragment = new SettingsFragment();
         return fragment;
     }
 

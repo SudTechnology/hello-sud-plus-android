@@ -13,14 +13,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import tech.sud.mgp.common.utils.DensityUtils;
-import tech.sud.mgp.hello.home.callback.TabClickCallback;
+import tech.sud.mgp.hello.home.listener.TabClickListener;
 import tech.sud.mgp.hello.home.model.TabModel;
 
 public class HomeTabView extends LinearLayout implements View.OnClickListener {
     private ImageView icon;
     private TextView text;
     private TabModel tabModel;
-    private TabClickCallback clickCallback;
+    private TabClickListener tabClickListener;
 
     public HomeTabView(@NonNull Context context) {
         super(context);
@@ -60,8 +60,8 @@ public class HomeTabView extends LinearLayout implements View.OnClickListener {
         icon.setImageResource(model.iconId);
     }
 
-    public void setTabClickCallback(TabClickCallback callback) {
-        this.clickCallback = callback;
+    public void setTabClickListener(TabClickListener tabClickListener) {
+        this.tabClickListener = tabClickListener;
     }
 
     public void setViewState(boolean isSelected) {
@@ -76,8 +76,8 @@ public class HomeTabView extends LinearLayout implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        if (this.clickCallback != null) {
-            this.clickCallback.changePage(this.tabModel.index);
+        if (this.tabClickListener != null) {
+            this.tabClickListener.onChangePage(this.tabModel.index);
         }
     }
 }

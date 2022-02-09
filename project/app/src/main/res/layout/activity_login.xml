@@ -53,13 +53,13 @@
         android:layout_height="24dp"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/male_but"
+        android:id="@+id/male_btn"
         android:layout_width="0dp"
         android:visibility="invisible"
         android:layout_height="48dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/shape_stroke_black"
-        app:layout_constraintEnd_toStartOf="@id/female_but"
+        app:layout_constraintEnd_toStartOf="@id/female_btn"
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/name_tv">
@@ -93,7 +93,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/female_but"
+        android:id="@+id/female_btn"
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:layout_marginStart="15dp"
@@ -102,7 +102,7 @@
         android:background="@drawable/shape_stroke_black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@id/male_but"
+        app:layout_constraintStart_toEndOf="@id/male_btn"
         app:layout_constraintTop_toBottomOf="@+id/name_tv">
 
         <ImageView
@@ -133,7 +133,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
-        android:id="@+id/go_play_but"
+        android:id="@+id/go_play_btn"
         android:layout_width="match_parent"
         android:layout_height="44dp"
         android:layout_marginBottom="150dp"

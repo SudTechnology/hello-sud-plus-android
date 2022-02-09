@@ -7,7 +7,6 @@ import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 
 import java.util.Random;
@@ -31,11 +30,11 @@ import tech.sud.mgp.hello.utils.AppSharedPreferences;
 public class LoginActivity extends BaseActivity implements View.OnClickListener, DialogSelectListener, DialogSecondaryListener {
 
     private TextView nameTv;
-    private ConstraintLayout maleBut;
-    private ConstraintLayout femaleBut;
+    private ConstraintLayout maleBtn;
+    private ConstraintLayout femaleBtn;
     private ImageView maleCheck;
     private ImageView femaleCheck;
-    private TextView goPlayBut;
+    private TextView goPlayBtn;
     private ImageView randomIv;
     private String[] strings;
 
@@ -47,10 +46,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     @Override
     protected void initWidget() {
         super.initWidget();
-        goPlayBut = findViewById(R.id.go_play_but);
+        goPlayBtn = findViewById(R.id.go_play_btn);
         nameTv = findViewById(R.id.name_tv);
-        maleBut = findViewById(R.id.male_but);
-        femaleBut = findViewById(R.id.female_but);
+        maleBtn = findViewById(R.id.male_btn);
+        femaleBtn = findViewById(R.id.female_btn);
         maleCheck = findViewById(R.id.male_check);
         femaleCheck = findViewById(R.id.female_check);
         randomIv = findViewById(R.id.random_iv);
@@ -60,13 +59,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     @Override
     protected void setListeners() {
         super.setListeners();
-        maleBut.setOnClickListener(this);
-        femaleBut.setOnClickListener(this);
-        goPlayBut.setOnClickListener(this);
+        maleBtn.setOnClickListener(this);
+        femaleBtn.setOnClickListener(this);
+        goPlayBtn.setOnClickListener(this);
         randomIv.setOnClickListener(this);
         nameTv.setText(randomName());
         //默认性别选中男
-        maleBut.callOnClick();
+        maleBtn.callOnClick();
         //是否同意隐私政策
         boolean isAgree = AppSharedPreferences.getSP().getBoolean(AppSharedPreferences.AGREEMENT_STATE, false);
         if (!isAgree) {
@@ -122,7 +121,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void onClick(View v) {
-        if (v == goPlayBut) {
+        if (v == goPlayBtn) {
             LoginRepository.login(null, nameTv.getText().toString(), this, new RxCallback<LoginResponse>() {
                 @Override
                 public void onError(Throwable e) {
@@ -146,15 +145,15 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     }
                 }
             });
-        } else if (v == maleBut) {
-            maleBut.setSelected(true);
+        } else if (v == maleBtn) {
+            maleBtn.setSelected(true);
             maleCheck.setVisibility(View.VISIBLE);
-            femaleBut.setSelected(false);
+            femaleBtn.setSelected(false);
             femaleCheck.setVisibility(View.GONE);
-        } else if (v == femaleBut) {
-            maleBut.setSelected(false);
+        } else if (v == femaleBtn) {
+            maleBtn.setSelected(false);
             maleCheck.setVisibility(View.GONE);
-            femaleBut.setSelected(true);
+            femaleBtn.setSelected(true);
             femaleCheck.setVisibility(View.VISIBLE);
         } else if (v == randomIv) {
             nameTv.setText(randomName());

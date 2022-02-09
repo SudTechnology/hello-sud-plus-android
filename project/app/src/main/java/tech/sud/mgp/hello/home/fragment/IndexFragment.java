@@ -24,14 +24,14 @@ import tech.sud.mgp.common.http.use.resp.GameModel;
 import tech.sud.mgp.common.http.use.resp.SceneModel;
 import tech.sud.mgp.common.utils.ImageLoader;
 import tech.sud.mgp.hello.R;
-import tech.sud.mgp.hello.home.callback.GameItemCallback;
+import tech.sud.mgp.hello.home.listener.GameItemListener;
 import tech.sud.mgp.hello.home.http.repository.HomeRepository;
 import tech.sud.mgp.hello.home.manager.HomeManager;
 import tech.sud.mgp.hello.home.model.MatchRoomModel;
 import tech.sud.mgp.hello.home.view.HomeRoomTypeView;
 import tech.sud.mgp.hello.utils.AppSharedPreferences;
 
-public class IndexFragment extends BaseFragment implements GameItemCallback {
+public class IndexFragment extends BaseFragment implements GameItemListener {
 
     private EditText searchEt;
     private ImageView goSearch;
@@ -147,7 +147,7 @@ public class IndexFragment extends BaseFragment implements GameItemCallback {
             for (int i = 0; i < resp.getSceneList().size(); i++) {
                 SceneModel model = resp.getSceneList().get(i);
                 HomeRoomTypeView sceneView = new HomeRoomTypeView(requireContext());
-                sceneView.setItemCallback(this);
+                sceneView.setGameItemListener(this);
                 sceneView.setData(model, HomeManager.getInstance().getSceneGame(model));
                 sceneLayout.addView(sceneView);
             }
@@ -155,7 +155,7 @@ public class IndexFragment extends BaseFragment implements GameItemCallback {
     }
 
     @Override
-    public void gameClick(SceneModel sceneModel, GameModel gameModel) {
+    public void onGameClick(SceneModel sceneModel, GameModel gameModel) {
         matchGame(sceneModel.getSceneId(), gameModel.getGameId());
     }
 

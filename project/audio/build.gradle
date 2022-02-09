@@ -50,8 +50,6 @@ dependencies {
     implementation 'com.github.yyued:SVGAPlayer-Android:2.6.0'
     //播放json动画的库，网址为：https://github.com/airbnb/lottie-android
     implementation "com.airbnb.android:lottie:3.7.0"
-    //播放webp动画的库，网址为：https://github.com/penfeizhou/APNG4Android/blob/master/README-zh_CN.md
-    implementation 'com.github.penfeizhou.android.animation:awebp:2.10.0'
     //Glide支持webp动图的库
     implementation "com.github.zjupure:webpdecoder:2.0.4.12.0"
 }

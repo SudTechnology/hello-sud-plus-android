@@ -18,6 +18,7 @@ import tech.sud.mgp.common.http.param.RetCode;
 import tech.sud.mgp.common.http.rx.RxCallback;
 import tech.sud.mgp.common.model.HSUserInfo;
 import tech.sud.mgp.hello.R;
+import tech.sud.mgp.hello.agreement.UserAgreementActivity;
 import tech.sud.mgp.hello.home.HomeActivity;
 import tech.sud.mgp.hello.login.listener.DialogSecondaryListener;
 import tech.sud.mgp.hello.login.listener.DialogSelectListener;
@@ -96,16 +97,18 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void onAgreementType(int type) {
+        Intent intent = new Intent(this, UserAgreementActivity.class);
         switch (type) {
             case 1: {
-                LogUtils.i("agreementType 1");
+                intent.putExtra(UserAgreementActivity.AGREEMENTTYPE, 0);
                 break;
             }
             case 2: {
-                LogUtils.i("agreementType 2");
+                intent.putExtra(UserAgreementActivity.AGREEMENTTYPE, 1);
                 break;
             }
         }
+        startActivity(intent);
     }
 
     @Override
@@ -120,7 +123,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     @Override
     public void onClick(View v) {
         if (v == goPlayBut) {
-            LoginRepository.login(null ,nameTv.getText().toString(), this, new RxCallback<LoginResponse>() {
+            LoginRepository.login(null, nameTv.getText().toString(), this, new RxCallback<LoginResponse>() {
                 @Override
                 public void onError(Throwable e) {
                     super.onError(e);

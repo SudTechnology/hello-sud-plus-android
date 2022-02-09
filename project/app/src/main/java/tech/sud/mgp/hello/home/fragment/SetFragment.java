@@ -1,5 +1,6 @@
 package tech.sud.mgp.hello.home.fragment;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -11,6 +12,7 @@ import tech.sud.mgp.common.utils.ImageLoader;
 import tech.sud.mgp.core.SudMGP;
 import tech.sud.mgp.hello.BuildConfig;
 import tech.sud.mgp.hello.R;
+import tech.sud.mgp.hello.agreement.UserAgreementActivity;
 import tech.sud.mgp.hello.home.dialog.ContactDialog;
 import tech.sud.mgp.hello.utils.AppSharedPreferences;
 
@@ -82,9 +84,13 @@ public class SetFragment extends BaseFragment implements View.OnClickListener {
         } else if (v == appVersionLl) {
 
         } else if (v == userAgreementLl) {
-
+            Intent intent = new Intent(requireContext(), UserAgreementActivity.class);
+            intent.putExtra(UserAgreementActivity.AGREEMENTTYPE, 0);
+            startActivity(intent);
         } else if (v == userPrivacyLl) {
-
+            Intent intent = new Intent(requireContext(), UserAgreementActivity.class);
+            intent.putExtra(UserAgreementActivity.AGREEMENTTYPE, 1);
+            startActivity(intent);
         } else if (v == userContactLl) {
             ContactDialog dialog = new ContactDialog();
             dialog.show(getFragmentManager(), "contact");

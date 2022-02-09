@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -111,6 +112,7 @@ public class UserAgreementDialog extends DialogFragment {
         }, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         builder.append(getString(R.string.useragreement_content_part5));
         contentTv.setText(builder);
+        contentTv.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
     public void setDialogSelectListener(DialogSelectListener selectListener) {

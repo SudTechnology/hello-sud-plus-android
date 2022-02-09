@@ -41,8 +41,8 @@
     <string name="room_list_enter">进入</string>
     <string name="room_list_roomid">房间号：%1$s</string>
     <string name="room_list_online">%1$s人</string>
-    <string name="setting_contact1_content" tools:ignore="ExtraTranslation">如需了解更多资讯或反馈问题，可联系：help@sud.tech</string>
-    <string name="setting_contact1_but" tools:ignore="ExtraTranslation">好的</string>
+    <string name="setting_contact1_content">如需了解更多资讯或反馈问题，可联系：help@sud.tech</string>
+    <string name="setting_contact1_but">好的</string>
     <string-array name="names_list" tools:ignore="ExtraTranslation">
         <item>哈利</item>
         <item>祺祥</item>
@@ -151,5 +151,18 @@
     </string-array>
 
     <string name="search_room_error">请输入正确的房间号</string>
+
+    <string name="user_agreement_title">用户协议</string>
+    <string name="user_privacy_title">隐私政策</string>
+    <string name="user_agreement_content">
+        欢迎您使用HelloSud！\n\n
+        用户下载App首次打开时，本地自动生成用户ID（随机6位数）\n
+        并从头像库中给用户随机一个头像\n
+        用户昵称由用户首次自己设置，长度限制六个字符。\n
+        卸载重装App，重新生成新用户ID。\n
+        非首次打开，则继续使用上次的用户ID和昵称头像，直接进入首页。\n\n
+        我们非常重视您的个人信息保护。关于个人信息收集和使用的详细信息，您可以点击《用户协议》和《隐私政策》进行了解。点击同意表示您已同意上述协议\n\n
+        hellosud仅会将您的信息用于提供服务和改善体验，我们将全力保障您的信息安全，请同意后使用。\n
+        若您不同意本隐私政策，很遗憾我们将无法为您提供完整的产品和服务。</string>
 
 </resources>

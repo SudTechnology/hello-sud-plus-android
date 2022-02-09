@@ -65,7 +65,7 @@ public class GameViewModel {
         if (playingGameId == gameId) {
             return;
         }
-        destroyGame();
+        destroyMG();
         playingGameId = gameId;
         gameLogin(activity, gameId);
     }
@@ -156,18 +156,6 @@ public class GameViewModel {
         }, 3000);
     }
 
-    /**
-     * 销毁游戏
-     */
-    private void destroyGame() {
-        if (playingGameId > 0) {
-            SudMGP.destroyMG(iSudFSTAPP);
-            playingGameId = 0;
-            gameView = null;
-            gameViewLiveData.setValue(null);
-        }
-    }
-
     private final ISudFSMMG iSudFSMMG = new ISudFSMMG() {
         @Override
         public void onGameLog(String s) {
@@ -201,12 +189,10 @@ public class GameViewModel {
 
         @Override
         public void onGameStateChange(ISudFSMStateHandle handle, String state, String dataJson) {
-
         }
 
         @Override
         public void onPlayerStateChange(ISudFSMStateHandle handle, String userId, String state, String dataJson) {
-
         }
     };
 
@@ -287,5 +273,32 @@ public class GameViewModel {
         LogUtils.d("notifyGameViewInfo:" + GsonUtils.toJson(gameViewInfoModel));
         handle.success(GsonUtils.toJson(gameViewInfoModel));
     }
+
+    // region 生命周期相关
+    public void onStart() {
+        fsmApp2MGManager.onStart();
+    }
+
+    public void onPause() {
+        fsmApp2MGManager.onPause();
+    }
+
+    public void onResume() {
+        fsmApp2MGManager.onResume();
+    }
+
+    public void onStop() {
+        fsmApp2MGManager.onStop();
+    }
+
+    public void destroyMG() {
+        if (playingGameId > 0) {
+            fsmApp2MGManager.destroyMG();
+            playingGameId = 0;
+            gameView = null;
+            gameViewLiveData.setValue(null);
+        }
+    }
+    // endregion 生命周期相关
 
 }

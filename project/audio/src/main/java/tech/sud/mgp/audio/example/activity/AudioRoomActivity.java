@@ -379,6 +379,30 @@ public class AudioRoomActivity extends BaseActivity {
     };
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        gameViewModel.onStart();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        gameViewModel.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        gameViewModel.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        gameViewModel.onStop();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         audioRoomService.onDestroy();
@@ -386,5 +410,6 @@ public class AudioRoomActivity extends BaseActivity {
         if (effectView != null) {
             effectView.onDestory();
         }
+        gameViewModel.destroyMG();
     }
 }

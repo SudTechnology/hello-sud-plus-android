@@ -31,4 +31,34 @@ public class FsmApp2MgManager {
         }
     }
 
+    public void onStart() {
+        if (iSudFSTAPP != null) {
+            iSudFSTAPP.startMG();
+        }
+    }
+
+    public void onPause() {
+        if (iSudFSTAPP != null) {
+            iSudFSTAPP.pauseMG();
+        }
+    }
+
+    public void onResume() {
+        if (iSudFSTAPP != null) {
+            iSudFSTAPP.playMG();
+        }
+    }
+
+    public void onStop() {
+        if (iSudFSTAPP != null) {
+            iSudFSTAPP.stopMG();
+        }
+    }
+
+    public void destroyMG() {
+        if (iSudFSTAPP != null) {
+            iSudFSTAPP.destroyMG();
+        }
+    }
+
 }

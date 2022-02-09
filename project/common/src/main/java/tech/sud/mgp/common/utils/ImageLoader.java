@@ -51,48 +51,6 @@ public class ImageLoader {
                 .submit();
     }
 
-    /**
-     * 获取固定大小的drawable
-     */
-    public static Drawable zoomDrawable(Drawable drawable, int w, int h) {
-        try {
-            int width = drawable.getIntrinsicWidth();
-            int height = drawable.getIntrinsicHeight();
-            Bitmap oldbmp = drawableToBitmap(drawable);
-            Matrix matrix = new Matrix();
-            float scaleWidth = (float) w / width;
-            float scaleHeight = (float) h / height;
-            matrix.postScale(scaleWidth, scaleHeight);
-            Bitmap newbmp = Bitmap.createBitmap(
-                    oldbmp, 0, 0, width, height,
-                    matrix, true
-            );
-            return new BitmapDrawable(null, newbmp);
-        } catch (Exception e) {
-
-        }
-        return null;
-    }
-
-    public static Bitmap drawableToBitmap(Drawable drawable) {
-        if (drawable instanceof BitmapDrawable) {
-            return ((BitmapDrawable) drawable).getBitmap();
-        }
-        Bitmap bitmap;
-        int width = Math.max(drawable.getIntrinsicWidth(), 2);
-        int height = Math.max(drawable.getIntrinsicHeight(), 2);
-        try {
-            bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-            Canvas canvas = new Canvas(bitmap);
-            drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-            drawable.draw(canvas);
-        } catch (Exception e) {
-            e.printStackTrace();
-            bitmap = null;
-        }
-        return bitmap;
-    }
-
     private static boolean isDestroy(View view) {
         Context context = view.getContext();
         if (context instanceof Activity) {

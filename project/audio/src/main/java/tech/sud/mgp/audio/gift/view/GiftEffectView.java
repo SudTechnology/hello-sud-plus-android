@@ -25,6 +25,8 @@ import tech.sud.mgp.audio.gift.manager.stategy.GiftMp4Model;
 import tech.sud.mgp.audio.gift.manager.stategy.GiftMp4Strategy;
 import tech.sud.mgp.audio.gift.manager.stategy.GiftSVGAModel;
 import tech.sud.mgp.audio.gift.manager.stategy.GiftSVGAStrategy;
+import tech.sud.mgp.audio.gift.manager.stategy.GiftWebpModel;
+import tech.sud.mgp.audio.gift.manager.stategy.GiftWebpStrategy;
 import tech.sud.mgp.audio.gift.model.GiftModel;
 
 public class GiftEffectView extends ConstraintLayout implements LifecycleObserver {
@@ -70,6 +72,10 @@ public class GiftEffectView extends ConstraintLayout implements LifecycleObserve
             }
             case JSON: {
                 playJson(giftModel);
+                break;
+            }
+            case WEBP: {
+                playWebp(giftModel);
                 break;
             }
             default: {
@@ -160,6 +166,36 @@ public class GiftEffectView extends ConstraintLayout implements LifecycleObserve
                     aContainer.post(() -> {
                         aContainer.removeView(lottieAnimationView);
                         lottieAnimationView.cancelAnimation();
+                    });
+                    break;
+                }
+            }
+        });
+        giftDisplayManager.showEffect(model, strategy);
+    }
+
+
+    private void playWebp(GiftModel giftModel) {
+        GiftWebpStrategy strategy = new GiftWebpStrategy();
+        GiftWebpModel model = new GiftWebpModel();
+        ImageView imageView = creatImageView();
+        model.imageView = imageView;
+        model.setResId(giftModel.resId);
+
+        aContainer.addView(imageView);
+        imageView.setVisibility(View.VISIBLE);
+
+        model.setCallback(result -> {
+            switch (result) {
+                case START: {
+                    break;
+                }
+                case PLAYERROR:
+                    showImage(giftModel);
+                    break;
+                case PLAYEND: {
+                    aContainer.post(() -> {
+                        aContainer.removeView(imageView);
                     });
                     break;
                 }

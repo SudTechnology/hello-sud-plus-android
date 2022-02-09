@@ -24,7 +24,7 @@ public interface RequestUrl {
     /**
      * 进入房间
      */
-    String ENTER_ROOM = "room/enter/v1";
+    String ENTER_ROOM = "room/enter-room/v1";
 
     /**
      * 查询麦位列表接口
@@ -44,7 +44,7 @@ public interface RequestUrl {
     /**
      * 房间列表
      */
-    String ROOM_MATCH = "room/match/v1";
+    String ROOM_MATCH = "room/match-room/v1";
 
     /**
      * 查询基础配置

@@ -37,18 +37,46 @@ import tech.sud.mgp.game.middle.state.MGStateResponse;
  */
 public class GameViewModel {
 
-    private long roomId;
+    private long roomId; // 房间id
+    private long playingGameId; // 当前使用的游戏id
     private final FsmApp2MgManager fsmApp2MGManager = new FsmApp2MgManager(); // app调用sdk的封装类
 
     public final MutableLiveData<View> gameViewLiveData = new MutableLiveData<>(); // 游戏View回调
     public final MutableLiveData<Object> gameStartLiveData = new MutableLiveData<>(); // 游戏开始时的回调
     private View gameView; // 游戏View
+    private ISudFSTAPP iSudFSTAPP;
 
+    /**
+     * 设置当前房间id
+     *
+     * @param roomId
+     */
     public void setRoomId(long roomId) {
         this.roomId = roomId;
     }
 
-    public void loadGame(AppCompatActivity activity, long gameId) {
+    /**
+     * 外部调用切换游戏
+     *
+     * @param activity
+     * @param gameId
+     */
+    public void switchGame(AppCompatActivity activity, long gameId) {
+        if (playingGameId == gameId) {
+            return;
+        }
+        destroyGame();
+        playingGameId = gameId;
+        gameLogin(activity, gameId);
+    }
+
+    /**
+     * 1，游戏登录，也就是获取code
+     *
+     * @param activity
+     * @param gameId   游戏id
+     */
+    private void gameLogin(AppCompatActivity activity, long gameId) {
         if (activity.isDestroyed() || gameId <= 0) {
             return;
         }
@@ -72,15 +100,13 @@ public class GameViewModel {
         });
     }
 
-    private void delayLoadGame(AppCompatActivity activity, long gameId) {
-        ThreadUtils.runOnUiThreadDelayed(new Runnable() {
-            @Override
-            public void run() {
-                loadGame(activity, gameId);
-            }
-        }, 3000);
-    }
-
+    /**
+     * 2，游戏登录后，初始化sdk
+     *
+     * @param activity
+     * @param gameId   游戏id
+     * @param code     令牌
+     */
     private void initSdk(AppCompatActivity activity, long gameId, String code) {
         SudConfig sudConfig = AppConfig.getInstance().getSudConfig();
         if (sudConfig == null || sudConfig.appId == null || sudConfig.appKey == null) {
@@ -91,11 +117,7 @@ public class GameViewModel {
         SudMGP.initSDK(activity, sudConfig.appId, sudConfig.appKey, true, new ISudListenerInitSDK() {
             @Override
             public void onSuccess() {
-                // 加载游戏
-                ISudFSTAPP iSudFSTAPP = SudMGP.loadMG(activity, HSUserInfo.userId + "", roomId + "", code, gameId, "zh-CN", iSudFSMMG);
-                fsmApp2MGManager.setISudFSTAPP(iSudFSTAPP);
-                gameView = iSudFSTAPP.getGameView();
-                gameViewLiveData.setValue(gameView);
+                loadGame(activity, code, gameId);
             }
 
             @Override
@@ -103,6 +125,47 @@ public class GameViewModel {
                 delayLoadGame(activity, gameId);
             }
         });
+    }
+
+    /**
+     * 3，sdk初始化成功后，加载游戏
+     *
+     * @param activity
+     * @param code     登录令牌
+     * @param gameId   游戏id
+     */
+    private void loadGame(AppCompatActivity activity, String code, long gameId) {
+        iSudFSTAPP = SudMGP.loadMG(activity, HSUserInfo.userId + "", roomId + "", code, gameId, "zh-CN", iSudFSMMG);
+        fsmApp2MGManager.setISudFSTAPP(iSudFSTAPP);
+        gameView = iSudFSTAPP.getGameView();
+        gameViewLiveData.setValue(gameView);
+    }
+
+    /**
+     * 游戏加载失败的时候，延迟一会再重新加载
+     *
+     * @param activity
+     * @param gameId   游戏id
+     */
+    private void delayLoadGame(AppCompatActivity activity, long gameId) {
+        ThreadUtils.runOnUiThreadDelayed(new Runnable() {
+            @Override
+            public void run() {
+                gameLogin(activity, gameId);
+            }
+        }, 3000);
+    }
+
+    /**
+     * 销毁游戏
+     */
+    private void destroyGame() {
+        if (playingGameId > 0) {
+            SudMGP.destroyMG(iSudFSTAPP);
+            playingGameId = 0;
+            gameView = null;
+            gameViewLiveData.setValue(null);
+        }
     }
 
     private final ISudFSMMG iSudFSMMG = new ISudFSMMG() {
@@ -224,6 +287,5 @@ public class GameViewModel {
         LogUtils.d("notifyGameViewInfo:" + GsonUtils.toJson(gameViewInfoModel));
         handle.success(GsonUtils.toJson(gameViewInfoModel));
     }
-
 
 }

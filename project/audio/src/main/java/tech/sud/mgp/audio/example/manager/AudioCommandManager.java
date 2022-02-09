@@ -12,6 +12,7 @@ import java.util.List;
 import tech.sud.mgp.audio.example.model.command.BaseCommand;
 import tech.sud.mgp.audio.example.model.command.CommandCmd;
 import tech.sud.mgp.audio.example.model.command.DownMicCommand;
+import tech.sud.mgp.audio.example.model.command.GameChangeCommand;
 import tech.sud.mgp.audio.example.model.command.PublicMsgCommand;
 import tech.sud.mgp.audio.example.model.command.SendGiftCommand;
 import tech.sud.mgp.audio.example.model.command.UpMicCommand;
@@ -69,6 +70,12 @@ public class AudioCommandManager extends BaseServiceManager {
                     dispatchCommand(commandCmd, downMicCommand, fromUser, roomId);
                 }
                 break;
+            case CommandCmd.CMD_GAME_CHANGE:
+                GameChangeCommand gameChangeCommand = fromJson(command, GameChangeCommand.class);
+                if (gameChangeCommand != null) {
+                    dispatchCommand(commandCmd, gameChangeCommand, fromUser, roomId);
+                }
+                break;
         }
     }
 
@@ -93,6 +100,11 @@ public class AudioCommandManager extends BaseServiceManager {
                 case CommandCmd.CMD_DOWN_MIC_NTF:
                     if (listener instanceof DownMicCommandListener) {
                         ((DownMicCommandListener) listener).onRecvCommand((DownMicCommand) command, fromUser, roomId);
+                    }
+                    break;
+                case CommandCmd.CMD_GAME_CHANGE:
+                    if (listener instanceof GameChangeCommandListener) {
+                        ((GameChangeCommandListener) listener).onRecvCommand((GameChangeCommand) command, fromUser, roomId);
                     }
                     break;
             }
@@ -135,6 +147,10 @@ public class AudioCommandManager extends BaseServiceManager {
 
     interface DownMicCommandListener extends ICommandListener {
         void onRecvCommand(DownMicCommand command, MediaUser user, String roomId);
+    }
+
+    interface GameChangeCommandListener extends ICommandListener {
+        void onRecvCommand(GameChangeCommand command, MediaUser user, String roomId);
     }
 
 }

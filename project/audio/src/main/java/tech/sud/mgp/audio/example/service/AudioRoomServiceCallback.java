@@ -62,4 +62,11 @@ public interface AudioRoomServiceCallback {
      */
     void onRoomOnlineUserCountUpdate(String roomID, int count);
 
+    /**
+     * 游戏被房主切换了
+     *
+     * @param gameId 游戏id
+     */
+    void onGameChange(long gameId);
+
 }

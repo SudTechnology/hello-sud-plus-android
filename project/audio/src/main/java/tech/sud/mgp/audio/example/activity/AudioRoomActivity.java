@@ -42,7 +42,9 @@ import tech.sud.mgp.game.example.viewmodel.GameViewModel;
 
 public class AudioRoomActivity extends BaseActivity {
 
-    public RoomInfoModel roomInfoModel;
+    public RoomInfoModel roomInfoModel; // 房间信息
+    private long playingGameId; // 当前正在玩的游戏id
+
     private AudioRoomTopView topView;
     private AudioRoomMicWrapView micView;
     private AudioRoomChatView chatView;
@@ -66,6 +68,7 @@ public class AudioRoomActivity extends BaseActivity {
         if (this.roomInfoModel == null || this.roomInfoModel.roomId == 0) {
             return true;
         }
+        playingGameId = this.roomInfoModel.gameId;
         return super.beforeSetContentView();
     }
 
@@ -161,15 +164,42 @@ public class AudioRoomActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 GameModeDialog dialog = new GameModeDialog();
+                dialog.setPlayingGameId(playingGameId);
                 dialog.show(getSupportFragmentManager(), null);
+                dialog.setSelectGameModeListener(new GameModeDialog.SelectGameModeListener() {
+                    @Override
+                    public void onSelectGameMode(long gameId) {
+                        switchGame(gameId, true);
+                    }
+                });
             }
         });
         gameViewModel.gameViewLiveData.observe(this, new Observer<View>() {
             @Override
             public void onChanged(View view) {
-                gameContainer.addView(view, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+                if (view == null) {
+                    gameContainer.removeAllViews();
+                } else {
+                    gameContainer.addView(view, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+                }
             }
         });
+    }
+
+    /**
+     * 切换游戏
+     *
+     * @param gameId
+     * @param selfSwitch 标识是否是自己切换的
+     */
+    private void switchGame(long gameId, boolean selfSwitch) {
+        if (playingGameId == gameId) {
+            return;
+        }
+        playingGameId = gameId;
+        roomInfoModel.gameId = gameId;
+        gameViewModel.switchGame(this, gameId);
+        binder.switchGame(gameId, selfSwitch);
     }
 
     private void openMic() {
@@ -214,7 +244,7 @@ public class AudioRoomActivity extends BaseActivity {
             }
 
             @Override
-            public void onNotify(Map<Long,Boolean> userState) {
+            public void onNotify(Map<Long, Boolean> userState) {
                 binder.updateGiftIcon(userState);
             }
         };
@@ -238,7 +268,7 @@ public class AudioRoomActivity extends BaseActivity {
 
     private void initGame() {
         gameViewModel.setRoomId(roomInfoModel.roomId);
-        gameViewModel.loadGame(this, roomInfoModel.gameId);
+        gameViewModel.switchGame(this, roomInfoModel.gameId);
         if (roomInfoModel.gameId > 0) {
             micView.setMicStyle(AudioRoomMicWrapView.AudioRoomMicStyle.GAME);
             chatView.setChatStyle(AudioRoomChatView.AudioRoomChatStyle.GAME);
@@ -299,6 +329,11 @@ public class AudioRoomActivity extends BaseActivity {
         @Override
         public void onRoomOnlineUserCountUpdate(String roomID, int count) {
             topView.setNumber(count + "");
+        }
+
+        @Override
+        public void onGameChange(long gameId) {
+            switchGame(gameId, false);
         }
 
     };

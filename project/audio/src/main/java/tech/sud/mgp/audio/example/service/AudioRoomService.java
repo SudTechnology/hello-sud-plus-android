@@ -98,8 +98,8 @@ public class AudioRoomService {
         /**
          * 游戏切换
          */
-        public void switchGame(long gameId) {
-            serviceManager.switchGame(gameId);
+        public void switchGame(long gameId, boolean selfSwitch) {
+            serviceManager.switchGame(gameId, selfSwitch);
         }
 
         /**

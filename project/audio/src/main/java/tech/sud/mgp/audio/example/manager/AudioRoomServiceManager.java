@@ -3,8 +3,10 @@ package tech.sud.mgp.audio.example.manager;
 import tech.sud.mgp.audio.example.model.AudioRoomData;
 import tech.sud.mgp.audio.example.model.AudioRoomMicModel;
 import tech.sud.mgp.audio.example.model.RoomInfoModel;
+import tech.sud.mgp.audio.example.model.command.GameChangeCommand;
 import tech.sud.mgp.audio.example.service.AudioRoomServiceCallback;
 import tech.sud.mgp.audio.example.utils.AudioRoomCommandUtils;
+import tech.sud.mgp.audio.middle.MediaUser;
 import tech.sud.mgp.common.http.rx.RxCallback;
 import tech.sud.mgp.game.example.http.repository.GameRepository;
 
@@ -31,6 +33,20 @@ public class AudioRoomServiceManager extends BaseServiceManager {
         audioMicManager.onCreate();
         audioStreamManager.onCreate();
         audioGiftManager.onCreate();
+        setListener();
+    }
+
+    private void setListener() {
+        audioEngineManager.setCommandListener(new AudioCommandManager.GameChangeCommandListener() {
+            @Override
+            public void onRecvCommand(GameChangeCommand command, MediaUser user, String roomId) {
+                roomInfoModel.gameId = command.gameID;
+                AudioRoomServiceCallback callback = getCallback();
+                if (callback != null) {
+                    callback.onGameChange(command.gameID);
+                }
+            }
+        });
     }
 
     @Override
@@ -92,14 +108,17 @@ public class AudioRoomServiceManager extends BaseServiceManager {
      * 游戏切换
      *
      * @param gameId
+     * @param selfSwitch
      */
-    public void switchGame(long gameId) {
-        // 发送http通知后台
-        GameRepository.switchGame(null, getRoomId(), gameId, new RxCallback<>());
+    public void switchGame(long gameId, boolean selfSwitch) {
+        if (selfSwitch) {
+            // 发送http通知后台
+            GameRepository.switchGame(null, getRoomId(), gameId, new RxCallback<>());
 
-        // 发送信令通知房间内其他人
-        String command = AudioRoomCommandUtils.buildGameChangeCommand(gameId);
-        audioEngineManager.sendCommand(command, null);
+            // 发送信令通知房间内其他人
+            String command = AudioRoomCommandUtils.buildGameChangeCommand(gameId);
+            audioEngineManager.sendCommand(command, null);
+        }
     }
 
 }

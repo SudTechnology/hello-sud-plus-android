@@ -37,7 +37,7 @@ public class GameRepository {
         switchGameReq.roomId = roomId;
         switchGameReq.gameId = gameId;
         GameRequestMethodFactory.getMethod()
-                .switchGame(BaseUrlManager.getBaseUrl(), switchGameReq)
+                .switchGame(BaseUrlManager.getInteractBaseUrl(), switchGameReq)
                 .compose(RxUtil.schedulers(owner))
                 .subscribe(callback);
     }

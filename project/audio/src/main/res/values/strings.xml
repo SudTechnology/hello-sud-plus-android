@@ -21,5 +21,6 @@
     <string name="audio_chat_room">语聊房</string>
     <string name="audio_gameing">游戏中</string>
     <string name="audio_room_number">房号</string>
+    <string name="audio_close_room_title">确认离开当前房间吗</string>
 
 </resources>

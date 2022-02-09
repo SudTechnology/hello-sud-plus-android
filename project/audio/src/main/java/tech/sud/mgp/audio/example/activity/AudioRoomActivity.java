@@ -38,6 +38,7 @@ import tech.sud.mgp.common.base.BaseDialogFragment;
 import tech.sud.mgp.common.model.HSUserInfo;
 import tech.sud.mgp.common.permission.PermissionFragment;
 import tech.sud.mgp.common.permission.SudPermissionUtils;
+import tech.sud.mgp.common.widget.dialog.SimpleChooseDialog;
 import tech.sud.mgp.game.example.viewmodel.GameViewModel;
 
 public class AudioRoomActivity extends BaseActivity {
@@ -88,6 +89,13 @@ public class AudioRoomActivity extends BaseActivity {
         inputMsgView = findViewById(R.id.room_input_msg_view);
         gameContainer = findViewById(R.id.game_container);
         inputMsgView.hide();
+
+        // TODO: 2022/2/9 现在为了调试，把下面的权限判断代码给注释掉了
+//        if (roomInfoModel.roleType == RoleType.OWNER) {
+//            topView.setSelectModeVisibility(View.VISIBLE);
+//        } else {
+//            topView.setSelectModeVisibility(View.GONE);
+//        }
     }
 
     @Override
@@ -184,6 +192,38 @@ public class AudioRoomActivity extends BaseActivity {
                 }
             }
         });
+        topView.setCloseClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intentClose();
+            }
+        });
+    }
+
+    /**
+     * 意图退出房间
+     */
+    private void intentClose() {
+        SimpleChooseDialog dialog = new SimpleChooseDialog(this,
+                getString(R.string.audio_close_room_title),
+                getString(R.string.audio_cancle),
+                getString(R.string.common_confirm));
+        dialog.show();
+        dialog.setOnChooseListener(new SimpleChooseDialog.OnChooseListener() {
+            @Override
+            public void onChoose(int index) {
+                if (index == 1) {
+                    finish();
+                } else {
+                    dialog.dismiss();
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        intentClose();
     }
 
     /**

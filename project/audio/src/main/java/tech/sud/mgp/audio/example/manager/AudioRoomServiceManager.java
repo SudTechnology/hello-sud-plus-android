@@ -107,8 +107,8 @@ public class AudioRoomServiceManager extends BaseServiceManager {
     /**
      * 游戏切换
      *
-     * @param gameId
-     * @param selfSwitch
+     * @param gameId     游戏id
+     * @param selfSwitch 标识是否是自己切换的
      */
     public void switchGame(long gameId, boolean selfSwitch) {
         if (selfSwitch) {

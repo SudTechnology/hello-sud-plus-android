@@ -4,6 +4,7 @@ import com.blankj.utilcode.util.GsonUtils;
 
 import tech.sud.mgp.audio.example.model.UserInfo;
 import tech.sud.mgp.audio.example.model.command.DownMicCommand;
+import tech.sud.mgp.audio.example.model.command.GameChangeCommand;
 import tech.sud.mgp.audio.example.model.command.PublicMsgCommand;
 import tech.sud.mgp.audio.example.model.command.SendGiftCommand;
 import tech.sud.mgp.audio.example.model.command.UpMicCommand;
@@ -52,6 +53,15 @@ public class AudioRoomCommandUtils {
     public static String buildDownMicCommand(int micIndex) {
         DownMicCommand command = new DownMicCommand(getSendUser());
         command.micIndex = micIndex;
+        return GsonUtils.toJson(command);
+    }
+
+    /**
+     * 构建游戏切换的信令
+     */
+    public static String buildGameChangeCommand(long gameId) {
+        GameChangeCommand command = new GameChangeCommand(getSendUser());
+        command.gameID = gameId;
         return GsonUtils.toJson(command);
     }
 

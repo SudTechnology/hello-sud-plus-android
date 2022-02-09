@@ -56,4 +56,9 @@ public interface RequestUrl {
      */
     String GAME_LOGIN = "game-login/v1";
 
+    /**
+     * 游戏切换
+     */
+    String SWITCH_GAME = "room/switch-game/v1";
+
 }

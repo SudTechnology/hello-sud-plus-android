@@ -93,6 +93,13 @@ public class AudioRoomService {
         public List<AudioRoomMicModel> getMicList() {
             return serviceManager.audioMicManager.getMicList();
         }
+
+        /**
+         * 游戏切换
+         */
+        public void switchGame(long gameId) {
+            serviceManager.switchGame(gameId);
+        }
     }
 
 }

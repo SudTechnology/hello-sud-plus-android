@@ -4,6 +4,9 @@ import tech.sud.mgp.audio.example.model.AudioRoomData;
 import tech.sud.mgp.audio.example.model.AudioRoomMicModel;
 import tech.sud.mgp.audio.example.model.RoomInfoModel;
 import tech.sud.mgp.audio.example.service.AudioRoomServiceCallback;
+import tech.sud.mgp.audio.example.utils.AudioRoomCommandUtils;
+import tech.sud.mgp.common.http.rx.RxCallback;
+import tech.sud.mgp.game.example.http.repository.GameRepository;
 
 /**
  * 房间主要业务逻辑
@@ -67,6 +70,11 @@ public class AudioRoomServiceManager extends BaseServiceManager {
         }
     }
 
+    /**
+     * 设置麦克风开关
+     *
+     * @param isOpen true为开 false为关
+     */
     public void setMicState(boolean isOpen) {
         if (isOpen) {
             String streamId = null;
@@ -78,6 +86,20 @@ public class AudioRoomServiceManager extends BaseServiceManager {
         } else {
             audioStreamManager.closeMic();
         }
+    }
+
+    /**
+     * 游戏切换
+     *
+     * @param gameId
+     */
+    public void switchGame(long gameId) {
+        // 发送http通知后台
+        GameRepository.switchGame(null, getRoomId(), gameId, new RxCallback<>());
+
+        // 发送信令通知房间内其他人
+        String command = AudioRoomCommandUtils.buildGameChangeCommand(gameId);
+        audioEngineManager.sendCommand(command, null);
     }
 
 }

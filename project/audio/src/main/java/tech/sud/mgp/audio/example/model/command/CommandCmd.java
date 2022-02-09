@@ -21,4 +21,10 @@ public class CommandCmd {
      * 下麦
      */
     public static final int CMD_DOWN_MIC_NTF = 0x04;
+
+    /**
+     * 游戏切换
+     */
+    public static final int CMD_GAME_CHANGE = 0x05;
+
 }

@@ -1,8 +1,7 @@
 package tech.sud.mgp.game.middle.state;
 
 /**
- * Time:2021/10/19
- * Description: MG to APP 的状态定义
+ * MG to APP 的状态定义
  */
 public class SudMGPMGState {
 

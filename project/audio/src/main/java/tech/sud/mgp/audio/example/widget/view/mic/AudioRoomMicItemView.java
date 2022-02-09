@@ -2,6 +2,8 @@ package tech.sud.mgp.audio.example.widget.view.mic;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,6 +20,7 @@ public class AudioRoomMicItemView extends BaseMicItemView {
     private SoundLevelView mSoundLevelView;
     private RoundedImageView mRivIcon;
     private TextView mTvName;
+    private ImageView giftIcon;
 
     public AudioRoomMicItemView(@NonNull Context context) {
         this(context, null);
@@ -37,6 +40,7 @@ public class AudioRoomMicItemView extends BaseMicItemView {
         mSoundLevelView = findViewById(R.id.sound_level_view);
         mRivIcon = findViewById(R.id.riv_avatar);
         mTvName = findViewById(R.id.tv_name);
+        giftIcon = findViewById(R.id.gift_icon_iv);
     }
 
     @Override
@@ -52,6 +56,11 @@ public class AudioRoomMicItemView extends BaseMicItemView {
             mTvName.setText(item.nickName);
         } else {
             mTvName.setText(R.string.audio_click_got_mic);
+        }
+        if (hasUser && item.giftEnable) {
+            giftIcon.setVisibility(View.VISIBLE);
+        } else {
+            giftIcon.setVisibility(View.GONE);
         }
     }
 

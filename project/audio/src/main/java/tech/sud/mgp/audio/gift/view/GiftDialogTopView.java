@@ -17,11 +17,14 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import tech.sud.mgp.audio.R;
 import tech.sud.mgp.audio.example.model.UserInfo;
 import tech.sud.mgp.audio.gift.adapter.GiftMicUserAdapter;
+import tech.sud.mgp.audio.gift.listener.SendGiftToUserListener;
 import tech.sud.mgp.audio.gift.model.MicUserInfoModel;
 import tech.sud.mgp.common.utils.ImageLoader;
 
@@ -33,6 +36,8 @@ public class GiftDialogTopView extends ConstraintLayout {
     private RecyclerView micListRv;
     private List<MicUserInfoModel> micUsers = new ArrayList<>();
     private GiftMicUserAdapter userAdapter = new GiftMicUserAdapter(micUsers);
+    public SendGiftToUserListener sendGiftToUserListener;
+    private Map<Long, Boolean> userState = new HashMap<>();
 
     public GiftDialogTopView(@NonNull Context context) {
         super(context);
@@ -69,6 +74,9 @@ public class GiftDialogTopView extends ConstraintLayout {
                 cancelTv.setText(context.getString(R.string.audio_cancle));
                 cancelTv.setSelected(true);
             }
+            if (sendGiftToUserListener != null) {
+                sendGiftToUserListener.onNotify(userState);
+            }
         });
     }
 
@@ -89,7 +97,15 @@ public class GiftDialogTopView extends ConstraintLayout {
                 boolean isChecked = micUsers.get(position).checked;
                 micUsers.get(position).checked = !isChecked;
                 this.userAdapter.notifyItemChanged(position);
+                userState.put(micUsers.get(position).userInfo.userId, micUsers.get(position).checked);
+                if (sendGiftToUserListener != null) {
+                    sendGiftToUserListener.onNotify(userState);
+                }
             });
+            initUserState();
+            if (sendGiftToUserListener != null) {
+                sendGiftToUserListener.onNotify(userState);
+            }
         } else {
             setVisibility(View.GONE);
         }
@@ -114,11 +130,24 @@ public class GiftDialogTopView extends ConstraintLayout {
             if (isSelected) {
                 for (MicUserInfoModel m : this.micUsers) {
                     m.checked = true;
+                    userState.put(m.userInfo.userId, true);
                 }
             } else {
                 for (MicUserInfoModel m : this.micUsers) {
                     m.checked = false;
+                    userState.put(m.userInfo.userId, false);
                 }
+            }
+        }
+    }
+
+    /**
+     * 查找选中
+     */
+    private void initUserState() {
+        if (this.micUsers != null && this.micUsers.size() > 0) {
+            for (MicUserInfoModel m : this.micUsers) {
+                userState.put(m.userInfo.userId, m.checked);
             }
         }
     }

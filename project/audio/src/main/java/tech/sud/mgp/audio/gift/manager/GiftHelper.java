@@ -48,6 +48,7 @@ public class GiftHelper {
             model1.path = "audio_svga_600.svga";
             model1.giftImage = R.drawable.audio_svga_600;
             model1.giftSmallImage = R.drawable.audio_svga_128;
+            model1.checkState = true;
             gifts.add(model1);
 
             GiftModel model2 = new GiftModel();

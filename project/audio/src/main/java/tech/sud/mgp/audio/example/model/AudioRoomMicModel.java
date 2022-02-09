@@ -11,6 +11,7 @@ public class AudioRoomMicModel {
 
     public Boolean isCaptain; // 是否是队长，空值不显示
     public int readyStatus; // 0没有状态，1已准备，2未准备
+    public Boolean giftEnable = false;//是否展示礼物icon true 展示 false 不展示
 
     public void clearUser() {
         userId = 0;
@@ -20,6 +21,7 @@ public class AudioRoomMicModel {
         isCaptain = false;
         readyStatus = 0;
         streamId = null;
+        giftEnable = false;
     }
 
 }

@@ -13,13 +13,16 @@ import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.ToastUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import tech.sud.mgp.audio.R;
 import tech.sud.mgp.audio.example.model.AudioRoomMicModel;
 import tech.sud.mgp.audio.example.model.UserInfo;
 import tech.sud.mgp.audio.gift.adapter.GiftListAdapter;
 import tech.sud.mgp.audio.gift.listener.GiftSendClickListener;
+import tech.sud.mgp.audio.gift.listener.SendGiftToUserListener;
 import tech.sud.mgp.audio.gift.manager.GiftHelper;
 import tech.sud.mgp.audio.gift.model.GiftModel;
 import tech.sud.mgp.audio.gift.model.MicUserInfoModel;
@@ -109,8 +112,13 @@ public class RoomGiftDialog extends BaseDialogFragment {
                 giftListAdapter.setList(gifts);
             }
         });
-
         if (GiftHelper.getInstance().inMic) {
+            topView.sendGiftToUserListener = new SendGiftToUserListener() {
+                @Override
+                public void onNotify(Map<Long, Boolean> userState) {
+                    giftSendClickListener.onNotify(userState);
+                }
+            };
             topView.setInMic(GiftHelper.getInstance().inMics);
         } else {
             topView.setMicOut(GiftHelper.getInstance().underMicUser);

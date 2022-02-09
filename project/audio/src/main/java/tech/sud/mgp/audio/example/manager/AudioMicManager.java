@@ -4,6 +4,7 @@ import android.text.TextUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import tech.sud.mgp.audio.example.http.repository.AudioRepository;
 import tech.sud.mgp.audio.example.http.response.RoomMicListResp;
@@ -318,6 +319,26 @@ public class AudioMicManager extends BaseServiceManager {
             }
         }
         return -1;
+    }
+
+    /**
+     * 更新麦位的礼物icon展示效果
+     */
+    public void updateGiftIcon(Map<Long, Boolean> userState) {
+        if (userState != null) {
+            for (AudioRoomMicModel model : micList) {
+                if (model.userId != 0) {
+                    model.giftEnable = userState.get(model.userId) != null && userState.get(model.userId);
+                } else {
+                    model.giftEnable = false;
+                }
+            }
+            AudioRoomServiceCallback callback = parentManager.getCallback();
+            if (callback != null) {
+                callback.setMicList(micList);
+                callbackSelfMicIndex();
+            }
+        }
     }
 
     private final AudioCommandManager.UpMicCommandListener upMicCommandListener = new AudioCommandManager.UpMicCommandListener() {

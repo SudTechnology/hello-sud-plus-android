@@ -9,7 +9,9 @@ import androidx.lifecycle.Observer;
 import com.blankj.utilcode.util.KeyboardUtils;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import tech.sud.mgp.audio.R;
 import tech.sud.mgp.audio.example.model.AudioRoomMicModel;
@@ -32,6 +34,7 @@ import tech.sud.mgp.audio.gift.model.GiftNotifyDetailodel;
 import tech.sud.mgp.audio.gift.view.GiftEffectView;
 import tech.sud.mgp.audio.gift.view.RoomGiftDialog;
 import tech.sud.mgp.common.base.BaseActivity;
+import tech.sud.mgp.common.base.BaseDialogFragment;
 import tech.sud.mgp.common.model.HSUserInfo;
 import tech.sud.mgp.common.permission.PermissionFragment;
 import tech.sud.mgp.common.permission.SudPermissionUtils;
@@ -209,8 +212,19 @@ public class AudioRoomActivity extends BaseActivity {
                 }
                 showGift(GiftHelper.getInstance().getGift(giftId));
             }
+
+            @Override
+            public void onNotify(Map<Long,Boolean> userState) {
+                binder.updateGiftIcon(userState);
+            }
         };
         dialog.show(getSupportFragmentManager(), "gift");
+        dialog.setOnDestroyListener(new BaseDialogFragment.OnDestroyListener() {
+            @Override
+            public void onDestroy() {
+                binder.updateGiftIcon(new HashMap<Long, Boolean>());
+            }
+        });
     }
 
     private void showGift(GiftModel giftModel) {

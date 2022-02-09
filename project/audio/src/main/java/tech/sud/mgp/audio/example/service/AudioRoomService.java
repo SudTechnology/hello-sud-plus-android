@@ -1,6 +1,7 @@
 package tech.sud.mgp.audio.example.service;
 
 import java.util.List;
+import java.util.Map;
 
 import tech.sud.mgp.audio.example.manager.AudioRoomServiceManager;
 import tech.sud.mgp.audio.example.model.AudioRoomMicModel;
@@ -100,6 +101,13 @@ public class AudioRoomService {
         public void switchGame(long gameId) {
             serviceManager.switchGame(gameId);
         }
-    }
 
+        /**
+         * 更新礼物icon显示
+         */
+        public void updateGiftIcon(Map<Long, Boolean> userState) {
+            serviceManager.audioMicManager.updateGiftIcon(userState);
+
+        }
+    }
 }

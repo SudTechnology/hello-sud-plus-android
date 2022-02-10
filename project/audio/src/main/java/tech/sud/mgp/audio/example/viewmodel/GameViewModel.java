@@ -57,6 +57,8 @@ public class GameViewModel {
     private View gameView; // 游戏View
     private long captainUserId; // 记录当前队长的用户id
     private CommonGameState commonGameState; // 游戏状态
+    private boolean isSelfInGame; // 标识自己是否已加入了游戏
+    private int selfMicIndex = -1; // 记录自己所在麦位
 
     /**
      * 记录该玩家最新的游戏状态
@@ -252,6 +254,9 @@ public class GameViewModel {
             case SudMGPMGState.MG_COMMON_PLAYER_IN: // 加入状态
                 PlayerInState playerInState = SudJsonUtils.fromJson(dataJson, PlayerInState.class);
                 if (playerInState != null) {
+                    if ((HSUserInfo.userId + "").equals(userId)) { // 保存自己是否加入了游戏的状态
+                        isSelfInGame = playerInState.isIn;
+                    }
                     if (!playerInState.isIn) { // 已经离开游戏了，删除玩家状态记录
                         removePlayerState(userId);
                         notifyUpdateMic();
@@ -298,7 +303,6 @@ public class GameViewModel {
                 break;
         }
     }
-
 
     // region 生命周期相关
     public void onStart() {
@@ -385,8 +389,20 @@ public class GameViewModel {
      * @param micIndex 麦位索引
      */
     public void selfMicIndex(int micIndex) {
-        // 上麦时，自动加入游戏，可选项
-        
+        if (micIndex > 0 && selfMicIndex != micIndex) { // 可选项。这里展示的逻辑是：上麦自动加入游戏。根据需求选择是否要执行此逻辑。
+            joinGame(micIndex);
+        }
+        selfMicIndex = micIndex;
+    }
+
+    /**
+     * 加入游戏
+     */
+    private void joinGame(int micIndex) {
+        // 游戏闲置，并且自己没有加入游戏时，才发送
+        if (isGameIdle() && !isSelfInGame) {
+            fsmApp2MGManager.sendCommonSelfInState(true, micIndex, true, 1);
+        }
     }
 
     // 返回游戏是否在等待加入的状态

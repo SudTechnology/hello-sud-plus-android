@@ -27,4 +27,9 @@ public class CommandCmd {
      */
     public static final int CMD_GAME_CHANGE = 0x05;
 
+    /**
+     * 用户进入房间通知
+     */
+    public static final int CMD_ENTER_ROOM_NTF = 0x06;
+
 }

@@ -12,6 +12,7 @@ import java.util.List;
 import tech.sud.mgp.audio.example.model.command.BaseCommand;
 import tech.sud.mgp.audio.example.model.command.CommandCmd;
 import tech.sud.mgp.audio.example.model.command.DownMicCommand;
+import tech.sud.mgp.audio.example.model.command.EnterRoomCommand;
 import tech.sud.mgp.audio.example.model.command.GameChangeCommand;
 import tech.sud.mgp.audio.example.model.command.PublicMsgCommand;
 import tech.sud.mgp.audio.example.model.command.SendGiftCommand;
@@ -43,68 +44,94 @@ public class AudioCommandManager extends BaseServiceManager {
         }
     }
 
+    /**
+     * 接收到信令，进行解析分发
+     *
+     * @param roomId   房间id
+     * @param fromUser 发送者
+     * @param command  信令字符
+     */
     public void onIMRecvCustomCommand(String roomId, MediaUser fromUser, String command) {
         int commandCmd = getCommandCmd(command);
         switch (commandCmd) {
-            case CommandCmd.CMD_PUBLIC_MSG_NTF:
+            case CommandCmd.CMD_PUBLIC_MSG_NTF: // 公屏消息
                 PublicMsgCommand publicMsgCommand = fromJson(command, PublicMsgCommand.class);
                 if (publicMsgCommand != null) {
                     dispatchCommand(commandCmd, publicMsgCommand, fromUser, roomId);
                 }
                 break;
-            case CommandCmd.CMD_PUBLIC_SEND_GIFT_NTF:
+            case CommandCmd.CMD_PUBLIC_SEND_GIFT_NTF: // 发送礼物
                 SendGiftCommand sendGiftCommand = fromJson(command, SendGiftCommand.class);
                 if (sendGiftCommand != null) {
                     dispatchCommand(commandCmd, sendGiftCommand, fromUser, roomId);
                 }
                 break;
-            case CommandCmd.CMD_UP_MIC_NTF:
+            case CommandCmd.CMD_UP_MIC_NTF: // 上麦位
                 UpMicCommand upMicCommand = fromJson(command, UpMicCommand.class);
                 if (upMicCommand != null) {
                     dispatchCommand(commandCmd, upMicCommand, fromUser, roomId);
                 }
                 break;
-            case CommandCmd.CMD_DOWN_MIC_NTF:
+            case CommandCmd.CMD_DOWN_MIC_NTF: // 下麦位
                 DownMicCommand downMicCommand = fromJson(command, DownMicCommand.class);
                 if (downMicCommand != null) {
                     dispatchCommand(commandCmd, downMicCommand, fromUser, roomId);
                 }
                 break;
-            case CommandCmd.CMD_GAME_CHANGE:
+            case CommandCmd.CMD_GAME_CHANGE: // 游戏切换
                 GameChangeCommand gameChangeCommand = fromJson(command, GameChangeCommand.class);
                 if (gameChangeCommand != null) {
                     dispatchCommand(commandCmd, gameChangeCommand, fromUser, roomId);
                 }
                 break;
+            case CommandCmd.CMD_ENTER_ROOM_NTF: // 进入房间通知
+                EnterRoomCommand enterRoomCommand = fromJson(command, EnterRoomCommand.class);
+                if (enterRoomCommand != null) {
+                    dispatchCommand(commandCmd, enterRoomCommand, fromUser, roomId);
+                }
+                break;
         }
     }
 
+    /**
+     * 分发信令
+     *
+     * @param cmd      信令命令
+     * @param command  信令内容
+     * @param fromUser 发送者
+     * @param roomId   房间id
+     */
     private void dispatchCommand(int cmd, BaseCommand command, MediaUser fromUser, String roomId) {
         for (ICommandListener listener : listenerList) {
             switch (cmd) {
-                case CommandCmd.CMD_PUBLIC_MSG_NTF:
+                case CommandCmd.CMD_PUBLIC_MSG_NTF: // 发送公屏
                     if (listener instanceof PublicMsgCommandListener) {
                         ((PublicMsgCommandListener) listener).onRecvCommand((PublicMsgCommand) command, fromUser, roomId);
                     }
                     break;
-                case CommandCmd.CMD_PUBLIC_SEND_GIFT_NTF:
+                case CommandCmd.CMD_PUBLIC_SEND_GIFT_NTF: // 发送礼物
                     if (listener instanceof SendGiftCommandListener) {
                         ((SendGiftCommandListener) listener).onRecvCommand((SendGiftCommand) command, fromUser, roomId);
                     }
                     break;
-                case CommandCmd.CMD_UP_MIC_NTF:
+                case CommandCmd.CMD_UP_MIC_NTF: // 上麦位
                     if (listener instanceof UpMicCommandListener) {
                         ((UpMicCommandListener) listener).onRecvCommand((UpMicCommand) command, fromUser, roomId);
                     }
                     break;
-                case CommandCmd.CMD_DOWN_MIC_NTF:
+                case CommandCmd.CMD_DOWN_MIC_NTF: // 下麦位
                     if (listener instanceof DownMicCommandListener) {
                         ((DownMicCommandListener) listener).onRecvCommand((DownMicCommand) command, fromUser, roomId);
                     }
                     break;
-                case CommandCmd.CMD_GAME_CHANGE:
+                case CommandCmd.CMD_GAME_CHANGE: // 游戏切换
                     if (listener instanceof GameChangeCommandListener) {
                         ((GameChangeCommandListener) listener).onRecvCommand((GameChangeCommand) command, fromUser, roomId);
+                    }
+                    break;
+                case CommandCmd.CMD_ENTER_ROOM_NTF: // 进入房间通知
+                    if (listener instanceof EnterRoomCommandListener) {
+                        ((EnterRoomCommandListener) listener).onRecvCommand((EnterRoomCommand) command, fromUser, roomId);
                     }
                     break;
             }
@@ -151,6 +178,10 @@ public class AudioCommandManager extends BaseServiceManager {
 
     interface GameChangeCommandListener extends ICommandListener {
         void onRecvCommand(GameChangeCommand command, MediaUser user, String roomId);
+    }
+
+    interface EnterRoomCommandListener extends ICommandListener {
+        void onRecvCommand(EnterRoomCommand command, MediaUser user, String roomId);
     }
 
 }

@@ -78,4 +78,14 @@ public interface MediaAudioEventHandler {
      */
     void onRoomOnlineUserCountUpdate(String roomID, int count);
 
+    /**
+     * 房间状态变化
+     *
+     * @param roomID       房间id
+     * @param state        状态
+     * @param errorCode    错误码
+     * @param extendedData 扩展信息
+     */
+    void onRoomStateUpdate(String roomID, MediaAudioRoomState state, int errorCode, JSONObject extendedData);
+
 }

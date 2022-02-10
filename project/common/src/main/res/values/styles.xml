@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- 从底部弹出的动画 -->
-    <style name="DtBottomToTopAnim" parent="android:Animation">
-        <item name="android:windowEnterAnimation">@anim/bottomview_anim_enter</item>
-        <item name="android:windowExitAnimation">@anim/bottomview_anim_exit</item>
+    <style name="AudioBottomToTopAnim" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/audio_bottomview_anim_enter</item>
+        <item name="android:windowExitAnimation">@anim/audio_bottomview_anim_exit</item>
+    </style>
+    <!-- 透明度动画 -->
+    <style name="AudioFadeAnim" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/audio_fade_in</item>
+        <item name="android:windowExitAnimation">@anim/audio_fade_out</item>
     </style>
     <style name="audio_dialog_soft_input" parent="Theme.AppCompat.Dialog">
         <item name="android:windowTranslucentStatus">true</item>

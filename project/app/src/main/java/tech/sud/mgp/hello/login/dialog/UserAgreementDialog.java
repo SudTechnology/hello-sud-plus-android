@@ -65,7 +65,6 @@ public class UserAgreementDialog extends DialogFragment {
             if (this.selectListener != null) {
                 this.selectListener.onSelectResult(false);
             }
-            dismiss();
         });
         agreeTv.setOnClickListener(v -> {
             if (this.selectListener != null) {

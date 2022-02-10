@@ -36,7 +36,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private ImageView femaleCheck;
     private TextView goPlayBtn;
     private ImageView randomIv;
-    private String[] strings;
+    private String[] names;
+    private UserAgreementDialog agreementDialog;
 
     @Override
     protected int getLayoutId() {
@@ -53,7 +54,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         maleCheck = findViewById(R.id.male_check);
         femaleCheck = findViewById(R.id.female_check);
         randomIv = findViewById(R.id.random_iv);
-        strings = getResources().getStringArray(R.array.names_list);
+        names = getResources().getStringArray(R.array.names_list);
     }
 
     @Override
@@ -74,7 +75,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     }
 
     private void showAgreementDialog() {
-        UserAgreementDialog agreementDialog = new UserAgreementDialog();
+        agreementDialog = new UserAgreementDialog();
         agreementDialog.setDialogSelectListener(this);
         agreementDialog.show(getSupportFragmentManager(), "argeement");
     }
@@ -92,17 +93,20 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         } else {
             AppSharedPreferences.getSP().put(AppSharedPreferences.AGREEMENT_STATE, true);
         }
+        if (agreementDialog != null) {
+            agreementDialog.dismiss();
+        }
     }
 
     @Override
     public void onAgreementType(int type) {
         Intent intent = new Intent(this, UserAgreementActivity.class);
         switch (type) {
-            case 1: {
+            case 0: {
                 intent.putExtra(UserAgreementActivity.AGREEMENTTYPE, 0);
                 break;
             }
-            case 2: {
+            case 1: {
                 intent.putExtra(UserAgreementActivity.AGREEMENTTYPE, 1);
                 break;
             }
@@ -161,8 +165,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     }
 
     private String randomName() {
-        int index = new Random().nextInt(strings.length);
-        return strings[index];
+        int index = new Random().nextInt(names.length);
+        return names[index];
     }
 
     private void loginSuccess() {

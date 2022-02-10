@@ -37,15 +37,12 @@ public class UserAgreementActivity extends BaseActivity {
         super.initData();
         agreementType = getIntent().getIntExtra(AGREEMENTTYPE, 0);
         if (agreementType == 1) {
-            titleTv.setText(getString(R.string.user_agreement_title));
-            //找到Html文件，也可以用网络上的文件
-            contentWeb.loadUrl("file:///android_asset/user_protocol.html");
-        } else {
             titleTv.setText(getString(R.string.user_privacy_title));
-            //找到Html文件，也可以用网络上的文件
             contentWeb.loadUrl("file:///android_asset/user_privacy.html");
+        } else {
+            titleTv.setText(getString(R.string.user_agreement_title));
+            contentWeb.loadUrl("file:///android_asset/user_protocol.html");
         }
-        //允许JavaScript执行
         contentWeb.getSettings().setJavaScriptEnabled(true);
     }
 

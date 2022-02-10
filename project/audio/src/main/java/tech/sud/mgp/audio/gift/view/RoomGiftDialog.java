@@ -13,7 +13,6 @@ import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.ToastUtils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -48,7 +47,7 @@ public class RoomGiftDialog extends BaseDialogFragment {
     protected void customStyle(Window window) {
         super.customStyle(window);
         window.setDimAmount(0f);
-        window.setWindowAnimations(R.style.DtBottomToTopAnim);
+        window.setWindowAnimations(R.style.AudioBottomToTopAnim);
     }
 
     @Override

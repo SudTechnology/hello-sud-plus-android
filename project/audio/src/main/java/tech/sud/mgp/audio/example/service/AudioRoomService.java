@@ -121,12 +121,10 @@ public class AudioRoomService {
         }
 
         /**
-         * 队长用户变化了
-         *
-         * @param captainUserId 队长用户id
+         * 更新麦位
          */
-        public void captainChange(long captainUserId) {
-            serviceManager.audioMicManager.captainChange(captainUserId);
+        public void updateMicList() {
+            serviceManager.audioMicManager.notifyDataSetChange();
         }
     }
 }

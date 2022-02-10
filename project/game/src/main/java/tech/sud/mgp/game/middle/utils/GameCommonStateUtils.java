@@ -8,6 +8,9 @@ import tech.sud.mgp.game.middle.model.GameChatModel;
 import tech.sud.mgp.game.middle.model.GameChatMsgModel;
 import tech.sud.mgp.game.middle.model.GameMessageModel;
 
+/**
+ * 游戏通用状态工具类
+ */
 public class GameCommonStateUtils {
 
     /**

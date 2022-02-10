@@ -35,6 +35,7 @@ import tech.sud.mgp.game.middle.model.GameViewSizeModel;
 import tech.sud.mgp.game.middle.state.MGStateResponse;
 import tech.sud.mgp.game.middle.state.SudMGPMGState;
 import tech.sud.mgp.game.middle.state.mg.player.PlayerCaptainState;
+import tech.sud.mgp.game.middle.state.mg.player.PlayerReadyState;
 import tech.sud.mgp.game.middle.utils.GameCommonStateUtils;
 import tech.sud.mgp.game.middle.utils.GamePlayerStateUtils;
 
@@ -50,19 +51,23 @@ public class GameViewModel {
     public final MutableLiveData<View> gameViewLiveData = new MutableLiveData<>(); // 游戏View回调
     public final MutableLiveData<Object> gameStartLiveData = new MutableLiveData<>(); // 游戏开始时的回调
     public final MutableLiveData<GameMessageModel> gameMessageLiveData = new MutableLiveData<>(); // 游戏消息
-    public final MutableLiveData<Long> captainChangeLiveData = new MutableLiveData<>(); // 游戏消息
+    public final MutableLiveData<Object> updateMicLiveData = new MutableLiveData<>(); // 刷新麦位通知
 
     private View gameView; // 游戏View
-    private ISudFSTAPP iSudFSTAPP;
     private long captainUserId; // 记录当前队长的用户id
 
     /**
      * 设置当前房间id
-     *
-     * @param roomId
      */
     public void setRoomId(long roomId) {
         this.roomId = roomId;
+    }
+
+    /**
+     * 获取当前队长的用户id
+     */
+    public long getCaptainUserId() {
+        return captainUserId;
     }
 
     /**
@@ -145,7 +150,7 @@ public class GameViewModel {
      * @param gameId   游戏id
      */
     private void loadGame(AppCompatActivity activity, String code, long gameId) {
-        iSudFSTAPP = SudMGP.loadMG(activity, HSUserInfo.userId + "", roomId + "", code, gameId, "zh-CN", iSudFSMMG);
+        ISudFSTAPP iSudFSTAPP = SudMGP.loadMG(activity, HSUserInfo.userId + "", roomId + "", code, gameId, "zh-CN", iSudFSMMG);
         fsmApp2MGManager.setISudFSTAPP(iSudFSTAPP);
         gameView = iSudFSTAPP.getGameView();
         gameViewLiveData.setValue(gameView);
@@ -231,13 +236,19 @@ public class GameViewModel {
                     }
                 }
                 break;
+            case SudMGPMGState.MG_COMMON_PLAYER_READY: // 准备状态
+                PlayerReadyState playerReadyState = GamePlayerStateUtils.parseReadyState(dataJson);
+                if (playerReadyState != null && playerReadyState.retCode == 0) {
+
+                }
+                break;
         }
     }
 
     /**
      * 队长变化了
      *
-     * @param userId
+     * @param userId 队长用户id
      */
     private void captainChange(String userId) {
         try {
@@ -246,7 +257,7 @@ public class GameViewModel {
             } else {
                 captainUserId = Long.parseLong(userId);
             }
-            captainChangeLiveData.setValue(captainUserId);
+            updateMicLiveData.setValue(null);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -292,7 +303,7 @@ public class GameViewModel {
             }
         });
     }
- 
+
     /**
      * 处理游戏视图
      */
@@ -319,10 +330,6 @@ public class GameViewModel {
 
     /**
      * 通知游戏，游戏视图信息
-     *
-     * @param handle
-     * @param gameViewWidth
-     * @param gameViewHeight
      */
     private void notifyGameViewInfo(ISudFSMStateHandle handle, int gameViewWidth, int gameViewHeight) {
         GameViewInfoModel gameViewInfoModel = new GameViewInfoModel();

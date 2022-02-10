@@ -69,4 +69,9 @@ public interface AudioRoomServiceCallback {
      */
     void onGameChange(long gameId);
 
+    /**
+     * 获取游戏队长的用户id
+     */
+    long getCaptainUserId();
+
 }

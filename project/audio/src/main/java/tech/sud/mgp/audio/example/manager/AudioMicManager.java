@@ -31,7 +31,6 @@ public class AudioMicManager extends BaseServiceManager {
     private final AudioRoomServiceManager parentManager;
 
     private final List<AudioRoomMicModel> micList = new ArrayList<>();
-    private long captainUserId; // 游戏队长的用户id
 
     public AudioMicManager(AudioRoomServiceManager audioRoomServiceManager) {
         super();
@@ -226,7 +225,7 @@ public class AudioMicManager extends BaseServiceManager {
     private void notifyItemChange(int micIndex, AudioRoomMicModel model) {
         AudioRoomServiceCallback callback = parentManager.getCallback();
         if (callback != null) {
-            wrapMicModel(model);
+            wrapMicModel(callback, model);
             callback.notifyMicItemChange(micIndex, model);
             callbackSelfMicIndex();
         }
@@ -237,9 +236,9 @@ public class AudioMicManager extends BaseServiceManager {
      *
      * @param model
      */
-    private void wrapMicModel(AudioRoomMicModel model) {
+    private void wrapMicModel(AudioRoomServiceCallback callback, AudioRoomMicModel model) {
         // 是否是游戏中的队长
-        if (model.userId > 0 && model.userId == captainUserId) {
+        if (model.userId > 0 && model.userId == callback.getCaptainUserId()) {
             model.isCaptain = true;
         } else {
             model.isCaptain = false;
@@ -249,11 +248,11 @@ public class AudioMicManager extends BaseServiceManager {
     /**
      * 通知页面刷新整个麦位
      */
-    private void notifyDataSetChange() {
+    public void notifyDataSetChange() {
         AudioRoomServiceCallback callback = parentManager.getCallback();
         if (callback != null) {
             for (AudioRoomMicModel audioRoomMicModel : micList) {
-                wrapMicModel(audioRoomMicModel);
+                wrapMicModel(callback, audioRoomMicModel);
             }
             callback.setMicList(micList);
             callbackSelfMicIndex();
@@ -392,10 +391,5 @@ public class AudioMicManager extends BaseServiceManager {
             }
         }
     };
-
-    public void captainChange(long captainUserId) {
-        this.captainUserId = captainUserId;
-        notifyDataSetChange();
-    }
 
 }

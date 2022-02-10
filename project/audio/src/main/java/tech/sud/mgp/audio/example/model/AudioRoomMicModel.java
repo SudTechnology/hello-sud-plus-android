@@ -1,5 +1,8 @@
 package tech.sud.mgp.audio.example.model;
 
+/**
+ * 语聊房麦位数据模型
+ */
 public class AudioRoomMicModel {
 
     public long userId; // 0代表没有人
@@ -11,7 +14,7 @@ public class AudioRoomMicModel {
 
     public Boolean isCaptain; // 是否是队长，空值不显示
     public int readyStatus; // 0没有状态，1已准备，2未准备
-    public Boolean giftEnable = false;//是否展示礼物icon true 展示 false 不展示
+    public Boolean giftEnable = false; // 是否展示礼物icon true 展示 false 不展示
 
     public void clearUser() {
         userId = 0;

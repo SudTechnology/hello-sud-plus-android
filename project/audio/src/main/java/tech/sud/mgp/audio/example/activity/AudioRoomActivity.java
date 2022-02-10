@@ -207,14 +207,10 @@ public class AudioRoomActivity extends BaseActivity {
                 }
             }
         });
-        gameViewModel.captainChangeLiveData.observe(this, new Observer<Long>() {
+        gameViewModel.updateMicLiveData.observe(this, new Observer<Object>() {
             @Override
-            public void onChanged(Long userId) {
-                long captainUserId = 0;
-                if (userId != null) {
-                    captainUserId = userId;
-                }
-                binder.captainChange(captainUserId);
+            public void onChanged(Object obj) {
+                binder.updateMicList();
             }
         });
     }
@@ -393,6 +389,11 @@ public class AudioRoomActivity extends BaseActivity {
         @Override
         public void onGameChange(long gameId) {
             switchGame(gameId, false);
+        }
+
+        @Override
+        public long getCaptainUserId() {
+            return gameViewModel.getCaptainUserId();
         }
 
     };

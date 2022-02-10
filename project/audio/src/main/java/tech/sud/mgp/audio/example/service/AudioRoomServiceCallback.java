@@ -70,8 +70,8 @@ public interface AudioRoomServiceCallback {
     void onGameChange(long gameId);
 
     /**
-     * 获取游戏队长的用户id
+     * 对麦位数据进行赋值
      */
-    long getCaptainUserId();
+    void onWrapMicModel(AudioRoomMicModel model);
 
 }

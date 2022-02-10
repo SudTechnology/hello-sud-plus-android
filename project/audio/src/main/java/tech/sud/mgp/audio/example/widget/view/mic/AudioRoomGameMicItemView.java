@@ -81,13 +81,11 @@ public class AudioRoomGameMicItemView extends BaseMicItemView {
 
         // 准备状态
         if (hasUser) {
-            mTvState.setVisibility(View.GONE);
-        } else {
             switch (item.readyStatus) {
                 case 1: // 已准备
                     mTvState.setVisibility(View.VISIBLE);
                     mTvState.setText(R.string.audio_has_ready);
-                    int strokeWidth = DensityUtils.dp2px(getContext(), 1);
+                    int strokeWidth = DensityUtils.dp2px(getContext(), 0.5f);
                     mTvState.setBackground(ShapeUtils.createShape(strokeWidth, (float) strokeWidth,
                             GradientDrawable.RECTANGLE, Color.parseColor("#ffffff"),
                             Color.parseColor("#60cb6a")));
@@ -95,7 +93,7 @@ public class AudioRoomGameMicItemView extends BaseMicItemView {
                 case 2: // 未准备
                     mTvState.setVisibility(View.VISIBLE);
                     mTvState.setText(R.string.audio_not_ready);
-                    strokeWidth = DensityUtils.dp2px(getContext(), 1);
+                    strokeWidth = DensityUtils.dp2px(getContext(), 0.5f);
                     mTvState.setBackground(ShapeUtils.createShape(strokeWidth, (float) strokeWidth,
                             GradientDrawable.RECTANGLE, Color.parseColor("#ffffff"),
                             Color.parseColor("#f7782f")));
@@ -104,6 +102,8 @@ public class AudioRoomGameMicItemView extends BaseMicItemView {
                     mTvState.setVisibility(View.GONE);
                     break;
             }
+        } else {
+            mTvState.setVisibility(View.GONE);
         }
     }
 

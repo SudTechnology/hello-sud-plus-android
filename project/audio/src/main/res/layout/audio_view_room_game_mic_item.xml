@@ -47,6 +47,7 @@
         android:layout_height="12dp"
         android:textSize="9sp"
         android:layout_marginTop="25dp"
+        android:gravity="center"
         app:layout_constraintTop_toTopOf="@id/riv_avatar"
         app:layout_constraintEnd_toEndOf="@id/riv_avatar"
         app:layout_constraintStart_toStartOf="@id/riv_avatar" />

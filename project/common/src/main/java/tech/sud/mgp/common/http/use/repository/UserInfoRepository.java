@@ -21,7 +21,7 @@ public class UserInfoRepository {
                 if (t.getRetCode() == RetCode.SUCCESS) {
                     UserInfoListResp userInfoListResp = t.getData();
                     if (userInfoListResp != null) {
-                        listener.userInfoList(userInfoListResp.userInfos);
+                        listener.userInfoList(userInfoListResp.userInfoList);
                         return;
                     }
                 }

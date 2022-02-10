@@ -237,12 +237,8 @@ public class AudioMicManager extends BaseServiceManager {
      * @param model
      */
     private void wrapMicModel(AudioRoomServiceCallback callback, AudioRoomMicModel model) {
-        // 是否是游戏中的队长
-        if (model.userId > 0 && model.userId == callback.getCaptainUserId()) {
-            model.isCaptain = true;
-        } else {
-            model.isCaptain = false;
-        }
+        // 回调页面，使用页面上的相关数据进行赋值
+        callback.onWrapMicModel(model);
     }
 
     /**

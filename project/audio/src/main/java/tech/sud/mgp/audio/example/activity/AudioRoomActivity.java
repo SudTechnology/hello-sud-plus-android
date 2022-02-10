@@ -21,6 +21,7 @@ import tech.sud.mgp.audio.example.model.UserInfo;
 import tech.sud.mgp.audio.example.service.AudioRoomService;
 import tech.sud.mgp.audio.example.service.AudioRoomServiceCallback;
 import tech.sud.mgp.audio.example.viewmodel.AudioRoomViewModel;
+import tech.sud.mgp.audio.example.viewmodel.GameViewModel;
 import tech.sud.mgp.audio.example.widget.dialog.GameModeDialog;
 import tech.sud.mgp.audio.example.widget.view.AudioRoomBottomView;
 import tech.sud.mgp.audio.example.widget.view.AudioRoomTopView;
@@ -40,7 +41,6 @@ import tech.sud.mgp.common.model.HSUserInfo;
 import tech.sud.mgp.common.permission.PermissionFragment;
 import tech.sud.mgp.common.permission.SudPermissionUtils;
 import tech.sud.mgp.common.widget.dialog.SimpleChooseDialog;
-import tech.sud.mgp.game.example.viewmodel.GameViewModel;
 import tech.sud.mgp.game.middle.model.GameMessageModel;
 import tech.sud.mgp.game.middle.state.mg.common.CommonGameState;
 
@@ -401,8 +401,8 @@ public class AudioRoomActivity extends BaseActivity {
         }
 
         @Override
-        public long getCaptainUserId() {
-            return gameViewModel.getCaptainUserId();
+        public void onWrapMicModel(AudioRoomMicModel model) {
+            gameViewModel.wrapMicModel(model);
         }
 
     };

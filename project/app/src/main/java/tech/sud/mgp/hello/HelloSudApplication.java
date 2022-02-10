@@ -1,12 +1,12 @@
 package tech.sud.mgp.hello;
 
 import android.app.Application;
-import android.net.http.HttpResponseCache;
+import android.view.Gravity;
 
 import com.blankj.utilcode.util.AppUtils;
+import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.tencent.bugly.crashreport.CrashReport;
-
-import java.io.File;
 
 import tech.sud.mgp.audio.gift.manager.GiftHelper;
 import tech.sud.mgp.audio.middle.MediaAudioEngineManager;
@@ -19,6 +19,8 @@ public class HelloSudApplication extends Application {
         configBugly();
         configAudioEngine();
         configGift();
+        configLog();
+        configToast();
     }
 
     // Bugly config
@@ -38,6 +40,21 @@ public class HelloSudApplication extends Application {
 
     private void configGift() {
         GiftHelper.getInstance().creatGifts(this);
+    }
+
+    private void configLog() {
+        LogUtils.Config config = LogUtils.getConfig();
+        if (config != null) {
+            config.setConsoleSwitch(BuildConfig.DEBUG);
+            config.setSaveDays(2);
+            config.setLogHeadSwitch(false);
+            config.setSingleTagSwitch(true);
+            config.setBorderSwitch(false);
+        }
+    }
+
+    private void configToast() {
+        ToastUtils.getDefaultMaker().setGravity(Gravity.CENTER, 0, 0);
     }
 
 }

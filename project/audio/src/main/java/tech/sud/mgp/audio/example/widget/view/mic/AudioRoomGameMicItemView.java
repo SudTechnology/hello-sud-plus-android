@@ -65,7 +65,7 @@ public class AudioRoomGameMicItemView extends BaseMicItemView {
         if (hasUser) {
             mTvName.setText(item.nickName);
         } else {
-            mTvName.setText("");
+            mTvName.setText(R.string.audio_click_got_mic);
         }
 
         // 队长标识

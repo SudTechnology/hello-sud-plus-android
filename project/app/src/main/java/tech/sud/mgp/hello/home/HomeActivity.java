@@ -192,7 +192,6 @@ public class HomeActivity extends BaseActivity implements TabClickListener {
                     right = left + v.getWidth();
             if (event.getX() > left && event.getX() < right
                     && event.getY() > top && event.getY() < bottom) {
-                // 点击EditText的事件，忽略它。
                 return false;
             } else {
                 return true;

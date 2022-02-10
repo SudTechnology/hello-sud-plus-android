@@ -1,6 +1,9 @@
 package tech.sud.mgp.audio.example.widget.view.mic;
 
 import android.content.Context;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ImageSpan;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
@@ -11,6 +14,7 @@ import androidx.annotation.Nullable;
 
 import tech.sud.mgp.audio.R;
 import tech.sud.mgp.audio.example.model.AudioRoomMicModel;
+import tech.sud.mgp.audio.example.model.RoleType;
 import tech.sud.mgp.common.utils.ImageLoader;
 import tech.sud.mgp.common.widget.view.SoundLevelView;
 import tech.sud.mgp.common.widget.view.round.RoundedImageView;
@@ -53,7 +57,17 @@ public class AudioRoomMicSingleItemView extends BaseMicItemView {
             ImageLoader.loadDrawable(mRivIcon, R.drawable.audio_ic_seat);
         }
         if (hasUser) {
-            mTvName.setText(item.nickName);
+            if (item.roleType == RoleType.OWNER) { // 房主标识
+                SpannableStringBuilder sb = new SpannableStringBuilder();
+                sb.append("* ");
+                sb.setSpan(new ImageSpan(getContext(), R.drawable.ic_room_owner), 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                if (item.nickName != null) {
+                    sb.append(item.nickName);
+                }
+                mTvName.setText(sb);
+            } else {
+                mTvName.setText(item.nickName);
+            }
         } else {
             mTvName.setText(R.string.audio_click_got_mic);
         }

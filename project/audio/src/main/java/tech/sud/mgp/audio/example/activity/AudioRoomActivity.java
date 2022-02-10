@@ -264,6 +264,7 @@ public class AudioRoomActivity extends BaseActivity {
         roomInfoModel.gameId = gameId;
         gameViewModel.switchGame(this, gameId);
         binder.switchGame(gameId, selfSwitch);
+        updatePageStyle();
     }
 
     private void openMic() {
@@ -333,6 +334,13 @@ public class AudioRoomActivity extends BaseActivity {
     private void initGame() {
         gameViewModel.setRoomId(roomInfoModel.roomId);
         gameViewModel.switchGame(this, roomInfoModel.gameId);
+        updatePageStyle();
+    }
+
+    /**
+     * 切换游戏之后，更新页面样式
+     */
+    private void updatePageStyle() {
         if (roomInfoModel.gameId > 0) {
             micView.setMicStyle(AudioRoomMicWrapView.AudioRoomMicStyle.GAME);
             chatView.setChatStyle(AudioRoomChatView.AudioRoomChatStyle.GAME);

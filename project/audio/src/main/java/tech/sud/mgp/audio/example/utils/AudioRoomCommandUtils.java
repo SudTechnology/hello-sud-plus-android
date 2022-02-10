@@ -41,9 +41,10 @@ public class AudioRoomCommandUtils {
     /**
      * 构建上麦信令
      */
-    public static String buildUpMicCommand(int micIndex) {
+    public static String buildUpMicCommand(int micIndex, int roleType) {
         UpMicCommand command = new UpMicCommand(getSendUser());
         command.micIndex = micIndex;
+        command.roleType = roleType;
         return GsonUtils.toJson(command);
     }
 

@@ -183,7 +183,6 @@ public class GameViewModel {
     private final ISudFSMMG iSudFSMMG = new ISudFSMMG() {
         @Override
         public void onGameLog(String s) {
-
         }
 
         @Override
@@ -193,7 +192,6 @@ public class GameViewModel {
 
         @Override
         public void onGameDestroyed() {
-
         }
 
         @Override

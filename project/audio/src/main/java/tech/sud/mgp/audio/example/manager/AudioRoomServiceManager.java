@@ -67,12 +67,27 @@ public class AudioRoomServiceManager extends BaseServiceManager {
         return audioRoomServiceCallback;
     }
 
+    /**
+     * 获取当前房间id
+     */
     public long getRoomId() {
         RoomInfoModel model = roomInfoModel;
         if (model == null || model.roomId == null) {
             return 0;
         } else {
             return model.roomId;
+        }
+    }
+
+    /**
+     * 获取房间的角色
+     */
+    public int getRoleType() {
+        RoomInfoModel model = roomInfoModel;
+        if (model == null) {
+            return 0;
+        } else {
+            return model.roleType;
         }
     }
 

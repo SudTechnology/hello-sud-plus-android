@@ -86,6 +86,9 @@ public class AudioRoomChatView extends ConstraintLayout {
     }
 
     public void setChatStyle(AudioRoomChatStyle style) {
+        if (chatStyle == style) {
+            return;
+        }
         chatStyle = style;
         updateStyle();
     }

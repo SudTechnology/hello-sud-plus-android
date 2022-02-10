@@ -163,11 +163,15 @@ public class AudioMicManager extends BaseServiceManager {
                 }
 
                 // 发送信令
-                String command = AudioRoomCommandUtils.buildUpMicCommand(micIndex);
+                String command = AudioRoomCommandUtils.buildUpMicCommand(micIndex, parentManager.getRoleType());
                 parentManager.audioEngineManager.sendCommand(command, null);
 
                 // 麦位列表
-                addUser2MicList(micIndex, userId, roomMicSwitchResp.streamId);
+                int roleType = 0;
+                if (userId == HSUserInfo.userId) {
+                    roleType = parentManager.getRoleType();
+                }
+                addUser2MicList(micIndex, userId, roomMicSwitchResp.streamId, roleType);
             }
         });
 
@@ -194,8 +198,9 @@ public class AudioMicManager extends BaseServiceManager {
      * @param micIndex 麦位索引
      * @param userId   用户id
      * @param streamId 流id
+     * @param roleType 房间角色
      */
-    private void addUser2MicList(int micIndex, long userId, String streamId) {
+    private void addUser2MicList(int micIndex, long userId, String streamId, int roleType) {
         if (micIndex >= 0 && micIndex < micList.size()) {
             AudioRoomMicModel model = micList.get(micIndex);
             model.userId = userId;
@@ -203,6 +208,7 @@ public class AudioMicManager extends BaseServiceManager {
                 model.nickName = HSUserInfo.nickName;
                 model.avatar = HSUserInfo.avatar;
                 model.streamId = streamId;
+                model.roleType = roleType;
                 notifyItemChange(micIndex, model);
             } else {
                 List<Long> userIds = new ArrayList<>();
@@ -215,6 +221,7 @@ public class AudioMicManager extends BaseServiceManager {
                                 if (model.userId == userInfo.userId) {
                                     model.nickName = userInfo.nickname;
                                     model.avatar = userInfo.avatar;
+                                    model.roleType = roleType;
                                     break;
                                 }
                             }
@@ -384,6 +391,7 @@ public class AudioMicManager extends BaseServiceManager {
                 model.userId = sendUser.userID;
                 model.nickName = sendUser.name;
                 model.avatar = sendUser.icon;
+                model.roleType = command.roleType;
                 notifyItemChange(micIndex, model);
             }
         }

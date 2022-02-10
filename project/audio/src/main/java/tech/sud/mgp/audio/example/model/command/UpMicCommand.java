@@ -11,4 +11,5 @@ public class UpMicCommand extends BaseCommand {
     }
 
     public int micIndex;
+    public int roleType;
 }

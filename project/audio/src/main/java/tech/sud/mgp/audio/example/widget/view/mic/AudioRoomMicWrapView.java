@@ -21,6 +21,7 @@ public class AudioRoomMicWrapView extends ConstraintLayout {
     private AudioRoomMicStyle micStyle = AudioRoomMicStyle.NORMAL;
     protected ArrayList<AudioRoomMicModel> mDatas = new ArrayList<>();
     private BaseMicView mBaseMicView;
+    private OnMicItemClickListener onMicItemClickListener;
 
     public AudioRoomMicWrapView(@NonNull Context context) {
         this(context, null);
@@ -55,6 +56,7 @@ public class AudioRoomMicWrapView extends ConstraintLayout {
         addView(baseMicView, params);
         mBaseMicView = baseMicView;
         baseMicView.setList(mDatas);
+        baseMicView.setOnMicItemClickListener(onMicItemClickListener);
     }
 
     private void removeMicView() {
@@ -66,6 +68,9 @@ public class AudioRoomMicWrapView extends ConstraintLayout {
     }
 
     public void setMicStyle(AudioRoomMicStyle style) {
+        if (micStyle == style) {
+            return;
+        }
         micStyle = style;
         removeMicView();
         buildMicView();
@@ -104,6 +109,7 @@ public class AudioRoomMicWrapView extends ConstraintLayout {
     }
 
     public void setOnMicItemClickListener(OnMicItemClickListener listener) {
+        onMicItemClickListener = listener;
         BaseMicView baseMicView = mBaseMicView;
         if (baseMicView != null) {
             baseMicView.setOnMicItemClickListener(listener);

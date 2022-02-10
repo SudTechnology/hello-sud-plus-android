@@ -56,7 +56,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
     protected void initData() {
         nameTv.setText(AppSharedPreferences.getSP().getString(AppSharedPreferences.USER_NAME_KEY, ""));
         String userId = AppSharedPreferences.getSP().getLong(AppSharedPreferences.USER_ID_KEY, 0L) + "";
-        useridTv.setText(userId);
+        useridTv.setText(getString(R.string.setting_userid1,userId));
         String header = AppSharedPreferences.getSP().getString(AppSharedPreferences.USER_HEAD_PORTRAIT_KEY, "");
         if (header.isEmpty()) {
             headerIv.setImageResource(R.mipmap.icon_logo);

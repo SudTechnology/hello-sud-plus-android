@@ -76,7 +76,7 @@ public class HomeRoomTypeView extends ConstraintLayout {
             emptyTv.setVisibility(View.GONE);
             List<GameModel> models = new ArrayList<>();
             for (int i = 0; i < datas.size(); i++) {
-                if (i > 6) {
+                if (i > 5) {
                     models.add(datas.get(i));
                 } else {
                     addGameView(sceneModel, datas.get(i));

@@ -83,6 +83,7 @@ public class UserAgreementDialog extends DialogFragment {
                 super.updateDrawState(ds);
                 ds.setColor(Color.parseColor("#1a1a1a"));
                 ds.setFakeBoldText(true);
+                ds.setUnderlineText(false);
             }
 
             @Override
@@ -100,6 +101,7 @@ public class UserAgreementDialog extends DialogFragment {
                 super.updateDrawState(ds);
                 ds.setColor(Color.parseColor("#1a1a1a"));
                 ds.setFakeBoldText(true);
+                ds.setUnderlineText(false);
             }
 
             @Override

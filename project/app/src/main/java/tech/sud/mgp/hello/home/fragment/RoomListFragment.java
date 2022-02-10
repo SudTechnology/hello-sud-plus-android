@@ -35,7 +35,7 @@ import tech.sud.mgp.hello.utils.AppSharedPreferences;
 public class RoomListFragment extends BaseFragment {
 
     private EditText searchEt;
-    private ImageView goSearch;
+    private TextView goSearch;
     private TextView nameTv, useridTv;
     private ImageView headerIv;
     private RecyclerView roomRecyclerView;
@@ -93,7 +93,7 @@ public class RoomListFragment extends BaseFragment {
         super.setListeners();
         nameTv.setText(AppSharedPreferences.getSP().getString(AppSharedPreferences.USER_NAME_KEY, ""));
         String userId = AppSharedPreferences.getSP().getLong(AppSharedPreferences.USER_ID_KEY, 0L) + "";
-        useridTv.setText(userId);
+        useridTv.setText(getString(R.string.setting_userid,userId));
         String header = AppSharedPreferences.getSP().getString(AppSharedPreferences.USER_HEAD_PORTRAIT_KEY, "");
         if (header.isEmpty()) {
             headerIv.setImageResource(R.mipmap.icon_logo);

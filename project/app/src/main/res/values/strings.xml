@@ -1,7 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">hello-sud-android</string>
 
-    <string name="login_welcome">欢迎体验HelloSud</string>
+    <string name="login_welcome">欢迎体验 \n HelloSud</string>
     <string name="title_hellosud">HelloSud</string>
     <string name="login_edit_name">请输入你的昵称</string>
     <string name="male">男</string>
@@ -164,5 +164,6 @@
         我们非常重视您的个人信息保护。关于个人信息收集和使用的详细信息，您可以点击《用户协议》和《隐私政策》进行了解。点击同意表示您已同意上述协议\n\n
         hellosud仅会将您的信息用于提供服务和改善体验，我们将全力保障您的信息安全，请同意后使用。\n
         若您不同意本隐私政策，很遗憾我们将无法为您提供完整的产品和服务。</string>
+    <string name="search_enter">进入</string>
 
 </resources>

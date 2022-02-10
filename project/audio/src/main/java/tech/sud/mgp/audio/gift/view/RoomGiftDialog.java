@@ -47,7 +47,7 @@ public class RoomGiftDialog extends BaseDialogFragment {
     protected void customStyle(Window window) {
         super.customStyle(window);
         window.setDimAmount(0f);
-        window.setWindowAnimations(R.style.AudioBottomToTopAnim);
+        window.setWindowAnimations(R.style.BottomToTopAnim);
     }
 
     @Override

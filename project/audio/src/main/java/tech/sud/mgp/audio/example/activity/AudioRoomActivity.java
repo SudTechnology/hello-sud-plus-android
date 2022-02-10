@@ -376,6 +376,7 @@ public class AudioRoomActivity extends BaseActivity {
                 bottomView.showGotMic();
                 bottomView.hideMicState();
             }
+            gameViewModel.selfMicIndex(micIndex);
         }
 
         @Override

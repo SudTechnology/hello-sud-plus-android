@@ -23,9 +23,10 @@ import tech.sud.mgp.common.http.use.resp.GameListResp;
 import tech.sud.mgp.common.http.use.resp.GameModel;
 import tech.sud.mgp.common.http.use.resp.SceneModel;
 import tech.sud.mgp.common.utils.ImageLoader;
+import tech.sud.mgp.common.utils.ResponseUtils;
 import tech.sud.mgp.hello.R;
-import tech.sud.mgp.hello.home.listener.GameItemListener;
 import tech.sud.mgp.hello.home.http.repository.HomeRepository;
+import tech.sud.mgp.hello.home.listener.GameItemListener;
 import tech.sud.mgp.hello.home.manager.HomeManager;
 import tech.sud.mgp.hello.home.model.MatchRoomModel;
 import tech.sud.mgp.hello.home.view.HomeRoomTypeView;
@@ -156,7 +157,7 @@ public class IndexFragment extends BaseFragment implements GameItemListener {
                 if (t.getRetCode() == RetCode.SUCCESS) {
                     EnterRoomUtils.enterRoom(requireContext(), t.getData().roomId);
                 } else {
-                    ToastUtils.showLong("fail:" + t.getRetCode());
+                    ToastUtils.showLong(ResponseUtils.conver(t));
                 }
             }
         });
@@ -171,7 +172,7 @@ public class IndexFragment extends BaseFragment implements GameItemListener {
                     HomeManager.getInstance().updateGameList(t.getData());
                     creatScene(t.getData());
                 } else {
-                    ToastUtils.showShort("fail" + t.getRetCode());
+                    ToastUtils.showShort(ResponseUtils.conver(t));
                 }
             }
         });

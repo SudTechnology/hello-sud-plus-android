@@ -379,4 +379,22 @@ public class GameViewModel {
 
     }
 
+    /**
+     * 当前自己所在的麦位
+     *
+     * @param micIndex 麦位索引
+     */
+    public void selfMicIndex(int micIndex) {
+        // 上麦时，自动加入游戏，可选项
+        
+    }
+
+    // 返回游戏是否在等待加入的状态
+    private boolean isGameIdle() {
+        if (playingGameId > 0 && commonGameState != null) {
+            return commonGameState.gameState == CommonGameState.IDLE;
+        }
+        return false;
+    }
+
 }

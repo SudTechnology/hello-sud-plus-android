@@ -3,6 +3,7 @@ package tech.sud.mgp.audio.example.widget.dialog;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -107,6 +108,12 @@ public class GameModeDialog extends BaseDialogFragment {
                 }
             }
         });
+    }
+
+    @Override
+    protected void customStyle(Window window) {
+        super.customStyle(window);
+        window.setWindowAnimations(R.style.BottomToTopAnim);
     }
 
     private void selectGameMode(long gameId) {

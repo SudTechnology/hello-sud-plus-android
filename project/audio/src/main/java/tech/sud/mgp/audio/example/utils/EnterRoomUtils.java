@@ -14,6 +14,7 @@ import tech.sud.mgp.audio.example.model.RoomInfoModel;
 import tech.sud.mgp.common.http.param.BaseResponse;
 import tech.sud.mgp.common.http.param.RetCode;
 import tech.sud.mgp.common.http.rx.RxCallback;
+import tech.sud.mgp.common.utils.ResponseUtils;
 
 public class EnterRoomUtils {
 
@@ -38,7 +39,7 @@ public class EnterRoomUtils {
                         startAudioRoomActivity(context, resp.roomId, resp.roomName, resp.gameId, resp.roleType);
                     }
                 } else {
-                    ToastUtils.showLong("fail:" + t.getRetCode());
+                    ToastUtils.showLong(ResponseUtils.conver(t));
                 }
                 isRunning = false;
             }

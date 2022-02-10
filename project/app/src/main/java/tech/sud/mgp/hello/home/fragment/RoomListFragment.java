@@ -69,20 +69,6 @@ public class RoomListFragment extends BaseFragment {
     @Override
     protected void initData() {
         super.initData();
-        HomeRepository.roomList(this, new RxCallback<RoomListResp>() {
-            @Override
-            public void onNext(BaseResponse<RoomListResp> t) {
-                super.onNext(t);
-                if (t.getRetCode() == RetCode.SUCCESS) {
-                    HomeManager.getInstance().updateRoomList(t.getData());
-                    datas.clear();
-                    datas.addAll(t.getData().getRoomInfoList());
-                    adapter.setList(datas);
-                } else {
-                    ToastUtils.showShort("fail" + t.getRetCode());
-                }
-            }
-        });
         adapter = new RoomListAdapter(datas);
         roomRecyclerView.setAdapter(adapter);
         roomRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
@@ -93,7 +79,7 @@ public class RoomListFragment extends BaseFragment {
         super.setListeners();
         nameTv.setText(AppSharedPreferences.getSP().getString(AppSharedPreferences.USER_NAME_KEY, ""));
         String userId = AppSharedPreferences.getSP().getLong(AppSharedPreferences.USER_ID_KEY, 0L) + "";
-        useridTv.setText(getString(R.string.setting_userid,userId));
+        useridTv.setText(getString(R.string.setting_userid, userId));
         String header = AppSharedPreferences.getSP().getString(AppSharedPreferences.USER_HEAD_PORTRAIT_KEY, "");
         if (header.isEmpty()) {
             headerIv.setImageResource(R.mipmap.icon_logo);
@@ -151,5 +137,28 @@ public class RoomListFragment extends BaseFragment {
         } catch (Exception e) {
             ToastUtils.showShort(getString(R.string.search_room_error));
         }
+    }
+
+    private void loadList() {
+        HomeRepository.roomList(this, new RxCallback<RoomListResp>() {
+            @Override
+            public void onNext(BaseResponse<RoomListResp> t) {
+                super.onNext(t);
+                if (t.getRetCode() == RetCode.SUCCESS) {
+                    HomeManager.getInstance().updateRoomList(t.getData());
+                    datas.clear();
+                    datas.addAll(t.getData().getRoomInfoList());
+                    adapter.setList(datas);
+                } else {
+                    ToastUtils.showShort("fail" + t.getRetCode());
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadList();
     }
 }

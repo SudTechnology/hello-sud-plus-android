@@ -66,21 +66,9 @@ public class IndexFragment extends BaseFragment implements GameItemListener {
     @Override
     protected void initData() {
         super.initData();
-        CommonRepository.gameList(this, new RxCallback<GameListResp>() {
-            @Override
-            public void onNext(BaseResponse<GameListResp> t) {
-                super.onNext(t);
-                if (t.getRetCode() == RetCode.SUCCESS) {
-                    HomeManager.getInstance().updateGameList(t.getData());
-                    creatScene(t.getData());
-                } else {
-                    ToastUtils.showShort("fail" + t.getRetCode());
-                }
-            }
-        });
         nameTv.setText(AppSharedPreferences.getSP().getString(AppSharedPreferences.USER_NAME_KEY, ""));
         String userId = AppSharedPreferences.getSP().getLong(AppSharedPreferences.USER_ID_KEY, 0L) + "";
-        useridTv.setText(getString(R.string.setting_userid,userId));
+        useridTv.setText(getString(R.string.setting_userid, userId));
         String header = AppSharedPreferences.getSP().getString(AppSharedPreferences.USER_HEAD_PORTRAIT_KEY, "");
         if (header.isEmpty()) {
             headerIv.setImageResource(R.mipmap.icon_logo);
@@ -173,4 +161,24 @@ public class IndexFragment extends BaseFragment implements GameItemListener {
         });
     }
 
+    private void loadList() {
+        CommonRepository.gameList(this, new RxCallback<GameListResp>() {
+            @Override
+            public void onNext(BaseResponse<GameListResp> t) {
+                super.onNext(t);
+                if (t.getRetCode() == RetCode.SUCCESS) {
+                    HomeManager.getInstance().updateGameList(t.getData());
+                    creatScene(t.getData());
+                } else {
+                    ToastUtils.showShort("fail" + t.getRetCode());
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadList();
+    }
 }

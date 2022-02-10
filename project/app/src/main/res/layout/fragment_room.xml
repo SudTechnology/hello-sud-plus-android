@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
     android:background="#F5F6FB">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -91,9 +93,10 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/room_rv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:overScrollMode="never"
-        android:padding="16dp"
+        android:paddingHorizontal="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/index_header" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

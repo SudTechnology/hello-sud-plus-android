@@ -1,6 +1,7 @@
 package tech.sud.mgp.hello.agreement;
 
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,6 +15,7 @@ public class UserAgreementActivity extends BaseActivity {
     private TextView titleTv, contentTv;
     private ImageView backIv;
     private int agreementType = 0;
+    private WebView contentWeb;
 
     @Override
     protected void initWidget() {
@@ -21,6 +23,7 @@ public class UserAgreementActivity extends BaseActivity {
         titleTv = findViewById(R.id.title_tv);
         contentTv = findViewById(R.id.content_tv);
         backIv = findViewById(R.id.back_iv);
+        contentWeb = findViewById(R.id.content_web);
         backIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -35,10 +38,15 @@ public class UserAgreementActivity extends BaseActivity {
         agreementType = getIntent().getIntExtra(AGREEMENTTYPE, 0);
         if (agreementType == 1) {
             titleTv.setText(getString(R.string.user_agreement_title));
+            //找到Html文件，也可以用网络上的文件
+            contentWeb.loadUrl("file:///android_asset/user_protocol.html");
         } else {
             titleTv.setText(getString(R.string.user_privacy_title));
+            //找到Html文件，也可以用网络上的文件
+            contentWeb.loadUrl("file:///android_asset/user_privacy.html");
         }
-        contentTv.setText(getString(R.string.user_agreement_content));
+        //允许JavaScript执行
+        contentWeb.getSettings().setJavaScriptEnabled(true);
     }
 
     @Override
@@ -49,5 +57,11 @@ public class UserAgreementActivity extends BaseActivity {
     @Override
     protected int getLayoutId() {
         return R.layout.activity_user_agreement;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        contentWeb.destroy();
     }
 }

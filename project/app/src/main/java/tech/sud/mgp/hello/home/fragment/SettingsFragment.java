@@ -6,7 +6,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import tech.sud.mgp.audio.gift.view.GiftEffectView;
 import tech.sud.mgp.common.base.BaseFragment;
 import tech.sud.mgp.common.utils.ImageLoader;
 import tech.sud.mgp.core.SudMGP;
@@ -21,7 +20,6 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
     private LinearLayout sdkVersionLl, appVersionLl, userAgreementLl, userPrivacyLl, userContactLl;
     private TextView nameTv, useridTv, sdkVersionTv, appVersionTv;
     private ImageView headerIv;
-    private GiftEffectView effectView;
 
     public SettingsFragment() {
     }
@@ -56,7 +54,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
     protected void initData() {
         nameTv.setText(AppSharedPreferences.getSP().getString(AppSharedPreferences.USER_NAME_KEY, ""));
         String userId = AppSharedPreferences.getSP().getLong(AppSharedPreferences.USER_ID_KEY, 0L) + "";
-        useridTv.setText(getString(R.string.setting_userid1,userId));
+        useridTv.setText(getString(R.string.setting_userid1, userId));
         String header = AppSharedPreferences.getSP().getString(AppSharedPreferences.USER_HEAD_PORTRAIT_KEY, "");
         if (header.isEmpty()) {
             headerIv.setImageResource(R.mipmap.icon_logo);

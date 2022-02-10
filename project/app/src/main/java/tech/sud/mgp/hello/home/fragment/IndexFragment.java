@@ -132,6 +132,7 @@ public class IndexFragment extends BaseFragment implements GameItemListener {
 
     private void creatScene(GameListResp resp) {
         if (resp != null && resp.getSceneList().size() > 0) {
+            sceneLayout.removeAllViews();
             for (int i = 0; i < resp.getSceneList().size(); i++) {
                 SceneModel model = resp.getSceneList().get(i);
                 HomeRoomTypeView sceneView = new HomeRoomTypeView(requireContext());

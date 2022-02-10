@@ -48,7 +48,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
             android:singleLine="true"
-            android:textColor="#8a8a8e"
+            android:textColor="#13141a"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="@id/header_iv"
             app:layout_constraintStart_toEndOf="@id/header_iv"

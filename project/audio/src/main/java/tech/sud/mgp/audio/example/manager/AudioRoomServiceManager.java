@@ -57,7 +57,7 @@ public class AudioRoomServiceManager extends BaseServiceManager {
                 if (command == null || command.sendUser == null || command.sendUser.name == null) {
                     return;
                 }
-                String msg = command.sendUser.name + Utils.getApp().getString(R.string.audio_enter_the_room);
+                String msg = command.sendUser.name + " " + Utils.getApp().getString(R.string.audio_enter_the_room);
                 audioChatManager.addMsg(msg);
             }
         });

@@ -11,5 +11,6 @@ public class UpMicCommand extends BaseCommand {
     }
 
     public int micIndex;
+    public String streamID;
     public int roleType;
 }

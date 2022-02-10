@@ -48,6 +48,8 @@ public abstract class BaseActivity extends RxAppCompatActivity {
         outState.putLong("userId", HSUserInfo.userId);
         outState.putString("nickName", HSUserInfo.nickName);
         outState.putString("gender", HSUserInfo.gender);
+        outState.putString("token", HSUserInfo.token);
+        outState.putString("avatar", HSUserInfo.avatar);
     }
 
     @Override
@@ -56,6 +58,8 @@ public abstract class BaseActivity extends RxAppCompatActivity {
         HSUserInfo.userId = savedInstanceState.getLong("userId");
         HSUserInfo.nickName = savedInstanceState.getString("nickName");
         HSUserInfo.gender = savedInstanceState.getString("gender");
+        HSUserInfo.token = savedInstanceState.getString("token");
+        HSUserInfo.avatar = savedInstanceState.getString("avatar");
     }
 
 }

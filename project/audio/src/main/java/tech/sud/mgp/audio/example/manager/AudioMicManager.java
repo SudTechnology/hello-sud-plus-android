@@ -135,10 +135,15 @@ public class AudioMicManager extends BaseServiceManager {
         }
     }
 
+    /**
+     * 上麦处理
+     *
+     * @param micIndex 麦位索引
+     * @param userId   用户id
+     */
     public void upMicLocation(int micIndex, long userId) {
-        // 查找当前自己已经在的麦位
-        int selfMicIndex = findSelfMicIndex();
-        if (selfMicIndex == micIndex) {
+        // 已经在那个麦位上面了，不再继续执行
+        if (findSelfMicIndex() == micIndex) {
             return;
         }
 
@@ -147,8 +152,13 @@ public class AudioMicManager extends BaseServiceManager {
             @Override
             public void onSuccess(RoomMicSwitchResp roomMicSwitchResp) {
                 super.onSuccess(roomMicSwitchResp);
+                int selfMicIndex = findSelfMicIndex();
+                if (selfMicIndex == micIndex) {
+                    return;
+                }
+
                 // 把旧的麦位给下掉
-                if (selfMicIndex > 0) {
+                if (selfMicIndex >= 0) {
                     downMicLocation(selfMicIndex, HSUserInfo.userId);
                 }
 

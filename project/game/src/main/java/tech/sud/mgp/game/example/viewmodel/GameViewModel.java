@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.MutableLiveData;
 
 import com.blankj.utilcode.util.GsonUtils;
-import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.Utils;
@@ -34,6 +33,7 @@ import tech.sud.mgp.game.middle.model.GameViewRectModel;
 import tech.sud.mgp.game.middle.model.GameViewSizeModel;
 import tech.sud.mgp.game.middle.state.MGStateResponse;
 import tech.sud.mgp.game.middle.state.SudMGPMGState;
+import tech.sud.mgp.game.middle.state.mg.common.CommonGameState;
 import tech.sud.mgp.game.middle.state.mg.player.PlayerCaptainState;
 import tech.sud.mgp.game.middle.state.mg.player.PlayerReadyState;
 import tech.sud.mgp.game.middle.utils.GameCommonStateUtils;
@@ -55,20 +55,7 @@ public class GameViewModel {
 
     private View gameView; // 游戏View
     private long captainUserId; // 记录当前队长的用户id
-
-    /**
-     * 设置当前房间id
-     */
-    public void setRoomId(long roomId) {
-        this.roomId = roomId;
-    }
-
-    /**
-     * 获取当前队长的用户id
-     */
-    public long getCaptainUserId() {
-        return captainUserId;
-    }
+    private CommonGameState commonGameState; // 游戏状态
 
     /**
      * 外部调用切换游戏
@@ -272,6 +259,9 @@ public class GameViewModel {
                 GameMessageModel model = GameCommonStateUtils.parseMsgState(dataJson);
                 gameMessageLiveData.setValue(model);
                 break;
+            case SudMGPMGState.MG_COMMON_GAME_STATE: // 游戏状态
+                commonGameState = GameCommonStateUtils.parseGameState(dataJson);
+                break;
         }
     }
 
@@ -345,7 +335,7 @@ public class GameViewModel {
         gameViewInfoModel.view_game_rect.right = 0;
         gameViewInfoModel.view_game_rect.bottom = DensityUtils.dp2px(Utils.getApp(), 160);
 
-        LogUtils.d("notifyGameViewInfo:" + GsonUtils.toJson(gameViewInfoModel));
+        // 给游戏侧进行返回
         handle.success(GsonUtils.toJson(gameViewInfoModel));
     }
 
@@ -372,8 +362,33 @@ public class GameViewModel {
             playingGameId = 0;
             gameView = null;
             gameViewLiveData.setValue(null);
+            captainUserId = 0;
         }
     }
     // endregion 生命周期相关
+
+    /**
+     * 设置当前房间id
+     */
+    public void setRoomId(long roomId) {
+        this.roomId = roomId;
+    }
+
+    /**
+     * 获取当前队长的用户id
+     */
+    public long getCaptainUserId() {
+        return captainUserId;
+    }
+
+    /**
+     * 返回当前游戏的状态，数值参数{@link CommonGameState}
+     */
+    public int getGameState() {
+        if (commonGameState != null) {
+            return commonGameState.gameState;
+        }
+        return CommonGameState.IDLE;
+    }
 
 }

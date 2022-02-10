@@ -7,6 +7,7 @@ import android.widget.FrameLayout;
 import androidx.lifecycle.Observer;
 
 import com.blankj.utilcode.util.KeyboardUtils;
+import com.blankj.utilcode.util.ToastUtils;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -41,6 +42,7 @@ import tech.sud.mgp.common.permission.SudPermissionUtils;
 import tech.sud.mgp.common.widget.dialog.SimpleChooseDialog;
 import tech.sud.mgp.game.example.viewmodel.GameViewModel;
 import tech.sud.mgp.game.middle.model.GameMessageModel;
+import tech.sud.mgp.game.middle.state.mg.common.CommonGameState;
 
 public class AudioRoomActivity extends BaseActivity {
 
@@ -250,6 +252,13 @@ public class AudioRoomActivity extends BaseActivity {
     private void switchGame(long gameId, boolean selfSwitch) {
         if (playingGameId == gameId) {
             return;
+        }
+        if (selfSwitch) { // 自己主动切换时，如果游戏正在进行中，则不进行切换
+            int gameState = gameViewModel.getGameState();
+            if (gameState == CommonGameState.LOADING || gameState == CommonGameState.PLAYING) {
+                ToastUtils.showLong(R.string.audio_switch_game_warn);
+                return;
+            }
         }
         playingGameId = gameId;
         roomInfoModel.gameId = gameId;

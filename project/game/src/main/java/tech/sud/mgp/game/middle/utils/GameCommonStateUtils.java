@@ -7,6 +7,7 @@ import com.blankj.utilcode.util.GsonUtils;
 import tech.sud.mgp.game.middle.model.GameChatModel;
 import tech.sud.mgp.game.middle.model.GameChatMsgModel;
 import tech.sud.mgp.game.middle.model.GameMessageModel;
+import tech.sud.mgp.game.middle.state.mg.common.CommonGameState;
 
 /**
  * 游戏通用状态工具类
@@ -61,6 +62,21 @@ public class GameCommonStateUtils {
             }
         }
         return sb.toString();
+    }
+
+    /**
+     * 解析游戏状态
+     *
+     * @param dataJson
+     * @return
+     */
+    public static CommonGameState parseGameState(String dataJson) {
+        try {
+            return GsonUtils.fromJson(dataJson, CommonGameState.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

@@ -43,6 +43,11 @@ public class SudMGPMGState {
      */
     public static final String MG_COMMON_SELF_CLICK_START_BTN = "mg_common_self_click_start_btn";
 
+    /**
+     * 游戏状态
+     */
+    public static final String MG_COMMON_GAME_STATE = "mg_common_game_state";
+
     // endregion 通用状态-游戏
 
 

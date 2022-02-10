@@ -5,6 +5,7 @@ import tech.sud.mgp.audio.middle.MediaAudioEventHandler;
 import tech.sud.mgp.audio.middle.MediaRoomConfig;
 import tech.sud.mgp.audio.middle.MediaUser;
 
+// 声网SDK实现
 public class AgaroAudioEngine implements MediaAudioEngineProtocol {
     @Override
     public void setEventHandler(MediaAudioEventHandler handler) {

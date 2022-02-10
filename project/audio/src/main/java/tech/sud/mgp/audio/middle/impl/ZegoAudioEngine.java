@@ -29,6 +29,7 @@ import tech.sud.mgp.audio.middle.MediaRoomConfig;
 import tech.sud.mgp.audio.middle.MediaStream;
 import tech.sud.mgp.audio.middle.MediaUser;
 
+// 即构SDK实现
 public class ZegoAudioEngine implements MediaAudioEngineProtocol {
 
     private MediaAudioEventHandler mMediaAudioEventHandler;

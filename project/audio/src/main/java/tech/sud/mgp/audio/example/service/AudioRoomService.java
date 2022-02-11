@@ -47,14 +47,13 @@ public class AudioRoomService {
         }
 
         /**
-         * 设置麦位
+         * 自己上下麦
          *
          * @param micIndex 麦位索引
-         * @param userId   用户id
          * @param operate  true为上麦位 false为下麦位
          */
-        public void micLocationSwitch(int micIndex, long userId, boolean operate) {
-            serviceManager.audioMicManager.micLocationSwitch(micIndex, userId, operate);
+        public void micLocationSwitch(int micIndex, boolean operate) {
+            serviceManager.audioMicManager.micLocationSwitch(micIndex, operate);
         }
 
         /**

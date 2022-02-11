@@ -12,6 +12,7 @@ import tech.sud.mgp.audio.example.service.AudioRoomServiceCallback;
 import tech.sud.mgp.audio.example.utils.AudioRoomCommandUtils;
 import tech.sud.mgp.audio.middle.MediaUser;
 import tech.sud.mgp.common.http.rx.RxCallback;
+import tech.sud.mgp.common.model.HSUserInfo;
 import tech.sud.mgp.game.example.http.repository.GameRepository;
 
 /**
@@ -123,7 +124,7 @@ public class AudioRoomServiceManager extends BaseServiceManager {
     public void setMicState(boolean isOpen) {
         if (isOpen) {
             String streamId = null;
-            AudioRoomMicModel selfMicModel = audioMicManager.findSelfMicModel();
+            AudioRoomMicModel selfMicModel = audioMicManager.findMicModel(HSUserInfo.userId);
             if (selfMicModel != null) {
                 streamId = selfMicModel.streamId;
             }

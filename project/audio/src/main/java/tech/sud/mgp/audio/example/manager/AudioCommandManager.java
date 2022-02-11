@@ -1,9 +1,5 @@
 package tech.sud.mgp.audio.example.manager;
 
-import androidx.annotation.NonNull;
-
-import com.blankj.utilcode.util.GsonUtils;
-
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -17,6 +13,7 @@ import tech.sud.mgp.audio.example.model.command.GameChangeCommand;
 import tech.sud.mgp.audio.example.model.command.PublicMsgCommand;
 import tech.sud.mgp.audio.example.model.command.SendGiftCommand;
 import tech.sud.mgp.audio.example.model.command.UpMicCommand;
+import tech.sud.mgp.audio.example.utils.HSJsonUtils;
 import tech.sud.mgp.audio.middle.MediaUser;
 
 /**
@@ -55,37 +52,37 @@ public class AudioCommandManager extends BaseServiceManager {
         int commandCmd = getCommandCmd(command);
         switch (commandCmd) {
             case CommandCmd.CMD_PUBLIC_MSG_NTF: // 公屏消息
-                PublicMsgCommand publicMsgCommand = fromJson(command, PublicMsgCommand.class);
+                PublicMsgCommand publicMsgCommand = HSJsonUtils.fromJson(command, PublicMsgCommand.class);
                 if (publicMsgCommand != null) {
                     dispatchCommand(commandCmd, publicMsgCommand, fromUser, roomId);
                 }
                 break;
             case CommandCmd.CMD_PUBLIC_SEND_GIFT_NTF: // 发送礼物
-                SendGiftCommand sendGiftCommand = fromJson(command, SendGiftCommand.class);
+                SendGiftCommand sendGiftCommand = HSJsonUtils.fromJson(command, SendGiftCommand.class);
                 if (sendGiftCommand != null) {
                     dispatchCommand(commandCmd, sendGiftCommand, fromUser, roomId);
                 }
                 break;
             case CommandCmd.CMD_UP_MIC_NTF: // 上麦位
-                UpMicCommand upMicCommand = fromJson(command, UpMicCommand.class);
+                UpMicCommand upMicCommand = HSJsonUtils.fromJson(command, UpMicCommand.class);
                 if (upMicCommand != null) {
                     dispatchCommand(commandCmd, upMicCommand, fromUser, roomId);
                 }
                 break;
             case CommandCmd.CMD_DOWN_MIC_NTF: // 下麦位
-                DownMicCommand downMicCommand = fromJson(command, DownMicCommand.class);
+                DownMicCommand downMicCommand = HSJsonUtils.fromJson(command, DownMicCommand.class);
                 if (downMicCommand != null) {
                     dispatchCommand(commandCmd, downMicCommand, fromUser, roomId);
                 }
                 break;
             case CommandCmd.CMD_GAME_CHANGE: // 游戏切换
-                GameChangeCommand gameChangeCommand = fromJson(command, GameChangeCommand.class);
+                GameChangeCommand gameChangeCommand = HSJsonUtils.fromJson(command, GameChangeCommand.class);
                 if (gameChangeCommand != null) {
                     dispatchCommand(commandCmd, gameChangeCommand, fromUser, roomId);
                 }
                 break;
             case CommandCmd.CMD_ENTER_ROOM_NTF: // 进入房间通知
-                EnterRoomCommand enterRoomCommand = fromJson(command, EnterRoomCommand.class);
+                EnterRoomCommand enterRoomCommand = HSJsonUtils.fromJson(command, EnterRoomCommand.class);
                 if (enterRoomCommand != null) {
                     dispatchCommand(commandCmd, enterRoomCommand, fromUser, roomId);
                 }
@@ -136,15 +133,6 @@ public class AudioCommandManager extends BaseServiceManager {
                     break;
             }
         }
-    }
-
-    private <T> T fromJson(final String json, @NonNull final Class<T> type) {
-        try {
-            return GsonUtils.fromJson(json, type);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     private int getCommandCmd(String command) {

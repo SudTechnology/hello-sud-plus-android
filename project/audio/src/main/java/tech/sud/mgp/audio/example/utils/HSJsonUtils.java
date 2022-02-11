@@ -7,7 +7,7 @@ import com.blankj.utilcode.util.GsonUtils;
 /**
  * json解析工具
  */
-public class SudJsonUtils {
+public class HSJsonUtils {
 
     /**
      * 解析json

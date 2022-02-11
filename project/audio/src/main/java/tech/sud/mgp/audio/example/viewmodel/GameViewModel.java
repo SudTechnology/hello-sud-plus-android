@@ -14,7 +14,7 @@ import com.blankj.utilcode.util.ToastUtils;
 import java.util.HashMap;
 
 import tech.sud.mgp.audio.example.model.AudioRoomMicModel;
-import tech.sud.mgp.audio.example.utils.SudJsonUtils;
+import tech.sud.mgp.audio.example.utils.HSJsonUtils;
 import tech.sud.mgp.common.http.param.BaseResponse;
 import tech.sud.mgp.common.http.param.RetCode;
 import tech.sud.mgp.common.http.rx.RxCallback;
@@ -233,7 +233,7 @@ public class GameViewModel {
     private void parsePlayerState(String userId, String state, String dataJson) {
         switch (state) {
             case SudMGPMGState.MG_COMMON_PLAYER_CAPTAIN: // 队长状态
-                PlayerCaptainState playerCaptainState = SudJsonUtils.fromJson(dataJson, PlayerCaptainState.class);
+                PlayerCaptainState playerCaptainState = HSJsonUtils.fromJson(dataJson, PlayerCaptainState.class);
                 if (playerCaptainState != null && playerCaptainState.retCode == 0) {
                     if (playerCaptainState.isCaptain) { // 该用户成为了队长
                         captainChange(userId);
@@ -245,14 +245,14 @@ public class GameViewModel {
                 }
                 break;
             case SudMGPMGState.MG_COMMON_PLAYER_READY: // 准备状态
-                PlayerReadyState playerReadyState = SudJsonUtils.fromJson(dataJson, PlayerReadyState.class);
+                PlayerReadyState playerReadyState = HSJsonUtils.fromJson(dataJson, PlayerReadyState.class);
                 if (playerReadyState != null && playerReadyState.retCode == 0) {
                     putPlayerState(userId, playerReadyState);
                     notifyUpdateMic();
                 }
                 break;
             case SudMGPMGState.MG_COMMON_PLAYER_IN: // 加入状态
-                PlayerInState playerInState = SudJsonUtils.fromJson(dataJson, PlayerInState.class);
+                PlayerInState playerInState = HSJsonUtils.fromJson(dataJson, PlayerInState.class);
                 if (playerInState != null) {
                     if ((HSUserInfo.userId + "").equals(userId)) { // 保存自己是否加入了游戏的状态
                         isSelfInGame = playerInState.isIn;
@@ -299,7 +299,7 @@ public class GameViewModel {
                 gameMessageLiveData.setValue(model);
                 break;
             case SudMGPMGState.MG_COMMON_GAME_STATE: // 游戏状态
-                commonGameState = SudJsonUtils.fromJson(dataJson, CommonGameState.class);
+                commonGameState = HSJsonUtils.fromJson(dataJson, CommonGameState.class);
                 break;
         }
     }

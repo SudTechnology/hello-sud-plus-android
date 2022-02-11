@@ -24,5 +24,6 @@
     <string name="audio_close_room_title">确认离开当前房间吗</string>
     <string name="audio_switch_game_warn">正在游戏中，无法切换游戏</string>
     <string name="audio_enter_the_room">进入了房间</string>
+    <string name="audio_down_mic">下麦</string>
 
 </resources>

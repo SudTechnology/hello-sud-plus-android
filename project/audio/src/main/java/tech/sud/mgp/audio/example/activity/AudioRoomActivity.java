@@ -22,6 +22,7 @@ import tech.sud.mgp.audio.example.service.AudioRoomService;
 import tech.sud.mgp.audio.example.service.AudioRoomServiceCallback;
 import tech.sud.mgp.audio.example.viewmodel.AudioRoomViewModel;
 import tech.sud.mgp.audio.example.viewmodel.GameViewModel;
+import tech.sud.mgp.audio.example.widget.dialog.BottomOptionDialog;
 import tech.sud.mgp.audio.example.widget.dialog.GameModeDialog;
 import tech.sud.mgp.audio.example.widget.view.AudioRoomBottomView;
 import tech.sud.mgp.audio.example.widget.view.AudioRoomTopView;
@@ -126,7 +127,7 @@ public class AudioRoomActivity extends BaseActivity {
                     if (model.userId == 0) {
                         binder.micLocationSwitch(position, true);
                     } else if (model.userId == HSUserInfo.userId) {
-                        binder.micLocationSwitch(position, false);
+                        clickSelfMicLocation(position);
                     }
                 }
             }
@@ -215,6 +216,23 @@ public class AudioRoomActivity extends BaseActivity {
                 binder.updateMicList();
             }
         });
+    }
+
+    // 点击了自己的麦位
+    private void clickSelfMicLocation(int position) {
+        BottomOptionDialog dialog = new BottomOptionDialog(this);
+        int downMicKey = 1;
+        dialog.addOption(downMicKey, getString(R.string.audio_down_mic)); // 增加下麦按钮
+        dialog.setOnItemClickListener(new BottomOptionDialog.OnItemClickListener() {
+            @Override
+            public void onItemClick(BottomOptionDialog.BottomOptionModel model) {
+                dialog.dismiss();
+                if (model.key == downMicKey) {
+                    binder.micLocationSwitch(position, false); // 执行下麦
+                }
+            }
+        });
+        dialog.show();
     }
 
     /**

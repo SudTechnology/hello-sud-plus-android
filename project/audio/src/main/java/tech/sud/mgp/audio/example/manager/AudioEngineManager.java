@@ -9,6 +9,7 @@ import java.util.Set;
 
 import tech.sud.mgp.audio.example.model.RoomInfoModel;
 import tech.sud.mgp.audio.example.service.AudioRoomServiceCallback;
+import tech.sud.mgp.audio.example.utils.AudioRoomCommandUtils;
 import tech.sud.mgp.audio.middle.MediaAudioEngineManager;
 import tech.sud.mgp.audio.middle.MediaAudioEngineNetworkStateType;
 import tech.sud.mgp.audio.middle.MediaAudioEnginePlayerStateType;
@@ -16,6 +17,7 @@ import tech.sud.mgp.audio.middle.MediaAudioEngineProtocol;
 import tech.sud.mgp.audio.middle.MediaAudioEnginePublisherSateType;
 import tech.sud.mgp.audio.middle.MediaAudioEngineUpdateType;
 import tech.sud.mgp.audio.middle.MediaAudioEventHandler;
+import tech.sud.mgp.audio.middle.MediaAudioRoomState;
 import tech.sud.mgp.audio.middle.MediaRoomConfig;
 import tech.sud.mgp.audio.middle.MediaStream;
 import tech.sud.mgp.audio.middle.MediaUser;
@@ -204,6 +206,13 @@ public class AudioEngineManager extends BaseServiceManager {
             AudioRoomServiceCallback callback = parentManager.getCallback();
             if (callback != null) {
                 callback.onRoomOnlineUserCountUpdate(roomID, count);
+            }
+        }
+
+        @Override
+        public void onRoomStateUpdate(String roomID, MediaAudioRoomState state, int errorCode, JSONObject extendedData) {
+            if (state == MediaAudioRoomState.CONNECTED) { // 连接成功之后发送进房信令
+                sendCommand(AudioRoomCommandUtils.buildEnterRoomCommand(), null);
             }
         }
     };

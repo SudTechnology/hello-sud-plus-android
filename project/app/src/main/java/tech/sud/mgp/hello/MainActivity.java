@@ -10,6 +10,7 @@ import tech.sud.mgp.common.http.param.BaseResponse;
 import tech.sud.mgp.common.http.param.RetCode;
 import tech.sud.mgp.common.http.rx.RxCallback;
 import tech.sud.mgp.common.model.HSUserInfo;
+import tech.sud.mgp.common.utils.ResponseUtils;
 import tech.sud.mgp.hello.home.HomeActivity;
 import tech.sud.mgp.hello.login.LoginActivity;
 import tech.sud.mgp.hello.login.http.repository.LoginRepository;
@@ -38,7 +39,7 @@ public class MainActivity extends BaseActivity {
             finish();
         } else {
             String name = AppSharedPreferences.getSP().getString(AppSharedPreferences.USER_NAME_KEY);
-            LoginRepository.login(userId,name, this, new RxCallback<LoginResponse>() {
+            LoginRepository.login(userId, name, this, new RxCallback<LoginResponse>() {
                 @Override
                 public void onError(Throwable e) {
                     super.onError(e);
@@ -57,7 +58,7 @@ public class MainActivity extends BaseActivity {
                         HSUserInfo.avatar = t.getData().avatar;
                         HSUserInfo.token = t.getData().token;
                     } else {
-                        ToastUtils.showShort("fail" + t.getRetCode());
+                        ToastUtils.showShort(ResponseUtils.conver(t));
                     }
                     loginSuccess();
                 }

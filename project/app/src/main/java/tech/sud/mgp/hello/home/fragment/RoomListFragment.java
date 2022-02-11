@@ -24,6 +24,7 @@ import tech.sud.mgp.common.http.param.BaseResponse;
 import tech.sud.mgp.common.http.param.RetCode;
 import tech.sud.mgp.common.http.rx.RxCallback;
 import tech.sud.mgp.common.utils.ImageLoader;
+import tech.sud.mgp.common.utils.ResponseUtils;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.home.adapter.RoomListAdapter;
 import tech.sud.mgp.hello.home.http.repository.HomeRepository;
@@ -150,7 +151,7 @@ public class RoomListFragment extends BaseFragment {
                     datas.addAll(t.getData().getRoomInfoList());
                     adapter.setList(datas);
                 } else {
-                    ToastUtils.showShort("fail" + t.getRetCode());
+                    ToastUtils.showShort(ResponseUtils.conver(t));
                 }
             }
         });

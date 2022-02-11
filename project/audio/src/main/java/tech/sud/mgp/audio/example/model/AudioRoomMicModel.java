@@ -5,10 +5,11 @@ package tech.sud.mgp.audio.example.model;
  */
 public class AudioRoomMicModel {
 
+    public int micIndex;
+
     public long userId; // 0代表没有人
     public String nickName;
     public String avatar;
-    public int micIndex;
     public int roleType; // 1:房主 0：普通用户
     public String streamId; // 流id
 

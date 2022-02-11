@@ -4,6 +4,7 @@ import com.blankj.utilcode.util.GsonUtils;
 
 import tech.sud.mgp.audio.example.model.UserInfo;
 import tech.sud.mgp.audio.example.model.command.DownMicCommand;
+import tech.sud.mgp.audio.example.model.command.EnterRoomCommand;
 import tech.sud.mgp.audio.example.model.command.GameChangeCommand;
 import tech.sud.mgp.audio.example.model.command.PublicMsgCommand;
 import tech.sud.mgp.audio.example.model.command.SendGiftCommand;
@@ -41,9 +42,10 @@ public class AudioRoomCommandUtils {
     /**
      * 构建上麦信令
      */
-    public static String buildUpMicCommand(int micIndex, int roleType) {
+    public static String buildUpMicCommand(int micIndex, String streamId, int roleType) {
         UpMicCommand command = new UpMicCommand(getSendUser());
         command.micIndex = micIndex;
+        command.streamID = streamId;
         command.roleType = roleType;
         return GsonUtils.toJson(command);
     }
@@ -63,6 +65,14 @@ public class AudioRoomCommandUtils {
     public static String buildGameChangeCommand(long gameId) {
         GameChangeCommand command = new GameChangeCommand(getSendUser());
         command.gameID = gameId;
+        return GsonUtils.toJson(command);
+    }
+
+    /**
+     * 构建进入房间信令
+     */
+    public static String buildEnterRoomCommand() {
+        EnterRoomCommand command = new EnterRoomCommand(getSendUser());
         return GsonUtils.toJson(command);
     }
 

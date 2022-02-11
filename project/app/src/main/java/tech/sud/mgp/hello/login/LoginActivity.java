@@ -16,15 +16,16 @@ import tech.sud.mgp.common.http.param.BaseResponse;
 import tech.sud.mgp.common.http.param.RetCode;
 import tech.sud.mgp.common.http.rx.RxCallback;
 import tech.sud.mgp.common.model.HSUserInfo;
+import tech.sud.mgp.common.utils.ResponseUtils;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.agreement.UserAgreementActivity;
 import tech.sud.mgp.hello.home.HomeActivity;
-import tech.sud.mgp.hello.login.listener.DialogSecondaryListener;
-import tech.sud.mgp.hello.login.listener.DialogSelectListener;
 import tech.sud.mgp.hello.login.dialog.UserAgreementDialog;
 import tech.sud.mgp.hello.login.dialog.UserSecondaryDialog;
 import tech.sud.mgp.hello.login.http.repository.LoginRepository;
 import tech.sud.mgp.hello.login.http.resp.LoginResponse;
+import tech.sud.mgp.hello.login.listener.DialogSecondaryListener;
+import tech.sud.mgp.hello.login.listener.DialogSelectListener;
 import tech.sud.mgp.hello.utils.AppSharedPreferences;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener, DialogSelectListener, DialogSecondaryListener {
@@ -145,7 +146,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                         HSUserInfo.token = t.getData().token;
                         loginSuccess();
                     } else {
-                        ToastUtils.showShort(t.getRetMsg() + t.getRetCode());
+                        ToastUtils.showShort(ResponseUtils.conver(t));
                     }
                 }
             });

@@ -1,7 +1,11 @@
 package tech.sud.mgp.game.middle.manager;
 
+import com.blankj.utilcode.util.GsonUtils;
+
 import tech.sud.mgp.core.ISudFSTAPP;
 import tech.sud.mgp.core.ISudListenerNotifyStateChange;
+import tech.sud.mgp.game.middle.state.SudMGPAPPState;
+import tech.sud.mgp.game.middle.state.app.CommonSelfInState;
 
 /**
  * app端调用sdk
@@ -28,6 +32,25 @@ public class FsmApp2MgManager {
     public void updateCode(String code, ISudListenerNotifyStateChange listener) {
         if (iSudFSTAPP != null) {
             iSudFSTAPP.updateCode(code, listener);
+        }
+    }
+
+    /**
+     * 发送加入游戏的状态
+     *
+     * @param isIn         true 加入游戏，false 退出游戏
+     * @param seatIndex    加入的游戏位(座位号) 默认传seatIndex = -1 随机加入，seatIndex 从0开始，不可大于座位数
+     * @param isSeatRandom 默认为ture, 带有游戏位(座位号)的时候，如果游戏位(座位号)已经被占用，是否随机分配一个空位坐下 isSeatRandom=true 随机分配空位坐下，isSeatRandom=false 不随机分配
+     * @param teamId       不支持分队的游戏：数值填1；支持分队的游戏：数值填1或2（两支队伍）；
+     */
+    public void sendCommonSelfInState(boolean isIn, int seatIndex, boolean isSeatRandom, int teamId) {
+        if (iSudFSTAPP != null) {
+            CommonSelfInState state = new CommonSelfInState();
+            state.isIn = isIn;
+            state.seatIndex = seatIndex;
+            state.isSeatRandom = isSeatRandom;
+            state.teamId = teamId;
+            iSudFSTAPP.notifyStateChange(SudMGPAPPState.APP_COMMON_SELF_IN, GsonUtils.toJson(state), null);
         }
     }
 

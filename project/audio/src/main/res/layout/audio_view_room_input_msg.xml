@@ -15,8 +15,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/room_input_msg_cl_main"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="48dp"
+        android:layout_height="48dp"
         android:layout_marginBottom="300dp"
         android:background="@drawable/audio_shape_white_top_round"
         app:layout_constraintTop_toBottomOf="@id/room_input_msg_view_empty"
@@ -25,11 +24,12 @@
         <EditText
             android:id="@+id/room_input_msg_edit_text"
             android:layout_width="0dp"
-            android:layout_height="36dp"
+            android:layout_height="match_parent"
             android:textSize="14sp"
             android:textColor="@color/c_000000"
             android:maxLength="100"
             android:layout_marginHorizontal="16dp"
+            android:paddingVertical="10dp"
             android:hint="@string/audio_send_msg_hint"
             android:textColorHint="@color/c_c6c6c6"
             android:imeOptions="actionSend"

@@ -1,8 +1,12 @@
 package tech.sud.mgp.audio.example.manager;
 
+import com.blankj.utilcode.util.Utils;
+
+import tech.sud.mgp.audio.R;
 import tech.sud.mgp.audio.example.model.AudioRoomData;
 import tech.sud.mgp.audio.example.model.AudioRoomMicModel;
 import tech.sud.mgp.audio.example.model.RoomInfoModel;
+import tech.sud.mgp.audio.example.model.command.EnterRoomCommand;
 import tech.sud.mgp.audio.example.model.command.GameChangeCommand;
 import tech.sud.mgp.audio.example.service.AudioRoomServiceCallback;
 import tech.sud.mgp.audio.example.utils.AudioRoomCommandUtils;
@@ -45,6 +49,16 @@ public class AudioRoomServiceManager extends BaseServiceManager {
                 if (callback != null) {
                     callback.onGameChange(command.gameID);
                 }
+            }
+        });
+        audioEngineManager.setCommandListener(new AudioCommandManager.EnterRoomCommandListener() {
+            @Override
+            public void onRecvCommand(EnterRoomCommand command, MediaUser user, String roomId) {
+                if (command == null || command.sendUser == null || command.sendUser.name == null) {
+                    return;
+                }
+                String msg = command.sendUser.name + " " + Utils.getApp().getString(R.string.audio_enter_the_room);
+                audioChatManager.addMsg(msg);
             }
         });
     }

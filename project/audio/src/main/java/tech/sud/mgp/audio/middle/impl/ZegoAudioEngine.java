@@ -1,6 +1,5 @@
 package tech.sud.mgp.audio.middle.impl;
 
-import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.Utils;
 
 import org.json.JSONObject;
@@ -198,7 +197,10 @@ public class ZegoAudioEngine implements MediaAudioEngineProtocol {
         @Override
         public void onRoomStateUpdate(String roomID, ZegoRoomState state, int errorCode, JSONObject extendedData) {
             super.onRoomStateUpdate(roomID, state, errorCode, extendedData);
-            LogUtils.d("onRoomStateUpdate:" + state);
+            MediaAudioEventHandler handler = mMediaAudioEventHandler;
+            if (handler != null) {
+                handler.onRoomStateUpdate(roomID, ZegoRoomStateConverter.converAudioRoomState(state), errorCode, extendedData);
+            }
         }
 
         @Override
@@ -274,6 +276,7 @@ public class ZegoAudioEngine implements MediaAudioEngineProtocol {
                 handler.onRoomOnlineUserCountUpdate(roomID, count);
             }
         }
+
     };
 
 }

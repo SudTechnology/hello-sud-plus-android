@@ -105,6 +105,9 @@ public class AudioMicManager extends BaseServiceManager {
         notifyDataSetChange();
     }
 
+    /**
+     * 更新某个麦位模型
+     */
     private void updateMicModel(AudioRoomMicModel model) {
         int micIndex = model.micIndex;
         if (micIndex >= 0 && micIndex < micList.size()) {
@@ -113,6 +116,7 @@ public class AudioMicManager extends BaseServiceManager {
             audioRoomMicModel.nickName = model.nickName;
             audioRoomMicModel.avatar = model.avatar;
             audioRoomMicModel.roleType = model.roleType;
+            audioRoomMicModel.streamId = model.streamId;
         }
     }
 
@@ -163,7 +167,7 @@ public class AudioMicManager extends BaseServiceManager {
                 }
 
                 // 发送信令
-                String command = AudioRoomCommandUtils.buildUpMicCommand(micIndex, parentManager.getRoleType());
+                String command = AudioRoomCommandUtils.buildUpMicCommand(micIndex, roomMicSwitchResp.streamId, parentManager.getRoleType());
                 parentManager.audioEngineManager.sendCommand(command, null);
 
                 // 麦位列表
@@ -392,6 +396,7 @@ public class AudioMicManager extends BaseServiceManager {
                 model.nickName = sendUser.name;
                 model.avatar = sendUser.icon;
                 model.roleType = command.roleType;
+                model.streamId = command.streamID;
                 notifyItemChange(micIndex, model);
             }
         }

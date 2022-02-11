@@ -205,7 +205,7 @@ public class AudioRoomActivity extends BaseActivity {
             @Override
             public void onChanged(GameMessageModel gameMessageModel) {
                 if (gameMessageModel != null) {
-                    binder.addChatMsg(gameMessageModel);
+                    binder.addChatMsg(gameMessageModel.msg);
                 }
             }
         });
@@ -376,6 +376,7 @@ public class AudioRoomActivity extends BaseActivity {
                 bottomView.showGotMic();
                 bottomView.hideMicState();
             }
+            gameViewModel.selfMicIndex(micIndex);
         }
 
         @Override

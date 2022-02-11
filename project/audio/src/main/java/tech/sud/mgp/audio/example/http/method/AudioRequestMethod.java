@@ -5,6 +5,7 @@ import retrofit2.http.Body;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 import tech.sud.mgp.audio.example.http.req.EnterRoomReq;
+import tech.sud.mgp.audio.example.http.req.ExitRoomReq;
 import tech.sud.mgp.audio.example.http.req.RoomMicListReq;
 import tech.sud.mgp.audio.example.http.req.RoomMicSwitchReq;
 import tech.sud.mgp.audio.example.http.response.EnterRoomResp;
@@ -36,5 +37,11 @@ public interface AudioRequestMethod {
      */
     @POST(RequestUrl.ROOM_MIC_SWITCH)
     Observable<BaseResponse<RoomMicSwitchResp>> roomMicSwitch(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body RoomMicSwitchReq req);
+
+    /**
+     * 退出房间
+     */
+    @POST(RequestUrl.EXIT_ROOM)
+    Observable<BaseResponse<Object>> exitRoom(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body ExitRoomReq req);
 
 }

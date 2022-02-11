@@ -119,6 +119,17 @@ public class AudioRoomActivity extends BaseActivity {
     @Override
     protected void setListeners() {
         super.setListeners();
+        setViewListeners();
+        setGameListeners();
+    }
+
+    private void setViewListeners() {
+        KeyboardUtils.registerSoftInputChangedListener(this, new KeyboardUtils.OnSoftInputChangedListener() {
+            @Override
+            public void onSoftInputChanged(int height) {
+                inputMsgView.onSoftInputChanged(height);
+            }
+        });
         micView.setOnMicItemClickListener(new OnMicItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -166,12 +177,6 @@ public class AudioRoomActivity extends BaseActivity {
                 inputMsgView.clearInput();
             }
         });
-        KeyboardUtils.registerSoftInputChangedListener(this, new KeyboardUtils.OnSoftInputChangedListener() {
-            @Override
-            public void onSoftInputChanged(int height) {
-                inputMsgView.onSoftInputChanged(height);
-            }
-        });
         topView.setSelectModeClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -186,6 +191,15 @@ public class AudioRoomActivity extends BaseActivity {
                 });
             }
         });
+        topView.setCloseClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intentClose();
+            }
+        });
+    }
+
+    private void setGameListeners() {
         gameViewModel.gameViewLiveData.observe(this, new Observer<View>() {
             @Override
             public void onChanged(View view) {
@@ -194,12 +208,6 @@ public class AudioRoomActivity extends BaseActivity {
                 } else {
                     gameContainer.addView(view, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
                 }
-            }
-        });
-        topView.setCloseClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                intentClose();
             }
         });
         gameViewModel.gameMessageLiveData.observe(this, new Observer<GameMessageModel>() {
@@ -214,6 +222,12 @@ public class AudioRoomActivity extends BaseActivity {
             @Override
             public void onChanged(Object obj) {
                 binder.updateMicList();
+            }
+        });
+        gameViewModel.autoUpMicLiveData.observe(this, new Observer<Object>() {
+            @Override
+            public void onChanged(Object o) {
+                binder.autoUpMic();
             }
         });
     }
@@ -248,12 +262,18 @@ public class AudioRoomActivity extends BaseActivity {
             @Override
             public void onChoose(int index) {
                 if (index == 1) {
-                    finish();
+                    exitRoom();
                 } else {
                     dialog.dismiss();
                 }
             }
         });
+    }
+
+    // 退出房间
+    private void exitRoom() {
+        viewModel.exitRoom(roomInfoModel.roomId);
+        finish();
     }
 
     @Override

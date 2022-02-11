@@ -20,6 +20,12 @@ public class EnterRoomUtils {
 
     private static boolean isRunning = false;
 
+    /**
+     * 进入房间
+     *
+     * @param context 上下文
+     * @param roomId  房间id
+     */
     public static void enterRoom(Context context, long roomId) {
         if (isRunning) {
             return;

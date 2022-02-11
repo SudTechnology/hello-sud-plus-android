@@ -53,6 +53,7 @@ public class GameViewModel {
     public final MutableLiveData<Object> gameStartLiveData = new MutableLiveData<>(); // 游戏开始时的回调
     public final MutableLiveData<GameMessageModel> gameMessageLiveData = new MutableLiveData<>(); // 游戏消息
     public final MutableLiveData<Object> updateMicLiveData = new MutableLiveData<>(); // 刷新麦位通知
+    public final MutableLiveData<Object> autoUpMicLiveData = new MutableLiveData<>(); // 执行自动上麦的通知
 
     private View gameView; // 游戏View
     private long captainUserId; // 记录当前队长的用户id
@@ -254,8 +255,11 @@ public class GameViewModel {
             case SudMGPMGState.MG_COMMON_PLAYER_IN: // 加入状态
                 PlayerInState playerInState = HSJsonUtils.fromJson(dataJson, PlayerInState.class);
                 if (playerInState != null) {
-                    if ((HSUserInfo.userId + "").equals(userId)) { // 保存自己是否加入了游戏的状态
+                    if ((HSUserInfo.userId + "").equals(userId)) { // 属于自己的变动
                         isSelfInGame = playerInState.isIn;
+                        if (playerInState.isIn) {
+                            autoUpMicLiveData.setValue(null);
+                        }
                     }
                     if (!playerInState.isIn) { // 已经离开游戏了，删除玩家状态记录
                         removePlayerState(userId);
@@ -401,7 +405,7 @@ public class GameViewModel {
     private void joinGame(int micIndex) {
         // 游戏闲置，并且自己没有加入游戏时，才发送
         if (isGameIdle() && !isSelfInGame) {
-            fsmApp2MGManager.sendCommonSelfInState(true, micIndex, true, 1);
+            fsmApp2MGManager.sendCommonSelfInState(true, -1, true, 1);
         }
     }
 

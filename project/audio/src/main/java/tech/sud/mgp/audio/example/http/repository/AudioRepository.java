@@ -4,6 +4,7 @@ import androidx.lifecycle.LifecycleOwner;
 
 import tech.sud.mgp.audio.example.http.method.AudioRequestMethodFactory;
 import tech.sud.mgp.audio.example.http.req.EnterRoomReq;
+import tech.sud.mgp.audio.example.http.req.ExitRoomReq;
 import tech.sud.mgp.audio.example.http.req.RoomMicListReq;
 import tech.sud.mgp.audio.example.http.req.RoomMicSwitchReq;
 import tech.sud.mgp.audio.example.http.response.EnterRoomResp;
@@ -17,8 +18,6 @@ public class AudioRepository {
 
     /**
      * 进入房间
-     *
-     * @param roomId 房间id，传空时，相当于创建一个新的房间
      */
     public static void enterRoom(LifecycleOwner owner, Long roomId, RxCallback<EnterRoomResp> callback) {
         EnterRoomReq req = new EnterRoomReq();
@@ -27,6 +26,22 @@ public class AudioRepository {
         }
         AudioRequestMethodFactory.getMethod()
                 .enterRoom(BaseUrlManager.getInteractBaseUrl(), req)
+                .compose(RxUtil.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /**
+     * 退出房间
+     *
+     * @param roomId 房间id
+     */
+    public static void exitRoom(LifecycleOwner owner, Long roomId, RxCallback<Object> callback) {
+        ExitRoomReq req = new ExitRoomReq();
+        if (roomId != null) {
+            req.roomId = roomId;
+        }
+        AudioRequestMethodFactory.getMethod()
+                .exitRoom(BaseUrlManager.getInteractBaseUrl(), req)
                 .compose(RxUtil.schedulers(owner))
                 .subscribe(callback);
     }

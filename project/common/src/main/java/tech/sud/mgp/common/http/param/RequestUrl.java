@@ -61,4 +61,9 @@ public interface RequestUrl {
      */
     String SWITCH_GAME = "room/switch-game/v1";
 
+    /**
+     * 退出房间
+     */
+    String EXIT_ROOM = "room/exit-room/v1";
+
 }

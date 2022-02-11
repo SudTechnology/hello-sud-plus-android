@@ -3,7 +3,6 @@ package tech.sud.mgp.audio.example.manager;
 import com.blankj.utilcode.util.Utils;
 
 import tech.sud.mgp.audio.R;
-import tech.sud.mgp.audio.example.model.AudioRoomData;
 import tech.sud.mgp.audio.example.model.AudioRoomMicModel;
 import tech.sud.mgp.audio.example.model.RoomInfoModel;
 import tech.sud.mgp.audio.example.model.command.EnterRoomCommand;
@@ -23,7 +22,6 @@ public class AudioRoomServiceManager extends BaseServiceManager {
     private AudioRoomServiceCallback audioRoomServiceCallback;
     private RoomInfoModel roomInfoModel;
 
-    public final AudioRoomData audioRoomData = new AudioRoomData();
     public final AudioEngineManager audioEngineManager = new AudioEngineManager(this);
     public final AudioChatManager audioChatManager = new AudioChatManager(this);
     public final AudioMicManager audioMicManager = new AudioMicManager(this);
@@ -58,10 +56,14 @@ public class AudioRoomServiceManager extends BaseServiceManager {
                 if (command == null || command.sendUser == null || command.sendUser.name == null) {
                     return;
                 }
-                String msg = command.sendUser.name + " " + Utils.getApp().getString(R.string.audio_enter_the_room);
+                String msg = buildEnterRoomMsg(command.sendUser.name);
                 audioChatManager.addMsg(msg);
             }
         });
+    }
+
+    private String buildEnterRoomMsg(String nickName) {
+        return nickName + " " + Utils.getApp().getString(R.string.audio_enter_the_room);
     }
 
     @Override
@@ -114,6 +116,7 @@ public class AudioRoomServiceManager extends BaseServiceManager {
         if (callback != null) {
             callback.onEnterRoomSuccess();
         }
+        audioChatManager.addMsg(buildEnterRoomMsg(HSUserInfo.nickName));
     }
 
     /**

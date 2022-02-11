@@ -85,6 +85,11 @@ public class GiftDialogTopView extends ConstraintLayout {
      */
     public void setInMic(List<MicUserInfoModel> micUsers) {
         if (micUsers != null && micUsers.size() > 0) {
+            if (micUsers.size() == 1) {
+                cancelTv.setText(getContext().getString(R.string.audio_cancle));
+                cancelTv.setSelected(true);
+            }
+
             setVisibility(View.VISIBLE);
             sendInMicUserLl.setVisibility(View.VISIBLE);
             sendOutMicUserLl.setVisibility(View.GONE);

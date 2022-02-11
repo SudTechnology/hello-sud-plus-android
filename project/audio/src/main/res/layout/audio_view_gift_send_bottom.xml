@@ -23,7 +23,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:text="0"
             android:textColor="@color/c_ffffff"
             android:textSize="16sp" />
 
@@ -52,20 +51,21 @@
 
             <TextView
                 android:id="@+id/send_gift_count_tv"
-                android:layout_width="35dp"
+                android:layout_width="30dp"
                 android:layout_height="28dp"
                 android:background="@color/c_000000"
                 android:gravity="center_vertical|end"
-                android:text="x1"
+                android:text="x 1"
                 android:textColor="#ffffff"
                 android:textSize="12sp" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/send_gift_bottom_arrow_iv"
-                android:layout_width="20dp"
+                android:layout_width="25dp"
                 android:layout_height="28dp"
                 android:background="@color/c_000000"
                 android:paddingTop="4dp"
+                android:paddingEnd="5dp"
                 android:paddingBottom="8dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/audio_icon_toup_arrow"

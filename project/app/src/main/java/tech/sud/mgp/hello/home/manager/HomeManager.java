@@ -46,7 +46,11 @@ public class HomeManager {
             for (int i = 0; i < gameListResp.getSceneList().size(); i++) {
                 SceneModel sceneModel = gameListResp.getSceneList().get(i);
                 if (sceneModel.getSceneId() == sceneType) {
-                    return sceneModel.getSceneName();
+                    String name = sceneModel.getSceneName();
+                    if (name.contains("场景")) {
+                        return name.replace("场景", "");
+                    }
+                    return name;
                 }
             }
         }

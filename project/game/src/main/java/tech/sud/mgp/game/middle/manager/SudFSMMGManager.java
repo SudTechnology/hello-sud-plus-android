@@ -5,6 +5,7 @@ import android.view.ViewTreeObserver;
 
 import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.Utils;
+import com.google.gson.JsonObject;
 
 import tech.sud.mgp.common.http.param.BaseResponse;
 import tech.sud.mgp.common.http.param.RetCode;
@@ -13,6 +14,7 @@ import tech.sud.mgp.common.utils.DensityUtils;
 import tech.sud.mgp.core.ISudFSMStateHandle;
 import tech.sud.mgp.game.example.http.repository.GameRepository;
 import tech.sud.mgp.game.example.http.resp.GameLoginResp;
+import tech.sud.mgp.game.middle.model.GameConfigModel;
 import tech.sud.mgp.game.middle.model.GameViewInfoModel;
 import tech.sud.mgp.game.middle.model.GameViewRectModel;
 import tech.sud.mgp.game.middle.model.GameViewSizeModel;
@@ -81,6 +83,7 @@ public class SudFSMMGManager {
      */
     private void notifyGameViewInfo(ISudFSMStateHandle handle, int gameViewWidth, int gameViewHeight) {
         GameViewInfoModel gameViewInfoModel = new GameViewInfoModel();
+        gameViewInfoModel.ret_code = 0;
         // 游戏View大小
         gameViewInfoModel.view_size = new GameViewSizeModel();
         gameViewInfoModel.view_size.width = gameViewWidth;
@@ -95,6 +98,17 @@ public class SudFSMMGManager {
 
         // 给游戏侧进行返回
         handle.success(GsonUtils.toJson(gameViewInfoModel));
+    }
+
+    /**
+     * 处理游戏配置
+     */
+    public void processOnGetGameCfg(ISudFSMStateHandle handle, String dataJson) {
+        JsonObject jsonObject = new JsonObject();
+        GameConfigModel gameConfigModel = new GameConfigModel();
+        // 配置不展示大厅玩家展示位
+        gameConfigModel.ui.lobby_players.hide = true;
+        handle.success(jsonObject.toString());
     }
 
 }

@@ -4,9 +4,9 @@ import android.text.TextUtils;
 
 import com.blankj.utilcode.util.GsonUtils;
 
+import tech.sud.mgp.game.middle.model.GameMessageModel;
 import tech.sud.mgp.game.middle.model.GameChatModel;
 import tech.sud.mgp.game.middle.model.GameChatMsgModel;
-import tech.sud.mgp.game.middle.model.GameMessageModel;
 
 /**
  * 游戏通用状态工具类

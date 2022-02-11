@@ -209,7 +209,7 @@ public class GameViewModel {
 
         @Override
         public void onGetGameCfg(ISudFSMStateHandle handle, String dataJson) {
-            handle.success("{}");
+            sudFSMMGManager.processOnGetGameCfg(handle, dataJson);
         }
 
         @Override

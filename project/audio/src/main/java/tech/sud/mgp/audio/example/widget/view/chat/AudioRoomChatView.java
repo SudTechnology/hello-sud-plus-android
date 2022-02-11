@@ -49,6 +49,8 @@ public class AudioRoomChatView extends ConstraintLayout {
         mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
+
+        updateStyle();
     }
 
     /**

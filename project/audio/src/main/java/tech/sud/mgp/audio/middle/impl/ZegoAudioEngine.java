@@ -33,13 +33,13 @@ public class ZegoAudioEngine implements MediaAudioEngineProtocol {
 
     private MediaAudioEventHandler mMediaAudioEventHandler;
 
+    private ZegoExpressEngine getEngine() {
+        return ZegoExpressEngine.getEngine();
+    }
+
     @Override
     public void setEventHandler(MediaAudioEventHandler handler) {
         mMediaAudioEventHandler = handler;
-    }
-
-    private ZegoExpressEngine getEngine() {
-        return ZegoExpressEngine.getEngine();
     }
 
     @Override

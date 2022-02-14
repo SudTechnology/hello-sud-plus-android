@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -43,6 +44,10 @@ public abstract class BaseFragment extends RxFragment {
     }
 
     protected void setListeners() {
+    }
+
+    public <T extends View> T findViewById(@IdRes int id) {
+        return mRootView.findViewById(id);
     }
 
 }

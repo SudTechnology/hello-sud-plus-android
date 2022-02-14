@@ -28,6 +28,9 @@ import tech.sud.mgp.hello.ui.login.listener.DialogSelectListener;
 import tech.sud.mgp.hello.ui.main.activity.HomeActivity;
 import tech.sud.mgp.hello.ui.main.activity.UserAgreementActivity;
 
+/**
+ * 登录页
+ */
 public class LoginActivity extends BaseActivity implements View.OnClickListener, DialogSelectListener, DialogSecondaryListener {
 
     private TextView nameTv;

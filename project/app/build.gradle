@@ -94,14 +94,16 @@ dependencies {
     // RecyclerView的Adapter: https://github.com/CymChad/BaseRecyclerViewAdapterHelper
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.4'
 
-    //增加mp4 sdk
+    // 增加mp4 sdk
     implementation 'com.github.bytedance:AlphaPlayer:1.2.0'
     implementation 'com.google.android.exoplayer:exoplayer-core:2.9.6'
-    //Android svga https://github.com/svga/SVGAPlayer-Android
+    // Android svga https://github.com/svga/SVGAPlayer-Android
     implementation 'com.github.yyued:SVGAPlayer-Android:2.6.0'
-    //播放json动画的库，网址为：https://github.com/airbnb/lottie-android
+    // 播放json动画的库，网址为：https://github.com/airbnb/lottie-android
     implementation "com.airbnb.android:lottie:3.7.0"
-    //Glide支持webp动图的库
+    // Glide支持webp动图的库
     implementation "com.github.zjupure:webpdecoder:2.0.4.12.0"
 
+    // 沉浸式状态栏
+    implementation "com.gyf.immersionbar:immersionbar:3.0.0"
 }

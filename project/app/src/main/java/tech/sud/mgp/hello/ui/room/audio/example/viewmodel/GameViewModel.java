@@ -1,9 +1,10 @@
 package tech.sud.mgp.hello.ui.room.audio.example.viewmodel;
 
+import android.app.Activity;
 import android.text.TextUtils;
 import android.view.View;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.MutableLiveData;
 
 import com.blankj.utilcode.util.GsonUtils;
@@ -73,7 +74,7 @@ public class GameViewModel {
      * @param activity 游戏所在页面
      * @param gameId   游戏id
      */
-    public void switchGame(AppCompatActivity activity, long gameId) {
+    public void switchGame(FragmentActivity activity, long gameId) {
         if (playingGameId == gameId) {
             return;
         }
@@ -88,7 +89,7 @@ public class GameViewModel {
      * @param activity 游戏所在页面
      * @param gameId   游戏id
      */
-    private void gameLogin(AppCompatActivity activity, long gameId) {
+    private void gameLogin(FragmentActivity activity, long gameId) {
         if (activity.isDestroyed() || gameId <= 0) {
             return;
         }
@@ -119,7 +120,7 @@ public class GameViewModel {
      * @param gameId   游戏id
      * @param code     令牌
      */
-    private void initSdk(AppCompatActivity activity, long gameId, String code) {
+    private void initSdk(FragmentActivity activity, long gameId, String code) {
         SudConfig sudConfig = AppConfig.getInstance().getSudConfig();
         if (sudConfig == null || sudConfig.appId == null || sudConfig.appKey == null) {
             ToastUtils.showLong("SudConfig is empty");
@@ -146,7 +147,7 @@ public class GameViewModel {
      * @param code     登录令牌
      * @param gameId   游戏id
      */
-    private void loadGame(AppCompatActivity activity, String code, long gameId) {
+    private void loadGame(Activity activity, String code, long gameId) {
         ISudFSTAPP iSudFSTAPP = SudMGP.loadMG(activity, HSUserInfo.userId + "", roomId + "", code, gameId, "zh-CN", iSudFSMMG);
         fsmApp2MGManager.setISudFSTAPP(iSudFSTAPP);
         gameView = iSudFSTAPP.getGameView();
@@ -159,7 +160,7 @@ public class GameViewModel {
      * @param activity 游戏所在页面
      * @param gameId   游戏id
      */
-    private void delayLoadGame(AppCompatActivity activity, long gameId) {
+    private void delayLoadGame(FragmentActivity activity, long gameId) {
         ThreadUtils.runOnUiThreadDelayed(new Runnable() {
             @Override
             public void run() {

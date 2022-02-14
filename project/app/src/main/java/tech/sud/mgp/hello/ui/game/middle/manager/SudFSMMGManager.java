@@ -3,15 +3,16 @@ package tech.sud.mgp.hello.ui.game.middle.manager;
 import android.view.View;
 import android.view.ViewTreeObserver;
 
+import com.blankj.utilcode.util.BarUtils;
 import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.Utils;
 import com.google.gson.JsonObject;
 
+import tech.sud.mgp.core.ISudFSMStateHandle;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
-import tech.sud.mgp.core.ISudFSMStateHandle;
 import tech.sud.mgp.hello.ui.game.http.repository.GameRepository;
 import tech.sud.mgp.hello.ui.game.http.resp.GameLoginResp;
 import tech.sud.mgp.hello.ui.game.middle.model.GameConfigModel;
@@ -92,7 +93,7 @@ public class SudFSMMGManager {
         // 游戏安全操作区域
         gameViewInfoModel.view_game_rect = new GameViewRectModel();
         gameViewInfoModel.view_game_rect.left = 0;
-        gameViewInfoModel.view_game_rect.top = DensityUtils.dp2px(Utils.getApp(), 110);
+        gameViewInfoModel.view_game_rect.top = DensityUtils.dp2px(Utils.getApp(), 110) + BarUtils.getStatusBarHeight();
         gameViewInfoModel.view_game_rect.right = 0;
         gameViewInfoModel.view_game_rect.bottom = DensityUtils.dp2px(Utils.getApp(), 160);
 

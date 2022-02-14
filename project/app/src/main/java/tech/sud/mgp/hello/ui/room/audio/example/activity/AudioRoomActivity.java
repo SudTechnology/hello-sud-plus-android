@@ -2,12 +2,15 @@ package tech.sud.mgp.hello.ui.room.audio.example.activity;
 
 import android.Manifest;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import androidx.lifecycle.Observer;
 
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.blankj.utilcode.util.ToastUtils;
+import com.gyf.immersionbar.BarHide;
+import com.gyf.immersionbar.ImmersionBar;
 
 import java.io.Serializable;
 import java.util.List;
@@ -44,6 +47,9 @@ import tech.sud.mgp.hello.ui.room.audio.gift.model.GiftNotifyDetailodel;
 import tech.sud.mgp.hello.ui.room.audio.gift.view.GiftEffectView;
 import tech.sud.mgp.hello.ui.room.audio.gift.view.RoomGiftDialog;
 
+/**
+ * 语聊房页面
+ */
 public class AudioRoomActivity extends BaseActivity {
 
     public RoomInfoModel roomInfoModel; // 房间信息
@@ -84,6 +90,11 @@ public class AudioRoomActivity extends BaseActivity {
     }
 
     @Override
+    protected void setStatusBar() {
+        ImmersionBar.with(this).statusBarColor(R.color.transparent).init();
+    }
+
+    @Override
     protected void initWidget() {
         super.initWidget();
         topView = findViewById(R.id.room_top_view);
@@ -94,6 +105,14 @@ public class AudioRoomActivity extends BaseActivity {
         inputMsgView = findViewById(R.id.room_input_msg_view);
         gameContainer = findViewById(R.id.game_container);
         inputMsgView.hide();
+
+        // 设置沉浸式状态栏时，顶部view的间距
+        ViewGroup.LayoutParams topViewParams = topView.getLayoutParams();
+        if (topViewParams instanceof ViewGroup.MarginLayoutParams) {
+            ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) topViewParams;
+            marginLayoutParams.topMargin = marginLayoutParams.topMargin + ImmersionBar.getStatusBarHeight(this);
+            topView.setLayoutParams(marginLayoutParams);
+        }
 
         // TODO: 2022/2/9 现在为了调试，把下面的权限判断代码给注释掉了
 //        if (roomInfoModel.roleType == RoleType.OWNER) {
@@ -128,6 +147,9 @@ public class AudioRoomActivity extends BaseActivity {
             @Override
             public void onSoftInputChanged(int height) {
                 inputMsgView.onSoftInputChanged(height);
+                if (height == 0) {
+                    updateStatusBar();
+                }
             }
         });
         micView.setOnMicItemClickListener(new OnMicItemClickListener() {
@@ -374,21 +396,29 @@ public class AudioRoomActivity extends BaseActivity {
     }
 
     private void initGame() {
+        updatePageStyle();
         gameViewModel.setRoomId(roomInfoModel.roomId);
         gameViewModel.switchGame(this, roomInfoModel.gameId);
-        updatePageStyle();
     }
 
     /**
      * 切换游戏之后，更新页面样式
      */
     private void updatePageStyle() {
-        if (roomInfoModel.gameId > 0) {
+        if (roomInfoModel.gameId > 0) { // 玩着游戏
             micView.setMicStyle(AudioRoomMicWrapView.AudioRoomMicStyle.GAME);
             chatView.setChatStyle(AudioRoomChatView.AudioRoomChatStyle.GAME);
         } else {
             micView.setMicStyle(AudioRoomMicWrapView.AudioRoomMicStyle.NORMAL);
             chatView.setChatStyle(AudioRoomChatView.AudioRoomChatStyle.NORMAL);
+        }
+    }
+
+    private void updateStatusBar() {
+        if (roomInfoModel != null && roomInfoModel.gameId > 0) { // 玩着游戏
+            ImmersionBar.with(this).statusBarColor(R.color.transparent).hideBar(BarHide.FLAG_HIDE_NAVIGATION_BAR).init();
+        } else {
+            ImmersionBar.with(this).statusBarColor(R.color.transparent).hideBar(BarHide.FLAG_SHOW_BAR).init();
         }
     }
 
@@ -482,6 +512,7 @@ public class AudioRoomActivity extends BaseActivity {
             needEnterRoom = false;
             enterRoom();
         }
+        updateStatusBar();
     }
 
     @Override
@@ -506,4 +537,13 @@ public class AudioRoomActivity extends BaseActivity {
         }
         gameViewModel.destroyMG();
     }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            updateStatusBar();
+        }
+    }
+
 }

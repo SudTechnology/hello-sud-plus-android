@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello;
+package tech.sud.mgp.hello.ui.app;
 
 import android.app.Application;
 import android.view.Gravity;
@@ -8,9 +8,10 @@ import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.tencent.bugly.crashreport.CrashReport;
 
+import tech.sud.mgp.hello.BuildConfig;
 import tech.sud.mgp.hello.rtc.protocol.MediaAudioEngineManager;
-import tech.sud.mgp.hello.ui.room.audio.gift.manager.GiftHelper;
 import tech.sud.mgp.hello.rtc.zego.ZegoAudioEngine;
+import tech.sud.mgp.hello.ui.room.audio.gift.manager.GiftHelper;
 
 public class HelloSudApplication extends Application {
     @Override
@@ -21,6 +22,7 @@ public class HelloSudApplication extends Application {
         configGift();
         configLog();
         configToast();
+        registerActivityLifecycleCallbacks(MyActivityManager.getInstance());
     }
 
     // Bugly config

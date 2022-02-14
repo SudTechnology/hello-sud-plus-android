@@ -48,6 +48,7 @@ public class AudioRoomActivity extends BaseActivity {
 
     public RoomInfoModel roomInfoModel; // 房间信息
     private long playingGameId; // 当前正在玩的游戏id
+    private boolean needEnterRoom = true; // 标识是否需要进入房间
 
     private AudioRoomTopView topView;
     private AudioRoomMicWrapView micView;
@@ -107,7 +108,6 @@ public class AudioRoomActivity extends BaseActivity {
         super.initData();
         topView.setName(roomInfoModel.roomName);
         topView.setId(getString(R.string.audio_room_number) + " " + roomInfoModel.roomId);
-        enterRoom();
     }
 
     private void enterRoom() {
@@ -478,6 +478,10 @@ public class AudioRoomActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         gameViewModel.onResume();
+        if (needEnterRoom) {
+            needEnterRoom = false;
+            enterRoom();
+        }
     }
 
     @Override

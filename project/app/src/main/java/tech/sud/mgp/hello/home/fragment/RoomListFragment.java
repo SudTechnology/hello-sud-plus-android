@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.blankj.utilcode.util.ToastUtils;
@@ -41,6 +42,7 @@ public class RoomListFragment extends BaseFragment {
     private ImageView headerIv;
     private RecyclerView roomRecyclerView;
     private RoomListAdapter adapter;
+    private SwipeRefreshLayout roomRefreshLayout;
     private List<RoomItemModel> datas = new ArrayList<>();
 
     public RoomListFragment() {
@@ -65,6 +67,7 @@ public class RoomListFragment extends BaseFragment {
         useridTv = mRootView.findViewById(R.id.userid_tv);
         headerIv = mRootView.findViewById(R.id.header_iv);
         roomRecyclerView = mRootView.findViewById(R.id.room_rv);
+        roomRefreshLayout = mRootView.findViewById(R.id.room_refresh_layout);
     }
 
     @Override
@@ -125,6 +128,7 @@ public class RoomListFragment extends BaseFragment {
             EnterRoomUtils.enterRoom(requireContext(), datas.get(position).getRoomId());
         });
         goSearch.setOnClickListener(v -> enterRoom());
+        roomRefreshLayout.setOnRefreshListener(this::loadList);
     }
 
     private void enterRoom() {
@@ -155,6 +159,14 @@ public class RoomListFragment extends BaseFragment {
                     adapter.setList(datas);
                 } else {
                     ToastUtils.showShort(ResponseUtils.conver(t));
+                }
+            }
+
+            @Override
+            public void onComplete() {
+                super.onComplete();
+                if (roomRefreshLayout.isRefreshing()) {
+                    roomRefreshLayout.setRefreshing(false);
                 }
             }
         });

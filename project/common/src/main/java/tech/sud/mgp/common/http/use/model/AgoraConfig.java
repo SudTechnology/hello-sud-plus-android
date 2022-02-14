@@ -6,4 +6,6 @@ package tech.sud.mgp.common.http.use.model;
 public class AgoraConfig {
     public String appId;
     public String appKey;
+    public String rtcType;
+    public String desc;
 }

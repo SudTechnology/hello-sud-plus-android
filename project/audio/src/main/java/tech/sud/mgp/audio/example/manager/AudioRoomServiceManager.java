@@ -154,4 +154,8 @@ public class AudioRoomServiceManager extends BaseServiceManager {
         }
     }
 
+    public void exitRoom() {
+        audioMicManager.exitRoom();
+    }
+
 }

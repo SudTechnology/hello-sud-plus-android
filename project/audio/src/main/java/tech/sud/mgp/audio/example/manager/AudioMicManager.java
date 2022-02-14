@@ -411,4 +411,15 @@ public class AudioMicManager extends BaseServiceManager {
         }
     };
 
+    // 退出房间
+    public void exitRoom() {
+        // 如果自己在麦上 则下麦
+        int selfMicIndex = findSelfMicIndex();
+        if (selfMicIndex >= 0) {
+            // 发送信令
+            String command = AudioRoomCommandUtils.buildDownMicCommand(selfMicIndex);
+            parentManager.audioEngineManager.sendCommand(command, null);
+        }
+    }
+
 }

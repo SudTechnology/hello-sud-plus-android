@@ -273,6 +273,7 @@ public class AudioRoomActivity extends BaseActivity {
 
     // 退出房间
     private void exitRoom() {
+        binder.exitRoom();
         viewModel.exitRoom(roomInfoModel.roomId);
         finish();
     }

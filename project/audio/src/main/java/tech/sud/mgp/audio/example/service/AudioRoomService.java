@@ -114,5 +114,12 @@ public class AudioRoomService {
         public void updateMicList() {
             serviceManager.audioMicManager.notifyDataSetChange();
         }
+
+        /**
+         * 退出房间
+         */
+        public void exitRoom() {
+            serviceManager.exitRoom();
+        }
     }
 }

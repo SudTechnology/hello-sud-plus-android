@@ -376,22 +376,6 @@ public class AudioMicManager extends BaseServiceManager {
         return -1;
     }
 
-    /**
-     * 更新麦位的礼物icon展示效果
-     */
-    public void updateGiftIcon(Map<Long, Boolean> userState) {
-        if (userState != null) {
-            for (AudioRoomMicModel model : micList) {
-                if (model.userId != 0) {
-                    model.giftEnable = userState.get(model.userId) != null && userState.get(model.userId);
-                } else {
-                    model.giftEnable = false;
-                }
-            }
-            notifyDataSetChange();
-        }
-    }
-
     // 上麦信令监听
     private final AudioCommandManager.UpMicCommandListener upMicCommandListener = new AudioCommandManager.UpMicCommandListener() {
         @Override

@@ -9,10 +9,12 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.ToastUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,12 +25,13 @@ import tech.sud.mgp.audio.gift.adapter.GiftListAdapter;
 import tech.sud.mgp.audio.gift.listener.GiftSendClickListener;
 import tech.sud.mgp.audio.gift.listener.SendGiftToUserListener;
 import tech.sud.mgp.audio.gift.manager.GiftHelper;
+import tech.sud.mgp.audio.gift.manager.RoomGiftDialogManager;
 import tech.sud.mgp.audio.gift.model.GiftModel;
 import tech.sud.mgp.audio.gift.model.MicUserInfoModel;
 import tech.sud.mgp.common.base.BaseDialogFragment;
 import tech.sud.mgp.common.model.HSUserInfo;
 
-public class RoomGiftDialog extends BaseDialogFragment {
+public class RoomGiftDialog extends BaseDialogFragment implements SendGiftToUserListener {
 
     private GiftDialogTopView topView;
     private GiftDialogBottomView bottomView;
@@ -36,6 +39,7 @@ public class RoomGiftDialog extends BaseDialogFragment {
     private GiftListAdapter giftListAdapter;
     private List<GiftModel> gifts = new ArrayList<>();
     public GiftSendClickListener giftSendClickListener;
+    private RoomGiftDialogManager dialogManager = new RoomGiftDialogManager();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -82,6 +86,10 @@ public class RoomGiftDialog extends BaseDialogFragment {
                     userInfos.add(GiftHelper.getInstance().underMicUser);
                 }
                 if (userInfos.size() > 0) {
+                    for (UserInfo testInfo : userInfos) {
+                        LogUtils.i("testInfo=" + testInfo);
+                        LogUtils.i("testInfo.name=" + testInfo.name);
+                    }
                     giftSendClickListener.onSendClick(checkedGift.giftId, 1, userInfos);
                 } else {
                     ToastUtils.showShort(R.string.audio_send_gift_user_empty);
@@ -112,38 +120,37 @@ public class RoomGiftDialog extends BaseDialogFragment {
             }
         });
         if (GiftHelper.getInstance().inMic) {
-            topView.sendGiftToUserListener = new SendGiftToUserListener() {
-                @Override
-                public void onNotify(Map<Long, Boolean> userState) {
-                    giftSendClickListener.onNotify(userState);
-                }
-            };
+            topView.sendGiftToUserListener = this;
             topView.setInMic(GiftHelper.getInstance().inMics);
         } else {
             topView.setMicOut(GiftHelper.getInstance().underMicUser);
         }
     }
 
-    //设置收礼人数据
+    /**
+     * 初始化 送礼面板麦位
+     */
     public void setMicUsers(List<AudioRoomMicModel> mDatas, int selectedIndex) {
-        if (mDatas != null && mDatas.size() > 0) {
-            GiftHelper.getInstance().inMic = true;
-            GiftHelper.getInstance().inMics.clear();
-            if (selectedIndex < 0 || selectedIndex >= mDatas.size()) {
-                selectedIndex = 0;
-            }
-            for (AudioRoomMicModel model : mDatas) {
-                if (model.userId != 0 && model.userId != HSUserInfo.userId) {
-                    MicUserInfoModel user = new MicUserInfoModel();
-                    user.userInfo = model;
-                    user.indexMic = model.micIndex;
-                    user.checked = false;
-                    GiftHelper.getInstance().inMics.add(user);
-                }
-            }
-            if (GiftHelper.getInstance().inMics.size() > 0) {
-                GiftHelper.getInstance().inMics.get(0).checked = true;
-            }
+        dialogManager.setMicUsers(mDatas, selectedIndex);
+    }
+
+    /**
+     * 实时更新送礼面板的麦位数据
+     */
+    public void updateOneMicUsers(AudioRoomMicModel micModel) {
+        if (GiftHelper.getInstance().inMic) {
+            dialogManager.updateOneMicUsers(micModel);
+            topView.updateInMic(GiftHelper.getInstance().inMics);
+        }
+    }
+
+    /**
+     * 实时更新送礼面板的单个麦位数据
+     */
+    public void updateMicUsers(List<AudioRoomMicModel> mDatas) {
+        if (GiftHelper.getInstance().inMics.size() > 0 && GiftHelper.getInstance().inMic) {
+            dialogManager.updateMicUsers(mDatas);
+            topView.updateInMic(GiftHelper.getInstance().inMics);
         }
     }
 
@@ -151,6 +158,12 @@ public class RoomGiftDialog extends BaseDialogFragment {
     public void setToUser(UserInfo user) {
         GiftHelper.getInstance().inMic = false;
         GiftHelper.getInstance().underMicUser = user;
+    }
+
+    public void setGiftEnable(AudioRoomMicModel model) {
+        if (GiftHelper.getInstance().inMic && topView != null) {
+            model.giftEnable = topView.userState.get(model.userId) != null && topView.userState.get(model.userId);
+        }
     }
 
     @Override
@@ -176,5 +189,10 @@ public class RoomGiftDialog extends BaseDialogFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+    }
+
+    @Override
+    public void onNotify(Map<Long, Boolean> userState) {
+        giftSendClickListener.onNotify(userState);
     }
 }

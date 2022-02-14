@@ -122,37 +122,4 @@ public class GiftHelper {
         return model;
     }
 
-    public UserInfo testCreatUserInfo() {
-        UserInfo userInfo = new UserInfo();
-        userInfo.icon = "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fup.enterdesk.com%2F2021%2Fedpic%2Fc4%2F9f%2F09%2Fc49f090757360f843141fe2bab2cfc8f_1.jpg";
-        userInfo.name = "阿娇安静案件";
-        userInfo.userID = 100866;
-        inMic = false;
-        underMicUser = userInfo;
-        return userInfo;
-    }
-
-    public List<MicUserInfoModel> testMicsUser() {
-        List<MicUserInfoModel> users = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            MicUserInfoModel model = new MicUserInfoModel();
-            model.checked = false;
-            model.indexMic = i;
-            AudioRoomMicModel micModel = new AudioRoomMicModel();
-            if (i > 1) {
-                micModel.avatar = "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fup.enterdesk.com%2F2021%2Fedpic%2Fc4%2F9f%2F09%2Fc49f090757360f843141fe2bab2cfc8f_1.jpg";
-            } else {
-                micModel.avatar = "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fup.enterdesk.com%2Fedpic%2Ff7%2F80%2F97%2Ff7809705cbe5c0fc580e401270522a0a.jpg";
-            }
-            micModel.userId = 12345 + i;
-            micModel.micIndex = i;
-            micModel.nickName = i + "Name";
-            model.userInfo = micModel;
-            users.add(model);
-        }
-        inMic = true;
-        inMics.clear();
-        inMics.addAll(users);
-        return users;
-    }
 }

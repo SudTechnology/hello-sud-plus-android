@@ -37,7 +37,7 @@ public class GiftDialogTopView extends ConstraintLayout {
     private List<MicUserInfoModel> micUsers = new ArrayList<>();
     private GiftMicUserAdapter userAdapter = new GiftMicUserAdapter(micUsers);
     public SendGiftToUserListener sendGiftToUserListener;
-    private Map<Long, Boolean> userState = new HashMap<>();
+    public Map<Long, Boolean> userState = new HashMap<>();
 
     public GiftDialogTopView(@NonNull Context context) {
         super(context);
@@ -74,9 +74,7 @@ public class GiftDialogTopView extends ConstraintLayout {
                 cancelTv.setText(context.getString(R.string.audio_cancle));
                 cancelTv.setSelected(true);
             }
-            if (sendGiftToUserListener != null) {
-                sendGiftToUserListener.onNotify(userState);
-            }
+            notifyUserState();
         });
     }
 
@@ -103,14 +101,30 @@ public class GiftDialogTopView extends ConstraintLayout {
                 micUsers.get(position).checked = !isChecked;
                 this.userAdapter.notifyItemChanged(position);
                 userState.put(micUsers.get(position).userInfo.userId, micUsers.get(position).checked);
-                if (sendGiftToUserListener != null) {
-                    sendGiftToUserListener.onNotify(userState);
-                }
+                notifyUserState();
             });
             initUserState();
-            if (sendGiftToUserListener != null) {
-                sendGiftToUserListener.onNotify(userState);
+            notifyUserState();
+        } else {
+            setVisibility(View.GONE);
+        }
+    }
+
+    /**
+     * 更新麦位数据
+     * */
+    public void updateInMic(List<MicUserInfoModel> micUsers){
+        if (micUsers != null && micUsers.size() > 0) {
+            if (micUsers.size() == 1) {
+                cancelTv.setText(getContext().getString(R.string.audio_cancle));
+                cancelTv.setSelected(true);
             }
+            setVisibility(View.VISIBLE);
+            sendInMicUserLl.setVisibility(View.VISIBLE);
+            sendOutMicUserLl.setVisibility(View.GONE);
+            this.micUsers.clear();
+            this.micUsers.addAll(micUsers);
+           this.userAdapter.setList(this.micUsers);
         } else {
             setVisibility(View.GONE);
         }
@@ -154,6 +168,15 @@ public class GiftDialogTopView extends ConstraintLayout {
             for (MicUserInfoModel m : this.micUsers) {
                 userState.put(m.userInfo.userId, m.checked);
             }
+        }
+    }
+
+    /**
+     * 通知用户状态变化
+     * */
+    private void notifyUserState(){
+        if (sendGiftToUserListener != null) {
+            sendGiftToUserListener.onNotify(userState);
         }
     }
 

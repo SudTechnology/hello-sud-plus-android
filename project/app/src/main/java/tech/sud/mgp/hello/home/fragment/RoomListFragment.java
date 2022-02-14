@@ -147,8 +147,11 @@ public class RoomListFragment extends BaseFragment {
                 super.onNext(t);
                 if (t.getRetCode() == RetCode.SUCCESS) {
                     HomeManager.getInstance().updateRoomList(t.getData());
+                    List<RoomItemModel> infoList = t.getData().getRoomInfoList();
                     datas.clear();
-                    datas.addAll(t.getData().getRoomInfoList());
+                    if (infoList != null) {
+                        datas.addAll(t.getData().getRoomInfoList());
+                    }
                     adapter.setList(datas);
                 } else {
                     ToastUtils.showShort(ResponseUtils.conver(t));

@@ -1,5 +1,7 @@
 package tech.sud.mgp.audio.example.manager;
 
+import com.blankj.utilcode.util.LogUtils;
+
 import tech.sud.mgp.audio.example.model.UserInfo;
 import tech.sud.mgp.audio.example.model.command.SendGiftCommand;
 import tech.sud.mgp.audio.example.utils.AudioRoomCommandUtils;
@@ -50,6 +52,10 @@ public class AudioGiftManager extends BaseServiceManager {
         notify.toUser = toUser;
         notify.giftCount = giftCount;
         notify.giftID = giftID;
+
+        LogUtils.i("testInfo1=" + toUser);
+        LogUtils.i("testInfo1.name=" + toUser.name);
+
         parentManager.audioChatManager.addMsg(notify);
 
         parentManager.audioEngineManager.sendCommand(command, null);

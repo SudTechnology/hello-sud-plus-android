@@ -102,14 +102,6 @@ public class AudioRoomService {
         }
 
         /**
-         * 更新礼物icon显示
-         */
-        public void updateGiftIcon(Map<Long, Boolean> userState) {
-            serviceManager.audioMicManager.updateGiftIcon(userState);
-
-        }
-
-        /**
          * 添加一条公屏消息
          */
         public void addChatMsg(Object obj) {

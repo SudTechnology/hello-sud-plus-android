@@ -63,6 +63,7 @@ public class AudioRoomActivity extends BaseActivity {
     private final AudioRoomService.MyBinder binder = audioRoomService.getBinder();
     private final AudioRoomViewModel viewModel = new AudioRoomViewModel();
     private final GameViewModel gameViewModel = new GameViewModel();
+    private RoomGiftDialog roomGiftDialog;
 
     @Override
     protected boolean beforeSetContentView() {
@@ -329,13 +330,13 @@ public class AudioRoomActivity extends BaseActivity {
      * index:默认选中的麦上用户麦序号
      */
     private void showSendGiftDialog(UserInfo underUser, int index) {
-        RoomGiftDialog dialog = new RoomGiftDialog();
+        roomGiftDialog = new RoomGiftDialog();
         if (underUser == null) {
-            dialog.setMicUsers(binder.getMicList(), index);
+            roomGiftDialog.setMicUsers(binder.getMicList(), index);
         } else {
-            dialog.setToUser(underUser);
+            roomGiftDialog.setToUser(underUser);
         }
-        dialog.giftSendClickListener = new GiftSendClickListener() {
+        roomGiftDialog.giftSendClickListener = new GiftSendClickListener() {
             @Override
             public void onSendClick(int giftId, int giftCount, List<UserInfo> toUsers) {
                 if (toUsers != null && toUsers.size() > 0) {
@@ -348,14 +349,15 @@ public class AudioRoomActivity extends BaseActivity {
 
             @Override
             public void onNotify(Map<Long, Boolean> userState) {
-                binder.updateGiftIcon(userState);
+                binder.updateMicList();
             }
         };
-        dialog.show(getSupportFragmentManager(), "gift");
-        dialog.setOnDestroyListener(new BaseDialogFragment.OnDestroyListener() {
+        roomGiftDialog.show(getSupportFragmentManager(), "gift");
+        roomGiftDialog.setOnDestroyListener(new BaseDialogFragment.OnDestroyListener() {
             @Override
             public void onDestroy() {
-                binder.updateGiftIcon(new HashMap<Long, Boolean>());
+                roomGiftDialog = null;
+                binder.updateMicList();
             }
         });
     }
@@ -398,11 +400,17 @@ public class AudioRoomActivity extends BaseActivity {
         @Override
         public void setMicList(List<AudioRoomMicModel> list) {
             micView.setList(list);
+            if (roomGiftDialog != null) {
+                roomGiftDialog.updateMicUsers(list);
+            }
         }
 
         @Override
         public void notifyMicItemChange(int micIndex, AudioRoomMicModel model) {
             micView.notifyItemChange(micIndex, model);
+            if (roomGiftDialog != null ) {
+                roomGiftDialog.updateOneMicUsers(model);
+            }
         }
 
         @Override
@@ -450,8 +458,12 @@ public class AudioRoomActivity extends BaseActivity {
         @Override
         public void onWrapMicModel(AudioRoomMicModel model) {
             gameViewModel.wrapMicModel(model);
+            if (roomGiftDialog != null) {
+                roomGiftDialog.setGiftEnable(model);
+            } else {
+                model.giftEnable = false;
+            }
         }
-
     };
 
     @Override

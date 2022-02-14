@@ -11,12 +11,12 @@ import com.blankj.utilcode.util.ToastUtils;
 
 import java.util.Random;
 
-import tech.sud.mgp.common.base.BaseActivity;
-import tech.sud.mgp.common.http.param.BaseResponse;
-import tech.sud.mgp.common.http.param.RetCode;
-import tech.sud.mgp.common.http.rx.RxCallback;
-import tech.sud.mgp.common.model.HSUserInfo;
-import tech.sud.mgp.common.utils.ResponseUtils;
+import tech.sud.mgp.hello.common.base.BaseActivity;
+import tech.sud.mgp.hello.common.http.param.BaseResponse;
+import tech.sud.mgp.hello.common.http.param.RetCode;
+import tech.sud.mgp.hello.common.http.rx.RxCallback;
+import tech.sud.mgp.hello.common.model.HSUserInfo;
+import tech.sud.mgp.hello.common.utils.ResponseUtils;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.agreement.UserAgreementActivity;
 import tech.sud.mgp.hello.home.HomeActivity;

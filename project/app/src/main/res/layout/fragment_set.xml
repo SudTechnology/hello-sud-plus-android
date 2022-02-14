@@ -30,7 +30,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title_tv">
 
-        <tech.sud.mgp.common.widget.view.round.RoundedImageView
+        <tech.sud.mgp.hello.common.widget.view.round.RoundedImageView
             android:id="@+id/header_iv"
             android:layout_width="64dp"
             android:layout_height="64dp"

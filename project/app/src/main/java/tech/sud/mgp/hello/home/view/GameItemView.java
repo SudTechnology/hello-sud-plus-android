@@ -10,9 +10,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import tech.sud.mgp.common.http.use.resp.GameModel;
-import tech.sud.mgp.common.http.use.resp.SceneModel;
-import tech.sud.mgp.common.utils.ImageLoader;
+import tech.sud.mgp.hello.common.http.use.resp.GameModel;
+import tech.sud.mgp.hello.common.http.use.resp.SceneModel;
+import tech.sud.mgp.hello.common.utils.ImageLoader;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.home.listener.GameItemListener;
 

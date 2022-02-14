@@ -17,9 +17,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-import tech.sud.mgp.common.http.use.resp.GameModel;
-import tech.sud.mgp.common.http.use.resp.SceneModel;
-import tech.sud.mgp.common.utils.ImageLoader;
+import tech.sud.mgp.hello.common.http.use.resp.GameModel;
+import tech.sud.mgp.hello.common.http.use.resp.SceneModel;
+import tech.sud.mgp.hello.common.utils.ImageLoader;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.home.adapter.GameAdapter;
 import tech.sud.mgp.hello.home.listener.GameItemListener;

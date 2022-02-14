@@ -3,9 +3,9 @@ package tech.sud.mgp.hello.home.manager;
 import java.util.ArrayList;
 import java.util.List;
 
-import tech.sud.mgp.common.http.use.resp.GameListResp;
-import tech.sud.mgp.common.http.use.resp.GameModel;
-import tech.sud.mgp.common.http.use.resp.SceneModel;
+import tech.sud.mgp.hello.common.http.use.resp.GameListResp;
+import tech.sud.mgp.hello.common.http.use.resp.GameModel;
+import tech.sud.mgp.hello.common.http.use.resp.SceneModel;
 import tech.sud.mgp.hello.home.http.resp.RoomListResp;
 
 public class HomeManager {

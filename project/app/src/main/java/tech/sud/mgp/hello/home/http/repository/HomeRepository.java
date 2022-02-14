@@ -3,9 +3,9 @@ package tech.sud.mgp.hello.home.http.repository;
 
 import androidx.lifecycle.LifecycleOwner;
 
-import tech.sud.mgp.common.http.param.BaseUrlManager;
-import tech.sud.mgp.common.http.rx.RxCallback;
-import tech.sud.mgp.common.http.rx.RxUtil;
+import tech.sud.mgp.hello.common.http.param.BaseUrlManager;
+import tech.sud.mgp.hello.common.http.rx.RxCallback;
+import tech.sud.mgp.hello.common.http.rx.RxUtil;
 import tech.sud.mgp.hello.home.http.method.HomeRequestMethodFactory;
 import tech.sud.mgp.hello.home.http.req.MatchBodyReq;
 import tech.sud.mgp.hello.home.http.resp.RoomListResp;

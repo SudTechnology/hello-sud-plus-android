@@ -5,7 +5,7 @@ import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import tech.sud.mgp.common.base.BaseActivity;
+import tech.sud.mgp.hello.common.base.BaseActivity;
 import tech.sud.mgp.hello.R;
 
 public class UserAgreementActivity extends BaseActivity {

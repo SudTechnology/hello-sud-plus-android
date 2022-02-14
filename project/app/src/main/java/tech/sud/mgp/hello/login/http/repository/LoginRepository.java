@@ -5,9 +5,9 @@ import androidx.lifecycle.LifecycleOwner;
 
 import com.blankj.utilcode.util.DeviceUtils;
 
-import tech.sud.mgp.common.http.param.BaseUrlManager;
-import tech.sud.mgp.common.http.rx.RxCallback;
-import tech.sud.mgp.common.http.rx.RxUtil;
+import tech.sud.mgp.hello.common.http.param.BaseUrlManager;
+import tech.sud.mgp.hello.common.http.rx.RxCallback;
+import tech.sud.mgp.hello.common.http.rx.RxUtil;
 import tech.sud.mgp.hello.login.http.method.LoginRequestMethodFactory;
 import tech.sud.mgp.hello.login.http.req.LoginRequestBody;
 import tech.sud.mgp.hello.login.http.resp.LoginResponse;

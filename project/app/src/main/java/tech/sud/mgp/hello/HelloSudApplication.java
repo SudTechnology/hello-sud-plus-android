@@ -8,9 +8,9 @@ import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.tencent.bugly.crashreport.CrashReport;
 
-import tech.sud.mgp.audio.gift.manager.GiftHelper;
-import tech.sud.mgp.audio.middle.MediaAudioEngineManager;
-import tech.sud.mgp.audio.middle.impl.ZegoAudioEngine;
+import tech.sud.mgp.hello.ui.room.audio.gift.manager.GiftHelper;
+import tech.sud.mgp.hello.ui.room.audio.middle.MediaAudioEngineManager;
+import tech.sud.mgp.hello.ui.room.audio.middle.impl.ZegoAudioEngine;
 
 public class HelloSudApplication extends Application {
     @Override

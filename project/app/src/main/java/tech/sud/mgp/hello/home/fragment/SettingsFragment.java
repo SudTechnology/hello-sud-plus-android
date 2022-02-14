@@ -6,8 +6,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import tech.sud.mgp.common.base.BaseFragment;
-import tech.sud.mgp.common.utils.ImageLoader;
+import tech.sud.mgp.hello.common.base.BaseFragment;
+import tech.sud.mgp.hello.common.utils.ImageLoader;
 import tech.sud.mgp.core.SudMGP;
 import tech.sud.mgp.hello.BuildConfig;
 import tech.sud.mgp.hello.R;

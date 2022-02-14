@@ -2,8 +2,8 @@ package tech.sud.mgp.hello.home.dialog;
 
 import android.view.View;
 
-import tech.sud.mgp.common.base.BaseDialogFragment;
-import tech.sud.mgp.common.utils.DensityUtils;
+import tech.sud.mgp.hello.common.base.BaseDialogFragment;
+import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.R;
 
 public class ContactDialog extends BaseDialogFragment {

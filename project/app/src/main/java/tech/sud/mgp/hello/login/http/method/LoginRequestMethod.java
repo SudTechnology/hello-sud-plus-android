@@ -4,9 +4,9 @@ import io.reactivex.rxjava3.core.Observable;
 import retrofit2.http.Body;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
-import tech.sud.mgp.common.http.param.BaseResponse;
-import tech.sud.mgp.common.http.param.IBaseUrl;
-import tech.sud.mgp.common.http.param.RequestUrl;
+import tech.sud.mgp.hello.common.http.param.BaseResponse;
+import tech.sud.mgp.hello.common.http.param.IBaseUrl;
+import tech.sud.mgp.hello.common.http.param.RequestUrl;
 import tech.sud.mgp.hello.login.http.req.LoginRequestBody;
 import tech.sud.mgp.hello.login.http.resp.LoginResponse;
 

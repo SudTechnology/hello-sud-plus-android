@@ -12,7 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import tech.sud.mgp.common.utils.DensityUtils;
+import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.home.listener.TabClickListener;
 import tech.sud.mgp.hello.home.model.TabModel;
 

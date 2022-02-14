@@ -1,6 +1,6 @@
 package tech.sud.mgp.hello.home.http.method;
 
-import tech.sud.mgp.common.http.retrofit.RetrofitManager;
+import tech.sud.mgp.hello.common.http.retrofit.RetrofitManager;
 
 public class HomeRequestMethodFactory {
 

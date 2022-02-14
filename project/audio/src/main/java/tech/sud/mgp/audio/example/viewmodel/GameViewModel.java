@@ -393,7 +393,7 @@ public class GameViewModel {
      * @param micIndex 麦位索引
      */
     public void selfMicIndex(int micIndex) {
-        if (micIndex > 0 && selfMicIndex != micIndex) { // 可选项。这里展示的逻辑是：上麦自动加入游戏。根据需求选择是否要执行此逻辑。
+        if (micIndex >= 0 && selfMicIndex != micIndex) { // 可选项。这里展示的逻辑是：上麦自动加入游戏。根据需求选择是否要执行此逻辑。
             joinGame(micIndex);
         }
         selfMicIndex = micIndex;

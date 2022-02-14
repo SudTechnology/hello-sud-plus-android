@@ -1,5 +1,6 @@
 package tech.sud.mgp.audio.middle.impl.agora;
 
+import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.Utils;
 
 import io.agora.rtc.IRtcEngineEventHandler;
@@ -51,6 +52,7 @@ public class AgoraAudioEngine implements MediaAudioEngineProtocol {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            engine.enableLocalAudio(false);
             engine.joinChannel("", roomId, "", userId, channelMediaOptions);
             this.roomID = roomId;
         }
@@ -68,7 +70,7 @@ public class AgoraAudioEngine implements MediaAudioEngineProtocol {
     public void startPublish(String streamId) {
         RtcEngine engine = getEngine();
         if (engine != null) {
-            engine.muteLocalAudioStream(false);
+            engine.enableLocalAudio(true);
         }
     }
 
@@ -76,7 +78,7 @@ public class AgoraAudioEngine implements MediaAudioEngineProtocol {
     public void stopPublishStream() {
         RtcEngine engine = getEngine();
         if (engine != null) {
-            engine.muteLocalAudioStream(true);
+            engine.enableLocalAudio(false);
         }
     }
 
@@ -152,6 +154,7 @@ public class AgoraAudioEngine implements MediaAudioEngineProtocol {
         @Override
         public void onConnectionStateChanged(int state, int reason) {
             super.onConnectionStateChanged(state, reason);
+            LogUtils.d("onConnectionStateChanged:" + state);
             MediaAudioEventHandler handler = mMediaAudioEventHandler;
             if (handler != null) {
                 handler.onRoomStateUpdate(roomID, AgoraRoomStateConverter.converAudioRoomState(state), 0, null);

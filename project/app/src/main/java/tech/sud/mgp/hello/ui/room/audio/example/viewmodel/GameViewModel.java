@@ -261,7 +261,9 @@ public class GameViewModel {
                             autoUpMicLiveData.setValue(null);
                         }
                     }
-                    if (!playerInState.isIn) { // 已经离开游戏了，删除玩家状态记录
+                    if (playerInState.isIn) {
+                        putPlayerState(userId, playerInState);
+                    } else {
                         removePlayerState(userId);
                         notifyUpdateMic();
                     }
@@ -371,12 +373,19 @@ public class GameViewModel {
         // 是否已准备
         if (hasUser) {
             Object playerState = getPlayerState(model.userId + "");
-            if (playerState instanceof PlayerReadyState) {
+            if (playerState instanceof PlayerReadyState) { // 准备状态
                 PlayerReadyState readyState = (PlayerReadyState) playerState;
-                if (readyState.isReady) { //已准备
+                if (readyState.isReady) { // 已准备
                     model.readyStatus = 1;
                 } else { // 未准备
                     model.readyStatus = 2;
+                }
+            } else if (playerState instanceof PlayerInState) { // 加入状态
+                PlayerInState playerInState = (PlayerInState) playerState;
+                if (playerInState.isIn) { // 加入了，但是没有准备
+                    model.readyStatus = 2;
+                } else { // 未加入，不显示准备状态
+                    model.readyStatus = 0;
                 }
             } else {
                 model.readyStatus = 0;

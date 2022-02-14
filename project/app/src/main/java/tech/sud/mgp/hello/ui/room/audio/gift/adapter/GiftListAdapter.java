@@ -14,7 +14,7 @@ import tech.sud.mgp.hello.ui.room.audio.gift.view.GiftItemView;
 
 public class GiftListAdapter extends BaseQuickAdapter<GiftModel, BaseViewHolder> {
     public GiftListAdapter(@Nullable List<GiftModel> data) {
-        super(R.layout.audio_item_gift_list, data);
+        super(R.layout.item_gift_list, data);
     }
 
     @Override

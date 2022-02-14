@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 import tech.sud.mgp.hello.R;
+import tech.sud.mgp.hello.common.base.BaseDialogFragment;
 import tech.sud.mgp.hello.ui.room.audio.example.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.room.audio.example.model.UserInfo;
 import tech.sud.mgp.hello.ui.room.audio.gift.adapter.GiftListAdapter;
@@ -27,7 +28,6 @@ import tech.sud.mgp.hello.ui.room.audio.gift.manager.GiftHelper;
 import tech.sud.mgp.hello.ui.room.audio.gift.manager.RoomGiftDialogManager;
 import tech.sud.mgp.hello.ui.room.audio.gift.model.GiftModel;
 import tech.sud.mgp.hello.ui.room.audio.gift.model.MicUserInfoModel;
-import tech.sud.mgp.hello.common.base.BaseDialogFragment;
 
 public class RoomGiftDialog extends BaseDialogFragment implements SendGiftToUserListener {
 
@@ -54,7 +54,7 @@ public class RoomGiftDialog extends BaseDialogFragment implements SendGiftToUser
 
     @Override
     protected int getLayoutId() {
-        return R.layout.audio_dialog_gift_send_room;
+        return R.layout.dialog_gift_send_room;
     }
 
     @Override

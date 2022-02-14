@@ -18,7 +18,7 @@ public class EmptyProvider extends BaseItemProvider<Object> {
 
     @Override
     public int getLayoutId() {
-        return R.layout.common_item_empty;
+        return R.layout.item_empty;
     }
 
     @Override

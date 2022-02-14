@@ -5,6 +5,7 @@ import com.blankj.utilcode.util.Utils;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
+import tech.sud.mgp.hello.rtc.protocol.MediaUser;
 import tech.sud.mgp.hello.ui.game.http.repository.GameRepository;
 import tech.sud.mgp.hello.ui.room.audio.example.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.room.audio.example.model.RoomInfoModel;
@@ -12,7 +13,6 @@ import tech.sud.mgp.hello.ui.room.audio.example.model.command.EnterRoomCommand;
 import tech.sud.mgp.hello.ui.room.audio.example.model.command.GameChangeCommand;
 import tech.sud.mgp.hello.ui.room.audio.example.service.AudioRoomServiceCallback;
 import tech.sud.mgp.hello.ui.room.audio.example.utils.AudioRoomCommandUtils;
-import tech.sud.mgp.hello.ui.room.audio.middle.MediaUser;
 
 /**
  * 房间主要业务逻辑

@@ -36,7 +36,7 @@ public class AudioRoomBottomView extends ConstraintLayout {
     }
 
     private void initView() {
-        inflate(getContext(), R.layout.audio_view_room_bottom, this);
+        inflate(getContext(), R.layout.view_audio_room_bottom, this);
         mViewGotMic = findViewById(R.id.ll_got_mic);
         mIvMicState = findViewById(R.id.iv_mic_state);
         mTvInput = findViewById(R.id.tv_input);
@@ -66,9 +66,9 @@ public class AudioRoomBottomView extends ConstraintLayout {
     public void setMicOpened(boolean micOpened) {
         this.micOpened = micOpened;
         if (micOpened) {
-            mIvMicState.setImageResource(R.drawable.audio_ic_mic_opened);
+            mIvMicState.setImageResource(R.drawable.ic_mic_opened);
         } else {
-            mIvMicState.setImageResource(R.drawable.audio_ic_mic_closed);
+            mIvMicState.setImageResource(R.drawable.ic_mic_closed);
         }
     }
 

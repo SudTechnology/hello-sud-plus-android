@@ -31,7 +31,7 @@ public class RoomGiftNotifyProvider extends BaseItemProvider<Object> {
 
     @Override
     public int getLayoutId() {
-        return R.layout.audio_item_room_gift_notify;
+        return R.layout.item_room_gift_notify;
     }
 
     @Override

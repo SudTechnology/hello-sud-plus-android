@@ -19,11 +19,11 @@ import java.util.List;
 import java.util.Map;
 
 import tech.sud.mgp.hello.R;
+import tech.sud.mgp.hello.common.utils.ImageLoader;
 import tech.sud.mgp.hello.ui.room.audio.example.model.UserInfo;
 import tech.sud.mgp.hello.ui.room.audio.gift.adapter.GiftMicUserAdapter;
 import tech.sud.mgp.hello.ui.room.audio.gift.listener.SendGiftToUserListener;
 import tech.sud.mgp.hello.ui.room.audio.gift.model.MicUserInfoModel;
-import tech.sud.mgp.hello.common.utils.ImageLoader;
 
 public class GiftDialogTopView extends ConstraintLayout {
 
@@ -52,7 +52,7 @@ public class GiftDialogTopView extends ConstraintLayout {
     }
 
     private void init(Context context) {
-        inflate(context, R.layout.audio_view_gift_send_top, this);
+        inflate(context, R.layout.view_gift_send_top, this);
         sendInMicUserLl = findViewById(R.id.send_in_mic_user_ll);
         sendOutMicUserLl = findViewById(R.id.send_out_mic_user_ll);
         cancelTv = findViewById(R.id.cancel_tv);
@@ -109,8 +109,8 @@ public class GiftDialogTopView extends ConstraintLayout {
 
     /**
      * 更新麦位数据
-     * */
-    public void updateInMic(List<MicUserInfoModel> micUsers){
+     */
+    public void updateInMic(List<MicUserInfoModel> micUsers) {
         if (micUsers != null && micUsers.size() > 0) {
             if (micUsers.size() == 1) {
                 cancelTv.setText(getContext().getString(R.string.audio_cancle));
@@ -121,7 +121,7 @@ public class GiftDialogTopView extends ConstraintLayout {
             sendOutMicUserLl.setVisibility(View.GONE);
             this.micUsers.clear();
             this.micUsers.addAll(micUsers);
-           this.userAdapter.setList(this.micUsers);
+            this.userAdapter.setList(this.micUsers);
         } else {
             setVisibility(View.GONE);
         }
@@ -170,8 +170,8 @@ public class GiftDialogTopView extends ConstraintLayout {
 
     /**
      * 通知用户状态变化
-     * */
-    private void notifyUserState(){
+     */
+    private void notifyUserState() {
         if (sendGiftToUserListener != null) {
             sendGiftToUserListener.onNotify(userState);
         }

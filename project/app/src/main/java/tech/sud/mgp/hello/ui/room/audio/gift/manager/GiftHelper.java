@@ -45,8 +45,8 @@ public class GiftHelper {
             model1.giftName = "svga";
             model1.animationType = EffectAnimationFormat.SVGA;
             model1.path = "audio_svga_600.svga";
-            model1.giftImage = R.drawable.audio_svga_600;
-            model1.giftSmallImage = R.drawable.audio_svga_128;
+            model1.giftImage = R.drawable.svga_600;
+            model1.giftSmallImage = R.drawable.svga_128;
             model1.checkState = true;
             gifts.add(model1);
 
@@ -55,8 +55,8 @@ public class GiftHelper {
             model2.giftName = "lottie";
             model2.animationType = EffectAnimationFormat.JSON;
             model2.path = "audio_lottie_600.json";
-            model2.giftImage = R.drawable.audio_lottie_600;
-            model2.giftSmallImage = R.drawable.audio_lottie_128;
+            model2.giftImage = R.drawable.lottie_600;
+            model2.giftSmallImage = R.drawable.lottie_128;
             gifts.add(model2);
 
             GiftModel model3 = new GiftModel();
@@ -64,8 +64,8 @@ public class GiftHelper {
             model3.giftName = "webp";
             model3.animationType = EffectAnimationFormat.WEBP;
             model3.resId = R.raw.audio_webp_600;
-            model3.giftImage = R.drawable.audio_webp_600;
-            model3.giftSmallImage = R.drawable.audio_webp_128;
+            model3.giftImage = R.drawable.webp_600;
+            model3.giftSmallImage = R.drawable.webp_128;
             gifts.add(model3);
 
             copyMp4ToSdcrad(context);
@@ -75,8 +75,8 @@ public class GiftHelper {
             model4.animationType = EffectAnimationFormat.MP4;
             model4.resId = R.raw.audio_mp4_600;
             model4.path = context.getCacheDir().getAbsolutePath() + File.separator + "audio_mp4_600.mp4";
-            model4.giftImage = R.drawable.audio_mp4_600;
-            model4.giftSmallImage = R.drawable.audio_mp4_128;
+            model4.giftImage = R.drawable.mp4_600;
+            model4.giftSmallImage = R.drawable.mp4_128;
             gifts.add(model4);
 
             this.gifts.clear();

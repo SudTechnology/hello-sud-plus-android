@@ -38,7 +38,7 @@ public class AudioRoomTopView extends ConstraintLayout {
     }
 
     private void initView(Context context) {
-        inflate(context, R.layout.audio_view_room_top, this);
+        inflate(context, R.layout.view_audio_room_top, this);
         mTvName = findViewById(R.id.top_tv_name);
         mTvId = findViewById(R.id.top_tv_room_id);
         mTvNumber = findViewById(R.id.top_tv_room_number);

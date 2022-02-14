@@ -1,7 +1,7 @@
 package tech.sud.mgp.hello.common.model;
 
-import tech.sud.mgp.hello.common.http.use.model.SudConfig;
-import tech.sud.mgp.hello.common.http.use.resp.BaseConfigResp;
+import tech.sud.mgp.hello.ui.main.http.model.SudConfig;
+import tech.sud.mgp.hello.ui.main.http.resp.BaseConfigResp;
 
 /**
  * 全局配置

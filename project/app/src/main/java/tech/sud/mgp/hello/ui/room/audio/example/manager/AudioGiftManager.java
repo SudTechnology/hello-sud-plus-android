@@ -2,14 +2,14 @@ package tech.sud.mgp.hello.ui.room.audio.example.manager;
 
 import com.blankj.utilcode.util.LogUtils;
 
+import tech.sud.mgp.hello.common.model.HSUserInfo;
+import tech.sud.mgp.hello.rtc.protocol.MediaUser;
 import tech.sud.mgp.hello.ui.room.audio.example.model.UserInfo;
 import tech.sud.mgp.hello.ui.room.audio.example.model.command.SendGiftCommand;
 import tech.sud.mgp.hello.ui.room.audio.example.utils.AudioRoomCommandUtils;
 import tech.sud.mgp.hello.ui.room.audio.gift.manager.GiftHelper;
 import tech.sud.mgp.hello.ui.room.audio.gift.model.GiftModel;
 import tech.sud.mgp.hello.ui.room.audio.gift.model.GiftNotifyDetailodel;
-import tech.sud.mgp.hello.ui.room.audio.middle.MediaUser;
-import tech.sud.mgp.hello.common.model.HSUserInfo;
 
 /**
  * 房间礼物

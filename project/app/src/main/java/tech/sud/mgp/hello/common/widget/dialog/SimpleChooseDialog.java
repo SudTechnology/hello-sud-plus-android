@@ -38,7 +38,7 @@ public class SimpleChooseDialog extends BaseDialog {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.common_dialog_simple_choose;
+        return R.layout.dialog_simple_choose;
     }
 
     @Override

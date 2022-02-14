@@ -15,7 +15,7 @@ import tech.sud.mgp.hello.ui.room.audio.gift.listener.PresentClickListener;
 
 public class GiftDialogBottomView extends ConstraintLayout {
 
-    private TextView presentTv,sendGiftCountTv;
+    private TextView presentTv, sendGiftCountTv;
     private ImageView arrowIv;
     public PresentClickListener presentClickListener;
 
@@ -34,15 +34,15 @@ public class GiftDialogBottomView extends ConstraintLayout {
         init(context);
     }
 
-    private void init(Context context){
-        inflate(context, R.layout.audio_view_gift_send_bottom,this);
+    private void init(Context context) {
+        inflate(context, R.layout.view_gift_send_bottom, this);
         presentTv = findViewById(R.id.present_tv);
         sendGiftCountTv = findViewById(R.id.send_gift_count_tv);
         arrowIv = findViewById(R.id.send_gift_bottom_arrow_iv);
         presentTv.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (presentClickListener !=null){
+                if (presentClickListener != null) {
                     presentClickListener.onPresent(1);
                 }
             }

@@ -18,7 +18,7 @@ public class RoomNormalTextProvider extends BaseItemProvider<Object> {
 
     @Override
     public int getLayoutId() {
-        return R.layout.audio_item_room_normal_text;
+        return R.layout.item_audio_room_normal_text;
     }
 
     @Override

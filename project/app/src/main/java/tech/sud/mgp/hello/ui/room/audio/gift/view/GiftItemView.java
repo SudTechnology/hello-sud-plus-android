@@ -34,7 +34,7 @@ public class GiftItemView extends ConstraintLayout {
     }
 
     private void init(Context context) {
-        inflate(context, R.layout.audio_view_gift_item, this);
+        inflate(context, R.layout.view_gift_item, this);
         itemGiftBg = findViewById(R.id.item_gift_bg);
         itemGiftImgIv = findViewById(R.id.item_gift_img_iv);
         itemGiftNameTv = findViewById(R.id.item_gift_name_tv);

@@ -41,7 +41,7 @@ public class RoomInputMsgView extends ConstraintLayout {
     }
 
     private void initView() {
-        inflate(getContext(), R.layout.audio_view_room_input_msg, this);
+        inflate(getContext(), R.layout.view_room_input_msg, this);
         viewEmpty = findViewById(R.id.room_input_msg_view_empty);
         editText = findViewById(R.id.room_input_msg_edit_text);
         viewSend = findViewById(R.id.room_input_msg_tv_send);

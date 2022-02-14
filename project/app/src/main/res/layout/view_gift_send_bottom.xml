@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingStart="16dip"
+    android:paddingEnd="22dip"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="46dip"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/coin_count_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:textColor="@color/c_ffffff"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/to_recharge_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dip"
+            android:gravity="center_vertical"
+            android:textColor="#ff3b2f"
+            android:textSize="12sp" />
+
+        <Space
+            android:layout_width="0dip"
+            android:layout_height="1dip"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:id="@+id/bottom_right_ll"
+            android:layout_width="110sp"
+            android:layout_height="32dip"
+            android:background="@color/c_ffffff"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="2dp">
+
+            <TextView
+                android:id="@+id/send_gift_count_tv"
+                android:layout_width="30dp"
+                android:layout_height="28dp"
+                android:background="@color/c_000000"
+                android:gravity="center_vertical|end"
+                android:text="x 1"
+                android:textColor="#ffffff"
+                android:textSize="12sp" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/send_gift_bottom_arrow_iv"
+                android:layout_width="25dp"
+                android:layout_height="28dp"
+                android:background="@color/c_000000"
+                android:paddingTop="4dp"
+                android:paddingEnd="5dp"
+                android:paddingBottom="8dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/icon_toup_arrow"
+                android:tint="@color/c_ffffff" />
+
+            <TextView
+                android:id="@+id/present_tv"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="32dip"
+                android:gravity="center"
+                android:text="@string/audio_dialog_gift_present"
+                android:textColor="@color/c_000000"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

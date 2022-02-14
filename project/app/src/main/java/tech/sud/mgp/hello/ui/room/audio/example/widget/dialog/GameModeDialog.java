@@ -17,11 +17,11 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
-import tech.sud.mgp.hello.common.http.use.repository.CommonRepository;
-import tech.sud.mgp.hello.common.http.use.resp.GameListResp;
-import tech.sud.mgp.hello.common.http.use.resp.GameModel;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
+import tech.sud.mgp.hello.ui.main.http.repository.HomeRepository;
+import tech.sud.mgp.hello.ui.main.http.resp.GameListResp;
+import tech.sud.mgp.hello.ui.main.http.resp.GameModel;
 
 /**
  * 选择游戏模式的弹窗
@@ -52,7 +52,7 @@ public class GameModeDialog extends BaseDialogFragment {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.audio_dialog_game_mode;
+        return R.layout.dialog_game_mode;
     }
 
     @Override
@@ -77,7 +77,7 @@ public class GameModeDialog extends BaseDialogFragment {
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), spanCount, GridLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(gameModeAdapter);
 
-        View headView = View.inflate(getContext(), R.layout.audio_view_game_mode_head, null);
+        View headView = View.inflate(getContext(), R.layout.view_game_mode_head, null);
         gameModeAdapter.addHeaderView(headView);
 
         // 设置点击监听
@@ -99,7 +99,7 @@ public class GameModeDialog extends BaseDialogFragment {
     @Override
     protected void initData() {
         super.initData();
-        CommonRepository.gameList(this, new RxCallback<GameListResp>() {
+        HomeRepository.gameList(this, new RxCallback<GameListResp>() {
             @Override
             public void onSuccess(GameListResp gameListResp) {
                 super.onSuccess(gameListResp);
@@ -126,7 +126,7 @@ public class GameModeDialog extends BaseDialogFragment {
     private class GameModeAdapter extends BaseQuickAdapter<GameModel, BaseViewHolder> {
 
         public GameModeAdapter() {
-            super(R.layout.audio_item_game_mode);
+            super(R.layout.item_game_mode);
         }
 
         @Override

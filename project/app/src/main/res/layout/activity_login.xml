@@ -7,7 +7,7 @@
     android:fitsSystemWindows="true"
     android:paddingHorizontal="30dp"
     android:paddingTop="126dp"
-    tools:context=".login.LoginActivity">
+    tools:context=".ui.login.LoginActivity">
 
     <ImageView
         android:id="@+id/logo_iv"
@@ -50,7 +50,7 @@
         app:layout_constraintEnd_toEndOf="@id/name_tv"
         android:layout_width="24dp"
         android:layout_marginEnd="16dp"
-        android:layout_height="24dp"/>
+        android:layout_height="24dp" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/male_btn"

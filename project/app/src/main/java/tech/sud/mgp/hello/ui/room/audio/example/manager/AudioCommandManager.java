@@ -5,6 +5,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import tech.sud.mgp.hello.rtc.protocol.MediaUser;
 import tech.sud.mgp.hello.ui.room.audio.example.model.command.BaseCommand;
 import tech.sud.mgp.hello.ui.room.audio.example.model.command.CommandCmd;
 import tech.sud.mgp.hello.ui.room.audio.example.model.command.DownMicCommand;
@@ -14,7 +15,6 @@ import tech.sud.mgp.hello.ui.room.audio.example.model.command.PublicMsgCommand;
 import tech.sud.mgp.hello.ui.room.audio.example.model.command.SendGiftCommand;
 import tech.sud.mgp.hello.ui.room.audio.example.model.command.UpMicCommand;
 import tech.sud.mgp.hello.ui.room.audio.example.utils.HSJsonUtils;
-import tech.sud.mgp.hello.ui.room.audio.middle.MediaUser;
 
 /**
  * 房间信令相关

@@ -47,7 +47,7 @@ public class GiftVideoView extends ConstraintLayout {
     }
 
     private void init(Context context) {
-        LayoutInflater.from(context).inflate(R.layout.audio_view_video_gift, this);
+        LayoutInflater.from(context).inflate(R.layout.view_video_gift, this);
         mVideoContainer = findViewById(R.id.video_view);
     }
 
@@ -72,7 +72,7 @@ public class GiftVideoView extends ConstraintLayout {
         int landscapeScaleType = 2;
 
         DataSource dataSource = new DataSource();
-        dataSource.baseDir = file.getParent()+File.separator;
+        dataSource.baseDir = file.getParent() + File.separator;
         dataSource.setPortraitPath(portraitFileName, portraitScaleType);
         dataSource.setLandscapePath(landscapeFileName, landscapeScaleType);
 //        dataSource.isLooping = false;

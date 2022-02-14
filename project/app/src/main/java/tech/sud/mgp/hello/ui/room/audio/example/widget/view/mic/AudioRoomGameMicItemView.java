@@ -11,12 +11,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import tech.sud.mgp.hello.R;
-import tech.sud.mgp.hello.ui.room.audio.example.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
 import tech.sud.mgp.hello.common.utils.ShapeUtils;
 import tech.sud.mgp.hello.common.widget.view.SoundLevelView;
 import tech.sud.mgp.hello.common.widget.view.round.RoundedImageView;
+import tech.sud.mgp.hello.ui.room.audio.example.model.AudioRoomMicModel;
 
 public class AudioRoomGameMicItemView extends BaseMicItemView {
 
@@ -40,7 +40,7 @@ public class AudioRoomGameMicItemView extends BaseMicItemView {
     }
 
     private void initView() {
-        inflate(getContext(), R.layout.audio_view_room_game_mic_item, this);
+        inflate(getContext(), R.layout.view_room_game_mic_item, this);
         mSoundLevelView = findViewById(R.id.sound_level_view);
         mRivIcon = findViewById(R.id.riv_avatar);
         mTvName = findViewById(R.id.tv_name);
@@ -58,7 +58,7 @@ public class AudioRoomGameMicItemView extends BaseMicItemView {
         if (hasUser) {
             ImageLoader.loadAvatar(mRivIcon, item.avatar);
         } else {
-            ImageLoader.loadDrawable(mRivIcon, R.drawable.audio_ic_seat);
+            ImageLoader.loadDrawable(mRivIcon, R.drawable.ic_seat);
         }
 
         // 昵称

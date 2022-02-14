@@ -23,14 +23,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Hellosudandroid"
         tools:targetApi="n">
+
+        <!-- 启动页 -->
         <activity
-            android:name=".home.HomeActivity"
-            android:exported="false"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" />
-        <activity
-            android:name=".MainActivity"
+            android:name=".ui.splash.SplashActivity"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -39,15 +35,34 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- 登录页 -->
         <activity
-            android:name=".login.LoginActivity"
+            android:name=".ui.login.LoginActivity"
             android:exported="false"
-            android:screenOrientation="portrait" /> <!-- 屏幕适配 -->
-        <activity
-            android:name=".agreement.UserAgreementActivity"
             android:screenOrientation="portrait" />
 
+        <!-- 首页 -->
+        <activity
+            android:name=".ui.main.activity.HomeActivity"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
 
+        <!-- 用户协议 -->
+        <activity
+            android:name=".ui.main.activity.UserAgreementActivity"
+            android:screenOrientation="portrait" />
+
+        <!-- 语聊房页面 -->
+        <activity
+            android:name=".ui.room.audio.example.activity.AudioRoomActivity"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait" />
+
+        <!-- 屏幕适配配置 -->
         <meta-data
             android:name="design_width_in_dp"
             android:value="375" />

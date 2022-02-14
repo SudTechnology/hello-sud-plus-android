@@ -51,7 +51,7 @@ public class GiftEffectView extends ConstraintLayout implements LifecycleObserve
     }
 
     private void init(Context context) {
-        inflate(context, R.layout.audio_view_gift_effect, this);
+        inflate(context, R.layout.view_gift_effect, this);
         aContainer = findViewById(R.id.gift_a_container);
         bContainer = findViewById(R.id.gift_b_container);
         cContainer = findViewById(R.id.gift_c_container);

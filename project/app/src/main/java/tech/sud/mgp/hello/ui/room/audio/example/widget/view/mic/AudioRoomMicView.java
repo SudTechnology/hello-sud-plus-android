@@ -29,7 +29,7 @@ public class AudioRoomMicView extends BaseMicView {
     }
 
     private void initView() {
-        inflate(getContext(), R.layout.audio_view_room_mic, this);
+        inflate(getContext(), R.layout.view_room_mic, this);
         AudioRoomMicSingleItemView singleItemView = findViewById(R.id.single_item_view);
         mItemViews.add(singleItemView);
         setItemViewClickListener(0, singleItemView);

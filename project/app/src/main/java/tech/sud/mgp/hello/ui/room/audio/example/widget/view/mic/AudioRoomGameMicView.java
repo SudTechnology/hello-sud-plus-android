@@ -30,7 +30,7 @@ public class AudioRoomGameMicView extends BaseMicView {
     }
 
     private void initView() {
-        inflate(getContext(), R.layout.audio_view_room_game_mic, this);
+        inflate(getContext(), R.layout.view_room_game_mic, this);
         LinearLayout container = findViewById(R.id.ll_container);
         for (int i = 0; i < 9; i++) {
             AudioRoomGameMicItemView itemView = new AudioRoomGameMicItemView(getContext());

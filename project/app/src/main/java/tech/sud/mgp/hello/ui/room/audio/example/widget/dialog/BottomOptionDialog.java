@@ -32,7 +32,7 @@ public class BottomOptionDialog extends BaseDialog {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.audio_dialog_bottom_option;
+        return R.layout.dialog_bottom_option;
     }
 
     @Override
@@ -108,7 +108,7 @@ public class BottomOptionDialog extends BaseDialog {
     private static class MyAdapter extends BaseQuickAdapter<BottomOptionModel, BaseViewHolder> {
 
         public MyAdapter() {
-            super(R.layout.audio_item_bottom_option);
+            super(R.layout.item_bottom_option);
         }
 
         @Override

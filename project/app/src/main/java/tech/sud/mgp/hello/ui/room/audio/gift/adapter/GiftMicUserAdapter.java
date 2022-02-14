@@ -12,14 +12,14 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import java.util.List;
 
 import tech.sud.mgp.hello.R;
-import tech.sud.mgp.hello.ui.room.audio.gift.model.MicUserInfoModel;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
 import tech.sud.mgp.hello.common.widget.view.round.RoundedImageView;
+import tech.sud.mgp.hello.ui.room.audio.gift.model.MicUserInfoModel;
 
 public class GiftMicUserAdapter extends BaseQuickAdapter<MicUserInfoModel, BaseViewHolder> {
 
     public GiftMicUserAdapter(@Nullable List<MicUserInfoModel> data) {
-        super(R.layout.audio_mic_user, data);
+        super(R.layout.mic_user, data);
     }
 
     @Override

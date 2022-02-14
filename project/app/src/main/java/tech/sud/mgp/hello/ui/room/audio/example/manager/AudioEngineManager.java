@@ -7,21 +7,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import tech.sud.mgp.hello.common.model.HSUserInfo;
+import tech.sud.mgp.hello.rtc.protocol.MediaAudioEngineManager;
+import tech.sud.mgp.hello.rtc.protocol.MediaAudioEngineNetworkStateType;
+import tech.sud.mgp.hello.rtc.protocol.MediaAudioEnginePlayerStateType;
+import tech.sud.mgp.hello.rtc.protocol.MediaAudioEngineProtocol;
+import tech.sud.mgp.hello.rtc.protocol.MediaAudioEnginePublisherSateType;
+import tech.sud.mgp.hello.rtc.protocol.MediaAudioEngineUpdateType;
+import tech.sud.mgp.hello.rtc.protocol.MediaAudioEventHandler;
+import tech.sud.mgp.hello.rtc.protocol.MediaAudioRoomState;
+import tech.sud.mgp.hello.rtc.protocol.MediaRoomConfig;
+import tech.sud.mgp.hello.rtc.protocol.MediaStream;
+import tech.sud.mgp.hello.rtc.protocol.MediaUser;
 import tech.sud.mgp.hello.ui.room.audio.example.model.RoomInfoModel;
 import tech.sud.mgp.hello.ui.room.audio.example.service.AudioRoomServiceCallback;
 import tech.sud.mgp.hello.ui.room.audio.example.utils.AudioRoomCommandUtils;
-import tech.sud.mgp.hello.ui.room.audio.middle.MediaAudioEngineManager;
-import tech.sud.mgp.hello.ui.room.audio.middle.MediaAudioEngineNetworkStateType;
-import tech.sud.mgp.hello.ui.room.audio.middle.MediaAudioEnginePlayerStateType;
-import tech.sud.mgp.hello.ui.room.audio.middle.MediaAudioEngineProtocol;
-import tech.sud.mgp.hello.ui.room.audio.middle.MediaAudioEnginePublisherSateType;
-import tech.sud.mgp.hello.ui.room.audio.middle.MediaAudioEngineUpdateType;
-import tech.sud.mgp.hello.ui.room.audio.middle.MediaAudioEventHandler;
-import tech.sud.mgp.hello.ui.room.audio.middle.MediaAudioRoomState;
-import tech.sud.mgp.hello.ui.room.audio.middle.MediaRoomConfig;
-import tech.sud.mgp.hello.ui.room.audio.middle.MediaStream;
-import tech.sud.mgp.hello.ui.room.audio.middle.MediaUser;
-import tech.sud.mgp.hello.common.model.HSUserInfo;
 
 /**
  * 语音引擎

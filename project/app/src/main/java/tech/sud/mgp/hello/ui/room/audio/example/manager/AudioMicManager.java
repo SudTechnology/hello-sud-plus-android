@@ -5,6 +5,11 @@ import android.text.TextUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+import tech.sud.mgp.hello.common.http.rx.RxCallback;
+import tech.sud.mgp.hello.common.model.HSUserInfo;
+import tech.sud.mgp.hello.rtc.protocol.MediaUser;
+import tech.sud.mgp.hello.ui.main.http.repository.UserInfoRepository;
+import tech.sud.mgp.hello.ui.main.http.resp.UserInfoResp;
 import tech.sud.mgp.hello.ui.room.audio.example.http.repository.AudioRepository;
 import tech.sud.mgp.hello.ui.room.audio.example.http.response.RoomMicListResp;
 import tech.sud.mgp.hello.ui.room.audio.example.http.response.RoomMicResp;
@@ -17,11 +22,6 @@ import tech.sud.mgp.hello.ui.room.audio.example.model.command.DownMicCommand;
 import tech.sud.mgp.hello.ui.room.audio.example.model.command.UpMicCommand;
 import tech.sud.mgp.hello.ui.room.audio.example.service.AudioRoomServiceCallback;
 import tech.sud.mgp.hello.ui.room.audio.example.utils.AudioRoomCommandUtils;
-import tech.sud.mgp.hello.ui.room.audio.middle.MediaUser;
-import tech.sud.mgp.hello.common.http.rx.RxCallback;
-import tech.sud.mgp.hello.common.http.use.repository.UserInfoRepository;
-import tech.sud.mgp.hello.common.http.use.resp.UserInfoResp;
-import tech.sud.mgp.hello.common.model.HSUserInfo;
 
 /**
  * 房间麦位

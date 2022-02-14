@@ -10,7 +10,6 @@ import com.blankj.utilcode.util.KeyboardUtils;
 import com.blankj.utilcode.util.ToastUtils;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -313,7 +312,9 @@ public class AudioRoomActivity extends BaseActivity {
                 new PermissionFragment.OnPermissionListener() {
                     @Override
                     public void onPermission(boolean success) {
-                        binder.setMicState(true);
+                        if (success) {
+                            binder.setMicState(true);
+                        }
                     }
                 });
     }
@@ -409,7 +410,7 @@ public class AudioRoomActivity extends BaseActivity {
         @Override
         public void notifyMicItemChange(int micIndex, AudioRoomMicModel model) {
             micView.notifyItemChange(micIndex, model);
-            if (roomGiftDialog != null ) {
+            if (roomGiftDialog != null) {
                 roomGiftDialog.updateOneMicUsers(model);
             }
         }

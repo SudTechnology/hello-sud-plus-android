@@ -9,8 +9,8 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.tencent.bugly.crashreport.CrashReport;
 
 import tech.sud.mgp.hello.BuildConfig;
-import tech.sud.mgp.hello.rtc.agora.AgoraAudioEngine;
 import tech.sud.mgp.hello.rtc.protocol.MediaAudioEngineManager;
+import tech.sud.mgp.hello.rtc.zego.ZegoAudioEngine;
 import tech.sud.mgp.hello.ui.room.audio.gift.manager.GiftHelper;
 
 public class HelloSudApplication extends Application {
@@ -35,12 +35,12 @@ public class HelloSudApplication extends Application {
 
     private void configAudioEngine() {
         // 即构
-//        MediaAudioEngineManager.shared().makeEngine(ZegoAudioEngine.class);
-//        MediaAudioEngineManager.shared().audioEngine.config("581733944", "8d8c5698d49929056462dba41cb48cdd4d05babd8c2c68e450b3883096656b87");
+        MediaAudioEngineManager.shared().makeEngine(ZegoAudioEngine.class);
+        MediaAudioEngineManager.shared().audioEngine.config("581733944", "8d8c5698d49929056462dba41cb48cdd4d05babd8c2c68e450b3883096656b87");
 
         // 声网
-        MediaAudioEngineManager.shared().makeEngine(AgoraAudioEngine.class);
-        MediaAudioEngineManager.shared().audioEngine.config("fae6bf5147f740fe975dfec61013a308", "");
+//        MediaAudioEngineManager.shared().makeEngine(AgoraAudioEngine.class);
+//        MediaAudioEngineManager.shared().audioEngine.config("fae6bf5147f740fe975dfec61013a308", "");
     }
 
     private void configGift() {

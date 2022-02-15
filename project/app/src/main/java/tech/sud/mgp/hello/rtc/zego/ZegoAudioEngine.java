@@ -8,6 +8,7 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import im.zego.zegoexpress.ZegoExpressEngine;
 import im.zego.zegoexpress.callback.IZegoAudioDataHandler;
@@ -16,9 +17,6 @@ import im.zego.zegoexpress.callback.IZegoIMSendCustomCommandCallback;
 import im.zego.zegoexpress.constants.ZegoAudioChannel;
 import im.zego.zegoexpress.constants.ZegoAudioDataCallbackBitMask;
 import im.zego.zegoexpress.constants.ZegoAudioSampleRate;
-import im.zego.zegoexpress.constants.ZegoNetworkMode;
-import im.zego.zegoexpress.constants.ZegoPlayerState;
-import im.zego.zegoexpress.constants.ZegoPublisherState;
 import im.zego.zegoexpress.constants.ZegoRoomState;
 import im.zego.zegoexpress.constants.ZegoScenario;
 import im.zego.zegoexpress.constants.ZegoUpdateType;
@@ -67,10 +65,10 @@ public class ZegoAudioEngine implements MediaAudioEngineProtocol {
         profile.scenario = ZegoScenario.GENERAL;
         profile.application = Utils.getApp();
         ZegoExpressEngine engine = ZegoExpressEngine.createEngine(profile, mIZegoEventHandler);
-        // 推送音乐流时需要开启
-//        if (engine != null) {
-//            engine.enableAudioCaptureDevice(false);
-//        }
+        if (engine != null) {
+//            engine.enableAudioCaptureDevice(false); // 推送音乐流时需要开启
+            engine.startSoundLevelMonitor();
+        }
     }
 
     @Override
@@ -111,11 +109,6 @@ public class ZegoAudioEngine implements MediaAudioEngineProtocol {
     }
 
     @Override
-    public boolean isPublishing() {
-        return false;
-    }
-
-    @Override
     public void startPlayingStream(String streamId) {
         ZegoExpressEngine engine = getEngine();
         if (engine != null) {
@@ -132,51 +125,6 @@ public class ZegoAudioEngine implements MediaAudioEngineProtocol {
     }
 
     @Override
-    public void mutePlayStreamAudio(String streamId, boolean isMute) {
-        ZegoExpressEngine engine = getEngine();
-        if (engine != null) {
-            engine.mutePlayStreamAudio(streamId, isMute);
-        }
-    }
-
-    @Override
-    public void muteAllPlayStreamAudio(boolean isMute) {
-        ZegoExpressEngine engine = getEngine();
-        if (engine != null) {
-            engine.muteAllPlayStreamAudio(isMute);
-        }
-    }
-
-    @Override
-    public boolean isMuteAllPlayStreamAudio() {
-        return false;
-    }
-
-    @Override
-    public void setPlayVolume(String streamId, int volume) {
-        ZegoExpressEngine engine = getEngine();
-        if (engine != null) {
-            engine.setPlayVolume(streamId, volume);
-        }
-    }
-
-    @Override
-    public void setAllPlayStreamVolume(int volume) {
-        ZegoExpressEngine engine = getEngine();
-        if (engine != null) {
-            engine.setAllPlayStreamVolume(volume);
-        }
-    }
-
-    @Override
-    public void muteMicrophone(boolean isMute) {
-        ZegoExpressEngine engine = getEngine();
-        if (engine != null) {
-            engine.muteMicrophone(isMute);
-        }
-    }
-
-    @Override
     public void sendCommand(String roomId, String command, SendCommandResult result) {
         ZegoExpressEngine engine = getEngine();
         if (engine != null) {
@@ -188,14 +136,6 @@ public class ZegoAudioEngine implements MediaAudioEngineProtocol {
                     }
                 }
             });
-        }
-    }
-
-    @Override
-    public void startSoundLevelMonitor() {
-        ZegoExpressEngine engine = getEngine();
-        if (engine != null) {
-            engine.startSoundLevelMonitor();
         }
     }
 
@@ -236,6 +176,9 @@ public class ZegoAudioEngine implements MediaAudioEngineProtocol {
 
     private final IZegoEventHandler mIZegoEventHandler = new IZegoEventHandler() {
 
+        // [streamId：UserId]
+        private HashMap<String, String> streamUserMaps = new HashMap<>();
+
         @Override
         public void onRoomStateUpdate(String roomID, ZegoRoomState state, int errorCode, JSONObject extendedData) {
             super.onRoomStateUpdate(roomID, state, errorCode, extendedData);
@@ -257,47 +200,40 @@ public class ZegoAudioEngine implements MediaAudioEngineProtocol {
         @Override
         public void onRemoteSoundLevelUpdate(HashMap<String, Float> soundLevels) {
             super.onRemoteSoundLevelUpdate(soundLevels);
+            if (soundLevels == null || soundLevels.size() == 0) {
+                return;
+            }
             MediaAudioEventHandler handler = mMediaAudioEventHandler;
             if (handler != null) {
-                handler.onRemoteSoundLevelUpdate(soundLevels);
+                // soundLevels里的key是streamId，将其转换成userId
+                HashMap<String, Float> userSoundLevels = new HashMap<>();
+                Set<String> keySet = soundLevels.keySet();
+                for (String streamId : keySet) {
+                    userSoundLevels.put(streamUserMaps.get(streamId), soundLevels.get(streamId));
+                }
+                handler.onRemoteSoundLevelUpdate(userSoundLevels);
             }
         }
 
         @Override
         public void onRoomStreamUpdate(String roomID, ZegoUpdateType updateType, ArrayList<ZegoStream> streamList, JSONObject extendedData) {
             super.onRoomStreamUpdate(roomID, updateType, streamList, extendedData);
+            // 存储userId对应的streamId
+            if (streamList != null) {
+                for (ZegoStream zegoStream : streamList) {
+                    if (updateType == ZegoUpdateType.ADD) {
+                        streamUserMaps.put(zegoStream.streamID, zegoStream.user.userID);
+                    } else if (updateType == ZegoUpdateType.DELETE) {
+                        streamUserMaps.remove(zegoStream.streamID);
+                    }
+                }
+            }
+
             MediaAudioEventHandler handler = mMediaAudioEventHandler;
             if (handler != null) {
                 MediaAudioEngineUpdateType mediaAudioEngineUpdateType = ZegoUpdateTypeConverter.converMediaAudioEnginUpdateType(updateType);
                 List<MediaStream> mediaStreamList = ZegoStreamConverter.converMediaStreamList(streamList);
                 handler.onRoomStreamUpdate(roomID, mediaAudioEngineUpdateType, mediaStreamList, extendedData);
-            }
-        }
-
-        @Override
-        public void onPublisherStateUpdate(String streamID, ZegoPublisherState state, int errorCode, JSONObject extendedData) {
-            super.onPublisherStateUpdate(streamID, state, errorCode, extendedData);
-            MediaAudioEventHandler handler = mMediaAudioEventHandler;
-            if (handler != null) {
-                handler.onPublisherStateUpdate(streamID, ZegoPublisherStateConverter.converMediaStateType(state), errorCode, extendedData);
-            }
-        }
-
-        @Override
-        public void onPlayerStateUpdate(String streamID, ZegoPlayerState state, int errorCode, JSONObject extendedData) {
-            super.onPlayerStateUpdate(streamID, state, errorCode, extendedData);
-            MediaAudioEventHandler handler = mMediaAudioEventHandler;
-            if (handler != null) {
-                handler.onPlayerStateUpdate(streamID, ZegoPlayerStateConverter.converMediaStateType(state), errorCode, extendedData);
-            }
-        }
-
-        @Override
-        public void onNetworkModeChanged(ZegoNetworkMode mode) {
-            super.onNetworkModeChanged(mode);
-            MediaAudioEventHandler handler = mMediaAudioEventHandler;
-            if (handler != null) {
-                handler.onNetworkModeChanged(ZegoNetworkModeConverter.converMediaNetwork(mode));
             }
         }
 

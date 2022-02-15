@@ -1,7 +1,5 @@
 package tech.sud.mgp.hello.ui.room.audio.example.manager;
 
-import android.text.TextUtils;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -306,24 +304,7 @@ public class AudioMicManager extends BaseServiceManager {
     }
 
     /**
-     * 根据流id查找对应的麦位
-     *
-     * @return 如果为-1,则表示不在麦上
-     */
-    public int findMicIndexByStreamId(String streamId) {
-        if (TextUtils.isEmpty(streamId)) {
-            return -1;
-        }
-        for (AudioRoomMicModel audioRoomMicModel : micList) {
-            if (streamId.equals(audioRoomMicModel.streamId)) {
-                return audioRoomMicModel.micIndex;
-            }
-        }
-        return -1;
-    }
-
-    /**
-     * 查找自己所在的麦位索引
+     * 查找该用户所在的麦位索引
      *
      * @return 如果为-1,则表示不在麦上
      */

@@ -10,10 +10,7 @@ import java.util.Set;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.rtc.protocol.AudioData;
 import tech.sud.mgp.hello.rtc.protocol.MediaAudioEngineManager;
-import tech.sud.mgp.hello.rtc.protocol.MediaAudioEngineNetworkStateType;
-import tech.sud.mgp.hello.rtc.protocol.MediaAudioEnginePlayerStateType;
 import tech.sud.mgp.hello.rtc.protocol.MediaAudioEngineProtocol;
-import tech.sud.mgp.hello.rtc.protocol.MediaAudioEnginePublisherSateType;
 import tech.sud.mgp.hello.rtc.protocol.MediaAudioEngineUpdateType;
 import tech.sud.mgp.hello.rtc.protocol.MediaAudioEventHandler;
 import tech.sud.mgp.hello.rtc.protocol.MediaAudioRoomState;
@@ -42,10 +39,6 @@ public class AudioEngineManager extends BaseServiceManager {
     public void onCreate() {
         super.onCreate();
         commandManager.onCreate();
-        MediaAudioEngineProtocol engine = getEngine();
-        if (engine != null) {
-            engine.startSoundLevelMonitor();
-        }
     }
 
     public AudioEngineManager(AudioRoomServiceManager audioRoomServiceManager) {
@@ -183,10 +176,17 @@ public class AudioEngineManager extends BaseServiceManager {
             }
             Set<Map.Entry<String, Float>> entries = soundLevels.entrySet();
             for (Map.Entry<String, Float> entry : entries) {
-                String streamId = entry.getKey();
+                String userIdStr = entry.getKey();
                 Float soundLevel = entry.getValue();
                 if (soundLevel > soundLevelThreshold) {
-                    int micIndex = parentManager.audioMicManager.findMicIndexByStreamId(streamId);
+                    long userIdL;
+                    try {
+                        userIdL = Long.parseLong(userIdStr);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        continue;
+                    }
+                    int micIndex = parentManager.audioMicManager.findMicIndex(userIdL);
                     if (micIndex >= 0) {
                         AudioRoomServiceCallback callback = parentManager.getCallback();
                         if (callback != null) {
@@ -203,21 +203,6 @@ public class AudioEngineManager extends BaseServiceManager {
             if (listener != null) {
                 listener.onRoomStreamUpdate(roomId, type, streamList, extendedData);
             }
-        }
-
-        @Override
-        public void onPublisherStateUpdate(String streamID, MediaAudioEnginePublisherSateType state, int errorCode, JSONObject extendedData) {
-
-        }
-
-        @Override
-        public void onPlayerStateUpdate(String streamID, MediaAudioEnginePlayerStateType state, int errorCode, JSONObject extendedData) {
-
-        }
-
-        @Override
-        public void onNetworkModeChanged(MediaAudioEngineNetworkStateType mode) {
-
         }
 
         @Override

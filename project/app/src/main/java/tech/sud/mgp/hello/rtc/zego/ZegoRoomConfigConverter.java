@@ -5,11 +5,12 @@ import tech.sud.mgp.hello.rtc.protocol.MediaRoomConfig;
 
 public class ZegoRoomConfigConverter {
 
-    public static ZegoRoomConfig converZegoRoomConfig(MediaRoomConfig confg) {
+    public static ZegoRoomConfig converZegoRoomConfig(MediaRoomConfig config) {
+        if (config == null) return null;
         ZegoRoomConfig zegoRoomConfig = new ZegoRoomConfig();
-        zegoRoomConfig.maxMemberCount = confg.maxMemberCount;
-        zegoRoomConfig.isUserStatusNotify = confg.isUserStatusNotify;
-        zegoRoomConfig.token = confg.token;
+        zegoRoomConfig.maxMemberCount = config.maxMemberCount;
+        zegoRoomConfig.isUserStatusNotify = config.isUserStatusNotify;
+        zegoRoomConfig.token = config.token;
         return zegoRoomConfig;
     }
 

@@ -20,12 +20,12 @@ public interface MediaAudioEventHandler {
     /**
      * 捕获远程音流音量变化
      *
-     * @param soundLevels [流ID: 音量]，音量取值范围[0, 100]
+     * @param soundLevels [userId: 音量]，音量取值范围[0, 100]
      */
     void onRemoteSoundLevelUpdate(HashMap<String, Float> soundLevels);
 
     /**
-     * 房间流更新 增、减，需要收到此事件后播放对应流
+     * 房间流更新 增、减。收到此事件后播放对应流
      *
      * @param roomId       房间id
      * @param type         流更新类型 增，减
@@ -33,33 +33,6 @@ public interface MediaAudioEventHandler {
      * @param extendedData 扩展信息
      */
     void onRoomStreamUpdate(String roomId, MediaAudioEngineUpdateType type, List<MediaStream> streamList, JSONObject extendedData);
-
-    /**
-     * 房间推流状态更新
-     *
-     * @param streamID     流ID
-     * @param state        推流状态变化：推送请求，正在推送，停止推流
-     * @param errorCode    错误码
-     * @param extendedData 扩展信息
-     */
-    void onPublisherStateUpdate(String streamID, MediaAudioEnginePublisherSateType state, int errorCode, JSONObject extendedData);
-
-    /**
-     * 播放状态更新 拉取，播放请求，播放中
-     *
-     * @param streamID     流ID
-     * @param state        拉取，播放请求，播放中
-     * @param errorCode    错误码
-     * @param extendedData 扩展信息
-     */
-    void onPlayerStateUpdate(String streamID, MediaAudioEnginePlayerStateType state, int errorCode, JSONObject extendedData);
-
-    /**
-     * SDK网络状态变化
-     *
-     * @param mode
-     */
-    void onNetworkModeChanged(MediaAudioEngineNetworkStateType mode);
 
     /**
      * 接收自定义指令信息回调
@@ -91,7 +64,7 @@ public interface MediaAudioEventHandler {
     /**
      * 监听音频流回调
      *
-     * @param audioData   音频流数据
-     * */
+     * @param audioData 音频流数据
+     */
     void onCapturedAudioData(AudioData audioData);
 }

@@ -52,11 +52,6 @@ public interface MediaAudioEngineProtocol {
     void stopPublishStream();
 
     /**
-     * 是否处于推流状态
-     */
-    boolean isPublishing();
-
-    /**
      * 播放流
      *
      * @param streamId 流ID
@@ -71,73 +66,27 @@ public interface MediaAudioEngineProtocol {
     void stopPlayingStream(String streamId);
 
     /**
-     * 开、关指定流声音
+     * 发送信令
      *
-     * @param isMute   是否静音 true静音 false开启声音
-     * @param streamId 流ID
-     */
-    void mutePlayStreamAudio(String streamId, boolean isMute);
-
-    /**
-     * 开、关所有流声音
-     *
-     * @param isMute 是否静音 true静音 false开启声音
-     */
-    void muteAllPlayStreamAudio(boolean isMute);
-
-    /**
-     * 是否静音了所有流
-     */
-    boolean isMuteAllPlayStreamAudio();
-
-    /**
-     * 设置指定流音量
-     *
-     * @param volume   音量值 [0, 200]
-     * @param streamId 流ID
-     */
-    void setPlayVolume(String streamId, int volume);
-
-    /**
-     * 设置所有流音量
-     *
-     * @param volume 音量值 [0, 200]
-     */
-    void setAllPlayStreamVolume(int volume);
-
-    /**
-     * 静音麦克风
-     *
-     * @param isMute 是否静音 true静音 false开启声音
-     */
-    void muteMicrophone(boolean isMute);
-
-    /**
-     * 发送指令
-     *
-     * @param command 指令内容
+     * @param command 信令内容
      * @param roomId  房间ID
      * @param result  回调
      */
     void sendCommand(String roomId, String command, SendCommandResult result);
 
     /**
-     * 启动声浪监控器
+     * 设置音频监听流
      */
-    void startSoundLevelMonitor();
+    void setAudioDataHandler();
 
     /**
-     * 设置音频监听流
-     * */
-    void setAudioDataHandler();
-    /**
      * 开始音频流监听
-     * */
+     */
     void startAudioDataListener();
 
     /**
      * 关闭音频流监听
-     * */
+     */
     void stopAudioDataListener();
 
     /**

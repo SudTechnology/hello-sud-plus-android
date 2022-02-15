@@ -9,8 +9,9 @@ import tech.sud.mgp.hello.rtc.protocol.MediaStream;
 public class ZegoStreamConverter {
 
     public static MediaStream converMediaStream(ZegoStream stream) {
+        if (stream == null) return null;
         MediaStream mediaStream = new MediaStream();
-        mediaStream.user = stream.user;
+        mediaStream.user = ZegoUserConverter.converMediaUser(stream.user);
         mediaStream.streamID = stream.streamID;
         mediaStream.extraInfo = stream.extraInfo;
         return mediaStream;

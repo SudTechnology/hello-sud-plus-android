@@ -1,13 +1,15 @@
 package tech.sud.mgp.hello.ui.room.audio.gift.manager;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.ui.room.audio.example.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.room.audio.gift.model.MicUserInfoModel;
-import tech.sud.mgp.hello.common.model.HSUserInfo;
 
 public class RoomGiftDialogManager extends GiftBaseManager {
 
@@ -85,6 +87,21 @@ public class RoomGiftDialogManager extends GiftBaseManager {
                     iterator.remove();
                 }
             }
+        }
+        //切麦后排序
+        if (GiftHelper.getInstance().inMics.size() > 1) {
+            Collections.sort(GiftHelper.getInstance().inMics, new Comparator<MicUserInfoModel>() {
+                @Override
+                public int compare(MicUserInfoModel o1, MicUserInfoModel o2) {
+                    if (o1.indexMic > o2.indexMic) {
+                        return 1;
+                    } else if (o1.indexMic < o2.indexMic) {
+                        return -1;
+                    } else {
+                        return 0;
+                    }
+                }
+            });
         }
     }
 

@@ -1,7 +1,5 @@
 package tech.sud.mgp.hello.ui.room.audio.example.viewmodel;
 
-import static tech.sud.mgp.hello.ui.game.middle.state.SudMGPMGState.MG_COMMON_GAME_ASR;
-
 import android.app.Activity;
 import android.text.TextUtils;
 import android.view.View;

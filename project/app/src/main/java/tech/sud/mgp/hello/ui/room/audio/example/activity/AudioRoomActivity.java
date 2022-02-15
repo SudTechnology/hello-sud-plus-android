@@ -512,12 +512,7 @@ public class AudioRoomActivity extends BaseActivity {
 
         @Override
         public void onCapturedAudioData(AudioData audioData) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    gameViewModel.onCapturedAudioData(audioData);
-                }
-            });
+            gameViewModel.onCapturedAudioData(audioData);
         }
     };
 

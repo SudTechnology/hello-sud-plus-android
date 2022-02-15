@@ -344,13 +344,19 @@ public class AgoraAudioEngine implements MediaAudioEngineProtocol {
     private final IAudioFrameObserver iAudioFrameObserver = new IAudioFrameObserver() {
         @Override
         public boolean onRecordFrame(AudioFrame audioFrame) {
-            MediaAudioEventHandler handler = mMediaAudioEventHandler;
-            if (handler != null) {
-                AudioData audioData = new AudioData();
-                audioData.data = audioFrame.samples;
-                audioData.dataLength = audioFrame.bytesPerSample * audioFrame.channels * audioFrame.samplesPerSec;
-                handler.onCapturedAudioData(audioData);
-            }
+            //该回调再子线程，切回主线程
+            ThreadUtils.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    MediaAudioEventHandler handler = mMediaAudioEventHandler;
+                    if (handler != null) {
+                        AudioData audioData = new AudioData();
+                        audioData.data = audioFrame.samples;
+                        audioData.dataLength = audioFrame.bytesPerSample * audioFrame.channels * audioFrame.samplesPerSec;
+                        handler.onCapturedAudioData(audioData);
+                    }
+                }
+            });
             return false;
         }
 

@@ -80,4 +80,10 @@ public interface AudioRoomServiceCallback {
      */
     void onCapturedAudioData(AudioData audioData);
 
+    /**
+     * 标记自己发送的公屏消息
+     * 用于处理你画我猜关键字是够命中
+     * @param msg 发送内容
+     * */
+    void onSelfSendMsg(String msg);
 }

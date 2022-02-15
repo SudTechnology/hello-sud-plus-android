@@ -446,4 +446,18 @@ public class GameViewModel {
     public void onCapturedAudioData(AudioData audioData) {
         fsmApp2MGManager.onAudioPush(audioData);
     }
+
+    /**
+     * 用户发送了公屏消息
+     */
+    public void sendMsgCompleted(String msg) {
+        String keyword = gameKeywordLiveData.getValue();
+        if (msg.isEmpty() || keyword == null | keyword.isEmpty()) {
+            return;
+        }
+        if (msg.contains(keyword) && msg.length() == keyword.length()) { //命中
+            fsmApp2MGManager.sendCommonSelfTextHitState(true, keyword, msg);
+            gameKeywordLiveData.setValue(null);
+        }
+    }
 }

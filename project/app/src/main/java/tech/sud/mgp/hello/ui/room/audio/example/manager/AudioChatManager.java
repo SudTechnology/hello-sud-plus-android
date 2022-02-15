@@ -35,6 +35,7 @@ public class AudioChatManager extends BaseServiceManager {
         model.nickName = HSUserInfo.nickName;
         model.text = msg.toString();
         addMsg(model);
+        selfSendMsg(model.text);
 
         // 发送公屏消息信令
         String command = AudioRoomCommandUtils.buildPublicMsgCommand(msg.toString());
@@ -45,6 +46,17 @@ public class AudioChatManager extends BaseServiceManager {
         AudioRoomServiceCallback callback = parentManager.getCallback();
         if (callback != null) {
             callback.addPublicMsg(msg);
+        }
+    }
+
+    /**
+     * 标记自己发送的公屏消息
+     * 用于处理你画我猜关键字是够命中
+     */
+    public void selfSendMsg(String msg) {
+        AudioRoomServiceCallback callback = parentManager.getCallback();
+        if (callback != null) {
+            callback.onSelfSendMsg(msg);
         }
     }
 

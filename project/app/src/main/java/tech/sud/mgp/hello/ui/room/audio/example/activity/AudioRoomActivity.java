@@ -256,7 +256,9 @@ public class AudioRoomActivity extends BaseActivity {
         gameViewModel.gameKeywordLiveData.observe(this, new Observer<String>() {
             @Override
             public void onChanged(String s) {
-                binder.setKeyword(s);
+                if (s != null && !s.isEmpty()) {
+                    binder.setKeyword(s);
+                }
             }
         });
         gameViewModel.gameASRLiveData.observe(this, new Observer<Boolean>() {
@@ -513,6 +515,11 @@ public class AudioRoomActivity extends BaseActivity {
         @Override
         public void onCapturedAudioData(AudioData audioData) {
             gameViewModel.onCapturedAudioData(audioData);
+        }
+
+        @Override
+        public void onSelfSendMsg(String msg) {
+            gameViewModel.sendMsgCompleted(msg);
         }
     };
 

@@ -6,7 +6,9 @@ import tech.sud.mgp.core.ISudFSTAPP;
 import tech.sud.mgp.core.ISudListenerNotifyStateChange;
 import tech.sud.mgp.hello.rtc.protocol.AudioData;
 import tech.sud.mgp.hello.ui.game.middle.state.SudMGPAPPState;
+import tech.sud.mgp.hello.ui.game.middle.state.SudMGPMGState;
 import tech.sud.mgp.hello.ui.game.middle.state.app.CommonSelfInState;
+import tech.sud.mgp.hello.ui.game.middle.state.app.CommonSelfTextHitState;
 
 /**
  * app端调用sdk
@@ -55,9 +57,25 @@ public class FsmApp2MgManager {
         }
     }
 
+    /**
+     * 音频流数据
+     * */
     public void onAudioPush(AudioData audioData) {
         if (iSudFSTAPP != null) {
             iSudFSTAPP.pushAudio(audioData.data, audioData.dataLength);
+        }
+    }
+
+    /**
+     * 文本数据
+     * */
+    public void sendCommonSelfTextHitState(Boolean isHit, String keyWord, String text) {
+        if (iSudFSTAPP !=null){
+            CommonSelfTextHitState state = new CommonSelfTextHitState();
+            state.isHit = isHit;
+            state.keyWord = keyWord;
+            state.text = text;
+            iSudFSTAPP.notifyStateChange(SudMGPAPPState.APP_COMMON_SELF_TEXT_HIT, GsonUtils.toJson(state), null);
         }
     }
 

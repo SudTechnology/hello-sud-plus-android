@@ -6,9 +6,13 @@ import com.blankj.utilcode.util.Utils;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import io.agora.rtc.AudioFrame;
+import io.agora.rtc.IAudioFrameObserver;
 import io.agora.rtc.IRtcEngineEventHandler;
 import io.agora.rtc.RtcEngine;
+import io.agora.rtc.audio.AudioParams;
 import io.agora.rtc.models.ChannelMediaOptions;
+import tech.sud.mgp.hello.rtc.protocol.AudioData;
 import tech.sud.mgp.hello.rtc.protocol.MediaAudioEngineProtocol;
 import tech.sud.mgp.hello.rtc.protocol.MediaAudioEventHandler;
 import tech.sud.mgp.hello.rtc.protocol.MediaRoomConfig;
@@ -130,7 +134,7 @@ public class AgoraAudioEngine implements MediaAudioEngineProtocol {
     public void startAudioDataListener() {
         RtcEngine engine = getEngine();
         if (engine != null) {
-            //TODO
+            engine.registerAudioFrameObserver(iAudioFrameObserver);
         }
     }
 
@@ -138,7 +142,7 @@ public class AgoraAudioEngine implements MediaAudioEngineProtocol {
     public void stopAudioDataListener() {
         RtcEngine engine = getEngine();
         if (engine != null) {
-            //TODO
+            engine.registerAudioFrameObserver(null);
         }
     }
 
@@ -216,5 +220,67 @@ public class AgoraAudioEngine implements MediaAudioEngineProtocol {
 
     };
 
+    private final IAudioFrameObserver iAudioFrameObserver = new IAudioFrameObserver() {
+        @Override
+        public boolean onRecordFrame(AudioFrame audioFrame) {
+            MediaAudioEventHandler handler = mMediaAudioEventHandler;
+            if (handler != null) {
+                AudioData audioData = new AudioData();
+                audioData.data = audioFrame.samples;
+                audioData.dataLength = audioFrame.bytesPerSample * audioFrame.channels * audioFrame.samplesPerSec;
+                handler.onCapturedAudioData(audioData);
+            }
+            return false;
+        }
+
+        @Override
+        public boolean onPlaybackFrame(AudioFrame audioFrame) {
+            return false;
+        }
+
+        @Override
+        public boolean onPlaybackFrameBeforeMixing(AudioFrame audioFrame, int uid) {
+            return false;
+        }
+
+        @Override
+        public boolean onMixedFrame(AudioFrame audioFrame) {
+            return false;
+        }
+
+        @Override
+        public boolean isMultipleChannelFrameWanted() {
+            return false;
+        }
+
+        @Override
+        public boolean onPlaybackFrameBeforeMixingEx(AudioFrame audioFrame, int uid, String channelId) {
+            return false;
+        }
+
+        @Override
+        public int getObservedAudioFramePosition() {
+            return 0;
+        }
+
+        @Override
+        public AudioParams getRecordAudioParams() {
+            //为保证采集到的音频数据格式符合预期，你可以在调用 registerAudioFrameObserver 方法时注册 getRecordAudioParams 回调，
+            // 并在该回调的返回值中设置采集的音频数据格式。
+            // SDK 会根据 getRecordAudioParams
+            // 回调返回值中设置的 AudioParams 计算采样间隔， 并根据该采样间隔触发 onRecordFrame 回调
+            return null;
+        }
+
+        @Override
+        public AudioParams getPlaybackAudioParams() {
+            return null;
+        }
+
+        @Override
+        public AudioParams getMixedAudioParams() {
+            return null;
+        }
+    };
 
 }

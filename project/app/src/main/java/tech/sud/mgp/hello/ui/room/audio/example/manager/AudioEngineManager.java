@@ -133,6 +133,16 @@ public class AudioEngineManager extends BaseServiceManager {
     }
 
     /**
+     * 开始音频流监听
+     */
+    void startAudioDataListener() {
+        MediaAudioEngineProtocol engine = getEngine();
+        if (engine != null) {
+            engine.setAudioDataHandler();
+        }
+    }
+
+    /**
      * 控制是否要开启音频流监听
      */
     void switchAudioDataListener(boolean isOpen) {
@@ -227,7 +237,10 @@ public class AudioEngineManager extends BaseServiceManager {
 
         @Override
         public void onCapturedAudioData(AudioData audioData) {
-            //TODO 音频流数据监听回掉
+            AudioRoomServiceCallback callback = parentManager.getCallback();
+            if (callback != null) {
+                callback.onCapturedAudioData(audioData);
+            }
         }
     };
 

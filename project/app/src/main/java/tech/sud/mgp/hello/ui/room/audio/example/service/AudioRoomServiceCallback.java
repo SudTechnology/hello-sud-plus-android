@@ -2,6 +2,7 @@ package tech.sud.mgp.hello.ui.room.audio.example.service;
 
 import java.util.List;
 
+import tech.sud.mgp.hello.rtc.protocol.AudioData;
 import tech.sud.mgp.hello.ui.room.audio.example.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.room.audio.gift.model.GiftNotifyDetailodel;
 
@@ -73,5 +74,10 @@ public interface AudioRoomServiceCallback {
      * 对麦位数据进行赋值
      */
     void onWrapMicModel(AudioRoomMicModel model);
+
+    /**
+     * 对音频流监听回调
+     */
+    void onCapturedAudioData(AudioData audioData);
 
 }

@@ -24,6 +24,11 @@ public class SudMGPMGState {
     public static final String MG_COMMON_SELF_CLICK_JOIN_BTN = "mg_common_self_click_join_btn";
 
     /**
+     * ASR状态(开启和关闭语音识别状态)
+     */
+    public static final String MG_COMMON_GAME_ASR = "mg_common_game_asr";
+
+    /**
      * 取消加入游戏按钮点击状态
      */
     public static final String MG_COMMON_SELF_CLICK_CANCEL_JOIN_BTN = "mg_common_self_click_cancel_join_btn";

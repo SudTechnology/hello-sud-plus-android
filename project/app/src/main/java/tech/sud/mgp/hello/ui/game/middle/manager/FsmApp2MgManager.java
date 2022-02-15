@@ -4,6 +4,7 @@ import com.blankj.utilcode.util.GsonUtils;
 
 import tech.sud.mgp.core.ISudFSTAPP;
 import tech.sud.mgp.core.ISudListenerNotifyStateChange;
+import tech.sud.mgp.hello.rtc.protocol.AudioData;
 import tech.sud.mgp.hello.ui.game.middle.state.SudMGPAPPState;
 import tech.sud.mgp.hello.ui.game.middle.state.app.CommonSelfInState;
 
@@ -51,6 +52,12 @@ public class FsmApp2MgManager {
             state.isSeatRandom = isSeatRandom;
             state.teamId = teamId;
             iSudFSTAPP.notifyStateChange(SudMGPAPPState.APP_COMMON_SELF_IN, GsonUtils.toJson(state), null);
+        }
+    }
+
+    public void onAudioPush(AudioData audioData) {
+        if (iSudFSTAPP != null) {
+            iSudFSTAPP.pushAudio(audioData.data, audioData.dataLength);
         }
     }
 

@@ -151,9 +151,8 @@ public class RoomListFragment extends BaseFragment {
                 super.onNext(t);
                 if (t.getRetCode() == RetCode.SUCCESS) {
                     HomeManager.getInstance().updateRoomList(t.getData());
-                    List<RoomItemModel> infoList = t.getData().getRoomInfoList();
                     datas.clear();
-                    if (infoList != null) {
+                    if (t.getData() != null && t.getData().getRoomInfoList() != null) {
                         datas.addAll(t.getData().getRoomInfoList());
                     }
                     adapter.setList(datas);

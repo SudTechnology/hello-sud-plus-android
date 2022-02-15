@@ -23,6 +23,7 @@ import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.permission.PermissionFragment;
 import tech.sud.mgp.hello.common.permission.SudPermissionUtils;
 import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
+import tech.sud.mgp.hello.rtc.protocol.AudioData;
 import tech.sud.mgp.hello.ui.game.middle.model.GameMessageModel;
 import tech.sud.mgp.hello.ui.game.middle.state.mg.common.CommonGameState;
 import tech.sud.mgp.hello.ui.room.audio.example.model.AudioRoomMicModel;
@@ -250,6 +251,18 @@ public class AudioRoomActivity extends BaseActivity {
             @Override
             public void onChanged(Object o) {
                 binder.autoUpMic();
+            }
+        });
+        gameViewModel.gameKeywordLiveData.observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                binder.setKeyword(s);
+            }
+        });
+        gameViewModel.gameASRLiveData.observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                binder.setASROpen(aBoolean);
             }
         });
     }
@@ -495,6 +508,16 @@ public class AudioRoomActivity extends BaseActivity {
             } else {
                 model.giftEnable = false;
             }
+        }
+
+        @Override
+        public void onCapturedAudioData(AudioData audioData) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    gameViewModel.onCapturedAudioData(audioData);
+                }
+            });
         }
     };
 

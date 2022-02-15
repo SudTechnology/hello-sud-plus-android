@@ -4,6 +4,8 @@ import android.text.TextUtils;
 
 import com.blankj.utilcode.util.GsonUtils;
 
+import tech.sud.mgp.hello.ui.game.middle.model.GameASRModel;
+import tech.sud.mgp.hello.ui.game.middle.model.GameKeyWordModel;
 import tech.sud.mgp.hello.ui.game.middle.model.GameMessageModel;
 import tech.sud.mgp.hello.ui.game.middle.model.GameChatModel;
 import tech.sud.mgp.hello.ui.game.middle.model.GameChatMsgModel;
@@ -61,6 +63,38 @@ public class GameCommonStateUtils {
             }
         }
         return sb.toString();
+    }
+
+    /**
+     * 解析游戏侧发送过来的关键字状态
+     *
+     * @param dataJson
+     * @return
+     */
+    public static String parseKeywordState(String dataJson) {
+        try {
+            GameKeyWordModel gameKeyWordModel = GsonUtils.fromJson(dataJson, GameKeyWordModel.class);
+            return gameKeyWordModel.word;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 解析游戏侧发送过来的ASR状态
+     *
+     * @param dataJson
+     * @return
+     */
+    public static boolean parseASRState(String dataJson) {
+        try {
+            GameASRModel asrState = GsonUtils.fromJson(dataJson, GameASRModel.class);
+            return asrState.isOpen;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
 }

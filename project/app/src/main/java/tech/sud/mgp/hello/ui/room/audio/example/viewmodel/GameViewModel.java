@@ -1,5 +1,7 @@
 package tech.sud.mgp.hello.ui.room.audio.example.viewmodel;
 
+import static tech.sud.mgp.hello.ui.game.middle.state.SudMGPMGState.MG_COMMON_GAME_ASR;
+
 import android.app.Activity;
 import android.text.TextUtils;
 import android.view.View;
@@ -24,6 +26,7 @@ import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.AppConfig;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
+import tech.sud.mgp.hello.rtc.protocol.AudioData;
 import tech.sud.mgp.hello.ui.game.http.repository.GameRepository;
 import tech.sud.mgp.hello.ui.game.http.resp.GameLoginResp;
 import tech.sud.mgp.hello.ui.game.middle.manager.FsmApp2MgManager;
@@ -55,6 +58,8 @@ public class GameViewModel {
     public final MutableLiveData<GameMessageModel> gameMessageLiveData = new MutableLiveData<>(); // 游戏消息
     public final MutableLiveData<Object> updateMicLiveData = new MutableLiveData<>(); // 刷新麦位通知
     public final MutableLiveData<Object> autoUpMicLiveData = new MutableLiveData<>(); // 执行自动上麦的通知
+    public final MutableLiveData<String> gameKeywordLiveData = new MutableLiveData<>();//游戏关键字
+    public final MutableLiveData<Boolean> gameASRLiveData = new MutableLiveData<>();//游戏ASR开关
 
     private View gameView; // 游戏View
     private long captainUserId; // 记录当前队长的用户id
@@ -308,6 +313,14 @@ public class GameViewModel {
             case SudMGPMGState.MG_COMMON_GAME_STATE: // 游戏状态
                 commonGameState = HSJsonUtils.fromJson(dataJson, CommonGameState.class);
                 break;
+            case SudMGPMGState.MG_COMMON_KEY_WORD_TO_HIT: //关键字
+                String word = GameCommonStateUtils.parseKeywordState(dataJson);
+                gameKeywordLiveData.setValue(word);
+                break;
+            case SudMGPMGState.MG_COMMON_GAME_ASR://开关
+                boolean isOpen = GameCommonStateUtils.parseASRState(dataJson);
+                gameASRLiveData.setValue(isOpen);
+                break;
         }
     }
 
@@ -427,4 +440,10 @@ public class GameViewModel {
         return false;
     }
 
+    /**
+     * 音频流数据
+     */
+    public void onCapturedAudioData(AudioData audioData) {
+        fsmApp2MGManager.onAudioPush(audioData);
+    }
 }

@@ -115,6 +115,20 @@ public class AudioRoomService {
         }
 
         /**
+         * 设置关键字
+         */
+        public void setKeyword(String keyword) {
+            serviceManager.audioGameManager.setkeyword(keyword);
+        }
+
+        /**
+         * 设置ASR
+         */
+        public void setASROpen(boolean isOpen) {
+            serviceManager.audioGameManager.setASROpen(isOpen);
+        }
+
+        /**
          * 退出房间
          */
         public void exitRoom() {

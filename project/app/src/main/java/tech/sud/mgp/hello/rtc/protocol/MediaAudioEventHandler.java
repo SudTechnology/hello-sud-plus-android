@@ -88,4 +88,10 @@ public interface MediaAudioEventHandler {
      */
     void onRoomStateUpdate(String roomID, MediaAudioRoomState state, int errorCode, JSONObject extendedData);
 
+    /**
+     * 监听音频流回调
+     *
+     * @param audioData   音频流数据
+     * */
+    void onCapturedAudioData(AudioData audioData);
 }

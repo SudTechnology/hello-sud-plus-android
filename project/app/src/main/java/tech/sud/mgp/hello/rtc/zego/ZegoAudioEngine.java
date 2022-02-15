@@ -4,23 +4,30 @@ import com.blankj.utilcode.util.Utils;
 
 import org.json.JSONObject;
 
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import im.zego.zegoexpress.ZegoExpressEngine;
+import im.zego.zegoexpress.callback.IZegoAudioDataHandler;
 import im.zego.zegoexpress.callback.IZegoEventHandler;
 import im.zego.zegoexpress.callback.IZegoIMSendCustomCommandCallback;
+import im.zego.zegoexpress.constants.ZegoAudioChannel;
+import im.zego.zegoexpress.constants.ZegoAudioDataCallbackBitMask;
+import im.zego.zegoexpress.constants.ZegoAudioSampleRate;
 import im.zego.zegoexpress.constants.ZegoNetworkMode;
 import im.zego.zegoexpress.constants.ZegoPlayerState;
 import im.zego.zegoexpress.constants.ZegoPublisherState;
 import im.zego.zegoexpress.constants.ZegoRoomState;
 import im.zego.zegoexpress.constants.ZegoScenario;
 import im.zego.zegoexpress.constants.ZegoUpdateType;
+import im.zego.zegoexpress.entity.ZegoAudioFrameParam;
 import im.zego.zegoexpress.entity.ZegoEngineConfig;
 import im.zego.zegoexpress.entity.ZegoEngineProfile;
 import im.zego.zegoexpress.entity.ZegoStream;
 import im.zego.zegoexpress.entity.ZegoUser;
+import tech.sud.mgp.hello.rtc.protocol.AudioData;
 import tech.sud.mgp.hello.rtc.protocol.MediaAudioEngineProtocol;
 import tech.sud.mgp.hello.rtc.protocol.MediaAudioEngineUpdateType;
 import tech.sud.mgp.hello.rtc.protocol.MediaAudioEventHandler;
@@ -192,6 +199,41 @@ public class ZegoAudioEngine implements MediaAudioEngineProtocol {
         }
     }
 
+    @Override
+    public void setAudioDataHandler() {
+        ZegoExpressEngine engine = getEngine();
+        if (engine != null) {
+            engine.setAudioDataHandler(audioDataHandler);
+        }
+    }
+
+    @Override
+    public void startAudioDataListener() {
+        ZegoExpressEngine engine = getEngine();
+        ZegoAudioFrameParam param = new ZegoAudioFrameParam();
+        int bitmask = 0;
+        // Enable obtaining raw audio data
+        param.channel = ZegoAudioChannel.MONO;
+        param.sampleRate = ZegoAudioSampleRate.ZEGO_AUDIO_SAMPLE_RATE_16K;
+        // Add bitmask and turn on the switch of collecting audio data
+        // The bitmask values corresponding to capture, playback and mixing are: CAPTURED=1, PLAYBACK=2, MIXED=4.
+        // The final value of bitmask is 7, which means that capture callback,
+        // playback callback, and mixing callback will be triggered at the same time.
+        // 采集，拉流，混合对应的位掩码值分别是：CAPTURED=1，PLAYBACK=2, MIXED=4，bitmask最终得到的值为7，表示会同时触发采集、拉流、混合的原始数据回调。
+        bitmask = bitmask | ZegoAudioDataCallbackBitMask.CAPTURED.value();
+        if (engine != null) {
+            engine.startAudioDataObserver(bitmask, param);
+        }
+    }
+
+    @Override
+    public void stopAudioDataListener() {
+        ZegoExpressEngine engine = getEngine();
+        if (engine != null) {
+            engine.stopAudioDataObserver();
+        }
+    }
+
     private final IZegoEventHandler mIZegoEventHandler = new IZegoEventHandler() {
 
         @Override
@@ -276,7 +318,20 @@ public class ZegoAudioEngine implements MediaAudioEngineProtocol {
                 handler.onRoomOnlineUserCountUpdate(roomID, count);
             }
         }
+    };
 
+    private final IZegoAudioDataHandler audioDataHandler = new IZegoAudioDataHandler() {
+        @Override
+        public void onCapturedAudioData(ByteBuffer data, int dataLength, ZegoAudioFrameParam param) {
+            super.onCapturedAudioData(data, dataLength, param);
+            MediaAudioEventHandler handler = mMediaAudioEventHandler;
+            if (handler != null) {
+                AudioData audioData = new AudioData();
+                audioData.data = data;
+                audioData.dataLength = dataLength;
+                handler.onCapturedAudioData(audioData);
+            }
+        }
     };
 
 }

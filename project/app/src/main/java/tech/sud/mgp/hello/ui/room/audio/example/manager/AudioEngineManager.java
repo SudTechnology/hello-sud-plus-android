@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 import tech.sud.mgp.hello.common.model.HSUserInfo;
+import tech.sud.mgp.hello.rtc.protocol.AudioData;
 import tech.sud.mgp.hello.rtc.protocol.MediaAudioEngineManager;
 import tech.sud.mgp.hello.rtc.protocol.MediaAudioEngineNetworkStateType;
 import tech.sud.mgp.hello.rtc.protocol.MediaAudioEnginePlayerStateType;
@@ -32,6 +33,10 @@ public class AudioEngineManager extends BaseServiceManager {
     public final AudioCommandManager commandManager = new AudioCommandManager();
     private OnRoomStreamUpdateListener onRoomStreamUpdateListener;
     private final int soundLevelThreshold = 1; // 触发声浪显示的阀值
+    /**
+     * 标识音频监听开关状态
+     */
+    private boolean isOpenListen = false;
 
     @Override
     public void onCreate() {
@@ -134,6 +139,25 @@ public class AudioEngineManager extends BaseServiceManager {
         }
     }
 
+    /**
+     * 控制是否要开启音频流监听
+     */
+    void switchAudioDataListener(boolean isOpen) {
+        if (isOpenListen == isOpen) {
+            return;
+        }
+        MediaAudioEngineProtocol engine = getEngine();
+        if (engine != null) {
+            isOpenListen = isOpen;
+            if (isOpen) {
+                engine.startAudioDataListener();
+            } else {
+                engine.stopAudioDataListener();
+            }
+        }
+
+    }
+
     private MediaAudioEngineProtocol getEngine() {
         return MediaAudioEngineManager.shared().audioEngine;
     }
@@ -214,6 +238,11 @@ public class AudioEngineManager extends BaseServiceManager {
             if (state == MediaAudioRoomState.CONNECTED) { // 连接成功之后发送进房信令
                 sendCommand(AudioRoomCommandUtils.buildEnterRoomCommand(), null);
             }
+        }
+
+        @Override
+        public void onCapturedAudioData(AudioData audioData) {
+            //TODO 音频流数据监听回掉
         }
     };
 

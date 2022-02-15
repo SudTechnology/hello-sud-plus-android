@@ -127,6 +127,20 @@ public interface MediaAudioEngineProtocol {
     void startSoundLevelMonitor();
 
     /**
+     * 设置音频监听流
+     * */
+    void setAudioDataHandler();
+    /**
+     * 开始音频流监听
+     * */
+    void startAudioDataListener();
+
+    /**
+     * 关闭音频流监听
+     * */
+    void stopAudioDataListener();
+
+    /**
      * 发送指令回调接口
      */
     interface SendCommandResult {

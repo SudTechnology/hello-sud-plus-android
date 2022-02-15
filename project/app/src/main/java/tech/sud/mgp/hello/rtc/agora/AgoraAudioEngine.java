@@ -149,6 +149,27 @@ public class AgoraAudioEngine implements MediaAudioEngineProtocol {
 
     }
 
+    @Override
+    public void setAudioDataHandler() {
+        //TODO
+    }
+
+    @Override
+    public void startAudioDataListener() {
+        RtcEngine engine = getEngine();
+        if (engine != null) {
+            //TODO
+        }
+    }
+
+    @Override
+    public void stopAudioDataListener() {
+        RtcEngine engine = getEngine();
+        if (engine != null) {
+            //TODO
+        }
+    }
+
     private IRtcEngineEventHandler mIRtcEngineEventHandler = new IRtcEngineEventHandler() {
 
         @Override
@@ -161,5 +182,6 @@ public class AgoraAudioEngine implements MediaAudioEngineProtocol {
             }
         }
     };
+
 
 }

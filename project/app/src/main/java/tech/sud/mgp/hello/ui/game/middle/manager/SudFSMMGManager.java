@@ -6,7 +6,6 @@ import android.view.ViewTreeObserver;
 import com.blankj.utilcode.util.BarUtils;
 import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.Utils;
-import com.google.gson.JsonObject;
 
 import tech.sud.mgp.core.ISudFSMStateHandle;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
@@ -105,11 +104,10 @@ public class SudFSMMGManager {
      * 处理游戏配置
      */
     public void processOnGetGameCfg(ISudFSMStateHandle handle, String dataJson) {
-        JsonObject jsonObject = new JsonObject();
         GameConfigModel gameConfigModel = new GameConfigModel();
         // 配置不展示大厅玩家展示位
         gameConfigModel.ui.lobby_players.hide = true;
-        handle.success(jsonObject.toString());
+        handle.success(GsonUtils.toJson(gameConfigModel));
     }
 
 }

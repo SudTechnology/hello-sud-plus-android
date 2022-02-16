@@ -39,6 +39,7 @@ public class HomeRepository {
         MatchBodyReq req = new MatchBodyReq();
         req.gameId = gameId;
         req.sceneType = sceneType;
+        req.rtcType = AppConfig.getInstance().getRtcType();
         HomeRequestMethodFactory.getMethod()
                 .matchGame(BaseUrlManager.getInteractBaseUrl(), req)
                 .compose(RxUtil.schedulers(owner))

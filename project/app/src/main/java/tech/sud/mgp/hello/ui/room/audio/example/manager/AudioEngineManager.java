@@ -162,7 +162,7 @@ public class AudioEngineManager extends BaseServiceManager {
     }
 
     private MediaAudioEngineProtocol getEngine() {
-        return MediaAudioEngineManager.shared().audioEngine;
+        return MediaAudioEngineManager.getEngine();
     }
 
     private final MediaAudioEventHandler eventHandler = new MediaAudioEventHandler() {

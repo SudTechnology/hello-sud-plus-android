@@ -4,11 +4,14 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.view.View;
 
+import com.blankj.utilcode.util.ToastUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseFragment;
+import tech.sud.mgp.hello.ui.main.activity.ChangeRtcActivity;
 import tech.sud.mgp.hello.ui.main.activity.UserAgreementActivity;
 import tech.sud.mgp.hello.ui.main.view.AppSizeView;
 import tech.sud.mgp.hello.ui.main.view.SettingButton;
@@ -85,9 +88,9 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         if (v == btnVersionInfo) { // 版本信息
 
         } else if (v == btnChangeRtc) { // 切换RTC
-
+            startActivity(new Intent(requireContext(), ChangeRtcActivity.class));
         } else if (v == btnChangeLanguage) { // 切换语言
-
+            ToastUtils.showShort(R.string.coming_soon);
         } else if (v == btnGitHub) { // github
 
         } else if (v == btnOpenSource) { // 开源协议

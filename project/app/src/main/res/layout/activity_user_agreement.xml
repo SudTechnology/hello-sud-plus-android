@@ -20,9 +20,7 @@
             android:id="@+id/back_iv"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:rotation="180"
-            android:src="@mipmap/icon_back"
-            app:tint="#1a1a1a" />
+            android:src="@drawable/icon_navi_back" />
 
         <TextView
             android:id="@+id/title_tv"

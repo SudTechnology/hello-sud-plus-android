@@ -3,6 +3,8 @@ package tech.sud.mgp.hello.ui.splash;
 import android.content.Intent;
 import android.os.Handler;
 
+import androidx.lifecycle.Observer;
+
 import com.blankj.utilcode.util.ToastUtils;
 
 import tech.sud.mgp.hello.R;
@@ -17,6 +19,7 @@ import tech.sud.mgp.hello.ui.login.LoginActivity;
 import tech.sud.mgp.hello.ui.login.http.repository.LoginRepository;
 import tech.sud.mgp.hello.ui.login.http.resp.LoginResponse;
 import tech.sud.mgp.hello.ui.main.activity.HomeActivity;
+import tech.sud.mgp.hello.ui.main.model.ConfigViewModel;
 
 /**
  * 闪屏页
@@ -24,6 +27,7 @@ import tech.sud.mgp.hello.ui.main.activity.HomeActivity;
 public class SplashActivity extends BaseActivity {
 
     private Handler handler = new Handler();
+    private final ConfigViewModel configViewModel = new ConfigViewModel();
 
     @Override
     protected int getLayoutId() {
@@ -34,6 +38,17 @@ public class SplashActivity extends BaseActivity {
     protected void initData() {
         super.initData();
         handler.postDelayed(this::jumpPage, 2000);
+    }
+
+    @Override
+    protected void setListeners() {
+        super.setListeners();
+        configViewModel.initConfigSuccessLiveData.observe(this, new Observer<Object>() {
+            @Override
+            public void onChanged(Object o) {
+                loginSuccess();
+            }
+        });
     }
 
     private void jumpPage() {
@@ -64,7 +79,7 @@ public class SplashActivity extends BaseActivity {
                     } else {
                         ToastUtils.showShort(ResponseUtils.conver(t));
                     }
-                    loginSuccess();
+                    configViewModel.getBaseConfig(SplashActivity.this);
                 }
             });
         }

@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import java.io.Serializable;
 
 import tech.sud.mgp.hello.ui.main.http.resp.BaseConfigResp;
+import tech.sud.mgp.hello.ui.main.model.config.BaseRtcConfig;
 import tech.sud.mgp.hello.ui.main.model.config.SudConfig;
 
 /**
@@ -16,7 +17,8 @@ public class AppConfig {
 
     private static final AppConfig instance = new AppConfig();
 
-    private BaseConfigResp baseConfigResp;
+    private BaseConfigResp baseConfigResp; // 基础配置
+    private BaseRtcConfig selectRtcConfig; // 当前所使用的rtc配置
 
     private AppConfig() {
     }
@@ -41,6 +43,9 @@ public class AppConfig {
         if (baseConfigResp != null) {
             outState.putSerializable("BaseConfigResp", baseConfigResp);
         }
+        if (selectRtcConfig != null) {
+            outState.putSerializable("BaseRtcConfig", selectRtcConfig);
+        }
     }
 
     // 恢复数据
@@ -49,12 +54,33 @@ public class AppConfig {
         if (baseConfigResp instanceof BaseConfigResp) {
             this.baseConfigResp = (BaseConfigResp) baseConfigResp;
         }
+        Serializable baseRtcConfig = savedInstanceState.getSerializable("BaseRtcConfig");
+        if (baseRtcConfig instanceof BaseRtcConfig) {
+            this.selectRtcConfig = (BaseRtcConfig) baseRtcConfig;
+        }
+    }
+
+    /**
+     * 获取当前所使用的rtc配置
+     */
+    public BaseRtcConfig getSelectRtcConfig() {
+        return selectRtcConfig;
+    }
+
+    /**
+     * 设置当前所使用的rtc配置
+     */
+    public void setSelectRtcConfig(BaseRtcConfig config) {
+        selectRtcConfig = config;
     }
 
     /**
      * 获取当前所用的rtc类型
      */
     public String getRtcType() {
+        if (selectRtcConfig != null) {
+            return selectRtcConfig.rtcType;
+        }
         return null;
     }
 
@@ -62,6 +88,9 @@ public class AppConfig {
      * 获取当前所用的rtc名称
      */
     public String getRtcName() {
+        if (selectRtcConfig != null) {
+            return selectRtcConfig.desc;
+        }
         return null;
     }
 

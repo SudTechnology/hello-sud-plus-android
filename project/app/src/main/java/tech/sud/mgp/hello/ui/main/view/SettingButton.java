@@ -66,7 +66,7 @@ public class SettingButton extends ConstraintLayout {
         addView(tvHint, hintParams);
 
         // 箭头
-        viewArrow.setBackgroundResource(R.mipmap.icon_back);
+        viewArrow.setBackgroundResource(R.drawable.ic_right_arrow);
         int arrowSize = DensityUtils.dp2px(context, 12);
         LayoutParams arrowParams = new LayoutParams(arrowSize, arrowSize);
         arrowParams.endToEnd = LayoutParams.PARENT_ID;

@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.lifecycle.Observer;
 
 import com.blankj.utilcode.util.ToastUtils;
 
@@ -27,6 +28,7 @@ import tech.sud.mgp.hello.ui.login.listener.DialogSecondaryListener;
 import tech.sud.mgp.hello.ui.login.listener.DialogSelectListener;
 import tech.sud.mgp.hello.ui.main.activity.HomeActivity;
 import tech.sud.mgp.hello.ui.main.activity.UserAgreementActivity;
+import tech.sud.mgp.hello.ui.main.model.ConfigViewModel;
 
 /**
  * 登录页
@@ -42,6 +44,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private ImageView randomIv;
     private String[] names;
     private UserAgreementDialog agreementDialog;
+    private final ConfigViewModel configViewModel = new ConfigViewModel();
+    private boolean isLogin; // 标识是否正在登录中
 
     @Override
     protected int getLayoutId() {
@@ -76,6 +80,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         if (!isAgree) {
             showAgreementDialog();
         }
+        configViewModel.initConfigSuccessLiveData.observe(this, new Observer<Object>() {
+            @Override
+            public void onChanged(Object o) {
+                loginSuccess();
+            }
+        });
     }
 
     private void showAgreementDialog() {
@@ -130,29 +140,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     @Override
     public void onClick(View v) {
         if (v == goPlayBtn) {
-            LoginRepository.login(null, nameTv.getText().toString(), this, new RxCallback<LoginResponse>() {
-                @Override
-                public void onError(Throwable e) {
-                    super.onError(e);
-                }
-
-                @Override
-                public void onNext(BaseResponse<LoginResponse> t) {
-                    super.onNext(t);
-                    if (t.getRetCode() == RetCode.SUCCESS) {
-                        AppSharedPreferences.getSP().put(AppSharedPreferences.USER_ID_KEY, t.getData().userId);
-                        AppSharedPreferences.getSP().put(AppSharedPreferences.USER_HEAD_PORTRAIT_KEY, t.getData().avatar);
-                        AppSharedPreferences.getSP().put(AppSharedPreferences.USER_NAME_KEY, t.getData().nickname);
-                        HSUserInfo.userId = t.getData().userId;
-                        HSUserInfo.nickName = t.getData().nickname;
-                        HSUserInfo.avatar = t.getData().avatar;
-                        HSUserInfo.token = t.getData().token;
-                        loginSuccess();
-                    } else {
-                        ToastUtils.showShort(ResponseUtils.conver(t));
-                    }
-                }
-            });
+            clickLogin();
         } else if (v == maleBtn) {
             maleBtn.setSelected(true);
             maleCheck.setVisibility(View.VISIBLE);
@@ -166,6 +154,44 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         } else if (v == randomIv) {
             nameTv.setText(randomName());
         }
+    }
+
+    private void clickLogin() {
+        if (isLogin) {
+            return;
+        }
+        isLogin = true;
+        LoginRepository.login(null, nameTv.getText().toString(), this, new RxCallback<LoginResponse>() {
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                isLogin = false;
+            }
+
+            @Override
+            public void onNext(BaseResponse<LoginResponse> t) {
+                super.onNext(t);
+                if (t.getRetCode() == RetCode.SUCCESS) {
+                    new Thread() {
+                        @Override
+                        public void run() {
+                            super.run();
+                            AppSharedPreferences.getSP().put(AppSharedPreferences.USER_ID_KEY, t.getData().userId);
+                            AppSharedPreferences.getSP().put(AppSharedPreferences.USER_HEAD_PORTRAIT_KEY, t.getData().avatar);
+                            AppSharedPreferences.getSP().put(AppSharedPreferences.USER_NAME_KEY, t.getData().nickname);
+                        }
+                    }.start();
+                    HSUserInfo.userId = t.getData().userId;
+                    HSUserInfo.nickName = t.getData().nickname;
+                    HSUserInfo.avatar = t.getData().avatar;
+                    HSUserInfo.token = t.getData().token;
+                    configViewModel.getBaseConfig(LoginActivity.this);
+                } else {
+                    isLogin = false;
+                    ToastUtils.showLong(ResponseUtils.conver(t));
+                }
+            }
+        });
     }
 
     private String randomName() {

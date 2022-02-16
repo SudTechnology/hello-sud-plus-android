@@ -1,0 +1,87 @@
+package tech.sud.mgp.hello.ui.main.model;
+
+import androidx.lifecycle.MutableLiveData;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+
+import tech.sud.mgp.hello.common.base.BaseViewModel;
+import tech.sud.mgp.hello.common.model.AppConfig;
+import tech.sud.mgp.hello.common.utils.GlobalCache;
+import tech.sud.mgp.hello.rtc.agora.AgoraAudioEngine;
+import tech.sud.mgp.hello.rtc.protocol.MediaAudioEngineManager;
+import tech.sud.mgp.hello.rtc.zego.ZegoAudioEngine;
+import tech.sud.mgp.hello.ui.main.http.resp.BaseConfigResp;
+import tech.sud.mgp.hello.ui.main.model.config.AgoraConfig;
+import tech.sud.mgp.hello.ui.main.model.config.BaseRtcConfig;
+import tech.sud.mgp.hello.ui.main.model.config.ZegoConfig;
+
+/**
+ * 切换rtc服务业务逻辑
+ */
+public class ChangeRtcViewModel extends BaseViewModel {
+
+    private final Executor executor = Executors.newSingleThreadExecutor();
+
+    // rtc列表数据
+    public final MutableLiveData<List<BaseRtcConfig>> rtcDatasLiveData = new MutableLiveData<>();
+
+    // 获取rtc列表
+    public void getRtcList() {
+        executor.execute(() -> {
+            BaseConfigResp baseConfigResp = (BaseConfigResp) GlobalCache.getInstance().getSerializable(GlobalCache.BASE_CONFIG_KEY);
+            if (baseConfigResp != null) {
+                List<BaseRtcConfig> list = new ArrayList<>();
+                if (baseConfigResp.zegoCfg != null) { // 即构
+                    list.add(baseConfigResp.zegoCfg);
+                }
+                if (baseConfigResp.agoraCfg != null) { // 声网
+                    list.add(baseConfigResp.agoraCfg);
+                }
+                rtcDatasLiveData.postValue(list);
+            }
+        });
+    }
+
+    // 设置所使用的rtc配置
+    public void setRtcConfig(BaseRtcConfig config) {
+        if (config == null) return;
+        // 设置引擎
+        applyRtcEngine(config);
+
+        // 保存配置
+        AppConfig.getInstance().setSelectRtcConfig(config);
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                GlobalCache.getInstance().put(GlobalCache.RTC_CONFIG_KEY, config);
+            }
+        });
+    }
+
+    // 判断当前所使用的rtc是否是该配置
+    public boolean isSelectRtcConfig(BaseRtcConfig config) {
+        BaseRtcConfig selectRtcConfig = AppConfig.getInstance().getSelectRtcConfig();
+        return selectRtcConfig != null && selectRtcConfig.rtcType != null && selectRtcConfig.rtcType.equals(config.rtcType);
+    }
+
+    /**
+     * 根据配置，应用rtc引擎
+     *
+     * @param config
+     */
+    public static void applyRtcEngine(BaseRtcConfig config) {
+        if (config instanceof ZegoConfig) {
+            MediaAudioEngineManager.makeEngine(ZegoAudioEngine.class);
+            ZegoConfig zegoConfig = (ZegoConfig) config;
+            MediaAudioEngineManager.getEngine().config(zegoConfig.appId, zegoConfig.appKey);
+        } else if (config instanceof AgoraConfig) {
+            MediaAudioEngineManager.makeEngine(AgoraAudioEngine.class);
+            AgoraConfig agoraConfig = (AgoraConfig) config;
+            MediaAudioEngineManager.getEngine().config(agoraConfig.appId, agoraConfig.appKey);
+        }
+    }
+
+}

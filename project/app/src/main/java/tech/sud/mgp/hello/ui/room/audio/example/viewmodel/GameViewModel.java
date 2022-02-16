@@ -450,10 +450,10 @@ public class GameViewModel {
      */
     public void sendMsgCompleted(String msg) {
         String keyword = gameKeywordLiveData.getValue();
-        if (msg.isEmpty() || keyword == null | keyword.isEmpty()) {
+        if (msg == null || msg.isEmpty() || keyword == null || keyword.isEmpty()) {
             return;
         }
-        if (msg.contains(keyword) && msg.length() == keyword.length()) { //命中
+        if (msg.contains(keyword)) { //命中
             fsmApp2MGManager.sendCommonSelfTextHitState(true, keyword, msg);
             gameKeywordLiveData.setValue(null);
         }

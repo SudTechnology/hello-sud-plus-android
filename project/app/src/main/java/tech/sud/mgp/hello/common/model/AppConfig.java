@@ -6,8 +6,8 @@ import androidx.annotation.NonNull;
 
 import java.io.Serializable;
 
-import tech.sud.mgp.hello.ui.main.http.model.SudConfig;
 import tech.sud.mgp.hello.ui.main.http.resp.BaseConfigResp;
+import tech.sud.mgp.hello.ui.main.model.config.SudConfig;
 
 /**
  * 全局配置
@@ -36,19 +36,26 @@ public class AppConfig {
         return null;
     }
 
-    // 保存静态数据
+    // 保存数据
     public void onSaveInstanceState(@NonNull Bundle outState) {
         if (baseConfigResp != null) {
             outState.putSerializable("BaseConfigResp", baseConfigResp);
         }
     }
 
-    // 恢复静态数据
+    // 恢复数据
     public void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         Serializable baseConfigResp = savedInstanceState.getSerializable("BaseConfigResp");
         if (baseConfigResp instanceof BaseConfigResp) {
             this.baseConfigResp = (BaseConfigResp) baseConfigResp;
         }
+    }
+
+    /**
+     * 获取当前所用的rtc类型
+     */
+    public String getRtcType() {
+        return "";
     }
 
 }

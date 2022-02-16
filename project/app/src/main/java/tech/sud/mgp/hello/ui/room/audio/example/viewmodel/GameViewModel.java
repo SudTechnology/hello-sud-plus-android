@@ -37,7 +37,7 @@ import tech.sud.mgp.hello.ui.game.middle.state.mg.player.PlayerCaptainState;
 import tech.sud.mgp.hello.ui.game.middle.state.mg.player.PlayerInState;
 import tech.sud.mgp.hello.ui.game.middle.state.mg.player.PlayerReadyState;
 import tech.sud.mgp.hello.ui.game.middle.utils.GameCommonStateUtils;
-import tech.sud.mgp.hello.ui.main.http.model.SudConfig;
+import tech.sud.mgp.hello.ui.main.model.config.SudConfig;
 import tech.sud.mgp.hello.ui.room.audio.example.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.room.audio.example.utils.HSJsonUtils;
 

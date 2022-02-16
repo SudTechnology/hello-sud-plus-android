@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.main.http.model;
+package tech.sud.mgp.hello.ui.main.model.config;
 
 import java.io.Serializable;
 

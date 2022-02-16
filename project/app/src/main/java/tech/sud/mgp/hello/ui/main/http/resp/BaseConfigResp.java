@@ -2,9 +2,9 @@ package tech.sud.mgp.hello.ui.main.http.resp;
 
 import java.io.Serializable;
 
-import tech.sud.mgp.hello.ui.main.http.model.AgoraConfig;
-import tech.sud.mgp.hello.ui.main.http.model.SudConfig;
-import tech.sud.mgp.hello.ui.main.http.model.ZegoConfig;
+import tech.sud.mgp.hello.ui.main.model.config.AgoraConfig;
+import tech.sud.mgp.hello.ui.main.model.config.SudConfig;
+import tech.sud.mgp.hello.ui.main.model.config.ZegoConfig;
 
 /**
  * 基础配置返回

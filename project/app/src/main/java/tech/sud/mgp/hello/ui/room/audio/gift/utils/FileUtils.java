@@ -7,6 +7,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 
 public class FileUtils {
     private static final String SEPARATOR = File.separator;//路径分隔符
@@ -59,4 +61,55 @@ public class FileUtils {
             e.printStackTrace();
         }
     }
+
+    /**
+     * 格式化文件大小
+     *
+     * @param size
+     * @return
+     */
+    public static String formatFileSize(long size) {
+        return formatFileSize(size, 0, true);
+    }
+
+    /**
+     * 文件大小转换
+     *
+     * @param number
+     * @param pow        保留几位小数
+     * @param isContainB 单位中是否带B
+     * @return
+     */
+    public static String formatFileSize(long number, int pow, boolean isContainB) {
+        String formatString = "##0";
+        if (pow > 0) {
+            formatString = formatString + ".";
+            for (int i = 0; i < pow; i++) {
+                formatString += "0";
+            }
+        }
+        DecimalFormat df = new DecimalFormat(formatString);
+        df.setRoundingMode(RoundingMode.DOWN);
+        double point = Math.pow(10, pow);
+        StringBuilder size = new StringBuilder();
+        long oneKB = 1024; // 1KB
+        long oneMB = 1024 * oneKB; // 1MB
+        long oneGB = 1024 * oneMB;
+        if (number <= 0) {
+            size.append(isContainB ? "0KB" : "0K");
+        } else if (number < oneKB) {
+            size.append(isContainB ? "1KB" : "1K");
+        } else if (number < oneMB) { // 小于一MB
+            double numberDouble = number * 1.0d / oneKB * point / point;
+            size.append(df.format(numberDouble)).append(isContainB ? "KB" : "K");
+        } else if (number < oneGB) { // 小于一GB
+            double numberDouble = number * 1.0d / oneMB * point / point;
+            size.append(df.format(numberDouble)).append(isContainB ? "MB" : "M");
+        } else {// 大于或者等于一GB
+            double numberDouble = number * 1.0d / oneGB * point / point;
+            size.append(df.format(numberDouble)).append(isContainB ? "GB" : "G");
+        }
+        return size.toString();
+    }
+
 }

@@ -59,6 +59,13 @@ public class AppConfig {
     }
 
     /**
+     * 获取当前所用的rtc名称
+     */
+    public String getRtcName() {
+        return null;
+    }
+
+    /**
      * 根据rtcType获取名称
      */
     public String getRtcNameByRtcType(String rtcType) {

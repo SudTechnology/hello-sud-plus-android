@@ -38,7 +38,7 @@
     <string name="room_list_enter">进入</string>
     <string name="room_list_roomid">房间号：%1$s</string>
     <string name="room_list_online">%1$s人</string>
-    <string name="setting_contact1_content">如需了解更多资讯或反馈问题，可联系：help@sud.tech</string>
+    <string name="setting_contact1_content">如需要了解更多资讯或反馈问题，可通过邮箱联系我们：help@sud.tech</string>
     <string name="setting_contact1_but">好的</string>
     <string-array name="names_list" tools:ignore="ExtraTranslation">
         <item>哈利</item>
@@ -194,10 +194,15 @@
     <string name="common_record_audio">录音</string>
     <string name="common_phone">电话</string>
     <string name="common_setting_permission_info">请在设置中开启%1$s权限，以正常使用 %2$s APP功能</string>
-
     <string name="close_game">关闭游戏</string>
     <string name="finish_game">结束游戏</string>
     <string name="index_creat_room">创建房间</string>
     <string name="index_game_join">加入</string>
+    <string name="occupy_size">占用大小</string>
+    <string name="version_info">版本信息</string>
+    <string name="change_rtc_service">切换RTC服务商</string>
+    <string name="change_language">切换语言</string>
+    <string name="github">GitHub</string>
+    <string name="open_source_licenses">开源协议</string>
 
 </resources>

@@ -26,7 +26,7 @@ import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.AppConfig;
 import tech.sud.mgp.hello.ui.main.fragment.IndexFragment;
 import tech.sud.mgp.hello.ui.main.fragment.RoomListFragment;
-import tech.sud.mgp.hello.ui.main.fragment.SettingsFragment;
+import tech.sud.mgp.hello.ui.main.fragment.SettingFragment;
 import tech.sud.mgp.hello.ui.main.http.repository.HomeRepository;
 import tech.sud.mgp.hello.ui.main.http.resp.BaseConfigResp;
 import tech.sud.mgp.hello.ui.main.listener.TabClickListener;
@@ -163,7 +163,7 @@ public class HomeActivity extends BaseActivity implements TabClickListener {
                     return RoomListFragment.newInstance();
                 }
                 default: {
-                    return SettingsFragment.newInstance();
+                    return SettingFragment.newInstance();
                 }
             }
         }

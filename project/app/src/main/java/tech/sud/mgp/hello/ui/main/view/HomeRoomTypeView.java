@@ -22,20 +22,28 @@ import tech.sud.mgp.hello.common.utils.ImageLoader;
 import tech.sud.mgp.hello.ui.main.adapter.GameAdapter;
 import tech.sud.mgp.hello.ui.main.http.resp.GameModel;
 import tech.sud.mgp.hello.ui.main.http.resp.SceneModel;
+import tech.sud.mgp.hello.ui.main.listener.CreatRoomClickListener;
 import tech.sud.mgp.hello.ui.main.listener.GameItemListener;
+import tech.sud.mgp.hello.ui.main.manager.HomeManager;
 
 public class HomeRoomTypeView extends ConstraintLayout {
     private TextView sceneNameTv;
     private ImageView sceneIv;
     private GridLayout gridLayout;
     private RecyclerView gameRecyclerview;
-    private TextView emptyTv;
+
     private GameAdapter gameAdapter;
     private GameItemListener gameItemListener;
     private SceneModel sceneModel;
+    private ConstraintLayout creatRoomBtn;
+    private CreatRoomClickListener creatRoomClickListener;
 
     public void setGameItemListener(GameItemListener gameItemListener) {
         this.gameItemListener = gameItemListener;
+    }
+
+    public void setCreatRoomClickListener(CreatRoomClickListener creatRoomClickListener) {
+        this.creatRoomClickListener = creatRoomClickListener;
     }
 
     public HomeRoomTypeView(@NonNull Context context) {
@@ -59,7 +67,15 @@ public class HomeRoomTypeView extends ConstraintLayout {
         sceneIv = findViewById(R.id.scene_img);
         gridLayout = findViewById(R.id.gridlayout);
         gameRecyclerview = findViewById(R.id.more6_game_rv);
-        emptyTv = findViewById(R.id.empty_tv);
+        creatRoomBtn = findViewById(R.id.creat_room_btn);
+        creatRoomBtn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (creatRoomClickListener != null) {
+                    creatRoomClickListener.onCreatRoomClick(sceneModel);
+                }
+            }
+        });
     }
 
     public void setData(SceneModel sceneModel, List<GameModel> datas) {
@@ -73,7 +89,6 @@ public class HomeRoomTypeView extends ConstraintLayout {
             sceneIv.setImageResource(R.mipmap.icon_audio_room);
         }
         if (datas != null && datas.size() > 0) {
-            emptyTv.setVisibility(View.GONE);
             List<GameModel> models = new ArrayList<>();
             for (int i = 0; i < datas.size(); i++) {
                 if (i > 5) {
@@ -96,7 +111,10 @@ public class HomeRoomTypeView extends ConstraintLayout {
                 gameRecyclerview.setVisibility(View.GONE);
             }
         } else {
-            emptyTv.setVisibility(View.VISIBLE);
+            List<GameModel> models = HomeManager.getInstance().getSceneEmptyGame(getContext(), sceneModel);
+            for (int i = 0; i < models.size(); i++) {
+                addGameView(sceneModel, models.get(i));
+            }
         }
     }
 

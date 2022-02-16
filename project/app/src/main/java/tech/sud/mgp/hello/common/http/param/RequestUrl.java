@@ -66,4 +66,9 @@ public interface RequestUrl {
      */
     String EXIT_ROOM = "room/exit-room/v1";
 
+    /**
+     * 创建房间
+     * */
+    String CREAT_ROOM = "/room/create-room/v1";
+
 }

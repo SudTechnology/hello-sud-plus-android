@@ -22,16 +22,18 @@ import tech.sud.mgp.hello.common.utils.AppSharedPreferences;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
 import tech.sud.mgp.hello.common.utils.ResponseUtils;
 import tech.sud.mgp.hello.ui.main.http.repository.HomeRepository;
+import tech.sud.mgp.hello.ui.main.http.resp.CreatRoomResp;
 import tech.sud.mgp.hello.ui.main.http.resp.GameListResp;
 import tech.sud.mgp.hello.ui.main.http.resp.GameModel;
 import tech.sud.mgp.hello.ui.main.http.resp.SceneModel;
+import tech.sud.mgp.hello.ui.main.listener.CreatRoomClickListener;
 import tech.sud.mgp.hello.ui.main.listener.GameItemListener;
 import tech.sud.mgp.hello.ui.main.manager.HomeManager;
 import tech.sud.mgp.hello.ui.main.model.MatchRoomModel;
 import tech.sud.mgp.hello.ui.main.view.HomeRoomTypeView;
 import tech.sud.mgp.hello.ui.room.audio.example.utils.EnterRoomUtils;
 
-public class IndexFragment extends BaseFragment implements GameItemListener {
+public class IndexFragment extends BaseFragment implements CreatRoomClickListener, GameItemListener {
 
     private EditText searchEt;
     private TextView goSearch;
@@ -137,6 +139,7 @@ public class IndexFragment extends BaseFragment implements GameItemListener {
                 SceneModel model = resp.getSceneList().get(i);
                 HomeRoomTypeView sceneView = new HomeRoomTypeView(requireContext());
                 sceneView.setGameItemListener(this);
+                sceneView.setCreatRoomClickListener(this);
                 sceneView.setData(model, HomeManager.getInstance().getSceneGame(model));
                 sceneLayout.addView(sceneView);
             }
@@ -182,4 +185,27 @@ public class IndexFragment extends BaseFragment implements GameItemListener {
         super.onResume();
         loadList();
     }
+
+    @Override
+    public void onCreatRoomClick(SceneModel sceneModel) {
+        //创建房间
+        if (sceneModel != null) {
+            creatRoom(sceneModel.getSceneId());
+        }
+    }
+
+    private void creatRoom(Integer sceneType) {
+        HomeRepository.creatRoom(sceneType, this, new RxCallback<CreatRoomResp>() {
+            @Override
+            public void onNext(BaseResponse<CreatRoomResp> t) {
+                super.onNext(t);
+                if (t.getRetCode() == RetCode.SUCCESS) {
+                    EnterRoomUtils.enterRoom(requireContext(), t.getData().roomId);
+                } else {
+                    ToastUtils.showShort(ResponseUtils.conver(t));
+                }
+            }
+        });
+    }
+
 }

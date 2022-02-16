@@ -8,6 +8,7 @@
     <string name="female">女</string>
     <string name="play_now">立即体验</string>
     <string name="search_hint">输入房间号快速进入</string>
+
     <string name="tabs_index">首页</string>
     <string name="tabs_room">房间</string>
     <string name="tabs_set">设置</string>
@@ -193,6 +194,10 @@
     <string name="common_record_audio">录音</string>
     <string name="common_phone">电话</string>
     <string name="common_setting_permission_info">请在设置中开启%1$s权限，以正常使用 %2$s APP功能</string>
+
     <string name="close_game">关闭游戏</string>
     <string name="finish_game">结束游戏</string>
+    <string name="index_creat_room">创建房间</string>
+    <string name="index_game_join">加入</string>
+
 </resources>

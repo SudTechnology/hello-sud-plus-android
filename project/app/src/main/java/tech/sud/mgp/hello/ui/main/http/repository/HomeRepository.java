@@ -8,10 +8,13 @@ import java.util.List;
 import tech.sud.mgp.hello.common.http.param.BaseUrlManager;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.http.rx.RxUtil;
+import tech.sud.mgp.hello.common.model.AppConfig;
 import tech.sud.mgp.hello.ui.main.http.method.HomeRequestMethodFactory;
+import tech.sud.mgp.hello.ui.main.http.req.CreatRoomReq;
 import tech.sud.mgp.hello.ui.main.http.req.MatchBodyReq;
 import tech.sud.mgp.hello.ui.main.http.req.UserInfoReq;
 import tech.sud.mgp.hello.ui.main.http.resp.BaseConfigResp;
+import tech.sud.mgp.hello.ui.main.http.resp.CreatRoomResp;
 import tech.sud.mgp.hello.ui.main.http.resp.GameListResp;
 import tech.sud.mgp.hello.ui.main.http.resp.RoomListResp;
 import tech.sud.mgp.hello.ui.main.http.resp.UserInfoListResp;
@@ -72,6 +75,19 @@ public class HomeRepository {
     public static void getBaseConfig(LifecycleOwner owner, RxCallback<BaseConfigResp> callback) {
         HomeRequestMethodFactory.getMethod()
                 .getBaseConfig(BaseUrlManager.getBaseUrl())
+                .compose(RxUtil.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /**
+     * 创建房间
+     */
+    public static void creatRoom(Integer sceneType, LifecycleOwner owner, RxCallback<CreatRoomResp> callback) {
+        CreatRoomReq req = new CreatRoomReq();
+        req.rtcType = AppConfig.getInstance().getRtcType();
+        req.sceneType = sceneType;
+        HomeRequestMethodFactory.getMethod()
+                .creatRoom(BaseUrlManager.getInteractBaseUrl(), req)
                 .compose(RxUtil.schedulers(owner))
                 .subscribe(callback);
     }

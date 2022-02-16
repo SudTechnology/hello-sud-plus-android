@@ -7,9 +7,11 @@ import retrofit2.http.POST;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.IBaseUrl;
 import tech.sud.mgp.hello.common.http.param.RequestUrl;
+import tech.sud.mgp.hello.ui.main.http.req.CreatRoomReq;
 import tech.sud.mgp.hello.ui.main.http.req.MatchBodyReq;
 import tech.sud.mgp.hello.ui.main.http.req.UserInfoReq;
 import tech.sud.mgp.hello.ui.main.http.resp.BaseConfigResp;
+import tech.sud.mgp.hello.ui.main.http.resp.CreatRoomResp;
 import tech.sud.mgp.hello.ui.main.http.resp.GameListResp;
 import tech.sud.mgp.hello.ui.main.http.resp.RoomListResp;
 import tech.sud.mgp.hello.ui.main.http.resp.UserInfoListResp;
@@ -49,4 +51,10 @@ public interface HomeRequestMethod {
      */
     @POST(RequestUrl.GET_BASE_CONFIG)
     Observable<BaseResponse<BaseConfigResp>> getBaseConfig(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl);
+
+    /**
+     * 创建房间
+     */
+    @POST(RequestUrl.ROOM_MATCH)
+    Observable<BaseResponse<CreatRoomResp>> creatRoom(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body CreatRoomReq body);
 }

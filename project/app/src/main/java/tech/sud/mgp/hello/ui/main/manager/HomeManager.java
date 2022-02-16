@@ -1,8 +1,12 @@
 package tech.sud.mgp.hello.ui.main.manager;
 
+import android.content.Context;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import tech.sud.mgp.hello.R;
+import tech.sud.mgp.hello.common.utils.ShapeUtils;
 import tech.sud.mgp.hello.ui.main.http.resp.GameListResp;
 import tech.sud.mgp.hello.ui.main.http.resp.GameModel;
 import tech.sud.mgp.hello.ui.main.http.resp.RoomListResp;
@@ -70,6 +74,21 @@ public class HomeManager {
                     gameModels.add(game);
                 }
             }
+        }
+        return gameModels;
+    }
+
+    /**
+     * 敬请期待数据
+     * */
+    public List<GameModel> getSceneEmptyGame(Context context,SceneModel model) {
+        List<GameModel> gameModels = new ArrayList<>();
+        for (int i = 0; i < 6; i++) {
+            GameModel game = new GameModel();
+            game.setGameId(-1);
+            game.setGameName(context.getString(R.string.coming_soon));
+            game.setGamePic("");
+            gameModels.add(game);
         }
         return gameModels;
     }

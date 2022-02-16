@@ -2,6 +2,7 @@ package tech.sud.mgp.hello.ui.room.audio.example.http.repository;
 
 import androidx.lifecycle.LifecycleOwner;
 
+import tech.sud.mgp.hello.common.model.AppConfig;
 import tech.sud.mgp.hello.ui.room.audio.example.http.method.AudioRequestMethodFactory;
 import tech.sud.mgp.hello.ui.room.audio.example.http.req.EnterRoomReq;
 import tech.sud.mgp.hello.ui.room.audio.example.http.req.ExitRoomReq;
@@ -24,6 +25,7 @@ public class AudioRepository {
         if (roomId != null) {
             req.roomId = roomId;
         }
+        req.rtcType = AppConfig.getInstance().getRtcType();
         AudioRequestMethodFactory.getMethod()
                 .enterRoom(BaseUrlManager.getInteractBaseUrl(), req)
                 .compose(RxUtil.schedulers(owner))

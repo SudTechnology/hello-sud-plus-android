@@ -396,7 +396,8 @@ public class AgoraAudioEngine implements MediaAudioEngineProtocol {
             // 并在该回调的返回值中设置采集的音频数据格式。
             // SDK 会根据 getRecordAudioParams
             // 回调返回值中设置的 AudioParams 计算采样间隔， 并根据该采样间隔触发 onRecordFrame 回调
-            return null;
+            AudioParams params = new AudioParams(441000, 1, 0, 1024);
+            return params;
         }
 
         @Override

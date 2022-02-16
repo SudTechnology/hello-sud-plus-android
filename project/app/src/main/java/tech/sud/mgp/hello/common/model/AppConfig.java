@@ -55,7 +55,24 @@ public class AppConfig {
      * 获取当前所用的rtc类型
      */
     public String getRtcType() {
-        return "";
+        return null;
+    }
+
+    /**
+     * 根据rtcType获取名称
+     */
+    public String getRtcNameByRtcType(String rtcType) {
+        BaseConfigResp config = baseConfigResp;
+        if (config == null || rtcType == null) {
+            return null;
+        }
+        if (config.zegoCfg != null && config.zegoCfg.rtcType.equals(rtcType)) {
+            return config.zegoCfg.desc;
+        }
+        if (config.agoraCfg != null && config.agoraCfg.rtcType.equals(rtcType)) {
+            return config.agoraCfg.desc;
+        }
+        return null;
     }
 
 }

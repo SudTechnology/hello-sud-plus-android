@@ -15,6 +15,7 @@ public class RoomItemModel {
     private int memberCount;
     private String roomPic;
     private int sceneType;
+    private String rtcType;
 
     public int getRoomId() {
         return roomId;
@@ -54,5 +55,13 @@ public class RoomItemModel {
 
     public void setSceneType(int sceneType) {
         this.sceneType = sceneType;
+    }
+
+    public String getRtcType() {
+        return rtcType;
+    }
+
+    public void setRtcType(String rtcType) {
+        this.rtcType = rtcType;
     }
 }

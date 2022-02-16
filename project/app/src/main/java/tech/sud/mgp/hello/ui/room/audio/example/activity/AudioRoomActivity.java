@@ -27,6 +27,7 @@ import tech.sud.mgp.hello.rtc.protocol.AudioData;
 import tech.sud.mgp.hello.ui.game.middle.model.GameMessageModel;
 import tech.sud.mgp.hello.ui.game.middle.state.mg.common.CommonGameState;
 import tech.sud.mgp.hello.ui.room.audio.example.model.AudioRoomMicModel;
+import tech.sud.mgp.hello.ui.room.audio.example.model.RoleType;
 import tech.sud.mgp.hello.ui.room.audio.example.model.RoomInfoModel;
 import tech.sud.mgp.hello.ui.room.audio.example.model.UserInfo;
 import tech.sud.mgp.hello.ui.room.audio.example.service.AudioRoomService;
@@ -117,9 +118,9 @@ public class AudioRoomActivity extends BaseActivity {
 
         // TODO: 2022/2/9 现在为了调试，把下面的权限判断代码给注释掉了
 //        if (roomInfoModel.roleType == RoleType.OWNER) {
-//            topView.setSelectModeVisibility(View.VISIBLE);
+//            topView.setSelectGameVisibility(View.VISIBLE);
 //        } else {
-//            topView.setSelectModeVisibility(View.GONE);
+//            topView.setSelectGameVisibility(View.GONE);
 //        }
     }
 
@@ -200,15 +201,15 @@ public class AudioRoomActivity extends BaseActivity {
                 inputMsgView.clearInput();
             }
         });
-        topView.setSelectModeClickListener(new View.OnClickListener() {
+        topView.setSelectGameClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 GameModeDialog dialog = new GameModeDialog();
                 dialog.setPlayingGameId(playingGameId);
                 dialog.show(getSupportFragmentManager(), null);
-                dialog.setSelectGameModeListener(new GameModeDialog.SelectGameModeListener() {
+                dialog.setSelectGameListener(new GameModeDialog.SelectGameListener() {
                     @Override
-                    public void onSelectGameMode(long gameId) {
+                    public void onSelectGame(long gameId) {
                         switchGame(gameId, true);
                     }
                 });
@@ -218,6 +219,12 @@ public class AudioRoomActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 intentClose();
+            }
+        });
+        topView.setFinishGameOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switchGame(0, true);
             }
         });
     }
@@ -341,6 +348,7 @@ public class AudioRoomActivity extends BaseActivity {
         gameViewModel.switchGame(this, gameId);
         binder.switchGame(gameId, selfSwitch);
         updatePageStyle();
+        onGameChange();
     }
 
     private void openMic() {
@@ -414,11 +422,21 @@ public class AudioRoomActivity extends BaseActivity {
         updatePageStyle();
         gameViewModel.setRoomId(roomInfoModel.roomId);
         gameViewModel.switchGame(this, roomInfoModel.gameId);
+        onGameChange();
     }
 
-    /**
-     * 切换游戏之后，更新页面样式
-     */
+    // 游戏模式变化了
+    private void onGameChange() {
+        if (roomInfoModel.roleType == RoleType.OWNER) {
+            if (playingGameId == 0) { // 没有游戏
+                topView.setFinishGameVisibility(View.GONE);
+            } else {
+                topView.setFinishGameVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+    // 切换游戏之后，更新页面样式
     private void updatePageStyle() {
         if (roomInfoModel.gameId > 0) { // 玩着游戏
             micView.setMicStyle(AudioRoomMicWrapView.AudioRoomMicStyle.GAME);

@@ -20,8 +20,9 @@ public class AudioRoomTopView extends ConstraintLayout {
     private TextView mTvName;
     private TextView mTvId;
     private TextView mTvNumber;
-    private View mContainerMode;
-    private TextView mTvMode;
+    private View mContainerSelectGame;
+    private TextView mTvSelectGame;
+    private TextView mTvFinishGame;
     private ImageView mIvClose;
 
     public AudioRoomTopView(@NonNull Context context) {
@@ -42,9 +43,10 @@ public class AudioRoomTopView extends ConstraintLayout {
         mTvName = findViewById(R.id.top_tv_name);
         mTvId = findViewById(R.id.top_tv_room_id);
         mTvNumber = findViewById(R.id.top_tv_room_number);
-        mContainerMode = findViewById(R.id.top_ll_select_mode);
-        mTvMode = findViewById(R.id.top_tv_mode_name);
+        mContainerSelectGame = findViewById(R.id.top_ll_select_game);
+        mTvSelectGame = findViewById(R.id.top_tv_select_game);
         mIvClose = findViewById(R.id.top_iv_close);
+        mTvFinishGame = findViewById(R.id.top_tv_finish_game);
     }
 
     /**
@@ -78,16 +80,16 @@ public class AudioRoomTopView extends ConstraintLayout {
      * @param value
      */
     public void setMode(String value) {
-        mTvMode.setText(value);
+        mTvSelectGame.setText(value);
     }
 
     /**
-     * 设置选择模式点击监听
+     * 设置选择游戏点击监听
      *
      * @param listener
      */
-    public void setSelectModeClickListener(OnClickListener listener) {
-        mContainerMode.setOnClickListener(listener);
+    public void setSelectGameClickListener(OnClickListener listener) {
+        mContainerSelectGame.setOnClickListener(listener);
     }
 
     /**
@@ -100,12 +102,30 @@ public class AudioRoomTopView extends ConstraintLayout {
     }
 
     /**
-     * 设置选择模式的可见性
+     * 设置选择游戏的可见性
      *
      * @param visibility
      */
-    public void setSelectModeVisibility(int visibility) {
-        mContainerMode.setVisibility(visibility);
+    public void setSelectGameVisibility(int visibility) {
+        mContainerSelectGame.setVisibility(visibility);
+    }
+
+    /**
+     * 设置结束游戏的可见性
+     *
+     * @param visibility
+     */
+    public void setFinishGameVisibility(int visibility) {
+        mTvFinishGame.setVisibility(visibility);
+    }
+
+    /**
+     * 设置结束游戏点击监听
+     *
+     * @param listener
+     */
+    public void setFinishGameOnClickListener(OnClickListener listener) {
+        mTvFinishGame.setOnClickListener(listener);
     }
 
 }

@@ -53,33 +53,49 @@
         app:layout_constraintBottom_toBottomOf="@id/top_tv_room_id"
         app:layout_constraintStart_toEndOf="@id/top_tv_room_id" />
 
-    <!-- 选择模式 -->
+    <!-- 结束游戏 -->
+    <TextView
+        android:id="@+id/top_tv_finish_game"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginEnd="8dp"
+        android:paddingHorizontal="8dp"
+        android:textSize="12sp"
+        android:textColor="@color/c_ffffff"
+        android:text="@string/finish_game"
+        android:background="@drawable/shape_select_game"
+        android:gravity="center"
+        app:layout_constraintRight_toLeftOf="@id/top_ll_select_game"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <!-- 选择游戏 -->
     <LinearLayout
-        android:id="@+id/top_ll_select_mode"
+        android:id="@+id/top_ll_select_game"
         android:layout_width="wrap_content"
         android:layout_height="20dp"
         android:orientation="horizontal"
         android:layout_marginEnd="52dp"
         android:paddingHorizontal="8dp"
         android:gravity="center"
-        android:background="@drawable/shape_select_mode"
+        android:background="@drawable/shape_select_game"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/top_tv_mode_name"
+            android:id="@+id/top_tv_select_game"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="12sp"
             android:textColor="@color/c_ffffff"
-            android:text="@string/audio_select_room_mode" />
+            android:text="@string/select_game" />
 
         <View
             android:layout_width="10dp"
             android:layout_height="10dp"
             android:layout_marginStart="4dp"
-            android:background="@drawable/ic_select_mode_arrow" />
+            android:background="@drawable/ic_select_game_arrow" />
 
     </LinearLayout>
 

@@ -55,6 +55,6 @@ public interface HomeRequestMethod {
     /**
      * 创建房间
      */
-    @POST(RequestUrl.ROOM_MATCH)
+    @POST(RequestUrl.CREAT_ROOM)
     Observable<BaseResponse<CreatRoomResp>> creatRoom(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body CreatRoomReq body);
 }

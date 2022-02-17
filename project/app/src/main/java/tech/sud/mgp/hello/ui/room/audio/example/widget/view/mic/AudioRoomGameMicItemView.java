@@ -25,6 +25,7 @@ public class AudioRoomGameMicItemView extends BaseMicItemView {
     private TextView mTvName;
     private View mViewCaptain;
     private TextView mTvState;
+    private View mViewPlayingGame;
 
     public AudioRoomGameMicItemView(@NonNull Context context) {
         this(context, null);
@@ -46,6 +47,7 @@ public class AudioRoomGameMicItemView extends BaseMicItemView {
         mTvName = findViewById(R.id.tv_name);
         mViewCaptain = findViewById(R.id.view_captain);
         mTvState = findViewById(R.id.tv_game_state);
+        mViewPlayingGame = findViewById(R.id.view_playing_game);
     }
 
     @Override
@@ -104,6 +106,13 @@ public class AudioRoomGameMicItemView extends BaseMicItemView {
             }
         } else {
             mTvState.setVisibility(View.GONE);
+        }
+
+        // 是否正在游戏中
+        if (item.isPlayingGame) {
+            mViewPlayingGame.setVisibility(View.VISIBLE);
+        } else {
+            mViewPlayingGame.setVisibility(View.GONE);
         }
     }
 

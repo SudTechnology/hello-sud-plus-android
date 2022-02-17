@@ -65,4 +65,14 @@
         app:layout_constraintStart_toStartOf="@id/riv_avatar"
         app:layout_constraintEnd_toEndOf="@id/riv_avatar" />
 
+    <View
+        android:id="@+id/view_playing_game"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:background="@drawable/ic_playing_game"
+        android:layout_marginTop="15dp"
+        app:layout_constraintTop_toTopOf="@id/riv_avatar"
+        app:layout_constraintStart_toStartOf="@id/riv_avatar"
+        app:layout_constraintEnd_toEndOf="@id/riv_avatar" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

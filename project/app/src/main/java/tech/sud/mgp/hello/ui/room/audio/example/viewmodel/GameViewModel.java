@@ -35,6 +35,7 @@ import tech.sud.mgp.hello.ui.game.middle.state.SudMGPMGState;
 import tech.sud.mgp.hello.ui.game.middle.state.mg.common.CommonGameState;
 import tech.sud.mgp.hello.ui.game.middle.state.mg.player.PlayerCaptainState;
 import tech.sud.mgp.hello.ui.game.middle.state.mg.player.PlayerInState;
+import tech.sud.mgp.hello.ui.game.middle.state.mg.player.PlayerPlayingState;
 import tech.sud.mgp.hello.ui.game.middle.state.mg.player.PlayerReadyState;
 import tech.sud.mgp.hello.ui.game.middle.utils.GameCommonStateUtils;
 import tech.sud.mgp.hello.ui.main.model.config.SudConfig;
@@ -273,6 +274,17 @@ public class GameViewModel {
                     }
                 }
                 break;
+            case SudMGPMGState.MG_COMMON_PLAYER_PLAYING: // 游戏状态
+                PlayerPlayingState playerPlayingState = HSJsonUtils.fromJson(dataJson, PlayerPlayingState.class);
+                if (playerPlayingState != null) {
+                    if (playerPlayingState.isPlaying) {
+                        putPlayerState(userId, playerPlayingState);
+                    } else {
+                        removePlayerState(userId);
+                    }
+                    notifyUpdateMic();
+                }
+                break;
         }
     }
 
@@ -406,6 +418,16 @@ public class GameViewModel {
             model.readyStatus = 0;
         }
 
+        // 是否正在游戏中
+        boolean isPlayingGame = false;
+        if (hasUser) {
+            Object playerState = getPlayerState(model.userId + "");
+            if (playerState instanceof PlayerPlayingState) {
+                PlayerPlayingState playerPlayingState = (PlayerPlayingState) playerState;
+                isPlayingGame = playerPlayingState.isPlaying;
+            }
+        }
+        model.isPlayingGame = isPlayingGame;
     }
 
     /**

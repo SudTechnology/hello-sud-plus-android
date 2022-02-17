@@ -5,7 +5,6 @@ import android.view.ViewTreeObserver;
 
 import com.blankj.utilcode.util.BarUtils;
 import com.blankj.utilcode.util.GsonUtils;
-import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.Utils;
 
 import tech.sud.mgp.core.ISudFSMStateHandle;
@@ -109,7 +108,6 @@ public class SudFSMMGManager {
         // 配置不展示大厅玩家展示位
         gameConfigModel.ui.lobby_players.hide = true;
         handle.success(GsonUtils.toJson(gameConfigModel));
-        LogUtils.d(GsonUtils.toJson(gameConfigModel));
     }
 
 }

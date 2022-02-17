@@ -100,7 +100,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         } else if (v == btnChangeRtc) { // 切换RTC
             startActivity(new Intent(requireContext(), ChangeRtcActivity.class));
         } else if (v == btnChangeLanguage) { // 切换语言
-            ToastUtils.showShort(R.string.coming_soon);
+            ToastUtils.showShort(R.string.be_making);
         } else if (v == btnGitHub) { // github
             HsIntentUtils.openUrl(getContext(), "https://github.com/SudTechnology/hello-sud-android");
         } else if (v == btnOpenSource) { // 开源协议

@@ -4,11 +4,11 @@ import android.text.TextUtils;
 
 import com.blankj.utilcode.util.GsonUtils;
 
-import tech.sud.mgp.hello.SudMGPWrapper.model.GameASRModel;
 import tech.sud.mgp.hello.SudMGPWrapper.model.GameChatModel;
 import tech.sud.mgp.hello.SudMGPWrapper.model.GameChatMsgModel;
-import tech.sud.mgp.hello.SudMGPWrapper.model.GameKeyWordModel;
-import tech.sud.mgp.hello.SudMGPWrapper.model.GameMessageModel;
+import tech.sud.mgp.hello.SudMGPWrapper.model.MGCommonGameASRModel;
+import tech.sud.mgp.hello.SudMGPWrapper.model.MGCommonKeyWrodToHitModel;
+import tech.sud.mgp.hello.SudMGPWrapper.model.MGCommonPublicMessageModel;
 
 /**
  * 游戏通用状态工具类
@@ -21,15 +21,15 @@ public class GameCommonStateUtils {
      * @param dataJson
      * @return
      */
-    public static GameMessageModel parseMsgState(String dataJson) {
+    public static MGCommonPublicMessageModel parseMsgState(String dataJson) {
         try {
             GameChatModel gameChatModel = GsonUtils.fromJson(dataJson, GameChatModel.class);
             String msg = parseGameChatModel(gameChatModel);
             if (!TextUtils.isEmpty(msg)) {
-                GameMessageModel gameMessageModel = new GameMessageModel();
-                gameMessageModel.type = gameChatModel.type;
-                gameMessageModel.msg = msg;
-                return gameMessageModel;
+                MGCommonPublicMessageModel MGCommonPublicMessageModel = new MGCommonPublicMessageModel();
+                MGCommonPublicMessageModel.type = gameChatModel.type;
+                MGCommonPublicMessageModel.msg = msg;
+                return MGCommonPublicMessageModel;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -73,8 +73,8 @@ public class GameCommonStateUtils {
      */
     public static String parseKeywordState(String dataJson) {
         try {
-            GameKeyWordModel gameKeyWordModel = GsonUtils.fromJson(dataJson, GameKeyWordModel.class);
-            return gameKeyWordModel.word;
+            MGCommonKeyWrodToHitModel MGCommonKeyWrodToHitModel = GsonUtils.fromJson(dataJson, MGCommonKeyWrodToHitModel.class);
+            return MGCommonKeyWrodToHitModel.word;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -89,7 +89,7 @@ public class GameCommonStateUtils {
      */
     public static boolean parseASRState(String dataJson) {
         try {
-            GameASRModel asrState = GsonUtils.fromJson(dataJson, GameASRModel.class);
+            MGCommonGameASRModel asrState = GsonUtils.fromJson(dataJson, MGCommonGameASRModel.class);
             return asrState.isOpen;
         } catch (Exception e) {
             e.printStackTrace();

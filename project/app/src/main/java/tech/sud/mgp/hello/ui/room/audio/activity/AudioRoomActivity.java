@@ -17,8 +17,8 @@ import java.util.List;
 import java.util.Map;
 
 import tech.sud.mgp.hello.R;
-import tech.sud.mgp.hello.SudMGPWrapper.model.GameMessageModel;
-import tech.sud.mgp.hello.SudMGPWrapper.state.mg.common.CommonGameState;
+import tech.sud.mgp.hello.SudMGPWrapper.model.MGCommonPublicMessageModel;
+import tech.sud.mgp.hello.SudMGPWrapper.state.mg.common.MGCommonGameStateModel;
 import tech.sud.mgp.hello.common.base.BaseActivity;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
@@ -240,11 +240,11 @@ public class AudioRoomActivity extends BaseActivity {
                 }
             }
         });
-        gameViewModel.gameMessageLiveData.observe(this, new Observer<GameMessageModel>() {
+        gameViewModel.gameMessageLiveData.observe(this, new Observer<MGCommonPublicMessageModel>() {
             @Override
-            public void onChanged(GameMessageModel gameMessageModel) {
-                if (gameMessageModel != null) {
-                    binder.addChatMsg(gameMessageModel.msg);
+            public void onChanged(MGCommonPublicMessageModel MGCommonPublicMessageModel) {
+                if (MGCommonPublicMessageModel != null) {
+                    binder.addChatMsg(MGCommonPublicMessageModel.msg);
                 }
             }
         });
@@ -338,7 +338,7 @@ public class AudioRoomActivity extends BaseActivity {
         }
         if (selfSwitch) { // 自己主动切换时，如果游戏正在进行中，则不进行切换
             int gameState = gameViewModel.getGameState();
-            if (gameState == CommonGameState.LOADING || gameState == CommonGameState.PLAYING) {
+            if (gameState == MGCommonGameStateModel.LOADING || gameState == MGCommonGameStateModel.PLAYING) {
                 ToastUtils.showLong(R.string.audio_switch_game_warn);
                 return;
             }

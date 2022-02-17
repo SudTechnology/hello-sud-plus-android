@@ -7,7 +7,6 @@ import android.view.View;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.MutableLiveData;
 
-import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.ToastUtils;
@@ -19,16 +18,15 @@ import tech.sud.mgp.core.ISudFSMStateHandle;
 import tech.sud.mgp.core.ISudFSTAPP;
 import tech.sud.mgp.core.ISudListenerInitSDK;
 import tech.sud.mgp.core.SudMGP;
-import tech.sud.mgp.hello.SudMGPWrapper.manager.FsmApp2MgManager;
 import tech.sud.mgp.hello.SudMGPWrapper.manager.SudFSMMGManager;
-import tech.sud.mgp.hello.SudMGPWrapper.model.GameMessageModel;
-import tech.sud.mgp.hello.SudMGPWrapper.state.MGStateResponse;
+import tech.sud.mgp.hello.SudMGPWrapper.manager.SudFSTAPPManager;
+import tech.sud.mgp.hello.SudMGPWrapper.model.MGCommonPublicMessageModel;
 import tech.sud.mgp.hello.SudMGPWrapper.state.SudMGPMGState;
-import tech.sud.mgp.hello.SudMGPWrapper.state.mg.common.CommonGameState;
-import tech.sud.mgp.hello.SudMGPWrapper.state.mg.player.PlayerCaptainState;
-import tech.sud.mgp.hello.SudMGPWrapper.state.mg.player.PlayerInState;
-import tech.sud.mgp.hello.SudMGPWrapper.state.mg.player.PlayerPlayingState;
-import tech.sud.mgp.hello.SudMGPWrapper.state.mg.player.PlayerReadyState;
+import tech.sud.mgp.hello.SudMGPWrapper.state.mg.common.MGCommonGameStateModel;
+import tech.sud.mgp.hello.SudMGPWrapper.state.mg.player.MGCommonPlayerCaptainModel;
+import tech.sud.mgp.hello.SudMGPWrapper.state.mg.player.MGCommonPlayerInModel;
+import tech.sud.mgp.hello.SudMGPWrapper.state.mg.player.MGCommonPlayerPlayingModel;
+import tech.sud.mgp.hello.SudMGPWrapper.state.mg.player.MGCommonPlayerReadyModel;
 import tech.sud.mgp.hello.SudMGPWrapper.utils.GameCommonStateUtils;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
@@ -49,12 +47,11 @@ public class GameViewModel {
 
     private long roomId; // 房间id
     private long playingGameId; // 当前使用的游戏id
-    private final FsmApp2MgManager fsmApp2MGManager = new FsmApp2MgManager(); // app调用sdk的封装类
+    private final SudFSTAPPManager sudFSTAPPManager = new SudFSTAPPManager(); // app调用sdk的封装类
     private final SudFSMMGManager sudFSMMGManager = new SudFSMMGManager(); // 用于处理游戏SDK部分回调业务
 
     public final MutableLiveData<View> gameViewLiveData = new MutableLiveData<>(); // 游戏View回调
-    public final MutableLiveData<Object> gameStartLiveData = new MutableLiveData<>(); // 游戏开始时的回调
-    public final MutableLiveData<GameMessageModel> gameMessageLiveData = new MutableLiveData<>(); // 游戏消息
+    public final MutableLiveData<MGCommonPublicMessageModel> gameMessageLiveData = new MutableLiveData<>(); // 游戏消息
     public final MutableLiveData<Object> updateMicLiveData = new MutableLiveData<>(); // 刷新麦位通知
     public final MutableLiveData<Object> autoUpMicLiveData = new MutableLiveData<>(); // 执行自动上麦的通知
     public final MutableLiveData<String> gameKeywordLiveData = new MutableLiveData<>();//游戏关键字
@@ -62,13 +59,13 @@ public class GameViewModel {
 
     private View gameView; // 游戏View
     private long captainUserId; // 记录当前队长的用户id
-    private CommonGameState commonGameState; // 游戏状态
+    private MGCommonGameStateModel MGCommonGameStateModel; // 游戏状态
     private boolean isSelfInGame; // 标识自己是否已加入了游戏
     private int selfMicIndex = -1; // 记录自己所在麦位
 
     /**
      * 记录该玩家最新的游戏状态
-     * 1，准备状态 {@link PlayerReadyState}
+     * 1，准备状态 {@link MGCommonPlayerReadyModel}
      */
     private final HashMap<String, Object> playerStates = new HashMap<>();
 
@@ -84,21 +81,23 @@ public class GameViewModel {
         }
         destroyMG();
         playingGameId = gameId;
-        gameLogin(activity, gameId);
+        login(activity, gameId);
     }
 
     /**
      * 1，游戏登录，也就是获取code
+     * 接入方客户端 调用 接入方服务端 login 获取 短期令牌code
+     * 参考文档时序图：sud-mgp-doc(https://github.com/SudTechnology/sud-mgp-doc)
      *
      * @param activity 游戏所在页面
      * @param gameId   游戏id
      */
-    private void gameLogin(FragmentActivity activity, long gameId) {
+    private void login(FragmentActivity activity, long gameId) {
         if (activity.isDestroyed() || gameId <= 0) {
             return;
         }
         // 请求登录code
-        GameRepository.gameLogin(activity, new RxCallback<GameLoginResp>() {
+        GameRepository.login(activity, new RxCallback<GameLoginResp>() {
             @Override
             public void onNext(BaseResponse<GameLoginResp> t) {
                 super.onNext(t);
@@ -153,7 +152,10 @@ public class GameViewModel {
      */
     private void loadGame(Activity activity, String code, long gameId) {
         ISudFSTAPP iSudFSTAPP = SudMGP.loadMG(activity, HSUserInfo.userId + "", roomId + "", code, gameId, "zh-CN", iSudFSMMG);
-        fsmApp2MGManager.setISudFSTAPP(iSudFSTAPP);
+        sudFSTAPPManager.setISudFSTAPP(iSudFSTAPP);
+
+        // 获取游戏视图，将其抛回Activity进行展示
+        // Activity调用：gameContainer.addView(view, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
         gameView = iSudFSTAPP.getGameView();
         gameViewLiveData.setValue(gameView);
     }
@@ -168,7 +170,7 @@ public class GameViewModel {
         ThreadUtils.runOnUiThreadDelayed(new Runnable() {
             @Override
             public void run() {
-                gameLogin(activity, gameId);
+                login(activity, gameId);
             }
         }, 3000);
     }
@@ -189,49 +191,96 @@ public class GameViewModel {
     }
 
     private final ISudFSMMG iSudFSMMG = new ISudFSMMG() {
+
+        /**
+         * 游戏日志
+         * 最低版本：v1.1.30.xx
+         */
         @Override
         public void onGameLog(String s) {
+            LogUtils.d(s);
         }
 
+        /**
+         * 游戏开始
+         * 最低版本：v1.1.30.xx
+         */
         @Override
         public void onGameStarted() {
-            gameStartLiveData.setValue(null);
         }
 
+        /**
+         * 游戏销毁
+         * 最低版本：v1.1.30.xx
+         */
         @Override
         public void onGameDestroyed() {
         }
 
+        /**
+         * Code过期，需要实现
+         * APP接入方需要调用handle.success或handle.fail
+         * @param dataJson {"code":"value"}
+         */
         @Override
         public void onExpireCode(ISudFSMStateHandle handle, String dataJson) {
-            sudFSMMGManager.processOnExpireCode(fsmApp2MGManager, handle);
+            sudFSMMGManager.processOnExpireCode(sudFSTAPPManager, handle);
         }
 
+        /**
+         * 获取游戏View信息，需要实现
+         * APP接入方需要调用handle.success或handle.fail
+         * @param handle
+         * @param dataJson {}
+         */
         @Override
         public void onGetGameViewInfo(ISudFSMStateHandle handle, String dataJson) {
             sudFSMMGManager.processOnGetGameViewInfo(gameView, handle);
         }
 
+        /**
+         * 获取游戏Config，需要实现
+         * APP接入方需要调用handle.success或handle.fail
+         * @param handle
+         * @param dataJson {}
+         * 最低版本：v1.1.30.xx
+         */
         @Override
         public void onGetGameCfg(ISudFSMStateHandle handle, String dataJson) {
             sudFSMMGManager.processOnGetGameCfg(handle, dataJson);
         }
 
+        /**
+         * 游戏状态变化
+         * APP接入方需要调用handle.success或handle.fail
+         * @param handle
+         * @param state
+         * @param dataJson
+         */
         @Override
         public void onGameStateChange(ISudFSMStateHandle handle, String state, String dataJson) {
-            MGStateResponse response = new MGStateResponse();
-            response.ret_code = 0;
-            handle.success(GsonUtils.toJson(response));
+            LogUtils.d("onGameStateChange:" + state + "---:" + dataJson);
+
             parseCommonState(state, dataJson);
+
+            handle.success("{\"ret_code\":0,\"ret_msg\":\"success\"}");
         }
 
+        /**
+         * 游戏玩家状态变化
+         * APP接入方需要调用handle.success或handle.fail
+         * @param handle
+         * @param userId
+         * @param state
+         * @param dataJson
+         */
         @Override
         public void onPlayerStateChange(ISudFSMStateHandle handle, String userId, String state, String dataJson) {
-            MGStateResponse response = new MGStateResponse();
-            response.ret_code = 0;
-            handle.success(GsonUtils.toJson(response));
-            parsePlayerState(userId, state, dataJson);
             LogUtils.d("onPlayerStateChange:" + state + "---:" + userId + "---:" + dataJson);
+
+            parsePlayerState(userId, state, dataJson);
+
+            handle.success("{\"ret_code\":0,\"ret_msg\":\"success\"}");
         }
     };
 
@@ -239,9 +288,9 @@ public class GameViewModel {
     private void parsePlayerState(String userId, String state, String dataJson) {
         switch (state) {
             case SudMGPMGState.MG_COMMON_PLAYER_CAPTAIN: // 队长状态
-                PlayerCaptainState playerCaptainState = HSJsonUtils.fromJson(dataJson, PlayerCaptainState.class);
-                if (playerCaptainState != null && playerCaptainState.retCode == 0) {
-                    if (playerCaptainState.isCaptain) { // 该用户成为了队长
+                MGCommonPlayerCaptainModel mgCommonPlayerCaptainModel = HSJsonUtils.fromJson(dataJson, MGCommonPlayerCaptainModel.class);
+                if (mgCommonPlayerCaptainModel != null && mgCommonPlayerCaptainModel.retCode == 0) {
+                    if (mgCommonPlayerCaptainModel.isCaptain) { // 该用户成为了队长
                         captainChange(userId);
                     } else {
                         if ((captainUserId + "").equals(userId)) { // 当前队长变为了非队长
@@ -251,14 +300,14 @@ public class GameViewModel {
                 }
                 break;
             case SudMGPMGState.MG_COMMON_PLAYER_READY: // 准备状态
-                PlayerReadyState playerReadyState = HSJsonUtils.fromJson(dataJson, PlayerReadyState.class);
+                MGCommonPlayerReadyModel playerReadyState = HSJsonUtils.fromJson(dataJson, MGCommonPlayerReadyModel.class);
                 if (playerReadyState != null && playerReadyState.retCode == 0) {
                     putPlayerState(userId, playerReadyState);
                     notifyUpdateMic();
                 }
                 break;
             case SudMGPMGState.MG_COMMON_PLAYER_IN: // 加入状态
-                PlayerInState playerInState = HSJsonUtils.fromJson(dataJson, PlayerInState.class);
+                MGCommonPlayerInModel playerInState = HSJsonUtils.fromJson(dataJson, MGCommonPlayerInModel.class);
                 if (playerInState != null) {
                     if ((HSUserInfo.userId + "").equals(userId)) { // 属于自己的变动
                         isSelfInGame = playerInState.isIn;
@@ -275,7 +324,7 @@ public class GameViewModel {
                 }
                 break;
             case SudMGPMGState.MG_COMMON_PLAYER_PLAYING: // 游戏状态
-                PlayerPlayingState playerPlayingState = HSJsonUtils.fromJson(dataJson, PlayerPlayingState.class);
+                MGCommonPlayerPlayingModel playerPlayingState = HSJsonUtils.fromJson(dataJson, MGCommonPlayerPlayingModel.class);
                 if (playerPlayingState != null) {
                     if (playerPlayingState.isPlaying) {
                         putPlayerState(userId, playerPlayingState);
@@ -317,17 +366,17 @@ public class GameViewModel {
     private void parseCommonState(String state, String dataJson) {
         switch (state) {
             case SudMGPMGState.MG_COMMON_PUBLIC_MESSAGE: // 公屏消息
-                GameMessageModel model = GameCommonStateUtils.parseMsgState(dataJson);
+                MGCommonPublicMessageModel model = GameCommonStateUtils.parseMsgState(dataJson);
                 gameMessageLiveData.setValue(model);
                 break;
             case SudMGPMGState.MG_COMMON_GAME_STATE: // 游戏状态
-                commonGameState = HSJsonUtils.fromJson(dataJson, CommonGameState.class);
+                MGCommonGameStateModel = HSJsonUtils.fromJson(dataJson, MGCommonGameStateModel.class);
                 break;
-            case SudMGPMGState.MG_COMMON_KEY_WORD_TO_HIT: //关键字
+            case SudMGPMGState.MG_COMMON_KEY_WORD_TO_HIT: // 关键字
                 String word = GameCommonStateUtils.parseKeywordState(dataJson);
                 gameKeywordLiveData.setValue(word);
                 break;
-            case SudMGPMGState.MG_COMMON_GAME_ASR://开关
+            case SudMGPMGState.MG_COMMON_GAME_ASR: // 开关
                 boolean isOpen = GameCommonStateUtils.parseASRState(dataJson);
                 gameASRLiveData.setValue(isOpen);
                 break;
@@ -336,29 +385,29 @@ public class GameViewModel {
 
     // region 生命周期相关
     public void onStart() {
-        fsmApp2MGManager.onStart();
+        sudFSTAPPManager.onStart();
     }
 
     public void onPause() {
-        fsmApp2MGManager.onPause();
+        sudFSTAPPManager.onPause();
     }
 
     public void onResume() {
-        fsmApp2MGManager.onResume();
+        sudFSTAPPManager.onResume();
     }
 
     public void onStop() {
-        fsmApp2MGManager.onStop();
+        sudFSTAPPManager.onStop();
     }
 
     public void destroyMG() {
         if (playingGameId > 0) {
-            fsmApp2MGManager.destroyMG();
+            sudFSTAPPManager.destroyMG();
             playingGameId = 0;
             gameView = null;
             gameViewLiveData.setValue(null);
             captainUserId = 0;
-            commonGameState = null;
+            MGCommonGameStateModel = null;
         }
     }
     // endregion 生命周期相关
@@ -371,13 +420,13 @@ public class GameViewModel {
     }
 
     /**
-     * 返回当前游戏的状态，数值参数{@link CommonGameState}
+     * 返回当前游戏的状态，数值参数{@link MGCommonGameStateModel}
      */
     public int getGameState() {
-        if (commonGameState != null) {
-            return commonGameState.gameState;
+        if (MGCommonGameStateModel != null) {
+            return MGCommonGameStateModel.gameState;
         }
-        return CommonGameState.IDLE;
+        return MGCommonGameStateModel.IDLE;
     }
 
     /**
@@ -397,15 +446,15 @@ public class GameViewModel {
         // 是否已准备
         if (hasUser) {
             Object playerState = getPlayerState(model.userId + "");
-            if (playerState instanceof PlayerReadyState) { // 准备状态
-                PlayerReadyState readyState = (PlayerReadyState) playerState;
+            if (playerState instanceof MGCommonPlayerReadyModel) { // 准备状态
+                MGCommonPlayerReadyModel readyState = (MGCommonPlayerReadyModel) playerState;
                 if (readyState.isReady) { // 已准备
                     model.readyStatus = 1;
                 } else { // 未准备
                     model.readyStatus = 2;
                 }
-            } else if (playerState instanceof PlayerInState) { // 加入状态
-                PlayerInState playerInState = (PlayerInState) playerState;
+            } else if (playerState instanceof MGCommonPlayerInModel) { // 加入状态
+                MGCommonPlayerInModel playerInState = (MGCommonPlayerInModel) playerState;
                 if (playerInState.isIn) { // 加入了，但是没有准备
                     model.readyStatus = 2;
                 } else { // 未加入，不显示准备状态
@@ -422,8 +471,8 @@ public class GameViewModel {
         boolean isPlayingGame = false;
         if (hasUser) {
             Object playerState = getPlayerState(model.userId + "");
-            if (playerState instanceof PlayerPlayingState) {
-                PlayerPlayingState playerPlayingState = (PlayerPlayingState) playerState;
+            if (playerState instanceof MGCommonPlayerPlayingModel) {
+                MGCommonPlayerPlayingModel playerPlayingState = (MGCommonPlayerPlayingModel) playerState;
                 isPlayingGame = playerPlayingState.isPlaying;
             }
         }
@@ -448,14 +497,14 @@ public class GameViewModel {
     private void joinGame(int micIndex) {
         // 游戏闲置，并且自己没有加入游戏时，才发送
         if (isGameIdle() && !isSelfInGame) {
-            fsmApp2MGManager.sendCommonSelfInState(true, -1, true, 1);
+            sudFSTAPPManager.sendCommonSelfInState(true, -1, true, 1);
         }
     }
 
     // 返回游戏是否在等待加入的状态
     private boolean isGameIdle() {
-        if (playingGameId > 0 && commonGameState != null) {
-            return commonGameState.gameState == CommonGameState.IDLE;
+        if (playingGameId > 0 && MGCommonGameStateModel != null) {
+            return MGCommonGameStateModel.gameState == MGCommonGameStateModel.IDLE;
         }
         return false;
     }
@@ -464,7 +513,7 @@ public class GameViewModel {
      * 音频流数据
      */
     public void onCapturedAudioData(AudioData audioData) {
-        fsmApp2MGManager.onAudioPush(audioData);
+        sudFSTAPPManager.onAudioPush(audioData);
     }
 
     /**
@@ -476,7 +525,7 @@ public class GameViewModel {
             return;
         }
         if (msg.contains(keyword)) { //命中
-            fsmApp2MGManager.sendCommonSelfTextHitState(true, keyword, msg);
+            sudFSTAPPManager.sendCommonSelfTextHitState(true, keyword, msg);
             gameKeywordLiveData.setValue(null);
         }
     }

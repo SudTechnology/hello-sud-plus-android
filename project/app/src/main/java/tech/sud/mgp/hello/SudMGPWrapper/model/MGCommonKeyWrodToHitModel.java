@@ -1,5 +1,5 @@
 package tech.sud.mgp.hello.SudMGPWrapper.model;
 
-public class GameKeyWordModel {
+public class MGCommonKeyWrodToHitModel {
     public String word;
 }

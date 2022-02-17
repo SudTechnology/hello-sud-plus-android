@@ -1,9 +1,9 @@
 package tech.sud.mgp.hello.SudMGPWrapper.state.mg.player;
 
 /**
- * 队长状态
+ * 准备状态
  */
-public class PlayerCaptainState {
+public class MGCommonPlayerReadyModel {
 
     /**
      * 0 成功，非0不成功（详情见错误码）
@@ -11,8 +11,7 @@ public class PlayerCaptainState {
     public int retCode;
 
     /**
-     * 当retCode==0时有效；true 是队长，false 不是队长；
+     * 当retCode==0时有效；true 已准备，false 未准备
      */
-    public boolean isCaptain;
-
+    public boolean isReady;
 }

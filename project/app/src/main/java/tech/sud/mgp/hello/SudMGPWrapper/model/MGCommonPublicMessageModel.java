@@ -3,7 +3,7 @@ package tech.sud.mgp.hello.SudMGPWrapper.model;
 /**
  * 游戏消息内容
  */
-public class GameMessageModel {
+public class MGCommonPublicMessageModel {
 
     /**
      * 0 通知

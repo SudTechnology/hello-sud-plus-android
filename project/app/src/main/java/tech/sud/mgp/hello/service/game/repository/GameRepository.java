@@ -17,7 +17,7 @@ public class GameRepository {
      * @param owner    生命周期对象
      * @param callback 回调
      */
-    public static void gameLogin(LifecycleOwner owner, RxCallback<GameLoginResp> callback) {
+    public static void login(LifecycleOwner owner, RxCallback<GameLoginResp> callback) {
         GameRequestMethodFactory.getMethod()
                 .gameLogin(BaseUrlManager.getBaseUrl())
                 .compose(RxUtil.schedulers(owner))

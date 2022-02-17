@@ -12,7 +12,7 @@ import tech.sud.mgp.hello.rtc.audio.core.AudioData;
 /**
  * app端调用sdk
  */
-public class FsmApp2MgManager {
+public class SudFSTAPPManager {
 
     private ISudFSTAPP iSudFSTAPP;
 

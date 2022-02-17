@@ -28,16 +28,16 @@ public class SudFSMMGManager {
     /**
      * 处理code过期
      */
-    public void processOnExpireCode(FsmApp2MgManager fsmApp2MGManager, ISudFSMStateHandle handle) {
+    public void processOnExpireCode(SudFSTAPPManager sudFSTAPPManager, ISudFSMStateHandle handle) {
         // code过期，刷新code
-        GameRepository.gameLogin(null, new RxCallback<GameLoginResp>() {
+        GameRepository.login(null, new RxCallback<GameLoginResp>() {
             @Override
             public void onNext(BaseResponse<GameLoginResp> t) {
                 super.onNext(t);
                 MGStateResponse mgStateResponse = new MGStateResponse();
                 mgStateResponse.ret_code = t.getRetCode();
                 if (t.getRetCode() == RetCode.SUCCESS && t.getData() != null) {
-                    fsmApp2MGManager.updateCode(t.getData().code, null);
+                    sudFSTAPPManager.updateCode(t.getData().code, null);
                     handle.success(GsonUtils.toJson(mgStateResponse));
                 } else {
                     handle.failure(GsonUtils.toJson(mgStateResponse));
@@ -55,7 +55,8 @@ public class SudFSMMGManager {
     }
 
     /**
-     * 处理游戏视图
+     * 处理游戏视图信息(游戏安全区)
+     * 文档：https://github.com/SudTechnology/sud-mgp-doc/blob/main/Client/API/ISudFSMMG/onGetGameViewInfo.md
      */
     public void processOnGetGameViewInfo(View gameView, ISudFSMStateHandle handle) {
         //拿到游戏View的宽高
@@ -102,6 +103,7 @@ public class SudFSMMGManager {
 
     /**
      * 处理游戏配置
+     * 文档：https://github.com/SudTechnology/sud-mgp-doc/blob/main/Client/API/ISudFSMMG/onGetGameCfg.md
      */
     public void processOnGetGameCfg(ISudFSMStateHandle handle, String dataJson) {
         GameConfigModel gameConfigModel = new GameConfigModel();

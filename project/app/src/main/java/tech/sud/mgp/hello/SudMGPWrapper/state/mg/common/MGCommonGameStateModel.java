@@ -3,7 +3,7 @@ package tech.sud.mgp.hello.SudMGPWrapper.state.mg.common;
 /**
  * 通用状态-游戏状态
  */
-public class CommonGameState {
+public class MGCommonGameStateModel {
 
     public static final int IDLE = 0;
     public static final int LOADING = 1;

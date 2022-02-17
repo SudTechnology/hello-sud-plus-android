@@ -3,7 +3,7 @@ package tech.sud.mgp.hello.SudMGPWrapper.state.mg.player;
 /**
  * 玩家加入状态
  */
-public class PlayerInState {
+public class MGCommonPlayerInModel {
 
     /**
      * true 已加入，false 未加入

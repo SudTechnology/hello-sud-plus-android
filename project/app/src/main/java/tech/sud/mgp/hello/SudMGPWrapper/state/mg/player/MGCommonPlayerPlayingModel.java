@@ -3,7 +3,7 @@ package tech.sud.mgp.hello.SudMGPWrapper.state.mg.player;
 /**
  * 游戏状态
  */
-public class PlayerPlayingState {
+public class MGCommonPlayerPlayingModel {
 
     /**
      * 0 成功，非0不成功（详情见错误码）

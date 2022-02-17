@@ -6,11 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tech.sud.mgp.hello.R;
-import tech.sud.mgp.hello.common.utils.ShapeUtils;
-import tech.sud.mgp.hello.ui.main.http.resp.GameListResp;
-import tech.sud.mgp.hello.ui.main.http.resp.GameModel;
-import tech.sud.mgp.hello.ui.main.http.resp.RoomListResp;
-import tech.sud.mgp.hello.ui.main.http.resp.SceneModel;
+import tech.sud.mgp.hello.service.main.resp.GameListResp;
+import tech.sud.mgp.hello.service.main.resp.GameModel;
+import tech.sud.mgp.hello.service.main.resp.RoomListResp;
+import tech.sud.mgp.hello.service.main.resp.SceneModel;
 
 public class HomeManager {
 
@@ -80,8 +79,8 @@ public class HomeManager {
 
     /**
      * 敬请期待数据
-     * */
-    public List<GameModel> getSceneEmptyGame(Context context,SceneModel model) {
+     */
+    public List<GameModel> getSceneEmptyGame(Context context, SceneModel model) {
         List<GameModel> gameModels = new ArrayList<>();
         for (int i = 0; i < 6; i++) {
             GameModel game = new GameModel();

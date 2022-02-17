@@ -19,9 +19,9 @@ import tech.sud.mgp.hello.common.base.BaseDialogFragment;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
-import tech.sud.mgp.hello.ui.main.http.repository.HomeRepository;
-import tech.sud.mgp.hello.ui.main.http.resp.GameListResp;
-import tech.sud.mgp.hello.ui.main.http.resp.GameModel;
+import tech.sud.mgp.hello.service.main.repository.HomeRepository;
+import tech.sud.mgp.hello.service.main.resp.GameListResp;
+import tech.sud.mgp.hello.service.main.resp.GameModel;
 
 /**
  * 选择游戏模式的弹窗

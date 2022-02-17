@@ -6,7 +6,7 @@ import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.rtc.audio.core.AudioUser;
-import tech.sud.mgp.hello.ui.game.http.repository.GameRepository;
+import tech.sud.mgp.hello.service.game.repository.GameRepository;
 import tech.sud.mgp.hello.ui.room.audio.example.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.room.audio.example.model.RoomInfoModel;
 import tech.sud.mgp.hello.ui.room.audio.example.model.command.EnterRoomCommand;

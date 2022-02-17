@@ -14,9 +14,10 @@ import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.common.utils.GlobalCache;
-import tech.sud.mgp.hello.ui.main.http.repository.HomeRepository;
-import tech.sud.mgp.hello.ui.main.http.resp.BaseConfigResp;
-import tech.sud.mgp.hello.ui.main.model.config.BaseRtcConfig;
+import tech.sud.mgp.hello.service.main.config.BaseRtcConfig;
+import tech.sud.mgp.hello.service.main.repository.HomeRepository;
+import tech.sud.mgp.hello.service.main.resp.BaseConfigResp;
+import tech.sud.mgp.hello.ui.main.settings.ChangeRtcViewModel;
 
 /**
  * 配置相关的业务逻辑

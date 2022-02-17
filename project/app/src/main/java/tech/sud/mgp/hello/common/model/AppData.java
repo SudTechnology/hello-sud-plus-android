@@ -6,9 +6,9 @@ import androidx.annotation.NonNull;
 
 import java.io.Serializable;
 
-import tech.sud.mgp.hello.ui.main.http.resp.BaseConfigResp;
-import tech.sud.mgp.hello.ui.main.model.config.BaseRtcConfig;
-import tech.sud.mgp.hello.ui.main.model.config.SudConfig;
+import tech.sud.mgp.hello.service.main.config.BaseRtcConfig;
+import tech.sud.mgp.hello.service.main.config.SudConfig;
+import tech.sud.mgp.hello.service.main.resp.BaseConfigResp;
 
 /**
  * 全局使用的数据

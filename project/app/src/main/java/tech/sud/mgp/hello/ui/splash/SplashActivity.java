@@ -16,9 +16,9 @@ import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.AppSharedPreferences;
 import tech.sud.mgp.hello.common.utils.ResponseUtils;
 import tech.sud.mgp.hello.ui.login.LoginActivity;
-import tech.sud.mgp.hello.ui.login.http.repository.LoginRepository;
-import tech.sud.mgp.hello.ui.login.http.resp.LoginResponse;
-import tech.sud.mgp.hello.ui.main.activity.HomeActivity;
+import tech.sud.mgp.hello.service.login.repository.LoginRepository;
+import tech.sud.mgp.hello.service.login.resp.LoginResponse;
+import tech.sud.mgp.hello.ui.main.activity.MainActivity;
 import tech.sud.mgp.hello.ui.main.model.ConfigViewModel;
 
 /**
@@ -31,7 +31,7 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_main;
+        return R.layout.activity_splash;
     }
 
     @Override
@@ -86,7 +86,7 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void loginSuccess() {
-        Intent intent = new Intent(this, HomeActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
     }

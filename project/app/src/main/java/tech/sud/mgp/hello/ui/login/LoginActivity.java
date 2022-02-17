@@ -22,12 +22,12 @@ import tech.sud.mgp.hello.common.utils.AppSharedPreferences;
 import tech.sud.mgp.hello.common.utils.ResponseUtils;
 import tech.sud.mgp.hello.ui.login.dialog.UserAgreementDialog;
 import tech.sud.mgp.hello.ui.login.dialog.UserSecondaryDialog;
-import tech.sud.mgp.hello.ui.login.http.repository.LoginRepository;
-import tech.sud.mgp.hello.ui.login.http.resp.LoginResponse;
+import tech.sud.mgp.hello.service.login.repository.LoginRepository;
+import tech.sud.mgp.hello.service.login.resp.LoginResponse;
 import tech.sud.mgp.hello.ui.login.listener.DialogSecondaryListener;
 import tech.sud.mgp.hello.ui.login.listener.DialogSelectListener;
-import tech.sud.mgp.hello.ui.main.activity.HomeActivity;
-import tech.sud.mgp.hello.ui.main.activity.UserAgreementActivity;
+import tech.sud.mgp.hello.ui.main.activity.MainActivity;
+import tech.sud.mgp.hello.ui.main.settings.UserAgreementActivity;
 import tech.sud.mgp.hello.ui.main.model.ConfigViewModel;
 
 /**
@@ -200,7 +200,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     }
 
     private void loginSuccess() {
-        Intent intent = new Intent(this, HomeActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
     }

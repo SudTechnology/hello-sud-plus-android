@@ -15,7 +15,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:name=".ui.app.HelloSudApplication"
+        android:name=".app.HelloSudApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -46,7 +46,7 @@
 
         <!-- 首页 -->
         <activity
-            android:name=".ui.main.activity.HomeActivity"
+            android:name=".ui.main.activity.MainActivity"
             android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
@@ -55,7 +55,7 @@
 
         <!-- 用户协议 -->
         <activity
-            android:name=".ui.main.activity.UserAgreementActivity"
+            android:name=".ui.main.settings.UserAgreementActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
 
@@ -89,14 +89,14 @@
 
         <!-- 切换rtc服务商 -->
         <activity
-            android:name=".ui.main.activity.ChangeRtcActivity"
+            android:name=".ui.main.settings.ChangeRtcActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
 
         <!-- 版本信息页面 -->
         <activity
-            android:name=".ui.main.activity.VersionInfoActivity"
+            android:name=".ui.main.settings.VersionInfoActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />

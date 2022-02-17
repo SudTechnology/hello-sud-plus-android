@@ -59,7 +59,7 @@ public class GameViewModel {
 
     private View gameView; // 游戏View
     private long captainUserId; // 记录当前队长的用户id
-    private MGCommonGameStateModel MGCommonGameStateModel; // 游戏状态
+    private MGCommonGameStateModel mgCommonGameStateModel; // 游戏状态
     private boolean isSelfInGame; // 标识自己是否已加入了游戏
     private int selfMicIndex = -1; // 记录自己所在麦位
 
@@ -370,7 +370,7 @@ public class GameViewModel {
                 gameMessageLiveData.setValue(model);
                 break;
             case SudMGPMGState.MG_COMMON_GAME_STATE: // 游戏状态
-                MGCommonGameStateModel = HSJsonUtils.fromJson(dataJson, MGCommonGameStateModel.class);
+                mgCommonGameStateModel = HSJsonUtils.fromJson(dataJson, MGCommonGameStateModel.class);
                 break;
             case SudMGPMGState.MG_COMMON_KEY_WORD_TO_HIT: // 关键字
                 String word = GameCommonStateUtils.parseKeywordState(dataJson);
@@ -407,7 +407,7 @@ public class GameViewModel {
             gameView = null;
             gameViewLiveData.setValue(null);
             captainUserId = 0;
-            MGCommonGameStateModel = null;
+            mgCommonGameStateModel = null;
         }
     }
     // endregion 生命周期相关
@@ -423,10 +423,10 @@ public class GameViewModel {
      * 返回当前游戏的状态，数值参数{@link MGCommonGameStateModel}
      */
     public int getGameState() {
-        if (MGCommonGameStateModel != null) {
-            return MGCommonGameStateModel.gameState;
+        if (mgCommonGameStateModel != null) {
+            return mgCommonGameStateModel.gameState;
         }
-        return MGCommonGameStateModel.IDLE;
+        return mgCommonGameStateModel.IDLE;
     }
 
     /**
@@ -503,8 +503,8 @@ public class GameViewModel {
 
     // 返回游戏是否在等待加入的状态
     private boolean isGameIdle() {
-        if (playingGameId > 0 && MGCommonGameStateModel != null) {
-            return MGCommonGameStateModel.gameState == MGCommonGameStateModel.IDLE;
+        if (playingGameId > 0 && mgCommonGameStateModel != null) {
+            return mgCommonGameStateModel.gameState == mgCommonGameStateModel.IDLE;
         }
         return false;
     }

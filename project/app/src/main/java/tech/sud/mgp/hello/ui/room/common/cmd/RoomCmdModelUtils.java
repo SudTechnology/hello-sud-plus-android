@@ -13,7 +13,7 @@ import tech.sud.mgp.hello.ui.room.common.cmd.model.RoomCmdUpMicModel;
 /**
  * 房间信令工具类
  */
-public class AudioRoomCommandUtils {
+public class RoomCmdModelUtils {
 
     /**
      * 构建公屏消息的信令

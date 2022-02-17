@@ -29,19 +29,33 @@ public class ChangeRtcViewModel extends BaseViewModel {
     public final MutableLiveData<List<BaseRtcConfig>> rtcDatasLiveData = new MutableLiveData<>();
 
     // 获取rtc列表
-    public void getRtcList() {
+    public void getRtcList(String[] rtcServices) {
         executor.execute(() -> {
+            List<BaseRtcConfig> list = new ArrayList<>();
             BaseConfigResp baseConfigResp = (BaseConfigResp) GlobalCache.getInstance().getSerializable(GlobalCache.BASE_CONFIG_KEY);
-            if (baseConfigResp != null) {
-                List<BaseRtcConfig> list = new ArrayList<>();
-                if (baseConfigResp.zegoCfg != null) { // 即构
-                    list.add(baseConfigResp.zegoCfg);
+            for (int i = 0; i < rtcServices.length; i++) {
+                String name = rtcServices[i];
+                switch (i) {
+                    case 0: // 即构
+                        if (baseConfigResp != null && baseConfigResp.zegoCfg != null) {
+                            list.add(baseConfigResp.zegoCfg);
+                        } else {
+                            list.add(new BaseRtcConfig(null, name));
+                        }
+                        break;
+                    case 1: // 声网
+                        if (baseConfigResp != null && baseConfigResp.agoraCfg != null) {
+                            list.add(baseConfigResp.agoraCfg);
+                        } else {
+                            list.add(new BaseRtcConfig(null, name));
+                        }
+                        break;
+                    default:
+                        list.add(new BaseRtcConfig(null, name));
+                        break;
                 }
-                if (baseConfigResp.agoraCfg != null) { // 声网
-                    list.add(baseConfigResp.agoraCfg);
-                }
-                rtcDatasLiveData.postValue(list);
             }
+            rtcDatasLiveData.postValue(list);
         });
     }
 

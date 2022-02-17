@@ -1,5 +1,6 @@
 package tech.sud.mgp.hello.ui.main.activity;
 
+import android.text.TextUtils;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -7,6 +8,7 @@ import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
@@ -43,7 +45,8 @@ public class ChangeRtcActivity extends BaseActivity {
     @Override
     protected void initData() {
         super.initData();
-        viewModel.getRtcList();
+        String[] rtcServices = getResources().getStringArray(R.array.rtc_services);
+        viewModel.getRtcList(rtcServices);
     }
 
     @Override
@@ -71,6 +74,13 @@ public class ChangeRtcActivity extends BaseActivity {
 
     private void clickRtc(int position) {
         BaseRtcConfig item = adapter.getItem(position);
+        if (viewModel.isSelectRtcConfig(item)) {
+            return;
+        }
+        if (TextUtils.isEmpty(item.rtcType)) { // 未实现的rtc
+            ToastUtils.showShort(R.string.be_making);
+            return;
+        }
         SimpleChooseDialog dialog = new SimpleChooseDialog(this, getString(R.string.change_rtc_confirm, item.desc));
         dialog.setOnChooseListener(new SimpleChooseDialog.OnChooseListener() {
             @Override
@@ -78,6 +88,7 @@ public class ChangeRtcActivity extends BaseActivity {
                 if (index == 1) {
                     viewModel.setRtcConfig(item);
                     adapter.notifyDataSetChanged();
+                    finish();
                 }
                 dialog.dismiss();
             }

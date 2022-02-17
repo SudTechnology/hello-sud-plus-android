@@ -205,5 +205,14 @@
     <string name="github">GitHub</string>
     <string name="open_source_licenses">开源协议</string>
     <string name="change_rtc_confirm">确认将RTC服务商切换为【%1$s】？</string>
+    <string-array name="rtc_services">
+        <item>即构</item>
+        <item>声网</item>
+        <item>网易云信</item>
+        <item>火山</item>
+        <item>阿里云</item>
+        <item>腾讯</item>
+    </string-array>
+    <string name="be_making">正在制作中，敬请期待！</string>
 
 </resources>

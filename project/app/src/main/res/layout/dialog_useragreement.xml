@@ -26,6 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:textColor="#1a1a1a"
+        android:textColorHighlight="#f2f2f2"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

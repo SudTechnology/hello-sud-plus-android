@@ -84,6 +84,7 @@ public class UserAgreementDialog extends DialogFragment {
                 ds.setColor(Color.parseColor("#1a1a1a"));
                 ds.setFakeBoldText(true);
                 ds.setUnderlineText(false);
+                ds.clearShadowLayer();
             }
 
             @Override

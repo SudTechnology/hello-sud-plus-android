@@ -2,6 +2,7 @@
     <string name="app_name">HelloSud</string>
 
     <string name="login_welcome">欢迎体验 \nHelloSud</string>
+    <string name="login_your_name">你的昵称</string>
     <string name="title_hellosud">HelloSud</string>
     <string name="login_edit_name">请输入你的昵称</string>
     <string name="male">男</string>

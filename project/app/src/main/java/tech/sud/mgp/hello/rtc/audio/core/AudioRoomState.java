@@ -1,16 +1,16 @@
-package tech.sud.mgp.hello.rtc.protocol;
+package tech.sud.mgp.hello.rtc.audio.core;
 
 /**
  * 语聊房房间状态
  */
-public enum MediaAudioRoomState {
+public enum AudioRoomState {
     DISCONNECTED(0),
     CONNECTING(1),
     CONNECTED(2);
 
     private int value;
 
-    private MediaAudioRoomState(int value) {
+    private AudioRoomState(int value) {
         this.value = value;
     }
 
@@ -18,7 +18,7 @@ public enum MediaAudioRoomState {
         return this.value;
     }
 
-    public static MediaAudioRoomState getZegoRoomState(int value) {
+    public static AudioRoomState getZegoRoomState(int value) {
         try {
             if (DISCONNECTED.value == value) {
                 return DISCONNECTED;

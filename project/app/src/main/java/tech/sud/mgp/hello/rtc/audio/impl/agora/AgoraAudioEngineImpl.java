@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.rtc.agora;
+package tech.sud.mgp.hello.rtc.audio.impl.agora;
 
 import android.content.Context;
 
@@ -26,16 +26,16 @@ import io.agora.rtm.RtmClient;
 import io.agora.rtm.RtmFileMessage;
 import io.agora.rtm.RtmImageMessage;
 import io.agora.rtm.RtmMessage;
-import tech.sud.mgp.hello.rtc.protocol.AudioData;
-import tech.sud.mgp.hello.rtc.protocol.MediaAudioEngineProtocol;
-import tech.sud.mgp.hello.rtc.protocol.MediaAudioEventHandler;
-import tech.sud.mgp.hello.rtc.protocol.MediaRoomConfig;
-import tech.sud.mgp.hello.rtc.protocol.MediaUser;
+import tech.sud.mgp.hello.rtc.audio.core.AudioData;
+import tech.sud.mgp.hello.rtc.audio.core.IAudioEngine;
+import tech.sud.mgp.hello.rtc.audio.core.IAudioEventHandler;
+import tech.sud.mgp.hello.rtc.audio.core.AudioRoomConfig;
+import tech.sud.mgp.hello.rtc.audio.core.AudioUser;
 
 // 声网SDK实现
-public class AgoraAudioEngine implements MediaAudioEngineProtocol {
+public class AgoraAudioEngineImpl implements IAudioEngine {
 
-    private MediaAudioEventHandler mMediaAudioEventHandler;
+    private IAudioEventHandler mIAudioEventHandler;
     private RtcEngine mEngine;
     private String roomID;
 
@@ -54,8 +54,8 @@ public class AgoraAudioEngine implements MediaAudioEngineProtocol {
     }
 
     @Override
-    public void setEventHandler(MediaAudioEventHandler handler) {
-        mMediaAudioEventHandler = handler;
+    public void setEventHandler(IAudioEventHandler handler) {
+        mIAudioEventHandler = handler;
     }
 
     @Override
@@ -97,7 +97,7 @@ public class AgoraAudioEngine implements MediaAudioEngineProtocol {
     }
 
     @Override
-    public void loginRoom(String roomId, MediaUser user, MediaRoomConfig config) {
+    public void loginRoom(String roomId, AudioUser user, AudioRoomConfig config) {
         // rtm登录
         rtmLoginRoom(roomId, user.userID);
 
@@ -253,7 +253,7 @@ public class AgoraAudioEngine implements MediaAudioEngineProtocol {
             ThreadUtils.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    MediaAudioEventHandler handler = mMediaAudioEventHandler;
+                    IAudioEventHandler handler = mIAudioEventHandler;
                     if (handler == null || speakers == null || speakers.length == 0) {
                         return;
                     }
@@ -290,7 +290,7 @@ public class AgoraAudioEngine implements MediaAudioEngineProtocol {
             ThreadUtils.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    MediaAudioEventHandler handler = mMediaAudioEventHandler;
+                    IAudioEventHandler handler = mIAudioEventHandler;
                     if (handler != null) {
                         handler.onRoomStateUpdate(roomID, AgoraRoomStateConverter.converAudioRoomState(state), 0, null);
                         updateRoomUserCount();
@@ -328,7 +328,7 @@ public class AgoraAudioEngine implements MediaAudioEngineProtocol {
             ThreadUtils.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    MediaAudioEventHandler handler = mMediaAudioEventHandler;
+                    IAudioEventHandler handler = mIAudioEventHandler;
                     if (handler != null) {
                         handler.onRoomOnlineUserCountUpdate(roomID, remoteUserList.size() + 1);
                     }
@@ -344,7 +344,7 @@ public class AgoraAudioEngine implements MediaAudioEngineProtocol {
             ThreadUtils.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    MediaAudioEventHandler handler = mMediaAudioEventHandler;
+                    IAudioEventHandler handler = mIAudioEventHandler;
                     if (handler != null) {
                         AudioData audioData = new AudioData();
                         audioData.data = audioFrame.samples;
@@ -427,10 +427,10 @@ public class AgoraAudioEngine implements MediaAudioEngineProtocol {
                 @Override
                 public void run() {
                     LogUtils.d("onMessageReceived:" + rtmMessage.getText());
-                    MediaAudioEventHandler handler = mMediaAudioEventHandler;
+                    IAudioEventHandler handler = mIAudioEventHandler;
                     if (handler != null) {
                         try {
-                            handler.onIMRecvCustomCommand(rtmChannelMember.getChannelId(), new MediaUser(rtmChannelMember.getUserId()), rtmMessage.getText());
+                            handler.onIMRecvCustomCommand(rtmChannelMember.getChannelId(), new AudioUser(rtmChannelMember.getUserId()), rtmMessage.getText());
                         } catch (Exception e) {
                             LogUtils.e("onMessageReceived", e);
                         }

@@ -24,7 +24,7 @@ import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
-import tech.sud.mgp.hello.rtc.protocol.AudioData;
+import tech.sud.mgp.hello.rtc.audio.core.AudioData;
 import tech.sud.mgp.hello.ui.game.http.repository.GameRepository;
 import tech.sud.mgp.hello.ui.game.http.resp.GameLoginResp;
 import tech.sud.mgp.hello.ui.game.middle.manager.FsmApp2MgManager;

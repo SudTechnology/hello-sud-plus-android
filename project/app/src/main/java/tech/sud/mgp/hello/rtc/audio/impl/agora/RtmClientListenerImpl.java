@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.rtc.agora;
+package tech.sud.mgp.hello.rtc.audio.impl.agora;
 
 import java.util.Map;
 

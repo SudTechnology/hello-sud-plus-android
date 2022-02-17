@@ -10,9 +10,9 @@ import java.util.concurrent.Executors;
 import tech.sud.mgp.hello.common.base.BaseViewModel;
 import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.common.utils.GlobalCache;
-import tech.sud.mgp.hello.rtc.agora.AgoraAudioEngine;
-import tech.sud.mgp.hello.rtc.protocol.MediaAudioEngineManager;
-import tech.sud.mgp.hello.rtc.zego.ZegoAudioEngine;
+import tech.sud.mgp.hello.rtc.audio.impl.agora.AgoraAudioEngineImpl;
+import tech.sud.mgp.hello.rtc.audio.core.AudioEngineFactory;
+import tech.sud.mgp.hello.rtc.audio.impl.zego.ZegoAudioEngineImpl;
 import tech.sud.mgp.hello.ui.main.http.resp.BaseConfigResp;
 import tech.sud.mgp.hello.ui.main.model.config.AgoraConfig;
 import tech.sud.mgp.hello.ui.main.model.config.BaseRtcConfig;
@@ -88,13 +88,13 @@ public class ChangeRtcViewModel extends BaseViewModel {
      */
     public static void applyRtcEngine(BaseRtcConfig config) {
         if (config instanceof ZegoConfig) {
-            MediaAudioEngineManager.makeEngine(ZegoAudioEngine.class);
+            AudioEngineFactory.create(ZegoAudioEngineImpl.class);
             ZegoConfig zegoConfig = (ZegoConfig) config;
-            MediaAudioEngineManager.getEngine().config(zegoConfig.appId, zegoConfig.appKey);
+            AudioEngineFactory.getEngine().config(zegoConfig.appId, zegoConfig.appKey);
         } else if (config instanceof AgoraConfig) {
-            MediaAudioEngineManager.makeEngine(AgoraAudioEngine.class);
+            AudioEngineFactory.create(AgoraAudioEngineImpl.class);
             AgoraConfig agoraConfig = (AgoraConfig) config;
-            MediaAudioEngineManager.getEngine().config(agoraConfig.appId, agoraConfig.appKey);
+            AudioEngineFactory.getEngine().config(agoraConfig.appId, agoraConfig.appKey);
         }
     }
 

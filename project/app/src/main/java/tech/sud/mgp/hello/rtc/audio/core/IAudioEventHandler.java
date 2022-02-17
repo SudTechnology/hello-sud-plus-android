@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.rtc.protocol;
+package tech.sud.mgp.hello.rtc.audio.core;
 
 import org.json.JSONObject;
 
@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * 多媒体语音事件处理协议,SDK回调事件，用户根据业务需求选择实现自己业务逻辑
  */
-public interface MediaAudioEventHandler {
+public interface IAudioEventHandler {
 
     /**
      * 捕获本地音量变化
@@ -32,7 +32,7 @@ public interface MediaAudioEventHandler {
      * @param streamList   变动流列表
      * @param extendedData 扩展信息
      */
-    void onRoomStreamUpdate(String roomId, MediaAudioEngineUpdateType type, List<MediaStream> streamList, JSONObject extendedData);
+    void onRoomStreamUpdate(String roomId, AudioEngineUpdateType type, List<AudioStream> streamList, JSONObject extendedData);
 
     /**
      * 接收自定义指令信息回调
@@ -41,7 +41,7 @@ public interface MediaAudioEventHandler {
      * @param fromUser 用户
      * @param command  指令内容
      */
-    void onIMRecvCustomCommand(String roomId, MediaUser fromUser, String command);
+    void onIMRecvCustomCommand(String roomId, AudioUser fromUser, String command);
 
     /**
      * 房间内当前在线用户数量回调
@@ -59,7 +59,7 @@ public interface MediaAudioEventHandler {
      * @param errorCode    错误码
      * @param extendedData 扩展信息
      */
-    void onRoomStateUpdate(String roomID, MediaAudioRoomState state, int errorCode, JSONObject extendedData);
+    void onRoomStateUpdate(String roomID, AudioRoomState state, int errorCode, JSONObject extendedData);
 
     /**
      * 监听音频流回调

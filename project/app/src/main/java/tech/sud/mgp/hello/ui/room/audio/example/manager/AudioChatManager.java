@@ -1,7 +1,7 @@
 package tech.sud.mgp.hello.ui.room.audio.example.manager;
 
 import tech.sud.mgp.hello.common.model.HSUserInfo;
-import tech.sud.mgp.hello.rtc.protocol.MediaUser;
+import tech.sud.mgp.hello.rtc.audio.core.AudioUser;
 import tech.sud.mgp.hello.ui.room.audio.example.model.RoomTextModel;
 import tech.sud.mgp.hello.ui.room.audio.example.model.UserInfo;
 import tech.sud.mgp.hello.ui.room.audio.example.model.command.PublicMsgCommand;
@@ -62,7 +62,7 @@ public class AudioChatManager extends BaseServiceManager {
 
     private final AudioCommandManager.PublicMsgCommandListener publicMsgCommandListener = new AudioCommandManager.PublicMsgCommandListener() {
         @Override
-        public void onRecvCommand(PublicMsgCommand command, MediaUser user, String roomId) {
+        public void onRecvCommand(PublicMsgCommand command, AudioUser user, String roomId) {
             UserInfo userInfo = command.sendUser;
             if (userInfo == null) return;
             RoomTextModel model = new RoomTextModel();

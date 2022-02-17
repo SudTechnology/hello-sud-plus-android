@@ -3,7 +3,7 @@ package tech.sud.mgp.hello.ui.room.audio.example.manager;
 import com.blankj.utilcode.util.LogUtils;
 
 import tech.sud.mgp.hello.common.model.HSUserInfo;
-import tech.sud.mgp.hello.rtc.protocol.MediaUser;
+import tech.sud.mgp.hello.rtc.audio.core.AudioUser;
 import tech.sud.mgp.hello.ui.room.audio.example.model.UserInfo;
 import tech.sud.mgp.hello.ui.room.audio.example.model.command.SendGiftCommand;
 import tech.sud.mgp.hello.ui.room.audio.example.utils.AudioRoomCommandUtils;
@@ -63,7 +63,7 @@ public class AudioGiftManager extends BaseServiceManager {
 
     private final AudioCommandManager.SendGiftCommandListener sendGiftCommandListener = new AudioCommandManager.SendGiftCommandListener() {
         @Override
-        public void onRecvCommand(SendGiftCommand command, MediaUser user, String roomId) {
+        public void onRecvCommand(SendGiftCommand command, AudioUser user, String roomId) {
             GiftModel giftModel = GiftHelper.getInstance().getGift(command.giftID);
             GiftNotifyDetailodel notify = new GiftNotifyDetailodel();
             notify.gift = giftModel;

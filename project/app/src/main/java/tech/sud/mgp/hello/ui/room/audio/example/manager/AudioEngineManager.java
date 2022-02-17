@@ -8,15 +8,15 @@ import java.util.Map;
 import java.util.Set;
 
 import tech.sud.mgp.hello.common.model.HSUserInfo;
-import tech.sud.mgp.hello.rtc.protocol.AudioData;
-import tech.sud.mgp.hello.rtc.protocol.MediaAudioEngineManager;
-import tech.sud.mgp.hello.rtc.protocol.MediaAudioEngineProtocol;
-import tech.sud.mgp.hello.rtc.protocol.MediaAudioEngineUpdateType;
-import tech.sud.mgp.hello.rtc.protocol.MediaAudioEventHandler;
-import tech.sud.mgp.hello.rtc.protocol.MediaAudioRoomState;
-import tech.sud.mgp.hello.rtc.protocol.MediaRoomConfig;
-import tech.sud.mgp.hello.rtc.protocol.MediaStream;
-import tech.sud.mgp.hello.rtc.protocol.MediaUser;
+import tech.sud.mgp.hello.rtc.audio.core.AudioData;
+import tech.sud.mgp.hello.rtc.audio.core.AudioEngineFactory;
+import tech.sud.mgp.hello.rtc.audio.core.IAudioEngine;
+import tech.sud.mgp.hello.rtc.audio.core.AudioEngineUpdateType;
+import tech.sud.mgp.hello.rtc.audio.core.IAudioEventHandler;
+import tech.sud.mgp.hello.rtc.audio.core.AudioRoomState;
+import tech.sud.mgp.hello.rtc.audio.core.AudioRoomConfig;
+import tech.sud.mgp.hello.rtc.audio.core.AudioStream;
+import tech.sud.mgp.hello.rtc.audio.core.AudioUser;
 import tech.sud.mgp.hello.ui.room.audio.example.model.RoomInfoModel;
 import tech.sud.mgp.hello.ui.room.audio.example.service.AudioRoomServiceCallback;
 import tech.sud.mgp.hello.ui.room.audio.example.utils.AudioRoomCommandUtils;
@@ -47,11 +47,11 @@ public class AudioEngineManager extends BaseServiceManager {
     }
 
     public void enterRoom(RoomInfoModel model) {
-        MediaAudioEngineProtocol engine = getEngine();
+        IAudioEngine engine = getEngine();
         if (engine == null) return;
-        MediaRoomConfig config = new MediaRoomConfig();
+        AudioRoomConfig config = new AudioRoomConfig();
         config.isUserStatusNotify = true;
-        engine.loginRoom(model.roomId + "", new MediaUser(HSUserInfo.userId + "", HSUserInfo.nickName), config);
+        engine.loginRoom(model.roomId + "", new AudioUser(HSUserInfo.userId + "", HSUserInfo.nickName), config);
         engine.setEventHandler(eventHandler);
     }
 
@@ -79,8 +79,8 @@ public class AudioEngineManager extends BaseServiceManager {
      * @param command 信令内容
      * @param result  回调
      */
-    public void sendCommand(String command, MediaAudioEngineProtocol.SendCommandResult result) {
-        MediaAudioEngineProtocol engine = getEngine();
+    public void sendCommand(String command, IAudioEngine.SendCommandResult result) {
+        IAudioEngine engine = getEngine();
         if (engine != null) {
             engine.sendCommand(parentManager.getRoomId() + "", command, result);
         }
@@ -92,7 +92,7 @@ public class AudioEngineManager extends BaseServiceManager {
      * @param streamId
      */
     public void startPublish(String streamId) {
-        MediaAudioEngineProtocol engine = getEngine();
+        IAudioEngine engine = getEngine();
         if (engine != null) {
             engine.startPublish(streamId);
         }
@@ -102,7 +102,7 @@ public class AudioEngineManager extends BaseServiceManager {
      * 停止推流
      */
     public void stopPublishStream() {
-        MediaAudioEngineProtocol engine = getEngine();
+        IAudioEngine engine = getEngine();
         if (engine != null) {
             engine.stopPublishStream();
         }
@@ -114,7 +114,7 @@ public class AudioEngineManager extends BaseServiceManager {
      * @param streamId 流ID
      */
     void startPlayingStream(String streamId) {
-        MediaAudioEngineProtocol engine = getEngine();
+        IAudioEngine engine = getEngine();
         if (engine != null) {
             engine.startPlayingStream(streamId);
         }
@@ -126,7 +126,7 @@ public class AudioEngineManager extends BaseServiceManager {
      * @param streamId 流ID
      */
     void stopPlayingStream(String streamId) {
-        MediaAudioEngineProtocol engine = getEngine();
+        IAudioEngine engine = getEngine();
         if (engine != null) {
             engine.stopPlayingStream(streamId);
         }
@@ -136,7 +136,7 @@ public class AudioEngineManager extends BaseServiceManager {
      * 开始音频流监听
      */
     void startAudioDataListener() {
-        MediaAudioEngineProtocol engine = getEngine();
+        IAudioEngine engine = getEngine();
         if (engine != null) {
             engine.setAudioDataHandler();
         }
@@ -149,7 +149,7 @@ public class AudioEngineManager extends BaseServiceManager {
         if (isOpenListen == isOpen) {
             return;
         }
-        MediaAudioEngineProtocol engine = getEngine();
+        IAudioEngine engine = getEngine();
         if (engine != null) {
             isOpenListen = isOpen;
             if (isOpen) {
@@ -161,11 +161,11 @@ public class AudioEngineManager extends BaseServiceManager {
 
     }
 
-    private MediaAudioEngineProtocol getEngine() {
-        return MediaAudioEngineManager.getEngine();
+    private IAudioEngine getEngine() {
+        return AudioEngineFactory.getEngine();
     }
 
-    private final MediaAudioEventHandler eventHandler = new MediaAudioEventHandler() {
+    private final IAudioEventHandler eventHandler = new IAudioEventHandler() {
         @Override
         public void onCapturedSoundLevelUpdate(float soundLevel) {
             if (parentManager.audioStreamManager.isPublishingStream() && soundLevel > soundLevelThreshold) {
@@ -208,7 +208,7 @@ public class AudioEngineManager extends BaseServiceManager {
         }
 
         @Override
-        public void onRoomStreamUpdate(String roomId, MediaAudioEngineUpdateType type, List<MediaStream> streamList, JSONObject extendedData) {
+        public void onRoomStreamUpdate(String roomId, AudioEngineUpdateType type, List<AudioStream> streamList, JSONObject extendedData) {
             OnRoomStreamUpdateListener listener = onRoomStreamUpdateListener;
             if (listener != null) {
                 listener.onRoomStreamUpdate(roomId, type, streamList, extendedData);
@@ -216,7 +216,7 @@ public class AudioEngineManager extends BaseServiceManager {
         }
 
         @Override
-        public void onIMRecvCustomCommand(String roomId, MediaUser fromUser, String command) {
+        public void onIMRecvCustomCommand(String roomId, AudioUser fromUser, String command) {
             commandManager.onIMRecvCustomCommand(roomId, fromUser, command);
         }
 
@@ -229,8 +229,8 @@ public class AudioEngineManager extends BaseServiceManager {
         }
 
         @Override
-        public void onRoomStateUpdate(String roomID, MediaAudioRoomState state, int errorCode, JSONObject extendedData) {
-            if (state == MediaAudioRoomState.CONNECTED) { // 连接成功之后发送进房信令
+        public void onRoomStateUpdate(String roomID, AudioRoomState state, int errorCode, JSONObject extendedData) {
+            if (state == AudioRoomState.CONNECTED) { // 连接成功之后发送进房信令
                 sendCommand(AudioRoomCommandUtils.buildEnterRoomCommand(), null);
             }
         }
@@ -248,14 +248,14 @@ public class AudioEngineManager extends BaseServiceManager {
     public void onDestroy() {
         super.onDestroy();
         commandManager.onDestroy();
-        MediaAudioEngineProtocol engine = getEngine();
+        IAudioEngine engine = getEngine();
         if (engine == null) return;
         engine.logoutRoom();
         engine.setEventHandler(null);
     }
 
     public interface OnRoomStreamUpdateListener {
-        void onRoomStreamUpdate(String roomId, MediaAudioEngineUpdateType type, List<MediaStream> streamList, JSONObject extendedData);
+        void onRoomStreamUpdate(String roomId, AudioEngineUpdateType type, List<AudioStream> streamList, JSONObject extendedData);
     }
 
 }

@@ -23,7 +23,7 @@ import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.permission.PermissionFragment;
 import tech.sud.mgp.hello.common.permission.SudPermissionUtils;
 import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
-import tech.sud.mgp.hello.rtc.protocol.AudioData;
+import tech.sud.mgp.hello.rtc.audio.core.AudioData;
 import tech.sud.mgp.hello.ui.game.middle.model.GameMessageModel;
 import tech.sud.mgp.hello.ui.game.middle.state.mg.common.CommonGameState;
 import tech.sud.mgp.hello.ui.room.audio.example.model.AudioRoomMicModel;

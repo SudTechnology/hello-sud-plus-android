@@ -1,16 +1,16 @@
-package tech.sud.mgp.hello.rtc.protocol;
+package tech.sud.mgp.hello.rtc.audio.core;
 
 /**
  * 多媒体语音引擎协议，多引擎实现一下协议
  */
-public interface MediaAudioEngineProtocol {
+public interface IAudioEngine {
 
     /**
      * 设置事件处理器
      *
      * @param handler 事件处理实例
      */
-    void setEventHandler(MediaAudioEventHandler handler);
+    void setEventHandler(IAudioEventHandler handler);
 
     /**
      * 配置引擎SDK
@@ -32,7 +32,7 @@ public interface MediaAudioEngineProtocol {
      * @param user   user
      * @param config config
      */
-    void loginRoom(String roomId, MediaUser user, MediaRoomConfig config);
+    void loginRoom(String roomId, AudioUser user, AudioRoomConfig config);
 
     /**
      * 退出房间

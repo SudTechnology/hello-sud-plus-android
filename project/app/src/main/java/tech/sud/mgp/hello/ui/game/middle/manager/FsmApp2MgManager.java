@@ -4,9 +4,8 @@ import com.blankj.utilcode.util.GsonUtils;
 
 import tech.sud.mgp.core.ISudFSTAPP;
 import tech.sud.mgp.core.ISudListenerNotifyStateChange;
-import tech.sud.mgp.hello.rtc.protocol.AudioData;
+import tech.sud.mgp.hello.rtc.audio.core.AudioData;
 import tech.sud.mgp.hello.ui.game.middle.state.SudMGPAPPState;
-import tech.sud.mgp.hello.ui.game.middle.state.SudMGPMGState;
 import tech.sud.mgp.hello.ui.game.middle.state.app.CommonSelfInState;
 import tech.sud.mgp.hello.ui.game.middle.state.app.CommonSelfTextHitState;
 

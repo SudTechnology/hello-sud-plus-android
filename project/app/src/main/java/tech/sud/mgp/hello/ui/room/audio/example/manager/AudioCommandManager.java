@@ -5,7 +5,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import tech.sud.mgp.hello.rtc.protocol.MediaUser;
+import tech.sud.mgp.hello.rtc.audio.core.AudioUser;
 import tech.sud.mgp.hello.ui.room.audio.example.model.command.BaseCommand;
 import tech.sud.mgp.hello.ui.room.audio.example.model.command.CommandCmd;
 import tech.sud.mgp.hello.ui.room.audio.example.model.command.DownMicCommand;
@@ -48,7 +48,7 @@ public class AudioCommandManager extends BaseServiceManager {
      * @param fromUser 发送者
      * @param command  信令字符
      */
-    public void onIMRecvCustomCommand(String roomId, MediaUser fromUser, String command) {
+    public void onIMRecvCustomCommand(String roomId, AudioUser fromUser, String command) {
         int commandCmd = getCommandCmd(command);
         switch (commandCmd) {
             case CommandCmd.CMD_PUBLIC_MSG_NTF: // 公屏消息
@@ -98,7 +98,7 @@ public class AudioCommandManager extends BaseServiceManager {
      * @param fromUser 发送者
      * @param roomId   房间id
      */
-    private void dispatchCommand(int cmd, BaseCommand command, MediaUser fromUser, String roomId) {
+    private void dispatchCommand(int cmd, BaseCommand command, AudioUser fromUser, String roomId) {
         for (ICommandListener listener : listenerList) {
             switch (cmd) {
                 case CommandCmd.CMD_PUBLIC_MSG_NTF: // 发送公屏
@@ -149,27 +149,27 @@ public class AudioCommandManager extends BaseServiceManager {
     }
 
     interface PublicMsgCommandListener extends ICommandListener {
-        void onRecvCommand(PublicMsgCommand command, MediaUser user, String roomId);
+        void onRecvCommand(PublicMsgCommand command, AudioUser user, String roomId);
     }
 
     interface SendGiftCommandListener extends ICommandListener {
-        void onRecvCommand(SendGiftCommand command, MediaUser user, String roomId);
+        void onRecvCommand(SendGiftCommand command, AudioUser user, String roomId);
     }
 
     interface UpMicCommandListener extends ICommandListener {
-        void onRecvCommand(UpMicCommand command, MediaUser user, String roomId);
+        void onRecvCommand(UpMicCommand command, AudioUser user, String roomId);
     }
 
     interface DownMicCommandListener extends ICommandListener {
-        void onRecvCommand(DownMicCommand command, MediaUser user, String roomId);
+        void onRecvCommand(DownMicCommand command, AudioUser user, String roomId);
     }
 
     interface GameChangeCommandListener extends ICommandListener {
-        void onRecvCommand(GameChangeCommand command, MediaUser user, String roomId);
+        void onRecvCommand(GameChangeCommand command, AudioUser user, String roomId);
     }
 
     interface EnterRoomCommandListener extends ICommandListener {
-        void onRecvCommand(EnterRoomCommand command, MediaUser user, String roomId);
+        void onRecvCommand(EnterRoomCommand command, AudioUser user, String roomId);
     }
 
 }

@@ -8,8 +8,8 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-import tech.sud.mgp.hello.rtc.protocol.MediaAudioEngineUpdateType;
-import tech.sud.mgp.hello.rtc.protocol.MediaStream;
+import tech.sud.mgp.hello.rtc.audio.core.AudioEngineUpdateType;
+import tech.sud.mgp.hello.rtc.audio.core.AudioStream;
 import tech.sud.mgp.hello.ui.room.audio.example.service.AudioRoomServiceCallback;
 
 /**
@@ -75,19 +75,19 @@ public class AudioStreamManager extends BaseServiceManager {
 
     private AudioEngineManager.OnRoomStreamUpdateListener onRoomStreamUpdateListener = new AudioEngineManager.OnRoomStreamUpdateListener() {
         @Override
-        public void onRoomStreamUpdate(String roomId, MediaAudioEngineUpdateType type, List<MediaStream> streamList, JSONObject extendedData) {
+        public void onRoomStreamUpdate(String roomId, AudioEngineUpdateType type, List<AudioStream> streamList, JSONObject extendedData) {
             if (streamList == null || streamList.size() == 0) {
                 return;
             }
             switch (type) {
                 case ADD:
-                    for (MediaStream mediaStream : streamList) {
-                        parentManager.audioEngineManager.startPlayingStream(mediaStream.streamID);
+                    for (AudioStream audioStream : streamList) {
+                        parentManager.audioEngineManager.startPlayingStream(audioStream.streamID);
                     }
                     break;
                 case DELETE:
-                    for (MediaStream mediaStream : streamList) {
-                        parentManager.audioEngineManager.stopPlayingStream(mediaStream.streamID);
+                    for (AudioStream audioStream : streamList) {
+                        parentManager.audioEngineManager.stopPlayingStream(audioStream.streamID);
                     }
                     break;
             }

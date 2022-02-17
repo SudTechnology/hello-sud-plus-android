@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.rtc.zego;
+package tech.sud.mgp.hello.rtc.audio.impl.zego;
 
 import com.blankj.utilcode.util.Utils;
 
@@ -25,26 +25,26 @@ import im.zego.zegoexpress.entity.ZegoEngineConfig;
 import im.zego.zegoexpress.entity.ZegoEngineProfile;
 import im.zego.zegoexpress.entity.ZegoStream;
 import im.zego.zegoexpress.entity.ZegoUser;
-import tech.sud.mgp.hello.rtc.protocol.AudioData;
-import tech.sud.mgp.hello.rtc.protocol.MediaAudioEngineProtocol;
-import tech.sud.mgp.hello.rtc.protocol.MediaAudioEngineUpdateType;
-import tech.sud.mgp.hello.rtc.protocol.MediaAudioEventHandler;
-import tech.sud.mgp.hello.rtc.protocol.MediaRoomConfig;
-import tech.sud.mgp.hello.rtc.protocol.MediaStream;
-import tech.sud.mgp.hello.rtc.protocol.MediaUser;
+import tech.sud.mgp.hello.rtc.audio.core.AudioData;
+import tech.sud.mgp.hello.rtc.audio.core.IAudioEngine;
+import tech.sud.mgp.hello.rtc.audio.core.AudioEngineUpdateType;
+import tech.sud.mgp.hello.rtc.audio.core.IAudioEventHandler;
+import tech.sud.mgp.hello.rtc.audio.core.AudioRoomConfig;
+import tech.sud.mgp.hello.rtc.audio.core.AudioStream;
+import tech.sud.mgp.hello.rtc.audio.core.AudioUser;
 
 // 即构SDK实现
-public class ZegoAudioEngine implements MediaAudioEngineProtocol {
+public class ZegoAudioEngineImpl implements IAudioEngine {
 
-    private MediaAudioEventHandler mMediaAudioEventHandler;
+    private IAudioEventHandler mIAudioEventHandler;
 
     private ZegoExpressEngine getEngine() {
         return ZegoExpressEngine.getEngine();
     }
 
     @Override
-    public void setEventHandler(MediaAudioEventHandler handler) {
-        mMediaAudioEventHandler = handler;
+    public void setEventHandler(IAudioEventHandler handler) {
+        mIAudioEventHandler = handler;
     }
 
     @Override
@@ -77,7 +77,7 @@ public class ZegoAudioEngine implements MediaAudioEngineProtocol {
     }
 
     @Override
-    public void loginRoom(String roomId, MediaUser user, MediaRoomConfig config) {
+    public void loginRoom(String roomId, AudioUser user, AudioRoomConfig config) {
         ZegoExpressEngine engine = getEngine();
         if (engine != null) {
             engine.loginRoom(roomId, ZegoUserConverter.converZegoUser(user), ZegoRoomConfigConverter.converZegoRoomConfig(config));
@@ -182,7 +182,7 @@ public class ZegoAudioEngine implements MediaAudioEngineProtocol {
         @Override
         public void onRoomStateUpdate(String roomID, ZegoRoomState state, int errorCode, JSONObject extendedData) {
             super.onRoomStateUpdate(roomID, state, errorCode, extendedData);
-            MediaAudioEventHandler handler = mMediaAudioEventHandler;
+            IAudioEventHandler handler = mIAudioEventHandler;
             if (handler != null) {
                 handler.onRoomStateUpdate(roomID, ZegoRoomStateConverter.converAudioRoomState(state), errorCode, extendedData);
             }
@@ -191,7 +191,7 @@ public class ZegoAudioEngine implements MediaAudioEngineProtocol {
         @Override
         public void onCapturedSoundLevelUpdate(float soundLevel) {
             super.onCapturedSoundLevelUpdate(soundLevel);
-            MediaAudioEventHandler handler = mMediaAudioEventHandler;
+            IAudioEventHandler handler = mIAudioEventHandler;
             if (handler != null) {
                 handler.onCapturedSoundLevelUpdate(soundLevel);
             }
@@ -203,7 +203,7 @@ public class ZegoAudioEngine implements MediaAudioEngineProtocol {
             if (soundLevels == null || soundLevels.size() == 0) {
                 return;
             }
-            MediaAudioEventHandler handler = mMediaAudioEventHandler;
+            IAudioEventHandler handler = mIAudioEventHandler;
             if (handler != null) {
                 // soundLevels里的key是streamId，将其转换成userId
                 HashMap<String, Float> userSoundLevels = new HashMap<>();
@@ -229,18 +229,18 @@ public class ZegoAudioEngine implements MediaAudioEngineProtocol {
                 }
             }
 
-            MediaAudioEventHandler handler = mMediaAudioEventHandler;
+            IAudioEventHandler handler = mIAudioEventHandler;
             if (handler != null) {
-                MediaAudioEngineUpdateType mediaAudioEngineUpdateType = ZegoUpdateTypeConverter.converMediaAudioEnginUpdateType(updateType);
-                List<MediaStream> mediaStreamList = ZegoStreamConverter.converMediaStreamList(streamList);
-                handler.onRoomStreamUpdate(roomID, mediaAudioEngineUpdateType, mediaStreamList, extendedData);
+                AudioEngineUpdateType mediaAudioEngineUpdateType = ZegoUpdateTypeConverter.converMediaAudioEnginUpdateType(updateType);
+                List<AudioStream> audioStreamList = ZegoStreamConverter.converMediaStreamList(streamList);
+                handler.onRoomStreamUpdate(roomID, mediaAudioEngineUpdateType, audioStreamList, extendedData);
             }
         }
 
         @Override
         public void onIMRecvCustomCommand(String roomID, ZegoUser fromUser, String command) {
             super.onIMRecvCustomCommand(roomID, fromUser, command);
-            MediaAudioEventHandler handler = mMediaAudioEventHandler;
+            IAudioEventHandler handler = mIAudioEventHandler;
             if (handler != null) {
                 handler.onIMRecvCustomCommand(roomID, ZegoUserConverter.converMediaUser(fromUser), command);
             }
@@ -249,7 +249,7 @@ public class ZegoAudioEngine implements MediaAudioEngineProtocol {
         @Override
         public void onRoomOnlineUserCountUpdate(String roomID, int count) {
             super.onRoomOnlineUserCountUpdate(roomID, count);
-            MediaAudioEventHandler handler = mMediaAudioEventHandler;
+            IAudioEventHandler handler = mIAudioEventHandler;
             if (handler != null) {
                 handler.onRoomOnlineUserCountUpdate(roomID, count);
             }
@@ -260,7 +260,7 @@ public class ZegoAudioEngine implements MediaAudioEngineProtocol {
         @Override
         public void onCapturedAudioData(ByteBuffer data, int dataLength, ZegoAudioFrameParam param) {
             super.onCapturedAudioData(data, dataLength, param);
-            MediaAudioEventHandler handler = mMediaAudioEventHandler;
+            IAudioEventHandler handler = mIAudioEventHandler;
             if (handler != null) {
                 AudioData audioData = new AudioData();
                 audioData.data = data;

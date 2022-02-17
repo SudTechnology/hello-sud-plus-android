@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.rtc.protocol;
+package tech.sud.mgp.hello.rtc.audio.core;
 
 import java.nio.ByteBuffer;
 

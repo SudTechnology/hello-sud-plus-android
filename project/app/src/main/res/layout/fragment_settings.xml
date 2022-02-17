@@ -42,15 +42,31 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginHorizontal="16dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <FrameLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:textColor="@color/c_1a1a1a"
-                    android:text="@string/occupy_size"
-                    android:layout_marginStart="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:paddingHorizontal="20dp"
                     android:layout_marginTop="16dp"
-                    android:textStyle="bold" />
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:textColor="@color/c_1a1a1a"
+                        android:text="@string/occupy_size"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_total_size"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:textSize="16sp"
+                        android:textColor="@color/c_1a1a1a" />
+
+                </FrameLayout>
 
                 <tech.sud.mgp.hello.ui.main.settings.fragment.AppSizeView
                     android:id="@+id/app_size_view"

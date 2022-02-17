@@ -300,7 +300,7 @@ public class AudioRoomActivity extends BaseActivity {
         SimpleChooseDialog dialog = new SimpleChooseDialog(this,
                 getString(R.string.audio_close_room_title),
                 getString(R.string.audio_cancle),
-                getString(R.string.common_confirm));
+                getString(R.string.confirm));
         dialog.show();
         dialog.setOnChooseListener(new SimpleChooseDialog.OnChooseListener() {
             @Override

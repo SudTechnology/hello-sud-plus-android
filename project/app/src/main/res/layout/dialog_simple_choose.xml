@@ -27,6 +27,7 @@
         android:textColor="#000000"
         android:gravity="center"
         android:layout_marginTop="32dp"
+        android:text="@string/cancel"
         app:layout_constraintTop_toBottomOf="@id/tv_title"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -38,6 +39,7 @@
         android:textSize="14sp"
         android:textColor="#ffffff"
         android:gravity="center"
+        android:text="@string/confirm"
         app:layout_constraintTop_toTopOf="@id/tv_left"
         app:layout_constraintEnd_toEndOf="parent" />
 

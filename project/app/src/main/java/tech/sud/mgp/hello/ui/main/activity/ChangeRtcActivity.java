@@ -15,6 +15,7 @@ import java.util.List;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseActivity;
+import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
 import tech.sud.mgp.hello.ui.main.model.ChangeRtcViewModel;
 import tech.sud.mgp.hello.ui.main.model.config.BaseRtcConfig;
 
@@ -57,9 +58,7 @@ public class ChangeRtcActivity extends BaseActivity {
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
-                BaseRtcConfig item = ChangeRtcActivity.this.adapter.getItem(position);
-                viewModel.setRtcConfig(item);
-                adapter.notifyDataSetChanged();
+                clickRtc(position);
             }
         });
         findViewById(R.id.view_back).setOnClickListener(new View.OnClickListener() {
@@ -68,6 +67,22 @@ public class ChangeRtcActivity extends BaseActivity {
                 finish();
             }
         });
+    }
+
+    private void clickRtc(int position) {
+        BaseRtcConfig item = adapter.getItem(position);
+        SimpleChooseDialog dialog = new SimpleChooseDialog(this, getString(R.string.change_rtc_confirm, item.desc));
+        dialog.setOnChooseListener(new SimpleChooseDialog.OnChooseListener() {
+            @Override
+            public void onChoose(int index) {
+                if (index == 1) {
+                    viewModel.setRtcConfig(item);
+                    adapter.notifyDataSetChanged();
+                }
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 
     public class MyAdapter extends BaseQuickAdapter<BaseRtcConfig, BaseViewHolder> {

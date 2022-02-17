@@ -185,8 +185,8 @@
     <string name="audio_switch_game_warn">正在游戏中，无法切换游戏</string>
     <string name="audio_enter_the_room">进入了房间</string>
     <string name="audio_down_mic">下麦</string>
-    <string name="common_cancel">取消</string>
-    <string name="common_confirm">确定</string>
+    <string name="cancel">取消</string>
+    <string name="confirm">确定</string>
     <string name="common_go_setting">去设置</string>
     <string name="common_camera">相机</string>
     <string name="common_storage">存储</string>
@@ -204,5 +204,6 @@
     <string name="change_language">切换语言</string>
     <string name="github">GitHub</string>
     <string name="open_source_licenses">开源协议</string>
+    <string name="change_rtc_confirm">确认将RTC服务商切换为【%1$s】？</string>
 
 </resources>

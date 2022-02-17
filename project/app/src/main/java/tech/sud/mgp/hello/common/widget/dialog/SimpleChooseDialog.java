@@ -29,6 +29,11 @@ public class SimpleChooseDialog extends BaseDialog {
         super(context);
     }
 
+    public SimpleChooseDialog(@NonNull Context context, String title) {
+        super(context);
+        mTitle = title;
+    }
+
     public SimpleChooseDialog(@NonNull Context context, String title, String leftText, String rightText) {
         super(context);
         mTitle = title;
@@ -53,9 +58,15 @@ public class SimpleChooseDialog extends BaseDialog {
         mTvLeft = mRootView.findViewById(R.id.tv_left);
         mTvRight = mRootView.findViewById(R.id.tv_right);
 
-        mTvTitle.setText(mTitle);
-        mTvLeft.setText(mLeftText);
-        mTvRight.setText(mRightText);
+        if (mTitle != null) {
+            mTvTitle.setText(mTitle);
+        }
+        if (mLeftText != null) {
+            mTvLeft.setText(mLeftText);
+        }
+        if (mRightText != null) {
+            mTvRight.setText(mRightText);
+        }
     }
 
     @Override

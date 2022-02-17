@@ -141,7 +141,7 @@ public class PermissionFragment extends Fragment {
     private void showPermissionDialog(String permissionName) {
         String info = getString(R.string.common_setting_permission_info, permissionName, AppUtils.getAppName());
         SimpleChooseDialog dialog = new SimpleChooseDialog(requireContext(), info,
-                getString(R.string.common_cancel),
+                getString(R.string.cancel),
                 getString(R.string.common_go_setting));
         dialog.setOnChooseListener(new SimpleChooseDialog.OnChooseListener() {
             @Override

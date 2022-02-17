@@ -51,7 +51,7 @@ android {
     }
     sourceSets {
         main {
-            jniLibs.srcDirs = ['libs/agora']
+            jniLibs.srcDirs = ['libs/zego', 'libs/agora']
         }
     }
 }

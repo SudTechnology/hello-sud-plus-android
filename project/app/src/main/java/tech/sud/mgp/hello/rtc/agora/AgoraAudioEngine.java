@@ -116,6 +116,8 @@ public class AgoraAudioEngine implements MediaAudioEngineProtocol {
             channelMediaOptions.publishLocalAudio = false;
             channelMediaOptions.publishLocalVideo = false;
 
+            engine.registerAudioFrameObserver(iAudioFrameObserver);
+
             // 加入频道
             engine.joinChannel("", roomId, "", userId, channelMediaOptions);
             this.roomID = roomId;
@@ -168,6 +170,7 @@ public class AgoraAudioEngine implements MediaAudioEngineProtocol {
     public void logoutRoom() {
         RtcEngine engine = getEngine();
         if (engine != null) {
+            engine.registerAudioFrameObserver(null);
             engine.leaveChannel();
         }
         remoteUserList.clear();
@@ -230,18 +233,12 @@ public class AgoraAudioEngine implements MediaAudioEngineProtocol {
 
     @Override
     public void startAudioDataListener() {
-        RtcEngine engine = getEngine();
-        if (engine != null) {
-            engine.registerAudioFrameObserver(iAudioFrameObserver);
-        }
+
     }
 
     @Override
     public void stopAudioDataListener() {
-        RtcEngine engine = getEngine();
-        if (engine != null) {
-            engine.registerAudioFrameObserver(null);
-        }
+
     }
 
     private IRtcEngineEventHandler mIRtcEngineEventHandler = new IRtcEngineEventHandler() {
@@ -338,7 +335,6 @@ public class AgoraAudioEngine implements MediaAudioEngineProtocol {
                 }
             });
         }
-
     };
 
     private final IAudioFrameObserver iAudioFrameObserver = new IAudioFrameObserver() {
@@ -352,12 +348,12 @@ public class AgoraAudioEngine implements MediaAudioEngineProtocol {
                     if (handler != null) {
                         AudioData audioData = new AudioData();
                         audioData.data = audioFrame.samples;
-                        audioData.dataLength = audioFrame.bytesPerSample * audioFrame.channels * audioFrame.samplesPerSec;
+                        audioData.dataLength = audioFrame.samples.remaining();
                         handler.onCapturedAudioData(audioData);
                     }
                 }
             });
-            return false;
+            return true;
         }
 
         @Override
@@ -387,7 +383,7 @@ public class AgoraAudioEngine implements MediaAudioEngineProtocol {
 
         @Override
         public int getObservedAudioFramePosition() {
-            return 0;
+            return IAudioFrameObserver.POSITION_RECORD;
         }
 
         @Override
@@ -396,7 +392,7 @@ public class AgoraAudioEngine implements MediaAudioEngineProtocol {
             // 并在该回调的返回值中设置采集的音频数据格式。
             // SDK 会根据 getRecordAudioParams
             // 回调返回值中设置的 AudioParams 计算采样间隔， 并根据该采样间隔触发 onRecordFrame 回调
-            AudioParams params = new AudioParams(441000, 1, 0, 1024);
+            AudioParams params = new AudioParams(16000, 1, 0, 160);
             return params;
         }
 
@@ -463,5 +459,6 @@ public class AgoraAudioEngine implements MediaAudioEngineProtocol {
 
         }
     }
+
 
 }

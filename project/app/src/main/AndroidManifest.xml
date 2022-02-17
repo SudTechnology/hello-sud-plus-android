@@ -61,14 +61,14 @@
 
         <!-- 语聊房页面 -->
         <activity
-            android:name=".ui.room.audio.example.activity.AudioRoomActivity"
+            android:name=".ui.room.audio.activity.AudioRoomActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
 
         <!-- 秀场页面 -->
         <activity
-            android:name=".ui.room.show.ShowRoomActivity"
+            android:name=".ui.room.show.ShowActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />

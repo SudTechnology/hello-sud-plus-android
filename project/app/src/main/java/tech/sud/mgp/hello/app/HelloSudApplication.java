@@ -9,7 +9,7 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.tencent.bugly.crashreport.CrashReport;
 
 import tech.sud.mgp.hello.BuildConfig;
-import tech.sud.mgp.hello.ui.room.audio.gift.manager.GiftHelper;
+import tech.sud.mgp.hello.ui.room.common.gift.manager.GiftHelper;
 
 public class HelloSudApplication extends Application {
     @Override

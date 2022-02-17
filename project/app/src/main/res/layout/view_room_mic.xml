@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <tech.sud.mgp.hello.ui.room.audio.example.widget.view.mic.AudioRoomMicSingleItemView
+    <tech.sud.mgp.hello.ui.room.audio.widget.view.mic.AudioRoomMicSingleItemView
         android:id="@+id/single_item_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

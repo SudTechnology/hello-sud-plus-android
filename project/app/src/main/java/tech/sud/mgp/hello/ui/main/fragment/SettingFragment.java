@@ -11,6 +11,7 @@ import java.util.List;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseFragment;
+import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.common.utils.HsIntentUtils;
 import tech.sud.mgp.hello.ui.main.activity.ChangeRtcActivity;
 import tech.sud.mgp.hello.ui.main.activity.UserAgreementActivity;
@@ -61,6 +62,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
     @Override
     protected void initData() {
         initAppSize();
+        btnGitHub.setHint("hello-sud");
     }
 
     private void initAppSize() {
@@ -71,6 +73,12 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         list.add(new AppSizeView.AppSizeModel(Color.parseColor("#33000000"), "Zego RTC SDK", 152345));
         list.add(new AppSizeView.AppSizeModel(Color.parseColor("#1a000000"), "Agora RTC SDK", 1234500));
         appSizeView.setDatas(list);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        btnChangeRtc.setHint(AppData.getInstance().getRtcName());
     }
 
     @Override

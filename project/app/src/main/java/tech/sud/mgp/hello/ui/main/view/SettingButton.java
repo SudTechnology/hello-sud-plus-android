@@ -62,7 +62,7 @@ public class SettingButton extends ConstraintLayout {
         hintParams.endToEnd = LayoutParams.PARENT_ID;
         hintParams.topToTop = LayoutParams.PARENT_ID;
         hintParams.bottomToBottom = LayoutParams.PARENT_ID;
-        hintParams.setMarginEnd(DensityUtils.dp2px(context, 46));
+        hintParams.setMarginEnd(DensityUtils.dp2px(context, 28));
         addView(tvHint, hintParams);
 
         // 箭头

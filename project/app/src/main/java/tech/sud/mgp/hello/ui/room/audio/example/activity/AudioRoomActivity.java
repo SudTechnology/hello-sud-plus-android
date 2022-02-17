@@ -116,12 +116,12 @@ public class AudioRoomActivity extends BaseActivity {
             topView.setLayoutParams(marginLayoutParams);
         }
 
-        // TODO: 2022/2/9 现在为了调试，把下面的权限判断代码给注释掉了
-//        if (roomInfoModel.roleType == RoleType.OWNER) {
-//            topView.setSelectGameVisibility(View.VISIBLE);
-//        } else {
-//            topView.setSelectGameVisibility(View.GONE);
-//        }
+        if (roomInfoModel.roleType == RoleType.OWNER) {
+            topView.setSelectGameVisibility(View.VISIBLE);
+        } else {
+            topView.setSelectGameVisibility(View.GONE);
+            topView.setFinishGameVisibility(View.GONE);
+        }
     }
 
     @Override

@@ -28,7 +28,7 @@ import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.main.resp.BaseConfigResp;
 import tech.sud.mgp.hello.ui.main.home.HomeFragment;
 import tech.sud.mgp.hello.ui.main.roomlist.RoomListFragment;
-import tech.sud.mgp.hello.ui.main.settings.SettingsFragment;
+import tech.sud.mgp.hello.ui.main.settings.fragment.SettingsFragment;
 
 /**
  * 首页

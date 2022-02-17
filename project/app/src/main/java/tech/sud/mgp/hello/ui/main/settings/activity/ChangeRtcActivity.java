@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.main.settings;
+package tech.sud.mgp.hello.ui.main.settings.activity;
 
 import android.text.TextUtils;
 import android.view.View;

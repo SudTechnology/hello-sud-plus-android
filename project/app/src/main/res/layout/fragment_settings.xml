@@ -52,7 +52,7 @@
                     android:layout_marginTop="16dp"
                     android:textStyle="bold" />
 
-                <tech.sud.mgp.hello.ui.main.settings.AppSizeView
+                <tech.sud.mgp.hello.ui.main.settings.fragment.AppSizeView
                     android:id="@+id/app_size_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -66,7 +66,7 @@
                     android:layout_marginHorizontal="20dp"
                     android:layout_marginTop="16dp" />
 
-                <tech.sud.mgp.hello.ui.main.settings.SettingButton
+                <tech.sud.mgp.hello.ui.main.settings.fragment.SettingButton
                     android:id="@+id/button_version_info"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
@@ -83,7 +83,7 @@
                 android:layout_marginTop="24dp"
                 android:layout_marginHorizontal="16dp">
 
-                <tech.sud.mgp.hello.ui.main.settings.SettingButton
+                <tech.sud.mgp.hello.ui.main.settings.fragment.SettingButton
                     android:id="@+id/button_change_rtc"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
@@ -95,7 +95,7 @@
                     android:background="@color/c_dddddd"
                     android:layout_marginHorizontal="20dp" />
 
-                <tech.sud.mgp.hello.ui.main.settings.SettingButton
+                <tech.sud.mgp.hello.ui.main.settings.fragment.SettingButton
                     android:id="@+id/button_change_language"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
@@ -112,7 +112,7 @@
                 android:layout_marginTop="24dp"
                 android:layout_marginHorizontal="16dp">
 
-                <tech.sud.mgp.hello.ui.main.settings.SettingButton
+                <tech.sud.mgp.hello.ui.main.settings.fragment.SettingButton
                     android:id="@+id/button_github"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
@@ -124,7 +124,7 @@
                     android:background="@color/c_dddddd"
                     android:layout_marginHorizontal="20dp" />
 
-                <tech.sud.mgp.hello.ui.main.settings.SettingButton
+                <tech.sud.mgp.hello.ui.main.settings.fragment.SettingButton
                     android:id="@+id/button_open_source_licenses"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
@@ -136,7 +136,7 @@
                     android:background="@color/c_dddddd"
                     android:layout_marginHorizontal="20dp" />
 
-                <tech.sud.mgp.hello.ui.main.settings.SettingButton
+                <tech.sud.mgp.hello.ui.main.settings.fragment.SettingButton
                     android:id="@+id/button_user_agreement"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
@@ -148,7 +148,7 @@
                     android:background="@color/c_dddddd"
                     android:layout_marginHorizontal="20dp" />
 
-                <tech.sud.mgp.hello.ui.main.settings.SettingButton
+                <tech.sud.mgp.hello.ui.main.settings.fragment.SettingButton
                     android:id="@+id/button_privacy_policy"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"

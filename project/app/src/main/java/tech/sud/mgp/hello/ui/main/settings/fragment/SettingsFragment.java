@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.main.settings;
+package tech.sud.mgp.hello.ui.main.settings.fragment;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -13,6 +13,9 @@ import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseFragment;
 import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.common.utils.HsIntentUtils;
+import tech.sud.mgp.hello.ui.main.settings.activity.ChangeRtcActivity;
+import tech.sud.mgp.hello.ui.main.settings.activity.UserAgreementActivity;
+import tech.sud.mgp.hello.ui.main.settings.activity.VersionInfoActivity;
 
 /**
  * 首页当中的设置页

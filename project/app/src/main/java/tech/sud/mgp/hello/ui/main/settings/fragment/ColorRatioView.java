@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.main.settings;
+package tech.sud.mgp.hello.ui.main.settings.fragment;
 
 import android.content.Context;
 import android.graphics.Canvas;

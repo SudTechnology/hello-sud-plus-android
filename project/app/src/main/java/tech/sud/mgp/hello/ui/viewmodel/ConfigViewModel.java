@@ -17,7 +17,7 @@ import tech.sud.mgp.hello.common.utils.GlobalCache;
 import tech.sud.mgp.hello.service.main.config.BaseRtcConfig;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.main.resp.BaseConfigResp;
-import tech.sud.mgp.hello.ui.main.settings.ChangeRtcViewModel;
+import tech.sud.mgp.hello.ui.main.settings.activity.ChangeRtcViewModel;
 
 /**
  * 配置相关的业务逻辑

@@ -27,7 +27,7 @@ import tech.sud.mgp.hello.ui.login.dialog.UserSecondaryDialog;
 import tech.sud.mgp.hello.ui.login.listener.DialogSecondaryListener;
 import tech.sud.mgp.hello.ui.login.listener.DialogSelectListener;
 import tech.sud.mgp.hello.ui.main.activity.MainActivity;
-import tech.sud.mgp.hello.ui.main.settings.UserAgreementActivity;
+import tech.sud.mgp.hello.ui.main.settings.activity.UserAgreementActivity;
 import tech.sud.mgp.hello.ui.viewmodel.ConfigViewModel;
 
 /**

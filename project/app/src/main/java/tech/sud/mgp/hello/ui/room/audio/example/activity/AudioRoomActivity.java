@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.Map;
 
 import tech.sud.mgp.hello.R;
+import tech.sud.mgp.hello.SudMGPWrapper.model.GameMessageModel;
+import tech.sud.mgp.hello.SudMGPWrapper.state.mg.common.CommonGameState;
 import tech.sud.mgp.hello.common.base.BaseActivity;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
@@ -24,8 +26,6 @@ import tech.sud.mgp.hello.common.permission.PermissionFragment;
 import tech.sud.mgp.hello.common.permission.SudPermissionUtils;
 import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
 import tech.sud.mgp.hello.rtc.audio.core.AudioData;
-import tech.sud.mgp.hello.ui.game.middle.model.GameMessageModel;
-import tech.sud.mgp.hello.ui.game.middle.state.mg.common.CommonGameState;
 import tech.sud.mgp.hello.ui.room.audio.example.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.room.audio.example.model.RoleType;
 import tech.sud.mgp.hello.ui.room.audio.example.model.RoomInfoModel;

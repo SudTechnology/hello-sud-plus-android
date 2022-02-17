@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat;
 
 import com.blankj.utilcode.util.AppUtils;
 
+import im.zego.zegoexpress.ZegoExpressEngine;
 import io.agora.rtc.RtcEngine;
 import tech.sud.mgp.core.SudMGP;
 import tech.sud.mgp.hello.R;
@@ -41,6 +42,7 @@ public class VersionInfoActivity extends BaseActivity {
         addLine();
         addVersionItem("SudMGP SDK", "V" + SudMGP.getVersion());
         addLine();
+        addVersionItem("Zego SDK", "V" + ZegoExpressEngine.getVersion());
         addLine();
         addVersionItem("Agora SDK", "V" + RtcEngine.getSdkVersion());
     }

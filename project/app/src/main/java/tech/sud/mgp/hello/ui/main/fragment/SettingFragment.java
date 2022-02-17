@@ -14,6 +14,7 @@ import tech.sud.mgp.hello.common.base.BaseFragment;
 import tech.sud.mgp.hello.common.utils.HsIntentUtils;
 import tech.sud.mgp.hello.ui.main.activity.ChangeRtcActivity;
 import tech.sud.mgp.hello.ui.main.activity.UserAgreementActivity;
+import tech.sud.mgp.hello.ui.main.activity.VersionInfoActivity;
 import tech.sud.mgp.hello.ui.main.view.AppSizeView;
 import tech.sud.mgp.hello.ui.main.view.SettingButton;
 
@@ -87,7 +88,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
     @Override
     public void onClick(View v) {
         if (v == btnVersionInfo) { // 版本信息
-
+            startActivity(new Intent(requireContext(), VersionInfoActivity.class));
         } else if (v == btnChangeRtc) { // 切换RTC
             startActivity(new Intent(requireContext(), ChangeRtcActivity.class));
         } else if (v == btnChangeLanguage) { // 切换语言

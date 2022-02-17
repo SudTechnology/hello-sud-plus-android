@@ -23,4 +23,14 @@ public class HSJsonUtils {
         return null;
     }
 
+    /**
+     * 对象解析成json
+     *
+     * @param object
+     * @return
+     */
+    public static String toJson(final Object object) {
+        return GsonUtils.toJson(object);
+    }
+
 }

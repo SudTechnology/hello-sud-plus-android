@@ -17,9 +17,9 @@ import tech.sud.mgp.hello.ui.room.audio.model.AudioRoomMicModelConverter;
 import tech.sud.mgp.hello.ui.room.audio.model.RoomInfoModel;
 import tech.sud.mgp.hello.ui.room.audio.model.UserInfo;
 import tech.sud.mgp.hello.ui.room.audio.service.AudioRoomServiceCallback;
-import tech.sud.mgp.hello.ui.room.common.msg.AudioRoomCommandUtils;
-import tech.sud.mgp.hello.ui.room.common.msg.model.DownMicCommand;
-import tech.sud.mgp.hello.ui.room.common.msg.model.UpMicCommand;
+import tech.sud.mgp.hello.ui.room.common.cmd.RoomCmdModelUtils;
+import tech.sud.mgp.hello.ui.room.common.cmd.model.RoomCmdDownMicModel;
+import tech.sud.mgp.hello.ui.room.common.cmd.model.RoomCmdUpMicModel;
 
 /**
  * 房间麦位
@@ -162,7 +162,7 @@ public class AudioMicManager extends BaseServiceManager {
                 }
 
                 // 发送信令
-                String command = AudioRoomCommandUtils.buildUpMicCommand(micIndex, roomMicSwitchResp.streamId, parentManager.getRoleType());
+                String command = RoomCmdModelUtils.buildUpMicCommand(micIndex, roomMicSwitchResp.streamId, parentManager.getRoleType());
                 parentManager.audioEngineManager.sendCommand(command, null);
 
                 // 麦位列表
@@ -182,7 +182,7 @@ public class AudioMicManager extends BaseServiceManager {
         AudioRepository.roomMicLocationSwitch(null, parentManager.getRoomId(), micIndex, false, new RxCallback<>());
 
         // 发送信令
-        String command = AudioRoomCommandUtils.buildDownMicCommand(micIndex);
+        String command = RoomCmdModelUtils.buildDownMicCommand(micIndex);
         parentManager.audioEngineManager.sendCommand(command, null);
 
         // 麦位列表
@@ -359,7 +359,7 @@ public class AudioMicManager extends BaseServiceManager {
     // 上麦信令监听
     private final AudioCommandManager.UpMicCommandListener upMicCommandListener = new AudioCommandManager.UpMicCommandListener() {
         @Override
-        public void onRecvCommand(UpMicCommand command, AudioUser user, String roomId) {
+        public void onRecvCommand(RoomCmdUpMicModel command, AudioUser user, String roomId) {
             UserInfo sendUser = command.sendUser;
             if (sendUser == null) {
                 return;
@@ -384,7 +384,7 @@ public class AudioMicManager extends BaseServiceManager {
     // 下麦信令监听
     private final AudioCommandManager.DownMicCommandListener downMicCommandListener = new AudioCommandManager.DownMicCommandListener() {
         @Override
-        public void onRecvCommand(DownMicCommand command, AudioUser user, String roomId) {
+        public void onRecvCommand(RoomCmdDownMicModel command, AudioUser user, String roomId) {
             if (command.sendUser != null) {
                 removeUser2MicList(command.micIndex, command.sendUser.userID);
             }
@@ -397,7 +397,7 @@ public class AudioMicManager extends BaseServiceManager {
         int selfMicIndex = findSelfMicIndex();
         if (selfMicIndex >= 0) {
             // 发送信令
-            String command = AudioRoomCommandUtils.buildDownMicCommand(selfMicIndex);
+            String command = RoomCmdModelUtils.buildDownMicCommand(selfMicIndex);
             parentManager.audioEngineManager.sendCommand(command, null);
         }
     }

@@ -1,16 +1,14 @@
-package tech.sud.mgp.hello.ui.room.common.msg;
-
-import com.blankj.utilcode.util.GsonUtils;
+package tech.sud.mgp.hello.ui.room.common.cmd;
 
 import tech.sud.mgp.hello.common.model.Gender;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.ui.room.audio.model.UserInfo;
-import tech.sud.mgp.hello.ui.room.common.msg.model.DownMicCommand;
-import tech.sud.mgp.hello.ui.room.common.msg.model.EnterRoomCommand;
-import tech.sud.mgp.hello.ui.room.common.msg.model.GameChangeCommand;
-import tech.sud.mgp.hello.ui.room.common.msg.model.PublicMsgCommand;
-import tech.sud.mgp.hello.ui.room.common.msg.model.SendGiftCommand;
-import tech.sud.mgp.hello.ui.room.common.msg.model.UpMicCommand;
+import tech.sud.mgp.hello.ui.room.common.cmd.model.RoomCmdChangeGameModel;
+import tech.sud.mgp.hello.ui.room.common.cmd.model.RoomCmdChatTextModel;
+import tech.sud.mgp.hello.ui.room.common.cmd.model.RoomCmdDownMicModel;
+import tech.sud.mgp.hello.ui.room.common.cmd.model.RoomCmdEnterRoomModel;
+import tech.sud.mgp.hello.ui.room.common.cmd.model.RoomCmdSendGiftModel;
+import tech.sud.mgp.hello.ui.room.common.cmd.model.RoomCmdUpMicModel;
 
 /**
  * 房间信令工具类
@@ -21,9 +19,9 @@ public class AudioRoomCommandUtils {
      * 构建公屏消息的信令
      */
     public static String buildPublicMsgCommand(String content) {
-        PublicMsgCommand command = new PublicMsgCommand(getSendUser());
+        RoomCmdChatTextModel command = new RoomCmdChatTextModel(getSendUser());
         command.content = content;
-        return GsonUtils.toJson(command);
+        return command.toJson();
     }
 
     /**
@@ -32,48 +30,48 @@ public class AudioRoomCommandUtils {
     public static String buildSendGiftCommand(int giftID,
                                               int giftCount,
                                               UserInfo toUser) {
-        SendGiftCommand command = new SendGiftCommand(getSendUser());
+        RoomCmdSendGiftModel command = new RoomCmdSendGiftModel(getSendUser());
         command.giftID = giftID;
         command.giftCount = giftCount;
         command.toUser = toUser;
-        return GsonUtils.toJson(command);
+        return command.toJson();
     }
 
     /**
      * 构建上麦信令
      */
     public static String buildUpMicCommand(int micIndex, String streamId, int roleType) {
-        UpMicCommand command = new UpMicCommand(getSendUser());
+        RoomCmdUpMicModel command = new RoomCmdUpMicModel(getSendUser());
         command.micIndex = micIndex;
         command.streamID = streamId;
         command.roleType = roleType;
-        return GsonUtils.toJson(command);
+        return command.toJson();
     }
 
     /**
      * 构建下麦信令
      */
     public static String buildDownMicCommand(int micIndex) {
-        DownMicCommand command = new DownMicCommand(getSendUser());
+        RoomCmdDownMicModel command = new RoomCmdDownMicModel(getSendUser());
         command.micIndex = micIndex;
-        return GsonUtils.toJson(command);
+        return command.toJson();
     }
 
     /**
      * 构建游戏切换的信令
      */
     public static String buildGameChangeCommand(long gameId) {
-        GameChangeCommand command = new GameChangeCommand(getSendUser());
+        RoomCmdChangeGameModel command = new RoomCmdChangeGameModel(getSendUser());
         command.gameID = gameId;
-        return GsonUtils.toJson(command);
+        return command.toJson();
     }
 
     /**
      * 构建进入房间信令
      */
     public static String buildEnterRoomCommand() {
-        EnterRoomCommand command = new EnterRoomCommand(getSendUser());
-        return GsonUtils.toJson(command);
+        RoomCmdEnterRoomModel command = new RoomCmdEnterRoomModel(getSendUser());
+        return command.toJson();
     }
 
     private static UserInfo getSendUser() {

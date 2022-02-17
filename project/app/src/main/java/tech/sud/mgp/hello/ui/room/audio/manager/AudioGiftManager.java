@@ -5,11 +5,11 @@ import com.blankj.utilcode.util.LogUtils;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.rtc.audio.core.AudioUser;
 import tech.sud.mgp.hello.ui.room.audio.model.UserInfo;
+import tech.sud.mgp.hello.ui.room.common.cmd.RoomCmdModelUtils;
+import tech.sud.mgp.hello.ui.room.common.cmd.model.RoomCmdSendGiftModel;
 import tech.sud.mgp.hello.ui.room.common.gift.manager.GiftHelper;
 import tech.sud.mgp.hello.ui.room.common.gift.model.GiftModel;
 import tech.sud.mgp.hello.ui.room.common.gift.model.GiftNotifyDetailodel;
-import tech.sud.mgp.hello.ui.room.common.msg.AudioRoomCommandUtils;
-import tech.sud.mgp.hello.ui.room.common.msg.model.SendGiftCommand;
 
 /**
  * 房间礼物
@@ -37,7 +37,7 @@ public class AudioGiftManager extends BaseServiceManager {
     public void sendGift(int giftID,
                          int giftCount,
                          UserInfo toUser) {
-        String command = AudioRoomCommandUtils.buildSendGiftCommand(giftID, giftCount, toUser);
+        String command = RoomCmdModelUtils.buildSendGiftCommand(giftID, giftCount, toUser);
 
         GiftModel giftModel = GiftHelper.getInstance().getGift(giftID);
         GiftNotifyDetailodel notify = new GiftNotifyDetailodel();
@@ -63,7 +63,7 @@ public class AudioGiftManager extends BaseServiceManager {
 
     private final AudioCommandManager.SendGiftCommandListener sendGiftCommandListener = new AudioCommandManager.SendGiftCommandListener() {
         @Override
-        public void onRecvCommand(SendGiftCommand command, AudioUser user, String roomId) {
+        public void onRecvCommand(RoomCmdSendGiftModel command, AudioUser user, String roomId) {
             GiftModel giftModel = GiftHelper.getInstance().getGift(command.giftID);
             GiftNotifyDetailodel notify = new GiftNotifyDetailodel();
             notify.gift = giftModel;

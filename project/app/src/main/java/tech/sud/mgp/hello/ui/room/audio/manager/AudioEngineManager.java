@@ -19,7 +19,7 @@ import tech.sud.mgp.hello.rtc.audio.core.IAudioEventHandler;
 import tech.sud.mgp.hello.rtc.audio.factory.AudioEngineFactory;
 import tech.sud.mgp.hello.ui.room.audio.model.RoomInfoModel;
 import tech.sud.mgp.hello.ui.room.audio.service.AudioRoomServiceCallback;
-import tech.sud.mgp.hello.ui.room.common.msg.AudioRoomCommandUtils;
+import tech.sud.mgp.hello.ui.room.common.cmd.RoomCmdModelUtils;
 
 /**
  * 语音引擎
@@ -231,7 +231,7 @@ public class AudioEngineManager extends BaseServiceManager {
         @Override
         public void onRoomStateUpdate(String roomID, AudioRoomState state, int errorCode, JSONObject extendedData) {
             if (state == AudioRoomState.CONNECTED) { // 连接成功之后发送进房信令
-                sendCommand(AudioRoomCommandUtils.buildEnterRoomCommand(), null);
+                sendCommand(RoomCmdModelUtils.buildEnterRoomCommand(), null);
             }
         }
 

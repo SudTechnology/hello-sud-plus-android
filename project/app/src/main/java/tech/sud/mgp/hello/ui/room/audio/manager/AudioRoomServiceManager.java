@@ -10,9 +10,9 @@ import tech.sud.mgp.hello.service.game.repository.GameRepository;
 import tech.sud.mgp.hello.ui.room.audio.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.room.audio.model.RoomInfoModel;
 import tech.sud.mgp.hello.ui.room.audio.service.AudioRoomServiceCallback;
-import tech.sud.mgp.hello.ui.room.common.msg.AudioRoomCommandUtils;
-import tech.sud.mgp.hello.ui.room.common.msg.model.EnterRoomCommand;
-import tech.sud.mgp.hello.ui.room.common.msg.model.GameChangeCommand;
+import tech.sud.mgp.hello.ui.room.common.cmd.RoomCmdModelUtils;
+import tech.sud.mgp.hello.ui.room.common.cmd.model.RoomCmdChangeGameModel;
+import tech.sud.mgp.hello.ui.room.common.cmd.model.RoomCmdEnterRoomModel;
 
 /**
  * 房间主要业务逻辑
@@ -44,7 +44,7 @@ public class AudioRoomServiceManager extends BaseServiceManager {
     private void setListener() {
         audioEngineManager.setCommandListener(new AudioCommandManager.GameChangeCommandListener() {
             @Override
-            public void onRecvCommand(GameChangeCommand command, AudioUser user, String roomId) {
+            public void onRecvCommand(RoomCmdChangeGameModel command, AudioUser user, String roomId) {
                 roomInfoModel.gameId = command.gameID;
                 AudioRoomServiceCallback callback = getCallback();
                 if (callback != null) {
@@ -54,7 +54,7 @@ public class AudioRoomServiceManager extends BaseServiceManager {
         });
         audioEngineManager.setCommandListener(new AudioCommandManager.EnterRoomCommandListener() {
             @Override
-            public void onRecvCommand(EnterRoomCommand command, AudioUser user, String roomId) {
+            public void onRecvCommand(RoomCmdEnterRoomModel command, AudioUser user, String roomId) {
                 if (command == null || command.sendUser == null || command.sendUser.name == null) {
                     return;
                 }
@@ -152,7 +152,7 @@ public class AudioRoomServiceManager extends BaseServiceManager {
             GameRepository.switchGame(null, getRoomId(), gameId, new RxCallback<>());
 
             // 发送信令通知房间内其他人
-            String command = AudioRoomCommandUtils.buildGameChangeCommand(gameId);
+            String command = RoomCmdModelUtils.buildGameChangeCommand(gameId);
             audioEngineManager.sendCommand(command, null);
         }
     }

@@ -5,8 +5,8 @@ import tech.sud.mgp.hello.rtc.audio.core.AudioUser;
 import tech.sud.mgp.hello.ui.room.audio.model.RoomTextModel;
 import tech.sud.mgp.hello.ui.room.audio.model.UserInfo;
 import tech.sud.mgp.hello.ui.room.audio.service.AudioRoomServiceCallback;
-import tech.sud.mgp.hello.ui.room.common.msg.AudioRoomCommandUtils;
-import tech.sud.mgp.hello.ui.room.common.msg.model.PublicMsgCommand;
+import tech.sud.mgp.hello.ui.room.common.cmd.RoomCmdModelUtils;
+import tech.sud.mgp.hello.ui.room.common.cmd.model.RoomCmdChatTextModel;
 
 /**
  * 房间公屏
@@ -38,7 +38,7 @@ public class AudioChatManager extends BaseServiceManager {
         selfSendMsg(model.text);
 
         // 发送公屏消息信令
-        String command = AudioRoomCommandUtils.buildPublicMsgCommand(msg.toString());
+        String command = RoomCmdModelUtils.buildPublicMsgCommand(msg.toString());
         parentManager.audioEngineManager.sendCommand(command, null);
     }
 
@@ -62,7 +62,7 @@ public class AudioChatManager extends BaseServiceManager {
 
     private final AudioCommandManager.PublicMsgCommandListener publicMsgCommandListener = new AudioCommandManager.PublicMsgCommandListener() {
         @Override
-        public void onRecvCommand(PublicMsgCommand command, AudioUser user, String roomId) {
+        public void onRecvCommand(RoomCmdChatTextModel command, AudioUser user, String roomId) {
             UserInfo userInfo = command.sendUser;
             if (userInfo == null) return;
             RoomTextModel model = new RoomTextModel();

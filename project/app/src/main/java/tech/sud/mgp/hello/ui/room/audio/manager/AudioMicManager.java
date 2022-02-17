@@ -16,10 +16,10 @@ import tech.sud.mgp.hello.ui.room.audio.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.room.audio.model.AudioRoomMicModelConverter;
 import tech.sud.mgp.hello.ui.room.audio.model.RoomInfoModel;
 import tech.sud.mgp.hello.ui.room.audio.model.UserInfo;
-import tech.sud.mgp.hello.ui.room.audio.model.command.DownMicCommand;
-import tech.sud.mgp.hello.ui.room.audio.model.command.UpMicCommand;
 import tech.sud.mgp.hello.ui.room.audio.service.AudioRoomServiceCallback;
-import tech.sud.mgp.hello.ui.room.audio.utils.AudioRoomCommandUtils;
+import tech.sud.mgp.hello.ui.room.common.msg.AudioRoomCommandUtils;
+import tech.sud.mgp.hello.ui.room.common.msg.model.DownMicCommand;
+import tech.sud.mgp.hello.ui.room.common.msg.model.UpMicCommand;
 
 /**
  * 房间麦位

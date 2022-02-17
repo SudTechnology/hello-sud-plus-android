@@ -1,16 +1,16 @@
-package tech.sud.mgp.hello.ui.room.audio.utils;
+package tech.sud.mgp.hello.ui.room.common.msg;
 
 import com.blankj.utilcode.util.GsonUtils;
 
-import tech.sud.mgp.hello.ui.room.audio.model.UserInfo;
-import tech.sud.mgp.hello.ui.room.audio.model.command.DownMicCommand;
-import tech.sud.mgp.hello.ui.room.audio.model.command.EnterRoomCommand;
-import tech.sud.mgp.hello.ui.room.audio.model.command.GameChangeCommand;
-import tech.sud.mgp.hello.ui.room.audio.model.command.PublicMsgCommand;
-import tech.sud.mgp.hello.ui.room.audio.model.command.SendGiftCommand;
-import tech.sud.mgp.hello.ui.room.audio.model.command.UpMicCommand;
 import tech.sud.mgp.hello.common.model.Gender;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
+import tech.sud.mgp.hello.ui.room.audio.model.UserInfo;
+import tech.sud.mgp.hello.ui.room.common.msg.model.DownMicCommand;
+import tech.sud.mgp.hello.ui.room.common.msg.model.EnterRoomCommand;
+import tech.sud.mgp.hello.ui.room.common.msg.model.GameChangeCommand;
+import tech.sud.mgp.hello.ui.room.common.msg.model.PublicMsgCommand;
+import tech.sud.mgp.hello.ui.room.common.msg.model.SendGiftCommand;
+import tech.sud.mgp.hello.ui.room.common.msg.model.UpMicCommand;
 
 /**
  * 房间信令工具类

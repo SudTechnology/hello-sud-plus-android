@@ -4,9 +4,9 @@ import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.rtc.audio.core.AudioUser;
 import tech.sud.mgp.hello.ui.room.audio.model.RoomTextModel;
 import tech.sud.mgp.hello.ui.room.audio.model.UserInfo;
-import tech.sud.mgp.hello.ui.room.audio.model.command.PublicMsgCommand;
 import tech.sud.mgp.hello.ui.room.audio.service.AudioRoomServiceCallback;
-import tech.sud.mgp.hello.ui.room.audio.utils.AudioRoomCommandUtils;
+import tech.sud.mgp.hello.ui.room.common.msg.AudioRoomCommandUtils;
+import tech.sud.mgp.hello.ui.room.common.msg.model.PublicMsgCommand;
 
 /**
  * 房间公屏

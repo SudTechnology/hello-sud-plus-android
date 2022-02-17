@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.room.audio.model.command;
+package tech.sud.mgp.hello.ui.room.common.msg.model;
 
 import tech.sud.mgp.hello.ui.room.audio.model.UserInfo;
 

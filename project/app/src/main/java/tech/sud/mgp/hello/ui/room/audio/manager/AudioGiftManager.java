@@ -5,11 +5,11 @@ import com.blankj.utilcode.util.LogUtils;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.rtc.audio.core.AudioUser;
 import tech.sud.mgp.hello.ui.room.audio.model.UserInfo;
-import tech.sud.mgp.hello.ui.room.audio.model.command.SendGiftCommand;
-import tech.sud.mgp.hello.ui.room.audio.utils.AudioRoomCommandUtils;
 import tech.sud.mgp.hello.ui.room.common.gift.manager.GiftHelper;
 import tech.sud.mgp.hello.ui.room.common.gift.model.GiftModel;
 import tech.sud.mgp.hello.ui.room.common.gift.model.GiftNotifyDetailodel;
+import tech.sud.mgp.hello.ui.room.common.msg.AudioRoomCommandUtils;
+import tech.sud.mgp.hello.ui.room.common.msg.model.SendGiftCommand;
 
 /**
  * 房间礼物

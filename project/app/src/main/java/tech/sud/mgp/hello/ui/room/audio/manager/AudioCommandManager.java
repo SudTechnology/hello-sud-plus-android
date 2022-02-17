@@ -6,15 +6,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tech.sud.mgp.hello.rtc.audio.core.AudioUser;
-import tech.sud.mgp.hello.ui.room.audio.model.command.BaseCommand;
-import tech.sud.mgp.hello.ui.room.audio.model.command.CommandCmd;
-import tech.sud.mgp.hello.ui.room.audio.model.command.DownMicCommand;
-import tech.sud.mgp.hello.ui.room.audio.model.command.EnterRoomCommand;
-import tech.sud.mgp.hello.ui.room.audio.model.command.GameChangeCommand;
-import tech.sud.mgp.hello.ui.room.audio.model.command.PublicMsgCommand;
-import tech.sud.mgp.hello.ui.room.audio.model.command.SendGiftCommand;
-import tech.sud.mgp.hello.ui.room.audio.model.command.UpMicCommand;
 import tech.sud.mgp.hello.ui.room.audio.utils.HSJsonUtils;
+import tech.sud.mgp.hello.ui.room.common.msg.model.BaseCommand;
+import tech.sud.mgp.hello.ui.room.common.msg.model.CommandCmd;
+import tech.sud.mgp.hello.ui.room.common.msg.model.DownMicCommand;
+import tech.sud.mgp.hello.ui.room.common.msg.model.EnterRoomCommand;
+import tech.sud.mgp.hello.ui.room.common.msg.model.GameChangeCommand;
+import tech.sud.mgp.hello.ui.room.common.msg.model.PublicMsgCommand;
+import tech.sud.mgp.hello.ui.room.common.msg.model.SendGiftCommand;
+import tech.sud.mgp.hello.ui.room.common.msg.model.UpMicCommand;
 
 /**
  * 房间信令相关

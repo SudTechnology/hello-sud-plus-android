@@ -9,10 +9,10 @@ import tech.sud.mgp.hello.rtc.audio.core.AudioUser;
 import tech.sud.mgp.hello.service.game.repository.GameRepository;
 import tech.sud.mgp.hello.ui.room.audio.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.room.audio.model.RoomInfoModel;
-import tech.sud.mgp.hello.ui.room.audio.model.command.EnterRoomCommand;
-import tech.sud.mgp.hello.ui.room.audio.model.command.GameChangeCommand;
 import tech.sud.mgp.hello.ui.room.audio.service.AudioRoomServiceCallback;
-import tech.sud.mgp.hello.ui.room.audio.utils.AudioRoomCommandUtils;
+import tech.sud.mgp.hello.ui.room.common.msg.AudioRoomCommandUtils;
+import tech.sud.mgp.hello.ui.room.common.msg.model.EnterRoomCommand;
+import tech.sud.mgp.hello.ui.room.common.msg.model.GameChangeCommand;
 
 /**
  * 房间主要业务逻辑

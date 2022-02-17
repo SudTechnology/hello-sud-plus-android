@@ -11,6 +11,7 @@ import java.util.List;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseFragment;
+import tech.sud.mgp.hello.common.utils.HsIntentUtils;
 import tech.sud.mgp.hello.ui.main.activity.ChangeRtcActivity;
 import tech.sud.mgp.hello.ui.main.activity.UserAgreementActivity;
 import tech.sud.mgp.hello.ui.main.view.AppSizeView;
@@ -92,9 +93,9 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         } else if (v == btnChangeLanguage) { // 切换语言
             ToastUtils.showShort(R.string.coming_soon);
         } else if (v == btnGitHub) { // github
-
+            HsIntentUtils.openUrl(getContext(), "https://github.com/SudTechnology/hello-sud-android");
         } else if (v == btnOpenSource) { // 开源协议
-
+            HsIntentUtils.openUrl(getContext(), "https://github.com/SudTechnology/hello-sud-android/license.txt");
         } else if (v == btnUserAgreement) { // 用户协议
             Intent intent = new Intent(requireContext(), UserAgreementActivity.class);
             intent.putExtra(UserAgreementActivity.AGREEMENTTYPE, 0);

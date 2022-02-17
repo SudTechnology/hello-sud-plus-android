@@ -22,7 +22,7 @@ import tech.sud.mgp.core.SudMGP;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
-import tech.sud.mgp.hello.common.model.AppConfig;
+import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.rtc.protocol.AudioData;
 import tech.sud.mgp.hello.ui.game.http.repository.GameRepository;
@@ -124,7 +124,7 @@ public class GameViewModel {
      * @param code     令牌
      */
     private void initSdk(FragmentActivity activity, long gameId, String code) {
-        SudConfig sudConfig = AppConfig.getInstance().getSudConfig();
+        SudConfig sudConfig = AppData.getInstance().getSudConfig();
         if (sudConfig == null || sudConfig.appId == null || sudConfig.appKey == null) {
             ToastUtils.showLong("SudConfig is empty");
             return;

@@ -11,19 +11,19 @@ import tech.sud.mgp.hello.ui.main.model.config.BaseRtcConfig;
 import tech.sud.mgp.hello.ui.main.model.config.SudConfig;
 
 /**
- * 全局配置
+ * 全局使用的数据
  */
-public class AppConfig {
+public class AppData {
 
-    private static final AppConfig instance = new AppConfig();
+    private static final AppData instance = new AppData();
 
     private BaseConfigResp baseConfigResp; // 基础配置
     private BaseRtcConfig selectRtcConfig; // 当前所使用的rtc配置
 
-    private AppConfig() {
+    private AppData() {
     }
 
-    public static AppConfig getInstance() {
+    public static AppData getInstance() {
         return instance;
     }
 

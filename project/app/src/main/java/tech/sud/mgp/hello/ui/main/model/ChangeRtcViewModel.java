@@ -8,7 +8,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 import tech.sud.mgp.hello.common.base.BaseViewModel;
-import tech.sud.mgp.hello.common.model.AppConfig;
+import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.common.utils.GlobalCache;
 import tech.sud.mgp.hello.rtc.agora.AgoraAudioEngine;
 import tech.sud.mgp.hello.rtc.protocol.MediaAudioEngineManager;
@@ -52,7 +52,7 @@ public class ChangeRtcViewModel extends BaseViewModel {
         applyRtcEngine(config);
 
         // 保存配置
-        AppConfig.getInstance().setSelectRtcConfig(config);
+        AppData.getInstance().setSelectRtcConfig(config);
         executor.execute(new Runnable() {
             @Override
             public void run() {
@@ -63,7 +63,7 @@ public class ChangeRtcViewModel extends BaseViewModel {
 
     // 判断当前所使用的rtc是否是该配置
     public boolean isSelectRtcConfig(BaseRtcConfig config) {
-        BaseRtcConfig selectRtcConfig = AppConfig.getInstance().getSelectRtcConfig();
+        BaseRtcConfig selectRtcConfig = AppData.getInstance().getSelectRtcConfig();
         return selectRtcConfig != null && selectRtcConfig.rtcType != null && selectRtcConfig.rtcType.equals(config.rtcType);
     }
 

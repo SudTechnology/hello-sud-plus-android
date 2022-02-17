@@ -23,7 +23,7 @@ import tech.sud.mgp.hello.common.base.BaseActivity;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
-import tech.sud.mgp.hello.common.model.AppConfig;
+import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.ui.main.fragment.IndexFragment;
 import tech.sud.mgp.hello.ui.main.fragment.RoomListFragment;
 import tech.sud.mgp.hello.ui.main.fragment.SettingFragment;
@@ -61,7 +61,7 @@ public class HomeActivity extends BaseActivity implements TabClickListener {
             public void onNext(BaseResponse<BaseConfigResp> t) {
                 super.onNext(t);
                 if (t.getRetCode() == RetCode.SUCCESS) {
-                    AppConfig.getInstance().setBaseConfigResp(t.getData());
+                    AppData.getInstance().setBaseConfigResp(t.getData());
                 } else {
                     delayGetBaseConfig();
                 }

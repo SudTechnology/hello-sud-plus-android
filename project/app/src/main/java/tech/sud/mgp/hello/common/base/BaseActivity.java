@@ -9,7 +9,7 @@ import com.gyf.immersionbar.ImmersionBar;
 import com.trello.rxlifecycle4.components.support.RxAppCompatActivity;
 
 import tech.sud.mgp.hello.R;
-import tech.sud.mgp.hello.common.model.AppConfig;
+import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 
 public abstract class BaseActivity extends RxAppCompatActivity {
@@ -72,14 +72,14 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         HSUserInfo.onSaveInstanceState(outState);
-        AppConfig.getInstance().onSaveInstanceState(outState);
+        AppData.getInstance().onSaveInstanceState(outState);
     }
 
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         HSUserInfo.onRestoreInstanceState(savedInstanceState);
-        AppConfig.getInstance().onRestoreInstanceState(savedInstanceState);
+        AppData.getInstance().onRestoreInstanceState(savedInstanceState);
     }
 
 }

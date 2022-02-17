@@ -8,7 +8,7 @@ import java.util.List;
 import tech.sud.mgp.hello.common.http.param.BaseUrlManager;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.http.rx.RxUtil;
-import tech.sud.mgp.hello.common.model.AppConfig;
+import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.ui.main.http.method.HomeRequestMethodFactory;
 import tech.sud.mgp.hello.ui.main.http.req.CreatRoomReq;
 import tech.sud.mgp.hello.ui.main.http.req.MatchBodyReq;
@@ -39,7 +39,7 @@ public class HomeRepository {
         MatchBodyReq req = new MatchBodyReq();
         req.gameId = gameId;
         req.sceneType = sceneType;
-        req.rtcType = AppConfig.getInstance().getRtcType();
+        req.rtcType = AppData.getInstance().getRtcType();
         HomeRequestMethodFactory.getMethod()
                 .matchGame(BaseUrlManager.getInteractBaseUrl(), req)
                 .compose(RxUtil.schedulers(owner))
@@ -85,7 +85,7 @@ public class HomeRepository {
      */
     public static void creatRoom(Integer sceneType, LifecycleOwner owner, RxCallback<CreatRoomResp> callback) {
         CreatRoomReq req = new CreatRoomReq();
-        req.rtcType = AppConfig.getInstance().getRtcType();
+        req.rtcType = AppData.getInstance().getRtcType();
         req.sceneType = sceneType;
         HomeRequestMethodFactory.getMethod()
                 .creatRoom(BaseUrlManager.getInteractBaseUrl(), req)

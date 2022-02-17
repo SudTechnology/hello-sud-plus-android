@@ -12,7 +12,7 @@ import tech.sud.mgp.hello.common.base.BaseViewModel;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
-import tech.sud.mgp.hello.common.model.AppConfig;
+import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.common.utils.GlobalCache;
 import tech.sud.mgp.hello.ui.main.http.repository.HomeRepository;
 import tech.sud.mgp.hello.ui.main.http.resp.BaseConfigResp;
@@ -54,7 +54,7 @@ public class ConfigViewModel extends BaseViewModel {
     private void baseConfigSuccess(BaseConfigResp baseConfigResp) {
         executor.execute(() -> {
             // 将基础配置保存起来
-            AppConfig.getInstance().setBaseConfigResp(baseConfigResp);
+            AppData.getInstance().setBaseConfigResp(baseConfigResp);
             GlobalCache.getInstance().put(GlobalCache.BASE_CONFIG_KEY, baseConfigResp);
 
             // 应用rtc配置
@@ -74,7 +74,7 @@ public class ConfigViewModel extends BaseViewModel {
                     }
                 }
             }
-            AppConfig.getInstance().setSelectRtcConfig(baseRtcConfig);
+            AppData.getInstance().setSelectRtcConfig(baseRtcConfig);
             ChangeRtcViewModel.applyRtcEngine(baseRtcConfig);
 
             // 通知页面

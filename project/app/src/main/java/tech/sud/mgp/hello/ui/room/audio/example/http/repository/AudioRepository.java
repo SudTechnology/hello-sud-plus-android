@@ -2,7 +2,10 @@ package tech.sud.mgp.hello.ui.room.audio.example.http.repository;
 
 import androidx.lifecycle.LifecycleOwner;
 
-import tech.sud.mgp.hello.common.model.AppConfig;
+import tech.sud.mgp.hello.common.http.param.BaseUrlManager;
+import tech.sud.mgp.hello.common.http.rx.RxCallback;
+import tech.sud.mgp.hello.common.http.rx.RxUtil;
+import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.ui.room.audio.example.http.method.AudioRequestMethodFactory;
 import tech.sud.mgp.hello.ui.room.audio.example.http.req.EnterRoomReq;
 import tech.sud.mgp.hello.ui.room.audio.example.http.req.ExitRoomReq;
@@ -11,9 +14,6 @@ import tech.sud.mgp.hello.ui.room.audio.example.http.req.RoomMicSwitchReq;
 import tech.sud.mgp.hello.ui.room.audio.example.http.response.EnterRoomResp;
 import tech.sud.mgp.hello.ui.room.audio.example.http.response.RoomMicListResp;
 import tech.sud.mgp.hello.ui.room.audio.example.http.response.RoomMicSwitchResp;
-import tech.sud.mgp.hello.common.http.param.BaseUrlManager;
-import tech.sud.mgp.hello.common.http.rx.RxCallback;
-import tech.sud.mgp.hello.common.http.rx.RxUtil;
 
 public class AudioRepository {
 
@@ -25,7 +25,7 @@ public class AudioRepository {
         if (roomId != null) {
             req.roomId = roomId;
         }
-        req.rtcType = AppConfig.getInstance().getRtcType();
+        req.rtcType = AppData.getInstance().getRtcType();
         AudioRequestMethodFactory.getMethod()
                 .enterRoom(BaseUrlManager.getInteractBaseUrl(), req)
                 .compose(RxUtil.schedulers(owner))

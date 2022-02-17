@@ -88,7 +88,7 @@ public class GiftEffectView extends ConstraintLayout implements LifecycleObserve
         GiftSVGAModel svgaModel = new GiftSVGAModel();
         SVGAImageView svgaImageView = creatSVGAImageView();
         svgaModel.setSvgaView(svgaImageView);
-        svgaModel.setPath(giftModel.path);
+        svgaModel.setResId(giftModel.resId);
 
         aContainer.addView(svgaImageView);
         svgaImageView.setVisibility(View.VISIBLE);

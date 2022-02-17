@@ -61,11 +61,7 @@ public class GameItemView extends ConstraintLayout {
             ImageLoader.loadImage(gameIv, gameModel.getGamePic());
         }
 
-        if (TextUtils.isEmpty(gameModel.getGameName())) {
-            gameTv.setText("Game");
-        } else {
-            gameTv.setText(gameModel.getGameName());
-        }
+        gameTv.setText(gameModel.getGameName());
 
         if (gameModel.getGameId() == -1) {
             gameTv.setTextColor(Color.parseColor("#aaaaaa"));
@@ -81,5 +77,4 @@ public class GameItemView extends ConstraintLayout {
             }
         });
     }
-
 }

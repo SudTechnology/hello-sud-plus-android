@@ -44,7 +44,7 @@ public class GiftHelper {
             model1.giftId = 1;
             model1.giftName = "svga";
             model1.animationType = EffectAnimationFormat.SVGA;
-            model1.path = "audio_svga_600.svga";
+            model1.resId = R.raw.audio_svga_600;
             model1.giftImage = R.drawable.svga_600;
             model1.giftSmallImage = R.drawable.svga_128;
             model1.checkState = true;
@@ -116,7 +116,6 @@ public class GiftHelper {
         } else {
             testIndex = 0;
         }
-        Log.i("getGift  ", testIndex + "");
         GiftModel model = this.gifts.get(testIndex);
         return model;
     }

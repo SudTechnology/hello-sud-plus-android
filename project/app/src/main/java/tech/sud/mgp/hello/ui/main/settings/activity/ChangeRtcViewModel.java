@@ -11,7 +11,6 @@ import tech.sud.mgp.hello.common.base.BaseViewModel;
 import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.common.utils.GlobalCache;
 import tech.sud.mgp.hello.rtc.audio.factory.AudioEngineFactory;
-import tech.sud.mgp.hello.rtc.audio.impl.agora.AgoraAudioEngineImpl;
 import tech.sud.mgp.hello.rtc.audio.impl.zego.ZegoAudioEngineImpl;
 import tech.sud.mgp.hello.service.main.config.AgoraConfig;
 import tech.sud.mgp.hello.service.main.config.BaseRtcConfig;
@@ -92,9 +91,6 @@ public class ChangeRtcViewModel extends BaseViewModel {
             ZegoConfig zegoConfig = (ZegoConfig) config;
             AudioEngineFactory.getEngine().config(zegoConfig.appId, zegoConfig.appKey);
         } else if (config instanceof AgoraConfig) {
-            AudioEngineFactory.create(AgoraAudioEngineImpl.class);
-            AgoraConfig agoraConfig = (AgoraConfig) config;
-            AudioEngineFactory.getEngine().config(agoraConfig.appId, agoraConfig.appKey);
         }
     }
 

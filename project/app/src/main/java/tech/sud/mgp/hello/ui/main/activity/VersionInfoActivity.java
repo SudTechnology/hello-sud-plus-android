@@ -38,13 +38,13 @@ public class VersionInfoActivity extends BaseActivity {
     @Override
     protected void initData() {
         super.initData();
-        addVersionItem("HelloSud App", AppUtils.getAppVersionName());
+        addVersionItem("HelloSud App", "V" + AppUtils.getAppVersionName() + "." + AppUtils.getAppVersionCode());
         addLine();
-        addVersionItem("SudMGP SDK", SudMGP.getVersion());
+        addVersionItem("SudMGP SDK", "V" + SudMGP.getVersion());
         addLine();
-        addVersionItem("Zego SDK", ZegoExpressEngine.getVersion());
+        addVersionItem("Zego SDK", "V" + ZegoExpressEngine.getVersion());
         addLine();
-        addVersionItem("Agora SDK", RtcEngine.getSdkVersion());
+        addVersionItem("Agora SDK", "V" + RtcEngine.getSdkVersion());
     }
 
     private void addLine() {

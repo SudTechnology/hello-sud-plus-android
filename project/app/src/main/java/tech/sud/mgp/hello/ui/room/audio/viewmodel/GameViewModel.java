@@ -319,8 +319,8 @@ public class GameViewModel {
                         putPlayerState(userId, playerInState);
                     } else {
                         removePlayerState(userId);
-                        notifyUpdateMic();
                     }
+                    notifyUpdateMic();
                 }
                 break;
             case SudMGPMGState.MG_COMMON_PLAYER_PLAYING: // 游戏状态

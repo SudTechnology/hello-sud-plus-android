@@ -15,11 +15,11 @@ import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.AppSharedPreferences;
 import tech.sud.mgp.hello.common.utils.ResponseUtils;
-import tech.sud.mgp.hello.ui.login.LoginActivity;
 import tech.sud.mgp.hello.service.login.repository.LoginRepository;
 import tech.sud.mgp.hello.service.login.resp.LoginResponse;
+import tech.sud.mgp.hello.ui.login.LoginActivity;
 import tech.sud.mgp.hello.ui.main.activity.MainActivity;
-import tech.sud.mgp.hello.ui.main.model.ConfigViewModel;
+import tech.sud.mgp.hello.ui.viewmodel.ConfigViewModel;
 
 /**
  * 闪屏页

@@ -13,7 +13,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import tech.sud.mgp.hello.common.utils.DensityUtils;
-import tech.sud.mgp.hello.ui.main.model.TabModel;
 
 public class MainTabView extends LinearLayout implements View.OnClickListener {
     private ImageView icon;

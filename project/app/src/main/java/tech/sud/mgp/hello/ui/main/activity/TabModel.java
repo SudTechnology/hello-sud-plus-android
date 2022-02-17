@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.main.model;
+package tech.sud.mgp.hello.ui.main.activity;
 
 public class TabModel {
     public int index;

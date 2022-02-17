@@ -1,4 +1,6 @@
-package tech.sud.mgp.hello.rtc.audio.core;
+package tech.sud.mgp.hello.rtc.audio.factory;
+
+import tech.sud.mgp.hello.rtc.audio.core.IAudioEngine;
 
 /**
  * 语音引擎管理类

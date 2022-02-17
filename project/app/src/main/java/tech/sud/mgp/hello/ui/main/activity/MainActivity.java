@@ -27,7 +27,6 @@ import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.main.resp.BaseConfigResp;
 import tech.sud.mgp.hello.ui.main.home.HomeFragment;
-import tech.sud.mgp.hello.ui.main.model.TabModel;
 import tech.sud.mgp.hello.ui.main.roomlist.RoomListFragment;
 import tech.sud.mgp.hello.ui.main.settings.SettingsFragment;
 

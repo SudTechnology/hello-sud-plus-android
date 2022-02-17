@@ -2,7 +2,7 @@ package tech.sud.mgp.hello.service.main.resp;
 
 import java.util.List;
 
-import tech.sud.mgp.hello.ui.main.model.RoomItemModel;
+import tech.sud.mgp.hello.ui.main.home.RoomItemModel;
 
 public class RoomListResp {
     private List<RoomItemModel> roomInfoList;

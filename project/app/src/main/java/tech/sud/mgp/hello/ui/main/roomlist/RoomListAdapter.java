@@ -13,8 +13,8 @@ import java.util.List;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
-import tech.sud.mgp.hello.ui.main.manager.HomeManager;
-import tech.sud.mgp.hello.ui.main.model.RoomItemModel;
+import tech.sud.mgp.hello.service.main.manager.HomeManager;
+import tech.sud.mgp.hello.ui.main.home.RoomItemModel;
 
 public class RoomListAdapter extends BaseQuickAdapter<RoomItemModel, BaseViewHolder> {
 

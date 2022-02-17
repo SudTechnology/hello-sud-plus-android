@@ -21,13 +21,12 @@ import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.utils.AppSharedPreferences;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
 import tech.sud.mgp.hello.common.utils.ResponseUtils;
+import tech.sud.mgp.hello.service.main.manager.HomeManager;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.main.resp.CreatRoomResp;
 import tech.sud.mgp.hello.service.main.resp.GameListResp;
 import tech.sud.mgp.hello.service.main.resp.GameModel;
 import tech.sud.mgp.hello.service.main.resp.SceneModel;
-import tech.sud.mgp.hello.ui.main.manager.HomeManager;
-import tech.sud.mgp.hello.ui.main.model.MatchRoomModel;
 import tech.sud.mgp.hello.ui.room.audio.example.utils.EnterRoomUtils;
 
 public class HomeFragment extends BaseFragment implements HomeRoomTypeView.CreatRoomClickListener, GameItemView.GameItemListener {

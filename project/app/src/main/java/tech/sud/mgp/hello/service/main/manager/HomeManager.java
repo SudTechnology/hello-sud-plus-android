@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.main.manager;
+package tech.sud.mgp.hello.service.main.manager;
 
 import android.content.Context;
 

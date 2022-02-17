@@ -20,9 +20,9 @@ import java.util.List;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
+import tech.sud.mgp.hello.service.main.manager.HomeManager;
 import tech.sud.mgp.hello.service.main.resp.GameModel;
 import tech.sud.mgp.hello.service.main.resp.SceneModel;
-import tech.sud.mgp.hello.ui.main.manager.HomeManager;
 
 public class HomeRoomTypeView extends ConstraintLayout {
     private TextView sceneNameTv, creatRoomTv;

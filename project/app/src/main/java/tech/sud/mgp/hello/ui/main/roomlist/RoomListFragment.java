@@ -27,10 +27,10 @@ import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.utils.AppSharedPreferences;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
 import tech.sud.mgp.hello.common.utils.ResponseUtils;
+import tech.sud.mgp.hello.service.main.manager.HomeManager;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.main.resp.RoomListResp;
-import tech.sud.mgp.hello.ui.main.manager.HomeManager;
-import tech.sud.mgp.hello.ui.main.model.RoomItemModel;
+import tech.sud.mgp.hello.ui.main.home.RoomItemModel;
 import tech.sud.mgp.hello.ui.room.audio.example.utils.EnterRoomUtils;
 
 public class RoomListFragment extends BaseFragment {

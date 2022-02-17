@@ -15,7 +15,7 @@ import tech.sud.mgp.hello.service.main.resp.CreatRoomResp;
 import tech.sud.mgp.hello.service.main.resp.GameListResp;
 import tech.sud.mgp.hello.service.main.resp.RoomListResp;
 import tech.sud.mgp.hello.service.main.resp.UserInfoListResp;
-import tech.sud.mgp.hello.ui.main.model.MatchRoomModel;
+import tech.sud.mgp.hello.ui.main.home.MatchRoomModel;
 
 /**
  * 网络请求方法和地址

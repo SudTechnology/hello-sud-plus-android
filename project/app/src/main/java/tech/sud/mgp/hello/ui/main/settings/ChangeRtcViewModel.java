@@ -10,7 +10,7 @@ import java.util.concurrent.Executors;
 import tech.sud.mgp.hello.common.base.BaseViewModel;
 import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.common.utils.GlobalCache;
-import tech.sud.mgp.hello.rtc.audio.core.AudioEngineFactory;
+import tech.sud.mgp.hello.rtc.audio.factory.AudioEngineFactory;
 import tech.sud.mgp.hello.rtc.audio.impl.agora.AgoraAudioEngineImpl;
 import tech.sud.mgp.hello.rtc.audio.impl.zego.ZegoAudioEngineImpl;
 import tech.sud.mgp.hello.service.main.config.AgoraConfig;

@@ -1,14 +1,8 @@
 package tech.sud.mgp.hello.SudMGPWrapper.utils;
 
-import android.text.TextUtils;
-
 import com.blankj.utilcode.util.GsonUtils;
 
-import tech.sud.mgp.hello.SudMGPWrapper.model.GameChatModel;
-import tech.sud.mgp.hello.SudMGPWrapper.model.GameChatMsgModel;
-import tech.sud.mgp.hello.SudMGPWrapper.model.MGCommonGameASRModel;
-import tech.sud.mgp.hello.SudMGPWrapper.model.MGCommonKeyWrodToHitModel;
-import tech.sud.mgp.hello.SudMGPWrapper.model.MGCommonPublicMessageModel;
+import tech.sud.mgp.hello.SudMGPWrapper.state.SudMGPMGState;
 
 /**
  * 游戏通用状态工具类
@@ -19,18 +13,12 @@ public class GameCommonStateUtils {
      * 解析游戏侧发送过来的公屏消息状态
      *
      * @param dataJson
-     * @return
+     * @return 返回解析出来的消息文本
      */
-    public static MGCommonPublicMessageModel parseMsgState(String dataJson) {
+    public static String parseMsgState(String dataJson) {
         try {
-            GameChatModel gameChatModel = GsonUtils.fromJson(dataJson, GameChatModel.class);
-            String msg = parseGameChatModel(gameChatModel);
-            if (!TextUtils.isEmpty(msg)) {
-                MGCommonPublicMessageModel MGCommonPublicMessageModel = new MGCommonPublicMessageModel();
-                MGCommonPublicMessageModel.type = gameChatModel.type;
-                MGCommonPublicMessageModel.msg = msg;
-                return MGCommonPublicMessageModel;
-            }
+            SudMGPMGState.MGCommonPublicMessage message = GsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonPublicMessage.class);
+            return parseGameChatModel(message);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -40,15 +28,15 @@ public class GameCommonStateUtils {
     /**
      * 解析公屏消息
      *
-     * @param model
+     * @param publicMessage
      * @return
      */
-    private static String parseGameChatModel(GameChatModel model) {
-        if (model == null || model.msg == null || model.msg.size() == 0) {
+    private static String parseGameChatModel(SudMGPMGState.MGCommonPublicMessage publicMessage) {
+        if (publicMessage == null || publicMessage.msg == null || publicMessage.msg.size() == 0) {
             return null;
         }
-        StringBuffer sb = new StringBuffer();
-        for (GameChatMsgModel msgModel : model.msg) {
+        StringBuilder sb = new StringBuilder();
+        for (SudMGPMGState.MGCommonPublicMessage.MGCommonPublicMessageMsg msgModel : publicMessage.msg) {
             switch (msgModel.phrase) {
                 case 1:
                     if (msgModel.text != null && msgModel.text.zh_CN != null) {
@@ -71,10 +59,9 @@ public class GameCommonStateUtils {
      * @param dataJson
      * @return
      */
-    public static MGCommonKeyWrodToHitModel parseKeywordState(String dataJson) {
+    public static SudMGPMGState.MGCommonKeyWordToHit parseKeywordState(String dataJson) {
         try {
-            MGCommonKeyWrodToHitModel MGCommonKeyWrodToHitModel = GsonUtils.fromJson(dataJson, MGCommonKeyWrodToHitModel.class);
-            return MGCommonKeyWrodToHitModel;
+            return GsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonKeyWordToHit.class);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -89,7 +76,7 @@ public class GameCommonStateUtils {
      */
     public static boolean parseASRState(String dataJson) {
         try {
-            MGCommonGameASRModel asrState = GsonUtils.fromJson(dataJson, MGCommonGameASRModel.class);
+            SudMGPMGState.MGCommonGameASR asrState = GsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonGameASR.class);
             return asrState.isOpen;
         } catch (Exception e) {
             e.printStackTrace();

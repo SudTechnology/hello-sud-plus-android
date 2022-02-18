@@ -10,8 +10,6 @@ import com.blankj.utilcode.util.Utils;
 import tech.sud.mgp.core.ISudFSMStateHandle;
 import tech.sud.mgp.hello.SudMGPWrapper.model.GameConfigModel;
 import tech.sud.mgp.hello.SudMGPWrapper.model.GameViewInfoModel;
-import tech.sud.mgp.hello.SudMGPWrapper.model.GameViewRectModel;
-import tech.sud.mgp.hello.SudMGPWrapper.model.GameViewSizeModel;
 import tech.sud.mgp.hello.SudMGPWrapper.state.MGStateResponse;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
@@ -86,12 +84,10 @@ public class SudFSMMGManager {
         GameViewInfoModel gameViewInfoModel = new GameViewInfoModel();
         gameViewInfoModel.ret_code = 0;
         // 游戏View大小
-        gameViewInfoModel.view_size = new GameViewSizeModel();
         gameViewInfoModel.view_size.width = gameViewWidth;
         gameViewInfoModel.view_size.height = gameViewHeight;
 
         // 游戏安全操作区域
-        gameViewInfoModel.view_game_rect = new GameViewRectModel();
         gameViewInfoModel.view_game_rect.left = 0;
         gameViewInfoModel.view_game_rect.top = DensityUtils.dp2px(Utils.getApp(), 110) + BarUtils.getStatusBarHeight();
         gameViewInfoModel.view_game_rect.right = 0;

@@ -5,8 +5,6 @@ import com.blankj.utilcode.util.GsonUtils;
 import tech.sud.mgp.core.ISudFSTAPP;
 import tech.sud.mgp.core.ISudListenerNotifyStateChange;
 import tech.sud.mgp.hello.SudMGPWrapper.state.SudMGPAPPState;
-import tech.sud.mgp.hello.SudMGPWrapper.state.app.CommonSelfInState;
-import tech.sud.mgp.hello.SudMGPWrapper.state.app.CommonSelfTextHitState;
 import tech.sud.mgp.hello.rtc.audio.core.AudioData;
 
 /**
@@ -47,7 +45,7 @@ public class SudFSTAPPManager {
      */
     public void sendCommonSelfInState(boolean isIn, int seatIndex, boolean isSeatRandom, int teamId) {
         if (iSudFSTAPP != null) {
-            CommonSelfInState state = new CommonSelfInState();
+            SudMGPAPPState.APPCommonSelfIn state = new SudMGPAPPState.APPCommonSelfIn();
             state.isIn = isIn;
             state.seatIndex = seatIndex;
             state.isSeatRandom = isSeatRandom;
@@ -70,7 +68,7 @@ public class SudFSTAPPManager {
      */
     public void sendCommonSelfTextHitState(Boolean isHit, String keyWord, String text) {
         if (iSudFSTAPP != null) {
-            CommonSelfTextHitState state = new CommonSelfTextHitState();
+            SudMGPAPPState.APPCommonSelfTextHitState state = new SudMGPAPPState.APPCommonSelfTextHitState();
             state.isHit = isHit;
             state.keyWord = keyWord;
             state.text = text;

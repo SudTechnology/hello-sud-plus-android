@@ -20,14 +20,7 @@ import tech.sud.mgp.core.ISudListenerInitSDK;
 import tech.sud.mgp.core.SudMGP;
 import tech.sud.mgp.hello.SudMGPWrapper.manager.SudFSMMGManager;
 import tech.sud.mgp.hello.SudMGPWrapper.manager.SudFSTAPPManager;
-import tech.sud.mgp.hello.SudMGPWrapper.model.MGCommonKeyWrodToHitModel;
-import tech.sud.mgp.hello.SudMGPWrapper.model.MGCommonPublicMessageModel;
 import tech.sud.mgp.hello.SudMGPWrapper.state.SudMGPMGState;
-import tech.sud.mgp.hello.SudMGPWrapper.state.mg.common.MGCommonGameStateModel;
-import tech.sud.mgp.hello.SudMGPWrapper.state.mg.player.MGCommonPlayerCaptainModel;
-import tech.sud.mgp.hello.SudMGPWrapper.state.mg.player.MGCommonPlayerInModel;
-import tech.sud.mgp.hello.SudMGPWrapper.state.mg.player.MGCommonPlayerPlayingModel;
-import tech.sud.mgp.hello.SudMGPWrapper.state.mg.player.MGCommonPlayerReadyModel;
 import tech.sud.mgp.hello.SudMGPWrapper.utils.GameCommonStateUtils;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
@@ -53,7 +46,7 @@ public class GameViewModel {
     private final SudFSMMGManager sudFSMMGManager = new SudFSMMGManager(); // 用于处理游戏SDK部分回调业务
 
     public final MutableLiveData<View> gameViewLiveData = new MutableLiveData<>(); // 游戏View回调
-    public final MutableLiveData<MGCommonPublicMessageModel> gameMessageLiveData = new MutableLiveData<>(); // 游戏消息
+    public final MutableLiveData<String> gameMessageLiveData = new MutableLiveData<>(); // 游戏消息
     public final MutableLiveData<Object> updateMicLiveData = new MutableLiveData<>(); // 刷新麦位通知
     public final MutableLiveData<Object> autoUpMicLiveData = new MutableLiveData<>(); // 执行自动上麦的通知
     public final MutableLiveData<String> gameKeywordLiveData = new MutableLiveData<>(); // 游戏关键字
@@ -62,14 +55,14 @@ public class GameViewModel {
 
     private View gameView; // 游戏View
     private long captainUserId; // 记录当前队长的用户id
-    private MGCommonGameStateModel mgCommonGameStateModel; // 游戏状态
+    private SudMGPMGState.MGCommonGameState mgCommonGameStateModel; // 游戏状态
     private boolean isSelfInGame; // 标识自己是否已加入了游戏
     private int selfMicIndex = -1; // 记录自己所在麦位
     private boolean isHitBomb = false;//是否数字炸弹
 
     /**
      * 记录该玩家最新的游戏状态
-     * 1，准备状态 {@link MGCommonPlayerReadyModel}
+     * 1，准备状态 {@link  SudMGPMGState.MGCommonPlayerReady}
      */
     private final HashMap<String, Object> playerStates = new HashMap<>();
 
@@ -142,6 +135,7 @@ public class GameViewModel {
 
             @Override
             public void onFailure(int errCode, String errMsg) {
+                ToastUtils.showShort("initSDK onFailure:" + errMsg + "(" + errCode + ")");
                 delayLoadGame(activity, gameId);
             }
         });
@@ -176,7 +170,7 @@ public class GameViewModel {
             public void run() {
                 login(activity, gameId);
             }
-        }, 3000);
+        }, 5000);
     }
 
     // 覆盖更新玩家状态
@@ -292,8 +286,8 @@ public class GameViewModel {
     private void parsePlayerState(String userId, String state, String dataJson) {
         switch (state) {
             case SudMGPMGState.MG_COMMON_PLAYER_CAPTAIN: // 队长状态
-                MGCommonPlayerCaptainModel mgCommonPlayerCaptainModel = HSJsonUtils.fromJson(dataJson, MGCommonPlayerCaptainModel.class);
-                if (mgCommonPlayerCaptainModel != null && mgCommonPlayerCaptainModel.retCode == 0) {
+                SudMGPMGState.MGCommonPlayerCaptain mgCommonPlayerCaptainModel = HSJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonPlayerCaptain.class);
+                if (mgCommonPlayerCaptainModel != null) {
                     if (mgCommonPlayerCaptainModel.isCaptain) { // 该用户成为了队长
                         captainChange(userId);
                     } else {
@@ -305,14 +299,14 @@ public class GameViewModel {
                 }
                 break;
             case SudMGPMGState.MG_COMMON_PLAYER_READY: // 准备状态
-                MGCommonPlayerReadyModel playerReadyState = HSJsonUtils.fromJson(dataJson, MGCommonPlayerReadyModel.class);
-                if (playerReadyState != null && playerReadyState.retCode == 0) {
+                SudMGPMGState.MGCommonPlayerReady playerReadyState = HSJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonPlayerReady.class);
+                if (playerReadyState != null) {
                     putPlayerState(userId, playerReadyState);
                     notifyUpdateMic();
                 }
                 break;
             case SudMGPMGState.MG_COMMON_PLAYER_IN: // 加入状态
-                MGCommonPlayerInModel playerInState = HSJsonUtils.fromJson(dataJson, MGCommonPlayerInModel.class);
+                SudMGPMGState.MGCommonPlayerIn playerInState = HSJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonPlayerIn.class);
                 if (playerInState != null) {
                     if ((HSUserInfo.userId + "").equals(userId)) { // 属于自己的变动
                         isSelfInGame = playerInState.isIn;
@@ -329,7 +323,7 @@ public class GameViewModel {
                 }
                 break;
             case SudMGPMGState.MG_COMMON_PLAYER_PLAYING: // 游戏状态
-                MGCommonPlayerPlayingModel playerPlayingState = HSJsonUtils.fromJson(dataJson, MGCommonPlayerPlayingModel.class);
+                SudMGPMGState.MGCommonPlayerPlaying playerPlayingState = HSJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonPlayerPlaying.class);
                 if (playerPlayingState != null) {
                     if (playerPlayingState.isPlaying) {
                         putPlayerState(userId, playerPlayingState);
@@ -371,15 +365,14 @@ public class GameViewModel {
     private void parseCommonState(String state, String dataJson) {
         switch (state) {
             case SudMGPMGState.MG_COMMON_PUBLIC_MESSAGE: // 公屏消息
-                MGCommonPublicMessageModel model = GameCommonStateUtils.parseMsgState(dataJson);
-                gameMessageLiveData.setValue(model);
+                gameMessageLiveData.setValue(GameCommonStateUtils.parseMsgState(dataJson));
                 break;
             case SudMGPMGState.MG_COMMON_GAME_STATE: // 游戏状态
-                mgCommonGameStateModel = HSJsonUtils.fromJson(dataJson, MGCommonGameStateModel.class);
+                mgCommonGameStateModel = HSJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonGameState.class);
                 notifyShowFinishGameBtn();
                 break;
             case SudMGPMGState.MG_COMMON_KEY_WORD_TO_HIT: // 关键字
-                MGCommonKeyWrodToHitModel keyWrodToHitModel = GameCommonStateUtils.parseKeywordState(dataJson);
+                SudMGPMGState.MGCommonKeyWordToHit keyWrodToHitModel = GameCommonStateUtils.parseKeywordState(dataJson);
                 if (keyWrodToHitModel != null) {
                     String word = keyWrodToHitModel.word;
                     isHitBomb = keyWrodToHitModel.wordType.equals("number");
@@ -430,13 +423,13 @@ public class GameViewModel {
     }
 
     /**
-     * 返回当前游戏的状态，数值参数{@link MGCommonGameStateModel}
+     * 返回当前游戏的状态，数值参数{@link SudMGPMGState.MGCommonGameState}
      */
     public int getGameState() {
         if (mgCommonGameStateModel != null) {
             return mgCommonGameStateModel.gameState;
         }
-        return mgCommonGameStateModel.IDLE;
+        return SudMGPMGState.MGCommonGameState.IDLE;
     }
 
     /**
@@ -456,15 +449,15 @@ public class GameViewModel {
         // 是否已准备
         if (hasUser) {
             Object playerState = getPlayerState(model.userId + "");
-            if (playerState instanceof MGCommonPlayerReadyModel) { // 准备状态
-                MGCommonPlayerReadyModel readyState = (MGCommonPlayerReadyModel) playerState;
+            if (playerState instanceof SudMGPMGState.MGCommonPlayerReady) { // 准备状态
+                SudMGPMGState.MGCommonPlayerReady readyState = (SudMGPMGState.MGCommonPlayerReady) playerState;
                 if (readyState.isReady) { // 已准备
                     model.readyStatus = 1;
                 } else { // 未准备
                     model.readyStatus = 2;
                 }
-            } else if (playerState instanceof MGCommonPlayerInModel) { // 加入状态
-                MGCommonPlayerInModel playerInState = (MGCommonPlayerInModel) playerState;
+            } else if (playerState instanceof SudMGPMGState.MGCommonPlayerIn) { // 加入状态
+                SudMGPMGState.MGCommonPlayerIn playerInState = (SudMGPMGState.MGCommonPlayerIn) playerState;
                 if (playerInState.isIn) { // 加入了，但是没有准备
                     model.readyStatus = 2;
                 } else { // 未加入，不显示准备状态
@@ -481,8 +474,8 @@ public class GameViewModel {
         boolean isPlayingGame = false;
         if (hasUser) {
             Object playerState = getPlayerState(model.userId + "");
-            if (playerState instanceof MGCommonPlayerPlayingModel) {
-                MGCommonPlayerPlayingModel playerPlayingState = (MGCommonPlayerPlayingModel) playerState;
+            if (playerState instanceof SudMGPMGState.MGCommonPlayerPlaying) {
+                SudMGPMGState.MGCommonPlayerPlaying playerPlayingState = (SudMGPMGState.MGCommonPlayerPlaying) playerState;
                 isPlayingGame = playerPlayingState.isPlaying;
             }
         }
@@ -553,7 +546,7 @@ public class GameViewModel {
         // 队长以及游戏中才显示
         boolean isShow = playingGameId > 0
                 && captainUserId == HSUserInfo.userId
-                && mgCommonGameStateModel != null && mgCommonGameStateModel.gameState == MGCommonGameStateModel.PLAYING;
+                && mgCommonGameStateModel != null && mgCommonGameStateModel.gameState == SudMGPMGState.MGCommonGameState.PLAYING;
         showFinishGameBtnLiveData.setValue(isShow);
     }
 

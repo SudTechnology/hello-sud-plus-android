@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.room.common.gift.manager.stategy;
+package tech.sud.mgp.hello.ui.room.common.gift.manager.stategy.webp;
 
 import android.app.Activity;
 import android.content.Context;
@@ -20,6 +20,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 
 import tech.sud.mgp.hello.ui.room.common.gift.listener.PlayResultListener;
+import tech.sud.mgp.hello.ui.room.common.gift.manager.stategy.PlayStrategy;
 import tech.sud.mgp.hello.ui.room.common.gift.model.PlayResult;
 
 public class GiftWebpStrategy extends PlayStrategy<GiftWebpModel> {

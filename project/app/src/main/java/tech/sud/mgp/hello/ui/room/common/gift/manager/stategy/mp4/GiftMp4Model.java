@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.room.common.gift.manager.stategy;
+package tech.sud.mgp.hello.ui.room.common.gift.manager.stategy.mp4;
 
 import androidx.lifecycle.LifecycleOwner;
 

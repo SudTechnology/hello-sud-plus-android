@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.room.common.gift.manager.stategy;
+package tech.sud.mgp.hello.ui.room.common.gift.manager.stategy.svga;
 
 import android.view.View;
 
@@ -13,6 +13,7 @@ import com.opensource.svgaplayer.SVGAVideoEntity;
 import java.io.InputStream;
 
 import tech.sud.mgp.hello.ui.room.common.gift.listener.PlayResultListener;
+import tech.sud.mgp.hello.ui.room.common.gift.manager.stategy.PlayStrategy;
 import tech.sud.mgp.hello.ui.room.common.gift.model.PlayResult;
 
 public class GiftSVGAStrategy extends PlayStrategy<GiftSVGAModel> {

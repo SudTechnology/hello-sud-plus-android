@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.room.common.gift.manager.stategy;
+package tech.sud.mgp.hello.ui.room.common.gift.manager.stategy.svga;
 
 import com.opensource.svgaplayer.SVGAImageView;
 

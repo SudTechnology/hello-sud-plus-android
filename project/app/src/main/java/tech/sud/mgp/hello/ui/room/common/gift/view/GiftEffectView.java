@@ -17,14 +17,14 @@ import com.opensource.svgaplayer.SVGAImageView;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.ui.room.common.gift.manager.GiftDisplayManager;
-import tech.sud.mgp.hello.ui.room.common.gift.manager.stategy.GiftJsonModel;
-import tech.sud.mgp.hello.ui.room.common.gift.manager.stategy.GiftJsonStrategy;
-import tech.sud.mgp.hello.ui.room.common.gift.manager.stategy.GiftMp4Model;
-import tech.sud.mgp.hello.ui.room.common.gift.manager.stategy.GiftMp4Strategy;
-import tech.sud.mgp.hello.ui.room.common.gift.manager.stategy.GiftSVGAModel;
-import tech.sud.mgp.hello.ui.room.common.gift.manager.stategy.GiftSVGAStrategy;
-import tech.sud.mgp.hello.ui.room.common.gift.manager.stategy.GiftWebpModel;
-import tech.sud.mgp.hello.ui.room.common.gift.manager.stategy.GiftWebpStrategy;
+import tech.sud.mgp.hello.ui.room.common.gift.manager.stategy.lottie.GiftJsonModel;
+import tech.sud.mgp.hello.ui.room.common.gift.manager.stategy.lottie.GiftJsonStrategy;
+import tech.sud.mgp.hello.ui.room.common.gift.manager.stategy.mp4.GiftMp4Model;
+import tech.sud.mgp.hello.ui.room.common.gift.manager.stategy.mp4.GiftMp4Strategy;
+import tech.sud.mgp.hello.ui.room.common.gift.manager.stategy.svga.GiftSVGAModel;
+import tech.sud.mgp.hello.ui.room.common.gift.manager.stategy.svga.GiftSVGAStrategy;
+import tech.sud.mgp.hello.ui.room.common.gift.manager.stategy.webp.GiftWebpModel;
+import tech.sud.mgp.hello.ui.room.common.gift.manager.stategy.webp.GiftWebpStrategy;
 import tech.sud.mgp.hello.ui.room.common.gift.model.GiftModel;
 
 public class GiftEffectView extends ConstraintLayout implements LifecycleObserver {

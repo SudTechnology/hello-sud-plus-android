@@ -53,9 +53,6 @@ public class AudioGiftManager extends BaseServiceManager {
         notify.giftCount = giftCount;
         notify.giftID = giftID;
 
-        LogUtils.i("testInfo1=" + toUser);
-        LogUtils.i("testInfo1.name=" + toUser.name);
-
         parentManager.audioChatManager.addMsg(notify);
 
         parentManager.audioEngineManager.sendCommand(command, null);

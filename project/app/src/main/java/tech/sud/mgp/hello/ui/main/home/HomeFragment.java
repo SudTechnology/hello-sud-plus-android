@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.blankj.utilcode.util.ToastUtils;
 
@@ -36,6 +38,7 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
     private LinearLayout sceneLayout;
     private TextView nameTv, useridTv;
     private ImageView headerIv;
+    private SwipeRefreshLayout refreshLayout;
 
     public HomeFragment() {
     }
@@ -59,6 +62,7 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
         nameTv = mRootView.findViewById(R.id.name_tv);
         useridTv = mRootView.findViewById(R.id.userid_tv);
         headerIv = mRootView.findViewById(R.id.header_iv);
+        refreshLayout = mRootView.findViewById(R.id.refresh_layout);
     }
 
     @Override
@@ -113,6 +117,7 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
             return false;
         });
         goSearch.setOnClickListener(v -> enterRoom());
+        refreshLayout.setOnRefreshListener(this::loadList);
     }
 
     private void enterRoom() {
@@ -171,6 +176,13 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
                     creatScene(t.getData());
                 } else {
                     ToastUtils.showShort(ResponseUtils.conver(t));
+                }
+            }
+            @Override
+            public void onComplete() {
+                super.onComplete();
+                if (refreshLayout.isRefreshing()) {
+                    refreshLayout.setRefreshing(false);
                 }
             }
         });

@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.room.common.gift.manager.stategy;
+package tech.sud.mgp.hello.ui.room.common.gift.manager.stategy.mp4;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
@@ -11,6 +11,7 @@ import com.ss.ugc.android.alpha_player.model.ScaleType;
 import java.io.File;
 
 import tech.sud.mgp.hello.ui.room.common.gift.listener.PlayResultListener;
+import tech.sud.mgp.hello.ui.room.common.gift.manager.stategy.PlayStrategy;
 import tech.sud.mgp.hello.ui.room.common.gift.model.PlayResult;
 import tech.sud.mgp.hello.ui.room.common.gift.view.GiftVideoView;
 

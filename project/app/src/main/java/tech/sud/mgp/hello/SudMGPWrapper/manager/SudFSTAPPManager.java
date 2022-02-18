@@ -78,6 +78,15 @@ public class SudFSTAPPManager {
         }
     }
 
+    /**
+     * 队长主动结束游戏
+     */
+    public void finishGame() {
+        if (iSudFSTAPP != null) {
+            iSudFSTAPP.notifyStateChange(SudMGPAPPState.APP_COMMON_SELF_END, "{}", null);
+        }
+    }
+
     public void onStart() {
         if (iSudFSTAPP != null) {
             iSudFSTAPP.startMG();

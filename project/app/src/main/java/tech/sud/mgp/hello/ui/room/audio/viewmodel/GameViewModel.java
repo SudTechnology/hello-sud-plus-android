@@ -54,8 +54,9 @@ public class GameViewModel {
     public final MutableLiveData<MGCommonPublicMessageModel> gameMessageLiveData = new MutableLiveData<>(); // 游戏消息
     public final MutableLiveData<Object> updateMicLiveData = new MutableLiveData<>(); // 刷新麦位通知
     public final MutableLiveData<Object> autoUpMicLiveData = new MutableLiveData<>(); // 执行自动上麦的通知
-    public final MutableLiveData<String> gameKeywordLiveData = new MutableLiveData<>();//游戏关键字
-    public final MutableLiveData<Boolean> gameASRLiveData = new MutableLiveData<>();//游戏ASR开关
+    public final MutableLiveData<String> gameKeywordLiveData = new MutableLiveData<>(); // 游戏关键字
+    public final MutableLiveData<Boolean> gameASRLiveData = new MutableLiveData<>(); // 游戏ASR开关
+    public final MutableLiveData<Boolean> showFinishGameBtnLiveData = new MutableLiveData<>(); // 是否具备结束游戏的权力
 
     private View gameView; // 游戏View
     private long captainUserId; // 记录当前队长的用户id
@@ -297,6 +298,7 @@ public class GameViewModel {
                             captainChange(null);
                         }
                     }
+                    notifyShowFinishGameBtn();
                 }
                 break;
             case SudMGPMGState.MG_COMMON_PLAYER_READY: // 准备状态
@@ -371,6 +373,7 @@ public class GameViewModel {
                 break;
             case SudMGPMGState.MG_COMMON_GAME_STATE: // 游戏状态
                 mgCommonGameStateModel = HSJsonUtils.fromJson(dataJson, MGCommonGameStateModel.class);
+                notifyShowFinishGameBtn();
                 break;
             case SudMGPMGState.MG_COMMON_KEY_WORD_TO_HIT: // 关键字
                 String word = GameCommonStateUtils.parseKeywordState(dataJson);
@@ -528,5 +531,18 @@ public class GameViewModel {
             sudFSTAPPManager.sendCommonSelfTextHitState(true, keyword, msg);
             gameKeywordLiveData.setValue(null);
         }
+    }
+
+    // 对应状态有变化时，更新是否展示结束游戏按钮
+    public void notifyShowFinishGameBtn() {
+        // 队长以及游戏中才显示
+        boolean isShow = playingGameId > 0
+                && captainUserId == HSUserInfo.userId
+                && mgCommonGameStateModel != null && mgCommonGameStateModel.gameState == MGCommonGameStateModel.PLAYING;
+        showFinishGameBtnLiveData.setValue(isShow);
+    }
+
+    public void finishGame() {
+        sudFSTAPPManager.finishGame();
     }
 }

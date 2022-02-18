@@ -116,12 +116,8 @@ public class AudioRoomActivity extends BaseActivity {
             topView.setLayoutParams(marginLayoutParams);
         }
 
-        if (roomInfoModel.roleType == RoleType.OWNER) {
-            topView.setSelectGameVisibility(View.VISIBLE);
-        } else {
-            topView.setSelectGameVisibility(View.GONE);
-            topView.setFinishGameVisibility(View.GONE);
-        }
+        topView.setFinishGameVisible(false);
+        topView.setSelectGameVisible(roomInfoModel.roleType == RoleType.OWNER);
     }
 
     @Override
@@ -224,9 +220,23 @@ public class AudioRoomActivity extends BaseActivity {
         topView.setFinishGameOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switchGame(0, true);
+                clickFinishGame();
             }
         });
+    }
+
+    private void clickFinishGame() {
+        SimpleChooseDialog dialog = new SimpleChooseDialog(this, getString(R.string.finish_game_confirm));
+        dialog.setOnChooseListener(new SimpleChooseDialog.OnChooseListener() {
+            @Override
+            public void onChoose(int index) {
+                if (index == 1) {
+                    gameViewModel.finishGame();
+                }
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 
     private void setGameListeners() {
@@ -272,6 +282,12 @@ public class AudioRoomActivity extends BaseActivity {
             @Override
             public void onChanged(Boolean aBoolean) {
                 binder.setASROpen(aBoolean);
+            }
+        });
+        gameViewModel.showFinishGameBtnLiveData.observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean isShow) {
+                topView.setFinishGameVisible(isShow != null && isShow);
             }
         });
     }
@@ -348,7 +364,6 @@ public class AudioRoomActivity extends BaseActivity {
         gameViewModel.switchGame(this, gameId);
         binder.switchGame(gameId, selfSwitch);
         updatePageStyle();
-        onGameChange();
     }
 
     private void openMic() {
@@ -422,18 +437,6 @@ public class AudioRoomActivity extends BaseActivity {
         updatePageStyle();
         gameViewModel.setRoomId(roomInfoModel.roomId);
         gameViewModel.switchGame(this, roomInfoModel.gameId);
-        onGameChange();
-    }
-
-    // 游戏模式变化了
-    private void onGameChange() {
-        if (roomInfoModel.roleType == RoleType.OWNER) {
-            if (playingGameId == 0) { // 没有游戏
-                topView.setFinishGameVisibility(View.GONE);
-            } else {
-                topView.setFinishGameVisibility(View.VISIBLE);
-            }
-        }
     }
 
     // 切换游戏之后，更新页面样式

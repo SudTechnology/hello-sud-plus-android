@@ -75,11 +75,11 @@ public class AudioRoomTopView extends ConstraintLayout {
     }
 
     /**
-     * 设置选择模式中的文字内容
+     * 设置选择游戏中的文字内容
      *
      * @param value
      */
-    public void setMode(String value) {
+    public void setSelectGameName(String value) {
         mTvSelectGame.setText(value);
     }
 
@@ -103,20 +103,16 @@ public class AudioRoomTopView extends ConstraintLayout {
 
     /**
      * 设置选择游戏的可见性
-     *
-     * @param visibility
      */
-    public void setSelectGameVisibility(int visibility) {
-        mContainerSelectGame.setVisibility(visibility);
+    public void setSelectGameVisible(boolean isVisible) {
+        mContainerSelectGame.setVisibility(isVisible ? View.VISIBLE : View.GONE);
     }
 
     /**
      * 设置结束游戏的可见性
-     *
-     * @param visibility
      */
-    public void setFinishGameVisibility(int visibility) {
-        mTvFinishGame.setVisibility(visibility);
+    public void setFinishGameVisible(boolean isVisible) {
+        mTvFinishGame.setVisibility(isVisible ? View.VISIBLE : View.GONE);
     }
 
     /**

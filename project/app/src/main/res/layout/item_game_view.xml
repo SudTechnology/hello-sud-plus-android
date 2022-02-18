@@ -30,7 +30,7 @@
     <TextView
         android:id="@+id/game_join"
         android:layout_width="54dp"
-        android:layout_height="28dp"
+        android:layout_height="26dp"
         android:layout_marginTop="6dp"
         android:background="@drawable/shape_game_join_bg"
         android:gravity="center"

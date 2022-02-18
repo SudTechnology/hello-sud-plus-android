@@ -19,7 +19,6 @@ public class GiftHelper {
 
     private static GiftHelper helper;
     private List<GiftModel> gifts = new ArrayList<>();
-    private int testIndex = 0;
     public boolean inMic = false;
     public UserInfo underMicUser;
     public List<MicUserInfoModel> inMics = new ArrayList<>();
@@ -41,7 +40,6 @@ public class GiftHelper {
     public List<GiftModel> creatGifts(Context context) {
         if (this.gifts.size() == 0) {
             List<GiftModel> gifts = new ArrayList<>();
-//            copyFileToSdcrad(context,R.raw.sud_svga_600,"sud_svga_600.svga");
             GiftModel model1 = new GiftModel();
             model1.giftId = 1;
             model1.giftName = "svga";
@@ -88,13 +86,6 @@ public class GiftHelper {
         return gifts;
     }
 
-    public void copyFileToSdcrad(Context context, @RawRes int resId, String fileName) {
-        File file = new File(context.getCacheDir().getAbsolutePath() + File.separator + fileName);
-        if (!file.exists() || !file.isFile()) {
-            FileUtils.copyFilesFromRaw(context, resId, fileName, context.getCacheDir().getAbsolutePath());
-        }
-    }
-
     public GiftModel getGift(int giftId) {
         for (GiftModel model : gifts) {
             if (giftId == model.giftId) {
@@ -113,14 +104,11 @@ public class GiftHelper {
         return null;
     }
 
-    public GiftModel getGift() {
-        if (testIndex < this.gifts.size() - 1) {
-            testIndex++;
-        } else {
-            testIndex = 0;
+    public void copyFileToSdcrad(Context context, @RawRes int resId, String fileName) {
+        File file = new File(context.getCacheDir().getAbsolutePath() + File.separator + fileName);
+        if (!file.exists() || !file.isFile()) {
+            FileUtils.copyFilesFromRaw(context, resId, fileName, context.getCacheDir().getAbsolutePath());
         }
-        GiftModel model = this.gifts.get(testIndex);
-        return model;
     }
 
 }

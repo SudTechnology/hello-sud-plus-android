@@ -361,6 +361,7 @@ public class AudioRoomActivity extends BaseActivity {
         playingGameId = gameId;
         roomInfoModel.gameId = gameId;
         gameViewModel.switchGame(this, gameId);
+        binder.updateMicList();
         binder.switchGame(gameId, selfSwitch);
         updatePageStyle();
     }

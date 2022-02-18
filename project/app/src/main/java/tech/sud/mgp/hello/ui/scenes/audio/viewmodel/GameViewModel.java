@@ -411,6 +411,7 @@ public class GameViewModel {
             gameViewLiveData.setValue(null);
             captainUserId = 0;
             mgCommonGameStateModel = null;
+            playerStates.clear();
         }
     }
     // endregion 生命周期相关

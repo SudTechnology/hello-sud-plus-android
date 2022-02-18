@@ -77,4 +77,14 @@ public class VersionInfoActivity extends BaseActivity {
         frameLayout.addView(tvVersion, versionParams);
     }
 
+    @Override
+    protected void setListeners() {
+        super.setListeners();
+        findViewById(R.id.view_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+    }
 }

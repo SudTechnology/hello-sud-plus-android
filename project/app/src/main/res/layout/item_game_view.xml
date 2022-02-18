@@ -17,7 +17,8 @@
     <TextView
         android:id="@+id/game_name"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="17dp"
+        android:includeFontPadding="false"
         android:singleLine="true"
         android:textColor="#1a1a1a"
         android:textSize="12sp"

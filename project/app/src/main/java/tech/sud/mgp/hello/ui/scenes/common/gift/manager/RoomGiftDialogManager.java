@@ -25,7 +25,7 @@ public class RoomGiftDialogManager extends GiftBaseManager {
                 selectedIndex = 0;
             }
             for (AudioRoomMicModel model : mDatas) {
-                if (model.userId != 0 && model.userId != HSUserInfo.userId) {
+                if (model.userId != 0 ) {
                     MicUserInfoModel user = new MicUserInfoModel();
                     user.userInfo = model;
                     user.indexMic = model.micIndex;
@@ -52,7 +52,7 @@ public class RoomGiftDialogManager extends GiftBaseManager {
             // 清空麦位列表
             GiftHelper.getInstance().inMics.clear();
             for (AudioRoomMicModel model : mDatas) {
-                if (model.userId != 0 && model.userId != HSUserInfo.userId) {
+                if (model.userId != 0) {
                     MicUserInfoModel user = new MicUserInfoModel();
                     user.userInfo = model;
                     user.indexMic = model.micIndex;

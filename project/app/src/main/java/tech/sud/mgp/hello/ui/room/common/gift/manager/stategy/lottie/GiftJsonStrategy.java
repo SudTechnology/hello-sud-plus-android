@@ -1,10 +1,11 @@
-package tech.sud.mgp.hello.ui.room.common.gift.manager.stategy;
+package tech.sud.mgp.hello.ui.room.common.gift.manager.stategy.lottie;
 
 import android.animation.Animator;
 
 import com.airbnb.lottie.LottieAnimationView;
 
 import tech.sud.mgp.hello.ui.room.common.gift.listener.PlayResultListener;
+import tech.sud.mgp.hello.ui.room.common.gift.manager.stategy.PlayStrategy;
 import tech.sud.mgp.hello.ui.room.common.gift.model.PlayResult;
 
 public class GiftJsonStrategy extends PlayStrategy<GiftJsonModel> {

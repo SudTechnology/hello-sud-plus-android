@@ -21,19 +21,10 @@ public class AudioGameManager extends BaseServiceManager {
     }
 
     /**
-     * 设置关键词
-     * 判断是否要开启或关闭语音监听，来触发游戏的语音命中
+     * 设置关键词(根据业务需求，是否做操作
      */
     public void setkeyword(String keyword) {
-//        if (keyword == null || keyword.isEmpty()) {
-//            parentManager.audioEngineManager.switchAudioDataListener(false);
-//            return;
-//        }
-//        if (parentManager.audioStreamManager.isPublishingStream()) {
-//            parentManager.audioEngineManager.switchAudioDataListener(true);
-//        } else {
-//            parentManager.audioEngineManager.switchAudioDataListener(false);
-//        }
+
     }
 
     /**

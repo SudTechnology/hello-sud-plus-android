@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.MutableLiveData;
 
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.ToastUtils;
 
@@ -20,6 +21,7 @@ import tech.sud.mgp.core.ISudListenerInitSDK;
 import tech.sud.mgp.core.SudMGP;
 import tech.sud.mgp.hello.SudMGPWrapper.manager.SudFSMMGManager;
 import tech.sud.mgp.hello.SudMGPWrapper.manager.SudFSTAPPManager;
+import tech.sud.mgp.hello.SudMGPWrapper.model.MGCommonKeyWrodToHitModel;
 import tech.sud.mgp.hello.SudMGPWrapper.model.MGCommonPublicMessageModel;
 import tech.sud.mgp.hello.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.hello.SudMGPWrapper.state.mg.common.MGCommonGameStateModel;
@@ -33,6 +35,7 @@ import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
+import tech.sud.mgp.hello.common.utils.HSTextUtils;
 import tech.sud.mgp.hello.rtc.audio.core.AudioData;
 import tech.sud.mgp.hello.service.game.repository.GameRepository;
 import tech.sud.mgp.hello.service.game.resp.GameLoginResp;
@@ -62,6 +65,7 @@ public class GameViewModel {
     private MGCommonGameStateModel mgCommonGameStateModel; // 游戏状态
     private boolean isSelfInGame; // 标识自己是否已加入了游戏
     private int selfMicIndex = -1; // 记录自己所在麦位
+    private boolean isHitBomb = false;//是否数字炸弹
 
     /**
      * 记录该玩家最新的游戏状态
@@ -373,8 +377,12 @@ public class GameViewModel {
                 mgCommonGameStateModel = HSJsonUtils.fromJson(dataJson, MGCommonGameStateModel.class);
                 break;
             case SudMGPMGState.MG_COMMON_KEY_WORD_TO_HIT: // 关键字
-                String word = GameCommonStateUtils.parseKeywordState(dataJson);
-                gameKeywordLiveData.setValue(word);
+                MGCommonKeyWrodToHitModel keyWrodToHitModel = GameCommonStateUtils.parseKeywordState(dataJson);
+                if (keyWrodToHitModel != null) {
+                    String word = keyWrodToHitModel.word;
+                    isHitBomb = keyWrodToHitModel.wordType.equals("number");
+                    gameKeywordLiveData.setValue(word);
+                }
                 break;
             case SudMGPMGState.MG_COMMON_GAME_ASR: // 开关
                 boolean isOpen = GameCommonStateUtils.parseASRState(dataJson);
@@ -520,8 +528,16 @@ public class GameViewModel {
      * 用户发送了公屏消息
      */
     public void sendMsgCompleted(String msg) {
+        if (msg == null || msg.isEmpty()) {
+            return;
+        }
+        //数字炸弹
+        if (isHitBomb && HSTextUtils.isInteger(msg)) {
+            sudFSTAPPManager.sendCommonSelfTextHitState(false, null, msg);
+            return;
+        }
         String keyword = gameKeywordLiveData.getValue();
-        if (msg == null || msg.isEmpty() || keyword == null || keyword.isEmpty()) {
+        if (keyword == null || keyword.isEmpty()) {
             return;
         }
         if (msg.contains(keyword)) { //命中

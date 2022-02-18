@@ -81,7 +81,6 @@ public class GiftVideoView extends ConstraintLayout {
 
     private void startDataSource(DataSource dataSource, Mp4PlayErrorListener playError) {
         if (!dataSource.isValid()) {
-            Log.e(TAG, "startDataSource: dataSource is invalid.");
             playError.onPlayError();
             return;
         }

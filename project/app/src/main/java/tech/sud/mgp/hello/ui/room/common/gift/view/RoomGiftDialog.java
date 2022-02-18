@@ -84,10 +84,6 @@ public class RoomGiftDialog extends BaseDialogFragment implements SendGiftToUser
                     userInfos.add(GiftHelper.getInstance().underMicUser);
                 }
                 if (userInfos.size() > 0) {
-                    for (UserInfo testInfo : userInfos) {
-                        LogUtils.i("testInfo=" + testInfo);
-                        LogUtils.i("testInfo.name=" + testInfo.name);
-                    }
                     giftSendClickListener.onSendClick(checkedGift.giftId, 1, userInfos);
                 } else {
                     ToastUtils.showShort(R.string.audio_send_gift_user_empty);

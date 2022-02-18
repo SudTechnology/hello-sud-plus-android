@@ -71,10 +71,10 @@ public class GameCommonStateUtils {
      * @param dataJson
      * @return
      */
-    public static String parseKeywordState(String dataJson) {
+    public static MGCommonKeyWrodToHitModel parseKeywordState(String dataJson) {
         try {
             MGCommonKeyWrodToHitModel MGCommonKeyWrodToHitModel = GsonUtils.fromJson(dataJson, MGCommonKeyWrodToHitModel.class);
-            return MGCommonKeyWrodToHitModel.word;
+            return MGCommonKeyWrodToHitModel;
         } catch (Exception e) {
             e.printStackTrace();
         }

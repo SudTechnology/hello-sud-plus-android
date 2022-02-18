@@ -21,6 +21,7 @@ public class RoomGiftDialogManager extends GiftBaseManager {
             GiftHelper.getInstance().inMic = true;
             GiftHelper.getInstance().inMics.clear();
             if (selectedIndex < 0 || selectedIndex >= mDatas.size()) {
+                //根据业务，设置默认选中指定的麦上用户
                 selectedIndex = 0;
             }
             for (AudioRoomMicModel model : mDatas) {
@@ -33,6 +34,7 @@ public class RoomGiftDialogManager extends GiftBaseManager {
                 }
             }
             if (GiftHelper.getInstance().inMics.size() > 0) {
+                //这里默认选中第一个
                 GiftHelper.getInstance().inMics.get(0).checked = true;
             }
         }

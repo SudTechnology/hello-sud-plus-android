@@ -13,6 +13,7 @@ import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.LifecycleOwner;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.blankj.utilcode.util.LogUtils;
 import com.opensource.svgaplayer.SVGAImageView;
 
 import tech.sud.mgp.hello.R;
@@ -89,18 +90,23 @@ public class GiftEffectView extends ConstraintLayout implements LifecycleObserve
         SVGAImageView svgaImageView = creatSVGAImageView();
         svgaModel.setSvgaView(svgaImageView);
         svgaModel.setResId(giftModel.resId);
+        svgaModel.setPath(giftModel.path);
 
         aContainer.addView(svgaImageView);
         svgaImageView.setVisibility(View.VISIBLE);
 
+        long start = System.currentTimeMillis();
+
         svgaModel.setPlayResultListener(result -> {
             switch (result) {
                 case START: {
+                    LogUtils.i("playtime2 = " + (System.currentTimeMillis() - start));
                     break;
                 }
                 //END和ERROR状态根据具体业务需求去处理，这里资源文件一定存在所以统一处理了
                 case PLAYEND:
                 case PLAYERROR: {
+                    LogUtils.i("playtime3 = " + (System.currentTimeMillis() - start));
                     aContainer.post(() -> {
                         aContainer.removeView(svgaImageView);
                     });
@@ -108,6 +114,7 @@ public class GiftEffectView extends ConstraintLayout implements LifecycleObserve
                 }
             }
         });
+        LogUtils.i("playtime1 = " + start);
         giftDisplayManager.showEffect(svgaModel, strategy);
     }
 
@@ -182,7 +189,6 @@ public class GiftEffectView extends ConstraintLayout implements LifecycleObserve
 
         aContainer.addView(imageView);
         imageView.setVisibility(View.VISIBLE);
-
         model.setPlayResultListener(result -> {
             switch (result) {
                 case START: {

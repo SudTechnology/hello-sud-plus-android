@@ -19,13 +19,13 @@ import tech.sud.mgp.hello.ui.scenes.common.gift.model.PlayResult;
 public class GiftSVGAStrategy extends PlayStrategy<GiftSVGAModel> {
     @Override
     public void play(GiftSVGAModel giftSVGAModel) {
-        playSvgaAsset(giftSVGAModel.getResId(), giftSVGAModel.getSvgaView(), giftSVGAModel.getPlayResultListener());
+        playSvgaAsset(giftSVGAModel.getResId(), giftSVGAModel.getPath(), giftSVGAModel.getSvgaView(), giftSVGAModel.getPlayResultListener());
     }
 
     /**
      * 播放svga
      */
-    public void playSvgaAsset(int svgaRes, SVGAImageView svgaView, PlayResultListener listener) {
+    public void playSvgaAsset(int svgaRes,String path, SVGAImageView svgaView, PlayResultListener listener) {
         SVGAParser parser = SVGAParser.Companion.shareParser();
         svgaView.setCallback(new SVGACallback() {
             @Override
@@ -35,6 +35,8 @@ public class GiftSVGAStrategy extends PlayStrategy<GiftSVGAModel> {
 
             @Override
             public void onFinished() {
+                svgaView.stopAnimation();
+                svgaView.setImageDrawable(null);
                 if (listener != null) {
                     listener.onResult(PlayResult.PLAYEND);
                 }
@@ -51,7 +53,7 @@ public class GiftSVGAStrategy extends PlayStrategy<GiftSVGAModel> {
             }
         });
         InputStream inputStream = svgaView.getResources().openRawResource(svgaRes);
-        parser.decodeFromInputStream(inputStream, "svgaCacheKey", new SVGAParser.ParseCompletion() {
+        parser.decodeFromInputStream(inputStream, path, new SVGAParser.ParseCompletion() {
             @Override
             public void onError() {
                 if (listener != null) {

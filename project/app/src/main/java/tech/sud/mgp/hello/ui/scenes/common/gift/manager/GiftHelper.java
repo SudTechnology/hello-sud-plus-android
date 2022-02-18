@@ -2,6 +2,8 @@ package tech.sud.mgp.hello.ui.scenes.common.gift.manager;
 
 import android.content.Context;
 
+import androidx.annotation.RawRes;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,13 +41,15 @@ public class GiftHelper {
     public List<GiftModel> creatGifts(Context context) {
         if (this.gifts.size() == 0) {
             List<GiftModel> gifts = new ArrayList<>();
+//            copyFileToSdcrad(context,R.raw.sud_svga_600,"sud_svga_600.svga");
             GiftModel model1 = new GiftModel();
             model1.giftId = 1;
             model1.giftName = "svga";
             model1.animationType = EffectAnimationFormat.SVGA;
-            model1.resId = R.raw.audio_svga_600;
-            model1.giftImage = R.drawable.svga_600;
-            model1.giftSmallImage = R.drawable.svga_128;
+            model1.path = context.getCacheDir().getAbsolutePath() + File.separator + "sud_svga_600.svga";
+            model1.resId = R.raw.sud_svga_600;
+            model1.giftImage = R.drawable.icon_gift_600;
+            model1.giftSmallImage = R.drawable.icon_gift_128;
             model1.checkState = true;
             gifts.add(model1);
 
@@ -53,29 +57,29 @@ public class GiftHelper {
             model2.giftId = 2;
             model2.giftName = "lottie";
             model2.animationType = EffectAnimationFormat.JSON;
-            model2.path = "audio_lottie_600.json";
-            model2.giftImage = R.drawable.lottie_600;
-            model2.giftSmallImage = R.drawable.lottie_128;
+            model2.path = "sud_lottie_600.json";
+            model2.giftImage = R.drawable.icon_gift_600;
+            model2.giftSmallImage = R.drawable.icon_gift_128;
             gifts.add(model2);
 
             GiftModel model3 = new GiftModel();
             model3.giftId = 3;
             model3.giftName = "webp";
             model3.animationType = EffectAnimationFormat.WEBP;
-            model3.resId = R.raw.audio_webp_600;
-            model3.giftImage = R.drawable.webp_600;
-            model3.giftSmallImage = R.drawable.webp_128;
+            model3.resId = R.raw.sud_webp_600;
+            model3.giftImage = R.drawable.icon_gift_600;
+            model3.giftSmallImage = R.drawable.icon_gift_128;
             gifts.add(model3);
 
-            copyMp4ToSdcrad(context);
+            copyFileToSdcrad(context,R.raw.sud_mp4_600,"sud_mp4_600.mp4");
             GiftModel model4 = new GiftModel();
             model4.giftId = 4;
             model4.giftName = "mp4";
             model4.animationType = EffectAnimationFormat.MP4;
-            model4.resId = R.raw.audio_mp4_600;
-            model4.path = context.getCacheDir().getAbsolutePath() + File.separator + "audio_mp4_600.mp4";
-            model4.giftImage = R.drawable.mp4_600;
-            model4.giftSmallImage = R.drawable.mp4_128;
+            model4.resId = R.raw.sud_mp4_600;
+            model4.path = context.getCacheDir().getAbsolutePath() + File.separator + "sud_mp4_600.mp4";
+            model4.giftImage = R.drawable.icon_gift_600;
+            model4.giftSmallImage = R.drawable.icon_gift_128;
             gifts.add(model4);
 
             this.gifts.clear();
@@ -84,10 +88,10 @@ public class GiftHelper {
         return gifts;
     }
 
-    public void copyMp4ToSdcrad(Context context) {
-        File file = new File(context.getCacheDir().getAbsolutePath() + File.separator + "audio_mp4_600.mp4");
+    public void copyFileToSdcrad(Context context, @RawRes int resId, String fileName) {
+        File file = new File(context.getCacheDir().getAbsolutePath() + File.separator + fileName);
         if (!file.exists() || !file.isFile()) {
-            FileUtils.copyFilesFromRaw(context, R.raw.audio_mp4_600, "audio_mp4_600.mp4", context.getCacheDir().getAbsolutePath());
+            FileUtils.copyFilesFromRaw(context, resId, fileName, context.getCacheDir().getAbsolutePath());
         }
     }
 

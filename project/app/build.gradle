@@ -98,7 +98,7 @@ dependencies {
     implementation 'com.github.bytedance:AlphaPlayer:1.2.0'
     implementation 'com.google.android.exoplayer:exoplayer-core:2.9.6'
     // Android svga https://github.com/svga/SVGAPlayer-Android
-    implementation 'com.github.yyued:SVGAPlayer-Android:2.6.0'
+    implementation 'com.github.yyued:SVGAPlayer-Android:2.6.1'
     // 播放json动画的库，网址为：https://github.com/airbnb/lottie-android
     implementation "com.airbnb.android:lottie:3.7.0"
     // Glide支持webp动图的库

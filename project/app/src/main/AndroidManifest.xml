@@ -61,28 +61,28 @@
 
         <!-- 语聊房页面 -->
         <activity
-            android:name=".ui.room.audio.activity.AudioRoomActivity"
+            android:name=".ui.scenes.audio.activity.AudioRoomActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
 
         <!-- 秀场页面 -->
         <activity
-            android:name=".ui.room.show.ShowActivity"
+            android:name=".ui.scenes.show.ShowActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
 
         <!-- 1v1通话场景页面 -->
         <activity
-            android:name=".ui.room.oneone.OneOneActivity"
+            android:name=".ui.scenes.oneone.OneOneActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
 
         <!-- 才艺房场景 -->
         <activity
-            android:name=".ui.room.talent.TalentRoomActivity"
+            android:name=".ui.scenes.talent.TalentRoomActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />

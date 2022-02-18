@@ -31,7 +31,7 @@ import tech.sud.mgp.hello.service.main.manager.HomeManager;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.main.resp.RoomListResp;
 import tech.sud.mgp.hello.ui.main.home.RoomItemModel;
-import tech.sud.mgp.hello.ui.room.audio.utils.EnterRoomUtils;
+import tech.sud.mgp.hello.ui.scenes.audio.utils.EnterRoomUtils;
 
 public class RoomListFragment extends BaseFragment {
 

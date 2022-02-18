@@ -24,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <tech.sud.mgp.hello.ui.room.common.gift.view.GiftDialogTopView
+        <tech.sud.mgp.hello.ui.scenes.common.gift.view.GiftDialogTopView
             android:id="@+id/gift_top_view"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -32,7 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="72dip" />
 
-        <tech.sud.mgp.hello.ui.room.common.gift.view.BottomFadingEdgeRecyclerView
+        <tech.sud.mgp.hello.ui.scenes.common.gift.view.BottomFadingEdgeRecyclerView
             android:background="@color/transparent"
             android:id="@+id/gift_data_rv"
             android:requiresFadingEdge="vertical"
@@ -45,7 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="134dip" />
 
-        <tech.sud.mgp.hello.ui.room.common.gift.view.GiftDialogBottomView
+        <tech.sud.mgp.hello.ui.scenes.common.gift.view.GiftDialogBottomView
             android:id="@+id/gift_bottom_view"
             app:layout_constraintTop_toBottomOf="@id/gift_data_rv"
             app:layout_constraintBottom_toBottomOf="parent"

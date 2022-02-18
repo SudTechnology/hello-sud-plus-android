@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tech.sud.mgp.hello.common.utils.DensityUtils;
-import tech.sud.mgp.hello.ui.room.common.gift.utils.FileUtils;
+import tech.sud.mgp.hello.ui.scenes.common.gift.utils.FileUtils;
 
 /**
  * 展示app占用大小的View

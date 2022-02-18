@@ -17,7 +17,7 @@ import tech.sud.mgp.hello.common.utils.HsIntentUtils;
 import tech.sud.mgp.hello.ui.main.settings.activity.ChangeRtcActivity;
 import tech.sud.mgp.hello.ui.main.settings.activity.UserAgreementActivity;
 import tech.sud.mgp.hello.ui.main.settings.activity.VersionInfoActivity;
-import tech.sud.mgp.hello.ui.room.common.gift.utils.FileUtils;
+import tech.sud.mgp.hello.ui.scenes.common.gift.utils.FileUtils;
 
 /**
  * 首页当中的设置页

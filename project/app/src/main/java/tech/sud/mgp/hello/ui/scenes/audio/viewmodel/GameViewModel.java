@@ -294,19 +294,19 @@ public class GameViewModel {
 
     // region 生命周期相关
     public void onStart() {
-        sudFSTAPPDecorator.startMG();
     }
 
     public void onPause() {
-        sudFSTAPPDecorator.pauseMG();
+        // 根据场景需要，playMG和pauseMG要配对
+//        sudFSTAPPDecorator.pauseMG();
     }
 
     public void onResume() {
-        sudFSTAPPDecorator.playMG();
+        // 根据场景需要，playMG和pauseMG要配对
+//        sudFSTAPPDecorator.playMG();
     }
 
     public void onStop() {
-        sudFSTAPPDecorator.stopMG();
     }
 
     public void destroyMG() {

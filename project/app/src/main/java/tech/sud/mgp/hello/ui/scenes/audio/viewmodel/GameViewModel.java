@@ -123,7 +123,7 @@ public class GameViewModel {
             return;
         }
         // 初始化sdk
-        SudMGP.initSDK(activity, sudConfig.appId, sudConfig.appKey, true, new ISudListenerInitSDK() {
+        SudMGP.initSDK(activity, sudConfig.appId, sudConfig.appKey, false, new ISudListenerInitSDK() {
             @Override
             public void onSuccess() {
                 loadGame(activity, code, gameId);

@@ -4,7 +4,7 @@ import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseActivity;
 
 /**
- * 才艺房场景页面
+ * 才艺房场景
  */
 public class TalentRoomActivity extends BaseActivity {
 

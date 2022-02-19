@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import tech.sud.mgp.hello.R;
 
 /**
- * 秀场页面
+ * 秀场场景
  */
 public class ShowActivity extends AppCompatActivity {
 

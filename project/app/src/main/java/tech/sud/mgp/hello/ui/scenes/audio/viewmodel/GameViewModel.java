@@ -485,15 +485,15 @@ public class GameViewModel {
      */
     public void exitGame() {
         if (playerIsPlaying(HSUserInfo.userId)) {
-            //用户正在游戏中
+            //用户正在游戏中，先退出本局游戏，再退出游戏
             sudFSTAPPDecorator.notifyAPPCommonSelfPlaying(false, "");
             sudFSTAPPDecorator.notifyAPPCommonSelfIn(false, -1, true, 1);
         } else if (sudFSMMGDecorator.playerIsReady(HSUserInfo.userId)) {
-            //用户已加入并且已经准备
+            //用户已加入并且已经准备，先取消准备，再退出游戏
             sudFSTAPPDecorator.notifyAPPCommonSelfReady(false);
             sudFSTAPPDecorator.notifyAPPCommonSelfIn(false, -1, true, 1);
         } else if (sudFSMMGDecorator.playerIsIn(HSUserInfo.userId)) {
-            //用户已加入游戏
+            //用户已加入游戏 退出游戏
             sudFSTAPPDecorator.notifyAPPCommonSelfIn(false, -1, true, 1);
         }
     }

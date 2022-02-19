@@ -204,6 +204,70 @@ public class SudFSMMGDecorator implements ISudFSMMG {
                     listener.onGameMGCommonSelfClickGameSettleCloseBtn(handle, mgCommonSelfClickGameSettleCloseBtn);
                 }
                 break;
+            case SudMGPMGState.MG_COMMON_SELF_CLICK_GAME_SETTLE_AGAIN_BTN: // 12. 结算界面再来一局按钮点击状态（2021-12-27新增）
+                SudMGPMGState.MGCommonSelfClickGameSettleAgainBtn mgCommonSelfClickGameSettleAgainBtn = HSJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonSelfClickGameSettleAgainBtn.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGCommonSelfClickGameSettleAgainBtn(handle, mgCommonSelfClickGameSettleAgainBtn);
+                }
+                break;
+            case SudMGPMGState.MG_COMMON_GAME_SOUND_LIST: // 13. 游戏上报游戏中的声音列表（2021-12-30新增，现在只支持碰碰我最强）
+                SudMGPMGState.MGCommonGameSoundList mgCommonGameSoundList = HSJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonGameSoundList.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGCommonGameSoundList(handle, mgCommonGameSoundList);
+                }
+                break;
+            case SudMGPMGState.MG_COMMON_GAME_SOUND: // 14. 游通知app层播放声音（2021-12-30新增，现在只支持碰碰我最强）
+                SudMGPMGState.MGCommonGameSound mgCommonGameSound = HSJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonGameSound.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGCommonGameSound(handle, mgCommonGameSound);
+                }
+                break;
+            case SudMGPMGState.MG_COMMON_GAME_BG_MUSIC_STATE: // 15. 游戏通知app层播放背景音乐状态（2022-01-07新增，现在只支持碰碰我最强）
+                SudMGPMGState.MGCommonGameBgMusicState mgCommonGameBgMusicState = HSJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonGameBgMusicState.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGCommonGameBgMusicState(handle, mgCommonGameBgMusicState);
+                }
+                break;
+            case SudMGPMGState.MG_COMMON_GAME_SOUND_STATE: // 16. 游戏通知app层播放音效的状态（2022-01-07新增，现在只支持碰碰我最强）
+                SudMGPMGState.MGCommonGameSoundState mgCommonGameSoundState = HSJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonGameSoundState.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGCommonGameSoundState(handle, mgCommonGameSoundState);
+                }
+                break;
+            case SudMGPMGState.MG_COMMON_GAME_ASR: // 17. ASR状态(开启和关闭语音识别状态，v1.1.45.xx 版本新增)
+                SudMGPMGState.MGCommonGameASR mgCommonGameASR = HSJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonGameASR.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGCommonGameASR(handle, mgCommonGameASR);
+                }
+                break;
+            case SudMGPMGState.MG_COMMON_SELF_MICROPHONE: // 18. 麦克风状态（2022-02-08新增）
+                SudMGPMGState.MGCommonSelfMicrophone mgCommonSelfMicrophone = HSJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonSelfMicrophone.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGCommonSelfMicrophone(handle, mgCommonSelfMicrophone);
+                }
+                break;
+            case SudMGPMGState.MG_COMMON_SELF_HEADPHONE: // 19. 耳机（听筒，扬声器）状态（2022-02-08新增）
+                SudMGPMGState.MGCommonSelfHeadphone mgCommonSelfHeadphone = HSJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonSelfHeadphone.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGCommonSelfHeadphone(handle, mgCommonSelfHeadphone);
+                }
+                break;
             default:
                 ISudFSMStateHandleUtils.handleSuccess(handle);
                 break;
@@ -221,7 +285,108 @@ public class SudFSMMGDecorator implements ISudFSMMG {
      */
     @Override
     public void onPlayerStateChange(ISudFSMStateHandle handle, String userId, String state, String dataJson) {
-
+        SudFSMMGListener listener = sudFSMMGListener;
+        switch (state) {
+            case SudMGPMGState.MG_COMMON_PLAYER_IN: // 1.加入状态（已修改）
+                SudMGPMGState.MGCommonPlayerIn mgCommonPlayerIn = HSJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonPlayerIn.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onPlayerMGCommonPlayerIn(handle, userId, mgCommonPlayerIn);
+                }
+                break;
+            case SudMGPMGState.MG_COMMON_PLAYER_READY: // 2.准备状态（已修改）
+                SudMGPMGState.MGCommonPlayerReady mgCommonPlayerReady = HSJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonPlayerReady.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onPlayerMGCommonPlayerReady(handle, userId, mgCommonPlayerReady);
+                }
+                break;
+            case SudMGPMGState.MG_COMMON_PLAYER_CAPTAIN: // 3.队长状态（已修改）
+                SudMGPMGState.MGCommonPlayerCaptain mgCommonPlayerCaptain = HSJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonPlayerCaptain.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onPlayerMGCommonPlayerCaptain(handle, userId, mgCommonPlayerCaptain);
+                }
+                break;
+            case SudMGPMGState.MG_COMMON_PLAYER_PLAYING: // 4.游戏状态（已修改）
+                SudMGPMGState.MGCommonPlayerPlaying mgCommonPlayerPlaying = HSJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonPlayerPlaying.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onPlayerMGCommonPlayerPlaying(handle, userId, mgCommonPlayerPlaying);
+                }
+                break;
+            case SudMGPMGState.MG_COMMON_PLAYER_ONLINE: // 5.玩家在线状态
+                SudMGPMGState.MGCommonPlayerOnline mgCommonPlayerOnline = HSJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonPlayerOnline.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onPlayerMGCommonPlayerOnline(handle, userId, mgCommonPlayerOnline);
+                }
+                break;
+            case SudMGPMGState.MG_COMMON_PLAYER_CHANGE_SEAT: // 6.玩家换游戏位状态
+                SudMGPMGState.MGCommonPlayerChangeSeat mgCommonPlayerChangeSeat = HSJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonPlayerChangeSeat.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onPlayerMGCommonPlayerChangeSeat(handle, userId, mgCommonPlayerChangeSeat);
+                }
+                break;
+            case SudMGPMGState.MG_COMMON_SELF_CLICK_GAME_PLAYER_ICON: // 7. 游戏通知app点击玩家头像（2022-02-09新增，现在只支持飞行棋ludo，仅用于游戏场景中的玩家头像）
+                SudMGPMGState.MGCommonSelfClickGamePlayerIcon mgCommonSelfClickGamePlayerIcon = HSJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonSelfClickGamePlayerIcon.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onPlayerMGCommonSelfClickGamePlayerIcon(handle, userId, mgCommonSelfClickGamePlayerIcon);
+                }
+                break;
+            case SudMGPMGState.MG_DG_SELECTING: // 1. 选词中状态（已修改）
+                SudMGPMGState.MGDGSelecting mgdgSelecting = HSJsonUtils.fromJson(dataJson, SudMGPMGState.MGDGSelecting.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onPlayerMGDGSelecting(handle, userId, mgdgSelecting);
+                }
+                break;
+            case SudMGPMGState.MG_DG_PAINTING: // 2. 作画中状态（已修改）
+                SudMGPMGState.MGDGPainting mgdgPainting = HSJsonUtils.fromJson(dataJson, SudMGPMGState.MGDGPainting.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onPlayerMGDGPainting(handle, userId, mgdgPainting);
+                }
+                break;
+            case SudMGPMGState.MG_DG_ERRORANSWER: // 3. 显示错误答案状态（已修改）
+                SudMGPMGState.MGDGErroranswer mgdgErroranswer = HSJsonUtils.fromJson(dataJson, SudMGPMGState.MGDGErroranswer.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onPlayerMGDGErroranswer(handle, userId, mgdgErroranswer);
+                }
+                break;
+            case SudMGPMGState.MG_DG_TOTALSCORE: // 4. 显示总积分状态（已修改）
+                SudMGPMGState.MGDGTotalscore mgdgTotalscore = HSJsonUtils.fromJson(dataJson, SudMGPMGState.MGDGTotalscore.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onPlayerMGDGTotalscore(handle, userId, mgdgTotalscore);
+                }
+                break;
+            case SudMGPMGState.MG_DG_SCORE: // 5. 本次获得积分状态（已修改）
+                SudMGPMGState.MGDGScore mgdgScore = HSJsonUtils.fromJson(dataJson, SudMGPMGState.MGDGScore.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onPlayerMGDGScore(handle, userId, mgdgScore);
+                }
+                break;
+            default:
+                ISudFSMStateHandleUtils.handleSuccess(handle);
+                break;
+        }
     }
 
 

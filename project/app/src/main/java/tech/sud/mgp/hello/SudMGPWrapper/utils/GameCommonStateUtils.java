@@ -18,7 +18,7 @@ public class GameCommonStateUtils {
     public static String parseMsgState(String dataJson) {
         try {
             SudMGPMGState.MGCommonPublicMessage message = GsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonPublicMessage.class);
-            return parseGameChatModel(message);
+            return parseMGCommonPublicMessage(message);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -31,7 +31,7 @@ public class GameCommonStateUtils {
      * @param publicMessage
      * @return
      */
-    private static String parseGameChatModel(SudMGPMGState.MGCommonPublicMessage publicMessage) {
+    public static String parseMGCommonPublicMessage(SudMGPMGState.MGCommonPublicMessage publicMessage) {
         if (publicMessage == null || publicMessage.msg == null || publicMessage.msg.size() == 0) {
             return null;
         }

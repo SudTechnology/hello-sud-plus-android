@@ -13,7 +13,7 @@ public abstract class SudFSMMGListener {
      * 游戏日志
      * 最低版本：v1.1.30.xx
      */
-    public void onGameLog(String dataJson) {
+    public void onGameLog(String str) {
     }
 
     /**
@@ -197,49 +197,49 @@ public abstract class SudFSMMGListener {
     /**
      * 1.加入状态（已修改）
      */
-    public void onPlayerMGCommonPlayerIn(ISudFSMStateHandle handle, SudMGPMGState.MGCommonPlayerIn model) {
+    public void onPlayerMGCommonPlayerIn(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGCommonPlayerIn model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
     /**
      * 2.准备状态（已修改）
      */
-    public void onPlayerMGCommonPlayerReady(ISudFSMStateHandle handle, SudMGPMGState.MGCommonPlayerReady model) {
+    public void onPlayerMGCommonPlayerReady(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGCommonPlayerReady model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
     /**
      * 3.队长状态（已修改）
      */
-    public void onPlayerMGCommonPlayerCaptain(ISudFSMStateHandle handle, SudMGPMGState.MGCommonPlayerCaptain model) {
+    public void onPlayerMGCommonPlayerCaptain(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGCommonPlayerCaptain model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
     /**
      * 4.游戏状态（已修改）
      */
-    public void onPlayerMGCommonPlayerPlaying(ISudFSMStateHandle handle, SudMGPMGState.MGCommonPlayerPlaying model) {
+    public void onPlayerMGCommonPlayerPlaying(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGCommonPlayerPlaying model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
     /**
      * 5.玩家在线状态
      */
-    public void onPlayerMGCommonPlayerOnline(ISudFSMStateHandle handle, SudMGPMGState.MGCommonPlayerOnline model) {
+    public void onPlayerMGCommonPlayerOnline(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGCommonPlayerOnline model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
     /**
      * 6.玩家换游戏位状态
      */
-    public void onPlayerMGCommonPlayerChangeSeat(ISudFSMStateHandle handle, SudMGPMGState.MGCommonPlayerChangeSeat model) {
+    public void onPlayerMGCommonPlayerChangeSeat(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGCommonPlayerChangeSeat model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
     /**
      * 7. 游戏通知app点击玩家头像（2022-02-09新增，现在只支持飞行棋ludo，仅用于游戏场景中的玩家头像）
      */
-    public void onPlayerMGCommonSelfClickGamePlayerIcon(ISudFSMStateHandle handle, SudMGPMGState.MGCommonSelfClickGamePlayerIcon model) {
+    public void onPlayerMGCommonSelfClickGamePlayerIcon(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGCommonSelfClickGamePlayerIcon model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -251,35 +251,35 @@ public abstract class SudFSMMGListener {
     /**
      * 1. 选词中状态（已修改）
      */
-    public void onPlayerMGDGSelecting(ISudFSMStateHandle handle, SudMGPMGState.MGDGSelecting model) {
+    public void onPlayerMGDGSelecting(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGDGSelecting model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
     /**
      * 2. 作画中状态（已修改）
      */
-    public void onPlayerMGDGPainting(ISudFSMStateHandle handle, SudMGPMGState.MGDGPainting model) {
+    public void onPlayerMGDGPainting(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGDGPainting model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
     /**
      * 3. 显示错误答案状态（已修改）
      */
-    public void onPlayerMGDGErroranswer(ISudFSMStateHandle handle, SudMGPMGState.MGDGErroranswer model) {
+    public void onPlayerMGDGErroranswer(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGDGErroranswer model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
     /**
      * 4. 显示总积分状态（已修改）
      */
-    public void onPlayerMGDGTotalscore(ISudFSMStateHandle handle, SudMGPMGState.MGDGTotalscore model) {
+    public void onPlayerMGDGTotalscore(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGDGTotalscore model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
     /**
      * 5. 本次获得积分状态（已修改）
      */
-    public void onPlayerMGDGScore(ISudFSMStateHandle handle, SudMGPMGState.MGDGScore model) {
+    public void onPlayerMGDGScore(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGDGScore model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 

@@ -209,6 +209,7 @@ public class SudMGPMGState {
      * 10. 游戏状态 模型
      */
     public static class MGCommonGameState {
+        public static final int UNKNOW = -1; // 未知
         public static final int IDLE = 0;
         public static final int LOADING = 1;
         public static final int PLAYING = 2;

@@ -7,6 +7,7 @@ import com.blankj.utilcode.util.BarUtils;
 import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.Utils;
 
+import tech.sud.mgp.core.ISudFSMMG;
 import tech.sud.mgp.core.ISudFSMStateHandle;
 import tech.sud.mgp.hello.SudMGPWrapper.model.GameConfigModel;
 import tech.sud.mgp.hello.SudMGPWrapper.model.GameViewInfoModel;
@@ -19,9 +20,9 @@ import tech.sud.mgp.hello.service.game.repository.GameRepository;
 import tech.sud.mgp.hello.service.game.resp.GameLoginResp;
 
 /**
- * 游戏接口装饰类
+ * ISudFSMMG 游戏调APP回调装饰类
  */
-public class SudFSMMGDecorator {
+public class SudFSMMGDecorator implements ISudFSMMG {
 
     /**
      * 处理code过期
@@ -107,5 +108,45 @@ public class SudFSMMGDecorator {
         gameConfigModel.ui.lobby_players.hide = true;
         handle.success(GsonUtils.toJson(gameConfigModel));
     }
+
+    @Override
+    public void onGameLog(String dataJson) {
+
+    }
+
+    @Override
+    public void onGameStarted() {
+
+    }
+
+    @Override
+    public void onGameDestroyed() {
+
+    }
+
+    @Override
+    public void onExpireCode(ISudFSMStateHandle handle, String dataJson) {
+    }
+
+    @Override
+    public void onGetGameViewInfo(ISudFSMStateHandle handle, String dataJson) {
+
+    }
+
+    @Override
+    public void onGetGameCfg(ISudFSMStateHandle handle, String dataJson) {
+
+    }
+
+    @Override
+    public void onGameStateChange(ISudFSMStateHandle handle, String state, String dataJson) {
+
+    }
+
+    @Override
+    public void onPlayerStateChange(ISudFSMStateHandle handle, String userId, String state, String dataJson) {
+
+    }
+
 
 }

@@ -8,8 +8,8 @@ import java.util.Map;
 import java.util.Set;
 
 import tech.sud.mgp.hello.common.model.HSUserInfo;
-import tech.sud.mgp.hello.rtc.audio.core.AudioData;
 import tech.sud.mgp.hello.rtc.audio.core.AudioEngineUpdateType;
+import tech.sud.mgp.hello.rtc.audio.core.AudioPCMData;
 import tech.sud.mgp.hello.rtc.audio.core.AudioRoomConfig;
 import tech.sud.mgp.hello.rtc.audio.core.AudioRoomState;
 import tech.sud.mgp.hello.rtc.audio.core.AudioStream;
@@ -236,10 +236,10 @@ public class AudioEngineManager extends BaseServiceManager {
         }
 
         @Override
-        public void onCapturedAudioData(AudioData audioData) {
+        public void onCapturedAudioData(AudioPCMData audioPCMData) {
             AudioRoomServiceCallback callback = parentManager.getCallback();
             if (callback != null) {
-                callback.onCapturedAudioData(audioData);
+                callback.onCapturedAudioData(audioPCMData);
             }
         }
     };

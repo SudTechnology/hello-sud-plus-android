@@ -64,7 +64,7 @@ public interface IAudioEventHandler {
     /**
      * 监听音频流回调
      *
-     * @param audioData 音频流数据
+     * @param audioPCMData 音频流数据
      */
-    void onCapturedAudioData(AudioData audioData);
+    void onCapturedAudioData(AudioPCMData audioPCMData);
 }

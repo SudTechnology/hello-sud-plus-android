@@ -2,7 +2,7 @@ package tech.sud.mgp.hello.ui.scenes.audio.service;
 
 import java.util.List;
 
-import tech.sud.mgp.hello.rtc.audio.core.AudioData;
+import tech.sud.mgp.hello.rtc.audio.core.AudioPCMData;
 import tech.sud.mgp.hello.ui.scenes.audio.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftNotifyDetailodel;
 
@@ -78,7 +78,7 @@ public interface AudioRoomServiceCallback {
     /**
      * 对音频流监听回调
      */
-    void onCapturedAudioData(AudioData audioData);
+    void onCapturedAudioData(AudioPCMData audioPCMData);
 
     /**
      * 标记自己发送的公屏消息

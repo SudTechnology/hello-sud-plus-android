@@ -2,18 +2,21 @@ package tech.sud.mgp.hello.SudMGPWrapper.decorator;
 
 import com.blankj.utilcode.util.GsonUtils;
 
+import java.nio.ByteBuffer;
 import java.util.List;
 
 import tech.sud.mgp.core.ISudFSTAPP;
 import tech.sud.mgp.core.ISudListenerNotifyStateChange;
 import tech.sud.mgp.hello.SudMGPWrapper.state.SudMGPAPPState;
-import tech.sud.mgp.hello.rtc.audio.core.AudioData;
 
 /**
- * app端调用sdk
+ * ISudFSTAPP的装饰类，接近于业务
  */
 public class SudFSTAPPDecorator {
 
+    /**
+     * APP调用游戏的接口
+     */
     private ISudFSTAPP iSudFSTAPP;
 
     /**
@@ -24,6 +27,8 @@ public class SudFSTAPPDecorator {
     public void setISudFSTAPP(ISudFSTAPP iSudFSTAPP) {
         this.iSudFSTAPP = iSudFSTAPP;
     }
+
+    // region 状态通知，ISudFSTAPP.notifyStateChange
 
     /**
      * 发送
@@ -230,19 +235,55 @@ public class SudFSTAPPDecorator {
         }
     }
 
-    /**
-     * 发送
-     * 15. 设置游戏上报信息扩展参数（透传）（2022-01-21新增）
-     *
-     * @param reportGameInfoExtras string类型，Https服务回调report_game_info参数，最大长度1024字节，超过则截断（2022-01-21）
-     */
-    public void notifyAPPCommonReportGameInfoExtras(String reportGameInfoExtras) {
+//    /**
+//     * 发送
+//     * 15. 设置游戏上报信息扩展参数（透传）（2022-01-21新增）
+//     * 接口暂未实现
+//     *
+//     * @param reportGameInfoExtras string类型，Https服务回调report_game_info参数，最大长度1024字节，超过则截断（2022-01-21）
+//     */
+//    public void notifyAPPCommonReportGameInfoExtras(String reportGameInfoExtras) {
+//        if (iSudFSTAPP != null) {
+//            SudMGPAPPState.APPCommonReportGameInfoExtras state = new SudMGPAPPState.APPCommonReportGameInfoExtras();
+//            state.reportGameInfoExtras = reportGameInfoExtras;
+//            iSudFSTAPP.notifyStateChange(SudMGPAPPState.APP_COMMON_REPORT_GAME_INFO_EXTRAS, GsonUtils.toJson(state), null);
+//        }
+//    }
+
+    // endregion 状态通知，ISudFSTAPP.notifyStateChange
+
+    // region 生命周期
+    public void startMG() {
         if (iSudFSTAPP != null) {
-            SudMGPAPPState.APPCommonReportGameInfoExtras state = new SudMGPAPPState.APPCommonReportGameInfoExtras();
-            state.reportGameInfoExtras = reportGameInfoExtras;
-            iSudFSTAPP.notifyStateChange(SudMGPAPPState.APP_COMMON_REPORT_GAME_INFO_EXTRAS, GsonUtils.toJson(state), null);
+            iSudFSTAPP.startMG();
         }
     }
+
+    public void pauseMG() {
+        if (iSudFSTAPP != null) {
+            iSudFSTAPP.pauseMG();
+        }
+    }
+
+    public void playMG() {
+        if (iSudFSTAPP != null) {
+            iSudFSTAPP.playMG();
+        }
+    }
+
+    public void stopMG() {
+        if (iSudFSTAPP != null) {
+            iSudFSTAPP.stopMG();
+        }
+    }
+
+    public void destroyMG() {
+        if (iSudFSTAPP != null) {
+            iSudFSTAPP.destroyMG();
+        }
+    }
+
+    // endregion 生命周期
 
     /**
      * 更新code
@@ -259,39 +300,9 @@ public class SudFSTAPPDecorator {
     /**
      * 音频流数据
      */
-    public void onAudioPush(AudioData audioData) {
+    public void pushAudio(ByteBuffer buffer, int bufferLength) {
         if (iSudFSTAPP != null) {
-            iSudFSTAPP.pushAudio(audioData.data, audioData.dataLength);
-        }
-    }
-
-    public void onStart() {
-        if (iSudFSTAPP != null) {
-            iSudFSTAPP.startMG();
-        }
-    }
-
-    public void onPause() {
-        if (iSudFSTAPP != null) {
-            iSudFSTAPP.pauseMG();
-        }
-    }
-
-    public void onResume() {
-        if (iSudFSTAPP != null) {
-            iSudFSTAPP.playMG();
-        }
-    }
-
-    public void onStop() {
-        if (iSudFSTAPP != null) {
-            iSudFSTAPP.stopMG();
-        }
-    }
-
-    public void destroyMG() {
-        if (iSudFSTAPP != null) {
-            iSudFSTAPP.destroyMG();
+            iSudFSTAPP.pushAudio(buffer, bufferLength);
         }
     }
 

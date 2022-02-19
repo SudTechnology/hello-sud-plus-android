@@ -26,11 +26,11 @@ import io.agora.rtm.RtmClient;
 import io.agora.rtm.RtmFileMessage;
 import io.agora.rtm.RtmImageMessage;
 import io.agora.rtm.RtmMessage;
-import tech.sud.mgp.hello.rtc.audio.core.AudioData;
-import tech.sud.mgp.hello.rtc.audio.core.IAudioEngine;
-import tech.sud.mgp.hello.rtc.audio.core.IAudioEventHandler;
+import tech.sud.mgp.hello.rtc.audio.core.AudioPCMData;
 import tech.sud.mgp.hello.rtc.audio.core.AudioRoomConfig;
 import tech.sud.mgp.hello.rtc.audio.core.AudioUser;
+import tech.sud.mgp.hello.rtc.audio.core.IAudioEngine;
+import tech.sud.mgp.hello.rtc.audio.core.IAudioEventHandler;
 
 // 声网SDK实现
 public class AgoraAudioEngineImpl implements IAudioEngine {
@@ -346,10 +346,10 @@ public class AgoraAudioEngineImpl implements IAudioEngine {
                 public void run() {
                     IAudioEventHandler handler = mIAudioEventHandler;
                     if (handler != null) {
-                        AudioData audioData = new AudioData();
-                        audioData.data = audioFrame.samples;
-                        audioData.dataLength = audioFrame.samples.remaining();
-                        handler.onCapturedAudioData(audioData);
+                        AudioPCMData audioPCMData = new AudioPCMData();
+                        audioPCMData.data = audioFrame.samples;
+                        audioPCMData.dataLength = audioFrame.samples.remaining();
+                        handler.onCapturedAudioData(audioPCMData);
                     }
                 }
             });

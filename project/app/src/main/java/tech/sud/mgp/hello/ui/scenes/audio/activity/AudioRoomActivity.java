@@ -24,7 +24,7 @@ import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.permission.PermissionFragment;
 import tech.sud.mgp.hello.common.permission.SudPermissionUtils;
 import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
-import tech.sud.mgp.hello.rtc.audio.core.AudioData;
+import tech.sud.mgp.hello.rtc.audio.core.AudioPCMData;
 import tech.sud.mgp.hello.ui.scenes.audio.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.audio.model.RoleType;
 import tech.sud.mgp.hello.ui.scenes.audio.model.RoomInfoModel;
@@ -557,8 +557,8 @@ public class AudioRoomActivity extends BaseActivity {
         }
 
         @Override
-        public void onCapturedAudioData(AudioData audioData) {
-            gameViewModel.onCapturedAudioData(audioData);
+        public void onCapturedAudioData(AudioPCMData audioPCMData) {
+            gameViewModel.onCapturedAudioData(audioPCMData);
         }
 
         @Override

@@ -28,7 +28,7 @@ import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.HSTextUtils;
-import tech.sud.mgp.hello.rtc.audio.core.AudioData;
+import tech.sud.mgp.hello.rtc.audio.core.AudioPCMData;
 import tech.sud.mgp.hello.service.game.repository.GameRepository;
 import tech.sud.mgp.hello.service.game.resp.GameLoginResp;
 import tech.sud.mgp.hello.service.main.config.SudConfig;
@@ -82,7 +82,7 @@ public class GameViewModel {
     }
 
     /**
-     * 1，游戏登录，也就是获取code
+     * 第1步，获取短期令牌code，用于换取游戏Server访问APP Server的长期ssToken
      * 接入方客户端 调用 接入方服务端 login 获取 短期令牌code
      * 参考文档时序图：sud-mgp-doc(https://github.com/SudTechnology/sud-mgp-doc)
      *
@@ -114,7 +114,7 @@ public class GameViewModel {
     }
 
     /**
-     * 2，游戏登录后，初始化sdk
+     * 第2步，初始化SudMGP sdk
      *
      * @param activity 游戏所在页面
      * @param gameId   游戏id
@@ -142,7 +142,10 @@ public class GameViewModel {
     }
 
     /**
-     * 3，sdk初始化成功后，加载游戏
+     * 第3步，加载游戏
+     * APP和游戏的相互调用
+     * ISudFSTAPP：APP调用游戏的接口
+     * ISudFSMMG：游戏调APP的响应回调
      *
      * @param activity 游戏所在页面
      * @param code     登录令牌
@@ -150,6 +153,7 @@ public class GameViewModel {
      */
     private void loadGame(Activity activity, String code, long gameId) {
         ISudFSTAPP iSudFSTAPP = SudMGP.loadMG(activity, HSUserInfo.userId + "", roomId + "", code, gameId, "zh-CN", iSudFSMMG);
+        // APP调用游戏接口的装饰类设置
         sudFSTAPPDecorator.setISudFSTAPP(iSudFSTAPP);
 
         // 获取游戏视图，将其抛回Activity进行展示
@@ -388,19 +392,19 @@ public class GameViewModel {
 
     // region 生命周期相关
     public void onStart() {
-        sudFSTAPPDecorator.onStart();
+        sudFSTAPPDecorator.startMG();
     }
 
     public void onPause() {
-        sudFSTAPPDecorator.onPause();
+        sudFSTAPPDecorator.pauseMG();
     }
 
     public void onResume() {
-        sudFSTAPPDecorator.onResume();
+        sudFSTAPPDecorator.playMG();
     }
 
     public void onStop() {
-        sudFSTAPPDecorator.onStop();
+        sudFSTAPPDecorator.stopMG();
     }
 
     public void destroyMG() {
@@ -516,8 +520,8 @@ public class GameViewModel {
     /**
      * 音频流数据
      */
-    public void onCapturedAudioData(AudioData audioData) {
-        sudFSTAPPDecorator.onAudioPush(audioData);
+    public void onCapturedAudioData(AudioPCMData audioPCMData) {
+        sudFSTAPPDecorator.pushAudio(audioPCMData.data, audioPCMData.dataLength);
     }
 
     /**

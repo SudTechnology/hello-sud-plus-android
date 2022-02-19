@@ -25,13 +25,13 @@ import im.zego.zegoexpress.entity.ZegoEngineConfig;
 import im.zego.zegoexpress.entity.ZegoEngineProfile;
 import im.zego.zegoexpress.entity.ZegoStream;
 import im.zego.zegoexpress.entity.ZegoUser;
-import tech.sud.mgp.hello.rtc.audio.core.AudioData;
-import tech.sud.mgp.hello.rtc.audio.core.IAudioEngine;
 import tech.sud.mgp.hello.rtc.audio.core.AudioEngineUpdateType;
-import tech.sud.mgp.hello.rtc.audio.core.IAudioEventHandler;
+import tech.sud.mgp.hello.rtc.audio.core.AudioPCMData;
 import tech.sud.mgp.hello.rtc.audio.core.AudioRoomConfig;
 import tech.sud.mgp.hello.rtc.audio.core.AudioStream;
 import tech.sud.mgp.hello.rtc.audio.core.AudioUser;
+import tech.sud.mgp.hello.rtc.audio.core.IAudioEngine;
+import tech.sud.mgp.hello.rtc.audio.core.IAudioEventHandler;
 
 // 即构SDK实现
 public class ZegoAudioEngineImpl implements IAudioEngine {
@@ -262,10 +262,10 @@ public class ZegoAudioEngineImpl implements IAudioEngine {
             super.onCapturedAudioData(data, dataLength, param);
             IAudioEventHandler handler = mIAudioEventHandler;
             if (handler != null) {
-                AudioData audioData = new AudioData();
-                audioData.data = data;
-                audioData.dataLength = dataLength;
-                handler.onCapturedAudioData(audioData);
+                AudioPCMData audioPCMData = new AudioPCMData();
+                audioPCMData.data = data;
+                audioPCMData.dataLength = dataLength;
+                handler.onCapturedAudioData(audioPCMData);
             }
         }
     };

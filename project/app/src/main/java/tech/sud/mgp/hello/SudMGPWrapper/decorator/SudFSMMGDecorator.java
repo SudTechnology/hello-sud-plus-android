@@ -7,9 +7,6 @@ package tech.sud.mgp.hello.SudMGPWrapper.decorator;
 
 import com.blankj.utilcode.util.LogUtils;
 
-import java.util.HashMap;
-import java.util.HashSet;
-
 import tech.sud.mgp.core.ISudFSMMG;
 import tech.sud.mgp.core.ISudFSMStateHandle;
 import tech.sud.mgp.hello.SudMGPWrapper.state.SudMGPMGState;
@@ -23,6 +20,9 @@ public class SudFSMMGDecorator implements ISudFSMMG {
 
     // 回调
     private SudFSMMGListener sudFSMMGListener;
+
+    // 数据状态封装
+    private SudFSMMGCache sudFSMMGCache = new SudFSMMGCache();
 
     /**
      * 设置回调
@@ -137,7 +137,7 @@ public class SudFSMMGDecorator implements ISudFSMMG {
                 break;
             case SudMGPMGState.MG_COMMON_KEY_WORD_TO_HIT: // 2. 关键词状态
                 SudMGPMGState.MGCommonKeyWordToHit mgCommonKeyWordToHit = HSJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonKeyWordToHit.class);
-                onGameMGCommonKeyWordToHit(mgCommonKeyWordToHit);
+                sudFSMMGCache.onGameMGCommonKeyWordToHit(mgCommonKeyWordToHit);
                 if (listener == null) {
                     ISudFSMStateHandleUtils.handleSuccess(handle);
                 } else {
@@ -202,7 +202,7 @@ public class SudFSMMGDecorator implements ISudFSMMG {
                 break;
             case SudMGPMGState.MG_COMMON_GAME_STATE: // 10. 游戏状态
                 SudMGPMGState.MGCommonGameState mgCommonGameState = HSJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonGameState.class);
-                onGameMGCommonGameState(mgCommonGameState);
+                sudFSMMGCache.onGameMGCommonGameState(mgCommonGameState);
                 if (listener == null) {
                     ISudFSMStateHandleUtils.handleSuccess(handle);
                 } else {
@@ -303,7 +303,7 @@ public class SudFSMMGDecorator implements ISudFSMMG {
         switch (state) {
             case SudMGPMGState.MG_COMMON_PLAYER_IN: // 1.加入状态（已修改）
                 SudMGPMGState.MGCommonPlayerIn mgCommonPlayerIn = HSJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonPlayerIn.class);
-                onPlayerMGCommonPlayerIn(userId, mgCommonPlayerIn);
+                sudFSMMGCache.onPlayerMGCommonPlayerIn(userId, mgCommonPlayerIn);
                 if (listener == null) {
                     ISudFSMStateHandleUtils.handleSuccess(handle);
                 } else {
@@ -312,7 +312,7 @@ public class SudFSMMGDecorator implements ISudFSMMG {
                 break;
             case SudMGPMGState.MG_COMMON_PLAYER_READY: // 2.准备状态（已修改）
                 SudMGPMGState.MGCommonPlayerReady mgCommonPlayerReady = HSJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonPlayerReady.class);
-                onPlayerMGCommonPlayerReady(userId, mgCommonPlayerReady);
+                sudFSMMGCache.onPlayerMGCommonPlayerReady(userId, mgCommonPlayerReady);
                 if (listener == null) {
                     ISudFSMStateHandleUtils.handleSuccess(handle);
                 } else {
@@ -321,7 +321,7 @@ public class SudFSMMGDecorator implements ISudFSMMG {
                 break;
             case SudMGPMGState.MG_COMMON_PLAYER_CAPTAIN: // 3.队长状态（已修改）
                 SudMGPMGState.MGCommonPlayerCaptain mgCommonPlayerCaptain = HSJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonPlayerCaptain.class);
-                onPlayerMGCommonPlayerCaptain(userId, mgCommonPlayerCaptain);
+                sudFSMMGCache.onPlayerMGCommonPlayerCaptain(userId, mgCommonPlayerCaptain);
                 if (listener == null) {
                     ISudFSMStateHandleUtils.handleSuccess(handle);
                 } else {
@@ -330,7 +330,7 @@ public class SudFSMMGDecorator implements ISudFSMMG {
                 break;
             case SudMGPMGState.MG_COMMON_PLAYER_PLAYING: // 4.游戏状态（已修改）
                 SudMGPMGState.MGCommonPlayerPlaying mgCommonPlayerPlaying = HSJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonPlayerPlaying.class);
-                onPlayerMGCommonPlayerPlaying(userId, mgCommonPlayerPlaying);
+                sudFSMMGCache.onPlayerMGCommonPlayerPlaying(userId, mgCommonPlayerPlaying);
                 if (listener == null) {
                     ISudFSMStateHandleUtils.handleSuccess(handle);
                 } else {
@@ -407,126 +407,46 @@ public class SudFSMMGDecorator implements ISudFSMMG {
         }
     }
 
-    private long captainUserId; // 记录当前队长的用户id
-    private SudMGPMGState.MGCommonGameState mgCommonGameStateModel; // 全局游戏状态
-    private boolean isHitBomb = false; // 是否数字炸弹
-    private final HashSet<String> playerInSet = new HashSet<>(); // 记录已经加入了游戏的玩家
-    private final HashSet<String> playerReadySet = new HashSet<>(); // 记录已经准备好的游戏玩家
-    private final HashMap<String, SudMGPMGState.MGCommonPlayerPlaying> playerPlayingMap = new HashMap<>(); // 记录玩家的游戏状态
-
-    // 队长状态 处理
-    private void onPlayerMGCommonPlayerCaptain(String userId, SudMGPMGState.MGCommonPlayerCaptain model) {
-        if (model != null) {
-            try {
-                long parseUserId = Long.parseLong(userId);
-                if (model.isCaptain) {
-                    captainUserId = parseUserId;
-                } else {
-                    if (parseUserId == captainUserId) {
-                        captainUserId = 0;
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    // 游戏状态 处理
-    private void onGameMGCommonGameState(SudMGPMGState.MGCommonGameState model) {
-        mgCommonGameStateModel = model;
-    }
-
-    // 玩家加入状态处理
-    private void onPlayerMGCommonPlayerIn(String userId, SudMGPMGState.MGCommonPlayerIn model) {
-        if (model != null) {
-            if (model.isIn) {
-                playerInSet.add(userId);
-            } else {
-                playerInSet.remove(userId);
-                playerReadySet.remove(userId);
-            }
-        }
-    }
-
-    // 玩家准备状态
-    private void onPlayerMGCommonPlayerReady(String userId, SudMGPMGState.MGCommonPlayerReady model) {
-        if (model != null) {
-            if (model.isReady) {
-                playerReadySet.add(userId);
-            } else {
-                playerReadySet.remove(userId);
-            }
-        }
-    }
-
-    // 玩家游戏状态
-    private void onPlayerMGCommonPlayerPlaying(String userId, SudMGPMGState.MGCommonPlayerPlaying model) {
-        if (model != null) {
-            playerPlayingMap.put(userId, model);
-        }
-    }
-
-    // 关键词状态
-    private void onGameMGCommonKeyWordToHit(SudMGPMGState.MGCommonKeyWordToHit model) {
-        if (model != null) {
-            isHitBomb = model.wordType.equals("number");
-        }
-    }
-
     // 返回该用户是否为游戏队长
     public boolean isCaptain(long userId) {
-        return captainUserId == userId;
+        return sudFSMMGCache.isCaptain(userId);
     }
 
     // 返回该玩家是否正在游戏中
     public boolean playerIsPlaying(long userId) {
-        SudMGPMGState.MGCommonPlayerPlaying mgCommonPlayerPlaying = playerPlayingMap.get(userId + "");
-        if (mgCommonPlayerPlaying != null) {
-            return mgCommonPlayerPlaying.isPlaying;
-        }
-        return false;
+        return sudFSMMGCache.playerIsPlaying(userId);
     }
 
     // 返回该玩家是否已准备
     public boolean playerIsReady(long userId) {
-        return playerReadySet.contains(userId + "");
+        return sudFSMMGCache.playerIsReady(userId);
     }
 
     // 返回该玩家是否已加入了游戏
     public boolean playerIsIn(long userId) {
-        return playerInSet.contains(userId + "");
+        return sudFSMMGCache.playerIsIn(userId);
     }
 
     // 获取当前游戏中的人数
     public int getPlayerInNumber() {
-        return playerInSet.size();
+        return sudFSMMGCache.getPlayerInNumber();
     }
 
     // 是否数字炸弹
     public boolean isHitBomb() {
-        return isHitBomb;
+        return sudFSMMGCache.isHitBomb();
     }
 
     // 销毁游戏
     public void destroyMG() {
-        captainUserId = 0;
-        mgCommonGameStateModel = null;
-        isHitBomb = false;
-        playerInSet.clear();
-        playerReadySet.clear();
-        playerPlayingMap.clear();
+        sudFSMMGCache.destroyMG();
     }
 
     /**
      * 返回当前游戏的状态，数值参数{@link SudMGPMGState.MGCommonGameState}
      */
     public int getGameState() {
-        if (mgCommonGameStateModel != null) {
-            return mgCommonGameStateModel.gameState;
-        }
-        return SudMGPMGState.MGCommonGameState.UNKNOW;
+        return sudFSMMGCache.getGameState();
     }
-
 
 }

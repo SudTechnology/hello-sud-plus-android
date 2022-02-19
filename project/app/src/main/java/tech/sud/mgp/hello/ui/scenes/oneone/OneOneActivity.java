@@ -4,7 +4,7 @@ import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseActivity;
 
 /**
- * 1v1通话场景页面
+ * 1v1场景
  */
 public class OneOneActivity extends BaseActivity {
 

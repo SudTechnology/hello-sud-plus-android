@@ -294,19 +294,19 @@ public class GameViewModel {
 
     // region 生命周期相关
     public void onStart() {
-        sudFSTAPPDecorator.startMG();
     }
 
     public void onPause() {
-        sudFSTAPPDecorator.pauseMG();
+        // 根据场景需要，playMG和pauseMG要配对
+//        sudFSTAPPDecorator.pauseMG();
     }
 
     public void onResume() {
-        sudFSTAPPDecorator.playMG();
+        // 根据场景需要，playMG和pauseMG要配对
+//        sudFSTAPPDecorator.playMG();
     }
 
     public void onStop() {
-        sudFSTAPPDecorator.stopMG();
     }
 
     public void destroyMG() {
@@ -485,15 +485,15 @@ public class GameViewModel {
      */
     public void exitGame() {
         if (playerIsPlaying(HSUserInfo.userId)) {
-            //用户正在游戏中
+            //用户正在游戏中，先退出本局游戏，再退出游戏
             sudFSTAPPDecorator.notifyAPPCommonSelfPlaying(false, "");
             sudFSTAPPDecorator.notifyAPPCommonSelfIn(false, -1, true, 1);
         } else if (sudFSMMGDecorator.playerIsReady(HSUserInfo.userId)) {
-            //用户已加入并且已经准备
+            //用户已加入并且已经准备，先取消准备，再退出游戏
             sudFSTAPPDecorator.notifyAPPCommonSelfReady(false);
             sudFSTAPPDecorator.notifyAPPCommonSelfIn(false, -1, true, 1);
         } else if (sudFSMMGDecorator.playerIsIn(HSUserInfo.userId)) {
-            //用户已加入游戏
+            //用户已加入游戏 退出游戏
             sudFSTAPPDecorator.notifyAPPCommonSelfIn(false, -1, true, 1);
         }
     }

@@ -565,9 +565,8 @@ public class GameViewModel {
      * 下麦后退出游戏
      */
     public void exitGame() {
-        // 游戏闲置，并且自己没有加入游戏时，才发送
         if (playerIsPlaying(HSUserInfo.userId)) {
-            sudFSTAPPDecorator.notifyAPPCommonSelfIn(false, -1, true, 1);
+            sudFSTAPPDecorator.notifyAPPCommonSelfPlaying(false,"");
         }
     }
 

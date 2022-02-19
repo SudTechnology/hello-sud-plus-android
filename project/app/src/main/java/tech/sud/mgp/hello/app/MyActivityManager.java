@@ -1,3 +1,8 @@
+/*
+ * Copyright © Sud.Tech
+ * https://sud.tech
+ */
+
 package tech.sud.mgp.hello.app;
 
 import android.app.Activity;

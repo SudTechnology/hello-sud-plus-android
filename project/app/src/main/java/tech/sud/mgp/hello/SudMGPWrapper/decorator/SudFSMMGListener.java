@@ -1,3 +1,8 @@
+/*
+ * Copyright © Sud.Tech
+ * https://sud.tech
+ */
+
 package tech.sud.mgp.hello.SudMGPWrapper.decorator;
 
 import tech.sud.mgp.core.ISudFSMStateHandle;

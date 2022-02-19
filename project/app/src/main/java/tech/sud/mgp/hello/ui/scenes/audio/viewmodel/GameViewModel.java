@@ -566,7 +566,8 @@ public class GameViewModel {
      */
     public void exitGame() {
         if (playerIsPlaying(HSUserInfo.userId)) {
-            sudFSTAPPDecorator.notifyAPPCommonSelfPlaying(false,"");
+            sudFSTAPPDecorator.notifyAPPCommonSelfPlaying(false, "");
+            sudFSTAPPDecorator.notifyAPPCommonSelfIn(false, -1, true, 1);
         }
     }
 

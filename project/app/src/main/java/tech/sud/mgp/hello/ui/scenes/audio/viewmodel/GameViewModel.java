@@ -27,6 +27,7 @@ import tech.sud.mgp.hello.SudMGPWrapper.state.MGStateResponse;
 import tech.sud.mgp.hello.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.hello.SudMGPWrapper.utils.GameCommonStateUtils;
 import tech.sud.mgp.hello.SudMGPWrapper.utils.ISudFSMStateHandleUtils;
+import tech.sud.mgp.hello.app.APPConfig;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
@@ -123,7 +124,7 @@ public class GameViewModel {
             return;
         }
         // 初始化sdk
-        SudMGP.initSDK(activity, sudConfig.appId, sudConfig.appKey, false, new ISudListenerInitSDK() {
+        SudMGP.initSDK(activity, sudConfig.appId, sudConfig.appKey, APPConfig.GAME_IS_TEST_ENV, new ISudListenerInitSDK() {
             @Override
             public void onSuccess() {
                 loadGame(activity, code, gameId);

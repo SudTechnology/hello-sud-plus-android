@@ -4,6 +4,7 @@ import android.Manifest;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import androidx.lifecycle.Observer;
 
@@ -65,6 +66,7 @@ public class AudioRoomActivity extends BaseActivity {
     private GiftEffectView effectView;
     private RoomInputMsgView inputMsgView;
     private FrameLayout gameContainer;
+    private TextView tvGameNumber;
 
     private final AudioRoomService audioRoomService = new AudioRoomService();
     private final AudioRoomService.MyBinder binder = audioRoomService.getBinder();
@@ -105,6 +107,7 @@ public class AudioRoomActivity extends BaseActivity {
         giftContainer = findViewById(R.id.gift_container);
         inputMsgView = findViewById(R.id.room_input_msg_view);
         gameContainer = findViewById(R.id.game_container);
+        tvGameNumber = findViewById(R.id.tv_game_number);
         inputMsgView.hide();
 
         // 设置沉浸式状态栏时，顶部view的间距
@@ -124,6 +127,7 @@ public class AudioRoomActivity extends BaseActivity {
         super.initData();
         topView.setName(roomInfoModel.roomName);
         topView.setId(getString(R.string.audio_room_number) + " " + roomInfoModel.roomId);
+        viewModel.initData();
     }
 
     private void enterRoom() {
@@ -289,6 +293,12 @@ public class AudioRoomActivity extends BaseActivity {
                 topView.setFinishGameVisible(isShow != null && isShow);
             }
         });
+        gameViewModel.playerInLiveData.observe(this, new Observer<Object>() {
+            @Override
+            public void onChanged(Object o) {
+                updateGameNumber();
+            }
+        });
     }
 
     // 点击了自己的麦位
@@ -391,6 +401,19 @@ public class AudioRoomActivity extends BaseActivity {
         binder.updateMicList();
         binder.switchGame(gameId, selfSwitch);
         updatePageStyle();
+        updateGameNumber();
+    }
+
+    private void updateGameNumber() {
+        long gameId = playingGameId;
+        if (gameId <= 0) {
+            tvGameNumber.setText("");
+            return;
+        }
+        int gameMaxNumber = viewModel.getGameMaxNumber(gameId);
+        int playerInNumber = gameViewModel.getPlayerInNumber();
+        String numberStr = getString(R.string.game_number) + "：" + playerInNumber + "/" + gameMaxNumber;
+        tvGameNumber.setText(numberStr);
     }
 
     private void openMic() {
@@ -464,6 +487,7 @@ public class AudioRoomActivity extends BaseActivity {
         updatePageStyle();
         gameViewModel.setRoomId(roomInfoModel.roomId);
         gameViewModel.switchGame(this, roomInfoModel.gameId);
+        updateGameNumber();
     }
 
     // 切换游戏之后，更新页面样式

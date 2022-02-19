@@ -56,6 +56,7 @@ public class GameViewModel {
     public final MutableLiveData<Object> autoUpMicLiveData = new MutableLiveData<>(); // 执行自动上麦的通知
     public final MutableLiveData<String> gameKeywordLiveData = new MutableLiveData<>(); // 游戏关键字
     public final MutableLiveData<Boolean> gameASRLiveData = new MutableLiveData<>(); // 游戏ASR开关
+    public final MutableLiveData<Object> playerInLiveData = new MutableLiveData<>(); // 有玩家加入或者离开了游戏
     public final MutableLiveData<Boolean> showFinishGameBtnLiveData = new MutableLiveData<>(); // 是否具备结束游戏的权力
 
     private View gameView; // 游戏View
@@ -270,6 +271,7 @@ public class GameViewModel {
                     }
                 }
                 notifyUpdateMic();
+                playerInLiveData.setValue(null);
             }
             ISudFSMStateHandleUtils.handleSuccess(handle);
         }
@@ -390,7 +392,7 @@ public class GameViewModel {
 
         // 游戏安全操作区域
         gameViewInfoModel.view_game_rect.left = 0;
-        gameViewInfoModel.view_game_rect.top = DensityUtils.dp2px(Utils.getApp(), 110) + BarUtils.getStatusBarHeight();
+        gameViewInfoModel.view_game_rect.top = DensityUtils.dp2px(Utils.getApp(), 131) + BarUtils.getStatusBarHeight();
         gameViewInfoModel.view_game_rect.right = 0;
         gameViewInfoModel.view_game_rect.bottom = DensityUtils.dp2px(Utils.getApp(), 160);
 
@@ -522,6 +524,11 @@ public class GameViewModel {
             sudFSTAPPDecorator.notifyAPPCommonSelfTextHitState(true, keyword, msg, null, null, null);
             gameKeywordLiveData.setValue(null);
         }
+    }
+
+    // 获取当前游戏中的人数
+    public int getPlayerInNumber() {
+        return sudFSMMGDecorator.getPlayerInNumber();
     }
 
     // 对应状态有变化时，更新是否展示结束游戏按钮

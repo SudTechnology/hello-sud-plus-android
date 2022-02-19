@@ -218,5 +218,6 @@
     <string name="total_value">总%1$s</string>
     <string name="finish_game_confirm">确定结束游戏吗</string>
     <string name="playing_down_mic">当前正在游戏中，是否逃跑？</string>
+    <string name="game_number">游戏人数</string>
 
 </resources>

@@ -132,6 +132,7 @@ public class SudFSMMGDecorator implements ISudFSMMG {
                 break;
             case SudMGPMGState.MG_COMMON_KEY_WORD_TO_HIT: // 2. 关键词状态
                 SudMGPMGState.MGCommonKeyWordToHit mgCommonKeyWordToHit = HSJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonKeyWordToHit.class);
+                onGameMGCommonKeyWordToHit(mgCommonKeyWordToHit);
                 if (listener == null) {
                     ISudFSMStateHandleUtils.handleSuccess(handle);
                 } else {
@@ -458,6 +459,13 @@ public class SudFSMMGDecorator implements ISudFSMMG {
     private void onPlayerMGCommonPlayerPlaying(String userId, SudMGPMGState.MGCommonPlayerPlaying model) {
         if (model != null) {
             playerPlayingMap.put(userId, model);
+        }
+    }
+
+    // 关键词状态
+    private void onGameMGCommonKeyWordToHit(SudMGPMGState.MGCommonKeyWordToHit model) {
+        if (model != null) {
+            isHitBomb = model.wordType.equals("number");
         }
     }
 

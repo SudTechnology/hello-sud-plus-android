@@ -91,4 +91,23 @@ public class HomeManager {
         }
         return gameModels;
     }
+
+    /**
+     * 根据游戏id获取gameModel
+     *
+     * @param gameId
+     * @return
+     */
+    public GameModel getGameModel(long gameId) {
+        GameListResp resp = gameListResp;
+        if (resp != null && resp.gameList != null) {
+            for (GameModel gameModel : resp.gameList) {
+                if (gameModel.gameId == gameId) {
+                    return gameModel;
+                }
+            }
+        }
+        return null;
+    }
+
 }

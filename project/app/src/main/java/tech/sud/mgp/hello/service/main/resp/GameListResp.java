@@ -2,10 +2,9 @@ package tech.sud.mgp.hello.service.main.resp;
 
 import java.util.List;
 
-
 public class GameListResp {
-    private List<GameModel> gameList;
-    private List<SceneModel> sceneList;
+    public List<GameModel> gameList;
+    public List<SceneModel> sceneList;
 
     public List<GameModel> getGameList() {
         return gameList;

@@ -3,10 +3,11 @@ package tech.sud.mgp.hello.service.main.resp;
 import java.util.List;
 
 public class GameModel {
-    String gameName;
-    long gameId;
-    String gamePic;
-    List<Integer> suitScene;
+    public String gameName;
+    public long gameId;
+    public String gamePic;
+    public List<Integer> suitScene;
+    public List<GameModeModel> gameModeList;
 
     public String getGameName() {
         return gameName;

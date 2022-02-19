@@ -129,7 +129,7 @@ public class GameModeDialog extends BaseDialogFragment {
 
             long gameId = gameModel.getGameId();
             if (gameId == 0) {// 设置为关闭游戏的选项
-                ImageLoader.loadDrawable(ivIcon, R.drawable.ic_chat_room);
+                ImageLoader.loadDrawable(ivIcon, R.drawable.ic_close_game);
                 baseViewHolder.setVisible(R.id.item_game_mode_tv_gameing, false);
                 baseViewHolder.setText(R.id.item_game_mode_tv_name, R.string.close_game);
                 return;

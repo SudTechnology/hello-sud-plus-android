@@ -40,6 +40,7 @@ public class SudFSTAPPDecorator {
      * @param teamId       不支持分队的游戏：数值填1；支持分队的游戏：数值填1或2（两支队伍）；
      */
     public void notifyAPPCommonSelfIn(boolean isIn, int seatIndex, boolean isSeatRandom, int teamId) {
+        ISudFSTAPP iSudFSTAPP = this.iSudFSTAPP;
         if (iSudFSTAPP != null) {
             SudMGPAPPState.APPCommonSelfIn state = new SudMGPAPPState.APPCommonSelfIn();
             state.isIn = isIn;
@@ -58,6 +59,7 @@ public class SudFSTAPPDecorator {
      * @param isReady true 准备，false 取消准备
      */
     public void notifyAPPCommonSelfReady(boolean isReady) {
+        ISudFSTAPP iSudFSTAPP = this.iSudFSTAPP;
         if (iSudFSTAPP != null) {
             SudMGPAPPState.APPCommonSelfReady state = new SudMGPAPPState.APPCommonSelfReady();
             state.isReady = isReady;
@@ -80,6 +82,7 @@ public class SudFSTAPPDecorator {
      * @param reportGameInfoExtras string类型，Https服务回调report_game_info参数，最大长度1024字节，超过则截断（2022-01-21）
      */
     public void notifyAPPCommonSelfPlaying(boolean isPlaying, String reportGameInfoExtras) {
+        ISudFSTAPP iSudFSTAPP = this.iSudFSTAPP;
         if (iSudFSTAPP != null) {
             SudMGPAPPState.APPCommonSelfPlaying state = new SudMGPAPPState.APPCommonSelfPlaying();
             state.isPlaying = isPlaying;
@@ -96,6 +99,7 @@ public class SudFSTAPPDecorator {
      * @param curCaptainUID 必填，指定队长uid
      */
     public void notifyAPPCommonSelfCaptain(String curCaptainUID) {
+        ISudFSTAPP iSudFSTAPP = this.iSudFSTAPP;
         if (iSudFSTAPP != null) {
             SudMGPAPPState.APPCommonSelfCaptain state = new SudMGPAPPState.APPCommonSelfCaptain();
             state.curCaptainUID = curCaptainUID;
@@ -112,6 +116,7 @@ public class SudFSTAPPDecorator {
      * @param kickedUID 被踢用户uid
      */
     public void notifyAPPCommonSelfKick(String kickedUID) {
+        ISudFSTAPP iSudFSTAPP = this.iSudFSTAPP;
         if (iSudFSTAPP != null) {
             SudMGPAPPState.APPCommonSelfKick state = new SudMGPAPPState.APPCommonSelfKick();
             state.kickedUID = kickedUID;
@@ -125,6 +130,7 @@ public class SudFSTAPPDecorator {
      * 用户（本人，队长）结束（本局）游戏
      */
     public void notifyAPPCommonSelfEnd() {
+        ISudFSTAPP iSudFSTAPP = this.iSudFSTAPP;
         if (iSudFSTAPP != null) {
             SudMGPAPPState.APPCommonSelfEnd state = new SudMGPAPPState.APPCommonSelfEnd();
             iSudFSTAPP.notifyStateChange(SudMGPAPPState.APP_COMMON_SELF_END, GsonUtils.toJson(state), null);
@@ -142,6 +148,7 @@ public class SudFSTAPPDecorator {
      * @param isDisabled true 被禁麦，false 未被禁麦
      */
     public void notifyAPPCommonSelfMicrophone(boolean isOn, boolean isDisabled) {
+        ISudFSTAPP iSudFSTAPP = this.iSudFSTAPP;
         if (iSudFSTAPP != null) {
             SudMGPAPPState.APPCommonSelfMicrophone state = new SudMGPAPPState.APPCommonSelfMicrophone();
             state.isOn = isOn;
@@ -167,6 +174,7 @@ public class SudFSTAPPDecorator {
      */
     public void notifyAPPCommonSelfTextHitState(boolean isHit, String keyWord, String text,
                                                 String wordType, List<String> keyWordList, List<Integer> numberList) {
+        ISudFSTAPP iSudFSTAPP = this.iSudFSTAPP;
         if (iSudFSTAPP != null) {
             SudMGPAPPState.APPCommonSelfTextHitState state = new SudMGPAPPState.APPCommonSelfTextHitState();
             state.isHit = isHit;
@@ -186,6 +194,7 @@ public class SudFSTAPPDecorator {
      * @param isOpen true 打开背景音乐，false 关闭背景音乐
      */
     public void notifyAPPCommonOpenBgMusic(boolean isOpen) {
+        ISudFSTAPP iSudFSTAPP = this.iSudFSTAPP;
         if (iSudFSTAPP != null) {
             SudMGPAPPState.APPCommonOpenBgMusic state = new SudMGPAPPState.APPCommonOpenBgMusic();
             state.isOpen = isOpen;
@@ -200,6 +209,7 @@ public class SudFSTAPPDecorator {
      * @param isOpen true 打开音效，false 关闭音效
      */
     public void notifyAPPCommonOpenSound(boolean isOpen) {
+        ISudFSTAPP iSudFSTAPP = this.iSudFSTAPP;
         if (iSudFSTAPP != null) {
             SudMGPAPPState.APPCommonOpenSound state = new SudMGPAPPState.APPCommonOpenSound();
             state.isOpen = isOpen;
@@ -214,6 +224,7 @@ public class SudFSTAPPDecorator {
      * @param isOpen 打开振动效果，false 关闭振动效果
      */
     public void notifyAPPCommonOpenVibrate(boolean isOpen) {
+        ISudFSTAPP iSudFSTAPP = this.iSudFSTAPP;
         if (iSudFSTAPP != null) {
             SudMGPAPPState.APPCommonOpenVibrate state = new SudMGPAPPState.APPCommonOpenVibrate();
             state.isOpen = isOpen;
@@ -228,6 +239,7 @@ public class SudFSTAPPDecorator {
      * @param volume 音量大小 0 到 100
      */
     public void notifyAPPCommonGameSoundVolume(int volume) {
+        ISudFSTAPP iSudFSTAPP = this.iSudFSTAPP;
         if (iSudFSTAPP != null) {
             SudMGPAPPState.APPCommonGameSoundVolume state = new SudMGPAPPState.APPCommonGameSoundVolume();
             state.volume = volume;
@@ -243,6 +255,7 @@ public class SudFSTAPPDecorator {
 //     * @param reportGameInfoExtras string类型，Https服务回调report_game_info参数，最大长度1024字节，超过则截断（2022-01-21）
 //     */
 //    public void notifyAPPCommonReportGameInfoExtras(String reportGameInfoExtras) {
+//        ISudFSTAPP iSudFSTAPP = this.iSudFSTAPP;
 //        if (iSudFSTAPP != null) {
 //            SudMGPAPPState.APPCommonReportGameInfoExtras state = new SudMGPAPPState.APPCommonReportGameInfoExtras();
 //            state.reportGameInfoExtras = reportGameInfoExtras;
@@ -254,30 +267,35 @@ public class SudFSTAPPDecorator {
 
     // region 生命周期
     public void startMG() {
+        ISudFSTAPP iSudFSTAPP = this.iSudFSTAPP;
         if (iSudFSTAPP != null) {
             iSudFSTAPP.startMG();
         }
     }
 
     public void pauseMG() {
+        ISudFSTAPP iSudFSTAPP = this.iSudFSTAPP;
         if (iSudFSTAPP != null) {
             iSudFSTAPP.pauseMG();
         }
     }
 
     public void playMG() {
+        ISudFSTAPP iSudFSTAPP = this.iSudFSTAPP;
         if (iSudFSTAPP != null) {
             iSudFSTAPP.playMG();
         }
     }
 
     public void stopMG() {
+        ISudFSTAPP iSudFSTAPP = this.iSudFSTAPP;
         if (iSudFSTAPP != null) {
             iSudFSTAPP.stopMG();
         }
     }
 
     public void destroyMG() {
+        ISudFSTAPP iSudFSTAPP = this.iSudFSTAPP;
         if (iSudFSTAPP != null) {
             iSudFSTAPP.destroyMG();
         }
@@ -292,6 +310,7 @@ public class SudFSTAPPDecorator {
      * @param listener
      */
     public void updateCode(String code, ISudListenerNotifyStateChange listener) {
+        ISudFSTAPP iSudFSTAPP = this.iSudFSTAPP;
         if (iSudFSTAPP != null) {
             iSudFSTAPP.updateCode(code, listener);
         }
@@ -301,6 +320,7 @@ public class SudFSTAPPDecorator {
      * 音频流数据
      */
     public void pushAudio(ByteBuffer buffer, int bufferLength) {
+        ISudFSTAPP iSudFSTAPP = this.iSudFSTAPP;
         if (iSudFSTAPP != null) {
             iSudFSTAPP.pushAudio(buffer, bufferLength);
         }

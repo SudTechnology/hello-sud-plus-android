@@ -13,7 +13,6 @@ import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.LifecycleOwner;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.blankj.utilcode.util.LogUtils;
 import com.opensource.svgaplayer.SVGAImageView;
 
 import tech.sud.mgp.hello.R;
@@ -32,6 +31,7 @@ public class GiftEffectView extends ConstraintLayout implements LifecycleObserve
 
     private LifecycleOwner lifecycleOwner;
     private ConstraintLayout aContainer;
+    //如果业务需要根据礼物级别做分层操作，可以将礼物效果添加到不同的容器中，根据自己业务处理
     private ConstraintLayout bContainer;
     private ConstraintLayout cContainer;
     private GiftDisplayManager giftDisplayManager;
@@ -95,18 +95,14 @@ public class GiftEffectView extends ConstraintLayout implements LifecycleObserve
         aContainer.addView(svgaImageView);
         svgaImageView.setVisibility(View.VISIBLE);
 
-        long start = System.currentTimeMillis();
-
         svgaModel.setPlayResultListener(result -> {
             switch (result) {
                 case START: {
-                    LogUtils.i("playtime2 = " + (System.currentTimeMillis() - start));
                     break;
                 }
                 //END和ERROR状态根据具体业务需求去处理，这里资源文件一定存在所以统一处理了
                 case PLAYEND:
                 case PLAYERROR: {
-                    LogUtils.i("playtime3 = " + (System.currentTimeMillis() - start));
                     aContainer.post(() -> {
                         aContainer.removeView(svgaImageView);
                     });
@@ -114,7 +110,6 @@ public class GiftEffectView extends ConstraintLayout implements LifecycleObserve
                 }
             }
         });
-        LogUtils.i("playtime1 = " + start);
         giftDisplayManager.showEffect(svgaModel, strategy);
     }
 

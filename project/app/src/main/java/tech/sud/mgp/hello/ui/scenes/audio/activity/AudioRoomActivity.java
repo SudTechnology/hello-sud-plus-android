@@ -301,11 +301,34 @@ public class AudioRoomActivity extends BaseActivity {
             public void onItemClick(BottomOptionDialog.BottomOptionModel model) {
                 dialog.dismiss();
                 if (model.key == downMicKey) {
+                    //如果正在游戏中，则需要一个逃跑弹窗显示 playingDownMic(position)
+
                     binder.micLocationSwitch(position, false); // 执行下麦
                 }
             }
         });
         dialog.show();
+    }
+
+    /**
+     *  游戏中下麦提示弹窗
+     * */
+    private void playingDownMic(int position) {
+        SimpleChooseDialog dialog = new SimpleChooseDialog(this,
+                getString(R.string.playing_down_mic),
+                getString(R.string.audio_cancle),
+                getString(R.string.confirm));
+        dialog.show();
+        dialog.setOnChooseListener(new SimpleChooseDialog.OnChooseListener() {
+            @Override
+            public void onChoose(int index) {
+                if (index == 1) {
+                    binder.micLocationSwitch(position, false); // 执行下麦
+                } else {
+                    dialog.dismiss();
+                }
+            }
+        });
     }
 
     /**

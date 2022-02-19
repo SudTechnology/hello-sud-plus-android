@@ -138,6 +138,8 @@ public class RoomListFragment extends BaseFragment {
                 EnterRoomUtils.enterRoom(requireContext(), roomId);
             }
             KeyboardUtils.hideSoftInput(searchEt);
+            searchEt.setText("");
+            searchEt.clearFocus();
         } catch (Exception e) {
             ToastUtils.showShort(getString(R.string.search_room_error));
         }

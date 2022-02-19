@@ -128,6 +128,8 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
                 EnterRoomUtils.enterRoom(requireContext(), roomId);
             }
             KeyboardUtils.hideSoftInput(searchEt);
+            searchEt.setText("");
+            searchEt.clearFocus();
         } catch (Exception e) {
             ToastUtils.showShort(getString(R.string.search_room_error));
         }
@@ -178,6 +180,7 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
                     ToastUtils.showShort(ResponseUtils.conver(t));
                 }
             }
+
             @Override
             public void onComplete() {
                 super.onComplete();

@@ -10,13 +10,9 @@ import java.util.concurrent.Executors;
 import tech.sud.mgp.hello.common.base.BaseViewModel;
 import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.common.utils.GlobalCache;
-import tech.sud.mgp.hello.rtc.audio.factory.AudioEngineFactory;
-import tech.sud.mgp.hello.rtc.audio.impl.agora.AgoraAudioEngineImpl;
-import tech.sud.mgp.hello.rtc.audio.impl.zego.ZegoAudioEngineImpl;
-import tech.sud.mgp.hello.service.main.config.AgoraConfig;
 import tech.sud.mgp.hello.service.main.config.BaseRtcConfig;
-import tech.sud.mgp.hello.service.main.config.ZegoConfig;
 import tech.sud.mgp.hello.service.main.resp.BaseConfigResp;
+import tech.sud.mgp.hello.ui.main.home.RTCManager;
 
 /**
  * 切换rtc服务业务逻辑
@@ -63,7 +59,7 @@ public class ChangeRtcViewModel extends BaseViewModel {
     public void setRtcConfig(BaseRtcConfig config) {
         if (config == null) return;
         // 设置引擎
-        applyRtcEngine(config);
+        RTCManager.applyRtcEngine(config);
 
         // 保存配置
         AppData.getInstance().setSelectRtcConfig(config);
@@ -79,23 +75,6 @@ public class ChangeRtcViewModel extends BaseViewModel {
     public boolean isSelectRtcConfig(BaseRtcConfig config) {
         BaseRtcConfig selectRtcConfig = AppData.getInstance().getSelectRtcConfig();
         return selectRtcConfig != null && selectRtcConfig.rtcType != null && selectRtcConfig.rtcType.equals(config.rtcType);
-    }
-
-    /**
-     * 根据配置，应用rtc引擎
-     *
-     * @param config
-     */
-    public static void applyRtcEngine(BaseRtcConfig config) {
-        if (config instanceof ZegoConfig) {
-            AudioEngineFactory.create(ZegoAudioEngineImpl.class);
-            ZegoConfig zegoConfig = (ZegoConfig) config;
-            AudioEngineFactory.getEngine().config(zegoConfig.appId, zegoConfig.appKey);
-        } else if (config instanceof AgoraConfig) {
-            AudioEngineFactory.create(AgoraAudioEngineImpl.class);
-            AgoraConfig agoraConfig = (AgoraConfig) config;
-            AudioEngineFactory.getEngine().config(agoraConfig.appId, agoraConfig.appKey);
-        }
     }
 
 }

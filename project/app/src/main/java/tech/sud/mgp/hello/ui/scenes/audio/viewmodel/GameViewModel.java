@@ -509,6 +509,16 @@ public class GameViewModel {
         }
     }
 
+    /**
+     * 下麦后退出游戏
+     * */
+    public void exitGame() {
+        // 游戏闲置，并且自己没有加入游戏时，才发送
+        if (playerIsPlaying(HSUserInfo.userId)) {
+            sudFSTAPPDecorator.notifyAPPCommonSelfIn(false, -1, true, 1);
+        }
+    }
+
     // 返回游戏是否在等待加入的状态
     private boolean isGameIdle() {
         if (playingGameId > 0 && mgCommonGameStateModel != null) {
@@ -553,6 +563,17 @@ public class GameViewModel {
                 && captainUserId == HSUserInfo.userId
                 && mgCommonGameStateModel != null && mgCommonGameStateModel.gameState == SudMGPMGState.MGCommonGameState.PLAYING;
         showFinishGameBtnLiveData.setValue(isShow);
+    }
+
+
+    // 该用户是否在游戏中
+    public boolean playerIsPlaying(long userId) {
+        Object playerState = getPlayerState(userId + "");
+        if (playerState instanceof SudMGPMGState.MGCommonPlayerPlaying) {
+            SudMGPMGState.MGCommonPlayerPlaying playerPlayingState = (SudMGPMGState.MGCommonPlayerPlaying) playerState;
+            return playerPlayingState.isPlaying;
+        }
+        return false;
     }
 
     public void finishGame() {

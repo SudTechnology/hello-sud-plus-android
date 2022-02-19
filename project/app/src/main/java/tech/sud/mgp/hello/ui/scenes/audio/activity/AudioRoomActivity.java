@@ -301,9 +301,13 @@ public class AudioRoomActivity extends BaseActivity {
             public void onItemClick(BottomOptionDialog.BottomOptionModel model) {
                 dialog.dismiss();
                 if (model.key == downMicKey) {
-                    //如果正在游戏中，则需要一个逃跑弹窗显示 playingDownMic(position)
-
-                    binder.micLocationSwitch(position, false); // 执行下麦
+                    //如果正在游戏中，则需要一个逃跑弹窗显示
+                    if (gameViewModel.playerIsPlaying(HSUserInfo.userId)) {
+                        playingDownMic(position);
+                    } else {
+                        binder.micLocationSwitch(position, false); // 执行下麦
+                        gameViewModel.exitGame();
+                    }
                 }
             }
         });
@@ -311,8 +315,8 @@ public class AudioRoomActivity extends BaseActivity {
     }
 
     /**
-     *  游戏中下麦提示弹窗
-     * */
+     * 游戏中下麦提示弹窗
+     */
     private void playingDownMic(int position) {
         SimpleChooseDialog dialog = new SimpleChooseDialog(this,
                 getString(R.string.playing_down_mic),
@@ -324,9 +328,9 @@ public class AudioRoomActivity extends BaseActivity {
             public void onChoose(int index) {
                 if (index == 1) {
                     binder.micLocationSwitch(position, false); // 执行下麦
-                } else {
-                    dialog.dismiss();
+                    gameViewModel.exitGame();
                 }
+                dialog.dismiss();
             }
         });
     }

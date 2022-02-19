@@ -17,7 +17,7 @@ import tech.sud.mgp.hello.common.utils.GlobalCache;
 import tech.sud.mgp.hello.service.main.config.BaseRtcConfig;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.main.resp.BaseConfigResp;
-import tech.sud.mgp.hello.ui.main.settings.activity.ChangeRtcViewModel;
+import tech.sud.mgp.hello.ui.main.home.RTCManager;
 
 /**
  * 配置相关的业务逻辑
@@ -76,7 +76,7 @@ public class ConfigViewModel extends BaseViewModel {
                 }
             }
             AppData.getInstance().setSelectRtcConfig(baseRtcConfig);
-            ChangeRtcViewModel.applyRtcEngine(baseRtcConfig);
+            RTCManager.applyRtcEngine(baseRtcConfig);
 
             // 通知页面
             initConfigSuccessLiveData.postValue(null);

@@ -18,8 +18,8 @@ import tech.sud.mgp.core.ISudFSMStateHandle;
 import tech.sud.mgp.core.ISudFSTAPP;
 import tech.sud.mgp.core.ISudListenerInitSDK;
 import tech.sud.mgp.core.SudMGP;
-import tech.sud.mgp.hello.SudMGPWrapper.manager.SudFSMMGManager;
-import tech.sud.mgp.hello.SudMGPWrapper.manager.SudFSTAPPManager;
+import tech.sud.mgp.hello.SudMGPWrapper.decorator.SudFSMMGDecorator;
+import tech.sud.mgp.hello.SudMGPWrapper.decorator.SudFSTAPPDecorator;
 import tech.sud.mgp.hello.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.hello.SudMGPWrapper.utils.GameCommonStateUtils;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
@@ -42,8 +42,8 @@ public class GameViewModel {
 
     private long roomId; // 房间id
     private long playingGameId; // 当前使用的游戏id
-    private final SudFSTAPPManager sudFSTAPPManager = new SudFSTAPPManager(); // app调用sdk的封装类
-    private final SudFSMMGManager sudFSMMGManager = new SudFSMMGManager(); // 用于处理游戏SDK部分回调业务
+    private final SudFSTAPPDecorator sudFSTAPPDecorator = new SudFSTAPPDecorator(); // app调用sdk的封装类
+    private final SudFSMMGDecorator sudFSMMGDecorator = new SudFSMMGDecorator(); // 用于处理游戏SDK部分回调业务
 
     public final MutableLiveData<View> gameViewLiveData = new MutableLiveData<>(); // 游戏View回调
     public final MutableLiveData<String> gameMessageLiveData = new MutableLiveData<>(); // 游戏消息
@@ -58,7 +58,7 @@ public class GameViewModel {
     private SudMGPMGState.MGCommonGameState mgCommonGameStateModel; // 游戏状态
     private boolean isSelfInGame; // 标识自己是否已加入了游戏
     private int selfMicIndex = -1; // 记录自己所在麦位
-    private boolean isHitBomb = false;//是否数字炸弹
+    private boolean isHitBomb = false; // 是否数字炸弹
 
     /**
      * 记录该玩家最新的游戏状态
@@ -150,7 +150,7 @@ public class GameViewModel {
      */
     private void loadGame(Activity activity, String code, long gameId) {
         ISudFSTAPP iSudFSTAPP = SudMGP.loadMG(activity, HSUserInfo.userId + "", roomId + "", code, gameId, "zh-CN", iSudFSMMG);
-        sudFSTAPPManager.setISudFSTAPP(iSudFSTAPP);
+        sudFSTAPPDecorator.setISudFSTAPP(iSudFSTAPP);
 
         // 获取游戏视图，将其抛回Activity进行展示
         // Activity调用：gameContainer.addView(view, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
@@ -222,7 +222,7 @@ public class GameViewModel {
          */
         @Override
         public void onExpireCode(ISudFSMStateHandle handle, String dataJson) {
-            sudFSMMGManager.processOnExpireCode(sudFSTAPPManager, handle);
+            sudFSMMGDecorator.processOnExpireCode(sudFSTAPPDecorator, handle);
         }
 
         /**
@@ -233,7 +233,7 @@ public class GameViewModel {
          */
         @Override
         public void onGetGameViewInfo(ISudFSMStateHandle handle, String dataJson) {
-            sudFSMMGManager.processOnGetGameViewInfo(gameView, handle);
+            sudFSMMGDecorator.processOnGetGameViewInfo(gameView, handle);
         }
 
         /**
@@ -245,7 +245,7 @@ public class GameViewModel {
          */
         @Override
         public void onGetGameCfg(ISudFSMStateHandle handle, String dataJson) {
-            sudFSMMGManager.processOnGetGameCfg(handle, dataJson);
+            sudFSMMGDecorator.processOnGetGameCfg(handle, dataJson);
         }
 
         /**
@@ -388,24 +388,24 @@ public class GameViewModel {
 
     // region 生命周期相关
     public void onStart() {
-        sudFSTAPPManager.onStart();
+        sudFSTAPPDecorator.onStart();
     }
 
     public void onPause() {
-        sudFSTAPPManager.onPause();
+        sudFSTAPPDecorator.onPause();
     }
 
     public void onResume() {
-        sudFSTAPPManager.onResume();
+        sudFSTAPPDecorator.onResume();
     }
 
     public void onStop() {
-        sudFSTAPPManager.onStop();
+        sudFSTAPPDecorator.onStop();
     }
 
     public void destroyMG() {
         if (playingGameId > 0) {
-            sudFSTAPPManager.destroyMG();
+            sudFSTAPPDecorator.destroyMG();
             playingGameId = 0;
             gameView = null;
             gameViewLiveData.setValue(null);
@@ -501,7 +501,7 @@ public class GameViewModel {
     private void joinGame(int micIndex) {
         // 游戏闲置，并且自己没有加入游戏时，才发送
         if (isGameIdle() && !isSelfInGame) {
-            sudFSTAPPManager.sendCommonSelfInState(true, -1, true, 1);
+            sudFSTAPPDecorator.notifyAPPCommonSelfIn(true, -1, true, 1);
         }
     }
 
@@ -517,7 +517,7 @@ public class GameViewModel {
      * 音频流数据
      */
     public void onCapturedAudioData(AudioData audioData) {
-        sudFSTAPPManager.onAudioPush(audioData);
+        sudFSTAPPDecorator.onAudioPush(audioData);
     }
 
     /**
@@ -529,7 +529,7 @@ public class GameViewModel {
         }
         //数字炸弹
         if (isHitBomb && HSTextUtils.isInteger(msg)) {
-            sudFSTAPPManager.sendCommonSelfTextHitState(false, null, msg);
+            sudFSTAPPDecorator.notifyAPPCommonSelfTextHitState(false, null, msg, null, null, null);
             return;
         }
         String keyword = gameKeywordLiveData.getValue();
@@ -537,7 +537,7 @@ public class GameViewModel {
             return;
         }
         if (msg.contains(keyword)) { //命中
-            sudFSTAPPManager.sendCommonSelfTextHitState(true, keyword, msg);
+            sudFSTAPPDecorator.notifyAPPCommonSelfTextHitState(true, keyword, msg, null, null, null);
             gameKeywordLiveData.setValue(null);
         }
     }
@@ -552,6 +552,6 @@ public class GameViewModel {
     }
 
     public void finishGame() {
-        sudFSTAPPManager.finishGame();
+        sudFSTAPPDecorator.notifyAPPCommonSelfEnd();
     }
 }

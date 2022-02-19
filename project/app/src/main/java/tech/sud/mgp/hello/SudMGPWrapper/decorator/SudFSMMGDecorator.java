@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.SudMGPWrapper.manager;
+package tech.sud.mgp.hello.SudMGPWrapper.decorator;
 
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -19,14 +19,14 @@ import tech.sud.mgp.hello.service.game.repository.GameRepository;
 import tech.sud.mgp.hello.service.game.resp.GameLoginResp;
 
 /**
- * 用于处理游戏SDK部分回调业务
+ * 游戏接口装饰类
  */
-public class SudFSMMGManager {
+public class SudFSMMGDecorator {
 
     /**
      * 处理code过期
      */
-    public void processOnExpireCode(SudFSTAPPManager sudFSTAPPManager, ISudFSMStateHandle handle) {
+    public void processOnExpireCode(SudFSTAPPDecorator sudFSTAPPManager, ISudFSMStateHandle handle) {
         // code过期，刷新code
         GameRepository.login(null, new RxCallback<GameLoginResp>() {
             @Override

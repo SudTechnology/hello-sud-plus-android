@@ -25,10 +25,20 @@ android {
 
     signingConfigs {
         release {
-            storeFile file(RELEASE_STORE_FILE)
-            storePassword RELEASE_STORE_PASSWORD
-            keyAlias RELEASE_KEY_ALIAS
-            keyPassword RELEASE_KEY_PASSWORD
+            if (project.hasProperty("dtJksPropertyPath") && project.dtJksPropertyPath != "") {
+                // release设置发布签名路径
+                Properties properties = new Properties()
+                properties.load(new FileInputStream(file(project.dtJksPropertyPath)))
+                storeFile file(properties['STORE_FILE'])
+                storePassword properties['STORE_PWD']
+                keyAlias properties['KEY_ALIAS']
+                keyPassword properties['KEY_PWD']
+            } else {
+                storeFile file(RELEASE_STORE_FILE)
+                storePassword RELEASE_STORE_PASSWORD
+                keyAlias RELEASE_KEY_ALIAS
+                keyPassword RELEASE_KEY_PASSWORD
+            }
         }
         debug {
             storeFile file(RELEASE_STORE_FILE)

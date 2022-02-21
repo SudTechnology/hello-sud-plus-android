@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tech.sud.mgp.hello.R;
+import tech.sud.mgp.hello.app.APPConfig;
 import tech.sud.mgp.hello.common.base.BaseFragment;
 import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.common.utils.HsIntentUtils;
@@ -69,11 +70,11 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
 
     private void initAppSize() {
         List<AppSizeView.AppSizeModel> list = new ArrayList<>();
-        list.add(new AppSizeView.AppSizeModel(Color.parseColor("#fc955b"), "SudMGP Core", 590848));
-        list.add(new AppSizeView.AppSizeModel(Color.parseColor("#fc5bca"), "SudMGP ASR", 76800));
-        list.add(new AppSizeView.AppSizeModel(Color.parseColor("#614bff"), "HelloSud", 35770369));
-        list.add(new AppSizeView.AppSizeModel(Color.parseColor("#33000000"), "Zego RTC SDK", 21307064));
-        list.add(new AppSizeView.AppSizeModel(Color.parseColor("#1a000000"), "Agora RTC SDK", 24431820));
+        list.add(new AppSizeView.AppSizeModel(Color.parseColor("#fc955b"), "SudMGP Core", APPConfig.SudMGPCoreSize));
+        list.add(new AppSizeView.AppSizeModel(Color.parseColor("#fc5bca"), "SudMGP ASR", APPConfig.SudMGPASRSize));
+        list.add(new AppSizeView.AppSizeModel(Color.parseColor("#614bff"), "HelloSud", APPConfig.HelloSudSize));
+        list.add(new AppSizeView.AppSizeModel(Color.parseColor("#33000000"), "Zego RTC SDK", APPConfig.ZegoRTCSDKSize));
+        list.add(new AppSizeView.AppSizeModel(Color.parseColor("#1a000000"), "Agora RTC SDK", APPConfig.AgoraRTCSDKSize));
         appSizeView.setDatas(list);
         long totalSize = 0;
         for (AppSizeView.AppSizeModel appSizeModel : list) {

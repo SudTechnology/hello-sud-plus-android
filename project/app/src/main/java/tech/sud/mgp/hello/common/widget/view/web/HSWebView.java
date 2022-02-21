@@ -54,7 +54,7 @@ public class HSWebView extends WebView {
         // 缩放设置
         webViewSettings.setSupportZoom(false);
         // 自适应屏幕大小
-//        webViewSettings.setUseWideViewPort(true);
+        webViewSettings.setUseWideViewPort(true);
         // 缩放至屏幕的大小
         webViewSettings.setLoadWithOverviewMode(true);
         // 设置是否允许 WebView 使用 File 协议

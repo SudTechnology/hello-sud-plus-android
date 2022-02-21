@@ -14,12 +14,12 @@ public class APPConfig {
      * true 加载游戏时为测试环境
      * false 加载游戏时为生产环境
      */
-    public static final boolean GAME_IS_TEST_ENV = true;
+    public static final boolean GAME_IS_TEST_ENV = false;
 
     /**
      * Bugly的AppId
      */
-    public static final String BUGLY_APP_ID = "f471ed313c";
+    public static final String BUGLY_APP_ID = "064b6ebe0f";
 
     // region 占用大小
     public static final long SudMGPCoreSize = 590848;

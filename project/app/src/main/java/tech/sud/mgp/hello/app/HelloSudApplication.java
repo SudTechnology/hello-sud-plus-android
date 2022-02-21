@@ -32,7 +32,7 @@ public class HelloSudApplication extends Application {
         CrashReport.UserStrategy strategy = new CrashReport.UserStrategy(getApplicationContext());
         String versionAndCode = AppUtils.getAppVersionName() + "." + AppUtils.getAppVersionCode();
         strategy.setAppVersion(versionAndCode);
-        CrashReport.initCrashReport(getApplicationContext(), "f471ed313c", true, strategy);
+        CrashReport.initCrashReport(getApplicationContext(), APPConfig.BUGLY_APP_ID, BuildConfig.DEBUG, strategy);
     }
 
     private void configGift() {

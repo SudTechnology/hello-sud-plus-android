@@ -1,18 +1,18 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="app_name">hello-sud-android</string>
+    <string name="app_name">HelloSud</string>
 
-    <string name="login_welcome">欢迎体验HelloSud</string>
+    <string name="login_welcome">欢迎体验 \nHelloSud</string>
+    <string name="login_your_name">你的昵称</string>
     <string name="title_hellosud">HelloSud</string>
     <string name="login_edit_name">请输入你的昵称</string>
     <string name="male">男</string>
     <string name="female">女</string>
     <string name="play_now">立即体验</string>
-    <string name="search_hint">房间ID</string>
+    <string name="search_hint">输入房间号快速进入</string>
 
     <string name="tabs_index">首页</string>
     <string name="tabs_room">房间</string>
     <string name="tabs_set">设置</string>
-
     <string name="useragreement_title">欢迎使用HelloSud</string>
     <string name="useragreement_content_part1">我们非常重视您的个人信息保护。关于个人信息收集和使用的详细信息，您可以点击</string>
     <string name="useragreement_content_part2">《用户协议》</string>
@@ -21,26 +21,26 @@
     <string name="useragreement_content_part5">进行了解。点击同意及表示您已阅读并同意全部上述协议</string>
     <string name="useragreement_reject">不同意</string>
     <string name="useragreement_agree">同意</string>
-
     <string name="user_secondary_title">温馨提示</string>
     <string name="user_secondary_content">
         HelloSud仅会将您的信息用于提供服务和改善体验，我们将全力保障您的信息安全，请同意后使用。
         \n若您不同意本隐私政策，很遗憾我们将无法为您提供完整的产品和服务</string>
     <string name="user_secondary_reject">退出应用</string>
     <string name="user_secondary_agree">同意并继续使用</string>
-
-    <string name="setting_sdk_version">SDK版本</string>
-    <string name="setting_app_version">App版本</string>
+    <string name="setting_sdk_version">SDK版本号</string>
+    <string name="setting_app_version">App版本号</string>
     <string name="setting_useragreement">用户协议</string>
     <string name="setting_privacy">隐私政策</string>
     <string name="setting_contact">联系我们</string>
     <string name="setting_version">v%1$s</string>
-    <string name="setting_userid">用户ID：%1$s</string>
-
+    <string name="setting_userid">用户ID %1$s</string>
+    <string name="setting_userid1">用户ID：%1$s</string>
     <string name="coming_soon">敬请期待</string>
     <string name="room_list_enter">进入</string>
     <string name="room_list_roomid">房间号：%1$s</string>
     <string name="room_list_online">%1$s人</string>
+    <string name="setting_contact1_content">如需要了解更多资讯或反馈问题，可通过邮箱联系我们：help@sud.tech</string>
+    <string name="setting_contact1_but">好的</string>
     <string-array name="names_list" tools:ignore="ExtraTranslation">
         <item>哈利</item>
         <item>祺祥</item>
@@ -149,4 +149,75 @@
     </string-array>
 
     <string name="search_room_error">请输入正确的房间号</string>
+    <string name="user_agreement_title">用户协议</string>
+    <string name="user_privacy_title">隐私政策</string>
+    <string name="user_agreement_content">
+        欢迎您使用HelloSud！\n\n
+        用户下载App首次打开时，本地自动生成用户ID（随机6位数）\n
+        并从头像库中给用户随机一个头像\n
+        用户昵称由用户首次自己设置，长度限制六个字符。\n
+        卸载重装App，重新生成新用户ID。\n
+        非首次打开，则继续使用上次的用户ID和昵称头像，直接进入首页。\n\n
+        我们非常重视您的个人信息保护。关于个人信息收集和使用的详细信息，您可以点击《用户协议》和《隐私政策》进行了解。点击同意表示您已同意上述协议\n\n
+        hellosud仅会将您的信息用于提供服务和改善体验，我们将全力保障您的信息安全，请同意后使用。\n
+        若您不同意本隐私政策，很遗憾我们将无法为您提供完整的产品和服务。</string>
+    <string name="search_enter">进入</string>
+    <string name="select_game">选择游戏</string>
+    <string name="audio_click_got_mic">点击上麦</string>
+    <string name="audio_has_ready">已准备</string>
+    <string name="audio_not_ready">未准备</string>
+    <string name="audio_got_mic">上麦</string>
+    <string name="audio_chat_hint">聊一聊~</string>
+    <string name="audio_dialog_gift_present">赠送</string>
+    <string name="audio_dialog_present">送给</string>
+    <string name="audio_cancle">取消</string>
+    <string name="audio_all">全选</string>
+    <string name="audio_mic_index">%1$d麦</string>
+    <string name="audio_room_admin">房主</string>
+    <string name="audio_send">发送</string>
+    <string name="audio_send_msg_hint">发消息…</string>
+    <string name="audio_send_gift_user_empty">请选择收礼对象</string>
+    <string name="audio_send_gift_empty">请选择礼物</string>
+    <string name="audio_recreation_chat">娱乐聊天</string>
+    <string name="audio_chat_room">语聊房</string>
+    <string name="audio_gameing">游戏中</string>
+    <string name="audio_room_number">房号</string>
+    <string name="audio_close_room_title">确认离开当前房间吗</string>
+    <string name="audio_switch_game_warn">正在游戏中，无法切换游戏</string>
+    <string name="audio_enter_the_room">进入了房间</string>
+    <string name="audio_down_mic">下麦</string>
+    <string name="cancel">取消</string>
+    <string name="confirm">确定</string>
+    <string name="common_go_setting">去设置</string>
+    <string name="common_camera">相机</string>
+    <string name="common_storage">存储</string>
+    <string name="common_correlation">相关</string>
+    <string name="common_record_audio">录音</string>
+    <string name="common_phone">电话</string>
+    <string name="common_setting_permission_info">请在设置中开启%1$s权限，以正常使用 %2$s APP功能</string>
+    <string name="close_game">关闭游戏</string>
+    <string name="finish_game">结束游戏</string>
+    <string name="index_creat_room">创建房间</string>
+    <string name="index_game_join">加入</string>
+    <string name="occupy_size">占用大小</string>
+    <string name="version_info">版本信息</string>
+    <string name="change_rtc_service">切换RTC服务商</string>
+    <string name="change_language">切换语言</string>
+    <string name="github">GitHub</string>
+    <string name="open_source_licenses">开源协议</string>
+    <string name="change_rtc_confirm">确认将RTC服务商切换为【%1$s】？</string>
+    <string-array name="rtc_services">
+        <item>即构</item>
+        <item>声网</item>
+        <item>网易云信</item>
+        <item>火山</item>
+        <item>阿里云</item>
+        <item>腾讯</item>
+    </string-array>
+    <string name="be_making">正在制作中，敬请期待！</string>
+    <string name="total_value">总%1$s</string>
+    <string name="finish_game_confirm">确定结束游戏吗</string>
+    <string name="playing_down_mic">当前正在游戏中，是否逃跑？</string>
+    <string name="game_number">游戏人数</string>
+
 </resources>

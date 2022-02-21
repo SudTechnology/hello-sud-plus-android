@@ -23,3 +23,6 @@
 # 腾讯bugly的混淆
 -dontwarn com.tencent.bugly.**
 -keep public class com.tencent.bugly.**{*;}
+
+# 声网的混淆
+-keep class io.agora.**{*;}

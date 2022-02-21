@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="RoundedImageView">
+        <attr name="riv_corner_radius" format="dimension" />
+        <attr name="riv_corner_radius_top_left" format="dimension" />
+        <attr name="riv_corner_radius_top_right" format="dimension" />
+        <attr name="riv_corner_radius_bottom_left" format="dimension" />
+        <attr name="riv_corner_radius_bottom_right" format="dimension" />
+        <attr name="riv_border_width" format="dimension" />
+        <attr name="riv_border_color" format="color" />
+        <attr name="riv_mutate_background" format="boolean" />
+        <attr name="riv_oval" format="boolean" />
+        <attr name="riv_square" format="boolean" />
+        <attr name="android:scaleType" />
+        <attr name="riv_tile_mode">
+            <enum name="clamp" value="0" />
+            <enum name="repeat" value="1" />
+            <enum name="mirror" value="2" />
+        </attr>
+        <attr name="riv_tile_mode_x">
+            <enum name="clamp" value="0" />
+            <enum name="repeat" value="1" />
+            <enum name="mirror" value="2" />
+        </attr>
+        <attr name="riv_tile_mode_y">
+            <enum name="clamp" value="0" />
+            <enum name="repeat" value="1" />
+            <enum name="mirror" value="2" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="SoundLevelView">
+        <attr name="slv_circle_color" format="color" /> <!--圆圈颜色-->
+        <attr name="slv_start_width" format="dimension" /> <!--圆圈的起始直径-->
+        <attr name="slv_end_alpha" format="integer" /> <!-- 圆圈到最后要消失时的一个透明度 -->
+        <attr name="slv_speed" format="dimension" />    <!-- 扩散速度，直径增长值 -->
+        <attr name="slv_circle_interval" format="dimension" />  <!-- 每个圆圈之间的间隔，也就是直径之间的距离 -->
+        <attr name="slv_anim_duration" format="integer" />   <!-- 动画持续时间 -->
+        <attr name="slv_stroke_width" format="dimension" />   <!-- 圆圈的大小 -->
+    </declare-styleable>
+
+    <declare-styleable name="SettingButton">
+        <attr name="sb_name" format="string" /> <!-- 左边的名称 -->
+        <attr name="sb_hint" format="string" /> <!-- 右边显示的信息 -->
+    </declare-styleable>
+
+</resources>

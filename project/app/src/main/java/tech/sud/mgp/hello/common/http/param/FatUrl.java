@@ -4,11 +4,11 @@ public class FatUrl implements IBaseUrl {
 
     @Override
     public String getBaseUrl() {
-        return "https://base-hello-sud.sud.tech/";
+        return "https://fat-base.sud.tech/";
     }
 
     @Override
     public String getInteractBaseUrl() {
-        return "https://interact-hello-sud.sud.tech/";
+        return " https://fat-interact.sud.tech/";
     }
 }

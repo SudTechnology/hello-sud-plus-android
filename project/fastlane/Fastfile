@@ -53,7 +53,7 @@ platform :android do
       print_command: true,
       properties: {
           "versionCode" => versionCode,
-          "dtJksPropertyPath" => "../../../../../../../certs/hellosud_jks_release.properties"
+          "dtJksPropertyPath" => "../../../../../../../certs/hellosud/hellosud_jks_release.properties"
       }
     )
   end

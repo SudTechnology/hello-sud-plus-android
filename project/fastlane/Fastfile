@@ -40,7 +40,7 @@ platform :android do
     )
   end
 
-  desc "Android-release 测试包"
+  desc "Android-release 发布包"
   lane :pro do |options|
     parentOutputDir = OUTPUT_DIR
     versionCode=options[:code]
@@ -55,5 +55,12 @@ platform :android do
           "versionCode" => versionCode
       }
     )
+
+    # 获取版本号
+    versionName = android_get_version_name(
+        gradle_file: "build.gradle"
+    )
+    outputMappingDir = "../app/build/outputs/mapping*.txt"
+    sh("java -jar ../../tool/bugly/buglyqq-upload-symbol/buglyqq-upload-symbol.jar -appid 064b6ebe0f -appkey e411cdda-393e-475b-a67d-6edfb5a9be05 -bundleid tech.sud.mgp.hello -version #{versionName}.#{versionCode} -platform Android -inputMapping #{outputMappingDir}")
   end
 end

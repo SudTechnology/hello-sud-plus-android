@@ -16,6 +16,11 @@ public class APPConfig {
      */
     public static final boolean GAME_IS_TEST_ENV = true;
 
+    /**
+     * Bugly的AppId
+     */
+    public static final String BUGLY_APP_ID = "f471ed313c";
+
     // region 占用大小
     public static final long SudMGPCoreSize = 590848;
     public static final long SudMGPASRSize = 76800;

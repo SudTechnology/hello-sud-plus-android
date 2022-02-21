@@ -53,12 +53,6 @@
             android:windowSoftInputMode="adjustPan"
             tools:ignore="LockedOrientationActivity" />
 
-        <!-- 用户协议 -->
-        <activity
-            android:name=".ui.main.settings.activity.UserAgreementActivity"
-            android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity" />
-
         <!-- 语聊房页面 -->
         <activity
             android:name=".ui.scenes.audio.activity.AudioRoomActivity"
@@ -132,6 +126,13 @@
         <!-- 版本信息页面 -->
         <activity
             android:name=".ui.main.settings.activity.VersionInfoActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+
+        <!-- 加载WebView的页面 -->
+        <activity
+            android:name=".ui.main.activity.WebViewActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />

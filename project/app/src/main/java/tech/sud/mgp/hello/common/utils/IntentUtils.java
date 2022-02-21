@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 
-public class HsIntentUtils {
+public class IntentUtils {
 
     /**
      * 调用外部浏览器打开Url

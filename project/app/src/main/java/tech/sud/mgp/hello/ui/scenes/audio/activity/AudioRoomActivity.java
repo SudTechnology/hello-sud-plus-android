@@ -424,6 +424,8 @@ public class AudioRoomActivity extends BaseActivity {
                     public void onPermission(boolean success) {
                         if (success) {
                             binder.setMicState(true);
+                            boolean asrIsOpen = gameViewModel.gameASRLiveData.getValue() != null && gameViewModel.gameASRLiveData.getValue();
+                            binder.setASROpen(asrIsOpen);
                         }
                     }
                 });

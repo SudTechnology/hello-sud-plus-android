@@ -19,7 +19,7 @@ public class APPConfig {
     /**
      * Bugly的AppId
      */
-    public static final String BUGLY_APP_ID = "f471ed313c";
+    public static final String BUGLY_APP_ID = "064b6ebe0f";
 
     // region 占用大小
     public static final long SudMGPCoreSize = 590848;

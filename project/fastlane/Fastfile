@@ -39,4 +39,21 @@ platform :android do
       }
     )
   end
+
+  desc "Android-release 测试包"
+  lane :pro do |options|
+    parentOutputDir = OUTPUT_DIR
+    versionCode=options[:code]
+    puts versionCode
+    # outputDir = parentOutputDir + "/fat/" + versionCode
+    # puts outputDir
+    gradle(
+      task: "assemble",
+      build_type:"Release",
+      print_command: true,
+      properties: {
+          "versionCode" => versionCode
+      }
+    )
+  end
 end

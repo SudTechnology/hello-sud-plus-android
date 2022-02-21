@@ -24,12 +24,12 @@ public class RxUtil {
             @Override
             public @NonNull ObservableSource<T> apply(@NonNull Observable<T> upstream) {
                 if (owner instanceof RxAppCompatActivity) {
-                    return upstream.compose(((RxAppCompatActivity) owner).bindUntilEvent(ActivityEvent.STOP))
+                    return upstream.compose(((RxAppCompatActivity) owner).bindUntilEvent(ActivityEvent.DESTROY))
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread());
                 }
                 if (owner instanceof RxFragment) {
-                    return upstream.compose(((RxFragment) owner).bindUntilEvent(FragmentEvent.STOP))
+                    return upstream.compose(((RxFragment) owner).bindUntilEvent(FragmentEvent.DESTROY))
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread());
                 }

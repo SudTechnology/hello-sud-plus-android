@@ -71,12 +71,15 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         List<AppSizeView.AppSizeModel> list = new ArrayList<>();
         list.add(new AppSizeView.AppSizeModel(Color.parseColor("#fc955b"), "SudMGP Core", 590848));
         list.add(new AppSizeView.AppSizeModel(Color.parseColor("#fc5bca"), "SudMGP ASR", 76800));
-        list.add(new AppSizeView.AppSizeModel(Color.parseColor("#614bff"), "HelloSud", 20094157));
+        list.add(new AppSizeView.AppSizeModel(Color.parseColor("#614bff"), "HelloSud", 35770369));
         list.add(new AppSizeView.AppSizeModel(Color.parseColor("#33000000"), "Zego RTC SDK", 21307064));
         list.add(new AppSizeView.AppSizeModel(Color.parseColor("#1a000000"), "Agora RTC SDK", 24431820));
         appSizeView.setDatas(list);
-
-        tvTotalSize.setText(getString(R.string.total_value, FileUtils.formatFileSize(66500689)));
+        long totalSize = 0;
+        for (AppSizeView.AppSizeModel appSizeModel : list) {
+            totalSize += appSizeModel.size;
+        }
+        tvTotalSize.setText(getString(R.string.total_value, FileUtils.formatFileSize(totalSize)));
     }
 
     @Override

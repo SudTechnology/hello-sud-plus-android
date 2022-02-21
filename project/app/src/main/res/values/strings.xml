@@ -161,6 +161,9 @@
         我们非常重视您的个人信息保护。关于个人信息收集和使用的详细信息，您可以点击《用户协议》和《隐私政策》进行了解。点击同意表示您已同意上述协议\n\n
         hellosud仅会将您的信息用于提供服务和改善体验，我们将全力保障您的信息安全，请同意后使用。\n
         若您不同意本隐私政策，很遗憾我们将无法为您提供完整的产品和服务。</string>
+    <string name="roomlist_empty">
+        暂无房间开播 \n
+        去首页创建一个吧~</string>
     <string name="search_enter">进入</string>
     <string name="select_game">选择游戏</string>
     <string name="audio_click_got_mic">点击上麦</string>

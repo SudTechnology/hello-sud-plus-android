@@ -36,7 +36,7 @@ import tech.sud.mgp.hello.ui.scenes.audio.utils.EnterRoomUtils;
 public class RoomListFragment extends BaseFragment {
 
     private EditText searchEt;
-    private TextView goSearch;
+    private TextView goSearch, emptyTv;
     private TextView nameTv, useridTv;
     private ImageView headerIv;
     private RecyclerView roomRecyclerView;
@@ -67,6 +67,7 @@ public class RoomListFragment extends BaseFragment {
         headerIv = mRootView.findViewById(R.id.header_iv);
         roomRecyclerView = mRootView.findViewById(R.id.room_rv);
         roomRefreshLayout = mRootView.findViewById(R.id.room_refresh_layout);
+        emptyTv = mRootView.findViewById(R.id.empty_tv);
     }
 
     @Override
@@ -157,6 +158,11 @@ public class RoomListFragment extends BaseFragment {
                         datas.addAll(t.getData().getRoomInfoList());
                     }
                     adapter.setList(datas);
+                    if (datas.size() == 0) {
+                        emptyTv.setVisibility(View.VISIBLE);
+                    } else {
+                        emptyTv.setVisibility(View.GONE);
+                    }
                 } else {
                     ToastUtils.showShort(ResponseUtils.conver(t));
                 }

@@ -24,4 +24,11 @@ public class APPConfig {
     public static final long AgoraRTCSDKSize = 24431820;
     // endregion 占用大小
 
+    // region url地址
+    public static final String USER_PRIVACY_URL = "file:///android_asset/user_privacy.html";
+    public static final String USER_PROTOCAL_URL = "file:///android_asset/user_protocol.html";
+    public static final String APP_LICENSE_URL = "file:///android_asset/LICENSE";
+    public static final String GIT_HUB_URL = "https://github.com/SudTechnology/hello-sud-android";
+    // endregion url地址
+
 }

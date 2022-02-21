@@ -14,10 +14,10 @@ import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.app.APPConfig;
 import tech.sud.mgp.hello.common.base.BaseFragment;
 import tech.sud.mgp.hello.common.model.AppData;
-import tech.sud.mgp.hello.common.utils.HsIntentUtils;
+import tech.sud.mgp.hello.common.utils.IntentUtils;
 import tech.sud.mgp.hello.ui.main.settings.activity.ChangeRtcActivity;
-import tech.sud.mgp.hello.ui.main.settings.activity.UserAgreementActivity;
 import tech.sud.mgp.hello.ui.main.settings.activity.VersionInfoActivity;
+import tech.sud.mgp.hello.ui.main.utils.RouterUtils;
 import tech.sud.mgp.hello.ui.scenes.common.gift.utils.FileUtils;
 
 /**
@@ -110,17 +110,13 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         } else if (v == btnChangeLanguage) { // 切换语言
             ToastUtils.showShort(R.string.be_making);
         } else if (v == btnGitHub) { // github
-            HsIntentUtils.openUrl(getContext(), "https://github.com/SudTechnology/hello-sud-android");
+            IntentUtils.openUrl(getContext(), APPConfig.GIT_HUB_URL);
         } else if (v == btnOpenSource) { // 开源协议
-            HsIntentUtils.openUrl(getContext(), "https://github.com/SudTechnology/hello-sud-android/license.txt");
+            RouterUtils.openUrl(getContext(), getString(R.string.user_agreement_title), APPConfig.APP_LICENSE_URL);
         } else if (v == btnUserAgreement) { // 用户协议
-            Intent intent = new Intent(requireContext(), UserAgreementActivity.class);
-            intent.putExtra(UserAgreementActivity.AGREEMENTTYPE, 0);
-            startActivity(intent);
+            RouterUtils.openUrl(getContext(), getString(R.string.user_agreement_title), APPConfig.USER_PROTOCAL_URL);
         } else if (v == btnPrivacyPolicy) { // 隐私政策
-            Intent intent = new Intent(requireContext(), UserAgreementActivity.class);
-            intent.putExtra(UserAgreementActivity.AGREEMENTTYPE, 1);
-            startActivity(intent);
+            RouterUtils.openUrl(getContext(), getString(R.string.user_privacy_title), APPConfig.USER_PRIVACY_URL);
         }
     }
 }

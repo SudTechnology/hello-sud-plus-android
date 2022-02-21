@@ -13,6 +13,7 @@ import com.blankj.utilcode.util.ToastUtils;
 import java.util.Random;
 
 import tech.sud.mgp.hello.R;
+import tech.sud.mgp.hello.app.APPConfig;
 import tech.sud.mgp.hello.common.base.BaseActivity;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
@@ -27,7 +28,7 @@ import tech.sud.mgp.hello.ui.login.dialog.UserSecondaryDialog;
 import tech.sud.mgp.hello.ui.login.listener.DialogSecondaryListener;
 import tech.sud.mgp.hello.ui.login.listener.DialogSelectListener;
 import tech.sud.mgp.hello.ui.main.activity.MainActivity;
-import tech.sud.mgp.hello.ui.main.settings.activity.UserAgreementActivity;
+import tech.sud.mgp.hello.ui.main.utils.RouterUtils;
 import tech.sud.mgp.hello.ui.viewmodel.ConfigViewModel;
 
 /**
@@ -114,18 +115,16 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void onAgreementType(int type) {
-        Intent intent = new Intent(this, UserAgreementActivity.class);
         switch (type) {
             case 0: {
-                intent.putExtra(UserAgreementActivity.AGREEMENTTYPE, 0);
+                RouterUtils.openUrl(this, getString(R.string.user_agreement_title), APPConfig.USER_PROTOCAL_URL);
                 break;
             }
             case 1: {
-                intent.putExtra(UserAgreementActivity.AGREEMENTTYPE, 1);
+                RouterUtils.openUrl(this, getString(R.string.user_privacy_title), APPConfig.USER_PRIVACY_URL);
                 break;
             }
         }
-        startActivity(intent);
     }
 
     @Override

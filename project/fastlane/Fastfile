@@ -32,7 +32,7 @@ platform :android do
     # puts outputDir
     gradle(
       task: "assemble",
-      build_type:"debug",
+      build_type:"Release",
       print_command: true,
       properties: {
           "versionCode" => versionCode

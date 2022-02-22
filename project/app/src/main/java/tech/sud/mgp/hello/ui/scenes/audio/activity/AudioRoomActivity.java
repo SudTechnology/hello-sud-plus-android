@@ -331,7 +331,7 @@ public class AudioRoomActivity extends BaseActivity {
         SimpleChooseDialog dialog = new SimpleChooseDialog(this,
                 getString(R.string.playing_down_mic),
                 getString(R.string.audio_cancle),
-                getString(R.string.confirm));
+                getString(R.string.confirm_));
         dialog.show();
         dialog.setOnChooseListener(new SimpleChooseDialog.OnChooseListener() {
             @Override

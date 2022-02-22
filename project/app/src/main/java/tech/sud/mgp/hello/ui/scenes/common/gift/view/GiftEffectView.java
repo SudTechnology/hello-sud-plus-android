@@ -131,7 +131,9 @@ public class GiftEffectView extends ConstraintLayout implements LifecycleObserve
                     break;
                 }
                 case PLAYERROR:
-                    showImage(giftModel);
+                    aContainer.post(() -> {
+                        showImage(giftModel);
+                    });
                     break;
                 case PLAYEND: {
                     aContainer.post(() -> {

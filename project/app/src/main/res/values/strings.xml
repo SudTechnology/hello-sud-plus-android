@@ -191,6 +191,7 @@
     <string name="audio_down_mic">下麦</string>
     <string name="cancel">取消</string>
     <string name="confirm">确定</string>
+    <string name="confirm_">确认逃跑</string>
     <string name="common_go_setting">去设置</string>
     <string name="common_camera">相机</string>
     <string name="common_storage">存储</string>

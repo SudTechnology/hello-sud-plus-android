@@ -130,7 +130,7 @@ public class GameConfigModel {
     // 分享按钮
     public static class GameShareBtn {
         public boolean custom = false; // 分享按钮（false: 游戏处理逻辑； true: 游戏只通知按钮点击事件，不处理；默认为false）
-        public boolean hide = false; // 是否隐藏分享按钮（false: 显示； true: 隐藏，默认为false）
+        public boolean hide = true; // 是否隐藏分享按钮（false: 显示； true: 隐藏，默认为true）
     }
 
     // 游戏场景中的设置按钮

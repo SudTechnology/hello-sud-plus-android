@@ -55,6 +55,16 @@ public class VolcAudioEngineImpl implements IAudioEngine {
     }
 
     @Override
+    public void startSubscribing() {
+
+    }
+
+    @Override
+    public void stopSubscribing() {
+
+    }
+
+    @Override
     public void sendCommand(String roomId, String command, SendCommandResult result) {
 
     }

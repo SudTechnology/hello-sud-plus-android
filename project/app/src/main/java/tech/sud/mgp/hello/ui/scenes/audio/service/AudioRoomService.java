@@ -129,6 +129,20 @@ public class AudioRoomService {
         }
 
         /**
+         * 设置RTC推流
+         */
+        public void setRTCPublish(boolean isOn) {
+            serviceManager.audioGameManager.setRTCPublish(isOn);
+        }
+
+        /**
+         * 设置RTC拉流
+         */
+        public void setRTCPlay(boolean isOn) {
+            serviceManager.audioGameManager.setRTCPlay(isOn);
+        }
+
+        /**
          * 退出房间
          */
         public void exitRoom() {

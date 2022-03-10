@@ -27,7 +27,7 @@ public class GameAdapter extends BaseQuickAdapter<GameModel, BaseViewHolder> {
         if (!TextUtils.isEmpty(item.getGamePic())) {
             ImageLoader.loadImage(iconView, item.getGamePic());
         } else {
-            iconView.setImageResource(R.mipmap.icon_logo);
+            iconView.setImageResource(R.drawable.icon_logo);
         }
     }
 }

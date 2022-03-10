@@ -33,7 +33,7 @@ public class RoomListAdapter extends BaseQuickAdapter<RoomItemModel, BaseViewHol
         if (!TextUtils.isEmpty(item.getRoomPic())) {
             ImageLoader.loadImage(cover, item.getRoomPic());
         } else {
-            cover.setImageResource(R.mipmap.icon_logo);
+            cover.setImageResource(R.drawable.icon_logo);
         }
     }
 }

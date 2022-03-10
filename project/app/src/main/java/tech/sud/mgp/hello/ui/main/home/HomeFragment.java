@@ -73,7 +73,7 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
         useridTv.setText(getString(R.string.setting_userid, userId));
         String header = AppSharedPreferences.getSP().getString(AppSharedPreferences.USER_HEAD_PORTRAIT_KEY, "");
         if (header.isEmpty()) {
-            headerIv.setImageResource(R.mipmap.icon_logo);
+            headerIv.setImageResource(R.drawable.icon_logo);
         } else {
             ImageLoader.loadImage(headerIv, header);
         }

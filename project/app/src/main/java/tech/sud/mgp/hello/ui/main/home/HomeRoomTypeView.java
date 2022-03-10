@@ -86,7 +86,7 @@ public class HomeRoomTypeView extends ConstraintLayout {
         if (!TextUtils.isEmpty(sceneModel.getSceneImage())) {
             ImageLoader.loadImage(sceneIv, sceneModel.getSceneImage());
         } else {
-            sceneIv.setImageResource(R.mipmap.icon_audio_room);
+            sceneIv.setImageResource(R.drawable.icon_audio_room);
         }
         if (datas != null && datas.size() > 0) {
             creatEnable = true;

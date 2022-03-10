@@ -57,6 +57,8 @@ public class GameViewModel {
     public final MutableLiveData<Object> autoUpMicLiveData = new MutableLiveData<>(); // 执行自动上麦的通知
     public final MutableLiveData<String> gameKeywordLiveData = new MutableLiveData<>(); // 游戏关键字
     public final MutableLiveData<Boolean> gameASRLiveData = new MutableLiveData<>(); // 游戏ASR开关
+    public final MutableLiveData<Boolean> gameRTCPublishLiveData = new MutableLiveData<>(); // 游戏RTC推流开关
+    public final MutableLiveData<Boolean> gameRTCPlayLiveData = new MutableLiveData<>(); // 游戏RTC拉流开关
     public final MutableLiveData<Object> playerInLiveData = new MutableLiveData<>(); // 有玩家加入或者离开了游戏
     public final MutableLiveData<Boolean> showFinishGameBtnLiveData = new MutableLiveData<>(); // 是否具备结束游戏的权力
 
@@ -240,6 +242,22 @@ public class GameViewModel {
         public void onGameMGCommonGameASR(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameASR model) {
             boolean isOpen = model != null && model.isOpen;
             gameASRLiveData.setValue(isOpen);
+            ISudFSMStateHandleUtils.handleSuccess(handle);
+        }
+
+        // 麦克风状态
+        @Override
+        public void onGameMGCommonSelfMicrophone(ISudFSMStateHandle handle, SudMGPMGState.MGCommonSelfMicrophone model) {
+            boolean isOn = model != null && model.isOn;
+            gameRTCPublishLiveData.setValue(isOn);
+            ISudFSMStateHandleUtils.handleSuccess(handle);
+        }
+
+        // 耳机（听筒，扬声器）状态
+        @Override
+        public void onGameMGCommonSelfHeadphone(ISudFSMStateHandle handle, SudMGPMGState.MGCommonSelfHeadphone model) {
+            boolean isOn = model != null && model.isOn;
+            gameRTCPlayLiveData.setValue(isOn);
             ISudFSMStateHandleUtils.handleSuccess(handle);
         }
 

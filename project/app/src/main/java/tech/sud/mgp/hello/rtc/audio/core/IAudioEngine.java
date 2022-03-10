@@ -66,6 +66,16 @@ public interface IAudioEngine {
     void stopPlayingStream(String streamId);
 
     /**
+     * 开启拉流
+     */
+    void startSubscribing();
+
+    /**
+     * 停止拉流
+     */
+    void stopSubscribing();
+
+    /**
      * 发送信令
      *
      * @param command 信令内容

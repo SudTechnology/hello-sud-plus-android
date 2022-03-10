@@ -135,6 +135,26 @@ public class AudioEngineManager extends BaseServiceManager {
     }
 
     /**
+     * 开启拉流
+     */
+    public void startSubscribing() {
+        IAudioEngine engine = getEngine();
+        if (engine != null) {
+            engine.startSubscribing();
+        }
+    }
+
+    /**
+     * 停止拉流
+     */
+    public void stopSubscribing() {
+        IAudioEngine engine = getEngine();
+        if (engine != null) {
+            engine.stopSubscribing();
+        }
+    }
+
+    /**
      * 开始音频流监听
      */
     void startAudioDataListener() {

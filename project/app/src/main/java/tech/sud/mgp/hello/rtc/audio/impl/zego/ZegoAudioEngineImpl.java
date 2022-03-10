@@ -97,6 +97,7 @@ public class ZegoAudioEngineImpl implements IAudioEngine {
         ZegoExpressEngine engine = getEngine();
         if (engine != null) {
             engine.startPublishingStream(streamId);
+            engine.enableAudioCaptureDevice(true);
         }
     }
 
@@ -105,6 +106,7 @@ public class ZegoAudioEngineImpl implements IAudioEngine {
         ZegoExpressEngine engine = getEngine();
         if (engine != null) {
             engine.stopPublishingStream();
+            engine.enableAudioCaptureDevice(false);
         }
     }
 
@@ -121,6 +123,22 @@ public class ZegoAudioEngineImpl implements IAudioEngine {
         ZegoExpressEngine engine = getEngine();
         if (engine != null) {
             engine.stopPlayingStream(streamId);
+        }
+    }
+
+    @Override
+    public void startSubscribing() {
+        ZegoExpressEngine engine = getEngine();
+        if (engine != null) {
+            engine.muteAllPlayStreamAudio(false);
+        }
+    }
+
+    @Override
+    public void stopSubscribing() {
+        ZegoExpressEngine engine = getEngine();
+        if (engine != null) {
+            engine.muteAllPlayStreamAudio(true);
         }
     }
 

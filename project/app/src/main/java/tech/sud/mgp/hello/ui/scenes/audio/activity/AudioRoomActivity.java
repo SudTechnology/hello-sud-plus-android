@@ -287,6 +287,18 @@ public class AudioRoomActivity extends BaseActivity {
                 binder.setASROpen(aBoolean);
             }
         });
+        gameViewModel.gameRTCPublishLiveData.observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                binder.setRTCPublish(aBoolean);
+            }
+        });
+        gameViewModel.gameRTCPlayLiveData.observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                binder.setRTCPlay(aBoolean);
+            }
+        });
         gameViewModel.showFinishGameBtnLiveData.observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean isShow) {
@@ -426,6 +438,8 @@ public class AudioRoomActivity extends BaseActivity {
                             binder.setMicState(true);
                             boolean asrIsOpen = gameViewModel.gameASRLiveData.getValue() != null && gameViewModel.gameASRLiveData.getValue();
                             binder.setASROpen(asrIsOpen);
+                            boolean rtcPublish = gameViewModel.gameRTCPublishLiveData.getValue() != null && gameViewModel.gameRTCPublishLiveData.getValue();
+                            binder.setRTCPublish(rtcPublish);
                         }
                     }
                 });

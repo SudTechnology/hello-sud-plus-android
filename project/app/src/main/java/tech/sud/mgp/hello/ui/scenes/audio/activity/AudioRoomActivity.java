@@ -185,11 +185,7 @@ public class AudioRoomActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 boolean micOpened = bottomView.isMicOpened();
-                if (micOpened) {
-                    closeMic();
-                } else {
-                    openMic();
-                }
+                setMicStatus(!micOpened);
             }
         });
         inputMsgView.setSendMsgListener(new RoomInputMsgView.SendMsgListener() {
@@ -226,6 +222,19 @@ public class AudioRoomActivity extends BaseActivity {
                 clickFinishGame();
             }
         });
+    }
+
+    /**
+     * 设置麦克风的状态
+     *
+     * @param micOpen true为开启麦克风 false为关闭麦克风
+     */
+    private void setMicStatus(boolean micOpen) {
+        if (micOpen) {
+            openMic();
+        } else {
+            closeMic();
+        }
     }
 
     private void clickFinishGame() {
@@ -273,14 +282,6 @@ public class AudioRoomActivity extends BaseActivity {
                 binder.autoUpMic();
             }
         });
-        gameViewModel.gameKeywordLiveData.observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                if (s != null && !s.isEmpty()) {
-                    binder.setKeyword(s);
-                }
-            }
-        });
         gameViewModel.gameASRLiveData.observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
@@ -290,7 +291,7 @@ public class AudioRoomActivity extends BaseActivity {
         gameViewModel.gameRTCPublishLiveData.observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
-                binder.setRTCPublish(aBoolean);
+                setMicStatus(aBoolean);
             }
         });
         gameViewModel.gameRTCPlayLiveData.observe(this, new Observer<Boolean>() {
@@ -438,8 +439,6 @@ public class AudioRoomActivity extends BaseActivity {
                             binder.setMicState(true);
                             boolean asrIsOpen = gameViewModel.gameASRLiveData.getValue() != null && gameViewModel.gameASRLiveData.getValue();
                             binder.setASROpen(asrIsOpen);
-                            boolean rtcPublish = gameViewModel.gameRTCPublishLiveData.getValue() != null && gameViewModel.gameRTCPublishLiveData.getValue();
-                            binder.setRTCPublish(rtcPublish);
                         }
                     }
                 });

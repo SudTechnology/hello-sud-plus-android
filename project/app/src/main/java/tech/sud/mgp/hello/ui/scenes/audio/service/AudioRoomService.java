@@ -115,24 +115,10 @@ public class AudioRoomService {
         }
 
         /**
-         * 设置关键字
-         */
-        public void setKeyword(String keyword) {
-            serviceManager.audioGameManager.setkeyword(keyword);
-        }
-
-        /**
          * 设置ASR
          */
         public void setASROpen(boolean isOpen) {
             serviceManager.audioGameManager.setASROpen(isOpen);
-        }
-
-        /**
-         * 设置RTC推流
-         */
-        public void setRTCPublish(boolean isOn) {
-            serviceManager.audioGameManager.setRTCPublish(isOn);
         }
 
         /**

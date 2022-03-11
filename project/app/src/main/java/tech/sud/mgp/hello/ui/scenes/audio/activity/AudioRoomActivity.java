@@ -184,8 +184,12 @@ public class AudioRoomActivity extends BaseActivity {
         bottomView.setMicStateClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean micOpened = bottomView.isMicOpened();
-                setMicStatus(!micOpened);
+                boolean micOpen = !bottomView.isMicOpened();
+                if (gameViewModel.isInterceptSwitchMic(micOpen)) {
+                    ToastUtils.showLong(R.string.unable_to_speak);
+                    return;
+                }
+                setMicStatus(micOpen);
             }
         });
         inputMsgView.setSendMsgListener(new RoomInputMsgView.SendMsgListener() {
@@ -291,6 +295,9 @@ public class AudioRoomActivity extends BaseActivity {
         gameViewModel.gameRTCPublishLiveData.observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
+                if (aBoolean == null) {
+                    return;
+                }
                 setMicStatus(aBoolean);
             }
         });

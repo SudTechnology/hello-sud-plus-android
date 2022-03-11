@@ -334,6 +334,7 @@ public class GameViewModel {
             playingGameId = 0;
             gameView = null;
             gameViewLiveData.setValue(null);
+            gameRTCPublishLiveData.setValue(null);
         }
     }
     // endregion 生命周期相关
@@ -555,8 +556,13 @@ public class GameViewModel {
         // 队长以及游戏中才显示
         boolean isShow = playingGameId > 0
                 && sudFSMMGDecorator.isCaptain(HSUserInfo.userId)
-                && sudFSMMGDecorator.getGameState() == SudMGPMGState.MGCommonGameState.PLAYING;
+                && isGamePlaying();
         showFinishGameBtnLiveData.setValue(isShow);
+    }
+
+    // 游戏是否在进行中
+    private boolean isGamePlaying() {
+        return sudFSMMGDecorator.getGameState() == SudMGPMGState.MGCommonGameState.PLAYING;
     }
 
     // 该用户是否在游戏中
@@ -570,5 +576,17 @@ public class GameViewModel {
 
     public int getGameState() {
         return sudFSMMGDecorator.getGameState();
+    }
+
+    // 是否要拦截麦克风按钮的操作
+    public boolean isInterceptSwitchMic(boolean micOpen) {
+        if (micOpen) { // 意图要开麦时
+            // 游戏正在进行中，并且游戏中发送过来的状态是不能开麦，则禁止开麦
+            Boolean rtcPublish = gameRTCPublishLiveData.getValue();
+            if (isGamePlaying() && rtcPublish != null && !rtcPublish) {
+                return true;
+            }
+        }
+        return false;
     }
 }

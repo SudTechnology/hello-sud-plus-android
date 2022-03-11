@@ -12,6 +12,7 @@ buildscript {
 
 ext {
     versionCode = "1"
+    
 }
 
 allprojects {

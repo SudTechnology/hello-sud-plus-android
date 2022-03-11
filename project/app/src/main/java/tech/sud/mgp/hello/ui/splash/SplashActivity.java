@@ -7,7 +7,7 @@ import androidx.lifecycle.Observer;
 
 import com.blankj.utilcode.util.ToastUtils;
 
-import tech.sud.mgp.hello.R;
+import me.jessyan.autosize.internal.CancelAdapt;
 import tech.sud.mgp.hello.common.base.BaseActivity;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
@@ -23,15 +23,20 @@ import tech.sud.mgp.hello.ui.viewmodel.ConfigViewModel;
 
 /**
  * 闪屏页
+ * 实现{@link CancelAdapt}是标识此页面不进行屏幕适配，因为有做闪屏页的处理
  */
-public class SplashActivity extends BaseActivity {
+public class SplashActivity extends BaseActivity implements CancelAdapt {
 
     private Handler handler = new Handler();
     private final ConfigViewModel configViewModel = new ConfigViewModel();
 
     @Override
+    protected void setStatusBar() {
+    }
+
+    @Override
     protected int getLayoutId() {
-        return R.layout.activity_splash;
+        return 0;
     }
 
     @Override

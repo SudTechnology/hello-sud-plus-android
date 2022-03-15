@@ -2,6 +2,7 @@ package tech.sud.mgp.hello.ui.scenes.audio.service;
 
 import java.util.List;
 
+import tech.sud.mgp.hello.ui.scenes.audio.constant.OperateMicType;
 import tech.sud.mgp.hello.ui.scenes.audio.manager.AudioRoomServiceManager;
 import tech.sud.mgp.hello.ui.scenes.audio.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.audio.model.RoomInfoModel;
@@ -51,15 +52,15 @@ public class AudioRoomService {
          * @param micIndex 麦位索引
          * @param operate  true为上麦位 false为下麦位
          */
-        public void micLocationSwitch(int micIndex, boolean operate) {
-            serviceManager.audioMicManager.micLocationSwitch(micIndex, operate);
+        public void micLocationSwitch(int micIndex, boolean operate, OperateMicType type) {
+            serviceManager.audioMicManager.micLocationSwitch(micIndex, operate, type);
         }
 
         /**
          * 自动上麦
          */
-        public void autoUpMic() {
-            serviceManager.audioMicManager.autoUpMic();
+        public void autoUpMic(OperateMicType type) {
+            serviceManager.audioMicManager.autoUpMic(type);
         }
 
         /**

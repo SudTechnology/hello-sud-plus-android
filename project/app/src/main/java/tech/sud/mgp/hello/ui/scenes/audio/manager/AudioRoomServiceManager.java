@@ -129,9 +129,11 @@ public class AudioRoomServiceManager extends BaseServiceManager {
      */
     public void setMicState(boolean isOpen) {
         if (isOpen) {
-            String streamId = null;
+            String streamId;
             AudioRoomMicModel selfMicModel = audioMicManager.findMicModel(HSUserInfo.userId);
-            if (selfMicModel != null) {
+            if (selfMicModel == null) {
+                return;
+            } else {
                 streamId = selfMicModel.streamId;
             }
             audioStreamManager.openMic(streamId);

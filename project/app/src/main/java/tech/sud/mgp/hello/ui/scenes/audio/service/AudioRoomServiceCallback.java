@@ -3,6 +3,7 @@ package tech.sud.mgp.hello.ui.scenes.audio.service;
 import java.util.List;
 
 import tech.sud.mgp.hello.rtc.audio.core.AudioPCMData;
+import tech.sud.mgp.hello.ui.scenes.audio.constant.OperateMicType;
 import tech.sud.mgp.hello.ui.scenes.audio.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftNotifyDetailodel;
 
@@ -87,4 +88,13 @@ public interface AudioRoomServiceCallback {
      * @param msg 发送内容
      */
     void onSelfSendMsg(String msg);
+
+    /**
+     * 麦克切换完成
+     *
+     * @param micIndex 麦位序号
+     * @param operate  true上麦 false下麦
+     * @param type     操作类型
+     */
+    void onMicLocationSwitchCompleted(int micIndex, boolean operate, OperateMicType type);
 }

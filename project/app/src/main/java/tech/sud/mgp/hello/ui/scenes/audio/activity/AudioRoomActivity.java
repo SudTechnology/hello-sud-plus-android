@@ -26,6 +26,7 @@ import tech.sud.mgp.hello.common.permission.PermissionFragment;
 import tech.sud.mgp.hello.common.permission.SudPermissionUtils;
 import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
 import tech.sud.mgp.hello.rtc.audio.core.AudioPCMData;
+import tech.sud.mgp.hello.ui.scenes.audio.constant.OperateMicType;
 import tech.sud.mgp.hello.ui.scenes.audio.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.audio.model.RoleType;
 import tech.sud.mgp.hello.ui.scenes.audio.model.RoomInfoModel;
@@ -159,7 +160,7 @@ public class AudioRoomActivity extends BaseActivity {
                 AudioRoomMicModel model = micView.getItem(position);
                 if (model != null) {
                     if (model.userId == 0) {
-                        binder.micLocationSwitch(position, true);
+                        binder.micLocationSwitch(position, true, OperateMicType.USER);
                     } else if (model.userId == HSUserInfo.userId) {
                         clickSelfMicLocation(position);
                     }
@@ -172,7 +173,7 @@ public class AudioRoomActivity extends BaseActivity {
         bottomView.setGotMicClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                binder.autoUpMic();
+                binder.autoUpMic(OperateMicType.USER);
             }
         });
         bottomView.setInputClickListener(new View.OnClickListener() {
@@ -283,7 +284,7 @@ public class AudioRoomActivity extends BaseActivity {
         gameViewModel.autoUpMicLiveData.observe(this, new Observer<Object>() {
             @Override
             public void onChanged(Object o) {
-                binder.autoUpMic();
+                binder.autoUpMic(OperateMicType.GAME_AUTO);
             }
         });
         gameViewModel.gameASRLiveData.observe(this, new Observer<Boolean>() {
@@ -335,7 +336,7 @@ public class AudioRoomActivity extends BaseActivity {
                     if (gameViewModel.playerIsPlaying(HSUserInfo.userId)) {
                         playingDownMic(position);
                     } else {
-                        binder.micLocationSwitch(position, false); // 执行下麦
+                        binder.micLocationSwitch(position, false, OperateMicType.USER); // 执行下麦
                         gameViewModel.exitGame();
                     }
                 }
@@ -357,7 +358,7 @@ public class AudioRoomActivity extends BaseActivity {
             @Override
             public void onChoose(int index) {
                 if (index == 1) {
-                    binder.micLocationSwitch(position, false); // 执行下麦
+                    binder.micLocationSwitch(position, false, OperateMicType.USER); // 执行下麦
                     gameViewModel.exitGame();
                 }
                 dialog.dismiss();
@@ -614,6 +615,22 @@ public class AudioRoomActivity extends BaseActivity {
         @Override
         public void onSelfSendMsg(String msg) {
             gameViewModel.sendMsgCompleted(msg);
+        }
+
+        @Override
+        public void onMicLocationSwitchCompleted(int micIndex, boolean operate, OperateMicType type) {
+            if (operate) {
+                // 下面这个逻辑处理的原因是在于
+                // 例如狼人杀游戏，用户点击加入游戏后，游戏会短时间内发送mg_common_player_in以及mg_common_self_microphone
+                // app会处理上麦以及开麦的逻辑，但上麦是有延迟的，并且开麦依赖于上麦成功之后的streamId
+                // 所以这里在上麦成功之后，再判断一下是否要执行开麦的逻辑
+                if (type == OperateMicType.GAME_AUTO) {
+                    Boolean isPublish = gameViewModel.gameRTCPublishLiveData.getValue();
+                    if (isPublish != null && isPublish) {
+                        openMic();
+                    }
+                }
+            }
         }
     };
 

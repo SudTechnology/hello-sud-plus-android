@@ -12,6 +12,7 @@ import tech.sud.mgp.hello.service.room.repository.AudioRepository;
 import tech.sud.mgp.hello.service.room.response.RoomMicListResp;
 import tech.sud.mgp.hello.service.room.response.RoomMicResp;
 import tech.sud.mgp.hello.service.room.response.RoomMicSwitchResp;
+import tech.sud.mgp.hello.ui.scenes.audio.constant.OperateMicType;
 import tech.sud.mgp.hello.ui.scenes.audio.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.audio.model.AudioRoomMicModelConverter;
 import tech.sud.mgp.hello.ui.scenes.audio.model.RoomInfoModel;
@@ -127,11 +128,11 @@ public class AudioMicManager extends BaseServiceManager {
      * @param micIndex 麦位索引
      * @param operate  true上麦 false下麦
      */
-    public void micLocationSwitch(int micIndex, boolean operate) {
+    public void micLocationSwitch(int micIndex, boolean operate, OperateMicType type) {
         if (operate) {
-            upMicLocation(micIndex);
+            upMicLocation(micIndex, type);
         } else {
-            downMicLocation(micIndex);
+            downMicLocation(micIndex, type);
         }
     }
 
@@ -139,8 +140,9 @@ public class AudioMicManager extends BaseServiceManager {
      * 上麦处理
      *
      * @param micIndex 麦位索引
+     * @param type
      */
-    public void upMicLocation(int micIndex) {
+    public void upMicLocation(int micIndex, OperateMicType type) {
         // 已经在那个麦位上面了，不再继续执行
         if (findSelfMicIndex() == micIndex) {
             return;
@@ -167,6 +169,12 @@ public class AudioMicManager extends BaseServiceManager {
 
                 // 麦位列表
                 addUser2MicList(micIndex, HSUserInfo.userId, roomMicSwitchResp.streamId, parentManager.getRoleType());
+
+                // 回调给页面
+                AudioRoomServiceCallback callback = parentManager.getCallback();
+                if (callback != null) {
+                    callback.onMicLocationSwitchCompleted(micIndex, true, type);
+                }
             }
         });
 
@@ -176,8 +184,9 @@ public class AudioMicManager extends BaseServiceManager {
      * 下麦操作
      *
      * @param micIndex 麦位索引
+     * @param type
      */
-    public void downMicLocation(int micIndex) {
+    public void downMicLocation(int micIndex, OperateMicType type) {
         // 发送http告知后端
         AudioRepository.roomMicLocationSwitch(null, parentManager.getRoomId(), micIndex, false, new RxCallback<>());
 
@@ -190,6 +199,12 @@ public class AudioMicManager extends BaseServiceManager {
 
         // 关闭麦位风
         parentManager.setMicState(false);
+
+        // 回调给页面
+        AudioRoomServiceCallback callback = parentManager.getCallback();
+        if (callback != null) {
+            callback.onMicLocationSwitchCompleted(micIndex, false, type);
+        }
     }
 
     /**
@@ -333,12 +348,12 @@ public class AudioMicManager extends BaseServiceManager {
     }
 
     // 自动上麦
-    public void autoUpMic() {
+    public void autoUpMic(OperateMicType type) {
         int selfMicIndex = findSelfMicIndex();
         if (selfMicIndex >= 0) return; // 在麦上就不再上麦了
         int emptyMicIndex = findEmptyMicIndex();
         if (emptyMicIndex >= 0) {
-            micLocationSwitch(emptyMicIndex, true);
+            micLocationSwitch(emptyMicIndex, true, type);
         }
     }
 

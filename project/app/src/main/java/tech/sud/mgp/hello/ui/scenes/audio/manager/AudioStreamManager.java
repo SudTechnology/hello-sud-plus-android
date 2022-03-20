@@ -36,7 +36,7 @@ public class AudioStreamManager extends BaseServiceManager {
             ToastUtils.showLong("streamId is empty");
             return;
         } else {
-            parentManager.audioEngineManager.startPublish(streamId);
+            parentManager.audioEngineManager.startPublish();
         }
         state = StreamState.MIC_STREAM;
         callbackStreamState();
@@ -78,18 +78,6 @@ public class AudioStreamManager extends BaseServiceManager {
         public void onRoomStreamUpdate(String roomId, AudioEngineUpdateType type, List<AudioStream> streamList, JSONObject extendedData) {
             if (streamList == null || streamList.size() == 0) {
                 return;
-            }
-            switch (type) {
-                case ADD:
-                    for (AudioStream audioStream : streamList) {
-                        parentManager.audioEngineManager.startPlayingStream(audioStream.streamID);
-                    }
-                    break;
-                case DELETE:
-                    for (AudioStream audioStream : streamList) {
-                        parentManager.audioEngineManager.stopPlayingStream(audioStream.streamID);
-                    }
-                    break;
             }
         }
     };

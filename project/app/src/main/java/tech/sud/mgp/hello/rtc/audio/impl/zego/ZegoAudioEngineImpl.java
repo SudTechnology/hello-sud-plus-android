@@ -6,9 +6,11 @@ import org.json.JSONObject;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import im.zego.zegoexpress.ZegoExpressEngine;
 import im.zego.zegoexpress.callback.IZegoAudioDataHandler;
@@ -23,15 +25,18 @@ import im.zego.zegoexpress.constants.ZegoUpdateType;
 import im.zego.zegoexpress.entity.ZegoAudioFrameParam;
 import im.zego.zegoexpress.entity.ZegoEngineConfig;
 import im.zego.zegoexpress.entity.ZegoEngineProfile;
+import im.zego.zegoexpress.entity.ZegoRoomConfig;
 import im.zego.zegoexpress.entity.ZegoStream;
 import im.zego.zegoexpress.entity.ZegoUser;
 import tech.sud.mgp.hello.rtc.audio.core.AudioEngineUpdateType;
 import tech.sud.mgp.hello.rtc.audio.core.AudioPCMData;
-import tech.sud.mgp.hello.rtc.audio.core.AudioRoomConfig;
 import tech.sud.mgp.hello.rtc.audio.core.AudioStream;
-import tech.sud.mgp.hello.rtc.audio.core.AudioUser;
 import tech.sud.mgp.hello.rtc.audio.core.IAudioEngine;
 import tech.sud.mgp.hello.rtc.audio.core.IAudioEventHandler;
+import tech.sud.mgp.hello.rtc.audio.model.AudioConfigModel;
+import tech.sud.mgp.hello.rtc.audio.model.AudioJoinRoomModel;
+import tech.sud.mgp.hello.rtc.audio.model.ZegoAudioConfigModel;
+import tech.sud.mgp.hello.rtc.audio.model.ZegoAudioJoinRoomModel;
 
 // 即构SDK实现
 public class ZegoAudioEngineImpl implements IAudioEngine {
@@ -48,20 +53,28 @@ public class ZegoAudioEngineImpl implements IAudioEngine {
     }
 
     @Override
-    public void config(String appId, String appKey) {
+    public void config(AudioConfigModel model) {
+        ZegoAudioConfigModel zegoAudioConfigModel = null;
+        if (model instanceof ZegoAudioConfigModel) {
+            zegoAudioConfigModel = (ZegoAudioConfigModel) model;
+        }
+
+        if (zegoAudioConfigModel == null)
+            return;
+
         ZegoEngineConfig engineConfig = new ZegoEngineConfig();
         engineConfig.advancedConfig.put("init_domain_name", "ze-config.divtoss.com");
         engineConfig.advancedConfig.put("audio_capture_dummy", "true");
         ZegoExpressEngine.setEngineConfig(engineConfig);
         long appIdL = 0;
         try {
-            appIdL = Long.parseLong(appId);
+            appIdL = Long.parseLong(zegoAudioConfigModel.appId);
         } catch (Exception e) {
             e.printStackTrace();
         }
         ZegoEngineProfile profile = new ZegoEngineProfile();
         profile.appID = appIdL;
-        profile.appSign = appKey;
+        profile.appSign = zegoAudioConfigModel.appSign;
         profile.scenario = ZegoScenario.GENERAL;
         profile.application = Utils.getApp();
         ZegoExpressEngine engine = ZegoExpressEngine.createEngine(profile, mIZegoEventHandler);
@@ -77,10 +90,24 @@ public class ZegoAudioEngineImpl implements IAudioEngine {
     }
 
     @Override
-    public void loginRoom(String roomId, AudioUser user, AudioRoomConfig config) {
+    public void loginRoom(AudioJoinRoomModel model) {
+        ZegoAudioJoinRoomModel zegoAudioJoinRoomModel = null;
+        if (model instanceof  ZegoAudioJoinRoomModel) {
+            zegoAudioJoinRoomModel = (ZegoAudioJoinRoomModel) model;
+        }
+
+        if (zegoAudioJoinRoomModel == null)
+            return;
+
         ZegoExpressEngine engine = getEngine();
         if (engine != null) {
-            engine.loginRoom(roomId, ZegoUserConverter.converZegoUser(user), ZegoRoomConfigConverter.converZegoRoomConfig(config));
+            ZegoUser zegoUser = new ZegoUser(zegoAudioJoinRoomModel.userID, zegoAudioJoinRoomModel.userName);
+            ZegoRoomConfig zegoRoomConfig = new ZegoRoomConfig();
+            zegoRoomConfig.maxMemberCount = zegoAudioJoinRoomModel.maxMemberCount;
+            zegoRoomConfig.isUserStatusNotify = zegoAudioJoinRoomModel.isUserStatusNotify;
+            zegoRoomConfig.token = zegoAudioJoinRoomModel.token;
+
+            engine.loginRoom(zegoAudioJoinRoomModel.roomID, zegoUser, zegoRoomConfig);
         }
     }
 
@@ -93,9 +120,10 @@ public class ZegoAudioEngineImpl implements IAudioEngine {
     }
 
     @Override
-    public void startPublish(String streamId) {
+    public void startPublish() {
         ZegoExpressEngine engine = getEngine();
         if (engine != null) {
+            String streamId = UUID.randomUUID().toString() + "-" + String.valueOf(new Date().getTime());
             engine.startPublishingStream(streamId);
 //            engine.enableAudioCaptureDevice(true);
         }
@@ -107,22 +135,6 @@ public class ZegoAudioEngineImpl implements IAudioEngine {
         if (engine != null) {
             engine.stopPublishingStream();
 //            engine.enableAudioCaptureDevice(false);
-        }
-    }
-
-    @Override
-    public void startPlayingStream(String streamId) {
-        ZegoExpressEngine engine = getEngine();
-        if (engine != null) {
-            engine.startPlayingStream(streamId);
-        }
-    }
-
-    @Override
-    public void stopPlayingStream(String streamId) {
-        ZegoExpressEngine engine = getEngine();
-        if (engine != null) {
-            engine.stopPlayingStream(streamId);
         }
     }
 
@@ -158,14 +170,6 @@ public class ZegoAudioEngineImpl implements IAudioEngine {
     }
 
     @Override
-    public void setAudioDataHandler() {
-        ZegoExpressEngine engine = getEngine();
-        if (engine != null) {
-            engine.setAudioDataHandler(audioDataHandler);
-        }
-    }
-
-    @Override
     public void startAudioDataListener() {
         ZegoExpressEngine engine = getEngine();
         ZegoAudioFrameParam param = new ZegoAudioFrameParam();
@@ -181,6 +185,7 @@ public class ZegoAudioEngineImpl implements IAudioEngine {
         bitmask = bitmask | ZegoAudioDataCallbackBitMask.CAPTURED.value();
         if (engine != null) {
             engine.startAudioDataObserver(bitmask, param);
+            engine.setAudioDataHandler(audioDataHandler);
         }
     }
 
@@ -189,6 +194,7 @@ public class ZegoAudioEngineImpl implements IAudioEngine {
         ZegoExpressEngine engine = getEngine();
         if (engine != null) {
             engine.stopAudioDataObserver();
+            engine.setAudioDataHandler(null);
         }
     }
 
@@ -243,6 +249,24 @@ public class ZegoAudioEngineImpl implements IAudioEngine {
                         streamUserMaps.put(zegoStream.streamID, zegoStream.user.userID);
                     } else if (updateType == ZegoUpdateType.DELETE) {
                         streamUserMaps.remove(zegoStream.streamID);
+                    }
+                }
+            }
+
+            if (streamList != null && streamList.size() > 0) {
+                ZegoExpressEngine engine = getEngine();
+                if (engine != null) {
+                    switch (updateType) {
+                        case ADD:
+                            for (ZegoStream zegoStream :streamList) {
+                                engine.startPlayingStream(zegoStream.streamID);
+                            }
+                            break;
+                        case DELETE:
+                            for (ZegoStream zegoStream :streamList) {
+                                engine.stopPlayingStream(zegoStream.streamID);
+                            }
+                            break;
                     }
                 }
             }

@@ -6,6 +6,8 @@ import tech.sud.mgp.hello.rtc.audio.core.IAudioEngine;
 import tech.sud.mgp.hello.rtc.audio.factory.AudioEngineFactory;
 import tech.sud.mgp.hello.rtc.audio.impl.agora.AgoraAudioEngineImpl;
 import tech.sud.mgp.hello.rtc.audio.impl.zego.ZegoAudioEngineImpl;
+import tech.sud.mgp.hello.rtc.audio.model.AudioConfigModel;
+import tech.sud.mgp.hello.rtc.audio.model.ZegoAudioConfigModel;
 import tech.sud.mgp.hello.service.main.config.AgoraConfig;
 import tech.sud.mgp.hello.service.main.config.BaseRtcConfig;
 import tech.sud.mgp.hello.service.main.config.ZegoConfig;
@@ -24,11 +26,16 @@ public class RTCManager {
         if (config instanceof ZegoConfig) {
             AudioEngineFactory.create(ZegoAudioEngineImpl.class);
             ZegoConfig zegoConfig = (ZegoConfig) config;
-            AudioEngineFactory.getEngine().config(zegoConfig.appId, zegoConfig.appKey);
+            ZegoAudioConfigModel zegoAudioConfigModel = new ZegoAudioConfigModel();
+            zegoAudioConfigModel.appId = zegoConfig.appId;
+            zegoAudioConfigModel.appSign = zegoConfig.appKey;
+            AudioEngineFactory.getEngine().config(zegoAudioConfigModel);
         } else if (config instanceof AgoraConfig) {
             AudioEngineFactory.create(AgoraAudioEngineImpl.class);
             AgoraConfig agoraConfig = (AgoraConfig) config;
-            AudioEngineFactory.getEngine().config(agoraConfig.appId, agoraConfig.appKey);
+            AudioConfigModel audioConfigModel = new AudioConfigModel();
+            audioConfigModel.appId = agoraConfig.appId;
+            AudioEngineFactory.getEngine().config(audioConfigModel);
         }
     }
 

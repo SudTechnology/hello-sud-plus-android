@@ -12,7 +12,6 @@ public class AudioGameManager extends BaseServiceManager {
     @Override
     public void onCreate() {
         super.onCreate();
-        parentManager.audioEngineManager.startAudioDataListener();
     }
 
     /**

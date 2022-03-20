@@ -27,10 +27,11 @@ import io.agora.rtm.RtmFileMessage;
 import io.agora.rtm.RtmImageMessage;
 import io.agora.rtm.RtmMessage;
 import tech.sud.mgp.hello.rtc.audio.core.AudioPCMData;
-import tech.sud.mgp.hello.rtc.audio.core.AudioRoomConfig;
 import tech.sud.mgp.hello.rtc.audio.core.AudioUser;
 import tech.sud.mgp.hello.rtc.audio.core.IAudioEngine;
 import tech.sud.mgp.hello.rtc.audio.core.IAudioEventHandler;
+import tech.sud.mgp.hello.rtc.audio.model.AudioConfigModel;
+import tech.sud.mgp.hello.rtc.audio.model.AudioJoinRoomModel;
 
 // 声网SDK实现
 public class AgoraAudioEngineImpl implements IAudioEngine {
@@ -59,14 +60,14 @@ public class AgoraAudioEngineImpl implements IAudioEngine {
     }
 
     @Override
-    public void config(String appId, String appKey) {
+    public void config(AudioConfigModel model) {
         Context context = Utils.getApp();
         // 初始化rtm信令
-        initRtm(context, appId);
+        initRtm(context, model.appId);
 
         // 初始化引擎
         try {
-            RtcEngine engine = RtcEngine.create(context, appId, mIRtcEngineEventHandler);
+            RtcEngine engine = RtcEngine.create(context, model.appId, mIRtcEngineEventHandler);
             mEngine = engine;
             if (engine != null) {
                 engine.enableAudioVolumeIndication(300, 3, true); // 开启音频监听
@@ -97,15 +98,18 @@ public class AgoraAudioEngineImpl implements IAudioEngine {
     }
 
     @Override
-    public void loginRoom(String roomId, AudioUser user, AudioRoomConfig config) {
+    public void loginRoom(AudioJoinRoomModel model) {
+        if (model == null)
+            return;
+
         // rtm登录
-        rtmLoginRoom(roomId, user.userID);
+        rtmLoginRoom(model.roomID, model.userID);
 
         RtcEngine engine = getEngine();
         if (engine != null) {
             int userId = 0;
             try {
-                userId = Integer.parseInt(user.userID);
+                userId = Integer.parseInt(model.userID);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -119,8 +123,8 @@ public class AgoraAudioEngineImpl implements IAudioEngine {
             engine.registerAudioFrameObserver(iAudioFrameObserver);
 
             // 加入频道
-            engine.joinChannel("", roomId, "", userId, channelMediaOptions);
-            this.roomID = roomId;
+            engine.joinChannel("", model.roomID, "", userId, channelMediaOptions);
+            this.roomID = model.roomID;
         }
     }
 
@@ -178,7 +182,7 @@ public class AgoraAudioEngineImpl implements IAudioEngine {
     }
 
     @Override
-    public void startPublish(String streamId) {
+    public void startPublish() {
         // streamId，声网不需要
         RtcEngine engine = getEngine();
         if (engine != null) {
@@ -194,16 +198,6 @@ public class AgoraAudioEngineImpl implements IAudioEngine {
             engine.enableLocalAudio(false); // 关闭麦克风采集
             engine.muteLocalAudioStream(true); // 取消发布本地音频流
         }
-    }
-
-    @Override
-    public void startPlayingStream(String streamId) {
-
-    }
-
-    @Override
-    public void stopPlayingStream(String streamId) {
-
     }
 
     @Override
@@ -234,11 +228,6 @@ public class AgoraAudioEngineImpl implements IAudioEngine {
                 LogUtils.d("sendMessage onFailure:" + errorInfo);
             }
         });
-    }
-
-    @Override
-    public void setAudioDataHandler() {
-        //TODO
     }
 
     @Override

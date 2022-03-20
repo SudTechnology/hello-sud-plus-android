@@ -1,9 +1,9 @@
 package tech.sud.mgp.hello.rtc.audio.impl.aliyun;
 
-import tech.sud.mgp.hello.rtc.audio.core.AudioRoomConfig;
-import tech.sud.mgp.hello.rtc.audio.core.AudioUser;
 import tech.sud.mgp.hello.rtc.audio.core.IAudioEngine;
 import tech.sud.mgp.hello.rtc.audio.core.IAudioEventHandler;
+import tech.sud.mgp.hello.rtc.audio.model.AudioConfigModel;
+import tech.sud.mgp.hello.rtc.audio.model.AudioJoinRoomModel;
 
 /**
  * 阿里云引擎实现类
@@ -15,7 +15,7 @@ public class AliyunAudioEngineImpl implements IAudioEngine {
     }
 
     @Override
-    public void config(String appId, String appKey) {
+    public void config(AudioConfigModel model) {
 
     }
 
@@ -25,7 +25,7 @@ public class AliyunAudioEngineImpl implements IAudioEngine {
     }
 
     @Override
-    public void loginRoom(String roomId, AudioUser user, AudioRoomConfig config) {
+    public void loginRoom(AudioJoinRoomModel model) {
 
     }
 
@@ -35,22 +35,12 @@ public class AliyunAudioEngineImpl implements IAudioEngine {
     }
 
     @Override
-    public void startPublish(String streamId) {
+    public void startPublish() {
 
     }
 
     @Override
     public void stopPublishStream() {
-
-    }
-
-    @Override
-    public void startPlayingStream(String streamId) {
-
-    }
-
-    @Override
-    public void stopPlayingStream(String streamId) {
 
     }
 
@@ -66,11 +56,6 @@ public class AliyunAudioEngineImpl implements IAudioEngine {
 
     @Override
     public void sendCommand(String roomId, String command, SendCommandResult result) {
-
-    }
-
-    @Override
-    public void setAudioDataHandler() {
 
     }
 

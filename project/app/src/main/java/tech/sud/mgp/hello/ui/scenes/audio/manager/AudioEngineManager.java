@@ -7,16 +7,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.rtc.audio.core.AudioEngineUpdateType;
 import tech.sud.mgp.hello.rtc.audio.core.AudioPCMData;
-import tech.sud.mgp.hello.rtc.audio.core.AudioRoomConfig;
 import tech.sud.mgp.hello.rtc.audio.core.AudioRoomState;
 import tech.sud.mgp.hello.rtc.audio.core.AudioStream;
 import tech.sud.mgp.hello.rtc.audio.core.AudioUser;
 import tech.sud.mgp.hello.rtc.audio.core.IAudioEngine;
 import tech.sud.mgp.hello.rtc.audio.core.IAudioEventHandler;
 import tech.sud.mgp.hello.rtc.audio.factory.AudioEngineFactory;
+import tech.sud.mgp.hello.rtc.audio.model.AudioJoinRoomModel;
+import tech.sud.mgp.hello.rtc.audio.model.ZegoAudioJoinRoomModel;
 import tech.sud.mgp.hello.ui.main.home.RTCManager;
 import tech.sud.mgp.hello.ui.scenes.audio.model.RoomInfoModel;
 import tech.sud.mgp.hello.ui.scenes.audio.service.AudioRoomServiceCallback;
@@ -51,9 +53,26 @@ public class AudioEngineManager extends BaseServiceManager {
     public void enterRoom(RoomInfoModel model) {
         IAudioEngine engine = getEngine();
         if (engine == null) return;
-        AudioRoomConfig config = new AudioRoomConfig();
-        config.isUserStatusNotify = true;
-        engine.loginRoom(model.roomId + "", new AudioUser(HSUserInfo.userId + "", HSUserInfo.nickName), config);
+
+        String rtcType = AppData.getInstance().getRtcType();
+        AudioJoinRoomModel audioJoinRoomModel = null;
+        if (rtcType.equals("zego")) {
+            ZegoAudioJoinRoomModel zegoAudioJoinRoomModel = new ZegoAudioJoinRoomModel();
+            zegoAudioJoinRoomModel.userID = HSUserInfo.userId + "";
+            zegoAudioJoinRoomModel.userName = HSUserInfo.nickName;
+            zegoAudioJoinRoomModel.roomID = model.roomId + "";
+            zegoAudioJoinRoomModel.isUserStatusNotify = true;
+            audioJoinRoomModel = zegoAudioJoinRoomModel;
+        } else if (rtcType.equals("agora")){
+            audioJoinRoomModel = new AudioJoinRoomModel();
+            audioJoinRoomModel.userID = HSUserInfo.userId + "";
+            audioJoinRoomModel.roomID = model.roomId + "";
+        }
+
+        if (audioJoinRoomModel == null)
+            return;
+
+        engine.loginRoom(audioJoinRoomModel);
         engine.setEventHandler(eventHandler);
     }
 
@@ -91,12 +110,11 @@ public class AudioEngineManager extends BaseServiceManager {
     /**
      * 开启推流
      *
-     * @param streamId
      */
-    public void startPublish(String streamId) {
+    public void startPublish() {
         IAudioEngine engine = getEngine();
         if (engine != null) {
-            engine.startPublish(streamId);
+            engine.startPublish();
         }
     }
 
@@ -107,30 +125,6 @@ public class AudioEngineManager extends BaseServiceManager {
         IAudioEngine engine = getEngine();
         if (engine != null) {
             engine.stopPublishStream();
-        }
-    }
-
-    /**
-     * 播放流
-     *
-     * @param streamId 流ID
-     */
-    void startPlayingStream(String streamId) {
-        IAudioEngine engine = getEngine();
-        if (engine != null) {
-            engine.startPlayingStream(streamId);
-        }
-    }
-
-    /**
-     * 停止播放流
-     *
-     * @param streamId 流ID
-     */
-    void stopPlayingStream(String streamId) {
-        IAudioEngine engine = getEngine();
-        if (engine != null) {
-            engine.stopPlayingStream(streamId);
         }
     }
 
@@ -151,16 +145,6 @@ public class AudioEngineManager extends BaseServiceManager {
         IAudioEngine engine = getEngine();
         if (engine != null) {
             engine.stopSubscribing();
-        }
-    }
-
-    /**
-     * 开始音频流监听
-     */
-    void startAudioDataListener() {
-        IAudioEngine engine = getEngine();
-        if (engine != null) {
-            engine.setAudioDataHandler();
         }
     }
 

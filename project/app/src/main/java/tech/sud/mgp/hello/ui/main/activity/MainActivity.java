@@ -50,6 +50,7 @@ public class MainActivity extends BaseActivity implements MainTabView.TabClickLi
     protected void initData() {
         super.initData();
         getBaseConfig();
+        
     }
 
     private void getBaseConfig() {

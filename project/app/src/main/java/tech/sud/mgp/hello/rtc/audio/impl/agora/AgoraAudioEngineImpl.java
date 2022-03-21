@@ -240,6 +240,11 @@ public class AgoraAudioEngineImpl implements IAudioEngine {
 
     }
 
+    @Override
+    public void setAudioRouteToSpeaker(boolean enabled) {
+
+    }
+
     private IRtcEngineEventHandler mIRtcEngineEventHandler = new IRtcEngineEventHandler() {
 
         /**

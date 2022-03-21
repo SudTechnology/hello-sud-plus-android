@@ -96,4 +96,8 @@ public interface IAudioEngine {
      * 关闭音频流监听
      */
     void stopAudioDataListener();
+
+    /******************************* 7. 是否使用扬声器作为音频通道 *************************************/
+
+    void setAudioRouteToSpeaker(boolean enabled);
 }

@@ -198,6 +198,11 @@ public class ZegoAudioEngineImpl implements IAudioEngine {
         }
     }
 
+    @Override
+    public void setAudioRouteToSpeaker(boolean enabled) {
+
+    }
+
     private final IZegoEventHandler mIZegoEventHandler = new IZegoEventHandler() {
 
         // [streamId：UserId]

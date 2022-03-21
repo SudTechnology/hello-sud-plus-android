@@ -68,4 +68,9 @@ public class NeteaseAudioEngineImpl implements IAudioEngine {
     public void stopAudioDataListener() {
 
     }
+
+    @Override
+    public void setAudioRouteToSpeaker(boolean enabled) {
+
+    }
 }

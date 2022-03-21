@@ -10,7 +10,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 30
         versionCode Integer.parseInt(project.versionCode)
-        versionName "1.1.1"
+        versionName project.versionName
         ndk {
             abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86_64'
         }
@@ -18,17 +18,19 @@ android {
 
         applicationVariants.all { variant ->
             variant.outputs.all {
-                outputFileName = "HellodSud-Android-${project.versionCode}.apk"
+                def temNewFileName = "${variant.flavorName}-${project.baseUrlConfig}-${project.versionName}-${project.versionCode}-${variant.buildType.name}"
+                // 修改apk名字
+                outputFileName = "HellodSud-Android-" + temNewFileName + ".apk"
             }
         }
     }
 
     signingConfigs {
         release {
-            if (project.hasProperty("dtJksPropertyPath") && project.dtJksPropertyPath != "") {
+            if (project.hasProperty("jksPropertyPath") && project.jksPropertyPath != "") {
                 // release设置发布签名路径
                 Properties properties = new Properties()
-                properties.load(new FileInputStream(file(project.dtJksPropertyPath)))
+                properties.load(new FileInputStream(file(project.jksPropertyPath)))
                 storeFile file(properties['STORE_FILE'])
                 storePassword properties['STORE_PWD']
                 keyAlias properties['KEY_ALIAS']
@@ -62,6 +64,17 @@ android {
     sourceSets {
         main {
             jniLibs.srcDirs = ['libs/zego', 'libs/agora']
+        }
+    }
+    flavorDimensions 'channel'
+    productFlavors {
+        alpha {
+            String channel = "alpha"
+            buildConfigField("String", "CHANNEL", "\"" + channel + "\"")
+            buildConfigField("String", "baseUrl", "\"" + project.baseUrl + "\"")
+            buildConfigField("String", "interactBaseUrl", "\"" + project.interactBaseUrl + "\"")
+            buildConfigField("String", "buglyAppId", "\"" + project.buglyAppId + "\"")
+            buildConfigField("boolean", "gameIsTestEnv", project.gameIsTestEnv)
         }
     }
 }

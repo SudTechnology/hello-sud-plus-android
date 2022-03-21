@@ -16,45 +16,57 @@
 default_platform(:android)
 
 platform :android do
-  OUTPUT_DIR = "jenkins_build"
+    OUTPUT_DIR = "jenkins_build"
 
-  desc "Android Project Clean"
-  lane :clean do
-    gradle(task: "clean")
-  end
+    desc "Android Project Clean"
+    lane :clean do
+        gradle(task: "clean")
+    end
 
-  desc "Android-test 测试包"
-  lane :fat do |options|
-    parentOutputDir = OUTPUT_DIR
-    versionCode=options[:code]
-    puts versionCode
-    # outputDir = parentOutputDir + "/fat/" + versionCode
-    # puts outputDir
-    gradle(
-      task: "assemble",
-      build_type:"Release",
-      print_command: true,
-      properties: {
-          "versionCode" => versionCode
-      }
-    )
-  end
+    desc "Android-test 测试包"
+    lane :fat do |options|
+        parentOutputDir = OUTPUT_DIR
+        versionCode=options[:code]
+        puts versionCode
+        # outputDir = parentOutputDir + "/fat/" + versionCode
+        # puts outputDir
+        gradle(
+            task: "assemble",
+            build_type:"Release",
+            flavor:"alpha",
+            print_command: true,
+            properties: {
+                "versionCode" => versionCode,
+                "baseUrlConfig" => "fat"
+            }
+        )
+    end
 
-  desc "Android-release 发布包"
-  lane :pro do |options|
-    parentOutputDir = OUTPUT_DIR
-    versionCode=options[:code]
-    puts versionCode
-    # outputDir = parentOutputDir + "/fat/" + versionCode
-    # puts outputDir
-    gradle(
-      task: "assemble",
-      build_type:"Release",
-      print_command: true,
-      properties: {
-          "versionCode" => versionCode,
-          "dtJksPropertyPath" => "../../../../../../../certs/hellosud/hellosud_jks_release.properties"
-      }
-    )
-  end
+    desc "Android-release 发布包"
+    lane :pro do |options|
+        parentOutputDir = OUTPUT_DIR
+        versionCode=options[:code]
+        baseUrl=options[:baseUrl]
+        interactBaseUrl=options[:interactBaseUrl]
+        buglyAppId=options[:buglyAppId]
+        gameIsTestEnv=options[:gameIsTestEnv]
+        puts versionCode
+        # outputDir = parentOutputDir + "/fat/" + versionCode
+        # puts outputDir
+        gradle(
+            task: "assemble",
+            build_type:"Release",
+            flavor:"alpha",
+            print_command: true,
+            properties: {
+                "versionCode" => versionCode,
+                "jksPropertyPath" => "../../../../../../../certs/hellosud/hellosud_jks_release.properties"，
+                "baseUrlConfig" => "pro",
+                "baseUrl" => baseUrl,
+                "interactBaseUrl" => interactBaseUrl,
+                "buglyAppId" => buglyAppId,
+                "gameIsTestEnv" => gameIsTestEnv
+            }
+        )
+    end
 end

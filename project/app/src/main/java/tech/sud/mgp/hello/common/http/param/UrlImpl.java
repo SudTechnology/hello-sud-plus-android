@@ -1,14 +1,16 @@
 package tech.sud.mgp.hello.common.http.param;
 
-public class FatUrl implements IBaseUrl {
+import tech.sud.mgp.hello.BuildConfig;
+
+public class UrlImpl implements IBaseUrl {
 
     @Override
     public String getBaseUrl() {
-        return "https://fat-base.sud.tech/";
+        return BuildConfig.baseUrl;
     }
 
     @Override
     public String getInteractBaseUrl() {
-        return "https://fat-interact.sud.tech/";
+        return BuildConfig.interactBaseUrl;
     }
 }

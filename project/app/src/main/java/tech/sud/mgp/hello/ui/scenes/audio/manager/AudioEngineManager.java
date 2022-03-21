@@ -18,7 +18,6 @@ import tech.sud.mgp.hello.rtc.audio.core.ISudAudioEngine;
 import tech.sud.mgp.hello.rtc.audio.core.ISudAudioEventListener;
 import tech.sud.mgp.hello.rtc.audio.factory.AudioEngineFactory;
 import tech.sud.mgp.hello.rtc.audio.model.AudioJoinRoomModel;
-import tech.sud.mgp.hello.rtc.audio.model.ZegoAudioJoinRoomModel;
 import tech.sud.mgp.hello.ui.main.home.RTCManager;
 import tech.sud.mgp.hello.ui.scenes.audio.model.RoomInfoModel;
 import tech.sud.mgp.hello.ui.scenes.audio.service.AudioRoomServiceCallback;
@@ -57,12 +56,11 @@ public class AudioEngineManager extends BaseServiceManager {
         String rtcType = AppData.getInstance().getRtcType();
         AudioJoinRoomModel audioJoinRoomModel = null;
         if (rtcType.equals("zego")) {
-            ZegoAudioJoinRoomModel zegoAudioJoinRoomModel = new ZegoAudioJoinRoomModel();
-            zegoAudioJoinRoomModel.userID = HSUserInfo.userId + "";
-            zegoAudioJoinRoomModel.userName = HSUserInfo.nickName;
-            zegoAudioJoinRoomModel.roomID = model.roomId + "";
-            zegoAudioJoinRoomModel.isUserStatusNotify = true;
-            audioJoinRoomModel = zegoAudioJoinRoomModel;
+            audioJoinRoomModel = new AudioJoinRoomModel();
+            audioJoinRoomModel.userID = HSUserInfo.userId + "";
+            audioJoinRoomModel.userName = HSUserInfo.nickName;
+            audioJoinRoomModel.roomID = model.roomId + "";
+            audioJoinRoomModel.isUserStatusNotify = true;
         } else if (rtcType.equals("agora")){
             audioJoinRoomModel = new AudioJoinRoomModel();
             audioJoinRoomModel.userID = HSUserInfo.userId + "";

@@ -24,7 +24,7 @@ public interface ISudAudioEngine {
     void initWithConfig(AudioConfigModel model);
 
     /**
-     * 销毁
+     * 销毁引擎SDK
      */
     void destroy();
     // endregion

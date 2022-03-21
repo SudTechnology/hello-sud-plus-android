@@ -30,14 +30,11 @@ import im.zego.zegoexpress.entity.ZegoStream;
 import im.zego.zegoexpress.entity.ZegoUser;
 import tech.sud.mgp.hello.rtc.audio.core.AudioEngineUpdateType;
 import tech.sud.mgp.hello.rtc.audio.core.AudioPCMData;
-import tech.sud.mgp.hello.rtc.audio.core.AudioRoomState;
 import tech.sud.mgp.hello.rtc.audio.core.AudioStream;
 import tech.sud.mgp.hello.rtc.audio.core.ISudAudioEngine;
 import tech.sud.mgp.hello.rtc.audio.core.ISudAudioEventListener;
 import tech.sud.mgp.hello.rtc.audio.model.AudioConfigModel;
 import tech.sud.mgp.hello.rtc.audio.model.AudioJoinRoomModel;
-import tech.sud.mgp.hello.rtc.audio.model.ZegoAudioConfigModel;
-import tech.sud.mgp.hello.rtc.audio.model.ZegoAudioJoinRoomModel;
 
 // 即构SDK实现
 public class ZegoAudioEngineImpl implements ISudAudioEngine {
@@ -56,12 +53,7 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
 
     @Override
     public void initWithConfig(AudioConfigModel model) {
-        ZegoAudioConfigModel zegoAudioConfigModel = null;
-        if (model instanceof ZegoAudioConfigModel) {
-            zegoAudioConfigModel = (ZegoAudioConfigModel) model;
-        }
-
-        if (zegoAudioConfigModel == null)
+        if (model == null)
             return;
 
         ZegoEngineConfig engineConfig = new ZegoEngineConfig();
@@ -70,13 +62,13 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
         ZegoExpressEngine.setEngineConfig(engineConfig);
         long appIdL = 0;
         try {
-            appIdL = Long.parseLong(zegoAudioConfigModel.appId);
+            appIdL = Long.parseLong(model.appId);
         } catch (Exception e) {
             e.printStackTrace();
         }
         ZegoEngineProfile profile = new ZegoEngineProfile();
         profile.appID = appIdL;
-        profile.appSign = zegoAudioConfigModel.appSign;
+        profile.appSign = model.appSign;
         profile.scenario = ZegoScenario.GENERAL;
         profile.application = Utils.getApp();
         ZegoExpressEngine engine = ZegoExpressEngine.createEngine(profile, mIZegoEventHandler);
@@ -93,23 +85,18 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
 
     @Override
     public void joinRoom(AudioJoinRoomModel model) {
-        ZegoAudioJoinRoomModel zegoAudioJoinRoomModel = null;
-        if (model instanceof  ZegoAudioJoinRoomModel) {
-            zegoAudioJoinRoomModel = (ZegoAudioJoinRoomModel) model;
-        }
-
-        if (zegoAudioJoinRoomModel == null)
+        if (model == null)
             return;
 
         ZegoExpressEngine engine = getEngine();
         if (engine != null) {
-            ZegoUser zegoUser = new ZegoUser(zegoAudioJoinRoomModel.userID, zegoAudioJoinRoomModel.userName);
+            ZegoUser zegoUser = new ZegoUser(model.userID, model.userName);
             ZegoRoomConfig zegoRoomConfig = new ZegoRoomConfig();
-            zegoRoomConfig.maxMemberCount = zegoAudioJoinRoomModel.maxMemberCount;
-            zegoRoomConfig.isUserStatusNotify = zegoAudioJoinRoomModel.isUserStatusNotify;
-            zegoRoomConfig.token = zegoAudioJoinRoomModel.token;
+            zegoRoomConfig.maxMemberCount = model.maxMemberCount;
+            zegoRoomConfig.isUserStatusNotify = model.isUserStatusNotify;
+            zegoRoomConfig.token = model.token;
 
-            engine.loginRoom(zegoAudioJoinRoomModel.roomID, zegoUser, zegoRoomConfig);
+            engine.loginRoom(model.roomID, zegoUser, zegoRoomConfig);
         }
     }
 

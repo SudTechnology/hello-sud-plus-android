@@ -68,7 +68,7 @@ public interface ISudAudioEngine {
     void stopSubscribingStream();
     // endregion
 
-    // region 6. 开始音频流监听、关闭音频流监听
+    // region 5. 开始音频流监听、关闭音频流监听
     /**
      * 开始音频流监听
      */
@@ -80,14 +80,14 @@ public interface ISudAudioEngine {
     void stopPCMCapture();
     // endregion
 
-    // region 7. 是否使用扬声器作为音频通道
+    // region 6. 是否使用扬声器作为音频通道
     /**
      * 切换扬声器作为音频通道
      */
     void setAudioRouteToSpeaker(boolean enabled);
     // endregion
 
-    // region 5. 发送信令
+    // region 7. 发送信令
     /**
      * 发送信令
      *  @param command 信令内容

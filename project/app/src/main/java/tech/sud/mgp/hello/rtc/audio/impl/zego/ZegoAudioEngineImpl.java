@@ -47,7 +47,7 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
     }
 
     @Override
-    public void setEventHandler(ISudAudioEventListener handler) {
+    public void setEventListener(ISudAudioEventListener handler) {
         mIAudioEventHandler = handler;
     }
 

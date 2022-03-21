@@ -71,7 +71,7 @@ public class AudioEngineManager extends BaseServiceManager {
             return;
 
         engine.joinRoom(audioJoinRoomModel);
-        engine.setEventHandler(eventHandler);
+        engine.setEventListener(eventHandler);
     }
 
     public void setCommandListener(AudioCommandManager.ICommandListener listener) {
@@ -255,7 +255,7 @@ public class AudioEngineManager extends BaseServiceManager {
         ISudAudioEngine engine = getEngine();
         if (engine == null) return;
         engine.leaveRoom();
-        engine.setEventHandler(null);
+        engine.setEventListener(null);
     }
 
     public interface OnRoomStreamUpdateListener {

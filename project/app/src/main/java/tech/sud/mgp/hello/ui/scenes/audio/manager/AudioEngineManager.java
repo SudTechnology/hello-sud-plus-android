@@ -14,8 +14,8 @@ import tech.sud.mgp.hello.rtc.audio.core.AudioPCMData;
 import tech.sud.mgp.hello.rtc.audio.core.AudioRoomState;
 import tech.sud.mgp.hello.rtc.audio.core.AudioStream;
 import tech.sud.mgp.hello.rtc.audio.core.AudioUser;
-import tech.sud.mgp.hello.rtc.audio.core.IAudioEngine;
-import tech.sud.mgp.hello.rtc.audio.core.IAudioEventHandler;
+import tech.sud.mgp.hello.rtc.audio.core.ISudAudioEngine;
+import tech.sud.mgp.hello.rtc.audio.core.ISudAudioEventListener;
 import tech.sud.mgp.hello.rtc.audio.factory.AudioEngineFactory;
 import tech.sud.mgp.hello.rtc.audio.model.AudioJoinRoomModel;
 import tech.sud.mgp.hello.rtc.audio.model.ZegoAudioJoinRoomModel;
@@ -51,7 +51,7 @@ public class AudioEngineManager extends BaseServiceManager {
     }
 
     public void enterRoom(RoomInfoModel model) {
-        IAudioEngine engine = getEngine();
+        ISudAudioEngine engine = getEngine();
         if (engine == null) return;
 
         String rtcType = AppData.getInstance().getRtcType();
@@ -72,7 +72,7 @@ public class AudioEngineManager extends BaseServiceManager {
         if (audioJoinRoomModel == null)
             return;
 
-        engine.loginRoom(audioJoinRoomModel);
+        engine.joinRoom(audioJoinRoomModel);
         engine.setEventHandler(eventHandler);
     }
 
@@ -100,10 +100,10 @@ public class AudioEngineManager extends BaseServiceManager {
      * @param command 信令内容
      * @param result  回调
      */
-    public void sendCommand(String command, IAudioEngine.SendCommandResult result) {
-        IAudioEngine engine = getEngine();
+    public void sendCommand(String command, ISudAudioEngine.SendCommandListener result) {
+        ISudAudioEngine engine = getEngine();
         if (engine != null) {
-            engine.sendCommand(parentManager.getRoomId() + "", command, result);
+            engine.sendCommand(command, result);
         }
     }
 
@@ -111,10 +111,10 @@ public class AudioEngineManager extends BaseServiceManager {
      * 开启推流
      *
      */
-    public void startPublish() {
-        IAudioEngine engine = getEngine();
+    public void startPublishStream() {
+        ISudAudioEngine engine = getEngine();
         if (engine != null) {
-            engine.startPublish();
+            engine.startPublishStream();
         }
     }
 
@@ -122,7 +122,7 @@ public class AudioEngineManager extends BaseServiceManager {
      * 停止推流
      */
     public void stopPublishStream() {
-        IAudioEngine engine = getEngine();
+        ISudAudioEngine engine = getEngine();
         if (engine != null) {
             engine.stopPublishStream();
         }
@@ -131,20 +131,20 @@ public class AudioEngineManager extends BaseServiceManager {
     /**
      * 开启拉流
      */
-    public void startSubscribing() {
-        IAudioEngine engine = getEngine();
+    public void startSubscribingStream() {
+        ISudAudioEngine engine = getEngine();
         if (engine != null) {
-            engine.startSubscribing();
+            engine.startSubscribingStream();
         }
     }
 
     /**
      * 停止拉流
      */
-    public void stopSubscribing() {
-        IAudioEngine engine = getEngine();
+    public void stopSubscribingStream() {
+        ISudAudioEngine engine = getEngine();
         if (engine != null) {
-            engine.stopSubscribing();
+            engine.stopSubscribingStream();
         }
     }
 
@@ -155,23 +155,23 @@ public class AudioEngineManager extends BaseServiceManager {
         if (isOpenListen == isOpen) {
             return;
         }
-        IAudioEngine engine = getEngine();
+        ISudAudioEngine engine = getEngine();
         if (engine != null) {
             isOpenListen = isOpen;
             if (isOpen) {
-                engine.startAudioDataListener();
+                engine.startPCMCapture();
             } else {
-                engine.stopAudioDataListener();
+                engine.stopPCMCapture();
             }
         }
 
     }
 
-    private IAudioEngine getEngine() {
+    private ISudAudioEngine getEngine() {
         return AudioEngineFactory.getEngine();
     }
 
-    private final IAudioEventHandler eventHandler = new IAudioEventHandler() {
+    private final ISudAudioEventListener eventHandler = new ISudAudioEventListener() {
         @Override
         public void onCapturedSoundLevelUpdate(float soundLevel) {
             if (parentManager.audioStreamManager.isPublishingStream() && soundLevel > soundLevelThreshold) {
@@ -222,8 +222,8 @@ public class AudioEngineManager extends BaseServiceManager {
         }
 
         @Override
-        public void onIMRecvCustomCommand(String roomId, AudioUser fromUser, String command) {
-            commandManager.onIMRecvCustomCommand(roomId, fromUser, command);
+        public void onRecvCommand(AudioUser fromUser, String command) {
+            commandManager.onRecvCommand(fromUser, command);
         }
 
         @Override
@@ -242,7 +242,7 @@ public class AudioEngineManager extends BaseServiceManager {
         }
 
         @Override
-        public void onCapturedAudioData(AudioPCMData audioPCMData) {
+        public void onCapturedPCMData(AudioPCMData audioPCMData) {
             AudioRoomServiceCallback callback = parentManager.getCallback();
             if (callback != null) {
                 callback.onCapturedAudioData(audioPCMData);
@@ -254,9 +254,9 @@ public class AudioEngineManager extends BaseServiceManager {
     public void onDestroy() {
         super.onDestroy();
         commandManager.onDestroy();
-        IAudioEngine engine = getEngine();
+        ISudAudioEngine engine = getEngine();
         if (engine == null) return;
-        engine.logoutRoom();
+        engine.leaveRoom();
         engine.setEventHandler(null);
     }
 

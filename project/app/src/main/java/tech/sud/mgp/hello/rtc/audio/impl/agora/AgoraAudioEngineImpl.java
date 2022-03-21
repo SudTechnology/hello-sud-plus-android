@@ -28,15 +28,15 @@ import io.agora.rtm.RtmImageMessage;
 import io.agora.rtm.RtmMessage;
 import tech.sud.mgp.hello.rtc.audio.core.AudioPCMData;
 import tech.sud.mgp.hello.rtc.audio.core.AudioUser;
-import tech.sud.mgp.hello.rtc.audio.core.IAudioEngine;
-import tech.sud.mgp.hello.rtc.audio.core.IAudioEventHandler;
+import tech.sud.mgp.hello.rtc.audio.core.ISudAudioEngine;
+import tech.sud.mgp.hello.rtc.audio.core.ISudAudioEventListener;
 import tech.sud.mgp.hello.rtc.audio.model.AudioConfigModel;
 import tech.sud.mgp.hello.rtc.audio.model.AudioJoinRoomModel;
 
 // 声网SDK实现
-public class AgoraAudioEngineImpl implements IAudioEngine {
+public class AgoraAudioEngineImpl implements ISudAudioEngine {
 
-    private IAudioEventHandler mIAudioEventHandler;
+    private ISudAudioEventListener mIAudioEventHandler;
     private RtcEngine mEngine;
     private String roomID;
 
@@ -55,12 +55,12 @@ public class AgoraAudioEngineImpl implements IAudioEngine {
     }
 
     @Override
-    public void setEventHandler(IAudioEventHandler handler) {
+    public void setEventHandler(ISudAudioEventListener handler) {
         mIAudioEventHandler = handler;
     }
 
     @Override
-    public void config(AudioConfigModel model) {
+    public void initWithConfig(AudioConfigModel model) {
         Context context = Utils.getApp();
         // 初始化rtm信令
         initRtm(context, model.appId);
@@ -98,7 +98,7 @@ public class AgoraAudioEngineImpl implements IAudioEngine {
     }
 
     @Override
-    public void loginRoom(AudioJoinRoomModel model) {
+    public void joinRoom(AudioJoinRoomModel model) {
         if (model == null)
             return;
 
@@ -171,7 +171,7 @@ public class AgoraAudioEngineImpl implements IAudioEngine {
     }
 
     @Override
-    public void logoutRoom() {
+    public void leaveRoom() {
         RtcEngine engine = getEngine();
         if (engine != null) {
             engine.registerAudioFrameObserver(null);
@@ -182,7 +182,7 @@ public class AgoraAudioEngineImpl implements IAudioEngine {
     }
 
     @Override
-    public void startPublish() {
+    public void startPublishStream() {
         // streamId，声网不需要
         RtcEngine engine = getEngine();
         if (engine != null) {
@@ -201,17 +201,17 @@ public class AgoraAudioEngineImpl implements IAudioEngine {
     }
 
     @Override
-    public void startSubscribing() {
+    public void startSubscribingStream() {
 
     }
 
     @Override
-    public void stopSubscribing() {
+    public void stopSubscribingStream() {
 
     }
 
     @Override
-    public void sendCommand(String roomId, String command, SendCommandResult result) {
+    public void sendCommand(String command, SendCommandListener listener) {
         // 创建消息实例
         RtmMessage message = mRtmClient.createMessage();
         message.setText(command);
@@ -231,12 +231,12 @@ public class AgoraAudioEngineImpl implements IAudioEngine {
     }
 
     @Override
-    public void startAudioDataListener() {
+    public void startPCMCapture() {
 
     }
 
     @Override
-    public void stopAudioDataListener() {
+    public void stopPCMCapture() {
 
     }
 
@@ -257,7 +257,7 @@ public class AgoraAudioEngineImpl implements IAudioEngine {
             ThreadUtils.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    IAudioEventHandler handler = mIAudioEventHandler;
+                    ISudAudioEventListener handler = mIAudioEventHandler;
                     if (handler == null || speakers == null || speakers.length == 0) {
                         return;
                     }
@@ -294,7 +294,7 @@ public class AgoraAudioEngineImpl implements IAudioEngine {
             ThreadUtils.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    IAudioEventHandler handler = mIAudioEventHandler;
+                    ISudAudioEventListener handler = mIAudioEventHandler;
                     if (handler != null) {
                         handler.onRoomStateUpdate(roomID, AgoraRoomStateConverter.converAudioRoomState(state), 0, null);
                         updateRoomUserCount();
@@ -332,7 +332,7 @@ public class AgoraAudioEngineImpl implements IAudioEngine {
             ThreadUtils.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    IAudioEventHandler handler = mIAudioEventHandler;
+                    ISudAudioEventListener handler = mIAudioEventHandler;
                     if (handler != null) {
                         handler.onRoomOnlineUserCountUpdate(roomID, remoteUserList.size() + 1);
                     }
@@ -348,12 +348,12 @@ public class AgoraAudioEngineImpl implements IAudioEngine {
             ThreadUtils.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    IAudioEventHandler handler = mIAudioEventHandler;
+                    ISudAudioEventListener handler = mIAudioEventHandler;
                     if (handler != null) {
                         AudioPCMData audioPCMData = new AudioPCMData();
                         audioPCMData.data = audioFrame.samples;
                         audioPCMData.dataLength = audioFrame.samples.remaining();
-                        handler.onCapturedAudioData(audioPCMData);
+                        handler.onCapturedPCMData(audioPCMData);
                     }
                 }
             });
@@ -431,10 +431,10 @@ public class AgoraAudioEngineImpl implements IAudioEngine {
                 @Override
                 public void run() {
                     LogUtils.d("onMessageReceived:" + rtmMessage.getText());
-                    IAudioEventHandler handler = mIAudioEventHandler;
+                    ISudAudioEventListener handler = mIAudioEventHandler;
                     if (handler != null) {
                         try {
-                            handler.onIMRecvCustomCommand(rtmChannelMember.getChannelId(), new AudioUser(rtmChannelMember.getUserId()), rtmMessage.getText());
+                            handler.onRecvCommand(new AudioUser(rtmChannelMember.getUserId()), rtmMessage.getText());
                         } catch (Exception e) {
                             LogUtils.e("onMessageReceived", e);
                         }

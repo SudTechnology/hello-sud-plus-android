@@ -58,7 +58,7 @@ public class AudioGiftManager extends BaseServiceManager {
 
     private final AudioCommandManager.SendGiftCommandListener sendGiftCommandListener = new AudioCommandManager.SendGiftCommandListener() {
         @Override
-        public void onRecvCommand(RoomCmdSendGiftModel command, AudioUser user, String roomId) {
+        public void onRecvCommand(RoomCmdSendGiftModel command, AudioUser user) {
             GiftModel giftModel = GiftHelper.getInstance().getGift(command.giftID);
             GiftNotifyDetailodel notify = new GiftNotifyDetailodel();
             notify.gift = giftModel;

@@ -36,7 +36,7 @@ public class AudioStreamManager extends BaseServiceManager {
             ToastUtils.showLong("streamId is empty");
             return;
         } else {
-            parentManager.audioEngineManager.startPublish();
+            parentManager.audioEngineManager.startPublishStream();
         }
         state = StreamState.MIC_STREAM;
         callbackStreamState();

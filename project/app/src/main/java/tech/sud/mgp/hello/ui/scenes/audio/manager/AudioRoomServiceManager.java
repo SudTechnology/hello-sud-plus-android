@@ -44,7 +44,7 @@ public class AudioRoomServiceManager extends BaseServiceManager {
     private void setListener() {
         audioEngineManager.setCommandListener(new AudioCommandManager.GameChangeCommandListener() {
             @Override
-            public void onRecvCommand(RoomCmdChangeGameModel command, AudioUser user, String roomId) {
+            public void onRecvCommand(RoomCmdChangeGameModel command, AudioUser user) {
                 roomInfoModel.gameId = command.gameID;
                 AudioRoomServiceCallback callback = getCallback();
                 if (callback != null) {
@@ -54,7 +54,7 @@ public class AudioRoomServiceManager extends BaseServiceManager {
         });
         audioEngineManager.setCommandListener(new AudioCommandManager.EnterRoomCommandListener() {
             @Override
-            public void onRecvCommand(RoomCmdEnterRoomModel command, AudioUser user, String roomId) {
+            public void onRecvCommand(RoomCmdEnterRoomModel command, AudioUser user) {
                 if (command == null || command.sendUser == null || command.sendUser.name == null) {
                     return;
                 }

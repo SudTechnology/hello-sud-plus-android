@@ -62,7 +62,7 @@ public class AudioChatManager extends BaseServiceManager {
 
     private final AudioCommandManager.PublicMsgCommandListener publicMsgCommandListener = new AudioCommandManager.PublicMsgCommandListener() {
         @Override
-        public void onRecvCommand(RoomCmdChatTextModel command, AudioUser user, String roomId) {
+        public void onRecvCommand(RoomCmdChatTextModel command, AudioUser user) {
             UserInfo userInfo = command.sendUser;
             if (userInfo == null) return;
             RoomTextModel model = new RoomTextModel();

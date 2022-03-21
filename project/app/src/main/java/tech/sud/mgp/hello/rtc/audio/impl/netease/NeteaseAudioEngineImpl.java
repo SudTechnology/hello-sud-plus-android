@@ -1,21 +1,21 @@
 package tech.sud.mgp.hello.rtc.audio.impl.netease;
 
-import tech.sud.mgp.hello.rtc.audio.core.IAudioEngine;
-import tech.sud.mgp.hello.rtc.audio.core.IAudioEventHandler;
+import tech.sud.mgp.hello.rtc.audio.core.ISudAudioEngine;
+import tech.sud.mgp.hello.rtc.audio.core.ISudAudioEventListener;
 import tech.sud.mgp.hello.rtc.audio.model.AudioConfigModel;
 import tech.sud.mgp.hello.rtc.audio.model.AudioJoinRoomModel;
 
 /**
  * 网易云信引擎实现类
  */
-public class NeteaseAudioEngineImpl implements IAudioEngine {
+public class NeteaseAudioEngineImpl implements ISudAudioEngine {
     @Override
-    public void setEventHandler(IAudioEventHandler handler) {
+    public void setEventHandler(ISudAudioEventListener handler) {
 
     }
 
     @Override
-    public void config(AudioConfigModel model) {
+    public void initWithConfig(AudioConfigModel model) {
 
     }
 
@@ -25,17 +25,17 @@ public class NeteaseAudioEngineImpl implements IAudioEngine {
     }
 
     @Override
-    public void loginRoom(AudioJoinRoomModel model) {
+    public void joinRoom(AudioJoinRoomModel model) {
 
     }
 
     @Override
-    public void logoutRoom() {
+    public void leaveRoom() {
 
     }
 
     @Override
-    public void startPublish() {
+    public void startPublishStream() {
 
     }
 
@@ -45,27 +45,27 @@ public class NeteaseAudioEngineImpl implements IAudioEngine {
     }
 
     @Override
-    public void startSubscribing() {
+    public void startSubscribingStream() {
 
     }
 
     @Override
-    public void stopSubscribing() {
+    public void stopSubscribingStream() {
 
     }
 
     @Override
-    public void sendCommand(String roomId, String command, SendCommandResult result) {
+    public void sendCommand(String command, SendCommandListener listener) {
 
     }
 
     @Override
-    public void startAudioDataListener() {
+    public void startPCMCapture() {
 
     }
 
     @Override
-    public void stopAudioDataListener() {
+    public void stopPCMCapture() {
 
     }
 

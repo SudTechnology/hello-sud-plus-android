@@ -8,24 +8,24 @@ import java.util.List;
 /**
  * 多媒体语音事件处理协议,SDK回调事件，用户根据业务需求选择实现自己业务逻辑
  */
-public interface IAudioEventHandler {
+public interface ISudAudioEventListener {
 
     /**
-     * 捕获本地音量变化
+     * 捕获本地音量变化, 可用于展示自己说话音浪大小
      *
      * @param soundLevel 本地音量级别，取值范围[0, 100]
      */
     void onCapturedSoundLevelUpdate(float soundLevel);
 
     /**
-     * 捕获远程音流音量变化
+     * 捕获远程音流音量变化, 可用于展示远端说话音浪大小
      *
      * @param soundLevels [userId: 音量]，音量取值范围[0, 100]
      */
     void onRemoteSoundLevelUpdate(HashMap<String, Float> soundLevels);
 
     /**
-     * 房间流更新 增、减。收到此事件后播放对应流
+     * 房间流更新 增、减。可用于知道当前推流人数
      *
      * @param roomId       房间id
      * @param type         流更新类型 增，减
@@ -36,12 +36,10 @@ public interface IAudioEventHandler {
 
     /**
      * 接收自定义指令信息回调
-     *
-     * @param roomId   房间ID
-     * @param fromUser 用户
+     *  @param fromUser 用户
      * @param command  指令内容
      */
-    void onIMRecvCustomCommand(String roomId, AudioUser fromUser, String command);
+    void onRecvCommand(AudioUser fromUser, String command);
 
     /**
      * 房间内当前在线用户数量回调
@@ -62,9 +60,9 @@ public interface IAudioEventHandler {
     void onRoomStateUpdate(String roomID, AudioRoomState state, int errorCode, JSONObject extendedData);
 
     /**
-     * 监听音频流回调
+     * 监听音频PCM流回调
      *
      * @param audioPCMData 音频流数据
      */
-    void onCapturedAudioData(AudioPCMData audioPCMData);
+    void onCapturedPCMData(AudioPCMData audioPCMData);
 }

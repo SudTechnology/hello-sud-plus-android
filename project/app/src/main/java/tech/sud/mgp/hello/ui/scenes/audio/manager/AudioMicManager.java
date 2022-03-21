@@ -374,7 +374,7 @@ public class AudioMicManager extends BaseServiceManager {
     // 上麦信令监听
     private final AudioCommandManager.UpMicCommandListener upMicCommandListener = new AudioCommandManager.UpMicCommandListener() {
         @Override
-        public void onRecvCommand(RoomCmdUpMicModel command, AudioUser user, String roomId) {
+        public void onRecvCommand(RoomCmdUpMicModel command, AudioUser user) {
             UserInfo sendUser = command.sendUser;
             if (sendUser == null) {
                 return;
@@ -399,7 +399,7 @@ public class AudioMicManager extends BaseServiceManager {
     // 下麦信令监听
     private final AudioCommandManager.DownMicCommandListener downMicCommandListener = new AudioCommandManager.DownMicCommandListener() {
         @Override
-        public void onRecvCommand(RoomCmdDownMicModel command, AudioUser user, String roomId) {
+        public void onRecvCommand(RoomCmdDownMicModel command, AudioUser user) {
             if (command.sendUser != null) {
                 removeUser2MicList(command.micIndex, command.sendUser.userID);
             }

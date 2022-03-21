@@ -30,30 +30,32 @@ import im.zego.zegoexpress.entity.ZegoStream;
 import im.zego.zegoexpress.entity.ZegoUser;
 import tech.sud.mgp.hello.rtc.audio.core.AudioEngineUpdateType;
 import tech.sud.mgp.hello.rtc.audio.core.AudioPCMData;
+import tech.sud.mgp.hello.rtc.audio.core.AudioRoomState;
 import tech.sud.mgp.hello.rtc.audio.core.AudioStream;
-import tech.sud.mgp.hello.rtc.audio.core.IAudioEngine;
-import tech.sud.mgp.hello.rtc.audio.core.IAudioEventHandler;
+import tech.sud.mgp.hello.rtc.audio.core.ISudAudioEngine;
+import tech.sud.mgp.hello.rtc.audio.core.ISudAudioEventListener;
 import tech.sud.mgp.hello.rtc.audio.model.AudioConfigModel;
 import tech.sud.mgp.hello.rtc.audio.model.AudioJoinRoomModel;
 import tech.sud.mgp.hello.rtc.audio.model.ZegoAudioConfigModel;
 import tech.sud.mgp.hello.rtc.audio.model.ZegoAudioJoinRoomModel;
 
 // 即构SDK实现
-public class ZegoAudioEngineImpl implements IAudioEngine {
+public class ZegoAudioEngineImpl implements ISudAudioEngine {
 
-    private IAudioEventHandler mIAudioEventHandler;
+    private ISudAudioEventListener mIAudioEventHandler;
+    private String mRoomId;
 
     private ZegoExpressEngine getEngine() {
         return ZegoExpressEngine.getEngine();
     }
 
     @Override
-    public void setEventHandler(IAudioEventHandler handler) {
+    public void setEventHandler(ISudAudioEventListener handler) {
         mIAudioEventHandler = handler;
     }
 
     @Override
-    public void config(AudioConfigModel model) {
+    public void initWithConfig(AudioConfigModel model) {
         ZegoAudioConfigModel zegoAudioConfigModel = null;
         if (model instanceof ZegoAudioConfigModel) {
             zegoAudioConfigModel = (ZegoAudioConfigModel) model;
@@ -90,7 +92,7 @@ public class ZegoAudioEngineImpl implements IAudioEngine {
     }
 
     @Override
-    public void loginRoom(AudioJoinRoomModel model) {
+    public void joinRoom(AudioJoinRoomModel model) {
         ZegoAudioJoinRoomModel zegoAudioJoinRoomModel = null;
         if (model instanceof  ZegoAudioJoinRoomModel) {
             zegoAudioJoinRoomModel = (ZegoAudioJoinRoomModel) model;
@@ -112,7 +114,7 @@ public class ZegoAudioEngineImpl implements IAudioEngine {
     }
 
     @Override
-    public void logoutRoom() {
+    public void leaveRoom() {
         ZegoExpressEngine engine = getEngine();
         if (engine != null) {
             engine.logoutRoom();
@@ -120,7 +122,7 @@ public class ZegoAudioEngineImpl implements IAudioEngine {
     }
 
     @Override
-    public void startPublish() {
+    public void startPublishStream() {
         ZegoExpressEngine engine = getEngine();
         if (engine != null) {
             String streamId = UUID.randomUUID().toString() + "-" + String.valueOf(new Date().getTime());
@@ -139,7 +141,7 @@ public class ZegoAudioEngineImpl implements IAudioEngine {
     }
 
     @Override
-    public void startSubscribing() {
+    public void startSubscribingStream() {
         ZegoExpressEngine engine = getEngine();
         if (engine != null) {
             engine.muteAllPlayStreamAudio(false);
@@ -147,7 +149,7 @@ public class ZegoAudioEngineImpl implements IAudioEngine {
     }
 
     @Override
-    public void stopSubscribing() {
+    public void stopSubscribingStream() {
         ZegoExpressEngine engine = getEngine();
         if (engine != null) {
             engine.muteAllPlayStreamAudio(true);
@@ -155,14 +157,14 @@ public class ZegoAudioEngineImpl implements IAudioEngine {
     }
 
     @Override
-    public void sendCommand(String roomId, String command, SendCommandResult result) {
+    public void sendCommand(String command, SendCommandListener listener) {
         ZegoExpressEngine engine = getEngine();
         if (engine != null) {
-            engine.sendCustomCommand(roomId, command, null, new IZegoIMSendCustomCommandCallback() {
+            engine.sendCustomCommand(mRoomId, command, null, new IZegoIMSendCustomCommandCallback() {
                 @Override
                 public void onIMSendCustomCommandResult(int errorCode) {
-                    if (result != null) {
-                        result.result(errorCode);
+                    if (listener != null) {
+                        listener.onResult(errorCode);
                     }
                 }
             });
@@ -170,7 +172,7 @@ public class ZegoAudioEngineImpl implements IAudioEngine {
     }
 
     @Override
-    public void startAudioDataListener() {
+    public void startPCMCapture() {
         ZegoExpressEngine engine = getEngine();
         ZegoAudioFrameParam param = new ZegoAudioFrameParam();
         int bitmask = 0;
@@ -190,7 +192,7 @@ public class ZegoAudioEngineImpl implements IAudioEngine {
     }
 
     @Override
-    public void stopAudioDataListener() {
+    public void stopPCMCapture() {
         ZegoExpressEngine engine = getEngine();
         if (engine != null) {
             engine.stopAudioDataObserver();
@@ -211,7 +213,11 @@ public class ZegoAudioEngineImpl implements IAudioEngine {
         @Override
         public void onRoomStateUpdate(String roomID, ZegoRoomState state, int errorCode, JSONObject extendedData) {
             super.onRoomStateUpdate(roomID, state, errorCode, extendedData);
-            IAudioEventHandler handler = mIAudioEventHandler;
+            if (state == ZegoRoomState.CONNECTED) {
+                mRoomId = roomID;
+            }
+
+            ISudAudioEventListener handler = mIAudioEventHandler;
             if (handler != null) {
                 handler.onRoomStateUpdate(roomID, ZegoRoomStateConverter.converAudioRoomState(state), errorCode, extendedData);
             }
@@ -220,7 +226,7 @@ public class ZegoAudioEngineImpl implements IAudioEngine {
         @Override
         public void onCapturedSoundLevelUpdate(float soundLevel) {
             super.onCapturedSoundLevelUpdate(soundLevel);
-            IAudioEventHandler handler = mIAudioEventHandler;
+            ISudAudioEventListener handler = mIAudioEventHandler;
             if (handler != null) {
                 handler.onCapturedSoundLevelUpdate(soundLevel);
             }
@@ -232,7 +238,7 @@ public class ZegoAudioEngineImpl implements IAudioEngine {
             if (soundLevels == null || soundLevels.size() == 0) {
                 return;
             }
-            IAudioEventHandler handler = mIAudioEventHandler;
+            ISudAudioEventListener handler = mIAudioEventHandler;
             if (handler != null) {
                 // soundLevels里的key是streamId，将其转换成userId
                 HashMap<String, Float> userSoundLevels = new HashMap<>();
@@ -276,7 +282,7 @@ public class ZegoAudioEngineImpl implements IAudioEngine {
                 }
             }
 
-            IAudioEventHandler handler = mIAudioEventHandler;
+            ISudAudioEventListener handler = mIAudioEventHandler;
             if (handler != null) {
                 AudioEngineUpdateType mediaAudioEngineUpdateType = ZegoUpdateTypeConverter.converMediaAudioEnginUpdateType(updateType);
                 List<AudioStream> audioStreamList = ZegoStreamConverter.converMediaStreamList(streamList);
@@ -287,16 +293,16 @@ public class ZegoAudioEngineImpl implements IAudioEngine {
         @Override
         public void onIMRecvCustomCommand(String roomID, ZegoUser fromUser, String command) {
             super.onIMRecvCustomCommand(roomID, fromUser, command);
-            IAudioEventHandler handler = mIAudioEventHandler;
+            ISudAudioEventListener handler = mIAudioEventHandler;
             if (handler != null) {
-                handler.onIMRecvCustomCommand(roomID, ZegoUserConverter.converMediaUser(fromUser), command);
+                handler.onRecvCommand(ZegoUserConverter.converMediaUser(fromUser), command);
             }
         }
 
         @Override
         public void onRoomOnlineUserCountUpdate(String roomID, int count) {
             super.onRoomOnlineUserCountUpdate(roomID, count);
-            IAudioEventHandler handler = mIAudioEventHandler;
+            ISudAudioEventListener handler = mIAudioEventHandler;
             if (handler != null) {
                 handler.onRoomOnlineUserCountUpdate(roomID, count);
             }
@@ -307,12 +313,12 @@ public class ZegoAudioEngineImpl implements IAudioEngine {
         @Override
         public void onCapturedAudioData(ByteBuffer data, int dataLength, ZegoAudioFrameParam param) {
             super.onCapturedAudioData(data, dataLength, param);
-            IAudioEventHandler handler = mIAudioEventHandler;
+            ISudAudioEventListener handler = mIAudioEventHandler;
             if (handler != null) {
                 AudioPCMData audioPCMData = new AudioPCMData();
                 audioPCMData.data = data;
                 audioPCMData.dataLength = dataLength;
-                handler.onCapturedAudioData(audioPCMData);
+                handler.onCapturedPCMData(audioPCMData);
             }
         }
     };

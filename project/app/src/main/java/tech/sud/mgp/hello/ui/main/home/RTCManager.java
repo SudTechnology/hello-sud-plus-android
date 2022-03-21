@@ -2,7 +2,7 @@ package tech.sud.mgp.hello.ui.main.home;
 
 import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.common.utils.GlobalCache;
-import tech.sud.mgp.hello.rtc.audio.core.IAudioEngine;
+import tech.sud.mgp.hello.rtc.audio.core.ISudAudioEngine;
 import tech.sud.mgp.hello.rtc.audio.factory.AudioEngineFactory;
 import tech.sud.mgp.hello.rtc.audio.impl.agora.AgoraAudioEngineImpl;
 import tech.sud.mgp.hello.rtc.audio.impl.zego.ZegoAudioEngineImpl;
@@ -29,13 +29,13 @@ public class RTCManager {
             ZegoAudioConfigModel zegoAudioConfigModel = new ZegoAudioConfigModel();
             zegoAudioConfigModel.appId = zegoConfig.appId;
             zegoAudioConfigModel.appSign = zegoConfig.appKey;
-            AudioEngineFactory.getEngine().config(zegoAudioConfigModel);
+            AudioEngineFactory.getEngine().initWithConfig(zegoAudioConfigModel);
         } else if (config instanceof AgoraConfig) {
             AudioEngineFactory.create(AgoraAudioEngineImpl.class);
             AgoraConfig agoraConfig = (AgoraConfig) config;
             AudioConfigModel audioConfigModel = new AudioConfigModel();
             audioConfigModel.appId = agoraConfig.appId;
-            AudioEngineFactory.getEngine().config(audioConfigModel);
+            AudioEngineFactory.getEngine().initWithConfig(audioConfigModel);
         }
     }
 
@@ -43,7 +43,7 @@ public class RTCManager {
      * 应用当前配置的rtcEngine
      */
     public static void applyRtcEngine() {
-        IAudioEngine engine = AudioEngineFactory.getEngine();
+        ISudAudioEngine engine = AudioEngineFactory.getEngine();
         if (engine != null) {
             return;
         }

@@ -30,9 +30,9 @@ public class AudioGameManager extends BaseServiceManager {
      */
     public void setRTCPlay(boolean isOn) {
         if (isOn) {
-            parentManager.audioEngineManager.startSubscribing();
+            parentManager.audioEngineManager.startSubscribingStream();
         } else {
-            parentManager.audioEngineManager.stopSubscribing();
+            parentManager.audioEngineManager.stopSubscribingStream();
         }
     }
 }

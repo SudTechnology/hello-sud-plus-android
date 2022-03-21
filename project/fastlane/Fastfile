@@ -60,7 +60,7 @@ platform :android do
             print_command: true,
             properties: {
                 "versionCode" => versionCode,
-                "jksPropertyPath" => "../../../../../../../certs/hellosud/hellosud_jks_release.properties"，
+                "jksPropertyPath" => "../../../../../../../certs/hellosud/hellosud_jks_release.properties",
                 "baseUrlConfig" => "pro",
                 "baseUrl" => baseUrl,
                 "interactBaseUrl" => interactBaseUrl,

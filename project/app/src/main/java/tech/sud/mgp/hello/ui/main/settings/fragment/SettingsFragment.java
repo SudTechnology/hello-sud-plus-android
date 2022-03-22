@@ -109,8 +109,8 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         } else if (v == btnChangeRtc) { // 切换RTC
             startActivity(new Intent(requireContext(), ChangeRtcActivity.class));
         } else if (v == btnChangeLanguage) { // 切换语言
-//            ToastUtils.showShort(R.string.be_making);
-            startActivity(new Intent(requireContext(), LanguageActivity.class));
+            ToastUtils.showShort(R.string.be_making);
+//            startActivity(new Intent(requireContext(), LanguageActivity.class));
         } else if (v == btnGitHub) { // github
             IntentUtils.openUrl(getContext(), APPConfig.GIT_HUB_URL);
         } else if (v == btnOpenSource) { // 开源协议

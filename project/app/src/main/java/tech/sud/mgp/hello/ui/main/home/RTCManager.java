@@ -1,5 +1,7 @@
 package tech.sud.mgp.hello.ui.main.home;
 
+import com.blankj.utilcode.util.Utils;
+
 import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.common.utils.GlobalCache;
 import tech.sud.mgp.hello.rtc.audio.core.ISudAudioEngine;
@@ -28,13 +30,13 @@ public class RTCManager {
             AudioConfigModel audioConfigModel = new AudioConfigModel();
             audioConfigModel.appId = zegoConfig.appId;
             audioConfigModel.appKey = zegoConfig.appKey;
-            AudioEngineFactory.getEngine().initWithConfig(audioConfigModel);
+            AudioEngineFactory.getEngine().initWithConfig(Utils.getApp(), audioConfigModel);
         } else if (config instanceof AgoraConfig) {
             AudioEngineFactory.create(AgoraAudioEngineImpl.class);
             AgoraConfig agoraConfig = (AgoraConfig) config;
             AudioConfigModel audioConfigModel = new AudioConfigModel();
             audioConfigModel.appId = agoraConfig.appId;
-            AudioEngineFactory.getEngine().initWithConfig(audioConfigModel);
+            AudioEngineFactory.getEngine().initWithConfig(Utils.getApp(), audioConfigModel);
         }
     }
 

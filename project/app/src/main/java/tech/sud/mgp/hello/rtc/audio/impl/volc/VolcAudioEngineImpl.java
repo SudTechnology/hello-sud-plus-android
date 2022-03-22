@@ -1,5 +1,7 @@
 package tech.sud.mgp.hello.rtc.audio.impl.volc;
 
+import android.content.Context;
+
 import tech.sud.mgp.hello.rtc.audio.core.ISudAudioEngine;
 import tech.sud.mgp.hello.rtc.audio.core.ISudAudioEventListener;
 import tech.sud.mgp.hello.rtc.audio.model.AudioConfigModel;
@@ -15,7 +17,7 @@ public class VolcAudioEngineImpl implements ISudAudioEngine {
     }
 
     @Override
-    public void initWithConfig(AudioConfigModel model) {
+    public void initWithConfig(Context context, AudioConfigModel model) {
 
     }
 

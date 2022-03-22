@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ThreadUtils;
-import com.blankj.utilcode.util.Utils;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -59,8 +58,7 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
     }
 
     @Override
-    public void initWithConfig(AudioConfigModel model) {
-        Context context = Utils.getApp();
+    public void initWithConfig(Context context, AudioConfigModel model) {
         // 初始化rtm信令
         initRtm(context, model.appId);
 

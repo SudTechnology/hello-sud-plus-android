@@ -1,5 +1,7 @@
 package tech.sud.mgp.hello.rtc.audio.core;
 
+import android.content.Context;
+
 import tech.sud.mgp.hello.rtc.audio.model.AudioConfigModel;
 import tech.sud.mgp.hello.rtc.audio.model.AudioJoinRoomModel;
 
@@ -18,10 +20,11 @@ public interface ISudAudioEngine {
 
     /**
      * 配置引擎SDK
-     *  @param model  APPId
+     * @param context
+     * @param model  APPId
      *
      */
-    void initWithConfig(AudioConfigModel model);
+    void initWithConfig(Context context, AudioConfigModel model);
 
     /**
      * 销毁引擎SDK

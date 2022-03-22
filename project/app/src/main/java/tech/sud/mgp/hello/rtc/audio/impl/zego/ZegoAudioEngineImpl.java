@@ -1,6 +1,7 @@
 package tech.sud.mgp.hello.rtc.audio.impl.zego;
 
-import com.blankj.utilcode.util.Utils;
+import android.app.Application;
+import android.content.Context;
 
 import org.json.JSONObject;
 
@@ -49,7 +50,7 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
     }
 
     @Override
-    public void initWithConfig(AudioConfigModel model) {
+    public void initWithConfig(Context context, AudioConfigModel model) {
         if (model == null)
             return;
 
@@ -71,7 +72,7 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
         /* 通用场景接入 */
         profile.scenario = ZegoScenario.COMMUNICATION;
         /* 设置app的application 对象 */
-        profile.application = Utils.getApp();
+        profile.application = (Application) context.getApplicationContext();
         ZegoExpressEngine engine = ZegoExpressEngine.createEngine(profile, mIZegoEventHandler);
         if (engine != null) {
             engine.startSoundLevelMonitor();

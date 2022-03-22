@@ -32,7 +32,6 @@ import tech.sud.mgp.hello.rtc.audio.core.AudioEngineUpdateType;
 import tech.sud.mgp.hello.rtc.audio.core.AudioPCMData;
 import tech.sud.mgp.hello.rtc.audio.core.AudioRoomState;
 import tech.sud.mgp.hello.rtc.audio.core.AudioStream;
-import tech.sud.mgp.hello.rtc.audio.core.AudioUser;
 import tech.sud.mgp.hello.rtc.audio.core.ISudAudioEngine;
 import tech.sud.mgp.hello.rtc.audio.core.ISudAudioEventListener;
 import tech.sud.mgp.hello.rtc.audio.model.AudioConfigModel;
@@ -221,7 +220,7 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
     private AudioStream convertMediaStream(ZegoStream stream) {
         if (stream == null) return null;
         AudioStream audioStream = new AudioStream();
-        audioStream.user = convertMediaUser(stream.user);
+        audioStream.userID = stream.user.userID;
         audioStream.streamID = stream.streamID;
         audioStream.extraInfo = stream.extraInfo;
         return audioStream;
@@ -236,11 +235,6 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
             list.add(convertMediaStream(zegoStreamList.get(i)));
         }
         return list;
-    }
-
-    private AudioUser convertMediaUser(ZegoUser user) {
-        if (user == null) return null;
-        return new AudioUser(user.userID, user.userName);
     }
 
     private final IZegoEventHandler mIZegoEventHandler = new IZegoEventHandler() {
@@ -333,7 +327,7 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
             super.onIMRecvCustomCommand(roomID, fromUser, command);
             ISudAudioEventListener handler = mISudAudioEventListener;
             if (handler != null) {
-                handler.onRecvCommand(convertMediaUser(fromUser), command);
+                handler.onRecvCommand(fromUser.userID, command);
             }
         }
 

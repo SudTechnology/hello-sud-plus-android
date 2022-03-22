@@ -13,7 +13,6 @@ import tech.sud.mgp.hello.rtc.audio.core.AudioEngineUpdateType;
 import tech.sud.mgp.hello.rtc.audio.core.AudioPCMData;
 import tech.sud.mgp.hello.rtc.audio.core.AudioRoomState;
 import tech.sud.mgp.hello.rtc.audio.core.AudioStream;
-import tech.sud.mgp.hello.rtc.audio.core.AudioUser;
 import tech.sud.mgp.hello.rtc.audio.core.ISudAudioEngine;
 import tech.sud.mgp.hello.rtc.audio.core.ISudAudioEventListener;
 import tech.sud.mgp.hello.rtc.audio.factory.AudioEngineFactory;
@@ -219,8 +218,8 @@ public class AudioEngineManager extends BaseServiceManager {
         }
 
         @Override
-        public void onRecvCommand(AudioUser fromUser, String command) {
-            commandManager.onRecvCommand(fromUser, command);
+        public void onRecvCommand(String fromUserID, String command) {
+            commandManager.onRecvCommand(fromUserID, command);
         }
 
         @Override

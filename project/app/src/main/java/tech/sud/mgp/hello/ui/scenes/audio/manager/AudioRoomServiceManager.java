@@ -5,7 +5,6 @@ import com.blankj.utilcode.util.Utils;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
-import tech.sud.mgp.hello.rtc.audio.core.AudioUser;
 import tech.sud.mgp.hello.service.game.repository.GameRepository;
 import tech.sud.mgp.hello.ui.scenes.audio.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.audio.model.RoomInfoModel;
@@ -44,7 +43,7 @@ public class AudioRoomServiceManager extends BaseServiceManager {
     private void setListener() {
         audioEngineManager.setCommandListener(new AudioCommandManager.GameChangeCommandListener() {
             @Override
-            public void onRecvCommand(RoomCmdChangeGameModel command, AudioUser user) {
+            public void onRecvCommand(RoomCmdChangeGameModel command, String userID) {
                 roomInfoModel.gameId = command.gameID;
                 AudioRoomServiceCallback callback = getCallback();
                 if (callback != null) {
@@ -54,7 +53,7 @@ public class AudioRoomServiceManager extends BaseServiceManager {
         });
         audioEngineManager.setCommandListener(new AudioCommandManager.EnterRoomCommandListener() {
             @Override
-            public void onRecvCommand(RoomCmdEnterRoomModel command, AudioUser user) {
+            public void onRecvCommand(RoomCmdEnterRoomModel command, String userID) {
                 if (command == null || command.sendUser == null || command.sendUser.name == null) {
                     return;
                 }

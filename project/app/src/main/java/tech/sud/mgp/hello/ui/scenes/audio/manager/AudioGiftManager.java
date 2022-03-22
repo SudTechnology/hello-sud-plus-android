@@ -1,7 +1,6 @@
 package tech.sud.mgp.hello.ui.scenes.audio.manager;
 
 import tech.sud.mgp.hello.common.model.HSUserInfo;
-import tech.sud.mgp.hello.rtc.audio.core.AudioUser;
 import tech.sud.mgp.hello.ui.scenes.audio.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.RoomCmdModelUtils;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdSendGiftModel;
@@ -58,7 +57,7 @@ public class AudioGiftManager extends BaseServiceManager {
 
     private final AudioCommandManager.SendGiftCommandListener sendGiftCommandListener = new AudioCommandManager.SendGiftCommandListener() {
         @Override
-        public void onRecvCommand(RoomCmdSendGiftModel command, AudioUser user) {
+        public void onRecvCommand(RoomCmdSendGiftModel command, String userID) {
             GiftModel giftModel = GiftHelper.getInstance().getGift(command.giftID);
             GiftNotifyDetailodel notify = new GiftNotifyDetailodel();
             notify.gift = giftModel;

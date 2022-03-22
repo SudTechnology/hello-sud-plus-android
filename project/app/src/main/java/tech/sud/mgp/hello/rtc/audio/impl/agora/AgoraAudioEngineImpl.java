@@ -27,7 +27,6 @@ import io.agora.rtm.RtmFileMessage;
 import io.agora.rtm.RtmImageMessage;
 import io.agora.rtm.RtmMessage;
 import tech.sud.mgp.hello.rtc.audio.core.AudioPCMData;
-import tech.sud.mgp.hello.rtc.audio.core.AudioUser;
 import tech.sud.mgp.hello.rtc.audio.core.ISudAudioEngine;
 import tech.sud.mgp.hello.rtc.audio.core.ISudAudioEventListener;
 import tech.sud.mgp.hello.rtc.audio.model.AudioConfigModel;
@@ -434,7 +433,7 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
                     ISudAudioEventListener handler = mIAudioEventHandler;
                     if (handler != null) {
                         try {
-                            handler.onRecvCommand(new AudioUser(rtmChannelMember.getUserId()), rtmMessage.getText());
+                            handler.onRecvCommand(rtmChannelMember.getUserId(), rtmMessage.getText());
                         } catch (Exception e) {
                             LogUtils.e("onMessageReceived", e);
                         }

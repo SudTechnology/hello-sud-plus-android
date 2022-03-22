@@ -5,7 +5,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import tech.sud.mgp.hello.rtc.audio.core.AudioUser;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmd;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdBaseModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdChangeGameModel;
@@ -42,46 +41,46 @@ public class AudioCommandManager extends BaseServiceManager {
 
     /**
      * 接收到信令，进行解析分发
-     *  @param fromUser 发送者
+     * @param userID 发送者
      * @param command  信令字符
      */
-    public void onRecvCommand(AudioUser fromUser, String command) {
+    public void onRecvCommand(String userID, String command) {
         int commandCmd = getCommandCmd(command);
         switch (commandCmd) {
             case RoomCmd.CMD_CHAT_TEXT_NOTIFY: // 公屏消息
                 RoomCmdChatTextModel publicMsgCommand = RoomCmdChatTextModel.fromJson(command);
                 if (publicMsgCommand != null) {
-                    dispatchCommand(commandCmd, publicMsgCommand, fromUser);
+                    dispatchCommand(commandCmd, publicMsgCommand, userID);
                 }
                 break;
             case RoomCmd.CMD_SEND_GIFT_NOTIFY: // 发送礼物
                 RoomCmdSendGiftModel sendGiftCommand = RoomCmdSendGiftModel.fromJson(command);
                 if (sendGiftCommand != null) {
-                    dispatchCommand(commandCmd, sendGiftCommand, fromUser);
+                    dispatchCommand(commandCmd, sendGiftCommand, userID);
                 }
                 break;
             case RoomCmd.CMD_UP_MIC_NOTIFY: // 上麦位
                 RoomCmdUpMicModel upMicCommand = RoomCmdUpMicModel.fromJson(command);
                 if (upMicCommand != null) {
-                    dispatchCommand(commandCmd, upMicCommand, fromUser);
+                    dispatchCommand(commandCmd, upMicCommand, userID);
                 }
                 break;
             case RoomCmd.CMD_DOWN_MIC_NOTIFY: // 下麦位
                 RoomCmdDownMicModel downMicCommand = RoomCmdDownMicModel.fromJson(command);
                 if (downMicCommand != null) {
-                    dispatchCommand(commandCmd, downMicCommand, fromUser);
+                    dispatchCommand(commandCmd, downMicCommand, userID);
                 }
                 break;
             case RoomCmd.CMD_CHANGE_GAME_NOTIFY: // 游戏切换
                 RoomCmdChangeGameModel gameChangeCommand = RoomCmdChangeGameModel.fromJson(command);
                 if (gameChangeCommand != null) {
-                    dispatchCommand(commandCmd, gameChangeCommand, fromUser);
+                    dispatchCommand(commandCmd, gameChangeCommand, userID);
                 }
                 break;
             case RoomCmd.CMD_ENTER_ROOM_NOTIFY: // 进入房间通知
                 RoomCmdEnterRoomModel enterRoomCommand = RoomCmdEnterRoomModel.fromJson(command);
                 if (enterRoomCommand != null) {
-                    dispatchCommand(commandCmd, enterRoomCommand, fromUser);
+                    dispatchCommand(commandCmd, enterRoomCommand, userID);
                 }
                 break;
         }
@@ -89,41 +88,41 @@ public class AudioCommandManager extends BaseServiceManager {
 
     /**
      * 分发信令
-     *  @param cmd      信令命令
+     * @param cmd      信令命令
      * @param command  信令内容
-     * @param fromUser 发送者
+     * @param fromUserID 发送者
      */
-    private void dispatchCommand(int cmd, RoomCmdBaseModel command, AudioUser fromUser) {
+    private void dispatchCommand(int cmd, RoomCmdBaseModel command, String fromUserID) {
         for (ICommandListener listener : listenerList) {
             switch (cmd) {
                 case RoomCmd.CMD_CHAT_TEXT_NOTIFY: // 发送公屏
                     if (listener instanceof PublicMsgCommandListener) {
-                        ((PublicMsgCommandListener) listener).onRecvCommand((RoomCmdChatTextModel) command, fromUser);
+                        ((PublicMsgCommandListener) listener).onRecvCommand((RoomCmdChatTextModel) command, fromUserID);
                     }
                     break;
                 case RoomCmd.CMD_SEND_GIFT_NOTIFY: // 发送礼物
                     if (listener instanceof SendGiftCommandListener) {
-                        ((SendGiftCommandListener) listener).onRecvCommand((RoomCmdSendGiftModel) command, fromUser);
+                        ((SendGiftCommandListener) listener).onRecvCommand((RoomCmdSendGiftModel) command, fromUserID);
                     }
                     break;
                 case RoomCmd.CMD_UP_MIC_NOTIFY: // 上麦位
                     if (listener instanceof UpMicCommandListener) {
-                        ((UpMicCommandListener) listener).onRecvCommand((RoomCmdUpMicModel) command, fromUser);
+                        ((UpMicCommandListener) listener).onRecvCommand((RoomCmdUpMicModel) command, fromUserID);
                     }
                     break;
                 case RoomCmd.CMD_DOWN_MIC_NOTIFY: // 下麦位
                     if (listener instanceof DownMicCommandListener) {
-                        ((DownMicCommandListener) listener).onRecvCommand((RoomCmdDownMicModel) command, fromUser);
+                        ((DownMicCommandListener) listener).onRecvCommand((RoomCmdDownMicModel) command, fromUserID);
                     }
                     break;
                 case RoomCmd.CMD_CHANGE_GAME_NOTIFY: // 游戏切换
                     if (listener instanceof GameChangeCommandListener) {
-                        ((GameChangeCommandListener) listener).onRecvCommand((RoomCmdChangeGameModel) command, fromUser);
+                        ((GameChangeCommandListener) listener).onRecvCommand((RoomCmdChangeGameModel) command, fromUserID);
                     }
                     break;
                 case RoomCmd.CMD_ENTER_ROOM_NOTIFY: // 进入房间通知
                     if (listener instanceof EnterRoomCommandListener) {
-                        ((EnterRoomCommandListener) listener).onRecvCommand((RoomCmdEnterRoomModel) command, fromUser);
+                        ((EnterRoomCommandListener) listener).onRecvCommand((RoomCmdEnterRoomModel) command, fromUserID);
                     }
                     break;
             }
@@ -144,27 +143,27 @@ public class AudioCommandManager extends BaseServiceManager {
     }
 
     interface PublicMsgCommandListener extends ICommandListener {
-        void onRecvCommand(RoomCmdChatTextModel command, AudioUser user);
+        void onRecvCommand(RoomCmdChatTextModel command, String userID);
     }
 
     interface SendGiftCommandListener extends ICommandListener {
-        void onRecvCommand(RoomCmdSendGiftModel command, AudioUser user);
+        void onRecvCommand(RoomCmdSendGiftModel command, String userID);
     }
 
     interface UpMicCommandListener extends ICommandListener {
-        void onRecvCommand(RoomCmdUpMicModel command, AudioUser user);
+        void onRecvCommand(RoomCmdUpMicModel command, String userID);
     }
 
     interface DownMicCommandListener extends ICommandListener {
-        void onRecvCommand(RoomCmdDownMicModel command, AudioUser user);
+        void onRecvCommand(RoomCmdDownMicModel command, String userID);
     }
 
     interface GameChangeCommandListener extends ICommandListener {
-        void onRecvCommand(RoomCmdChangeGameModel command, AudioUser user);
+        void onRecvCommand(RoomCmdChangeGameModel command, String userID);
     }
 
     interface EnterRoomCommandListener extends ICommandListener {
-        void onRecvCommand(RoomCmdEnterRoomModel command, AudioUser user);
+        void onRecvCommand(RoomCmdEnterRoomModel command, String userID);
     }
 
 }

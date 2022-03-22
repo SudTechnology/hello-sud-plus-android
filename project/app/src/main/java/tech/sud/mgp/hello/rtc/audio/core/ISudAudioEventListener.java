@@ -36,10 +36,10 @@ public interface ISudAudioEventListener {
 
     /**
      * 接收自定义指令信息回调
-     *  @param fromUser 用户
+     * @param fromUserID 用户
      * @param command  指令内容
      */
-    void onRecvCommand(AudioUser fromUser, String command);
+    void onRecvCommand(String fromUserID, String command);
 
     /**
      * 房间内当前在线用户数量回调

@@ -5,7 +5,6 @@ import java.util.List;
 
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
-import tech.sud.mgp.hello.rtc.audio.core.AudioUser;
 import tech.sud.mgp.hello.service.main.repository.UserInfoRepository;
 import tech.sud.mgp.hello.service.main.resp.UserInfoResp;
 import tech.sud.mgp.hello.service.room.repository.AudioRepository;
@@ -374,7 +373,7 @@ public class AudioMicManager extends BaseServiceManager {
     // 上麦信令监听
     private final AudioCommandManager.UpMicCommandListener upMicCommandListener = new AudioCommandManager.UpMicCommandListener() {
         @Override
-        public void onRecvCommand(RoomCmdUpMicModel command, AudioUser user) {
+        public void onRecvCommand(RoomCmdUpMicModel command, String userID) {
             UserInfo sendUser = command.sendUser;
             if (sendUser == null) {
                 return;
@@ -399,7 +398,7 @@ public class AudioMicManager extends BaseServiceManager {
     // 下麦信令监听
     private final AudioCommandManager.DownMicCommandListener downMicCommandListener = new AudioCommandManager.DownMicCommandListener() {
         @Override
-        public void onRecvCommand(RoomCmdDownMicModel command, AudioUser user) {
+        public void onRecvCommand(RoomCmdDownMicModel command, String userID) {
             if (command.sendUser != null) {
                 removeUser2MicList(command.micIndex, command.sendUser.userID);
             }

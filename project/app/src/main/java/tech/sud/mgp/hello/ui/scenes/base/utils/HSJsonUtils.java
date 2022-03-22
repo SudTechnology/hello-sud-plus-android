@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.scenes.audio.utils;
+package tech.sud.mgp.hello.ui.scenes.base.utils;
 
 import androidx.annotation.NonNull;
 

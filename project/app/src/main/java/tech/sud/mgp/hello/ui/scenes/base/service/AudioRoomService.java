@@ -1,12 +1,13 @@
-package tech.sud.mgp.hello.ui.scenes.audio.service;
+package tech.sud.mgp.hello.ui.scenes.base.service;
 
 import java.util.List;
 
 import tech.sud.mgp.hello.ui.scenes.audio.constant.OperateMicType;
-import tech.sud.mgp.hello.ui.scenes.audio.manager.AudioRoomServiceManager;
-import tech.sud.mgp.hello.ui.scenes.audio.model.AudioRoomMicModel;
-import tech.sud.mgp.hello.ui.scenes.audio.model.RoomInfoModel;
-import tech.sud.mgp.hello.ui.scenes.audio.model.UserInfo;
+import tech.sud.mgp.hello.ui.scenes.base.activity.SceneConfig;
+import tech.sud.mgp.hello.ui.scenes.base.manager.AudioRoomServiceManager;
+import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
+import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
+import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 
 /**
  * 房间服务
@@ -29,6 +30,13 @@ public class AudioRoomService {
     }
 
     public class MyBinder {
+
+        /**
+         * 初始化
+         */
+        public void init(SceneConfig config) {
+            serviceManager.audioMicManager.init(config);
+        }
 
         /**
          * 设置回调

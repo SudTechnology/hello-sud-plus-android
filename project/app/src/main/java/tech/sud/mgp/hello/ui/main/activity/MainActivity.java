@@ -1,5 +1,6 @@
 package tech.sud.mgp.hello.ui.main.activity;
 
+import android.os.Build;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.blankj.utilcode.util.ThreadUtils;
+import com.blankj.utilcode.util.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,6 +72,7 @@ public class MainActivity extends BaseActivity implements MainTabView.TabClickLi
                 delayGetBaseConfig();
             }
         });
+        ToastUtils.showLong(Build.VERSION.RELEASE + "");
     }
 
     private void delayGetBaseConfig() {

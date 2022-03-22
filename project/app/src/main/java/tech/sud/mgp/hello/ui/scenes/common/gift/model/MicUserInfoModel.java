@@ -1,6 +1,6 @@
 package tech.sud.mgp.hello.ui.scenes.common.gift.model;
 
-import tech.sud.mgp.hello.ui.scenes.audio.model.AudioRoomMicModel;
+import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 
 public class MicUserInfoModel {
     public AudioRoomMicModel userInfo;

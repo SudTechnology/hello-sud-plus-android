@@ -7,7 +7,7 @@ import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import tech.sud.mgp.hello.ui.scenes.audio.model.AudioRoomMicModel;
+import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 
 public abstract class BaseMicItemView extends FrameLayout {
 

@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.scenes.audio.manager;
+package tech.sud.mgp.hello.ui.scenes.base.manager;
 
 import com.blankj.utilcode.util.Utils;
 
@@ -7,9 +7,9 @@ import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.rtc.audio.core.AudioUser;
 import tech.sud.mgp.hello.service.game.repository.GameRepository;
-import tech.sud.mgp.hello.ui.scenes.audio.model.AudioRoomMicModel;
-import tech.sud.mgp.hello.ui.scenes.audio.model.RoomInfoModel;
-import tech.sud.mgp.hello.ui.scenes.audio.service.AudioRoomServiceCallback;
+import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
+import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
+import tech.sud.mgp.hello.ui.scenes.base.service.AudioRoomServiceCallback;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.RoomCmdModelUtils;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdChangeGameModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdEnterRoomModel;

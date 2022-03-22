@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.scenes.audio.viewmodel;
+package tech.sud.mgp.hello.ui.scenes.base.viewmodel;
 
 import android.app.Activity;
 import android.view.View;
@@ -39,7 +39,7 @@ import tech.sud.mgp.hello.rtc.audio.core.AudioPCMData;
 import tech.sud.mgp.hello.service.game.repository.GameRepository;
 import tech.sud.mgp.hello.service.game.resp.GameLoginResp;
 import tech.sud.mgp.hello.service.main.config.SudConfig;
-import tech.sud.mgp.hello.ui.scenes.audio.model.AudioRoomMicModel;
+import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 
 /**
  * 游戏业务逻辑

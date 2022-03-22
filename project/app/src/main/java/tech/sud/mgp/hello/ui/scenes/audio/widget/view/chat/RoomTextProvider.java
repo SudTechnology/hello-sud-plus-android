@@ -6,9 +6,9 @@ import com.chad.library.adapter.base.provider.BaseItemProvider;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
 import tech.sud.mgp.hello.R;
-import tech.sud.mgp.hello.ui.scenes.audio.model.RoomTextModel;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
 import tech.sud.mgp.hello.common.widget.view.round.RoundedImageView;
+import tech.sud.mgp.hello.ui.scenes.base.model.RoomTextModel;
 
 /**
  * 房间内用户说话，公屏消息样式

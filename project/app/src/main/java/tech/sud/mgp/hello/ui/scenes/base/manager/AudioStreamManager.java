@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.scenes.audio.manager;
+package tech.sud.mgp.hello.ui.scenes.base.manager;
 
 import android.text.TextUtils;
 
@@ -10,7 +10,7 @@ import java.util.List;
 
 import tech.sud.mgp.hello.rtc.audio.core.AudioEngineUpdateType;
 import tech.sud.mgp.hello.rtc.audio.core.AudioStream;
-import tech.sud.mgp.hello.ui.scenes.audio.service.AudioRoomServiceCallback;
+import tech.sud.mgp.hello.ui.scenes.base.service.AudioRoomServiceCallback;
 
 /**
  * 房间音频流

@@ -1,10 +1,10 @@
-package tech.sud.mgp.hello.ui.scenes.audio.service;
+package tech.sud.mgp.hello.ui.scenes.base.service;
 
 import java.util.List;
 
 import tech.sud.mgp.hello.rtc.audio.core.AudioPCMData;
 import tech.sud.mgp.hello.ui.scenes.audio.constant.OperateMicType;
-import tech.sud.mgp.hello.ui.scenes.audio.model.AudioRoomMicModel;
+import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftNotifyDetailodel;
 
 public interface AudioRoomServiceCallback {

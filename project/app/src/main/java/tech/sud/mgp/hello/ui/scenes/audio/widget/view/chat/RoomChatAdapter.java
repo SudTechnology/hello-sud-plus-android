@@ -7,7 +7,7 @@ import com.chad.library.adapter.base.BaseProviderMultiAdapter;
 import java.util.List;
 
 import tech.sud.mgp.hello.common.widget.adapter.EmptyProvider;
-import tech.sud.mgp.hello.ui.scenes.audio.model.RoomTextModel;
+import tech.sud.mgp.hello.ui.scenes.base.model.RoomTextModel;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftNotifyDetailodel;
 
 public class RoomChatAdapter extends BaseProviderMultiAdapter<Object> {

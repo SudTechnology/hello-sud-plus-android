@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.scenes.audio.manager;
+package tech.sud.mgp.hello.ui.scenes.base.manager;
 
 import org.json.JSONObject;
 
@@ -18,8 +18,8 @@ import tech.sud.mgp.hello.rtc.audio.core.IAudioEngine;
 import tech.sud.mgp.hello.rtc.audio.core.IAudioEventHandler;
 import tech.sud.mgp.hello.rtc.audio.factory.AudioEngineFactory;
 import tech.sud.mgp.hello.ui.main.home.RTCManager;
-import tech.sud.mgp.hello.ui.scenes.audio.model.RoomInfoModel;
-import tech.sud.mgp.hello.ui.scenes.audio.service.AudioRoomServiceCallback;
+import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
+import tech.sud.mgp.hello.ui.scenes.base.service.AudioRoomServiceCallback;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.RoomCmdModelUtils;
 
 /**

@@ -1,6 +1,6 @@
 package tech.sud.mgp.hello.ui.scenes.common.gift.model;
 
-import tech.sud.mgp.hello.ui.scenes.audio.model.UserInfo;
+import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 
 public class GiftNotifyDetailodel {
     public int giftID; // 礼物ID

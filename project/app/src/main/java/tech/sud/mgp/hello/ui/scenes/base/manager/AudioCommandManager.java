@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.scenes.audio.manager;
+package tech.sud.mgp.hello.ui.scenes.base.manager;
 
 import org.json.JSONObject;
 

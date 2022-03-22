@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.scenes.audio.utils;
+package tech.sud.mgp.hello.ui.scenes.base.utils;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,14 +7,14 @@ import androidx.lifecycle.LifecycleOwner;
 
 import com.blankj.utilcode.util.ToastUtils;
 
-import tech.sud.mgp.hello.ui.scenes.audio.activity.AudioRoomActivity;
-import tech.sud.mgp.hello.service.room.repository.AudioRepository;
-import tech.sud.mgp.hello.service.room.response.EnterRoomResp;
-import tech.sud.mgp.hello.ui.scenes.audio.model.RoomInfoModel;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.utils.ResponseUtils;
+import tech.sud.mgp.hello.service.room.repository.AudioRepository;
+import tech.sud.mgp.hello.service.room.response.EnterRoomResp;
+import tech.sud.mgp.hello.ui.scenes.audio.activity.AudioRoomActivity;
+import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
 
 public class EnterRoomUtils {
 

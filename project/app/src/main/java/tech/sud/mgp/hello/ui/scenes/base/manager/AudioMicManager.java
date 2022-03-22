@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.scenes.audio.manager;
+package tech.sud.mgp.hello.ui.scenes.base.manager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,11 +13,12 @@ import tech.sud.mgp.hello.service.room.response.RoomMicListResp;
 import tech.sud.mgp.hello.service.room.response.RoomMicResp;
 import tech.sud.mgp.hello.service.room.response.RoomMicSwitchResp;
 import tech.sud.mgp.hello.ui.scenes.audio.constant.OperateMicType;
-import tech.sud.mgp.hello.ui.scenes.audio.model.AudioRoomMicModel;
-import tech.sud.mgp.hello.ui.scenes.audio.model.AudioRoomMicModelConverter;
-import tech.sud.mgp.hello.ui.scenes.audio.model.RoomInfoModel;
-import tech.sud.mgp.hello.ui.scenes.audio.model.UserInfo;
-import tech.sud.mgp.hello.ui.scenes.audio.service.AudioRoomServiceCallback;
+import tech.sud.mgp.hello.ui.scenes.base.activity.SceneConfig;
+import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
+import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModelConverter;
+import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
+import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
+import tech.sud.mgp.hello.ui.scenes.base.service.AudioRoomServiceCallback;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.RoomCmdModelUtils;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdDownMicModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdUpMicModel;
@@ -38,13 +39,19 @@ public class AudioMicManager extends BaseServiceManager {
     @Override
     public void onCreate() {
         super.onCreate();
-        for (int i = 0; i < 9; i++) {
+        parentManager.audioEngineManager.setCommandListener(upMicCommandListener);
+        parentManager.audioEngineManager.setCommandListener(downMicCommandListener);
+    }
+
+    /**
+     * 初始化
+     */
+    public void init(SceneConfig config) {
+        for (int i = 0; i < config.micCount; i++) {
             AudioRoomMicModel model = new AudioRoomMicModel();
             model.micIndex = i;
             micList.add(model);
         }
-        parentManager.audioEngineManager.setCommandListener(upMicCommandListener);
-        parentManager.audioEngineManager.setCommandListener(downMicCommandListener);
     }
 
     public void enterRoom(RoomInfoModel model) {

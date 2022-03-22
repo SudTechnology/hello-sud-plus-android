@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.scenes.audio.model;
+package tech.sud.mgp.hello.ui.scenes.base.model;
 
 public class UserInfo {
     public long userID; // 用户id

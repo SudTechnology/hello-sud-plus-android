@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.scenes.audio.model;
+package tech.sud.mgp.hello.ui.scenes.base.model;
 
 import tech.sud.mgp.hello.service.room.response.RoomMicResp;
 

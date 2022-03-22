@@ -27,7 +27,7 @@ public class RTCManager {
             ZegoConfig zegoConfig = (ZegoConfig) config;
             AudioConfigModel audioConfigModel = new AudioConfigModel();
             audioConfigModel.appId = zegoConfig.appId;
-            audioConfigModel.appSign = zegoConfig.appKey;
+            audioConfigModel.appKey = zegoConfig.appKey;
             AudioEngineFactory.getEngine().initWithConfig(audioConfigModel);
         } else if (config instanceof AgoraConfig) {
             AudioEngineFactory.create(AgoraAudioEngineImpl.class);

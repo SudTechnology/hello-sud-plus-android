@@ -57,16 +57,20 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
         engineConfig.advancedConfig.put("init_domain_name", "ze-config.divtoss.com");
         engineConfig.advancedConfig.put("audio_capture_dummy", "true");
         ZegoExpressEngine.setEngineConfig(engineConfig);
-        long appIdL = 0;
+        long appID = 0;
         try {
-            appIdL = Long.parseLong(model.appId);
+            appID = Long.parseLong(model.appId);
         } catch (Exception e) {
             e.printStackTrace();
         }
         ZegoEngineProfile profile = new ZegoEngineProfile();
-        profile.appID = appIdL;
-        profile.appSign = model.appSign;
+        /* 请通过官网注册获取，格式为 123456789L */
+        profile.appID = appID;
+        /* 64个字符，请通过官网注册获取 */
+        profile.appSign = model.appKey;
+        /* 通用场景接入 */
         profile.scenario = ZegoScenario.COMMUNICATION;
+        /* 设置app的application 对象 */
         profile.application = Utils.getApp();
         ZegoExpressEngine engine = ZegoExpressEngine.createEngine(profile, mIZegoEventHandler);
         if (engine != null) {

@@ -16,6 +16,7 @@ import tech.sud.mgp.hello.common.base.BaseFragment;
 import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.common.utils.IntentUtils;
 import tech.sud.mgp.hello.ui.main.settings.activity.ChangeRtcActivity;
+import tech.sud.mgp.hello.ui.main.settings.activity.LanguageActivity;
 import tech.sud.mgp.hello.ui.main.settings.activity.VersionInfoActivity;
 import tech.sud.mgp.hello.ui.main.utils.RouterUtils;
 import tech.sud.mgp.hello.ui.scenes.common.gift.utils.FileUtils;
@@ -108,7 +109,8 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         } else if (v == btnChangeRtc) { // 切换RTC
             startActivity(new Intent(requireContext(), ChangeRtcActivity.class));
         } else if (v == btnChangeLanguage) { // 切换语言
-            ToastUtils.showShort(R.string.be_making);
+//            ToastUtils.showShort(R.string.be_making);
+            startActivity(new Intent(requireContext(), LanguageActivity.class));
         } else if (v == btnGitHub) { // github
             IntentUtils.openUrl(getContext(), APPConfig.GIT_HUB_URL);
         } else if (v == btnOpenSource) { // 开源协议

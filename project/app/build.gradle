@@ -129,4 +129,6 @@ dependencies {
 
     // 沉浸式状态栏
     implementation "com.gyf.immersionbar:immersionbar:3.0.0"
+    // 事件通知
+    implementation 'io.github.jeremyliao:live-event-bus:1.8.0'
 }

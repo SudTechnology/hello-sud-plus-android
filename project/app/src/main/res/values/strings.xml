@@ -214,5 +214,8 @@
     <string name="playing_down_mic">当前正在游戏中，是否逃跑？</string>
     <string name="game_number">游戏人数</string>
     <string name="unable_to_speak">当前不能发言</string>
+    <string name="asr_guide">本游戏支持语音识别，请开麦展现你的魅力～</string>
+    <string name="asr_guide_number_boom">试试打开麦克风报数，懒人福利！</string>
+    <string name="asr_guide_draw">开麦抢答，比打字更快哦！</string>
 
 </resources>

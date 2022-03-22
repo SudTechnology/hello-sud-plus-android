@@ -111,7 +111,7 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
         if (engine != null) {
             String streamId = UUID.randomUUID().toString() + "-" + String.valueOf(new Date().getTime());
             engine.startPublishingStream(streamId);
-//            engine.enableAudioCaptureDevice(true);
+            engine.enableAudioCaptureDevice(true);
         }
     }
 
@@ -120,7 +120,7 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
         ZegoExpressEngine engine = ZegoExpressEngine.getEngine();
         if (engine != null) {
             engine.stopPublishingStream();
-//            engine.enableAudioCaptureDevice(false);
+            engine.enableAudioCaptureDevice(false);
         }
     }
 

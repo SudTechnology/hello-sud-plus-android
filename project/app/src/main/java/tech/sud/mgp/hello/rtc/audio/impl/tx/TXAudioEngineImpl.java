@@ -10,7 +10,7 @@ import tech.sud.mgp.hello.rtc.audio.model.AudioJoinRoomModel;
  */
 public class TXAudioEngineImpl implements ISudAudioEngine {
     @Override
-    public void setEventListener(ISudAudioEventListener handler) {
+    public void setEventListener(ISudAudioEventListener listener) {
 
     }
 

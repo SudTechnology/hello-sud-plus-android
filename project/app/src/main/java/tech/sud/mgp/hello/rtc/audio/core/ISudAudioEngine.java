@@ -12,9 +12,9 @@ public interface ISudAudioEngine {
     /**
      * 设置事件处理器
      *
-     * @param handler 事件处理实例
+     * @param listener 事件处理实例
      */
-    void setEventListener(ISudAudioEventListener handler);
+    void setEventListener(ISudAudioEventListener listener);
 
     /**
      * 配置引擎SDK

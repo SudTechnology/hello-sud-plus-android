@@ -44,8 +44,8 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
     private String mRoomId;
 
     @Override
-    public void setEventListener(ISudAudioEventListener handler) {
-        mISudAudioEventListener = handler;
+    public void setEventListener(ISudAudioEventListener listener) {
+        mISudAudioEventListener = listener;
     }
 
     @Override
@@ -249,18 +249,18 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
                 mRoomId = roomID;
             }
 
-            ISudAudioEventListener handler = mISudAudioEventListener;
-            if (handler != null) {
-                handler.onRoomStateUpdate(roomID, convertAudioRoomState(state), errorCode, extendedData);
+            ISudAudioEventListener listener = mISudAudioEventListener;
+            if (listener != null) {
+                listener.onRoomStateUpdate(roomID, convertAudioRoomState(state), errorCode, extendedData);
             }
         }
 
         @Override
         public void onCapturedSoundLevelUpdate(float soundLevel) {
             super.onCapturedSoundLevelUpdate(soundLevel);
-            ISudAudioEventListener handler = mISudAudioEventListener;
-            if (handler != null) {
-                handler.onCapturedSoundLevelUpdate(soundLevel);
+            ISudAudioEventListener listener = mISudAudioEventListener;
+            if (listener != null) {
+                listener.onCapturedSoundLevelUpdate(soundLevel);
             }
         }
 
@@ -270,15 +270,15 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
             if (soundLevels == null || soundLevels.size() == 0) {
                 return;
             }
-            ISudAudioEventListener handler = mISudAudioEventListener;
-            if (handler != null) {
+            ISudAudioEventListener listener = mISudAudioEventListener;
+            if (listener != null) {
                 // soundLevels里的key是streamId，将其转换成userId
                 HashMap<String, Float> userSoundLevels = new HashMap<>();
                 Set<String> keySet = soundLevels.keySet();
                 for (String streamId : keySet) {
                     userSoundLevels.put(streamUserMaps.get(streamId), soundLevels.get(streamId));
                 }
-                handler.onRemoteSoundLevelUpdate(userSoundLevels);
+                listener.onRemoteSoundLevelUpdate(userSoundLevels);
             }
         }
 
@@ -314,29 +314,29 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
                 }
             }
 
-            ISudAudioEventListener handler = mISudAudioEventListener;
-            if (handler != null) {
+            ISudAudioEventListener listener = mISudAudioEventListener;
+            if (listener != null) {
                 AudioEngineUpdateType mediaAudioEngineUpdateType = convertMediaAudioEnginUpdateType(updateType);
                 List<AudioStream> audioStreamList = convertMediaStreamList(streamList);
-                handler.onRoomStreamUpdate(roomID, mediaAudioEngineUpdateType, audioStreamList, extendedData);
+                listener.onRoomStreamUpdate(roomID, mediaAudioEngineUpdateType, audioStreamList, extendedData);
             }
         }
 
         @Override
         public void onIMRecvCustomCommand(String roomID, ZegoUser fromUser, String command) {
             super.onIMRecvCustomCommand(roomID, fromUser, command);
-            ISudAudioEventListener handler = mISudAudioEventListener;
-            if (handler != null) {
-                handler.onRecvCommand(fromUser.userID, command);
+            ISudAudioEventListener listener = mISudAudioEventListener;
+            if (listener != null) {
+                listener.onRecvCommand(fromUser.userID, command);
             }
         }
 
         @Override
         public void onRoomOnlineUserCountUpdate(String roomID, int count) {
             super.onRoomOnlineUserCountUpdate(roomID, count);
-            ISudAudioEventListener handler = mISudAudioEventListener;
-            if (handler != null) {
-                handler.onRoomOnlineUserCountUpdate(roomID, count);
+            ISudAudioEventListener listener = mISudAudioEventListener;
+            if (listener != null) {
+                listener.onRoomOnlineUserCountUpdate(roomID, count);
             }
         }
     };
@@ -345,12 +345,12 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
         @Override
         public void onCapturedAudioData(ByteBuffer data, int dataLength, ZegoAudioFrameParam param) {
             super.onCapturedAudioData(data, dataLength, param);
-            ISudAudioEventListener handler = mISudAudioEventListener;
-            if (handler != null) {
+            ISudAudioEventListener listener = mISudAudioEventListener;
+            if (listener != null) {
                 AudioPCMData audioPCMData = new AudioPCMData();
                 audioPCMData.data = data;
                 audioPCMData.dataLength = dataLength;
-                handler.onCapturedPCMData(audioPCMData);
+                listener.onCapturedPCMData(audioPCMData);
             }
         }
     };

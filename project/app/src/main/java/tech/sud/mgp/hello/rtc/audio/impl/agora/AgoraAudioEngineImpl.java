@@ -54,8 +54,8 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
     }
 
     @Override
-    public void setEventListener(ISudAudioEventListener handler) {
-        mIAudioEventHandler = handler;
+    public void setEventListener(ISudAudioEventListener listener) {
+        mIAudioEventHandler = listener;
     }
 
     @Override

@@ -10,7 +10,7 @@ import tech.sud.mgp.hello.rtc.audio.model.AudioJoinRoomModel;
  */
 public class VolcAudioEngineImpl implements ISudAudioEngine {
     @Override
-    public void setEventListener(ISudAudioEventListener handler) {
+    public void setEventListener(ISudAudioEventListener listener) {
         
     }
 

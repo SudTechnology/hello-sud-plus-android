@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.scenes.audio.widget.view;
+package tech.sud.mgp.hello.ui.scenes.base.widget.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -15,7 +15,7 @@ import tech.sud.mgp.hello.R;
 /**
  * 语聊房顶部的View
  */
-public class AudioRoomTopView extends ConstraintLayout {
+public class SceneRoomTopView extends ConstraintLayout {
 
     private TextView mTvName;
     private TextView mTvId;
@@ -25,21 +25,21 @@ public class AudioRoomTopView extends ConstraintLayout {
     private TextView mTvFinishGame;
     private ImageView mIvClose;
 
-    public AudioRoomTopView(@NonNull Context context) {
+    public SceneRoomTopView(@NonNull Context context) {
         this(context, null);
     }
 
-    public AudioRoomTopView(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public SceneRoomTopView(@NonNull Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public AudioRoomTopView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public SceneRoomTopView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initView(context);
     }
 
     private void initView(Context context) {
-        inflate(context, R.layout.view_audio_room_top, this);
+        inflate(context, R.layout.view_scene_room_top, this);
         mTvName = findViewById(R.id.top_tv_name);
         mTvId = findViewById(R.id.top_tv_room_id);
         mTvNumber = findViewById(R.id.top_tv_room_number);

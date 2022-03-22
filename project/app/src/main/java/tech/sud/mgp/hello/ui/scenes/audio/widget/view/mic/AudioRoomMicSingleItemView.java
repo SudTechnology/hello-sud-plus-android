@@ -18,6 +18,7 @@ import tech.sud.mgp.hello.common.widget.view.SoundLevelView;
 import tech.sud.mgp.hello.common.widget.view.round.RoundedImageView;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoleType;
+import tech.sud.mgp.hello.ui.scenes.base.widget.view.mic.BaseMicItemView;
 
 public class AudioRoomMicSingleItemView extends BaseMicItemView {
 

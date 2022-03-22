@@ -4,26 +4,26 @@ import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.rtc.audio.core.AudioUser;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoomTextModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
-import tech.sud.mgp.hello.ui.scenes.base.service.AudioRoomServiceCallback;
+import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomServiceCallback;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.RoomCmdModelUtils;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdChatTextModel;
 
 /**
  * 房间公屏
  */
-public class AudioChatManager extends BaseServiceManager {
+public class SceneChatManager extends BaseServiceManager {
 
-    private AudioRoomServiceManager parentManager;
+    private SceneRoomServiceManager parentManager;
 
-    public AudioChatManager(AudioRoomServiceManager audioRoomServiceManager) {
+    public SceneChatManager(SceneRoomServiceManager sceneRoomServiceManager) {
         super();
-        this.parentManager = audioRoomServiceManager;
+        this.parentManager = sceneRoomServiceManager;
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        parentManager.audioEngineManager.setCommandListener(publicMsgCommandListener);
+        parentManager.sceneEngineManager.setCommandListener(publicMsgCommandListener);
     }
 
     public void sendPublicMsg(CharSequence msg) {
@@ -39,11 +39,11 @@ public class AudioChatManager extends BaseServiceManager {
 
         // 发送公屏消息信令
         String command = RoomCmdModelUtils.buildPublicMsgCommand(msg.toString());
-        parentManager.audioEngineManager.sendCommand(command, null);
+        parentManager.sceneEngineManager.sendCommand(command, null);
     }
 
     public void addMsg(Object msg) {
-        AudioRoomServiceCallback callback = parentManager.getCallback();
+        SceneRoomServiceCallback callback = parentManager.getCallback();
         if (callback != null) {
             callback.addPublicMsg(msg);
         }
@@ -54,13 +54,13 @@ public class AudioChatManager extends BaseServiceManager {
      * 用于处理你画我猜关键字是够命中
      */
     public void selfSendMsg(String msg) {
-        AudioRoomServiceCallback callback = parentManager.getCallback();
+        SceneRoomServiceCallback callback = parentManager.getCallback();
         if (callback != null) {
             callback.onSelfSendMsg(msg);
         }
     }
 
-    private final AudioCommandManager.PublicMsgCommandListener publicMsgCommandListener = new AudioCommandManager.PublicMsgCommandListener() {
+    private final SceneCommandManager.PublicMsgCommandListener publicMsgCommandListener = new SceneCommandManager.PublicMsgCommandListener() {
         @Override
         public void onRecvCommand(RoomCmdChatTextModel command, AudioUser user, String roomId) {
             UserInfo userInfo = command.sendUser;

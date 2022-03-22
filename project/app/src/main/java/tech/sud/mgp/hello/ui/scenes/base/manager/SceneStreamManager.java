@@ -10,25 +10,25 @@ import java.util.List;
 
 import tech.sud.mgp.hello.rtc.audio.core.AudioEngineUpdateType;
 import tech.sud.mgp.hello.rtc.audio.core.AudioStream;
-import tech.sud.mgp.hello.ui.scenes.base.service.AudioRoomServiceCallback;
+import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomServiceCallback;
 
 /**
  * 房间音频流
  */
-public class AudioStreamManager extends BaseServiceManager {
+public class SceneStreamManager extends BaseServiceManager {
 
-    private AudioRoomServiceManager parentManager;
+    private SceneRoomServiceManager parentManager;
     private StreamState state = StreamState.STOP;
 
-    public AudioStreamManager(AudioRoomServiceManager audioRoomServiceManager) {
+    public SceneStreamManager(SceneRoomServiceManager sceneRoomServiceManager) {
         super();
-        this.parentManager = audioRoomServiceManager;
+        this.parentManager = sceneRoomServiceManager;
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        parentManager.audioEngineManager.setOnRoomStreamUpdateListener(onRoomStreamUpdateListener);
+        parentManager.sceneEngineManager.setOnRoomStreamUpdateListener(onRoomStreamUpdateListener);
     }
 
     public void openMic(String streamId) {
@@ -36,7 +36,7 @@ public class AudioStreamManager extends BaseServiceManager {
             ToastUtils.showLong("streamId is empty");
             return;
         } else {
-            parentManager.audioEngineManager.startPublish(streamId);
+            parentManager.sceneEngineManager.startPublish(streamId);
         }
         state = StreamState.MIC_STREAM;
         callbackStreamState();
@@ -44,12 +44,12 @@ public class AudioStreamManager extends BaseServiceManager {
 
     public void closeMic() {
         state = StreamState.STOP;
-        parentManager.audioEngineManager.stopPublishStream();
+        parentManager.sceneEngineManager.stopPublishStream();
         callbackStreamState();
     }
 
     public void callbackStreamState() {
-        AudioRoomServiceCallback callback = parentManager.getCallback();
+        SceneRoomServiceCallback callback = parentManager.getCallback();
         if (callback == null) return;
         switch (state) {
             case STOP:
@@ -73,7 +73,7 @@ public class AudioStreamManager extends BaseServiceManager {
         return false;
     }
 
-    private AudioEngineManager.OnRoomStreamUpdateListener onRoomStreamUpdateListener = new AudioEngineManager.OnRoomStreamUpdateListener() {
+    private SceneEngineManager.OnRoomStreamUpdateListener onRoomStreamUpdateListener = new SceneEngineManager.OnRoomStreamUpdateListener() {
         @Override
         public void onRoomStreamUpdate(String roomId, AudioEngineUpdateType type, List<AudioStream> streamList, JSONObject extendedData) {
             if (streamList == null || streamList.size() == 0) {
@@ -82,12 +82,12 @@ public class AudioStreamManager extends BaseServiceManager {
             switch (type) {
                 case ADD:
                     for (AudioStream audioStream : streamList) {
-                        parentManager.audioEngineManager.startPlayingStream(audioStream.streamID);
+                        parentManager.sceneEngineManager.startPlayingStream(audioStream.streamID);
                     }
                     break;
                 case DELETE:
                     for (AudioStream audioStream : streamList) {
-                        parentManager.audioEngineManager.stopPlayingStream(audioStream.streamID);
+                        parentManager.sceneEngineManager.stopPlayingStream(audioStream.streamID);
                     }
                     break;
             }
@@ -97,7 +97,7 @@ public class AudioStreamManager extends BaseServiceManager {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        parentManager.audioEngineManager.removeOnRoomStreamUpdateListener(onRoomStreamUpdateListener);
+        parentManager.sceneEngineManager.removeOnRoomStreamUpdateListener(onRoomStreamUpdateListener);
     }
 
     public enum StreamState {

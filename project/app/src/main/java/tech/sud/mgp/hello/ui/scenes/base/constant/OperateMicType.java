@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.scenes.audio.constant;
+package tech.sud.mgp.hello.ui.scenes.base.constant;
 
 /**
  * 操作麦位的类型

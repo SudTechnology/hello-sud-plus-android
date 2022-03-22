@@ -18,7 +18,7 @@ import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdUpMicModel;
 /**
  * 房间信令相关
  */
-public class AudioCommandManager extends BaseServiceManager {
+public class SceneCommandManager extends BaseServiceManager {
 
     private final List<ICommandListener> listenerList = new ArrayList<>();
 

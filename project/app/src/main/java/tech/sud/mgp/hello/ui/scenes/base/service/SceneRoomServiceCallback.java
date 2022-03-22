@@ -3,11 +3,11 @@ package tech.sud.mgp.hello.ui.scenes.base.service;
 import java.util.List;
 
 import tech.sud.mgp.hello.rtc.audio.core.AudioPCMData;
-import tech.sud.mgp.hello.ui.scenes.audio.constant.OperateMicType;
+import tech.sud.mgp.hello.ui.scenes.base.constant.OperateMicType;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftNotifyDetailodel;
 
-public interface AudioRoomServiceCallback {
+public interface SceneRoomServiceCallback {
 
     /**
      * 进入房间成功

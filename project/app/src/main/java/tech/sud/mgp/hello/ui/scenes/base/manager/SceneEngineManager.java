@@ -19,16 +19,16 @@ import tech.sud.mgp.hello.rtc.audio.core.IAudioEventHandler;
 import tech.sud.mgp.hello.rtc.audio.factory.AudioEngineFactory;
 import tech.sud.mgp.hello.ui.main.home.RTCManager;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
-import tech.sud.mgp.hello.ui.scenes.base.service.AudioRoomServiceCallback;
+import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomServiceCallback;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.RoomCmdModelUtils;
 
 /**
  * 语音引擎
  */
-public class AudioEngineManager extends BaseServiceManager {
-    private final AudioRoomServiceManager parentManager;
+public class SceneEngineManager extends BaseServiceManager {
+    private final SceneRoomServiceManager parentManager;
 
-    public final AudioCommandManager commandManager = new AudioCommandManager();
+    public final SceneCommandManager commandManager = new SceneCommandManager();
     private OnRoomStreamUpdateListener onRoomStreamUpdateListener;
     private final int soundLevelThreshold = 1; // 触发声浪显示的阀值
     /**
@@ -43,9 +43,9 @@ public class AudioEngineManager extends BaseServiceManager {
         RTCManager.applyRtcEngine();
     }
 
-    public AudioEngineManager(AudioRoomServiceManager audioRoomServiceManager) {
+    public SceneEngineManager(SceneRoomServiceManager sceneRoomServiceManager) {
         super();
-        this.parentManager = audioRoomServiceManager;
+        this.parentManager = sceneRoomServiceManager;
     }
 
     public void enterRoom(RoomInfoModel model) {
@@ -57,11 +57,11 @@ public class AudioEngineManager extends BaseServiceManager {
         engine.setEventHandler(eventHandler);
     }
 
-    public void setCommandListener(AudioCommandManager.ICommandListener listener) {
+    public void setCommandListener(SceneCommandManager.ICommandListener listener) {
         commandManager.setCommandListener(listener);
     }
 
-    public void removeCommandListener(AudioCommandManager.ICommandListener listener) {
+    public void removeCommandListener(SceneCommandManager.ICommandListener listener) {
         commandManager.removeCommandListener(listener);
     }
 
@@ -190,10 +190,10 @@ public class AudioEngineManager extends BaseServiceManager {
     private final IAudioEventHandler eventHandler = new IAudioEventHandler() {
         @Override
         public void onCapturedSoundLevelUpdate(float soundLevel) {
-            if (parentManager.audioStreamManager.isPublishingStream() && soundLevel > soundLevelThreshold) {
-                int selfMicIndex = parentManager.audioMicManager.findSelfMicIndex();
+            if (parentManager.sceneStreamManager.isPublishingStream() && soundLevel > soundLevelThreshold) {
+                int selfMicIndex = parentManager.sceneMicManager.findSelfMicIndex();
                 if (selfMicIndex >= 0) {
-                    AudioRoomServiceCallback callback = parentManager.getCallback();
+                    SceneRoomServiceCallback callback = parentManager.getCallback();
                     if (callback != null) {
                         callback.onSoundLevel(selfMicIndex);
                     }
@@ -218,9 +218,9 @@ public class AudioEngineManager extends BaseServiceManager {
                         e.printStackTrace();
                         continue;
                     }
-                    int micIndex = parentManager.audioMicManager.findMicIndex(userIdL);
+                    int micIndex = parentManager.sceneMicManager.findMicIndex(userIdL);
                     if (micIndex >= 0) {
-                        AudioRoomServiceCallback callback = parentManager.getCallback();
+                        SceneRoomServiceCallback callback = parentManager.getCallback();
                         if (callback != null) {
                             callback.onSoundLevel(micIndex);
                         }
@@ -244,7 +244,7 @@ public class AudioEngineManager extends BaseServiceManager {
 
         @Override
         public void onRoomOnlineUserCountUpdate(String roomID, int count) {
-            AudioRoomServiceCallback callback = parentManager.getCallback();
+            SceneRoomServiceCallback callback = parentManager.getCallback();
             if (callback != null) {
                 callback.onRoomOnlineUserCountUpdate(roomID, count);
             }
@@ -259,7 +259,7 @@ public class AudioEngineManager extends BaseServiceManager {
 
         @Override
         public void onCapturedAudioData(AudioPCMData audioPCMData) {
-            AudioRoomServiceCallback callback = parentManager.getCallback();
+            SceneRoomServiceCallback callback = parentManager.getCallback();
             if (callback != null) {
                 callback.onCapturedAudioData(audioPCMData);
             }

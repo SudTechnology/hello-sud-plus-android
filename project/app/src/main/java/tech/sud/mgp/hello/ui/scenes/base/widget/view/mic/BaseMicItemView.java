@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.scenes.audio.widget.view.mic;
+package tech.sud.mgp.hello.ui.scenes.base.widget.view.mic;
 
 import android.content.Context;
 import android.util.AttributeSet;

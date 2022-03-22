@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.scenes.audio.viewmodel;
+package tech.sud.mgp.hello.ui.scenes.base.viewmodel;
 
 import com.blankj.utilcode.util.ThreadUtils;
 
@@ -13,7 +13,7 @@ import tech.sud.mgp.hello.service.main.resp.GameModeModel;
 import tech.sud.mgp.hello.service.main.resp.GameModel;
 import tech.sud.mgp.hello.service.room.repository.AudioRepository;
 
-public class AudioRoomViewModel extends BaseViewModel {
+public class SceneRoomViewModel extends BaseViewModel {
 
     private int getGameListErrCount;
 

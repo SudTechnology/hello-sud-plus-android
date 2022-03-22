@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.scenes.audio.widget.dialog;
+package tech.sud.mgp.hello.ui.scenes.base.widget.dialog;
 
 import android.view.Gravity;
 import android.view.View;

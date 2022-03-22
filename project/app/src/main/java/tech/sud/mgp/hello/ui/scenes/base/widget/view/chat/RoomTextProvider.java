@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.scenes.audio.widget.view.chat;
+package tech.sud.mgp.hello.ui.scenes.base.widget.view.chat;
 
 import androidx.annotation.NonNull;
 

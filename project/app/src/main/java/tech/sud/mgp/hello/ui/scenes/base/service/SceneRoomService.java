@@ -2,9 +2,9 @@ package tech.sud.mgp.hello.ui.scenes.base.service;
 
 import java.util.List;
 
-import tech.sud.mgp.hello.ui.scenes.audio.constant.OperateMicType;
 import tech.sud.mgp.hello.ui.scenes.base.activity.SceneConfig;
-import tech.sud.mgp.hello.ui.scenes.base.manager.AudioRoomServiceManager;
+import tech.sud.mgp.hello.ui.scenes.base.constant.OperateMicType;
+import tech.sud.mgp.hello.ui.scenes.base.manager.SceneRoomServiceManager;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
@@ -12,9 +12,9 @@ import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 /**
  * 房间服务
  */
-public class AudioRoomService {
+public class SceneRoomService {
 
-    private final AudioRoomServiceManager serviceManager = new AudioRoomServiceManager();
+    private final SceneRoomServiceManager serviceManager = new SceneRoomServiceManager();
     private final MyBinder binder = new MyBinder();
 
     public void onCreate() {
@@ -35,13 +35,13 @@ public class AudioRoomService {
          * 初始化
          */
         public void init(SceneConfig config) {
-            serviceManager.audioMicManager.init(config);
+            serviceManager.sceneMicManager.init(config);
         }
 
         /**
          * 设置回调
          */
-        public void setCallback(AudioRoomServiceCallback callback) {
+        public void setCallback(SceneRoomServiceCallback callback) {
             serviceManager.setCallback(callback);
         }
 
@@ -61,14 +61,14 @@ public class AudioRoomService {
          * @param operate  true为上麦位 false为下麦位
          */
         public void micLocationSwitch(int micIndex, boolean operate, OperateMicType type) {
-            serviceManager.audioMicManager.micLocationSwitch(micIndex, operate, type);
+            serviceManager.sceneMicManager.micLocationSwitch(micIndex, operate, type);
         }
 
         /**
          * 自动上麦
          */
         public void autoUpMic(OperateMicType type) {
-            serviceManager.audioMicManager.autoUpMic(type);
+            serviceManager.sceneMicManager.autoUpMic(type);
         }
 
         /**
@@ -77,13 +77,13 @@ public class AudioRoomService {
          * @param msg
          */
         public void sendPublicMsg(CharSequence msg) {
-            serviceManager.audioChatManager.sendPublicMsg(msg);
+            serviceManager.sceneChatManager.sendPublicMsg(msg);
         }
 
         public void sendGift(int giftID,
                              int giftCount,
                              UserInfo toUser) {
-            serviceManager.audioGiftManager.sendGift(giftID, giftCount, toUser);
+            serviceManager.sceneGiftManager.sendGift(giftID, giftCount, toUser);
         }
 
         /**
@@ -99,7 +99,7 @@ public class AudioRoomService {
          * 获取麦位列表
          */
         public List<AudioRoomMicModel> getMicList() {
-            return serviceManager.audioMicManager.getMicList();
+            return serviceManager.sceneMicManager.getMicList();
         }
 
         /**
@@ -113,28 +113,28 @@ public class AudioRoomService {
          * 添加一条公屏消息
          */
         public void addChatMsg(Object obj) {
-            serviceManager.audioChatManager.addMsg(obj);
+            serviceManager.sceneChatManager.addMsg(obj);
         }
 
         /**
          * 更新麦位
          */
         public void updateMicList() {
-            serviceManager.audioMicManager.notifyDataSetChange();
+            serviceManager.sceneMicManager.notifyDataSetChange();
         }
 
         /**
          * 设置ASR
          */
         public void setASROpen(boolean isOpen) {
-            serviceManager.audioGameManager.setASROpen(isOpen);
+            serviceManager.sceneGameManager.setASROpen(isOpen);
         }
 
         /**
          * 设置RTC拉流
          */
         public void setRTCPlay(boolean isOn) {
-            serviceManager.audioGameManager.setRTCPlay(isOn);
+            serviceManager.sceneGameManager.setRTCPlay(isOn);
         }
 
         /**

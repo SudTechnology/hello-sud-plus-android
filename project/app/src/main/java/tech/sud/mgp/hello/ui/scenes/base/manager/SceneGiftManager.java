@@ -12,24 +12,24 @@ import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftNotifyDetailodel;
 /**
  * 房间礼物
  */
-public class AudioGiftManager extends BaseServiceManager {
-    private AudioRoomServiceManager parentManager;
+public class SceneGiftManager extends BaseServiceManager {
+    private SceneRoomServiceManager parentManager;
 
-    public AudioGiftManager(AudioRoomServiceManager audioRoomServiceManager) {
+    public SceneGiftManager(SceneRoomServiceManager sceneRoomServiceManager) {
         super();
-        this.parentManager = audioRoomServiceManager;
+        this.parentManager = sceneRoomServiceManager;
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        parentManager.audioEngineManager.setCommandListener(sendGiftCommandListener);
+        parentManager.sceneEngineManager.setCommandListener(sendGiftCommandListener);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        parentManager.audioEngineManager.removeCommandListener(sendGiftCommandListener);
+        parentManager.sceneEngineManager.removeCommandListener(sendGiftCommandListener);
     }
 
     public void sendGift(int giftID,
@@ -51,12 +51,12 @@ public class AudioGiftManager extends BaseServiceManager {
         notify.giftCount = giftCount;
         notify.giftID = giftID;
 
-        parentManager.audioChatManager.addMsg(notify);
+        parentManager.sceneChatManager.addMsg(notify);
 
-        parentManager.audioEngineManager.sendCommand(command, null);
+        parentManager.sceneEngineManager.sendCommand(command, null);
     }
 
-    private final AudioCommandManager.SendGiftCommandListener sendGiftCommandListener = new AudioCommandManager.SendGiftCommandListener() {
+    private final SceneCommandManager.SendGiftCommandListener sendGiftCommandListener = new SceneCommandManager.SendGiftCommandListener() {
         @Override
         public void onRecvCommand(RoomCmdSendGiftModel command, AudioUser user, String roomId) {
             GiftModel giftModel = GiftHelper.getInstance().getGift(command.giftID);
@@ -67,7 +67,7 @@ public class AudioGiftManager extends BaseServiceManager {
             notify.giftCount = command.giftCount;
             notify.giftID = command.giftID;
             parentManager.getCallback().sendGiftsNotify(notify);
-            parentManager.audioChatManager.addMsg(notify);
+            parentManager.sceneChatManager.addMsg(notify);
         }
     };
 }

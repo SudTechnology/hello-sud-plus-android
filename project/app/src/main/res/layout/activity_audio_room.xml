@@ -12,7 +12,7 @@
         android:layout_height="match_parent" />
 
     <!-- 顶部View -->
-    <tech.sud.mgp.hello.ui.scenes.audio.widget.view.AudioRoomTopView
+    <tech.sud.mgp.hello.ui.scenes.base.widget.view.SceneRoomTopView
         android:id="@+id/room_top_view"
         android:layout_width="match_parent"
         android:layout_height="44dp"
@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <!-- 麦位View -->
-    <tech.sud.mgp.hello.ui.scenes.audio.widget.view.mic.AudioRoomMicWrapView
+    <tech.sud.mgp.hello.ui.scenes.base.widget.view.mic.SceneRoomMicWrapView
         android:id="@+id/room_mic_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
         app:layout_constraintTop_toBottomOf="@id/room_mic_view" />
 
     <!-- 公屏 -->
-    <tech.sud.mgp.hello.ui.scenes.audio.widget.view.chat.AudioRoomChatView
+    <tech.sud.mgp.hello.ui.scenes.base.widget.view.chat.SceneRoomChatView
         android:id="@+id/room_chat_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -49,7 +49,7 @@
         app:layout_constraintBottom_toTopOf="@id/room_bottom_view" />
 
     <!-- 底部的View -->
-    <tech.sud.mgp.hello.ui.scenes.audio.widget.view.AudioRoomBottomView
+    <tech.sud.mgp.hello.ui.scenes.base.widget.view.SceneRoomBottomView
         android:id="@+id/room_bottom_view"
         android:layout_width="match_parent"
         android:layout_height="40dp"
@@ -65,7 +65,7 @@
         android:layout_height="match_parent" />
 
     <!-- 公屏输入框 -->
-    <tech.sud.mgp.hello.ui.scenes.audio.widget.view.chat.RoomInputMsgView
+    <tech.sud.mgp.hello.ui.scenes.base.widget.view.chat.RoomInputMsgView
         android:id="@+id/room_input_msg_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

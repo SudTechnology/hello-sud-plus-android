@@ -9,7 +9,7 @@ import tech.sud.mgp.hello.rtc.audio.core.AudioUser;
 import tech.sud.mgp.hello.service.game.repository.GameRepository;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
-import tech.sud.mgp.hello.ui.scenes.base.service.AudioRoomServiceCallback;
+import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomServiceCallback;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.RoomCmdModelUtils;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdChangeGameModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdEnterRoomModel;
@@ -17,49 +17,49 @@ import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdEnterRoomModel;
 /**
  * 房间主要业务逻辑
  */
-public class AudioRoomServiceManager extends BaseServiceManager {
+public class SceneRoomServiceManager extends BaseServiceManager {
 
-    private AudioRoomServiceCallback audioRoomServiceCallback;
+    private SceneRoomServiceCallback sceneRoomServiceCallback;
     private RoomInfoModel roomInfoModel;
 
-    public final AudioEngineManager audioEngineManager = new AudioEngineManager(this);
-    public final AudioChatManager audioChatManager = new AudioChatManager(this);
-    public final AudioMicManager audioMicManager = new AudioMicManager(this);
-    public final AudioStreamManager audioStreamManager = new AudioStreamManager(this);
-    public final AudioGiftManager audioGiftManager = new AudioGiftManager(this);
-    public final AudioGameManager audioGameManager = new AudioGameManager(this);
+    public final SceneEngineManager sceneEngineManager = new SceneEngineManager(this);
+    public final SceneChatManager sceneChatManager = new SceneChatManager(this);
+    public final SceneMicManager sceneMicManager = new SceneMicManager(this);
+    public final SceneStreamManager sceneStreamManager = new SceneStreamManager(this);
+    public final SceneGiftManager sceneGiftManager = new SceneGiftManager(this);
+    public final SceneGameManager sceneGameManager = new SceneGameManager(this);
 
     @Override
     public void onCreate() {
         super.onCreate();
-        audioEngineManager.onCreate();
-        audioChatManager.onCreate();
-        audioMicManager.onCreate();
-        audioStreamManager.onCreate();
-        audioGiftManager.onCreate();
-        audioGameManager.onCreate();
+        sceneEngineManager.onCreate();
+        sceneChatManager.onCreate();
+        sceneMicManager.onCreate();
+        sceneStreamManager.onCreate();
+        sceneGiftManager.onCreate();
+        sceneGameManager.onCreate();
         setListener();
     }
 
     private void setListener() {
-        audioEngineManager.setCommandListener(new AudioCommandManager.GameChangeCommandListener() {
+        sceneEngineManager.setCommandListener(new SceneCommandManager.GameChangeCommandListener() {
             @Override
             public void onRecvCommand(RoomCmdChangeGameModel command, AudioUser user, String roomId) {
                 roomInfoModel.gameId = command.gameID;
-                AudioRoomServiceCallback callback = getCallback();
+                SceneRoomServiceCallback callback = getCallback();
                 if (callback != null) {
                     callback.onGameChange(command.gameID);
                 }
             }
         });
-        audioEngineManager.setCommandListener(new AudioCommandManager.EnterRoomCommandListener() {
+        sceneEngineManager.setCommandListener(new SceneCommandManager.EnterRoomCommandListener() {
             @Override
             public void onRecvCommand(RoomCmdEnterRoomModel command, AudioUser user, String roomId) {
                 if (command == null || command.sendUser == null || command.sendUser.name == null) {
                     return;
                 }
                 String msg = buildEnterRoomMsg(command.sendUser.name);
-                audioChatManager.addMsg(msg);
+                sceneChatManager.addMsg(msg);
             }
         });
     }
@@ -71,20 +71,20 @@ public class AudioRoomServiceManager extends BaseServiceManager {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        audioEngineManager.onDestroy();
-        audioChatManager.onDestroy();
-        audioMicManager.onDestroy();
-        audioStreamManager.onDestroy();
-        audioGiftManager.onDestroy();
-        audioGameManager.onDestroy();
+        sceneEngineManager.onDestroy();
+        sceneChatManager.onDestroy();
+        sceneMicManager.onDestroy();
+        sceneStreamManager.onDestroy();
+        sceneGiftManager.onDestroy();
+        sceneGameManager.onDestroy();
     }
 
-    public void setCallback(AudioRoomServiceCallback callback) {
-        audioRoomServiceCallback = callback;
+    public void setCallback(SceneRoomServiceCallback callback) {
+        sceneRoomServiceCallback = callback;
     }
 
-    public AudioRoomServiceCallback getCallback() {
-        return audioRoomServiceCallback;
+    public SceneRoomServiceCallback getCallback() {
+        return sceneRoomServiceCallback;
     }
 
     /**
@@ -113,13 +113,13 @@ public class AudioRoomServiceManager extends BaseServiceManager {
 
     public void enterRoom(RoomInfoModel model) {
         roomInfoModel = model;
-        audioEngineManager.enterRoom(model);
-        audioMicManager.enterRoom(model);
-        AudioRoomServiceCallback callback = getCallback();
+        sceneEngineManager.enterRoom(model);
+        sceneMicManager.enterRoom(model);
+        SceneRoomServiceCallback callback = getCallback();
         if (callback != null) {
             callback.onEnterRoomSuccess();
         }
-        audioChatManager.addMsg(buildEnterRoomMsg(HSUserInfo.nickName));
+        sceneChatManager.addMsg(buildEnterRoomMsg(HSUserInfo.nickName));
     }
 
     /**
@@ -130,15 +130,15 @@ public class AudioRoomServiceManager extends BaseServiceManager {
     public void setMicState(boolean isOpen) {
         if (isOpen) {
             String streamId;
-            AudioRoomMicModel selfMicModel = audioMicManager.findMicModel(HSUserInfo.userId);
+            AudioRoomMicModel selfMicModel = sceneMicManager.findMicModel(HSUserInfo.userId);
             if (selfMicModel == null) {
                 return;
             } else {
                 streamId = selfMicModel.streamId;
             }
-            audioStreamManager.openMic(streamId);
+            sceneStreamManager.openMic(streamId);
         } else {
-            audioStreamManager.closeMic();
+            sceneStreamManager.closeMic();
         }
     }
 
@@ -155,12 +155,12 @@ public class AudioRoomServiceManager extends BaseServiceManager {
 
             // 发送信令通知房间内其他人
             String command = RoomCmdModelUtils.buildGameChangeCommand(gameId);
-            audioEngineManager.sendCommand(command, null);
+            sceneEngineManager.sendCommand(command, null);
         }
     }
 
     public void exitRoom() {
-        audioMicManager.exitRoom();
+        sceneMicManager.exitRoom();
     }
 
 }

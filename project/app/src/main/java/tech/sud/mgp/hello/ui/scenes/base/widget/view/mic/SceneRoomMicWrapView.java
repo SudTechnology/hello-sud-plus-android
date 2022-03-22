@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.scenes.audio.widget.view.mic;
+package tech.sud.mgp.hello.ui.scenes.base.widget.view.mic;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -11,27 +11,29 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import java.util.ArrayList;
 import java.util.List;
 
+import tech.sud.mgp.hello.ui.scenes.audio.widget.view.mic.AudioRoomGameMicView;
+import tech.sud.mgp.hello.ui.scenes.audio.widget.view.mic.AudioRoomMicView;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 
 /**
- * 语聊房顶层的麦位View，管理切换不同形态
+ * 场景房间顶层的麦位View，管理切换不同形态
  */
-public class AudioRoomMicWrapView extends ConstraintLayout {
+public class SceneRoomMicWrapView extends ConstraintLayout {
 
     private AudioRoomMicStyle micStyle = AudioRoomMicStyle.NORMAL;
     protected ArrayList<AudioRoomMicModel> mDatas = new ArrayList<>();
     private BaseMicView mBaseMicView;
     private OnMicItemClickListener onMicItemClickListener;
 
-    public AudioRoomMicWrapView(@NonNull Context context) {
+    public SceneRoomMicWrapView(@NonNull Context context) {
         this(context, null);
     }
 
-    public AudioRoomMicWrapView(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public SceneRoomMicWrapView(@NonNull Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public AudioRoomMicWrapView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public SceneRoomMicWrapView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initView();
     }

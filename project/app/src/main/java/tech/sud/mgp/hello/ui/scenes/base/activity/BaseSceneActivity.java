@@ -24,25 +24,25 @@ import tech.sud.mgp.hello.common.base.BaseDialogFragment;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.permission.PermissionFragment;
 import tech.sud.mgp.hello.common.permission.SudPermissionUtils;
+import tech.sud.mgp.hello.common.widget.dialog.BottomOptionDialog;
 import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
 import tech.sud.mgp.hello.rtc.audio.core.AudioPCMData;
-import tech.sud.mgp.hello.ui.scenes.audio.constant.OperateMicType;
-import tech.sud.mgp.hello.ui.scenes.audio.viewmodel.AudioRoomViewModel;
-import tech.sud.mgp.hello.ui.scenes.audio.widget.dialog.BottomOptionDialog;
-import tech.sud.mgp.hello.ui.scenes.audio.widget.dialog.GameModeDialog;
-import tech.sud.mgp.hello.ui.scenes.audio.widget.view.AudioRoomBottomView;
-import tech.sud.mgp.hello.ui.scenes.audio.widget.view.AudioRoomTopView;
-import tech.sud.mgp.hello.ui.scenes.audio.widget.view.chat.AudioRoomChatView;
-import tech.sud.mgp.hello.ui.scenes.audio.widget.view.chat.RoomInputMsgView;
-import tech.sud.mgp.hello.ui.scenes.audio.widget.view.mic.AudioRoomMicWrapView;
-import tech.sud.mgp.hello.ui.scenes.audio.widget.view.mic.OnMicItemClickListener;
+import tech.sud.mgp.hello.ui.scenes.base.constant.OperateMicType;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoleType;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
-import tech.sud.mgp.hello.ui.scenes.base.service.AudioRoomService;
-import tech.sud.mgp.hello.ui.scenes.base.service.AudioRoomServiceCallback;
+import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomService;
+import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomServiceCallback;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.GameViewModel;
+import tech.sud.mgp.hello.ui.scenes.base.viewmodel.SceneRoomViewModel;
+import tech.sud.mgp.hello.ui.scenes.base.widget.dialog.GameModeDialog;
+import tech.sud.mgp.hello.ui.scenes.base.widget.view.SceneRoomBottomView;
+import tech.sud.mgp.hello.ui.scenes.base.widget.view.SceneRoomTopView;
+import tech.sud.mgp.hello.ui.scenes.base.widget.view.chat.RoomInputMsgView;
+import tech.sud.mgp.hello.ui.scenes.base.widget.view.chat.SceneRoomChatView;
+import tech.sud.mgp.hello.ui.scenes.base.widget.view.mic.OnMicItemClickListener;
+import tech.sud.mgp.hello.ui.scenes.base.widget.view.mic.SceneRoomMicWrapView;
 import tech.sud.mgp.hello.ui.scenes.common.gift.listener.GiftSendClickListener;
 import tech.sud.mgp.hello.ui.scenes.common.gift.manager.GiftHelper;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftModel;
@@ -59,19 +59,19 @@ public abstract class BaseSceneActivity extends BaseActivity {
     private long playingGameId; // 当前正在玩的游戏id
     private boolean needEnterRoom = true; // 标识是否需要进入房间
 
-    private AudioRoomTopView topView;
-    private AudioRoomMicWrapView micView;
-    private AudioRoomChatView chatView;
-    private AudioRoomBottomView bottomView;
+    private SceneRoomTopView topView;
+    private SceneRoomMicWrapView micView;
+    private SceneRoomChatView chatView;
+    private SceneRoomBottomView bottomView;
     private FrameLayout giftContainer;
     private GiftEffectView effectView;
     private RoomInputMsgView inputMsgView;
     private FrameLayout gameContainer;
     private TextView tvGameNumber;
 
-    private final AudioRoomService audioRoomService = new AudioRoomService();
-    private final AudioRoomService.MyBinder binder = audioRoomService.getBinder();
-    private final AudioRoomViewModel viewModel = new AudioRoomViewModel();
+    private final SceneRoomService sceneRoomService = new SceneRoomService();
+    private final SceneRoomService.MyBinder binder = sceneRoomService.getBinder();
+    private final SceneRoomViewModel viewModel = new SceneRoomViewModel();
     private final GameViewModel gameViewModel = new GameViewModel();
     private RoomGiftDialog roomGiftDialog;
 
@@ -91,6 +91,11 @@ public abstract class BaseSceneActivity extends BaseActivity {
         }
         playingGameId = this.roomInfoModel.gameId;
         return super.beforeSetContentView();
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_audio_room;
     }
 
     @Override
@@ -131,7 +136,7 @@ public abstract class BaseSceneActivity extends BaseActivity {
     }
 
     private void enterRoom() {
-        audioRoomService.onCreate();
+        sceneRoomService.onCreate();
         binder.setCallback(callback);
         binder.init(sceneConfig);
         binder.enterRoom(roomInfoModel);
@@ -516,11 +521,11 @@ public abstract class BaseSceneActivity extends BaseActivity {
     // 切换游戏之后，更新页面样式
     private void updatePageStyle() {
         if (roomInfoModel.gameId > 0) { // 玩着游戏
-            micView.setMicStyle(AudioRoomMicWrapView.AudioRoomMicStyle.GAME);
-            chatView.setChatStyle(AudioRoomChatView.AudioRoomChatStyle.GAME);
+            micView.setMicStyle(SceneRoomMicWrapView.AudioRoomMicStyle.GAME);
+            chatView.setChatStyle(SceneRoomChatView.AudioRoomChatStyle.GAME);
         } else {
-            micView.setMicStyle(AudioRoomMicWrapView.AudioRoomMicStyle.NORMAL);
-            chatView.setChatStyle(AudioRoomChatView.AudioRoomChatStyle.NORMAL);
+            micView.setMicStyle(SceneRoomMicWrapView.AudioRoomMicStyle.NORMAL);
+            chatView.setChatStyle(SceneRoomChatView.AudioRoomChatStyle.NORMAL);
         }
     }
 
@@ -532,7 +537,7 @@ public abstract class BaseSceneActivity extends BaseActivity {
         }
     }
 
-    private final AudioRoomServiceCallback callback = new AudioRoomServiceCallback() {
+    private final SceneRoomServiceCallback callback = new SceneRoomServiceCallback() {
 
         @Override
         public void onEnterRoomSuccess() {
@@ -666,7 +671,7 @@ public abstract class BaseSceneActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        audioRoomService.onDestroy();
+        sceneRoomService.onDestroy();
         binder.setCallback(null);
         if (effectView != null) {
             effectView.onDestory();

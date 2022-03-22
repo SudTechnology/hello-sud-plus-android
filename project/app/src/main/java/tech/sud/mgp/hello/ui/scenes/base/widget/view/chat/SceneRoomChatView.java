@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.scenes.audio.widget.view.chat;
+package tech.sud.mgp.hello.ui.scenes.base.widget.view.chat;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -16,22 +16,22 @@ import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.widget.view.TopFadingEdgeRecyclerView;
 
-public class AudioRoomChatView extends ConstraintLayout {
+public class SceneRoomChatView extends ConstraintLayout {
 
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private RoomChatAdapter mAdapter;
     private AudioRoomChatStyle chatStyle = AudioRoomChatStyle.NORMAL;
 
-    public AudioRoomChatView(@NonNull Context context) {
+    public SceneRoomChatView(@NonNull Context context) {
         this(context, null);
     }
 
-    public AudioRoomChatView(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public SceneRoomChatView(@NonNull Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public AudioRoomChatView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public SceneRoomChatView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initView();
     }

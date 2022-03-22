@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.scenes.audio.widget.view;
+package tech.sud.mgp.hello.ui.scenes.base.widget.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -13,7 +13,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import tech.sud.mgp.hello.R;
 
-public class AudioRoomBottomView extends ConstraintLayout {
+public class SceneRoomBottomView extends ConstraintLayout {
 
     private LinearLayout mViewGotMic;
     private ImageView mIvMicState;
@@ -22,21 +22,21 @@ public class AudioRoomBottomView extends ConstraintLayout {
 
     private boolean micOpened = false;
 
-    public AudioRoomBottomView(@NonNull Context context) {
+    public SceneRoomBottomView(@NonNull Context context) {
         this(context, null);
     }
 
-    public AudioRoomBottomView(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public SceneRoomBottomView(@NonNull Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public AudioRoomBottomView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public SceneRoomBottomView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initView();
     }
 
     private void initView() {
-        inflate(getContext(), R.layout.view_audio_room_bottom, this);
+        inflate(getContext(), R.layout.view_scene_room_bottom, this);
         mViewGotMic = findViewById(R.id.ll_got_mic);
         mIvMicState = findViewById(R.id.iv_mic_state);
         mTvInput = findViewById(R.id.tv_input);

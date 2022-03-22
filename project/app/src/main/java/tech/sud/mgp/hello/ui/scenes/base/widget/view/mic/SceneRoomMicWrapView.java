@@ -11,8 +11,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import tech.sud.mgp.hello.ui.scenes.audio.widget.view.mic.AudioRoomGameMicView;
-import tech.sud.mgp.hello.ui.scenes.audio.widget.view.mic.AudioRoomMicView;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 
 /**
@@ -20,7 +18,6 @@ import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
  */
 public class SceneRoomMicWrapView extends ConstraintLayout {
 
-    private AudioRoomMicStyle micStyle = AudioRoomMicStyle.NORMAL;
     protected ArrayList<AudioRoomMicModel> mDatas = new ArrayList<>();
     private BaseMicView mBaseMicView;
     private OnMicItemClickListener onMicItemClickListener;
@@ -35,23 +32,9 @@ public class SceneRoomMicWrapView extends ConstraintLayout {
 
     public SceneRoomMicWrapView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        initView();
     }
 
-    private void initView() {
-        buildMicView();
-    }
-
-    private void buildMicView() {
-        BaseMicView baseMicView = null;
-        switch (micStyle) {
-            case NORMAL:
-                baseMicView = new AudioRoomMicView(getContext());
-                break;
-            case GAME:
-                baseMicView = new AudioRoomGameMicView(getContext());
-                break;
-        }
+    private void addBaseMicView(BaseMicView baseMicView) {
         if (baseMicView == null) return;
         LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         params.topToTop = LayoutParams.PARENT_ID;
@@ -69,13 +52,17 @@ public class SceneRoomMicWrapView extends ConstraintLayout {
         }
     }
 
-    public void setMicStyle(AudioRoomMicStyle style) {
-        if (micStyle == style) {
+    /**
+     * 设置麦位的View
+     *
+     * @param baseMicView 麦位View
+     */
+    public void setMicView(BaseMicView baseMicView) {
+        if (mBaseMicView == baseMicView) {
             return;
         }
-        micStyle = style;
         removeMicView();
-        buildMicView();
+        addBaseMicView(baseMicView);
     }
 
     public void setList(List<AudioRoomMicModel> list) {
@@ -126,11 +113,6 @@ public class SceneRoomMicWrapView extends ConstraintLayout {
         if (baseMicView != null) {
             baseMicView.notifyItemChange(micIndex, model);
         }
-    }
-
-    public enum AudioRoomMicStyle {
-        NORMAL, // 1+8麦位样式
-        GAME    // 游戏样式
     }
 
 }

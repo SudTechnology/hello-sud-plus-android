@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.Observer;
 
 import com.blankj.utilcode.util.KeyboardUtils;
@@ -53,26 +54,32 @@ import tech.sud.mgp.hello.ui.scenes.common.gift.view.RoomGiftDialog;
 /**
  * 场景房间的基类
  */
-public abstract class BaseSceneActivity extends BaseActivity {
+public abstract class BaseSceneActivity extends BaseActivity implements SceneRoomServiceCallback {
 
     public RoomInfoModel roomInfoModel; // 房间信息
     private long playingGameId; // 当前正在玩的游戏id
     private boolean needEnterRoom = true; // 标识是否需要进入房间
 
-    private SceneRoomTopView topView;
-    private SceneRoomMicWrapView micView;
-    private SceneRoomChatView chatView;
-    private SceneRoomBottomView bottomView;
-    private FrameLayout giftContainer;
-    private GiftEffectView effectView;
-    private RoomInputMsgView inputMsgView;
-    private FrameLayout gameContainer;
-    private TextView tvGameNumber;
+    protected SceneRoomTopView topView;
+    protected SceneRoomMicWrapView micView;
+    protected SceneRoomChatView chatView;
+    protected SceneRoomBottomView bottomView;
+    protected FrameLayout giftContainer;
+    protected GiftEffectView effectView;
+    protected RoomInputMsgView inputMsgView;
+    protected FrameLayout gameContainer;
+    protected TextView tvGameNumber;
 
     private final SceneRoomService sceneRoomService = new SceneRoomService();
     private final SceneRoomService.MyBinder binder = sceneRoomService.getBinder();
     private final SceneRoomViewModel viewModel = new SceneRoomViewModel();
-    private final GameViewModel gameViewModel = new GameViewModel();
+    private final GameViewModel gameViewModel = initGameViewModel();
+
+    @NonNull
+    private GameViewModel initGameViewModel() {
+        return new GameViewModel();
+    }
+
     private RoomGiftDialog roomGiftDialog;
 
     /**
@@ -137,7 +144,7 @@ public abstract class BaseSceneActivity extends BaseActivity {
 
     private void enterRoom() {
         sceneRoomService.onCreate();
-        binder.setCallback(callback);
+        binder.setCallback(this);
         binder.init(sceneConfig);
         binder.enterRoom(roomInfoModel);
     }
@@ -295,7 +302,7 @@ public abstract class BaseSceneActivity extends BaseActivity {
         gameViewModel.gameASRLiveData.observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
-                binder.setASROpen(aBoolean);
+                onASRChanged(aBoolean);
             }
         });
         gameViewModel.gameRTCPublishLiveData.observe(this, new Observer<Boolean>() {
@@ -325,6 +332,11 @@ public abstract class BaseSceneActivity extends BaseActivity {
                 updateGameNumber();
             }
         });
+    }
+
+    // asr的开启与关闭
+    protected void onASRChanged(boolean open) {
+        binder.setASROpen(open);
     }
 
     // 点击了自己的麦位
@@ -519,14 +531,7 @@ public abstract class BaseSceneActivity extends BaseActivity {
     }
 
     // 切换游戏之后，更新页面样式
-    private void updatePageStyle() {
-        if (roomInfoModel.gameId > 0) { // 玩着游戏
-            micView.setMicStyle(SceneRoomMicWrapView.AudioRoomMicStyle.GAME);
-            chatView.setChatStyle(SceneRoomChatView.AudioRoomChatStyle.GAME);
-        } else {
-            micView.setMicStyle(SceneRoomMicWrapView.AudioRoomMicStyle.NORMAL);
-            chatView.setChatStyle(SceneRoomChatView.AudioRoomChatStyle.NORMAL);
-        }
+    protected void updatePageStyle() {
     }
 
     private void updateStatusBar() {
@@ -537,107 +542,106 @@ public abstract class BaseSceneActivity extends BaseActivity {
         }
     }
 
-    private final SceneRoomServiceCallback callback = new SceneRoomServiceCallback() {
+    // region service回调
+    @Override
+    public void onEnterRoomSuccess() {
+        initGame();
+    }
 
-        @Override
-        public void onEnterRoomSuccess() {
-            initGame();
+    @Override
+    public void setMicList(List<AudioRoomMicModel> list) {
+        micView.setList(list);
+        if (roomGiftDialog != null) {
+            roomGiftDialog.updateMicUsers(list);
         }
+    }
 
-        @Override
-        public void setMicList(List<AudioRoomMicModel> list) {
-            micView.setList(list);
-            if (roomGiftDialog != null) {
-                roomGiftDialog.updateMicUsers(list);
-            }
+    @Override
+    public void notifyMicItemChange(int micIndex, AudioRoomMicModel model) {
+        micView.notifyItemChange(micIndex, model);
+        if (roomGiftDialog != null) {
+            roomGiftDialog.updateOneMicUsers(model);
         }
+    }
 
-        @Override
-        public void notifyMicItemChange(int micIndex, AudioRoomMicModel model) {
-            micView.notifyItemChange(micIndex, model);
-            if (roomGiftDialog != null) {
-                roomGiftDialog.updateOneMicUsers(model);
-            }
+    @Override
+    public void selfMicIndex(int micIndex) {
+        if (micIndex >= 0) {
+            bottomView.hideGotMic();
+            bottomView.showMicState();
+        } else {
+            bottomView.showGotMic();
+            bottomView.hideMicState();
         }
+        gameViewModel.selfMicIndex(micIndex);
+    }
 
-        @Override
-        public void selfMicIndex(int micIndex) {
-            if (micIndex >= 0) {
-                bottomView.hideGotMic();
-                bottomView.showMicState();
-            } else {
-                bottomView.showGotMic();
-                bottomView.hideMicState();
-            }
-            gameViewModel.selfMicIndex(micIndex);
+    @Override
+    public void addPublicMsg(Object msg) {
+        chatView.addMsg(msg);
+    }
+
+    @Override
+    public void sendGiftsNotify(GiftNotifyDetailodel notify) {
+        showGift(notify.gift);
+    }
+
+    @Override
+    public void onMicStateChanged(boolean isOpened) {
+        bottomView.setMicOpened(isOpened);
+    }
+
+    @Override
+    public void onSoundLevel(int micIndex) {
+        micView.startSoundLevel(micIndex);
+    }
+
+    @Override
+    public void onRoomOnlineUserCountUpdate(String roomID, int count) {
+        topView.setNumber(count + "");
+    }
+
+    @Override
+    public void onGameChange(long gameId) {
+        switchGame(gameId, false);
+    }
+
+    @Override
+    public void onWrapMicModel(AudioRoomMicModel model) {
+        gameViewModel.wrapMicModel(model);
+        if (roomGiftDialog != null) {
+            roomGiftDialog.setGiftEnable(model);
+        } else {
+            model.giftEnable = false;
         }
+    }
 
-        @Override
-        public void addPublicMsg(Object msg) {
-            chatView.addMsg(msg);
-        }
+    @Override
+    public void onCapturedAudioData(AudioPCMData audioPCMData) {
+        gameViewModel.onCapturedAudioData(audioPCMData);
+    }
 
-        @Override
-        public void sendGiftsNotify(GiftNotifyDetailodel notify) {
-            showGift(notify.gift);
-        }
+    @Override
+    public void onSelfSendMsg(String msg) {
+        gameViewModel.sendMsgCompleted(msg);
+    }
 
-        @Override
-        public void onMicStateChanged(boolean isOpened) {
-            bottomView.setMicOpened(isOpened);
-        }
-
-        @Override
-        public void onSoundLevel(int micIndex) {
-            micView.startSoundLevel(micIndex);
-        }
-
-        @Override
-        public void onRoomOnlineUserCountUpdate(String roomID, int count) {
-            topView.setNumber(count + "");
-        }
-
-        @Override
-        public void onGameChange(long gameId) {
-            switchGame(gameId, false);
-        }
-
-        @Override
-        public void onWrapMicModel(AudioRoomMicModel model) {
-            gameViewModel.wrapMicModel(model);
-            if (roomGiftDialog != null) {
-                roomGiftDialog.setGiftEnable(model);
-            } else {
-                model.giftEnable = false;
-            }
-        }
-
-        @Override
-        public void onCapturedAudioData(AudioPCMData audioPCMData) {
-            gameViewModel.onCapturedAudioData(audioPCMData);
-        }
-
-        @Override
-        public void onSelfSendMsg(String msg) {
-            gameViewModel.sendMsgCompleted(msg);
-        }
-
-        @Override
-        public void onMicLocationSwitchCompleted(int micIndex, boolean operate, OperateMicType type) {
-            if (operate) {
-                // 下面这个逻辑处理的原因是在于
-                // 例如狼人杀游戏，用户点击加入游戏后，游戏会短时间内发送mg_common_player_in以及mg_common_self_microphone
-                // app会处理上麦以及开麦的逻辑，但上麦是有延迟的，并且开麦依赖于上麦成功之后的streamId
-                // 所以这里在上麦成功之后，再判断一下是否要执行开麦的逻辑
-                if (type == OperateMicType.GAME_AUTO) {
-                    Boolean isPublish = gameViewModel.gameRTCPublishLiveData.getValue();
-                    if (isPublish != null && isPublish) {
-                        openMic();
-                    }
+    @Override
+    public void onMicLocationSwitchCompleted(int micIndex, boolean operate, OperateMicType type) {
+        if (operate) {
+            // 下面这个逻辑处理的原因是在于
+            // 例如狼人杀游戏，用户点击加入游戏后，游戏会短时间内发送mg_common_player_in以及mg_common_self_microphone
+            // app会处理上麦以及开麦的逻辑，但上麦是有延迟的，并且开麦依赖于上麦成功之后的streamId
+            // 所以这里在上麦成功之后，再判断一下是否要执行开麦的逻辑
+            if (type == OperateMicType.GAME_AUTO) {
+                Boolean isPublish = gameViewModel.gameRTCPublishLiveData.getValue();
+                if (isPublish != null && isPublish) {
+                    openMic();
                 }
             }
         }
-    };
+    }
+    // endregion service回调
 
     @Override
     protected void onStart() {

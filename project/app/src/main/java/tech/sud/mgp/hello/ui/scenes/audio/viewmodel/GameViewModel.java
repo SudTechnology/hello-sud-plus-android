@@ -44,7 +44,7 @@ import tech.sud.mgp.hello.ui.scenes.audio.model.AudioRoomMicModel;
 /**
  * 游戏业务逻辑
  */
-public class GameViewModel {
+public class GameViewModel implements SudFSMMGListener {
 
     private long roomId; // 房间id
     private long playingGameId; // 当前使用的游戏id
@@ -152,7 +152,7 @@ public class GameViewModel {
      */
     private void loadGame(Activity activity, String code, long gameId) {
         // 给装饰类设置回调
-        sudFSMMGDecorator.setSudFSMMGListener(sudFSMMGListener);
+        sudFSMMGDecorator.setSudFSMMGListener(this);
 
         // 调用游戏sdk加载游戏
         ISudFSTAPP iSudFSTAPP = SudMGP.loadMG(activity, HSUserInfo.userId + "", roomId + "", code, gameId, "zh-CN", sudFSMMGDecorator);
@@ -180,130 +180,6 @@ public class GameViewModel {
             }
         }, 5000);
     }
-
-    /**
-     * 游戏侧的回调
-     */
-    private final SudFSMMGListener sudFSMMGListener = new SudFSMMGListener() {
-        @Override
-        public void onGameLog(String str) {
-            super.onGameLog(str);
-            LogUtils.d(str);
-        }
-
-        @Override
-        public void onGameStarted() {
-        }
-
-        @Override
-        public void onGameDestroyed() {
-        }
-
-        @Override
-        public void onExpireCode(ISudFSMStateHandle handle, String dataJson) {
-            processOnExpireCode(sudFSTAPPDecorator, handle);
-        }
-
-        @Override
-        public void onGetGameViewInfo(ISudFSMStateHandle handle, String dataJson) {
-            processOnGetGameViewInfo(gameView, handle);
-        }
-
-        @Override
-        public void onGetGameCfg(ISudFSMStateHandle handle, String dataJson) {
-            processOnGetGameCfg(handle, dataJson);
-        }
-
-        // 公屏消息
-        @Override
-        public void onGameMGCommonPublicMessage(ISudFSMStateHandle handle, SudMGPMGState.MGCommonPublicMessage model) {
-            gameMessageLiveData.setValue(GameCommonStateUtils.parseMGCommonPublicMessage(model));
-            ISudFSMStateHandleUtils.handleSuccess(handle);
-        }
-
-        // 游戏状态
-        @Override
-        public void onGameMGCommonGameState(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameState model) {
-            notifyShowFinishGameBtn();
-            ISudFSMStateHandleUtils.handleSuccess(handle);
-        }
-
-        // 关键字
-        @Override
-        public void onGameMGCommonKeyWordToHit(ISudFSMStateHandle handle, SudMGPMGState.MGCommonKeyWordToHit model) {
-            if (model != null) {
-                gameKeywordLiveData.setValue(model.word);
-            }
-            ISudFSMStateHandleUtils.handleSuccess(handle);
-        }
-
-        // ASR开关
-        @Override
-        public void onGameMGCommonGameASR(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameASR model) {
-            boolean isOpen = model != null && model.isOpen;
-            gameASRLiveData.setValue(isOpen);
-            ISudFSMStateHandleUtils.handleSuccess(handle);
-        }
-
-        // 麦克风状态
-        @Override
-        public void onGameMGCommonSelfMicrophone(ISudFSMStateHandle handle, SudMGPMGState.MGCommonSelfMicrophone model) {
-            boolean isOn = model != null && model.isOn;
-            gameRTCPublishLiveData.setValue(isOn);
-            ISudFSMStateHandleUtils.handleSuccess(handle);
-        }
-
-        // 耳机（听筒，扬声器）状态
-        @Override
-        public void onGameMGCommonSelfHeadphone(ISudFSMStateHandle handle, SudMGPMGState.MGCommonSelfHeadphone model) {
-            boolean isOn = model != null && model.isOn;
-            gameRTCPlayLiveData.setValue(isOn);
-            ISudFSMStateHandleUtils.handleSuccess(handle);
-        }
-
-        // 队长状态
-        @Override
-        public void onPlayerMGCommonPlayerCaptain(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGCommonPlayerCaptain model) {
-            if (model != null) {
-                notifyUpdateMic();
-                notifyShowFinishGameBtn();
-            }
-            ISudFSMStateHandleUtils.handleSuccess(handle);
-        }
-
-        // 玩家准备状态
-        @Override
-        public void onPlayerMGCommonPlayerReady(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGCommonPlayerReady model) {
-            if (model != null) {
-                notifyUpdateMic();
-            }
-            ISudFSMStateHandleUtils.handleSuccess(handle);
-        }
-
-        // 玩家加入状态
-        @Override
-        public void onPlayerMGCommonPlayerIn(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGCommonPlayerIn model) {
-            if (model != null) {
-                if ((HSUserInfo.userId + "").equals(userId)) { // 属于自己的变动
-                    if (model.isIn) {
-                        autoUpMicLiveData.setValue(null);
-                    }
-                }
-                notifyUpdateMic();
-                playerInLiveData.setValue(null);
-            }
-            ISudFSMStateHandleUtils.handleSuccess(handle);
-        }
-
-        // 玩家游戏状态
-        @Override
-        public void onPlayerMGCommonPlayerPlaying(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGCommonPlayerPlaying model) {
-            if (model != null) {
-                notifyUpdateMic();
-            }
-            ISudFSMStateHandleUtils.handleSuccess(handle);
-        }
-    };
 
     // 通知更新麦位
     private void notifyUpdateMic() {
@@ -589,4 +465,127 @@ public class GameViewModel {
         }
         return false;
     }
+
+
+    // region 游戏侧回调
+    @Override
+    public void onGameLog(String str) {
+        SudFSMMGListener.super.onGameLog(str);
+        LogUtils.d(str);
+    }
+
+    @Override
+    public void onGameStarted() {
+    }
+
+    @Override
+    public void onGameDestroyed() {
+    }
+
+    @Override
+    public void onExpireCode(ISudFSMStateHandle handle, String dataJson) {
+        processOnExpireCode(sudFSTAPPDecorator, handle);
+    }
+
+    @Override
+    public void onGetGameViewInfo(ISudFSMStateHandle handle, String dataJson) {
+        processOnGetGameViewInfo(gameView, handle);
+    }
+
+    @Override
+    public void onGetGameCfg(ISudFSMStateHandle handle, String dataJson) {
+        processOnGetGameCfg(handle, dataJson);
+    }
+
+    // 公屏消息
+    @Override
+    public void onGameMGCommonPublicMessage(ISudFSMStateHandle handle, SudMGPMGState.MGCommonPublicMessage model) {
+        gameMessageLiveData.setValue(GameCommonStateUtils.parseMGCommonPublicMessage(model));
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    // 游戏状态
+    @Override
+    public void onGameMGCommonGameState(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameState model) {
+        notifyShowFinishGameBtn();
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    // 关键字
+    @Override
+    public void onGameMGCommonKeyWordToHit(ISudFSMStateHandle handle, SudMGPMGState.MGCommonKeyWordToHit model) {
+        if (model != null) {
+            gameKeywordLiveData.setValue(model.word);
+        }
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    // ASR开关
+    @Override
+    public void onGameMGCommonGameASR(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameASR model) {
+        boolean isOpen = model != null && model.isOpen;
+        gameASRLiveData.setValue(isOpen);
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    // 麦克风状态
+    @Override
+    public void onGameMGCommonSelfMicrophone(ISudFSMStateHandle handle, SudMGPMGState.MGCommonSelfMicrophone model) {
+        boolean isOn = model != null && model.isOn;
+        gameRTCPublishLiveData.setValue(isOn);
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    // 耳机（听筒，扬声器）状态
+    @Override
+    public void onGameMGCommonSelfHeadphone(ISudFSMStateHandle handle, SudMGPMGState.MGCommonSelfHeadphone model) {
+        boolean isOn = model != null && model.isOn;
+        gameRTCPlayLiveData.setValue(isOn);
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    // 队长状态
+    @Override
+    public void onPlayerMGCommonPlayerCaptain(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGCommonPlayerCaptain model) {
+        if (model != null) {
+            notifyUpdateMic();
+            notifyShowFinishGameBtn();
+        }
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    // 玩家准备状态
+    @Override
+    public void onPlayerMGCommonPlayerReady(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGCommonPlayerReady model) {
+        if (model != null) {
+            notifyUpdateMic();
+        }
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    // 玩家加入状态
+    @Override
+    public void onPlayerMGCommonPlayerIn(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGCommonPlayerIn model) {
+        if (model != null) {
+            if ((HSUserInfo.userId + "").equals(userId)) { // 属于自己的变动
+                if (model.isIn) {
+                    autoUpMicLiveData.setValue(null);
+                }
+            }
+            notifyUpdateMic();
+            playerInLiveData.setValue(null);
+        }
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    // 玩家游戏状态
+    @Override
+    public void onPlayerMGCommonPlayerPlaying(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGCommonPlayerPlaying model) {
+        if (model != null) {
+            notifyUpdateMic();
+        }
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+    // endregion 游戏侧回调
+
 }

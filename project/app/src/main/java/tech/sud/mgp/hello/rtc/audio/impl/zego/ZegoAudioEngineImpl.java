@@ -30,7 +30,9 @@ import im.zego.zegoexpress.entity.ZegoStream;
 import im.zego.zegoexpress.entity.ZegoUser;
 import tech.sud.mgp.hello.rtc.audio.core.AudioEngineUpdateType;
 import tech.sud.mgp.hello.rtc.audio.core.AudioPCMData;
+import tech.sud.mgp.hello.rtc.audio.core.AudioRoomState;
 import tech.sud.mgp.hello.rtc.audio.core.AudioStream;
+import tech.sud.mgp.hello.rtc.audio.core.AudioUser;
 import tech.sud.mgp.hello.rtc.audio.core.ISudAudioEngine;
 import tech.sud.mgp.hello.rtc.audio.core.ISudAudioEventListener;
 import tech.sud.mgp.hello.rtc.audio.model.AudioConfigModel;
@@ -39,16 +41,12 @@ import tech.sud.mgp.hello.rtc.audio.model.AudioJoinRoomModel;
 // 即构SDK实现
 public class ZegoAudioEngineImpl implements ISudAudioEngine {
 
-    private ISudAudioEventListener mIAudioEventHandler;
+    private ISudAudioEventListener mISudAudioEventListener;
     private String mRoomId;
-
-    private ZegoExpressEngine getEngine() {
-        return ZegoExpressEngine.getEngine();
-    }
 
     @Override
     public void setEventListener(ISudAudioEventListener handler) {
-        mIAudioEventHandler = handler;
+        mISudAudioEventListener = handler;
     }
 
     @Override
@@ -69,11 +67,10 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
         ZegoEngineProfile profile = new ZegoEngineProfile();
         profile.appID = appIdL;
         profile.appSign = model.appSign;
-        profile.scenario = ZegoScenario.GENERAL;
+        profile.scenario = ZegoScenario.COMMUNICATION;
         profile.application = Utils.getApp();
         ZegoExpressEngine engine = ZegoExpressEngine.createEngine(profile, mIZegoEventHandler);
         if (engine != null) {
-//            engine.enableAudioCaptureDevice(false); // 推送音乐流时需要开启
             engine.startSoundLevelMonitor();
         }
     }
@@ -81,6 +78,7 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
     @Override
     public void destroy() {
         ZegoExpressEngine.destroyEngine(null);
+        mRoomId = null;
     }
 
     @Override
@@ -88,12 +86,11 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
         if (model == null)
             return;
 
-        ZegoExpressEngine engine = getEngine();
+        ZegoExpressEngine engine = ZegoExpressEngine.getEngine();
         if (engine != null) {
             ZegoUser zegoUser = new ZegoUser(model.userID, model.userName);
             ZegoRoomConfig zegoRoomConfig = new ZegoRoomConfig();
-            zegoRoomConfig.maxMemberCount = model.maxMemberCount;
-            zegoRoomConfig.isUserStatusNotify = model.isUserStatusNotify;
+            zegoRoomConfig.isUserStatusNotify = true;
             zegoRoomConfig.token = model.token;
 
             engine.loginRoom(model.roomID, zegoUser, zegoRoomConfig);
@@ -102,15 +99,16 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
 
     @Override
     public void leaveRoom() {
-        ZegoExpressEngine engine = getEngine();
+        ZegoExpressEngine engine = ZegoExpressEngine.getEngine();
         if (engine != null) {
             engine.logoutRoom();
+            mRoomId = null;
         }
     }
 
     @Override
     public void startPublishStream() {
-        ZegoExpressEngine engine = getEngine();
+        ZegoExpressEngine engine = ZegoExpressEngine.getEngine();
         if (engine != null) {
             String streamId = UUID.randomUUID().toString() + "-" + String.valueOf(new Date().getTime());
             engine.startPublishingStream(streamId);
@@ -120,7 +118,7 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
 
     @Override
     public void stopPublishStream() {
-        ZegoExpressEngine engine = getEngine();
+        ZegoExpressEngine engine = ZegoExpressEngine.getEngine();
         if (engine != null) {
             engine.stopPublishingStream();
 //            engine.enableAudioCaptureDevice(false);
@@ -129,7 +127,7 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
 
     @Override
     public void startSubscribingStream() {
-        ZegoExpressEngine engine = getEngine();
+        ZegoExpressEngine engine = ZegoExpressEngine.getEngine();
         if (engine != null) {
             engine.muteAllPlayStreamAudio(false);
         }
@@ -137,15 +135,55 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
 
     @Override
     public void stopSubscribingStream() {
-        ZegoExpressEngine engine = getEngine();
+        ZegoExpressEngine engine = ZegoExpressEngine.getEngine();
         if (engine != null) {
             engine.muteAllPlayStreamAudio(true);
         }
     }
 
     @Override
+    public void startPCMCapture() {
+        ZegoExpressEngine engine = ZegoExpressEngine.getEngine();
+        if (engine != null) {
+            /* 开启获取PCM数据功能 */
+            ZegoAudioFrameParam param = new ZegoAudioFrameParam();
+            int bitmask = 0;
+            // Enable obtaining raw audio data
+            param.channel = ZegoAudioChannel.MONO;
+            param.sampleRate = ZegoAudioSampleRate.ZEGO_AUDIO_SAMPLE_RATE_16K;
+            // Add bitmask and turn on the switch of collecting audio data
+            // The bitmask values corresponding to capture, playback and mixing are: CAPTURED=1, PLAYBACK=2, MIXED=4.
+            // The final value of bitmask is 7, which means that capture callback,
+            // playback callback, and mixing callback will be triggered at the same time.
+            // 采集，拉流，混合对应的位掩码值分别是：CAPTURED=1，PLAYBACK=2, MIXED=4，bitmask最终得到的值为7，表示会同时触发采集、拉流、混合的原始数据回调。
+            bitmask = bitmask | ZegoAudioDataCallbackBitMask.CAPTURED.value();
+            engine.startAudioDataObserver(bitmask, param);
+
+            /* 设置原始音频数据回调 */
+            engine.setAudioDataHandler(audioDataHandler);
+        }
+    }
+
+    @Override
+    public void stopPCMCapture() {
+        ZegoExpressEngine engine = ZegoExpressEngine.getEngine();
+        if (engine != null) {
+            engine.setAudioDataHandler(null);
+            engine.stopAudioDataObserver();
+        }
+    }
+
+    @Override
+    public void setAudioRouteToSpeaker(boolean enabled) {
+        ZegoExpressEngine engine = ZegoExpressEngine.getEngine();
+        if (engine != null) {
+            engine.setAudioRouteToSpeaker(enabled);
+        }
+    }
+
+    @Override
     public void sendCommand(String command, SendCommandListener listener) {
-        ZegoExpressEngine engine = getEngine();
+        ZegoExpressEngine engine = ZegoExpressEngine.getEngine();
         if (engine != null) {
             engine.sendCustomCommand(mRoomId, command, null, new IZegoIMSendCustomCommandCallback() {
                 @Override
@@ -158,38 +196,51 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
         }
     }
 
-    @Override
-    public void startPCMCapture() {
-        ZegoExpressEngine engine = getEngine();
-        ZegoAudioFrameParam param = new ZegoAudioFrameParam();
-        int bitmask = 0;
-        // Enable obtaining raw audio data
-        param.channel = ZegoAudioChannel.MONO;
-        param.sampleRate = ZegoAudioSampleRate.ZEGO_AUDIO_SAMPLE_RATE_16K;
-        // Add bitmask and turn on the switch of collecting audio data
-        // The bitmask values corresponding to capture, playback and mixing are: CAPTURED=1, PLAYBACK=2, MIXED=4.
-        // The final value of bitmask is 7, which means that capture callback,
-        // playback callback, and mixing callback will be triggered at the same time.
-        // 采集，拉流，混合对应的位掩码值分别是：CAPTURED=1，PLAYBACK=2, MIXED=4，bitmask最终得到的值为7，表示会同时触发采集、拉流、混合的原始数据回调。
-        bitmask = bitmask | ZegoAudioDataCallbackBitMask.CAPTURED.value();
-        if (engine != null) {
-            engine.startAudioDataObserver(bitmask, param);
-            engine.setAudioDataHandler(audioDataHandler);
+    private AudioRoomState convertAudioRoomState(ZegoRoomState state) {
+        switch (state) {
+            case DISCONNECTED:
+                return AudioRoomState.DISCONNECTED;
+            case CONNECTING:
+                return AudioRoomState.CONNECTING;
+            case CONNECTED:
+                return AudioRoomState.CONNECTED;
         }
+        return null;
     }
 
-    @Override
-    public void stopPCMCapture() {
-        ZegoExpressEngine engine = getEngine();
-        if (engine != null) {
-            engine.stopAudioDataObserver();
-            engine.setAudioDataHandler(null);
+    private AudioEngineUpdateType convertMediaAudioEnginUpdateType(ZegoUpdateType type) {
+        switch (type) {
+            case ADD:
+                return AudioEngineUpdateType.ADD;
+            case DELETE:
+                return AudioEngineUpdateType.DELETE;
         }
+        return null;
     }
 
-    @Override
-    public void setAudioRouteToSpeaker(boolean enabled) {
+    private AudioStream convertMediaStream(ZegoStream stream) {
+        if (stream == null) return null;
+        AudioStream audioStream = new AudioStream();
+        audioStream.user = convertMediaUser(stream.user);
+        audioStream.streamID = stream.streamID;
+        audioStream.extraInfo = stream.extraInfo;
+        return audioStream;
+    }
 
+    private List<AudioStream> convertMediaStreamList(List<ZegoStream> zegoStreamList) {
+        if (zegoStreamList == null || zegoStreamList.size() == 0) {
+            return null;
+        }
+        List<AudioStream> list = new ArrayList<>();
+        for (int i = 0; i < zegoStreamList.size(); i++) {
+            list.add(convertMediaStream(zegoStreamList.get(i)));
+        }
+        return list;
+    }
+
+    private AudioUser convertMediaUser(ZegoUser user) {
+        if (user == null) return null;
+        return new AudioUser(user.userID, user.userName);
     }
 
     private final IZegoEventHandler mIZegoEventHandler = new IZegoEventHandler() {
@@ -204,16 +255,16 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
                 mRoomId = roomID;
             }
 
-            ISudAudioEventListener handler = mIAudioEventHandler;
+            ISudAudioEventListener handler = mISudAudioEventListener;
             if (handler != null) {
-                handler.onRoomStateUpdate(roomID, ZegoRoomStateConverter.converAudioRoomState(state), errorCode, extendedData);
+                handler.onRoomStateUpdate(roomID, convertAudioRoomState(state), errorCode, extendedData);
             }
         }
 
         @Override
         public void onCapturedSoundLevelUpdate(float soundLevel) {
             super.onCapturedSoundLevelUpdate(soundLevel);
-            ISudAudioEventListener handler = mIAudioEventHandler;
+            ISudAudioEventListener handler = mISudAudioEventListener;
             if (handler != null) {
                 handler.onCapturedSoundLevelUpdate(soundLevel);
             }
@@ -225,7 +276,7 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
             if (soundLevels == null || soundLevels.size() == 0) {
                 return;
             }
-            ISudAudioEventListener handler = mIAudioEventHandler;
+            ISudAudioEventListener handler = mISudAudioEventListener;
             if (handler != null) {
                 // soundLevels里的key是streamId，将其转换成userId
                 HashMap<String, Float> userSoundLevels = new HashMap<>();
@@ -252,7 +303,7 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
             }
 
             if (streamList != null && streamList.size() > 0) {
-                ZegoExpressEngine engine = getEngine();
+                ZegoExpressEngine engine = ZegoExpressEngine.getEngine();
                 if (engine != null) {
                     switch (updateType) {
                         case ADD:
@@ -269,10 +320,10 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
                 }
             }
 
-            ISudAudioEventListener handler = mIAudioEventHandler;
+            ISudAudioEventListener handler = mISudAudioEventListener;
             if (handler != null) {
-                AudioEngineUpdateType mediaAudioEngineUpdateType = ZegoUpdateTypeConverter.converMediaAudioEnginUpdateType(updateType);
-                List<AudioStream> audioStreamList = ZegoStreamConverter.converMediaStreamList(streamList);
+                AudioEngineUpdateType mediaAudioEngineUpdateType = convertMediaAudioEnginUpdateType(updateType);
+                List<AudioStream> audioStreamList = convertMediaStreamList(streamList);
                 handler.onRoomStreamUpdate(roomID, mediaAudioEngineUpdateType, audioStreamList, extendedData);
             }
         }
@@ -280,16 +331,16 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
         @Override
         public void onIMRecvCustomCommand(String roomID, ZegoUser fromUser, String command) {
             super.onIMRecvCustomCommand(roomID, fromUser, command);
-            ISudAudioEventListener handler = mIAudioEventHandler;
+            ISudAudioEventListener handler = mISudAudioEventListener;
             if (handler != null) {
-                handler.onRecvCommand(ZegoUserConverter.converMediaUser(fromUser), command);
+                handler.onRecvCommand(convertMediaUser(fromUser), command);
             }
         }
 
         @Override
         public void onRoomOnlineUserCountUpdate(String roomID, int count) {
             super.onRoomOnlineUserCountUpdate(roomID, count);
-            ISudAudioEventListener handler = mIAudioEventHandler;
+            ISudAudioEventListener handler = mISudAudioEventListener;
             if (handler != null) {
                 handler.onRoomOnlineUserCountUpdate(roomID, count);
             }
@@ -300,7 +351,7 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
         @Override
         public void onCapturedAudioData(ByteBuffer data, int dataLength, ZegoAudioFrameParam param) {
             super.onCapturedAudioData(data, dataLength, param);
-            ISudAudioEventListener handler = mIAudioEventHandler;
+            ISudAudioEventListener handler = mISudAudioEventListener;
             if (handler != null) {
                 AudioPCMData audioPCMData = new AudioPCMData();
                 audioPCMData.data = data;

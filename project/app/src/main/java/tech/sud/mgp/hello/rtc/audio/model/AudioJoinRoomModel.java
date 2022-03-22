@@ -8,9 +8,5 @@ public class AudioJoinRoomModel {
 
     public String roomID;
 
-    public String token = "";
-
-    public int maxMemberCount = 0;
-
-    public boolean isUserStatusNotify = false;
+    public String token;
 }

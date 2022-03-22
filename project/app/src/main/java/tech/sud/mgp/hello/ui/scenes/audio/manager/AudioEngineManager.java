@@ -60,7 +60,6 @@ public class AudioEngineManager extends BaseServiceManager {
             audioJoinRoomModel.userID = HSUserInfo.userId + "";
             audioJoinRoomModel.userName = HSUserInfo.nickName;
             audioJoinRoomModel.roomID = model.roomId + "";
-            audioJoinRoomModel.isUserStatusNotify = true;
         } else if (rtcType.equals("agora")){
             audioJoinRoomModel = new AudioJoinRoomModel();
             audioJoinRoomModel.userID = HSUserInfo.userId + "";

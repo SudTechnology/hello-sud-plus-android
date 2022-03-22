@@ -1,6 +1,5 @@
 package tech.sud.mgp.hello.ui.main.activity;
 
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,10 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tech.sud.mgp.hello.R;
-import tech.sud.mgp.hello.app.APPConfig;
 import tech.sud.mgp.hello.common.base.BaseActivity;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
-import tech.sud.mgp.hello.common.http.param.BaseUrlManager;
 import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.AppData;
@@ -73,11 +70,6 @@ public class MainActivity extends BaseActivity implements MainTabView.TabClickLi
                 delayGetBaseConfig();
             }
         });
-        String TAG = "MainActivity";
-        Log.d(TAG, "GAME_IS_TEST_ENV:" + APPConfig.GAME_IS_TEST_ENV);
-        Log.d(TAG, "BUGLY_APP_ID:" + APPConfig.BUGLY_APP_ID);
-        Log.d(TAG, "getBaseUrl:" + BaseUrlManager.getBaseUrl());
-        Log.d(TAG, "getInteractBaseUrl:" + BaseUrlManager.getInteractBaseUrl());
     }
 
     private void delayGetBaseConfig() {

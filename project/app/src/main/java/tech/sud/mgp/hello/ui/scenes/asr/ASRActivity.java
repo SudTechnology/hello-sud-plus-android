@@ -12,4 +12,6 @@ public class ASRActivity extends BaseActivity {
     protected int getLayoutId() {
         return R.layout.activity_asr;
     }
+    
+
 }

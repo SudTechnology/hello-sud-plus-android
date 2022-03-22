@@ -102,7 +102,7 @@ public abstract class BaseSceneActivity extends BaseActivity implements SceneRoo
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_audio_room;
+        return R.layout.activity_base_scene;
     }
 
     @Override

@@ -51,7 +51,8 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
 
     @Override
     public void initWithConfig(Context context, AudioConfigModel model) {
-        if (model == null)
+        ZegoExpressEngine engine = ZegoExpressEngine.getEngine();
+        if (model == null || engine != null)
             return;
 
         ZegoEngineConfig engineConfig = new ZegoEngineConfig();
@@ -73,7 +74,7 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
         profile.scenario = ZegoScenario.COMMUNICATION;
         /* 设置app的application 对象 */
         profile.application = (Application) context.getApplicationContext();
-        ZegoExpressEngine engine = ZegoExpressEngine.createEngine(profile, mIZegoEventHandler);
+        engine = ZegoExpressEngine.createEngine(profile, mIZegoEventHandler);
         if (engine != null) {
             engine.startSoundLevelMonitor();
         }
@@ -81,6 +82,7 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
 
     @Override
     public void destroy() {
+        /* 销毁 SDK */
         ZegoExpressEngine.destroyEngine(null);
         mRoomId = null;
     }
@@ -90,13 +92,19 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
         if (model == null)
             return;
 
+        if (model.roomID == null || model.roomID.isEmpty() || model.userID == null || model.userID.isEmpty()) {
+            throw new IllegalArgumentException("roomID or userID can't be empty");
+        }
+
         ZegoExpressEngine engine = ZegoExpressEngine.getEngine();
         if (engine != null) {
+            /* 创建用户 */
             ZegoUser zegoUser = new ZegoUser(model.userID, model.userName);
             ZegoRoomConfig zegoRoomConfig = new ZegoRoomConfig();
+            /* Enable notification when user login or logout */
             zegoRoomConfig.isUserStatusNotify = true;
             zegoRoomConfig.token = model.token;
-
+            /* 开始登陆房间 */
             engine.loginRoom(model.roomID, zegoUser, zegoRoomConfig);
         }
     }
@@ -105,6 +113,7 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
     public void leaveRoom() {
         ZegoExpressEngine engine = ZegoExpressEngine.getEngine();
         if (engine != null) {
+            /* 退出房间 */
             engine.logoutRoom();
             mRoomId = null;
         }
@@ -152,19 +161,13 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
             /* 开启获取PCM数据功能 */
             ZegoAudioFrameParam param = new ZegoAudioFrameParam();
             int bitmask = 0;
-            // Enable obtaining raw audio data
             param.channel = ZegoAudioChannel.MONO;
             param.sampleRate = ZegoAudioSampleRate.ZEGO_AUDIO_SAMPLE_RATE_16K;
-            // Add bitmask and turn on the switch of collecting audio data
-            // The bitmask values corresponding to capture, playback and mixing are: CAPTURED=1, PLAYBACK=2, MIXED=4.
-            // The final value of bitmask is 7, which means that capture callback,
-            // playback callback, and mixing callback will be triggered at the same time.
-            // 采集，拉流，混合对应的位掩码值分别是：CAPTURED=1，PLAYBACK=2, MIXED=4，bitmask最终得到的值为7，表示会同时触发采集、拉流、混合的原始数据回调。
             bitmask = bitmask | ZegoAudioDataCallbackBitMask.CAPTURED.value();
             engine.startAudioDataObserver(bitmask, param);
 
             /* 设置原始音频数据回调 */
-            engine.setAudioDataHandler(audioDataHandler);
+            engine.setAudioDataHandler(zegoAudioDataHandler);
         }
     }
 
@@ -172,6 +175,7 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
     public void stopPCMCapture() {
         ZegoExpressEngine engine = ZegoExpressEngine.getEngine();
         if (engine != null) {
+            /* 置空原始音频数据回调 */
             engine.setAudioDataHandler(null);
             engine.stopAudioDataObserver();
         }
@@ -346,7 +350,7 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
         }
     };
 
-    private final IZegoAudioDataHandler audioDataHandler = new IZegoAudioDataHandler() {
+    private final IZegoAudioDataHandler zegoAudioDataHandler = new IZegoAudioDataHandler() {
         @Override
         public void onCapturedAudioData(ByteBuffer data, int dataLength, ZegoAudioFrameParam param) {
             super.onCapturedAudioData(data, dataLength, param);

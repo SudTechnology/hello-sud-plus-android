@@ -33,7 +33,7 @@ platform :android do
         gradle(
             task: "assemble",
             build_type:"Release",
-            flavor:"alpha",
+            flavor:"official",
             print_command: true,
             properties: {
                 "versionCode" => versionCode,
@@ -56,7 +56,7 @@ platform :android do
         gradle(
             task: "assemble",
             build_type:"Release",
-            flavor:"alpha",
+            flavor:"official",
             print_command: true,
             properties: {
                 "versionCode" => versionCode,

@@ -68,8 +68,8 @@ android {
     }
     flavorDimensions 'channel'
     productFlavors {
-        alpha {
-            String channel = "alpha"
+        official {
+            String channel = "official"
             buildConfigField("String", "CHANNEL", "\"" + channel + "\"")
             buildConfigField("String", "baseUrl", "\"" + project.baseUrl + "\"")
             buildConfigField("String", "interactBaseUrl", "\"" + project.interactBaseUrl + "\"")

@@ -3,7 +3,6 @@ package tech.sud.mgp.hello.ui.main.settings.activity;
 import android.content.Intent;
 import android.view.View;
 
-import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,9 +13,12 @@ import com.jeremyliao.liveeventbus.LiveEventBus;
 import java.util.Locale;
 
 import tech.sud.mgp.hello.R;
+import tech.sud.mgp.hello.app.HelloSudApplication;
 import tech.sud.mgp.hello.common.base.BaseActivity;
 import tech.sud.mgp.hello.common.event.ChangeLanguageEvent;
 import tech.sud.mgp.hello.common.event.LiveEventBusKey;
+import tech.sud.mgp.hello.common.model.SudMetaModel;
+import tech.sud.mgp.hello.common.utils.SystemUtils;
 import tech.sud.mgp.hello.ui.main.activity.MainActivity;
 import tech.sud.mgp.hello.ui.main.settings.adapter.LangAdapter;
 import tech.sud.mgp.hello.ui.main.settings.model.LangCellType;
@@ -79,13 +81,13 @@ public class LanguageActivity extends BaseActivity {
             Locale locale = viewModel.converLocale(item.cellType);
             HSLanguageUtils.applyLanguageReal(locale, isRelaunchApp, consumer);
         }
-
     }
 
     /**
      * 切换语言后去首页
      */
     private void toMainActivity() {
+        SudMetaModel.locale = SystemUtils.getLanguageCode(HelloSudApplication.INSTANCE);
         ActivityUtils.finishAllActivitiesExceptNewest();
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);

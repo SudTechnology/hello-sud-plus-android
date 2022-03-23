@@ -54,7 +54,7 @@ public interface RequestUrl {
     /**
      * 游戏登录
      */
-    String GAME_LOGIN = "game-login/v1";
+    String GAME_LOGIN = "base/login/v1";
 
     /**
      * 游戏切换
@@ -68,7 +68,7 @@ public interface RequestUrl {
 
     /**
      * 创建房间
-     * */
+     */
     String CREAT_ROOM = "/room/create-room/v1";
 
 }

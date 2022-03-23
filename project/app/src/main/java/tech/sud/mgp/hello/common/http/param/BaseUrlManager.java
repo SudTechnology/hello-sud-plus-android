@@ -18,4 +18,11 @@ public class BaseUrlManager {
         return iBaseUrl.getInteractBaseUrl();
     }
 
+    /**
+     * 获取房间服务
+     */
+    public static String getGameBaseUrl() {
+        return iBaseUrl.getGameBaseUrl();
+    }
+
 }

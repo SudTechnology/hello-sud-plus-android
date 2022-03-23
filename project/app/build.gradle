@@ -73,6 +73,7 @@ android {
             buildConfigField("String", "CHANNEL", "\"" + channel + "\"")
             buildConfigField("String", "baseUrl", "\"" + project.baseUrl + "\"")
             buildConfigField("String", "interactBaseUrl", "\"" + project.interactBaseUrl + "\"")
+            buildConfigField("String", "gameBaseUrl", "\"" + project.gameBaseUrl + "\"")
             buildConfigField("String", "buglyAppId", "\"" + project.buglyAppId + "\"")
             buildConfigField("boolean", "gameIsTestEnv", project.gameIsTestEnv)
         }

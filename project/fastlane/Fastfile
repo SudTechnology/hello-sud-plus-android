@@ -48,6 +48,7 @@ platform :android do
         versionCode=options[:code]
         baseUrl=options[:baseUrl]
         interactBaseUrl=options[:interactBaseUrl]
+        gameBaseUrl=options[:gameBaseUrl]
         buglyAppId=options[:buglyAppId]
         gameIsTestEnv=options[:gameIsTestEnv]
         puts versionCode
@@ -64,6 +65,7 @@ platform :android do
                 "baseUrlConfig" => "pro",
                 "baseUrl" => baseUrl,
                 "interactBaseUrl" => interactBaseUrl,
+                "gameBaseUrl" => gameBaseUrl,
                 "buglyAppId" => buglyAppId,
                 "gameIsTestEnv" => gameIsTestEnv
             }

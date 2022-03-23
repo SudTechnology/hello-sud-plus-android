@@ -16,6 +16,7 @@ ext {
     baseUrlConfig = "fat"
     baseUrl = "https://fat-base.sud.tech/"
     interactBaseUrl = "https://fat-interact.sud.tech/"
+    gameBaseUrl = "https://fat-game.sud.tech/"
     buglyAppId = "f471ed313c"
     gameIsTestEnv = "true"
 }

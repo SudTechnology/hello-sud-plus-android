@@ -14,16 +14,17 @@ public interface IBaseUrl {
 
     /**
      * 基础服务
-     *
-     * @return
      */
     String getBaseUrl();
 
     /**
-     * 通信
-     *
-     * @return
+     * 交互服务
      */
     String getInteractBaseUrl();
+
+    /**
+     * 游戏服务
+     */
+    String getGameBaseUrl();
 
 }

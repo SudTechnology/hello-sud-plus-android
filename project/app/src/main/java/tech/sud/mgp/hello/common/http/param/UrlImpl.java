@@ -13,4 +13,9 @@ public class UrlImpl implements IBaseUrl {
     public String getInteractBaseUrl() {
         return BuildConfig.interactBaseUrl;
     }
+
+    @Override
+    public String getGameBaseUrl() {
+        return BuildConfig.gameBaseUrl;
+    }
 }

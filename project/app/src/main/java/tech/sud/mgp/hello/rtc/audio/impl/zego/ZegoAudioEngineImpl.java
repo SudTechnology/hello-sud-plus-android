@@ -91,10 +91,6 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
         if (model == null)
             return;
 
-        if (model.roomID == null || model.roomID.isEmpty() || model.userID == null || model.userID.isEmpty()) {
-            throw new IllegalArgumentException("roomID or userID can't be empty");
-        }
-
         ZegoExpressEngine engine = ZegoExpressEngine.getEngine();
         if (engine != null) {
             /* 创建用户 */

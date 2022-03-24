@@ -1,5 +1,8 @@
 package tech.sud.mgp.hello.rtc.audio.impl.agora;
 
+import static io.agora.rtc.Constants.CHANNEL_PROFILE_COMMUNICATION;
+import static io.agora.rtc.RtcEngineConfig.AreaCode.AREA_CODE_GLOB;
+
 import android.content.Context;
 
 import com.blankj.utilcode.util.LogUtils;
@@ -8,11 +11,14 @@ import com.blankj.utilcode.util.ThreadUtils;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 import io.agora.rtc.AudioFrame;
+import io.agora.rtc.Constants;
 import io.agora.rtc.IAudioFrameObserver;
 import io.agora.rtc.IRtcEngineEventHandler;
 import io.agora.rtc.RtcEngine;
+import io.agora.rtc.RtcEngineConfig;
 import io.agora.rtc.audio.AudioParams;
 import io.agora.rtc.models.ChannelMediaOptions;
 import io.agora.rtm.ErrorInfo;
@@ -22,10 +28,13 @@ import io.agora.rtm.RtmChannelAttribute;
 import io.agora.rtm.RtmChannelListener;
 import io.agora.rtm.RtmChannelMember;
 import io.agora.rtm.RtmClient;
+import io.agora.rtm.RtmClientListener;
 import io.agora.rtm.RtmFileMessage;
 import io.agora.rtm.RtmImageMessage;
+import io.agora.rtm.RtmMediaOperationProgress;
 import io.agora.rtm.RtmMessage;
 import tech.sud.mgp.hello.rtc.audio.core.AudioPCMData;
+import tech.sud.mgp.hello.rtc.audio.core.AudioRoomState;
 import tech.sud.mgp.hello.rtc.audio.core.ISudAudioEngine;
 import tech.sud.mgp.hello.rtc.audio.core.ISudAudioEventListener;
 import tech.sud.mgp.hello.rtc.audio.model.AudioConfigModel;
@@ -34,14 +43,13 @@ import tech.sud.mgp.hello.rtc.audio.model.AudioJoinRoomModel;
 // 声网SDK实现
 public class AgoraAudioEngineImpl implements ISudAudioEngine {
 
-    private ISudAudioEventListener mIAudioEventHandler;
+    private ISudAudioEventListener mISudAudioEventListener;
     private RtcEngine mEngine;
-    private String roomID;
+    private String mRoomID;
 
     // 信令相关
     private RtmClient mRtmClient;
     private RtmChannel mRtmChannel;
-    private MyRtmChannelListener rtmChannelListener;
 
     /**
      * 记录频道内远端用户数量，仅供参考
@@ -54,32 +62,31 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
 
     @Override
     public void setEventListener(ISudAudioEventListener listener) {
-        mIAudioEventHandler = listener;
+        mISudAudioEventListener = listener;
     }
 
+    /**
+     *
+     * @param context
+     * @param model  model.token, 这里的token是RTM的token，用于信令
+     */
     @Override
     public void initWithConfig(Context context, AudioConfigModel model) {
-        // 初始化rtm信令
-        initRtm(context, model.appId);
-
         // 初始化引擎
         try {
-            RtcEngine engine = RtcEngine.create(context, model.appId, mIRtcEngineEventHandler);
-            mEngine = engine;
-            if (engine != null) {
-                engine.enableAudioVolumeIndication(300, 3, true); // 开启音频监听
-                engine.setDefaultAudioRoutetoSpeakerphone(true); // 设置默认的音频路由
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+            RtcEngineConfig config = new RtcEngineConfig();
+            config.mAppId = model.appId;
+            config.mEventHandler = mIRtcEngineEventHandler;
+            config.mContext = context.getApplicationContext();
+            config.mAreaCode = AREA_CODE_GLOB;
+            mEngine = RtcEngine.create(config);
 
-    // 初始化rtm信令
-    private void initRtm(Context context, String appId) {
-        try {
-            if (mRtmClient == null) {
-                mRtmClient = RtmClient.createInstance(context, appId, new RtmClientListenerImpl());
+            if (mEngine != null) {
+                mEngine.setChannelProfile(CHANNEL_PROFILE_COMMUNICATION);
+                mEngine.enableAudioVolumeIndication(300, 3, true);
+
+                // 初始化rtm信令
+                initRtm(context, model);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -89,98 +96,51 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
     @Override
     public void destroy() {
         RtcEngine.destroy();
+        mEngine = null;
+        mRoomID = null;
         remoteUserList.clear();
-        rtmDestroy();
-        mRtmClient = null;
+        destroyRtm();
     }
 
+    /**
+     *
+     * @param model model.token, 这里的token是RTC的token，用于语音通话
+     */
     @Override
     public void joinRoom(AudioJoinRoomModel model) {
         if (model == null)
             return;
 
-        // rtm登录
-        rtmLoginRoom(model.roomID, model.userID);
-
         RtcEngine engine = getEngine();
         if (engine != null) {
-            int userId = 0;
-            try {
-                userId = Integer.parseInt(model.userID);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            joinRtmRoom(model.roomID);
 
             // 默认关闭麦克风，关掉推流
             engine.enableLocalAudio(false);
             ChannelMediaOptions channelMediaOptions = new ChannelMediaOptions();
+            channelMediaOptions.autoSubscribeAudio = true;
+            channelMediaOptions.autoSubscribeVideo = false;
             channelMediaOptions.publishLocalAudio = false;
             channelMediaOptions.publishLocalVideo = false;
-
-            engine.registerAudioFrameObserver(iAudioFrameObserver);
-
             // 加入频道
-            engine.joinChannel("", model.roomID, "", userId, channelMediaOptions);
-            this.roomID = model.roomID;
+            engine.joinChannelWithUserAccount(model.token, model.roomID, model.userID, channelMediaOptions);
+            mRoomID = model.roomID;
         }
-    }
-
-    // rtm登录房间
-    private void rtmLoginRoom(String roomId, String userId) {
-        RtmClient rtmClient = mRtmClient;
-        if (rtmClient == null) return;
-        // 登录平台
-        rtmClient.login("", userId, null);
-
-        if (rtmChannelListener == null) {
-            rtmChannelListener = new MyRtmChannelListener();
-        }
-        try {
-            // 创建频道
-            RtmChannel channel = rtmClient.createChannel(roomId, rtmChannelListener);
-            channel.join(null);
-            mRtmChannel = channel;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    // rtm退出房间
-    private void rtmLogoutRoom() {
-        RtmChannel rtmChannel = mRtmChannel;
-        if (rtmChannel != null) {
-            rtmChannel.leave(null);
-            mRtmChannel = null;
-        }
-        rtmChannelListener = null;
-    }
-
-    // rtm登出平台
-    private void rtmDestroy() {
-        RtmClient rtmClient = mRtmClient;
-        if (rtmClient != null) {
-            rtmClient.logout(null);
-            rtmClient.release();
-            mRtmClient = null;
-        }
-        mRtmChannel = null;
-        rtmChannelListener = null;
     }
 
     @Override
     public void leaveRoom() {
         RtcEngine engine = getEngine();
         if (engine != null) {
-            engine.registerAudioFrameObserver(null);
             engine.leaveChannel();
+            mRoomID = null;
         }
         remoteUserList.clear();
-        rtmLogoutRoom();
+        leaveRtmRoom();
     }
 
     @Override
     public void startPublishStream() {
-        // streamId，声网不需要
         RtcEngine engine = getEngine();
         if (engine != null) {
             engine.enableLocalAudio(true); // 开启麦克风采集
@@ -199,47 +159,78 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
 
     @Override
     public void startSubscribingStream() {
-
+        RtcEngine engine = getEngine();
+        if (engine != null) {
+            engine.muteAllRemoteAudioStreams(false);
+        }
     }
 
     @Override
     public void stopSubscribingStream() {
-
-    }
-
-    @Override
-    public void sendCommand(String command, SendCommandListener listener) {
-        // 创建消息实例
-        RtmMessage message = mRtmClient.createMessage();
-        message.setText(command);
-
-        // 发送频道消息
-        mRtmChannel.sendMessage(message, new ResultCallback<Void>() {
-            @Override
-            public void onSuccess(Void unused) {
-                LogUtils.d("sendMessage onSuccess:");
-            }
-
-            @Override
-            public void onFailure(ErrorInfo errorInfo) {
-                LogUtils.d("sendMessage onFailure:" + errorInfo);
-            }
-        });
+        RtcEngine engine = getEngine();
+        if (engine != null) {
+            engine.muteAllRemoteAudioStreams(true);
+        }
     }
 
     @Override
     public void startPCMCapture() {
-
+        RtcEngine engine = getEngine();
+        if (engine != null) {
+            /* 开启获取PCM数据功能 */
+            engine.registerAudioFrameObserver(iAudioFrameObserver);
+        }
     }
 
     @Override
     public void stopPCMCapture() {
-
+        RtcEngine engine = getEngine();
+        if (engine != null) {
+            /* 关闭获取PCM数据功能 */
+            engine.registerAudioFrameObserver(null);
+        }
     }
 
     @Override
     public void setAudioRouteToSpeaker(boolean enabled) {
+        RtcEngine engine = getEngine();
+        if (engine != null) {
+            engine.setEnableSpeakerphone(enabled);
+        }
+    }
 
+    @Override
+    public void sendCommand(String command, SendCommandListener listener) {
+        if (mRtmChannel != null) {
+            // 创建消息实例
+            RtmMessage message = mRtmClient.createMessage();
+            message.setText(command);
+
+            // 发送频道消息
+            mRtmChannel.sendMessage(message, new ResultCallback<Void>() {
+                @Override
+                public void onSuccess(Void unused) {
+                    LogUtils.d("sendMessage onSuccess:");
+                }
+
+                @Override
+                public void onFailure(ErrorInfo errorInfo) {
+                    LogUtils.d("sendMessage onFailure:" + errorInfo);
+                }
+            });
+        }
+    }
+
+    private AudioRoomState convertAudioRoomState(int state) {
+        switch (state) {
+            case Constants.CONNECTION_STATE_DISCONNECTED:
+                return AudioRoomState.DISCONNECTED;
+            case Constants.CONNECTION_STATE_CONNECTING:
+                return AudioRoomState.CONNECTING;
+            case Constants.CONNECTION_STATE_CONNECTED:
+                return AudioRoomState.CONNECTED;
+        }
+        return null;
     }
 
     private IRtcEngineEventHandler mIRtcEngineEventHandler = new IRtcEngineEventHandler() {
@@ -254,7 +245,7 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
             ThreadUtils.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    ISudAudioEventListener handler = mIAudioEventHandler;
+                    ISudAudioEventListener handler = mISudAudioEventListener;
                     if (handler == null || speakers == null || speakers.length == 0) {
                         return;
                     }
@@ -291,9 +282,9 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
             ThreadUtils.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    ISudAudioEventListener handler = mIAudioEventHandler;
+                    ISudAudioEventListener handler = mISudAudioEventListener;
                     if (handler != null) {
-                        handler.onRoomStateUpdate(roomID, AgoraRoomStateConverter.converAudioRoomState(state), 0, null);
+                        handler.onRoomStateUpdate(mRoomID, convertAudioRoomState(state), 0, null);
                         updateRoomUserCount();
                     }
                 }
@@ -329,9 +320,9 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
             ThreadUtils.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    ISudAudioEventListener handler = mIAudioEventHandler;
+                    ISudAudioEventListener handler = mISudAudioEventListener;
                     if (handler != null) {
-                        handler.onRoomOnlineUserCountUpdate(roomID, remoteUserList.size() + 1);
+                        handler.onRoomOnlineUserCountUpdate(mRoomID, remoteUserList.size() + 1);
                     }
                 }
             });
@@ -345,7 +336,7 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
             ThreadUtils.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    ISudAudioEventListener handler = mIAudioEventHandler;
+                    ISudAudioEventListener handler = mISudAudioEventListener;
                     if (handler != null) {
                         AudioPCMData audioPCMData = new AudioPCMData();
                         audioPCMData.data = audioFrame.samples;
@@ -408,9 +399,60 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
         }
     };
 
-    // 云信令回调
-    private class MyRtmChannelListener implements RtmChannelListener {
+    // region RTM 信令操作
+    // 初始化rtm信令, 登录 Agora RTM 系统
+    private void initRtm(Context context, AudioConfigModel model) {
+        try {
+            if (mRtmClient == null) {
+                mRtmClient = RtmClient.createInstance(context.getApplicationContext(), model.appId, rtmClientListener);
+            }
 
+            if (mRtmClient != null) {
+                // 登录Agora RTM 系统
+                mRtmClient.login(model.token, model.userID, null);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // 登出 Agora RTM 系统, 释放当前 RtmClient 实例使用的所有资源
+    private void destroyRtm() {
+        if (mRtmClient != null) {
+            mRtmClient.logout(null);
+            mRtmClient.release();
+            mRtmClient = null;
+        }
+        mRtmChannel = null;
+    }
+
+    // rtm登录房间
+    private void joinRtmRoom(String roomId) {
+        if (mRtmClient != null) {
+            try {
+                // 创建频道
+                mRtmChannel = mRtmClient.createChannel(roomId, rtmChannelListener);
+                if (mRtmChannel != null) {
+                    mRtmChannel.join(null);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    // rtm退出房间
+    private void leaveRtmRoom() {
+        if (mRtmChannel != null) {
+            mRtmChannel.leave(null);
+            mRtmChannel.release();
+            mRtmChannel = null;
+        }
+    }
+
+    // 云信令回调
+    private final RtmChannelListener rtmChannelListener = new RtmChannelListener() {
         @Override
         public void onMemberCountUpdated(int i) {
 
@@ -423,15 +465,17 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
 
         @Override
         public void onMessageReceived(RtmMessage rtmMessage, RtmChannelMember rtmChannelMember) {
-            if (rtmMessage == null || rtmChannelMember == null) return;
+            if (rtmMessage == null || rtmChannelMember == null) {
+                return;
+            }
+
             ThreadUtils.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     LogUtils.d("onMessageReceived:" + rtmMessage.getText());
-                    ISudAudioEventListener handler = mIAudioEventHandler;
-                    if (handler != null) {
+                    if (mISudAudioEventListener != null) {
                         try {
-                            handler.onRecvCommand(rtmChannelMember.getUserId(), rtmMessage.getText());
+                            mISudAudioEventListener.onRecvCommand(rtmChannelMember.getUserId(), rtmMessage.getText());
                         } catch (Exception e) {
                             LogUtils.e("onMessageReceived", e);
                         }
@@ -459,7 +503,51 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
         public void onMemberLeft(RtmChannelMember rtmChannelMember) {
 
         }
-    }
+    };
 
+    /**
+     * 声网RTM客户端监听
+     */
+    private final RtmClientListener rtmClientListener = new RtmClientListener() {
+        @Override
+        public void onConnectionStateChanged(int i, int i1) {
 
+        }
+
+        @Override
+        public void onMessageReceived(RtmMessage rtmMessage, String s) {
+
+        }
+
+        @Override
+        public void onImageMessageReceivedFromPeer(RtmImageMessage rtmImageMessage, String s) {
+
+        }
+
+        @Override
+        public void onFileMessageReceivedFromPeer(RtmFileMessage rtmFileMessage, String s) {
+
+        }
+
+        @Override
+        public void onMediaUploadingProgress(RtmMediaOperationProgress rtmMediaOperationProgress, long l) {
+
+        }
+
+        @Override
+        public void onMediaDownloadingProgress(RtmMediaOperationProgress rtmMediaOperationProgress, long l) {
+
+        }
+
+        @Override
+        public void onTokenExpired() {
+
+        }
+
+        @Override
+        public void onPeersOnlineStatusChanged(Map<String, Integer> map) {
+
+        }
+    };
+    // endregion
 }

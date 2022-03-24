@@ -3,6 +3,7 @@ package tech.sud.mgp.hello.ui.main.home;
 import com.blankj.utilcode.util.Utils;
 
 import tech.sud.mgp.hello.common.model.AppData;
+import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.GlobalCache;
 import tech.sud.mgp.hello.rtc.audio.core.ISudAudioEngine;
 import tech.sud.mgp.hello.rtc.audio.factory.AudioEngineFactory;
@@ -36,6 +37,8 @@ public class RTCManager {
             AgoraConfig agoraConfig = (AgoraConfig) config;
             AudioConfigModel audioConfigModel = new AudioConfigModel();
             audioConfigModel.appId = agoraConfig.appId;
+            audioConfigModel.userID = HSUserInfo.userId + "";
+            audioConfigModel.token = "";
             AudioEngineFactory.getEngine().initWithConfig(Utils.getApp(), audioConfigModel);
         }
     }

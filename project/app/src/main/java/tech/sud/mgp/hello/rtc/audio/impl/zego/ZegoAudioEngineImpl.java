@@ -51,8 +51,7 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
 
     @Override
     public void initWithConfig(Context context, AudioConfigModel model) {
-        ZegoExpressEngine engine = ZegoExpressEngine.getEngine();
-        if (model == null || engine != null)
+        if (model == null)
             return;
 
         ZegoEngineConfig engineConfig = new ZegoEngineConfig();
@@ -74,7 +73,7 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
         profile.scenario = ZegoScenario.COMMUNICATION;
         /* 设置app的application 对象 */
         profile.application = (Application) context.getApplicationContext();
-        engine = ZegoExpressEngine.createEngine(profile, mIZegoEventHandler);
+        ZegoExpressEngine engine = ZegoExpressEngine.createEngine(profile, mIZegoEventHandler);
         if (engine != null) {
             engine.startSoundLevelMonitor();
         }

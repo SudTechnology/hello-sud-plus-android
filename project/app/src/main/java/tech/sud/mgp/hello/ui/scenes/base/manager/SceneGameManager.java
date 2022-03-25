@@ -12,7 +12,6 @@ public class SceneGameManager extends BaseServiceManager {
     @Override
     public void onCreate() {
         super.onCreate();
-        parentManager.sceneEngineManager.startAudioDataListener();
     }
 
     /**
@@ -31,9 +30,9 @@ public class SceneGameManager extends BaseServiceManager {
      */
     public void setRTCPlay(boolean isOn) {
         if (isOn) {
-            parentManager.sceneEngineManager.startSubscribing();
+            parentManager.sceneEngineManager.startSubscribingStream();
         } else {
-            parentManager.sceneEngineManager.stopSubscribing();
+            parentManager.sceneEngineManager.stopSubscribingStream();
         }
     }
 }

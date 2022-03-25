@@ -281,16 +281,19 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
         @Override
         public void onConnectionStateChanged(int state, int reason) {
             super.onConnectionStateChanged(state, reason);
-            ThreadUtils.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    ISudAudioEventListener handler = mISudAudioEventListener;
-                    if (handler != null) {
-                        handler.onRoomStateUpdate(mRoomID, convertAudioRoomState(state), 0, null);
-                        updateRoomUserCount();
+            AudioRoomState audioRoomState = convertAudioRoomState(state);
+            if (audioRoomState != null) {
+                ThreadUtils.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ISudAudioEventListener handler = mISudAudioEventListener;
+                        if (handler != null) {
+                            handler.onRoomStateUpdate(mRoomID, audioRoomState, 0, null);
+                            updateRoomUserCount();
+                        }
                     }
-                }
-            });
+                });
+            }
         }
 
         @Override

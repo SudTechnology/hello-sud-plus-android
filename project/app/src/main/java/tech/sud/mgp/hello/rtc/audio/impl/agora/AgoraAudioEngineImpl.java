@@ -4,8 +4,8 @@ import static io.agora.rtc.Constants.CHANNEL_PROFILE_COMMUNICATION;
 import static io.agora.rtc.RtcEngineConfig.AreaCode.AREA_CODE_GLOB;
 
 import android.content.Context;
+import android.util.Log;
 
-import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ThreadUtils;
 
 import java.util.HashMap;
@@ -42,6 +42,8 @@ import tech.sud.mgp.hello.rtc.audio.model.AudioJoinRoomModel;
 
 // 声网SDK实现
 public class AgoraAudioEngineImpl implements ISudAudioEngine {
+
+    private static final String kTag = "ISudAudioEngine";
 
     private ISudAudioEventListener mISudAudioEventListener;
     private RtcEngine mEngine;
@@ -210,12 +212,12 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
             mRtmChannel.sendMessage(message, new ResultCallback<Void>() {
                 @Override
                 public void onSuccess(Void unused) {
-                    LogUtils.d("sendMessage onSuccess:");
+                    Log.d(kTag, "sendMessage onSuccess:");
                 }
 
                 @Override
                 public void onFailure(ErrorInfo errorInfo) {
-                    LogUtils.d("sendMessage onFailure:" + errorInfo);
+                    Log.d(kTag, "sendMessage onFailure:" + errorInfo);
                 }
             });
         }
@@ -384,8 +386,7 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
             // 并在该回调的返回值中设置采集的音频数据格式。
             // SDK 会根据 getRecordAudioParams
             // 回调返回值中设置的 AudioParams 计算采样间隔， 并根据该采样间隔触发 onRecordFrame 回调
-            AudioParams params = new AudioParams(16000, 1, 0, 160);
-            return params;
+            return new AudioParams(16000, 1, Constants.RAW_AUDIO_FRAME_OP_MODE_READ_ONLY, 160);
         }
 
         @Override
@@ -472,12 +473,12 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
             ThreadUtils.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    LogUtils.d("onMessageReceived:" + rtmMessage.getText());
+                    Log.d(kTag, "onMessageReceived:" + rtmMessage.getText());
                     if (mISudAudioEventListener != null) {
                         try {
                             mISudAudioEventListener.onRecvCommand(rtmChannelMember.getUserId(), rtmMessage.getText());
                         } catch (Exception e) {
-                            LogUtils.e("onMessageReceived", e);
+                            Log.e(kTag, "onMessageReceived: " + e.getMessage());
                         }
                     }
                 }

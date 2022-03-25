@@ -1,7 +1,6 @@
 package tech.sud.mgp.hello.ui.splash;
 
 import android.content.Intent;
-import android.os.Handler;
 
 import androidx.lifecycle.Observer;
 
@@ -27,7 +26,6 @@ import tech.sud.mgp.hello.ui.viewmodel.ConfigViewModel;
  */
 public class SplashActivity extends BaseActivity implements CancelAdapt {
 
-    private Handler handler = new Handler();
     private final ConfigViewModel configViewModel = new ConfigViewModel();
 
     @Override
@@ -42,7 +40,7 @@ public class SplashActivity extends BaseActivity implements CancelAdapt {
     @Override
     protected void initData() {
         super.initData();
-        handler.postDelayed(this::jumpPage, 2000);
+        jumpPage();
     }
 
     @Override
@@ -94,12 +92,5 @@ public class SplashActivity extends BaseActivity implements CancelAdapt {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        handler.removeCallbacksAndMessages(null);
-        handler = null;
     }
 }

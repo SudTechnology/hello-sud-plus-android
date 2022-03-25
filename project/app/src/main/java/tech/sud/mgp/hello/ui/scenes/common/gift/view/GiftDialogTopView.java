@@ -20,7 +20,7 @@ import java.util.Map;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
-import tech.sud.mgp.hello.ui.scenes.audio.model.UserInfo;
+import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.common.gift.adapter.GiftMicUserAdapter;
 import tech.sud.mgp.hello.ui.scenes.common.gift.listener.SendGiftToUserListener;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.MicUserInfoModel;

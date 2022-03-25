@@ -16,7 +16,7 @@ public class RoomItemModel {
     private String roomPic;
     private int sceneType;
     private String rtcType;
-
+    
     public int getRoomId() {
         return roomId;
     }

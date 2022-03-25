@@ -1,7 +1,7 @@
 package tech.sud.mgp.hello.ui.scenes.common.cmd.model;
 
-import tech.sud.mgp.hello.ui.scenes.audio.model.UserInfo;
-import tech.sud.mgp.hello.ui.scenes.audio.utils.HSJsonUtils;
+import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
+import tech.sud.mgp.hello.ui.scenes.base.utils.HSJsonUtils;
 
 /**
  * 上麦信令
@@ -18,5 +18,5 @@ public class RoomCmdUpMicModel extends RoomCmdBaseModel {
     public static RoomCmdUpMicModel fromJson(String json) {
         return HSJsonUtils.fromJson(json, RoomCmdUpMicModel.class);
     }
-    
+
 }

@@ -148,6 +148,21 @@
         <item>吉姆</item>
     </string-array>
 
+    <string-array name="language_list">
+        <item>跟随系统</item>
+        <item>简体中文</item>
+        <item>繁體中文</item>
+        <item>English</item>
+        <item>لغة عربية</item>
+        <item>Bahasa Indonesia</item>
+        <item>Bahasa Melayu</item>
+        <item>ภาษาไทย</item>
+        <item>Tiếng Việt</item>
+        <item>한국어</item>
+        <item>Español</item>
+        <item>日本語</item>
+    </string-array>
+
     <string name="search_room_error">请输入正确的房间号</string>
     <string name="user_agreement_title">用户协议</string>
     <string name="user_privacy_title">隐私政策</string>
@@ -214,5 +229,8 @@
     <string name="playing_down_mic">当前正在游戏中，是否逃跑？</string>
     <string name="game_number">游戏人数</string>
     <string name="unable_to_speak">当前不能发言</string>
+    <string name="asr_guide">本游戏支持语音识别，请开麦展现你的魅力～</string>
+    <string name="asr_guide_number_boom">试试打开麦克风报数，懒人福利！</string>
+    <string name="asr_guide_draw">开麦抢答，比打字更快哦！</string>
 
 </resources>

@@ -18,8 +18,8 @@ import java.util.Map;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
-import tech.sud.mgp.hello.ui.scenes.audio.model.AudioRoomMicModel;
-import tech.sud.mgp.hello.ui.scenes.audio.model.UserInfo;
+import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
+import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.common.gift.adapter.GiftListAdapter;
 import tech.sud.mgp.hello.ui.scenes.common.gift.listener.GiftSendClickListener;
 import tech.sud.mgp.hello.ui.scenes.common.gift.listener.SendGiftToUserListener;

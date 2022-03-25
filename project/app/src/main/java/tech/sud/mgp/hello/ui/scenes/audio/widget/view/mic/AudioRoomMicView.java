@@ -9,6 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import tech.sud.mgp.hello.R;
+import tech.sud.mgp.hello.ui.scenes.base.widget.view.mic.BaseMicView;
+import tech.sud.mgp.hello.ui.scenes.base.widget.view.mic.OnMicItemClickListener;
 
 /**
  * 语聊房时的麦位UI

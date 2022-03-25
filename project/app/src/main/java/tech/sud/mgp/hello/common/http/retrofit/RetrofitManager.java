@@ -50,9 +50,9 @@ public class RetrofitManager {
                 .connectTimeout(30, TimeUnit.SECONDS)
                 .readTimeout(30, TimeUnit.SECONDS)
                 .writeTimeout(30, TimeUnit.SECONDS)
-                .addInterceptor(loggingInterceptor) // 添加控制台网络请求消息拦截器,直接在控制台输出
                 .addInterceptor(new RequestHeaderInterceptor())
-                .addInterceptor(new RequestBaseUrlInterceptor());
+                .addInterceptor(new RequestBaseUrlInterceptor())
+                .addInterceptor(loggingInterceptor); // 添加控制台网络请求消息拦截器,直接在控制台输出
         return builder.build();
     }
 

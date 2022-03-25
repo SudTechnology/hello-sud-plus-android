@@ -1,7 +1,7 @@
 package tech.sud.mgp.hello.ui.scenes.common.cmd.model;
 
-import tech.sud.mgp.hello.ui.scenes.audio.model.UserInfo;
-import tech.sud.mgp.hello.ui.scenes.audio.utils.HSJsonUtils;
+import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
+import tech.sud.mgp.hello.ui.scenes.base.utils.HSJsonUtils;
 
 /**
  * 信令消息的其类

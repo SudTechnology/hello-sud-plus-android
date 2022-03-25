@@ -7,8 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import tech.sud.mgp.hello.common.model.HSUserInfo;
-import tech.sud.mgp.hello.ui.scenes.audio.model.AudioRoomMicModel;
+import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.MicUserInfoModel;
 
 public class RoomGiftDialogManager extends GiftBaseManager {
@@ -25,7 +24,7 @@ public class RoomGiftDialogManager extends GiftBaseManager {
                 selectedIndex = 0;
             }
             for (AudioRoomMicModel model : mDatas) {
-                if (model.userId != 0 ) {
+                if (model.userId != 0) {
                     MicUserInfoModel user = new MicUserInfoModel();
                     user.userInfo = model;
                     user.indexMic = model.micIndex;

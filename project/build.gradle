@@ -12,6 +12,13 @@ buildscript {
 
 ext {
     versionCode = "1"
+    versionName = "1.1.1"
+    baseUrlConfig = "fat"
+    baseUrl = "https://fat-base.sud.tech/"
+    interactBaseUrl = "https://fat-interact.sud.tech/"
+    gameBaseUrl = "https://fat-game.sud.tech/"
+    buglyAppId = "f471ed313c"
+    gameIsTestEnv = "true"
 }
 
 allprojects {

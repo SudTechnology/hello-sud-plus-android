@@ -19,7 +19,7 @@ public class GameRepository {
      */
     public static void login(LifecycleOwner owner, RxCallback<GameLoginResp> callback) {
         GameRequestMethodFactory.getMethod()
-                .gameLogin(BaseUrlManager.getBaseUrl())
+                .gameLogin(BaseUrlManager.getGameBaseUrl())
                 .compose(RxUtil.schedulers(owner))
                 .subscribe(callback);
     }

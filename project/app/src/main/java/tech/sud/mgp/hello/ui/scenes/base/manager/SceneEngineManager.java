@@ -54,12 +54,12 @@ public class SceneEngineManager extends BaseServiceManager {
 
         String rtcType = AppData.getInstance().getRtcType();
         AudioJoinRoomModel audioJoinRoomModel = null;
-        if (rtcType.equals("zego")) {
+        if (rtcType.equals("Zego")) {
             audioJoinRoomModel = new AudioJoinRoomModel();
             audioJoinRoomModel.userID = HSUserInfo.userId + "";
             audioJoinRoomModel.userName = HSUserInfo.nickName;
             audioJoinRoomModel.roomID = model.roomId + "";
-        } else if (rtcType.equals("agora")){
+        } else if (rtcType.equals("Agora")){
             audioJoinRoomModel = new AudioJoinRoomModel();
             audioJoinRoomModel.userID = HSUserInfo.userId + "";
             audioJoinRoomModel.roomID = model.roomId + "";
@@ -70,6 +70,7 @@ public class SceneEngineManager extends BaseServiceManager {
 
         engine.joinRoom(audioJoinRoomModel);
         engine.setEventListener(eventHandler);
+        engine.setAudioRouteToSpeaker(true);
     }
 
     public void setCommandListener(SceneCommandManager.ICommandListener listener) {

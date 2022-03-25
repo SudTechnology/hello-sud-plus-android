@@ -9,7 +9,6 @@ import android.util.Log;
 import com.blankj.utilcode.util.ThreadUtils;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -53,11 +52,6 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
     private RtmClient mRtmClient;
     private RtmChannel mRtmChannel;
 
-    /**
-     * 记录频道内远端用户数量，仅供参考
-     */
-    private HashSet<Integer> remoteUserList = new HashSet<>();
-
     private RtcEngine getEngine() {
         return mEngine;
     }
@@ -100,7 +94,6 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
         RtcEngine.destroy();
         mEngine = null;
         mRoomID = null;
-        remoteUserList.clear();
         destroyRtm();
     }
 
@@ -137,7 +130,6 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
             engine.leaveChannel();
             mRoomID = null;
         }
-        remoteUserList.clear();
         leaveRtmRoom();
     }
 
@@ -289,7 +281,6 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
                         ISudAudioEventListener handler = mISudAudioEventListener;
                         if (handler != null) {
                             handler.onRoomStateUpdate(mRoomID, audioRoomState, 0, null);
-                            updateRoomUserCount();
                         }
                     }
                 });
@@ -299,38 +290,11 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
         @Override
         public void onUserJoined(int uid, int elapsed) {
             super.onUserJoined(uid, elapsed);
-            ThreadUtils.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    remoteUserList.add(uid);
-                    updateRoomUserCount();
-                }
-            });
         }
 
         @Override
         public void onUserOffline(int uid, int reason) {
             super.onUserOffline(uid, reason);
-            ThreadUtils.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    remoteUserList.remove(uid);
-                    updateRoomUserCount();
-                }
-            });
-        }
-
-        // 更新房间内用户总人数
-        private void updateRoomUserCount() {
-            ThreadUtils.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    ISudAudioEventListener handler = mISudAudioEventListener;
-                    if (handler != null) {
-                        handler.onRoomOnlineUserCountUpdate(mRoomID, remoteUserList.size() + 1);
-                    }
-                }
-            });
         }
     };
 
@@ -458,8 +422,16 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
     // 云信令回调
     private final RtmChannelListener rtmChannelListener = new RtmChannelListener() {
         @Override
-        public void onMemberCountUpdated(int i) {
-
+        public void onMemberCountUpdated(int memberCount) {
+            ThreadUtils.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    ISudAudioEventListener handler = mISudAudioEventListener;
+                    if (handler != null) {
+                        handler.onRoomOnlineUserCountUpdate(mRoomID, memberCount);
+                    }
+                }
+            });
         }
 
         @Override

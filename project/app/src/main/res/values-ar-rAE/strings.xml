@@ -222,6 +222,7 @@
         <item>火山</item>
         <item>阿里云</item>
         <item>腾讯</item>
+        <item>融云</item>
     </string-array>
     <string name="be_making">正在制作中，敬请期待！</string>
     <string name="total_value">总%1$s</string>

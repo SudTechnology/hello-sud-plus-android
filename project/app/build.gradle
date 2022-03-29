@@ -64,6 +64,11 @@ android {
             jniLibs.srcDirs = ['libs/zego', 'libs/agora']
         }
     }
+    flavorDimensions 'channel'
+    productFlavors {
+        official {
+        }
+    }
 }
 
 dependencies {

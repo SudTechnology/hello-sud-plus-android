@@ -16,7 +16,7 @@ public class AudioRoomActivity extends BaseSceneActivity {
     @Override
     protected void updatePageStyle() {
         super.updatePageStyle();
-        if (roomInfoModel.gameId > 0) { // 玩着游戏
+        if (playingGameId > 0) { // 玩着游戏
             setMicStyle(AudioRoomMicStyle.GAME);
             chatView.setChatStyle(SceneRoomChatView.AudioRoomChatStyle.GAME);
         } else {

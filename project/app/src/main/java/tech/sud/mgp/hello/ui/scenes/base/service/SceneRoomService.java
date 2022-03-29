@@ -143,5 +143,15 @@ public class SceneRoomService {
         public void exitRoom() {
             serviceManager.exitRoom();
         }
+
+        /**
+         * 当前是否是开麦的
+         *
+         * @return
+         */
+        public boolean isOpenedMic() {
+            return serviceManager.sceneStreamManager.isPublishingStream();
+        }
+
     }
 }

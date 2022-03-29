@@ -56,9 +56,9 @@ import tech.sud.mgp.hello.ui.scenes.common.gift.view.RoomGiftDialog;
  */
 public abstract class BaseSceneActivity extends BaseActivity implements SceneRoomServiceCallback {
 
-    public RoomInfoModel roomInfoModel; // 房间信息
-    private long playingGameId; // 当前正在玩的游戏id
-    private boolean needEnterRoom = true; // 标识是否需要进入房间
+    protected RoomInfoModel roomInfoModel; // 房间信息
+    protected long playingGameId; // 当前正在玩的游戏id
+    protected boolean needEnterRoom = true; // 标识是否需要进入房间
 
     protected SceneRoomTopView topView;
     protected SceneRoomMicWrapView micView;
@@ -70,10 +70,10 @@ public abstract class BaseSceneActivity extends BaseActivity implements SceneRoo
     protected FrameLayout gameContainer;
     protected TextView tvGameNumber;
 
-    private final SceneRoomService sceneRoomService = new SceneRoomService();
-    private final SceneRoomService.MyBinder binder = sceneRoomService.getBinder();
-    private final SceneRoomViewModel viewModel = new SceneRoomViewModel();
-    private final GameViewModel gameViewModel = initGameViewModel();
+    protected final SceneRoomService sceneRoomService = new SceneRoomService();
+    protected final SceneRoomService.MyBinder binder = sceneRoomService.getBinder();
+    protected final SceneRoomViewModel viewModel = new SceneRoomViewModel();
+    protected final GameViewModel gameViewModel = initGameViewModel();
 
     @NonNull
     private GameViewModel initGameViewModel() {

@@ -146,6 +146,7 @@ public abstract class BaseSceneActivity extends BaseActivity implements SceneRoo
         sceneRoomService.onCreate();
         binder.setCallback(this);
         binder.init(sceneConfig);
+        updatePageStyle();
         binder.enterRoom(roomInfoModel);
     }
 
@@ -524,7 +525,6 @@ public abstract class BaseSceneActivity extends BaseActivity implements SceneRoo
     }
 
     private void initGame() {
-        updatePageStyle();
         gameViewModel.setRoomId(roomInfoModel.roomId);
         gameViewModel.switchGame(this, roomInfoModel.gameId);
         updateGameNumber();
@@ -546,6 +546,7 @@ public abstract class BaseSceneActivity extends BaseActivity implements SceneRoo
     @Override
     public void onEnterRoomSuccess() {
         initGame();
+        binder.autoUpMic(OperateMicType.USER);
     }
 
     @Override

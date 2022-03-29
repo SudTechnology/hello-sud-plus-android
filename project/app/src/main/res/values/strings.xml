@@ -233,5 +233,6 @@
     <string name="asr_guide">本游戏支持语音识别，请开麦展现你的魅力～</string>
     <string name="asr_guide_number_boom">试试打开麦克风报数，懒人福利！</string>
     <string name="asr_guide_draw">开麦抢答，比打字更快哦！</string>
+    <string name="no_empty_seat">没有空位啦</string>
 
 </resources>

@@ -31,10 +31,9 @@ public class SceneEngineManager extends BaseServiceManager {
     public final SceneCommandManager commandManager = new SceneCommandManager();
     private OnRoomStreamUpdateListener onRoomStreamUpdateListener;
     private final int soundLevelThreshold = 1; // 触发声浪显示的阀值
-    /**
-     * 标识音频监听开关状态
-     */
-    private boolean isOpenListen = false;
+    private boolean isOpenListen = false; // 标识音频监听开关状态
+    private boolean enterRoomCompleted = false; // 标识是否进房成功
+    public SceneRoomServiceManager.EnterRoomCompletedListener enterRoomCompletedListener;
 
     @Override
     public void onCreate() {
@@ -52,6 +51,7 @@ public class SceneEngineManager extends BaseServiceManager {
         ISudAudioEngine engine = getEngine();
         if (engine == null) return;
 
+        enterRoomCompleted = false;
         String rtcType = AppData.getInstance().getRtcType();
         AudioJoinRoomModel audioJoinRoomModel = null;
         if (rtcType.equals("Zego")) {
@@ -59,7 +59,7 @@ public class SceneEngineManager extends BaseServiceManager {
             audioJoinRoomModel.userID = HSUserInfo.userId + "";
             audioJoinRoomModel.userName = HSUserInfo.nickName;
             audioJoinRoomModel.roomID = model.roomId + "";
-        } else if (rtcType.equals("Agora")){
+        } else if (rtcType.equals("Agora")) {
             audioJoinRoomModel = new AudioJoinRoomModel();
             audioJoinRoomModel.userID = HSUserInfo.userId + "";
             audioJoinRoomModel.roomID = model.roomId + "";
@@ -106,7 +106,6 @@ public class SceneEngineManager extends BaseServiceManager {
 
     /**
      * 开启推流
-     *
      */
     public void startPublishStream() {
         ISudAudioEngine engine = getEngine();
@@ -235,6 +234,7 @@ public class SceneEngineManager extends BaseServiceManager {
         public void onRoomStateUpdate(String roomID, AudioRoomState state, int errorCode, JSONObject extendedData) {
             if (state == AudioRoomState.CONNECTED) { // 连接成功之后发送进房信令
                 sendCommand(RoomCmdModelUtils.buildEnterRoomCommand(), null);
+                enterRoomCompleted();
             }
         }
 
@@ -259,6 +259,19 @@ public class SceneEngineManager extends BaseServiceManager {
 
     public interface OnRoomStreamUpdateListener {
         void onRoomStreamUpdate(String roomId, AudioEngineUpdateType type, List<AudioStream> streamList, JSONObject extendedData);
+    }
+
+    public boolean isEnterRoomCompleted() {
+        return enterRoomCompleted;
+    }
+
+    private void enterRoomCompleted() {
+        if (enterRoomCompleted) return;
+        enterRoomCompleted = true;
+        SceneRoomServiceManager.EnterRoomCompletedListener listener = enterRoomCompletedListener;
+        if (listener != null) {
+            listener.onEnterRoomCompleted();
+        }
     }
 
 }

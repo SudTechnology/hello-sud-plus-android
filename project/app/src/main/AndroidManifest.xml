@@ -118,6 +118,13 @@
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
 
+        <!-- 更多设置页面 -->
+        <activity
+            android:name=".ui.main.settings.activity.MoreSettingsActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+
         <!-- 切换rtc服务商 -->
         <activity
             android:name=".ui.main.settings.activity.ChangeRtcActivity"

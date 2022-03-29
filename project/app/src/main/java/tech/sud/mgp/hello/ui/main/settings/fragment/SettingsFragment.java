@@ -13,10 +13,8 @@ import java.util.List;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.app.APPConfig;
 import tech.sud.mgp.hello.common.base.BaseFragment;
-import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.common.utils.IntentUtils;
-import tech.sud.mgp.hello.ui.main.settings.activity.ChangeRtcActivity;
-import tech.sud.mgp.hello.ui.main.settings.activity.LanguageActivity;
+import tech.sud.mgp.hello.ui.main.settings.activity.MoreSettingsActivity;
 import tech.sud.mgp.hello.ui.main.settings.activity.VersionInfoActivity;
 import tech.sud.mgp.hello.ui.main.utils.RouterUtils;
 import tech.sud.mgp.hello.ui.scenes.common.gift.utils.FileUtils;
@@ -29,7 +27,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
     private AppSizeView appSizeView;
     private TextView tvTotalSize;
     private SettingButton btnVersionInfo;
-    private SettingButton btnChangeRtc;
+    private SettingButton btnMoreSettings;
     private SettingButton btnChangeLanguage;
     private SettingButton btnGitHub;
     private SettingButton btnOpenSource;
@@ -54,7 +52,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         super.initWidget();
         appSizeView = findViewById(R.id.app_size_view);
         btnVersionInfo = findViewById(R.id.button_version_info);
-        btnChangeRtc = findViewById(R.id.button_change_rtc);
+        btnMoreSettings = findViewById(R.id.button_more_settings);
         btnChangeLanguage = findViewById(R.id.button_change_language);
         btnGitHub = findViewById(R.id.button_github);
         btnOpenSource = findViewById(R.id.button_open_source_licenses);
@@ -85,16 +83,10 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        btnChangeRtc.setHint(AppData.getInstance().getRtcName());
-    }
-
-    @Override
     protected void setListeners() {
         super.setListeners();
         btnVersionInfo.setOnClickListener(this);
-        btnChangeRtc.setOnClickListener(this);
+        btnMoreSettings.setOnClickListener(this);
         btnChangeLanguage.setOnClickListener(this);
         btnGitHub.setOnClickListener(this);
         btnOpenSource.setOnClickListener(this);
@@ -106,11 +98,10 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
     public void onClick(View v) {
         if (v == btnVersionInfo) { // 版本信息
             startActivity(new Intent(requireContext(), VersionInfoActivity.class));
-        } else if (v == btnChangeRtc) { // 切换RTC
-            startActivity(new Intent(requireContext(), ChangeRtcActivity.class));
+        } else if (v == btnMoreSettings) { // 更多设置
+            startActivity(new Intent(requireContext(), MoreSettingsActivity.class));
         } else if (v == btnChangeLanguage) { // 切换语言
             ToastUtils.showShort(R.string.be_making);
-//            startActivity(new Intent(requireContext(), LanguageActivity.class));
         } else if (v == btnGitHub) { // github
             IntentUtils.openUrl(getContext(), APPConfig.GIT_HUB_URL);
         } else if (v == btnOpenSource) { // 开源协议

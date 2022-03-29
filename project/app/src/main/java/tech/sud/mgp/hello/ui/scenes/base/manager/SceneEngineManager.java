@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.rtc.audio.core.AudioEngineUpdateType;
 import tech.sud.mgp.hello.rtc.audio.core.AudioPCMData;
@@ -52,21 +51,10 @@ public class SceneEngineManager extends BaseServiceManager {
         if (engine == null) return;
 
         enterRoomCompleted = false;
-        String rtcType = AppData.getInstance().getRtcType();
-        AudioJoinRoomModel audioJoinRoomModel = null;
-        if (rtcType.equals("Zego")) {
-            audioJoinRoomModel = new AudioJoinRoomModel();
-            audioJoinRoomModel.userID = HSUserInfo.userId + "";
-            audioJoinRoomModel.userName = HSUserInfo.nickName;
-            audioJoinRoomModel.roomID = model.roomId + "";
-        } else if (rtcType.equals("Agora")) {
-            audioJoinRoomModel = new AudioJoinRoomModel();
-            audioJoinRoomModel.userID = HSUserInfo.userId + "";
-            audioJoinRoomModel.roomID = model.roomId + "";
-        }
-
-        if (audioJoinRoomModel == null)
-            return;
+        AudioJoinRoomModel audioJoinRoomModel = new AudioJoinRoomModel();
+        audioJoinRoomModel.userID = HSUserInfo.userId + "";
+        audioJoinRoomModel.userName = HSUserInfo.nickName;
+        audioJoinRoomModel.roomID = model.roomId + "";
 
         engine.joinRoom(audioJoinRoomModel);
         engine.setEventListener(eventHandler);

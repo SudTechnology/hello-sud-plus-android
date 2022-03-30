@@ -94,7 +94,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         list.add(new AppSizeView.AppSizeModel(Color.parseColor("#614bff"), "HelloSud", APPConfig.HelloSudSize));
 //        list.add(new AppSizeView.AppSizeModel(Color.parseColor("#33000000"), "Zego RTC SDK", APPConfig.ZegoRTCSDKSize));
 //        list.add(new AppSizeView.AppSizeModel(Color.parseColor("#1a000000"), "Agora RTC SDK", APPConfig.AgoraRTCSDKSize));
-        list.add(new AppSizeView.AppSizeModel(Color.parseColor("#1a000000"), "Agora RTC SDK", APPConfig.RTCSDKSize));
+        list.add(new AppSizeView.AppSizeModel(Color.parseColor("#1a000000"), "RTC SDK", APPConfig.RTCSDKSize));
         appSizeView.setDatas(list);
         long totalSize = 0;
         for (AppSizeView.AppSizeModel appSizeModel : list) {

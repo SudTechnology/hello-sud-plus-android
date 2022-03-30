@@ -1,5 +1,7 @@
 package tech.sud.mgp.hello.ui.main.settings.activity;
 
+import android.content.Context;
+
 import androidx.lifecycle.MutableLiveData;
 
 import java.util.ArrayList;
@@ -7,6 +9,8 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import tech.sud.mgp.hello.R;
+import tech.sud.mgp.hello.app.HelloSudApplication;
 import tech.sud.mgp.hello.common.base.BaseViewModel;
 import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.common.utils.GlobalCache;
@@ -25,32 +29,37 @@ public class ChangeRtcViewModel extends BaseViewModel {
     public final MutableLiveData<List<BaseRtcConfig>> rtcDatasLiveData = new MutableLiveData<>();
 
     // 获取rtc列表
-    public void getRtcList(String[] rtcServices) {
+    public void getRtcList() {
         executor.execute(() -> {
+            Context context = HelloSudApplication.instance;
             List<BaseRtcConfig> list = new ArrayList<>();
             BaseConfigResp baseConfigResp = (BaseConfigResp) GlobalCache.getInstance().getSerializable(GlobalCache.BASE_CONFIG_KEY);
-            for (int i = 0; i < rtcServices.length; i++) {
-                String name = rtcServices[i];
-                switch (i) {
-                    case 0: // 即构
-                        if (baseConfigResp != null && baseConfigResp.zegoCfg != null) {
-                            list.add(baseConfigResp.zegoCfg);
-                        } else {
-                            list.add(new BaseRtcConfig(null, name));
-                        }
-                        break;
-                    case 1: // 声网
-                        if (baseConfigResp != null && baseConfigResp.agoraCfg != null) {
-                            list.add(baseConfigResp.agoraCfg);
-                        } else {
-                            list.add(new BaseRtcConfig(null, name));
-                        }
-                        break;
-                    default:
-                        list.add(new BaseRtcConfig(null, name));
-                        break;
-                }
+
+            // 添加zego
+            String rtcNameZego = context.getString(R.string.rtc_name_zego);
+            if (baseConfigResp != null && baseConfigResp.zegoCfg != null) {
+                baseConfigResp.zegoCfg.desc = rtcNameZego;
+                list.add(baseConfigResp.zegoCfg);
+            } else {
+                list.add(new BaseRtcConfig(null, rtcNameZego));
             }
+
+            // 添加Agora
+            String rtcNameAgora = context.getString(R.string.rtc_name_agora);
+            if (baseConfigResp != null && baseConfigResp.agoraCfg != null) {
+                baseConfigResp.agoraCfg.desc = rtcNameAgora;
+                list.add(baseConfigResp.agoraCfg);
+            } else {
+                list.add(new BaseRtcConfig(null, rtcNameAgora));
+            }
+
+            // 添加其它暂未支持的rtc
+            list.add(new BaseRtcConfig(null, context.getString(R.string.rtc_name_rong_cloud)));
+            list.add(new BaseRtcConfig(null, context.getString(R.string.rtc_name_comms_ease)));
+            list.add(new BaseRtcConfig(null, context.getString(R.string.rtc_name_voic_engine)));
+            list.add(new BaseRtcConfig(null, context.getString(R.string.rtc_name_alibaba_cloud)));
+            list.add(new BaseRtcConfig(null, context.getString(R.string.rtc_name_tencent_cloud)));
+
             rtcDatasLiveData.postValue(list);
         });
     }

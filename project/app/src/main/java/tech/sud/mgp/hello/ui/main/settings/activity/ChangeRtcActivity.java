@@ -44,8 +44,7 @@ public class ChangeRtcActivity extends BaseActivity {
     @Override
     protected void initData() {
         super.initData();
-        String[] rtcServices = getResources().getStringArray(R.array.rtc_services);
-        viewModel.getRtcList(rtcServices);
+        viewModel.getRtcList();
     }
 
     @Override

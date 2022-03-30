@@ -70,7 +70,7 @@ public class AgoraAudioEngineImpl implements IAudioEngine {
             mEngine = engine;
             if (engine != null) {
                 engine.enableAudioVolumeIndication(300, 3, true); // 开启音频监听
-                engine.setDefaultAudioRoutetoSpeakerphone(true); // 设置默认的音频路由
+                engine.setDefaultAudioRoutetoSpeakerphone(true); // 默认的音频路由为扬声器
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -120,6 +120,7 @@ public class AgoraAudioEngineImpl implements IAudioEngine {
 
             // 加入频道
             engine.joinChannel("", roomId, "", userId, channelMediaOptions);
+            engine.setEnableSpeakerphone(true); // 开启。音频路由为扬声器。
             this.roomID = roomId;
         }
     }

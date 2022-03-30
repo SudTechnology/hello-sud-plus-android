@@ -17,9 +17,13 @@ import tech.sud.mgp.hello.BuildConfig;
 import tech.sud.mgp.hello.ui.scenes.common.gift.manager.GiftHelper;
 
 public class HelloSudApplication extends Application {
+
+    public static HelloSudApplication instance;
+
     @Override
     public void onCreate() {
         super.onCreate();
+        instance = this;
         configBugly();
         configGift();
         configLog();

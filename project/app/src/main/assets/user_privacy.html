@@ -17,6 +17,11 @@
         color: #1A1A1A;
         line-height: 24px;
         padding: 0 16px;
+        width: 100%;
+      }
+      html,
+      body {
+        width: 100%;
       }
       html,
       body,
@@ -28,16 +33,23 @@
         margin: 0;
         padding: 0;
         border: 0;
+        box-sizing: border-box;
         vertical-align: baseline;
       }
       ol,
       ul {
         list-style: none;
       }
+      .table-list {
+        width: 100%;
+        margin: auto;
+        overflow-x: auto;
+      }
       table {
         border-collapse: collapse;
         border-spacing: 0;
         width: 100% !important;
+       
       }
     </style>
   </head>
@@ -193,172 +205,173 @@
       <p>为保证产品相关功能的实现与应用安全稳定的运行，我们可能会接入由第三方服务提供商提供的软件开发包（SDK）实现相关目的。我们会对合作获取信息的软件工具开发包（SDK）进行严格的安全监测，以保证数据安全。</p>
       
       <p>我们目前接入的第三方软件开发包（SDK）目录情况如下：</p>
-      
-      <table cellspacing="0" style="border-collapse:collapse; width:630px">
-        <tbody>
-          <tr>
-            <td colspan="7" style="background-color:#bebebe; border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:2px solid black; vertical-align:top; width:472px">
-            <p>委托处理</p>
-            </td>
-          </tr>
-          <tr>
-            <td rowspan="2" style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:33px">
-            <p>所属系统</p>
-            </td>
-            <td colspan="2" style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:2px solid black; vertical-align:top; width:127px">
-            <p>第三方</p>
-            </td>
-            <td rowspan="2" style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:2px solid black; vertical-align:top; width:81px">
-            <p>从第三方处收集个人信息的目的</p>
-            </td>
-            <td rowspan="2" style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:2px solid black; vertical-align:top; width:101px">
-            <p>从第三方处收集个人信息的类型</p>
-            </td>
-            <td rowspan="2" style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:2px solid black; vertical-align:top; width:63px">
-            <p>从第三方处收集个人信息的方式</p>
-            </td>
-            <td rowspan="2" style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:2px solid black; vertical-align:top; width:63px">
-            <p>SDK隐私政策链接</p>
-            </td>
-          </tr>
-          <tr>
-            <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:62px">
-            <p>运营方</p>
-            </td>
-            <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:64px">
-            <p>产品</p>
-            </td>
-          </tr>
-          <tr>
-            <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:33px">
-            <p>安卓/苹果</p>
-            </td>
-            <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:62px">
-            <p>忽然科技（上海）有限公司</p>
-            </td>
-            <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:64px">
-            <p>SudMGP SDK</p>
-            </td>
-            <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:81px">
-            <p>互动游戏服务</p>
-            </td>
-            <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:101px">
-            <p>App的Android&nbsp;applicationId和iOS&nbsp;BundleId</p>
-            </td>
-            <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:63px">
-            <p>SDK获取</p>
-            </td>
-            <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:63px">
-            <p><a href="https://console.sud.tech/privacy">点击查看</a></p>
-            </td>
-          </tr>
-          <tr>
-            <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:33px">
-            <p>安卓/苹果</p>
-            </td>
-            <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:62px">
-            <p>深圳市即构科技有限公司</p>
-            </td>
-            <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:64px">
-            <p>Zego SDK</p>
-            </td>
-            <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:81px">
-            <p>实现即时通话通能（语音匹配、语音群聊、视频通话）</p>
-            </td>
-            <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:101px">
-            <p><strong><em><strong><em>音频（可能含有个人敏感信息）</em></strong></em></strong></p>
-            </td>
-            <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:63px">
-            <p>SDK获取</p>
-            </td>
-            <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:63px">
-            <p><a href="https://www.zego.im/privacy">点击查看</a></p>
-            </td>
-          </tr>
-          <tr>
-            <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:33px">
-            <p>安卓/苹果</p>
-            </td>
-            <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:62px">
-            <p>上海兆言网络科技有限公司</p>
-            </td>
-            <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:64px">
-            <p>Agora SDK</p>
-            </td>
-            <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:81px">
-            <p>实现即时通话通能（语音匹配、语音群聊、视频通话）</p>
-            </td>
-            <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:101px">
-            <p><strong><em><strong><em>音频（可能含有个人敏感信息）</em></strong></em></strong></p>
-            </td>
-            <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:63px">
-            <p>SDK获取</p>
-            </td>
-            <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:63px">
-            <p><a href="https://docs.agora.io/cn/news/privacy-policy">点击查看</a></p>
-            </td>
-          </tr>
-          <tr>
-            <td colspan="6" style="background-color:#bebebe; border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:408px">
-            <p>共享</p>
-            </td>
-            <td style="background-color:#bebebe; border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:63px">
-            <p>&nbsp;</p>
-            </td>
-          </tr>
-          <tr>
-            <td rowspan="2" style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:33px">
-            <p><strong>所属系统</strong></p>
-            </td>
-            <td colspan="2" style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:127px">
-            <p><strong>第三方</strong></p>
-            </td>
-            <td rowspan="2" style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:2px solid black; vertical-align:top; width:81px">
-            <p>从第三方处收集个人信息的目的</p>
-            </td>
-            <td rowspan="2" style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:2px solid black; vertical-align:top; width:101px">
-            <p>从第三方处收集个人信息的类型</p>
-            </td>
-            <td rowspan="2" style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:2px solid black; vertical-align:top; width:63px">
-            <p>从第三方处收集个人信息的方式</p>
-            </td>
-            <td rowspan="2" style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:2px solid black; vertical-align:top; width:63px">
-            <p>SDK隐私政策链接</p>
-            </td>
-          </tr>
-          <tr>
-            <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:62px">
-            <p><strong>运营方</strong></p>
-            </td>
-            <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:64px">
-            <p><strong>产品</strong></p>
-            </td>
-          </tr>
-          <tr>
-            <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:33px">
-            <p>安卓/苹果</p>
-            </td>
-            <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:62px">
-            <p>腾讯科技（深圳）有限公司</p>
-            </td>
-            <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:64px">
-            <p>腾讯Bugly</p>
-            </td>
-            <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:81px">
-            <p>发现应用崩溃及异常</p>
-            </td>
-            <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:101px">
-            <p>个人常用设备信息（包括ICCID）</p>
-            </td>
-            <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:63px">
-            <p>SDK获取</p>
-            </td>
-            <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:63px">
-            <p><a href="https://static.bugly.qq.com/bugly-sdk-privacy-statement.pdf">点击查看</a></p>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="table-list">
+        <table cellspacing="0" style="border-collapse:collapse; width:630px">
+          <tbody>
+            <tr>
+              <td colspan="7" style="background-color:#bebebe; border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:2px solid black; vertical-align:top; width:472px">
+              <p>委托处理</p>
+              </td>
+            </tr>
+            <tr>
+              <td rowspan="2" style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:33px">
+              <p>所属系统</p>
+              </td>
+              <td colspan="2" style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:2px solid black; vertical-align:top; width:127px">
+              <p>第三方</p>
+              </td>
+              <td rowspan="2" style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:2px solid black; vertical-align:top; width:81px">
+              <p>从第三方处收集个人信息的目的</p>
+              </td>
+              <td rowspan="2" style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:2px solid black; vertical-align:top; width:101px">
+              <p>从第三方处收集个人信息的类型</p>
+              </td>
+              <td rowspan="2" style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:2px solid black; vertical-align:top; width:63px">
+              <p>从第三方处收集个人信息的方式</p>
+              </td>
+              <td rowspan="2" style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:2px solid black; vertical-align:top; width:63px">
+              <p>SDK隐私政策链接</p>
+              </td>
+            </tr>
+            <tr>
+              <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:62px">
+              <p>运营方</p>
+              </td>
+              <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:64px">
+              <p>产品</p>
+              </td>
+            </tr>
+            <tr>
+              <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:33px">
+              <p>安卓/苹果</p>
+              </td>
+              <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:62px">
+              <p>忽然科技（上海）有限公司</p>
+              </td>
+              <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:64px">
+              <p>SudMGP SDK</p>
+              </td>
+              <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:81px">
+              <p>互动游戏服务</p>
+              </td>
+              <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:101px">
+              <p>App的Android&nbsp;applicationId和iOS&nbsp;BundleId</p>
+              </td>
+              <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:63px">
+              <p>SDK获取</p>
+              </td>
+              <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:63px">
+              <p><a href="https://console.sud.tech/privacy">点击查看</a></p>
+              </td>
+            </tr>
+            <tr>
+              <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:33px">
+              <p>安卓/苹果</p>
+              </td>
+              <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:62px">
+              <p>深圳市即构科技有限公司</p>
+              </td>
+              <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:64px">
+              <p>Zego SDK</p>
+              </td>
+              <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:81px">
+              <p>实现即时通话通能（语音匹配、语音群聊、视频通话）</p>
+              </td>
+              <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:101px">
+              <p><strong><em><strong><em>音频（可能含有个人敏感信息）</em></strong></em></strong></p>
+              </td>
+              <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:63px">
+              <p>SDK获取</p>
+              </td>
+              <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:63px">
+              <p><a href="https://www.zego.im/privacy">点击查看</a></p>
+              </td>
+            </tr>
+            <tr>
+              <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:33px">
+              <p>安卓/苹果</p>
+              </td>
+              <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:62px">
+              <p>上海兆言网络科技有限公司</p>
+              </td>
+              <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:64px">
+              <p>Agora SDK</p>
+              </td>
+              <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:81px">
+              <p>实现即时通话通能（语音匹配、语音群聊、视频通话）</p>
+              </td>
+              <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:101px">
+              <p><strong><em><strong><em>音频（可能含有个人敏感信息）</em></strong></em></strong></p>
+              </td>
+              <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:63px">
+              <p>SDK获取</p>
+              </td>
+              <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:63px">
+              <p><a href="https://docs.agora.io/cn/news/privacy-policy">点击查看</a></p>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="6" style="background-color:#bebebe; border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:408px">
+              <p>共享</p>
+              </td>
+              <td style="background-color:#bebebe; border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:63px">
+              <p>&nbsp;</p>
+              </td>
+            </tr>
+            <tr>
+              <td rowspan="2" style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:33px">
+              <p><strong>所属系统</strong></p>
+              </td>
+              <td colspan="2" style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:127px">
+              <p><strong>第三方</strong></p>
+              </td>
+              <td rowspan="2" style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:2px solid black; vertical-align:top; width:81px">
+              <p>从第三方处收集个人信息的目的</p>
+              </td>
+              <td rowspan="2" style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:2px solid black; vertical-align:top; width:101px">
+              <p>从第三方处收集个人信息的类型</p>
+              </td>
+              <td rowspan="2" style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:2px solid black; vertical-align:top; width:63px">
+              <p>从第三方处收集个人信息的方式</p>
+              </td>
+              <td rowspan="2" style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:2px solid black; vertical-align:top; width:63px">
+              <p>SDK隐私政策链接</p>
+              </td>
+            </tr>
+            <tr>
+              <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:62px">
+              <p><strong>运营方</strong></p>
+              </td>
+              <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:64px">
+              <p><strong>产品</strong></p>
+              </td>
+            </tr>
+            <tr>
+              <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:33px">
+              <p>安卓/苹果</p>
+              </td>
+              <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:62px">
+              <p>腾讯科技（深圳）有限公司</p>
+              </td>
+              <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:64px">
+              <p>腾讯Bugly</p>
+              </td>
+              <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:81px">
+              <p>发现应用崩溃及异常</p>
+              </td>
+              <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:101px">
+              <p>个人常用设备信息（包括ICCID）</p>
+              </td>
+              <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:63px">
+              <p>SDK获取</p>
+              </td>
+              <td style="border-bottom:2px solid black; border-left:2px solid black; border-right:2px solid black; border-top:none; vertical-align:top; width:63px">
+              <p><a href="https://static.bugly.qq.com/bugly-sdk-privacy-statement.pdf">点击查看</a></p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
       
       <p>&nbsp;</p>
       

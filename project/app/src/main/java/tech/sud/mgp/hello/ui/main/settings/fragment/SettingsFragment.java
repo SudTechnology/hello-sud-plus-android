@@ -13,7 +13,6 @@ import java.util.List;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.app.APPConfig;
 import tech.sud.mgp.hello.common.base.BaseFragment;
-import tech.sud.mgp.hello.common.utils.AppSharedPreferences;
 import tech.sud.mgp.hello.common.utils.IntentUtils;
 import tech.sud.mgp.hello.ui.main.settings.activity.MoreSettingsActivity;
 import tech.sud.mgp.hello.ui.main.settings.activity.VersionInfoActivity;
@@ -39,6 +38,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
 
     private int clickCount = 0;
     private long clickTimestamp = 0;
+    private boolean isShowMoreSettings = false;
 
     public SettingsFragment() {
     }
@@ -71,7 +71,6 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
     }
 
     private void initMoreSettings() {
-        boolean isShowMoreSettings = AppSharedPreferences.getSP().getBoolean(AppSharedPreferences.IS_SHOW_MORE_SETTINGS);
         if (isShowMoreSettings) {
             btnMoreSettings.setVisibility(View.VISIBLE);
             viewLineMoreSettings.setVisibility(View.VISIBLE);
@@ -143,9 +142,8 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         if (Math.abs(timestamp - clickTimestamp) < 1000) {
             clickCount++;
             if (clickCount >= 3) {
-                AppSharedPreferences.getSP().put(AppSharedPreferences.IS_SHOW_MORE_SETTINGS, true);
+                isShowMoreSettings = true;
                 initMoreSettings();
-                clickCount = 0;
             }
         } else {
             clickCount = 1;

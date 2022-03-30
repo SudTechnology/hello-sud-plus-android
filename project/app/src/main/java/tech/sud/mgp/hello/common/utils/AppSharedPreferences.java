@@ -15,6 +15,7 @@ public class AppSharedPreferences {
     public final static String USER_HEAD_PORTRAIT_KEY = "user_head_portrait_key";
     /** 记录当前设置的语言类型 */
     public final static String KEY_LANG_CELL_TYPE = "key_lang_cell_type";
+    public final static String IS_SHOW_MORE_SETTINGS = "is_show_more_settings"; // 是否要显示更多设置
 
     public static SPUtils getSP() {
         return SPUtils.getInstance(SP_NAME);

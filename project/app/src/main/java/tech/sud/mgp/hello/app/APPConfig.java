@@ -29,6 +29,7 @@ public class APPConfig {
     public static final long HelloSudSize = 35770369;
     public static final long ZegoRTCSDKSize = 21307064;
     public static final long AgoraRTCSDKSize = 24431820;
+    public static final long RTCSDKSize = 45738884;
     // endregion 占用大小
 
     // region url地址

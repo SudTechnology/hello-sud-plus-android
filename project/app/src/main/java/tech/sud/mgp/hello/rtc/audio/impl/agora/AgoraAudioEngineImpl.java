@@ -62,9 +62,8 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
     }
 
     /**
-     *
      * @param context
-     * @param model  model.token, 这里的token是RTM的token，用于信令
+     * @param model   model.token, 这里的token是RTM的token，用于信令
      */
     @Override
     public void initWithConfig(Context context, AudioConfigModel model) {
@@ -98,7 +97,6 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
     }
 
     /**
-     *
      * @param model model.token, 这里的token是RTC的token，用于语音通话
      */
     @Override
@@ -119,6 +117,7 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
             channelMediaOptions.publishLocalVideo = false;
             // 加入频道
             engine.joinChannelWithUserAccount(model.token, model.roomID, model.userID, channelMediaOptions);
+            engine.setEnableSpeakerphone(true); // 开启。音频路由为扬声器。
             mRoomID = model.roomID;
         }
     }

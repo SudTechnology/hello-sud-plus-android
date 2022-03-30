@@ -20,7 +20,7 @@ public class SudMetaModel {
      */
     public static String buildString() {
         if (locale == null) {
-            locale = SystemUtils.getLanguageCode(HelloSudApplication.INSTANCE);
+            locale = SystemUtils.getLanguageCode(HelloSudApplication.instance);
         }
         if (clientChannel == null) {
             clientChannel = SystemUtils.getChannel();

@@ -215,14 +215,6 @@
     <string name="github">GitHub</string>
     <string name="open_source_licenses">开源协议</string>
     <string name="change_rtc_confirm">确认将RTC服务商切换为【%1$s】？</string>
-    <string-array name="rtc_services">
-        <item>Zego</item>
-        <item>Agora</item>
-        <item>CommsEase</item>
-        <item>VoicEngine</item>
-        <item>Alibaba Cloud</item>
-        <item>Tencent Cloud</item>
-    </string-array>
     <string name="be_making">正在制作中，敬请期待！</string>
     <string name="total_value">总%1$s</string>
     <string name="finish_game_confirm">确定结束游戏吗</string>
@@ -234,5 +226,12 @@
     <string name="asr_guide_draw">开麦抢答，比打字更快哦！</string>
     <string name="no_empty_seat">没有空位啦</string>
     <string name="more_settings">更多设置</string>
+    <string name="rtc_name_zego">即构</string>
+    <string name="rtc_name_agora">声网</string>
+    <string name="rtc_name_rong_cloud">融云</string>
+    <string name="rtc_name_comms_ease">网易云信</string>
+    <string name="rtc_name_voic_engine">火山引擎</string>
+    <string name="rtc_name_alibaba_cloud">阿里云</string>
+    <string name="rtc_name_tencent_cloud">腾讯云</string>
 
 </resources>

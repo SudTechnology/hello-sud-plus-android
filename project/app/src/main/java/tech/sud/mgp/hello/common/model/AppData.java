@@ -88,8 +88,9 @@ public class AppData {
      * 获取当前所用的rtc名称
      */
     public String getRtcName() {
-        if (selectRtcConfig != null) {
-            return selectRtcConfig.desc;
+        BaseRtcConfig config = selectRtcConfig;
+        if (config != null) {
+            return config.getRtcName();
         }
         return null;
     }

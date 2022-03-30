@@ -13,7 +13,6 @@ public class AppSharedPreferences {
     public final static String USER_SEX_KEY = "user_sex_key";
     public final static String USER_NAME_KEY = "user_name_key";
     public final static String USER_HEAD_PORTRAIT_KEY = "user_head_portrait_key";
-    public final static String IS_SHOW_MORE_SETTINGS = "is_show_more_settings"; // 是否要显示更多设置
 
     public static SPUtils getSP() {
         return SPUtils.getInstance(SP_NAME);

@@ -1,0 +1,227 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">HelloSud</string>
+
+    <string name="login_welcome">ยินดีต้อนรับ \nHelloSud</string>
+    <string name="login_your_name">ชื่อเล่นของคุณ</string>
+    <string name="title_hellosud">HelloSud</string>
+    <string name="login_edit_name">โปรดใส่ชื่อเล่นของคุณ</string>
+    <string name="male">ชาย</string>
+    <string name="female">หญิง</string>
+    <string name="play_now">ลดลองใช้งาน</string>
+    <string name="search_hint">ใส่หมายเลขห้องเพื่อเข้าห้องอย่างรวดเร็ว</string>
+
+    <string name="tabs_index">หน้าแรก</string>
+    <string name="tabs_room">ห้อง</string>
+    <string name="tabs_set">ตั้งค่า</string>
+    <string name="useragreement_title">ยินดีต้อนรับสู่ HelloSud</string>
+    <string name="useragreement_content_part1">เราให้ความสำคัญกับการปกป้องข้อมูลส่วนบุคคลของคุณเป็นอย่างมาก สำหรับข้อมูลเพิ่มเติมเกี่ยวกับการรวบรวมและการใช้ข้อมูลส่วนบุคคล คุณสามารถคลิก</string>
+    <string name="useragreement_content_part2">“ข้อตกลงผู้ใช้”</string>
+    <string name="useragreement_content_part3">และ</string>
+    <string name="useragreement_content_part4">“นโยบายความเป็นส่วนตัว”</string>
+    <string name="useragreement_content_part5">เพื่อทำความเข้าใจ คลิก“ตกลง” และถือว่าคุณได้อ่านและยอมรับข้อตกลงข้างต้นทั้งหมดแล้ว</string>
+    <string name="useragreement_reject">ปฏิเสธ</string>
+    <string name="useragreement_agree">ตกลง</string>
+    <string name="user_secondary_title">เคล็ดลับ</string>
+    <string name="user_secondary_content">HelloSud จะใช้ข้อมูลของคุณเพื่อให้บริการและปรับปรุงประสบการณ์เท่านั้น เราจะพยายามอย่างเต็มที่เพื่อให้ข้อมูลของคุณปลอดภัย จะใช้บริการได้หลังจากคลิกตกลง
+\N หากคุณไม่เห็นด้วยกับนโยบายความเป็นส่วนตัวนี้ เราขอแสดงความเสียใจเป็นอย่างยิ่งที่ไม่สามารถเสนอผลิตภัณฑ์และบริการที่สมบูรณ์ให้คุณได้</string>
+    <string name="user_secondary_reject">ออกจากระบบ</string>
+    <string name="user_secondary_agree">ตกลงและใช้งานต่อ</string>
+    <string name="setting_sdk_version">หมายเลขเวอร์ชันของ SDK</string>
+    <string name="setting_app_version">หมายเลขเวอร์ชันของ App</string>
+    <string name="setting_useragreement">ข้อตกลงผู้ใช้</string>
+    <string name="setting_privacy">นโยบายการรักษาความเป็นส่วนตัว</string>
+    <string name="setting_contact">ติดต่อเรา</string>
+    <string name="setting_version"></string>
+    <string name="setting_userid">ID ผู้ใช้ %1$s</string>
+    <string name="setting_userid1">ID ผู้ใช้ %1$s</string>
+    <string name="coming_soon">โปรดติดตาม</string>
+    <string name="room_list_enter">เข้าสู่</string>
+    <string name="room_list_roomid">หมายเลขห้อง %1$s</string>
+    <string name="room_list_online">%1$S คน</string>
+    <string name="setting_contact1_content">สำหรับข้อมูลเพิ่มเติมหรือข้อเสนอแนะ โปรดติดต่อเราทางอีเมล: help@sud.tech</string>
+    <string name="setting_contact1_but">ตกลง</string>
+    <string-array name="names_list" tools:ignore="ExtraTranslation">
+        <item>哈利</item>
+        <item>祺祥</item>
+        <item>沐辰</item>
+        <item>阿米莉亚</item>
+        <item>齐默尔曼</item>
+        <item>陌北</item>
+        <item>旺仔</item>
+        <item>半夏</item>
+        <item>朝雨</item>
+        <item>卫斯理</item>
+        <item>阿道夫</item>
+        <item>长青</item>
+        <item>安小六</item>
+        <item>小凡</item>
+        <item>炎月</item>
+        <item>醉风</item>
+        <item>斯科特</item>
+        <item>布卢默</item>
+        <item>宛岩</item>
+        <item>平萱</item>
+        <item>凝雁</item>
+        <item>怀亚特</item>
+        <item>格伦巴特</item>
+        <item>尔白</item>
+        <item>南露</item>
+        <item>爱丽丝</item>
+        <item>埃尔维斯</item>
+        <item>奥利维亚</item>
+        <item>妙竹</item>
+        <item>雲思衣</item>
+        <item>少女大佬</item>
+        <item>兔兔别跑</item>
+        <item>夏纱</item>
+        <item>嘉慕</item>
+        <item>阿拉贝拉</item>
+        <item>星剑</item>
+        <item>罗德斯</item>
+        <item>渡满归</item>
+        <item>星浅</item>
+        <item>问水</item>
+        <item>星奕晨</item>
+        <item>丹尼尔</item>
+        <item>白止扇</item>
+        <item>暖暖</item>
+        <item>埃迪</item>
+        <item>杰里米</item>
+        <item>玛德琳</item>
+        <item>波佩</item>
+        <item>卡诺</item>
+        <item>泡芙</item>
+        <item>帕特里克</item>
+        <item>梅雷迪斯</item>
+        <item>公孙昕</item>
+        <item>青弘</item>
+        <item>潘豆豆</item>
+        <item>小番秀二</item>
+        <item>大一宇</item>
+        <item>米奇</item>
+        <item>戴夫</item>
+        <item>伯特</item>
+        <item>米洛布雷</item>
+        <item>阿德莱德</item>
+        <item>吉宝</item>
+        <item>伊娃</item>
+        <item>路易斯</item>
+        <item>希拉姆</item>
+        <item>杰西</item>
+        <item>贝特西</item>
+        <item>利奥波德</item>
+        <item>丽塔</item>
+        <item>拉姆斯登</item>
+        <item>伯纳德</item>
+        <item>理查德</item>
+        <item>奥尔德里奇</item>
+        <item>劳里</item>
+        <item>奥兰多</item>
+        <item>埃尔罗伊</item>
+        <item>栗和顺</item>
+        <item>朱雀佳行</item>
+        <item>理德拉</item>
+        <item>凡勃伦</item>
+        <item>科波菲尔</item>
+        <item>玉谷大三</item>
+        <item>大木元司</item>
+        <item>钮阳冰</item>
+        <item>盖勤</item>
+        <item>紫心</item>
+        <item>弘慕慕</item>
+        <item>怀星驰</item>
+        <item>泉宏胜</item>
+        <item>闻人星海</item>
+        <item>Watt</item>
+        <item>Kevin</item>
+        <item>Toby</item>
+        <item>瓦利斯</item>
+        <item>苏珊娜</item>
+        <item>罗密欧</item>
+        <item>福克纳</item>
+        <item>多萝西</item>
+        <item>贝尔</item>
+        <item>卡门</item>
+        <item>安德烈</item>
+        <item>朱丽叶</item>
+        <item>吉姆</item>
+    </string-array>
+
+    <string-array name="language_list">
+        <item>跟随系统</item>
+        <item>简体中文</item>
+        <item>繁體中文</item>
+        <item>English</item>
+        <item>لغة عربية</item>
+        <item>Bahasa Indonesia</item>
+        <item>Bahasa Melayu</item>
+        <item>ภาษาไทย</item>
+        <item>Tiếng Việt</item>
+        <item>한국어</item>
+        <item>Español</item>
+        <item>日本語</item>
+    </string-array>
+
+    <string name="search_room_error">โปรดใส่หมายเลขห้องที่ถูกต้อง</string>
+    <string name="user_agreement_title">ข้อตกลงผู้ใช้</string>
+    <string name="user_privacy_title">นโยบายความเป็นส่วนตัว</string>
+    <string name="roomlist_empty">ยังไม่มีห้องถ่ายทอดสดในขณะนี้ \n
+ไปสร้างที่ี่หน้าแรกเลย~</string>
+    <string name="search_enter">เข้าสู่</string>
+    <string name="select_game">เลือกเกม</string>
+    <string name="audio_click_got_mic">คลิดเพื่อเชื่อมต่อไมค์</string>
+    <string name="audio_has_ready">พร้อมแล้ว</string>
+    <string name="audio_not_ready">ยังไม่พร้อม</string>
+    <string name="audio_got_mic">เชื่อมต่อไมค์</string>
+    <string name="audio_chat_hint">มาคุยกัน~</string>
+    <string name="audio_dialog_gift_present">แถม</string>
+    <string name="audio_dialog_present">ส่งให้</string>
+    <string name="audio_cancle">ยกเลิก</string>
+    <string name="audio_all">เลือกทั้งหมด</string>
+    <string name="audio_mic_index">%1$d ไมค์</string>
+    <string name="audio_room_admin">เจ้าของห้อง</string>
+    <string name="audio_send">ส่ง</string>
+    <string name="audio_send_msg_hint">ส่งข้อความ …</string>
+    <string name="audio_send_gift_user_empty">โปรดเลือกผู้รับของขวัญ</string>
+    <string name="audio_send_gift_empty">โปรดเลือกของขวัญ</string>
+    <string name="audio_recreation_chat">แชทบันเทิง</string>
+    <string name="audio_chat_room">ห้องแชท</string>
+    <string name="audio_gameing">เล่นเกมอยู่</string>
+    <string name="audio_room_number">หมายเลขห้อง</string>
+    <string name="audio_close_room_title">ตกลงจะออกจากห้องนี้ไหม</string>
+    <string name="audio_switch_game_warn">เล่นเกมอยู่ สลับเกมไม่ได้</string>
+    <string name="audio_enter_the_room">เข้าห้องแล้ว</string>
+    <string name="audio_down_mic">ปิดไมค์</string>
+    <string name="cancel">ยกเลิก</string>
+    <string name="confirm">ตกลง</string>
+    <string name="confirm_">ยืนยันการหลบหนี</string>
+    <string name="common_go_setting">ไปตั้งค่า</string>
+    <string name="common_camera">กล้อง</string>
+    <string name="common_storage">จัดเก็บ</string>
+    <string name="common_correlation">กี่ยวข้อง</string>
+    <string name="common_record_audio">บันทึกเสียง</string>
+    <string name="common_phone">โทรศัพท์</string>
+    <string name="common_setting_permission_info">โปรดไปที่ตั้งค่าเพื่อเปิดใช้งานการอนุญาต %1$s เพื่อใช้ฟังก์ชันแอป %2$s ได้ตามปกติ</string>
+    <string name="close_game">ปิดเกม</string>
+    <string name="finish_game">จบเกม</string>
+    <string name="index_creat_room">สร้างห้อง</string>
+    <string name="index_game_join">เข้าร่วม</string>
+    <string name="occupy_size">ขนาดที่ใช้งาน</string>
+    <string name="version_info">ข้อมูลเวอร์ชัน</string>
+    <string name="change_rtc_service">เปลี่ยนผู้ให้บริการ RTC</string>
+    <string name="change_language">เปลี่ยนภาษา</string>
+    <string name="github">GitHub</string>
+    <string name="open_source_licenses">ข้อตกลงการบุกเบิก</string>
+    <string name="change_rtc_confirm">ตกลงเปลี่ยนผู้ให้บริการ RTCเป็น 【%1$s】หรือไม่</string>
+
+    <string name="be_making">กำลังจัดทำ โปรดคอยติดตาม</string>
+    <string name="total_value">รวม %1$s </string>
+    <string name="finish_game_confirm">ตกลงจบเกมหรือไม่</string>
+    <string name="playing_down_mic">กำลังเล่นเกมอยู่ จะหลบหนีหรือไม่</string>
+    <string name="game_number">จำนวนผู้เล่นเกม</string>
+    <string name="unable_to_speak">当前不能发言</string>
+    <string name="asr_guide">本游戏支持语音识别，请开麦展现你的魅力～</string>
+    <string name="asr_guide_number_boom">试试打开麦克风报数，懒人福利！</string>
+    <string name="asr_guide_draw">开麦抢答，比打字更快哦！</string>
+
+</resources>

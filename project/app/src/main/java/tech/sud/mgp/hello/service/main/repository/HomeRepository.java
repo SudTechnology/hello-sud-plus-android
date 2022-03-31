@@ -7,7 +7,7 @@ import java.util.List;
 
 import tech.sud.mgp.hello.common.http.param.BaseUrlManager;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
-import tech.sud.mgp.hello.common.http.rx.RxUtil;
+import tech.sud.mgp.hello.common.http.rx.RxUtils;
 import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.service.main.method.HomeRequestMethodFactory;
 import tech.sud.mgp.hello.service.main.req.CreatRoomReq;
@@ -28,21 +28,21 @@ public class HomeRepository {
     public static void roomList(LifecycleOwner owner, RxCallback<RoomListResp> callback) {
         HomeRequestMethodFactory.getMethod()
                 .roomList(BaseUrlManager.getInteractBaseUrl())
-                .compose(RxUtil.schedulers(owner))
+                .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }
 
     /**
      * 匹配游戏
      */
-    public static void matchGame(Integer sceneType, Long gameId, LifecycleOwner owner, RxCallback<MatchRoomModel> callback) {
+    public static void matchGame(int sceneType, Long gameId, LifecycleOwner owner, RxCallback<MatchRoomModel> callback) {
         MatchBodyReq req = new MatchBodyReq();
         req.gameId = gameId;
         req.sceneType = sceneType;
         req.rtcType = AppData.getInstance().getRtcType();
         HomeRequestMethodFactory.getMethod()
                 .matchGame(BaseUrlManager.getInteractBaseUrl(), req)
-                .compose(RxUtil.schedulers(owner))
+                .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }
 
@@ -56,7 +56,7 @@ public class HomeRepository {
         req.userIds = userIds;
         HomeRequestMethodFactory.getMethod()
                 .getUserInfoList(BaseUrlManager.getBaseUrl(), req)
-                .compose(RxUtil.schedulers(owner))
+                .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }
 
@@ -66,7 +66,7 @@ public class HomeRepository {
     public static void gameList(LifecycleOwner owner, RxCallback<GameListResp> callback) {
         HomeRequestMethodFactory.getMethod()
                 .gameList(BaseUrlManager.getInteractBaseUrl())
-                .compose(RxUtil.schedulers(owner))
+                .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }
 
@@ -76,7 +76,7 @@ public class HomeRepository {
     public static void getBaseConfig(LifecycleOwner owner, RxCallback<BaseConfigResp> callback) {
         HomeRequestMethodFactory.getMethod()
                 .getBaseConfig(BaseUrlManager.getBaseUrl())
-                .compose(RxUtil.schedulers(owner))
+                .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }
 
@@ -89,7 +89,7 @@ public class HomeRepository {
         req.sceneType = sceneType;
         HomeRequestMethodFactory.getMethod()
                 .creatRoom(BaseUrlManager.getInteractBaseUrl(), req)
-                .compose(RxUtil.schedulers(owner))
+                .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }
 

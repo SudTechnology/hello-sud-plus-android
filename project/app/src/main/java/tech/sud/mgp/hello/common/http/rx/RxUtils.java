@@ -17,26 +17,26 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 /**
  * RxJava调度器工具(线程切换)
  */
-public class RxUtil {
+public class RxUtils {
 
     public static <T> ObservableTransformer<T, T> schedulers(LifecycleOwner owner) {
         return new ObservableTransformer<T, T>() {
             @Override
             public @NonNull ObservableSource<T> apply(@NonNull Observable<T> upstream) {
-                if (owner instanceof RxAppCompatActivity) {
-                    return upstream.compose(((RxAppCompatActivity) owner).bindUntilEvent(ActivityEvent.DESTROY))
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread());
-                }
-                if (owner instanceof RxFragment) {
-                    return upstream.compose(((RxFragment) owner).bindUntilEvent(FragmentEvent.DESTROY))
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread());
-                }
-                return upstream.subscribeOn(Schedulers.io())
+                return bindLifecycle(upstream, owner).subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread());
             }
         };
+    }
+
+    public static <T> Observable<T> bindLifecycle(Observable<T> observable, Object owner) {
+        if (owner instanceof RxAppCompatActivity) {
+            return observable.compose(((RxAppCompatActivity) owner).bindUntilEvent(ActivityEvent.DESTROY));
+        }
+        if (owner instanceof RxFragment) {
+            return observable.compose(((RxFragment) owner).bindUntilEvent(FragmentEvent.DESTROY));
+        }
+        return observable;
     }
 
 }

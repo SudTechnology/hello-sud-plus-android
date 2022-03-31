@@ -90,6 +90,13 @@
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
 
+        <!-- 选择门票场景级别的页面 -->
+        <activity
+            android:name=".ui.scenes.ticket.TicketLevelActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+
         <!-- 竞猜类场景 -->
         <activity
             android:name=".ui.scenes.quiz.QuizActivity"

@@ -27,6 +27,14 @@ public interface ISudAudioEngine {
     void initWithConfig(Context context, AudioConfigModel model);
 
     /**
+     * 配置引擎SDK
+     * @param context
+     * @param model  APPId
+     *
+     */
+    void initWithConfig(Context context, AudioConfigModel model, Runnable success);
+
+    /**
      * 销毁引擎SDK
      */
     void destroy();

@@ -29,6 +29,11 @@ allprojects {
         maven() {
             url 'https://jitpack.io'
         }
+
+        // 融云 maven 仓库
+        maven {
+            url "https://maven.rongcloud.cn/repository/maven-releases/"
+        }
     }
 }
 

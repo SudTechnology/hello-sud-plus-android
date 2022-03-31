@@ -44,6 +44,10 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
     private ISudAudioEventListener mISudAudioEventListener;
     private String mRoomId;
 
+    private ZegoExpressEngine getEngine() {
+        return ZegoExpressEngine.getEngine();
+    }
+
     @Override
     public void setEventListener(ISudAudioEventListener listener) {
         mISudAudioEventListener = listener;
@@ -80,6 +84,11 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
     }
 
     @Override
+    public void initWithConfig(Context context, AudioConfigModel model, Runnable success) {
+        initWithConfig(context, model);
+    }
+
+    @Override
     public void destroy() {
         /* 销毁 SDK */
         ZegoExpressEngine.destroyEngine(null);
@@ -91,7 +100,7 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
         if (model == null)
             return;
 
-        ZegoExpressEngine engine = ZegoExpressEngine.getEngine();
+        ZegoExpressEngine engine = getEngine();
         if (engine != null) {
             /* 创建用户 */
             ZegoUser zegoUser = new ZegoUser(model.userID, model.userName);
@@ -106,7 +115,7 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
 
     @Override
     public void leaveRoom() {
-        ZegoExpressEngine engine = ZegoExpressEngine.getEngine();
+        ZegoExpressEngine engine = getEngine();
         if (engine != null) {
             /* 退出房间 */
             engine.logoutRoom();
@@ -116,7 +125,7 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
 
     @Override
     public void startPublishStream() {
-        ZegoExpressEngine engine = ZegoExpressEngine.getEngine();
+        ZegoExpressEngine engine = getEngine();
         if (engine != null) {
             String streamId = UUID.randomUUID().toString() + "-" + String.valueOf(new Date().getTime());
             engine.startPublishingStream(streamId);
@@ -126,7 +135,7 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
 
     @Override
     public void stopPublishStream() {
-        ZegoExpressEngine engine = ZegoExpressEngine.getEngine();
+        ZegoExpressEngine engine = getEngine();
         if (engine != null) {
             engine.stopPublishingStream();
             engine.enableAudioCaptureDevice(false);
@@ -135,7 +144,7 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
 
     @Override
     public void startSubscribingStream() {
-        ZegoExpressEngine engine = ZegoExpressEngine.getEngine();
+        ZegoExpressEngine engine = getEngine();
         if (engine != null) {
             engine.muteAllPlayStreamAudio(false);
         }
@@ -143,7 +152,7 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
 
     @Override
     public void stopSubscribingStream() {
-        ZegoExpressEngine engine = ZegoExpressEngine.getEngine();
+        ZegoExpressEngine engine = getEngine();
         if (engine != null) {
             engine.muteAllPlayStreamAudio(true);
         }
@@ -151,7 +160,7 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
 
     @Override
     public void startPCMCapture() {
-        ZegoExpressEngine engine = ZegoExpressEngine.getEngine();
+        ZegoExpressEngine engine = getEngine();
         if (engine != null) {
             /* 开启获取PCM数据功能 */
             ZegoAudioFrameParam param = new ZegoAudioFrameParam();
@@ -168,7 +177,7 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
 
     @Override
     public void stopPCMCapture() {
-        ZegoExpressEngine engine = ZegoExpressEngine.getEngine();
+        ZegoExpressEngine engine = getEngine();
         if (engine != null) {
             /* 置空原始音频数据回调 */
             engine.setAudioDataHandler(null);
@@ -178,7 +187,7 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
 
     @Override
     public void setAudioRouteToSpeaker(boolean enabled) {
-        ZegoExpressEngine engine = ZegoExpressEngine.getEngine();
+        ZegoExpressEngine engine = getEngine();
         if (engine != null) {
             engine.setAudioRouteToSpeaker(enabled);
         }
@@ -186,7 +195,7 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
 
     @Override
     public void sendCommand(String command, SendCommandListener listener) {
-        ZegoExpressEngine engine = ZegoExpressEngine.getEngine();
+        ZegoExpressEngine engine = getEngine();
         if (engine != null) {
             engine.sendCustomCommand(mRoomId, command, null, new IZegoIMSendCustomCommandCallback() {
                 @Override
@@ -301,7 +310,7 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
             }
 
             if (streamList != null && streamList.size() > 0) {
-                ZegoExpressEngine engine = ZegoExpressEngine.getEngine();
+                ZegoExpressEngine engine = getEngine();
                 if (engine != null) {
                     switch (updateType) {
                         case ADD:

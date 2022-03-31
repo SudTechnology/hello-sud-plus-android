@@ -22,6 +22,11 @@ public class VolcAudioEngineImpl implements ISudAudioEngine {
     }
 
     @Override
+    public void initWithConfig(Context context, AudioConfigModel model, Runnable success) {
+        initWithConfig(context, model);
+    }
+
+    @Override
     public void destroy() {
 
     }

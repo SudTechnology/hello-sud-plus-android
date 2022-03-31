@@ -15,4 +15,6 @@ public class AudioJoinRoomModel {
     public String nonce;
 
     public long timestamp;
+
+    public boolean isPublishStream;
 }

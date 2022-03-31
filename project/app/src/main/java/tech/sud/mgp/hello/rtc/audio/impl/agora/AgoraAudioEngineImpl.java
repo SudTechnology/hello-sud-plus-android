@@ -90,6 +90,11 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
     }
 
     @Override
+    public void initWithConfig(Context context, AudioConfigModel model, Runnable success) {
+        initWithConfig(context, model);
+    }
+
+    @Override
     public void destroy() {
         RtcEngine.destroy();
         mEngine = null;

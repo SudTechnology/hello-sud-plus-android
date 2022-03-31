@@ -20,7 +20,7 @@ import tech.sud.mgp.hello.service.main.resp.SceneModel;
 public class GameItemView extends ConstraintLayout {
 
     private ImageView gameIv;
-    private TextView gameTv, gameJoin;
+    private TextView gameTv;
     private SceneModel sceneModel;
     private GameModel gameModel;
     private GameItemListener gameItemListener;
@@ -48,7 +48,6 @@ public class GameItemView extends ConstraintLayout {
         inflate(context, R.layout.item_game_view, this);
         gameIv = findViewById(R.id.game_icon);
         gameTv = findViewById(R.id.game_name);
-        gameJoin = findViewById(R.id.game_join);
     }
 
     public void setModel(SceneModel sceneModel, GameModel gameModel) {
@@ -61,14 +60,6 @@ public class GameItemView extends ConstraintLayout {
         }
 
         gameTv.setText(gameModel.getGameName());
-
-        if (gameModel.getGameId() == -1) {
-            gameTv.setTextColor(Color.parseColor("#aaaaaa"));
-            gameJoin.setVisibility(View.GONE);
-        } else {
-            gameTv.setTextColor(Color.parseColor("#1a1a1a"));
-            gameJoin.setVisibility(View.VISIBLE);
-        }
 
         this.setOnClickListener(v -> {
             if (gameItemListener != null && gameModel.getGameId() != -1) {

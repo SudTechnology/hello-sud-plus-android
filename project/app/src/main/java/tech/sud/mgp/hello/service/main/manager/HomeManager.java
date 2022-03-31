@@ -82,7 +82,7 @@ public class HomeManager {
      */
     public List<GameModel> getSceneEmptyGame(Context context, SceneModel model) {
         List<GameModel> gameModels = new ArrayList<>();
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 3; i++) {
             GameModel game = new GameModel();
             game.setGameId(-1);
             game.setGameName(context.getString(R.string.coming_soon));

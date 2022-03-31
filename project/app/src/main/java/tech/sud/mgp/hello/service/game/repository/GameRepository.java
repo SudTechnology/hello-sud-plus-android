@@ -4,7 +4,7 @@ import androidx.lifecycle.LifecycleOwner;
 
 import tech.sud.mgp.hello.common.http.param.BaseUrlManager;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
-import tech.sud.mgp.hello.common.http.rx.RxUtil;
+import tech.sud.mgp.hello.common.http.rx.RxUtils;
 import tech.sud.mgp.hello.service.game.method.GameRequestMethodFactory;
 import tech.sud.mgp.hello.service.game.req.SwitchGameReq;
 import tech.sud.mgp.hello.service.game.resp.GameLoginResp;
@@ -20,7 +20,7 @@ public class GameRepository {
     public static void login(LifecycleOwner owner, RxCallback<GameLoginResp> callback) {
         GameRequestMethodFactory.getMethod()
                 .gameLogin(BaseUrlManager.getGameBaseUrl())
-                .compose(RxUtil.schedulers(owner))
+                .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }
 
@@ -38,7 +38,7 @@ public class GameRepository {
         switchGameReq.gameId = gameId;
         GameRequestMethodFactory.getMethod()
                 .switchGame(BaseUrlManager.getInteractBaseUrl(), switchGameReq)
-                .compose(RxUtil.schedulers(owner))
+                .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }
 

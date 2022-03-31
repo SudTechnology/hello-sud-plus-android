@@ -7,7 +7,7 @@ import com.blankj.utilcode.util.DeviceUtils;
 
 import tech.sud.mgp.hello.common.http.param.BaseUrlManager;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
-import tech.sud.mgp.hello.common.http.rx.RxUtil;
+import tech.sud.mgp.hello.common.http.rx.RxUtils;
 import tech.sud.mgp.hello.service.login.method.LoginRequestMethodFactory;
 import tech.sud.mgp.hello.service.login.req.LoginRequestBody;
 import tech.sud.mgp.hello.service.login.resp.LoginResponse;
@@ -23,7 +23,7 @@ public class LoginRepository {
         }
         LoginRequestMethodFactory.getMethod()
                 .login(BaseUrlManager.getBaseUrl(), loginRequestBody)
-                .compose(RxUtil.schedulers(owner))
+                .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }
 

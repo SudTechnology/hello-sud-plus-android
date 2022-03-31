@@ -4,7 +4,7 @@ import androidx.lifecycle.LifecycleOwner;
 
 import tech.sud.mgp.hello.common.http.param.BaseUrlManager;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
-import tech.sud.mgp.hello.common.http.rx.RxUtil;
+import tech.sud.mgp.hello.common.http.rx.RxUtils;
 import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.service.room.method.AudioRequestMethodFactory;
 import tech.sud.mgp.hello.service.room.req.EnterRoomReq;
@@ -28,7 +28,7 @@ public class AudioRepository {
         req.rtcType = AppData.getInstance().getRtcType();
         AudioRequestMethodFactory.getMethod()
                 .enterRoom(BaseUrlManager.getInteractBaseUrl(), req)
-                .compose(RxUtil.schedulers(owner))
+                .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }
 
@@ -44,7 +44,7 @@ public class AudioRepository {
         }
         AudioRequestMethodFactory.getMethod()
                 .exitRoom(BaseUrlManager.getInteractBaseUrl(), req)
-                .compose(RxUtil.schedulers(owner))
+                .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }
 
@@ -58,7 +58,7 @@ public class AudioRepository {
         req.roomId = roomId;
         AudioRequestMethodFactory.getMethod()
                 .roomMicList(BaseUrlManager.getInteractBaseUrl(), req)
-                .compose(RxUtil.schedulers(owner))
+                .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }
 
@@ -80,7 +80,7 @@ public class AudioRepository {
         }
         AudioRequestMethodFactory.getMethod()
                 .roomMicSwitch(BaseUrlManager.getInteractBaseUrl(), req)
-                .compose(RxUtil.schedulers(owner))
+                .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }
 

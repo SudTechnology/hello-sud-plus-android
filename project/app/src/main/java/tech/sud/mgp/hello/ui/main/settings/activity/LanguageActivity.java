@@ -87,7 +87,7 @@ public class LanguageActivity extends BaseActivity {
      * 切换语言后去首页
      */
     private void toMainActivity() {
-        SudMetaModel.locale = SystemUtils.getLanguageCode(HelloSudApplication.INSTANCE);
+        SudMetaModel.locale = SystemUtils.getLanguageCode(HelloSudApplication.instance);
         ActivityUtils.finishAllActivitiesExceptNewest();
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);

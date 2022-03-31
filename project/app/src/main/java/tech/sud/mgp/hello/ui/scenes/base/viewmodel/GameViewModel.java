@@ -476,6 +476,7 @@ public class GameViewModel implements SudFSMMGListener {
 
     @Override
     public void onGameStarted() {
+        joinGame(selfMicIndex);
     }
 
     @Override

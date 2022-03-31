@@ -18,12 +18,12 @@ import tech.sud.mgp.hello.ui.scenes.common.gift.manager.GiftHelper;
 
 public class HelloSudApplication extends Application {
 
-    public static HelloSudApplication INSTANCE;
+    public static HelloSudApplication instance;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        INSTANCE = this;
+        instance = this;
         configBugly();
         configGift();
         configLog();

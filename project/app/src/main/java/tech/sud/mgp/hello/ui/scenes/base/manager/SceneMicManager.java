@@ -1,8 +1,13 @@
 package tech.sud.mgp.hello.ui.scenes.base.manager;
 
+import com.blankj.utilcode.util.ToastUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import tech.sud.mgp.hello.R;
+import tech.sud.mgp.hello.common.http.param.BaseResponse;
+import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.service.main.repository.UserInfoRepository;
@@ -26,9 +31,11 @@ import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdUpMicModel;
  * 房间麦位
  */
 public class SceneMicManager extends BaseServiceManager {
-    private final SceneRoomServiceManager parentManager;
 
+    private final SceneRoomServiceManager parentManager;
+    private boolean enterRoomCompleted = false; // 标识是否进房成功
     private final List<AudioRoomMicModel> micList = new ArrayList<>();
+    public SceneRoomServiceManager.EnterRoomCompletedListener enterRoomCompletedListener;
 
     public SceneMicManager(SceneRoomServiceManager sceneRoomServiceManager) {
         super();
@@ -54,6 +61,7 @@ public class SceneMicManager extends BaseServiceManager {
     }
 
     public void enterRoom(RoomInfoModel model) {
+        enterRoomCompleted = false;
         notifyDataSetChange();
         refreshMicList();
     }
@@ -64,11 +72,29 @@ public class SceneMicManager extends BaseServiceManager {
     private void refreshMicList() {
         AudioRepository.getRoomMicList(null, parentManager.getRoomId(), new RxCallback<RoomMicListResp>() {
             @Override
+            public void onNext(BaseResponse<RoomMicListResp> t) {
+                super.onNext(t);
+                if (t.getRetCode() != RetCode.SUCCESS) {
+                    enterRoomCompleted();
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                enterRoomCompleted();
+            }
+
+            @Override
             public void onSuccess(RoomMicListResp roomMicListResp) {
                 super.onSuccess(roomMicListResp);
-                if (roomMicListResp == null) return;
+                if (roomMicListResp == null) {
+                    enterRoomCompleted();
+                    return;
+                }
                 List<RoomMicResp> backList = roomMicListResp.roomMicList;
                 if (backList == null || backList.size() == 0) {
+                    enterRoomCompleted();
                     return;
                 }
                 List<AudioRoomMicModel> list = new ArrayList<>();
@@ -94,6 +120,7 @@ public class SceneMicManager extends BaseServiceManager {
                             }
                         }
                         updateMicList(list);
+                        enterRoomCompleted();
                     }
                 });
             }
@@ -360,6 +387,8 @@ public class SceneMicManager extends BaseServiceManager {
         int emptyMicIndex = findEmptyMicIndex();
         if (emptyMicIndex >= 0) {
             micLocationSwitch(emptyMicIndex, true, type);
+        } else {
+            ToastUtils.showShort(R.string.no_empty_seat);
         }
     }
 
@@ -420,6 +449,19 @@ public class SceneMicManager extends BaseServiceManager {
             // 发送信令
             String command = RoomCmdModelUtils.buildDownMicCommand(selfMicIndex);
             parentManager.sceneEngineManager.sendCommand(command, null);
+        }
+    }
+
+    public boolean isEnterRoomCompleted() {
+        return enterRoomCompleted;
+    }
+
+    private void enterRoomCompleted() {
+        if (enterRoomCompleted) return;
+        enterRoomCompleted = true;
+        SceneRoomServiceManager.EnterRoomCompletedListener listener = enterRoomCompletedListener;
+        if (listener != null) {
+            listener.onEnterRoomCompleted();
         }
     }
 

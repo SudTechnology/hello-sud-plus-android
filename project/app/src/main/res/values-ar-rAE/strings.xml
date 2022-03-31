@@ -1,46 +1,45 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">HelloSud</string>
 
-    <string name="login_welcome">欢迎体验 \nHelloSud</string>
-    <string name="login_your_name">你的昵称</string>
+    <string name="login_welcome">مرحبًا بكم في تجربة \ nHelloSud</string>
+    <string name="login_your_name">لقبك</string>
     <string name="title_hellosud">HelloSud</string>
-    <string name="login_edit_name">请输入你的昵称</string>
-    <string name="male">男</string>
-    <string name="female">女</string>
-    <string name="play_now">立即体验</string>
-    <string name="search_hint">输入房间号快速进入</string>
+    <string name="login_edit_name">يرجى إدخال لقبك</string>
+    <string name="male">ذكر</string>
+    <string name="female">أنثى</string>
+    <string name="play_now">جرب الآن</string>
+    <string name="search_hint">أدخل رقم الغرفة للوصول السريع</string>
 
-    <string name="tabs_index">首页ar</string>
-    <string name="tabs_room">房间</string>
-    <string name="tabs_set">设置</string>
-    <string name="useragreement_title">欢迎使用HelloSud</string>
-    <string name="useragreement_content_part1">我们非常重视您的个人信息保护。关于个人信息收集和使用的详细信息，您可以点击</string>
-    <string name="useragreement_content_part2">《用户协议》</string>
-    <string name="useragreement_content_part3">和</string>
-    <string name="useragreement_content_part4">《隐私政策》</string>
-    <string name="useragreement_content_part5">进行了解。点击同意及表示您已阅读并同意全部上述协议</string>
-    <string name="useragreement_reject">不同意</string>
-    <string name="useragreement_agree">同意</string>
-    <string name="user_secondary_title">温馨提示</string>
-    <string name="user_secondary_content">
-        HelloSud仅会将您的信息用于提供服务和改善体验，我们将全力保障您的信息安全，请同意后使用。
-        \n若您不同意本隐私政策，很遗憾我们将无法为您提供完整的产品和服务</string>
-    <string name="user_secondary_reject">退出应用</string>
-    <string name="user_secondary_agree">同意并继续使用</string>
-    <string name="setting_sdk_version">SDK版本号</string>
-    <string name="setting_app_version">App版本号</string>
-    <string name="setting_useragreement">用户协议</string>
-    <string name="setting_privacy">隐私政策</string>
-    <string name="setting_contact">联系我们</string>
-    <string name="setting_version">v%1$s</string>
-    <string name="setting_userid">用户ID %1$s</string>
-    <string name="setting_userid1">用户ID：%1$s</string>
-    <string name="coming_soon">敬请期待</string>
-    <string name="room_list_enter">进入</string>
-    <string name="room_list_roomid">房间号：%1$s</string>
-    <string name="room_list_online">%1$s人</string>
-    <string name="setting_contact1_content">如需要了解更多资讯或反馈问题，可通过邮箱联系我们：help@sud.tech</string>
-    <string name="setting_contact1_but">好的</string>
+    <string name="tabs_index">الصفحة الرئيسية</string>
+    <string name="tabs_room">غرفة</string>
+    <string name="tabs_set">إعدادات</string>
+    <string name="useragreement_title">مرحبا بكم في HelloSud</string>
+    <string name="useragreement_content_part1">نحن نتعامل مع حماية معلوماتك الشخصية على محمل الجد. لمزيد من  المعلومات حول جمع المعلومات الشخصية واستخدامها، يمكنك النقر فوق</string>
+    <string name="useragreement_content_part2">"اتفاقية المستخدم"</string>
+    <string name="useragreement_content_part3">و</string>
+    <string name="useragreement_content_part4">سياسة الخصوصية</string>
+    <string name="useragreement_content_part5">للمعرفة. انقر فوق "موافق" وذلك يشير إلى أنك قد قرأت جميع الاتفاقيات المذكورة أعلاه ووافقت عليها</string>
+    <string name="useragreement_reject">لا اوفق</string>
+    <string name="useragreement_agree">موافق</string>
+    <string name="user_secondary_title">نصائح</string>
+    <string name="user_secondary_content">ستستخدم HelloSud معلوماتك لتقديم الخدمات وتحسين التجربة فقط، وسنبذل قصارى جهدنا لضمان أمان معلوماتك، يرجى استخدامها بعد النقر فوق "موافق".
+\n إذا كنت لا توافق على سياسة الخصوصية هذه، فنحن نأسف لأننا لن نتمكن من تزويدك بمنتجات وخدمات كاملة</string>
+    <string name="user_secondary_reject">الخروج من التطبيق</string>
+    <string name="user_secondary_agree">توافق مع الاستمرار في الاستخدام</string>
+    <string name="setting_sdk_version">رقم إصدار SDK</string>
+    <string name="setting_app_version">رقم إصدار التطبيق</string>
+    <string name="setting_useragreement">اتفاقية المستخدم</string>
+    <string name="setting_privacy">سياسة الخصوصية</string>
+    <string name="setting_contact">اتصل بنا</string>
+    <string name="setting_version"></string>
+    <string name="setting_userid">معرف المستخدم %1$s</string>
+    <string name="setting_userid1">معرف المستخدم: %1$s</string>
+    <string name="coming_soon">قريباً</string>
+    <string name="room_list_enter">دخول</string>
+    <string name="room_list_roomid">رقم الغرفة: %1$s</string>
+    <string name="room_list_online">%1$s شخص</string>
+    <string name="setting_contact1_content">لمزيد من المعلومات أو الملاحظات، يرجى الاتصال بنا عبر البريد الإلكتروني: help@sud.tech</string>
+    <string name="setting_contact1_but">نعم</string>
     <string-array name="names_list" tools:ignore="ExtraTranslation">
         <item>哈利</item>
         <item>祺祥</item>
@@ -163,72 +162,62 @@
         <item>日本語</item>
     </string-array>
 
-    <string name="search_room_error">请输入正确的房间号</string>
-    <string name="user_agreement_title">用户协议</string>
-    <string name="user_privacy_title">隐私政策</string>
-    <string name="roomlist_empty">
-        暂无房间开播 \n
-        去首页创建一个吧~</string>
-    <string name="search_enter">进入</string>
-    <string name="select_game">选择游戏</string>
-    <string name="audio_click_got_mic">点击上麦</string>
-    <string name="audio_has_ready">已准备</string>
-    <string name="audio_not_ready">未准备</string>
-    <string name="audio_got_mic">上麦</string>
-    <string name="audio_chat_hint">聊一聊~</string>
-    <string name="audio_dialog_gift_present">赠送</string>
-    <string name="audio_dialog_present">送给</string>
-    <string name="audio_cancle">取消</string>
-    <string name="audio_all">全选</string>
-    <string name="audio_mic_index">%1$d麦</string>
-    <string name="audio_room_admin">房主</string>
-    <string name="audio_send">发送</string>
-    <string name="audio_send_msg_hint">发消息…</string>
-    <string name="audio_send_gift_user_empty">请选择收礼对象</string>
-    <string name="audio_send_gift_empty">请选择礼物</string>
-    <string name="audio_recreation_chat">娱乐聊天</string>
-    <string name="audio_chat_room">语聊房</string>
-    <string name="audio_gameing">游戏中</string>
-    <string name="audio_room_number">房号</string>
-    <string name="audio_close_room_title">确认离开当前房间吗</string>
-    <string name="audio_switch_game_warn">正在游戏中，无法切换游戏</string>
-    <string name="audio_enter_the_room">进入了房间</string>
-    <string name="audio_down_mic">下麦</string>
-    <string name="cancel">取消</string>
-    <string name="confirm">确定</string>
-    <string name="confirm_">确认逃跑</string>
-    <string name="common_go_setting">去设置</string>
-    <string name="common_camera">相机</string>
-    <string name="common_storage">存储</string>
-    <string name="common_correlation">相关</string>
-    <string name="common_record_audio">录音</string>
-    <string name="common_phone">电话</string>
-    <string name="common_setting_permission_info">请在设置中开启%1$s权限，以正常使用 %2$s APP功能</string>
-    <string name="close_game">关闭游戏</string>
-    <string name="finish_game">结束游戏</string>
-    <string name="index_creat_room">创建房间</string>
-    <string name="index_game_join">加入</string>
-    <string name="occupy_size">占用大小</string>
-    <string name="version_info">版本信息</string>
-    <string name="change_rtc_service">切换RTC服务商</string>
-    <string name="change_language">切换语言</string>
+    <string name="search_room_error">يرجى إدخال رقم الغرفة الصحيح</string>
+    <string name="user_agreement_title">اتفاقية المستخدم</string>
+    <string name="user_privacy_title">سياسة الخصوصية</string>
+    <string name="roomlist_empty">لا توجد غرف متاحة حاليًا \n
+انتقل إلى الصفحة الرئيسية لإنشاء واحد ~</string>
+    <string name="search_enter">دخول</string>
+    <string name="select_game">اختر اللعبة</string>
+    <string name="audio_click_got_mic">انقر فوق ميكروفون</string>
+    <string name="audio_has_ready">مستعد</string>
+    <string name="audio_not_ready">غير جاهز</string>
+    <string name="audio_got_mic">على ميكروفون</string>
+    <string name="audio_chat_hint">دعنا نتحادث ~</string>
+    <string name="audio_dialog_gift_present">يهدى</string>
+    <string name="audio_dialog_present">يعطى</string>
+    <string name="audio_cancle">إلغاء</string>
+    <string name="audio_all">اختر الكل</string>
+    <string name="audio_mic_index">%1$d ميكروفون</string>
+    <string name="audio_room_admin">صاحب المنزل</string>
+    <string name="audio_send">إرسال</string>
+    <string name="audio_send_msg_hint">ارسل رسالة…</string>
+    <string name="audio_send_gift_user_empty">الرجاء اختيار متلقي الهدية</string>
+    <string name="audio_send_gift_empty">الرجاء اختيار هدية</string>
+    <string name="audio_recreation_chat">دردشة ترفيهية</string>
+    <string name="audio_chat_room">غرفة الدردشة</string>
+    <string name="audio_gameing">في اللعبة</string>
+    <string name="audio_room_number">رقم غرفة</string>
+    <string name="audio_close_room_title">هل أنت ترود الخروج من الغرفة الحالية؟</string>
+    <string name="audio_switch_game_warn">في اللعبة، لا يمكن تبديل الألعاب</string>
+    <string name="audio_enter_the_room">دخل الغرفة</string>
+    <string name="audio_down_mic">الخروج من ميكروفون</string>
+    <string name="cancel">إلغاء</string>
+    <string name="confirm">تأكيد</string>
+    <string name="confirm_">تأكيد الهروب</string>
+    <string name="common_go_setting">اذهب للاعدادات</string>
+    <string name="common_camera">الة تصوير</string>
+    <string name="common_storage">تخزين</string>
+    <string name="common_correlation">ذات صلة</string>
+    <string name="common_record_audio">تسجيل صوت</string>
+    <string name="common_phone">هاتف</string>
+    <string name="common_setting_permission_info">الرجاء تمكين إذن %1$s في الإعدادات لاستخدام وظيفة تطبيق %2$s بشكل طبيعي</string>
+    <string name="close_game">أغلق اللعبة</string>
+    <string name="finish_game">نهاية اللعبة</string>
+    <string name="index_creat_room">إنشاء غرفة</string>
+    <string name="index_game_join">إنضم إلى</string>
+    <string name="occupy_size">حجم مشغول</string>
+    <string name="version_info">معلومات الإصدار</string>
+    <string name="change_rtc_service">مزود خدمة التبديل RTC</string>
+    <string name="change_language">تبديل اللغة</string>
     <string name="github">GitHub</string>
-    <string name="open_source_licenses">开源协议</string>
-    <string name="change_rtc_confirm">确认将RTC服务商切换为【%1$s】？</string>
-    <string-array name="rtc_services">
-        <item>即构</item>
-        <item>声网</item>
-        <item>网易云信</item>
-        <item>火山</item>
-        <item>阿里云</item>
-        <item>腾讯</item>
-        <item>融云</item>
-    </string-array>
-    <string name="be_making">正在制作中，敬请期待！</string>
-    <string name="total_value">总%1$s</string>
-    <string name="finish_game_confirm">确定结束游戏吗</string>
-    <string name="playing_down_mic">当前正在游戏中，是否逃跑？</string>
-    <string name="game_number">游戏人数</string>
+    <string name="open_source_licenses">بروتوكول مفتوح المصدر</string>
+    <string name="change_rtc_confirm">هل أنت تريد تبديل مزود خدمة RTC إلى [%1$s]؟</string>
+    <string name="be_making">في الإنشاء، ابقوا متابعين!</string>
+    <string name="total_value">إجمالي %1$s</string>
+    <string name="finish_game_confirm">هل أنت تريد إنهاء اللعبة؟</string>
+    <string name="playing_down_mic">حاليا في اللعبة ، سواء أن تهرب؟</string>
+    <string name="game_number">عدد اللاعبين</string>
     <string name="unable_to_speak">当前不能发言</string>
     <string name="asr_guide">本游戏支持语音识别，请开麦展现你的魅力～</string>
     <string name="asr_guide_number_boom">试试打开麦克风报数，懒人福利！</string>

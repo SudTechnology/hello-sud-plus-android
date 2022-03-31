@@ -20,6 +20,7 @@ public class SceneRoomServiceManager extends BaseServiceManager {
 
     private SceneRoomServiceCallback sceneRoomServiceCallback;
     private RoomInfoModel roomInfoModel;
+    private boolean enterRoomCompleted = false; // 标识是否进房成功
 
     public final SceneEngineManager sceneEngineManager = new SceneEngineManager(this);
     public final SceneChatManager sceneChatManager = new SceneChatManager(this);
@@ -86,9 +87,7 @@ public class SceneRoomServiceManager extends BaseServiceManager {
         return sceneRoomServiceCallback;
     }
 
-    /**
-     * 获取当前房间id
-     */
+    // 获取当前房间id
     public long getRoomId() {
         RoomInfoModel model = roomInfoModel;
         if (model == null || model.roomId == null) {
@@ -98,9 +97,7 @@ public class SceneRoomServiceManager extends BaseServiceManager {
         }
     }
 
-    /**
-     * 获取房间的角色
-     */
+    // 获取房间的角色
     public int getRoleType() {
         RoomInfoModel model = roomInfoModel;
         if (model == null) {
@@ -110,15 +107,27 @@ public class SceneRoomServiceManager extends BaseServiceManager {
         }
     }
 
+    // 进入房间
     public void enterRoom(RoomInfoModel model) {
+        enterRoomCompleted = false;
         roomInfoModel = model;
+        sceneEngineManager.enterRoomCompletedListener = this::checkEnterRoomCompleted;
+        sceneMicManager.enterRoomCompletedListener = this::checkEnterRoomCompleted;
         sceneEngineManager.enterRoom(model);
         sceneMicManager.enterRoom(model);
-        SceneRoomServiceCallback callback = getCallback();
-        if (callback != null) {
-            callback.onEnterRoomSuccess();
+    }
+
+    // 检查进入房间是否已完成
+    private void checkEnterRoomCompleted() {
+        if (enterRoomCompleted) return;
+        if (sceneEngineManager.isEnterRoomCompleted() && sceneMicManager.isEnterRoomCompleted()) {
+            enterRoomCompleted = true;
+            sceneChatManager.addMsg(buildEnterRoomMsg(HSUserInfo.nickName));
+            SceneRoomServiceCallback callback = sceneRoomServiceCallback;
+            if (callback != null) {
+                callback.onEnterRoomSuccess();
+            }
         }
-        sceneChatManager.addMsg(buildEnterRoomMsg(HSUserInfo.nickName));
     }
 
     /**
@@ -158,8 +167,14 @@ public class SceneRoomServiceManager extends BaseServiceManager {
         }
     }
 
+    // 退出房间
     public void exitRoom() {
         sceneMicManager.exitRoom();
+    }
+
+    // 进入房间完成的回调,用于childManager
+    public interface EnterRoomCompletedListener {
+        void onEnterRoomCompleted();
     }
 
 }

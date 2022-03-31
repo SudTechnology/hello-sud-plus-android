@@ -12,6 +12,11 @@ public interface RequestUrl {
     String LOGIN = "login/v1";
 
     /**
+     * 刷新token
+     * */
+    String REFRESHTOKEN= "refresh-token/v1";
+
+    /**
      * 主页接口
      */
     String GAME_LIST = "game/list/v1";

@@ -5,4 +5,5 @@ public class LoginResponse {
     public long userId;
     public String nickname;
     public String token;
+    public String refreshToken;
 }

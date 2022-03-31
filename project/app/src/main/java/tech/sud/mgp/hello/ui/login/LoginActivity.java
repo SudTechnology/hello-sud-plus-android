@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.Observer;
 
+import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.ToastUtils;
 
 import java.util.Random;
@@ -47,6 +48,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private UserAgreementDialog agreementDialog;
     private final ConfigViewModel configViewModel = new ConfigViewModel();
     private boolean isLogin; // 标识是否正在登录中
+    private long userId;//之前记录的用户id
 
     @Override
     protected int getLayoutId() {
@@ -73,7 +75,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         femaleBtn.setOnClickListener(this);
         goPlayBtn.setOnClickListener(this);
         randomIv.setOnClickListener(this);
-        nameTv.setText(randomName());
+        userId = AppSharedPreferences.getSP().getLong(AppSharedPreferences.USER_ID_KEY, -1L);
+        if (userId != -1) {
+            //代表登陆过
+            String name = AppSharedPreferences.getSP().getString(AppSharedPreferences.USER_NAME_KEY);
+            nameTv.setText(name);
+        } else {
+            nameTv.setText(randomName());
+        }
         //默认性别选中男
         maleBtn.callOnClick();
         //是否同意隐私政策
@@ -160,7 +169,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             return;
         }
         isLogin = true;
-        LoginRepository.login(null, nameTv.getText().toString(), this, new RxCallback<LoginResponse>() {
+        Long userReq = userId;
+        if (userReq == -1) {
+            userReq = null;
+        }
+        LoginRepository.login(userReq, nameTv.getText().toString(), this, new RxCallback<LoginResponse>() {
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
@@ -175,15 +188,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                         @Override
                         public void run() {
                             super.run();
-                            AppSharedPreferences.getSP().put(AppSharedPreferences.USER_ID_KEY, t.getData().userId);
-                            AppSharedPreferences.getSP().put(AppSharedPreferences.USER_HEAD_PORTRAIT_KEY, t.getData().avatar);
-                            AppSharedPreferences.getSP().put(AppSharedPreferences.USER_NAME_KEY, t.getData().nickname);
+                            LoginRepository.saveLoginData(t.getData());
                         }
                     }.start();
                     HSUserInfo.userId = t.getData().userId;
                     HSUserInfo.nickName = t.getData().nickname;
                     HSUserInfo.avatar = t.getData().avatar;
                     HSUserInfo.token = t.getData().token;
+                    HSUserInfo.refreshToken = t.getData().refreshToken;
                     configViewModel.getBaseConfig(LoginActivity.this);
                 } else {
                     isLogin = false;

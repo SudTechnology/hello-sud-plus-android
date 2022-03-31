@@ -12,6 +12,8 @@ public class AppSharedPreferences {
     public final static String USER_ID_KEY = "user_id_key";
     public final static String USER_SEX_KEY = "user_sex_key";
     public final static String USER_NAME_KEY = "user_name_key";
+    public final static String USER_TOKEN_KEY = "user_token_key";
+    public final static String USER_REFRESHTOKEN_KEY = "user_refreshtoken_key";
     public final static String USER_HEAD_PORTRAIT_KEY = "user_head_portrait_key";
     /** 记录当前设置的语言类型 */
     public final static String KEY_LANG_CELL_TYPE = "key_lang_cell_type";

@@ -77,9 +77,11 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
         profile.scenario = ZegoScenario.COMMUNICATION;
         /* 设置app的application 对象 */
         profile.application = (Application) context.getApplicationContext();
+        /* 创建引擎 */
         ZegoExpressEngine engine = ZegoExpressEngine.createEngine(profile, mIZegoEventHandler);
         if (engine != null) {
             engine.startSoundLevelMonitor();
+            engine.enableAudioCaptureDevice(false);
         }
     }
 
@@ -123,6 +125,7 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
         }
     }
 
+    /* 开始推流 */
     @Override
     public void startPublishStream() {
         ZegoExpressEngine engine = getEngine();
@@ -133,6 +136,7 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
         }
     }
 
+    /* 停止推流 */
     @Override
     public void stopPublishStream() {
         ZegoExpressEngine engine = getEngine();
@@ -167,7 +171,7 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
             int bitmask = 0;
             param.channel = ZegoAudioChannel.MONO;
             param.sampleRate = ZegoAudioSampleRate.ZEGO_AUDIO_SAMPLE_RATE_16K;
-            bitmask = bitmask | ZegoAudioDataCallbackBitMask.CAPTURED.value();
+            bitmask |= ZegoAudioDataCallbackBitMask.CAPTURED.value();
             engine.startAudioDataObserver(bitmask, param);
 
             /* 设置原始音频数据回调 */

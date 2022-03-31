@@ -62,12 +62,6 @@ public class ChangeRtcActivity extends BaseActivity {
                 clickRtc(position);
             }
         });
-        findViewById(R.id.view_back).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
     }
 
     private void clickRtc(int position) {

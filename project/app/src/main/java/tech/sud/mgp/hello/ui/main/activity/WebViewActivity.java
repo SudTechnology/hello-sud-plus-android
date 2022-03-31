@@ -1,24 +1,12 @@
 package tech.sud.mgp.hello.ui.main.activity;
 
-import android.os.SystemClock;
-import android.view.View;
-import android.widget.TextView;
-
-import com.blankj.utilcode.util.LogUtils;
-import com.trello.rxlifecycle4.android.ActivityEvent;
-
 import java.io.Serializable;
 
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.annotations.NonNull;
-import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.core.ObservableOnSubscribe;
-import io.reactivex.rxjava3.disposables.Disposable;
-import io.reactivex.rxjava3.schedulers.Schedulers;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseActivity;
 import tech.sud.mgp.hello.common.widget.view.web.HSWebChromeClient;
 import tech.sud.mgp.hello.common.widget.view.web.HSWebView;
+import tech.sud.mgp.hello.ui.common.widget.HSTopBar;
 
 /**
  * 加载url的页面
@@ -26,7 +14,7 @@ import tech.sud.mgp.hello.common.widget.view.web.HSWebView;
 public class WebViewActivity extends BaseActivity {
 
     private WebViewParams webViewParams;
-    private TextView tvTitle;
+    private HSTopBar topBar;
     private HSWebView webView;
 
     @Override
@@ -44,59 +32,24 @@ public class WebViewActivity extends BaseActivity {
     @Override
     protected void initWidget() {
         super.initWidget();
-        tvTitle = findViewById(R.id.tv_title);
+        topBar = findViewById(R.id.top_bar);
         webView = findViewById(R.id.web_view);
-        Observable.create((ObservableOnSubscribe<String>) emitter -> {
-            for (int i = 0; i < 100; i++) {
-                emitter.onNext(i + "");
-                SystemClock.sleep(1000);
-            }
-        }).compose(bindUntilEvent(ActivityEvent.DESTROY))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new io.reactivex.rxjava3.core.Observer<String>() {
-                    @Override
-                    public void onSubscribe(@NonNull Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onNext(@NonNull String o) {
-                        LogUtils.d("rxjava:" + o);
-                    }
-
-                    @Override
-                    public void onError(@NonNull Throwable e) {
-                        LogUtils.e(e);
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
     }
 
     @Override
     protected void initData() {
         super.initData();
-        tvTitle.setText(webViewParams.title);
+        topBar.setTitle(webViewParams.title);
         webView.loadUrl(webViewParams.url);
     }
 
     @Override
     protected void setListeners() {
         super.setListeners();
-        findViewById(R.id.iv_back).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
         webView.setWebTitleCallback(new HSWebChromeClient.WebTitleCallBack() {
             @Override
             public void setWebTitle(String title) {
-                tvTitle.setText(title);
+                topBar.setTitle(title);
             }
         });
     }

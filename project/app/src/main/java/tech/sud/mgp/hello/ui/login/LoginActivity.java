@@ -23,13 +23,13 @@ import tech.sud.mgp.hello.common.utils.AppSharedPreferences;
 import tech.sud.mgp.hello.common.utils.ResponseUtils;
 import tech.sud.mgp.hello.service.login.repository.LoginRepository;
 import tech.sud.mgp.hello.service.login.resp.LoginResponse;
+import tech.sud.mgp.hello.ui.common.viewmodel.ConfigViewModel;
 import tech.sud.mgp.hello.ui.login.dialog.UserAgreementDialog;
 import tech.sud.mgp.hello.ui.login.dialog.UserSecondaryDialog;
 import tech.sud.mgp.hello.ui.login.listener.DialogSecondaryListener;
 import tech.sud.mgp.hello.ui.login.listener.DialogSelectListener;
 import tech.sud.mgp.hello.ui.main.activity.MainActivity;
 import tech.sud.mgp.hello.ui.main.utils.RouterUtils;
-import tech.sud.mgp.hello.ui.viewmodel.ConfigViewModel;
 
 /**
  * 登录页

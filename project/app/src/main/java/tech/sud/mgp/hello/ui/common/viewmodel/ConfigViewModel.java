@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.viewmodel;
+package tech.sud.mgp.hello.ui.common.viewmodel;
 
 import androidx.lifecycle.MutableLiveData;
 

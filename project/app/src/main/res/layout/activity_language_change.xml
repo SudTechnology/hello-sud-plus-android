@@ -6,35 +6,14 @@
     android:background="@color/c_f5f6fb"
     android:paddingBottom="20dp">
 
-    <RelativeLayout
-        android:background="@color/white"
-        android:id="@+id/title_bar"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+    <tech.sud.mgp.hello.ui.common.widget.HSTopBar
+        android:id="@+id/top_bar"
         android:layout_width="match_parent"
-        android:gravity="center_vertical"
-        android:paddingHorizontal="16dp"
-        android:layout_height="44dp">
-
-        <View
-            android:layout_centerVertical="true"
-            android:id="@+id/view_back"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:background="@drawable/icon_navi_back" />
-
-        <TextView
-            android:layout_centerInParent="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textColor="@color/c_1a1a1a"
-            android:textStyle="bold"
-            android:text="@string/change_language" />
-
-    </RelativeLayout>
+        android:layout_height="54dp"
+        android:paddingTop="10dp"
+        android:background="@color/white"
+        app:topbar_titleText="@string/change_language"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_marginHorizontal="16dp"
@@ -44,8 +23,8 @@
         android:scrollbars="none"
         android:overScrollMode="never"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/title_bar"
+        app:layout_constraintTop_toBottomOf="@id/top_bar"
         android:layout_marginVertical="20dp"
-        app:layout_constraintStart_toStartOf="parent"  />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -74,15 +74,5 @@ public class VersionInfoActivity extends BaseActivity {
         versionParams.gravity = Gravity.CENTER_VERTICAL | Gravity.END;
         frameLayout.addView(tvVersion, versionParams);
     }
-
-    @Override
-    protected void setListeners() {
-        super.setListeners();
-        findViewById(R.id.view_back).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-    }
+    
 }

@@ -29,7 +29,6 @@ public class MoreSettingsActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void setListeners() {
         super.setListeners();
-        findViewById(R.id.view_back).setOnClickListener(this);
         btnChangeRtc.setOnClickListener(this);
     }
 
@@ -42,9 +41,7 @@ public class MoreSettingsActivity extends BaseActivity implements View.OnClickLi
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        if (id == R.id.view_back) {
-            finish();
-        } else if (id == R.id.button_change_rtc) {
+        if (id == R.id.button_change_rtc) {
             startActivity(new Intent(this, ChangeRtcActivity.class));
         }
     }

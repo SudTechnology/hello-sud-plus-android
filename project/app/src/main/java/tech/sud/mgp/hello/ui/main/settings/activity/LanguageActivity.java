@@ -1,7 +1,6 @@
 package tech.sud.mgp.hello.ui.main.settings.activity;
 
 import android.content.Intent;
-import android.view.View;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,7 +29,6 @@ import tech.sud.mgp.hello.ui.main.utils.HSLanguageUtils;
  */
 public class LanguageActivity extends BaseActivity {
 
-    private View viewBack;
     private RecyclerView langRecyclerview;
     private LanguageViewModel viewModel = new LanguageViewModel();
     private LangAdapter mAdapter = new LangAdapter(viewModel.languages);
@@ -43,7 +41,6 @@ public class LanguageActivity extends BaseActivity {
     @Override
     protected void initWidget() {
         super.initWidget();
-        viewBack = findViewById(R.id.view_back);
         langRecyclerview = findViewById(R.id.lang_recyclerview);
     }
 
@@ -64,9 +61,6 @@ public class LanguageActivity extends BaseActivity {
             viewModel.clickCell(lang);
             mAdapter.notifyDataSetChanged();
             changeLanguage(lang);
-        });
-        viewBack.setOnClickListener(v -> {
-            finish();
         });
     }
 

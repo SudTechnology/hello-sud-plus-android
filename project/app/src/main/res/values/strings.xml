@@ -226,15 +226,15 @@
     <string name="asr_guide">本游戏支持语音识别，请开麦展现你的魅力～</string>
     <string name="asr_guide_number_boom">试试打开麦克风报数，懒人福利！</string>
     <string name="asr_guide_draw">开麦抢答，比打字更快哦！</string>
-    <string name="no_empty_seat" translatable="false">没有空位啦</string>
-    <string name="more_settings"  translatable="false">更多设置</string>
-    <string name="rtc_name_zego" translatable="false">即构</string>
-    <string name="rtc_name_agora" translatable="false">声网</string>
-    <string name="rtc_name_rong_cloud" translatable="false">融云</string>
-    <string name="rtc_name_comms_ease" translatable="false">网易云信</string>
-    <string name="rtc_name_voic_engine" translatable="false">火山引擎</string>
-    <string name="rtc_name_alibaba_cloud" translatable="false">阿里云</string>
-    <string name="rtc_name_tencent_cloud" translatable="false">腾讯云</string>
+    <string name="no_empty_seat">没有空位啦</string>
+    <string name="more_settings">更多设置</string>
+    <string name="rtc_name_zego">即构</string>
+    <string name="rtc_name_agora">声网</string>
+    <string name="rtc_name_rong_cloud">融云</string>
+    <string name="rtc_name_comms_ease">网易云信</string>
+    <string name="rtc_name_voic_engine">火山引擎</string>
+    <string name="rtc_name_alibaba_cloud">阿里云</string>
+    <string name="rtc_name_tencent_cloud">腾讯云</string>
     <!-- endregion 新增 -->
 
 </resources>

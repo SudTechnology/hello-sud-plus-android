@@ -45,4 +45,9 @@
         <attr name="sb_hint" format="string" /> <!-- 右边显示的信息 -->
     </declare-styleable>
 
+    <declare-styleable name="HSTopBar">
+        <attr name="topbar_titleText" format="string|reference" /> <!-- 标题文字 -->
+        <attr name="topbar_backSrc" format="reference|color" /> <!-- 返回按钮的资源 -->
+    </declare-styleable>
+
 </resources>

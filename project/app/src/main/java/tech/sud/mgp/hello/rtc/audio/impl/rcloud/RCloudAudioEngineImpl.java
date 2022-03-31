@@ -130,6 +130,8 @@ public class RCloudAudioEngineImpl implements ISudAudioEngine {
                                 handler.onRoomStateUpdate(model.roomID, AudioRoomState.CONNECTED, 0, null);
                                 updateRoomUserCount();
                             }
+
+                            engine.enableSpeaker(true);
                         }
                     });
                 }

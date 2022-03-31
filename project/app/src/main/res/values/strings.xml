@@ -224,6 +224,8 @@
     <string name="asr_guide">本游戏支持语音识别，请开麦展现你的魅力～</string>
     <string name="asr_guide_number_boom">试试打开麦克风报数，懒人福利！</string>
     <string name="asr_guide_draw">开麦抢答，比打字更快哦！</string>
+
+    <!-- region 新增 -->
     <string name="no_empty_seat">没有空位啦</string>
     <string name="more_settings">更多设置</string>
     <string name="rtc_name_zego">即构</string>
@@ -233,5 +235,6 @@
     <string name="rtc_name_voic_engine">火山引擎</string>
     <string name="rtc_name_alibaba_cloud">阿里云</string>
     <string name="rtc_name_tencent_cloud">腾讯云</string>
+    <!-- endregion 新增 -->
 
 </resources>

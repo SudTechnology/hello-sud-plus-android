@@ -65,7 +65,11 @@ public class SceneChatManager extends BaseServiceManager {
             UserInfo userInfo = command.sendUser;
             if (userInfo == null) return;
             RoomTextModel model = new RoomTextModel();
-            model.userId = userInfo.userID;
+            try {
+                model.userId = Long.parseLong(userInfo.userID);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             model.avatar = userInfo.icon;
             model.nickName = userInfo.name;
             model.text = command.content;

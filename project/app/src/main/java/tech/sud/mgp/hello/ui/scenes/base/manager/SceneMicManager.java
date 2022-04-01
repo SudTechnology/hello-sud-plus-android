@@ -415,13 +415,19 @@ public class SceneMicManager extends BaseServiceManager {
                 return;
             }
             // 上麦前，先将该用户从麦位上移除
-            long userId = sendUser.userID;
+            long userId = 0;
+            try {
+                userId = Long.parseLong(sendUser.userID);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return;
+            }
             removeUser2MicList(findMicIndex(userId), userId);
 
             int micIndex = command.micIndex;
             if (micIndex >= 0 && micIndex < micList.size()) {
                 AudioRoomMicModel model = micList.get(micIndex);
-                model.userId = sendUser.userID;
+                model.userId = userId;
                 model.nickName = sendUser.name;
                 model.avatar = sendUser.icon;
                 model.roleType = command.roleType;
@@ -436,7 +442,14 @@ public class SceneMicManager extends BaseServiceManager {
         @Override
         public void onRecvCommand(RoomCmdDownMicModel command, String userID) {
             if (command.sendUser != null) {
-                removeUser2MicList(command.micIndex, command.sendUser.userID);
+                long userId;
+                try {
+                    userId = Long.parseLong(command.sendUser.userID);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return;
+                }
+                removeUser2MicList(command.micIndex, userId);
             }
         }
     };

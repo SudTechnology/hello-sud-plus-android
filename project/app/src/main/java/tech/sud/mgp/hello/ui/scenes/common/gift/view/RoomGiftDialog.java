@@ -72,7 +72,7 @@ public class RoomGiftDialog extends BaseDialogFragment implements SendGiftToUser
                         for (MicUserInfoModel userInfo : GiftHelper.getInstance().inMics) {
                             if (userInfo.checked) {
                                 UserInfo info = new UserInfo();
-                                info.userID = userInfo.userInfo.userId;
+                                info.userID = userInfo.userInfo.userId + "";
                                 info.name = userInfo.userInfo.nickName;
                                 info.icon = userInfo.userInfo.avatar;
                                 userInfos.add(info);

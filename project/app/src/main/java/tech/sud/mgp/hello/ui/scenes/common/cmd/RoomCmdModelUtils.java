@@ -76,7 +76,7 @@ public class RoomCmdModelUtils {
 
     private static UserInfo getSendUser() {
         UserInfo user = new UserInfo();
-        user.userID = HSUserInfo.userId;
+        user.userID = HSUserInfo.userId + "";
         user.name = HSUserInfo.nickName;
         user.icon = HSUserInfo.avatar;
         if (Gender.MALE.equals(HSUserInfo.gender)) {

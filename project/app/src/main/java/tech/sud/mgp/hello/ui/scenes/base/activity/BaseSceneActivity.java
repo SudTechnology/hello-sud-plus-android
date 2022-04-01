@@ -140,6 +140,7 @@ public abstract class BaseSceneActivity extends BaseActivity implements SceneRoo
         topView.setName(roomInfoModel.roomName);
         topView.setId(getString(R.string.audio_room_number) + " " + roomInfoModel.roomId);
         viewModel.initData();
+        initGame();
     }
 
     private void enterRoom() {
@@ -545,7 +546,6 @@ public abstract class BaseSceneActivity extends BaseActivity implements SceneRoo
     // region service回调
     @Override
     public void onEnterRoomSuccess() {
-        initGame();
         binder.autoUpMic(OperateMicType.USER);
     }
 

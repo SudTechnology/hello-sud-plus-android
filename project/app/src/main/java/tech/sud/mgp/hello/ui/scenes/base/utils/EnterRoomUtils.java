@@ -63,7 +63,7 @@ public class EnterRoomUtils {
                 EnterRoomResp resp = t.getData();
                 if (t.getRetCode() == RetCode.SUCCESS) {
                     if (resp != null) {
-                        startSceneRoomActivity(context, resp.roomId, resp.roomName, resp.gameId, resp.roleType, sceneType);
+                        startSceneRoomActivity(context, resp, sceneType);
                     }
                 } else {
                     ToastUtils.showLong(ResponseUtils.conver(t));
@@ -82,20 +82,17 @@ public class EnterRoomUtils {
     /**
      * 打开场景页面
      *
-     * @param context
-     * @param roomId
-     * @param roomName
-     * @param gameId
-     * @param roleType
-     * @param sceneType
+     * @param context   上下文
+     * @param sceneType 场景类型
      */
-    private static void startSceneRoomActivity(Context context, long roomId, String roomName,
-                                               long gameId, int roleType, int sceneType) {
+    private static void startSceneRoomActivity(Context context, EnterRoomResp enterRoomResp, int sceneType) {
         RoomInfoModel model = new RoomInfoModel();
-        model.roomId = roomId;
-        model.roomName = roomName;
-        model.gameId = gameId;
-        model.roleType = roleType;
+        model.roomId = enterRoomResp.roomId;
+        model.roomName = enterRoomResp.roomName;
+        model.gameId = enterRoomResp.gameId;
+        model.roleType = enterRoomResp.roleType;
+        model.rtcToken = enterRoomResp.rtcToken;
+        model.rtiToken = enterRoomResp.rtiToken;
         Intent intent = getSceneIntent(context, sceneType);
         intent.putExtra("RoomInfoModel", model);
         context.startActivity(intent);

@@ -4,7 +4,6 @@ import com.blankj.utilcode.util.Utils;
 
 import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
-import tech.sud.mgp.hello.common.utils.GlobalCache;
 import tech.sud.mgp.hello.rtc.audio.core.ISudAudioEngine;
 import tech.sud.mgp.hello.rtc.audio.factory.AudioEngineFactory;
 import tech.sud.mgp.hello.rtc.audio.impl.agora.AgoraAudioEngineImpl;
@@ -22,42 +21,42 @@ public class RTCManager {
     /**
      * 根据配置，应用rtc引擎
      *
-     * @param config
+     * @param config   配置
+     * @param rtiToken im token
      */
-    public static void applyRtcEngine(BaseRtcConfig config) {
+    private static void applyRtcEngine(BaseRtcConfig config, String rtiToken) {
         if (config instanceof ZegoConfig) {
             AudioEngineFactory.create(ZegoAudioEngineImpl.class);
             ZegoConfig zegoConfig = (ZegoConfig) config;
             AudioConfigModel audioConfigModel = new AudioConfigModel();
             audioConfigModel.appId = zegoConfig.appId;
             audioConfigModel.appKey = zegoConfig.appKey;
+            audioConfigModel.token = rtiToken;
+            audioConfigModel.userID = HSUserInfo.userId + "";
             AudioEngineFactory.getEngine().initWithConfig(Utils.getApp(), audioConfigModel);
         } else if (config instanceof AgoraConfig) {
             AudioEngineFactory.create(AgoraAudioEngineImpl.class);
             AgoraConfig agoraConfig = (AgoraConfig) config;
             AudioConfigModel audioConfigModel = new AudioConfigModel();
             audioConfigModel.appId = agoraConfig.appId;
+            audioConfigModel.appKey = agoraConfig.appKey;
+            audioConfigModel.token = rtiToken;
             audioConfigModel.userID = HSUserInfo.userId + "";
-            audioConfigModel.token = "";
             AudioEngineFactory.getEngine().initWithConfig(Utils.getApp(), audioConfigModel);
         }
     }
 
     /**
      * 应用当前配置的rtcEngine
+     *
+     * @param rtiToken im token
      */
-    public static void applyRtcEngine() {
+    public static void applyRtcEngine(String rtiToken) {
         ISudAudioEngine engine = AudioEngineFactory.getEngine();
         if (engine != null) {
             return;
         }
-        BaseRtcConfig selectRtcConfig = AppData.getInstance().getSelectRtcConfig();
-        if (selectRtcConfig == null) {
-            Object rtcConfigSerializable = GlobalCache.getInstance().getSerializable(GlobalCache.RTC_CONFIG_KEY);
-            if (rtcConfigSerializable instanceof BaseRtcConfig) {
-                selectRtcConfig = (BaseRtcConfig) rtcConfigSerializable;
-            }
-        }
-        applyRtcEngine(selectRtcConfig);
+        applyRtcEngine(AppData.getInstance().getSelectRtcConfig(), rtiToken);
     }
+
 }

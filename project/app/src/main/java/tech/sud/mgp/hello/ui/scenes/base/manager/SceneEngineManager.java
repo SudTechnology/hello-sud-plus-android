@@ -32,13 +32,13 @@ public class SceneEngineManager extends BaseServiceManager {
     private final int soundLevelThreshold = 1; // 触发声浪显示的阀值
     private boolean isOpenListen = false; // 标识音频监听开关状态
     private boolean enterRoomCompleted = false; // 标识是否进房成功
+    private boolean isInitEngine = false; // 标识是否已初始化engine
     public SceneRoomServiceManager.EnterRoomCompletedListener enterRoomCompletedListener;
 
     @Override
     public void onCreate() {
         super.onCreate();
         commandManager.onCreate();
-        RTCManager.applyRtcEngine();
     }
 
     public SceneEngineManager(SceneRoomServiceManager sceneRoomServiceManager) {
@@ -47,6 +47,9 @@ public class SceneEngineManager extends BaseServiceManager {
     }
 
     public void enterRoom(RoomInfoModel model) {
+        if (!isInitEngine) {
+            initEngine(model);
+        }
         ISudAudioEngine engine = getEngine();
         if (engine == null) return;
 
@@ -55,10 +58,18 @@ public class SceneEngineManager extends BaseServiceManager {
         audioJoinRoomModel.userID = HSUserInfo.userId + "";
         audioJoinRoomModel.userName = HSUserInfo.nickName;
         audioJoinRoomModel.roomID = model.roomId + "";
+        audioJoinRoomModel.roomName = model.roomName;
+        audioJoinRoomModel.timestamp = System.currentTimeMillis();
+        audioJoinRoomModel.token = model.rtcToken;
 
         engine.joinRoom(audioJoinRoomModel);
         engine.setEventListener(eventHandler);
         engine.setAudioRouteToSpeaker(true);
+    }
+
+    private void initEngine(RoomInfoModel model) {
+        isInitEngine = true;
+        RTCManager.applyRtcEngine(model.rtiToken);
     }
 
     public void setCommandListener(SceneCommandManager.ICommandListener listener) {
@@ -148,7 +159,6 @@ public class SceneEngineManager extends BaseServiceManager {
                 engine.stopPCMCapture();
             }
         }
-
     }
 
     private ISudAudioEngine getEngine() {
@@ -239,10 +249,7 @@ public class SceneEngineManager extends BaseServiceManager {
     public void onDestroy() {
         super.onDestroy();
         commandManager.onDestroy();
-        ISudAudioEngine engine = getEngine();
-        if (engine == null) return;
-        engine.leaveRoom();
-        engine.setEventListener(null);
+        AudioEngineFactory.destroy();
     }
 
     public interface OnRoomStreamUpdateListener {

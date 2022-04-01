@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 
 import java.io.Serializable;
 
+import tech.sud.mgp.hello.common.utils.GlobalCache;
 import tech.sud.mgp.hello.service.main.config.BaseRtcConfig;
 import tech.sud.mgp.hello.service.main.config.SudConfig;
 import tech.sud.mgp.hello.service.main.resp.BaseConfigResp;
@@ -64,6 +65,12 @@ public class AppData {
      * 获取当前所使用的rtc配置
      */
     public BaseRtcConfig getSelectRtcConfig() {
+        if (selectRtcConfig == null) {
+            Object rtcConfigSerializable = GlobalCache.getInstance().getSerializable(GlobalCache.RTC_CONFIG_KEY);
+            if (rtcConfigSerializable instanceof BaseRtcConfig) {
+                selectRtcConfig = (BaseRtcConfig) rtcConfigSerializable;
+            }
+        }
         return selectRtcConfig;
     }
 

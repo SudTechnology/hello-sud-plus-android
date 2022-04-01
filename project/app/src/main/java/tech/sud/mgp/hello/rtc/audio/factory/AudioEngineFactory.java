@@ -21,6 +21,7 @@ public class AudioEngineFactory {
     public static void destroy() {
         ISudAudioEngine engine = audioEngine;
         if (engine != null) {
+            engine.setEventListener(null);
             engine.destroy();
             audioEngine = null;
         }

@@ -16,7 +16,6 @@ import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.common.utils.GlobalCache;
 import tech.sud.mgp.hello.service.main.config.BaseRtcConfig;
 import tech.sud.mgp.hello.service.main.resp.BaseConfigResp;
-import tech.sud.mgp.hello.ui.main.home.RTCManager;
 
 /**
  * 切换rtc服务业务逻辑
@@ -67,9 +66,6 @@ public class ChangeRtcViewModel extends BaseViewModel {
     // 设置所使用的rtc配置
     public void setRtcConfig(BaseRtcConfig config) {
         if (config == null) return;
-        // 设置引擎
-        RTCManager.applyRtcEngine(config);
-
         // 保存配置
         AppData.getInstance().setSelectRtcConfig(config);
         executor.execute(new Runnable() {

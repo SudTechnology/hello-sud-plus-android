@@ -10,8 +10,6 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
-import com.blankj.utilcode.util.ClickUtils;
-
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
@@ -93,6 +91,7 @@ public class JoinTicketConfirmDialog extends BaseDialogFragment implements View.
         });
     }
 
+    // 获取消费的金币数量
     private int getConsume() {
         switch (gameLevel) {
             case GameLevel.PRIMARY:
@@ -105,6 +104,7 @@ public class JoinTicketConfirmDialog extends BaseDialogFragment implements View.
         return 0;
     }
 
+    // 获取最高奖励
     private int getMaxAward() {
         switch (gameLevel) {
             case GameLevel.PRIMARY:
@@ -120,8 +120,9 @@ public class JoinTicketConfirmDialog extends BaseDialogFragment implements View.
     @Override
     protected void setListeners() {
         super.setListeners();
-        ClickUtils.applyGlobalDebouncing(findViewById(R.id.tv_cancel), this);
-        ClickUtils.applyGlobalDebouncing(findViewById(R.id.tv_confirm), this);
+        findViewById(R.id.tv_cancel).setOnClickListener(this);
+        findViewById(R.id.tv_confirm).setOnClickListener(this);
+        findViewById(R.id.tv_no_remind).setOnClickListener(this);
         ivNoRemind.setOnClickListener(this);
     }
 
@@ -137,15 +138,21 @@ public class JoinTicketConfirmDialog extends BaseDialogFragment implements View.
         if (id == R.id.tv_cancel) {
             dismiss();
         } else if (id == R.id.tv_confirm) {
-            dismiss();
             confirmJoin(v);
         } else if (id == R.id.iv_no_remind) {
-            ivNoRemind.setSelected(!ivNoRemind.isSelected());
-            AppData.getInstance().setJoinTicketNoRemind(ivNoRemind.isSelected());
+            clickNoRemind();
+        } else if (id == R.id.tv_no_remind) {
+            clickNoRemind();
         }
     }
 
+    private void clickNoRemind() {
+        ivNoRemind.setSelected(!ivNoRemind.isSelected());
+        AppData.getInstance().setJoinTicketNoRemind(ivNoRemind.isSelected());
+    }
+
     private void confirmJoin(View v) {
+        dismiss();
         View.OnClickListener listener = clickConfirmListener;
         if (listener != null) {
             listener.onClick(v);

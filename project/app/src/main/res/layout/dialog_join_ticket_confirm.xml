@@ -79,8 +79,9 @@
             android:text="@string/no_longer_remind"
             android:textSize="12sp"
             android:textColor="#99ffffff"
-            android:layout_marginTop="117dp"
-            android:layout_marginStart="173dp"
+            android:padding="10dp"
+            android:layout_marginTop="107dp"
+            android:layout_marginStart="163dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

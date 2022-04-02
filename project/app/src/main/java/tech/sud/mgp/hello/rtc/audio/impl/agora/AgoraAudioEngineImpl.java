@@ -233,6 +233,11 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
 
     private IRtcEngineEventHandler mIRtcEngineEventHandler = new IRtcEngineEventHandler() {
 
+        @Override
+        public void onError(int err) {
+            Log.d(kTag, "error code:" + err);
+        }
+
         /**
          * 用户音量提示回调
          * @param speakers 在AudioVolumeInfo中,volume的区间是[0,255]

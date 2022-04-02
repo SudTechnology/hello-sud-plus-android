@@ -6,7 +6,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.lifecycle.Observer;
 
 import com.blankj.utilcode.util.KeyboardUtils;
@@ -54,7 +53,7 @@ import tech.sud.mgp.hello.ui.scenes.common.gift.view.RoomGiftDialog;
 /**
  * 场景房间的基类
  */
-public abstract class BaseSceneActivity extends BaseActivity implements SceneRoomServiceCallback {
+public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActivity implements SceneRoomServiceCallback {
 
     protected RoomInfoModel roomInfoModel; // 房间信息
     protected long playingGameId; // 当前正在玩的游戏id
@@ -73,12 +72,10 @@ public abstract class BaseSceneActivity extends BaseActivity implements SceneRoo
     protected final SceneRoomService sceneRoomService = new SceneRoomService();
     protected final SceneRoomService.MyBinder binder = sceneRoomService.getBinder();
     protected final SceneRoomViewModel viewModel = new SceneRoomViewModel();
-    protected final GameViewModel gameViewModel = initGameViewModel();
+    protected final T gameViewModel = initGameViewModel();
 
-    @NonNull
-    private GameViewModel initGameViewModel() {
-        return new GameViewModel();
-    }
+    // 初始化游戏业务模型
+    protected abstract T initGameViewModel();
 
     private RoomGiftDialog roomGiftDialog;
 

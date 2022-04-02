@@ -9,12 +9,14 @@ import tech.sud.mgp.hello.common.http.param.IBaseUrl;
 import tech.sud.mgp.hello.common.http.param.RequestUrl;
 import tech.sud.mgp.hello.service.main.req.CreatRoomReq;
 import tech.sud.mgp.hello.service.main.req.MatchBodyReq;
+import tech.sud.mgp.hello.service.main.req.TicketConfirmJoinReq;
 import tech.sud.mgp.hello.service.main.req.UserInfoReq;
 import tech.sud.mgp.hello.service.main.resp.BaseConfigResp;
 import tech.sud.mgp.hello.service.main.resp.CreatRoomResp;
 import tech.sud.mgp.hello.service.main.resp.GameListResp;
 import tech.sud.mgp.hello.service.main.resp.GetAccountResp;
 import tech.sud.mgp.hello.service.main.resp.RoomListResp;
+import tech.sud.mgp.hello.service.main.resp.TicketConfirmJoinResp;
 import tech.sud.mgp.hello.service.main.resp.UserInfoListResp;
 import tech.sud.mgp.hello.ui.main.home.MatchRoomModel;
 
@@ -64,4 +66,10 @@ public interface HomeRequestMethod {
      */
     @POST(RequestUrl.GET_ACCOUNT)
     Observable<BaseResponse<GetAccountResp>> getAccount(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl);
+
+    /**
+     * 确认加入门票游戏
+     */
+    @POST(RequestUrl.TICKET_CONFIRM_JOIN)
+    Observable<BaseResponse<TicketConfirmJoinResp>> ticketConfirmJoin(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body TicketConfirmJoinReq body);
 }

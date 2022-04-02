@@ -13,8 +13,8 @@ public interface RequestUrl {
 
     /**
      * 刷新token
-     * */
-    String REFRESHTOKEN= "refresh-token/v1";
+     */
+    String REFRESHTOKEN = "refresh-token/v1";
 
     /**
      * 主页接口
@@ -74,11 +74,16 @@ public interface RequestUrl {
     /**
      * 创建房间
      */
-    String CREAT_ROOM = "/room/create-room/v1";
+    String CREAT_ROOM = "room/create-room/v1";
 
     /**
      * 查询用户账户
      */
-    String GET_ACCOUNT = "/get-account/v1";
+    String GET_ACCOUNT = "get-account/v1";
+
+    /**
+     * 确认加入门票游戏
+     */
+    String TICKET_CONFIRM_JOIN = "game/ticket/confirm-join/v1";
 
 }

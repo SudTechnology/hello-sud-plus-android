@@ -64,6 +64,12 @@ public class GameViewModel implements SudFSMMGListener {
 
     private View gameView; // 游戏View
     private int selfMicIndex = -1; // 记录自己所在麦位
+    public GameConfigModel gameConfigModel = new GameConfigModel(); // 游戏配置
+
+    public GameViewModel() {
+        // 配置不展示大厅玩家展示位
+        gameConfigModel.ui.lobby_players.hide = true;
+    }
 
     /**
      * 外部调用切换游戏
@@ -301,9 +307,6 @@ public class GameViewModel implements SudFSMMGListener {
      * 文档：https://github.com/SudTechnology/sud-mgp-doc/blob/main/Client/API/ISudFSMMG/onGetGameCfg.md
      */
     public void processOnGetGameCfg(ISudFSMStateHandle handle, String dataJson) {
-        GameConfigModel gameConfigModel = new GameConfigModel();
-        // 配置不展示大厅玩家展示位
-        gameConfigModel.ui.lobby_players.hide = true;
         handle.success(GsonUtils.toJson(gameConfigModel));
     }
 
@@ -446,10 +449,34 @@ public class GameViewModel implements SudFSMMGListener {
         return sudFSMMGDecorator.playerIsPlaying(userId);
     }
 
+    // 队长结束游戏
     public void finishGame() {
         sudFSTAPPDecorator.notifyAPPCommonSelfEnd();
     }
 
+    /**
+     * 发送游戏状态到游戏
+     *
+     * @param isPlaying true时为队长开始游戏 false时为本人退出本局游戏
+     */
+    public void notifyAPPCommonSelfPlaying(boolean isPlaying, String reportGameInfoExtras) {
+        sudFSTAPPDecorator.notifyAPPCommonSelfPlaying(isPlaying, reportGameInfoExtras);
+    }
+
+    /**
+     * 发送
+     * 2. 准备状态
+     * 用户（本人）准备/取消准备
+     *
+     * @param isReady true 准备，false 取消准备
+     */
+    public void notifyAPPCommonSelfReady(boolean isReady) {
+        sudFSTAPPDecorator.notifyAPPCommonSelfReady(isReady);
+    }
+
+    /**
+     * 返回当前游戏的状态，数值参数{@link SudMGPMGState.MGCommonGameState}
+     */
     public int getGameState() {
         return sudFSMMGDecorator.getGameState();
     }
@@ -465,7 +492,6 @@ public class GameViewModel implements SudFSMMGListener {
         }
         return false;
     }
-
 
     // region 游戏侧回调
     @Override

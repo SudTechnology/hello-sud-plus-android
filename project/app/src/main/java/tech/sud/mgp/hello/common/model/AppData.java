@@ -20,6 +20,7 @@ public class AppData {
 
     private BaseConfigResp baseConfigResp; // 基础配置
     private BaseRtcConfig selectRtcConfig; // 当前所使用的rtc配置
+    private boolean joinTicketNoRemind = false; // 加入门票场景不再提醒
 
     private AppData() {
     }
@@ -119,4 +120,11 @@ public class AppData {
         return null;
     }
 
+    public boolean isJoinTicketNoRemind() {
+        return joinTicketNoRemind;
+    }
+
+    public void setJoinTicketNoRemind(boolean joinTicketNoRemind) {
+        this.joinTicketNoRemind = joinTicketNoRemind;
+    }
 }

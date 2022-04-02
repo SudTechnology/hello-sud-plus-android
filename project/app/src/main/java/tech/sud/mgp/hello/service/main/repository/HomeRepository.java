@@ -12,12 +12,14 @@ import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.service.main.method.HomeRequestMethodFactory;
 import tech.sud.mgp.hello.service.main.req.CreatRoomReq;
 import tech.sud.mgp.hello.service.main.req.MatchBodyReq;
+import tech.sud.mgp.hello.service.main.req.TicketConfirmJoinReq;
 import tech.sud.mgp.hello.service.main.req.UserInfoReq;
 import tech.sud.mgp.hello.service.main.resp.BaseConfigResp;
 import tech.sud.mgp.hello.service.main.resp.CreatRoomResp;
 import tech.sud.mgp.hello.service.main.resp.GameListResp;
 import tech.sud.mgp.hello.service.main.resp.GetAccountResp;
 import tech.sud.mgp.hello.service.main.resp.RoomListResp;
+import tech.sud.mgp.hello.service.main.resp.TicketConfirmJoinResp;
 import tech.sud.mgp.hello.service.main.resp.UserInfoListResp;
 import tech.sud.mgp.hello.ui.main.home.MatchRoomModel;
 
@@ -104,6 +106,23 @@ public class HomeRepository {
     public static void getAccount(LifecycleOwner owner, RxCallback<GetAccountResp> callback) {
         HomeRequestMethodFactory.getMethod()
                 .getAccount(BaseUrlManager.getBaseUrl())
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+
+    /**
+     * 确认加入门票场景游戏
+     */
+    public static void ticketConfirmJoin(int sceneType, long roomId, long gameId, int gameLevel,
+                                         LifecycleOwner owner, RxCallback<TicketConfirmJoinResp> callback) {
+        TicketConfirmJoinReq req = new TicketConfirmJoinReq();
+        req.sceneId = sceneType;
+        req.roomId = roomId;
+        req.gameId = gameId;
+        req.gameLevel = gameLevel;
+        HomeRequestMethodFactory.getMethod()
+                .ticketConfirmJoin(BaseUrlManager.getInteractBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }

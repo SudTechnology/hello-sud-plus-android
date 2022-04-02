@@ -19,12 +19,6 @@ import tech.sud.mgp.hello.ui.scenes.asr.ASRActivity;
 import tech.sud.mgp.hello.ui.scenes.audio.activity.AudioRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.base.model.EnterRoomParams;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
-import tech.sud.mgp.hello.ui.scenes.crossroom.CrossRoomActivity;
-import tech.sud.mgp.hello.ui.scenes.oneone.OneOneActivity;
-import tech.sud.mgp.hello.ui.scenes.orderentertainment.OrderEntertainmentActivity;
-import tech.sud.mgp.hello.ui.scenes.quiz.QuizActivity;
-import tech.sud.mgp.hello.ui.scenes.show.ShowActivity;
-import tech.sud.mgp.hello.ui.scenes.talent.TalentRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.ticket.activity.TicketActivity;
 
 public class EnterRoomUtils {
@@ -64,7 +58,7 @@ public class EnterRoomUtils {
                 EnterRoomResp resp = t.getData();
                 if (t.getRetCode() == RetCode.SUCCESS) {
                     if (resp != null) {
-                        startSceneRoomActivity(context, resp, params);
+                        startSceneRoomActivity(context, resp);
                     }
                 } else {
                     ToastUtils.showLong(ResponseUtils.conver(t));
@@ -85,7 +79,7 @@ public class EnterRoomUtils {
      *
      * @param context 上下文
      */
-    private static void startSceneRoomActivity(Context context, EnterRoomResp enterRoomResp, EnterRoomParams params) {
+    private static void startSceneRoomActivity(Context context, EnterRoomResp enterRoomResp) {
         RoomInfoModel model = new RoomInfoModel();
         model.roomId = enterRoomResp.roomId;
         model.roomName = enterRoomResp.roomName;
@@ -93,31 +87,33 @@ public class EnterRoomUtils {
         model.roleType = enterRoomResp.roleType;
         model.rtcToken = enterRoomResp.rtcToken;
         model.rtiToken = enterRoomResp.rtiToken;
-        model.gameLevel = params.gameLevel;
-        Intent intent = getSceneIntent(context, params.sceneType);
+        model.gameLevel = enterRoomResp.gameLevel;
+        int sceneType = enterRoomResp.sceneType;
+        Intent intent = getSceneIntent(context, sceneType);
         intent.putExtra("RoomInfoModel", model);
         context.startActivity(intent);
     }
 
     @NonNull
     private static Intent getSceneIntent(Context context, int sceneType) {
+        // TODO: 2022/4/2 完善对应场景之后再放开
         switch (sceneType) {
             case SceneType.ASR:
                 return new Intent(context, ASRActivity.class);
-            case SceneType.CROSS_ROOM:
-                return new Intent(context, CrossRoomActivity.class);
-            case SceneType.ONE_ONE:
-                return new Intent(context, OneOneActivity.class);
-            case SceneType.ORDER_ENTERTAINMENT:
-                return new Intent(context, OrderEntertainmentActivity.class);
-            case SceneType.QUIZ:
-                return new Intent(context, QuizActivity.class);
-            case SceneType.SHOW:
-                return new Intent(context, ShowActivity.class);
-            case SceneType.TALENT:
-                return new Intent(context, TalentRoomActivity.class);
             case SceneType.TICKET:
                 return new Intent(context, TicketActivity.class);
+//            case SceneType.TALENT:
+//                return new Intent(context, TalentRoomActivity.class);
+//            case SceneType.CROSS_ROOM:
+//                return new Intent(context, CrossRoomActivity.class);
+//            case SceneType.ONE_ONE:
+//                return new Intent(context, OneOneActivity.class);
+//            case SceneType.ORDER_ENTERTAINMENT:
+//                return new Intent(context, OrderEntertainmentActivity.class);
+//            case SceneType.QUIZ:
+//                return new Intent(context, QuizActivity.class);
+//            case SceneType.SHOW:
+//                return new Intent(context, ShowActivity.class);
             case SceneType.AUDIO:
             default:
                 return new Intent(context, AudioRoomActivity.class);

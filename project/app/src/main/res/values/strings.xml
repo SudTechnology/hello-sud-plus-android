@@ -250,6 +250,11 @@
     <string name="middle_field">中级场</string>
     <string name="high_field">高级场</string>
     <string name="create_ticket_room_title">选择创建的门票场次级别</string>
+    <string name="take_first_place">夺得第一名</string>
+    <string name="high_gold_coin_award">最高可获得%1$d金币奖励</string>
+    <string name="join_game_confirm">参与游戏需消耗%1$d金币，是否继续</string>
+    <string name="no_longer_remind">不再提醒</string>
+    <string name="confirm_join">确认加入</string>
     <!-- endregion 新增 -->
 
 </resources>

@@ -47,6 +47,7 @@
 
     <declare-styleable name="HSTopBar">
         <attr name="topbar_titleText" format="string|reference" /> <!-- 标题文字 -->
+        <attr name="topbar_titleTextColor" format="color" /> <!--标题颜色-->
         <attr name="topbar_backSrc" format="reference|color" /> <!-- 返回按钮的资源 -->
     </declare-styleable>
 

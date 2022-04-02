@@ -34,12 +34,15 @@ public class HomeRepository {
 
     /**
      * 匹配游戏
+     *
+     * @param gameLevel 门票场景游戏级别 从1开始
      */
-    public static void matchGame(int sceneType, Long gameId, LifecycleOwner owner, RxCallback<MatchRoomModel> callback) {
+    public static void matchGame(int sceneType, Long gameId, Integer gameLevel, LifecycleOwner owner, RxCallback<MatchRoomModel> callback) {
         MatchBodyReq req = new MatchBodyReq();
         req.gameId = gameId;
         req.sceneType = sceneType;
         req.rtcType = AppData.getInstance().getRtcType();
+        req.gameLevel = gameLevel;
         HomeRequestMethodFactory.getMethod()
                 .matchGame(BaseUrlManager.getInteractBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))

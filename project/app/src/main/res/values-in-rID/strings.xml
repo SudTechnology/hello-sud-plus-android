@@ -39,6 +39,7 @@
     <string name="room_list_roomid">Nomor ruangan: %1$s</string>
     <string name="room_list_online">%1$s orang</string>
     <string name="setting_contact1_content">Jika Anda ingin mengetahui lebih banyak informasi atau menyampaikan umpan balik, silakan hubungi kami melalui e-mail: help@sud.tech</string>
+    <string name="setting_contact1_but">Baik</string>
     <string-array name="names_list" tools:ignore="ExtraTranslation">
         <item>哈利</item>
         <item>祺祥</item>

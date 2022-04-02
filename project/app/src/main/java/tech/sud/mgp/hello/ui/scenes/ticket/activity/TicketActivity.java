@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.scenes.ticket;
+package tech.sud.mgp.hello.ui.scenes.ticket.activity;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseActivity;
@@ -12,4 +12,5 @@ public class TicketActivity extends BaseActivity {
     protected int getLayoutId() {
         return R.layout.activity_ticket;
     }
+
 }

@@ -235,6 +235,17 @@
     <string name="rtc_name_voic_engine">火山引擎</string>
     <string name="rtc_name_alibaba_cloud">阿里云</string>
     <string name="rtc_name_tencent_cloud">腾讯云</string>
+    <string name="win_multiple_award">赢%1$d倍奖励</string>
+    <string name="count_people_play">%1$d人在玩</string>
+    <string name="now_participation">立即参与</string>
+    <string-array name="ticket_level_notices">
+        <item>恭喜沐辰在高级场赢得900金币！</item>
+        <item>恭喜 安小六 在初级场赢得20金币！</item>
+        <item>恭喜 兔兔 在中级场赢得250金币！</item>
+        <item>恭喜 Toby 在高级场赢得900金币！</item>
+        <item>恭喜 Jennie 在高级场赢得900金币！</item>
+        <item>恭喜 Bell 在中级场赢得250金币！</item>
+    </string-array>
     <!-- endregion 新增 -->
 
 </resources>

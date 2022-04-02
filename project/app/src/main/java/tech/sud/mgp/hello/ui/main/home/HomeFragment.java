@@ -155,7 +155,7 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
     }
 
     private void matchGame(int sceneId, Long gameId) {
-        HomeRepository.matchGame(sceneId, gameId, this, new RxCallback<MatchRoomModel>() {
+        HomeRepository.matchGame(sceneId, gameId, null, this, new RxCallback<MatchRoomModel>() {
             @Override
             public void onNext(BaseResponse<MatchRoomModel> t) {
                 super.onNext(t);

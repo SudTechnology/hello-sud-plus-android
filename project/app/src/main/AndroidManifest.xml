@@ -85,14 +85,14 @@
 
         <!-- 门票制场景 -->
         <activity
-            android:name=".ui.scenes.ticket.TicketActivity"
+            android:name=".ui.scenes.ticket.activity.TicketActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
 
         <!-- 选择门票场景级别的页面 -->
         <activity
-            android:name=".ui.scenes.ticket.TicketLevelActivity"
+            android:name=".ui.scenes.ticket.activity.TicketLevelActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />

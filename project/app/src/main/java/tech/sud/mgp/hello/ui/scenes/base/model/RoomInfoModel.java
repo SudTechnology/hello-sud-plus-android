@@ -12,4 +12,5 @@ public class RoomInfoModel implements Serializable {
     public int roleType; // // 1:房主 0：普通用户
     public String rtcToken; // 推拉流token
     public String rtiToken; // im token
+    public Integer gameLevel; // 门票场景游戏级别 从1开始
 }

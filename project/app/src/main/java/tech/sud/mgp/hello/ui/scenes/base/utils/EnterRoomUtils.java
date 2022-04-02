@@ -17,6 +17,7 @@ import tech.sud.mgp.hello.service.room.response.EnterRoomResp;
 import tech.sud.mgp.hello.ui.main.constant.SceneType;
 import tech.sud.mgp.hello.ui.scenes.asr.ASRActivity;
 import tech.sud.mgp.hello.ui.scenes.audio.activity.AudioRoomActivity;
+import tech.sud.mgp.hello.ui.scenes.base.model.EnterRoomParams;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
 import tech.sud.mgp.hello.ui.scenes.crossroom.CrossRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.oneone.OneOneActivity;
@@ -24,7 +25,7 @@ import tech.sud.mgp.hello.ui.scenes.orderentertainment.OrderEntertainmentActivit
 import tech.sud.mgp.hello.ui.scenes.quiz.QuizActivity;
 import tech.sud.mgp.hello.ui.scenes.show.ShowActivity;
 import tech.sud.mgp.hello.ui.scenes.talent.TalentRoomActivity;
-import tech.sud.mgp.hello.ui.scenes.ticket.TicketActivity;
+import tech.sud.mgp.hello.ui.scenes.ticket.activity.TicketActivity;
 
 public class EnterRoomUtils {
 
@@ -37,17 +38,17 @@ public class EnterRoomUtils {
      * @param roomId  房间id
      */
     public static void enterRoom(Context context, long roomId) {
-        enterRoom(context, roomId, SceneType.UNDEFINED);
+        EnterRoomParams params = new EnterRoomParams();
+        params.roomId = roomId;
+        enterRoom(context, params);
     }
 
     /**
      * 进入房间
      *
-     * @param context   上下文
-     * @param roomId    房间id
-     * @param sceneType 场景类型 {@link SceneType}
+     * @param context 上下文
      */
-    public static void enterRoom(Context context, long roomId, int sceneType) {
+    public static void enterRoom(Context context, EnterRoomParams params) {
         if (isRunning) {
             return;
         }
@@ -56,14 +57,14 @@ public class EnterRoomUtils {
         if (context instanceof LifecycleOwner) {
             owner = (LifecycleOwner) context;
         }
-        AudioRepository.enterRoom(owner, roomId, new RxCallback<EnterRoomResp>() {
+        AudioRepository.enterRoom(owner, params.roomId, new RxCallback<EnterRoomResp>() {
             @Override
             public void onNext(BaseResponse<EnterRoomResp> t) {
                 super.onNext(t);
                 EnterRoomResp resp = t.getData();
                 if (t.getRetCode() == RetCode.SUCCESS) {
                     if (resp != null) {
-                        startSceneRoomActivity(context, resp, sceneType);
+                        startSceneRoomActivity(context, resp, params);
                     }
                 } else {
                     ToastUtils.showLong(ResponseUtils.conver(t));
@@ -82,10 +83,9 @@ public class EnterRoomUtils {
     /**
      * 打开场景页面
      *
-     * @param context   上下文
-     * @param sceneType 场景类型
+     * @param context 上下文
      */
-    private static void startSceneRoomActivity(Context context, EnterRoomResp enterRoomResp, int sceneType) {
+    private static void startSceneRoomActivity(Context context, EnterRoomResp enterRoomResp, EnterRoomParams params) {
         RoomInfoModel model = new RoomInfoModel();
         model.roomId = enterRoomResp.roomId;
         model.roomName = enterRoomResp.roomName;
@@ -93,7 +93,8 @@ public class EnterRoomUtils {
         model.roleType = enterRoomResp.roleType;
         model.rtcToken = enterRoomResp.rtcToken;
         model.rtiToken = enterRoomResp.rtiToken;
-        Intent intent = getSceneIntent(context, sceneType);
+        model.gameLevel = params.gameLevel;
+        Intent intent = getSceneIntent(context, params.sceneType);
         intent.putExtra("RoomInfoModel", model);
         context.startActivity(intent);
     }

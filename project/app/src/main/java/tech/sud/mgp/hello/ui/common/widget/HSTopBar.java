@@ -47,6 +47,7 @@ public class HSTopBar extends ConstraintLayout {
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.HSTopBar, defStyleAttr, 0);
         String titleText = array.getString(R.styleable.HSTopBar_topbar_titleText);
         Drawable backSrc = array.getDrawable(R.styleable.HSTopBar_topbar_backSrc);
+        int titleTextColor = array.getColor(R.styleable.HSTopBar_topbar_titleTextColor, ContextCompat.getColor(getContext(), R.color.c_1a1a1a));
         array.recycle();
 
         // 返回按钮
@@ -70,7 +71,7 @@ public class HSTopBar extends ConstraintLayout {
         tvTitle.setMaxLines(1);
         tvTitle.setEllipsize(TextUtils.TruncateAt.END);
         tvTitle.setTextSize(18);
-        tvTitle.setTextColor(ContextCompat.getColor(getContext(), R.color.c_1a1a1a));
+        tvTitle.setTextColor(titleTextColor);
         tvTitle.setText(titleText);
         tvTitle.setGravity(Gravity.CENTER);
         tvTitle.setTypeface(tvTitle.getTypeface(), Typeface.BOLD);
@@ -91,7 +92,6 @@ public class HSTopBar extends ConstraintLayout {
             }
         });
     }
-
 
     /**
      * 设置标题栏

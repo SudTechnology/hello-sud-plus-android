@@ -379,7 +379,7 @@ public class GameViewModel implements SudFSMMGListener {
     }
 
     /**
-     * 用户主动下麦后执行退出游戏
+     * 退出游戏
      */
     public void exitGame() {
         if (playerIsPlaying(HSUserInfo.userId)) {

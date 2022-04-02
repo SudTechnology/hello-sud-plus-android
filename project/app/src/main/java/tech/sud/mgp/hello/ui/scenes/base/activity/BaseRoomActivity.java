@@ -69,6 +69,7 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
     protected FrameLayout gameContainer;
     protected TextView tvGameNumber;
 
+    private boolean closeing; // 标识是否正在关闭房间
     protected final SceneRoomService sceneRoomService = new SceneRoomService();
     protected final SceneRoomService.MyBinder binder = sceneRoomService.getBinder();
     protected final SceneRoomViewModel viewModel = new SceneRoomViewModel();
@@ -395,12 +396,30 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
             @Override
             public void onChoose(int index) {
                 if (index == 1) {
-                    exitRoom();
+                    delayExitRoom();
                 } else {
                     dialog.dismiss();
                 }
             }
         });
+    }
+
+    // 延迟退出房间
+    private void delayExitRoom() {
+        if (closeing) return;
+        closeing = true;
+        if (playingGameId > 0) {
+            // 在游戏时才需要
+            gameViewModel.exitGame();
+            topView.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    exitRoom();
+                }
+            }, 500);
+        } else {
+            exitRoom();
+        }
     }
 
     // 退出房间

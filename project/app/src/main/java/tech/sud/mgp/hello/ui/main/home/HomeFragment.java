@@ -123,6 +123,10 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
         });
         goSearch.setOnClickListener(v -> enterRoom());
         refreshLayout.setOnRefreshListener(this::loadList);
+        headerIv.setOnClickListener(v -> {
+            CoinDialog dialog = new CoinDialog(getContext());
+            dialog.show();
+        });
     }
 
     private void enterRoom() {

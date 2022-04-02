@@ -16,6 +16,7 @@ import tech.sud.mgp.hello.service.main.req.UserInfoReq;
 import tech.sud.mgp.hello.service.main.resp.BaseConfigResp;
 import tech.sud.mgp.hello.service.main.resp.CreatRoomResp;
 import tech.sud.mgp.hello.service.main.resp.GameListResp;
+import tech.sud.mgp.hello.service.main.resp.GetAccountResp;
 import tech.sud.mgp.hello.service.main.resp.RoomListResp;
 import tech.sud.mgp.hello.service.main.resp.UserInfoListResp;
 import tech.sud.mgp.hello.ui.main.home.MatchRoomModel;
@@ -93,6 +94,15 @@ public class HomeRepository {
         HomeRequestMethodFactory.getMethod()
                 .creatRoom(BaseUrlManager.getInteractBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /**
+     * 获取账户信息
+     */
+    public static void getAccount( RxCallback<GetAccountResp> callback) {
+        HomeRequestMethodFactory.getMethod()
+                .getAccount(BaseUrlManager.getInteractBaseUrl())
                 .subscribe(callback);
     }
 

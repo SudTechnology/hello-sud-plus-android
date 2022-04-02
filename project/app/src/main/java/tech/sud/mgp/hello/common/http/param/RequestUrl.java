@@ -76,4 +76,9 @@ public interface RequestUrl {
      */
     String CREAT_ROOM = "/room/create-room/v1";
 
+    /**
+     * 查询用户账户
+     */
+    String GET_ACCOUNT = "/get-account/v1";
+
 }

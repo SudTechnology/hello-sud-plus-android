@@ -96,6 +96,34 @@ public class SystemUtils {
                     sb.append("-");
                     sb.append("AE");
                     break;
+                case "in": //印尼语
+                    sb.append("-");
+                    sb.append("ID");
+                    break;
+                case "ms": // 马来
+                    sb.append("-");
+                    sb.append("MY");
+                    break;
+                case "th": // 泰国
+                    sb.append("-");
+                    sb.append("TH");
+                    break;
+                case "vi": // 越南
+                    sb.append("-");
+                    sb.append("VN");
+                    break;
+                case "ko": //韩国
+                    sb.append("-");
+                    sb.append("KR");
+                    break;
+                case "es": // 西班牙
+                    sb.append("-");
+                    sb.append("ES");
+                    break;
+                case "ja": //日本
+                    sb.append("-");
+                    sb.append("JP");
+                    break;
             }
         } else {
             sb.append("-");

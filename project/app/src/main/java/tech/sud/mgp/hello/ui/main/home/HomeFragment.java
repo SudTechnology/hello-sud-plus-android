@@ -32,6 +32,7 @@ import tech.sud.mgp.hello.service.main.resp.GameModel;
 import tech.sud.mgp.hello.service.main.resp.SceneModel;
 import tech.sud.mgp.hello.ui.common.constant.RequestKey;
 import tech.sud.mgp.hello.ui.main.constant.SceneType;
+import tech.sud.mgp.hello.ui.main.widget.CreateTicketRoomDialog;
 import tech.sud.mgp.hello.ui.scenes.base.utils.EnterRoomUtils;
 import tech.sud.mgp.hello.ui.scenes.ticket.activity.TicketLevelActivity;
 import tech.sud.mgp.hello.ui.scenes.ticket.model.TicketLevelParams;
@@ -228,12 +229,19 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
     public void onCreatRoomClick(SceneModel sceneModel) {
         //创建房间
         if (sceneModel != null) {
-            creatRoom(sceneModel.getSceneId());
+            switch (sceneModel.getSceneId()) {
+                case SceneType.TICKET:
+                    new CreateTicketRoomDialog().show(getChildFragmentManager(), null);
+                    break;
+                default:
+                    creatRoom(sceneModel.getSceneId());
+                    break;
+            }
         }
     }
 
     private void creatRoom(Integer sceneType) {
-        HomeRepository.creatRoom(sceneType, this, new RxCallback<CreatRoomResp>() {
+        HomeRepository.creatRoom(sceneType, null, this, new RxCallback<CreatRoomResp>() {
             @Override
             public void onNext(BaseResponse<CreatRoomResp> t) {
                 super.onNext(t);

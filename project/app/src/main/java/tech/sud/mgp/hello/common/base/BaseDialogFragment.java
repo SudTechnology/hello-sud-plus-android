@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
+import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
@@ -55,7 +56,8 @@ public abstract class BaseDialogFragment extends DialogFragment {
         setListeners();
     }
 
-    protected void customStyle(Window window){};
+    protected void customStyle(Window window) {
+    }
 
     protected abstract int getLayoutId();
 
@@ -104,4 +106,9 @@ public abstract class BaseDialogFragment extends DialogFragment {
             onDestroyListener.onDestroy();
         }
     }
+
+    public <T extends View> T findViewById(@IdRes int id) {
+        return mRootView.findViewById(id);
+    }
+
 }

@@ -100,9 +100,10 @@ public class HomeRepository {
     /**
      * 获取账户信息
      */
-    public static void getAccount( RxCallback<GetAccountResp> callback) {
+    public static void getAccount(LifecycleOwner owner, RxCallback<GetAccountResp> callback) {
         HomeRequestMethodFactory.getMethod()
                 .getAccount(BaseUrlManager.getBaseUrl())
+                .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }
 

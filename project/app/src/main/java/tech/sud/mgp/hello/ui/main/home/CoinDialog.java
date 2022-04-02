@@ -76,7 +76,7 @@ public class CoinDialog extends BaseDialog {
     }
 
     private void loadAccount() {
-        HomeRepository.getAccount(new RxCallback<GetAccountResp>() {
+        HomeRepository.getAccount(null, new RxCallback<GetAccountResp>() {
             @Override
             public void onNext(BaseResponse<GetAccountResp> t) {
                 super.onNext(t);

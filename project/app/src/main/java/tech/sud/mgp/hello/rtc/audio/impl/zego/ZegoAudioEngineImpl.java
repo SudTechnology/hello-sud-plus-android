@@ -71,8 +71,6 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
         ZegoEngineProfile profile = new ZegoEngineProfile();
         /* 请通过官网注册获取，格式为 123456789L */
         profile.appID = appID;
-        /* 64个字符，请通过官网注册获取 */
-        profile.appSign = model.appKey;
         /* 通用场景接入 */
         profile.scenario = ZegoScenario.COMMUNICATION;
         /* 设置app的application 对象 */
@@ -319,7 +317,7 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
                     switch (updateType) {
                         case ADD:
                             for (ZegoStream zegoStream :streamList) {
-                                engine.startPlayingStream(zegoStream.streamID);
+                                engine.startPlayingStream(zegoStream.streamID, null);
                             }
                             break;
                         case DELETE:

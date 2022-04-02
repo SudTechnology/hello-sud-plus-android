@@ -30,7 +30,6 @@ public class RTCManager {
             ZegoConfig zegoConfig = (ZegoConfig) config;
             AudioConfigModel audioConfigModel = new AudioConfigModel();
             audioConfigModel.appId = zegoConfig.appId;
-            audioConfigModel.appKey = zegoConfig.appKey;
             audioConfigModel.token = rtiToken;
             audioConfigModel.userID = HSUserInfo.userId + "";
             AudioEngineFactory.getEngine().initWithConfig(Utils.getApp(), audioConfigModel);

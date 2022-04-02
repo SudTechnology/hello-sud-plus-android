@@ -5,6 +5,8 @@ import android.util.DisplayMetrics;
 
 import com.blankj.utilcode.util.Utils;
 
+import tech.sud.mgp.hello.app.HelloSudApplication;
+
 public class DensityUtils {
 
     /**
@@ -13,6 +15,13 @@ public class DensityUtils {
     public static int dp2px(Context context, float dpValue) {
         float scale = context.getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
+    }
+
+    /**
+     * dp转px
+     */
+    public static int dp2px(float dpValue) {
+        return dp2px(HelloSudApplication.instance, dpValue);
     }
 
     /**

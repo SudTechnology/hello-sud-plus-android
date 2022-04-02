@@ -87,10 +87,11 @@ public class HomeRepository {
     /**
      * 创建房间
      */
-    public static void creatRoom(Integer sceneType, LifecycleOwner owner, RxCallback<CreatRoomResp> callback) {
+    public static void creatRoom(Integer sceneType, Integer gameLevel, LifecycleOwner owner, RxCallback<CreatRoomResp> callback) {
         CreatRoomReq req = new CreatRoomReq();
         req.rtcType = AppData.getInstance().getRtcType();
         req.sceneType = sceneType;
+        req.gameLevel = gameLevel;
         HomeRequestMethodFactory.getMethod()
                 .creatRoom(BaseUrlManager.getInteractBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))

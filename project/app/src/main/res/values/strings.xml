@@ -246,6 +246,10 @@
         <item>恭喜 Jennie 在高级场赢得900金币！</item>
         <item>恭喜 Bell 在中级场赢得250金币！</item>
     </string-array>
+    <string name="primary_field">初级场</string>
+    <string name="middle_field">中级场</string>
+    <string name="high_field">高级场</string>
+    <string name="create_ticket_room_title">选择创建的门票场次级别</string>
     <!-- endregion 新增 -->
 
 </resources>

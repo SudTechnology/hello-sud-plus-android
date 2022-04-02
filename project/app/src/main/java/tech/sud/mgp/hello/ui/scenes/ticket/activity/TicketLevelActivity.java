@@ -16,6 +16,7 @@ import tech.sud.mgp.hello.common.base.BaseActivity;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.ui.common.constant.RequestKey;
 import tech.sud.mgp.hello.ui.common.widget.HSTopBar;
+import tech.sud.mgp.hello.ui.main.constant.GameLevel;
 import tech.sud.mgp.hello.ui.main.home.MatchRoomModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.EnterRoomParams;
 import tech.sud.mgp.hello.ui.scenes.base.utils.EnterRoomUtils;
@@ -150,11 +151,11 @@ public class TicketLevelActivity extends BaseActivity implements View.OnClickLis
     @Override
     public void onClick(View v) {
         if (v == clSmall) { // 初级
-            viewModel.matchRoom(params.sceneType, params.gameId, 1, this);
+            viewModel.matchRoom(params.sceneType, params.gameId, GameLevel.PRIMARY, this);
         } else if (v == clMiddle) { // 中级
-            viewModel.matchRoom(params.sceneType, params.gameId, 2, this);
+            viewModel.matchRoom(params.sceneType, params.gameId, GameLevel.MIDDLE, this);
         } else if (v == clHigh) { // 高级
-            viewModel.matchRoom(params.sceneType, params.gameId, 3, this);
+            viewModel.matchRoom(params.sceneType, params.gameId, GameLevel.HIGH, this);
         }
     }
 

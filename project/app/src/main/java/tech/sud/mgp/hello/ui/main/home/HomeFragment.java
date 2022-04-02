@@ -1,5 +1,6 @@
 package tech.sud.mgp.hello.ui.main.home;
 
+import android.content.Intent;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -29,7 +30,11 @@ import tech.sud.mgp.hello.service.main.resp.CreatRoomResp;
 import tech.sud.mgp.hello.service.main.resp.GameListResp;
 import tech.sud.mgp.hello.service.main.resp.GameModel;
 import tech.sud.mgp.hello.service.main.resp.SceneModel;
+import tech.sud.mgp.hello.ui.common.constant.RequestKey;
+import tech.sud.mgp.hello.ui.main.constant.SceneType;
 import tech.sud.mgp.hello.ui.scenes.base.utils.EnterRoomUtils;
+import tech.sud.mgp.hello.ui.scenes.ticket.activity.TicketLevelActivity;
+import tech.sud.mgp.hello.ui.scenes.ticket.model.TicketLevelParams;
 
 public class HomeFragment extends BaseFragment implements HomeRoomTypeView.CreatRoomClickListener, GameItemView.GameItemListener {
 
@@ -151,7 +156,25 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
 
     @Override
     public void onGameClick(SceneModel sceneModel, GameModel gameModel) {
-        matchGame(sceneModel.getSceneId(), gameModel.getGameId());
+        switch (sceneModel.getSceneId()) {
+            case SceneType.TICKET: // 门票制场景
+                startTicketLevelActivity(sceneModel, gameModel);
+                break;
+            default:
+                matchGame(sceneModel.getSceneId(), gameModel.getGameId());
+                break;
+        }
+    }
+
+    // 打开场景等级选择页面
+    private void startTicketLevelActivity(SceneModel sceneModel, GameModel gameModel) {
+        TicketLevelParams params = new TicketLevelParams();
+        params.sceneType = sceneModel.getSceneId();
+        params.gameId = gameModel.gameId;
+        params.gameName = gameModel.gameName;
+        Intent intent = new Intent(requireContext(), TicketLevelActivity.class);
+        intent.putExtra(RequestKey.TICKET_LEVEL_PARAMS, params);
+        startActivity(intent);
     }
 
     private void matchGame(int sceneId, Long gameId) {

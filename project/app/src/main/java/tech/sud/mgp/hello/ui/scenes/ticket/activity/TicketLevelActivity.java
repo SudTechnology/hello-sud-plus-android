@@ -1,12 +1,13 @@
 package tech.sud.mgp.hello.ui.scenes.ticket.activity;
 
 import android.view.View;
-import android.widget.LinearLayout;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import androidx.lifecycle.Observer;
 
 import com.blankj.utilcode.util.ClickUtils;
+import com.gyf.immersionbar.ImmersionBar;
 
 import java.io.Serializable;
 
@@ -32,15 +33,15 @@ public class TicketLevelActivity extends BaseActivity implements View.OnClickLis
     private TicketLevelNoticeView tvNotice;
     private View clSmall;
     private TextView tvWinAwardSmall;
-    private LinearLayout llAvatarsSmall;
+    private FrameLayout flAvatarsSmall;
     private TextView tvCountSmall;
     private View clMiddle;
     private TextView tvWinAwardMiddle;
-    private LinearLayout llAvatarsMiddle;
+    private FrameLayout flAvatarsMiddle;
     private TextView tvCountMiddle;
     private View clHigh;
     private TextView tvWinAwardHigh;
-    private LinearLayout llAvatarsHigh;
+    private FrameLayout flAvatarsHigh;
     private TextView tvCountHigh;
 
     private TicketLevelViewModel viewModel = new TicketLevelViewModel();
@@ -63,22 +64,28 @@ public class TicketLevelActivity extends BaseActivity implements View.OnClickLis
     }
 
     @Override
+    protected void setStatusBar() {
+        ImmersionBar.with(this).statusBarColor(R.color.transparent).statusBarDarkFont(false).init();
+    }
+
+    @Override
     protected void initWidget() {
         super.initWidget();
         topBar = findViewById(R.id.top_bar);
         tvNotice = findViewById(R.id.tv_notice);
         clSmall = findViewById(R.id.cl_small);
         tvWinAwardSmall = findViewById(R.id.tv_win_award_small);
-        llAvatarsSmall = findViewById(R.id.ll_avatars_small);
+        flAvatarsSmall = findViewById(R.id.fl_avatars_small);
         tvCountSmall = findViewById(R.id.tv_count_people_small);
         clMiddle = findViewById(R.id.cl_middle);
         tvWinAwardMiddle = findViewById(R.id.tv_win_award_middle);
-        llAvatarsMiddle = findViewById(R.id.ll_avatars_middle);
+        flAvatarsMiddle = findViewById(R.id.fl_avatars_middle);
         tvCountMiddle = findViewById(R.id.tv_count_people_middle);
         clHigh = findViewById(R.id.cl_high);
         tvWinAwardHigh = findViewById(R.id.tv_win_award_high);
-        llAvatarsHigh = findViewById(R.id.ll_avatars_high);
+        flAvatarsHigh = findViewById(R.id.fl_avatars_high);
         tvCountHigh = findViewById(R.id.tv_count_people_high);
+        ImmersionBar.setTitleBarMarginTop(this, topBar);
     }
 
     @Override
@@ -89,19 +96,19 @@ public class TicketLevelActivity extends BaseActivity implements View.OnClickLis
         tvNotice.setDatas(getResources().getStringArray(R.array.ticket_level_notices));
         // 初级
         tvWinAwardSmall.setText(getString(R.string.win_multiple_award, 10));
-        addAvatars(llAvatarsSmall, avatarSize);
+        addAvatars(flAvatarsSmall, avatarSize);
         tvCountSmall.setText(getString(R.string.count_people_play, 87367));
         // 中级
         tvWinAwardMiddle.setText(getString(R.string.win_multiple_award, 50));
-        addAvatars(llAvatarsMiddle, avatarSize);
+        addAvatars(flAvatarsMiddle, avatarSize);
         tvCountMiddle.setText(getString(R.string.count_people_play, 85787));
         // 高级
         tvWinAwardHigh.setText(getString(R.string.win_multiple_award, 90));
-        addAvatars(llAvatarsHigh, avatarSize);
+        addAvatars(flAvatarsHigh, avatarSize);
         tvCountHigh.setText(getString(R.string.count_people_play, 98759));
     }
 
-    private void addAvatars(LinearLayout container, int avatarSize) {
+    private void addAvatars(FrameLayout container, int avatarSize) {
         for (int i = 0; i < 4; i++) {
             View view = new View(this);
             switch (i) {
@@ -118,9 +125,9 @@ public class TicketLevelActivity extends BaseActivity implements View.OnClickLis
                     view.setBackgroundResource(R.drawable.ic_ticket_avatar_4);
                     break;
             }
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(avatarSize, avatarSize);
+            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(avatarSize, avatarSize);
             params.setMarginStart(DensityUtils.dp2px(context, 16) * i);
-            container.addView(view, params);
+            container.addView(view, 0, params);
         }
     }
 

@@ -28,8 +28,11 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="10dp"
-        android:overScrollMode="never">
+        android:paddingBottom="16dp"
+        android:layout_marginTop="10dp"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        android:clipToPadding="false">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -56,8 +59,8 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
-                <LinearLayout
-                    android:id="@+id/ll_avatars_small"
+                <FrameLayout
+                    android:id="@+id/fl_avatars_small"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="17dp"
@@ -74,8 +77,8 @@
                     android:textSize="12sp"
                     android:textColor="#b3ffffff"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toBottomOf="@id/ll_avatars_small"
-                    app:layout_constraintTop_toTopOf="@id/ll_avatars_small" />
+                    app:layout_constraintBottom_toBottomOf="@id/fl_avatars_small"
+                    app:layout_constraintTop_toTopOf="@id/fl_avatars_small" />
 
                 <TextView
                     android:layout_width="88dp"
@@ -121,8 +124,8 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
-                <LinearLayout
-                    android:id="@+id/ll_avatars_middle"
+                <FrameLayout
+                    android:id="@+id/fl_avatars_middle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="17dp"
@@ -139,8 +142,8 @@
                     android:textSize="12sp"
                     android:textColor="#b3ffffff"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toBottomOf="@id/ll_avatars_middle"
-                    app:layout_constraintTop_toTopOf="@id/ll_avatars_middle" />
+                    app:layout_constraintBottom_toBottomOf="@id/fl_avatars_middle"
+                    app:layout_constraintTop_toTopOf="@id/fl_avatars_middle" />
 
                 <TextView
                     android:layout_width="88dp"
@@ -194,8 +197,8 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
-                <LinearLayout
-                    android:id="@+id/ll_avatars_high"
+                <FrameLayout
+                    android:id="@+id/fl_avatars_high"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="17dp"
@@ -212,8 +215,8 @@
                     android:textSize="12sp"
                     android:textColor="#b3ffffff"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toBottomOf="@id/ll_avatars_high"
-                    app:layout_constraintTop_toTopOf="@id/ll_avatars_high" />
+                    app:layout_constraintBottom_toBottomOf="@id/fl_avatars_high"
+                    app:layout_constraintTop_toTopOf="@id/fl_avatars_high" />
 
                 <TextView
                     android:layout_width="88dp"

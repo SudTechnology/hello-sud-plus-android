@@ -102,7 +102,7 @@ public class HomeRepository {
      */
     public static void getAccount( RxCallback<GetAccountResp> callback) {
         HomeRequestMethodFactory.getMethod()
-                .getAccount(BaseUrlManager.getInteractBaseUrl())
+                .getAccount(BaseUrlManager.getBaseUrl())
                 .subscribe(callback);
     }
 

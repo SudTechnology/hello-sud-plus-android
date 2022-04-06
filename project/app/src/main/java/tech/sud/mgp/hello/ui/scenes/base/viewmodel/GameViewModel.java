@@ -1,6 +1,5 @@
 package tech.sud.mgp.hello.ui.scenes.base.viewmodel;
 
-import android.app.Activity;
 import android.view.View;
 import android.view.ViewTreeObserver;
 
@@ -35,6 +34,7 @@ import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.utils.HSTextUtils;
+import tech.sud.mgp.hello.common.utils.SystemUtils;
 import tech.sud.mgp.hello.rtc.audio.core.AudioPCMData;
 import tech.sud.mgp.hello.service.game.repository.GameRepository;
 import tech.sud.mgp.hello.service.game.resp.GameLoginResp;
@@ -156,12 +156,16 @@ public class GameViewModel implements SudFSMMGListener {
      * @param code     登录令牌
      * @param gameId   游戏id
      */
-    private void loadGame(Activity activity, String code, long gameId) {
+    private void loadGame(FragmentActivity activity, String code, long gameId) {
+        if (activity.isDestroyed()) {
+            return;
+        }
+
         // 给装饰类设置回调
         sudFSMMGDecorator.setSudFSMMGListener(this);
 
         // 调用游戏sdk加载游戏
-        ISudFSTAPP iSudFSTAPP = SudMGP.loadMG(activity, HSUserInfo.userId + "", roomId + "", code, gameId, "zh-CN", sudFSMMGDecorator);
+        ISudFSTAPP iSudFSTAPP = SudMGP.loadMG(activity, HSUserInfo.userId + "", roomId + "", code, gameId, SystemUtils.getLanguageCode(activity), sudFSMMGDecorator);
 
         // APP调用游戏接口的装饰类设置
         sudFSTAPPDecorator.setISudFSTAPP(iSudFSTAPP);

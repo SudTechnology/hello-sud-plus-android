@@ -31,7 +31,6 @@
     <string name="setting_useragreement">Perjanjian Pengguna</string>
     <string name="setting_privacy">Kebijakan Privasi</string>
     <string name="setting_contact">Hubungi kami</string>
-    <string name="setting_version"></string>
     <string name="setting_userid">ID pengguna %1$s</string>
     <string name="setting_userid1">ID pengguna: %1$s</string>
     <string name="coming_soon">Silakan nantikan</string>
@@ -219,9 +218,5 @@ Buat ruangan di Beranda</string>
     <string name="finish_game_confirm">Yakin ingin mengakhiri permainan</string>
     <string name="playing_down_mic">Sedang bermain, yakin ingin kabur?</string>
     <string name="game_number">Jumlah pemain</string>
-    <string name="unable_to_speak">当前不能发言</string>
-    <string name="asr_guide">本游戏支持语音识别，请开麦展现你的魅力～</string>
-    <string name="asr_guide_number_boom">试试打开麦克风报数，懒人福利！</string>
-    <string name="asr_guide_draw">开麦抢答，比打字更快哦！</string>
 
 </resources>

@@ -31,7 +31,6 @@
     <string name="setting_useragreement">User Agreement</string>
     <string name="setting_privacy">Privacy Policy</string>
     <string name="setting_contact">Contact Us</string>
-    <string name="setting_version"></string>
     <string name="setting_userid">User ID %1$s</string>
     <string name="setting_userid1">User ID: %1$s</string>
     <string name="coming_soon">Stay tuned</string>
@@ -217,9 +216,5 @@ Go to homepage to create one~</string>
     <string name="finish_game_confirm">Are you sure you want to end the game?</string>
     <string name="playing_down_mic">The game has already started, are you sure you wan\'t to leave?</string>
     <string name="game_number">Number of players</string>
-    <string name="unable_to_speak">当前不能发言</string>
-    <string name="asr_guide">本游戏支持语音识别，请开麦展现你的魅力～</string>
-    <string name="asr_guide_number_boom">试试打开麦克风报数，懒人福利！</string>
-    <string name="asr_guide_draw">开麦抢答，比打字更快哦！</string>
 
 </resources>

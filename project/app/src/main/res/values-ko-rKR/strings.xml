@@ -31,7 +31,6 @@
     <string name="setting_useragreement">사용자 협의</string>
     <string name="setting_privacy">개인정보 정책</string>
     <string name="setting_contact">연락방법</string>
-    <string name="setting_version"></string>
     <string name="setting_userid">사용자ID %1$s</string>
     <string name="setting_userid1">사용자ID：%1$s</string>
     <string name="coming_soon">기다려주세요.</string>
@@ -218,9 +217,5 @@
     <string name="finish_game_confirm">게임 종료를 확인하시겠습니까?</string>
     <string name="playing_down_mic">현재 게임 중입니다. 나가시겠습니까？</string>
     <string name="game_number">게임 인원수</string>
-    <string name="unable_to_speak">当前不能发言</string>
-    <string name="asr_guide">本游戏支持语音识别，请开麦展现你的魅力～</string>
-    <string name="asr_guide_number_boom">试试打开麦克风报数，懒人福利！</string>
-    <string name="asr_guide_draw">开麦抢答，比打字更快哦！</string>
 
 </resources>

@@ -32,7 +32,6 @@
     <string name="setting_useragreement">用户协议</string>
     <string name="setting_privacy">隐私政策</string>
     <string name="setting_contact">联系我们</string>
-    <string name="setting_version">v%1$s</string>
     <string name="setting_userid">用户ID %1$s</string>
     <string name="setting_userid1">用户ID：%1$s</string>
     <string name="coming_soon">敬请期待</string>

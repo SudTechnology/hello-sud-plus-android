@@ -31,7 +31,6 @@
     <string name="setting_useragreement">Thỏa thuận người dùng</string>
     <string name="setting_privacy">Chính sách quyền riêng tư</string>
     <string name="setting_contact">Liên hệ với chúng tôi</string>
-    <string name="setting_version"></string>
     <string name="setting_userid">ID người dùng %1$s</string>
     <string name="setting_userid1">ID người dùng: %1$s</string>
     <string name="coming_soon">Vui lòng chờ đợi</string>
@@ -219,9 +218,5 @@
     <string name="finish_game_confirm">Xác nhận kết thúc trò chơi này không</string>
     <string name="playing_down_mic">Hiện đang trong trò chơi, muốn đào tẩu sao?</string>
     <string name="game_number">Số người chơi</string>
-    <string name="unable_to_speak">当前不能发言</string>
-    <string name="asr_guide">本游戏支持语音识别，请开麦展现你的魅力～</string>
-    <string name="asr_guide_number_boom">试试打开麦克风报数，懒人福利！</string>
-    <string name="asr_guide_draw">开麦抢答，比打字更快哦！</string>
 
 </resources>

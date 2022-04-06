@@ -258,6 +258,8 @@
     <string name="app_version_update_tip">已有新版本的体验，是否更新？</string>
     <string name="app_version_update_btn1">下次再说</string>
     <string name="app_version_update_btn2">立即更新</string>
+    <string name="transfer_captain">转让队长</string>
+    <string name="kick_game">踢出游戏</string>
     <!-- endregion 新增 -->
 
 </resources>

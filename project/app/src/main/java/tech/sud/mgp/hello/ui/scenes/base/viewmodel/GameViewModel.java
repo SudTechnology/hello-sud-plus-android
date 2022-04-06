@@ -375,7 +375,12 @@ public class GameViewModel implements SudFSMMGListener {
 
     // 自己是否已加入了游戏
     public boolean isSelfInGame() {
-        return sudFSMMGDecorator.playerIsIn(HSUserInfo.userId);
+        return playerIsIn(HSUserInfo.userId);
+    }
+
+    // 返回该玩家是否已加入了游戏
+    public boolean playerIsIn(long userId) {
+        return sudFSMMGDecorator.playerIsIn(userId);
     }
 
     /**
@@ -383,15 +388,15 @@ public class GameViewModel implements SudFSMMGListener {
      */
     public void exitGame() {
         if (playerIsPlaying(HSUserInfo.userId)) {
-            //用户正在游戏中，先退出本局游戏，再退出游戏
+            // 用户正在游戏中，先退出本局游戏，再退出游戏
             sudFSTAPPDecorator.notifyAPPCommonSelfPlaying(false, "");
             sudFSTAPPDecorator.notifyAPPCommonSelfIn(false, -1, true, 1);
         } else if (sudFSMMGDecorator.playerIsReady(HSUserInfo.userId)) {
-            //用户已加入并且已经准备，先取消准备，再退出游戏
+            // 用户已加入并且已经准备，先取消准备，再退出游戏
             sudFSTAPPDecorator.notifyAPPCommonSelfReady(false);
             sudFSTAPPDecorator.notifyAPPCommonSelfIn(false, -1, true, 1);
-        } else if (sudFSMMGDecorator.playerIsIn(HSUserInfo.userId)) {
-            //用户已加入游戏 退出游戏
+        } else if (isSelfInGame()) {
+            // 用户已加入游戏 退出游戏
             sudFSTAPPDecorator.notifyAPPCommonSelfIn(false, -1, true, 1);
         }
     }
@@ -454,13 +459,9 @@ public class GameViewModel implements SudFSMMGListener {
         sudFSTAPPDecorator.notifyAPPCommonSelfEnd();
     }
 
-    /**
-     * 发送游戏状态到游戏
-     *
-     * @param isPlaying true时为队长开始游戏 false时为本人退出本局游戏
-     */
-    public void notifyAPPCommonSelfPlaying(boolean isPlaying, String reportGameInfoExtras) {
-        sudFSTAPPDecorator.notifyAPPCommonSelfPlaying(isPlaying, reportGameInfoExtras);
+    // 返回该用户是否为游戏队长
+    public boolean isCaptain(long userId) {
+        return sudFSMMGDecorator.isCaptain(userId);
     }
 
     /**
@@ -472,6 +473,39 @@ public class GameViewModel implements SudFSMMGListener {
      */
     public void notifyAPPCommonSelfReady(boolean isReady) {
         sudFSTAPPDecorator.notifyAPPCommonSelfReady(isReady);
+    }
+
+    /**
+     * 发送
+     * 3. 游戏状态
+     *
+     * @param isPlaying true时为队长开始游戏 false时为本人退出本局游戏
+     */
+    public void notifyAPPCommonSelfPlaying(boolean isPlaying, String reportGameInfoExtras) {
+        sudFSTAPPDecorator.notifyAPPCommonSelfPlaying(isPlaying, reportGameInfoExtras);
+    }
+
+    /**
+     * 发送
+     * 4. 队长状态
+     * 用户是否为队长，队长在游戏中会有开始游戏的权利。
+     *
+     * @param curCaptainUID 必填，指定队长uid
+     */
+    public void notifyAPPCommonSelfCaptain(String curCaptainUID) {
+        sudFSTAPPDecorator.notifyAPPCommonSelfCaptain(curCaptainUID);
+    }
+
+    /**
+     * 发送
+     * 5. 踢人
+     * 用户（本人，队长）踢其他玩家；
+     * 队长才能踢人；
+     *
+     * @param kickedUID 被踢用户uid
+     */
+    public void notifyAPPCommonSelfKick(String kickedUID) {
+        sudFSTAPPDecorator.notifyAPPCommonSelfKick(kickedUID);
     }
 
     /**

@@ -14,6 +14,7 @@ import com.gyf.immersionbar.BarHide;
 import com.gyf.immersionbar.ImmersionBar;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -175,6 +176,8 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
                         binder.micLocationSwitch(position, true, OperateMicType.USER);
                     } else if (model.userId == HSUserInfo.userId) {
                         clickSelfMicLocation(position);
+                    } else if (model.userId > 0) {
+                        clickOtherMicLocation(position, model);
                     }
                 }
             }
@@ -356,6 +359,57 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
                         binder.micLocationSwitch(position, false, OperateMicType.USER); // 执行下麦
                         gameViewModel.exitGame();
                     }
+                }
+            }
+        });
+        dialog.show();
+    }
+
+    // 点击了其他人的麦位
+    private void clickOtherMicLocation(int position, AudioRoomMicModel model) {
+        long userId = model.userId;
+        long selfUserId = HSUserInfo.userId;
+
+        BottomOptionDialog dialog = new BottomOptionDialog(this);
+        HashMap<Integer, String> options = new HashMap<>();
+
+        // 1,加载了游戏
+        // 2,自己是队长（当前app业务如此设计，你可以自由定义权限控制或没有权限控制）
+        // 3,并且该用户也在游戏当中，可以转让队长
+        int transferCaptainKey = 1;
+        if (playingGameId > 0 && gameViewModel.isCaptain(selfUserId) && gameViewModel.playerIsIn(userId)) {
+            options.put(transferCaptainKey, getString(R.string.transfer_captain));
+        }
+
+        // 1,加载了游戏
+        // 2,游戏未开始
+        // 3,自己是队长（当前app业务如此设计，你可以自由定义权限控制或没有权限控制）
+        // 4,并且该用户加入了游戏，可以将他踢出游戏
+        int kickGameKey = 2;
+        if (playingGameId > 0
+                && gameViewModel.getGameState() != SudMGPMGState.MGCommonGameState.PLAYING
+                && gameViewModel.getGameState() != SudMGPMGState.MGCommonGameState.LOADING
+                && gameViewModel.isCaptain(selfUserId)
+                && gameViewModel.playerIsIn(userId)) {
+            options.put(kickGameKey, getString(R.string.kick_game));
+        }
+
+        if (options.size() > 0) {
+            for (Map.Entry<Integer, String> next : options.entrySet()) {
+                dialog.addOption(next.getKey(), next.getValue()); // 增加下麦按钮
+            }
+        } else {
+            return;
+        }
+
+        dialog.setOnItemClickListener(new BottomOptionDialog.OnItemClickListener() {
+            @Override
+            public void onItemClick(BottomOptionDialog.BottomOptionModel model) {
+                dialog.dismiss();
+                if (model.key == transferCaptainKey) {
+                    gameViewModel.notifyAPPCommonSelfCaptain(userId + "");
+                } else if (model.key == kickGameKey) {
+                    gameViewModel.notifyAPPCommonSelfKick(userId + "");
                 }
             }
         });

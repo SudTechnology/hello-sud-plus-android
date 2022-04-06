@@ -18,9 +18,6 @@
         android:id="@+id/tv_notice"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:textSize="14sp"
-        android:textColor="#ffe77d"
-        android:gravity="center"
         android:background="@drawable/ic_notice_bg"
         android:layout_marginHorizontal="38dp"
         android:layout_marginTop="10dp" />

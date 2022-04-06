@@ -18,8 +18,8 @@ public class RequestHeaderInterceptor implements Interceptor {
         String token = HSUserInfo.token;
         if (token != null) {
             builder.addHeader("Authorization", token);
-            builder.addHeader("Sud-Meta", SudMetaModel.buildString());
         }
+        builder.addHeader("Sud-Meta", SudMetaModel.buildString());
         return chain.proceed(builder.build());
     }
 }

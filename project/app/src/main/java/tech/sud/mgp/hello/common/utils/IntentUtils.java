@@ -11,13 +11,20 @@ public class IntentUtils {
      *
      * @param context
      * @param url
+     * @return true表示打开成功 false表示打开失败
      */
-    public static void openUrl(Context context, String url) {
-        if (url == null || url.length() == 0) return;
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse(url));
-        context.startActivity(intent);
+    public static boolean openUrl(Context context, String url) {
+        if (url == null || url.length() == 0) return false;
+        try {
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(url));
+            context.startActivity(intent);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
 }

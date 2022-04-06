@@ -254,7 +254,7 @@
     <string name="join_game_confirm">参与游戏需消耗%1$d金币，是否继续</string>
     <string name="no_longer_remind">不再提醒</string>
     <string name="confirm_join">确认加入</string>
-    <string name="app_version_low">你的app版本较低，请先升级版本</string>
+    <string name="app_version_low">您的App版本较低，请先升级版本</string>
     <string name="app_version_update_tip">已有新版本的体验，是否更新？</string>
     <string name="app_version_update_btn1">下次再说</string>
     <string name="app_version_update_btn2">立即更新</string>

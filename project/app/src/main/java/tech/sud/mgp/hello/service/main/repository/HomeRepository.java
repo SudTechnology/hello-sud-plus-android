@@ -15,6 +15,7 @@ import tech.sud.mgp.hello.service.main.req.MatchBodyReq;
 import tech.sud.mgp.hello.service.main.req.TicketConfirmJoinReq;
 import tech.sud.mgp.hello.service.main.req.UserInfoReq;
 import tech.sud.mgp.hello.service.main.resp.BaseConfigResp;
+import tech.sud.mgp.hello.service.main.resp.CheckUpgradeResp;
 import tech.sud.mgp.hello.service.main.resp.CreatRoomResp;
 import tech.sud.mgp.hello.service.main.resp.GameListResp;
 import tech.sud.mgp.hello.service.main.resp.GetAccountResp;
@@ -110,7 +111,6 @@ public class HomeRepository {
                 .subscribe(callback);
     }
 
-
     /**
      * 确认加入门票场景游戏
      */
@@ -123,6 +123,16 @@ public class HomeRepository {
         req.gameLevel = gameLevel;
         HomeRequestMethodFactory.getMethod()
                 .ticketConfirmJoin(BaseUrlManager.getInteractBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /**
+     * 检查更新
+     */
+    public static void checkUpgrade(LifecycleOwner owner, RxCallback<CheckUpgradeResp> callback) {
+        HomeRequestMethodFactory.getMethod()
+                .checkUpgrade(BaseUrlManager.getBaseUrl())
                 .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }

@@ -4,19 +4,12 @@ import android.content.Intent;
 
 import androidx.lifecycle.Observer;
 
-import com.blankj.utilcode.util.ToastUtils;
-
 import me.jessyan.autosize.internal.CancelAdapt;
 import tech.sud.mgp.hello.common.base.BaseActivity;
-import tech.sud.mgp.hello.common.http.param.BaseResponse;
-import tech.sud.mgp.hello.common.http.param.RetCode;
-import tech.sud.mgp.hello.common.http.rx.RxCallback;
-import tech.sud.mgp.hello.common.utils.AppSharedPreferences;
-import tech.sud.mgp.hello.common.utils.ResponseUtils;
-import tech.sud.mgp.hello.service.login.repository.LoginRepository;
-import tech.sud.mgp.hello.service.login.resp.RefreshTokenResponse;
-import tech.sud.mgp.hello.ui.common.viewmodel.ConfigViewModel;
+import tech.sud.mgp.hello.common.base.BaseDialogFragment;
+import tech.sud.mgp.hello.service.main.resp.CheckUpgradeResp;
 import tech.sud.mgp.hello.ui.login.LoginActivity;
+import tech.sud.mgp.hello.ui.login.dialog.VersionUpgradeDialog;
 import tech.sud.mgp.hello.ui.main.activity.MainActivity;
 
 /**
@@ -25,7 +18,7 @@ import tech.sud.mgp.hello.ui.main.activity.MainActivity;
  */
 public class SplashActivity extends BaseActivity implements CancelAdapt {
 
-    private final ConfigViewModel configViewModel = new ConfigViewModel();
+    private final SplashViewModel viewModel = new SplashViewModel();
 
     @Override
     protected void setStatusBar() {
@@ -39,52 +32,51 @@ public class SplashActivity extends BaseActivity implements CancelAdapt {
     @Override
     protected void initData() {
         super.initData();
-        jumpPage();
+        viewModel.init(this);
     }
 
     @Override
     protected void setListeners() {
         super.setListeners();
-        configViewModel.initConfigSuccessLiveData.observe(this, new Observer<Object>() {
+        viewModel.startLoginPageLiveData.observe(this, new Observer<Object>() {
+            @Override
+            public void onChanged(Object o) {
+                startLogin();
+            }
+        });
+        viewModel.startMainPageLiveData.observe(this, new Observer<Object>() {
             @Override
             public void onChanged(Object o) {
                 loginSuccess();
             }
         });
+        viewModel.showUpgradeLiveData.observe(this, new Observer<CheckUpgradeResp>() {
+            @Override
+            public void onChanged(CheckUpgradeResp checkUpgradeResp) {
+                showUpgrade(checkUpgradeResp);
+            }
+        });
     }
 
-    private void jumpPage() {
-        long userId = AppSharedPreferences.getSP().getLong(AppSharedPreferences.USER_ID_KEY, -1L);
-        if (userId == -1L) {
-            startActivity(new Intent(this, LoginActivity.class));
-            finish();
-        } else {
-            String refreshToken = AppSharedPreferences.getSP().getString(AppSharedPreferences.USER_REFRESHTOKEN_KEY);
-            LoginRepository.refreshToken(refreshToken, this, new RxCallback<RefreshTokenResponse>() {
-                @Override
-                public void onError(Throwable e) {
-                    super.onError(e);
-                    loginSuccess();
-                }
+    // 展示升级信息
+    private void showUpgrade(CheckUpgradeResp resp) {
+        VersionUpgradeDialog dialog = VersionUpgradeDialog.getInstance(resp);
+        dialog.show(getSupportFragmentManager(), null);
+        dialog.setOnDestroyListener(new BaseDialogFragment.OnDestroyListener() {
+            @Override
+            public void onDestroy() {
+                viewModel.upgradeCompleted(SplashActivity.this);
+            }
+        });
+    }
 
-                @Override
-                public void onNext(BaseResponse<RefreshTokenResponse> t) {
-                    super.onNext(t);
-                    if (t.getRetCode() == RetCode.SUCCESS) {
-                        LoginRepository.saveRefreshToken(t.getData());
-                        LoginRepository.createUserInfo(t.getData());
-                    } else {
-                        ToastUtils.showShort(ResponseUtils.conver(t));
-                    }
-                    configViewModel.getBaseConfig(SplashActivity.this);
-                }
-            });
-        }
+    private void startLogin() {
+        startActivity(new Intent(this, LoginActivity.class));
+        finish();
     }
 
     private void loginSuccess() {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+        startActivity(new Intent(this, MainActivity.class));
         finish();
     }
 }

@@ -12,6 +12,7 @@ import tech.sud.mgp.hello.service.main.req.MatchBodyReq;
 import tech.sud.mgp.hello.service.main.req.TicketConfirmJoinReq;
 import tech.sud.mgp.hello.service.main.req.UserInfoReq;
 import tech.sud.mgp.hello.service.main.resp.BaseConfigResp;
+import tech.sud.mgp.hello.service.main.resp.CheckUpgradeResp;
 import tech.sud.mgp.hello.service.main.resp.CreatRoomResp;
 import tech.sud.mgp.hello.service.main.resp.GameListResp;
 import tech.sud.mgp.hello.service.main.resp.GetAccountResp;
@@ -72,4 +73,10 @@ public interface HomeRequestMethod {
      */
     @POST(RequestUrl.TICKET_CONFIRM_JOIN)
     Observable<BaseResponse<TicketConfirmJoinResp>> ticketConfirmJoin(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body TicketConfirmJoinReq body);
+
+    /**
+     * 检查更新
+     */
+    @POST(RequestUrl.CHECK_UPGRADE)
+    Observable<BaseResponse<CheckUpgradeResp>> checkUpgrade(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl);
 }

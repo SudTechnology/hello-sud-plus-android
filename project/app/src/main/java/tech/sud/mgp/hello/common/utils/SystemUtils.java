@@ -139,4 +139,12 @@ public class SystemUtils {
         return AppUtils.getAppVersionName() + "." + AppUtils.getAppVersionCode();
     }
 
+    public static String getVersionName() {
+        return AppUtils.getAppVersionName();
+    }
+
+    public static int getVersionCode() {
+        return AppUtils.getAppVersionCode();
+    }
+
 }

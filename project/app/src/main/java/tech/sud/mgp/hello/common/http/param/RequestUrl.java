@@ -86,4 +86,9 @@ public interface RequestUrl {
      */
     String TICKET_CONFIRM_JOIN = "game/ticket/confirm-join/v1";
 
+    /**
+     * 检查更新
+     */
+    String CHECK_UPGRADE = "check-upgrade/v1";
+
 }

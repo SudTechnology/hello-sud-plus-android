@@ -217,5 +217,28 @@
     <string name="finish_game_confirm">هل أنت تريد إنهاء اللعبة؟</string>
     <string name="playing_down_mic">حاليا في اللعبة ، سواء أن تهرب؟</string>
     <string name="game_number">عدد اللاعبين</string>
+    <string name="rtc_name_zego">Zego</string>
+    <string name="rtc_name_agora">Agora</string>
+    <string name="rtc_name_rong_cloud">RongCloud</string>
+    <string name="rtc_name_comms_ease">CommsEase</string>
+    <string name="rtc_name_voic_engine">VoiceEngine</string>
+    <string name="rtc_name_alibaba_cloud">Alibaba Cloud</string>
+    <string name="rtc_name_tencent_cloud">Tencent Cloud</string>
+    <string name="asr_guide">تدعم هذه اللعبة التعرف على الصوت، يرجى فتح الميكروفون لإظهار سحرك ~</string>
+    <string name="asr_guide_number_boom">حاول تشغيل الميكروفون للإبلاغ عن الرقم، الرفاهية الكسولة!</string>
+    <string name="primary_field">مستوى أساسي</string>
+    <string name="middle_field">مستوى متوسط</string>
+    <string name="high_field">مستوى متقدم</string>
+    <string name="win_multiple_award">اكسب %1$d ضعفًا من المكافآت</string>
+    <string name="count_people_play">%1$s من الأشخاص يلعبون</string>
+    <string name="now_participation">شارك الآن</string>
+    <string name="join_game_confirm">الاشتراك في اللعبة سيتطلب عملتين ذهبيتين هل تريد الاستمرار؟%1$d</string>
+    <string name="no_longer_remind">لا مزيد من التذكيرات</string>
+    <string name="confirm_join">تأكيد للانضمام</string>
+    <string name="asr_guide_draw">افتح الميكروفون للرد، وهو أسرع من الكتابة!</string>
+    <string name="app_version_low">إصدار التطبيق الخاص بك منخفض، يرجى ترقية الإصدار أولاً</string>
+    <string name="app_version_update_tip">هناك إصدار جديد متاح، هل تريد تحديثه؟</string>
+    <string name="app_version_update_btn1">المرة القادمة</string>
+    <string name="app_version_update_btn2">التحديث على الفو</string>
 
 </resources>

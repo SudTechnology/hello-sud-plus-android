@@ -219,5 +219,28 @@
     <string name="finish_game_confirm">确定结束游戏吗</string>
     <string name="playing_down_mic">当前正在游戏中，是否逃跑？</string>
     <string name="game_number">游戏人数</string>
+    <string name="rtc_name_zego">即构</string>
+    <string name="rtc_name_agora">声网</string>
+    <string name="rtc_name_rong_cloud">融云</string>
+    <string name="rtc_name_comms_ease">网易云信</string>
+    <string name="rtc_name_voic_engine">火山引擎</string>
+    <string name="rtc_name_alibaba_cloud">阿里云</string>
+    <string name="rtc_name_tencent_cloud">腾讯云</string>
+    <string name="asr_guide">本游戏支持语音识别，请开麦展现你的魅力～</string>
+    <string name="asr_guide_number_boom">试试打开麦克风报数，懒人福利！</string>
+    <string name="primary_field">初级场</string>
+    <string name="middle_field">中级场</string>
+    <string name="high_field">高级场</string>
+    <string name="win_multiple_award">赢%1$d倍奖励</string>
+    <string name="count_people_play">%1$d人在玩</string>
+    <string name="now_participation">立即参与</string>
+    <string name="join_game_confirm">参与游戏需消耗%1$d金币，是否继续</string>
+    <string name="no_longer_remind">不再提醒</string>
+    <string name="confirm_join">确认加入</string>
+    <string name="asr_guide_draw">开麦抢答，比打字更快哦！</string>
+    <string name="app_version_low">您的App版本较低，请先升级版本</string>
+    <string name="app_version_update_tip">已有新版本的体验，是否更新？</string>
+    <string name="app_version_update_btn1">下次再说</string>
+    <string name="app_version_update_btn2">立即更新</string>
 
 </resources>

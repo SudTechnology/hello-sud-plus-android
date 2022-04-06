@@ -218,5 +218,28 @@ Buat ruangan di Beranda</string>
     <string name="finish_game_confirm">Yakin ingin mengakhiri permainan</string>
     <string name="playing_down_mic">Sedang bermain, yakin ingin kabur?</string>
     <string name="game_number">Jumlah pemain</string>
+    <string name="rtc_name_zego">Zego</string>
+    <string name="rtc_name_agora">Agora</string>
+    <string name="rtc_name_rong_cloud">RongCloud</string>
+    <string name="rtc_name_comms_ease">CommsEase</string>
+    <string name="rtc_name_voic_engine">VoiceEngine</string>
+    <string name="rtc_name_alibaba_cloud">Alibaba Cloud</string>
+    <string name="rtc_name_tencent_cloud">Tencent Cloud</string>
+    <string name="asr_guide">Pengenalan suara termasuk dalam permainan ini, aktifkan mikrofon, tunjukkan pesonamu</string>
+    <string name="asr_guide_number_boom">Coba aktifkan mikrofon untuk menyebutkan angka, ini bonus buat pemalas!</string>
+    <string name="primary_field">Babak awal</string>
+    <string name="middle_field">Babak menengah</string>
+    <string name="high_field">Babak lanjutan</string>
+    <string name="win_multiple_award">Menangkan hadiah %1$dx</string>
+    <string name="count_people_play">%1$s orang sedang bermain</string>
+    <string name="now_participation">Ikut sekarang</string>
+    <string name="join_game_confirm">Perlu %1$d koin emas untuk ikut bermain, lanjut?</string>
+    <string name="no_longer_remind">Jangan ingatkan lagi</string>
+    <string name="confirm_join">Konfirmasi ikut serta</string>
+    <string name="asr_guide_draw">Aktifkan mikrofon untuk menjawab kuis, lebih cepat daripada pakai cara ketik lho!</string>
+    <string name="app_version_low">Versi App Anda agak rendah, silakan perbarui</string>
+    <string name="app_version_update_tip">Sudah ada versi baru yang bisa dicoba, apakah perbarui?</string>
+    <string name="app_version_update_btn1">Lain kali</string>
+    <string name="app_version_update_btn2">Segera perbaru</string>
 
 </resources>

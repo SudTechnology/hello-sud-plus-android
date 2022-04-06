@@ -226,5 +226,19 @@
     <string name="rtc_name_tencent_cloud">Tencent Cloud</string>
     <string name="asr_guide">本遊戲支持語音識別，請開麥展現你的魅力~</string>
     <string name="asr_guide_number_boom">試試打開麥克風報數，懶人福利！</string>
+    <string name="primary_field">初級場</string>
+    <string name="middle_field">中級場</string>
+    <string name="high_field">高級場</string>
+    <string name="win_multiple_award">贏%1$d倍獎勵</string>
+    <string name="count_people_play">%1$s人在玩</string>
+    <string name="now_participation">立即參與</string>
+    <string name="join_game_confirm">參與遊戲需消耗%1$d金幣，是否繼續？</string>
+    <string name="no_longer_remind">不再提醒</string>
+    <string name="confirm_join">確認加入</string>
+    <string name="asr_guide_draw">開麥搶答，比打字更快哦！</string>
+    <string name="app_version_low">您的App版本較低，請先升級版本</string>
+    <string name="app_version_update_tip">已有新版本可體驗，是否更新？</string>
+    <string name="app_version_update_btn1">下次再說</string>
+    <string name="app_version_update_btn2">立即更</string>
 
 </resources>

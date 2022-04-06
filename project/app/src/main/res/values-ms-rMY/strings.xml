@@ -212,11 +212,33 @@ Kunjungi laman utama untuk mencipta satu~</string>
     <string name="github">GitHub</string>
     <string name="open_source_licenses">Perjanjian sumber terbuka</string>
     <string name="change_rtc_confirm">Adakah anda pasti mahu menukar pembekal perkhidmatan RTC kepada [%1$s]?</string>
-
     <string name="be_making">Kami sedang mengusahakannya, jadi nantikan!</string>
     <string name="total_value">Jumlah %1$s</string>
     <string name="finish_game_confirm">Adakah anda pasti untuk menamatkan permainan?</string>
     <string name="playing_down_mic">Anda sedang dalam permainan, adakah anda mahu melarikan diri?</string>
     <string name="game_number">Bilangan pemain</string>
+    <string name="rtc_name_zego">Zego</string>
+    <string name="rtc_name_agora">Agora</string>
+    <string name="rtc_name_rong_cloud">RongCloud</string>
+    <string name="rtc_name_comms_ease">CommsEase</string>
+    <string name="rtc_name_voic_engine">VoiceEngine</string>
+    <string name="rtc_name_alibaba_cloud">Alibaba Cloud</string>
+    <string name="rtc_name_tencent_cloud">Tencent Cloud</string>
+    <string name="asr_guide">Permainan ini menyokong pengecaman suara, sila buka mikrofon untuk menunjukkan daya tarikan anda~</string>
+    <string name="asr_guide_number_boom">Cuba hidupkan mikrofon untuk melaporkan nombor. Inilah satu kebajikan untuk pemalas!</string>
+    <string name="primary_field">Medan pertama</string>
+    <string name="middle_field">Medan pertengahan</string>
+    <string name="high_field">Medan lanjutan</string>
+    <string name="win_multiple_award">Menangi %1$dx Ganjaran</string>
+    <string name="count_people_play">%1$s orang sedang bermain</string>
+    <string name="now_participation">Sertai sekarang</string>
+    <string name="join_game_confirm">Menyertai permainan memerlukan %1$d syiling emas. Adakah anda mahu teruskan?</string>
+    <string name="no_longer_remind">Tiada lagi peringatan</string>
+    <string name="confirm_join">Sahkan untuk menyertai</string>
+    <string name="asr_guide_draw">Buka mikrofon untuk menjawab, lebih pantas daripada menaip!</string>
+    <string name="app_version_low">Versi aplikasi anda lebih rendah, sila tingkatkan versi dahulu</string>
+    <string name="app_version_update_tip">Terdapat versi baharu yang tersedia, adakah anda ingin mengemas kininya?</string>
+    <string name="app_version_update_btn1">Lain kali</string>
+    <string name="app_version_update_btn2">Kemas kini dengan seger</string>
 
 </resources>

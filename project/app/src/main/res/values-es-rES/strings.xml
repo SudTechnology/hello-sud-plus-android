@@ -217,5 +217,28 @@ Vaya a la página de inicio para crear una!</string>
     <string name="finish_game_confirm">¿Desea terminar el juego?</string>
     <string name="playing_down_mic">Aún está jugando, ¿desea huir?</string>
     <string name="game_number">Número de jugadores</string>
+    <string name="rtc_name_zego">Zego</string>
+    <string name="rtc_name_agora">Agora</string>
+    <string name="rtc_name_rong_cloud">RongCloud</string>
+    <string name="rtc_name_comms_ease">CommsEase</string>
+    <string name="rtc_name_voic_engine">VoiceEngine</string>
+    <string name="rtc_name_alibaba_cloud">Alibaba Cloud</string>
+    <string name="rtc_name_tencent_cloud">Tencent Cloud</string>
+    <string name="asr_guide">Este juego admite el reconocimiento de voz. ¡Abre el micrófono y demuestra tu encanto!</string>
+    <string name="asr_guide_number_boom">¡Abre el micrófono para contear! !Esto le ayudará a obtener bienestares!</string>
+    <string name="primary_field">Nivel iniciado</string>
+    <string name="middle_field">Nivel intermedio</string>
+    <string name="high_field">Nivel avanzado</string>
+    <string name="win_multiple_award">Ganar recompensas x %1$d veces</string>
+    <string name="count_people_play">Están jugando %1$s personas</string>
+    <string name="now_participation">Participar ahora</string>
+    <string name="join_game_confirm">El juego requiere %1$d monedas de oro, ¿quieres continuar?</string>
+    <string name="no_longer_remind">No volver a recordar</string>
+    <string name="confirm_join">Confirmar para unirse</string>
+    <string name="asr_guide_draw">¡Abre el micrófono para responder! ¡Será más rápido que escribir!</string>
+    <string name="app_version_low">La versión de su App es inferior. Actualice a la última la versión antes de empenzar.</string>
+    <string name="app_version_update_tip">Hay una nueva versión disponible, ¿quieres actualizarla?</string>
+    <string name="app_version_update_btn1">Más tarde</string>
+    <string name="app_version_update_btn2">Actualizar ahor</string>
 
 </resources>

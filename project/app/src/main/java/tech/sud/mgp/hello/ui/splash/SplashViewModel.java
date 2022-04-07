@@ -13,7 +13,7 @@ import tech.sud.mgp.hello.common.base.BaseViewModel;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
-import tech.sud.mgp.hello.common.utils.AppSharedPreferences;
+import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.ResponseUtils;
 import tech.sud.mgp.hello.service.login.repository.LoginRepository;
 import tech.sud.mgp.hello.service.login.resp.RefreshTokenResponse;
@@ -72,15 +72,14 @@ public class SplashViewModel extends BaseViewModel {
         executor.execute(new Runnable() {
             @Override
             public void run() {
-                long userId = AppSharedPreferences.getSP().getLong(AppSharedPreferences.USER_ID_KEY, -1L);
-                if (userId == -1L) {
+                LoginRepository.createUserInfo();
+                if (HSUserInfo.userId == -1) {
                     startLoginPageLiveData.postValue(null);
                 } else {
-                    String refreshToken = AppSharedPreferences.getSP().getString(AppSharedPreferences.USER_REFRESHTOKEN_KEY);
                     ThreadUtils.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            LoginRepository.refreshToken(refreshToken, owner, new RxCallback<RefreshTokenResponse>() {
+                            LoginRepository.refreshToken(HSUserInfo.refreshToken, owner, new RxCallback<RefreshTokenResponse>() {
                                 @Override
                                 public void onError(Throwable e) {
                                     super.onError(e);
@@ -92,11 +91,11 @@ public class SplashViewModel extends BaseViewModel {
                                     super.onNext(t);
                                     if (t.getRetCode() == RetCode.SUCCESS) {
                                         LoginRepository.saveRefreshToken(t.getData());
-                                        LoginRepository.createUserInfo(t.getData());
+                                        configViewModel.getBaseConfig(owner);
                                     } else {
                                         ToastUtils.showShort(ResponseUtils.conver(t));
+                                        startLoginPageLiveData.postValue(null);
                                     }
-                                    configViewModel.getBaseConfig(owner);
                                 }
                             });
                         }

@@ -18,6 +18,9 @@ import tech.sud.mgp.hello.service.login.resp.RefreshTokenResponse;
 
 public class LoginRepository {
 
+    /**
+     * 发送登录请求
+     */
     public static void login(Long userId, String name, LifecycleOwner owner, RxCallback<LoginResponse> callback) {
         LoginRequestBody loginRequestBody = new LoginRequestBody();
         loginRequestBody.deviceId = DeviceUtils.getUniqueDeviceId();
@@ -31,6 +34,11 @@ public class LoginRepository {
                 .subscribe(callback);
     }
 
+    /**
+     * 发送刷新token的请求
+     *
+     * @param refreshToken 刷新的token
+     */
     public static void refreshToken(String refreshToken, LifecycleOwner owner, RxCallback<RefreshTokenResponse> callback) {
         RefreshTokenRequestBody refreshTokenRequestBody = new RefreshTokenRequestBody();
         refreshTokenRequestBody.refreshToken = refreshToken;
@@ -57,28 +65,19 @@ public class LoginRepository {
     public static void saveRefreshToken(RefreshTokenResponse response) {
         AppSharedPreferences.getSP().put(AppSharedPreferences.USER_TOKEN_KEY, response.token);
         AppSharedPreferences.getSP().put(AppSharedPreferences.USER_REFRESHTOKEN_KEY, response.refreshToken);
+        HSUserInfo.token = response.token;
+        HSUserInfo.refreshToken = response.refreshToken;
     }
 
     /**
      * 读取本地登陆数据到HSUserInfo
      */
     public static void createUserInfo() {
-        HSUserInfo.userId = AppSharedPreferences.getSP().getLong(AppSharedPreferences.USER_ID_KEY);
+        HSUserInfo.userId = AppSharedPreferences.getSP().getLong(AppSharedPreferences.USER_ID_KEY, -1L);
         HSUserInfo.avatar = AppSharedPreferences.getSP().getString(AppSharedPreferences.USER_HEAD_PORTRAIT_KEY);
         HSUserInfo.nickName = AppSharedPreferences.getSP().getString(AppSharedPreferences.USER_NAME_KEY);
         HSUserInfo.token = AppSharedPreferences.getSP().getString(AppSharedPreferences.USER_TOKEN_KEY);
         HSUserInfo.refreshToken = AppSharedPreferences.getSP().getString(AppSharedPreferences.USER_REFRESHTOKEN_KEY);
-    }
-
-    /**
-     * 刷新token
-     */
-    public static void createUserInfo(RefreshTokenResponse response) {
-        HSUserInfo.userId = AppSharedPreferences.getSP().getLong(AppSharedPreferences.USER_ID_KEY);
-        HSUserInfo.avatar = AppSharedPreferences.getSP().getString(AppSharedPreferences.USER_HEAD_PORTRAIT_KEY);
-        HSUserInfo.nickName = AppSharedPreferences.getSP().getString(AppSharedPreferences.USER_NAME_KEY);
-        HSUserInfo.token = response.token;
-        HSUserInfo.refreshToken = response.refreshToken;
     }
 
 }

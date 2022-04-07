@@ -99,7 +99,7 @@ public class AppSizeView extends LinearLayout {
         tvName.setTextColor(Color.parseColor("#1a1a1a"));
         tvName.setText(model.name);
         LayoutParams nameParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-        nameParams.leftMargin = DensityUtils.dp2px(getContext(), 4);
+        nameParams.setMarginStart(DensityUtils.dp2px(getContext(), 4));
         container.addView(tvName, nameParams);
         // 大小
         TextView tvSize = new TextView(getContext());

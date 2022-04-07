@@ -14,7 +14,7 @@ import tech.sud.mgp.hello.ui.main.activity.MainActivity;
 
 /**
  * 闪屏页
- * 实现{@link CancelAdapt}是标识此页面不进行屏幕适配，因为有做闪屏页的处理
+ * 实现{@link CancelAdapt}是标识此页面不进行屏幕适配，因为有做闪屏页启动优化的处理
  */
 public class SplashActivity extends BaseActivity implements CancelAdapt {
 
@@ -41,13 +41,13 @@ public class SplashActivity extends BaseActivity implements CancelAdapt {
         viewModel.startLoginPageLiveData.observe(this, new Observer<Object>() {
             @Override
             public void onChanged(Object o) {
-                startLogin();
+                startLoginPage();
             }
         });
         viewModel.startMainPageLiveData.observe(this, new Observer<Object>() {
             @Override
             public void onChanged(Object o) {
-                loginSuccess();
+                startMainPage();
             }
         });
         viewModel.showUpgradeLiveData.observe(this, new Observer<CheckUpgradeResp>() {
@@ -70,13 +70,16 @@ public class SplashActivity extends BaseActivity implements CancelAdapt {
         });
     }
 
-    private void startLogin() {
+    // 去登录页
+    private void startLoginPage() {
         startActivity(new Intent(this, LoginActivity.class));
         finish();
     }
 
-    private void loginSuccess() {
+    // 去主页
+    private void startMainPage() {
         startActivity(new Intent(this, MainActivity.class));
         finish();
     }
+
 }

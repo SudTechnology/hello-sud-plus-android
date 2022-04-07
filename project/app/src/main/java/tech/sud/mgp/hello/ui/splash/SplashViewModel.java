@@ -32,11 +32,13 @@ public class SplashViewModel extends BaseViewModel {
     public final MutableLiveData<CheckUpgradeResp> showUpgradeLiveData = new MutableLiveData<>(); // 展示升级信息
     private final Executor executor = ThreadUtils.getCachedPool();
 
+    // 初始化
     public void init(RxAppCompatActivity owner) {
         configViewModel.initConfigSuccessLiveData.observeForever(configObserver);
         checkUpgrade(owner);
     }
 
+    // 1.检查应用升级
     private void checkUpgrade(RxAppCompatActivity owner) {
         HomeRepository.checkUpgrade(owner, new RxCallback<CheckUpgradeResp>() {
             @Override
@@ -67,7 +69,7 @@ public class SplashViewModel extends BaseViewModel {
         checkLogin(owner);
     }
 
-    // 检查登录
+    // 2.检查是否已登录并处理
     private void checkLogin(RxAppCompatActivity owner) {
         executor.execute(new Runnable() {
             @Override

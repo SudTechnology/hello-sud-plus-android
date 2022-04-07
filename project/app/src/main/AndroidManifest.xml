@@ -173,6 +173,10 @@
             android:name="design_width_in_dp"
             android:value="375" />
 
+        <meta-data
+            android:name="com.netease.nim.appKey"
+            android:value="110f7db7c00ee497bd7b32954c36464c" />
+
         <!-- 云信后台服务，请使用独立进程。 -->
         <service
             android:name="com.netease.nimlib.service.NimService"

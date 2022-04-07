@@ -35,7 +35,6 @@ public class HelloSudApplication extends Application {
         SDKOptions options = new SDKOptions();
         options.reducedIM = true;
         options.disableAwake = true;
-        options.appKey = "110f7db7c00ee497bd7b32954c36464c";
         NIMClient.config(getApplicationContext(), null, options);
     }
 

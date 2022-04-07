@@ -98,15 +98,15 @@ public class TicketLevelActivity extends BaseActivity implements View.OnClickLis
         // 初级
         tvWinAwardSmall.setText(getString(R.string.win_multiple_award, 10));
         addAvatars(flAvatarsSmall, avatarSize);
-        tvCountSmall.setText(getString(R.string.count_people_play, 87367));
+        tvCountSmall.setText(getString(R.string.count_people_play, "87367"));
         // 中级
         tvWinAwardMiddle.setText(getString(R.string.win_multiple_award, 50));
         addAvatars(flAvatarsMiddle, avatarSize);
-        tvCountMiddle.setText(getString(R.string.count_people_play, 85787));
+        tvCountMiddle.setText(getString(R.string.count_people_play, "85787"));
         // 高级
         tvWinAwardHigh.setText(getString(R.string.win_multiple_award, 90));
         addAvatars(flAvatarsHigh, avatarSize);
-        tvCountHigh.setText(getString(R.string.count_people_play, 98759));
+        tvCountHigh.setText(getString(R.string.count_people_play, "98759"));
     }
 
     private void addAvatars(FrameLayout container, int avatarSize) {

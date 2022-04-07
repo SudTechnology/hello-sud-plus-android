@@ -11,6 +11,8 @@ import android.view.Gravity;
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.SDKOptions;
 import com.tencent.bugly.crashreport.CrashReport;
 
 import tech.sud.mgp.hello.BuildConfig;
@@ -29,6 +31,12 @@ public class HelloSudApplication extends Application {
         configLog();
         configToast();
         registerActivityLifecycleCallbacks(MyActivityManager.getInstance());
+
+        SDKOptions options = new SDKOptions();
+        options.reducedIM = true;
+        options.disableAwake = true;
+        options.appKey = "110f7db7c00ee497bd7b32954c36464c";
+        NIMClient.config(getApplicationContext(), null, options);
     }
 
     // Bugly config

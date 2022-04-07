@@ -7,10 +7,14 @@ import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.rtc.audio.core.ISudAudioEngine;
 import tech.sud.mgp.hello.rtc.audio.factory.AudioEngineFactory;
 import tech.sud.mgp.hello.rtc.audio.impl.agora.AgoraAudioEngineImpl;
+import tech.sud.mgp.hello.rtc.audio.impl.netease.NeteaseAudioEngineImpl;
+import tech.sud.mgp.hello.rtc.audio.impl.rcloud.RCloudAudioEngineImpl;
 import tech.sud.mgp.hello.rtc.audio.impl.zego.ZegoAudioEngineImpl;
 import tech.sud.mgp.hello.rtc.audio.model.AudioConfigModel;
 import tech.sud.mgp.hello.service.main.config.AgoraConfig;
 import tech.sud.mgp.hello.service.main.config.BaseRtcConfig;
+import tech.sud.mgp.hello.service.main.config.CommsEaseConfig;
+import tech.sud.mgp.hello.service.main.config.RongCloudConfig;
 import tech.sud.mgp.hello.service.main.config.ZegoConfig;
 
 /**
@@ -24,7 +28,7 @@ public class RTCManager {
      * @param config   配置
      * @param rtiToken im token
      */
-    private static void applyRtcEngine(BaseRtcConfig config, String rtiToken) {
+    private static void applyRtcEngine(BaseRtcConfig config, String rtiToken, String rtcToken, Runnable runnable) {
         if (config instanceof ZegoConfig) {
             AudioEngineFactory.create(ZegoAudioEngineImpl.class);
             ZegoConfig zegoConfig = (ZegoConfig) config;
@@ -38,10 +42,25 @@ public class RTCManager {
             AgoraConfig agoraConfig = (AgoraConfig) config;
             AudioConfigModel audioConfigModel = new AudioConfigModel();
             audioConfigModel.appId = agoraConfig.appId;
-            audioConfigModel.appKey = agoraConfig.appKey;
             audioConfigModel.token = rtiToken;
             audioConfigModel.userID = HSUserInfo.userId + "";
             AudioEngineFactory.getEngine().initWithConfig(Utils.getApp(), audioConfigModel);
+        } else if (config instanceof RongCloudConfig) {
+            AudioEngineFactory.create(RCloudAudioEngineImpl.class);
+            RongCloudConfig rongCloudConfig = (RongCloudConfig) config;
+            AudioConfigModel audioConfigModel = new AudioConfigModel();
+            audioConfigModel.appId = rongCloudConfig.appKey;
+            audioConfigModel.token = rtcToken;
+            audioConfigModel.userID = HSUserInfo.userId + "";
+            AudioEngineFactory.getEngine().initWithConfig(Utils.getApp(), audioConfigModel, runnable);
+        } else if (config instanceof CommsEaseConfig) {
+            AudioEngineFactory.create(NeteaseAudioEngineImpl.class);
+            CommsEaseConfig neteaseConfig = (CommsEaseConfig) config;
+            AudioConfigModel audioConfigModel = new AudioConfigModel();
+            audioConfigModel.appId = neteaseConfig.appKey;
+            audioConfigModel.token = rtiToken;
+            audioConfigModel.userID = HSUserInfo.userId + "";
+            AudioEngineFactory.getEngine().initWithConfig(Utils.getApp(), audioConfigModel, runnable);
         }
     }
 
@@ -50,12 +69,12 @@ public class RTCManager {
      *
      * @param rtiToken im token
      */
-    public static void applyRtcEngine(String rtiToken) {
+    public static void applyRtcEngine(String rtiToken, String rtcToken, Runnable runnable) {
         ISudAudioEngine engine = AudioEngineFactory.getEngine();
         if (engine != null) {
             return;
         }
-        applyRtcEngine(AppData.getInstance().getSelectRtcConfig(), rtiToken);
+        applyRtcEngine(AppData.getInstance().getSelectRtcConfig(), rtiToken, rtcToken, runnable);
     }
 
 }

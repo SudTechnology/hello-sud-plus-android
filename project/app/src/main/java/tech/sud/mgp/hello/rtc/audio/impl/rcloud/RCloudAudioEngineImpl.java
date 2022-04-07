@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
+import cn.rongcloud.rtc.api.RCRTCConfig;
 import cn.rongcloud.rtc.api.RCRTCEngine;
 import cn.rongcloud.rtc.api.RCRTCRoom;
 import cn.rongcloud.rtc.api.callback.IRCRTCAudioDataListener;
@@ -71,7 +72,7 @@ public class RCloudAudioEngineImpl implements ISudAudioEngine {
         // 设置自己的userId
         mUserID = model.userID;
         // 进行 AppKey 设置
-        RongCoreClient.init(context.getApplicationContext(), model.appKey);
+        RongCoreClient.init(context.getApplicationContext(), model.appId);
         // 连接 IM 服务
         RongCoreClient.connect(model.token, new IRongCoreCallback.ConnectCallback() {
             @Override
@@ -107,7 +108,7 @@ public class RCloudAudioEngineImpl implements ISudAudioEngine {
     }
 
     @Override
-    public void joinRoom(@NonNull AudioJoinRoomModel model) {
+    public void joinRoom(AudioJoinRoomModel model) {
         if (model == null)
             return;
 
@@ -115,7 +116,8 @@ public class RCloudAudioEngineImpl implements ISudAudioEngine {
         if (engine != null) {
             engine.setVoiceRoomEventListener(mRCVoiceRoomEventListener);
 
-            engine.joinRoom(null, model.roomID, new RCVoiceRoomCallback() {
+            RCRTCConfig rcrtcConfig = RCRTCConfig.Builder.create().setAudioSampleRate(16000).enableStereo(false).build();
+            engine.joinRoom(rcrtcConfig, model.roomID, new RCVoiceRoomCallback() {
                 @Override
                 public void onSuccess() {
                     ThreadUtils.runOnUiThread(new Runnable() {

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.rtc.audio.core.AudioEngineUpdateType;
 import tech.sud.mgp.hello.rtc.audio.core.AudioPCMData;
@@ -48,8 +49,24 @@ public class SceneEngineManager extends BaseServiceManager {
 
     public void enterRoom(RoomInfoModel model) {
         if (!isInitEngine) {
-            initEngine(model);
+            String rtcType = AppData.getInstance().getRtcType();
+            if (rtcType.equals("RongCloud") || rtcType.equals("CommsEase")) {
+                initEngine(model, new Runnable() {
+                    @Override
+                    public void run() {
+                        joinRoom(model);
+                    }
+                });
+                return;
+            } else {
+                initEngine(model, null);
+            }
         }
+
+        joinRoom(model);
+    }
+
+    private void joinRoom(RoomInfoModel model) {
         ISudAudioEngine engine = getEngine();
         if (engine == null) return;
 
@@ -61,15 +78,14 @@ public class SceneEngineManager extends BaseServiceManager {
         audioJoinRoomModel.roomName = model.roomName;
         audioJoinRoomModel.timestamp = System.currentTimeMillis();
         audioJoinRoomModel.token = model.rtcToken;
-
         engine.joinRoom(audioJoinRoomModel);
         engine.setEventListener(eventHandler);
         engine.setAudioRouteToSpeaker(true);
     }
 
-    private void initEngine(RoomInfoModel model) {
+    private void initEngine(RoomInfoModel model, Runnable runnable) {
         isInitEngine = true;
-        RTCManager.applyRtcEngine(model.rtiToken);
+        RTCManager.applyRtcEngine(model.rtiToken, model.rtcToken, runnable);
     }
 
     public void setCommandListener(SceneCommandManager.ICommandListener listener) {

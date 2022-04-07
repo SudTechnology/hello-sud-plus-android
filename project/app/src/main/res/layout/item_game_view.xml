@@ -6,11 +6,22 @@
     android:padding="5dp">
 
     <tech.sud.mgp.hello.common.widget.view.round.RoundedImageView
-        app:riv_corner_radius="8dp"
         android:id="@+id/game_icon"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:riv_corner_radius="8dp" />
+
+    <ImageView
+        android:id="@+id/default_icon"
+        android:layout_width="53dp"
+        android:visibility="gone"
+        android:scaleType="centerCrop"
+        android:layout_height="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,9 +31,9 @@
         android:id="@+id/game_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ellipsize="end"
         android:layout_marginStart="8dp"
         android:layout_marginTop="12dp"
+        android:ellipsize="end"
         android:includeFontPadding="false"
         android:singleLine="true"
         android:textColor="#ffffff"

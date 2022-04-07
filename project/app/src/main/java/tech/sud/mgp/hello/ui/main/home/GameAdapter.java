@@ -1,6 +1,7 @@
 package tech.sud.mgp.hello.ui.main.home;
 
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
@@ -24,10 +25,14 @@ public class GameAdapter extends BaseQuickAdapter<GameModel, BaseViewHolder> {
     protected void convert(BaseViewHolder helper, GameModel item) {
         helper.setText(R.id.game_name, item.getGameName());
         ImageView iconView = helper.getView(R.id.game_icon);
+        ImageView defaultIv = helper.getView(R.id.default_icon);
         if (!TextUtils.isEmpty(item.getGamePic())) {
+            defaultIv.setVisibility(View.GONE);
             ImageLoader.loadImage(iconView, item.getGamePic());
         } else {
-            iconView.setImageResource(R.drawable.icon_logo);
+            defaultIv.setVisibility(View.VISIBLE);
+            iconView.setImageResource(R.drawable.shape_game_item_bg);
+            defaultIv.setImageResource(R.drawable.icon_game_default);
         }
     }
 }

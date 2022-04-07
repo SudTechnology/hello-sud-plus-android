@@ -109,8 +109,7 @@ public class HomeRoomTypeView extends ConstraintLayout {
             creatRoomTv.setTextColor(Color.parseColor("#1a1a1a"));
         } else {
             //创建房间不可点击状态
-//            creatRoomTv.setTextColor(Color.parseColor("#331a1a1a"));
-            creatRoomTv.setTextColor(Color.parseColor("#1a1a1a"));
+            creatRoomTv.setTextColor(Color.parseColor("#331a1a1a"));
         }
     }
 

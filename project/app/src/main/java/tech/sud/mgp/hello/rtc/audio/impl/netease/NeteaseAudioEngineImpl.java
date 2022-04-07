@@ -109,6 +109,7 @@ public class NeteaseAudioEngineImpl implements ISudAudioEngine {
 
                 engine.setAudioProfile(NERtcConstants.AudioProfile.HIGH_QUALITY, NERtcConstants.AudioScenario.CHATROOM);
                 engine.setChannelProfile(COMMUNICATION);
+                engine.setSpeakerphoneOn(true);
             } catch (Exception e) {
                 e.printStackTrace();
             }

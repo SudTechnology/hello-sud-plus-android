@@ -210,8 +210,8 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
             }
 
             @Override
-            public void onComplete() {
-                super.onComplete();
+            public void onFinally() {
+                super.onFinally();
                 if (refreshLayout.isRefreshing()) {
                     refreshLayout.setRefreshing(false);
                 }

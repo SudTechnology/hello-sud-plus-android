@@ -132,7 +132,7 @@ public class RoomListFragment extends BaseFragment {
         roomRefreshLayout.setOnRefreshListener(this::loadList);
 
         headerIv.setOnClickListener(v -> {
-            CoinDialog dialog = new CoinDialog(getContext());
+            CoinDialog dialog = new CoinDialog(requireContext());
             dialog.show();
         });
     }
@@ -141,7 +141,7 @@ public class RoomListFragment extends BaseFragment {
         try {
             String roomIdString = searchEt.getText().toString().trim();
             if (!TextUtils.isEmpty(roomIdString)) {
-                Long roomId = Long.parseLong(roomIdString);
+                long roomId = Long.parseLong(roomIdString);
                 EnterRoomUtils.enterRoom(requireContext(), roomId);
             }
             KeyboardUtils.hideSoftInput(searchEt);
@@ -175,12 +175,13 @@ public class RoomListFragment extends BaseFragment {
             }
 
             @Override
-            public void onComplete() {
-                super.onComplete();
+            public void onFinally() {
+                super.onFinally();
                 if (roomRefreshLayout.isRefreshing()) {
                     roomRefreshLayout.setRefreshing(false);
                 }
             }
+
         });
     }
 

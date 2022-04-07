@@ -28,6 +28,7 @@ public class RxCallback<T> implements Observer<BaseResponse<T>> {
         if (t.getRetCode() == RetCode.SUCCESS) {
             onSuccess(t.getData());
         }
+        onFinally();
     }
 
     @Override
@@ -35,6 +36,7 @@ public class RxCallback<T> implements Observer<BaseResponse<T>> {
         LogUtils.d("onError", e);
         ThreadUtils.runOnUiThread(() -> {
             processError(e);
+            onFinally();
         });
     }
 
@@ -59,6 +61,10 @@ public class RxCallback<T> implements Observer<BaseResponse<T>> {
     }
 
     public void onSuccess(T t) {
+    }
+
+    // 正常返回或者执出异常时都会调用此方法，可用于执行网络请求完成的最终操作。
+    public void onFinally() {
     }
 
 }

@@ -21,10 +21,10 @@ public class LangAdapter extends BaseMultiItemQuickAdapter<LangModel, BaseViewHo
 
     @Override
     protected void convert(@NonNull BaseViewHolder baseViewHolder, LangModel langModel) {
-        if (langModel.getItemType() == TextType.TickPlain.getValue()){
+        if (langModel.getItemType() == TextType.TickPlain.getValue()) {
             baseViewHolder.setText(R.id.setting_item_tick_title, langModel.title);
             baseViewHolder.setVisible(R.id.setting_item_tick_logo, langModel.isSelected);
         }
-
     }
+    
 }

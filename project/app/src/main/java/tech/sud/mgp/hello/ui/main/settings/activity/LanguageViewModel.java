@@ -23,14 +23,14 @@ public class LanguageViewModel extends BaseViewModel {
         if (mLangCellType != null) {
             return mLangCellType;
         }
-        String cellType = AppSharedPreferences.getSP().getString(AppSharedPreferences.KEY_LANG_CELL_TYPE);
+        String cellType = AppSharedPreferences.getSP().getString(AppSharedPreferences.KEY_LANG_CELL_TYPE, LangCellType.Follow.name());
         try {
             mLangCellType = LangCellType.valueOf(cellType);
-            return mLangCellType;
         } catch (Exception e) {
-
+            e.printStackTrace();
+            mLangCellType = LangCellType.Follow;
         }
-        return LangCellType.Follow;
+        return mLangCellType;
     }
 
     /**
@@ -70,10 +70,10 @@ public class LanguageViewModel extends BaseViewModel {
 
     /**
      * 语言
-     * */
-    public Locale converLocale(LangCellType cellType){
+     */
+    public Locale converLocale(LangCellType cellType) {
         Locale locale = Locale.US;
-        switch (cellType){
+        switch (cellType) {
             case Follow:
                 locale = HSLanguageUtils.getSystemLanguage();
                 break;
@@ -86,25 +86,25 @@ public class LanguageViewModel extends BaseViewModel {
             case Eng:
                 break;
             case Arabic:
-                locale = new Locale("ar","AE");
+                locale = new Locale("ar", "AE");
                 break;
             case Indonesian:
-                locale = new Locale("in","ID");
+                locale = new Locale("in", "ID");
                 break;
             case Malaysia:
-                locale = new Locale("ms","MY");
+                locale = new Locale("ms", "MY");
                 break;
             case Thai:
-                locale = new Locale("th","TH");
+                locale = new Locale("th", "TH");
                 break;
             case Vietnamese:
-                locale = new Locale("vi","VN");
+                locale = new Locale("vi", "VN");
                 break;
             case Korean:
                 locale = Locale.KOREA;
                 break;
             case Spanish:
-                locale = new Locale("es","ES");
+                locale = new Locale("es", "ES");
                 break;
             case Japanese:
                 locale = Locale.JAPANESE;

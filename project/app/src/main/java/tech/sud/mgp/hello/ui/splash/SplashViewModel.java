@@ -1,5 +1,7 @@
 package tech.sud.mgp.hello.ui.splash;
 
+import android.text.TextUtils;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
@@ -81,7 +83,12 @@ public class SplashViewModel extends BaseViewModel {
                     ThreadUtils.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            LoginRepository.refreshToken(HSUserInfo.refreshToken, owner, new RxCallback<RefreshTokenResponse>() {
+                            String refreshToken = HSUserInfo.refreshToken;
+                            if (TextUtils.isEmpty(refreshToken)) { // 没有refreshToken时，直接跳登录页
+                                startLoginPageLiveData.postValue(null);
+                                return;
+                            }
+                            LoginRepository.refreshToken(refreshToken, owner, new RxCallback<RefreshTokenResponse>() {
                                 @Override
                                 public void onError(Throwable e) {
                                     super.onError(e);

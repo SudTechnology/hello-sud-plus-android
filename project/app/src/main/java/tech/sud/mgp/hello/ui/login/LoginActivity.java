@@ -8,7 +8,6 @@ import android.widget.TextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.Observer;
 
-import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.ToastUtils;
 
 import java.util.Random;
@@ -20,7 +19,7 @@ import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
-import tech.sud.mgp.hello.common.utils.AppSharedPreferences;
+import tech.sud.mgp.hello.common.utils.GlobalSP;
 import tech.sud.mgp.hello.common.utils.ResponseUtils;
 import tech.sud.mgp.hello.service.login.repository.LoginRepository;
 import tech.sud.mgp.hello.service.login.resp.LoginResponse;
@@ -75,10 +74,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         femaleBtn.setOnClickListener(this);
         goPlayBtn.setOnClickListener(this);
         randomIv.setOnClickListener(this);
-        userId = AppSharedPreferences.getSP().getLong(AppSharedPreferences.USER_ID_KEY, -1L);
+        userId = GlobalSP.getSP().getLong(GlobalSP.USER_ID_KEY, -1L);
         if (userId != -1) {
             //代表登陆过
-            String name = AppSharedPreferences.getSP().getString(AppSharedPreferences.USER_NAME_KEY);
+            String name = GlobalSP.getSP().getString(GlobalSP.USER_NAME_KEY);
             nameTv.setText(name);
         } else {
             nameTv.setText(randomName());
@@ -86,7 +85,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         //默认性别选中男
         maleBtn.callOnClick();
         //是否同意隐私政策
-        boolean isAgree = AppSharedPreferences.getSP().getBoolean(AppSharedPreferences.AGREEMENT_STATE, false);
+        boolean isAgree = GlobalSP.getSP().getBoolean(GlobalSP.AGREEMENT_STATE, false);
         if (!isAgree) {
             showAgreementDialog();
         }
@@ -115,7 +114,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         if (!isAgree) {
             finish();
         } else {
-            AppSharedPreferences.getSP().put(AppSharedPreferences.AGREEMENT_STATE, true);
+            GlobalSP.getSP().put(GlobalSP.AGREEMENT_STATE, true);
         }
         if (agreementDialog != null) {
             agreementDialog.dismiss();
@@ -141,7 +140,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         if (!isAgree) {
             showSecondaryDialog();
         } else {
-            AppSharedPreferences.getSP().put(AppSharedPreferences.AGREEMENT_STATE, true);
+            GlobalSP.getSP().put(GlobalSP.AGREEMENT_STATE, true);
         }
     }
 

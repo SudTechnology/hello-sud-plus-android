@@ -9,7 +9,7 @@ import tech.sud.mgp.hello.common.http.param.BaseUrlManager;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.http.rx.RxUtils;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
-import tech.sud.mgp.hello.common.utils.AppSharedPreferences;
+import tech.sud.mgp.hello.common.utils.GlobalSP;
 import tech.sud.mgp.hello.service.login.method.LoginRequestMethodFactory;
 import tech.sud.mgp.hello.service.login.req.LoginRequestBody;
 import tech.sud.mgp.hello.service.login.req.RefreshTokenRequestBody;
@@ -52,19 +52,19 @@ public class LoginRepository {
      * 用户登陆成功后保存数据
      */
     public static void saveLoginData(LoginResponse response) {
-        AppSharedPreferences.getSP().put(AppSharedPreferences.USER_ID_KEY, response.userId);
-        AppSharedPreferences.getSP().put(AppSharedPreferences.USER_HEAD_PORTRAIT_KEY, response.avatar);
-        AppSharedPreferences.getSP().put(AppSharedPreferences.USER_NAME_KEY, response.nickname);
-        AppSharedPreferences.getSP().put(AppSharedPreferences.USER_TOKEN_KEY, response.token);
-        AppSharedPreferences.getSP().put(AppSharedPreferences.USER_REFRESHTOKEN_KEY, response.refreshToken);
+        GlobalSP.getSP().put(GlobalSP.USER_ID_KEY, response.userId);
+        GlobalSP.getSP().put(GlobalSP.USER_HEAD_PORTRAIT_KEY, response.avatar);
+        GlobalSP.getSP().put(GlobalSP.USER_NAME_KEY, response.nickname);
+        GlobalSP.getSP().put(GlobalSP.USER_TOKEN_KEY, response.token);
+        GlobalSP.getSP().put(GlobalSP.USER_REFRESHTOKEN_KEY, response.refreshToken);
     }
 
     /**
      * 刷新token
      */
     public static void saveRefreshToken(RefreshTokenResponse response) {
-        AppSharedPreferences.getSP().put(AppSharedPreferences.USER_TOKEN_KEY, response.token);
-        AppSharedPreferences.getSP().put(AppSharedPreferences.USER_REFRESHTOKEN_KEY, response.refreshToken);
+        GlobalSP.getSP().put(GlobalSP.USER_TOKEN_KEY, response.token);
+        GlobalSP.getSP().put(GlobalSP.USER_REFRESHTOKEN_KEY, response.refreshToken);
         HSUserInfo.token = response.token;
         HSUserInfo.refreshToken = response.refreshToken;
     }
@@ -73,11 +73,11 @@ public class LoginRepository {
      * 读取本地登陆数据到HSUserInfo
      */
     public static void createUserInfo() {
-        HSUserInfo.userId = AppSharedPreferences.getSP().getLong(AppSharedPreferences.USER_ID_KEY, -1L);
-        HSUserInfo.avatar = AppSharedPreferences.getSP().getString(AppSharedPreferences.USER_HEAD_PORTRAIT_KEY);
-        HSUserInfo.nickName = AppSharedPreferences.getSP().getString(AppSharedPreferences.USER_NAME_KEY);
-        HSUserInfo.token = AppSharedPreferences.getSP().getString(AppSharedPreferences.USER_TOKEN_KEY);
-        HSUserInfo.refreshToken = AppSharedPreferences.getSP().getString(AppSharedPreferences.USER_REFRESHTOKEN_KEY);
+        HSUserInfo.userId = GlobalSP.getSP().getLong(GlobalSP.USER_ID_KEY, -1L);
+        HSUserInfo.avatar = GlobalSP.getSP().getString(GlobalSP.USER_HEAD_PORTRAIT_KEY);
+        HSUserInfo.nickName = GlobalSP.getSP().getString(GlobalSP.USER_NAME_KEY);
+        HSUserInfo.token = GlobalSP.getSP().getString(GlobalSP.USER_TOKEN_KEY);
+        HSUserInfo.refreshToken = GlobalSP.getSP().getString(GlobalSP.USER_REFRESHTOKEN_KEY);
     }
 
 }

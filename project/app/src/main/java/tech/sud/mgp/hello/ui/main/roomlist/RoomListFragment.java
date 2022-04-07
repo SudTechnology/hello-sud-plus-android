@@ -24,7 +24,7 @@ import tech.sud.mgp.hello.common.base.BaseFragment;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
-import tech.sud.mgp.hello.common.utils.AppSharedPreferences;
+import tech.sud.mgp.hello.common.utils.GlobalSP;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
 import tech.sud.mgp.hello.common.utils.ResponseUtils;
 import tech.sud.mgp.hello.service.main.manager.HomeManager;
@@ -82,10 +82,10 @@ public class RoomListFragment extends BaseFragment {
     @Override
     protected void setListeners() {
         super.setListeners();
-        nameTv.setText(AppSharedPreferences.getSP().getString(AppSharedPreferences.USER_NAME_KEY, ""));
-        String userId = AppSharedPreferences.getSP().getLong(AppSharedPreferences.USER_ID_KEY, 0L) + "";
+        nameTv.setText(GlobalSP.getSP().getString(GlobalSP.USER_NAME_KEY, ""));
+        String userId = GlobalSP.getSP().getLong(GlobalSP.USER_ID_KEY, 0L) + "";
         useridTv.setText(getString(R.string.setting_userid, userId));
-        String header = AppSharedPreferences.getSP().getString(AppSharedPreferences.USER_HEAD_PORTRAIT_KEY, "");
+        String header = GlobalSP.getSP().getString(GlobalSP.USER_HEAD_PORTRAIT_KEY, "");
         if (header.isEmpty()) {
             headerIv.setImageResource(R.drawable.icon_logo);
         } else {

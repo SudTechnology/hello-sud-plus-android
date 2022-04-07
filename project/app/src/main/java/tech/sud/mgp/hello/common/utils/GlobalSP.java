@@ -5,7 +5,7 @@ import com.blankj.utilcode.util.SPUtils;
 /**
  * 全局使用的SharedPreferences
  */
-public class AppSharedPreferences {
+public class GlobalSP {
     private final static String SP_NAME = "global.sp";
 
     public final static String AGREEMENT_STATE = "agreement_state"; // 是否已经同意了隐私政策

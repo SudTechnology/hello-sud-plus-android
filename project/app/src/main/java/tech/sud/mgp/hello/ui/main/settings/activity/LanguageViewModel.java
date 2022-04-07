@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Locale;
 
 import tech.sud.mgp.hello.common.base.BaseViewModel;
-import tech.sud.mgp.hello.common.utils.AppSharedPreferences;
+import tech.sud.mgp.hello.common.utils.GlobalSP;
 import tech.sud.mgp.hello.ui.main.settings.model.LangCellType;
 import tech.sud.mgp.hello.ui.main.settings.model.LangModel;
 import tech.sud.mgp.hello.ui.main.utils.HSLanguageUtils;
@@ -23,7 +23,7 @@ public class LanguageViewModel extends BaseViewModel {
         if (mLangCellType != null) {
             return mLangCellType;
         }
-        String cellType = AppSharedPreferences.getSP().getString(AppSharedPreferences.KEY_LANG_CELL_TYPE, LangCellType.Follow.name());
+        String cellType = GlobalSP.getSP().getString(GlobalSP.KEY_LANG_CELL_TYPE, LangCellType.Follow.name());
         try {
             mLangCellType = LangCellType.valueOf(cellType);
         } catch (Exception e) {
@@ -65,7 +65,7 @@ public class LanguageViewModel extends BaseViewModel {
      */
     public void saveLangCellType(LangCellType type) {
         mLangCellType = type;
-        AppSharedPreferences.getSP().put(AppSharedPreferences.KEY_LANG_CELL_TYPE, type.name());
+        GlobalSP.getSP().put(GlobalSP.KEY_LANG_CELL_TYPE, type.name());
     }
 
     /**

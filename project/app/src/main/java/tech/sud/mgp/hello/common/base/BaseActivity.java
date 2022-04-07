@@ -89,6 +89,6 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(HSLanguageUtils.attachBaseContext(newBase));
-
     }
+    
 }

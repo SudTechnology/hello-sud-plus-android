@@ -14,6 +14,7 @@ public class SudMetaModel {
     public static String systemType; // 系统类型
     public static String systemVersion; // 系统版本
     public static long clientTimestamp; // 客户端时间戳
+    public static int buildNumber; // 构建编号
 
     /**
      * 生成发送给后端的字符串数据
@@ -26,7 +27,10 @@ public class SudMetaModel {
             clientChannel = SystemUtils.getChannel();
         }
         if (clientVersion == null) {
-            clientVersion = SystemUtils.getAppVersion();
+            clientVersion = SystemUtils.getVersionName();
+        }
+        if (buildNumber == 0) {
+            buildNumber = SystemUtils.getVersionCode();
         }
         if (deviceId == null) {
             deviceId = SystemUtils.getDeviceId();
@@ -43,6 +47,8 @@ public class SudMetaModel {
                 clientChannel +
                 "," +
                 clientVersion +
+                "," +
+                buildNumber +
                 "," +
                 deviceId +
                 "," +

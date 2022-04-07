@@ -31,7 +31,6 @@
     <string name="setting_useragreement">Thỏa thuận người dùng</string>
     <string name="setting_privacy">Chính sách quyền riêng tư</string>
     <string name="setting_contact">Liên hệ với chúng tôi</string>
-    <string name="setting_version"></string>
     <string name="setting_userid">ID người dùng %1$s</string>
     <string name="setting_userid1">ID người dùng: %1$s</string>
     <string name="coming_soon">Vui lòng chờ đợi</string>
@@ -213,15 +212,33 @@
     <string name="github">GitHub</string>
     <string name="open_source_licenses">Thỏa thuận mã nguồn mở</string>
     <string name="change_rtc_confirm">Xác nhận chuyển đổi nhà cung cấp dịch vụ RTC thành 【%1$s】?</string>
-
     <string name="be_making">Đang trong quá trình thao tác, vui lòng chờ trong giây lát!</string>
     <string name="total_value"> Tổng %1$s </string>
     <string name="finish_game_confirm">Xác nhận kết thúc trò chơi này không</string>
     <string name="playing_down_mic">Hiện đang trong trò chơi, muốn đào tẩu sao?</string>
     <string name="game_number">Số người chơi</string>
-    <string name="unable_to_speak">当前不能发言</string>
-    <string name="asr_guide">本游戏支持语音识别，请开麦展现你的魅力～</string>
-    <string name="asr_guide_number_boom">试试打开麦克风报数，懒人福利！</string>
-    <string name="asr_guide_draw">开麦抢答，比打字更快哦！</string>
+    <string name="rtc_name_zego">Zego</string>
+    <string name="rtc_name_agora">Agora</string>
+    <string name="rtc_name_rong_cloud">RongCloud</string>
+    <string name="rtc_name_comms_ease">CommsEase</string>
+    <string name="rtc_name_voic_engine">VoiceEngine</string>
+    <string name="rtc_name_alibaba_cloud">Alibaba Cloud</string>
+    <string name="rtc_name_tencent_cloud">Tencent Cloud</string>
+    <string name="asr_guide">Trò chơi có hỗ trợ nhận dạng giọng nói, hãy mở mic để tạo sức hút của bạn</string>
+    <string name="asr_guide_number_boom">Thử mở mic điểm danh, để nhận phúc lợi cho người lười!</string>
+    <string name="primary_field">Ván sơ cấp</string>
+    <string name="middle_field">Ván trung cấp</string>
+    <string name="high_field">Ván cao cấp</string>
+    <string name="win_multiple_award">Thắng được phần thưởng gấp %1$d lần</string>
+    <string name="count_people_play">%1$s người đang chơi</string>
+    <string name="now_participation">Tham gia ngay</string>
+    <string name="join_game_confirm">Mất %1$d tiền vàng để tham gia trò chơi, bạn muốn tiếp tục không?</string>
+    <string name="no_longer_remind">Không nhắc lại</string>
+    <string name="confirm_join">Xác nhận tham gia</string>
+    <string name="asr_guide_draw">Mở mic giành quyền trả lời, sẽ nhanh hơn so với gõ chữ đấy!</string>
+    <string name="app_version_low">Phiên bản ứng dụng của bạn khá thấp, vui lòng nâng cấp phiên bản trước</string>
+    <string name="app_version_update_tip">Đã có phiên bản mới, cập nhật để trải nghiệm ngay nhé?</string>
+    <string name="app_version_update_btn1">Để sau</string>
+    <string name="app_version_update_btn2">Cập nhật nga</string>
 
 </resources>

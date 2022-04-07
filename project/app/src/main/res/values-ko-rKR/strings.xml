@@ -31,7 +31,6 @@
     <string name="setting_useragreement">사용자 협의</string>
     <string name="setting_privacy">개인정보 정책</string>
     <string name="setting_contact">연락방법</string>
-    <string name="setting_version"></string>
     <string name="setting_userid">사용자ID %1$s</string>
     <string name="setting_userid1">사용자ID：%1$s</string>
     <string name="coming_soon">기다려주세요.</string>
@@ -218,9 +217,28 @@
     <string name="finish_game_confirm">게임 종료를 확인하시겠습니까?</string>
     <string name="playing_down_mic">현재 게임 중입니다. 나가시겠습니까？</string>
     <string name="game_number">게임 인원수</string>
-    <string name="unable_to_speak">当前不能发言</string>
-    <string name="asr_guide">本游戏支持语音识别，请开麦展现你的魅力～</string>
-    <string name="asr_guide_number_boom">试试打开麦克风报数，懒人福利！</string>
-    <string name="asr_guide_draw">开麦抢答，比打字更快哦！</string>
+    <string name="rtc_name_zego">Zego</string>
+    <string name="rtc_name_agora">Agora</string>
+    <string name="rtc_name_rong_cloud">RongCloud</string>
+    <string name="rtc_name_comms_ease">CommsEase</string>
+    <string name="rtc_name_voic_engine">VoiceEngine</string>
+    <string name="rtc_name_alibaba_cloud">Alibaba Cloud</string>
+    <string name="rtc_name_tencent_cloud">Tencent Cloud</string>
+    <string name="asr_guide">본 게임은 음성 식별을 지원합니다. 마이크 켜고 매력을 어필해 보세요~</string>
+    <string name="asr_guide_number_boom">마이크 켜고 숫자 확인하기, 귀차니즘이 있는 분들을 위한 혜택!</string>
+    <string name="primary_field">초급장</string>
+    <string name="middle_field">중급장</string>
+    <string name="high_field">고급장</string>
+    <string name="win_multiple_award">%1$d배 보너스 취득</string>
+    <string name="count_people_play">%1$s인이 플레이중</string>
+    <string name="now_participation">즉시 참여</string>
+    <string name="join_game_confirm">게임 참여시 %1$d코인이 소모됩니다. 계속하시겠습니까?</string>
+    <string name="no_longer_remind">다시 보지 않음</string>
+    <string name="confirm_join">가입 확인</string>
+    <string name="asr_guide_draw">마이크를 켜고 문제에 대답해 보세요, 타자를 더 빨리 쳐 보십시오!</string>
+    <string name="app_version_low">App의 버전이 낮습니다, 우선 버전을 업그레이드 해주십시오!</string>
+    <string name="app_version_update_tip">새로운 버전이 있습니다. 갱신하시겠습니까?</string>
+    <string name="app_version_update_btn1">다음에 다시 보기</string>
+    <string name="app_version_update_btn2">즉시 갱</string>
 
 </resources>

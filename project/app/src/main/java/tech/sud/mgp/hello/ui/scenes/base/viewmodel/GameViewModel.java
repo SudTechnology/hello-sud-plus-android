@@ -1,6 +1,5 @@
 package tech.sud.mgp.hello.ui.scenes.base.viewmodel;
 
-import android.app.Activity;
 import android.view.View;
 import android.view.ViewTreeObserver;
 
@@ -35,6 +34,7 @@ import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.utils.HSTextUtils;
+import tech.sud.mgp.hello.common.utils.SystemUtils;
 import tech.sud.mgp.hello.rtc.audio.core.AudioPCMData;
 import tech.sud.mgp.hello.service.game.repository.GameRepository;
 import tech.sud.mgp.hello.service.game.resp.GameLoginResp;
@@ -64,6 +64,12 @@ public class GameViewModel implements SudFSMMGListener {
 
     private View gameView; // 游戏View
     private int selfMicIndex = -1; // 记录自己所在麦位
+    public GameConfigModel gameConfigModel = new GameConfigModel(); // 游戏配置
+
+    public GameViewModel() {
+        // 配置不展示大厅玩家展示位
+        gameConfigModel.ui.lobby_players.hide = true;
+    }
 
     /**
      * 外部调用切换游戏
@@ -150,12 +156,16 @@ public class GameViewModel implements SudFSMMGListener {
      * @param code     登录令牌
      * @param gameId   游戏id
      */
-    private void loadGame(Activity activity, String code, long gameId) {
+    private void loadGame(FragmentActivity activity, String code, long gameId) {
+        if (activity.isDestroyed()) {
+            return;
+        }
+
         // 给装饰类设置回调
         sudFSMMGDecorator.setSudFSMMGListener(this);
 
         // 调用游戏sdk加载游戏
-        ISudFSTAPP iSudFSTAPP = SudMGP.loadMG(activity, HSUserInfo.userId + "", roomId + "", code, gameId, "zh-CN", sudFSMMGDecorator);
+        ISudFSTAPP iSudFSTAPP = SudMGP.loadMG(activity, HSUserInfo.userId + "", roomId + "", code, gameId, SystemUtils.getLanguageCode(activity), sudFSMMGDecorator);
 
         // APP调用游戏接口的装饰类设置
         sudFSTAPPDecorator.setISudFSTAPP(iSudFSTAPP);
@@ -301,9 +311,6 @@ public class GameViewModel implements SudFSMMGListener {
      * 文档：https://github.com/SudTechnology/sud-mgp-doc/blob/main/Client/API/ISudFSMMG/onGetGameCfg.md
      */
     public void processOnGetGameCfg(ISudFSMStateHandle handle, String dataJson) {
-        GameConfigModel gameConfigModel = new GameConfigModel();
-        // 配置不展示大厅玩家展示位
-        gameConfigModel.ui.lobby_players.hide = true;
         handle.success(GsonUtils.toJson(gameConfigModel));
     }
 
@@ -372,23 +379,28 @@ public class GameViewModel implements SudFSMMGListener {
 
     // 自己是否已加入了游戏
     public boolean isSelfInGame() {
-        return sudFSMMGDecorator.playerIsIn(HSUserInfo.userId);
+        return playerIsIn(HSUserInfo.userId);
+    }
+
+    // 返回该玩家是否已加入了游戏
+    public boolean playerIsIn(long userId) {
+        return sudFSMMGDecorator.playerIsIn(userId);
     }
 
     /**
-     * 用户主动下麦后执行退出游戏
+     * 退出游戏
      */
     public void exitGame() {
         if (playerIsPlaying(HSUserInfo.userId)) {
-            //用户正在游戏中，先退出本局游戏，再退出游戏
+            // 用户正在游戏中，先退出本局游戏，再退出游戏
             sudFSTAPPDecorator.notifyAPPCommonSelfPlaying(false, "");
             sudFSTAPPDecorator.notifyAPPCommonSelfIn(false, -1, true, 1);
         } else if (sudFSMMGDecorator.playerIsReady(HSUserInfo.userId)) {
-            //用户已加入并且已经准备，先取消准备，再退出游戏
+            // 用户已加入并且已经准备，先取消准备，再退出游戏
             sudFSTAPPDecorator.notifyAPPCommonSelfReady(false);
             sudFSTAPPDecorator.notifyAPPCommonSelfIn(false, -1, true, 1);
-        } else if (sudFSMMGDecorator.playerIsIn(HSUserInfo.userId)) {
-            //用户已加入游戏 退出游戏
+        } else if (isSelfInGame()) {
+            // 用户已加入游戏 退出游戏
             sudFSTAPPDecorator.notifyAPPCommonSelfIn(false, -1, true, 1);
         }
     }
@@ -446,10 +458,63 @@ public class GameViewModel implements SudFSMMGListener {
         return sudFSMMGDecorator.playerIsPlaying(userId);
     }
 
+    // 队长结束游戏
     public void finishGame() {
         sudFSTAPPDecorator.notifyAPPCommonSelfEnd();
     }
 
+    // 返回该用户是否为游戏队长
+    public boolean isCaptain(long userId) {
+        return sudFSMMGDecorator.isCaptain(userId);
+    }
+
+    /**
+     * 发送
+     * 2. 准备状态
+     * 用户（本人）准备/取消准备
+     *
+     * @param isReady true 准备，false 取消准备
+     */
+    public void notifyAPPCommonSelfReady(boolean isReady) {
+        sudFSTAPPDecorator.notifyAPPCommonSelfReady(isReady);
+    }
+
+    /**
+     * 发送
+     * 3. 游戏状态
+     *
+     * @param isPlaying true时为队长开始游戏 false时为本人退出本局游戏
+     */
+    public void notifyAPPCommonSelfPlaying(boolean isPlaying, String reportGameInfoExtras) {
+        sudFSTAPPDecorator.notifyAPPCommonSelfPlaying(isPlaying, reportGameInfoExtras);
+    }
+
+    /**
+     * 发送
+     * 4. 队长状态
+     * 用户是否为队长，队长在游戏中会有开始游戏的权利。
+     *
+     * @param curCaptainUID 必填，指定队长uid
+     */
+    public void notifyAPPCommonSelfCaptain(String curCaptainUID) {
+        sudFSTAPPDecorator.notifyAPPCommonSelfCaptain(curCaptainUID);
+    }
+
+    /**
+     * 发送
+     * 5. 踢人
+     * 用户（本人，队长）踢其他玩家；
+     * 队长才能踢人；
+     *
+     * @param kickedUID 被踢用户uid
+     */
+    public void notifyAPPCommonSelfKick(String kickedUID) {
+        sudFSTAPPDecorator.notifyAPPCommonSelfKick(kickedUID);
+    }
+
+    /**
+     * 返回当前游戏的状态，数值参数{@link SudMGPMGState.MGCommonGameState}
+     */
     public int getGameState() {
         return sudFSMMGDecorator.getGameState();
     }
@@ -465,7 +530,6 @@ public class GameViewModel implements SudFSMMGListener {
         }
         return false;
     }
-
 
     // region 游戏侧回调
     @Override

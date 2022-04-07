@@ -20,6 +20,9 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
+# json序列化的混淆
+-keep class tech.sud.mgp.hello.ui.scenes.ticket.model.** {*;}
+
 # 腾讯bugly的混淆
 -dontwarn com.tencent.bugly.**
 -keep public class com.tencent.bugly.**{*;}

@@ -6,7 +6,6 @@ import com.blankj.utilcode.util.ThreadUtils;
 import com.trello.rxlifecycle4.components.support.RxAppCompatActivity;
 
 import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 import tech.sud.mgp.hello.common.base.BaseViewModel;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
@@ -25,7 +24,7 @@ public class ConfigViewModel extends BaseViewModel {
 
     // 初始化配置成功的监听
     public final MutableLiveData<Object> initConfigSuccessLiveData = new MutableLiveData<>();
-    private final Executor executor = Executors.newSingleThreadExecutor();
+    private final Executor executor = ThreadUtils.getCachedPool();
 
     /**
      * 获取基础配置

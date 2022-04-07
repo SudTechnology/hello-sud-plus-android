@@ -26,9 +26,6 @@ public interface LoginRequestMethod {
     /**
      * 刷新token
      * */
-    /**
-     * 登录
-     */
     @POST(RequestUrl.REFRESHTOKEN)
     Observable<BaseResponse<RefreshTokenResponse>> refreshToken(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body RefreshTokenRequestBody body);
 

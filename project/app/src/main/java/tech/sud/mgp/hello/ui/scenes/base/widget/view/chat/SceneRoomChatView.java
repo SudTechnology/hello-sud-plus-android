@@ -43,6 +43,7 @@ public class SceneRoomChatView extends ConstraintLayout {
         mRecyclerView.setVerticalFadingEdgeEnabled(true);
         mRecyclerView.setFadingEdgeLength(DensityUtils.dp2px(getContext(), 30));
         mRecyclerView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.transparent));
+        mRecyclerView.setOverScrollMode(OVER_SCROLL_NEVER);
         addView(mRecyclerView);
 
         mAdapter = new RoomChatAdapter();

@@ -14,6 +14,7 @@ import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.app.APPConfig;
 import tech.sud.mgp.hello.common.base.BaseFragment;
 import tech.sud.mgp.hello.common.utils.IntentUtils;
+import tech.sud.mgp.hello.ui.main.settings.activity.LanguageActivity;
 import tech.sud.mgp.hello.ui.main.settings.activity.MoreSettingsActivity;
 import tech.sud.mgp.hello.ui.main.settings.activity.VersionInfoActivity;
 import tech.sud.mgp.hello.ui.main.utils.RouterUtils;
@@ -122,7 +123,8 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         } else if (v == btnMoreSettings) { // 更多设置
             startActivity(new Intent(requireContext(), MoreSettingsActivity.class));
         } else if (v == btnChangeLanguage) { // 切换语言
-            ToastUtils.showShort(R.string.be_making);
+//            ToastUtils.showShort(R.string.be_making);
+            startActivity(new Intent(requireContext(), LanguageActivity.class));
         } else if (v == btnGitHub) { // github
             IntentUtils.openUrl(getContext(), APPConfig.GIT_HUB_URL);
         } else if (v == btnOpenSource) { // 开源协议

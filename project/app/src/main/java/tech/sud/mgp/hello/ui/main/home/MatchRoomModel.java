@@ -11,4 +11,5 @@ public class MatchRoomModel {
     public String roomName;
     public int memberCount;
     public long gameId;
+    public Integer gameLevel;
 }

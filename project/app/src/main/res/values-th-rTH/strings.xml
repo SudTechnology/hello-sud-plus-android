@@ -31,7 +31,6 @@
     <string name="setting_useragreement">ข้อตกลงผู้ใช้</string>
     <string name="setting_privacy">นโยบายการรักษาความเป็นส่วนตัว</string>
     <string name="setting_contact">ติดต่อเรา</string>
-    <string name="setting_version"></string>
     <string name="setting_userid">ID ผู้ใช้ %1$s</string>
     <string name="setting_userid1">ID ผู้ใช้ %1$s</string>
     <string name="coming_soon">โปรดติดตาม</string>
@@ -213,15 +212,33 @@
     <string name="github">GitHub</string>
     <string name="open_source_licenses">ข้อตกลงการบุกเบิก</string>
     <string name="change_rtc_confirm">ตกลงเปลี่ยนผู้ให้บริการ RTCเป็น 【%1$s】หรือไม่</string>
-
     <string name="be_making">กำลังจัดทำ โปรดคอยติดตาม</string>
     <string name="total_value">รวม %1$s </string>
     <string name="finish_game_confirm">ตกลงจบเกมหรือไม่</string>
     <string name="playing_down_mic">กำลังเล่นเกมอยู่ จะหลบหนีหรือไม่</string>
     <string name="game_number">จำนวนผู้เล่นเกม</string>
-    <string name="unable_to_speak">当前不能发言</string>
-    <string name="asr_guide">本游戏支持语音识别，请开麦展现你的魅力～</string>
-    <string name="asr_guide_number_boom">试试打开麦克风报数，懒人福利！</string>
-    <string name="asr_guide_draw">开麦抢答，比打字更快哦！</string>
+    <string name="rtc_name_zego">Zego</string>
+    <string name="rtc_name_agora">Agora</string>
+    <string name="rtc_name_rong_cloud">RongCloud</string>
+    <string name="rtc_name_comms_ease">CommsEase</string>
+    <string name="rtc_name_voic_engine">VoiceEngine</string>
+    <string name="rtc_name_alibaba_cloud">Alibaba Cloud</string>
+    <string name="rtc_name_tencent_cloud">Tencent Cloud</string>
+    <string name="asr_guide">เกมนี้รองรับการจดจำเสียง โปรดเปิดไมค์เพื่อแสดงเสน่ห์ของคุณ</string>
+    <string name="asr_guide_number_boom">ลองเปิดไมค์แจ้งตัวเลข รางวัลสำหรับคนขี้เกียจ</string>
+    <string name="primary_field">รอบระดับเริ่มต้น</string>
+    <string name="middle_field">รอบระดับกลาง</string>
+    <string name="high_field">รอบระดับสูง</string>
+    <string name="win_multiple_award">รับรางวัล %1$d เท่า</string>
+    <string name="count_people_play">%1$S คนกำลังเล่น</string>
+    <string name="now_participation">เข้าร่วมทันที</string>
+    <string name="join_game_confirm">ร่วมเกมต้องใช้ %1$d เหรียญทอง เล่นต่อหรือไม่</string>
+    <string name="no_longer_remind">ไม่ค้องเตือนอีก</string>
+    <string name="confirm_join">ยืนยันการเข้าร่วม</string>
+    <string name="asr_guide_draw">เปิดไมค์รับสาย จะเร็วกว่าการพิมพ์</string>
+    <string name="app_version_low">เวอร์ชัน App ของคุณต่ำกว่า โปรดอัปเกรดเวอร์ชันก่อน</string>
+    <string name="app_version_update_tip">มีเวอร์ชั่นใหม่แล้ว จะอัปเดตหรือไม่</string>
+    <string name="app_version_update_btn1">อัปเดตคราวหน้า</string>
+    <string name="app_version_update_btn2">อัปเดตทันท</string>
 
 </resources>

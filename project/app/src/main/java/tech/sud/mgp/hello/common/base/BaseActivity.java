@@ -16,6 +16,8 @@ import tech.sud.mgp.hello.ui.main.utils.HSLanguageUtils;
 
 public abstract class BaseActivity extends RxAppCompatActivity {
 
+    protected Context context = this;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

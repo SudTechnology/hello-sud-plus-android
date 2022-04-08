@@ -46,6 +46,26 @@ public class ImageLoader {
                 .submit();
     }
 
+    // 加载游戏图片
+    public static void loadGameCover(ImageView view, String url) {
+        if (isDestroy(view)) return;
+        Glide.with(view)
+                .load(url)
+                .placeholder(R.drawable.icon_game_default)
+                .error(R.drawable.icon_game_default)
+                .into(view);
+    }
+
+    // 加载场景图片
+    public static void loadSceneCover(ImageView view, String url) {
+        if (isDestroy(view)) return;
+        Glide.with(view)
+                .load(url)
+                .placeholder(R.drawable.icon_scene_default)
+                .error(R.drawable.icon_scene_default)
+                .into(view);
+    }
+
     // 判断是否已销毁
     private static boolean isDestroy(View view) {
         Context context = view.getContext();

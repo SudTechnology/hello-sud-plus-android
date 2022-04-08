@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
 import com.blankj.utilcode.util.ThreadUtils;
+import com.blankj.utilcode.util.TimeUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.trello.rxlifecycle4.components.support.RxAppCompatActivity;
 
@@ -17,6 +18,7 @@ import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.model.UserInfoConverter;
+import tech.sud.mgp.hello.common.utils.GlobalSP;
 import tech.sud.mgp.hello.common.utils.ResponseUtils;
 import tech.sud.mgp.hello.service.login.repository.LoginRepository;
 import tech.sud.mgp.hello.service.login.resp.RefreshTokenResponse;
@@ -54,7 +56,7 @@ public class SplashViewModel extends BaseViewModel {
             public void onNext(BaseResponse<CheckUpgradeResp> resp) {
                 super.onNext(resp);
                 if (resp.getRetCode() == RetCode.SUCCESS) {
-                    if (resp.getData() != null && resp.getData().upgradeId != null) {
+                    if (isShowUpgradeDialog(resp.getData())) {
                         showUpgradeLiveData.setValue(resp.getData());
                     } else {
                         checkLogin(owner);
@@ -65,6 +67,24 @@ public class SplashViewModel extends BaseViewModel {
                 }
             }
         });
+    }
+
+    // 是否要显示更新弹窗
+    private boolean isShowUpgradeDialog(CheckUpgradeResp resp) {
+        if (resp != null && resp.upgradeId != null) {
+            if (resp.upgradeType == CheckUpgradeResp.FORCE_UPGRADE) { // 强更要显示
+                return true;
+            } else { // 引导更新，每天只弹一次
+                long showTimestamp = GlobalSP.getSP().getLong(GlobalSP.KEY_SHOW_GUIDE_UPGRADE_TIMESTAMP);
+                if (TimeUtils.isToday(showTimestamp)) {
+                    return false;
+                } else {
+                    GlobalSP.getSP().put(GlobalSP.KEY_SHOW_GUIDE_UPGRADE_TIMESTAMP, System.currentTimeMillis());
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     // 更新弹窗交互已经完成

@@ -423,8 +423,8 @@ public class NeteaseAudioEngineImpl implements ISudAudioEngine {
                         HashMap<String, Float> userSoundLevels = new HashMap<>();
                         for (NERtcAudioVolumeInfo volumeInfo : volumeArray) {
                             userSoundLevels.put(volumeInfo.uid + "", (float) volumeInfo.volume);
-                            listener.onRemoteSoundLevelUpdate(userSoundLevels);
                         }
+                        listener.onRemoteSoundLevelUpdate(userSoundLevels);
                     }
                 }
             });

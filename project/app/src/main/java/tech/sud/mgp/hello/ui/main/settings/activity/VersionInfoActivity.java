@@ -62,7 +62,7 @@ public class VersionInfoActivity extends BaseActivity {
         tvName.setTextColor(ContextCompat.getColor(this, R.color.c_1a1a1a));
         tvName.setText(name);
         FrameLayout.LayoutParams nameParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
-        nameParams.gravity = Gravity.CENTER_VERTICAL;
+        nameParams.gravity = Gravity.CENTER_VERTICAL | Gravity.START;
         frameLayout.addView(tvName, nameParams);
 
         // 版本
@@ -74,5 +74,5 @@ public class VersionInfoActivity extends BaseActivity {
         versionParams.gravity = Gravity.CENTER_VERTICAL | Gravity.END;
         frameLayout.addView(tvVersion, versionParams);
     }
-    
+
 }

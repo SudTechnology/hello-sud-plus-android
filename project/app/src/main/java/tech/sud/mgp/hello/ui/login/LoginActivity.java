@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.Observer;
 
+import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.ToastUtils;
 
 import java.util.Random;
@@ -19,6 +20,7 @@ import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
+import tech.sud.mgp.hello.common.model.UserInfoConverter;
 import tech.sud.mgp.hello.common.utils.GlobalSP;
 import tech.sud.mgp.hello.common.utils.ResponseUtils;
 import tech.sud.mgp.hello.service.login.repository.LoginRepository;
@@ -47,7 +49,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private UserAgreementDialog agreementDialog;
     private final ConfigViewModel configViewModel = new ConfigViewModel();
     private boolean isLogin; // 标识是否正在登录中
-    private long userId;//之前记录的用户id
 
     @Override
     protected int getLayoutId() {
@@ -74,11 +75,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         femaleBtn.setOnClickListener(this);
         goPlayBtn.setOnClickListener(this);
         randomIv.setOnClickListener(this);
-        userId = GlobalSP.getSP().getLong(GlobalSP.USER_ID_KEY, -1L);
-        if (userId != -1) {
-            //代表登陆过
-            String name = GlobalSP.getSP().getString(GlobalSP.USER_NAME_KEY);
-            nameTv.setText(name);
+        if (HSUserInfo.isLogin()) { // 已登录
+            nameTv.setText(HSUserInfo.nickName);
         } else {
             nameTv.setText(randomName());
         }
@@ -168,9 +166,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             return;
         }
         isLogin = true;
-        Long userReq = userId;
-        if (userReq == -1) {
-            userReq = null;
+        Long userReq = null;
+        if (HSUserInfo.isLogin()) {
+            userReq = HSUserInfo.userId;
         }
         LoginRepository.login(userReq, nameTv.getText().toString(), this, new RxCallback<LoginResponse>() {
             @Override
@@ -183,18 +181,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             public void onNext(BaseResponse<LoginResponse> t) {
                 super.onNext(t);
                 if (t.getRetCode() == RetCode.SUCCESS) {
-                    new Thread() {
+                    ThreadUtils.getIoPool().execute(new Runnable() {
                         @Override
                         public void run() {
-                            super.run();
-                            LoginRepository.saveLoginData(t.getData());
+                            LoginRepository.saveUserInfo();
                         }
-                    }.start();
-                    HSUserInfo.userId = t.getData().userId;
-                    HSUserInfo.nickName = t.getData().nickname;
-                    HSUserInfo.avatar = t.getData().avatar;
-                    HSUserInfo.token = t.getData().token;
-                    HSUserInfo.refreshToken = t.getData().refreshToken;
+                    });
+                    UserInfoConverter.conver(t.getData());
                     configViewModel.getBaseConfig(LoginActivity.this);
                 } else {
                     isLogin = false;

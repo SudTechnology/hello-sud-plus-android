@@ -24,7 +24,7 @@ public class ConfigViewModel extends BaseViewModel {
 
     // 初始化配置成功的监听
     public final MutableLiveData<Object> initConfigSuccessLiveData = new MutableLiveData<>();
-    private final Executor executor = ThreadUtils.getCachedPool();
+    private final Executor executor = ThreadUtils.getIoPool();
 
     /**
      * 获取基础配置

@@ -21,7 +21,7 @@ import tech.sud.mgp.hello.common.base.BaseFragment;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
-import tech.sud.mgp.hello.common.utils.GlobalSP;
+import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
 import tech.sud.mgp.hello.common.utils.ResponseUtils;
 import tech.sud.mgp.hello.service.main.manager.HomeManager;
@@ -74,15 +74,9 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
     @Override
     protected void initData() {
         super.initData();
-        nameTv.setText(GlobalSP.getSP().getString(GlobalSP.USER_NAME_KEY, ""));
-        String userId = GlobalSP.getSP().getLong(GlobalSP.USER_ID_KEY, 0L) + "";
-        useridTv.setText(getString(R.string.setting_userid, userId));
-        String header = GlobalSP.getSP().getString(GlobalSP.USER_HEAD_PORTRAIT_KEY, "");
-        if (header.isEmpty()) {
-            headerIv.setImageResource(R.drawable.icon_logo);
-        } else {
-            ImageLoader.loadImage(headerIv, header);
-        }
+        nameTv.setText(HSUserInfo.nickName);
+        useridTv.setText(getString(R.string.setting_userid, HSUserInfo.userId + ""));
+        ImageLoader.loadImage(headerIv, HSUserInfo.avatar);
     }
 
     @Override
@@ -125,8 +119,7 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
         goSearch.setOnClickListener(v -> enterRoom());
         refreshLayout.setOnRefreshListener(this::loadList);
         headerIv.setOnClickListener(v -> {
-            CoinDialog dialog = new CoinDialog(getContext());
-            dialog.show();
+            new CoinDialog().show(getChildFragmentManager(), null);
         });
     }
 
@@ -134,7 +127,7 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
         try {
             String roomIdString = searchEt.getText().toString().trim();
             if (!TextUtils.isEmpty(roomIdString)) {
-                Long roomId = Long.parseLong(roomIdString);
+                long roomId = Long.parseLong(roomIdString);
                 EnterRoomUtils.enterRoom(requireContext(), roomId);
             }
             KeyboardUtils.hideSoftInput(searchEt);

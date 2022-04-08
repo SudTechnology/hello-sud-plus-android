@@ -35,4 +35,9 @@ public class HSUserInfo {
         HSUserInfo.refreshToken = savedInstanceState.getString("refreshToken");
     }
 
+    // 返回是否已登录
+    public static boolean isLogin() {
+        return userId != -1;
+    }
+
 }

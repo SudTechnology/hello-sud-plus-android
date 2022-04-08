@@ -99,7 +99,7 @@ public class RCloudAudioEngineImpl implements ISudAudioEngine {
 
     @Override
     public void destroy() {
-        RongCoreClient.getInstance().logout();
+        RongCoreClient.getInstance().disconnect();
         IRCVoiceRoomEngine engine = getEngine();
         if (engine != null) {
             engine.removeMessageReceiveListener(onReceiveMessageListener);
@@ -269,9 +269,9 @@ public class RCloudAudioEngineImpl implements ISudAudioEngine {
         if (rcrtcRoom == null)
             return;
 
-        TextMessage messageContent = TextMessage.obtain(command);
         IRCVoiceRoomEngine engine = getEngine();
         if (engine != null) {
+            TextMessage messageContent = TextMessage.obtain(command);
             engine.sendRoomMessage(messageContent, new RCVoiceRoomCallback() {
                 @Override
                 public void onSuccess() {

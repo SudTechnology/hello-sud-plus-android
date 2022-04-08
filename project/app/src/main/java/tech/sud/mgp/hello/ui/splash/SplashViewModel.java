@@ -16,6 +16,7 @@ import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
+import tech.sud.mgp.hello.common.model.UserInfoConverter;
 import tech.sud.mgp.hello.common.utils.ResponseUtils;
 import tech.sud.mgp.hello.service.login.repository.LoginRepository;
 import tech.sud.mgp.hello.service.login.resp.RefreshTokenResponse;
@@ -32,7 +33,7 @@ public class SplashViewModel extends BaseViewModel {
     public final MutableLiveData<Object> startLoginPageLiveData = new MutableLiveData<>(); // 去登录页
     public final MutableLiveData<Object> startMainPageLiveData = new MutableLiveData<>(); // 去主页
     public final MutableLiveData<CheckUpgradeResp> showUpgradeLiveData = new MutableLiveData<>(); // 展示升级信息
-    private final Executor executor = ThreadUtils.getCachedPool();
+    private final Executor executor = ThreadUtils.getIoPool();
 
     // 初始化
     public void init(RxAppCompatActivity owner) {
@@ -76,7 +77,7 @@ public class SplashViewModel extends BaseViewModel {
         executor.execute(new Runnable() {
             @Override
             public void run() {
-                LoginRepository.createUserInfo();
+                LoginRepository.loadUserInfo();
                 if (HSUserInfo.userId == -1) {
                     startLoginPageLiveData.postValue(null);
                 } else {
@@ -99,7 +100,13 @@ public class SplashViewModel extends BaseViewModel {
                                 public void onNext(BaseResponse<RefreshTokenResponse> t) {
                                     super.onNext(t);
                                     if (t.getRetCode() == RetCode.SUCCESS) {
-                                        LoginRepository.saveRefreshToken(t.getData());
+                                        UserInfoConverter.conver(t.getData());
+                                        ThreadUtils.getIoPool().execute(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                LoginRepository.saveUserInfo();
+                                            }
+                                        });
                                         configViewModel.getBaseConfig(owner);
                                     } else {
                                         ToastUtils.showShort(ResponseUtils.conver(t));

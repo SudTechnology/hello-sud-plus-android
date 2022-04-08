@@ -78,7 +78,7 @@ public class LanguageViewModel extends BaseViewModel {
                 locale = HSLanguageUtils.getSystemLanguage();
                 break;
             case SChin:
-                locale = Locale.CHINESE;
+                locale = Locale.SIMPLIFIED_CHINESE;
                 break;
             case TChin:
                 locale = Locale.TRADITIONAL_CHINESE;
@@ -86,7 +86,7 @@ public class LanguageViewModel extends BaseViewModel {
             case Eng:
                 break;
             case Arabic:
-                locale = new Locale("ar", "AE");
+                locale = new Locale("ar", "SA");
                 break;
             case Indonesian:
                 locale = new Locale("in", "ID");

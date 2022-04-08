@@ -49,30 +49,20 @@ public class LoginRepository {
     }
 
     /**
-     * 用户登陆成功后保存数据
+     * 将内存中的用户信息写到硬盘缓存当中
      */
-    public static void saveLoginData(LoginResponse response) {
-        GlobalSP.getSP().put(GlobalSP.USER_ID_KEY, response.userId);
-        GlobalSP.getSP().put(GlobalSP.USER_HEAD_PORTRAIT_KEY, response.avatar);
-        GlobalSP.getSP().put(GlobalSP.USER_NAME_KEY, response.nickname);
-        GlobalSP.getSP().put(GlobalSP.USER_TOKEN_KEY, response.token);
-        GlobalSP.getSP().put(GlobalSP.USER_REFRESHTOKEN_KEY, response.refreshToken);
-    }
-
-    /**
-     * 刷新token
-     */
-    public static void saveRefreshToken(RefreshTokenResponse response) {
-        GlobalSP.getSP().put(GlobalSP.USER_TOKEN_KEY, response.token);
-        GlobalSP.getSP().put(GlobalSP.USER_REFRESHTOKEN_KEY, response.refreshToken);
-        HSUserInfo.token = response.token;
-        HSUserInfo.refreshToken = response.refreshToken;
+    public static void saveUserInfo() {
+        GlobalSP.getSP().put(GlobalSP.USER_ID_KEY, HSUserInfo.userId);
+        GlobalSP.getSP().put(GlobalSP.USER_HEAD_PORTRAIT_KEY, HSUserInfo.avatar);
+        GlobalSP.getSP().put(GlobalSP.USER_NAME_KEY, HSUserInfo.nickName);
+        GlobalSP.getSP().put(GlobalSP.USER_TOKEN_KEY, HSUserInfo.token);
+        GlobalSP.getSP().put(GlobalSP.USER_REFRESHTOKEN_KEY, HSUserInfo.refreshToken);
     }
 
     /**
      * 读取本地登陆数据到HSUserInfo
      */
-    public static void createUserInfo() {
+    public static void loadUserInfo() {
         HSUserInfo.userId = GlobalSP.getSP().getLong(GlobalSP.USER_ID_KEY, -1L);
         HSUserInfo.avatar = GlobalSP.getSP().getString(GlobalSP.USER_HEAD_PORTRAIT_KEY);
         HSUserInfo.nickName = GlobalSP.getSP().getString(GlobalSP.USER_NAME_KEY);

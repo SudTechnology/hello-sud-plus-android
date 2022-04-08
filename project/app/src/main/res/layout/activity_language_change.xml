@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/c_f5f6fb"
-    android:paddingBottom="20dp">
+    android:orientation="vertical">
 
     <tech.sud.mgp.hello.ui.common.widget.HSTopBar
         android:id="@+id/top_bar"
@@ -16,15 +16,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_marginHorizontal="16dp"
         android:id="@+id/lang_recyclerview"
-        android:background="@color/c_ffffff"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:scrollbars="none"
         android:overScrollMode="never"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/top_bar"
+        android:background="@color/c_ffffff"
         android:layout_marginVertical="20dp"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_marginHorizontal="16dp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

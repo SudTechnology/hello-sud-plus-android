@@ -1,33 +1,29 @@
 package tech.sud.mgp.hello.ui.main.home;
 
-import android.content.Context;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import androidx.annotation.NonNull;
 
 import com.blankj.utilcode.util.ToastUtils;
 
 import tech.sud.mgp.hello.R;
-import tech.sud.mgp.hello.common.base.BaseDialog;
+import tech.sud.mgp.hello.common.base.BaseDialogFragment;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
+import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
-import tech.sud.mgp.hello.common.utils.GlobalSP;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
 import tech.sud.mgp.hello.common.utils.ResponseUtils;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.main.resp.GetAccountResp;
 
-public class CoinDialog extends BaseDialog {
+/**
+ * 显示金币余额弹窗
+ */
+public class CoinDialog extends BaseDialogFragment {
 
     private ImageView headerView;
     private TextView nameView, idView, coinView;
-
-    public CoinDialog(@NonNull Context context) {
-        super(context);
-    }
 
     @Override
     protected int getLayoutId() {
@@ -42,15 +38,9 @@ public class CoinDialog extends BaseDialog {
         idView = mRootView.findViewById(R.id.id_view);
         coinView = mRootView.findViewById(R.id.coin_view);
 
-        nameView.setText(GlobalSP.getSP().getString(GlobalSP.USER_NAME_KEY, ""));
-        String userId = GlobalSP.getSP().getLong(GlobalSP.USER_ID_KEY, 0L) + "";
-        idView.setText(getContext().getString(R.string.setting_userid, userId));
-        String header = GlobalSP.getSP().getString(GlobalSP.USER_HEAD_PORTRAIT_KEY, "");
-        if (header.isEmpty()) {
-            headerView.setImageResource(R.drawable.icon_logo);
-        } else {
-            ImageLoader.loadImage(headerView, header);
-        }
+        nameView.setText(HSUserInfo.nickName);
+        idView.setText(getString(R.string.setting_userid, HSUserInfo.userId + ""));
+        ImageLoader.loadImage(headerView, HSUserInfo.avatar);
     }
 
     @Override
@@ -60,23 +50,17 @@ public class CoinDialog extends BaseDialog {
     }
 
     @Override
-    protected void setListeners() {
-        super.setListeners();
-
-    }
-
-    @Override
     protected int getWidth() {
-        return DensityUtils.dp2px(getContext(), 296);
+        return DensityUtils.dp2px(requireContext(), 296);
     }
 
     @Override
     protected int getHeight() {
-        return DensityUtils.dp2px(getContext(), 214);
+        return DensityUtils.dp2px(requireContext(), 214);
     }
 
     private void loadAccount() {
-        HomeRepository.getAccount(null, new RxCallback<GetAccountResp>() {
+        HomeRepository.getAccount(this, new RxCallback<GetAccountResp>() {
             @Override
             public void onNext(BaseResponse<GetAccountResp> t) {
                 super.onNext(t);

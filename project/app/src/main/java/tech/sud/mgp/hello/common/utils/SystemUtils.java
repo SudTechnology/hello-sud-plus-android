@@ -79,6 +79,9 @@ public class SystemUtils {
         StringBuilder sb = new StringBuilder();
         String language = locale.getLanguage();
         if (language.length() > 0) {
+            if ("in".equals(language)) { // 印尼语，因后端只识别新的IOS编码,所以这里进行转换
+                language = "id";
+            }
             sb.append(language);
         }
         String country = locale.getCountry();
@@ -94,8 +97,9 @@ public class SystemUtils {
                     break;
                 case "ar": // 阿拉伯语
                     sb.append("-");
-                    sb.append("AE");
+                    sb.append("SA");
                     break;
+                case "id": //印尼语
                 case "in": //印尼语
                     sb.append("-");
                     sb.append("ID");

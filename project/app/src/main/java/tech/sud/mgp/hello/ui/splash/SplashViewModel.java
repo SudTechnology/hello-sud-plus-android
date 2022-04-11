@@ -10,8 +10,6 @@ import com.blankj.utilcode.util.TimeUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.trello.rxlifecycle4.components.support.RxAppCompatActivity;
 
-import java.util.concurrent.Executor;
-
 import tech.sud.mgp.hello.common.base.BaseViewModel;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
@@ -35,7 +33,6 @@ public class SplashViewModel extends BaseViewModel {
     public final MutableLiveData<Object> startLoginPageLiveData = new MutableLiveData<>(); // 去登录页
     public final MutableLiveData<Object> startMainPageLiveData = new MutableLiveData<>(); // 去主页
     public final MutableLiveData<CheckUpgradeResp> showUpgradeLiveData = new MutableLiveData<>(); // 展示升级信息
-    private final Executor executor = ThreadUtils.getIoPool();
 
     // 初始化
     public void init(RxAppCompatActivity owner) {
@@ -94,7 +91,7 @@ public class SplashViewModel extends BaseViewModel {
 
     // 2.检查是否已登录并处理
     private void checkLogin(RxAppCompatActivity owner) {
-        executor.execute(new Runnable() {
+        ThreadUtils.getIoPool().execute(new Runnable() {
             @Override
             public void run() {
                 LoginRepository.loadUserInfo();
@@ -113,13 +110,13 @@ public class SplashViewModel extends BaseViewModel {
                                 @Override
                                 public void onError(Throwable e) {
                                     super.onError(e);
-                                    loginSuccess();
+                                    loginSuccess(); // 刷新Token遇到网络异常，直接进入首页
                                 }
 
                                 @Override
                                 public void onNext(BaseResponse<RefreshTokenResponse> t) {
                                     super.onNext(t);
-                                    if (t.getRetCode() == RetCode.SUCCESS) {
+                                    if (t.getRetCode() == RetCode.SUCCESS) { // 刷新Token成功
                                         UserInfoConverter.conver(t.getData());
                                         ThreadUtils.getIoPool().execute(new Runnable() {
                                             @Override
@@ -128,7 +125,7 @@ public class SplashViewModel extends BaseViewModel {
                                             }
                                         });
                                         configViewModel.getBaseConfig(owner);
-                                    } else {
+                                    } else { // 刷新Token不成功，回到登录页
                                         ToastUtils.showShort(ResponseUtils.conver(t));
                                         startLoginPageLiveData.postValue(null);
                                     }
@@ -149,6 +146,7 @@ public class SplashViewModel extends BaseViewModel {
         }
     };
 
+    // 已登录，去首页
     private void loginSuccess() {
         startMainPageLiveData.setValue(null);
     }

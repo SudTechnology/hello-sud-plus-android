@@ -72,7 +72,7 @@ public class RCloudAudioEngineImpl implements ISudAudioEngine {
         // 设置自己的userId
         mUserID = model.userID;
         // 进行 AppKey 设置
-        RongCoreClient.init(context.getApplicationContext(), model.appId);
+        RongCoreClient.init(context.getApplicationContext(), model.appKey);
         // 连接 IM 服务
         RongCoreClient.connect(model.token, new IRongCoreCallback.ConnectCallback() {
             @Override

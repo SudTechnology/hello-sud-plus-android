@@ -105,7 +105,7 @@ public class NeteaseAudioEngineImpl implements ISudAudioEngine {
         NERtcEx engine = getEngine();
         if (engine != null) {
             try {
-                engine.init(context.getApplicationContext(), model.appId, neRtcCallbackEx, null);
+                engine.init(context.getApplicationContext(), model.appKey, neRtcCallbackEx, null);
 
                 engine.setAudioProfile(NERtcConstants.AudioProfile.HIGH_QUALITY, NERtcConstants.AudioScenario.CHATROOM);
                 engine.setChannelProfile(COMMUNICATION);

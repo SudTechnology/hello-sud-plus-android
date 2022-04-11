@@ -49,7 +49,7 @@ public class RTCManager {
             AudioEngineFactory.create(RCloudAudioEngineImpl.class);
             RongCloudConfig rongCloudConfig = (RongCloudConfig) config;
             AudioConfigModel audioConfigModel = new AudioConfigModel();
-            audioConfigModel.appId = rongCloudConfig.appKey;
+            audioConfigModel.appKey = rongCloudConfig.appKey;
             audioConfigModel.token = rtcToken;
             audioConfigModel.userID = HSUserInfo.userId + "";
             AudioEngineFactory.getEngine().initWithConfig(Utils.getApp(), audioConfigModel, runnable);
@@ -57,7 +57,7 @@ public class RTCManager {
             AudioEngineFactory.create(NeteaseAudioEngineImpl.class);
             CommsEaseConfig neteaseConfig = (CommsEaseConfig) config;
             AudioConfigModel audioConfigModel = new AudioConfigModel();
-            audioConfigModel.appId = neteaseConfig.appKey;
+            audioConfigModel.appKey = neteaseConfig.appKey;
             audioConfigModel.token = rtiToken;
             audioConfigModel.userID = HSUserInfo.userId + "";
             AudioEngineFactory.getEngine().initWithConfig(Utils.getApp(), audioConfigModel, runnable);

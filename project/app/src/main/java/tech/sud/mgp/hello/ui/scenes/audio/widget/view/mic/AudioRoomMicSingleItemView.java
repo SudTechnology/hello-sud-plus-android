@@ -20,6 +20,9 @@ import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoleType;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.mic.BaseMicItemView;
 
+/**
+ * 语聊房，处于顶部的独立单个麦位
+ */
 public class AudioRoomMicSingleItemView extends BaseMicItemView {
 
     private SoundLevelView mSoundLevelView;

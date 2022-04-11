@@ -19,6 +19,9 @@ import tech.sud.mgp.hello.common.widget.view.round.RoundedImageView;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.mic.BaseMicItemView;
 
+/**
+ * 语聊房，游戏时显示的单个麦位
+ */
 public class AudioRoomGameMicItemView extends BaseMicItemView {
 
     private SoundLevelView mSoundLevelView;
@@ -68,7 +71,8 @@ public class AudioRoomGameMicItemView extends BaseMicItemView {
         if (hasUser) {
             mTvName.setText(item.nickName);
         } else {
-            mTvName.setText(R.string.audio_click_got_mic);
+//            mTvName.setText(R.string.audio_click_got_mic);
+            mTvName.setText("");
         }
 
         // 队长标识

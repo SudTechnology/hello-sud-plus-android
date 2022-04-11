@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.ActivityUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.Utils;
 import com.jeremyliao.liveeventbus.LiveEventBus;
 
@@ -58,6 +59,9 @@ public class LanguageActivity extends BaseActivity {
         langRecyclerview.setLayoutManager(new LinearLayoutManager(this));
         mAdapter.setOnItemClickListener((adapter, view, position) -> {
             LangModel lang = viewModel.languages.get(position);
+            if (lang.isSelected) {
+                return;
+            }
             viewModel.clickCell(lang);
             mAdapter.notifyDataSetChanged();
             changeLanguage(lang);
@@ -86,6 +90,7 @@ public class LanguageActivity extends BaseActivity {
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
+        ToastUtils.showLong(R.string.switched_language);
     }
 
 }

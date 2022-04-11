@@ -1,6 +1,8 @@
 package tech.sud.mgp.hello.service.main.manager;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +12,9 @@ import tech.sud.mgp.hello.service.main.resp.GameListResp;
 import tech.sud.mgp.hello.service.main.resp.GameModel;
 import tech.sud.mgp.hello.service.main.resp.RoomListResp;
 import tech.sud.mgp.hello.service.main.resp.SceneModel;
+import tech.sud.mgp.hello.ui.main.constant.SceneType;
+import tech.sud.mgp.hello.ui.scenes.asr.ASRActivity;
+import tech.sud.mgp.hello.ui.scenes.ticket.activity.TicketActivity;
 
 public class HomeManager {
 
@@ -41,23 +46,55 @@ public class HomeManager {
     }
 
     /**
-     * 获取场景名字
+     * 获取场景TAG
      * sceneType:场景id
      */
-    public String sceneName(int sceneType) {
+    public SceneInfo sceneTag(int sceneType) {
         if (gameListResp != null && gameListResp.getSceneList() != null && gameListResp.getSceneList().size() > 0) {
             for (int i = 0; i < gameListResp.getSceneList().size(); i++) {
                 SceneModel sceneModel = gameListResp.getSceneList().get(i);
                 if (sceneModel.getSceneId() == sceneType) {
-                    String name = sceneModel.getSceneName();
-                    if (name.contains("场景")) {
-                        return name.replace("场景", "");
-                    }
-                    return name;
+                    SceneInfo info = new SceneInfo();
+                    info.name = sceneModel.getSceneTag();
+                    info.colorResId = sceneTagResId(sceneType);
+                    return info;
                 }
             }
         }
-        return sceneType + "";
+        SceneInfo info = new SceneInfo();
+        info.name = sceneType + "";
+        info.colorResId = Color.parseColor("#f5f5f5");
+        return info;
+    }
+
+    /**
+     * 获取场景TAG
+     * sceneType:场景id
+     * 暂时先每个都列出来，后面ui需要修改就替换颜色
+     */
+    public int sceneTagResId(int sceneType) {
+        switch (sceneType) {
+            case SceneType.ASR:
+                return Color.parseColor("#ddf5d9");
+            case SceneType.TICKET:
+                return Color.parseColor("#b3262732");
+            case SceneType.TALENT:
+                return Color.parseColor("#f5f5f5");
+            case SceneType.CROSS_ROOM:
+                return Color.parseColor("#f5f5f5");
+            case SceneType.ONE_ONE:
+                return Color.parseColor("#f5f5f5");
+            case SceneType.ORDER_ENTERTAINMENT:
+                return Color.parseColor("#f5f5f5");
+            case SceneType.QUIZ:
+                return Color.parseColor("#f5f5f5");
+            case SceneType.SHOW:
+                return Color.parseColor("#f5f5f5");
+            case SceneType.AUDIO:
+                return Color.parseColor("#f5f5f5");
+            default:
+                return Color.parseColor("#f5f5f5");
+        }
     }
 
     /**
@@ -108,6 +145,14 @@ public class HomeManager {
             }
         }
         return null;
+    }
+
+    /**
+     * 根据场景id，返回场景信息的model
+     */
+    public class SceneInfo {
+        public String name;
+        public int colorResId;
     }
 
 }

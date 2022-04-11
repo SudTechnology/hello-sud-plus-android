@@ -2,6 +2,7 @@ package tech.sud.mgp.hello.ui.main.roomlist;
 
 import android.text.TextUtils;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
@@ -25,11 +26,15 @@ public class RoomListAdapter extends BaseQuickAdapter<RoomItemModel, BaseViewHol
     @Override
     protected void convert(BaseViewHolder helper, RoomItemModel item) {
         ImageView cover = helper.getView(R.id.room_cover);
+        TextView sceneNameTv = helper.getView(R.id.room_scene);
         helper.setText(R.id.room_name, item.getRoomName());
         helper.setText(R.id.room_id, cover.getContext().getString(R.string.room_list_roomid, item.getRoomId() + ""));
         helper.setText(R.id.room_online, cover.getContext().getString(R.string.room_list_online, item.getMemberCount() + ""));
         helper.setText(R.id.rtc_name, AppData.getInstance().getRtcNameByRtcType(item.getRtcType()));
-        helper.setText(R.id.room_scene, HomeManager.getInstance().sceneName(item.getSceneType()));
+        HomeManager.SceneInfo info = HomeManager.getInstance().sceneTag(item.getSceneType());
+        sceneNameTv.setText(info.name);
+        sceneNameTv.setBackgroundColor(info.colorResId);
+
         if (!TextUtils.isEmpty(item.getRoomPic())) {
             ImageLoader.loadImage(cover, item.getRoomPic());
         } else {

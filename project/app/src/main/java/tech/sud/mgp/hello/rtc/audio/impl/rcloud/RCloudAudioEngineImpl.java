@@ -78,7 +78,12 @@ public class RCloudAudioEngineImpl implements ISudAudioEngine {
             @Override
             public void onSuccess(String t) {
                 if (success != null) {
-                    success.run();
+                    ThreadUtils.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            success.run();
+                        }
+                    });
                 }
             }
 

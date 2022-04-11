@@ -67,6 +67,11 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
      */
     @Override
     public void initWithConfig(Context context, AudioConfigModel model) {
+        initWithConfig(context, model, null);
+    }
+
+    @Override
+    public void initWithConfig(Context context, AudioConfigModel model, Runnable success) {
         // 初始化引擎
         try {
             RtcEngineConfig config = new RtcEngineConfig();
@@ -81,16 +86,11 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
                 mEngine.enableAudioVolumeIndication(300, 3, true);
 
                 // 初始化rtm信令
-                initRtm(context, model);
+                initRtm(context, model, success);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void initWithConfig(Context context, AudioConfigModel model, Runnable success) {
-        initWithConfig(context, model);
     }
 
     @Override
@@ -378,7 +378,7 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
 
     // region RTM 信令操作
     // 初始化rtm信令, 登录 Agora RTM 系统
-    private void initRtm(Context context, AudioConfigModel model) {
+    private void initRtm(Context context, AudioConfigModel model, Runnable success) {
         try {
             if (mRtmClient == null) {
                 mRtmClient = RtmClient.createInstance(context.getApplicationContext(), model.appId, rtmClientListener);
@@ -386,7 +386,24 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
 
             if (mRtmClient != null) {
                 // 登录Agora RTM 系统
-                mRtmClient.login(model.token, model.userID, null);
+                mRtmClient.login(model.token, model.userID, new ResultCallback<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        if (success != null) {
+                            ThreadUtils.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    success.run();
+                                }
+                            });
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(ErrorInfo errorInfo) {
+
+                    }
+                });
             }
 
         } catch (Exception e) {

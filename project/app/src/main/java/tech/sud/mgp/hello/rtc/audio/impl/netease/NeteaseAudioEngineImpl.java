@@ -85,7 +85,12 @@ public class NeteaseAudioEngineImpl implements ISudAudioEngine {
                         @Override
                         public void onSuccess(LoginInfo loginInfo) {
                             if (success != null) {
-                                success.run();
+                                ThreadUtils.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        success.run();
+                                    }
+                                });
                             }
                         }
 

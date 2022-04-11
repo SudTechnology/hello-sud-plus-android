@@ -44,7 +44,7 @@ public class RTCManager {
             audioConfigModel.appId = agoraConfig.appId;
             audioConfigModel.token = rtiToken;
             audioConfigModel.userID = HSUserInfo.userId + "";
-            AudioEngineFactory.getEngine().initWithConfig(Utils.getApp(), audioConfigModel);
+            AudioEngineFactory.getEngine().initWithConfig(Utils.getApp(), audioConfigModel, runnable);
         } else if (config instanceof RongCloudConfig) {
             AudioEngineFactory.create(RCloudAudioEngineImpl.class);
             RongCloudConfig rongCloudConfig = (RongCloudConfig) config;

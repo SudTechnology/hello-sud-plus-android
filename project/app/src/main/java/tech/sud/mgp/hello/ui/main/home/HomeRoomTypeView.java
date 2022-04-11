@@ -82,9 +82,9 @@ public class HomeRoomTypeView extends ConstraintLayout {
             sceneNameTv.setText(sceneModel.getSceneName());
         }
         if (!TextUtils.isEmpty(sceneModel.getSceneImage())) {
-            ImageLoader.loadImage(sceneIv, sceneModel.getSceneImage());
+            ImageLoader.loadSceneCover(sceneIv, sceneModel.getSceneImage());
         } else {
-            sceneIv.setImageResource(R.drawable.icon_audio_room);
+            sceneIv.setImageResource(R.drawable.icon_scene_default);
         }
         List<GameModel> models = new ArrayList<>();
         if (datas != null && datas.size() > 0) {

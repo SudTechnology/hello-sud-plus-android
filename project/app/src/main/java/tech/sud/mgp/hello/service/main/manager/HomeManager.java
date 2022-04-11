@@ -85,7 +85,7 @@ public class HomeManager {
         for (int i = 0; i < 3; i++) {
             GameModel game = new GameModel();
             game.setGameId(-1);
-            game.setGameName("");
+            game.setGameName(context.getString(R.string.coming_soon));
             game.setGamePic("");
             gameModels.add(game);
         }

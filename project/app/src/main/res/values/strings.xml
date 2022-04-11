@@ -258,6 +258,7 @@ Go to homepage to create one~</string>
     <string name="transfer_captain">转让队长</string>
     <string name="kick_game">踢出游戏</string>
     <string name="net_error_hint">网络错误，请检查网络连接</string>
+    <string name="switched_language">已切换语言</string>
     <!-- endregion 新增 -->
 
 </resources>

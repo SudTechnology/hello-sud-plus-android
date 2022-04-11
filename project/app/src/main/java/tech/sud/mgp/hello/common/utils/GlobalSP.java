@@ -15,6 +15,7 @@ public class GlobalSP {
     public final static String USER_REFRESHTOKEN_KEY = "user_refreshtoken_key"; // 登录刷新Token
     public final static String USER_HEAD_PORTRAIT_KEY = "user_head_portrait_key"; // 登录的用户头像
     public final static String KEY_LANG_CELL_TYPE = "key_lang_cell_type"; // 记录当前设置的语言类型
+    public final static String KEY_SHOW_GUIDE_UPGRADE_TIMESTAMP = "key_show_guide_upgrade_timestamp"; // 记录上一次显示引导更新的时间戳
 
     public static SPUtils getSP() {
         return SPUtils.getInstance(SP_NAME);

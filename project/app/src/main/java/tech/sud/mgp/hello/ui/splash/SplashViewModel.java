@@ -6,10 +6,9 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
 import com.blankj.utilcode.util.ThreadUtils;
+import com.blankj.utilcode.util.TimeUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.trello.rxlifecycle4.components.support.RxAppCompatActivity;
-
-import java.util.concurrent.Executor;
 
 import tech.sud.mgp.hello.common.base.BaseViewModel;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
@@ -17,6 +16,7 @@ import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.model.UserInfoConverter;
+import tech.sud.mgp.hello.common.utils.GlobalSP;
 import tech.sud.mgp.hello.common.utils.ResponseUtils;
 import tech.sud.mgp.hello.service.login.repository.LoginRepository;
 import tech.sud.mgp.hello.service.login.resp.RefreshTokenResponse;
@@ -33,7 +33,6 @@ public class SplashViewModel extends BaseViewModel {
     public final MutableLiveData<Object> startLoginPageLiveData = new MutableLiveData<>(); // 去登录页
     public final MutableLiveData<Object> startMainPageLiveData = new MutableLiveData<>(); // 去主页
     public final MutableLiveData<CheckUpgradeResp> showUpgradeLiveData = new MutableLiveData<>(); // 展示升级信息
-    private final Executor executor = ThreadUtils.getIoPool();
 
     // 初始化
     public void init(RxAppCompatActivity owner) {
@@ -54,7 +53,7 @@ public class SplashViewModel extends BaseViewModel {
             public void onNext(BaseResponse<CheckUpgradeResp> resp) {
                 super.onNext(resp);
                 if (resp.getRetCode() == RetCode.SUCCESS) {
-                    if (resp.getData() != null && resp.getData().upgradeId != null) {
+                    if (isShowUpgradeDialog(resp.getData())) {
                         showUpgradeLiveData.setValue(resp.getData());
                     } else {
                         checkLogin(owner);
@@ -67,6 +66,24 @@ public class SplashViewModel extends BaseViewModel {
         });
     }
 
+    // 是否要显示更新弹窗
+    private boolean isShowUpgradeDialog(CheckUpgradeResp resp) {
+        if (resp != null && resp.upgradeId != null) {
+            if (resp.upgradeType == CheckUpgradeResp.FORCE_UPGRADE) { // 强更要显示
+                return true;
+            } else { // 引导更新，每天只弹一次
+                long showTimestamp = GlobalSP.getSP().getLong(GlobalSP.KEY_SHOW_GUIDE_UPGRADE_TIMESTAMP);
+                if (TimeUtils.isToday(showTimestamp)) {
+                    return false;
+                } else {
+                    GlobalSP.getSP().put(GlobalSP.KEY_SHOW_GUIDE_UPGRADE_TIMESTAMP, System.currentTimeMillis());
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     // 更新弹窗交互已经完成
     public void upgradeCompleted(RxAppCompatActivity owner) {
         checkLogin(owner);
@@ -74,7 +91,7 @@ public class SplashViewModel extends BaseViewModel {
 
     // 2.检查是否已登录并处理
     private void checkLogin(RxAppCompatActivity owner) {
-        executor.execute(new Runnable() {
+        ThreadUtils.getIoPool().execute(new Runnable() {
             @Override
             public void run() {
                 LoginRepository.loadUserInfo();
@@ -93,13 +110,13 @@ public class SplashViewModel extends BaseViewModel {
                                 @Override
                                 public void onError(Throwable e) {
                                     super.onError(e);
-                                    loginSuccess();
+                                    loginSuccess(); // 刷新Token遇到网络异常，直接进入首页
                                 }
 
                                 @Override
                                 public void onNext(BaseResponse<RefreshTokenResponse> t) {
                                     super.onNext(t);
-                                    if (t.getRetCode() == RetCode.SUCCESS) {
+                                    if (t.getRetCode() == RetCode.SUCCESS) { // 刷新Token成功
                                         UserInfoConverter.conver(t.getData());
                                         ThreadUtils.getIoPool().execute(new Runnable() {
                                             @Override
@@ -108,7 +125,7 @@ public class SplashViewModel extends BaseViewModel {
                                             }
                                         });
                                         configViewModel.getBaseConfig(owner);
-                                    } else {
+                                    } else { // 刷新Token不成功，回到登录页
                                         ToastUtils.showShort(ResponseUtils.conver(t));
                                         startLoginPageLiveData.postValue(null);
                                     }
@@ -129,6 +146,7 @@ public class SplashViewModel extends BaseViewModel {
         }
     };
 
+    // 已登录，去首页
     private void loginSuccess() {
         startMainPageLiveData.setValue(null);
     }

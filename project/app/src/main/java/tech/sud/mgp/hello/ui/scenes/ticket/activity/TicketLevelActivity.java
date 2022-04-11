@@ -13,6 +13,7 @@ import java.io.Serializable;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseActivity;
+import tech.sud.mgp.hello.common.utils.AnimUtils;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.ui.common.constant.RequestKey;
 import tech.sud.mgp.hello.ui.common.widget.HSTopBar;
@@ -36,14 +37,17 @@ public class TicketLevelActivity extends BaseActivity implements View.OnClickLis
     private TextView tvWinAwardSmall;
     private FrameLayout flAvatarsSmall;
     private TextView tvCountSmall;
+    private TextView tvJoinSmall;
     private View clMiddle;
     private TextView tvWinAwardMiddle;
     private FrameLayout flAvatarsMiddle;
     private TextView tvCountMiddle;
+    private TextView tvJoinMiddle;
     private View clHigh;
     private TextView tvWinAwardHigh;
     private FrameLayout flAvatarsHigh;
     private TextView tvCountHigh;
+    private TextView tvJoinHigh;
 
     private TicketLevelViewModel viewModel = new TicketLevelViewModel();
 
@@ -78,15 +82,25 @@ public class TicketLevelActivity extends BaseActivity implements View.OnClickLis
         tvWinAwardSmall = findViewById(R.id.tv_win_award_small);
         flAvatarsSmall = findViewById(R.id.fl_avatars_small);
         tvCountSmall = findViewById(R.id.tv_count_people_small);
+        tvJoinSmall = findViewById(R.id.tv_join_small);
         clMiddle = findViewById(R.id.cl_middle);
         tvWinAwardMiddle = findViewById(R.id.tv_win_award_middle);
         flAvatarsMiddle = findViewById(R.id.fl_avatars_middle);
         tvCountMiddle = findViewById(R.id.tv_count_people_middle);
+        tvJoinMiddle = findViewById(R.id.tv_join_middle);
         clHigh = findViewById(R.id.cl_high);
         tvWinAwardHigh = findViewById(R.id.tv_win_award_high);
         flAvatarsHigh = findViewById(R.id.fl_avatars_high);
         tvCountHigh = findViewById(R.id.tv_count_people_high);
+        tvJoinHigh = findViewById(R.id.tv_join_high);
         ImmersionBar.setTitleBarMarginTop(this, topBar);
+        startJoinAnim();
+    }
+
+    private void startJoinAnim() {
+        AnimUtils.breathe(tvJoinSmall);
+        AnimUtils.breathe(tvJoinMiddle);
+        AnimUtils.breathe(tvJoinHigh);
     }
 
     @Override

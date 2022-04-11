@@ -78,6 +78,7 @@
                     app:layout_constraintTop_toTopOf="@id/fl_avatars_small" />
 
                 <TextView
+                    android:id="@+id/tv_join_small"
                     android:layout_width="88dp"
                     android:layout_height="30dp"
                     android:textSize="14sp"
@@ -143,6 +144,7 @@
                     app:layout_constraintTop_toTopOf="@id/fl_avatars_middle" />
 
                 <TextView
+                    android:id="@+id/tv_join_middle"
                     android:layout_width="88dp"
                     android:layout_height="30dp"
                     android:textSize="14sp"
@@ -216,6 +218,7 @@
                     app:layout_constraintTop_toTopOf="@id/fl_avatars_high" />
 
                 <TextView
+                    android:id="@+id/tv_join_high"
                     android:layout_width="88dp"
                     android:layout_height="30dp"
                     android:textSize="14sp"

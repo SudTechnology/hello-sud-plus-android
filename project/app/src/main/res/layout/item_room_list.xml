@@ -19,6 +19,7 @@
         android:id="@+id/room_scene"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:maxWidth="60dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="4dp"
         android:background="#F5F5F5"
@@ -26,27 +27,31 @@
         android:paddingVertical="3dp"
         android:singleLine="true"
         android:textColor="#999999"
+        android:ellipsize="end"
         android:textSize="10sp"
         app:layout_constraintStart_toEndOf="@id/room_cover"
         app:layout_constraintTop_toTopOf="@id/room_cover" />
 
     <TextView
         android:id="@+id/room_name"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="6dp"
-        android:layout_marginTop="3dp"
         android:gravity="center_vertical"
         android:singleLine="true"
+        android:ellipsize="end"
         android:textColor="#1a1a1a"
         android:textSize="16sp"
+        android:layout_marginHorizontal="6dp"
+        android:layout_marginTop="3dp"
         app:layout_constraintStart_toEndOf="@id/room_scene"
+        app:layout_constraintEnd_toStartOf="@id/room_online"
         app:layout_constraintTop_toTopOf="@id/room_cover" />
 
     <TextView
         android:id="@+id/room_online"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:maxWidth="80dp"
         android:layout_marginTop="6dp"
         android:textColor="#666666"
         android:textSize="12sp"

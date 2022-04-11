@@ -86,7 +86,7 @@ public class HomeManager {
             GameModel game = new GameModel();
             game.setGameId(-1);
             game.setGameName(context.getString(R.string.coming_soon));
-            game.setGamePic("");
+            game.setHomeGamePic("");
             gameModels.add(game);
         }
         return gameModels;

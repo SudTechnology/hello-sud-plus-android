@@ -2,7 +2,6 @@ package tech.sud.mgp.hello.ui.main.home;
 
 import android.graphics.Color;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,9 +27,9 @@ public class GameAdapter extends BaseQuickAdapter<GameModel, BaseViewHolder> {
         TextView nameTv = helper.getView(R.id.game_name);
         nameTv.setText(item.getGameName());
         ImageView iconView = helper.getView(R.id.game_icon);
-        if (!TextUtils.isEmpty(item.getGamePic())) {
+        if (!TextUtils.isEmpty(item.getHomeGamePic())) {
             nameTv.setTextColor(Color.WHITE);
-            ImageLoader.loadGameCover(iconView, item.getGamePic());
+            ImageLoader.loadGameCover(iconView, item.getHomeGamePic());
         } else {
             nameTv.setTextColor(Color.parseColor("#AAAAAA"));
             iconView.setImageResource(R.drawable.icon_game_empty);

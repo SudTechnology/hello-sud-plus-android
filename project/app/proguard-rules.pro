@@ -53,3 +53,7 @@
 -keep class cn.rongcloud.voiceroom.model.** {*;}
 -keep class cn.rongcloud.voiceroom.utils.** {*;}
 -keep class cn.rongcloud.messager.** {*;}
+
+#网易云信的混淆
+-dontwarn com.netease.**
+-keep class com.netease.** {*;}

@@ -4,7 +4,6 @@ public class SceneModel {
     int sceneId;
     String sceneName;
     String sceneImage;
-    String sceneTag;
 
     public int getSceneId() {
         return sceneId;
@@ -30,11 +29,4 @@ public class SceneModel {
         this.sceneImage = sceneImage;
     }
 
-    public String getSceneTag() {
-        return sceneTag;
-    }
-
-    public void setSceneTag(String sceneTag) {
-        this.sceneTag = sceneTag;
-    }
 }

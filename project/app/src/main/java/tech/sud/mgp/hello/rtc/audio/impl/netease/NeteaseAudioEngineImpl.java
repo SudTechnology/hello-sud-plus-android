@@ -32,8 +32,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
-import cn.rongcloud.rtc.api.RCRTCEngine;
-import cn.rongcloud.rtc.api.RCRTCRoom;
 import tech.sud.mgp.hello.rtc.audio.core.AudioPCMData;
 import tech.sud.mgp.hello.rtc.audio.core.AudioRoomState;
 import tech.sud.mgp.hello.rtc.audio.core.ISudAudioEngine;
@@ -279,13 +277,9 @@ public class NeteaseAudioEngineImpl implements ISudAudioEngine {
 
     // 更新房间内用户总人数
     private void updateRoomUserCount() {
-        RCRTCRoom rcrtcRoom = RCRTCEngine.getInstance().getRoom();
-        if (rcrtcRoom == null)
-            return;
-
         ISudAudioEventListener handler = mISudAudioEventListener;
         if (handler != null) {
-            handler.onRoomOnlineUserCountUpdate(rcrtcRoom.getRoomId(), roomUserList.size() + 1);
+            handler.onRoomOnlineUserCountUpdate(mRoomID, roomUserList.size() + 1);
         }
     }
 

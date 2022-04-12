@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- 运行前台服务 -->
 
     <!-- 运行时权限 -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
@@ -166,6 +167,12 @@
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
 
+        <!-- 切换语言页面 -->
+        <activity
+            android:name=".ui.common.activity.MyTranslucentActivity"
+            android:theme="@style/MyTranslucentTheme"
+            android:exported="false" />
+
         <!-- 屏幕适配配置 -->
         <meta-data
             android:name="design_width_in_dp"
@@ -222,6 +229,10 @@
             android:name="com.netease.nimlib.ipc.cp.provider.PreferenceContentProvider"
             android:authorities="tech.sud.mgp.hello.ipc.provider.preference"
             android:exported="false" />
+
+        <!-- 房间服务 -->
+        <service android:name=".ui.scenes.base.service.SceneRoomService" />
+
     </application>
 
 </manifest>

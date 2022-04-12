@@ -36,7 +36,7 @@ public class ASRActivity extends AudioRoomActivity {
     @Override
     protected void onASRChanged(boolean open) {
         super.onASRChanged(open);
-        if (open && !binder.isOpenedMic()) {
+        if (open && binder != null && !binder.isOpenedMic()) {
             clOpenMic.setVisibility(View.VISIBLE);
             clOpenMic.removeCallbacks(delayDismissTask);
             clOpenMic.postDelayed(delayDismissTask, delayDismissDuration);

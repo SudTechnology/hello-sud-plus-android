@@ -1,6 +1,12 @@
 package tech.sud.mgp.hello.ui.scenes.base.activity;
 
 import android.Manifest;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.Build;
+import android.os.IBinder;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -28,6 +34,7 @@ import tech.sud.mgp.hello.common.permission.SudPermissionUtils;
 import tech.sud.mgp.hello.common.widget.dialog.BottomOptionDialog;
 import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
 import tech.sud.mgp.hello.rtc.audio.core.AudioPCMData;
+import tech.sud.mgp.hello.ui.common.constant.RequestKey;
 import tech.sud.mgp.hello.ui.scenes.base.constant.OperateMicType;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoleType;
@@ -58,7 +65,6 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
 
     protected RoomInfoModel roomInfoModel; // 房间信息
     protected long playingGameId; // 当前正在玩的游戏id
-    protected boolean needEnterRoom = true; // 标识是否需要进入房间
 
     protected SceneRoomTopView topView;
     protected SceneRoomMicWrapView micView;
@@ -71,8 +77,7 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
     protected TextView tvGameNumber;
 
     private boolean closeing; // 标识是否正在关闭房间
-    protected final SceneRoomService sceneRoomService = new SceneRoomService();
-    protected final SceneRoomService.MyBinder binder = sceneRoomService.getBinder();
+    protected SceneRoomService.MyBinder binder;
     protected final SceneRoomViewModel viewModel = new SceneRoomViewModel();
     protected final T gameViewModel = initGameViewModel();
 
@@ -88,14 +93,19 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
 
     @Override
     protected boolean beforeSetContentView() {
-        Serializable roomInfoModel = getIntent().getSerializableExtra("RoomInfoModel");
-        if (roomInfoModel instanceof RoomInfoModel) {
-            this.roomInfoModel = (RoomInfoModel) roomInfoModel;
+        Serializable modelSerializable = getIntent().getSerializableExtra("RoomInfoModel");
+        if (modelSerializable instanceof RoomInfoModel) {
+            roomInfoModel = (RoomInfoModel) modelSerializable;
+        } else {
+            boolean isPendingIntent = getIntent().getBooleanExtra(RequestKey.KEY_IS_PENDING_INTENT, false);
+            if (isPendingIntent) {
+                roomInfoModel = SceneRoomService.getRoomInfoModel();
+            }
         }
-        if (this.roomInfoModel == null || this.roomInfoModel.roomId == 0) {
+        if (roomInfoModel == null || roomInfoModel.roomId == 0) {
             return true;
         }
-        playingGameId = this.roomInfoModel.gameId;
+        playingGameId = roomInfoModel.gameId;
         return super.beforeSetContentView();
     }
 
@@ -140,14 +150,16 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
         topView.setId(getString(R.string.audio_room_number) + " " + roomInfoModel.roomId);
         viewModel.initData();
         initGame();
+        bindService();
     }
 
     private void enterRoom() {
-        sceneRoomService.onCreate();
-        binder.setCallback(this);
-        binder.init(sceneConfig);
+        if (binder != null) {
+            binder.setCallback(this);
+            binder.init(sceneConfig, getClass());
+            binder.enterRoom(roomInfoModel);
+        }
         updatePageStyle();
-        binder.enterRoom(roomInfoModel);
     }
 
     @Override
@@ -173,7 +185,9 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
                 AudioRoomMicModel model = micView.getItem(position);
                 if (model != null) {
                     if (model.userId == 0) {
-                        binder.micLocationSwitch(position, true, OperateMicType.USER);
+                        if (binder != null) {
+                            binder.micLocationSwitch(position, true, OperateMicType.USER);
+                        }
                     } else if (model.userId == HSUserInfo.userId) {
                         clickSelfMicLocation(position);
                     } else if (model.userId > 0) {
@@ -188,7 +202,9 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
         bottomView.setGotMicClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                binder.autoUpMic(OperateMicType.USER);
+                if (binder != null) {
+                    binder.autoUpMic(OperateMicType.USER);
+                }
             }
         });
         bottomView.setInputClickListener(new View.OnClickListener() {
@@ -211,7 +227,9 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
         inputMsgView.setSendMsgListener(new RoomInputMsgView.SendMsgListener() {
             @Override
             public void onSendMsg(CharSequence msg) {
-                binder.sendPublicMsg(msg);
+                if (binder != null) {
+                    binder.sendPublicMsg(msg);
+                }
                 inputMsgView.hide();
                 inputMsgView.clearInput();
             }
@@ -286,20 +304,26 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
             @Override
             public void onChanged(String msg) {
                 if (msg != null) {
-                    binder.addChatMsg(msg);
+                    if (binder != null) {
+                        binder.addChatMsg(msg);
+                    }
                 }
             }
         });
         gameViewModel.updateMicLiveData.observe(this, new Observer<Object>() {
             @Override
             public void onChanged(Object obj) {
-                binder.updateMicList();
+                if (binder != null) {
+                    binder.updateMicList();
+                }
             }
         });
         gameViewModel.autoUpMicLiveData.observe(this, new Observer<Object>() {
             @Override
             public void onChanged(Object o) {
-                binder.autoUpMic(OperateMicType.GAME_AUTO);
+                if (binder != null) {
+                    binder.autoUpMic(OperateMicType.GAME_AUTO);
+                }
             }
         });
         gameViewModel.gameASRLiveData.observe(this, new Observer<Boolean>() {
@@ -320,7 +344,9 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
         gameViewModel.gameRTCPlayLiveData.observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
-                binder.setRTCPlay(aBoolean);
+                if (binder != null) {
+                    binder.setRTCPlay(aBoolean);
+                }
             }
         });
         gameViewModel.showFinishGameBtnLiveData.observe(this, new Observer<Boolean>() {
@@ -339,7 +365,9 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
 
     // asr的开启与关闭
     protected void onASRChanged(boolean open) {
-        binder.setASROpen(open);
+        if (binder != null) {
+            binder.setASROpen(open);
+        }
     }
 
     // 点击了自己的麦位
@@ -356,7 +384,9 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
                     if (gameViewModel.playerIsPlaying(HSUserInfo.userId)) {
                         playingDownMic(position);
                     } else {
-                        binder.micLocationSwitch(position, false, OperateMicType.USER); // 执行下麦
+                        if (binder != null) {
+                            binder.micLocationSwitch(position, false, OperateMicType.USER); // 执行下麦
+                        }
                         gameViewModel.exitGame();
                     }
                 }
@@ -429,7 +459,9 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
             @Override
             public void onChoose(int index) {
                 if (index == 1) {
-                    binder.micLocationSwitch(position, false, OperateMicType.USER); // 执行下麦
+                    if (binder != null) {
+                        binder.micLocationSwitch(position, false, OperateMicType.USER); // 执行下麦
+                    }
                     gameViewModel.exitGame();
                 }
                 dialog.dismiss();
@@ -478,7 +510,10 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
 
     // 退出房间
     private void exitRoom() {
-        binder.exitRoom();
+        if (binder != null) {
+            binder.exitRoom();
+        }
+        releaseService();
         viewModel.exitRoom(roomInfoModel.roomId);
         finish();
     }
@@ -508,8 +543,10 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
         playingGameId = gameId;
         roomInfoModel.gameId = gameId;
         gameViewModel.switchGame(this, gameId);
-        binder.updateMicList();
-        binder.switchGame(gameId, selfSwitch);
+        if (binder != null) {
+            binder.updateMicList();
+            binder.switchGame(gameId, selfSwitch);
+        }
         updatePageStyle();
         updateGameNumber();
     }
@@ -533,16 +570,20 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
                     @Override
                     public void onPermission(boolean success) {
                         if (success) {
-                            binder.setMicState(true);
-                            boolean asrIsOpen = gameViewModel.gameASRLiveData.getValue() != null && gameViewModel.gameASRLiveData.getValue();
-                            binder.setASROpen(asrIsOpen);
+                            if (binder != null) {
+                                binder.setMicState(true);
+                                boolean asrIsOpen = gameViewModel.gameASRLiveData.getValue() != null && gameViewModel.gameASRLiveData.getValue();
+                                binder.setASROpen(asrIsOpen);
+                            }
                         }
                     }
                 });
     }
 
     private void closeMic() {
-        binder.setMicState(false);
+        if (binder != null) {
+            binder.setMicState(false);
+        }
     }
 
     /**
@@ -556,7 +597,9 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
     private void showSendGiftDialog(UserInfo underUser, int index) {
         roomGiftDialog = new RoomGiftDialog();
         if (underUser == null) {
-            roomGiftDialog.setMicUsers(binder.getMicList(), index);
+            if (binder != null) {
+                roomGiftDialog.setMicUsers(binder.getMicList(), index);
+            }
         } else {
             roomGiftDialog.setToUser(underUser);
         }
@@ -565,7 +608,9 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
             public void onSendClick(int giftId, int giftCount, List<UserInfo> toUsers) {
                 if (toUsers != null && toUsers.size() > 0) {
                     for (UserInfo user : toUsers) {
-                        binder.sendGift(giftId, giftCount, user);
+                        if (binder != null) {
+                            binder.sendGift(giftId, giftCount, user);
+                        }
                     }
                 }
                 showGift(GiftHelper.getInstance().getGift(giftId));
@@ -573,7 +618,9 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
 
             @Override
             public void onNotify(Map<Long, Boolean> userState) {
-                binder.updateMicList();
+                if (binder != null) {
+                    binder.updateMicList();
+                }
             }
         };
         roomGiftDialog.show(getSupportFragmentManager(), "gift");
@@ -581,7 +628,9 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
             @Override
             public void onDestroy() {
                 roomGiftDialog = null;
-                binder.updateMicList();
+                if (binder != null) {
+                    binder.updateMicList();
+                }
             }
         });
     }
@@ -613,10 +662,40 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
         }
     }
 
+    /**
+     * 绑定后台服务
+     */
+    private void bindService() {
+        Intent intent = new Intent(this, SceneRoomService.class);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) { //Android8后需要开启前台服务才可以
+            startForegroundService(intent);
+        } else {
+            startService(intent);
+        }
+        bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
+    }
+
+    private ServiceConnection serviceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            binder = (SceneRoomService.MyBinder) service;
+            enterRoom();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            // 系统会在与服务的连接意外中断（或者随着activity 的生命周期stop）时调用该方法，当客户端取消绑定的时候，不会回调该方法
+            finish();
+        }
+    };
+
+
     // region service回调
     @Override
     public void onEnterRoomSuccess() {
-        binder.autoUpMic(OperateMicType.USER);
+        if (binder != null) {
+            binder.autoUpMic(OperateMicType.USER);
+        }
     }
 
     @Override
@@ -724,10 +803,6 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
     protected void onResume() {
         super.onResume();
         gameViewModel.onResume();
-        if (needEnterRoom) {
-            needEnterRoom = false;
-            enterRoom();
-        }
         updateStatusBar();
     }
 
@@ -743,11 +818,19 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
         gameViewModel.onStop();
     }
 
+    // 释放绑定的服务
+    private void releaseService() {
+        if (binder != null) {
+            binder.setCallback(null);
+            unbindService(serviceConnection);
+            binder = null;
+        }
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        sceneRoomService.onDestroy();
-        binder.setCallback(null);
+        releaseService();
         if (effectView != null) {
             effectView.onDestory();
         }

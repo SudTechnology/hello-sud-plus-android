@@ -1,41 +1,66 @@
 package tech.sud.mgp.hello.ui.scenes.base.service;
 
+import android.app.Activity;
+import android.app.Service;
+import android.content.Intent;
+import android.os.Binder;
+import android.os.Build;
+import android.os.IBinder;
+
+import androidx.annotation.Nullable;
+
 import java.util.List;
 
+import tech.sud.mgp.hello.ui.common.utils.channel.NotifyId;
 import tech.sud.mgp.hello.ui.scenes.base.activity.SceneConfig;
 import tech.sud.mgp.hello.ui.scenes.base.constant.OperateMicType;
 import tech.sud.mgp.hello.ui.scenes.base.manager.SceneRoomServiceManager;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
+import tech.sud.mgp.hello.ui.scenes.base.utils.SceneRoomNotificationHelper;
 
 /**
  * 房间服务
  */
-public class SceneRoomService {
+public class SceneRoomService extends Service {
 
     private final SceneRoomServiceManager serviceManager = new SceneRoomServiceManager();
     private final MyBinder binder = new MyBinder();
+    private SceneRoomNotificationHelper notificationHelper;
 
+    private static RoomInfoModel roomInfoModel;
+
+    @Override
     public void onCreate() {
+        super.onCreate();
+        notificationHelper = new SceneRoomNotificationHelper(this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) { //android8.0及以后需要开启前台服务
+            startForeground(NotifyId.SCENE_ROOM_NOTIFY_ID.getValue(), notificationHelper.createNotification());
+        } else {
+            notificationHelper.show();
+        }
         serviceManager.onCreate();
     }
 
-    public void onDestroy() {
-        serviceManager.onDestroy();
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        return binder;
     }
 
     public MyBinder getBinder() {
         return binder;
     }
 
-    public class MyBinder {
+    public class MyBinder extends Binder {
 
         /**
          * 初始化
          */
-        public void init(SceneConfig config) {
+        public void init(SceneConfig config, Class<? extends Activity> startClass) {
             serviceManager.sceneMicManager.init(config);
+            notificationHelper.setStartClass(startClass);
         }
 
         /**
@@ -48,10 +73,12 @@ public class SceneRoomService {
         /**
          * 进入房间
          *
-         * @param model
+         * @param model 进入的房间信息
          */
         public void enterRoom(RoomInfoModel model) {
+            roomInfoModel = model;
             serviceManager.enterRoom(model);
+            notificationHelper.setRoomName(model.roomName);
         }
 
         /**
@@ -80,9 +107,7 @@ public class SceneRoomService {
             serviceManager.sceneChatManager.sendPublicMsg(msg);
         }
 
-        public void sendGift(int giftID,
-                             int giftCount,
-                             UserInfo toUser) {
+        public void sendGift(int giftID, int giftCount, UserInfo toUser) {
             serviceManager.sceneGiftManager.sendGift(giftID, giftCount, toUser);
         }
 
@@ -142,16 +167,32 @@ public class SceneRoomService {
          */
         public void exitRoom() {
             serviceManager.exitRoom();
+            stopSelf();
         }
 
         /**
          * 当前是否是开麦的
-         *
-         * @return
          */
         public boolean isOpenedMic() {
             return serviceManager.sceneStreamManager.isPublishingStream();
         }
 
+    }
+
+    // 获取当前使用的房间信息
+    public static RoomInfoModel getRoomInfoModel() {
+        return roomInfoModel;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        roomInfoModel = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) { //android8.0及以后需要开启前台服务，这里关闭服务
+            stopForeground(true);
+        } else {
+            notificationHelper.hide();
+        }
+        serviceManager.onDestroy();
     }
 }

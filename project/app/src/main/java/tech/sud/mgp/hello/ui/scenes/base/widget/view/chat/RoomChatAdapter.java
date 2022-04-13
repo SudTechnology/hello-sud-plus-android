@@ -10,6 +10,9 @@ import tech.sud.mgp.hello.common.widget.adapter.EmptyProvider;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoomTextModel;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftNotifyDetailodel;
 
+/**
+ * 房间内的公屏列表适配器
+ */
 public class RoomChatAdapter extends BaseProviderMultiAdapter<Object> {
 
     public static final int TYPE_TEXT = 1;

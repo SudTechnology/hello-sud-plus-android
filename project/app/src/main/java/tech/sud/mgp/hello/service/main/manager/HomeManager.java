@@ -55,27 +55,27 @@ public class HomeManager {
         switch (sceneType) {
             case SceneType.ASR:
                 color.colorBg = Color.parseColor("#9622C1");
-                color.colorText = Color.parseColor("#66a067");
+                color.colorText = Color.parseColor("#FFFFFF");
                 break;
             case SceneType.TICKET:
                 color.colorBg = Color.parseColor("#E35017");
-                color.colorText = Color.parseColor("#e8c958");
+                color.colorText = Color.parseColor("#FFFFFF");
                 break;
             case SceneType.TALENT:
                 color.colorBg =  Color.parseColor("#F7268B");
-                color.colorText = Color.parseColor("#999999");
+                color.colorText = Color.parseColor("#FFFFFF");
                 break;
             case SceneType.CROSS_ROOM:
                 color.colorBg = Color.parseColor("#504EEB");
-                color.colorText = Color.parseColor("#999999");
+                color.colorText = Color.parseColor("#FFFFFF");
                 break;
             case SceneType.ONE_ONE:
                 color.colorBg = Color.parseColor("#1378F1");
-                color.colorText = Color.parseColor("#999999");
+                color.colorText = Color.parseColor("#FFFFFF");
                 break;
             case SceneType.ORDER_ENTERTAINMENT:
                 color.colorBg = Color.parseColor("#27B7E8");
-                color.colorText = Color.parseColor("#999999");
+                color.colorText = Color.parseColor("#FFFFFF");
                 break;
             case SceneType.QUIZ:
                 color.colorBg = Color.parseColor("#FDAB26");

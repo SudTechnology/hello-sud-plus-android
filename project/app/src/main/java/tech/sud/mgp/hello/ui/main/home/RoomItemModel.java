@@ -17,6 +17,7 @@ public class RoomItemModel {
     private int sceneType;
     private String rtcType;
     private String sceneTag;
+    private String gameLevelDesc;
     
     public int getRoomId() {
         return roomId;
@@ -72,5 +73,13 @@ public class RoomItemModel {
 
     public void setSceneTag(String sceneTag) {
         this.sceneTag = sceneTag;
+    }
+
+    public String getGameLevelDesc() {
+        return gameLevelDesc;
+    }
+
+    public void setGameLevelDesc(String gameLevelDesc) {
+        this.gameLevelDesc = gameLevelDesc;
     }
 }

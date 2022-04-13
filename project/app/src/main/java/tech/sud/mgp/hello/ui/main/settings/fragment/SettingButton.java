@@ -61,12 +61,12 @@ public class SettingButton extends ConstraintLayout {
         // 左边名称
         tvName.setTextSize(16);
         tvName.setTextColor(ContextCompat.getColor(context, R.color.c_1a1a1a));
-        LayoutParams nameParams = new LayoutParams(0, LayoutParams.WRAP_CONTENT);
+        LayoutParams nameParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         nameParams.startToStart = LayoutParams.PARENT_ID;
-        nameParams.endToStart = tvHint.getId();
         nameParams.setMarginEnd(DensityUtils.dp2px(context, 16));
         nameParams.topToTop = LayoutParams.PARENT_ID;
         nameParams.bottomToBottom = LayoutParams.PARENT_ID;
+        nameParams.matchConstraintMaxWidth = DensityUtils.dp2px(context, 215);
         addView(tvName, nameParams);
 
         // 箭头

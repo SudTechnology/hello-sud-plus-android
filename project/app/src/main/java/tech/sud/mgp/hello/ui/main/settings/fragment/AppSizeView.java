@@ -112,7 +112,6 @@ public class AppSizeView extends LinearLayout {
         tvSize.setTextSize(10);
         tvSize.setTextColor(Color.parseColor("#8a8a8e"));
         tvSize.setText(FileUtils.formatFileSize(model.size));
-        tvSize.setBackgroundColor(Color.parseColor("#11ff0000"));
         ConstraintLayout.LayoutParams sizeParams = new ConstraintLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         sizeParams.endToEnd = ConstraintLayout.LayoutParams.PARENT_ID;
         sizeParams.topToTop = ConstraintLayout.LayoutParams.PARENT_ID;

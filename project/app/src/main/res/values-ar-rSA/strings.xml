@@ -239,6 +239,6 @@
     <string name="app_version_low">إصدار التطبيق الخاص بك منخفض، يرجى ترقية الإصدار أولاً</string>
     <string name="app_version_update_tip">هناك إصدار جديد متاح، هل تريد تحديثه؟</string>
     <string name="app_version_update_btn1">المرة القادمة</string>
-    <string name="app_version_update_btn2">التحديث على الفو</string>
+    <string name="app_version_update_btn2">التحديث على الفور</string>
 
 </resources>

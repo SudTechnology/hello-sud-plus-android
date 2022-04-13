@@ -238,7 +238,7 @@ Go to homepage to create one~</string>
     <string name="app_version_low">This version of the app is low, please update to the latest version</string>
     <string name="app_version_update_tip">There is a new version available, update now?</string>
     <string name="app_version_update_btn1">Later</string>
-    <string name="app_version_update_btn2">Update no</string>
+    <string name="app_version_update_btn2">Update now</string>
 
     <!-- region 新增 -->
     <string name="unable_to_speak">当前不能发言</string>

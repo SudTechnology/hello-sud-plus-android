@@ -16,6 +16,7 @@ public class RoomItemModel {
     private String roomPic;
     private int sceneType;
     private String rtcType;
+    private String sceneTag;
     
     public int getRoomId() {
         return roomId;
@@ -63,5 +64,13 @@ public class RoomItemModel {
 
     public void setRtcType(String rtcType) {
         this.rtcType = rtcType;
+    }
+
+    public String getSceneTag() {
+        return sceneTag;
+    }
+
+    public void setSceneTag(String sceneTag) {
+        this.sceneTag = sceneTag;
     }
 }

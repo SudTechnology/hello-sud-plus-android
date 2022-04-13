@@ -239,6 +239,6 @@ Vaya a la página de inicio para crear una!</string>
     <string name="app_version_low">La versión de su App es inferior. Actualice a la última la versión antes de empenzar.</string>
     <string name="app_version_update_tip">Hay una nueva versión disponible, ¿quieres actualizarla?</string>
     <string name="app_version_update_btn1">Más tarde</string>
-    <string name="app_version_update_btn2">Actualizar ahor</string>
+    <string name="app_version_update_btn2">Actualizar ahora</string>
 
 </resources>

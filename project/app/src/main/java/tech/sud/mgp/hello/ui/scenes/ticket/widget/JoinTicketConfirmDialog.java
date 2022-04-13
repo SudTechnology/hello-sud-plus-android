@@ -1,5 +1,7 @@
 package tech.sud.mgp.hello.ui.scenes.ticket.widget;
 
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -15,6 +17,7 @@ import tech.sud.mgp.hello.common.base.BaseDialogFragment;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
+import tech.sud.mgp.hello.common.utils.ShapeUtils;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.main.resp.GetAccountResp;
 import tech.sud.mgp.hello.ui.main.constant.GameLevel;
@@ -68,14 +71,26 @@ public class JoinTicketConfirmDialog extends BaseDialogFragment implements View.
     }
 
     @Override
+    protected void initWidget() {
+        super.initWidget();
+        ivNoRemind = findViewById(R.id.iv_no_remind);
+        tvBalance = findViewById(R.id.tv_balance);
+        View containerBalance = findViewById(R.id.container_balance);
+        int radius = DensityUtils.dp2px(requireContext(), 50);
+        containerBalance.setBackground(ShapeUtils.createShape(null, null,
+                new float[]{radius, radius, 0, 0, 0, 0, radius, radius},
+                GradientDrawable.RECTANGLE, null,
+                Color.parseColor("#4d000000")));
+    }
+
+    @Override
     protected void initData() {
         super.initData();
         TextView tvAward = findViewById(R.id.tv_award);
         tvAward.setText(getString(R.string.high_gold_coin_award, getMaxAward()));
         TextView tvTitle = findViewById(R.id.tv_title);
         tvTitle.setText(getString(R.string.join_game_confirm, getConsume()));
-        ivNoRemind = findViewById(R.id.iv_no_remind);
-        tvBalance = findViewById(R.id.tv_balance);
+
         getBalance();
     }
 

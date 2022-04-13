@@ -93,7 +93,7 @@ public class AudioRoomGameMicItemView extends BaseMicItemView {
                     mTvState.setVisibility(View.VISIBLE);
                     mTvState.setText(R.string.audio_has_ready);
                     int strokeWidth = DensityUtils.dp2px(getContext(), 0.5f);
-                    mTvState.setBackground(ShapeUtils.createShape(strokeWidth, (float) strokeWidth,
+                    mTvState.setBackground(ShapeUtils.createShape(strokeWidth, (float) strokeWidth, null,
                             GradientDrawable.RECTANGLE, Color.parseColor("#ffffff"),
                             Color.parseColor("#60cb6a")));
                     break;
@@ -101,7 +101,7 @@ public class AudioRoomGameMicItemView extends BaseMicItemView {
                     mTvState.setVisibility(View.VISIBLE);
                     mTvState.setText(R.string.audio_not_ready);
                     strokeWidth = DensityUtils.dp2px(getContext(), 0.5f);
-                    mTvState.setBackground(ShapeUtils.createShape(strokeWidth, (float) strokeWidth,
+                    mTvState.setBackground(ShapeUtils.createShape(strokeWidth, (float) strokeWidth, null,
                             GradientDrawable.RECTANGLE, Color.parseColor("#ffffff"),
                             Color.parseColor("#f7782f")));
                     break;

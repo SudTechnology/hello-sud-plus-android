@@ -239,6 +239,6 @@
     <string name="app_version_low">Phiên bản ứng dụng của bạn khá thấp, vui lòng nâng cấp phiên bản trước</string>
     <string name="app_version_update_tip">Đã có phiên bản mới, cập nhật để trải nghiệm ngay nhé?</string>
     <string name="app_version_update_btn1">Để sau</string>
-    <string name="app_version_update_btn2">Cập nhật nga</string>
+    <string name="app_version_update_btn2">Cập nhật ngay</string>
 
 </resources>

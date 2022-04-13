@@ -30,32 +30,37 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/scene_name">
 
-        <ImageView
-            android:scaleType="centerCrop"
+        <tech.sud.mgp.hello.common.widget.view.round.RoundedImageView
             android:id="@+id/scene_img"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:riv_corner_radius="8dp" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/creat_room_btn"
-            android:layout_width="110dp"
+            android:layout_width="118dp"
             android:layout_height="36dp"
             android:layout_marginEnd="12dp"
             android:background="@drawable/shape_creat_room_bg"
+            android:paddingHorizontal="27dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/creat_room_tv"
-                android:layout_width="110dp"
-                android:layout_height="36dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
                 android:gravity="center"
+                android:maxLines="2"
                 android:text="@string/index_creat_room"
                 android:textColor="#1a1a1a"
+                android:lineSpacingExtra="1dp"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -70,8 +75,8 @@
         android:id="@+id/more6_game_rv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="8dp"
         android:layout_marginTop="5dp"
+        android:paddingHorizontal="8dp"
         android:scrollbars="none"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"

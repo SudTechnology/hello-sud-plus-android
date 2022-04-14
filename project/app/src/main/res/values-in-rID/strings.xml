@@ -241,5 +241,6 @@ Buat ruangan di Beranda</string>
     <string name="app_version_update_tip">Sudah ada versi baru yang bisa dicoba, apakah perbarui?</string>
     <string name="app_version_update_btn1">Lain kali</string>
     <string name="app_version_update_btn2">Segera perbarui</string>
+    <string name="ticket_level_notice">Selamat kepada %1$s yang memenangkan %2$s koin emas dalam babak awal!</string>
 
 </resources>

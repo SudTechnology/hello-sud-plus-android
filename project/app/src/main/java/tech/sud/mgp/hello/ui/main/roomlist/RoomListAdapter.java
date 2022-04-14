@@ -33,7 +33,7 @@ public class RoomListAdapter extends BaseQuickAdapter<RoomItemModel, BaseViewHol
         } else {
             helper.setText(R.id.room_name, item.getRoomName());
         }
-        helper.setText(R.id.room_id, cover.getContext().getString(R.string.room_list_roomid, item.getRoomId() + ""));
+        helper.setText(R.id.room_id, cover.getContext().getString(R.string.room_list_roomid, item.getRoomNumber()));
         helper.setText(R.id.room_online, cover.getContext().getString(R.string.room_list_online, item.getMemberCount() + ""));
         helper.setText(R.id.rtc_name, AppData.getInstance().getRtcNameByRtcType(item.getRtcType()));
         sceneNameTv.setText(item.getSceneTag());

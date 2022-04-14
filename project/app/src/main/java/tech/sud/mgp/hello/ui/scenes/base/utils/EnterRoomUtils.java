@@ -82,6 +82,7 @@ public class EnterRoomUtils {
     private static void startSceneRoomActivity(Context context, EnterRoomResp enterRoomResp) {
         RoomInfoModel model = new RoomInfoModel();
         model.roomId = enterRoomResp.roomId;
+        model.roomNumber = enterRoomResp.roomNumber;
         model.roomName = enterRoomResp.roomName;
         model.gameId = enterRoomResp.gameId;
         model.roleType = enterRoomResp.roleType;

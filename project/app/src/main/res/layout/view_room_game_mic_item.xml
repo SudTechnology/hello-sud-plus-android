@@ -48,6 +48,8 @@
         android:textSize="9sp"
         android:layout_marginTop="25dp"
         android:gravity="center"
+        android:singleLine="true"
+        android:ellipsize="end"
         app:layout_constraintTop_toTopOf="@id/riv_avatar"
         app:layout_constraintEnd_toEndOf="@id/riv_avatar"
         app:layout_constraintStart_toStartOf="@id/riv_avatar" />

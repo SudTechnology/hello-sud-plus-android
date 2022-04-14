@@ -228,7 +228,7 @@ Go to homepage to create one~</string>
     <string name="primary_field">Beginner Stage</string>
     <string name="middle_field">Intermediate Stage</string>
     <string name="high_field">Advanced Stage</string>
-    <string name="win_multiple_award">Win %1$d reward</string>
+    <string name="win_multiple_award">Win %1$dx reward</string>
     <string name="count_people_play">%1$s players online</string>
     <string name="now_participation">Join now</string>
     <string name="join_game_confirm">Participating consumes %1$d gold, do you want to continue?</string>

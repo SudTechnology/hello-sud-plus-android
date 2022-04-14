@@ -5,6 +5,7 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Color;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -15,13 +16,16 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import tech.sud.mgp.hello.common.utils.DensityUtils;
 
 /**
  * 门票等级选择页面的通知栏
  */
 public class TicketLevelNoticeView extends ConstraintLayout {
 
-    private String[] datas;
+    private List<String> datas;
     private int position;
     private long changeDuration = 3000; // 切换的间隔
     private boolean isShowFirst = true;
@@ -42,19 +46,26 @@ public class TicketLevelNoticeView extends ConstraintLayout {
     }
 
     private void initView() {
+        int paddingHorizontal = DensityUtils.dp2px(getContext(), 16);
+        setPadding(paddingHorizontal, 0, paddingHorizontal, 0);
+
         int textColor = Color.parseColor("#ffe77d");
         tvFirst.setTextSize(14);
         tvFirst.setTextColor(textColor);
         tvFirst.setGravity(Gravity.CENTER);
+        tvFirst.setEllipsize(TextUtils.TruncateAt.END);
+        tvFirst.setSingleLine(true);
         addView(tvFirst, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 
         tvSecond.setTextSize(14);
         tvSecond.setTextColor(textColor);
         tvSecond.setGravity(Gravity.CENTER);
+        tvSecond.setEllipsize(TextUtils.TruncateAt.END);
+        tvSecond.setSingleLine(true);
         addView(tvSecond, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
     }
 
-    public void setDatas(String[] datas) {
+    public void setDatas(List<String> datas) {
         this.datas = datas;
         setNotice();
         startChangeTask();
@@ -95,11 +106,11 @@ public class TicketLevelNoticeView extends ConstraintLayout {
     }
 
     private String findNotice() {
-        if (datas == null || datas.length == 0) return null;
-        if (position >= datas.length) {
+        if (datas == null || datas.size() == 0) return null;
+        if (position >= datas.size()) {
             position = 0;
         }
-        return datas[position];
+        return datas.get(position);
     }
 
     /**

@@ -240,5 +240,6 @@ Vaya a la página de inicio para crear una!</string>
     <string name="app_version_update_tip">Hay una nueva versión disponible, ¿quieres actualizarla?</string>
     <string name="app_version_update_btn1">Más tarde</string>
     <string name="app_version_update_btn2">Actualizar ahora</string>
+    <string name="ticket_level_notice">¡Felicitaciones %1$s. Has obtenido %2$s monedas de oro en nivel intermedio!</string>
 
 </resources>

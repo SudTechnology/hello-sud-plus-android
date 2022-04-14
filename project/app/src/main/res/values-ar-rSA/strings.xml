@@ -240,5 +240,6 @@
     <string name="app_version_update_tip">هناك إصدار جديد متاح، هل تريد تحديثه؟</string>
     <string name="app_version_update_btn1">المرة القادمة</string>
     <string name="app_version_update_btn2">التحديث على الفور</string>
+    <string name="ticket_level_notice">تهانينا لـ %1$s لربح %2$s عملية ذهبية في المستوى المتوسط!</string>
 
 </resources>

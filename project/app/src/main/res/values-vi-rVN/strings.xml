@@ -240,5 +240,6 @@
     <string name="app_version_update_tip">Đã có phiên bản mới, cập nhật để trải nghiệm ngay nhé?</string>
     <string name="app_version_update_btn1">Để sau</string>
     <string name="app_version_update_btn2">Cập nhật ngay</string>
+    <string name="ticket_level_notice">Chúc mừng %1$s thắng được %2$s tiền vàng trong ván trung cấp</string>
 
 </resources>

@@ -47,6 +47,7 @@
         android:layout_marginTop="8dp"
         android:background="@drawable/shape_stroke_black"
         android:gravity="center_vertical"
+        android:textDirection="locale"
         android:paddingHorizontal="16dp"
         android:singleLine="true"
         android:textColor="#1a1a1a"

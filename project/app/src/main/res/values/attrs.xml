@@ -51,4 +51,8 @@
         <attr name="topbar_backSrc" format="reference|color" /> <!-- 返回按钮的资源 -->
     </declare-styleable>
 
+    <declare-styleable name="MarqueeTextView">
+        <attr name="mtv_drawMask" format="boolean" /> <!-- 在轮播时，绘制蒙板 -->
+    </declare-styleable>
+
 </resources>

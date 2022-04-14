@@ -41,7 +41,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/creat_room_btn"
-            android:layout_width="118dp"
+            android:layout_width="wrap_content"
             android:layout_height="36dp"
             android:layout_marginEnd="12dp"
             android:background="@drawable/shape_creat_room_bg"
@@ -54,12 +54,9 @@
                 android:id="@+id/creat_room_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ellipsize="end"
                 android:gravity="center"
-                android:maxLines="2"
                 android:text="@string/index_creat_room"
                 android:textColor="#1a1a1a"
-                android:lineSpacingExtra="1dp"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

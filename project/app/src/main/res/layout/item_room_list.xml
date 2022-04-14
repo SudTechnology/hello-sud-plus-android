@@ -19,13 +19,10 @@
         android:id="@+id/room_scene"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:maxWidth="40dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="4dp"
         android:paddingHorizontal="5dp"
         android:paddingVertical="3dp"
-        android:singleLine="true"
-        android:ellipsize="end"
         android:textSize="10sp"
         app:layout_constraintStart_toEndOf="@id/room_cover"
         app:layout_constraintTop_toTopOf="@id/room_cover" />

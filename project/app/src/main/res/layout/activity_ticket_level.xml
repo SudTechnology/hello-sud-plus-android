@@ -47,13 +47,16 @@
 
                 <TextView
                     android:id="@+id/tv_win_award_small"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="30sp"
                     android:textColor="@color/c_ffce45"
                     android:textStyle="bold"
                     android:layout_marginStart="22dp"
+                    android:layout_marginEnd="120dp"
                     android:layout_marginTop="21dp"
+                    android:singleLine="true"
+                    android:ellipsize="end"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
@@ -86,6 +89,9 @@
                     android:textColor="@color/c_ffcc40"
                     android:text="@string/now_participation"
                     android:gravity="center"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:paddingHorizontal="14dp"
                     android:background="@drawable/ic_ticket_level_join_bg_small"
                     android:layout_marginEnd="20dp"
                     android:layout_marginBottom="18dp"
@@ -114,13 +120,16 @@
 
                 <TextView
                     android:id="@+id/tv_win_award_middle"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="30sp"
                     android:textColor="@color/c_ffce45"
                     android:textStyle="bold"
                     android:layout_marginStart="22dp"
+                    android:layout_marginEnd="120dp"
                     android:layout_marginTop="21dp"
+                    android:singleLine="true"
+                    android:ellipsize="end"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
@@ -153,6 +162,9 @@
                     android:textColor="@color/c_ffcc40"
                     android:text="@string/now_participation"
                     android:gravity="center"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:paddingHorizontal="14dp"
                     android:background="@drawable/ic_ticket_level_join_bg_middle"
                     android:layout_marginEnd="20dp"
                     android:layout_marginBottom="18dp"
@@ -189,13 +201,16 @@
 
                 <TextView
                     android:id="@+id/tv_win_award_high"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="30sp"
                     android:textColor="@color/c_ffce45"
                     android:textStyle="bold"
                     android:layout_marginStart="22dp"
+                    android:layout_marginEnd="120dp"
                     android:layout_marginTop="21dp"
+                    android:singleLine="true"
+                    android:ellipsize="end"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
@@ -229,6 +244,9 @@
                     android:text="@string/now_participation"
                     android:gravity="center"
                     android:background="@drawable/ic_ticket_level_join_bg_high"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:paddingHorizontal="14dp"
                     android:layout_marginEnd="20dp"
                     android:layout_marginBottom="18dp"
                     app:layout_constraintBottom_toBottomOf="parent"

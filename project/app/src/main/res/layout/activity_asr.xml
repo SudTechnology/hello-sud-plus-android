@@ -11,12 +11,16 @@
     <!-- 提示信息 -->
     <TextView
         android:id="@+id/tv_asr_hint"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textSize="11sp"
         android:textColor="@color/white"
         android:layout_marginEnd="10dp"
         android:text="@string/asr_guide"
+        android:layout_marginStart="16dp"
+        android:maxLines="3"
+        android:ellipsize="end"
+        app:layout_constraintStart_toEndOf="@id/tv_game_number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/tv_game_number"
         app:layout_constraintBottom_toBottomOf="@id/tv_game_number" />

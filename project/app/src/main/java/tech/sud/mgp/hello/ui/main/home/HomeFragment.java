@@ -16,6 +16,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.blankj.utilcode.util.ToastUtils;
 
+import net.lucode.hackware.magicindicator.MagicIndicator;
+
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseFragment;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
@@ -48,6 +50,10 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
     private TextView nameTv, useridTv;
     private ImageView headerIv;
     private SwipeRefreshLayout refreshLayout;
+    private MagicIndicator indicatorContainer;
+    private IndicatorHelper helper;
+    private NewNestedScrollView scrollView;
+    private ImageView menuIv;
 
     public HomeFragment() {
     }
@@ -72,6 +78,9 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
         useridTv = mRootView.findViewById(R.id.userid_tv);
         headerIv = mRootView.findViewById(R.id.header_iv);
         refreshLayout = mRootView.findViewById(R.id.refresh_layout);
+        indicatorContainer = mRootView.findViewById(R.id.magic_indicator);
+        scrollView = mRootView.findViewById(R.id.scrollView);
+        menuIv = mRootView.findViewById(R.id.menu_iv);
     }
 
     @Override
@@ -124,6 +133,7 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
         headerIv.setOnClickListener(v -> {
             new CoinDialog().show(getChildFragmentManager(), null);
         });
+        menuIv.setOnClickListener(v -> {});
     }
 
     private void enterRoom() {
@@ -143,6 +153,10 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
 
     private void creatScene(GameListResp resp) {
         if (resp != null && resp.getSceneList().size() > 0) {
+            helper = new IndicatorHelper(indicatorContainer, resp.getSceneList(), scrollView);
+            helper.init(getContext());
+            helper.bind();
+
             sceneLayout.removeAllViews();
             for (int i = 0; i < resp.getSceneList().size(); i++) {
                 SceneModel model = resp.getSceneList().get(i);

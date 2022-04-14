@@ -37,6 +37,9 @@ import tech.sud.mgp.hello.ui.scenes.base.utils.EnterRoomUtils;
 import tech.sud.mgp.hello.ui.scenes.ticket.activity.TicketLevelActivity;
 import tech.sud.mgp.hello.ui.scenes.ticket.model.TicketLevelParams;
 
+/**
+ * 首页页面
+ */
 public class HomeFragment extends BaseFragment implements HomeRoomTypeView.CreatRoomClickListener, GameItemView.GameItemListener {
 
     private EditText searchEt;

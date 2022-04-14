@@ -19,7 +19,6 @@ import tech.sud.mgp.hello.ui.common.constant.RequestKey;
 import tech.sud.mgp.hello.ui.common.widget.HSTopBar;
 import tech.sud.mgp.hello.ui.main.constant.GameLevel;
 import tech.sud.mgp.hello.ui.main.home.MatchRoomModel;
-import tech.sud.mgp.hello.ui.scenes.base.model.EnterRoomParams;
 import tech.sud.mgp.hello.ui.scenes.base.utils.EnterRoomUtils;
 import tech.sud.mgp.hello.ui.scenes.ticket.model.TicketLevelParams;
 import tech.sud.mgp.hello.ui.scenes.ticket.viewmodel.TicketLevelViewModel;
@@ -153,11 +152,7 @@ public class TicketLevelActivity extends BaseActivity implements View.OnClickLis
         viewModel.matchRoomLiveData.observe(this, new Observer<MatchRoomModel>() {
             @Override
             public void onChanged(MatchRoomModel matchRoomModel) {
-                EnterRoomParams enterRoomParams = new EnterRoomParams();
-                enterRoomParams.roomId = matchRoomModel.roomId;
-                enterRoomParams.sceneType = params.sceneType;
-                enterRoomParams.gameLevel = matchRoomModel.gameLevel;
-                EnterRoomUtils.enterRoom(context, enterRoomParams);
+                EnterRoomUtils.enterRoom(context, matchRoomModel.roomId);
             }
         });
     }

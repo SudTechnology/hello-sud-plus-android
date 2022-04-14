@@ -137,7 +137,7 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
     protected void initData() {
         super.initData();
         topView.setName(roomInfoModel.roomName);
-        topView.setId(getString(R.string.audio_room_number) + " " + roomInfoModel.roomId);
+        topView.setId(getString(R.string.audio_room_number) + " " + roomInfoModel.roomNumber);
         viewModel.initData();
         initGame();
     }

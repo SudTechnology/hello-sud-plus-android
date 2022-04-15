@@ -133,7 +133,13 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
         headerIv.setOnClickListener(v -> {
             new CoinDialog().show(getChildFragmentManager(), null);
         });
-        menuIv.setOnClickListener(v -> {});
+        menuIv.setOnClickListener(v -> {
+            if (helper != null) {
+                SceneTypeDialog dialog = SceneTypeDialog.getInstance(helper.getSelectedIndex());
+                dialog.listener = position -> helper.clickIndicator(position);
+                dialog.show(getChildFragmentManager(), "SceneTypeDialog");
+            }
+        });
     }
 
     private void enterRoom() {
@@ -212,7 +218,7 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
             public void onNext(BaseResponse<GameListResp> t) {
                 super.onNext(t);
                 if (t.getRetCode() == RetCode.SUCCESS) {
-                    HomeManager.getInstance().updateGameList(t.getData());
+                    HomeManager.getInstance().gameListResp = t.getData();
                     creatScene(t.getData());
                 } else {
                     ToastUtils.showShort(ResponseUtils.conver(t));

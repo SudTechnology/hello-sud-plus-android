@@ -252,6 +252,14 @@ Go to homepage to create one~</string>
     <string name="kick_game">踢出游戏</string>
     <string name="net_error_hint">网络错误，请检查网络连接</string>
     <string name="switched_language">已切换语言</string>
+    <string name="order_title">我要点单</string>
+    <string name="order_dialog_title">选择麦上用户</string>
+    <string name="order_dialog_sub_title">指定麦上主播和你一起玩</string>
+    <string name="order_btn">下单去玩</string>
+    <string name="order_selected_total">已选定%1$d人</string>
+    <string name="order_price">%1$d/局/人</string>
+    <string name="dialog_scene_title">所有场景</string>
+
     <!-- endregion 新增 -->
 
 </resources>

@@ -2,6 +2,7 @@ package tech.sud.mgp.hello.ui.main.home;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -31,6 +32,11 @@ public class IndicatorHelper {
     private NewNestedScrollView nestedScrollView;
     private int nestedScrollViewTop;//NestScrollview到顶部的距离
     private int selectedIndex = 0;
+    private int optionType = 1; // 1用户点击，2用户滚动
+
+    public int getSelectedIndex() {
+        return selectedIndex;
+    }
 
     public IndicatorHelper(MagicIndicator indicator, List<SceneModel> sceneList, NewNestedScrollView nestedScrollView) {
         this.indicator = indicator;
@@ -79,11 +85,18 @@ public class IndicatorHelper {
 
     /** 绑定：滚动NestScrollView，选中indicator */
     public void bind() {
+        nestedScrollView.setOnTouchListener((v, event) -> {
+            optionType = 2;
+            return false;
+        });
         nestedScrollView.setScrollStateChangeListener(new NewNestedScrollView.ScrollStateChangeListener() {
             @Override
             public void onScrollChange(int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
                 LogUtils.i("=====", "scrollX=" + scrollX + " scrollY=" + scrollY + " oldScrollX=" + oldScrollX + "oldScrollY=" + oldScrollY);
-                findView(scrollY + nestedScrollView.getMeasuredHeight());
+//                findView(scrollY + nestedScrollView.getMeasuredHeight());
+                if (optionType == 2) {
+                    findView(scrollY);
+                }
             }
 
             @Override
@@ -94,11 +107,12 @@ public class IndicatorHelper {
     }
 
     /** 用户点击了Indicator */
-    private void clickIndicator(int index) {
+    public void clickIndicator(int index) {
         if (index == selectedIndex) {
             LogUtils.i("=====", "当前index 没有变化=" + selectedIndex);
             return;
         }
+        optionType = 1;
         LinearLayout childView = (LinearLayout) nestedScrollView.getChildAt(0);
         View sceneView = childView.getChildAt(index);
         if (nestedScrollViewTop == 0) {
@@ -108,6 +122,7 @@ public class IndicatorHelper {
         int distance = intArray1[1] - nestedScrollViewTop;
         nestedScrollView.fling(distance);
         nestedScrollView.smoothScrollBy(0, distance);
+        LogUtils.i("=====", "distance=" + distance);
         selectedIndex = index;
         indicator.onPageSelected(index);
         indicator.onPageScrolled(index, 0.0F, 0);

@@ -3,11 +3,14 @@ package tech.sud.mgp.hello.ui.main.home;
 import android.content.Context;
 import android.os.Handler;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.widget.NestedScrollView;
+
+import com.blankj.utilcode.util.LogUtils;
 
 
 public class NewNestedScrollView extends NestedScrollView implements NestedScrollView.OnScrollChangeListener {
@@ -17,7 +20,7 @@ public class NewNestedScrollView extends NestedScrollView implements NestedScrol
     /**
      * 滚动状态
      */
-    public enum ScrollDirection{
+    public enum ScrollDirection {
         Scroll_Top,      // 滑动到顶部
         Scroll_Bottom,   // 滑动到底部
         Scroll_Up,      // 下滑
@@ -28,12 +31,12 @@ public class NewNestedScrollView extends NestedScrollView implements NestedScrol
      * 整個滾動内容高度
      * 所有内容加起来的高度
      */
-    public int totalHeight = 0 ;
+    public int totalHeight = 0;
 
     /**
      * 当前view的高度
      */
-    public int viewHeight = 0 ;
+    public int viewHeight = 0;
 
     /**
      * 是否滚动到底了
@@ -45,15 +48,15 @@ public class NewNestedScrollView extends NestedScrollView implements NestedScrol
      *
      * @param context
      */
-    private boolean top = false ;
+    private boolean top = false;
 
 
     public NewNestedScrollView(@NonNull Context context) {
-        this(context,null);
+        this(context, null);
     }
 
     public NewNestedScrollView(@NonNull Context context, @Nullable AttributeSet attrs) {
-        this(context, attrs,0);
+        this(context, attrs, 0);
     }
 
     public NewNestedScrollView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
@@ -63,9 +66,9 @@ public class NewNestedScrollView extends NestedScrollView implements NestedScrol
 
     @Override
     public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-        if (scrollStateChangeListener !=null){
+        if (scrollStateChangeListener != null) {
             /*实时滚动回调*/
-            scrollStateChangeListener.onScrollChange( scrollX,  scrollY,  oldScrollX,  oldScrollY);
+            scrollStateChangeListener.onScrollChange(scrollX, scrollY, oldScrollX, oldScrollY);
 
             if (scrollY > oldScrollY) {
                 scrollStateChangeListener.onScrollDirection(ScrollDirection.Scroll_Down);
@@ -75,18 +78,18 @@ public class NewNestedScrollView extends NestedScrollView implements NestedScrol
                 scrollStateChangeListener.onScrollDirection(ScrollDirection.Scroll_Up);
             }
 
-            if (getScrollY()<=0){
-                top = true ;
+            if (getScrollY() <= 0) {
+                top = true;
                 scrollStateChangeListener.onScrollDirection(ScrollDirection.Scroll_Top);
-            }else {
-                top = false ;
+            } else {
+                top = false;
             }
 
-            if (totalHeight>viewHeight && (totalHeight - viewHeight) == scrollY){
-                bottom = true ;
+            if (totalHeight > viewHeight && (totalHeight - viewHeight) == scrollY) {
+                bottom = true;
                 scrollStateChangeListener.onScrollDirection(ScrollDirection.Scroll_Bottom);
-            }else {
-                bottom = false ;
+            } else {
+                bottom = false;
             }
         }
     }
@@ -94,20 +97,31 @@ public class NewNestedScrollView extends NestedScrollView implements NestedScrol
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        totalHeight = 0 ;
+        totalHeight = 0;
         int count = getChildCount();
-        for (int i =0 ;i < count ;i++){
+        for (int i = 0; i < count; i++) {
             View view = getChildAt(i);
             totalHeight += view.getMeasuredHeight();
         }
-        viewHeight = getHeight() ;
+        viewHeight = getHeight();
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent ev) {
+        switch (ev.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+            case MotionEvent.ACTION_MOVE:
+                break;
+        }
+        return super.onTouchEvent(ev);
     }
 
     /**
      * 是否动到底
+     *
      * @return
      */
-    public boolean isBottom(){
+    public boolean isBottom() {
         return bottom;
     }
 
@@ -116,7 +130,7 @@ public class NewNestedScrollView extends NestedScrollView implements NestedScrol
      *
      * @return
      */
-    public boolean isTop(){
+    public boolean isTop() {
         return top;
     }
 
@@ -128,21 +142,23 @@ public class NewNestedScrollView extends NestedScrollView implements NestedScrol
      */
     public NewNestedScrollView setScrollStateChangeListener(ScrollStateChangeListener scrollStateChangeListener) {
         this.scrollStateChangeListener = scrollStateChangeListener;
-        return this ;
+        return this;
     }
 
     public interface ScrollStateChangeListener {
         /**
          * 滚动监听
+         *
          * @param scrollX
          * @param scrollY
          * @param oldScrollX
          * @param oldScrollY
          */
-        void onScrollChange( int scrollX, int scrollY, int oldScrollX, int oldScrollY);
+        void onScrollChange(int scrollX, int scrollY, int oldScrollX, int oldScrollY);
 
         /**
          * 滚动方向
+         *
          * @param direction
          */
         void onScrollDirection(ScrollDirection direction);

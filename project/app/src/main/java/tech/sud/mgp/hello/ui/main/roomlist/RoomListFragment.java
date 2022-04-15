@@ -151,7 +151,7 @@ public class RoomListFragment extends BaseFragment {
             public void onNext(BaseResponse<RoomListResp> t) {
                 super.onNext(t);
                 if (t.getRetCode() == RetCode.SUCCESS) {
-                    HomeManager.getInstance().updateRoomList(t.getData());
+                    HomeManager.getInstance().roomListResp = t.getData();
                     datas.clear();
                     if (t.getData() != null && t.getData().getRoomInfoList() != null) {
                         datas.addAll(t.getData().getRoomInfoList());

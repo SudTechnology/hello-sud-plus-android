@@ -27,7 +27,7 @@ public class SceneRoomViewModel extends BaseViewModel {
             public void onNext(BaseResponse<GameListResp> t) {
                 super.onNext(t);
                 if (t.getRetCode() == RetCode.SUCCESS) {
-                    HomeManager.getInstance().updateGameList(t.getData());
+                    HomeManager.getInstance().gameListResp = t.getData();
                 } else {
                     delayGetGameList();
                 }

@@ -17,6 +17,7 @@ import tech.sud.mgp.hello.ui.scenes.base.constant.OperateMicType;
 import tech.sud.mgp.hello.ui.scenes.base.manager.SceneRoomServiceManager;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
+import tech.sud.mgp.hello.ui.scenes.base.model.SceneRoomData;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.base.utils.SceneRoomNotificationHelper;
 
@@ -29,11 +30,13 @@ public class SceneRoomService extends Service {
     private final MyBinder binder = new MyBinder();
     private SceneRoomNotificationHelper notificationHelper;
 
-    private static RoomInfoModel roomInfoModel;
+    /** 房间数据 */
+    private static SceneRoomData sceneRoomData;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        sceneRoomData = new SceneRoomData();
         notificationHelper = new SceneRoomNotificationHelper(this);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) { //android8.0及以后需要开启前台服务
             startForeground(NotifyId.SCENE_ROOM_NOTIFY_ID.getValue(), notificationHelper.createNotification());
@@ -46,10 +49,6 @@ public class SceneRoomService extends Service {
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        return binder;
-    }
-
-    public MyBinder getBinder() {
         return binder;
     }
 
@@ -76,7 +75,7 @@ public class SceneRoomService extends Service {
          * @param model 进入的房间信息
          */
         public void enterRoom(RoomInfoModel model) {
-            roomInfoModel = model;
+            sceneRoomData.roomInfoModel = model;
             serviceManager.enterRoom(model);
             notificationHelper.setRoomName(model.roomName);
         }
@@ -101,7 +100,7 @@ public class SceneRoomService extends Service {
         /**
          * 发送公屏消息
          *
-         * @param msg
+         * @param msg 消息
          */
         public void sendPublicMsg(CharSequence msg) {
             serviceManager.sceneChatManager.sendPublicMsg(msg);
@@ -179,15 +178,28 @@ public class SceneRoomService extends Service {
 
     }
 
-    // 获取当前使用的房间信息
+    /** 获取当前使用的房间基本数据 */
     public static RoomInfoModel getRoomInfoModel() {
-        return roomInfoModel;
+        if (sceneRoomData != null) {
+            return sceneRoomData.roomInfoModel;
+        }
+        return null;
+    }
+
+    /** 获取房间数据 */
+    public static SceneRoomData getSceneRoomData() {
+        return sceneRoomData;
+    }
+
+    /** 是否已在房间里 */
+    public static boolean isRunning() {
+        return sceneRoomData != null;
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        roomInfoModel = null;
+        sceneRoomData = null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) { //android8.0及以后需要开启前台服务，这里关闭服务
             stopForeground(true);
         } else {

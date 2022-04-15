@@ -35,7 +35,7 @@
     <string name="setting_userid1">User ID: %1$s</string>
     <string name="coming_soon">Stay tuned</string>
     <string name="room_list_enter">Enter</string>
-    <string name="room_list_roomid">Room Number: %1$s</string>
+    <string name="room_list_roomid">room ID: %1$s</string>
     <string name="room_list_online">%1$s users</string>
     <string name="setting_contact1_content">For more information or feedback,contact us via email: help@sud.tech</string>
     <string name="setting_contact1_but">OK</string>

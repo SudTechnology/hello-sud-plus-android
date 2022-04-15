@@ -35,7 +35,7 @@
     <string name="setting_userid1">ID pengguna: %1$s</string>
     <string name="coming_soon">Silakan nantikan</string>
     <string name="room_list_enter">Masuk</string>
-    <string name="room_list_roomid">Nomor ruangan: %1$s</string>
+    <string name="room_list_roomid">ID kamar: %1$s</string>
     <string name="room_list_online">%1$s orang</string>
     <string name="setting_contact1_content">Jika Anda ingin mengetahui lebih banyak informasi atau menyampaikan umpan balik, silakan hubungi kami melalui e-mail: help@sud.tech</string>
     <string name="setting_contact1_but">Baik</string>
@@ -177,7 +177,7 @@ Buat ruangan di Beranda</string>
     <string name="audio_dialog_gift_present">Hadiahkan</string>
     <string name="audio_dialog_present">Berikan</string>
     <string name="audio_cancle">Batal</string>
-    <string name="audio_all">Pilih semua</string>
+    <string name="audio_all">semua</string>
     <string name="audio_mic_index">Mikrofon %1$d</string>
     <string name="audio_room_admin">Host</string>
     <string name="audio_send">Kirim</string>

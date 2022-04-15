@@ -35,7 +35,7 @@
     <string name="setting_userid1">ID Pengguna: %1$s</string>
     <string name="coming_soon">Sila nantikan</string>
     <string name="room_list_enter">Masuk</string>
-    <string name="room_list_roomid">Nombor bilik: %1$s</string>
+    <string name="room_list_roomid">ID bilik: %1$s</string>
     <string name="room_list_online">%1$s orang</string>
     <string name="setting_contact1_content">Untuk maklumat lanjut atau maklum balas, sila hubungi kami melalui e-mel: help@sud.tech</string>
     <string name="setting_contact1_but">Okey</string>
@@ -176,7 +176,7 @@ Kunjungi laman utama untuk mencipta satu~</string>
     <string name="audio_dialog_gift_present">Kongsikan</string>
     <string name="audio_dialog_present">Kongsikan kepada</string>
     <string name="audio_cancle">Batal</string>
-    <string name="audio_all">Pilih semua</string>
+    <string name="audio_all">semua</string>
     <string name="audio_mic_index">Jadual %1$d</string>
     <string name="audio_room_admin">Ketua bilik</string>
     <string name="audio_send">Hantar</string>

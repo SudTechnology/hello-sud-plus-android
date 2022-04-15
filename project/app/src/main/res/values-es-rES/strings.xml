@@ -35,7 +35,7 @@
     <string name="setting_userid1">ID de usuario: %1$s</string>
     <string name="coming_soon">Manténganse al tanto</string>
     <string name="room_list_enter">Entrar</string>
-    <string name="room_list_roomid">Número de sala: %1$s</string>
+    <string name="room_list_roomid">ID de sala: %1$s</string>
     <string name="room_list_online">%1$s personas</string>
     <string name="setting_contact1_content">Para obtener más información o comentarios, contáctenos por correo electrónico: help@sud.tech</string>
     <string name="setting_contact1_but">OK</string>
@@ -176,7 +176,7 @@ Vaya a la página de inicio para crear una!</string>
     <string name="audio_dialog_gift_present">Regalar</string>
     <string name="audio_dialog_present">Regalar a</string>
     <string name="audio_cancle">Cancelar</string>
-    <string name="audio_all">Seleccionar todo</string>
+    <string name="audio_all">todos</string>
     <string name="audio_mic_index">%1$d Micrófono</string>
     <string name="audio_room_admin">Creador de la sala</string>
     <string name="audio_send">Enviar</string>

@@ -35,7 +35,7 @@
     <string name="setting_userid1">ID ผู้ใช้ %1$s</string>
     <string name="coming_soon">โปรดติดตาม</string>
     <string name="room_list_enter">เข้าสู่</string>
-    <string name="room_list_roomid">หมายเลขห้อง %1$s</string>
+    <string name="room_list_roomid">รหัสห้อง %1$s</string>
     <string name="room_list_online">%1$S คน</string>
     <string name="setting_contact1_content">สำหรับข้อมูลเพิ่มเติมหรือข้อเสนอแนะ โปรดติดต่อเราทางอีเมล: help@sud.tech</string>
     <string name="setting_contact1_but">ตกลง</string>
@@ -176,7 +176,7 @@
     <string name="audio_dialog_gift_present">แถม</string>
     <string name="audio_dialog_present">ส่งให้</string>
     <string name="audio_cancle">ยกเลิก</string>
-    <string name="audio_all">เลือกทั้งหมด</string>
+    <string name="audio_all">ทั้งหมด</string>
     <string name="audio_mic_index">%1$d ไมค์</string>
     <string name="audio_room_admin">เจ้าของห้อง</string>
     <string name="audio_send">ส่ง</string>

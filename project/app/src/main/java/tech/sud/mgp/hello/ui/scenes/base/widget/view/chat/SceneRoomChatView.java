@@ -76,6 +76,7 @@ public class SceneRoomChatView extends ConstraintLayout {
 
     public void setList(List<Object> list) {
         mAdapter.setList(list);
+        moveToBottom();
     }
 
     public void addMsg(Object obj) {

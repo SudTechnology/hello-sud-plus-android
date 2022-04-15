@@ -78,10 +78,10 @@
         android:id="@+id/top_container_select_game"
         android:layout_width="wrap_content"
         android:layout_height="20dp"
-        android:layout_marginEnd="12dp"
+        android:layout_marginEnd="7dp"
         android:paddingHorizontal="8dp"
         android:background="@drawable/shape_select_game"
-        app:layout_constraintEnd_toStartOf="@id/top_iv_close"
+        app:layout_constraintEnd_toStartOf="@id/top_iv_more"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -112,14 +112,15 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- 关闭 -->
+    <!-- 更多按钮 -->
     <ImageView
-        android:id="@+id/top_iv_close"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:src="@drawable/ic_room_close"
+        android:id="@+id/top_iv_more"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        android:padding="5dp"
+        android:src="@drawable/ic_room_more"
         android:scaleType="fitCenter"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="11dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

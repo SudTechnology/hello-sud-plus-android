@@ -259,7 +259,8 @@ Go to homepage to create one~</string>
     <string name="order_selected_total">已选定%1$d人</string>
     <string name="order_price">%1$d/局/人</string>
     <string name="dialog_scene_title">所有场景</string>
-
+    <string name="hang_room">挂起房间</string>
+    <string name="exit_room">退出房间</string>
     <!-- endregion 新增 -->
 
 </resources>

@@ -19,7 +19,7 @@ public interface SceneRoomServiceCallback {
      *
      * @param list 麦位列表
      */
-    void setMicList(List<AudioRoomMicModel> list);
+    void onMicList(List<AudioRoomMicModel> list);
 
     /**
      * 更新某个麦位
@@ -38,6 +38,11 @@ public interface SceneRoomServiceCallback {
      * 增加一条公屏消息
      */
     void addPublicMsg(Object msg);
+
+    /**
+     * 刷新公屏消息
+     */
+    void onChatList(List<Object> list);
 
     /**
      * 礼物通知
@@ -90,7 +95,7 @@ public interface SceneRoomServiceCallback {
     void onSelfSendMsg(String msg);
 
     /**
-     * 麦克切换完成
+     * 麦克风切换完成
      *
      * @param micIndex 麦位序号
      * @param operate  true上麦 false下麦

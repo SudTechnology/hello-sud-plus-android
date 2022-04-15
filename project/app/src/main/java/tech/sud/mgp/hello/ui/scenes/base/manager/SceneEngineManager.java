@@ -17,6 +17,7 @@ import tech.sud.mgp.hello.rtc.audio.core.ISudAudioEventListener;
 import tech.sud.mgp.hello.rtc.audio.factory.AudioEngineFactory;
 import tech.sud.mgp.hello.rtc.audio.model.AudioJoinRoomModel;
 import tech.sud.mgp.hello.ui.main.home.manager.RTCManager;
+import tech.sud.mgp.hello.ui.scenes.base.activity.SceneConfig;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoleType;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
 import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomServiceCallback;
@@ -47,7 +48,7 @@ public class SceneEngineManager extends BaseServiceManager {
         this.parentManager = sceneRoomServiceManager;
     }
 
-    public void enterRoom(RoomInfoModel model) {
+    public void enterRoom(SceneConfig config, RoomInfoModel model) {
         if (!isInitEngine) {
             initEngine(model, new Runnable() {
                 @Override

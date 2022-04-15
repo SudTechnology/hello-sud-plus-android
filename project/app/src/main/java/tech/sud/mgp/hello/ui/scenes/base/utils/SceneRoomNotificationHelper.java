@@ -88,15 +88,11 @@ public class SceneRoomNotificationHelper {
                 .build();
     }
 
-    // 设置房间名称
-    public void setRoomName(String roomName) {
+    /** 设置通知栏数据 */
+    public void setData(String roomName, Class<? extends Activity> startClass) {
         this.roomName = roomName;
-        show();
-    }
-
-    // 设置点击通知栏需要启动的页面
-    public void setStartClass(Class<? extends Activity> startClass) {
         this.startClass = startClass;
         show();
     }
+
 }

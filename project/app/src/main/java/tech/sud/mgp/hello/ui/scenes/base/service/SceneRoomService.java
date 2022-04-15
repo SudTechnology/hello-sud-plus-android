@@ -26,7 +26,7 @@ import tech.sud.mgp.hello.ui.scenes.base.utils.SceneRoomNotificationHelper;
  */
 public class SceneRoomService extends Service {
 
-    private final SceneRoomServiceManager serviceManager = new SceneRoomServiceManager();
+    private SceneRoomServiceManager serviceManager = new SceneRoomServiceManager();
     private final MyBinder binder = new MyBinder();
     private SceneRoomNotificationHelper notificationHelper;
 
@@ -54,17 +54,7 @@ public class SceneRoomService extends Service {
 
     public class MyBinder extends Binder {
 
-        /**
-         * 初始化
-         */
-        public void init(SceneConfig config, Class<? extends Activity> startClass) {
-            serviceManager.sceneMicManager.init(config);
-            notificationHelper.setStartClass(startClass);
-        }
-
-        /**
-         * 设置回调
-         */
+        /** 设置回调 */
         public void setCallback(SceneRoomServiceCallback callback) {
             serviceManager.setCallback(callback);
         }
@@ -74,10 +64,27 @@ public class SceneRoomService extends Service {
          *
          * @param model 进入的房间信息
          */
-        public void enterRoom(RoomInfoModel model) {
+        public void enterRoom(SceneConfig config, Class<? extends Activity> startClass, RoomInfoModel model) {
+            notificationHelper.setData(model.roomName, startClass);
+
+            if (sceneRoomData.roomInfoModel != null && sceneRoomData.roomInfoModel.roomId != null) {
+                if (sceneRoomData.roomInfoModel.roomId.equals(model.roomId)) {
+                    // 1.不是第一次创建，只是恢复页面显示，回调数据给页面
+                    serviceManager.callbackPageData();
+                    return;
+                } else {
+                    // 2.切换房间，销毁原有房间数据，然后再执行进入房间
+                    SceneRoomServiceCallback callback = serviceManager.getCallback();
+                    serviceManager.exitRoom();
+                    serviceManager.onDestroy();
+                    serviceManager = new SceneRoomServiceManager();
+                    serviceManager.setCallback(callback);
+                }
+            }
+
+            // 3.首次进入
             sceneRoomData.roomInfoModel = model;
-            serviceManager.enterRoom(model);
-            notificationHelper.setRoomName(model.roomName);
+            serviceManager.enterRoom(config, model);
         }
 
         /**
@@ -90,9 +97,7 @@ public class SceneRoomService extends Service {
             serviceManager.sceneMicManager.micLocationSwitch(micIndex, operate, type);
         }
 
-        /**
-         * 自动上麦
-         */
+        /** 自动上麦 */
         public void autoUpMic(OperateMicType type) {
             serviceManager.sceneMicManager.autoUpMic(type);
         }
@@ -119,59 +124,43 @@ public class SceneRoomService extends Service {
             serviceManager.setMicState(isOpen);
         }
 
-        /**
-         * 获取麦位列表
-         */
+        /** 获取麦位列表 */
         public List<AudioRoomMicModel> getMicList() {
             return serviceManager.sceneMicManager.getMicList();
         }
 
-        /**
-         * 游戏切换
-         */
+        /** 游戏切换 */
         public void switchGame(long gameId, boolean selfSwitch) {
             serviceManager.switchGame(gameId, selfSwitch);
         }
 
-        /**
-         * 添加一条公屏消息
-         */
+        /** 添加一条公屏消息 */
         public void addChatMsg(Object obj) {
             serviceManager.sceneChatManager.addMsg(obj);
         }
 
-        /**
-         * 更新麦位
-         */
+        /** 更新麦位 */
         public void updateMicList() {
             serviceManager.sceneMicManager.notifyDataSetChange();
         }
 
-        /**
-         * 设置ASR
-         */
+        /** 设置ASR */
         public void setASROpen(boolean isOpen) {
             serviceManager.sceneGameManager.setASROpen(isOpen);
         }
 
-        /**
-         * 设置RTC拉流
-         */
+        /** 设置RTC拉流 */
         public void setRTCPlay(boolean isOn) {
             serviceManager.sceneGameManager.setRTCPlay(isOn);
         }
 
-        /**
-         * 退出房间
-         */
+        /** 退出房间 */
         public void exitRoom() {
             serviceManager.exitRoom();
             stopSelf();
         }
 
-        /**
-         * 当前是否是开麦的
-         */
+        /** 当前是否是开麦的 */
         public boolean isOpenedMic() {
             return serviceManager.sceneStreamManager.isPublishingStream();
         }

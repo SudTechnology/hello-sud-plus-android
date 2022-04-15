@@ -6,6 +6,7 @@ import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.service.game.repository.GameRepository;
+import tech.sud.mgp.hello.ui.scenes.base.activity.SceneConfig;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoleType;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
@@ -88,7 +89,7 @@ public class SceneRoomServiceManager extends BaseServiceManager {
         return sceneRoomServiceCallback;
     }
 
-    // 获取当前房间id
+    /** 获取当前房间id */
     public long getRoomId() {
         RoomInfoModel model = roomInfoModel;
         if (model == null || model.roomId == null) {
@@ -98,7 +99,7 @@ public class SceneRoomServiceManager extends BaseServiceManager {
         }
     }
 
-    // 获取房间的角色
+    /** 获取房间的角色 */
     public int getRoleType() {
         RoomInfoModel model = roomInfoModel;
         if (model == null) {
@@ -108,17 +109,24 @@ public class SceneRoomServiceManager extends BaseServiceManager {
         }
     }
 
-    // 进入房间
-    public void enterRoom(RoomInfoModel model) {
+    /** 进入房间 */
+    public void enterRoom(SceneConfig config, RoomInfoModel model) {
         enterRoomCompleted = false;
         roomInfoModel = model;
         sceneEngineManager.enterRoomCompletedListener = this::checkEnterRoomCompleted;
         sceneMicManager.enterRoomCompletedListener = this::checkEnterRoomCompleted;
-        sceneEngineManager.enterRoom(model);
-        sceneMicManager.enterRoom(model);
+        sceneEngineManager.enterRoom(config, model);
+        sceneMicManager.enterRoom(config, model);
     }
 
-    // 检查进入房间是否已完成
+    /** 回调页面数据 */
+    public void callbackPageData() {
+        sceneChatManager.callbackPageData();
+        sceneMicManager.callbackPageData();
+        sceneStreamManager.callbackPageData();
+    }
+
+    /** 检查进入房间是否已完成 */
     private void checkEnterRoomCompleted() {
         if (enterRoomCompleted) return;
         if (sceneEngineManager.isEnterRoomCompleted() && sceneMicManager.isEnterRoomCompleted()) {
@@ -168,12 +176,12 @@ public class SceneRoomServiceManager extends BaseServiceManager {
         }
     }
 
-    // 退出房间
+    /** 退出房间 */
     public void exitRoom() {
         sceneMicManager.exitRoom();
     }
 
-    // 进入房间完成的回调,用于childManager
+    /** 进入房间完成的回调,用于childManager */
     public interface EnterRoomCompletedListener {
         void onEnterRoomCompleted();
     }

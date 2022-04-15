@@ -46,6 +46,7 @@ import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomServiceCallback;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.GameViewModel;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.SceneRoomViewModel;
 import tech.sud.mgp.hello.ui.scenes.base.widget.dialog.GameModeDialog;
+import tech.sud.mgp.hello.ui.scenes.base.widget.dialog.RoomMoreDialog;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.SceneRoomBottomView;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.SceneRoomTopView;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.chat.RoomInputMsgView;
@@ -157,8 +158,7 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
     private void enterRoom() {
         if (binder != null) {
             binder.setCallback(this);
-            binder.init(sceneConfig, getClass());
-            binder.enterRoom(roomInfoModel);
+            binder.enterRoom(sceneConfig, getClass(), roomInfoModel);
         }
         updatePageStyle();
     }
@@ -249,10 +249,10 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
                 });
             }
         });
-        topView.setCloseClickListener(new View.OnClickListener() {
+        topView.setMoreOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intentClose();
+                clickMore();
             }
         });
         topView.setFinishGameOnClickListener(new View.OnClickListener() {
@@ -261,6 +261,35 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
                 clickFinishGame();
             }
         });
+    }
+
+    /** 点击了更多按钮 */
+    private void clickMore() {
+        RoomMoreDialog dialog = RoomMoreDialog.getInstance(isFullScreen());
+        dialog.setHangOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hangRoom();
+            }
+        });
+        dialog.setExitOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intentClose();
+            }
+        });
+        dialog.show(getSupportFragmentManager(), null);
+    }
+
+    /** 是否是全屏显示的 */
+    protected boolean isFullScreen() {
+        return playingGameId > 0;
+    }
+
+    /** 挂起房间 */
+    private void hangRoom() {
+        releaseService();
+        finish();
     }
 
     /**
@@ -676,7 +705,7 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
         bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
     }
 
-    private ServiceConnection serviceConnection = new ServiceConnection() {
+    private final ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             binder = (SceneRoomService.MyBinder) service;
@@ -700,7 +729,7 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
     }
 
     @Override
-    public void setMicList(List<AudioRoomMicModel> list) {
+    public void onMicList(List<AudioRoomMicModel> list) {
         micView.setList(list);
         if (roomGiftDialog != null) {
             roomGiftDialog.updateMicUsers(list);
@@ -730,6 +759,11 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
     @Override
     public void addPublicMsg(Object msg) {
         chatView.addMsg(msg);
+    }
+
+    @Override
+    public void onChatList(List<Object> list) {
+        chatView.setList(list);
     }
 
     @Override

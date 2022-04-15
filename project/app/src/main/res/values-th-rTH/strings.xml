@@ -186,7 +186,7 @@
     <string name="audio_recreation_chat">แชทบันเทิง</string>
     <string name="audio_chat_room">ห้องแชท</string>
     <string name="audio_gameing">เล่นเกมอยู่</string>
-    <string name="audio_room_number">หมายเลขห้อง</string>
+    <string name="audio_room_number">รหัสห้อง</string>
     <string name="audio_close_room_title">ตกลงจะออกจากห้องนี้ไหม</string>
     <string name="audio_switch_game_warn">เล่นเกมอยู่ สลับเกมไม่ได้</string>
     <string name="audio_enter_the_room">เข้าห้องแล้ว</string>

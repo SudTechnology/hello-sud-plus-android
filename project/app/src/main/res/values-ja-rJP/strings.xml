@@ -186,7 +186,7 @@
     <string name="audio_recreation_chat">エンターテイメントチャット</string>
     <string name="audio_chat_room">おしゃべりルーム</string>
     <string name="audio_gameing">ゲーム中</string>
-    <string name="audio_room_number">ルーム番号</string>
+    <string name="audio_room_number">部屋ID</string>
     <string name="audio_close_room_title">現在のルームを出ますか</string>
     <string name="audio_switch_game_warn">ゲーム中です、ゲームを切り替えることができません。</string>
     <string name="audio_enter_the_room">ルームに入りました</string>

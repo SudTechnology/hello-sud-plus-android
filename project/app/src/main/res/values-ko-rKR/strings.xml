@@ -35,7 +35,7 @@
     <string name="setting_userid1">사용자ID：%1$s</string>
     <string name="coming_soon">기다려주세요.</string>
     <string name="room_list_enter">들어가기</string>
-    <string name="room_list_roomid">방 번호：%1$s</string>
+    <string name="room_list_roomid">방 ID：%1$s</string>
     <string name="room_list_online">%1$s인</string>
     <string name="setting_contact1_content">더 많은 자문이나 피드백이 필요하시면 이메일로 연락해주세요：help@sud.tech</string>
     <string name="setting_contact1_but">예</string>
@@ -176,7 +176,7 @@
     <string name="audio_dialog_gift_present">증정</string>
     <string name="audio_dialog_present">보내기</string>
     <string name="audio_cancle">취소</string>
-    <string name="audio_all">모두 선택</string>
+    <string name="audio_all">모두</string>
     <string name="audio_mic_index">%1$d 마이크</string>
     <string name="audio_room_admin">방 주인</string>
     <string name="audio_send">발송</string>

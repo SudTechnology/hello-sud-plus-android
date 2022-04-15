@@ -35,7 +35,7 @@
     <string name="setting_userid1">معرف المستخدم: %1$s</string>
     <string name="coming_soon">قريباً</string>
     <string name="room_list_enter">دخول</string>
-    <string name="room_list_roomid">رقم الغرفة: %1$s</string>
+    <string name="room_list_roomid">معرف الغرفة: %1$s</string>
     <string name="room_list_online">%1$s شخص</string>
     <string name="setting_contact1_content">لمزيد من المعلومات أو الملاحظات، يرجى الاتصال بنا عبر البريد الإلكتروني: help@sud.tech</string>
     <string name="setting_contact1_but">نعم</string>
@@ -176,7 +176,7 @@
     <string name="audio_dialog_gift_present">يهدى</string>
     <string name="audio_dialog_present">يعطى</string>
     <string name="audio_cancle">إلغاء</string>
-    <string name="audio_all">اختر الكل</string>
+    <string name="audio_all">الكل</string>
     <string name="audio_mic_index">%1$d ميكروفون</string>
     <string name="audio_room_admin">صاحب المنزل</string>
     <string name="audio_send">إرسال</string>

@@ -35,7 +35,7 @@
     <string name="setting_userid1">ID người dùng: %1$s</string>
     <string name="coming_soon">Vui lòng chờ đợi</string>
     <string name="room_list_enter">Vào</string>
-    <string name="room_list_roomid">Số phòng: %1$s</string>
+    <string name="room_list_roomid">ID phòng: %1$s</string>
     <string name="room_list_online"> %1$s người</string>
     <string name="setting_contact1_content">Để tìm hiểu nhiều thông tin hơn hoặc khi bạn muốn phản hồi vấn đề, hãy liên hệ với chúng tôi qua email: help@sud.tech</string>
     <string name="setting_contact1_but">OK</string>

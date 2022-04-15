@@ -35,7 +35,7 @@
     <string name="setting_userid1">ユーザーID：%1$s</string>
     <string name="coming_soon">どうぞお楽しみに</string>
     <string name="room_list_enter">入る</string>
-    <string name="room_list_roomid">ルーム番号：%1$s</string>
+    <string name="room_list_roomid">部屋ID：%1$s</string>
     <string name="room_list_online">%1$s人</string>
     <string name="setting_contact1_content">詳細情報のご提供を希望される場合やご意見などは、help@sud.techまでお問い合わせください</string>
     <string name="setting_contact1_but">はい</string>
@@ -176,7 +176,7 @@
     <string name="audio_dialog_gift_present">ギフト</string>
     <string name="audio_dialog_present">送る</string>
     <string name="audio_cancle">キャンセル</string>
-    <string name="audio_all">すべて選択</string>
+    <string name="audio_all">すべて</string>
     <string name="audio_mic_index">%1$dマイク</string>
     <string name="audio_room_admin">ルームキャスター</string>
     <string name="audio_send">送信</string>

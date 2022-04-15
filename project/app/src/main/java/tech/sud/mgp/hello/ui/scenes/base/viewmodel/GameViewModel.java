@@ -40,6 +40,7 @@ import tech.sud.mgp.hello.service.game.repository.GameRepository;
 import tech.sud.mgp.hello.service.game.resp.GameLoginResp;
 import tech.sud.mgp.hello.service.main.config.SudConfig;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
+import tech.sud.mgp.hello.ui.scenes.base.model.GameTextModel;
 
 /**
  * 游戏业务逻辑
@@ -52,7 +53,7 @@ public class GameViewModel implements SudFSMMGListener {
     private final SudFSMMGDecorator sudFSMMGDecorator = new SudFSMMGDecorator(); // 用于处理游戏SDK部分回调业务
 
     public final MutableLiveData<View> gameViewLiveData = new MutableLiveData<>(); // 游戏View回调
-    public final MutableLiveData<String> gameMessageLiveData = new MutableLiveData<>(); // 游戏消息
+    public final MutableLiveData<GameTextModel> gameMessageLiveData = new MutableLiveData<>(); // 游戏消息
     public final MutableLiveData<Object> updateMicLiveData = new MutableLiveData<>(); // 刷新麦位通知
     public final MutableLiveData<Object> autoUpMicLiveData = new MutableLiveData<>(); // 执行自动上麦的通知
     public final MutableLiveData<String> gameKeywordLiveData = new MutableLiveData<>(); // 游戏关键字
@@ -568,7 +569,9 @@ public class GameViewModel implements SudFSMMGListener {
     @Override
     public void onGameMGCommonPublicMessage(ISudFSMStateHandle handle, SudMGPMGState.MGCommonPublicMessage model) {
         String message = GameCommonStateUtils.parseMGCommonPublicMessage(model, SystemUtils.getLanguageCode(Utils.getApp()));
-        gameMessageLiveData.setValue(message);
+        GameTextModel gameTextModel = new GameTextModel();
+        gameTextModel.message = message;
+        gameMessageLiveData.setValue(gameTextModel);
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 

@@ -21,6 +21,7 @@ import tech.sud.mgp.hello.ui.main.constant.GameLevel;
  */
 public class TicketLevelView extends ConstraintLayout {
 
+    private View containerMain;
     private View viewHot;
     private View viewGold;
     private TextView tvWinAward;
@@ -45,6 +46,7 @@ public class TicketLevelView extends ConstraintLayout {
 
     private void initView(Context context, AttributeSet attrs, int defStyleAttr) {
         inflate(getContext(), R.layout.view_ticket_level, this);
+        containerMain = findViewById(R.id.container_main);
         viewHot = findViewById(R.id.view_hot);
         viewGold = findViewById(R.id.view_gold);
         tvWinAward = findViewById(R.id.tv_win_award);
@@ -63,22 +65,28 @@ public class TicketLevelView extends ConstraintLayout {
     private void initLevelData() {
         switch (ticketLevel) {
             case GameLevel.PRIMARY:
+                containerMain.setBackgroundResource(R.drawable.ic_ticket_level_small);
                 viewHot.setVisibility(View.GONE);
                 viewGold.setBackgroundResource(R.drawable.ic_ticket_level_gold_small);
                 tvWinAward.setText(getContext().getString(R.string.win_multiple_award, 10));
                 tvCountPeople.setText(getContext().getString(R.string.count_people_play, "87367"));
+                tvJoin.setBackgroundResource(R.drawable.ic_ticket_level_join_bg_small);
                 break;
             case GameLevel.MIDDLE:
+                containerMain.setBackgroundResource(R.drawable.ic_ticket_level_middle);
                 viewHot.setVisibility(View.VISIBLE);
                 viewGold.setBackgroundResource(R.drawable.ic_ticket_level_gold_middle);
                 tvWinAward.setText(getContext().getString(R.string.win_multiple_award, 50));
                 tvCountPeople.setText(getContext().getString(R.string.count_people_play, "85787"));
+                tvJoin.setBackgroundResource(R.drawable.ic_ticket_level_join_bg_middle);
                 break;
             case GameLevel.HIGH:
+                containerMain.setBackgroundResource(R.drawable.ic_ticket_level_high);
                 viewHot.setVisibility(View.VISIBLE);
                 viewGold.setBackgroundResource(R.drawable.ic_ticket_level_gold_high);
                 tvWinAward.setText(getContext().getString(R.string.win_multiple_award, 90));
                 tvCountPeople.setText(getContext().getString(R.string.count_people_play, "98759"));
+                tvJoin.setBackgroundResource(R.drawable.ic_ticket_level_join_bg_high);
                 break;
         }
         int avatarSize = DensityUtils.dp2px(getContext(), 24);

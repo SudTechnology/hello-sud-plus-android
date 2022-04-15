@@ -89,7 +89,7 @@
             android:id="@+id/top_tv_select_game"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxWidth="48dp"
+            android:maxWidth="55dp"
             android:textSize="12sp"
             android:textColor="@color/c_ffffff"
             android:text="@string/select_game"

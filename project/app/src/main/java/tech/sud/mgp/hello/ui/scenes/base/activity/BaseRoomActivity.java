@@ -30,6 +30,7 @@ import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
 import tech.sud.mgp.hello.rtc.audio.core.AudioPCMData;
 import tech.sud.mgp.hello.ui.scenes.base.constant.OperateMicType;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
+import tech.sud.mgp.hello.ui.scenes.base.model.GameTextModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoleType;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
@@ -282,9 +283,9 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
                 }
             }
         });
-        gameViewModel.gameMessageLiveData.observe(this, new Observer<String>() {
+        gameViewModel.gameMessageLiveData.observe(this, new Observer<GameTextModel>() {
             @Override
-            public void onChanged(String msg) {
+            public void onChanged(GameTextModel msg) {
                 if (msg != null) {
                     binder.addChatMsg(msg);
                 }

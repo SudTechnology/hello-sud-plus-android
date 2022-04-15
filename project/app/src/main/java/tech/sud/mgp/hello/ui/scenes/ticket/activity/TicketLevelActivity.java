@@ -10,6 +10,7 @@ import com.blankj.utilcode.util.ClickUtils;
 import com.gyf.immersionbar.ImmersionBar;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseActivity;
@@ -19,7 +20,6 @@ import tech.sud.mgp.hello.ui.common.constant.RequestKey;
 import tech.sud.mgp.hello.ui.common.widget.HSTopBar;
 import tech.sud.mgp.hello.ui.main.constant.GameLevel;
 import tech.sud.mgp.hello.ui.main.home.MatchRoomModel;
-import tech.sud.mgp.hello.ui.scenes.base.model.EnterRoomParams;
 import tech.sud.mgp.hello.ui.scenes.base.utils.EnterRoomUtils;
 import tech.sud.mgp.hello.ui.scenes.ticket.model.TicketLevelParams;
 import tech.sud.mgp.hello.ui.scenes.ticket.viewmodel.TicketLevelViewModel;
@@ -108,7 +108,7 @@ public class TicketLevelActivity extends BaseActivity implements View.OnClickLis
         super.initData();
         topBar.setTitle(params.gameName);
         int avatarSize = DensityUtils.dp2px(context, 24);
-        tvNotice.setDatas(getResources().getStringArray(R.array.ticket_level_notices));
+        initNotices();
         // 初级
         tvWinAwardSmall.setText(getString(R.string.win_multiple_award, 10));
         addAvatars(flAvatarsSmall, avatarSize);
@@ -121,6 +121,18 @@ public class TicketLevelActivity extends BaseActivity implements View.OnClickLis
         tvWinAwardHigh.setText(getString(R.string.win_multiple_award, 90));
         addAvatars(flAvatarsHigh, avatarSize);
         tvCountHigh.setText(getString(R.string.count_people_play, "98759"));
+    }
+
+    /** 初始化公告栏数据 */
+    private void initNotices() {
+        ArrayList<String> list = new ArrayList<>();
+        list.add(getString(R.string.ticket_level_notice, "沐辰", "900"));
+        list.add(getString(R.string.ticket_level_notice, "安小六", "20"));
+        list.add(getString(R.string.ticket_level_notice, "兔兔", "250"));
+        list.add(getString(R.string.ticket_level_notice, "Toby", "900"));
+        list.add(getString(R.string.ticket_level_notice, "Jennie", "900"));
+        list.add(getString(R.string.ticket_level_notice, "Bell", "250"));
+        tvNotice.setDatas(list);
     }
 
     private void addAvatars(FrameLayout container, int avatarSize) {
@@ -153,11 +165,7 @@ public class TicketLevelActivity extends BaseActivity implements View.OnClickLis
         viewModel.matchRoomLiveData.observe(this, new Observer<MatchRoomModel>() {
             @Override
             public void onChanged(MatchRoomModel matchRoomModel) {
-                EnterRoomParams enterRoomParams = new EnterRoomParams();
-                enterRoomParams.roomId = matchRoomModel.roomId;
-                enterRoomParams.sceneType = params.sceneType;
-                enterRoomParams.gameLevel = matchRoomModel.gameLevel;
-                EnterRoomUtils.enterRoom(context, enterRoomParams);
+                EnterRoomUtils.enterRoom(context, matchRoomModel.roomId);
             }
         });
     }

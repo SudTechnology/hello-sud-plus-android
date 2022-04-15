@@ -140,4 +140,5 @@ dependencies {
     implementation 'cn.rongcloud.sdk:rtc_lib:5.2.0'
     // RongCloud IM 语聊房
     implementation 'cn.rongcloud.sdk:voiceroom_lib:2.0.8'
+    implementation "com.github.hackware1993:MagicIndicator:1.7.0"
 }

@@ -10,6 +10,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <!-- 顶部的一个遮罩 -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="145dp"
+        android:background="@drawable/ic_scene_room_top_mask"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <!-- 顶部View -->
     <tech.sud.mgp.hello.ui.scenes.base.widget.view.SceneRoomTopView
         android:id="@+id/room_top_view"

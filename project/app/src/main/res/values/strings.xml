@@ -228,7 +228,7 @@ Go to homepage to create one~</string>
     <string name="primary_field">Beginner Stage</string>
     <string name="middle_field">Intermediate Stage</string>
     <string name="high_field">Advanced Stage</string>
-    <string name="win_multiple_award">Win %1$d reward</string>
+    <string name="win_multiple_award">Win %1$dx reward</string>
     <string name="count_people_play">%1$s players online</string>
     <string name="now_participation">Join now</string>
     <string name="join_game_confirm">Participating consumes %1$d gold, do you want to continue?</string>
@@ -238,20 +238,13 @@ Go to homepage to create one~</string>
     <string name="app_version_low">This version of the app is low, please update to the latest version</string>
     <string name="app_version_update_tip">There is a new version available, update now?</string>
     <string name="app_version_update_btn1">Later</string>
-    <string name="app_version_update_btn2">Update no</string>
+    <string name="app_version_update_btn2">Update now</string>
+    <string name="ticket_level_notice">Congrats to %1$s for winning %2$s gold in the Intermediate Stage!</string>
 
     <!-- region 新增 -->
     <string name="unable_to_speak">当前不能发言</string>
     <string name="no_empty_seat">没有空位啦</string>
     <string name="more_settings">更多设置</string>
-    <string-array name="ticket_level_notices">
-        <item>恭喜 沐辰 在高级场赢得900金币！</item>
-        <item>恭喜 安小六 在初级场赢得20金币！</item>
-        <item>恭喜 兔兔 在中级场赢得250金币！</item>
-        <item>恭喜 Toby 在高级场赢得900金币！</item>
-        <item>恭喜 Jennie 在高级场赢得900金币！</item>
-        <item>恭喜 Bell 在中级场赢得250金币！</item>
-    </string-array>
     <string name="create_ticket_room_title">选择创建的门票场次级别</string>
     <string name="take_first_place">夺得第一名</string>
     <string name="high_gold_coin_award">最高可获得%1$d金币奖励</string>

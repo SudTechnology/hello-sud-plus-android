@@ -19,20 +19,15 @@
         android:id="@+id/room_scene"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:maxWidth="60dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="4dp"
-        android:background="#F5F5F5"
         android:paddingHorizontal="5dp"
         android:paddingVertical="3dp"
-        android:singleLine="true"
-        android:textColor="#999999"
-        android:ellipsize="end"
         android:textSize="10sp"
         app:layout_constraintStart_toEndOf="@id/room_cover"
         app:layout_constraintTop_toTopOf="@id/room_cover" />
 
-    <TextView
+    <tech.sud.mgp.hello.common.widget.view.MarqueeTextView
         android:id="@+id/room_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -71,7 +66,7 @@
         app:layout_constraintStart_toEndOf="@id/room_cover" />
 
     <LinearLayout
-        android:layout_width="84dp"
+        android:layout_width="wrap_content"
         android:id="@+id/room_enter_ll"
         android:orientation="horizontal"
         android:gravity="center_vertical"
@@ -83,9 +78,11 @@
         <TextView
             android:background="@color/c_ffffff"
             android:id="@+id/rtc_name"
-            android:layout_width="34dp"
+            android:minWidth="34dp"
+            android:layout_width="wrap_content"
             android:layout_height="22dp"
             android:gravity="center"
+            android:paddingHorizontal="8dp"
             android:layout_margin="1dp"
             android:textColor="@color/black"
             android:textSize="12sp" />

@@ -239,6 +239,7 @@
     <string name="app_version_low">App의 버전이 낮습니다, 우선 버전을 업그레이드 해주십시오!</string>
     <string name="app_version_update_tip">새로운 버전이 있습니다. 갱신하시겠습니까?</string>
     <string name="app_version_update_btn1">다음에 다시 보기</string>
-    <string name="app_version_update_btn2">즉시 갱</string>
+    <string name="app_version_update_btn2">즉시 갱신</string>
+    <string name="ticket_level_notice">축하합니다 %1$s의 중급장 %2$s코인 취득하셨습니다!</string>
 
 </resources>

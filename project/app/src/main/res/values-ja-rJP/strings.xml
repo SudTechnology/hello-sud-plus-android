@@ -239,6 +239,7 @@
     <string name="app_version_low">お使いのAppバージョンが古いので、アップグレードしてください</string>
     <string name="app_version_update_tip">使用可能な新しいバージョンがあります。更新しますか？</string>
     <string name="app_version_update_btn1">次回にする</string>
-    <string name="app_version_update_btn2">今すぐ更</string>
+    <string name="app_version_update_btn2">今すぐ更新</string>
+    <string name="ticket_level_notice">%1$sが中級競技場で%2$sコインを獲得しました！</string>
 
 </resources>

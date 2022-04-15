@@ -239,6 +239,7 @@
     <string name="app_version_low">您的App版本較低，請先升級版本</string>
     <string name="app_version_update_tip">已有新版本可體驗，是否更新？</string>
     <string name="app_version_update_btn1">下次再說</string>
-    <string name="app_version_update_btn2">立即更</string>
+    <string name="app_version_update_btn2">立即更新</string>
+    <string name="ticket_level_notice">恭喜 %1$s 在中級場贏得%2$s金幣！</string>
 
 </resources>

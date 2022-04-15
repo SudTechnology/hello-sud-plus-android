@@ -239,6 +239,7 @@
     <string name="app_version_low">เวอร์ชัน App ของคุณต่ำกว่า โปรดอัปเกรดเวอร์ชันก่อน</string>
     <string name="app_version_update_tip">มีเวอร์ชั่นใหม่แล้ว จะอัปเดตหรือไม่</string>
     <string name="app_version_update_btn1">อัปเดตคราวหน้า</string>
-    <string name="app_version_update_btn2">อัปเดตทันท</string>
+    <string name="app_version_update_btn2">อัปเดตทันที</string>
+    <string name="ticket_level_notice">ยินดีด้วย %1$s ได้รับ %2$s เหรียญในรอบระดับกลาง</string>
 
 </resources>

@@ -4,8 +4,9 @@
     <!-- 背景颜色 -->
     <item android:drawable="@color/c_ffffff" />
     <!-- 产品logo -->
-    <item
-        android:gravity="center">
-        <bitmap android:src="@drawable/ic_splash_logo" />
-    </item>
+    <!-- 因为6.0以下的机器不支持宽高,所以这里把logo去掉 -->
+    <!--    <item-->
+    <!--        android:gravity="center">-->
+    <!--        <bitmap android:src="@drawable/ic_splash_logo" />-->
+    <!--    </item>-->
 </layer-list>

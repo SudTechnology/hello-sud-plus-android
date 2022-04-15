@@ -30,7 +30,7 @@ public class HomeRoomTypeView extends ConstraintLayout {
 
     private GameAdapter gameAdapter;
     private GameItemView.GameItemListener gameItemListener;
-    private SceneModel sceneModel;
+    public SceneModel sceneModel;
     private ConstraintLayout creatRoomBtn;
     private CreatRoomClickListener creatRoomClickListener;
     private boolean creatEnable = false;

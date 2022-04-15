@@ -48,53 +48,53 @@ public class HomeManager {
     /**
      * 获取场景TAG
      * sceneType:场景id
-     */
-    public SceneInfo sceneTag(int sceneType) {
-        if (gameListResp != null && gameListResp.getSceneList() != null && gameListResp.getSceneList().size() > 0) {
-            for (int i = 0; i < gameListResp.getSceneList().size(); i++) {
-                SceneModel sceneModel = gameListResp.getSceneList().get(i);
-                if (sceneModel.getSceneId() == sceneType) {
-                    SceneInfo info = new SceneInfo();
-                    info.name = sceneModel.getSceneTag();
-                    info.colorResId = sceneTagResId(sceneType);
-                    return info;
-                }
-            }
-        }
-        SceneInfo info = new SceneInfo();
-        info.name = sceneType + "";
-        info.colorResId = Color.parseColor("#f5f5f5");
-        return info;
-    }
-
-    /**
-     * 获取场景TAG
-     * sceneType:场景id
      * 暂时先每个都列出来，后面ui需要修改就替换颜色
      */
-    public int sceneTagResId(int sceneType) {
+    public SceneTagColor sceneTagResId(int sceneType) {
+        SceneTagColor color = new SceneTagColor();
         switch (sceneType) {
             case SceneType.ASR:
-                return Color.parseColor("#ddf5d9");
+                color.colorBg = Color.parseColor("#9622C1");
+                color.colorText = Color.parseColor("#FFFFFF");
+                break;
             case SceneType.TICKET:
-                return Color.parseColor("#b3262732");
+                color.colorBg = Color.parseColor("#E35017");
+                color.colorText = Color.parseColor("#FFFFFF");
+                break;
             case SceneType.TALENT:
-                return Color.parseColor("#f5f5f5");
+                color.colorBg =  Color.parseColor("#F7268B");
+                color.colorText = Color.parseColor("#FFFFFF");
+                break;
             case SceneType.CROSS_ROOM:
-                return Color.parseColor("#f5f5f5");
+                color.colorBg = Color.parseColor("#504EEB");
+                color.colorText = Color.parseColor("#FFFFFF");
+                break;
             case SceneType.ONE_ONE:
-                return Color.parseColor("#f5f5f5");
+                color.colorBg = Color.parseColor("#1378F1");
+                color.colorText = Color.parseColor("#FFFFFF");
+                break;
             case SceneType.ORDER_ENTERTAINMENT:
-                return Color.parseColor("#f5f5f5");
+                color.colorBg = Color.parseColor("#27B7E8");
+                color.colorText = Color.parseColor("#FFFFFF");
+                break;
             case SceneType.QUIZ:
-                return Color.parseColor("#f5f5f5");
+                color.colorBg = Color.parseColor("#FDAB26");
+                color.colorText = Color.parseColor("#FFFFFF");
+                break;
             case SceneType.SHOW:
-                return Color.parseColor("#f5f5f5");
+                color.colorBg = Color.parseColor("#EC5420");
+                color.colorText = Color.parseColor("#FFFFFF");
+                break;
             case SceneType.AUDIO:
-                return Color.parseColor("#f5f5f5");
+                color.colorBg = Color.parseColor("#8324DF");
+                color.colorText = Color.parseColor("#FFFFFF");
+                break;
             default:
-                return Color.parseColor("#f5f5f5");
+                color.colorBg = Color.parseColor("#f5f5f5");
+                color.colorText = Color.parseColor("#999999");
+                break;
         }
+        return color;
     }
 
     /**
@@ -150,9 +150,9 @@ public class HomeManager {
     /**
      * 根据场景id，返回场景信息的model
      */
-    public class SceneInfo {
-        public String name;
-        public int colorResId;
+    public class SceneTagColor {
+        public int colorBg;
+        public int colorText;
     }
 
 }

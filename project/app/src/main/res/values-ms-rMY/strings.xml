@@ -239,6 +239,7 @@ Kunjungi laman utama untuk mencipta satu~</string>
     <string name="app_version_low">Versi aplikasi anda lebih rendah, sila tingkatkan versi dahulu</string>
     <string name="app_version_update_tip">Terdapat versi baharu yang tersedia, adakah anda ingin mengemas kininya?</string>
     <string name="app_version_update_btn1">Lain kali</string>
-    <string name="app_version_update_btn2">Kemas kini dengan seger</string>
+    <string name="app_version_update_btn2">Kemas kini dengan segera</string>
+    <string name="ticket_level_notice">Tahniah kepada %1$s kerana memenangi %2$s Syiling dalam Pertengahan!</string>
 
 </resources>

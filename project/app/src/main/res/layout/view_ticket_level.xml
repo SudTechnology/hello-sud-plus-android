@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container_main"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:background="@drawable/ic_ticket_level_small"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tv_win_award"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:textColor="@color/c_ffce45"
+            android:textStyle="bold"
+            android:layout_marginStart="22dp"
+            android:layout_marginEnd="120dp"
+            android:layout_marginTop="21dp"
+            android:singleLine="true"
+            android:ellipsize="end"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <FrameLayout
+            android:id="@+id/container_avatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="17dp"
+            android:layout_marginTop="105dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_count_people"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="101dp"
+            android:textSize="12sp"
+            android:textColor="#b3ffffff"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tv_join"
+            app:layout_constraintBottom_toBottomOf="@id/container_avatar"
+            app:layout_constraintTop_toTopOf="@id/container_avatar" />
+
+        <TextView
+            android:id="@+id/tv_join"
+            android:layout_width="88dp"
+            android:layout_height="30dp"
+            android:textSize="14sp"
+            android:textColor="@color/c_ffcc40"
+            android:text="@string/now_participation"
+            android:gravity="center"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:paddingHorizontal="14dp"
+            android:background="@drawable/ic_ticket_level_join_bg_small"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="18dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:id="@+id/view_gold"
+        android:layout_width="105dp"
+        android:layout_height="105dp"
+        android:background="@drawable/ic_ticket_level_gold_small"
+        android:layout_marginBottom="69dp"
+        app:layout_constraintBottom_toBottomOf="@id/container_main"
+        app:layout_constraintEnd_toEndOf="@id/container_main" />
+
+    <View
+        android:id="@+id/view_hot"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/ic_hot"
+        android:layout_marginBottom="117dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/container_main" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

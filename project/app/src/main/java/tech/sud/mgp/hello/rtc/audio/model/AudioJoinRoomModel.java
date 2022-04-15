@@ -16,5 +16,5 @@ public class AudioJoinRoomModel {
 
     public long timestamp;
 
-    public boolean isPublishStream;
+    public boolean isRoomOwner;
 }

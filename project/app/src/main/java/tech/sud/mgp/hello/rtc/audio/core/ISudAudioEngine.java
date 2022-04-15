@@ -22,15 +22,7 @@ public interface ISudAudioEngine {
      * 配置引擎SDK
      * @param context
      * @param model  APPId
-     *
-     */
-    void initWithConfig(Context context, AudioConfigModel model);
-
-    /**
-     * 配置引擎SDK
-     * @param context
-     * @param model  APPId
-     *
+     * @param success
      */
     void initWithConfig(Context context, AudioConfigModel model, Runnable success);
 
@@ -111,5 +103,15 @@ public interface ISudAudioEngine {
     interface SendCommandListener {
         void onResult(int value);
     }
+
+    // region 8. 发送跨聊天室消息
+
+    /**
+     * @param roomID 目的房间
+     * @param message  消息内容
+     * @param listener 回调
+     */
+    void sendRoomMessage(String roomID, String message, SendCommandListener listener);
+
     // endregion
 }

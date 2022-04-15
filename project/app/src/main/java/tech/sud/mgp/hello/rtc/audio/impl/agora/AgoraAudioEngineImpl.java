@@ -61,15 +61,6 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
         mISudAudioEventListener = listener;
     }
 
-    /**
-     * @param context
-     * @param model   model.token, 这里的token是RTM的token，用于信令
-     */
-    @Override
-    public void initWithConfig(Context context, AudioConfigModel model) {
-        initWithConfig(context, model, null);
-    }
-
     @Override
     public void initWithConfig(Context context, AudioConfigModel model, Runnable success) {
         // 初始化引擎
@@ -217,6 +208,11 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
                 }
             });
         }
+    }
+
+    @Override
+    public void sendRoomMessage(String roomID, String message, SendCommandListener listener) {
+
     }
 
     private AudioRoomState convertAudioRoomState(int state) {

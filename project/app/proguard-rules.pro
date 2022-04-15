@@ -27,6 +27,9 @@
 -dontwarn com.tencent.bugly.**
 -keep public class com.tencent.bugly.**{*;}
 
+# 即构的混淆
+-keep class **.zego.**{*;}
+
 # 声网的混淆
 -keep class io.agora.**{*;}
 

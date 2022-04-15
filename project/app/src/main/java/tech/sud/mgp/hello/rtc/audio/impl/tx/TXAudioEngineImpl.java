@@ -17,13 +17,8 @@ public class TXAudioEngineImpl implements ISudAudioEngine {
     }
 
     @Override
-    public void initWithConfig(Context context, AudioConfigModel model) {
-
-    }
-
-    @Override
     public void initWithConfig(Context context, AudioConfigModel model, Runnable success) {
-        initWithConfig(context, model);
+
     }
 
     @Override
@@ -63,6 +58,11 @@ public class TXAudioEngineImpl implements ISudAudioEngine {
 
     @Override
     public void sendCommand(String command, SendCommandListener listener) {
+
+    }
+
+    @Override
+    public void sendRoomMessage(String roomID, String message, SendCommandListener listener) {
 
     }
 

@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.rtc.audio.core.AudioEngineUpdateType;
 import tech.sud.mgp.hello.rtc.audio.core.AudioPCMData;
@@ -18,6 +17,7 @@ import tech.sud.mgp.hello.rtc.audio.core.ISudAudioEventListener;
 import tech.sud.mgp.hello.rtc.audio.factory.AudioEngineFactory;
 import tech.sud.mgp.hello.rtc.audio.model.AudioJoinRoomModel;
 import tech.sud.mgp.hello.ui.main.home.RTCManager;
+import tech.sud.mgp.hello.ui.scenes.base.model.RoleType;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
 import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomServiceCallback;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.RoomCmdModelUtils;
@@ -49,18 +49,13 @@ public class SceneEngineManager extends BaseServiceManager {
 
     public void enterRoom(RoomInfoModel model) {
         if (!isInitEngine) {
-            String rtcType = AppData.getInstance().getRtcType();
-            if (rtcType.equals("RongCloud") || rtcType.equals("CommsEase") || rtcType.equals("Agora")) {
-                initEngine(model, new Runnable() {
-                    @Override
-                    public void run() {
-                        joinRoom(model);
-                    }
-                });
-                return;
-            } else {
-                initEngine(model, null);
-            }
+            initEngine(model, new Runnable() {
+                @Override
+                public void run() {
+                    joinRoom(model);
+                }
+            });
+            return;
         }
 
         joinRoom(model);
@@ -78,6 +73,10 @@ public class SceneEngineManager extends BaseServiceManager {
         audioJoinRoomModel.roomName = model.roomName;
         audioJoinRoomModel.timestamp = System.currentTimeMillis();
         audioJoinRoomModel.token = model.rtcToken;
+        if (parentManager.getRoleType() == RoleType.OWNER) {
+            audioJoinRoomModel.isRoomOwner = true;
+        }
+
         engine.joinRoom(audioJoinRoomModel);
         engine.setEventListener(eventHandler);
         engine.setAudioRouteToSpeaker(true);
@@ -116,6 +115,13 @@ public class SceneEngineManager extends BaseServiceManager {
         ISudAudioEngine engine = getEngine();
         if (engine != null) {
             engine.sendCommand(command, result);
+        }
+    }
+
+    public void sendRoomMessage(String roomID, String message, ISudAudioEngine.SendCommandListener result) {
+        ISudAudioEngine engine = getEngine();
+        if (engine != null) {
+            engine.sendRoomMessage(roomID, message, result);
         }
     }
 
@@ -234,6 +240,11 @@ public class SceneEngineManager extends BaseServiceManager {
         @Override
         public void onRecvCommand(String fromUserID, String command) {
             commandManager.onRecvCommand(fromUserID, command);
+        }
+
+        @Override
+        public void onRecvRoomMessage(String fromRoomID, String fromUserID, String message) {
+
         }
 
         @Override

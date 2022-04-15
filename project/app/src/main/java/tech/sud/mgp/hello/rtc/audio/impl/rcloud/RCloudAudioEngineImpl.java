@@ -60,11 +60,6 @@ public class RCloudAudioEngineImpl implements ISudAudioEngine {
     }
 
     @Override
-    public void initWithConfig(@NonNull Context context, @NonNull AudioConfigModel model) {
-        initWithConfig(context, model, null);
-    }
-
-    @Override
     public void initWithConfig(Context context, AudioConfigModel model, Runnable success) {
         if (model == null)
             return;
@@ -128,10 +123,6 @@ public class RCloudAudioEngineImpl implements ISudAudioEngine {
                     ThreadUtils.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            if (model.isPublishStream) {
-                                startPublishStream();
-                            }
-
                             ISudAudioEventListener handler = mISudAudioEventListener;
                             if (handler != null) {
                                 handler.onRoomStateUpdate(model.roomID, AudioRoomState.CONNECTED, 0, null);
@@ -288,6 +279,11 @@ public class RCloudAudioEngineImpl implements ISudAudioEngine {
                 }
             });
         }
+    }
+
+    @Override
+    public void sendRoomMessage(String roomID, String message, SendCommandListener listener) {
+
     }
 
     // 更新房间内用户总人数

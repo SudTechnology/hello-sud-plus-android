@@ -81,6 +81,7 @@ public class EnterRoomUtils {
      */
     private static void startSceneRoomActivity(Context context, EnterRoomResp enterRoomResp) {
         RoomInfoModel model = new RoomInfoModel();
+        model.sceneType = enterRoomResp.sceneType;
         model.roomId = enterRoomResp.roomId;
         model.roomNumber = enterRoomResp.roomNumber;
         model.roomName = enterRoomResp.roomName;
@@ -89,8 +90,7 @@ public class EnterRoomUtils {
         model.rtcToken = enterRoomResp.rtcToken;
         model.rtiToken = enterRoomResp.rtiToken;
         model.gameLevel = enterRoomResp.gameLevel;
-        int sceneType = enterRoomResp.sceneType;
-        Intent intent = getSceneIntent(context, sceneType);
+        Intent intent = getSceneIntent(context, enterRoomResp.sceneType);
         intent.putExtra("RoomInfoModel", model);
         context.startActivity(intent);
     }

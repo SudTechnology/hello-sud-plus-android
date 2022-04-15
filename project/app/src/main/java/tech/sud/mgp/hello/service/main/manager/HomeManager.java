@@ -1,7 +1,6 @@
 package tech.sud.mgp.hello.service.main.manager;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 
 import java.util.ArrayList;
@@ -13,8 +12,6 @@ import tech.sud.mgp.hello.service.main.resp.GameModel;
 import tech.sud.mgp.hello.service.main.resp.RoomListResp;
 import tech.sud.mgp.hello.service.main.resp.SceneModel;
 import tech.sud.mgp.hello.ui.main.constant.SceneType;
-import tech.sud.mgp.hello.ui.scenes.asr.ASRActivity;
-import tech.sud.mgp.hello.ui.scenes.ticket.activity.TicketActivity;
 
 public class HomeManager {
 
@@ -62,7 +59,7 @@ public class HomeManager {
                 color.colorText = Color.parseColor("#FFFFFF");
                 break;
             case SceneType.TALENT:
-                color.colorBg =  Color.parseColor("#F7268B");
+                color.colorBg = Color.parseColor("#F7268B");
                 color.colorText = Color.parseColor("#FFFFFF");
                 break;
             case SceneType.CROSS_ROOM:
@@ -101,17 +98,10 @@ public class HomeManager {
      * 获取场景下可用的游戏
      */
     public List<GameModel> getSceneGame(SceneModel model) {
-        List<GameModel> gameModels = new ArrayList<>();
-        if (gameListResp != null && gameListResp.getGameList() != null && gameListResp.getGameList().size() > 0) {
-            for (int i = 0; i < gameListResp.getGameList().size(); i++) {
-                GameModel game = gameListResp.getGameList().get(i);
-                List<Integer> suitScene = game.getSuitScene();
-                if (suitScene.contains(model.getSceneId())) {
-                    gameModels.add(game);
-                }
-            }
+        if (gameListResp == null) {
+            return null;
         }
-        return gameModels;
+        return gameListResp.getGameList(model.getSceneId());
     }
 
     /**
@@ -131,9 +121,6 @@ public class HomeManager {
 
     /**
      * 根据游戏id获取gameModel
-     *
-     * @param gameId
-     * @return
      */
     public GameModel getGameModel(long gameId) {
         GameListResp resp = gameListResp;
@@ -150,7 +137,7 @@ public class HomeManager {
     /**
      * 根据场景id，返回场景信息的model
      */
-    public class SceneTagColor {
+    public static class SceneTagColor {
         public int colorBg;
         public int colorText;
     }

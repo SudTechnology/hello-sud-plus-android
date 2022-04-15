@@ -21,6 +21,19 @@ public class SplashActivity extends BaseActivity implements CancelAdapt {
     private final SplashViewModel viewModel = new SplashViewModel();
 
     @Override
+    protected boolean beforeSetContentView() {
+        if (!this.isTaskRoot()) {
+            //此操作是为了防止重复启动，主要是发生在应用安装成功后打开APP，然后回到launcher程序再打开时造成的问题
+            if (getIntent() != null) {
+                if (getIntent().hasCategory(Intent.CATEGORY_LAUNCHER) && Intent.ACTION_MAIN.equals(getIntent().getAction())) {
+                    return true;
+                }
+            }
+        }
+        return super.beforeSetContentView();
+    }
+
+    @Override
     protected void setStatusBar() {
     }
 

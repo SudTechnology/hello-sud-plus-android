@@ -7,6 +7,7 @@ import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.service.game.repository.GameRepository;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
+import tech.sud.mgp.hello.ui.scenes.base.model.RoleType;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
 import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomServiceCallback;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.RoomCmdModelUtils;
@@ -101,7 +102,7 @@ public class SceneRoomServiceManager extends BaseServiceManager {
     public int getRoleType() {
         RoomInfoModel model = roomInfoModel;
         if (model == null) {
-            return 0;
+            return RoleType.NORMAL;
         } else {
             return model.roleType;
         }

@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.main.home;
+package tech.sud.mgp.hello.ui.main.home.view;
 
 import android.content.Context;
 import android.util.AttributeSet;

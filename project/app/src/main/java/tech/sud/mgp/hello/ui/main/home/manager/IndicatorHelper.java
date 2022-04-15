@@ -1,8 +1,7 @@
-package tech.sud.mgp.hello.ui.main.home;
+package tech.sud.mgp.hello.ui.main.home.manager;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -21,6 +20,8 @@ import java.util.List;
 
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.service.main.resp.SceneModel;
+import tech.sud.mgp.hello.ui.main.home.view.HomeRoomTypeView;
+import tech.sud.mgp.hello.ui.main.home.view.NewNestedScrollView;
 
 /**
  * 管理indicator和Scrollview的联动效果

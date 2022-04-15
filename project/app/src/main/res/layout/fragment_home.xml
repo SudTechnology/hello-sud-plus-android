@@ -128,7 +128,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/indicator_container">
 
-        <tech.sud.mgp.hello.ui.main.home.NewNestedScrollView
+        <tech.sud.mgp.hello.ui.main.home.view.NewNestedScrollView
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -142,7 +142,7 @@
                 android:orientation="vertical"
                 android:paddingBottom="10dp" />
 
-        </tech.sud.mgp.hello.ui.main.home.NewNestedScrollView>
+        </tech.sud.mgp.hello.ui.main.home.view.NewNestedScrollView>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

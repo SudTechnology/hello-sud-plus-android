@@ -16,7 +16,7 @@ import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
 import tech.sud.mgp.hello.ui.main.constant.SceneType;
-import tech.sud.mgp.hello.ui.main.home.RoomItemModel;
+import tech.sud.mgp.hello.ui.main.home.model.RoomItemModel;
 
 public class RoomListAdapter extends BaseQuickAdapter<RoomItemModel, BaseViewHolder> {
 

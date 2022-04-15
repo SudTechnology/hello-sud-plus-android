@@ -8,7 +8,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
 import tech.sud.mgp.hello.R;
-import tech.sud.mgp.hello.ui.main.home.SceneTypeDialog;
+import tech.sud.mgp.hello.ui.main.home.view.SceneTypeDialog;
 
 public class SceneAdapter extends BaseQuickAdapter<SceneTypeDialog.DialogSceneModel, BaseViewHolder> {
 

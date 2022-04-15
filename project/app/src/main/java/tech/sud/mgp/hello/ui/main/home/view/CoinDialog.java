@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.main.home;
+package tech.sud.mgp.hello.ui.main.home.view;
 
 import android.widget.ImageView;
 import android.widget.TextView;

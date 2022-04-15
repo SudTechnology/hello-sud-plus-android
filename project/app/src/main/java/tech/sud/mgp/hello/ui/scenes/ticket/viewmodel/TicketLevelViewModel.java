@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData;
 import tech.sud.mgp.hello.common.base.BaseViewModel;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
-import tech.sud.mgp.hello.ui.main.home.MatchRoomModel;
+import tech.sud.mgp.hello.ui.main.home.model.MatchRoomModel;
 
 /**
  * 选择门票等级页面的业务逻辑

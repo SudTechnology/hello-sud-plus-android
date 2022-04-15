@@ -19,7 +19,7 @@ import tech.sud.mgp.hello.service.main.resp.GetAccountResp;
 import tech.sud.mgp.hello.service.main.resp.RoomListResp;
 import tech.sud.mgp.hello.service.main.resp.TicketConfirmJoinResp;
 import tech.sud.mgp.hello.service.main.resp.UserInfoListResp;
-import tech.sud.mgp.hello.ui.main.home.MatchRoomModel;
+import tech.sud.mgp.hello.ui.main.home.model.MatchRoomModel;
 
 /**
  * 网络请求方法和地址

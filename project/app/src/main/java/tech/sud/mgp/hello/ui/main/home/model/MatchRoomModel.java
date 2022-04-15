@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.main.home;
+package tech.sud.mgp.hello.ui.main.home.model;
 
 public class MatchRoomModel {
     /**

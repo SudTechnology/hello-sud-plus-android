@@ -1,7 +1,6 @@
-package tech.sud.mgp.hello.ui.main.home;
+package tech.sud.mgp.hello.ui.main.home.view;
 
 import android.content.Context;
-import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -9,8 +8,6 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.widget.NestedScrollView;
-
-import com.blankj.utilcode.util.LogUtils;
 
 
 public class NewNestedScrollView extends NestedScrollView implements NestedScrollView.OnScrollChangeListener {

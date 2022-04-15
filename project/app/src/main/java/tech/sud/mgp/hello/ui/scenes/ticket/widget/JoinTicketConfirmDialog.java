@@ -66,11 +66,6 @@ public class JoinTicketConfirmDialog extends BaseDialogFragment implements View.
     }
 
     @Override
-    protected int getHeight() {
-        return DensityUtils.dp2px(222);
-    }
-
-    @Override
     protected void initWidget() {
         super.initWidget();
         ivNoRemind = findViewById(R.id.iv_no_remind);

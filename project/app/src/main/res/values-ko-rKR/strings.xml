@@ -186,7 +186,7 @@
     <string name="audio_recreation_chat">오락 채팅</string>
     <string name="audio_chat_room">음성 채팅방</string>
     <string name="audio_gameing">게임 중</string>
-    <string name="audio_room_number">방 번호</string>
+    <string name="audio_room_number">방 ID</string>
     <string name="audio_close_room_title">현재 방을 나가시겠습니까?</string>
     <string name="audio_switch_game_warn">게임 중에는 게임을 전환할 수 없습니다.</string>
     <string name="audio_enter_the_room">방에 들어왔습니다</string>

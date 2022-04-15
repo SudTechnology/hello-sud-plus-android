@@ -186,7 +186,7 @@
     <string name="audio_recreation_chat">Trò chuyện giải trí</string>
     <string name="audio_chat_room">Phòng chat voie</string>
     <string name="audio_gameing">Đang chơi </string>
-    <string name="audio_room_number">Số phòng</string>
+    <string name="audio_room_number">ID phòng</string>
     <string name="audio_close_room_title">Xác nhận rời khỏi phòng hiện tại không</string>
     <string name="audio_switch_game_warn">Đang chơi, không thể chuyển đổi sang trò khác</string>
     <string name="audio_enter_the_room">Đã vào phòng</string>

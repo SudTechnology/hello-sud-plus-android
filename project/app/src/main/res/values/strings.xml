@@ -185,7 +185,7 @@ Go to homepage to create one~</string>
     <string name="audio_recreation_chat">General Chat</string>
     <string name="audio_chat_room">Chat Room</string>
     <string name="audio_gameing">In Game</string>
-    <string name="audio_room_number">Room Number</string>
+    <string name="audio_room_number">room ID</string>
     <string name="audio_close_room_title">Are you sure you want to leave the room?</string>
     <string name="audio_switch_game_warn">Already n game, can\'t switch games</string>
     <string name="audio_enter_the_room">Entered the room</string>

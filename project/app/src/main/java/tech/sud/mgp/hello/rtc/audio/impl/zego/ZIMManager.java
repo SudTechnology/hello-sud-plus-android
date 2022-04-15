@@ -51,7 +51,7 @@ public class ZIMManager {
         return zimManager;
     }
 
-    public void create(long appID, String userID, String token, Application application) {
+    public void create(long appID, Application application) {
         if (zim != null) {
             destroy();
         }
@@ -81,17 +81,6 @@ public class ZIMManager {
                 Log.i(kTag, "onRoomStateChanged: " + state);
             }
         });
-
-        ZIMUserInfo zimUserInfo = new ZIMUserInfo();
-        zimUserInfo.userID = userID;
-        zimUserInfo.userName = userID;
-        zim.login(zimUserInfo, token, new ZIMLoggedInCallback() {
-            @Override
-            public void onLoggedIn(ZIMError errorInfo) {
-                if (errorInfo.code == ZIMErrorCode.SUCCESS) {
-                }
-            }
-        });
     }
 
     public void destroy() {
@@ -104,56 +93,66 @@ public class ZIMManager {
         mRoomID = null;
     }
 
-    public void joinRoom(String roomID, boolean isCreateRoom) {
+    public void joinRoom(String roomID, String userID, String userName, String token, boolean isCreateRoom) {
         if (zim == null) {
             return;
         }
 
         Log.i(kTag, "roomID = " + roomID);
 
-        if (isCreateRoom) {
-            zim.joinRoom(roomID, new ZIMRoomJoinedCallback() {
-                @Override
-                public void onRoomJoined(ZIMRoomFullInfo roomInfo, ZIMError errorInfo) {
-                    Log.i(kTag, "joinRoom: " + errorInfo.code);
-                    if (errorInfo.code == ZIMErrorCode.SUCCESS) {
-                        mRoomID = roomID;
-                    }
+        ZIMUserInfo zimUserInfo = new ZIMUserInfo();
+        zimUserInfo.userID = userID;
+        zimUserInfo.userName = userName;
+        zim.login(zimUserInfo, token, new ZIMLoggedInCallback() {
+            @Override
+            public void onLoggedIn(ZIMError errorInfo) {
+                if (errorInfo.code == ZIMErrorCode.SUCCESS || errorInfo.code == ZIMErrorCode.USER_HAS_ALREADY_LOGGED) {
+                    if (isCreateRoom) {
+                        zim.joinRoom(roomID, new ZIMRoomJoinedCallback() {
+                            @Override
+                            public void onRoomJoined(ZIMRoomFullInfo roomInfo, ZIMError errorInfo) {
+                                Log.i(kTag, "joinRoom: " + errorInfo.code);
+                                if (errorInfo.code == ZIMErrorCode.SUCCESS) {
+                                    mRoomID = roomID;
+                                }
 
-                    switch (errorInfo.code) {
-                        case ROOM_SERVER_ERROR:
-                        case ROOM_COMMON_ERROR:
-                        case JOIN_ROOM_ERROR:
-                        case ROOM_DOES_NOT_EXIST:
-                        {
-                            ZIMRoomInfo zimRoomInfo = new ZIMRoomInfo();
-                            zimRoomInfo.roomID = roomID;
-                            zimRoomInfo.roomName = roomID;
+                                switch (errorInfo.code) {
+                                    case ROOM_SERVER_ERROR:
+                                    case ROOM_COMMON_ERROR:
+                                    case JOIN_ROOM_ERROR:
+                                    case ROOM_DOES_NOT_EXIST:
+                                    {
+                                        ZIMRoomInfo zimRoomInfo = new ZIMRoomInfo();
+                                        zimRoomInfo.roomID = roomID;
+                                        zimRoomInfo.roomName = roomID;
 
-                            zim.createRoom(zimRoomInfo, new ZIMRoomCreatedCallback() {
-                                @Override
-                                public void onRoomCreated(ZIMRoomFullInfo roomInfo, ZIMError errorInfo) {
-                                    if (errorInfo.code == ZIMErrorCode.SUCCESS) {
-                                        mRoomID = roomID;
+                                        zim.createRoom(zimRoomInfo, new ZIMRoomCreatedCallback() {
+                                            @Override
+                                            public void onRoomCreated(ZIMRoomFullInfo roomInfo, ZIMError errorInfo) {
+                                                if (errorInfo.code == ZIMErrorCode.SUCCESS) {
+                                                    mRoomID = roomID;
+                                                }
+                                            }
+                                        });
+                                        break;
                                     }
                                 }
-                            });
-                            break;
-                        }
+                            }
+                        });
+                    } else {
+                        zim.joinRoom(roomID, new ZIMRoomJoinedCallback() {
+                            @Override
+                            public void onRoomJoined(ZIMRoomFullInfo roomInfo, ZIMError errorInfo) {
+                                Log.i(kTag, "joinRoom: " + errorInfo.code);
+                                if (errorInfo.code == ZIMErrorCode.SUCCESS) {
+                                    mRoomID = roomID;
+                                }
+                            }
+                        });
                     }
                 }
-            });
-        } else {
-            zim.joinRoom(roomID, new ZIMRoomJoinedCallback() {
-                @Override
-                public void onRoomJoined(ZIMRoomFullInfo roomInfo, ZIMError errorInfo) {
-                    Log.i(kTag, "joinRoom: " + errorInfo.code);
-                    if (errorInfo.code == ZIMErrorCode.SUCCESS) {
-                        mRoomID = roomID;
-                    }
-                }
-            });
-        }
+            }
+        });
     }
 
     public void leaveRoom(String roomID) {

@@ -84,7 +84,7 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
             engine.enableAudioCaptureDevice(false);
         }
 
-        ZIMManager.sharedInstance().create(appID, model.userID, model.token, (Application) context.getApplicationContext());
+        ZIMManager.sharedInstance().create(appID, (Application) context.getApplicationContext());
         ZIMManager.sharedInstance().setReceiveRoomMessageCallback(new ZIMManager.OnReceiveRoomMessage() {
             @Override
             public void onReceiveRoomMessage(String roomID, String senderUserID, String message) {
@@ -131,7 +131,7 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
             /* 开始登陆房间 */
             engine.loginRoom(model.roomID, zegoUser, zegoRoomConfig);
 
-            ZIMManager.sharedInstance().joinRoom(model.roomID, model.isRoomOwner);
+            ZIMManager.sharedInstance().joinRoom(model.roomID, model.userID, model.userName, model.token, model.isRoomOwner);
         }
     }
 

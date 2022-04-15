@@ -23,6 +23,7 @@
             android:orientation="horizontal"
             android:gravity="center"
             android:layout_marginStart="16dp"
+            android:paddingHorizontal="3dp"
             android:background="@drawable/shape_got_mic_bg">
 
             <View
@@ -36,6 +37,8 @@
                 android:textSize="12sp"
                 android:textColor="@color/c_ffffff"
                 android:text="@string/audio_got_mic"
+                android:singleLine="true"
+                android:ellipsize="end"
                 android:layout_marginStart="2dp" />
 
         </LinearLayout>

@@ -47,7 +47,7 @@ public class UserAgreementDialog extends DialogFragment {
         dialogWindow.getDecorView().setBackgroundColor(Color.TRANSPARENT);
         dialogWindow.getAttributes().gravity = Gravity.CENTER;
         dialogWindow.getAttributes().width = DensityUtils.dp2px(getContext(), 296f);
-        dialogWindow.getAttributes().height = DensityUtils.dp2px(getContext(), 245f);
+//        dialogWindow.getAttributes().height = DensityUtils.dp2px(getContext(), 245f);
         getDialog().setCancelable(false);
         getDialog().setCanceledOnTouchOutside(false);
         getDialog().setOnKeyListener((dialog, keyCode, event) -> {

@@ -43,7 +43,7 @@ public class SceneRoomTopView extends ConstraintLayout {
         mTvName = findViewById(R.id.top_tv_name);
         mTvId = findViewById(R.id.top_tv_room_id);
         mTvNumber = findViewById(R.id.top_tv_room_number);
-        mContainerSelectGame = findViewById(R.id.top_ll_select_game);
+        mContainerSelectGame = findViewById(R.id.top_container_select_game);
         mTvSelectGame = findViewById(R.id.top_tv_select_game);
         mIvClose = findViewById(R.id.top_iv_close);
         mTvFinishGame = findViewById(R.id.top_tv_finish_game);

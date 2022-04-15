@@ -237,7 +237,7 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
         topView.setSelectGameClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GameModeDialog dialog = new GameModeDialog();
+                GameModeDialog dialog = GameModeDialog.getInstance(roomInfoModel.sceneType);
                 dialog.setPlayingGameId(playingGameId);
                 dialog.show(getSupportFragmentManager(), null);
                 dialog.setSelectGameListener(new GameModeDialog.SelectGameListener() {

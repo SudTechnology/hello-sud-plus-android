@@ -213,7 +213,7 @@ Vaya a la página de inicio para crear una!</string>
     <string name="open_source_licenses">Protocolo de código abierto</string>
     <string name="change_rtc_confirm">¿Desea cambiar el proveedor de servicios RTC a [%1$s]?</string>
     <string name="be_making">Elaborando, ¡manténganse al tanto!</string>
-    <string name="total_value">%1$s total </string>
+    <string name="total_value">total %1$s</string>
     <string name="finish_game_confirm">¿Desea terminar el juego?</string>
     <string name="playing_down_mic">Aún está jugando, ¿desea huir?</string>
     <string name="game_number">Número de jugadores</string>

@@ -1,5 +1,6 @@
 package tech.sud.mgp.hello.ui.scenes.base.widget.dialog;
 
+import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,6 +8,7 @@ import android.view.Window;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,9 +32,27 @@ public class GameModeDialog extends BaseDialogFragment {
 
     private RecyclerView recyclerView;
     private final int spanCount = 4;
+    private int sceneType;
     private final GameModeAdapter gameModeAdapter = new GameModeAdapter();
     private long playingGameId; // 当前正在玩的游戏id
     private SelectGameListener selectGameListener;
+
+    public static GameModeDialog getInstance(int sceneType) {
+        GameModeDialog dialog = new GameModeDialog();
+        Bundle bundle = new Bundle();
+        bundle.putInt("sceneType", sceneType);
+        dialog.setArguments(bundle);
+        return dialog;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle arguments = getArguments();
+        if (arguments != null) {
+            sceneType = arguments.getInt("sceneType");
+        }
+    }
 
     /**
      * 设置当前正在玩的游戏id
@@ -97,7 +117,7 @@ public class GameModeDialog extends BaseDialogFragment {
             public void onSuccess(GameListResp gameListResp) {
                 super.onSuccess(gameListResp);
                 if (gameListResp != null) {
-                    gameModeAdapter.setList(gameListResp.getGameList());
+                    gameModeAdapter.setList(gameListResp.getGameList(sceneType));
                 }
                 gameModeAdapter.addData(0, new GameModel()); // 添加一个关闭游戏选项
             }

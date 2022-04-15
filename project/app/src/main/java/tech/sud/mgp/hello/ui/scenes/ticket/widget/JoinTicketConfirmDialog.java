@@ -137,8 +137,7 @@ public class JoinTicketConfirmDialog extends BaseDialogFragment implements View.
         super.setListeners();
         findViewById(R.id.tv_cancel).setOnClickListener(this);
         findViewById(R.id.tv_confirm).setOnClickListener(this);
-        findViewById(R.id.tv_no_remind).setOnClickListener(this);
-        ivNoRemind.setOnClickListener(this);
+        findViewById(R.id.container_no_remind).setOnClickListener(this);
     }
 
     @Override
@@ -154,9 +153,7 @@ public class JoinTicketConfirmDialog extends BaseDialogFragment implements View.
             dismiss();
         } else if (id == R.id.tv_confirm) {
             confirmJoin(v);
-        } else if (id == R.id.iv_no_remind) {
-            clickNoRemind();
-        } else if (id == R.id.tv_no_remind) {
+        } else if (id == R.id.container_no_remind) {
             clickNoRemind();
         }
     }

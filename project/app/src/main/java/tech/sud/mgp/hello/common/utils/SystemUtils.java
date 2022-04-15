@@ -16,47 +16,37 @@ import tech.sud.mgp.hello.BuildConfig;
  */
 public class SystemUtils {
 
-    /**
-     * 获取渠道标记
-     */
+    /** 获取渠道标记 */
     public static String getChannel() {
         return BuildConfig.CHANNEL;
     }
 
-    /**
-     * 获取系统版本号
-     */
+    /** 获取系统版本号 */
     public static String getSystemVersion() {
         return Build.VERSION.RELEASE;
     }
 
-    /**
-     * 获取设备品牌
-     */
+    /** 获取设备品牌 */
     public static String getDeviceBrand() {
         return Build.BRAND;
     }
 
-    /**
-     * 获取设备id
-     */
+    /** 获取设备id */
     public static String getDeviceId() {
         return DeviceUtils.getUniqueDeviceId();
     }
 
-    /**
-     * 获取语言码
-     *
-     * @param context
-     * @return
-     */
+    /** 获取完整语言代码 */
     public static String getLanguageCode(Context context) {
         return localeToLanguageCode(getLocale(context));
     }
 
-    /**
-     * 获取locale
-     */
+    /** 获取语言代码，不带地区 */
+    public static String getLanguageCodeNoCountry(Context context) {
+        return localeToLanguageCodeNoCountry(getLocale(context));
+    }
+
+    /** 获取locale */
     public static Locale getLocale(Context context) {
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -69,21 +59,14 @@ public class SystemUtils {
         return null;
     }
 
-    /**
-     * locale对象转换语言码
-     */
+    /** locale对象转换语言码 */
     public static String localeToLanguageCode(Locale locale) {
         if (locale == null) {
             return "";
         }
         StringBuilder sb = new StringBuilder();
-        String language = locale.getLanguage();
-        if (language.length() > 0) {
-            if ("in".equals(language)) { // 印尼语，因后端只识别新的IOS编码,所以这里进行转换
-                language = "id";
-            }
-            sb.append(language);
-        }
+        String language = localeToLanguageCodeNoCountry(locale);
+        sb.append(language);
         String country = locale.getCountry();
         if (TextUtils.isEmpty(country)) {
             switch (language) {
@@ -136,6 +119,19 @@ public class SystemUtils {
         return sb.toString();
     }
 
+    /** locale对象转换成只有一个语言编码，不带地区 */
+    public static String localeToLanguageCodeNoCountry(Locale locale) {
+        if (locale == null)
+            return "";
+        String language = locale.getLanguage();
+        if (language.length() > 0) {
+            if ("in".equals(language)) { // 印尼语，因后端只识别新的IOS编码,所以这里进行转换
+                language = "id";
+            }
+        }
+        return language;
+    }
+
     /**
      * 获取{versionName.versionCode}
      */
@@ -143,10 +139,12 @@ public class SystemUtils {
         return AppUtils.getAppVersionName() + "." + AppUtils.getAppVersionCode();
     }
 
+    /** 获取版本名称 */
     public static String getVersionName() {
         return AppUtils.getAppVersionName();
     }
 
+    /** 获取版本code */
     public static int getVersionCode() {
         return AppUtils.getAppVersionCode();
     }

@@ -567,7 +567,8 @@ public class GameViewModel implements SudFSMMGListener {
     // 公屏消息
     @Override
     public void onGameMGCommonPublicMessage(ISudFSMStateHandle handle, SudMGPMGState.MGCommonPublicMessage model) {
-        gameMessageLiveData.setValue(GameCommonStateUtils.parseMGCommonPublicMessage(model));
+        String message = GameCommonStateUtils.parseMGCommonPublicMessage(model, SystemUtils.getLanguageCode(Utils.getApp()));
+        gameMessageLiveData.setValue(message);
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 

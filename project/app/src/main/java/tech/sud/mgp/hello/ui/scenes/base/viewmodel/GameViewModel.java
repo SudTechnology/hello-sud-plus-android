@@ -1,5 +1,6 @@
 package tech.sud.mgp.hello.ui.scenes.base.viewmodel;
 
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewTreeObserver;
 
@@ -569,9 +570,11 @@ public class GameViewModel implements SudFSMMGListener {
     @Override
     public void onGameMGCommonPublicMessage(ISudFSMStateHandle handle, SudMGPMGState.MGCommonPublicMessage model) {
         String message = GameCommonStateUtils.parseMGCommonPublicMessage(model, SystemUtils.getLanguageCode(Utils.getApp()));
-        GameTextModel gameTextModel = new GameTextModel();
-        gameTextModel.message = message;
-        gameMessageLiveData.setValue(gameTextModel);
+        if (!TextUtils.isEmpty(message)) {
+            GameTextModel gameTextModel = new GameTextModel();
+            gameTextModel.message = message;
+            gameMessageLiveData.setValue(gameTextModel);
+        }
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 

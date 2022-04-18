@@ -26,10 +26,12 @@ public class APPConfig {
     // region 占用大小
     public static final long SudMGPCoreSize = 590848;
     public static final long SudMGPASRSize = 76800;
-    public static final long HelloSudSize = 35770369;
+    public static final long HelloSudSize = 46256129;
     public static final long ZegoRTCSDKSize = 21307064;
     public static final long AgoraRTCSDKSize = 24431820;
-    public static final long RTCSDKSize = 45738884;
+    public static final long RCloudRTCSDKSize = 12436111;
+    public static final long NeteaseRTCSDKSize = 10800332;
+    public static final long RTCSDKSize = 68975327;
     // endregion 占用大小
 
     // region url地址

@@ -175,7 +175,7 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
                 HomeRoomTypeView sceneView = new HomeRoomTypeView(requireContext());
                 sceneView.setGameItemListener(this);
                 sceneView.setCreatRoomClickListener(this);
-                sceneView.setData(model, HomeManager.getInstance().getSceneGame(model));
+                sceneView.setData(model, HomeManager.getInstance().getSceneGame(model.getSceneId()));
                 sceneLayout.addView(sceneView);
             }
         }

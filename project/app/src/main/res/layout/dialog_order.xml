@@ -44,7 +44,7 @@
         android:ellipsize="end"
         android:gravity="center_vertical"
         android:singleLine="true"
-        android:text="1111111"
+        android:text=""
         android:textColor="#F6A209"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -93,11 +93,26 @@
         android:ellipsize="end"
         android:gravity="center_vertical"
         android:singleLine="true"
-        android:text="@string/order_selected_total"
         android:textColor="#F6A209"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@id/order_btn"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/order_btn"
+        app:layout_goneMarginStart="16dp" />
+
+    <TextView
+        android:id="@+id/total_user_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:singleLine="true"
+        android:text="@string/order_selected_total"
+        android:textColor="#666666"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/order_btn"
+        app:layout_constraintStart_toEndOf="@id/total_coin_tv"
         app:layout_constraintTop_toTopOf="@id/order_btn"
         app:layout_goneMarginStart="16dp" />
 

@@ -37,11 +37,11 @@ public class HomeManager {
     /**
      * 获取场景下可用的游戏
      */
-    public List<GameModel> getSceneGame(SceneModel model) {
+    public List<GameModel> getSceneGame(int sceneId) {
         if (gameListResp == null) {
             return null;
         }
-        return gameListResp.getGameList(model.getSceneId());
+        return gameListResp.getGameList(sceneId);
     }
 
     /**

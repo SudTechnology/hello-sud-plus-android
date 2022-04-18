@@ -4,6 +4,7 @@ public class SceneModel {
     int sceneId;
     String sceneName;
     String sceneImage;
+    String sceneImageNew;
 
     public int getSceneId() {
         return sceneId;
@@ -29,4 +30,11 @@ public class SceneModel {
         this.sceneImage = sceneImage;
     }
 
+    public String getSceneImageNew() {
+        return sceneImageNew;
+    }
+
+    public void setSceneImageNew(String sceneImageNew) {
+        this.sceneImageNew = sceneImageNew;
+    }
 }

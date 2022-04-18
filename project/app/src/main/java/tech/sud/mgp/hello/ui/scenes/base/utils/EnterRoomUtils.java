@@ -6,12 +6,9 @@ import android.content.Intent;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
 
-import com.blankj.utilcode.util.ToastUtils;
-
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
-import tech.sud.mgp.hello.common.utils.ResponseUtils;
 import tech.sud.mgp.hello.service.room.repository.AudioRepository;
 import tech.sud.mgp.hello.service.room.response.EnterRoomResp;
 import tech.sud.mgp.hello.ui.main.constant.SceneType;
@@ -60,8 +57,6 @@ public class EnterRoomUtils {
                     if (resp != null) {
                         startSceneRoomActivity(context, resp);
                     }
-                } else {
-                    ToastUtils.showLong(ResponseUtils.conver(t));
                 }
                 isRunning = false;
             }

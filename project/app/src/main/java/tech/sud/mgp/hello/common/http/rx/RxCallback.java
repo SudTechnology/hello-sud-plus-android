@@ -10,6 +10,7 @@ import io.reactivex.rxjava3.disposables.Disposable;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
+import tech.sud.mgp.hello.common.utils.ResponseUtils;
 
 /**
  * 请求回调
@@ -27,6 +28,8 @@ public class RxCallback<T> implements Observer<BaseResponse<T>> {
     public void onNext(BaseResponse<T> t) {
         if (t.getRetCode() == RetCode.SUCCESS) {
             onSuccess(t.getData());
+        } else {
+            ToastUtils.showLong(ResponseUtils.conver(t));
         }
         onFinally();
     }

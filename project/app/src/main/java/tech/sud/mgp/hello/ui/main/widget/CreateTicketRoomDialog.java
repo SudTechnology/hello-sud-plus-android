@@ -8,7 +8,6 @@ import android.view.Window;
 import androidx.fragment.app.FragmentActivity;
 
 import com.blankj.utilcode.util.ClickUtils;
-import com.blankj.utilcode.util.ToastUtils;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
@@ -16,7 +15,6 @@ import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
-import tech.sud.mgp.hello.common.utils.ResponseUtils;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.main.resp.CreatRoomResp;
 import tech.sud.mgp.hello.ui.main.constant.GameLevel;
@@ -88,8 +86,6 @@ public class CreateTicketRoomDialog extends BaseDialogFragment implements View.O
                 if (t.getRetCode() == RetCode.SUCCESS) {
                     dismiss();
                     EnterRoomUtils.enterRoom(activity, t.getData().roomId);
-                } else {
-                    ToastUtils.showShort(ResponseUtils.conver(t));
                 }
                 isCreating = false;
             }

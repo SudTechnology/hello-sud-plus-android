@@ -26,7 +26,6 @@ import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
-import tech.sud.mgp.hello.common.utils.ResponseUtils;
 import tech.sud.mgp.hello.service.main.manager.HomeManager;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.main.resp.RoomListResp;
@@ -162,8 +161,6 @@ public class RoomListFragment extends BaseFragment {
                     } else {
                         emptyTv.setVisibility(View.GONE);
                     }
-                } else {
-                    ToastUtils.showShort(ResponseUtils.conver(t));
                 }
             }
 

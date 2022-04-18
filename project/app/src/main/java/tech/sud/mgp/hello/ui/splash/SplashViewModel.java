@@ -7,7 +7,6 @@ import androidx.lifecycle.Observer;
 
 import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.TimeUtils;
-import com.blankj.utilcode.util.ToastUtils;
 import com.trello.rxlifecycle4.components.support.RxAppCompatActivity;
 
 import tech.sud.mgp.hello.common.base.BaseViewModel;
@@ -17,7 +16,6 @@ import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.model.UserInfoConverter;
 import tech.sud.mgp.hello.common.utils.GlobalSP;
-import tech.sud.mgp.hello.common.utils.ResponseUtils;
 import tech.sud.mgp.hello.service.login.repository.LoginRepository;
 import tech.sud.mgp.hello.service.login.resp.RefreshTokenResponse;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
@@ -60,7 +58,6 @@ public class SplashViewModel extends BaseViewModel {
                     }
                 } else {
                     checkLogin(owner);
-                    ToastUtils.showShort(ResponseUtils.conver(resp));
                 }
             }
         });
@@ -126,7 +123,6 @@ public class SplashViewModel extends BaseViewModel {
                                         });
                                         configViewModel.getBaseConfig(owner);
                                     } else { // 刷新Token不成功，回到登录页
-                                        ToastUtils.showShort(ResponseUtils.conver(t));
                                         startLoginPageLiveData.postValue(null);
                                     }
                                 }

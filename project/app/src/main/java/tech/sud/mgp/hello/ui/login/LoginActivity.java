@@ -9,7 +9,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.Observer;
 
 import com.blankj.utilcode.util.ThreadUtils;
-import com.blankj.utilcode.util.ToastUtils;
 
 import java.util.Random;
 
@@ -22,7 +21,6 @@ import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.model.UserInfoConverter;
 import tech.sud.mgp.hello.common.utils.GlobalSP;
-import tech.sud.mgp.hello.common.utils.ResponseUtils;
 import tech.sud.mgp.hello.service.login.repository.LoginRepository;
 import tech.sud.mgp.hello.service.login.resp.LoginResponse;
 import tech.sud.mgp.hello.ui.common.viewmodel.ConfigViewModel;
@@ -191,7 +189,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     configViewModel.getBaseConfig(LoginActivity.this);
                 } else {
                     isLogin = false;
-                    ToastUtils.showLong(ResponseUtils.conver(t));
                 }
             }
         });

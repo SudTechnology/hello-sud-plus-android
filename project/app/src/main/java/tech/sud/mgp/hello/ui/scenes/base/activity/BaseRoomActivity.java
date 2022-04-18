@@ -269,16 +269,42 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
         dialog.setHangOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                hangRoom();
+                dialog.dismiss();
+                intentHang();
             }
         });
         dialog.setExitOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                dialog.dismiss();
                 intentClose();
             }
         });
         dialog.show(getSupportFragmentManager(), null);
+    }
+
+    /** 意图挂起房间 */
+    private void intentHang() {
+        if (SudPermissionUtils.checkFloatPermission(this)) {
+            hangRoom();
+        } else {
+            SimpleChooseDialog dialog = new SimpleChooseDialog(this,
+                    getString(R.string.floating_permission_info),
+                    getString(R.string.exit_room),
+                    getString(R.string.go_setting));
+            dialog.setOnChooseListener(new SimpleChooseDialog.OnChooseListener() {
+                @Override
+                public void onChoose(int index) {
+                    if (index == 0) {
+                        exitRoom();
+                    } else if (index == 1) {
+                        SudPermissionUtils.setFloatPermission(context);
+                    }
+                    dialog.dismiss();
+                }
+            });
+            dialog.show();
+        }
     }
 
     /** 是否是全屏显示的 */
@@ -288,6 +314,9 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
 
     /** 挂起房间 */
     private void hangRoom() {
+        if (binder != null) {
+            binder.showFloating(roomInfoModel, getClass());
+        }
         releaseService();
         finish();
     }
@@ -550,7 +579,7 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
 
     @Override
     public void onBackPressed() {
-        intentClose();
+        intentHang();
     }
 
     /**
@@ -709,6 +738,7 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             binder = (SceneRoomService.MyBinder) service;
+            binder.dismissFloating();
             enterRoom();
         }
 

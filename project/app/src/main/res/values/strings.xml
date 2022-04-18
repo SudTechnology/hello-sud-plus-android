@@ -261,6 +261,8 @@ Go to homepage to create one~</string>
     <string name="dialog_scene_title">所有场景</string>
     <string name="hang_room">挂起房间</string>
     <string name="exit_room">退出房间</string>
+    <string name="floating_permission_info">暂未开启悬浮窗权限，打开后才可使用小窗哦</string>
+    <string name="go_setting">去设置</string>
     <!-- endregion 新增 -->
 
 </resources>

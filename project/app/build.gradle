@@ -141,4 +141,7 @@ dependencies {
     // RongCloud IM 语聊房
     implementation 'cn.rongcloud.sdk:voiceroom_lib:2.0.8'
     implementation "com.github.hackware1993:MagicIndicator:1.7.0"
+
+    // 设置阴影颜色的控件
+    implementation 'com.github.lihangleo2:ShadowLayout:2.1.7'
 }

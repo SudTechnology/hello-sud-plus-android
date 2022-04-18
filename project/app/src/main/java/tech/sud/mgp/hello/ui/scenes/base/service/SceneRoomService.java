@@ -2,10 +2,12 @@ package tech.sud.mgp.hello.ui.scenes.base.service;
 
 import android.app.Activity;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 
@@ -14,6 +16,7 @@ import java.util.List;
 import tech.sud.mgp.hello.ui.common.utils.channel.NotifyId;
 import tech.sud.mgp.hello.ui.scenes.base.activity.SceneConfig;
 import tech.sud.mgp.hello.ui.scenes.base.constant.OperateMicType;
+import tech.sud.mgp.hello.ui.scenes.base.manager.SceneFloatingManager;
 import tech.sud.mgp.hello.ui.scenes.base.manager.SceneRoomServiceManager;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
@@ -27,8 +30,10 @@ import tech.sud.mgp.hello.ui.scenes.base.utils.SceneRoomNotificationHelper;
 public class SceneRoomService extends Service {
 
     private SceneRoomServiceManager serviceManager = new SceneRoomServiceManager();
+    private SceneFloatingManager floatingManager = new SceneFloatingManager();
     private final MyBinder binder = new MyBinder();
     private SceneRoomNotificationHelper notificationHelper;
+    private Context context = this;
 
     /** 房间数据 */
     private static SceneRoomData sceneRoomData;
@@ -165,6 +170,20 @@ public class SceneRoomService extends Service {
             return serviceManager.sceneStreamManager.isPublishingStream();
         }
 
+        /** 显示悬浮窗 */
+        public void showFloating(RoomInfoModel model, Class<? extends Activity> startClass) {
+            floatingManager.showFloating(context, model, startClass, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    exitRoom();
+                }
+            });
+        }
+
+        /** 隐藏悬浮窗 */
+        public void dismissFloating() {
+            floatingManager.dismissFloating();
+        }
     }
 
     /** 获取当前使用的房间基本数据 */
@@ -188,6 +207,7 @@ public class SceneRoomService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        floatingManager.dismissFloating();
         sceneRoomData = null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) { //android8.0及以后需要开启前台服务，这里关闭服务
             stopForeground(true);

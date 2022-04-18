@@ -52,23 +52,26 @@ public class ChangeRtcViewModel extends BaseViewModel {
                 list.add(new BaseRtcConfig(null, rtcNameAgora));
             }
 
-            // 添加融云
-            String rtcNameRong = context.getString(R.string.rtc_name_rong_cloud);
-            if (baseConfigResp != null && baseConfigResp.rongCloudCfg != null) {
-                baseConfigResp.rongCloudCfg.desc = rtcNameRong;
-                list.add(baseConfigResp.rongCloudCfg);
-            } else {
-                list.add(new BaseRtcConfig(null, rtcNameRong));
-            }
+//            // 添加融云
+//            String rtcNameRong = context.getString(R.string.rtc_name_rong_cloud);
+//            if (baseConfigResp != null && baseConfigResp.rongCloudCfg != null) {
+//                baseConfigResp.rongCloudCfg.desc = rtcNameRong;
+//                list.add(baseConfigResp.rongCloudCfg);
+//            } else {
+//                list.add(new BaseRtcConfig(null, rtcNameRong));
+//            }
+//
+//            // 添加网易云信
+//            String rtcNameComms = context.getString(R.string.rtc_name_comms_ease);
+//            if (baseConfigResp != null && baseConfigResp.commsEaseCfg != null) {
+//                baseConfigResp.commsEaseCfg.desc = rtcNameComms;
+//                list.add(baseConfigResp.commsEaseCfg);
+//            } else {
+//                list.add(new BaseRtcConfig(null, rtcNameComms));
+//            }
 
-            // 添加网易云信
-            String rtcNameComms = context.getString(R.string.rtc_name_comms_ease);
-            if (baseConfigResp != null && baseConfigResp.commsEaseCfg != null) {
-                baseConfigResp.commsEaseCfg.desc = rtcNameComms;
-                list.add(baseConfigResp.commsEaseCfg);
-            } else {
-                list.add(new BaseRtcConfig(null, rtcNameComms));
-            }
+            list.add(new BaseRtcConfig(null, context.getString(R.string.rtc_name_rong_cloud)));
+            list.add(new BaseRtcConfig(null, context.getString(R.string.rtc_name_comms_ease)));
 
             // 添加其它暂未支持的rtc
             list.add(new BaseRtcConfig(null, context.getString(R.string.rtc_name_voic_engine)));

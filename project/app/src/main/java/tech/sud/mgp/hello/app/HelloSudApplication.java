@@ -12,6 +12,8 @@ import android.view.Gravity;
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.SDKOptions;
 import com.tencent.bugly.crashreport.CrashReport;
 
 import java.io.BufferedReader;
@@ -42,6 +44,10 @@ public class HelloSudApplication extends Application {
     }
 
     private void initMinClient() {
+        SDKOptions options = new SDKOptions();
+        options.reducedIM = true;
+        options.disableAwake = true;
+        NIMClient.config(getApplicationContext(), null, options);
     }
 
     // Bugly config

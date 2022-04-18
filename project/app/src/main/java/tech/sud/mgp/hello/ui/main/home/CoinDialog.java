@@ -3,8 +3,6 @@ package tech.sud.mgp.hello.ui.main.home;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.blankj.utilcode.util.ToastUtils;
-
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
@@ -13,7 +11,6 @@ import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
-import tech.sud.mgp.hello.common.utils.ResponseUtils;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.main.resp.GetAccountResp;
 
@@ -66,8 +63,6 @@ public class CoinDialog extends BaseDialogFragment {
                 super.onNext(t);
                 if (t.getRetCode() == RetCode.SUCCESS) {
                     coinView.setText(t.getData().coin + "");
-                } else {
-                    ToastUtils.showShort(ResponseUtils.conver(t));
                 }
             }
         });

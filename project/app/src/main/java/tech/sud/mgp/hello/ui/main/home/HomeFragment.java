@@ -23,7 +23,6 @@ import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
-import tech.sud.mgp.hello.common.utils.ResponseUtils;
 import tech.sud.mgp.hello.service.main.manager.HomeManager;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.main.resp.CreatRoomResp;
@@ -185,8 +184,6 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
                 super.onNext(t);
                 if (t.getRetCode() == RetCode.SUCCESS) {
                     EnterRoomUtils.enterRoom(requireContext(), t.getData().roomId);
-                } else {
-                    ToastUtils.showLong(ResponseUtils.conver(t));
                 }
             }
         });
@@ -200,8 +197,6 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
                 if (t.getRetCode() == RetCode.SUCCESS) {
                     HomeManager.getInstance().updateGameList(t.getData());
                     creatScene(t.getData());
-                } else {
-                    ToastUtils.showShort(ResponseUtils.conver(t));
                 }
             }
 
@@ -243,8 +238,6 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
                 super.onNext(t);
                 if (t.getRetCode() == RetCode.SUCCESS) {
                     EnterRoomUtils.enterRoom(requireContext(), t.getData().roomId);
-                } else {
-                    ToastUtils.showShort(ResponseUtils.conver(t));
                 }
             }
         });

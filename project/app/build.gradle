@@ -135,9 +135,9 @@ dependencies {
     implementation 'io.github.jeremyliao:live-event-bus:1.8.0'
 
     // RongCloud IM
-//    implementation 'cn.rongcloud.sdk:im_lib:5.2.0'
+    implementation 'cn.rongcloud.sdk:im_lib:5.2.0'
     // RongCloud IM
-//    implementation 'cn.rongcloud.sdk:rtc_lib:5.2.0'
+    implementation 'cn.rongcloud.sdk:rtc_lib:5.2.0'
     // RongCloud IM 语聊房
-//    implementation 'cn.rongcloud.sdk:voiceroom_lib:2.0.8'
+    implementation 'cn.rongcloud.sdk:voiceroom_lib:2.0.8'
 }

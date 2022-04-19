@@ -465,6 +465,12 @@ public class GameViewModel implements SudFSMMGListener {
         sudFSTAPPDecorator.notifyAPPCommonSelfEnd();
     }
 
+    /** 是否具备结束游戏的权限 */
+    public boolean isOperateFinishGame() {
+        Boolean value = showFinishGameBtnLiveData.getValue();
+        return value != null && value;
+    }
+
     // 返回该用户是否为游戏队长
     public boolean isCaptain(long userId) {
         return sudFSMMGDecorator.isCaptain(userId);

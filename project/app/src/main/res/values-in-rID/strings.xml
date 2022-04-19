@@ -189,7 +189,6 @@ Buat ruangan di Beranda</string>
     <string name="audio_gameing">Sedang bermain</string>
     <string name="audio_room_number">ID kamar</string>
     <string name="audio_close_room_title">Yakin ingin keluar dari ruangan ini</string>
-    <string name="audio_switch_game_warn">Sedang bermain, tidak bisa mengganti permainan</string>
     <string name="audio_enter_the_room">Sudah masuk ke ruangan</string>
     <string name="audio_down_mic">Selesai bicara</string>
     <string name="cancel">Batal</string>

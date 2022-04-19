@@ -187,7 +187,6 @@ Go to homepage to create one~</string>
     <string name="audio_gameing">In Game</string>
     <string name="audio_room_number">room ID</string>
     <string name="audio_close_room_title">Are you sure you want to leave the room?</string>
-    <string name="audio_switch_game_warn">Already n game, can\'t switch games</string>
     <string name="audio_enter_the_room">Entered the room</string>
     <string name="audio_down_mic">Mike off</string>
     <string name="cancel">Cancel</string>
@@ -264,6 +263,8 @@ Go to homepage to create one~</string>
     <string name="floating_permission_info">暂未开启悬浮窗权限，打开后才可使用小窗哦</string>
     <string name="go_setting">去设置</string>
     <string name="order_price_text">200/局/人</string>
+    <string name="close_game_warn">需先结束游戏，才可关闭游戏</string>
+    <string name="switch_game_warn">需先结束游戏，才可切换游戏</string>
     <!-- endregion 新增 -->
 
 </resources>

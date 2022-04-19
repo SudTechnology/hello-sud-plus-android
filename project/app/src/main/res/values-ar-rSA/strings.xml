@@ -188,7 +188,6 @@
     <string name="audio_gameing">في اللعبة</string>
     <string name="audio_room_number">معرف الغرفة</string>
     <string name="audio_close_room_title">هل أنت ترود الخروج من الغرفة الحالية؟</string>
-    <string name="audio_switch_game_warn">في اللعبة، لا يمكن تبديل الألعاب</string>
     <string name="audio_enter_the_room">دخل الغرفة</string>
     <string name="audio_down_mic">الخروج من ميكروفون</string>
     <string name="cancel">إلغاء</string>

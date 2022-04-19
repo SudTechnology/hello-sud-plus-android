@@ -188,7 +188,6 @@
     <string name="audio_gameing">遊戲中</string>
     <string name="audio_room_number">房號</string>
     <string name="audio_close_room_title">確認離開當前房間嗎</string>
-    <string name="audio_switch_game_warn">正在遊戲中，無法切換遊戲</string>
     <string name="audio_enter_the_room">進入了房間</string>
     <string name="audio_down_mic">下麥</string>
     <string name="cancel">取消</string>

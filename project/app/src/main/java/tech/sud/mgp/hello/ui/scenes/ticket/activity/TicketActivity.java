@@ -19,7 +19,7 @@ import tech.sud.mgp.hello.ui.scenes.ticket.widget.JoinTicketConfirmDialog;
  */
 public class TicketActivity extends AbsAudioRoomActivity<TicketGameViewModel> {
 
-    private TicketViewModel viewModel = new TicketViewModel();
+    private final TicketViewModel viewModel = new TicketViewModel();
     private TicketConfirmJoinResp ticketConfirmJoinResp;
 
     @Override

@@ -188,7 +188,6 @@ Vaya a la página de inicio para crear una!</string>
     <string name="audio_gameing">En juego</string>
     <string name="audio_room_number">ID de sala</string>
     <string name="audio_close_room_title">¿Desea salir de esta sala?</string>
-    <string name="audio_switch_game_warn">No se puede cambiar de juego mientras se juega</string>
     <string name="audio_enter_the_room">Entró en la sala</string>
     <string name="audio_down_mic">Desactivar micrófono</string>
     <string name="cancel">Cancelar</string>

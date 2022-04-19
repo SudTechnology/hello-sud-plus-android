@@ -87,10 +87,9 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
     protected abstract T initGameViewModel();
 
     private RoomGiftDialog roomGiftDialog;
+    private GameModeDialog gameModeDialog;
 
-    /**
-     * 场景配置，子类可对其进行修改进行定制化需求
-     */
+    /** 场景配置，子类可对其进行修改进行定制化需求 */
     protected final SceneConfig sceneConfig = new SceneConfig();
 
     @Override
@@ -239,14 +238,21 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
             @Override
             public void onClick(View v) {
                 GameModeDialog dialog = GameModeDialog.getInstance(roomInfoModel.sceneType);
+                dialog.setFinishGame(gameViewModel.isOperateFinishGame());
                 dialog.setPlayingGameId(playingGameId);
                 dialog.show(getSupportFragmentManager(), null);
                 dialog.setSelectGameListener(new GameModeDialog.SelectGameListener() {
                     @Override
-                    public void onSelectGame(long gameId) {
-                        switchGame(gameId, true);
+                    public void onSelectGame(long gameId, boolean isFinishGame) {
+                        if (gameId == 0 && isFinishGame) { // 结束游戏
+                            clickFinishGame();
+                        } else {
+                            switchGame(gameId, true);
+                        }
                     }
                 });
+                dialog.setOnDestroyListener(() -> gameModeDialog = null);
+                gameModeDialog = dialog;
             }
         });
         topView.setMoreOnClickListener(new View.OnClickListener() {
@@ -411,7 +417,16 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
         gameViewModel.showFinishGameBtnLiveData.observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean isShow) {
-                topView.setFinishGameVisible(isShow != null && isShow);
+                boolean isOperateFinishGame = isShow != null && isShow;
+                // 是房主，则不显示结束游戏按钮，放到选择游戏弹窗当中
+                if (roomInfoModel.roleType == RoleType.OWNER) {
+                    topView.setFinishGameVisible(false);
+                } else {
+                    topView.setFinishGameVisible(isOperateFinishGame);
+                }
+                if (gameModeDialog != null) {
+                    gameModeDialog.setFinishGame(isOperateFinishGame);
+                }
             }
         });
         gameViewModel.playerInLiveData.observe(this, new Observer<Object>() {
@@ -528,9 +543,7 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
         });
     }
 
-    /**
-     * 意图退出房间
-     */
+    /** 意图退出房间 */
     private void intentClose() {
         SimpleChooseDialog dialog = new SimpleChooseDialog(this,
                 getString(R.string.audio_close_room_title),
@@ -585,7 +598,7 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
     /**
      * 切换游戏
      *
-     * @param gameId
+     * @param gameId     游戏id
      * @param selfSwitch 标识是否是自己切换的
      */
     private void switchGame(long gameId, boolean selfSwitch) {
@@ -595,7 +608,11 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
         if (selfSwitch) { // 自己主动切换时，如果游戏正在进行中，则不进行切换
             int gameState = gameViewModel.getGameState();
             if (gameState == SudMGPMGState.MGCommonGameState.LOADING || gameState == SudMGPMGState.MGCommonGameState.PLAYING) {
-                ToastUtils.showLong(R.string.audio_switch_game_warn);
+                if (gameId > 0) {
+                    ToastUtils.showLong(R.string.switch_game_warn);
+                } else {
+                    ToastUtils.showLong(R.string.close_game_warn);
+                }
                 return;
             }
         }

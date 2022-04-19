@@ -5,6 +5,8 @@
 
 package tech.sud.mgp.hello.SudMGPWrapper.utils;
 
+import android.text.TextUtils;
+
 import tech.sud.mgp.hello.SudMGPWrapper.state.SudMGPMGState;
 
 /**
@@ -53,6 +55,21 @@ public class GameCommonStateUtils {
         if (languageCode == null) return model.defaultStr;
 
         // 精准匹配
+        String text = i18nPrecise(languageCode, model);
+
+        if (TextUtils.isEmpty(text)) {
+            // 如果未匹配到，则尝试模糊匹配
+            if (isMatchLanguage(languageCode, "zh")) {
+                return model.zh_CN;
+            }
+            return model.en_US;
+        } else {
+            return text;
+        }
+    }
+
+    /** 精准匹配 */
+    private static String i18nPrecise(String languageCode, SudMGPMGState.MGCommonPublicMessage.MGCommonPublicMessageMsgText model) {
         switch (languageCode) {
             case "zh-CN":
                 return model.zh_CN;
@@ -91,34 +108,7 @@ public class GameCommonStateUtils {
             case "tr-TR":
                 return model.tr_TR;
         }
-
-        // 匹配语言码，选择对应地区
-        if (isMatchLanguage(languageCode, "zh")) {
-            return model.zh_CN;
-        } else if (isMatchLanguage(languageCode, "en")) {
-            return model.en_US;
-        } else if (isMatchLanguage(languageCode, "ms")) {
-            return model.ms_BN;
-        } else if (isMatchLanguage(languageCode, "vi")) {
-            return model.vi_VN;
-        } else if (isMatchLanguage(languageCode, "id")) {
-            return model.id_ID;
-        } else if (isMatchLanguage(languageCode, "es")) {
-            return model.es_ES;
-        } else if (isMatchLanguage(languageCode, "ja")) {
-            return model.ja_JP;
-        } else if (isMatchLanguage(languageCode, "ko")) {
-            return model.ko_KR;
-        } else if (isMatchLanguage(languageCode, "th")) {
-            return model.th_TH;
-        } else if (isMatchLanguage(languageCode, "ar")) {
-            return model.ar_SA;
-        } else if (isMatchLanguage(languageCode, "ur")) {
-            return model.ur_PK;
-        } else if (isMatchLanguage(languageCode, "tr")) {
-            return model.tr_TR;
-        }
-        return model.defaultStr;
+        return null;
     }
 
     /**

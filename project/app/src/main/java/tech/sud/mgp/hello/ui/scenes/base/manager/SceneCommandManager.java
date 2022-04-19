@@ -13,6 +13,7 @@ import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdDownMicModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdEnterRoomModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdSendGiftModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdUpMicModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdUserOrderModel;
 
 /**
  * 房间信令相关
@@ -83,6 +84,12 @@ public class SceneCommandManager extends BaseServiceManager {
                     dispatchCommand(commandCmd, enterRoomCommand, userID);
                 }
                 break;
+            case RoomCmd.CMD_USER_ORDER_NOTIFY: // 用户点单
+                RoomCmdUserOrderModel userOrderModel = RoomCmdUserOrderModel.fromJson(command);
+                if (userOrderModel != null) {
+                    dispatchCommand(commandCmd, userOrderModel, userID);
+                }
+                break;
         }
     }
 
@@ -125,6 +132,11 @@ public class SceneCommandManager extends BaseServiceManager {
                         ((EnterRoomCommandListener) listener).onRecvCommand((RoomCmdEnterRoomModel) command, fromUserID);
                     }
                     break;
+                case RoomCmd.CMD_USER_ORDER_NOTIFY: // 用户点单
+                    if (listener instanceof UserOrderCommandListener) {
+                        ((UserOrderCommandListener) listener).onRecvCommand((RoomCmdUserOrderModel) command, fromUserID);
+                    }
+                    break;
             }
         }
     }
@@ -164,6 +176,10 @@ public class SceneCommandManager extends BaseServiceManager {
 
     interface EnterRoomCommandListener extends ICommandListener {
         void onRecvCommand(RoomCmdEnterRoomModel command, String userID);
+    }
+
+    interface UserOrderCommandListener extends ICommandListener {
+        void onRecvCommand(RoomCmdUserOrderModel command, String userID);
     }
 
 }

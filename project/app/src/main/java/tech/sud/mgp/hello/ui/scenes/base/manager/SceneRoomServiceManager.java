@@ -30,6 +30,7 @@ public class SceneRoomServiceManager extends BaseServiceManager {
     public final SceneStreamManager sceneStreamManager = new SceneStreamManager(this);
     public final SceneGiftManager sceneGiftManager = new SceneGiftManager(this);
     public final SceneGameManager sceneGameManager = new SceneGameManager(this);
+    public final SceneOrderManager sceneOrderManager = new SceneOrderManager(this);
 
     @Override
     public void onCreate() {
@@ -40,6 +41,7 @@ public class SceneRoomServiceManager extends BaseServiceManager {
         sceneStreamManager.onCreate();
         sceneGiftManager.onCreate();
         sceneGameManager.onCreate();
+        sceneOrderManager.onCreate();
         setListener();
     }
 
@@ -79,6 +81,7 @@ public class SceneRoomServiceManager extends BaseServiceManager {
         sceneStreamManager.onDestroy();
         sceneGiftManager.onDestroy();
         sceneGameManager.onDestroy();
+        sceneOrderManager.onDestroy();
     }
 
     public void setCallback(SceneRoomServiceCallback callback) {

@@ -22,6 +22,7 @@ import tech.sud.mgp.hello.common.base.BaseDialogFragment;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
+import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.utils.ResponseUtils;
 import tech.sud.mgp.hello.service.main.manager.HomeManager;
@@ -39,7 +40,7 @@ import tech.sud.mgp.hello.ui.scenes.orderentertainment.model.OrderMicModel;
  */
 public class OrderDialog extends BaseDialogFragment {
 
-    private TextView coinTv, selectedAllTv, totalCoinTv,totalUserTv, orderBtn;
+    private TextView coinTv, selectedAllTv, totalCoinTv, totalUserTv, orderBtn;
     private RecyclerView anchorsRv, gamesRv;
 
     private OrderMicUserAdapter userAdapter = new OrderMicUserAdapter();
@@ -48,7 +49,7 @@ public class OrderDialog extends BaseDialogFragment {
     private OrderGameAdapter gameAdapter = new OrderGameAdapter();
     private List<OrderGameModel> games = new ArrayList<>();
     private int sceneType;
-    private int singlePrice =200;//固定初始单价200
+    private int singlePrice = 200;//固定初始单价200
 
     public static OrderDialog getInstance(int sceneType) {
         Bundle bundle = new Bundle();
@@ -82,9 +83,11 @@ public class OrderDialog extends BaseDialogFragment {
         orderBtn = mRootView.findViewById(R.id.order_btn);
         anchorsRv = mRootView.findViewById(R.id.anchors_rv);
         gamesRv = mRootView.findViewById(R.id.games_rv);
+        selectedAllTv.setSelected(false);
         initUserRv();
         initGameRv();
         loadAccount();
+        setOrderPrice(0, 0);
     }
 
     @Override
@@ -123,12 +126,12 @@ public class OrderDialog extends BaseDialogFragment {
                 if (i == position) {
                     mUsers.get(i).checked = !mUsers.get(i).checked;
                 }
-                if (mUsers.get(i).checked){
+                if (mUsers.get(i).checked) {
                     userCount++;
-                    totalPrice =+ singlePrice;
+                    totalPrice = +singlePrice;
                 }
             }
-            setOrderPrice(userCount,totalPrice);
+            setOrderPrice(userCount, totalPrice);
             userAdapter.notifyDataSetChanged();
         }
     }
@@ -139,12 +142,12 @@ public class OrderDialog extends BaseDialogFragment {
             int totalPrice = 0;
             for (int i = 0; i < mUsers.size(); i++) {
                 mUsers.get(i).checked = selected;
-                if (mUsers.get(i).checked){
+                if (mUsers.get(i).checked) {
                     userCount++;
-                    totalPrice =+ singlePrice;
+                    totalPrice = +singlePrice;
                 }
             }
-            setOrderPrice(userCount,totalPrice);
+            setOrderPrice(userCount, totalPrice);
             userAdapter.notifyDataSetChanged();
         }
     }
@@ -154,11 +157,13 @@ public class OrderDialog extends BaseDialogFragment {
         if (mData.size() > 0) {
             for (int i = 0; i < mData.size(); i++) {
                 AudioRoomMicModel micModel = mData.get(i);
-                OrderMicModel orderMicModel = new OrderMicModel();
-                orderMicModel.userInfo = micModel;
-                orderMicModel.checked = i == selectedIndex;
-                orderMicModel.indexMic = micModel.micIndex;
-                mUsers.add(orderMicModel);
+                if (micModel.userId != 0 && micModel.userId != HSUserInfo.userId) {
+                    OrderMicModel orderMicModel = new OrderMicModel();
+                    orderMicModel.userInfo = micModel;
+                    orderMicModel.checked = i == selectedIndex;
+                    orderMicModel.indexMic = micModel.micIndex;
+                    mUsers.add(orderMicModel);
+                }
             }
         }
     }
@@ -171,6 +176,7 @@ public class OrderDialog extends BaseDialogFragment {
                 OrderGameModel model = new OrderGameModel();
                 model.gameModel = models.get(i);
                 model.checked = false;
+                games.add(model);
             }
         }
         gameAdapter.setList(games);
@@ -198,10 +204,16 @@ public class OrderDialog extends BaseDialogFragment {
         return Gravity.BOTTOM;
     }
 
-    //设置总价格显示
-    private void setOrderPrice(int userCount,int total){
-        totalUserTv.setText(getString(R.string.order_selected_total,userCount));
-        totalCoinTv.setText(total+"");
+    //设置总价格显示,设置全选按钮状态
+    private void setOrderPrice(int userCount, int total) {
+        totalUserTv.setText(getString(R.string.order_selected_total, userCount));
+        totalCoinTv.setText(total + "");
+        selectedAllTv.setSelected(userCount == mUsers.size());
+        if (selectedAllTv.isSelected()) {
+            selectedAllTv.setText(R.string.cancel);
+        } else {
+            selectedAllTv.setText(R.string.audio_all);
+        }
     }
 
     private void loadAccount() {

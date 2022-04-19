@@ -184,6 +184,9 @@ public class SceneRoomService extends Service {
         public void dismissFloating() {
             floatingManager.dismissFloating();
         }
+
+        /** 发起点单广播*/
+        public void broadcastOrder(long orderId, long orderTimeMillis, List<Integer> toUsers){serviceManager.sceneOrderManager.broadcastOrder(orderId, orderTimeMillis, toUsers);}
     }
 
     /** 获取当前使用的房间基本数据 */

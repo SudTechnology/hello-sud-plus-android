@@ -914,6 +914,11 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
             }
         }
     }
+
+    @Override
+    public void onUserOrder(long orderId, long orderTimeMillis, List<Integer> toUsers) {
+
+    }
     // endregion service回调
 
     @Override

@@ -102,4 +102,13 @@ public interface SceneRoomServiceCallback {
      * @param type     操作类型
      */
     void onMicLocationSwitchCompleted(int micIndex, boolean operate, OperateMicType type);
+
+    /**
+     * 用户下单广播给主播（发起邀请
+     *
+     * @param orderId 订单id
+     * @param orderTimeMillis  订单时间戳
+     * @param toUsers     被邀请的主播id列表
+     */
+    void onUserOrder(long orderId, long orderTimeMillis, List<Integer> toUsers);
 }

@@ -1,6 +1,7 @@
 package tech.sud.mgp.hello.ui.scenes.orderentertainment.adapter;
 
 import android.graphics.Color;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,14 +25,14 @@ public class OrderGameAdapter extends BaseQuickAdapter<OrderGameModel, BaseViewH
 
     @Override
     protected void convert(@NonNull BaseViewHolder baseViewHolder, OrderGameModel item) {
-        RoundedImageView gameBg = baseViewHolder.getView(R.id.game_bg);
+        FrameLayout gameBg = baseViewHolder.getView(R.id.game_bg);
         RoundedImageView coverIv = baseViewHolder.getView(R.id.game_cover_iv);
         TextView gameNameTv = baseViewHolder.getView(R.id.game_name_tv);
         TextView gamePriceTv = baseViewHolder.getView(R.id.game_price_tv);
         if (item.checked) {
-            gameBg.setBorderColor(Color.WHITE);
+            gameBg.setBackgroundResource(R.drawable.shape_r8_ffffff_s1_000000);
         } else {
-            gameBg.setBorderColor(Color.TRANSPARENT);
+            gameBg.setBackgroundResource(R.drawable.shape_r8_ffffff);
         }
         ImageLoader.loadAvatar(coverIv, item.gameModel.gamePic);
         gameNameTv.setText(item.gameModel.gameName);

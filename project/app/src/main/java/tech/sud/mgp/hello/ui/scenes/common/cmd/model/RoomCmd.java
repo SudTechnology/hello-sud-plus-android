@@ -32,4 +32,9 @@ public class RoomCmd {
      */
     public static final int CMD_ENTER_ROOM_NOTIFY = 10005;
 
+    /**
+     * 用户点单
+     */
+    public static final int CMD_USER_ORDER_NOTIFY = 10006;
+
 }

@@ -17,14 +17,14 @@
         app:riv_corner_radius="8dp" />
 
     <TextView
+        android:id="@+id/game_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:shadowColor="#66000000"
         android:shadowDx="0"
         android:shadowDy="0"
         android:shadowRadius="3.0"
-        android:id="@+id/game_name"
-        android:layout_width="84dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:paddingHorizontal="8dp"
         android:layout_marginTop="12dp"
         android:ellipsize="end"
         android:maxLines="2"

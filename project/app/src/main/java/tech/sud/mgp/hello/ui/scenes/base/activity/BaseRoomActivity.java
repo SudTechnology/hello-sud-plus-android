@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.IBinder;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -31,10 +32,12 @@ import tech.sud.mgp.hello.common.base.BaseDialogFragment;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.permission.PermissionFragment;
 import tech.sud.mgp.hello.common.permission.SudPermissionUtils;
+import tech.sud.mgp.hello.common.utils.AnimUtils;
 import tech.sud.mgp.hello.common.widget.dialog.BottomOptionDialog;
 import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
 import tech.sud.mgp.hello.rtc.audio.core.AudioPCMData;
 import tech.sud.mgp.hello.ui.common.constant.RequestKey;
+import tech.sud.mgp.hello.ui.main.constant.GameIdCons;
 import tech.sud.mgp.hello.ui.scenes.base.constant.OperateMicType;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.GameTextModel;
@@ -77,6 +80,9 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
     protected RoomInputMsgView inputMsgView;
     protected FrameLayout gameContainer;
     protected TextView tvGameNumber;
+    private View clOpenMic;
+    private TextView tvOpenMic;
+    private TextView tvASRHint;
 
     private boolean closeing; // 标识是否正在关闭房间
     protected SceneRoomService.MyBinder binder;
@@ -131,6 +137,10 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
         inputMsgView = findViewById(R.id.room_input_msg_view);
         gameContainer = findViewById(R.id.game_container);
         tvGameNumber = findViewById(R.id.tv_game_number);
+        clOpenMic = findViewById(R.id.cl_open_mic);
+        tvOpenMic = findViewById(R.id.tv_open_mic);
+        tvASRHint = findViewById(R.id.tv_asr_hint);
+        clOpenMic.setVisibility(View.GONE);
 
         // 设置沉浸式状态栏时，顶部view的间距
         ViewGroup.LayoutParams topViewParams = topView.getLayoutParams();
@@ -441,7 +451,33 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
     protected void onASRChanged(boolean open) {
         if (binder != null) {
             binder.setASROpen(open);
+            if (open && !binder.isOpenedMic()) {
+                clOpenMic.setVisibility(View.VISIBLE);
+                clOpenMic.removeCallbacks(delayDismissTask);
+                clOpenMic.postDelayed(delayDismissTask, 3000);
+                AnimUtils.shakeVertical(clOpenMic);
+                setOpenMicText();
+            }
         }
+    }
+
+    /** 设置开麦提示的文字 */
+    private void setOpenMicText() {
+        if (playingGameId == GameIdCons.I_GUESS_YOU_SAID) { //  你说我猜
+            tvOpenMic.setText(R.string.asr_guide_draw);
+        } else if (playingGameId == GameIdCons.DIGITAL_BOMB) { // 数字炸弹
+            tvOpenMic.setText(R.string.asr_guide_number_boom);
+        } else if (playingGameId == GameIdCons.YOU_DRAW_AND_I_GUESS) { // 你画我猜
+            tvOpenMic.setText(R.string.asr_guide_draw);
+        }
+    }
+
+    // 是否支持ASR
+    private boolean isSupportASR(long gameId) {
+        if (gameId == GameIdCons.I_GUESS_YOU_SAID) return true;
+        if (gameId == GameIdCons.DIGITAL_BOMB) return true;
+        if (gameId == GameIdCons.YOU_DRAW_AND_I_GUESS) return true;
+        return false;
     }
 
     // 点击了自己的麦位
@@ -728,6 +764,11 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
 
     // 切换游戏之后，更新页面样式
     protected void updatePageStyle() {
+        if (isSupportASR(playingGameId)) {
+            tvASRHint.setVisibility(View.VISIBLE);
+        } else {
+            tvASRHint.setVisibility(View.GONE);
+        }
     }
 
     private void updateStatusBar() {
@@ -926,4 +967,16 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
             updateStatusBar();
         }
     }
+
+    private final Runnable delayDismissTask = new Runnable() {
+        @Override
+        public void run() {
+            Animation animation = clOpenMic.getAnimation();
+            if (animation != null) {
+                animation.cancel();
+            }
+            clOpenMic.setVisibility(View.GONE);
+        }
+    };
+
 }

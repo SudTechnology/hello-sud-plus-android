@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,6 +25,7 @@ public class SceneRoomTopView extends ConstraintLayout {
     private TextView tvSelectGame;
     private TextView tvFinishGame;
     private ImageView ivMore;
+    private LinearLayout endContainer;
 
     public SceneRoomTopView(@NonNull Context context) {
         this(context, null);
@@ -47,6 +49,7 @@ public class SceneRoomTopView extends ConstraintLayout {
         tvSelectGame = findViewById(R.id.top_tv_select_game);
         ivMore = findViewById(R.id.top_iv_more);
         tvFinishGame = findViewById(R.id.top_tv_finish_game);
+        endContainer = findViewById(R.id.end_container);
     }
 
     /** 设置房间名称 */
@@ -92,6 +95,11 @@ public class SceneRoomTopView extends ConstraintLayout {
     /** 设置结束游戏点击监听 */
     public void setFinishGameOnClickListener(OnClickListener listener) {
         tvFinishGame.setOnClickListener(listener);
+    }
+
+    /** 添加一个自定义的View */
+    public void addCustomView(View view, LinearLayout.LayoutParams params) {
+        endContainer.addView(view, 0, params);
     }
 
 }

@@ -11,10 +11,18 @@ import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdChangeGameModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdChatTextModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdDownMicModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdEnterRoomModel;
-import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdOrderOperateModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdSendGiftModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdUpMicModel;
-import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdUserOrderModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.order.RoomCmdOrderOperateModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.order.RoomCmdUserOrderModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKAnswerModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKChangeGameModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKFinishModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKOpenMatchModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKSendInviteModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKSettingsModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKSettleModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKStartModel;
 
 /**
  * 房间信令相关
@@ -26,15 +34,13 @@ public class SceneCommandManager extends BaseServiceManager {
     /**
      * 设置信令监听
      *
-     * @param listener
+     * @param listener 设置具体某个监听器来监听具体的信令
      */
     public void setCommandListener(ICommandListener listener) {
         listenerList.add(listener);
     }
 
-    /**
-     * 移除信令监听
-     */
+    /** 移除信令监听 */
     public void removeCommandListener(ICommandListener listener) {
         if (listener != null) {
             listenerList.remove(listener);
@@ -51,64 +57,52 @@ public class SceneCommandManager extends BaseServiceManager {
         int commandCmd = getCommandCmd(command);
         switch (commandCmd) {
             case RoomCmd.CMD_CHAT_TEXT_NOTIFY: // 公屏消息
-                RoomCmdChatTextModel publicMsgCommand = RoomCmdChatTextModel.fromJson(command);
-                if (publicMsgCommand != null) {
-                    dispatchCommand(commandCmd, publicMsgCommand, userID);
-                }
+                dispatchCommand(commandCmd, RoomCmdChatTextModel.fromJson(command), userID);
                 break;
             case RoomCmd.CMD_SEND_GIFT_NOTIFY: // 发送礼物
-                RoomCmdSendGiftModel sendGiftCommand = RoomCmdSendGiftModel.fromJson(command);
-                if (sendGiftCommand != null) {
-                    dispatchCommand(commandCmd, sendGiftCommand, userID);
-                }
+                dispatchCommand(commandCmd, RoomCmdSendGiftModel.fromJson(command), userID);
                 break;
             case RoomCmd.CMD_UP_MIC_NOTIFY: // 上麦位
-                RoomCmdUpMicModel upMicCommand = RoomCmdUpMicModel.fromJson(command);
-                if (upMicCommand != null) {
-                    dispatchCommand(commandCmd, upMicCommand, userID);
-                }
+                dispatchCommand(commandCmd, RoomCmdUpMicModel.fromJson(command), userID);
                 break;
             case RoomCmd.CMD_DOWN_MIC_NOTIFY: // 下麦位
-                RoomCmdDownMicModel downMicCommand = RoomCmdDownMicModel.fromJson(command);
-                if (downMicCommand != null) {
-                    dispatchCommand(commandCmd, downMicCommand, userID);
-                }
+                dispatchCommand(commandCmd, RoomCmdDownMicModel.fromJson(command), userID);
                 break;
             case RoomCmd.CMD_CHANGE_GAME_NOTIFY: // 游戏切换
-                RoomCmdChangeGameModel gameChangeCommand = RoomCmdChangeGameModel.fromJson(command);
-                if (gameChangeCommand != null) {
-                    dispatchCommand(commandCmd, gameChangeCommand, userID);
-                }
+                dispatchCommand(commandCmd, RoomCmdChangeGameModel.fromJson(command), userID);
                 break;
             case RoomCmd.CMD_ENTER_ROOM_NOTIFY: // 进入房间通知
-                RoomCmdEnterRoomModel enterRoomCommand = RoomCmdEnterRoomModel.fromJson(command);
-                if (enterRoomCommand != null) {
-                    dispatchCommand(commandCmd, enterRoomCommand, userID);
-                }
+                dispatchCommand(commandCmd, RoomCmdEnterRoomModel.fromJson(command), userID);
                 break;
-            case RoomCmd.CMD_SEND_ROOM_PK_INVITE: // 发送跨房PK邀请
+            case RoomCmd.CMD_ROOM_PK_SEND_INVITE: // 发送跨房PK邀请
+                dispatchCommand(commandCmd, RoomCmdPKSendInviteModel.fromJson(command), userID);
                 break;
             case RoomCmd.CMD_ROOM_PK_ANSWER: // 跨房PK邀请应答
+                dispatchCommand(commandCmd, RoomCmdPKAnswerModel.fromJson(command), userID);
                 break;
-            case RoomCmd.CMD_START_ROOM_PK: // 开始跨房PK
+            case RoomCmd.CMD_ROOM_PK_START: // 开始跨房PK
+                dispatchCommand(commandCmd, RoomCmdPKStartModel.fromJson(command), userID);
                 break;
-            case RoomCmd.CMD_FINISH_ROOM_PK: // 结束跨房PK
+            case RoomCmd.CMD_ROOM_PK_FINISH: // 结束跨房PK
+                dispatchCommand(commandCmd, RoomCmdPKFinishModel.fromJson(command), userID);
                 break;
             case RoomCmd.CMD_ROOM_PK_SETTINGS: // 跨房PK设置
+                dispatchCommand(commandCmd, RoomCmdPKSettingsModel.fromJson(command), userID);
                 break;
-            case RoomCmd.CMD_OPEN_MATCH_ROOM_PK: // 开启匹配跨房PK答
+            case RoomCmd.CMD_ROOM_PK_OPEN_MATCH: // 开启匹配跨房PK
+                dispatchCommand(commandCmd, RoomCmdPKOpenMatchModel.fromJson(command), userID);
+                break;
+            case RoomCmd.CMD_ROOM_PK_CHANGE_GAME: // 跨房PK，切换游戏
+                dispatchCommand(commandCmd, RoomCmdPKChangeGameModel.fromJson(command), userID);
+                break;
+            case RoomCmd.CMD_ROOM_PK_SETTLE: // 跨房pk游戏结算消息通知
+                dispatchCommand(commandCmd, RoomCmdPKSettleModel.fromJson(command), userID);
                 break;
             case RoomCmd.CMD_USER_ORDER_NOTIFY: // 用户点单
-                RoomCmdUserOrderModel userOrderModel = RoomCmdUserOrderModel.fromJson(command);
-                if (userOrderModel != null) {
-                    dispatchCommand(commandCmd, userOrderModel, userID);
-                }
+                dispatchCommand(commandCmd, RoomCmdUserOrderModel.fromJson(command), userID);
                 break;
             case RoomCmd.CMD_ORDER_OPERATE_NOTIFY: // 主播同意或者拒绝用户点单
-                RoomCmdOrderOperateModel orderResultModel = RoomCmdOrderOperateModel.fromJson(command);
-                if (orderResultModel != null) {
-                    dispatchCommand(commandCmd, orderResultModel, userID);
-                }
+                dispatchCommand(commandCmd, RoomCmdOrderOperateModel.fromJson(command), userID);
                 break;
         }
     }
@@ -117,62 +111,91 @@ public class SceneCommandManager extends BaseServiceManager {
      * 分发信令
      *
      * @param cmd        信令命令
-     * @param command    信令内容
+     * @param model      信令内容
      * @param fromUserID 发送者
      */
-    private void dispatchCommand(int cmd, RoomCmdBaseModel command, String fromUserID) {
+    private void dispatchCommand(int cmd, RoomCmdBaseModel model, String fromUserID) {
+        if (model == null) return;
         for (ICommandListener listener : listenerList) {
             switch (cmd) {
                 case RoomCmd.CMD_CHAT_TEXT_NOTIFY: // 发送公屏
                     if (listener instanceof PublicMsgCommandListener) {
-                        ((PublicMsgCommandListener) listener).onRecvCommand((RoomCmdChatTextModel) command, fromUserID);
+                        ((PublicMsgCommandListener) listener).onRecvCommand((RoomCmdChatTextModel) model, fromUserID);
                     }
                     break;
                 case RoomCmd.CMD_SEND_GIFT_NOTIFY: // 发送礼物
                     if (listener instanceof SendGiftCommandListener) {
-                        ((SendGiftCommandListener) listener).onRecvCommand((RoomCmdSendGiftModel) command, fromUserID);
+                        ((SendGiftCommandListener) listener).onRecvCommand((RoomCmdSendGiftModel) model, fromUserID);
                     }
                     break;
                 case RoomCmd.CMD_UP_MIC_NOTIFY: // 上麦位
                     if (listener instanceof UpMicCommandListener) {
-                        ((UpMicCommandListener) listener).onRecvCommand((RoomCmdUpMicModel) command, fromUserID);
+                        ((UpMicCommandListener) listener).onRecvCommand((RoomCmdUpMicModel) model, fromUserID);
                     }
                     break;
                 case RoomCmd.CMD_DOWN_MIC_NOTIFY: // 下麦位
                     if (listener instanceof DownMicCommandListener) {
-                        ((DownMicCommandListener) listener).onRecvCommand((RoomCmdDownMicModel) command, fromUserID);
+                        ((DownMicCommandListener) listener).onRecvCommand((RoomCmdDownMicModel) model, fromUserID);
                     }
                     break;
                 case RoomCmd.CMD_CHANGE_GAME_NOTIFY: // 游戏切换
                     if (listener instanceof GameChangeCommandListener) {
-                        ((GameChangeCommandListener) listener).onRecvCommand((RoomCmdChangeGameModel) command, fromUserID);
+                        ((GameChangeCommandListener) listener).onRecvCommand((RoomCmdChangeGameModel) model, fromUserID);
                     }
                     break;
                 case RoomCmd.CMD_ENTER_ROOM_NOTIFY: // 进入房间通知
                     if (listener instanceof EnterRoomCommandListener) {
-                        ((EnterRoomCommandListener) listener).onRecvCommand((RoomCmdEnterRoomModel) command, fromUserID);
+                        ((EnterRoomCommandListener) listener).onRecvCommand((RoomCmdEnterRoomModel) model, fromUserID);
                     }
                     break;
-                case RoomCmd.CMD_SEND_ROOM_PK_INVITE: // 发送跨房PK邀请
+                case RoomCmd.CMD_ROOM_PK_SEND_INVITE: // 发送跨房PK邀请
+                    if (listener instanceof PKSendInviteCommandListener) {
+                        ((PKSendInviteCommandListener) listener).onRecvCommand((RoomCmdPKSendInviteModel) model, fromUserID);
+                    }
                     break;
                 case RoomCmd.CMD_ROOM_PK_ANSWER: // 跨房PK邀请应答
+                    if (listener instanceof PKAnswerCommandListener) {
+                        ((PKAnswerCommandListener) listener).onRecvCommand((RoomCmdPKAnswerModel) model, fromUserID);
+                    }
                     break;
-                case RoomCmd.CMD_START_ROOM_PK: // 开始跨房PK
+                case RoomCmd.CMD_ROOM_PK_START: // 开始跨房PK
+                    if (listener instanceof PKStartCommandListener) {
+                        ((PKStartCommandListener) listener).onRecvCommand((RoomCmdPKStartModel) model, fromUserID);
+                    }
                     break;
-                case RoomCmd.CMD_FINISH_ROOM_PK: // 结束跨房PK
+                case RoomCmd.CMD_ROOM_PK_FINISH: // 结束跨房PK
+                    if (listener instanceof PKFinishCommandListener) {
+                        ((PKFinishCommandListener) listener).onRecvCommand((RoomCmdPKFinishModel) model, fromUserID);
+                    }
                     break;
                 case RoomCmd.CMD_ROOM_PK_SETTINGS: // 跨房PK设置
+                    if (listener instanceof PKSettingsCommandListener) {
+                        ((PKSettingsCommandListener) listener).onRecvCommand((RoomCmdPKSettingsModel) model, fromUserID);
+                    }
                     break;
-                case RoomCmd.CMD_OPEN_MATCH_ROOM_PK: // 开启匹配跨房PK答
+                case RoomCmd.CMD_ROOM_PK_OPEN_MATCH: // 开启匹配跨房PK
+                    if (listener instanceof PKOpenMatchCommandListener) {
+                        ((PKOpenMatchCommandListener) listener).onRecvCommand((RoomCmdPKOpenMatchModel) model, fromUserID);
+                    }
+                    break;
+                case RoomCmd.CMD_ROOM_PK_CHANGE_GAME: // 跨房PK，切换游戏
+                    if (listener instanceof PKChangeGameCommandListener) {
+                        ((PKChangeGameCommandListener) listener).onRecvCommand((RoomCmdPKChangeGameModel) model, fromUserID);
+                    }
+                    break;
+                case RoomCmd.CMD_ROOM_PK_SETTLE: // 跨房pk游戏结算消息通知
+                    if (listener instanceof PKSettleCommandListener) {
+                        ((PKSettleCommandListener) listener).onRecvCommand((RoomCmdPKSettleModel) model, fromUserID);
+                    }
                     break;
                 case RoomCmd.CMD_USER_ORDER_NOTIFY: // 用户点单
                     if (listener instanceof UserOrderCommandListener) {
-                        ((UserOrderCommandListener) listener).onRecvCommand((RoomCmdUserOrderModel) command, fromUserID);
+                        ((UserOrderCommandListener) listener).onRecvCommand((RoomCmdUserOrderModel) model, fromUserID);
                     }
                     break;
                 case RoomCmd.CMD_ORDER_OPERATE_NOTIFY: // 主播同意或者拒绝用户点单
                     if (listener instanceof OrderResultCommandListener) {
-                        ((OrderResultCommandListener) listener).onRecvCommand((RoomCmdOrderOperateModel) command, fromUserID);
+                        ((OrderResultCommandListener) listener).onRecvCommand((RoomCmdOrderOperateModel) model, fromUserID);
                     }
                     break;
             }
@@ -192,6 +215,7 @@ public class SceneCommandManager extends BaseServiceManager {
     interface ICommandListener {
     }
 
+    // region 基础信令监听
     interface PublicMsgCommandListener extends ICommandListener {
         void onRecvCommand(RoomCmdChatTextModel command, String userID);
     }
@@ -216,6 +240,43 @@ public class SceneCommandManager extends BaseServiceManager {
         void onRecvCommand(RoomCmdEnterRoomModel command, String userID);
     }
 
+    // endregion 基础信令监听
+    interface PKSendInviteCommandListener extends ICommandListener {
+        void onRecvCommand(RoomCmdPKSendInviteModel command, String userID);
+    }
+
+    interface PKAnswerCommandListener extends ICommandListener {
+        void onRecvCommand(RoomCmdPKAnswerModel command, String userID);
+    }
+
+    interface PKStartCommandListener extends ICommandListener {
+        void onRecvCommand(RoomCmdPKStartModel command, String userID);
+    }
+
+    interface PKFinishCommandListener extends ICommandListener {
+        void onRecvCommand(RoomCmdPKFinishModel command, String userID);
+    }
+
+    interface PKSettingsCommandListener extends ICommandListener {
+        void onRecvCommand(RoomCmdPKSettingsModel command, String userID);
+    }
+
+    interface PKOpenMatchCommandListener extends ICommandListener {
+        void onRecvCommand(RoomCmdPKOpenMatchModel command, String userID);
+    }
+
+    interface PKChangeGameCommandListener extends ICommandListener {
+        void onRecvCommand(RoomCmdPKChangeGameModel command, String userID);
+    }
+
+    interface PKSettleCommandListener extends ICommandListener {
+        void onRecvCommand(RoomCmdPKSettleModel command, String userID);
+    }
+    // region 跨房pk信令监听
+
+    // endregion 跨房pk信令监听
+
+    // region 点单信令监听
     interface UserOrderCommandListener extends ICommandListener {
         void onRecvCommand(RoomCmdUserOrderModel command, String userID);
     }
@@ -223,5 +284,6 @@ public class SceneCommandManager extends BaseServiceManager {
     interface OrderResultCommandListener extends ICommandListener {
         void onRecvCommand(RoomCmdOrderOperateModel command, String userID);
     }
+    // endregion 点单信令监听
 
 }

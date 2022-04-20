@@ -4,8 +4,8 @@ import java.util.List;
 
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.RoomCmdModelUtils;
-import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdOrderOperateModel;
-import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdUserOrderModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.order.RoomCmdOrderOperateModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.order.RoomCmdUserOrderModel;
 
 /**
  * 点单场景
@@ -33,12 +33,12 @@ public class SceneOrderManager extends BaseServiceManager {
     }
 
     public void broadcastOrder(long orderId, long gameId, String gameName, List<String> toUsers) {
-        String command = RoomCmdModelUtils.buildUserOrderCommand(orderId, gameId, gameName, toUsers);
+        String command = RoomCmdModelUtils.buildCmdUserOrder(orderId, gameId, gameName, toUsers);
         parentManager.sceneEngineManager.sendCommand(command, null);
     }
 
     public void operateOrder(long orderId, long gameId, String gameName, String toUser, boolean state) {
-        String command = RoomCmdModelUtils.buildOrderResultCommand(orderId, gameId, gameName, toUser, state);
+        String command = RoomCmdModelUtils.buildCmdOrderResult(orderId, gameId, gameName, toUser, state);
         parentManager.sceneEngineManager.sendCommand(command, null);
     }
 
@@ -53,7 +53,7 @@ public class SceneOrderManager extends BaseServiceManager {
                     }
                 }
                 if (needDispatch) {
-                    parentManager.getCallback().onOrderInvite(command.orderId, command.gameId, command.gameName, command.sendUser.userID,command.sendUser.name, command.toUsers);
+                    parentManager.getCallback().onOrderInvite(command.orderId, command.gameId, command.gameName, command.sendUser.userID, command.sendUser.name, command.toUsers);
                 }
             }
         }

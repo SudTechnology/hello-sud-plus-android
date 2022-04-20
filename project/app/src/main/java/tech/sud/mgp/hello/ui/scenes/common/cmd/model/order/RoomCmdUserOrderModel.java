@@ -1,9 +1,11 @@
-package tech.sud.mgp.hello.ui.scenes.common.cmd.model;
+package tech.sud.mgp.hello.ui.scenes.common.cmd.model.order;
 
 import java.util.List;
 
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.base.utils.HSJsonUtils;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmd;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdBaseModel;
 
 /**
  * 用户点单信令

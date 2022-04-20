@@ -1,7 +1,9 @@
-package tech.sud.mgp.hello.ui.scenes.common.cmd.model;
+package tech.sud.mgp.hello.ui.scenes.common.cmd.model.order;
 
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.base.utils.HSJsonUtils;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmd;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdBaseModel;
 
 /**
  * 主播同意或者拒绝用户点单

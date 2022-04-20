@@ -870,7 +870,7 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
     }
 
     @Override
-    public void onRoomOnlineUserCountUpdate(String roomID, int count) {
+    public void onRoomOnlineUserCountUpdate(int count) {
         topView.setNumber(count + "");
     }
 

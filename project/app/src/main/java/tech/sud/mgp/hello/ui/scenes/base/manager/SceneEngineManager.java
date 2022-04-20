@@ -249,15 +249,15 @@ public class SceneEngineManager extends BaseServiceManager {
         }
 
         @Override
-        public void onRoomOnlineUserCountUpdate(String roomID, int count) {
+        public void onRoomOnlineUserCountUpdate(int count) {
             SceneRoomServiceCallback callback = parentManager.getCallback();
             if (callback != null) {
-                callback.onRoomOnlineUserCountUpdate(roomID, count);
+                callback.onRoomOnlineUserCountUpdate(count);
             }
         }
 
         @Override
-        public void onRoomStateUpdate(String roomID, AudioRoomState state, int errorCode, JSONObject extendedData) {
+        public void onRoomStateUpdate(AudioRoomState state, int errorCode, JSONObject extendedData) {
             if (state == AudioRoomState.CONNECTED) { // 连接成功之后发送进房信令
                 sendCommand(RoomCmdModelUtils.buildEnterRoomCommand(), null);
                 enterRoomCompleted();

@@ -52,20 +52,17 @@ public interface ISudAudioEventListener {
     /**
      * 房间内当前在线用户数量回调
      *
-     * @param roomID 房间ID
      * @param count  人数
      */
-    void onRoomOnlineUserCountUpdate(String roomID, int count);
+    void onRoomOnlineUserCountUpdate(int count);
 
     /**
      * 房间状态变化
-     *
-     * @param roomID       房间id
-     * @param state        状态
+     *  @param state        状态
      * @param errorCode    错误码
      * @param extendedData 扩展信息
      */
-    void onRoomStateUpdate(String roomID, AudioRoomState state, int errorCode, JSONObject extendedData);
+    void onRoomStateUpdate(AudioRoomState state, int errorCode, JSONObject extendedData);
 
     /**
      * 监听音频PCM流回调

@@ -59,8 +59,10 @@ public class VolcAudioEngineImpl implements ISudAudioEngine {
 
         mEngine = RTCEngine.createEngine(context, model.appId, irtcEngineEventHandler, null, null);
 
-        AudioPropertiesConfig config = new AudioPropertiesConfig(300);
-        mEngine.enableAudioPropertiesReport(config);
+        if (mEngine != null) {
+            AudioPropertiesConfig config = new AudioPropertiesConfig(300);
+            mEngine.enableAudioPropertiesReport(config);
+        }
     }
 
     @Override

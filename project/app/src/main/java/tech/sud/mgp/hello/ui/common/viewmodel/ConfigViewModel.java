@@ -13,7 +13,14 @@ import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.common.utils.GlobalCache;
+import tech.sud.mgp.hello.service.main.config.AgoraConfig;
+import tech.sud.mgp.hello.service.main.config.AlibabaCloudConfig;
 import tech.sud.mgp.hello.service.main.config.BaseRtcConfig;
+import tech.sud.mgp.hello.service.main.config.CommsEaseConfig;
+import tech.sud.mgp.hello.service.main.config.RongCloudConfig;
+import tech.sud.mgp.hello.service.main.config.TencentCloudConfig;
+import tech.sud.mgp.hello.service.main.config.VoicEngineConfig;
+import tech.sud.mgp.hello.service.main.config.ZegoConfig;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.main.resp.BaseConfigResp;
 
@@ -60,7 +67,7 @@ public class ConfigViewModel extends BaseViewModel {
             Object rtcConfigSerializable = GlobalCache.getInstance().getSerializable(GlobalCache.RTC_CONFIG_KEY);
             BaseRtcConfig baseRtcConfig = null;
             if (rtcConfigSerializable instanceof BaseRtcConfig) { // 本地已经保存了rtc配置，直接使用
-                baseRtcConfig = (BaseRtcConfig) rtcConfigSerializable;
+                baseRtcConfig = refreshRtcConfig(rtcConfigSerializable, baseConfigResp);
             } else { // 本地未保存rtc配置，从基础配置当中找一个，设为默认rtc配置
                 if (baseConfigResp != null) {
                     if (baseConfigResp.zegoCfg != null) {
@@ -78,6 +85,65 @@ public class ConfigViewModel extends BaseViewModel {
             // 通知页面
             initConfigSuccessLiveData.postValue(null);
         });
+    }
+
+    /** 使用后端返回的最新的RTC配置 */
+    private BaseRtcConfig refreshRtcConfig(Object rtcConfigSerializable, BaseConfigResp baseConfigResp) {
+        if (baseConfigResp != null) {
+            if (rtcConfigSerializable instanceof ZegoConfig) {
+                if (baseConfigResp.zegoCfg == null) {
+                    return (BaseRtcConfig) rtcConfigSerializable;
+                } else {
+                    return baseConfigResp.zegoCfg;
+                }
+            }
+            if (rtcConfigSerializable instanceof AgoraConfig) {
+                if (baseConfigResp.agoraCfg == null) {
+                    return (AgoraConfig) rtcConfigSerializable;
+                } else {
+                    return baseConfigResp.agoraCfg;
+                }
+            }
+            if (rtcConfigSerializable instanceof RongCloudConfig) {
+                if (baseConfigResp.rongCloudCfg == null) {
+                    return (RongCloudConfig) rtcConfigSerializable;
+                } else {
+                    return baseConfigResp.rongCloudCfg;
+                }
+            }
+            if (rtcConfigSerializable instanceof CommsEaseConfig) {
+                if (baseConfigResp.commsEaseCfg == null) {
+                    return (CommsEaseConfig) rtcConfigSerializable;
+                } else {
+                    return baseConfigResp.commsEaseCfg;
+                }
+            }
+            if (rtcConfigSerializable instanceof VoicEngineConfig) {
+                if (baseConfigResp.voicEngineCfg == null) {
+                    return (VoicEngineConfig) rtcConfigSerializable;
+                } else {
+                    return baseConfigResp.voicEngineCfg;
+                }
+            }
+            if (rtcConfigSerializable instanceof AlibabaCloudConfig) {
+                if (baseConfigResp.alibabaCloudCfg == null) {
+                    return (AlibabaCloudConfig) rtcConfigSerializable;
+                } else {
+                    return baseConfigResp.alibabaCloudCfg;
+                }
+            }
+            if (rtcConfigSerializable instanceof TencentCloudConfig) {
+                if (baseConfigResp.tencentCloudCfg == null) {
+                    return (TencentCloudConfig) rtcConfigSerializable;
+                } else {
+                    return baseConfigResp.tencentCloudCfg;
+                }
+            }
+        }
+        if (rtcConfigSerializable instanceof BaseRtcConfig) {
+            return (BaseRtcConfig) rtcConfigSerializable;
+        }
+        return null;
     }
 
     // 获取配置失败之后的重试逻辑

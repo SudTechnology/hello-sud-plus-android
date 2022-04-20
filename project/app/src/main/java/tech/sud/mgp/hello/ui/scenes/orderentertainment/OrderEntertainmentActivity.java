@@ -2,10 +2,11 @@ package tech.sud.mgp.hello.ui.scenes.orderentertainment;
 
 import android.widget.TextView;
 
+import androidx.lifecycle.Observer;
+
 import java.util.List;
 
 import tech.sud.mgp.hello.R;
-import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
 import tech.sud.mgp.hello.ui.scenes.audio.activity.AbsAudioRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomService;
 import tech.sud.mgp.hello.ui.scenes.orderentertainment.dialog.OrderDialog;
@@ -51,27 +52,43 @@ public class OrderEntertainmentActivity extends AbsAudioRoomActivity<OrderViewMo
                 dialog.show(getSupportFragmentManager(), null);
             }
         });
+        gameViewModel.dialogResult.observe(this, integer -> {
+            if (integer == 1) {
+
+            } else if (integer == 2) {
+
+            } else if (integer == 3) {
+
+            }
+        });
     }
 
     /** 主动发起点单 */
-    private void sendOrder(long orderId, long gameId, String gameName, List<Integer> toUsers) {
+    private void sendOrder(long orderId, long gameId, String gameName, List<String> toUsers) {
         if (binder != null) {
             binder.broadcastOrder(orderId, gameId, gameName, toUsers);
         }
     }
 
-    /** 有点单邀请来了 */
-    @Override
-    public void onOrderInvite(long orderId, long gameId, String gameName, List<Integer> toUsers) {
-        super.onOrderInvite(orderId, gameId, gameName, toUsers);
-        gameViewModel.inviteDialog(this, );
+    /** 同意或者拒绝点单 */
+    private void operateOrder(long orderId, long gameId, String gameName, String toUser, boolean state) {
+        if (binder != null) {
+            binder.operateOrder(orderId, gameId, gameName, toUser, state);
+        }
     }
 
-    /** 有点单结果来了，主播同意了后者拒绝了 */
+    /** 有点单邀请来了 */
     @Override
-    public void onOrderResult(long orderId, long gameId, String gameName, int userId, String userName) {
-        super.onOrderResult(orderId, gameId, gameName, userId, userName);
-        gameViewModel.inviteDialog(this, );
+    public void onOrderInvite(long orderId, long gameId, String gameName, String nickname, List<String> toUsers) {
+        super.onOrderInvite(orderId, gameId, gameName, nickname, toUsers);
+        gameViewModel.inviteDialog(this, nickname, gameName);
+    }
+
+    /** 有点单结果来了，显示操作弹窗 */
+    @Override
+    public void onOrderOperate(long orderId, long gameId, String gameName, String userId, String userName, boolean operate) {
+        super.onOrderOperate(orderId, gameId, gameName, userId, userName, operate);
+        gameViewModel.operateDialog(this, userName);
     }
 
 }

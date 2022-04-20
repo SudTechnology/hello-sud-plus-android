@@ -70,6 +70,6 @@ public class RoomCmd {
     /**
      * 主播同意或者拒绝用户点单
      */
-    public static final int CMD_ORDER_RESULT_NOTIFY = 100013;
+    public static final int CMD_ORDER_OPERATE_NOTIFY = 100013;
 
 }

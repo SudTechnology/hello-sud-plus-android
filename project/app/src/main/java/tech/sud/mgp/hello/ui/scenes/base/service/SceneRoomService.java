@@ -186,7 +186,10 @@ public class SceneRoomService extends Service {
         }
 
         /** 发起点单广播*/
-        public void broadcastOrder(long orderId, long gameId,String gameName, List<Integer> toUsers){serviceManager.sceneOrderManager.broadcastOrder(orderId, gameId,gameName, toUsers);}
+        public void broadcastOrder(long orderId, long gameId,String gameName, List<String> toUsers){serviceManager.sceneOrderManager.broadcastOrder(orderId, gameId,gameName, toUsers);}
+
+        /** 发起点单广播*/
+        public void operateOrder(long orderId, long gameId, String gameName, String toUser, boolean state){serviceManager.sceneOrderManager.operateOrder(orderId, gameId,gameName, toUser,state);}
     }
 
     /** 获取当前使用的房间基本数据 */

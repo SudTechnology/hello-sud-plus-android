@@ -14,9 +14,9 @@ import tech.sud.mgp.hello.ui.scenes.base.viewmodel.GameViewModel;
 public class OrderViewModel extends GameViewModel {
 
     //1 邀请弹窗确定 2拒绝弹窗确定 3结束弹窗确定
-    private MutableLiveData<Integer> dialogResult = new MutableLiveData<>();
+    public MutableLiveData<Integer> dialogResult = new MutableLiveData<>();
     private SimpleChooseDialog inviteDialog;//邀请弹窗
-    private SimpleChooseDialog rejectDialog;//拒绝弹窗
+    private SimpleChooseDialog operateDialog;//拒绝弹窗
     private SimpleChooseDialog finishDialog;//结束弹窗
 
     /** 邀请弹窗 */
@@ -37,18 +37,18 @@ public class OrderViewModel extends GameViewModel {
     }
 
     /** 拒绝弹窗 */
-    public void rejectDialog(Context context, String nickName) {
-        if (rejectDialog == null || !rejectDialog.isShowing()) {
-            rejectDialog = new SimpleChooseDialog(context, context.getString(R.string.order_result_conent, nickName),
+    public void operateDialog(Context context, String nickName) {
+        if (operateDialog == null || !operateDialog.isShowing()) {
+            operateDialog = new SimpleChooseDialog(context, context.getString(R.string.order_result_conent, nickName),
                     context.getString(R.string.cancel), context.getString(R.string.confirm));
-            rejectDialog.setOnChooseListener(index -> {
+            operateDialog.setOnChooseListener(index -> {
                 if (index == 1) {
                     dialogResult.postValue(2);
                 }
-                rejectDialog.dismiss();
-                rejectDialog = null;
+                operateDialog.dismiss();
+                operateDialog = null;
             });
-            rejectDialog.show();
+            operateDialog.show();
         }
     }
 

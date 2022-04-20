@@ -2,8 +2,6 @@ package tech.sud.mgp.hello.rtc.audio.impl.rcloud;
 
 import android.content.Context;
 
-import androidx.annotation.NonNull;
-
 import com.blankj.utilcode.util.ThreadUtils;
 
 import java.nio.ByteBuffer;
@@ -125,7 +123,7 @@ public class RCloudAudioEngineImpl implements ISudAudioEngine {
                         public void run() {
                             ISudAudioEventListener handler = mISudAudioEventListener;
                             if (handler != null) {
-                                handler.onRoomStateUpdate(model.roomID, AudioRoomState.CONNECTED, 0, null);
+                                handler.onRoomStateUpdate(AudioRoomState.CONNECTED, 0, null);
                                 updateRoomUserCount();
                             }
 
@@ -294,7 +292,7 @@ public class RCloudAudioEngineImpl implements ISudAudioEngine {
 
         ISudAudioEventListener handler = mISudAudioEventListener;
         if (handler != null) {
-            handler.onRoomOnlineUserCountUpdate(rcrtcRoom.getRoomId(), roomUserList.size() + 1);
+            handler.onRoomOnlineUserCountUpdate(roomUserList.size() + 1);
         }
     }
 

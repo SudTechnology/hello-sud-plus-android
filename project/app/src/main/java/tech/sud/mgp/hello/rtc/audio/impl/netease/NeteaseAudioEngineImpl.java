@@ -279,7 +279,7 @@ public class NeteaseAudioEngineImpl implements ISudAudioEngine {
     private void updateRoomUserCount() {
         ISudAudioEventListener handler = mISudAudioEventListener;
         if (handler != null) {
-            handler.onRoomOnlineUserCountUpdate(mRoomID, roomUserList.size() + 1);
+            handler.onRoomOnlineUserCountUpdate(roomUserList.size() + 1);
         }
     }
 
@@ -292,7 +292,7 @@ public class NeteaseAudioEngineImpl implements ISudAudioEngine {
                     public void run() {
                         ISudAudioEventListener handler = mISudAudioEventListener;
                         if (handler != null) {
-                            handler.onRoomStateUpdate(mRoomID, AudioRoomState.CONNECTED, 0, null);
+                            handler.onRoomStateUpdate(AudioRoomState.CONNECTED, 0, null);
                         }
                     }
                 });

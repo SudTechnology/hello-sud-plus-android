@@ -244,8 +244,8 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
             ThreadUtils.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    ISudAudioEventListener handler = mISudAudioEventListener;
-                    if (handler == null || speakers == null || speakers.length == 0) {
+                    ISudAudioEventListener listener = mISudAudioEventListener;
+                    if (listener == null || speakers == null || speakers.length == 0) {
                         return;
                     }
                     HashMap<String, Float> soundLevels = null;
@@ -264,12 +264,12 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
 
                     // 本地采集音量
                     if (localSoundLevel != null) {
-                        handler.onCapturedSoundLevelUpdate(localSoundLevel);
+                        listener.onCapturedSoundLevelUpdate(localSoundLevel);
                     }
 
                     // 远程用户音量
                     if (soundLevels != null) {
-                        handler.onRemoteSoundLevelUpdate(soundLevels);
+                        listener.onRemoteSoundLevelUpdate(soundLevels);
                     }
                 }
             });
@@ -285,7 +285,7 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
                     public void run() {
                         ISudAudioEventListener handler = mISudAudioEventListener;
                         if (handler != null) {
-                            handler.onRoomStateUpdate(mRoomID, audioRoomState, 0, null);
+                            handler.onRoomStateUpdate(audioRoomState, 0, null);
                         }
                     }
                 });
@@ -450,7 +450,7 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
                 public void run() {
                     ISudAudioEventListener handler = mISudAudioEventListener;
                     if (handler != null) {
-                        handler.onRoomOnlineUserCountUpdate(mRoomID, memberCount);
+                        handler.onRoomOnlineUserCountUpdate(memberCount);
                     }
                 }
             });
@@ -471,9 +471,10 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
                 @Override
                 public void run() {
                     Log.d(kTag, "onMessageReceived:" + rtmMessage.getText());
-                    if (mISudAudioEventListener != null) {
+                    ISudAudioEventListener listener = mISudAudioEventListener;
+                    if (listener != null) {
                         try {
-                            mISudAudioEventListener.onRecvCommand(rtmChannelMember.getUserId(), rtmMessage.getText());
+                            listener.onRecvCommand(rtmChannelMember.getUserId(), rtmMessage.getText());
                         } catch (Exception e) {
                             Log.e(kTag, "onMessageReceived: " + e.getMessage());
                         }

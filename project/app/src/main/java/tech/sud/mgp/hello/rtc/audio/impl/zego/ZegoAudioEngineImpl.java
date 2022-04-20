@@ -298,7 +298,7 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
 
             ISudAudioEventListener listener = mISudAudioEventListener;
             if (listener != null) {
-                listener.onRoomStateUpdate(roomID, convertAudioRoomState(state), errorCode, extendedData);
+                listener.onRoomStateUpdate(convertAudioRoomState(state), errorCode, extendedData);
             }
         }
 
@@ -383,7 +383,7 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
             super.onRoomOnlineUserCountUpdate(roomID, count);
             ISudAudioEventListener listener = mISudAudioEventListener;
             if (listener != null) {
-                listener.onRoomOnlineUserCountUpdate(roomID, count);
+                listener.onRoomOnlineUserCountUpdate(count);
             }
         }
     };

@@ -75,10 +75,10 @@ public class ConfigViewModel extends BaseViewModel {
                     } else if (baseConfigResp.agoraCfg != null) {
                         baseRtcConfig = baseConfigResp.agoraCfg;
                     }
-                    if (baseRtcConfig != null) {
-                        GlobalCache.getInstance().put(GlobalCache.RTC_CONFIG_KEY, baseRtcConfig);
-                    }
                 }
+            }
+            if (baseRtcConfig != null) {
+                GlobalCache.getInstance().put(GlobalCache.RTC_CONFIG_KEY, baseRtcConfig);
             }
             AppData.getInstance().setSelectRtcConfig(baseRtcConfig);
 

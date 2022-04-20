@@ -109,10 +109,11 @@ public interface SceneRoomServiceCallback {
      * @param orderId   订单id
      * @param gameId    游戏id
      * @param gameName  游戏名字
+     *  @param userID  邀请者的userID
      * @param nickname  邀请者的nickname
      * @param toUsers   被邀请的主播id列表
      */
-    void onOrderInvite(long orderId, long gameId,String gameName, String nickname,List<String> toUsers);
+    void onOrderInvite(long orderId, long gameId,String gameName,String userID, String nickname,List<String> toUsers);
 
     /**
      * 主播同意或者拒绝用户邀请

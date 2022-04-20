@@ -916,7 +916,7 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
     }
 
     @Override
-    public void onOrderInvite(long orderId, long gameId,String gameName, String nickname,List<String> toUsers) {
+    public void onOrderInvite(long orderId, long gameId,String gameName, String userID, String nickname,List<String> toUsers) {
 
     }
 

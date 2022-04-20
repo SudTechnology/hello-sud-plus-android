@@ -2,6 +2,7 @@ package tech.sud.mgp.hello.ui.scenes.base.manager;
 
 import java.util.List;
 
+import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.RoomCmdModelUtils;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdOrderOperateModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdUserOrderModel;
@@ -44,7 +45,17 @@ public class SceneOrderManager extends BaseServiceManager {
     private final SceneCommandManager.UserOrderCommandListener userOrderCommandListener = new SceneCommandManager.UserOrderCommandListener() {
         @Override
         public void onRecvCommand(RoomCmdUserOrderModel command, String userID) {
-            parentManager.getCallback().onOrderInvite(command.orderId, command.gameId, command.gameName, command.sendUser.name, command.toUsers);
+            if (command.toUsers != null && command.toUsers.size() > 0) {
+                boolean needDispatch = false;
+                for (String toUser : command.toUsers) {
+                    if (toUser.equals(HSUserInfo.userId + "")) {
+                        needDispatch = true;
+                    }
+                }
+                if (needDispatch) {
+                    parentManager.getCallback().onOrderInvite(command.orderId, command.gameId, command.gameName, command.sendUser.userID,command.sendUser.name, command.toUsers);
+                }
+            }
         }
     };
 

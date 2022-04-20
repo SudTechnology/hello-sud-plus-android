@@ -19,7 +19,6 @@ public class OrderEntertainmentActivity extends AbsAudioRoomActivity<OrderViewMo
 
     private TextView orderEnterTv;
 
-
     @Override
     protected OrderViewModel initGameViewModel() {
         return new OrderViewModel();
@@ -54,10 +53,16 @@ public class OrderEntertainmentActivity extends AbsAudioRoomActivity<OrderViewMo
         });
         gameViewModel.dialogResult.observe(this, integer -> {
             if (integer == 1) {
-
+                operateOrder(gameViewModel.orderModel.orderId, gameViewModel.orderModel.gameId, gameViewModel.orderModel.gameName, gameViewModel.orderModel.sendUserId, true);
             } else if (integer == 2) {
-
+                operateOrder(gameViewModel.orderModel.orderId, gameViewModel.orderModel.gameId, gameViewModel.orderModel.gameName, gameViewModel.orderModel.sendUserId, false);
             } else if (integer == 3) {
+
+            } else if (integer == 4) {
+
+            } else if (integer == 5) {
+
+            } else if (integer == 6) {
 
             }
         });
@@ -79,12 +84,12 @@ public class OrderEntertainmentActivity extends AbsAudioRoomActivity<OrderViewMo
 
     /** 有点单邀请来了 */
     @Override
-    public void onOrderInvite(long orderId, long gameId, String gameName, String nickname, List<String> toUsers) {
-        super.onOrderInvite(orderId, gameId, gameName, nickname, toUsers);
-        gameViewModel.inviteDialog(this, nickname, gameName);
+    public void onOrderInvite(long orderId, long gameId, String gameName, String userID, String nickname, List<String> toUsers) {
+        super.onOrderInvite(orderId, gameId, gameName, userID, nickname, toUsers);
+        gameViewModel.inviteDialog(this, orderId, gameId, gameName, userID, nickname, toUsers);
     }
 
-    /** 有点单结果来了，显示操作弹窗 */
+    /** 有点单结果来了 */
     @Override
     public void onOrderOperate(long orderId, long gameId, String gameName, String userId, String userName, boolean operate) {
         super.onOrderOperate(orderId, gameId, gameName, userId, userName, operate);

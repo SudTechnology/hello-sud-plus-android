@@ -3,6 +3,7 @@ package tech.sud.mgp.hello.ui.scenes.base.manager;
 import java.util.List;
 
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdOrderResultModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdUserOrderModel;
 
 /**
@@ -20,15 +21,17 @@ public class SceneOrderManager extends BaseServiceManager {
     public void onCreate() {
         super.onCreate();
         parentManager.sceneEngineManager.setCommandListener(userOrderCommandListener);
+        parentManager.sceneEngineManager.setCommandListener(orderResultCommandListener);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         parentManager.sceneEngineManager.removeCommandListener(userOrderCommandListener);
+        parentManager.sceneEngineManager.setCommandListener(orderResultCommandListener);
     }
 
-    public void broadcastOrder(long orderId, long orderTimeMillis, List<Integer> toUsers) {
+    public void broadcastOrder(long orderId, long gameId, String gameName, List<Integer> toUsers) {
 //        String command = RoomCmdModelUtils.buildSendGiftCommand(giftID, giftCount, toUser);
 //
 //        GiftModel giftModel = GiftHelper.getInstance().getGift(giftID);
@@ -62,6 +65,13 @@ public class SceneOrderManager extends BaseServiceManager {
 //            notify.giftID = command.giftID;
 //            parentManager.getCallback().sendGiftsNotify(notify);
 //            parentManager.sceneChatManager.addMsg(notify);
+        }
+    };
+
+    private final SceneCommandManager.OrderResultCommandListener orderResultCommandListener = new SceneCommandManager.OrderResultCommandListener() {
+        @Override
+        public void onRecvCommand(RoomCmdOrderResultModel command, String userID) {
+
         }
     };
 }

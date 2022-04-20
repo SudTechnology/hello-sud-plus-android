@@ -5,6 +5,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import tech.sud.mgp.hello.R;
+import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
 import tech.sud.mgp.hello.ui.scenes.audio.activity.AbsAudioRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomService;
 import tech.sud.mgp.hello.ui.scenes.orderentertainment.dialog.OrderDialog;
@@ -16,6 +17,7 @@ import tech.sud.mgp.hello.ui.scenes.orderentertainment.viewmodel.OrderViewModel;
 public class OrderEntertainmentActivity extends AbsAudioRoomActivity<OrderViewModel> {
 
     private TextView orderEnterTv;
+
 
     @Override
     protected OrderViewModel initGameViewModel() {
@@ -52,16 +54,24 @@ public class OrderEntertainmentActivity extends AbsAudioRoomActivity<OrderViewMo
     }
 
     /** 主动发起点单 */
-    private void sendOrder(long orderId, long orderTimeMillis, List<Integer> toUsers) {
+    private void sendOrder(long orderId, long gameId, String gameName, List<Integer> toUsers) {
         if (binder != null) {
-            binder.broadcastOrder(orderId, orderTimeMillis, toUsers);
+            binder.broadcastOrder(orderId, gameId, gameName, toUsers);
         }
     }
 
     /** 有点单邀请来了 */
     @Override
-    public void onUserOrder(long orderId, long orderTimeMillis, List<Integer> toUsers) {
-        super.onUserOrder(orderId, orderTimeMillis, toUsers);
-
+    public void onOrderInvite(long orderId, long gameId, String gameName, List<Integer> toUsers) {
+        super.onOrderInvite(orderId, gameId, gameName, toUsers);
+        gameViewModel.inviteDialog(this, );
     }
+
+    /** 有点单结果来了，主播同意了后者拒绝了 */
+    @Override
+    public void onOrderResult(long orderId, long gameId, String gameName, int userId, String userName) {
+        super.onOrderResult(orderId, gameId, gameName, userId, userName);
+        gameViewModel.inviteDialog(this, );
+    }
+
 }

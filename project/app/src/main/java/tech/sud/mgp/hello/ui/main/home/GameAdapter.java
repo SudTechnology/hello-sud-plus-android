@@ -1,7 +1,9 @@
 package tech.sud.mgp.hello.ui.main.home;
 
+import android.graphics.Color;
 import android.text.TextUtils;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
@@ -22,12 +24,17 @@ public class GameAdapter extends BaseQuickAdapter<GameModel, BaseViewHolder> {
 
     @Override
     protected void convert(BaseViewHolder helper, GameModel item) {
-        helper.setText(R.id.game_name, item.getGameName());
+        TextView nameTv = helper.getView(R.id.game_name);
+        nameTv.setText(item.getGameName());
         ImageView iconView = helper.getView(R.id.game_icon);
-        if (!TextUtils.isEmpty(item.getGamePic())) {
-            ImageLoader.loadImage(iconView, item.getGamePic());
+        if (!TextUtils.isEmpty(item.getHomeGamePic())) {
+            nameTv.setTextColor(Color.WHITE);
+            ImageLoader.loadGameCover(iconView, item.getHomeGamePic());
+            nameTv.setShadowLayer(3.0f,0,0,Color.parseColor("#66000000"));
         } else {
-            iconView.setImageResource(R.mipmap.icon_logo);
+            nameTv.setTextColor(Color.parseColor("#AAAAAA"));
+            iconView.setImageResource(R.drawable.icon_game_empty);
+            nameTv.setShadowLayer(0.0f,0,0,0);
         }
     }
 }

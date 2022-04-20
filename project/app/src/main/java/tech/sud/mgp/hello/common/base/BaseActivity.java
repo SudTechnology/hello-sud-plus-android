@@ -1,5 +1,6 @@
 package tech.sud.mgp.hello.common.base;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,8 +12,11 @@ import com.trello.rxlifecycle4.components.support.RxAppCompatActivity;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
+import tech.sud.mgp.hello.ui.main.utils.HSLanguageUtils;
 
 public abstract class BaseActivity extends RxAppCompatActivity {
+
+    protected Context context = this;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -82,4 +86,9 @@ public abstract class BaseActivity extends RxAppCompatActivity {
         AppData.getInstance().onRestoreInstanceState(savedInstanceState);
     }
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(HSLanguageUtils.attachBaseContext(newBase));
+    }
+    
 }

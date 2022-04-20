@@ -8,27 +8,28 @@ import android.widget.TextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.Observer;
 
-import com.blankj.utilcode.util.ToastUtils;
+import com.blankj.utilcode.util.ThreadUtils;
 
 import java.util.Random;
 
 import tech.sud.mgp.hello.R;
+import tech.sud.mgp.hello.app.APPConfig;
 import tech.sud.mgp.hello.common.base.BaseActivity;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
-import tech.sud.mgp.hello.common.utils.AppSharedPreferences;
-import tech.sud.mgp.hello.common.utils.ResponseUtils;
+import tech.sud.mgp.hello.common.model.UserInfoConverter;
+import tech.sud.mgp.hello.common.utils.GlobalSP;
 import tech.sud.mgp.hello.service.login.repository.LoginRepository;
 import tech.sud.mgp.hello.service.login.resp.LoginResponse;
+import tech.sud.mgp.hello.ui.common.viewmodel.ConfigViewModel;
 import tech.sud.mgp.hello.ui.login.dialog.UserAgreementDialog;
 import tech.sud.mgp.hello.ui.login.dialog.UserSecondaryDialog;
 import tech.sud.mgp.hello.ui.login.listener.DialogSecondaryListener;
 import tech.sud.mgp.hello.ui.login.listener.DialogSelectListener;
 import tech.sud.mgp.hello.ui.main.activity.MainActivity;
-import tech.sud.mgp.hello.ui.main.settings.activity.UserAgreementActivity;
-import tech.sud.mgp.hello.ui.viewmodel.ConfigViewModel;
+import tech.sud.mgp.hello.ui.main.utils.RouterUtils;
 
 /**
  * 登录页
@@ -72,11 +73,15 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         femaleBtn.setOnClickListener(this);
         goPlayBtn.setOnClickListener(this);
         randomIv.setOnClickListener(this);
-        nameTv.setText(randomName());
+        if (HSUserInfo.isLogin()) { // 已登录
+            nameTv.setText(HSUserInfo.nickName);
+        } else {
+            nameTv.setText(randomName());
+        }
         //默认性别选中男
         maleBtn.callOnClick();
         //是否同意隐私政策
-        boolean isAgree = AppSharedPreferences.getSP().getBoolean(AppSharedPreferences.AGREEMENT_STATE, false);
+        boolean isAgree = GlobalSP.getSP().getBoolean(GlobalSP.AGREEMENT_STATE, false);
         if (!isAgree) {
             showAgreementDialog();
         }
@@ -105,7 +110,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         if (!isAgree) {
             finish();
         } else {
-            AppSharedPreferences.getSP().put(AppSharedPreferences.AGREEMENT_STATE, true);
+            GlobalSP.getSP().put(GlobalSP.AGREEMENT_STATE, true);
         }
         if (agreementDialog != null) {
             agreementDialog.dismiss();
@@ -114,18 +119,16 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void onAgreementType(int type) {
-        Intent intent = new Intent(this, UserAgreementActivity.class);
         switch (type) {
             case 0: {
-                intent.putExtra(UserAgreementActivity.AGREEMENTTYPE, 0);
+                RouterUtils.openUrl(this, getString(R.string.user_agreement_title), APPConfig.USER_PROTOCAL_URL);
                 break;
             }
             case 1: {
-                intent.putExtra(UserAgreementActivity.AGREEMENTTYPE, 1);
+                RouterUtils.openUrl(this, getString(R.string.user_privacy_title), APPConfig.USER_PRIVACY_URL);
                 break;
             }
         }
-        startActivity(intent);
     }
 
     @Override
@@ -133,7 +136,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         if (!isAgree) {
             showSecondaryDialog();
         } else {
-            AppSharedPreferences.getSP().put(AppSharedPreferences.AGREEMENT_STATE, true);
+            GlobalSP.getSP().put(GlobalSP.AGREEMENT_STATE, true);
         }
     }
 
@@ -161,7 +164,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             return;
         }
         isLogin = true;
-        LoginRepository.login(null, nameTv.getText().toString(), this, new RxCallback<LoginResponse>() {
+        Long userReq = null;
+        if (HSUserInfo.isLogin()) {
+            userReq = HSUserInfo.userId;
+        }
+        LoginRepository.login(userReq, nameTv.getText().toString(), this, new RxCallback<LoginResponse>() {
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
@@ -172,23 +179,16 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             public void onNext(BaseResponse<LoginResponse> t) {
                 super.onNext(t);
                 if (t.getRetCode() == RetCode.SUCCESS) {
-                    new Thread() {
+                    ThreadUtils.getIoPool().execute(new Runnable() {
                         @Override
                         public void run() {
-                            super.run();
-                            AppSharedPreferences.getSP().put(AppSharedPreferences.USER_ID_KEY, t.getData().userId);
-                            AppSharedPreferences.getSP().put(AppSharedPreferences.USER_HEAD_PORTRAIT_KEY, t.getData().avatar);
-                            AppSharedPreferences.getSP().put(AppSharedPreferences.USER_NAME_KEY, t.getData().nickname);
+                            LoginRepository.saveUserInfo();
                         }
-                    }.start();
-                    HSUserInfo.userId = t.getData().userId;
-                    HSUserInfo.nickName = t.getData().nickname;
-                    HSUserInfo.avatar = t.getData().avatar;
-                    HSUserInfo.token = t.getData().token;
+                    });
+                    UserInfoConverter.conver(t.getData());
                     configViewModel.getBaseConfig(LoginActivity.this);
                 } else {
                     isLogin = false;
-                    ToastUtils.showLong(ResponseUtils.conver(t));
                 }
             }
         });

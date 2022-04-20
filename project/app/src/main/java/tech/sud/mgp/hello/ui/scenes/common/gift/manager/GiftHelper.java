@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tech.sud.mgp.hello.R;
-import tech.sud.mgp.hello.ui.scenes.audio.model.UserInfo;
+import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.EffectAnimationFormat;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftModel;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.MicUserInfoModel;
@@ -69,7 +69,7 @@ public class GiftHelper {
             model3.giftSmallImage = R.drawable.icon_gift_128;
             gifts.add(model3);
 
-            copyFileToSdcrad(context,R.raw.sud_mp4_600,"sud_mp4_600.mp4");
+            copyFileToSdcrad(context, R.raw.sud_mp4_600, "sud_mp4_600.mp4");
             GiftModel model4 = new GiftModel();
             model4.giftId = 4;
             model4.giftName = "mp4";

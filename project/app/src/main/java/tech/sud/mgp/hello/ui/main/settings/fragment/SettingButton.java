@@ -46,24 +46,28 @@ public class SettingButton extends ConstraintLayout {
     }
 
     private void initView(Context context) {
-        // 左边名称
-        tvName.setTextSize(16);
-        tvName.setTextColor(ContextCompat.getColor(context, R.color.c_1a1a1a));
-        LayoutParams nameParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-        nameParams.startToStart = LayoutParams.PARENT_ID;
-        nameParams.topToTop = LayoutParams.PARENT_ID;
-        nameParams.bottomToBottom = LayoutParams.PARENT_ID;
-        addView(tvName, nameParams);
-
         // 右边的文字
+        tvHint.setId(View.generateViewId());
         tvHint.setTextSize(14);
         tvHint.setTextColor(ContextCompat.getColor(context, R.color.c_8a8a8e));
         LayoutParams hintParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         hintParams.endToEnd = LayoutParams.PARENT_ID;
         hintParams.topToTop = LayoutParams.PARENT_ID;
         hintParams.bottomToBottom = LayoutParams.PARENT_ID;
+        hintParams.matchConstraintMaxWidth = DensityUtils.dp2px(context, 100);
         hintParams.setMarginEnd(DensityUtils.dp2px(context, 28));
         addView(tvHint, hintParams);
+
+        // 左边名称
+        tvName.setTextSize(16);
+        tvName.setTextColor(ContextCompat.getColor(context, R.color.c_1a1a1a));
+        LayoutParams nameParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        nameParams.startToStart = LayoutParams.PARENT_ID;
+        nameParams.setMarginEnd(DensityUtils.dp2px(context, 16));
+        nameParams.topToTop = LayoutParams.PARENT_ID;
+        nameParams.bottomToBottom = LayoutParams.PARENT_ID;
+        nameParams.matchConstraintMaxWidth = DensityUtils.dp2px(context, 215);
+        addView(tvName, nameParams);
 
         // 箭头
         viewArrow.setBackgroundResource(R.drawable.ic_right_arrow);

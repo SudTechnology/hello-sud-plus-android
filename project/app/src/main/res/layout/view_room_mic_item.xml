@@ -32,13 +32,15 @@
 
     <TextView
         android:id="@+id/tv_name"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
         android:ellipsize="end"
         android:maxLines="2"
         android:textColor="@color/c_ffffff"
         android:textSize="10sp"
+        android:gravity="center"
+        android:paddingHorizontal="3dp"
+        android:layout_marginTop="4dp"
         app:layout_constraintEnd_toEndOf="@id/riv_avatar"
         app:layout_constraintStart_toStartOf="@id/riv_avatar"
         app:layout_constraintTop_toBottomOf="@id/riv_avatar" />

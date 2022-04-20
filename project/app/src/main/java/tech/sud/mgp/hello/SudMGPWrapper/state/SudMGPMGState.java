@@ -57,10 +57,60 @@ public class SudMGPMGState {
         public static class MGCommonPublicMessageMsgText {
             @SerializedName(value = "default")
             public String defaultStr; // 默认文本
+
             @SerializedName(value = "zh-CN")
-            public String zh_CN; // 中文文本
-            @SerializedName(value = "en_US")
-            public String en_US; // 英文文本
+            public String zh_CN; // 中文(简体)
+
+            @SerializedName(value = "zh-HK")
+            public String zh_HK; // 中文(香港)
+
+            @SerializedName(value = "zh-MO")
+            public String zh_MO; // 中文(澳门)
+
+            @SerializedName(value = "zh-SG")
+            public String zh_SG; // 中文(新加坡)
+
+            @SerializedName(value = "zh-TW")
+            public String zh_TW; // 中文(繁体)
+
+            @SerializedName(value = "en-US")
+            public String en_US; // 英语(美国)
+
+            @SerializedName(value = "en-GB")
+            public String en_GB; // 英语(英国)
+
+            @SerializedName(value = "ms-BN")
+            public String ms_BN; // 马来语(文莱达鲁萨兰)
+
+            @SerializedName(value = "ms-MY")
+            public String ms_MY; // 马来语(马来西亚)
+
+            @SerializedName(value = "vi-VN")
+            public String vi_VN; // 越南语
+
+            @SerializedName(value = "id-ID")
+            public String id_ID; // 印度尼西亚语
+
+            @SerializedName(value = "es-ES")
+            public String es_ES; // 西班牙语(传统)
+
+            @SerializedName(value = "ja-JP")
+            public String ja_JP; // 日语
+
+            @SerializedName(value = "ko-KR")
+            public String ko_KR; // 朝鲜语
+
+            @SerializedName(value = "th-TH")
+            public String th_TH; // 泰语
+
+            @SerializedName(value = "ar-SA")
+            public String ar_SA; // 阿拉伯语(沙特阿拉伯)
+
+            @SerializedName(value = "ur-PK")
+            public String ur_PK; // 乌都语
+
+            @SerializedName(value = "tr-TR")
+            public String tr_TR; // 土耳其语
         }
 
         public static class MGCommonPublicMessageMsgUser {

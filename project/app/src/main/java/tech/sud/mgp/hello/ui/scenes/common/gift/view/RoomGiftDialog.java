@@ -18,8 +18,8 @@ import java.util.Map;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
-import tech.sud.mgp.hello.ui.scenes.audio.model.AudioRoomMicModel;
-import tech.sud.mgp.hello.ui.scenes.audio.model.UserInfo;
+import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
+import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.common.gift.adapter.GiftListAdapter;
 import tech.sud.mgp.hello.ui.scenes.common.gift.listener.GiftSendClickListener;
 import tech.sud.mgp.hello.ui.scenes.common.gift.listener.SendGiftToUserListener;
@@ -72,7 +72,7 @@ public class RoomGiftDialog extends BaseDialogFragment implements SendGiftToUser
                         for (MicUserInfoModel userInfo : GiftHelper.getInstance().inMics) {
                             if (userInfo.checked) {
                                 UserInfo info = new UserInfo();
-                                info.userID = userInfo.userInfo.userId;
+                                info.userID = userInfo.userInfo.userId + "";
                                 info.name = userInfo.userInfo.nickName;
                                 info.icon = userInfo.userInfo.avatar;
                                 userInfos.add(info);

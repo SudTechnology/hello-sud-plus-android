@@ -44,8 +44,7 @@ public class ChangeRtcActivity extends BaseActivity {
     @Override
     protected void initData() {
         super.initData();
-        String[] rtcServices = getResources().getStringArray(R.array.rtc_services);
-        viewModel.getRtcList(rtcServices);
+        viewModel.getRtcList();
     }
 
     @Override
@@ -61,12 +60,6 @@ public class ChangeRtcActivity extends BaseActivity {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
                 clickRtc(position);
-            }
-        });
-        findViewById(R.id.view_back).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
             }
         });
     }

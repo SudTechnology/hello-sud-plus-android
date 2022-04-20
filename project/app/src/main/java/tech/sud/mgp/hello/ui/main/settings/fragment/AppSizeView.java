@@ -3,7 +3,6 @@ package tech.sud.mgp.hello.ui.main.settings.fragment;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.AttributeSet;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -11,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,33 +81,42 @@ public class AppSizeView extends LinearLayout {
         boolean isFirstItemView = getChildCount() == 1;
 
         // 构建一个容器
-        LinearLayout container = new LinearLayout(getContext());
-        container.setOrientation(HORIZONTAL);
-        container.setGravity(Gravity.CENTER_VERTICAL);
+        ConstraintLayout container = new ConstraintLayout(getContext());
         LayoutParams containerParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         containerParams.topMargin = DensityUtils.dp2px(getContext(), isFirstItemView ? 9 : 13);
         addView(container, containerParams);
 
         // 颜色
         View colorView = new View(getContext());
+        colorView.setId(View.generateViewId());
         colorView.setBackgroundColor(model.color);
         int colorViewSize = DensityUtils.dp2px(getContext(), 16);
-        container.addView(colorView, colorViewSize, colorViewSize);
+        ConstraintLayout.LayoutParams colorParams = new ConstraintLayout.LayoutParams(colorViewSize, colorViewSize);
+        colorParams.startToStart = ConstraintLayout.LayoutParams.PARENT_ID;
+        colorParams.topToTop = ConstraintLayout.LayoutParams.PARENT_ID;
+        colorParams.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID;
+        container.addView(colorView, colorParams);
         // 名称
         TextView tvName = new TextView(getContext());
         tvName.setTextSize(12);
         tvName.setTextColor(Color.parseColor("#1a1a1a"));
         tvName.setText(model.name);
-        LayoutParams nameParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-        nameParams.leftMargin = DensityUtils.dp2px(getContext(), 4);
+        ConstraintLayout.LayoutParams nameParams = new ConstraintLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        nameParams.startToEnd = colorView.getId();
+        nameParams.topToTop = ConstraintLayout.LayoutParams.PARENT_ID;
+        nameParams.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID;
+        nameParams.setMarginStart(DensityUtils.dp2px(getContext(), 4));
         container.addView(tvName, nameParams);
         // 大小
         TextView tvSize = new TextView(getContext());
         tvSize.setTextSize(10);
         tvSize.setTextColor(Color.parseColor("#8a8a8e"));
         tvSize.setText(FileUtils.formatFileSize(model.size));
-        tvSize.setGravity(Gravity.END);
-        container.addView(tvSize, LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        ConstraintLayout.LayoutParams sizeParams = new ConstraintLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        sizeParams.endToEnd = ConstraintLayout.LayoutParams.PARENT_ID;
+        sizeParams.topToTop = ConstraintLayout.LayoutParams.PARENT_ID;
+        sizeParams.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID;
+        container.addView(tvSize, sizeParams);
     }
 
     public static class AppSizeModel {

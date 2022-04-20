@@ -11,12 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tech.sud.mgp.hello.R;
+import tech.sud.mgp.hello.app.APPConfig;
 import tech.sud.mgp.hello.common.base.BaseFragment;
-import tech.sud.mgp.hello.common.model.AppData;
-import tech.sud.mgp.hello.common.utils.HsIntentUtils;
-import tech.sud.mgp.hello.ui.main.settings.activity.ChangeRtcActivity;
-import tech.sud.mgp.hello.ui.main.settings.activity.UserAgreementActivity;
+import tech.sud.mgp.hello.common.utils.IntentUtils;
+import tech.sud.mgp.hello.ui.main.settings.activity.LanguageActivity;
+import tech.sud.mgp.hello.ui.main.settings.activity.MoreSettingsActivity;
 import tech.sud.mgp.hello.ui.main.settings.activity.VersionInfoActivity;
+import tech.sud.mgp.hello.ui.main.utils.RouterUtils;
 import tech.sud.mgp.hello.ui.scenes.common.gift.utils.FileUtils;
 
 /**
@@ -26,13 +27,19 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
 
     private AppSizeView appSizeView;
     private TextView tvTotalSize;
+    private View viewLineMoreSettings;
+    private View containerTopOccupySize;
     private SettingButton btnVersionInfo;
-    private SettingButton btnChangeRtc;
+    private SettingButton btnMoreSettings;
     private SettingButton btnChangeLanguage;
     private SettingButton btnGitHub;
     private SettingButton btnOpenSource;
     private SettingButton btnUserAgreement;
     private SettingButton btnPrivacyPolicy;
+
+    private int clickCount = 0;
+    private long clickTimestamp = 0;
+    private boolean isShowMoreSettings = false;
 
     public SettingsFragment() {
     }
@@ -52,13 +59,26 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         super.initWidget();
         appSizeView = findViewById(R.id.app_size_view);
         btnVersionInfo = findViewById(R.id.button_version_info);
-        btnChangeRtc = findViewById(R.id.button_change_rtc);
+        btnMoreSettings = findViewById(R.id.button_more_settings);
         btnChangeLanguage = findViewById(R.id.button_change_language);
         btnGitHub = findViewById(R.id.button_github);
         btnOpenSource = findViewById(R.id.button_open_source_licenses);
         btnUserAgreement = findViewById(R.id.button_user_agreement);
         btnPrivacyPolicy = findViewById(R.id.button_privacy_policy);
         tvTotalSize = findViewById(R.id.tv_total_size);
+        viewLineMoreSettings = findViewById(R.id.view_line_more_settings);
+        containerTopOccupySize = findViewById(R.id.container_top_occupy_size);
+        initMoreSettings();
+    }
+
+    private void initMoreSettings() {
+        if (isShowMoreSettings) {
+            btnMoreSettings.setVisibility(View.VISIBLE);
+            viewLineMoreSettings.setVisibility(View.VISIBLE);
+        } else {
+            btnMoreSettings.setVisibility(View.GONE);
+            viewLineMoreSettings.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -69,54 +89,68 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
 
     private void initAppSize() {
         List<AppSizeView.AppSizeModel> list = new ArrayList<>();
-        list.add(new AppSizeView.AppSizeModel(Color.parseColor("#fc955b"), "SudMGP Core", 590848));
-        list.add(new AppSizeView.AppSizeModel(Color.parseColor("#fc5bca"), "SudMGP ASR", 76800));
-        list.add(new AppSizeView.AppSizeModel(Color.parseColor("#614bff"), "HelloSud", 20094157));
-        list.add(new AppSizeView.AppSizeModel(Color.parseColor("#33000000"), "Zego RTC SDK", 21307064));
-        list.add(new AppSizeView.AppSizeModel(Color.parseColor("#1a000000"), "Agora RTC SDK", 24431820));
+        list.add(new AppSizeView.AppSizeModel(Color.parseColor("#fc955b"), "SudMGP Core", APPConfig.SudMGPCoreSize));
+        list.add(new AppSizeView.AppSizeModel(Color.parseColor("#fc5bca"), "SudMGP ASR", APPConfig.SudMGPASRSize));
+        list.add(new AppSizeView.AppSizeModel(Color.parseColor("#614bff"), "HelloSud", APPConfig.HelloSudSize));
+//        list.add(new AppSizeView.AppSizeModel(Color.parseColor("#33000000"), "Zego RTC SDK", APPConfig.ZegoRTCSDKSize));
+//        list.add(new AppSizeView.AppSizeModel(Color.parseColor("#1a000000"), "Agora RTC SDK", APPConfig.AgoraRTCSDKSize));
+        list.add(new AppSizeView.AppSizeModel(Color.parseColor("#1a000000"), "RTC SDK", APPConfig.RTCSDKSize));
         appSizeView.setDatas(list);
-
-        tvTotalSize.setText(getString(R.string.total_value, FileUtils.formatFileSize(66500689)));
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        btnChangeRtc.setHint(AppData.getInstance().getRtcName());
+        long totalSize = 0;
+        for (AppSizeView.AppSizeModel appSizeModel : list) {
+            totalSize += appSizeModel.size;
+        }
+        tvTotalSize.setText(getString(R.string.total_value, FileUtils.formatFileSize(totalSize)));
     }
 
     @Override
     protected void setListeners() {
         super.setListeners();
         btnVersionInfo.setOnClickListener(this);
-        btnChangeRtc.setOnClickListener(this);
+        btnMoreSettings.setOnClickListener(this);
         btnChangeLanguage.setOnClickListener(this);
         btnGitHub.setOnClickListener(this);
         btnOpenSource.setOnClickListener(this);
         btnUserAgreement.setOnClickListener(this);
         btnPrivacyPolicy.setOnClickListener(this);
+        containerTopOccupySize.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         if (v == btnVersionInfo) { // 版本信息
             startActivity(new Intent(requireContext(), VersionInfoActivity.class));
-        } else if (v == btnChangeRtc) { // 切换RTC
-            startActivity(new Intent(requireContext(), ChangeRtcActivity.class));
+        } else if (v == btnMoreSettings) { // 更多设置
+            startActivity(new Intent(requireContext(), MoreSettingsActivity.class));
         } else if (v == btnChangeLanguage) { // 切换语言
-            ToastUtils.showShort(R.string.be_making);
+//            ToastUtils.showShort(R.string.be_making);
+            startActivity(new Intent(requireContext(), LanguageActivity.class));
         } else if (v == btnGitHub) { // github
-            HsIntentUtils.openUrl(getContext(), "https://github.com/SudTechnology/hello-sud-android");
+            IntentUtils.openUrl(getContext(), APPConfig.GIT_HUB_URL);
         } else if (v == btnOpenSource) { // 开源协议
-            HsIntentUtils.openUrl(getContext(), "https://github.com/SudTechnology/hello-sud-android/license.txt");
+            RouterUtils.openUrl(getContext(), getString(R.string.user_agreement_title), APPConfig.APP_LICENSE_URL);
         } else if (v == btnUserAgreement) { // 用户协议
-            Intent intent = new Intent(requireContext(), UserAgreementActivity.class);
-            intent.putExtra(UserAgreementActivity.AGREEMENTTYPE, 0);
-            startActivity(intent);
+            RouterUtils.openUrl(getContext(), getString(R.string.user_agreement_title), APPConfig.USER_PROTOCAL_URL);
         } else if (v == btnPrivacyPolicy) { // 隐私政策
-            Intent intent = new Intent(requireContext(), UserAgreementActivity.class);
-            intent.putExtra(UserAgreementActivity.AGREEMENTTYPE, 1);
-            startActivity(intent);
+            RouterUtils.openUrl(getContext(), getString(R.string.user_privacy_title), APPConfig.USER_PRIVACY_URL);
+        } else if (v == containerTopOccupySize) { // 点击了顶部的占用大小
+            onClickTopOccupySize();
         }
     }
+
+    // 点击了顶部的"占用大小"区域
+    private void onClickTopOccupySize() {
+        long timestamp = System.currentTimeMillis();
+        if (Math.abs(timestamp - clickTimestamp) < 1000) {
+            clickCount++;
+            if (clickCount >= 3) {
+                isShowMoreSettings = true;
+                initMoreSettings();
+            }
+        } else {
+            clickCount = 1;
+        }
+        clickTimestamp = timestamp;
+    }
+
 }

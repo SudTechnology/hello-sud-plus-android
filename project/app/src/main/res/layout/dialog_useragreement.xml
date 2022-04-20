@@ -2,15 +2,15 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="296dp"
-    android:layout_height="245dp"
-    android:background="@drawable/shape_dialog_bg"
-    android:paddingHorizontal="24dp">
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="24dp"
+    android:paddingVertical="24dp"
+    android:background="@drawable/shape_dialog_bg">
 
     <TextView
         android:id="@+id/title_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
         android:gravity="center"
         android:text="@string/useragreement_title"
         android:textColor="#1a1a1a"
@@ -36,24 +36,25 @@
         android:id="@+id/reject_tv"
         android:layout_width="104dp"
         android:layout_height="36dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginTop="24dp"
         android:background="@color/white"
         android:gravity="center"
         android:text="@string/useragreement_reject"
         android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/content_tv" />
 
     <TextView
         android:id="@+id/agree_tv"
         android:layout_width="104dp"
         android:layout_height="36dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginTop="24dp"
         android:background="@color/black"
         android:gravity="center"
         android:text="@string/useragreement_agree"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/content_tv" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

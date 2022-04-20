@@ -7,7 +7,7 @@ package tech.sud.mgp.hello.SudMGPWrapper.utils;
 
 import tech.sud.mgp.core.ISudFSMStateHandle;
 import tech.sud.mgp.hello.SudMGPWrapper.state.MGStateResponse;
-import tech.sud.mgp.hello.ui.scenes.audio.utils.HSJsonUtils;
+import tech.sud.mgp.hello.ui.scenes.base.utils.HSJsonUtils;
 
 public class ISudFSMStateHandleUtils {
 

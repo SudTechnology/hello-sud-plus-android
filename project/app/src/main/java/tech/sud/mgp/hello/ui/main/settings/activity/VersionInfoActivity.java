@@ -10,8 +10,6 @@ import androidx.core.content.ContextCompat;
 
 import com.blankj.utilcode.util.AppUtils;
 
-import im.zego.zegoexpress.ZegoExpressEngine;
-import io.agora.rtc.RtcEngine;
 import tech.sud.mgp.core.SudMGP;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseActivity;
@@ -41,10 +39,10 @@ public class VersionInfoActivity extends BaseActivity {
         addVersionItem("HelloSud App", "V" + AppUtils.getAppVersionName() + "." + AppUtils.getAppVersionCode());
         addLine();
         addVersionItem("SudMGP SDK", "V" + SudMGP.getVersion());
-        addLine();
-        addVersionItem("Zego SDK", "V" + ZegoExpressEngine.getVersion());
-        addLine();
-        addVersionItem("Agora SDK", "V" + RtcEngine.getSdkVersion());
+//        addLine();
+//        addVersionItem("Zego SDK", "V" + ZegoExpressEngine.getVersion());
+//        addLine();
+//        addVersionItem("Agora SDK", "V" + RtcEngine.getSdkVersion());
     }
 
     private void addLine() {
@@ -64,7 +62,7 @@ public class VersionInfoActivity extends BaseActivity {
         tvName.setTextColor(ContextCompat.getColor(this, R.color.c_1a1a1a));
         tvName.setText(name);
         FrameLayout.LayoutParams nameParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
-        nameParams.gravity = Gravity.CENTER_VERTICAL;
+        nameParams.gravity = Gravity.CENTER_VERTICAL | Gravity.START;
         frameLayout.addView(tvName, nameParams);
 
         // 版本
@@ -77,14 +75,4 @@ public class VersionInfoActivity extends BaseActivity {
         frameLayout.addView(tvVersion, versionParams);
     }
 
-    @Override
-    protected void setListeners() {
-        super.setListeners();
-        findViewById(R.id.view_back).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-    }
 }

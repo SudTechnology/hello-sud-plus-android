@@ -1,11 +1,15 @@
 package tech.sud.mgp.hello.common.model;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 
 import java.io.Serializable;
 
+import tech.sud.mgp.hello.R;
+import tech.sud.mgp.hello.app.HelloSudApplication;
+import tech.sud.mgp.hello.common.utils.GlobalCache;
 import tech.sud.mgp.hello.service.main.config.BaseRtcConfig;
 import tech.sud.mgp.hello.service.main.config.SudConfig;
 import tech.sud.mgp.hello.service.main.resp.BaseConfigResp;
@@ -19,6 +23,7 @@ public class AppData {
 
     private BaseConfigResp baseConfigResp; // 基础配置
     private BaseRtcConfig selectRtcConfig; // 当前所使用的rtc配置
+    private boolean joinTicketNoRemind = false; // 加入门票场景不再提醒
 
     private AppData() {
     }
@@ -64,6 +69,12 @@ public class AppData {
      * 获取当前所使用的rtc配置
      */
     public BaseRtcConfig getSelectRtcConfig() {
+        if (selectRtcConfig == null) {
+            Object rtcConfigSerializable = GlobalCache.getInstance().getSerializable(GlobalCache.RTC_CONFIG_KEY);
+            if (rtcConfigSerializable instanceof BaseRtcConfig) {
+                selectRtcConfig = (BaseRtcConfig) rtcConfigSerializable;
+            }
+        }
         return selectRtcConfig;
     }
 
@@ -88,8 +99,9 @@ public class AppData {
      * 获取当前所用的rtc名称
      */
     public String getRtcName() {
-        if (selectRtcConfig != null) {
-            return selectRtcConfig.desc;
+        BaseRtcConfig config = selectRtcConfig;
+        if (config != null) {
+            return getRtcNameByRtcType(config.rtcType);
         }
         return null;
     }
@@ -102,13 +114,39 @@ public class AppData {
         if (config == null || rtcType == null) {
             return null;
         }
+        Context context = HelloSudApplication.instance;
         if (config.zegoCfg != null && config.zegoCfg.rtcType.equals(rtcType)) {
-            return config.zegoCfg.desc;
+            return context.getString(R.string.rtc_name_zego);
         }
         if (config.agoraCfg != null && config.agoraCfg.rtcType.equals(rtcType)) {
-            return config.agoraCfg.desc;
+            return context.getString(R.string.rtc_name_agora);
+        }
+        if (config.rongCloudCfg != null && config.rongCloudCfg.rtcType.equals(rtcType)) {
+            return context.getString(R.string.rtc_name_rong_cloud);
+        }
+        if (config.commsEaseCfg != null && config.commsEaseCfg.rtcType.equals(rtcType)) {
+            return context.getString(R.string.rtc_name_comms_ease);
+        }
+        if (config.voicEngineCfg != null && config.voicEngineCfg.rtcType.equals(rtcType)) {
+            return context.getString(R.string.rtc_name_voic_engine);
+        }
+        if (config.alibabaCloudCfg != null && config.alibabaCloudCfg.rtcType.equals(rtcType)) {
+            return context.getString(R.string.rtc_name_alibaba_cloud);
+        }
+        if (config.tencentCloudCfg != null && config.tencentCloudCfg.rtcType.equals(rtcType)) {
+            return context.getString(R.string.rtc_name_tencent_cloud);
         }
         return null;
+    }
+
+    // 加入门票场景是否不再提醒扣费
+    public boolean isJoinTicketNoRemind() {
+        return joinTicketNoRemind;
+    }
+
+    // 设置加入门票场景是否不再提醒扣费
+    public void setJoinTicketNoRemind(boolean joinTicketNoRemind) {
+        this.joinTicketNoRemind = joinTicketNoRemind;
     }
 
 }

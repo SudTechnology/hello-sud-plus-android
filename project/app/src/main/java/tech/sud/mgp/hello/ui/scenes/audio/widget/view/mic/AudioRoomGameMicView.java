@@ -10,6 +10,8 @@ import androidx.annotation.Nullable;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
+import tech.sud.mgp.hello.ui.scenes.base.widget.view.mic.BaseMicView;
+import tech.sud.mgp.hello.ui.scenes.base.widget.view.mic.OnMicItemClickListener;
 
 /**
  * 语聊房开启游戏时显示的麦位

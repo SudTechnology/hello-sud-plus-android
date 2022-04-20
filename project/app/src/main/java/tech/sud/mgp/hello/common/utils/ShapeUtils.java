@@ -11,12 +11,13 @@ public class ShapeUtils {
      *
      * @param strokeWidth - 沿边线厚度；
      * @param roundRadius - 圆角半径；
+     * @param cornerRadii - 圆角半径，可细分每一个角的圆角；无需求可传入null，数值内分为八个值，每两个值为一组，分别是leftTop,rightTop,rightBottom,leftBottom
      * @param shape       - shape绘制类型(rectangle、oval等)；
      * @param strokeColor - 沿边线颜色；
      * @param fillColor   - 内部填充颜色；
      * @return
      */
-    public static GradientDrawable createShape(Integer strokeWidth, Float roundRadius,
+    public static GradientDrawable createShape(Integer strokeWidth, Float roundRadius, float[] cornerRadii,
                                                int shape, @ColorInt Integer strokeColor, @ColorInt Integer fillColor) {
         GradientDrawable gd = new GradientDrawable();
         if (fillColor != null) {
@@ -27,6 +28,10 @@ public class ShapeUtils {
 
         if (roundRadius != null) {
             gd.setCornerRadius(roundRadius);
+        }
+
+        if (cornerRadii != null) {
+            gd.setCornerRadii(cornerRadii);
         }
 
         if (strokeWidth != null && strokeColor != null) {

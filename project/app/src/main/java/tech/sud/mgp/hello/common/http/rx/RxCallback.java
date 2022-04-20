@@ -3,19 +3,14 @@ package tech.sud.mgp.hello.common.http.rx;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.ToastUtils;
-
-import org.json.JSONException;
-
-import java.net.ConnectException;
-import java.net.SocketTimeoutException;
-import java.net.UnknownHostException;
+import com.blankj.utilcode.util.Utils;
 
 import io.reactivex.rxjava3.core.Observer;
 import io.reactivex.rxjava3.disposables.Disposable;
-import retrofit2.HttpException;
+import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
-import tech.sud.mgp.hello.common.http.param.ErrorStatus;
 import tech.sud.mgp.hello.common.http.param.RetCode;
+import tech.sud.mgp.hello.common.utils.ResponseUtils;
 
 /**
  * 请求回调
@@ -33,32 +28,32 @@ public class RxCallback<T> implements Observer<BaseResponse<T>> {
     public void onNext(BaseResponse<T> t) {
         if (t.getRetCode() == RetCode.SUCCESS) {
             onSuccess(t.getData());
+        } else {
+            ToastUtils.showLong(ResponseUtils.conver(t));
         }
+        onFinally();
     }
 
     @Override
     public void onError(Throwable e) {
         LogUtils.d("onError", e);
         ThreadUtils.runOnUiThread(() -> {
-            if (e instanceof SocketTimeoutException) { // 连接超时
-                onError(e, ErrorStatus.HTTP_TIMEOUT);
-            } else if (e instanceof ConnectException || e instanceof UnknownHostException) { // 无网络
-                onError(e, ErrorStatus.HTTP_UNCONNECTED);
-            } else if (e instanceof HttpException) { // 网络异常
-                onError(e, ErrorStatus.HTTP_EXCEPTION);
-            } else if (e instanceof JSONException) { // 数据异常
-                onError(e, ErrorStatus.DATA_EXCEPTION);
-            } else {// 其他错误
-                onError(e, ErrorStatus.OTHER_EXCEPTION);
-            }
+            processError(e);
+            onFinally();
         });
     }
 
-    private void onError(Throwable e, final ErrorStatus otherException) {
+    private void processError(Throwable e) {
         if (e != null) {
             e.printStackTrace();
         }
-        ToastUtils.showShort(otherException.getErrorMessage());
+//        if (e instanceof SocketTimeoutException) { // 连接超时
+//        } else if (e instanceof ConnectException || e instanceof UnknownHostException) { // 无网络
+//        } else if (e instanceof HttpException) { // 网络异常
+//        } else if (e instanceof JSONException) { // 数据异常
+//        } else {// 其他错误
+//        }
+        ToastUtils.showShort(Utils.getApp().getString(R.string.net_error_hint));
     }
 
     @Override
@@ -69,6 +64,10 @@ public class RxCallback<T> implements Observer<BaseResponse<T>> {
     }
 
     public void onSuccess(T t) {
+    }
+
+    // 正常返回或者执出异常时都会调用此方法，可用于执行网络请求完成的最终操作。
+    public void onFinally() {
     }
 
 }

@@ -16,9 +16,13 @@ import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
 import tech.sud.mgp.hello.common.widget.view.SoundLevelView;
 import tech.sud.mgp.hello.common.widget.view.round.RoundedImageView;
-import tech.sud.mgp.hello.ui.scenes.audio.model.AudioRoomMicModel;
-import tech.sud.mgp.hello.ui.scenes.audio.model.RoleType;
+import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
+import tech.sud.mgp.hello.ui.scenes.base.model.RoleType;
+import tech.sud.mgp.hello.ui.scenes.base.widget.view.mic.BaseMicItemView;
 
+/**
+ * 语聊房时显示的第二行及第三行单个的麦位
+ */
 public class AudioRoomMicItemView extends BaseMicItemView {
 
     private SoundLevelView mSoundLevelView;

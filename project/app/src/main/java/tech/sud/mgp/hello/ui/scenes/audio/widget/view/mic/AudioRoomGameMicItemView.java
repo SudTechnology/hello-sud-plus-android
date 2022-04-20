@@ -16,8 +16,12 @@ import tech.sud.mgp.hello.common.utils.ImageLoader;
 import tech.sud.mgp.hello.common.utils.ShapeUtils;
 import tech.sud.mgp.hello.common.widget.view.SoundLevelView;
 import tech.sud.mgp.hello.common.widget.view.round.RoundedImageView;
-import tech.sud.mgp.hello.ui.scenes.audio.model.AudioRoomMicModel;
+import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
+import tech.sud.mgp.hello.ui.scenes.base.widget.view.mic.BaseMicItemView;
 
+/**
+ * 语聊房，游戏时显示的单个麦位
+ */
 public class AudioRoomGameMicItemView extends BaseMicItemView {
 
     private SoundLevelView mSoundLevelView;
@@ -67,7 +71,8 @@ public class AudioRoomGameMicItemView extends BaseMicItemView {
         if (hasUser) {
             mTvName.setText(item.nickName);
         } else {
-            mTvName.setText(R.string.audio_click_got_mic);
+//            mTvName.setText(R.string.audio_click_got_mic);
+            mTvName.setText("");
         }
 
         // 队长标识
@@ -88,7 +93,7 @@ public class AudioRoomGameMicItemView extends BaseMicItemView {
                     mTvState.setVisibility(View.VISIBLE);
                     mTvState.setText(R.string.audio_has_ready);
                     int strokeWidth = DensityUtils.dp2px(getContext(), 0.5f);
-                    mTvState.setBackground(ShapeUtils.createShape(strokeWidth, (float) strokeWidth,
+                    mTvState.setBackground(ShapeUtils.createShape(strokeWidth, (float) strokeWidth, null,
                             GradientDrawable.RECTANGLE, Color.parseColor("#ffffff"),
                             Color.parseColor("#60cb6a")));
                     break;
@@ -96,7 +101,7 @@ public class AudioRoomGameMicItemView extends BaseMicItemView {
                     mTvState.setVisibility(View.VISIBLE);
                     mTvState.setText(R.string.audio_not_ready);
                     strokeWidth = DensityUtils.dp2px(getContext(), 0.5f);
-                    mTvState.setBackground(ShapeUtils.createShape(strokeWidth, (float) strokeWidth,
+                    mTvState.setBackground(ShapeUtils.createShape(strokeWidth, (float) strokeWidth, null,
                             GradientDrawable.RECTANGLE, Color.parseColor("#ffffff"),
                             Color.parseColor("#f7782f")));
                     break;

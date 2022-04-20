@@ -1,0 +1,245 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">HelloSud</string>
+
+    <string name="login_welcome">Le damos la bienvenida por probar \nHelloSud</string>
+    <string name="login_your_name">Su apodo</string>
+    <string name="title_hellosud">HelloSud</string>
+    <string name="login_edit_name">Elija un apodo</string>
+    <string name="male">Hombre</string>
+    <string name="female">Mujer</string>
+    <string name="play_now">Pruébelo ahora</string>
+    <string name="search_hint">Introduzca el número de sala de acceso rápido</string>
+
+    <string name="tabs_index">Página de inicio</string>
+    <string name="tabs_room">Sala</string>
+    <string name="tabs_set">Ajustes</string>
+    <string name="useragreement_title">Le damos la bienvenida por usar HelloSud</string>
+    <string name="useragreement_content_part1">Consideremos muy importante la protección de su información personal. Para conocer en detalle la recopilación de datos y el uso de la información personal, puede hacer clic en</string>
+    <string name="useragreement_content_part2">Acuerdo del Usuario</string>
+    <string name="useragreement_content_part3">y</string>
+    <string name="useragreement_content_part4">Política de Privacidad</string>
+    <string name="useragreement_content_part5">para obtener la información. Haga clic en Aceptar e indique que ha leído y aceptado todas las cláusulas anteriores.</string>
+    <string name="useragreement_reject">No aceptar</string>
+    <string name="useragreement_agree">Aceptar</string>
+    <string name="user_secondary_title">Consejos</string>
+    <string name="user_secondary_content">HelloSud utilizará su información exclusivamente para prestar servicios y mejorar la experiencia del usario. Garantizamos la seguridad de su información. Por favor, acepte para continuar.
+\nEn caso de no aceptar nuestra Política de Privacidad, la deparación de productos y servicios puede resultar incompleta.</string>
+    <string name="user_secondary_reject">Cerrar la App</string>
+    <string name="user_secondary_agree">Aceptar y continuar</string>
+    <string name="setting_sdk_version">Número de versión del SDK</string>
+    <string name="setting_app_version">Número de versión de la App</string>
+    <string name="setting_useragreement">Acuerdo del Usuario</string>
+    <string name="setting_privacy">Política de Privacidad</string>
+    <string name="setting_contact">Contáctenos</string>
+    <string name="setting_userid">ID de usuario %1$s</string>
+    <string name="setting_userid1">ID de usuario: %1$s</string>
+    <string name="coming_soon">Manténganse al tanto</string>
+    <string name="room_list_enter">Entrar</string>
+    <string name="room_list_roomid">ID de sala: %1$s</string>
+    <string name="room_list_online">%1$s personas</string>
+    <string name="setting_contact1_content">Para obtener más información o comentarios, contáctenos por correo electrónico: help@sud.tech</string>
+    <string name="setting_contact1_but">OK</string>
+    <string-array name="names_list" tools:ignore="ExtraTranslation">
+        <item>哈利</item>
+        <item>祺祥</item>
+        <item>沐辰</item>
+        <item>阿米莉亚</item>
+        <item>齐默尔曼</item>
+        <item>陌北</item>
+        <item>旺仔</item>
+        <item>半夏</item>
+        <item>朝雨</item>
+        <item>卫斯理</item>
+        <item>阿道夫</item>
+        <item>长青</item>
+        <item>安小六</item>
+        <item>小凡</item>
+        <item>炎月</item>
+        <item>醉风</item>
+        <item>斯科特</item>
+        <item>布卢默</item>
+        <item>宛岩</item>
+        <item>平萱</item>
+        <item>凝雁</item>
+        <item>怀亚特</item>
+        <item>格伦巴特</item>
+        <item>尔白</item>
+        <item>南露</item>
+        <item>爱丽丝</item>
+        <item>埃尔维斯</item>
+        <item>奥利维亚</item>
+        <item>妙竹</item>
+        <item>雲思衣</item>
+        <item>少女大佬</item>
+        <item>兔兔别跑</item>
+        <item>夏纱</item>
+        <item>嘉慕</item>
+        <item>阿拉贝拉</item>
+        <item>星剑</item>
+        <item>罗德斯</item>
+        <item>渡满归</item>
+        <item>星浅</item>
+        <item>问水</item>
+        <item>星奕晨</item>
+        <item>丹尼尔</item>
+        <item>白止扇</item>
+        <item>暖暖</item>
+        <item>埃迪</item>
+        <item>杰里米</item>
+        <item>玛德琳</item>
+        <item>波佩</item>
+        <item>卡诺</item>
+        <item>泡芙</item>
+        <item>帕特里克</item>
+        <item>梅雷迪斯</item>
+        <item>公孙昕</item>
+        <item>青弘</item>
+        <item>潘豆豆</item>
+        <item>小番秀二</item>
+        <item>大一宇</item>
+        <item>米奇</item>
+        <item>戴夫</item>
+        <item>伯特</item>
+        <item>米洛布雷</item>
+        <item>阿德莱德</item>
+        <item>吉宝</item>
+        <item>伊娃</item>
+        <item>路易斯</item>
+        <item>希拉姆</item>
+        <item>杰西</item>
+        <item>贝特西</item>
+        <item>利奥波德</item>
+        <item>丽塔</item>
+        <item>拉姆斯登</item>
+        <item>伯纳德</item>
+        <item>理查德</item>
+        <item>奥尔德里奇</item>
+        <item>劳里</item>
+        <item>奥兰多</item>
+        <item>埃尔罗伊</item>
+        <item>栗和顺</item>
+        <item>朱雀佳行</item>
+        <item>理德拉</item>
+        <item>凡勃伦</item>
+        <item>科波菲尔</item>
+        <item>玉谷大三</item>
+        <item>大木元司</item>
+        <item>钮阳冰</item>
+        <item>盖勤</item>
+        <item>紫心</item>
+        <item>弘慕慕</item>
+        <item>怀星驰</item>
+        <item>泉宏胜</item>
+        <item>闻人星海</item>
+        <item>Watt</item>
+        <item>Kevin</item>
+        <item>Toby</item>
+        <item>瓦利斯</item>
+        <item>苏珊娜</item>
+        <item>罗密欧</item>
+        <item>福克纳</item>
+        <item>多萝西</item>
+        <item>贝尔</item>
+        <item>卡门</item>
+        <item>安德烈</item>
+        <item>朱丽叶</item>
+        <item>吉姆</item>
+    </string-array>
+
+    <string-array name="language_list">
+        <item>跟随系统</item>
+        <item>简体中文</item>
+        <item>繁體中文</item>
+        <item>English</item>
+        <item>لغة عربية</item>
+        <item>Bahasa Indonesia</item>
+        <item>Bahasa Melayu</item>
+        <item>ภาษาไทย</item>
+        <item>Tiếng Việt</item>
+        <item>한국어</item>
+        <item>Español</item>
+        <item>日本語</item>
+    </string-array>
+
+    <string name="search_room_error">Introduczca un número correcto de sala existente</string>
+    <string name="user_agreement_title">Acuerdo del Usuario</string>
+    <string name="user_privacy_title">Política de Privacidad</string>
+    <string name="roomlist_empty">No se dispone de salas
+Vaya a la página de inicio para crear una!</string>
+    <string name="search_enter">Entrar</string>
+    <string name="select_game">Elegir un juego</string>
+    <string name="audio_click_got_mic">Haga clic en Activar micrófono</string>
+    <string name="audio_has_ready">Listo</string>
+    <string name="audio_not_ready">No listo</string>
+    <string name="audio_got_mic">Activar micrófono</string>
+    <string name="audio_chat_hint">¡Chateemos!</string>
+    <string name="audio_dialog_gift_present">Regalar</string>
+    <string name="audio_dialog_present">Regalar a</string>
+    <string name="audio_cancle">Cancelar</string>
+    <string name="audio_all">todos</string>
+    <string name="audio_mic_index">%1$d Micrófono</string>
+    <string name="audio_room_admin">Creador de la sala</string>
+    <string name="audio_send">Enviar</string>
+    <string name="audio_send_msg_hint">Mensaje en envío…</string>
+    <string name="audio_send_gift_user_empty">Seleccione el destinatario del regalo</string>
+    <string name="audio_send_gift_empty">Seleccione un regalo</string>
+    <string name="audio_recreation_chat">Charla de entretenimiento</string>
+    <string name="audio_chat_room">Sala con voz</string>
+    <string name="audio_gameing">En juego</string>
+    <string name="audio_room_number">ID de sala</string>
+    <string name="audio_close_room_title">¿Desea salir de esta sala?</string>
+    <string name="audio_switch_game_warn">No se puede cambiar de juego mientras se juega</string>
+    <string name="audio_enter_the_room">Entró en la sala</string>
+    <string name="audio_down_mic">Desactivar micrófono</string>
+    <string name="cancel">Cancelar</string>
+    <string name="confirm">Aceptar</string>
+    <string name="confirm_">Confirmar huida</string>
+    <string name="common_go_setting">Ir a ajustes</string>
+    <string name="common_camera">Cámara</string>
+    <string name="common_storage">Almacenamiento</string>
+    <string name="common_correlation">Relacionados</string>
+    <string name="common_record_audio">Grabación</string>
+    <string name="common_phone">Llamadas</string>
+    <string name="common_setting_permission_info">Habilite el permiso %1$s en Ajustes para usar la función de la App %2$s</string>
+    <string name="close_game">Cerrar el juego</string>
+    <string name="finish_game">Fin del juego</string>
+    <string name="index_creat_room">Crear una sala</string>
+    <string name="index_game_join">Jugar</string>
+    <string name="occupy_size">Espacio ocupado</string>
+    <string name="version_info">Información de la versión</string>
+    <string name="change_rtc_service">Cambiar el proveedor de servicio RTC</string>
+    <string name="change_language">Cambiar el idioma</string>
+    <string name="github">GitHub</string>
+    <string name="open_source_licenses">Protocolo de código abierto</string>
+    <string name="change_rtc_confirm">¿Desea cambiar el proveedor de servicios RTC a [%1$s]?</string>
+    <string name="be_making">Elaborando, ¡manténganse al tanto!</string>
+    <string name="total_value">total %1$s</string>
+    <string name="finish_game_confirm">¿Desea terminar el juego?</string>
+    <string name="playing_down_mic">Aún está jugando, ¿desea huir?</string>
+    <string name="game_number">Número de jugadores</string>
+    <string name="rtc_name_zego">Zego</string>
+    <string name="rtc_name_agora">Agora</string>
+    <string name="rtc_name_rong_cloud">RongCloud</string>
+    <string name="rtc_name_comms_ease">CommsEase</string>
+    <string name="rtc_name_voic_engine">VoiceEngine</string>
+    <string name="rtc_name_alibaba_cloud">Alibaba Cloud</string>
+    <string name="rtc_name_tencent_cloud">Tencent Cloud</string>
+    <string name="asr_guide">Este juego admite el reconocimiento de voz. ¡Abre el micrófono y demuestra tu encanto!</string>
+    <string name="asr_guide_number_boom">¡Abre el micrófono para contear! !Esto le ayudará a obtener bienestares!</string>
+    <string name="primary_field">Nivel iniciado</string>
+    <string name="middle_field">Nivel intermedio</string>
+    <string name="high_field">Nivel avanzado</string>
+    <string name="win_multiple_award">Ganar recompensas x %1$d veces</string>
+    <string name="count_people_play">Están jugando %1$s personas</string>
+    <string name="now_participation">Participar ahora</string>
+    <string name="join_game_confirm">El juego requiere %1$d monedas de oro, ¿quieres continuar?</string>
+    <string name="no_longer_remind">No volver a recordar</string>
+    <string name="confirm_join">Confirmar para unirse</string>
+    <string name="asr_guide_draw">¡Abre el micrófono para responder! ¡Será más rápido que escribir!</string>
+    <string name="app_version_low">La versión de su App es inferior. Actualice a la última la versión antes de empenzar.</string>
+    <string name="app_version_update_tip">Hay una nueva versión disponible, ¿quieres actualizarla?</string>
+    <string name="app_version_update_btn1">Más tarde</string>
+    <string name="app_version_update_btn2">Actualizar ahora</string>
+    <string name="ticket_level_notice">¡Felicitaciones %1$s. Has obtenido %2$s monedas de oro en nivel intermedio!</string>
+
+</resources>

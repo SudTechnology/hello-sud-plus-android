@@ -1,22 +1,29 @@
 package tech.sud.mgp.hello.rtc.audio.impl.tx;
 
-import tech.sud.mgp.hello.rtc.audio.core.AudioRoomConfig;
-import tech.sud.mgp.hello.rtc.audio.core.AudioUser;
-import tech.sud.mgp.hello.rtc.audio.core.IAudioEngine;
-import tech.sud.mgp.hello.rtc.audio.core.IAudioEventHandler;
+import android.content.Context;
+
+import tech.sud.mgp.hello.rtc.audio.core.ISudAudioEngine;
+import tech.sud.mgp.hello.rtc.audio.core.ISudAudioEventListener;
+import tech.sud.mgp.hello.rtc.audio.model.AudioConfigModel;
+import tech.sud.mgp.hello.rtc.audio.model.AudioJoinRoomModel;
 
 /**
  * 腾讯云引擎实现类
  */
-public class TXAudioEngineImpl implements IAudioEngine {
+public class TXAudioEngineImpl implements ISudAudioEngine {
     @Override
-    public void setEventHandler(IAudioEventHandler handler) {
+    public void setEventListener(ISudAudioEventListener listener) {
 
     }
 
     @Override
-    public void config(String appId, String appKey) {
+    public void initWithConfig(Context context, AudioConfigModel model) {
 
+    }
+
+    @Override
+    public void initWithConfig(Context context, AudioConfigModel model, Runnable success) {
+        initWithConfig(context, model);
     }
 
     @Override
@@ -25,17 +32,17 @@ public class TXAudioEngineImpl implements IAudioEngine {
     }
 
     @Override
-    public void loginRoom(String roomId, AudioUser user, AudioRoomConfig config) {
+    public void joinRoom(AudioJoinRoomModel model) {
 
     }
 
     @Override
-    public void logoutRoom() {
+    public void leaveRoom() {
 
     }
 
     @Override
-    public void startPublish(String streamId) {
+    public void startPublishStream() {
 
     }
 
@@ -45,32 +52,32 @@ public class TXAudioEngineImpl implements IAudioEngine {
     }
 
     @Override
-    public void startPlayingStream(String streamId) {
+    public void startSubscribingStream() {
 
     }
 
     @Override
-    public void stopPlayingStream(String streamId) {
+    public void stopSubscribingStream() {
 
     }
 
     @Override
-    public void sendCommand(String roomId, String command, SendCommandResult result) {
+    public void sendCommand(String command, SendCommandListener listener) {
 
     }
 
     @Override
-    public void setAudioDataHandler() {
+    public void startPCMCapture() {
 
     }
 
     @Override
-    public void startAudioDataListener() {
+    public void stopPCMCapture() {
 
     }
 
     @Override
-    public void stopAudioDataListener() {
+    public void setAudioRouteToSpeaker(boolean enabled) {
 
     }
 }

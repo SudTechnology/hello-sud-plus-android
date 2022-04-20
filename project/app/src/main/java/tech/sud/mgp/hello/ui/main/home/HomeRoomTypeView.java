@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -27,7 +26,6 @@ import tech.sud.mgp.hello.service.main.resp.SceneModel;
 public class HomeRoomTypeView extends ConstraintLayout {
     private TextView sceneNameTv, creatRoomTv;
     private ImageView sceneIv;
-    private GridLayout gridLayout;
     private RecyclerView gameRecyclerview;
 
     private GameAdapter gameAdapter;
@@ -64,7 +62,7 @@ public class HomeRoomTypeView extends ConstraintLayout {
         inflate(context, R.layout.view_home_roomtype, this);
         sceneNameTv = findViewById(R.id.scene_name);
         sceneIv = findViewById(R.id.scene_img);
-        gridLayout = findViewById(R.id.gridlayout);
+
         gameRecyclerview = findViewById(R.id.more6_game_rv);
         creatRoomBtn = findViewById(R.id.creat_room_btn);
         creatRoomTv = findViewById(R.id.creat_room_tv);
@@ -83,41 +81,29 @@ public class HomeRoomTypeView extends ConstraintLayout {
         if (!TextUtils.isEmpty(sceneModel.getSceneName())) {
             sceneNameTv.setText(sceneModel.getSceneName());
         }
-        if (!TextUtils.isEmpty(sceneModel.getSceneImage())) {
-            ImageLoader.loadImage(sceneIv, sceneModel.getSceneImage());
+        if (!TextUtils.isEmpty(sceneModel.getSceneImageNew())) {
+            ImageLoader.loadSceneCover(sceneIv, sceneModel.getSceneImageNew());
         } else {
-            sceneIv.setImageResource(R.mipmap.icon_audio_room);
+            sceneIv.setImageResource(R.drawable.icon_scene_default);
         }
+        List<GameModel> models = new ArrayList<>();
         if (datas != null && datas.size() > 0) {
             creatEnable = true;
-            List<GameModel> models = new ArrayList<>();
-            for (int i = 0; i < datas.size(); i++) {
-                if (i > 5) {
-                    models.add(datas.get(i));
-                } else {
-                    addGameView(sceneModel, datas.get(i));
-                }
-            }
-            if (models.size() > 0) {
-                gameAdapter = new GameAdapter(models);
-                gameAdapter.setOnItemClickListener((adapter, view, position) -> {
-                    if (gameItemListener != null) {
-                        gameItemListener.onGameClick(sceneModel, models.get(position));
-                    }
-                });
-                gameRecyclerview.setLayoutManager(new GridLayoutManager(getContext(), 4));
-                gameRecyclerview.setAdapter(gameAdapter);
-                gameRecyclerview.setVisibility(View.VISIBLE);
-            } else {
-                gameRecyclerview.setVisibility(View.GONE);
-            }
+            models.addAll(datas);
         } else {
             creatEnable = false;
-            List<GameModel> models = HomeManager.getInstance().getSceneEmptyGame(getContext(), sceneModel);
-            for (int i = 0; i < models.size(); i++) {
-                addGameView(sceneModel, models.get(i));
-            }
+            models.addAll(HomeManager.getInstance().getSceneEmptyGame(getContext(), sceneModel));
         }
+        gameAdapter = new GameAdapter(models);
+        gameAdapter.setOnItemClickListener((adapter, view, position) -> {
+            GameModel model = models.get(position);
+            if (gameItemListener != null && model.gameId != -1) {
+                gameItemListener.onGameClick(sceneModel, model);
+            }
+        });
+        gameRecyclerview.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        gameRecyclerview.setAdapter(gameAdapter);
+        gameRecyclerview.setVisibility(View.VISIBLE);
         if (creatEnable) {
             //创建房间可点击状态
             creatRoomTv.setTextColor(Color.parseColor("#1a1a1a"));
@@ -127,12 +113,12 @@ public class HomeRoomTypeView extends ConstraintLayout {
         }
     }
 
-    private void addGameView(SceneModel sceneModel, GameModel gameModel) {
-        GameItemView gameItemView = new GameItemView(getContext());
-        gameItemView.setGameItemListener(gameItemListener);
-        gameItemView.setModel(sceneModel, gameModel);
-        gridLayout.addView(gameItemView);
-    }
+//    private void addGameView(SceneModel sceneModel, GameModel gameModel) {
+//        GameItemView gameItemView = new GameItemView(getContext());
+//        gameItemView.setGameItemListener(gameItemListener);
+//        gameItemView.setModel(sceneModel, gameModel);
+//        gridLayout.addView(gameItemView);
+//    }
 
     public interface CreatRoomClickListener {
         void onCreatRoomClick(SceneModel sceneModel);

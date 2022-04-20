@@ -15,4 +15,12 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@color/white</item>
     </style>
+
+    <!--解决启动白屏问题,在启动页通过Theme引用-->
+    <style name="SplashTheme" parent="Theme.Hellosudandroid">
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowBackground">@drawable/branded_launch_screens</item>
+        <item name="android:windowFullscreen">false</item>
+    </style>
+
 </resources>

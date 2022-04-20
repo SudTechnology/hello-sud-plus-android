@@ -1,5 +1,6 @@
 package tech.sud.mgp.hello.ui.main.home;
 
+import android.content.Intent;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -20,17 +21,24 @@ import tech.sud.mgp.hello.common.base.BaseFragment;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
-import tech.sud.mgp.hello.common.utils.AppSharedPreferences;
+import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
-import tech.sud.mgp.hello.common.utils.ResponseUtils;
 import tech.sud.mgp.hello.service.main.manager.HomeManager;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.main.resp.CreatRoomResp;
 import tech.sud.mgp.hello.service.main.resp.GameListResp;
 import tech.sud.mgp.hello.service.main.resp.GameModel;
 import tech.sud.mgp.hello.service.main.resp.SceneModel;
-import tech.sud.mgp.hello.ui.scenes.audio.utils.EnterRoomUtils;
+import tech.sud.mgp.hello.ui.common.constant.RequestKey;
+import tech.sud.mgp.hello.ui.main.constant.SceneType;
+import tech.sud.mgp.hello.ui.main.widget.CreateTicketRoomDialog;
+import tech.sud.mgp.hello.ui.scenes.base.utils.EnterRoomUtils;
+import tech.sud.mgp.hello.ui.scenes.ticket.activity.TicketLevelActivity;
+import tech.sud.mgp.hello.ui.scenes.ticket.model.TicketLevelParams;
 
+/**
+ * 首页页面
+ */
 public class HomeFragment extends BaseFragment implements HomeRoomTypeView.CreatRoomClickListener, GameItemView.GameItemListener {
 
     private EditText searchEt;
@@ -68,15 +76,9 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
     @Override
     protected void initData() {
         super.initData();
-        nameTv.setText(AppSharedPreferences.getSP().getString(AppSharedPreferences.USER_NAME_KEY, ""));
-        String userId = AppSharedPreferences.getSP().getLong(AppSharedPreferences.USER_ID_KEY, 0L) + "";
-        useridTv.setText(getString(R.string.setting_userid, userId));
-        String header = AppSharedPreferences.getSP().getString(AppSharedPreferences.USER_HEAD_PORTRAIT_KEY, "");
-        if (header.isEmpty()) {
-            headerIv.setImageResource(R.mipmap.icon_logo);
-        } else {
-            ImageLoader.loadImage(headerIv, header);
-        }
+        nameTv.setText(HSUserInfo.nickName);
+        useridTv.setText(getString(R.string.setting_userid, HSUserInfo.userId + ""));
+        ImageLoader.loadImage(headerIv, HSUserInfo.avatar);
     }
 
     @Override
@@ -118,13 +120,16 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
         });
         goSearch.setOnClickListener(v -> enterRoom());
         refreshLayout.setOnRefreshListener(this::loadList);
+        headerIv.setOnClickListener(v -> {
+            new CoinDialog().show(getChildFragmentManager(), null);
+        });
     }
 
     private void enterRoom() {
         try {
             String roomIdString = searchEt.getText().toString().trim();
             if (!TextUtils.isEmpty(roomIdString)) {
-                Long roomId = Long.parseLong(roomIdString);
+                long roomId = Long.parseLong(roomIdString);
                 EnterRoomUtils.enterRoom(requireContext(), roomId);
             }
             KeyboardUtils.hideSoftInput(searchEt);
@@ -151,18 +156,34 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
 
     @Override
     public void onGameClick(SceneModel sceneModel, GameModel gameModel) {
-        matchGame(sceneModel.getSceneId(), gameModel.getGameId());
+        switch (sceneModel.getSceneId()) {
+            case SceneType.TICKET: // 门票制场景
+                startTicketLevelActivity(sceneModel, gameModel);
+                break;
+            default:
+                matchGame(sceneModel.getSceneId(), gameModel.getGameId());
+                break;
+        }
     }
 
-    private void matchGame(Integer sceneId, Long gameId) {
-        HomeRepository.matchGame(sceneId, gameId, this, new RxCallback<MatchRoomModel>() {
+    // 打开场景等级选择页面
+    private void startTicketLevelActivity(SceneModel sceneModel, GameModel gameModel) {
+        TicketLevelParams params = new TicketLevelParams();
+        params.sceneType = sceneModel.getSceneId();
+        params.gameId = gameModel.gameId;
+        params.gameName = gameModel.gameName;
+        Intent intent = new Intent(requireContext(), TicketLevelActivity.class);
+        intent.putExtra(RequestKey.TICKET_LEVEL_PARAMS, params);
+        startActivity(intent);
+    }
+
+    private void matchGame(int sceneId, Long gameId) {
+        HomeRepository.matchGame(sceneId, gameId, null, this, new RxCallback<MatchRoomModel>() {
             @Override
             public void onNext(BaseResponse<MatchRoomModel> t) {
                 super.onNext(t);
                 if (t.getRetCode() == RetCode.SUCCESS) {
                     EnterRoomUtils.enterRoom(requireContext(), t.getData().roomId);
-                } else {
-                    ToastUtils.showLong(ResponseUtils.conver(t));
                 }
             }
         });
@@ -176,14 +197,12 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
                 if (t.getRetCode() == RetCode.SUCCESS) {
                     HomeManager.getInstance().updateGameList(t.getData());
                     creatScene(t.getData());
-                } else {
-                    ToastUtils.showShort(ResponseUtils.conver(t));
                 }
             }
 
             @Override
-            public void onComplete() {
-                super.onComplete();
+            public void onFinally() {
+                super.onFinally();
                 if (refreshLayout.isRefreshing()) {
                     refreshLayout.setRefreshing(false);
                 }
@@ -201,19 +220,24 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
     public void onCreatRoomClick(SceneModel sceneModel) {
         //创建房间
         if (sceneModel != null) {
-            creatRoom(sceneModel.getSceneId());
+            switch (sceneModel.getSceneId()) {
+                case SceneType.TICKET:
+                    new CreateTicketRoomDialog().show(getChildFragmentManager(), null);
+                    break;
+                default:
+                    creatRoom(sceneModel.getSceneId());
+                    break;
+            }
         }
     }
 
     private void creatRoom(Integer sceneType) {
-        HomeRepository.creatRoom(sceneType, this, new RxCallback<CreatRoomResp>() {
+        HomeRepository.creatRoom(sceneType, null, this, new RxCallback<CreatRoomResp>() {
             @Override
             public void onNext(BaseResponse<CreatRoomResp> t) {
                 super.onNext(t);
                 if (t.getRetCode() == RetCode.SUCCESS) {
                     EnterRoomUtils.enterRoom(requireContext(), t.getData().roomId);
-                } else {
-                    ToastUtils.showShort(ResponseUtils.conver(t));
                 }
             }
         });

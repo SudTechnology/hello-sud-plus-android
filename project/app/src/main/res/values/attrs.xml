@@ -45,4 +45,22 @@
         <attr name="sb_hint" format="string" /> <!-- 右边显示的信息 -->
     </declare-styleable>
 
+    <declare-styleable name="HSTopBar">
+        <attr name="topbar_titleText" format="string|reference" /> <!-- 标题文字 -->
+        <attr name="topbar_titleTextColor" format="color" /> <!--标题颜色-->
+        <attr name="topbar_backSrc" format="reference|color" /> <!-- 返回按钮的资源 -->
+    </declare-styleable>
+
+    <declare-styleable name="MarqueeTextView">
+        <attr name="mtv_drawMask" format="boolean" /> <!-- 在轮播时，绘制蒙板 -->
+    </declare-styleable>
+
+    <declare-styleable name="TicketLevelView">
+        <attr name="tlv_level"> <!-- 等级 -->
+            <enum name="primary" value="1" />
+            <enum name="middle" value="2" />
+            <enum name="high" value="3" />
+        </attr>
+    </declare-styleable>
+
 </resources>

@@ -10,7 +10,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 30
         versionCode Integer.parseInt(project.versionCode)
-        versionName "1.1.1"
+        versionName project.versionName
         ndk {
             abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86_64'
         }
@@ -18,17 +18,29 @@ android {
 
         applicationVariants.all { variant ->
             variant.outputs.all {
-                outputFileName = "HellodSud-Android-${project.versionCode}.apk"
+                def temNewFileName = "${variant.flavorName}-${project.baseUrlConfig}-${project.versionName}-${project.versionCode}-${variant.buildType.name}"
+                // 修改apk名字
+                outputFileName = "HellodSud-Android-" + temNewFileName + ".apk"
             }
         }
     }
 
     signingConfigs {
         release {
-            storeFile file(RELEASE_STORE_FILE)
-            storePassword RELEASE_STORE_PASSWORD
-            keyAlias RELEASE_KEY_ALIAS
-            keyPassword RELEASE_KEY_PASSWORD
+            if (project.hasProperty("jksPropertyPath") && project.jksPropertyPath != "") {
+                // release设置发布签名路径
+                Properties properties = new Properties()
+                properties.load(new FileInputStream(file(project.jksPropertyPath)))
+                storeFile file(properties['STORE_FILE'])
+                storePassword properties['STORE_PWD']
+                keyAlias properties['KEY_ALIAS']
+                keyPassword properties['KEY_PWD']
+            } else {
+                storeFile file(RELEASE_STORE_FILE)
+                storePassword RELEASE_STORE_PASSWORD
+                keyAlias RELEASE_KEY_ALIAS
+                keyPassword RELEASE_KEY_PASSWORD
+            }
         }
         debug {
             storeFile file(RELEASE_STORE_FILE)
@@ -51,7 +63,19 @@ android {
     }
     sourceSets {
         main {
-            jniLibs.srcDirs = ['libs/zego', 'libs/agora']
+            jniLibs.srcDirs = ['libs/zego', 'libs/agora', 'libs/netease']
+        }
+    }
+    flavorDimensions 'channel'
+    productFlavors {
+        official {
+            String channel = "official"
+            buildConfigField("String", "CHANNEL", "\"" + channel + "\"")
+            buildConfigField("String", "baseUrl", "\"" + project.baseUrl + "\"")
+            buildConfigField("String", "interactBaseUrl", "\"" + project.interactBaseUrl + "\"")
+            buildConfigField("String", "gameBaseUrl", "\"" + project.gameBaseUrl + "\"")
+            buildConfigField("String", "buglyAppId", "\"" + project.buglyAppId + "\"")
+            buildConfigField("boolean", "gameIsTestEnv", project.gameIsTestEnv)
         }
     }
 }
@@ -60,6 +84,7 @@ dependencies {
 
     implementation fileTree(include: ['*.jar', "*.aar", '*.so'], dir: 'libs/zego')
     implementation fileTree(include: ['*.jar', "*.aar", '*.so'], dir: 'libs/agora')
+    implementation fileTree(include: ['*.jar', "*.aar", '*.so'], dir: 'libs/netease')
     implementation 'androidx.appcompat:appcompat:1.3.0'
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
@@ -106,4 +131,13 @@ dependencies {
 
     // 沉浸式状态栏
     implementation "com.gyf.immersionbar:immersionbar:3.0.0"
+    // 事件通知
+    implementation 'io.github.jeremyliao:live-event-bus:1.8.0'
+
+    // RongCloud IM
+    implementation 'cn.rongcloud.sdk:im_lib:5.2.0'
+    // RongCloud IM
+    implementation 'cn.rongcloud.sdk:rtc_lib:5.2.0'
+    // RongCloud IM 语聊房
+    implementation 'cn.rongcloud.sdk:voiceroom_lib:2.0.8'
 }

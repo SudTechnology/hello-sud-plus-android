@@ -79,7 +79,10 @@
                 android:gravity="center"
                 android:text="@string/audio_dialog_gift_present"
                 android:textColor="@color/c_000000"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:paddingHorizontal="3dp"
+                android:singleLine="true"
+                android:ellipsize="end" />
 
         </LinearLayout>
 

@@ -95,6 +95,7 @@
         android:layout_height="0dp"
         android:overScrollMode="never"
         android:paddingHorizontal="16dp"
+        android:paddingTop="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/index_header">
 
@@ -105,5 +106,16 @@
             android:overScrollMode="never" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <TextView
+        android:paddingTop="109dp"
+        android:id="@+id/empty_tv"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/index_header"
+        android:text="@string/roomlist_empty"
+        android:layout_width="match_parent"
+        android:textSize="14sp"
+        android:textColor="#8a8a8e"
+        android:layout_height="wrap_content"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

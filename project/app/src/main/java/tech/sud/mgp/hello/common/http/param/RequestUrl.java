@@ -12,6 +12,11 @@ public interface RequestUrl {
     String LOGIN = "login/v1";
 
     /**
+     * 刷新token
+     */
+    String REFRESHTOKEN = "refresh-token/v1";
+
+    /**
      * 主页接口
      */
     String GAME_LIST = "game/list/v1";
@@ -54,7 +59,7 @@ public interface RequestUrl {
     /**
      * 游戏登录
      */
-    String GAME_LOGIN = "game-login/v1";
+    String GAME_LOGIN = "base/login/v1";
 
     /**
      * 游戏切换
@@ -68,7 +73,22 @@ public interface RequestUrl {
 
     /**
      * 创建房间
-     * */
-    String CREAT_ROOM = "/room/create-room/v1";
+     */
+    String CREAT_ROOM = "room/create-room/v1";
+
+    /**
+     * 查询用户账户
+     */
+    String GET_ACCOUNT = "get-account/v1";
+
+    /**
+     * 确认加入门票游戏
+     */
+    String TICKET_CONFIRM_JOIN = "game/ticket/confirm-join/v1";
+
+    /**
+     * 检查更新
+     */
+    String CHECK_UPGRADE = "check-upgrade/v1";
 
 }

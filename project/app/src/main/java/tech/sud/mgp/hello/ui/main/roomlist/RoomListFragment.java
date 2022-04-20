@@ -24,19 +24,19 @@ import tech.sud.mgp.hello.common.base.BaseFragment;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
-import tech.sud.mgp.hello.common.utils.AppSharedPreferences;
+import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
-import tech.sud.mgp.hello.common.utils.ResponseUtils;
 import tech.sud.mgp.hello.service.main.manager.HomeManager;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.main.resp.RoomListResp;
+import tech.sud.mgp.hello.ui.main.home.CoinDialog;
 import tech.sud.mgp.hello.ui.main.home.RoomItemModel;
-import tech.sud.mgp.hello.ui.scenes.audio.utils.EnterRoomUtils;
+import tech.sud.mgp.hello.ui.scenes.base.utils.EnterRoomUtils;
 
 public class RoomListFragment extends BaseFragment {
 
     private EditText searchEt;
-    private TextView goSearch;
+    private TextView goSearch, emptyTv;
     private TextView nameTv, useridTv;
     private ImageView headerIv;
     private RecyclerView roomRecyclerView;
@@ -67,6 +67,7 @@ public class RoomListFragment extends BaseFragment {
         headerIv = mRootView.findViewById(R.id.header_iv);
         roomRecyclerView = mRootView.findViewById(R.id.room_rv);
         roomRefreshLayout = mRootView.findViewById(R.id.room_refresh_layout);
+        emptyTv = mRootView.findViewById(R.id.empty_tv);
     }
 
     @Override
@@ -80,15 +81,9 @@ public class RoomListFragment extends BaseFragment {
     @Override
     protected void setListeners() {
         super.setListeners();
-        nameTv.setText(AppSharedPreferences.getSP().getString(AppSharedPreferences.USER_NAME_KEY, ""));
-        String userId = AppSharedPreferences.getSP().getLong(AppSharedPreferences.USER_ID_KEY, 0L) + "";
-        useridTv.setText(getString(R.string.setting_userid, userId));
-        String header = AppSharedPreferences.getSP().getString(AppSharedPreferences.USER_HEAD_PORTRAIT_KEY, "");
-        if (header.isEmpty()) {
-            headerIv.setImageResource(R.mipmap.icon_logo);
-        } else {
-            ImageLoader.loadImage(headerIv, header);
-        }
+        nameTv.setText(HSUserInfo.nickName);
+        useridTv.setText(getString(R.string.setting_userid, HSUserInfo.userId + ""));
+        ImageLoader.loadImage(headerIv, HSUserInfo.avatar);
         searchEt.setOnFocusChangeListener((v, hasFocus) -> {
             String keyword = searchEt.getText().toString();
             if (keyword.length() > 0) {
@@ -128,13 +123,17 @@ public class RoomListFragment extends BaseFragment {
         });
         goSearch.setOnClickListener(v -> enterRoom());
         roomRefreshLayout.setOnRefreshListener(this::loadList);
+
+        headerIv.setOnClickListener(v -> {
+            new CoinDialog().show(getChildFragmentManager(), null);
+        });
     }
 
     private void enterRoom() {
         try {
             String roomIdString = searchEt.getText().toString().trim();
             if (!TextUtils.isEmpty(roomIdString)) {
-                Long roomId = Long.parseLong(roomIdString);
+                long roomId = Long.parseLong(roomIdString);
                 EnterRoomUtils.enterRoom(requireContext(), roomId);
             }
             KeyboardUtils.hideSoftInput(searchEt);
@@ -157,18 +156,22 @@ public class RoomListFragment extends BaseFragment {
                         datas.addAll(t.getData().getRoomInfoList());
                     }
                     adapter.setList(datas);
-                } else {
-                    ToastUtils.showShort(ResponseUtils.conver(t));
+                    if (datas.size() == 0) {
+                        emptyTv.setVisibility(View.VISIBLE);
+                    } else {
+                        emptyTv.setVisibility(View.GONE);
+                    }
                 }
             }
 
             @Override
-            public void onComplete() {
-                super.onComplete();
+            public void onFinally() {
+                super.onFinally();
                 if (roomRefreshLayout.isRefreshing()) {
                     roomRefreshLayout.setRefreshing(false);
                 }
             }
+
         });
     }
 

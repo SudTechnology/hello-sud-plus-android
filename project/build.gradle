@@ -1,9 +1,5 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
-
-    // build号
-    ext.versionCode = "1"
-
     repositories {
         google()
         mavenCentral()
@@ -14,6 +10,17 @@ buildscript {
     }
 }
 
+ext {
+    versionCode = "1"
+    versionName = "1.2.0"
+    baseUrlConfig = "fat"
+    baseUrl = "https://fat-base.sud.tech/"
+    interactBaseUrl = "https://fat-interact.sud.tech/"
+    gameBaseUrl = "https://fat-game.sud.tech/"
+    buglyAppId = "f471ed313c"
+    gameIsTestEnv = "true"
+}
+
 allprojects {
     repositories {
         google()
@@ -21,6 +28,11 @@ allprojects {
         jcenter()
         maven() {
             url 'https://jitpack.io'
+        }
+
+        // 融云 maven 仓库
+        maven {
+            url "https://maven.rongcloud.cn/repository/maven-releases/"
         }
     }
 }

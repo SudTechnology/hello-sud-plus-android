@@ -1,0 +1,246 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">HelloSud</string>
+
+    <string name="login_welcome">Selamat datang \ndi HelloSud</string>
+    <string name="login_your_name">Nama panggilan Anda</string>
+    <string name="title_hellosud">HelloSud</string>
+    <string name="login_edit_name">Silakan masukkan nama panggilan Anda</string>
+    <string name="male">Pria</string>
+    <string name="female">Wanita</string>
+    <string name="play_now">Coba sekarang</string>
+    <string name="search_hint">Masukkan nomor ruangan agar bisa segera masuk</string>
+
+    <string name="tabs_index">Beranda</string>
+    <string name="tabs_room">Ruangan</string>
+    <string name="tabs_set">Pengaturan</string>
+    <string name="useragreement_title">Selamat menggunakan HaloSud</string>
+    <string name="useragreement_content_part1">Kami sangat mementingkan perlindungan informasi pribadi Anda. Untuk informasi terperinci tentang pengumpulan dan penggunaan informasi pribadi, Anda bisa mengetuk</string>
+    <string name="useragreement_content_part2">Perjanjian Pengguna</string>
+    <string name="useragreement_content_part3">dan</string>
+    <string name="useragreement_content_part4">Kebijakan Privasi</string>
+    <string name="useragreement_content_part5">Pahami isinya. Ketuk Setuju berarti Anda telah membaca dan menyetujui semua ketentuan yang tersebut di atas.</string>
+    <string name="useragreement_reject">Tidak setuju</string>
+    <string name="useragreement_agree">Setuju</string>
+    <string name="user_secondary_title">Tips</string>
+    <string name="user_secondary_content">HelloSud hanya menggunakan informasi pribadi Anda untuk menyediakan pelayanan dan meningkatkan pengalaman Anda, kami akan berusaha keras untuk melindungi keamanan informasi Anda. Silakan gunakan setelah ketuk Setuju.
+/nApabila Anda tidak menyetujui Kebijakan Privasi ini, mohon maaf, kami tidak akan dapat menyediakan produk dan pelayanan yang lengkap untuk Anda.</string>
+    <string name="user_secondary_reject">Keluar dari aplikasi</string>
+    <string name="user_secondary_agree">Setuju dan lanjut</string>
+    <string name="setting_sdk_version">Nomor versi SDK</string>
+    <string name="setting_app_version">Nomor versi App</string>
+    <string name="setting_useragreement">Perjanjian Pengguna</string>
+    <string name="setting_privacy">Kebijakan Privasi</string>
+    <string name="setting_contact">Hubungi kami</string>
+    <string name="setting_userid">ID pengguna %1$s</string>
+    <string name="setting_userid1">ID pengguna: %1$s</string>
+    <string name="coming_soon">Silakan nantikan</string>
+    <string name="room_list_enter">Masuk</string>
+    <string name="room_list_roomid">ID kamar: %1$s</string>
+    <string name="room_list_online">%1$s orang</string>
+    <string name="setting_contact1_content">Jika Anda ingin mengetahui lebih banyak informasi atau menyampaikan umpan balik, silakan hubungi kami melalui e-mail: help@sud.tech</string>
+    <string name="setting_contact1_but">Baik</string>
+    <string-array name="names_list" tools:ignore="ExtraTranslation">
+        <item>哈利</item>
+        <item>祺祥</item>
+        <item>沐辰</item>
+        <item>阿米莉亚</item>
+        <item>齐默尔曼</item>
+        <item>陌北</item>
+        <item>旺仔</item>
+        <item>半夏</item>
+        <item>朝雨</item>
+        <item>卫斯理</item>
+        <item>阿道夫</item>
+        <item>长青</item>
+        <item>安小六</item>
+        <item>小凡</item>
+        <item>炎月</item>
+        <item>醉风</item>
+        <item>斯科特</item>
+        <item>布卢默</item>
+        <item>宛岩</item>
+        <item>平萱</item>
+        <item>凝雁</item>
+        <item>怀亚特</item>
+        <item>格伦巴特</item>
+        <item>尔白</item>
+        <item>南露</item>
+        <item>爱丽丝</item>
+        <item>埃尔维斯</item>
+        <item>奥利维亚</item>
+        <item>妙竹</item>
+        <item>雲思衣</item>
+        <item>少女大佬</item>
+        <item>兔兔别跑</item>
+        <item>夏纱</item>
+        <item>嘉慕</item>
+        <item>阿拉贝拉</item>
+        <item>星剑</item>
+        <item>罗德斯</item>
+        <item>渡满归</item>
+        <item>星浅</item>
+        <item>问水</item>
+        <item>星奕晨</item>
+        <item>丹尼尔</item>
+        <item>白止扇</item>
+        <item>暖暖</item>
+        <item>埃迪</item>
+        <item>杰里米</item>
+        <item>玛德琳</item>
+        <item>波佩</item>
+        <item>卡诺</item>
+        <item>泡芙</item>
+        <item>帕特里克</item>
+        <item>梅雷迪斯</item>
+        <item>公孙昕</item>
+        <item>青弘</item>
+        <item>潘豆豆</item>
+        <item>小番秀二</item>
+        <item>大一宇</item>
+        <item>米奇</item>
+        <item>戴夫</item>
+        <item>伯特</item>
+        <item>米洛布雷</item>
+        <item>阿德莱德</item>
+        <item>吉宝</item>
+        <item>伊娃</item>
+        <item>路易斯</item>
+        <item>希拉姆</item>
+        <item>杰西</item>
+        <item>贝特西</item>
+        <item>利奥波德</item>
+        <item>丽塔</item>
+        <item>拉姆斯登</item>
+        <item>伯纳德</item>
+        <item>理查德</item>
+        <item>奥尔德里奇</item>
+        <item>劳里</item>
+        <item>奥兰多</item>
+        <item>埃尔罗伊</item>
+        <item>栗和顺</item>
+        <item>朱雀佳行</item>
+        <item>理德拉</item>
+        <item>凡勃伦</item>
+        <item>科波菲尔</item>
+        <item>玉谷大三</item>
+        <item>大木元司</item>
+        <item>钮阳冰</item>
+        <item>盖勤</item>
+        <item>紫心</item>
+        <item>弘慕慕</item>
+        <item>怀星驰</item>
+        <item>泉宏胜</item>
+        <item>闻人星海</item>
+        <item>Watt</item>
+        <item>Kevin</item>
+        <item>Toby</item>
+        <item>瓦利斯</item>
+        <item>苏珊娜</item>
+        <item>罗密欧</item>
+        <item>福克纳</item>
+        <item>多萝西</item>
+        <item>贝尔</item>
+        <item>卡门</item>
+        <item>安德烈</item>
+        <item>朱丽叶</item>
+        <item>吉姆</item>
+    </string-array>
+
+    <string-array name="language_list">
+        <item>跟随系统</item>
+        <item>简体中文</item>
+        <item>繁體中文</item>
+        <item>English</item>
+        <item>لغة عربية</item>
+        <item>Bahasa Indonesia</item>
+        <item>Bahasa Melayu</item>
+        <item>ภาษาไทย</item>
+        <item>Tiếng Việt</item>
+        <item>한국어</item>
+        <item>Español</item>
+        <item>日本語</item>
+    </string-array>
+
+
+    <string name="search_room_error">Silakan masukkan nomor ruangan yang benar</string>
+    <string name="user_agreement_title">Perjanjian Pengguna</string>
+    <string name="user_privacy_title">Kebijakan Privasi</string>
+    <string name="roomlist_empty">Tidak ada ruangan yang tersedia\n
+Buat ruangan di Beranda</string>
+    <string name="search_enter">Masuk</string>
+    <string name="select_game">Pilih permainan</string>
+    <string name="audio_click_got_mic">Ketuk untuk bicara</string>
+    <string name="audio_has_ready">Sudah siap</string>
+    <string name="audio_not_ready">Belum siap</string>
+    <string name="audio_got_mic">Bicara</string>
+    <string name="audio_chat_hint">Ayo mengobrol</string>
+    <string name="audio_dialog_gift_present">Hadiahkan</string>
+    <string name="audio_dialog_present">Berikan</string>
+    <string name="audio_cancle">Batal</string>
+    <string name="audio_all">semua</string>
+    <string name="audio_mic_index">Mikrofon %1$d</string>
+    <string name="audio_room_admin">Host</string>
+    <string name="audio_send">Kirim</string>
+    <string name="audio_send_msg_hint">Kirim pesan …</string>
+    <string name="audio_send_gift_user_empty">Silakan pilih penerima hadiah</string>
+    <string name="audio_send_gift_empty">Silakan pilih hadiah</string>
+    <string name="audio_recreation_chat">Mengobrol santai</string>
+    <string name="audio_chat_room">Ruangan obrolan suara</string>
+    <string name="audio_gameing">Sedang bermain</string>
+    <string name="audio_room_number">ID kamar</string>
+    <string name="audio_close_room_title">Yakin ingin keluar dari ruangan ini</string>
+    <string name="audio_switch_game_warn">Sedang bermain, tidak bisa mengganti permainan</string>
+    <string name="audio_enter_the_room">Sudah masuk ke ruangan</string>
+    <string name="audio_down_mic">Selesai bicara</string>
+    <string name="cancel">Batal</string>
+    <string name="confirm">Oke</string>
+    <string name="confirm_">Yakin mau kabur</string>
+    <string name="common_go_setting">Atur sekarang</string>
+    <string name="common_camera">Kamera</string>
+    <string name="common_storage">Simpan</string>
+    <string name="common_correlation">Terkait </string>
+    <string name="common_record_audio">Rekaman suara</string>
+    <string name="common_phone">Telepon</string>
+    <string name="common_setting_permission_info">Berikan akses %1$s dalam Pengaturan, agar bisa menggunakan berbagai fitur aplikasi %2$s secara normal</string>
+    <string name="close_game">Tutup permainan</string>
+    <string name="finish_game">Akhiri permainan</string>
+    <string name="index_creat_room">Buat ruangan</string>
+    <string name="index_game_join">Bergabung</string>
+    <string name="occupy_size">Ukuran yang ditempati</string>
+    <string name="version_info">Informasi versi</string>
+    <string name="change_rtc_service">Ganti penyedia RTC</string>
+    <string name="change_language">Ganti bahasa</string>
+    <string name="github">GitHub</string>
+    <string name="open_source_licenses">Perjanjian Sumber Terbuka</string>
+    <string name="change_rtc_confirm">Yakin ingin mengganti penyedia RTC menjadi [%1$s]?</string>
+    <string name="be_making">Sedang membuat, silakan tunggu!</string>
+    <string name="total_value">Total %1$s</string>
+    <string name="finish_game_confirm">Yakin ingin mengakhiri permainan</string>
+    <string name="playing_down_mic">Sedang bermain, yakin ingin kabur?</string>
+    <string name="game_number">Jumlah pemain</string>
+    <string name="rtc_name_zego">Zego</string>
+    <string name="rtc_name_agora">Agora</string>
+    <string name="rtc_name_rong_cloud">RongCloud</string>
+    <string name="rtc_name_comms_ease">CommsEase</string>
+    <string name="rtc_name_voic_engine">VoiceEngine</string>
+    <string name="rtc_name_alibaba_cloud">Alibaba Cloud</string>
+    <string name="rtc_name_tencent_cloud">Tencent Cloud</string>
+    <string name="asr_guide">Pengenalan suara termasuk dalam permainan ini, aktifkan mikrofon, tunjukkan pesonamu</string>
+    <string name="asr_guide_number_boom">Coba aktifkan mikrofon untuk menyebutkan angka, ini bonus buat pemalas!</string>
+    <string name="primary_field">Babak awal</string>
+    <string name="middle_field">Babak menengah</string>
+    <string name="high_field">Babak lanjutan</string>
+    <string name="win_multiple_award">Menangkan hadiah %1$dx</string>
+    <string name="count_people_play">%1$s orang sedang bermain</string>
+    <string name="now_participation">Ikut sekarang</string>
+    <string name="join_game_confirm">Perlu %1$d koin emas untuk ikut bermain, lanjut?</string>
+    <string name="no_longer_remind">Jangan ingatkan lagi</string>
+    <string name="confirm_join">Konfirmasi ikut serta</string>
+    <string name="asr_guide_draw">Aktifkan mikrofon untuk menjawab kuis, lebih cepat daripada pakai cara ketik lho!</string>
+    <string name="app_version_low">Versi App Anda agak rendah, silakan perbarui</string>
+    <string name="app_version_update_tip">Sudah ada versi baru yang bisa dicoba, apakah perbarui?</string>
+    <string name="app_version_update_btn1">Lain kali</string>
+    <string name="app_version_update_btn2">Segera perbarui</string>
+    <string name="ticket_level_notice">Selamat kepada %1$s yang memenangkan %2$s koin emas dalam babak awal!</string>
+
+</resources>

@@ -2,7 +2,7 @@ package tech.sud.mgp.hello.ui.scenes.common.cmd;
 
 import tech.sud.mgp.hello.common.model.Gender;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
-import tech.sud.mgp.hello.ui.scenes.audio.model.UserInfo;
+import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdChangeGameModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdChatTextModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdDownMicModel;
@@ -76,7 +76,7 @@ public class RoomCmdModelUtils {
 
     private static UserInfo getSendUser() {
         UserInfo user = new UserInfo();
-        user.userID = HSUserInfo.userId;
+        user.userID = HSUserInfo.userId + "";
         user.name = HSUserInfo.nickName;
         user.icon = HSUserInfo.avatar;
         if (Gender.MALE.equals(HSUserInfo.gender)) {

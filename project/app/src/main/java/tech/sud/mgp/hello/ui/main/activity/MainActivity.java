@@ -96,9 +96,9 @@ public class MainActivity extends BaseActivity implements MainTabView.TabClickLi
      * 初始化Tab数据
      */
     private void initTabs() {
-        tabs.add(new TabModel(0, getString(R.string.tabs_index), R.mipmap.icon_home_index));
-        tabs.add(new TabModel(1, getString(R.string.tabs_room), R.mipmap.icon_home_room));
-        tabs.add(new TabModel(2, getString(R.string.tabs_set), R.mipmap.icon_home_set));
+        tabs.add(new TabModel(0, getString(R.string.tabs_index), R.drawable.icon_home_index));
+        tabs.add(new TabModel(1, getString(R.string.tabs_room), R.drawable.icon_home_room));
+        tabs.add(new TabModel(2, getString(R.string.tabs_set), R.drawable.icon_home_set));
         for (int i = 0; i < tabs.size(); i++) {
             MainTabView tabView = new MainTabView(this);
             tabView.setData(tabs.get(i));

@@ -4,6 +4,9 @@ import java.util.List;
 
 import tech.sud.mgp.hello.ui.main.home.RoomItemModel;
 
+/**
+ * 房间列表返回数据
+ */
 public class RoomListResp {
     private List<RoomItemModel> roomInfoList;
 

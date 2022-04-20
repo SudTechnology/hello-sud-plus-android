@@ -1,5 +1,7 @@
 package tech.sud.mgp.hello.ui.scenes.common.cmd;
 
+import java.util.List;
+
 import tech.sud.mgp.hello.common.model.Gender;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
@@ -7,8 +9,10 @@ import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdChangeGameModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdChatTextModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdDownMicModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdEnterRoomModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdOrderOperateModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdSendGiftModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdUpMicModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdUserOrderModel;
 
 /**
  * 房间信令工具类
@@ -71,6 +75,31 @@ public class RoomCmdModelUtils {
      */
     public static String buildEnterRoomCommand() {
         RoomCmdEnterRoomModel command = new RoomCmdEnterRoomModel(getSendUser());
+        return command.toJson();
+    }
+
+    /**
+     * 构建点单信令
+     */
+    public static String buildUserOrderCommand(long orderId, long gameId, String gameName, List<String> toUsers) {
+        RoomCmdUserOrderModel command = new RoomCmdUserOrderModel(getSendUser());
+        command.orderId = orderId;
+        command.gameId = gameId;
+        command.gameName = gameName;
+        command.toUsers = toUsers;
+        return command.toJson();
+    }
+
+    /**
+     * 构建同意或者拒绝点单信令
+     */
+    public static String buildOrderResultCommand(long orderId, long gameId, String gameName, String toUser, boolean state) {
+        RoomCmdOrderOperateModel command = new RoomCmdOrderOperateModel(getSendUser());
+        command.orderId = orderId;
+        command.gameId = gameId;
+        command.gameName = gameName;
+        command.toUser = toUser;
+        command.operate = state;
         return command.toJson();
     }
 

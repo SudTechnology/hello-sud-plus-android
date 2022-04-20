@@ -14,8 +14,9 @@ public class RoomCmdUserOrderModel extends RoomCmdBaseModel {
     }
 
     public long orderId; // 订单id
-    public long orderTimeMillis; // 订单时间戳
-    public List<Integer> toUsers; // 下单邀请的主播id列表
+    public long gameId; //游戏id
+    public String gameName; //游戏名字
+    public List<String> toUsers; // 下单邀请的主播id列表
 
     public static RoomCmdUserOrderModel fromJson(String json) {
         return HSJsonUtils.fromJson(json, RoomCmdUserOrderModel.class);

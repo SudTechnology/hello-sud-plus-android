@@ -2,6 +2,8 @@ package tech.sud.mgp.hello.ui.scenes.orderentertainment;
 
 import android.widget.TextView;
 
+import androidx.lifecycle.Observer;
+
 import java.util.List;
 
 import tech.sud.mgp.hello.R;
@@ -16,6 +18,7 @@ import tech.sud.mgp.hello.ui.scenes.orderentertainment.viewmodel.OrderViewModel;
 public class OrderEntertainmentActivity extends AbsAudioRoomActivity<OrderViewModel> {
 
     private TextView orderEnterTv;
+
 
     @Override
     protected OrderViewModel initGameViewModel() {
@@ -49,19 +52,43 @@ public class OrderEntertainmentActivity extends AbsAudioRoomActivity<OrderViewMo
                 dialog.show(getSupportFragmentManager(), null);
             }
         });
+        gameViewModel.dialogResult.observe(this, integer -> {
+            if (integer == 1) {
+
+            } else if (integer == 2) {
+
+            } else if (integer == 3) {
+
+            }
+        });
     }
 
     /** 主动发起点单 */
-    private void sendOrder(long orderId, long orderTimeMillis, List<Integer> toUsers) {
+    private void sendOrder(long orderId, long gameId, String gameName, List<String> toUsers) {
         if (binder != null) {
-            binder.broadcastOrder(orderId, orderTimeMillis, toUsers);
+            binder.broadcastOrder(orderId, gameId, gameName, toUsers);
+        }
+    }
+
+    /** 同意或者拒绝点单 */
+    private void operateOrder(long orderId, long gameId, String gameName, String toUser, boolean state) {
+        if (binder != null) {
+            binder.operateOrder(orderId, gameId, gameName, toUser, state);
         }
     }
 
     /** 有点单邀请来了 */
     @Override
-    public void onUserOrder(long orderId, long orderTimeMillis, List<Integer> toUsers) {
-        super.onUserOrder(orderId, orderTimeMillis, toUsers);
-
+    public void onOrderInvite(long orderId, long gameId, String gameName, String nickname, List<String> toUsers) {
+        super.onOrderInvite(orderId, gameId, gameName, nickname, toUsers);
+        gameViewModel.inviteDialog(this, nickname, gameName);
     }
+
+    /** 有点单结果来了，显示操作弹窗 */
+    @Override
+    public void onOrderOperate(long orderId, long gameId, String gameName, String userId, String userName, boolean operate) {
+        super.onOrderOperate(orderId, gameId, gameName, userId, userName, operate);
+        gameViewModel.operateDialog(this, userName);
+    }
+
 }

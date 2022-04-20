@@ -11,6 +11,7 @@ import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdChangeGameModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdChatTextModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdDownMicModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdEnterRoomModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdOrderOperateModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdSendGiftModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdUpMicModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdUserOrderModel;
@@ -42,8 +43,9 @@ public class SceneCommandManager extends BaseServiceManager {
 
     /**
      * 接收到信令，进行解析分发
-     * @param userID 发送者
-     * @param command  信令字符
+     *
+     * @param userID  发送者
+     * @param command 信令字符
      */
     public void onRecvCommand(String userID, String command) {
         int commandCmd = getCommandCmd(command);
@@ -84,10 +86,28 @@ public class SceneCommandManager extends BaseServiceManager {
                     dispatchCommand(commandCmd, enterRoomCommand, userID);
                 }
                 break;
+            case RoomCmd.CMD_SEND_ROOM_PK_INVITE: // 发送跨房PK邀请
+                break;
+            case RoomCmd.CMD_ROOM_PK_ANSWER: // 跨房PK邀请应答
+                break;
+            case RoomCmd.CMD_START_ROOM_PK: // 开始跨房PK
+                break;
+            case RoomCmd.CMD_FINISH_ROOM_PK: // 结束跨房PK
+                break;
+            case RoomCmd.CMD_ROOM_PK_SETTINGS: // 跨房PK设置
+                break;
+            case RoomCmd.CMD_OPEN_MATCH_ROOM_PK: // 开启匹配跨房PK答
+                break;
             case RoomCmd.CMD_USER_ORDER_NOTIFY: // 用户点单
                 RoomCmdUserOrderModel userOrderModel = RoomCmdUserOrderModel.fromJson(command);
                 if (userOrderModel != null) {
                     dispatchCommand(commandCmd, userOrderModel, userID);
+                }
+                break;
+            case RoomCmd.CMD_ORDER_OPERATE_NOTIFY: // 主播同意或者拒绝用户点单
+                RoomCmdOrderOperateModel orderResultModel = RoomCmdOrderOperateModel.fromJson(command);
+                if (orderResultModel != null) {
+                    dispatchCommand(commandCmd, orderResultModel, userID);
                 }
                 break;
         }
@@ -95,8 +115,9 @@ public class SceneCommandManager extends BaseServiceManager {
 
     /**
      * 分发信令
-     * @param cmd      信令命令
-     * @param command  信令内容
+     *
+     * @param cmd        信令命令
+     * @param command    信令内容
      * @param fromUserID 发送者
      */
     private void dispatchCommand(int cmd, RoomCmdBaseModel command, String fromUserID) {
@@ -132,9 +153,26 @@ public class SceneCommandManager extends BaseServiceManager {
                         ((EnterRoomCommandListener) listener).onRecvCommand((RoomCmdEnterRoomModel) command, fromUserID);
                     }
                     break;
+                case RoomCmd.CMD_SEND_ROOM_PK_INVITE: // 发送跨房PK邀请
+                    break;
+                case RoomCmd.CMD_ROOM_PK_ANSWER: // 跨房PK邀请应答
+                    break;
+                case RoomCmd.CMD_START_ROOM_PK: // 开始跨房PK
+                    break;
+                case RoomCmd.CMD_FINISH_ROOM_PK: // 结束跨房PK
+                    break;
+                case RoomCmd.CMD_ROOM_PK_SETTINGS: // 跨房PK设置
+                    break;
+                case RoomCmd.CMD_OPEN_MATCH_ROOM_PK: // 开启匹配跨房PK答
+                    break;
                 case RoomCmd.CMD_USER_ORDER_NOTIFY: // 用户点单
                     if (listener instanceof UserOrderCommandListener) {
                         ((UserOrderCommandListener) listener).onRecvCommand((RoomCmdUserOrderModel) command, fromUserID);
+                    }
+                    break;
+                case RoomCmd.CMD_ORDER_OPERATE_NOTIFY: // 主播同意或者拒绝用户点单
+                    if (listener instanceof OrderResultCommandListener) {
+                        ((OrderResultCommandListener) listener).onRecvCommand((RoomCmdOrderOperateModel) command, fromUserID);
                     }
                     break;
             }
@@ -180,6 +218,10 @@ public class SceneCommandManager extends BaseServiceManager {
 
     interface UserOrderCommandListener extends ICommandListener {
         void onRecvCommand(RoomCmdUserOrderModel command, String userID);
+    }
+
+    interface OrderResultCommandListener extends ICommandListener {
+        void onRecvCommand(RoomCmdOrderOperateModel command, String userID);
     }
 
 }

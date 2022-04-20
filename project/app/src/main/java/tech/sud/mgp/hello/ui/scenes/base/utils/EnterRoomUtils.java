@@ -16,6 +16,7 @@ import tech.sud.mgp.hello.ui.scenes.asr.ASRActivity;
 import tech.sud.mgp.hello.ui.scenes.audio.activity.AudioRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.base.model.EnterRoomParams;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
+import tech.sud.mgp.hello.ui.scenes.custom.CustomActivity;
 import tech.sud.mgp.hello.ui.scenes.orderentertainment.OrderEntertainmentActivity;
 import tech.sud.mgp.hello.ui.scenes.ticket.activity.TicketActivity;
 
@@ -101,6 +102,8 @@ public class EnterRoomUtils {
                 return new Intent(context, TicketActivity.class);
             case SceneType.ORDER_ENTERTAINMENT:
                 return new Intent(context, OrderEntertainmentActivity.class);
+            case SceneType.CUSTOM_SCENE:
+                return new Intent(context, CustomActivity.class);
 //            case SceneType.TALENT:
 //                return new Intent(context, TalentRoomActivity.class);
 //            case SceneType.CROSS_ROOM:

@@ -287,7 +287,8 @@ Go to homepage to create one~</string>
     <string name="game_api_playing_state_false">app_common_self_playing， "isPlaying": false</string>
     <string name="game_api_end_title_false">解散游戏（队长）</string>
     <string name="game_api_end_state_false">app_common_self_end，{}</string>
-
+    <string name="game_config_title">游戏配置</string>
+    <string name="game_config_tip">修改配置后请退出房间，重新加载游戏</string>
     <!-- endregion 新增 -->
 
 </resources>

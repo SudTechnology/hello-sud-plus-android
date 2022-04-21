@@ -144,6 +144,13 @@
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
 
+        <!-- Custom配置场景 -->
+        <activity
+            android:name=".ui.scenes.custom.CustomConfigActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+
         <!-- 更多设置页面 -->
         <activity
             android:name=".ui.main.settings.activity.MoreSettingsActivity"

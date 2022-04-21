@@ -1,7 +1,10 @@
 package tech.sud.mgp.hello.ui.main.home.manager;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -86,9 +89,12 @@ public class IndicatorHelper {
 
     /** 绑定：滚动NestScrollView，选中indicator */
     public void bind() {
-        nestedScrollView.setOnTouchListener((v, event) -> {
-            optionType = 2;
-            return false;
+        nestedScrollView.setViewTouchListener(event -> {
+            LogUtils.i("=====", "setViewTouchListener = event=" + event.toString());
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                optionType = 2;
+                LogUtils.i("=====", "setOnTouchListener = optionType=" + optionType);
+            }
         });
         nestedScrollView.setScrollStateChangeListener(new NewNestedScrollView.ScrollStateChangeListener() {
             @Override
@@ -114,6 +120,7 @@ public class IndicatorHelper {
             return;
         }
         optionType = 1;
+        LogUtils.i("=====", "clickIndicator = optionType=" + optionType);
         LinearLayout childView = (LinearLayout) nestedScrollView.getChildAt(0);
         View sceneView = childView.getChildAt(index);
         if (nestedScrollViewTop == 0) {

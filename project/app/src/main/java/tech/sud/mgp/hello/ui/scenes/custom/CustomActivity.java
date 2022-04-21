@@ -1,11 +1,10 @@
 package tech.sud.mgp.hello.ui.scenes.custom;
 
-import android.view.View;
 import android.widget.TextView;
 
 import tech.sud.mgp.hello.R;
-import tech.sud.mgp.hello.common.base.BaseActivity;
 import tech.sud.mgp.hello.ui.scenes.audio.activity.AbsAudioRoomActivity;
+import tech.sud.mgp.hello.ui.scenes.custom.dialog.CustomApiDialog;
 import tech.sud.mgp.hello.ui.scenes.custom.viewmodel.CustomViewModel;
 
 /**
@@ -34,11 +33,9 @@ public class CustomActivity extends AbsAudioRoomActivity<CustomViewModel> {
     @Override
     protected void setListeners() {
         super.setListeners();
-        apiTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
+        apiTv.setOnClickListener(v -> {
+            CustomApiDialog dialog = new CustomApiDialog();
+            dialog.show(getSupportFragmentManager(),null);
         });
     }
 }

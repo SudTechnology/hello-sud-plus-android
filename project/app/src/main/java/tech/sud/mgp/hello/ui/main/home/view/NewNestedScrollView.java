@@ -13,6 +13,7 @@ import androidx.core.widget.NestedScrollView;
 public class NewNestedScrollView extends NestedScrollView implements NestedScrollView.OnScrollChangeListener {
 
     private ScrollStateChangeListener scrollStateChangeListener;
+    private ViewTouchListener viewTouchListener;
 
     /**
      * 滚动状态
@@ -105,6 +106,9 @@ public class NewNestedScrollView extends NestedScrollView implements NestedScrol
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
+        if (viewTouchListener!=null){
+            viewTouchListener.viewTouch(ev);
+        }
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_MOVE:
@@ -142,6 +146,10 @@ public class NewNestedScrollView extends NestedScrollView implements NestedScrol
         return this;
     }
 
+    public void setViewTouchListener(ViewTouchListener viewTouchListener) {
+        this.viewTouchListener = viewTouchListener;
+    }
+
     public interface ScrollStateChangeListener {
         /**
          * 滚动监听
@@ -159,6 +167,10 @@ public class NewNestedScrollView extends NestedScrollView implements NestedScrol
          * @param direction
          */
         void onScrollDirection(ScrollDirection direction);
+    }
+
+    public interface ViewTouchListener{
+        void viewTouch(MotionEvent ev);
     }
 }
 

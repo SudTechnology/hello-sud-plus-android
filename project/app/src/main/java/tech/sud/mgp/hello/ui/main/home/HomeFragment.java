@@ -95,6 +95,7 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
         nameTv.setText(HSUserInfo.nickName);
         useridTv.setText(getString(R.string.setting_userid, HSUserInfo.userId + ""));
         ImageLoader.loadImage(headerIv, HSUserInfo.avatar);
+        loadList();
     }
 
     @Override
@@ -240,7 +241,7 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
     @Override
     public void onResume() {
         super.onResume();
-        loadList();
+
     }
 
     @Override

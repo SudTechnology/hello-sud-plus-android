@@ -105,16 +105,11 @@ public class NewNestedScrollView extends NestedScrollView implements NestedScrol
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent ev) {
+    public boolean dispatchTouchEvent(MotionEvent ev) {
         if (viewTouchListener!=null){
             viewTouchListener.viewTouch(ev);
         }
-        switch (ev.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-            case MotionEvent.ACTION_MOVE:
-                break;
-        }
-        return super.onTouchEvent(ev);
+        return super.dispatchTouchEvent(ev);
     }
 
     /**

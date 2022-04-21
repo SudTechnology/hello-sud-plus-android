@@ -99,6 +99,7 @@ public class IndicatorHelper {
         nestedScrollView.setScrollStateChangeListener(new NewNestedScrollView.ScrollStateChangeListener() {
             @Override
             public void onScrollChange(int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                LogUtils.i("=====", "setScrollStateChangeListener = optionType=" + optionType);
                 LogUtils.i("=====", "scrollX=" + scrollX + " scrollY=" + scrollY + " oldScrollX=" + oldScrollX + "oldScrollY=" + oldScrollY);
 //                findView(scrollY + nestedScrollView.getMeasuredHeight());
                 if (optionType == 2) {

@@ -55,6 +55,11 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
 
     @Override
     public void initWithConfig(Context context, AudioConfigModel model) {
+        initWithConfig(context, model, null);
+    }
+
+    @Override
+    public void initWithConfig(Context context, AudioConfigModel model, Runnable success) {
         if (model == null)
             return;
 
@@ -81,11 +86,10 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
             engine.startSoundLevelMonitor();
             engine.enableAudioCaptureDevice(false);
         }
-    }
 
-    @Override
-    public void initWithConfig(Context context, AudioConfigModel model, Runnable success) {
-        initWithConfig(context, model);
+        if (success != null) {
+            success.run();
+        }
     }
 
     @Override

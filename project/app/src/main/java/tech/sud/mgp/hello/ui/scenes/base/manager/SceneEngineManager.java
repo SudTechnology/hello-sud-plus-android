@@ -49,18 +49,13 @@ public class SceneEngineManager extends BaseServiceManager {
 
     public void enterRoom(RoomInfoModel model) {
         if (!isInitEngine) {
-            String rtcType = AppData.getInstance().getRtcType();
-            if (rtcType.equals("RongCloud") || rtcType.equals("CommsEase") || rtcType.equals("Agora")) {
-                initEngine(model, new Runnable() {
-                    @Override
-                    public void run() {
-                        joinRoom(model);
-                    }
-                });
-                return;
-            } else {
-                initEngine(model, null);
-            }
+            initEngine(model, new Runnable() {
+                @Override
+                public void run() {
+                    joinRoom(model);
+                }
+            });
+            return;
         }
 
         joinRoom(model);

@@ -74,7 +74,7 @@ public class ChangeRtcViewModel extends BaseViewModel {
             list.add(new BaseRtcConfig(null, context.getString(R.string.rtc_name_comms_ease)));
 
             // 添加其它暂未支持的rtc
-            list.add(new BaseRtcConfig(null, context.getString(R.string.rtc_name_voic_engine)));
+            list.add(new BaseRtcConfig(null, context.getString(R.string.rtc_name_volc_engine)));
             list.add(new BaseRtcConfig(null, context.getString(R.string.rtc_name_alibaba_cloud)));
             list.add(new BaseRtcConfig(null, context.getString(R.string.rtc_name_tencent_cloud)));
 

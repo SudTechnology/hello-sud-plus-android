@@ -222,7 +222,7 @@
     <string name="rtc_name_agora">声网</string>
     <string name="rtc_name_rong_cloud">融云</string>
     <string name="rtc_name_comms_ease">网易云信</string>
-    <string name="rtc_name_voic_engine">火山引擎</string>
+    <string name="rtc_name_volc_engine">火山引擎</string>
     <string name="rtc_name_alibaba_cloud">阿里云</string>
     <string name="rtc_name_tencent_cloud">腾讯云</string>
     <string name="asr_guide">本游戏支持语音识别，请开麦展现你的魅力～</string>

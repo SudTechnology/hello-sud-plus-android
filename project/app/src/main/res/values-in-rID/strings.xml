@@ -221,7 +221,7 @@ Buat ruangan di Beranda</string>
     <string name="rtc_name_agora">Agora</string>
     <string name="rtc_name_rong_cloud">RongCloud</string>
     <string name="rtc_name_comms_ease">CommsEase</string>
-    <string name="rtc_name_voic_engine">VoiceEngine</string>
+    <string name="rtc_name_volc_engine">VoiceEngine</string>
     <string name="rtc_name_alibaba_cloud">Alibaba Cloud</string>
     <string name="rtc_name_tencent_cloud">Tencent Cloud</string>
     <string name="asr_guide">Pengenalan suara termasuk dalam permainan ini, aktifkan mikrofon, tunjukkan pesonamu</string>

@@ -9,12 +9,14 @@ import tech.sud.mgp.hello.rtc.audio.factory.AudioEngineFactory;
 import tech.sud.mgp.hello.rtc.audio.impl.agora.AgoraAudioEngineImpl;
 import tech.sud.mgp.hello.rtc.audio.impl.netease.NeteaseAudioEngineImpl;
 import tech.sud.mgp.hello.rtc.audio.impl.rcloud.RCloudAudioEngineImpl;
+import tech.sud.mgp.hello.rtc.audio.impl.volc.VolcAudioEngineImpl;
 import tech.sud.mgp.hello.rtc.audio.impl.zego.ZegoAudioEngineImpl;
 import tech.sud.mgp.hello.rtc.audio.model.AudioConfigModel;
 import tech.sud.mgp.hello.service.main.config.AgoraConfig;
 import tech.sud.mgp.hello.service.main.config.BaseRtcConfig;
 import tech.sud.mgp.hello.service.main.config.CommsEaseConfig;
 import tech.sud.mgp.hello.service.main.config.RongCloudConfig;
+import tech.sud.mgp.hello.service.main.config.VolcConfig;
 import tech.sud.mgp.hello.service.main.config.ZegoConfig;
 
 /**
@@ -58,6 +60,14 @@ public class RTCManager {
             CommsEaseConfig neteaseConfig = (CommsEaseConfig) config;
             AudioConfigModel audioConfigModel = new AudioConfigModel();
             audioConfigModel.appKey = neteaseConfig.appKey;
+            audioConfigModel.token = rtiToken;
+            audioConfigModel.userID = HSUserInfo.userId + "";
+            AudioEngineFactory.getEngine().initWithConfig(Utils.getApp(), audioConfigModel, runnable);
+        } else if (config instanceof VolcConfig) {
+            AudioEngineFactory.create(VolcAudioEngineImpl.class);
+            VolcConfig volcConfig = (VolcConfig) config;
+            AudioConfigModel audioConfigModel = new AudioConfigModel();
+            audioConfigModel.appId = volcConfig.appId;
             audioConfigModel.token = rtiToken;
             audioConfigModel.userID = HSUserInfo.userId + "";
             AudioEngineFactory.getEngine().initWithConfig(Utils.getApp(), audioConfigModel, runnable);

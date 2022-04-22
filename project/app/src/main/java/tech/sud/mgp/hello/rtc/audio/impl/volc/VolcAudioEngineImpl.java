@@ -63,6 +63,10 @@ public class VolcAudioEngineImpl implements ISudAudioEngine {
             AudioPropertiesConfig config = new AudioPropertiesConfig(300);
             mEngine.enableAudioPropertiesReport(config);
         }
+
+        if (success != null) {
+            success.run();
+        }
     }
 
     @Override

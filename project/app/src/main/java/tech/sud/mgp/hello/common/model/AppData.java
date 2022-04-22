@@ -127,8 +127,8 @@ public class AppData {
         if (config.commsEaseCfg != null && config.commsEaseCfg.rtcType.equals(rtcType)) {
             return context.getString(R.string.rtc_name_comms_ease);
         }
-        if (config.voicEngineCfg != null && config.voicEngineCfg.rtcType.equals(rtcType)) {
-            return context.getString(R.string.rtc_name_voic_engine);
+        if (config.volcEngineCfg != null && config.volcEngineCfg.rtcType.equals(rtcType)) {
+            return context.getString(R.string.rtc_name_volc_engine);
         }
         if (config.alibabaCloudCfg != null && config.alibabaCloudCfg.rtcType.equals(rtcType)) {
             return context.getString(R.string.rtc_name_alibaba_cloud);

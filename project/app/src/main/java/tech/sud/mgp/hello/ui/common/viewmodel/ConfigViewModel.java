@@ -19,7 +19,7 @@ import tech.sud.mgp.hello.service.main.config.BaseRtcConfig;
 import tech.sud.mgp.hello.service.main.config.CommsEaseConfig;
 import tech.sud.mgp.hello.service.main.config.RongCloudConfig;
 import tech.sud.mgp.hello.service.main.config.TencentCloudConfig;
-import tech.sud.mgp.hello.service.main.config.VoicEngineConfig;
+import tech.sud.mgp.hello.service.main.config.VolcConfig;
 import tech.sud.mgp.hello.service.main.config.ZegoConfig;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.main.resp.BaseConfigResp;
@@ -118,11 +118,11 @@ public class ConfigViewModel extends BaseViewModel {
                     return baseConfigResp.commsEaseCfg;
                 }
             }
-            if (rtcConfigSerializable instanceof VoicEngineConfig) {
-                if (baseConfigResp.voicEngineCfg == null) {
-                    return (VoicEngineConfig) rtcConfigSerializable;
+            if (rtcConfigSerializable instanceof VolcConfig) {
+                if (baseConfigResp.volcEngineCfg == null) {
+                    return (VolcConfig) rtcConfigSerializable;
                 } else {
-                    return baseConfigResp.voicEngineCfg;
+                    return baseConfigResp.volcEngineCfg;
                 }
             }
             if (rtcConfigSerializable instanceof AlibabaCloudConfig) {

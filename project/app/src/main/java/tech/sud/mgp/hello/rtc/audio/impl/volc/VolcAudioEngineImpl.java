@@ -277,6 +277,11 @@ public class VolcAudioEngineImpl implements ISudAudioEngine {
                 });
             }
         }
+
+        @Override
+        public void onJoinRoomResult(String roomId, String uid, int errorCode, int joinType, int elapsed) {
+
+        }
     };
 
     private final IAudioProcessor iAudioProcessor = new IAudioProcessor() {

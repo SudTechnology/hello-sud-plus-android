@@ -127,8 +127,15 @@ public class SceneEngineManager extends BaseServiceManager {
         }
     }
 
-    public void sendRoomMessage(String roomID, String message, ISudAudioEngine.SendCommandListener result) {
-        IMRoomManager.sharedInstance().sendRoomMessage(roomID, message, result);
+    /**
+     * 发送跨房信令
+     *
+     * @param roomID 房间ID
+     * @param command 信令内容
+     * @param result  回调
+     */
+    public void sendXRoomCommand(String roomID, String command, ISudAudioEngine.SendCommandListener result) {
+        IMRoomManager.sharedInstance().sendXRoomCommand(roomID, command, result);
     }
 
     /**

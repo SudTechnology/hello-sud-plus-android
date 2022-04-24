@@ -178,13 +178,13 @@ public class ZIMManager {
         receiveRoomMessageCallback = callback;
     }
 
-    public void sendRoomMessage(String roomID, String message, ISudAudioEngine.SendCommandListener listener) {
+    public void sendXRoomCommand(String roomID, String command, ISudAudioEngine.SendCommandListener listener) {
         if (zim == null) {
             return;
         }
 
         ZIMTextMessage zimMessage = new ZIMTextMessage();
-        zimMessage.message = message;
+        zimMessage.message = command;
         ZIMMessageSendConfig config = new ZIMMessageSendConfig();
         config.priority = ZIMMessagePriority.HIGH;
 

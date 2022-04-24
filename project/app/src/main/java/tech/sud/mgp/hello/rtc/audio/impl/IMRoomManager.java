@@ -70,7 +70,7 @@ public class IMRoomManager {
         ZIMManager.sharedInstance().leaveRoom();
     }
 
-    public void sendRoomMessage(String roomID, String message, ISudAudioEngine.SendCommandListener listener) {
-        ZIMManager.sharedInstance().sendRoomMessage(roomID, message, listener);
+    public void sendXRoomCommand(String roomID, String command, ISudAudioEngine.SendCommandListener listener) {
+        ZIMManager.sharedInstance().sendXRoomCommand(roomID, command, listener);
     }
 }

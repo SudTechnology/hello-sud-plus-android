@@ -12,7 +12,7 @@ import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.ui.scenes.custom.model.ConfigItemModel;
 
 /**
- * 配置也标题样式
+ * 配置页标题样式
  */
 public class CustomPageTitleView extends ConstraintLayout {
     private TextView configTypeTv;

@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_r8_ffffff"
+    android:paddingHorizontal="10dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent">
+
+    <TextView
+        android:id="@+id/tv_game_state"
+        android:layout_width="104dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/dialog_game_stage"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_game_api"
+        android:layout_width="104dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="115dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/dialog_game_api"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_game_before"
+        android:layout_width="104dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="@string/dialog_game_before"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_game_state" />
+
+    <TextView
+        android:id="@+id/tv_game_ready"
+        android:layout_width="104dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="41dp"
+        android:text="@string/dialog_game_ready"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_game_before" />
+
+    <TextView
+        android:id="@+id/tv_game_playing"
+        android:layout_width="104dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="137dp"
+        android:text="@string/dialog_game_playing"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_game_ready" />
+
+    <TextView
+        android:id="@+id/join_game_btn"
+        android:layout_width="104dp"
+        android:layout_height="36dp"
+        android:background="@drawable/shape_r4_gradient_bcffd2_38ffb5"
+        android:gravity="center"
+        android:text="@string/dialog_game_join_btn"
+        android:textColor="#003722"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_game_before"
+        app:layout_constraintStart_toStartOf="@id/tv_game_api"
+        app:layout_constraintTop_toTopOf="@id/tv_game_before" />
+
+    <TextView
+        android:id="@+id/ready_game_btn"
+        android:layout_width="104dp"
+        android:layout_height="36dp"
+        android:background="@drawable/shape_r4_gradient_bcffd2_38ffb5"
+        android:gravity="center"
+        android:text="@string/dialog_game_ready_btn"
+        android:textColor="#003722"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_game_ready"
+        app:layout_constraintStart_toStartOf="@id/tv_game_api"
+        app:layout_constraintTop_toTopOf="@id/tv_game_ready" />
+
+    <TextView
+        android:id="@+id/exit_game_btn"
+        android:layout_width="104dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="10dp"
+        android:background="@drawable/shape_r4_gradient_bcffd2_38ffb5"
+        android:gravity="center"
+        android:text="@string/dialog_game_exit_btn"
+        android:textColor="#003722"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_game_ready"
+        app:layout_constraintStart_toEndOf="@id/ready_game_btn"
+        app:layout_constraintTop_toTopOf="@id/tv_game_ready" />
+
+    <TextView
+        android:id="@+id/cancel_ready_btn"
+        android:layout_width="104dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/shape_r4_gradient_bcffd2_38ffb5"
+        android:gravity="center"
+        android:text="@string/dialog_game_cancel_ready_btn"
+        android:textColor="#003722"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@id/ready_game_btn"
+        app:layout_constraintTop_toBottomOf="@id/exit_game_btn" />
+
+    <TextView
+        android:id="@+id/start_game_btn"
+        android:layout_width="104dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="60dp"
+        android:background="@drawable/shape_r4_gradient_bcffd2_38ffb5"
+        android:gravity="center"
+        android:text="@string/dialog_game_start_btn"
+        android:textColor="#003722"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="@id/ready_game_btn"
+        app:layout_constraintStart_toStartOf="@id/ready_game_btn"
+        app:layout_constraintTop_toBottomOf="@id/ready_game_btn" />
+
+    <TextView
+        android:id="@+id/escape_game_btn"
+        android:layout_width="104dp"
+        android:layout_height="36dp"
+        android:background="@drawable/shape_r4_gradient_bcffd2_38ffb5"
+        android:gravity="center"
+        android:text="@string/dialog_game_escape"
+        android:textColor="#003722"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_game_playing"
+        app:layout_constraintStart_toStartOf="@id/ready_game_btn"
+        app:layout_constraintTop_toTopOf="@id/tv_game_playing" />
+
+    <TextView
+        android:id="@+id/release_game_btn"
+        android:layout_width="104dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/shape_r4_gradient_bcffd2_38ffb5"
+        android:gravity="center"
+        android:text="@string/dialog_game_release"
+        android:textColor="#003722"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@id/ready_game_btn"
+        app:layout_constraintTop_toBottomOf="@id/escape_game_btn" />
+
+    <View
+        android:layout_width="0.5dp"
+        android:layout_height="match_parent"
+        android:background="#d1d1d1"
+        app:layout_constraintStart_toEndOf="@id/tv_game_state"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#d1d1d1"
+        app:layout_constraintBottom_toTopOf="@id/tv_game_before"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_game_state" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#d1d1d1"
+        app:layout_constraintBottom_toTopOf="@id/tv_game_ready"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_game_before" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#d1d1d1"
+        app:layout_constraintBottom_toTopOf="@id/tv_game_playing"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/start_game_btn" />
+
+    <ImageView
+        android:layout_width="9dp"
+        android:layout_height="24dp"
+        android:src="@drawable/icon_custom_dialog_path1"
+        app:layout_constraintBottom_toTopOf="@id/ready_game_btn"
+        app:layout_constraintEnd_toEndOf="@id/join_game_btn"
+        app:layout_constraintStart_toStartOf="@id/join_game_btn"
+        app:layout_constraintTop_toBottomOf="@id/join_game_btn" />
+
+    <ImageView
+        android:layout_width="67dp"
+        android:layout_height="40dp"
+        android:src="@drawable/icon_custom_dialog_path2"
+        app:layout_constraintBottom_toTopOf="@id/ready_game_btn"
+        app:layout_constraintStart_toEndOf="@id/join_game_btn" />
+
+
+    <ImageView
+        android:layout_width="68dp"
+        android:layout_height="61dp"
+        android:src="@drawable/icon_custom_dialog_path3"
+        app:layout_constraintBottom_toTopOf="@id/start_game_btn"
+        app:layout_constraintEnd_toStartOf="@id/cancel_ready_btn"
+        app:layout_constraintTop_toBottomOf="@id/ready_game_btn" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

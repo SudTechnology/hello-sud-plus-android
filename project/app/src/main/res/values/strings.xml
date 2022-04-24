@@ -373,6 +373,19 @@ Go to homepage to create one~</string>
     <string name="custom_config_game_block_change_seat_custom_false">false: 可以换座位</string>
     <string name="custom_config_game_block_change_seat_custom_true">true: 不可以换座位</string>
 
+    <string name="dialog_game_stage">游戏阶段</string>
+    <string name="dialog_game_api">API接口</string>
+    <string name="dialog_game_before">加入游戏前</string>
+    <string name="dialog_game_join_btn">①加入游戏</string>
+    <string name="dialog_game_ready">准备阶段</string>
+    <string name="dialog_game_ready_btn">②准备</string>
+    <string name="dialog_game_cancel_ready_btn">取消准备</string>
+    <string name="dialog_game_start_btn">③开始游戏</string>
+    <string name="dialog_game_exit_btn">退出游戏</string>
+    <string name="dialog_game_playing">游戏中</string>
+    <string name="dialog_game_escape">逃跑</string>
+    <string name="dialog_game_release">解散游戏</string>
+
     <!-- endregion 新增 -->
 
 </resources>

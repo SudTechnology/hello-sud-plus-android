@@ -37,14 +37,12 @@ public class CustomConfigActivity extends BaseActivity {
         super.initWidget();
         gameTipTv = findViewById(R.id.game_tip_tv);
         configContainer = findViewById(R.id.config_container);
-        gameTipTv.setOnClickListener(v -> {
-            if (BuildConfig.DEBUG) {
-//            CustomApiDialog dialog = new CustomApiDialog();
-//            dialog.show(getSupportFragmentManager(), null);
-                LogUtils.i("initWidget configModel gameCpu=" + viewModel.configModel.gameSoundVolume);
-                LogUtils.i("initWidget items value gameCpu=" + viewModel.items.get(2).value);
-            }
-        });
+//        gameTipTv.setOnClickListener(v -> {
+//            if (BuildConfig.DEBUG) {
+//                LogUtils.i("initWidget configModel gameCpu=" + viewModel.configModel.gameSoundVolume);
+//                LogUtils.i("initWidget items value gameCpu=" + viewModel.items.get(2).value);
+//            }
+//        });
     }
 
     @Override

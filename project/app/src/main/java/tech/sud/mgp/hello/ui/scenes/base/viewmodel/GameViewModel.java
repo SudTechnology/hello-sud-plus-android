@@ -50,7 +50,7 @@ public class GameViewModel implements SudFSMMGListener {
 
     private long roomId; // 房间id
     private long playingGameId; // 当前使用的游戏id
-    private final SudFSTAPPDecorator sudFSTAPPDecorator = new SudFSTAPPDecorator(); // app调用sdk的封装类
+    public final SudFSTAPPDecorator sudFSTAPPDecorator = new SudFSTAPPDecorator(); // app调用sdk的封装类
     private final SudFSMMGDecorator sudFSMMGDecorator = new SudFSMMGDecorator(); // 用于处理游戏SDK部分回调业务
 
     public final MutableLiveData<View> gameViewLiveData = new MutableLiveData<>(); // 游戏View回调

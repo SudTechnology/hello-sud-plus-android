@@ -29,8 +29,8 @@ public class CustomActivity extends AbsAudioRoomActivity<CustomViewModel> {
     protected void initWidget() {
         super.initWidget();
         apiTv = findViewById(R.id.api_btn);
-        Object configModel  = GlobalCache.getInstance().getSerializable(GlobalCache.CUSTOM_CONFIG_KEY);
-        if (configModel instanceof GameConfigModel){
+        Object configModel = GlobalCache.getInstance().getSerializable(GlobalCache.CUSTOM_CONFIG_KEY);
+        if (configModel instanceof GameConfigModel) {
             gameViewModel.gameConfigModel = (GameConfigModel) configModel;
         }
     }
@@ -39,8 +39,40 @@ public class CustomActivity extends AbsAudioRoomActivity<CustomViewModel> {
     protected void setListeners() {
         super.setListeners();
         apiTv.setOnClickListener(v -> {
-            CustomApiDialog dialog = new CustomApiDialog();
-            dialog.show(getSupportFragmentManager(),null);
+            CustomApiDialog dialog = CustomApiDialog.getInstance();
+            dialog.setListener(i -> {
+                switch (i) {
+                    case 0: {
+                        gameViewModel.joinGame();
+                        break;
+                    }
+                    case 1: {
+                        gameViewModel.readyGame();
+                        break;
+                    }
+                    case 2: {
+                        gameViewModel.startGame();
+                        break;
+                    }
+                    case 3: {
+                        gameViewModel.exitGame();
+                        break;
+                    }
+                    case 4: {
+                        gameViewModel.cancelReadyGame();
+                        break;
+                    }
+                    case 5: {
+                        gameViewModel.escapeGame();
+                        break;
+                    }
+                    case 6: {
+                        gameViewModel.finishGame();
+                        break;
+                    }
+                }
+            });
+            dialog.show(getSupportFragmentManager(), null);
         });
     }
 }

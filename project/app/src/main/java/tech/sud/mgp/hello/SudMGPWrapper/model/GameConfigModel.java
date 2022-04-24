@@ -41,6 +41,8 @@ public class GameConfigModel implements Serializable {
         public GameHelpBtn game_help_btn = new GameHelpBtn(); // 游戏场景中的帮助按钮
         public GameSettleCloseBtn game_settle_close_btn = new GameSettleCloseBtn(); // 游戏结算界面中的关闭按钮
         public GameSettleAgainBtn game_settle_again_btn = new GameSettleAgainBtn(); // 游戏结算界面中的再来一局按钮
+        public GameBg game_bg = new GameBg();// 是否隐藏背景图，包括大厅和战斗
+        public BlockChangeSeat block_change_seat = new BlockChangeSeat();//自定义阻止换座位
     }
 
     // 结算界面
@@ -157,5 +159,16 @@ public class GameConfigModel implements Serializable {
         public boolean custom = false;
     }
 
+    // 是否隐藏背景图，包括大厅和战斗
+    public static class GameBg implements Serializable{
+        //（false: 显示； true: 隐藏，默认为false）
+        public boolean hide = false;
+    }
+
+    // 自定义阻止换座位
+    public static class BlockChangeSeat implements Serializable{
+        //（false: 可以换座位； true: 不可以换座位；默认为false）
+        public boolean custom = false;
+    }
 
 }

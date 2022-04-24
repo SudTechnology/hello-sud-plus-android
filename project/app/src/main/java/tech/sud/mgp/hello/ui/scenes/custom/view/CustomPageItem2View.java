@@ -17,6 +17,11 @@ import tech.sud.mgp.hello.ui.scenes.custom.model.ConfigItemModel;
 public class CustomPageItem2View extends ConstraintLayout{
     private TextView titleTv, subTitleTv;
     private ConfigItemModel itemModel;
+    private CustomPageItem1View.ModifyDataListener listener;
+
+    public void setListener(CustomPageItem1View.ModifyDataListener listener) {
+        this.listener = listener;
+    }
 
     public CustomPageItem2View(@NonNull Context context) {
         super(context);

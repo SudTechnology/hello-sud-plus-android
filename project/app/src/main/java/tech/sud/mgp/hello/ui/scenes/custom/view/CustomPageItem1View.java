@@ -17,8 +17,14 @@ import tech.sud.mgp.hello.ui.scenes.custom.model.ConfigItemModel;
  * 配置item样式1
  */
 public class CustomPageItem1View extends ConstraintLayout {
+
     private TextView titleTv, subTitleTv, currentStateTv;
     private ConfigItemModel itemModel;
+    private ModifyDataListener listener;
+
+    public void setListener(ModifyDataListener listener) {
+        this.listener = listener;
+    }
 
     public CustomPageItem1View(@NonNull Context context) {
         super(context);
@@ -44,6 +50,9 @@ public class CustomPageItem1View extends ConstraintLayout {
             if (itemModel.optionList.size() > 0) {
                 CustomConfigSelectDialog dialog = new CustomConfigSelectDialog(getContext(), itemModel.optionList, position -> {
                     switchValue(itemModel.optionList.get(position).title, position);
+                    if (listener!=null){
+                        listener.onChange(itemModel);
+                    }
                 });
                 dialog.show();
             }
@@ -80,6 +89,10 @@ public class CustomPageItem1View extends ConstraintLayout {
                 }
             }
         }
+    }
+
+    public interface ModifyDataListener{
+        void onChange(ConfigItemModel itemModel);
     }
 
 }

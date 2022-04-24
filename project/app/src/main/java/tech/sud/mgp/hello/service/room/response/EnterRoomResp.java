@@ -12,5 +12,6 @@ public class EnterRoomResp {
     public int sceneType; //（1：语聊房场景 2：1v1场景 3：才艺房场景 4：秀场场景 5：门票场景 6：竞猜 7：跨房PK 8：点单 9：语音识别 10：联赛 11：自定义场景 ）
     public int roleType; // 1:房主 0：普通用户
     public String rtcToken; // 推拉流token
-    public String rtiToken; // im token
+    public String rtiToken; // 信令 token
+    public String imToken;  // IM token
 }

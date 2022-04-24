@@ -279,11 +279,6 @@ public class RCloudAudioEngineImpl implements ISudAudioEngine {
         }
     }
 
-    @Override
-    public void sendRoomMessage(String roomID, String message, SendCommandListener listener) {
-
-    }
-
     // 更新房间内用户总人数
     private void updateRoomUserCount() {
         RCRTCRoom rcrtcRoom = RCRTCEngine.getInstance().getRoom();

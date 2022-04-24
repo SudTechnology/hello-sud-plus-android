@@ -86,6 +86,7 @@ public class EnterRoomUtils {
         model.roleType = enterRoomResp.roleType;
         model.rtcToken = enterRoomResp.rtcToken;
         model.rtiToken = enterRoomResp.rtiToken;
+        model.imToken = enterRoomResp.imToken;
         model.gameLevel = enterRoomResp.gameLevel;
         Intent intent = getSceneIntent(context, enterRoomResp.sceneType);
         intent.putExtra("RoomInfoModel", model);

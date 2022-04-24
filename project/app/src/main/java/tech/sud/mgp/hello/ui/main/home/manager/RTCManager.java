@@ -33,41 +33,36 @@ public class RTCManager {
     private static void applyRtcEngine(BaseRtcConfig config, String rtiToken, String rtcToken, Runnable runnable) {
         if (config instanceof ZegoConfig) {
             AudioEngineFactory.create(ZegoAudioEngineImpl.class);
-            ZegoConfig zegoConfig = (ZegoConfig) config;
             AudioConfigModel audioConfigModel = new AudioConfigModel();
-            audioConfigModel.appId = zegoConfig.appId;
+            audioConfigModel.appId = config.appId;
             audioConfigModel.token = rtiToken;
             audioConfigModel.userID = HSUserInfo.userId + "";
             AudioEngineFactory.getEngine().initWithConfig(Utils.getApp(), audioConfigModel, runnable);
         } else if (config instanceof AgoraConfig) {
             AudioEngineFactory.create(AgoraAudioEngineImpl.class);
-            AgoraConfig agoraConfig = (AgoraConfig) config;
             AudioConfigModel audioConfigModel = new AudioConfigModel();
-            audioConfigModel.appId = agoraConfig.appId;
+            audioConfigModel.appId = config.appId;
             audioConfigModel.token = rtiToken;
             audioConfigModel.userID = HSUserInfo.userId + "";
             AudioEngineFactory.getEngine().initWithConfig(Utils.getApp(), audioConfigModel, runnable);
         } else if (config instanceof RongCloudConfig) {
             AudioEngineFactory.create(RCloudAudioEngineImpl.class);
-            RongCloudConfig rongCloudConfig = (RongCloudConfig) config;
             AudioConfigModel audioConfigModel = new AudioConfigModel();
-            audioConfigModel.appKey = rongCloudConfig.appKey;
+            audioConfigModel.appKey = config.appKey;
             audioConfigModel.token = rtcToken;
             audioConfigModel.userID = HSUserInfo.userId + "";
             AudioEngineFactory.getEngine().initWithConfig(Utils.getApp(), audioConfigModel, runnable);
         } else if (config instanceof CommsEaseConfig) {
             AudioEngineFactory.create(NeteaseAudioEngineImpl.class);
-            CommsEaseConfig neteaseConfig = (CommsEaseConfig) config;
             AudioConfigModel audioConfigModel = new AudioConfigModel();
-            audioConfigModel.appKey = neteaseConfig.appKey;
+            audioConfigModel.appKey = config.appKey;
             audioConfigModel.token = rtiToken;
             audioConfigModel.userID = HSUserInfo.userId + "";
             AudioEngineFactory.getEngine().initWithConfig(Utils.getApp(), audioConfigModel, runnable);
         } else if (config instanceof VolcConfig) {
             AudioEngineFactory.create(VolcAudioEngineImpl.class);
-            VolcConfig volcConfig = (VolcConfig) config;
             AudioConfigModel audioConfigModel = new AudioConfigModel();
-            audioConfigModel.appId = volcConfig.appId;
+            audioConfigModel.appId = config.appId;
             audioConfigModel.token = rtiToken;
             audioConfigModel.userID = HSUserInfo.userId + "";
             AudioEngineFactory.getEngine().initWithConfig(Utils.getApp(), audioConfigModel, runnable);

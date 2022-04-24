@@ -62,11 +62,6 @@ public class AliyunAudioEngineImpl implements ISudAudioEngine {
     }
 
     @Override
-    public void sendRoomMessage(String roomID, String message, SendCommandListener listener) {
-
-    }
-
-    @Override
     public void startPCMCapture() {
 
     }

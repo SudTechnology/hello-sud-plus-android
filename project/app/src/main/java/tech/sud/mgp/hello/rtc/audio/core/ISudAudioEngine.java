@@ -103,15 +103,4 @@ public interface ISudAudioEngine {
     interface SendCommandListener {
         void onResult(int value);
     }
-
-    // region 8. 发送跨聊天室消息
-
-    /**
-     * @param roomID 目的房间
-     * @param message  消息内容
-     * @param listener 回调
-     */
-    void sendRoomMessage(String roomID, String message, SendCommandListener listener);
-
-    // endregion
 }

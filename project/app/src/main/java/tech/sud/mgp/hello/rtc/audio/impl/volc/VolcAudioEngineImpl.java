@@ -171,10 +171,6 @@ public class VolcAudioEngineImpl implements ISudAudioEngine {
         }
     }
 
-    @Override
-    public void sendRoomMessage(String roomID, String message, SendCommandListener listener) {
-    }
-
     private AudioRoomState convertAudioRoomState(int state) {
         switch (state) {
             case CONNECTION_STATE_DISCONNECTED:

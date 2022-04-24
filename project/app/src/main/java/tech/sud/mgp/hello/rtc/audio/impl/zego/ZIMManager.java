@@ -155,16 +155,17 @@ public class ZIMManager {
         });
     }
 
-    public void leaveRoom(String roomID) {
-        mRoomID = null;
-        if (zim == null) {
+    public void leaveRoom() {
+        if (zim == null || mRoomID == null) {
             return;
         }
 
-        zim.leaveRoom(roomID, new ZIMRoomLeftCallback() {
+        zim.leaveRoom(mRoomID, new ZIMRoomLeftCallback() {
             @Override
             public void onRoomLeft(String roomID, ZIMError errorInfo) {
-
+                if (errorInfo.code == ZIMErrorCode.SUCCESS) {
+                    mRoomID = null;
+                }
             }
         });
     }

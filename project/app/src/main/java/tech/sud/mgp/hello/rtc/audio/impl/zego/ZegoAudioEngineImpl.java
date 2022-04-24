@@ -3,8 +3,6 @@ package tech.sud.mgp.hello.rtc.audio.impl.zego;
 import android.app.Application;
 import android.content.Context;
 
-import com.blankj.utilcode.util.ThreadUtils;
-
 import org.json.JSONObject;
 
 import java.nio.ByteBuffer;
@@ -84,22 +82,6 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
             engine.enableAudioCaptureDevice(false);
         }
 
-        ZIMManager.sharedInstance().create(appID, (Application) context.getApplicationContext());
-        ZIMManager.sharedInstance().setReceiveRoomMessageCallback(new ZIMManager.OnReceiveRoomMessage() {
-            @Override
-            public void onReceiveRoomMessage(String roomID, String senderUserID, String message) {
-                ThreadUtils.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        ISudAudioEventListener listener = mISudAudioEventListener;
-                        if (listener != null) {
-                            listener.onRecvRoomMessage(roomID, senderUserID, message);
-                        }
-                    }
-                });
-            }
-        });
-
         if (success != null) {
             success.run();
         }
@@ -110,9 +92,6 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
         /* 销毁 SDK */
         ZegoExpressEngine.destroyEngine(null);
         mRoomId = null;
-
-        ZIMManager.sharedInstance().destroy();
-        ZIMManager.sharedInstance().setReceiveRoomMessageCallback(null);
     }
 
     @Override
@@ -130,8 +109,6 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
             zegoRoomConfig.token = model.token;
             /* 开始登陆房间 */
             engine.loginRoom(model.roomID, zegoUser, zegoRoomConfig);
-
-            ZIMManager.sharedInstance().joinRoom(model.roomID, model.userID, model.userName, model.token, model.isRoomOwner);
         }
     }
 
@@ -142,11 +119,6 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
             /* 退出房间 */
             engine.logoutRoom();
         }
-
-        if (mRoomId != null) {
-            ZIMManager.sharedInstance().leaveRoom(mRoomId);
-        }
-
         mRoomId = null;
     }
 
@@ -235,11 +207,6 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
                 }
             });
         }
-    }
-
-    @Override
-    public void sendRoomMessage(String roomID, String message, SendCommandListener listener) {
-        ZIMManager.sharedInstance().sendRoomMessage(roomID, message, listener);
     }
 
     private AudioRoomState convertAudioRoomState(ZegoRoomState state) {

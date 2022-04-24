@@ -270,11 +270,6 @@ public class NeteaseAudioEngineImpl implements ISudAudioEngine {
         }
     }
 
-    @Override
-    public void sendRoomMessage(String roomID, String message, SendCommandListener listener) {
-
-    }
-
     // 更新房间内用户总人数
     private void updateRoomUserCount() {
         ISudAudioEventListener handler = mISudAudioEventListener;

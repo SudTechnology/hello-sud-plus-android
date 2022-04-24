@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 import tech.sud.mgp.hello.common.model.HSUserInfo;
+import tech.sud.mgp.hello.common.utils.GlobalCache;
 import tech.sud.mgp.hello.rtc.audio.core.AudioEngineUpdateType;
 import tech.sud.mgp.hello.rtc.audio.core.AudioPCMData;
 import tech.sud.mgp.hello.rtc.audio.core.AudioRoomState;
@@ -15,7 +16,9 @@ import tech.sud.mgp.hello.rtc.audio.core.AudioStream;
 import tech.sud.mgp.hello.rtc.audio.core.ISudAudioEngine;
 import tech.sud.mgp.hello.rtc.audio.core.ISudAudioEventListener;
 import tech.sud.mgp.hello.rtc.audio.factory.AudioEngineFactory;
+import tech.sud.mgp.hello.rtc.audio.impl.IMRoomManager;
 import tech.sud.mgp.hello.rtc.audio.model.AudioJoinRoomModel;
+import tech.sud.mgp.hello.service.main.resp.BaseConfigResp;
 import tech.sud.mgp.hello.ui.main.home.manager.RTCManager;
 import tech.sud.mgp.hello.ui.scenes.base.activity.SceneConfig;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoleType;
@@ -56,10 +59,18 @@ public class SceneEngineManager extends BaseServiceManager {
                     joinRoom(model);
                 }
             });
+
+            BaseConfigResp baseConfigResp = (BaseConfigResp) GlobalCache.getInstance().getSerializable(GlobalCache.BASE_CONFIG_KEY);
+            if (baseConfigResp != null && baseConfigResp.zegoCfg != null) {
+                IMRoomManager.sharedInstance().initWithConfig(baseConfigResp.zegoCfg.appId, eventHandler);
+                IMRoomManager.sharedInstance().joinRoom(model.roomId + "", HSUserInfo.userId + "", HSUserInfo.nickName, model.imToken, parentManager.getRoleType() == RoleType.OWNER);
+            }
             return;
         }
 
         joinRoom(model);
+
+        IMRoomManager.sharedInstance().joinRoom(model.roomId + "", HSUserInfo.userId + "", HSUserInfo.nickName, model.imToken, parentManager.getRoleType() == RoleType.OWNER);
     }
 
     private void joinRoom(RoomInfoModel model) {
@@ -74,9 +85,6 @@ public class SceneEngineManager extends BaseServiceManager {
         audioJoinRoomModel.roomName = model.roomName;
         audioJoinRoomModel.timestamp = System.currentTimeMillis();
         audioJoinRoomModel.token = model.rtcToken;
-        if (parentManager.getRoleType() == RoleType.OWNER) {
-            audioJoinRoomModel.isRoomOwner = true;
-        }
 
         engine.joinRoom(audioJoinRoomModel);
         engine.setEventListener(eventHandler);
@@ -120,10 +128,7 @@ public class SceneEngineManager extends BaseServiceManager {
     }
 
     public void sendRoomMessage(String roomID, String message, ISudAudioEngine.SendCommandListener result) {
-        ISudAudioEngine engine = getEngine();
-        if (engine != null) {
-            engine.sendRoomMessage(roomID, message, result);
-        }
+        IMRoomManager.sharedInstance().sendRoomMessage(roomID, message, result);
     }
 
     /**
@@ -278,6 +283,7 @@ public class SceneEngineManager extends BaseServiceManager {
         super.onDestroy();
         commandManager.onDestroy();
         AudioEngineFactory.destroy();
+        IMRoomManager.sharedInstance().destroy();
     }
 
     public interface OnRoomStreamUpdateListener {

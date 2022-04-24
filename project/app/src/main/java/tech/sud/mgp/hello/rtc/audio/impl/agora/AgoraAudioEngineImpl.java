@@ -210,11 +210,6 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
         }
     }
 
-    @Override
-    public void sendRoomMessage(String roomID, String message, SendCommandListener listener) {
-
-    }
-
     private AudioRoomState convertAudioRoomState(int state) {
         switch (state) {
             case Constants.CONNECTION_STATE_DISCONNECTED:

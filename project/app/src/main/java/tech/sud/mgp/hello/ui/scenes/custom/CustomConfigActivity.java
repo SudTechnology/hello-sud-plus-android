@@ -10,6 +10,7 @@ import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.SudMGPWrapper.model.GameConfigModel;
 import tech.sud.mgp.hello.common.base.BaseActivity;
 import tech.sud.mgp.hello.common.utils.GlobalCache;
+import tech.sud.mgp.hello.ui.main.utils.GsonUtils;
 import tech.sud.mgp.hello.ui.scenes.custom.dialog.CustomApiDialog;
 import tech.sud.mgp.hello.ui.scenes.custom.model.ConfigItemModel;
 import tech.sud.mgp.hello.ui.scenes.custom.view.CustomPageItem1View;
@@ -37,11 +38,11 @@ public class CustomConfigActivity extends BaseActivity {
         gameTipTv = findViewById(R.id.game_tip_tv);
         configContainer = findViewById(R.id.config_container);
         gameTipTv.setOnClickListener(v -> {
-            if (BuildConfig.DEBUG){
-                //            CustomApiDialog dialog = new CustomApiDialog();
+            if (BuildConfig.DEBUG) {
+//            CustomApiDialog dialog = new CustomApiDialog();
 //            dialog.show(getSupportFragmentManager(), null);
-                LogUtils.i("initWidget configModel gameCpu="+viewModel.configModel.gameCPU);
-                LogUtils.i("initWidget items value gameCpu="+viewModel.items.get(0).value);
+                LogUtils.i("initWidget configModel gameCpu=" + viewModel.configModel.gameSoundVolume);
+                LogUtils.i("initWidget items value gameCpu=" + viewModel.items.get(2).value);
             }
         });
     }
@@ -52,8 +53,10 @@ public class CustomConfigActivity extends BaseActivity {
         Object configModel = GlobalCache.getInstance().getSerializable(GlobalCache.CUSTOM_CONFIG_KEY);
         if (configModel instanceof GameConfigModel) {
             viewModel.configModel = (GameConfigModel) configModel;
+            LogUtils.i("initData1=" + viewModel.configModel.gameSoundVolume);
         } else {
             viewModel.configModel = new GameConfigModel();
+            LogUtils.i("initData2=" + viewModel.configModel.gameSoundVolume);
         }
     }
 

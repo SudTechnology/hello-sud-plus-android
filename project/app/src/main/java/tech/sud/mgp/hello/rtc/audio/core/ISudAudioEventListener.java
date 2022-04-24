@@ -42,12 +42,12 @@ public interface ISudAudioEventListener {
     void onRecvCommand(String fromUserID, String command);
 
     /**
-     * 接收聊天室消息回调
+     * 接收跨房指令信息回调
      * @param fromRoomID  消息的房间 ID
      * @param fromUserID  消息的用户 ID
-     * @param message     消息的内容
+     * @param command     指令内容
      */
-    void onRecvRoomMessage(String fromRoomID, String fromUserID, String message);
+    void onRecvXRoomCommand(String fromRoomID, String fromUserID, String command);
 
     /**
      * 房间内当前在线用户数量回调

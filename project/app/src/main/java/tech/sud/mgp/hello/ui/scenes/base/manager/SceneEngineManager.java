@@ -256,7 +256,7 @@ public class SceneEngineManager extends BaseServiceManager {
         }
 
         @Override
-        public void onRecvRoomMessage(String fromRoomID, String fromUserID, String message) {
+        public void onRecvXRoomCommand(String fromRoomID, String fromUserID, String command) {
 
         }
 

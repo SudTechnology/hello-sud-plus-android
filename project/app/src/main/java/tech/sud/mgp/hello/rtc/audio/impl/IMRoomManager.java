@@ -48,7 +48,7 @@ public class IMRoomManager {
                     public void run() {
                         ISudAudioEventListener listener = mISudAudioEventListener;
                         if (listener != null) {
-                            listener.onRecvRoomMessage(roomID, senderUserID, message);
+                            listener.onRecvXRoomCommand(roomID, senderUserID, message);
                         }
                     }
                 });

@@ -39,6 +39,7 @@ public class IMRoomManager {
             e.printStackTrace();
         }
 
+        mISudAudioEventListener = listener;
         ZIMManager.sharedInstance().create(appID, Utils.getApp());
         ZIMManager.sharedInstance().setReceiveRoomMessageCallback(new ZIMManager.OnReceiveRoomMessage() {
             @Override

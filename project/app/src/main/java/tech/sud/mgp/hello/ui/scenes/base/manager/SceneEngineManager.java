@@ -62,7 +62,7 @@ public class SceneEngineManager extends BaseServiceManager {
 
             BaseConfigResp baseConfigResp = (BaseConfigResp) GlobalCache.getInstance().getSerializable(GlobalCache.BASE_CONFIG_KEY);
             if (baseConfigResp != null && baseConfigResp.zegoCfg != null) {
-                IMRoomManager.sharedInstance().initWithConfig(baseConfigResp.zegoCfg.appId, eventHandler);
+                IMRoomManager.sharedInstance().init(baseConfigResp.zegoCfg.appId, eventHandler);
                 IMRoomManager.sharedInstance().joinRoom(model.roomId + "", HSUserInfo.userId + "", HSUserInfo.nickName, model.imToken, parentManager.getRoleType() == RoleType.OWNER);
             }
             return;

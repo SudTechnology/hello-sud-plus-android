@@ -31,7 +31,7 @@ public class IMRoomManager {
         return imRoomManager;
     }
 
-    public void initWithConfig(String appId, ISudAudioEventListener listener) {
+    public void init(String appId, ISudAudioEventListener listener) {
         long appID = 0;
         try {
             appID = Long.parseLong(appId);

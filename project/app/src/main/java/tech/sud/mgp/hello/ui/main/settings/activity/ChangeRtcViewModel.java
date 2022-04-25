@@ -79,9 +79,17 @@ public class ChangeRtcViewModel extends BaseViewModel {
                 list.add(new BaseRtcConfig(null, rtcNameVolc));
             }
 
+            // 添加腾讯云
+            String rtcNameTX = context.getString(R.string.rtc_name_tencent_cloud);
+            if (baseConfigResp != null && baseConfigResp.tencentCloudCfg != null) {
+                baseConfigResp.tencentCloudCfg.desc = rtcNameTX;
+                list.add(baseConfigResp.tencentCloudCfg);
+            } else {
+                list.add(new BaseRtcConfig(null, rtcNameTX));
+            }
+
             // 添加其它暂未支持的rtc
             list.add(new BaseRtcConfig(null, context.getString(R.string.rtc_name_alibaba_cloud)));
-            list.add(new BaseRtcConfig(null, context.getString(R.string.rtc_name_tencent_cloud)));
 
             rtcDatasLiveData.postValue(list);
         });

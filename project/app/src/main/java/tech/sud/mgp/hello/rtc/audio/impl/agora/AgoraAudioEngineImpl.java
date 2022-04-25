@@ -46,7 +46,6 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
 
     private ISudAudioEventListener mISudAudioEventListener;
     private RtcEngine mEngine;
-    private String mRoomID;
 
     // 信令相关
     private RtmClient mRtmClient;
@@ -88,7 +87,6 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
     public void destroy() {
         RtcEngine.destroy();
         mEngine = null;
-        mRoomID = null;
         destroyRtm();
     }
 
@@ -114,7 +112,6 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
             // 加入频道
             engine.joinChannelWithUserAccount(model.token, model.roomID, model.userID, channelMediaOptions);
             engine.setEnableSpeakerphone(true); // 开启。音频路由为扬声器。
-            mRoomID = model.roomID;
         }
     }
 
@@ -123,7 +120,6 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
         RtcEngine engine = getEngine();
         if (engine != null) {
             engine.leaveChannel();
-            mRoomID = null;
         }
         leaveRtmRoom();
     }

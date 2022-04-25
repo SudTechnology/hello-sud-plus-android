@@ -121,9 +121,9 @@ public class RCloudAudioEngineImpl implements ISudAudioEngine {
                     ThreadUtils.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            ISudAudioEventListener handler = mISudAudioEventListener;
-                            if (handler != null) {
-                                handler.onRoomStateUpdate(AudioRoomState.CONNECTED, 0, null);
+                            ISudAudioEventListener listener = mISudAudioEventListener;
+                            if (listener != null) {
+                                listener.onRoomStateUpdate(AudioRoomState.CONNECTED, 0, null);
                                 updateRoomUserCount();
                             }
 
@@ -285,9 +285,9 @@ public class RCloudAudioEngineImpl implements ISudAudioEngine {
         if (rcrtcRoom == null)
             return;
 
-        ISudAudioEventListener handler = mISudAudioEventListener;
-        if (handler != null) {
-            handler.onRoomOnlineUserCountUpdate(roomUserList.size() + 1);
+        ISudAudioEventListener listener = mISudAudioEventListener;
+        if (listener != null) {
+            listener.onRoomOnlineUserCountUpdate(roomUserList.size() + 1);
         }
     }
 

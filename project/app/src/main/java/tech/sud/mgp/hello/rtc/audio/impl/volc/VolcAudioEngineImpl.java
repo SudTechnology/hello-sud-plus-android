@@ -287,12 +287,12 @@ public class VolcAudioEngineImpl implements ISudAudioEngine {
     private final IAudioProcessor iAudioProcessor = new IAudioProcessor() {
         @Override
         public int processAudioFrame(IAudioFrame audioFrame) {
-            ISudAudioEventListener handler = mISudAudioEventListener;
-            if (handler != null) {
+            ISudAudioEventListener listener = mISudAudioEventListener;
+            if (listener != null) {
                 AudioPCMData audioPCMData = new AudioPCMData();
                 audioPCMData.data = audioFrame.getDataBuffer();
                 audioPCMData.dataLength = audioFrame.data_size();
-                handler.onCapturedPCMData(audioPCMData);
+                listener.onCapturedPCMData(audioPCMData);
             }
             return 0;
         }

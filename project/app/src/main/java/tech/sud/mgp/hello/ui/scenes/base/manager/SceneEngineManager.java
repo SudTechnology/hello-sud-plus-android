@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.GlobalCache;
 import tech.sud.mgp.hello.rtc.audio.core.AudioEngineUpdateType;
@@ -85,6 +86,7 @@ public class SceneEngineManager extends BaseServiceManager {
         audioJoinRoomModel.roomName = model.roomName;
         audioJoinRoomModel.timestamp = System.currentTimeMillis();
         audioJoinRoomModel.token = model.rtcToken;
+        audioJoinRoomModel.appId = AppData.getInstance().getSelectRtcConfig().appId;
 
         engine.joinRoom(audioJoinRoomModel);
         engine.setEventListener(eventHandler);

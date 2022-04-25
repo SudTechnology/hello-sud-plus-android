@@ -142,7 +142,7 @@ public class TXAudioEngineImpl implements ISudAudioEngine {
             TRTCCloudDef.TRTCAudioFrameCallbackFormat format = new TRTCCloudDef.TRTCAudioFrameCallbackFormat();
             format.sampleRate = TRTCCloudDef.TRTCAudioSampleRate16000;
             format.channel = 1;
-            format.samplesPerCall = 2;
+            format.samplesPerCall = 160;
             engine.setCapturedRawAudioFrameCallbackFormat(format);
 
             /* 设置原始音频数据回调 */

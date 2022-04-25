@@ -91,4 +91,13 @@ public interface RequestUrl {
      */
     String CHECK_UPGRADE = "check-upgrade/v1";
 
+    /**
+     * 点单场景：用户下单
+     * */
+    String ROOM_ORDER_CREATE = "room/order/create/v1";
+
+    /**
+     * 点单场景：主播接单
+     * */
+    String ROOM_ORDER_RECEIVE = "/room/order/receive/v1";
 }

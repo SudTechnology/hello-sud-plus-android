@@ -2,6 +2,8 @@ package tech.sud.mgp.hello.service.room.repository;
 
 import androidx.lifecycle.LifecycleOwner;
 
+import java.util.List;
+
 import tech.sud.mgp.hello.common.http.param.BaseUrlManager;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.http.rx.RxUtils;
@@ -11,9 +13,12 @@ import tech.sud.mgp.hello.service.room.req.EnterRoomReq;
 import tech.sud.mgp.hello.service.room.req.ExitRoomReq;
 import tech.sud.mgp.hello.service.room.req.RoomMicListReq;
 import tech.sud.mgp.hello.service.room.req.RoomMicSwitchReq;
+import tech.sud.mgp.hello.service.room.req.RoomOrderCreateReq;
+import tech.sud.mgp.hello.service.room.req.RoomOrderReceiveReq;
 import tech.sud.mgp.hello.service.room.response.EnterRoomResp;
 import tech.sud.mgp.hello.service.room.response.RoomMicListResp;
 import tech.sud.mgp.hello.service.room.response.RoomMicSwitchResp;
+import tech.sud.mgp.hello.service.room.response.RoomOrderCreateResp;
 
 public class AudioRepository {
 
@@ -80,6 +85,44 @@ public class AudioRepository {
         }
         AudioRequestMethodFactory.getMethod()
                 .roomMicSwitch(BaseUrlManager.getInteractBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /**
+     * 房间用户点单
+     *
+     * @param roomId     房间id
+     * @param userIdList 受邀主播用户id
+     * @param gameId     游戏id
+     */
+    public static void roomOrderCreate(LifecycleOwner owner,
+                                       long roomId,
+                                       List<Long> userIdList,
+                                       long gameId,
+                                       RxCallback<RoomOrderCreateResp> callback) {
+        RoomOrderCreateReq req = new RoomOrderCreateReq();
+        req.roomId = roomId;
+        req.userIdList = userIdList;
+        req.gameId = gameId;
+        AudioRequestMethodFactory.getMethod()
+                .roomOrderCreate(BaseUrlManager.getInteractBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /**
+     * 房间主播接单
+     *
+     * @param orderId 订单id
+     */
+    public static void roomOrderReceive(LifecycleOwner owner,
+                                        long orderId,
+                                        RxCallback<Object> callback) {
+        RoomOrderReceiveReq req = new RoomOrderReceiveReq();
+        req.orderId = orderId;
+        AudioRequestMethodFactory.getMethod()
+                .roomOrderReceive(BaseUrlManager.getInteractBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }

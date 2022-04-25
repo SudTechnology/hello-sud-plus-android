@@ -4,16 +4,19 @@ import io.reactivex.rxjava3.core.Observable;
 import retrofit2.http.Body;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import tech.sud.mgp.hello.common.http.param.BaseResponse;
+import tech.sud.mgp.hello.common.http.param.IBaseUrl;
+import tech.sud.mgp.hello.common.http.param.RequestUrl;
 import tech.sud.mgp.hello.service.room.req.EnterRoomReq;
 import tech.sud.mgp.hello.service.room.req.ExitRoomReq;
 import tech.sud.mgp.hello.service.room.req.RoomMicListReq;
 import tech.sud.mgp.hello.service.room.req.RoomMicSwitchReq;
+import tech.sud.mgp.hello.service.room.req.RoomOrderCreateReq;
+import tech.sud.mgp.hello.service.room.req.RoomOrderReceiveReq;
 import tech.sud.mgp.hello.service.room.response.EnterRoomResp;
 import tech.sud.mgp.hello.service.room.response.RoomMicListResp;
 import tech.sud.mgp.hello.service.room.response.RoomMicSwitchResp;
-import tech.sud.mgp.hello.common.http.param.BaseResponse;
-import tech.sud.mgp.hello.common.http.param.IBaseUrl;
-import tech.sud.mgp.hello.common.http.param.RequestUrl;
+import tech.sud.mgp.hello.service.room.response.RoomOrderCreateResp;
 
 /**
  * 网络请求方法和地址
@@ -43,5 +46,17 @@ public interface AudioRequestMethod {
      */
     @POST(RequestUrl.EXIT_ROOM)
     Observable<BaseResponse<Object>> exitRoom(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body ExitRoomReq req);
+
+    /**
+     * 用户点单
+     */
+    @POST(RequestUrl.ROOM_ORDER_CREATE)
+    Observable<BaseResponse<RoomOrderCreateResp>> roomOrderCreate(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body RoomOrderCreateReq req);
+
+    /**
+     * 主播接单
+     */
+    @POST(RequestUrl.ROOM_ORDER_RECEIVE)
+    Observable<BaseResponse<Object>> roomOrderReceive(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body RoomOrderReceiveReq req);
 
 }

@@ -56,4 +56,21 @@
         app:layout_constraintEnd_toEndOf="@id/riv_avatar"
         app:layout_constraintTop_toTopOf="@id/riv_avatar" />
 
+    <TextView
+        android:id="@+id/tv_game_state"
+        android:layout_width="42dp"
+        android:layout_height="16dp"
+        android:textSize="10sp"
+        android:layout_marginTop="38dp"
+        android:gravity="center"
+        android:visibility="gone"
+        android:textColor="@color/white"
+        android:text="@string/order_game_playing"
+        android:singleLine="true"
+        android:background="@drawable/shape_r8_s_79bc2f"
+        android:ellipsize="end"
+        app:layout_constraintTop_toTopOf="@id/riv_avatar"
+        app:layout_constraintEnd_toEndOf="@id/riv_avatar"
+        app:layout_constraintStart_toStartOf="@id/riv_avatar" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

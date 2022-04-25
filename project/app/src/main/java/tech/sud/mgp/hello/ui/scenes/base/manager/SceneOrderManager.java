@@ -6,6 +6,7 @@ import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.RoomCmdModelUtils;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.order.RoomCmdOrderOperateModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.order.RoomCmdUserOrderModel;
+import tech.sud.mgp.hello.ui.scenes.orderentertainment.model.ReceiveInviteMsgModel;
 
 /**
  * 点单场景
@@ -62,7 +63,18 @@ public class SceneOrderManager extends BaseServiceManager {
     private final SceneCommandManager.OrderResultCommandListener orderResultCommandListener = new SceneCommandManager.OrderResultCommandListener() {
         @Override
         public void onRecvCommand(RoomCmdOrderOperateModel command, String userID) {
-            parentManager.getCallback().onOrderOperate(command.orderId, command.gameId, command.gameName, command.sendUser.userID, command.sendUser.name, command.operate);
+            if (command.toUser.equals(HSUserInfo.userId+"")){
+                if (command.operate){
+                    ReceiveInviteMsgModel msgModel = new ReceiveInviteMsgModel();
+                    msgModel.gameId = command.gameId;
+                    msgModel.gameName = command.gameName;
+                    msgModel.userId  = command.sendUser.userID;
+                    msgModel.userName = command.sendUser.name;
+                    parentManager.sceneChatManager.addMsg(msgModel);
+                }else {
+                    parentManager.getCallback().onOrderOperate(command.orderId, command.gameId, command.gameName, command.sendUser.userID, command.sendUser.name, command.operate);
+                }
+            }
         }
     };
 }

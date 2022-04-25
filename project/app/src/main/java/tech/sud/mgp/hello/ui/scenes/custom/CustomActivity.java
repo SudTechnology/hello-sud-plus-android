@@ -7,17 +7,17 @@ import tech.sud.mgp.hello.SudMGPWrapper.model.GameConfigModel;
 import tech.sud.mgp.hello.common.utils.GlobalCache;
 import tech.sud.mgp.hello.ui.scenes.audio.activity.AbsAudioRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.custom.dialog.CustomApiDialog;
-import tech.sud.mgp.hello.ui.scenes.custom.viewmodel.CustomViewModel;
+import tech.sud.mgp.hello.ui.scenes.custom.viewmodel.CustomGameViewModel;
 
 /**
  * custom场景
  */
-public class CustomActivity extends AbsAudioRoomActivity<CustomViewModel> {
+public class CustomActivity extends AbsAudioRoomActivity<CustomGameViewModel> {
     private TextView apiTv;
 
     @Override
-    protected CustomViewModel initGameViewModel() {
-        return new CustomViewModel();
+    protected CustomGameViewModel initGameViewModel() {
+        return new CustomGameViewModel();
     }
 
     @Override

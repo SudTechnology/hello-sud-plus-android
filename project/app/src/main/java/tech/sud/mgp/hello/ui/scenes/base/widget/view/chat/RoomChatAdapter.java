@@ -10,6 +10,7 @@ import tech.sud.mgp.hello.common.widget.adapter.EmptyProvider;
 import tech.sud.mgp.hello.ui.scenes.base.model.GameTextModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoomTextModel;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftNotifyDetailodel;
+import tech.sud.mgp.hello.ui.scenes.orderentertainment.model.ReceiveInviteMsgModel;
 
 public class RoomChatAdapter extends BaseProviderMultiAdapter<Object> {
 
@@ -17,6 +18,7 @@ public class RoomChatAdapter extends BaseProviderMultiAdapter<Object> {
     public static final int TYPE_GIFT_NOTIFY = 2;
     public static final int TYPE_NORMAL_MSG = 3;
     public static final int TYPE_GAME_MSG = 4;
+    public static final int TYPE_RECEIVE_INVITE = 5;//接受用户点单消息
 
     public RoomChatAdapter() {
         addItemProvider(new RoomTextProvider());
@@ -24,6 +26,7 @@ public class RoomChatAdapter extends BaseProviderMultiAdapter<Object> {
         addItemProvider(new RoomGameTextProvider());
         addItemProvider(new EmptyProvider());
         addItemProvider(new RoomGiftNotifyProvider());
+        addItemProvider(new RoomReceiveOrderProvider());
     }
 
     @Override
@@ -37,6 +40,8 @@ public class RoomChatAdapter extends BaseProviderMultiAdapter<Object> {
             return TYPE_GAME_MSG;
         } else if (item instanceof String) {
             return TYPE_NORMAL_MSG;
+        }else if (item instanceof ReceiveInviteMsgModel){
+            return TYPE_RECEIVE_INVITE;
         }
         return EmptyProvider.TYPE_EMPTY;
     }

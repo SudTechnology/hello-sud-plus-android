@@ -2,7 +2,7 @@ package tech.sud.mgp.hello.ui.scenes.custom.viewmodel;
 
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.GameViewModel;
 
-public class CustomViewModel extends GameViewModel {
+public class CustomGameViewModel extends GameViewModel {
 
     //加入游戏
     public void joinGame() {

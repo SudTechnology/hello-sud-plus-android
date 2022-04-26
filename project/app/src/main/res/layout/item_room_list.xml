@@ -78,6 +78,7 @@
         <TextView
             android:background="@color/c_ffffff"
             android:id="@+id/rtc_name"
+            android:visibility="gone"
             android:minWidth="34dp"
             android:layout_width="wrap_content"
             android:layout_height="22dp"

@@ -6,7 +6,7 @@ import retrofit2.http.Header;
 import retrofit2.http.POST;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.IBaseUrl;
-import tech.sud.mgp.hello.common.http.param.RequestUrl;
+import tech.sud.mgp.hello.service.base.RequestUrl;
 import tech.sud.mgp.hello.service.game.req.SwitchGameReq;
 import tech.sud.mgp.hello.service.game.resp.GameLoginResp;
 

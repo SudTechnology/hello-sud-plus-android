@@ -15,10 +15,16 @@ import tech.sud.mgp.hello.service.room.req.RoomMicListReq;
 import tech.sud.mgp.hello.service.room.req.RoomMicSwitchReq;
 import tech.sud.mgp.hello.service.room.req.RoomOrderCreateReq;
 import tech.sud.mgp.hello.service.room.req.RoomOrderReceiveReq;
+import tech.sud.mgp.hello.service.room.req.RoomPkAgreeReq;
+import tech.sud.mgp.hello.service.room.req.RoomPkDurationReq;
+import tech.sud.mgp.hello.service.room.req.RoomPkStartReq;
+import tech.sud.mgp.hello.service.room.req.RoomPkSwitchReq;
 import tech.sud.mgp.hello.service.room.response.EnterRoomResp;
 import tech.sud.mgp.hello.service.room.response.RoomMicListResp;
 import tech.sud.mgp.hello.service.room.response.RoomMicSwitchResp;
 import tech.sud.mgp.hello.service.room.response.RoomOrderCreateResp;
+import tech.sud.mgp.hello.service.room.response.RoomPkAgreeResp;
+import tech.sud.mgp.hello.service.room.response.RoomPkStartResp;
 
 public class RoomRepository {
 
@@ -121,6 +127,73 @@ public class RoomRepository {
         req.orderId = orderId;
         AudioRequestMethodFactory.getMethod()
                 .roomOrderReceive(BaseUrlManager.getInteractBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /**
+     * 设置跨房pk时长
+     *
+     * @param roomId 房间Id
+     * @param minute 时长分钟数
+     */
+    public static void roomPkDuration(LifecycleOwner owner, long roomId, int minute, RxCallback<Object> callback) {
+        RoomPkDurationReq req = new RoomPkDurationReq();
+        req.roomId = roomId;
+        req.minute = minute;
+        AudioRequestMethodFactory.getMethod()
+                .roomPkDuration(BaseUrlManager.getInteractBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /**
+     * 设置跨房pk开关
+     *
+     * @param roomId   房间Id
+     * @param pkSwitch true: 开启PK  false:关闭PK
+     */
+    public static void roomPkSwitch(LifecycleOwner owner, long roomId, boolean pkSwitch, RxCallback<Object> callback) {
+        RoomPkSwitchReq req = new RoomPkSwitchReq();
+        req.roomId = roomId;
+        req.pkSwitch = pkSwitch;
+        AudioRequestMethodFactory.getMethod()
+                .roomPkSwitch(BaseUrlManager.getInteractBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /**
+     * 开始跨房Pk
+     *
+     * @param roomId 房间Id
+     * @param minute 时长分钟数
+     */
+    public static void roomPkStart(LifecycleOwner owner, long roomId, int minute, RxCallback<RoomPkStartResp> callback) {
+        RoomPkStartReq req = new RoomPkStartReq();
+        req.roomId = roomId;
+        req.minute = minute;
+        AudioRequestMethodFactory.getMethod()
+                .roomPkStart(BaseUrlManager.getInteractBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /**
+     * 开始跨房Pk
+     *
+     * @param srcRoomId  PK发起房间id
+     * @param gameId     PK发起方游戏id
+     * @param destRoomId PK受邀房间id
+     */
+    public static void roomPkAgree(LifecycleOwner owner, long srcRoomId, long gameId, long destRoomId,
+                                   RxCallback<RoomPkAgreeResp> callback) {
+        RoomPkAgreeReq req = new RoomPkAgreeReq();
+        req.srcRoomId = srcRoomId;
+        req.gameId = gameId;
+        req.destRoomId = destRoomId;
+        AudioRequestMethodFactory.getMethod()
+                .roomPkAgree(BaseUrlManager.getInteractBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }

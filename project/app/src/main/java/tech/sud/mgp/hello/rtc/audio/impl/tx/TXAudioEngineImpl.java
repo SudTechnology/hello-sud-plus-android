@@ -48,8 +48,6 @@ public class TXAudioEngineImpl implements ISudAudioEngine {
             destroy();
         }
 
-        // 设置自己的userId
-        mUserID = model.userID;
         mEngine = TRTCCloud.sharedInstance(context.getApplicationContext());
         if (mEngine != null) {
             mEngine.setListener(trtcCloudListener);
@@ -81,6 +79,9 @@ public class TXAudioEngineImpl implements ISudAudioEngine {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
+            // 设置自己的userId
+            mUserID = model.userID;
 
             TRTCCloudDef.TRTCParams trtcParams = new TRTCCloudDef.TRTCParams();
             trtcParams.sdkAppId = (int)appID;

@@ -13,10 +13,10 @@ import java.util.List;
 
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 
-public abstract class BaseMicView extends ConstraintLayout {
+public abstract class BaseMicView<T extends BaseMicItemView> extends ConstraintLayout {
 
     protected ArrayList<AudioRoomMicModel> mDatas = new ArrayList<>();
-    protected ArrayList<BaseMicItemView> mItemViews = new ArrayList<>();
+    protected ArrayList<T> mItemViews = new ArrayList<>();
     protected OnMicItemClickListener mOnMicItemClickListener;
 
     public BaseMicView(@NonNull Context context) {
@@ -39,7 +39,7 @@ public abstract class BaseMicView extends ConstraintLayout {
         notifyDataSetChanged();
     }
 
-    private void notifyDataSetChanged() {
+    protected void notifyDataSetChanged() {
         for (int i = 0; i < mItemViews.size(); i++) {
             BaseMicItemView micItemView = mItemViews.get(i);
             AudioRoomMicModel model = getModel(i);
@@ -97,6 +97,14 @@ public abstract class BaseMicView extends ConstraintLayout {
                 itemView.convert(micIndex, model);
             }
         }
+    }
+
+    /** 收缩麦位 */
+    protected void shirnkMicView() {
+    }
+
+    /** 展开麦位 */
+    protected void spreadMicView() {
     }
 
 }

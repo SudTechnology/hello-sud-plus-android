@@ -14,6 +14,7 @@ import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
 import tech.sud.mgp.hello.common.utils.ShapeUtils;
+import tech.sud.mgp.hello.common.utils.ViewUtils;
 import tech.sud.mgp.hello.common.widget.view.SoundLevelView;
 import tech.sud.mgp.hello.common.widget.view.round.RoundedImageView;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
@@ -24,12 +25,14 @@ import tech.sud.mgp.hello.ui.scenes.base.widget.view.mic.BaseMicItemView;
  */
 public class AudioRoomGameMicItemView extends BaseMicItemView {
 
-    private SoundLevelView mSoundLevelView;
-    private RoundedImageView mRivIcon;
-    private TextView mTvName;
-    private View mViewCaptain;
-    private TextView mTvState;
-    private View mViewPlayingGame;
+    private SoundLevelView soundLevelView;
+    private RoundedImageView rivIcon;
+    private TextView tvName;
+    private View viewCaptain;
+    private TextView tvState;
+    private View viewPlayingGame;
+
+    private AudioRoomGameMicView.GameMicMode micMode;
 
     public AudioRoomGameMicItemView(@NonNull Context context) {
         this(context, null);
@@ -46,89 +49,139 @@ public class AudioRoomGameMicItemView extends BaseMicItemView {
 
     private void initView() {
         inflate(getContext(), R.layout.view_room_game_mic_item, this);
-        mSoundLevelView = findViewById(R.id.sound_level_view);
-        mRivIcon = findViewById(R.id.riv_avatar);
-        mTvName = findViewById(R.id.tv_name);
-        mViewCaptain = findViewById(R.id.view_captain);
-        mTvState = findViewById(R.id.tv_game_state);
-        mViewPlayingGame = findViewById(R.id.view_playing_game);
+        soundLevelView = findViewById(R.id.sound_level_view);
+        rivIcon = findViewById(R.id.riv_avatar);
+        tvName = findViewById(R.id.tv_name);
+        viewCaptain = findViewById(R.id.view_captain);
+        tvState = findViewById(R.id.tv_game_state);
+        viewPlayingGame = findViewById(R.id.view_playing_game);
     }
 
     @Override
     public void convert(int position, AudioRoomMicModel item) {
-        boolean hasUser = item.userId > 0;
+        // 给View设置数据
+        if (micMode != null && micMode.isShirnk) {
+            shirnkConvert(position, item);
+        } else {
+            normalConvert(position, item);
+        }
+    }
 
-        mSoundLevelView.setCurUserId(item.userId);
+    /** 缩放模式下的数据设置 */
+    private void shirnkConvert(int position, AudioRoomMicModel item) {
+        boolean hasUser = item.userId > 0;
+        // 声浪
+        soundLevelView.setCurUserId(item.userId);
 
         // 头像
         if (hasUser) {
-            ImageLoader.loadAvatar(mRivIcon, item.avatar);
+            ImageLoader.loadAvatar(rivIcon, item.avatar);
         } else {
-            ImageLoader.loadDrawable(mRivIcon, R.drawable.ic_seat);
+            ImageLoader.loadDrawable(rivIcon, R.drawable.ic_seat);
         }
 
+        tvName.setVisibility(View.GONE);
+        viewCaptain.setVisibility(View.GONE);
+        tvState.setVisibility(View.GONE);
+        viewPlayingGame.setVisibility(View.GONE);
+    }
+
+    private void normalConvert(int position, AudioRoomMicModel item) {
+        boolean hasUser = item.userId > 0;
+        tvName.setVisibility(View.VISIBLE);
         // 昵称
         if (hasUser) {
-            mTvName.setText(item.nickName);
+            tvName.setText(item.nickName);
         } else {
-//            mTvName.setText(R.string.audio_click_got_mic);
-            mTvName.setText("");
+            tvName.setText("");
+        }
+
+        // 声浪
+        soundLevelView.setCurUserId(item.userId);
+
+        // 头像
+        if (hasUser) {
+            ImageLoader.loadAvatar(rivIcon, item.avatar);
+        } else {
+            ImageLoader.loadDrawable(rivIcon, R.drawable.ic_seat);
         }
 
         // 队长标识
         if (hasUser) {
             if (item.isCaptain != null && item.isCaptain) {
-                mViewCaptain.setVisibility(View.VISIBLE);
+                viewCaptain.setVisibility(View.VISIBLE);
             } else {
-                mViewCaptain.setVisibility(View.GONE);
+                viewCaptain.setVisibility(View.GONE);
             }
         } else {
-            mViewCaptain.setVisibility(View.GONE);
+            viewCaptain.setVisibility(View.GONE);
         }
 
         // 准备状态
         if (hasUser) {
             switch (item.readyStatus) {
                 case 1: // 已准备
-                    mTvState.setVisibility(View.VISIBLE);
-                    mTvState.setText(R.string.audio_has_ready);
+                    tvState.setVisibility(View.VISIBLE);
+                    tvState.setText(R.string.audio_has_ready);
                     int strokeWidth = DensityUtils.dp2px(getContext(), 0.5f);
-                    mTvState.setBackground(ShapeUtils.createShape(strokeWidth, (float) strokeWidth, null,
+                    tvState.setBackground(ShapeUtils.createShape(strokeWidth, (float) strokeWidth, null,
                             GradientDrawable.RECTANGLE, Color.parseColor("#ffffff"),
                             Color.parseColor("#60cb6a")));
                     break;
                 case 2: // 未准备
-                    mTvState.setVisibility(View.VISIBLE);
-                    mTvState.setText(R.string.audio_not_ready);
+                    tvState.setVisibility(View.VISIBLE);
+                    tvState.setText(R.string.audio_not_ready);
                     strokeWidth = DensityUtils.dp2px(getContext(), 0.5f);
-                    mTvState.setBackground(ShapeUtils.createShape(strokeWidth, (float) strokeWidth, null,
+                    tvState.setBackground(ShapeUtils.createShape(strokeWidth, (float) strokeWidth, null,
                             GradientDrawable.RECTANGLE, Color.parseColor("#ffffff"),
                             Color.parseColor("#f7782f")));
                     break;
                 default:
-                    mTvState.setVisibility(View.GONE);
+                    tvState.setVisibility(View.GONE);
                     break;
             }
         } else {
-            mTvState.setVisibility(View.GONE);
+            tvState.setVisibility(View.GONE);
         }
 
         // 是否正在游戏中
         if (item.isPlayingGame) {
-            mViewPlayingGame.setVisibility(View.VISIBLE);
+            viewPlayingGame.setVisibility(View.VISIBLE);
         } else {
-            mViewPlayingGame.setVisibility(View.GONE);
+            viewPlayingGame.setVisibility(View.GONE);
         }
     }
 
     @Override
     public void startSoundLevel() {
-        mSoundLevelView.start();
+        soundLevelView.start();
     }
 
     @Override
     public void stopSoundLevel() {
-        mSoundLevelView.stop();
+        soundLevelView.stop();
+    }
+
+    public void setMicMode(AudioRoomGameMicView.GameMicMode micMode) {
+        this.micMode = micMode;
+    }
+
+    public void changeSize() {
+        if (micMode.isShirnk) {
+            setShirnkSize();
+        } else {
+            setSpreadSize();
+        }
+    }
+
+    private void setShirnkSize() {
+        ViewUtils.setSize(soundLevelView, DensityUtils.dp2px(getContext(), 43));
+        ViewUtils.setMarginTop(rivIcon, DensityUtils.dp2px(getContext(), 16));
+    }
+
+    private void setSpreadSize() {
+        ViewUtils.setSize(soundLevelView, DensityUtils.dp2px(getContext(), 48));
+        ViewUtils.setMarginTop(rivIcon, DensityUtils.dp2px(getContext(), 10));
     }
 
 }

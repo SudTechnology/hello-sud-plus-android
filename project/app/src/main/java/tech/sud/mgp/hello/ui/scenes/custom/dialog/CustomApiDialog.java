@@ -46,7 +46,7 @@ public class CustomApiDialog extends BaseDialogFragment {
 
     @Override
     protected int getWidth() {
-        return DensityUtils.getScreenWidth();
+        return DensityUtils.getAppScreenWidth();
     }
 
     @Override
@@ -54,7 +54,7 @@ public class CustomApiDialog extends BaseDialogFragment {
         return Gravity.BOTTOM;
     }
 
-    public interface OperationListener{
+    public interface OperationListener {
         void operation(int i);
     }
 

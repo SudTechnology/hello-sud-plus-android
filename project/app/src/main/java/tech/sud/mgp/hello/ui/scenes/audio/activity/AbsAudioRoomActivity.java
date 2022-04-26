@@ -31,7 +31,7 @@ public abstract class AbsAudioRoomActivity<T extends GameViewModel> extends Base
             return;
         }
         audioRoomMicStyle = micStyle;
-        BaseMicView baseMicView;
+        BaseMicView<?> baseMicView;
         switch (micStyle) {
             case NORMAL:
                 baseMicView = new AudioRoomMicView(this);

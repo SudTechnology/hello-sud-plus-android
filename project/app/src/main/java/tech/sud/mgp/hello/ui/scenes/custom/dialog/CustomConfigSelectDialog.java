@@ -61,7 +61,7 @@ public class CustomConfigSelectDialog extends BaseDialog {
 
     @Override
     protected int getWidth() {
-        return DensityUtils.getScreenWidth();
+        return DensityUtils.getAppScreenWidth();
     }
 
     @Override

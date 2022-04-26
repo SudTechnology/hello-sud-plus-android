@@ -5,14 +5,11 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.ToastUtils;
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.listener.OnItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -200,7 +197,7 @@ public class OrderDialog extends BaseDialogFragment {
 
     @Override
     protected int getWidth() {
-        return DensityUtils.getScreenWidth();
+        return DensityUtils.getAppScreenWidth();
     }
 
     @Override

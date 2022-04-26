@@ -2,9 +2,9 @@ package tech.sud.mgp.hello.ui.scenes.base.widget.view;
 
 import android.content.Context;
 import android.graphics.PixelFormat;
+import android.graphics.Point;
 import android.os.Build;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -25,7 +25,7 @@ public class RoomFloatingView extends ConstraintLayout {
 
     private WindowManager mWindowManager;
     private WindowManager.LayoutParams mLayoutParams = new WindowManager.LayoutParams();
-    private DisplayMetrics display = DensityUtils.getDisplayMetrics(getContext());
+    private Point screenSize = DensityUtils.getScreenSize();
     private TextView tvName;
     private View viewShutdown;
 
@@ -73,15 +73,15 @@ public class RoomFloatingView extends ConstraintLayout {
         mLayoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
         mLayoutParams.width = LinearLayout.LayoutParams.WRAP_CONTENT;
         mLayoutParams.height = LinearLayout.LayoutParams.WRAP_CONTENT;
-        maxX = display.widthPixels - mLayoutParams.width;
-        maxY = display.heightPixels - mLayoutParams.height;
+        maxX = screenSize.x - mLayoutParams.width;
+        maxY = screenSize.y - mLayoutParams.height;
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        maxX = display.widthPixels - mLayoutParams.width;
-        maxY = display.heightPixels - mLayoutParams.height;
+        maxX = screenSize.x - mLayoutParams.width;
+        maxY = screenSize.y - mLayoutParams.height;
     }
 
     @Override

@@ -13,14 +13,19 @@ import tech.sud.mgp.hello.service.main.resp.GameModeModel;
 import tech.sud.mgp.hello.service.main.resp.GameModel;
 import tech.sud.mgp.hello.service.room.repository.AudioRepository;
 
+/**
+ * 房间业务
+ */
 public class SceneRoomViewModel extends BaseViewModel {
 
     private int getGameListErrCount;
 
+    /** 初始化数据 */
     public void initData() {
         getGameList();
     }
 
+    /** 获取游戏列表 */
     private void getGameList() {
         HomeRepository.gameList(null, new RxCallback<GameListResp>() {
             @Override

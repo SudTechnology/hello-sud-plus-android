@@ -65,7 +65,7 @@ public class CustomApiHelpDialog extends BaseDialogFragment {
 
     @Override
     protected int getWidth() {
-        return DensityUtils.getScreenWidth();
+        return DensityUtils.getAppScreenWidth();
     }
 
     @Override

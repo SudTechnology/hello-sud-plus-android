@@ -445,6 +445,14 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
                 updateGameNumber();
             }
         });
+        gameViewModel.micSpaceMaxLiveData.observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean spaceMax) {
+                if (spaceMax) {
+                    micView.shirnkMicView();
+                }
+            }
+        });
     }
 
     // asr的开启与关闭
@@ -637,7 +645,7 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
      * @param gameId     游戏id
      * @param selfSwitch 标识是否是自己切换的
      */
-    private void switchGame(long gameId, boolean selfSwitch) {
+    protected void switchGame(long gameId, boolean selfSwitch) {
         if (playingGameId == gameId) {
             return;
         }
@@ -663,7 +671,7 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
         updateGameNumber();
     }
 
-    private void updateGameNumber() {
+    protected void updateGameNumber() {
         long gameId = playingGameId;
         if (gameId <= 0) {
             tvGameNumber.setText("");
@@ -916,7 +924,7 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
     }
 
     @Override
-    public void onOrderInvite(long orderId, long gameId,String gameName, String userID, String nickname,List<String> toUsers) {
+    public void onOrderInvite(long orderId, long gameId, String gameName, String userID, String nickname, List<String> toUsers) {
 
     }
 

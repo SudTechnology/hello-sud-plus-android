@@ -99,7 +99,8 @@
         android:id="@+id/cl_open_mic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        app:layout_constraintWidth_max="343dp"
+        android:layout_marginHorizontal="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@id/room_bottom_view">
 

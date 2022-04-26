@@ -509,7 +509,7 @@ public class SudMGPMGState {
         // 当isPlaying==false时有效；isPlaying=false, 0:正常结束 1:提前结束（自己不玩了）2:无真人可以提前结束（无真人，只有机器人） 3:所有人都提前结束；（reason默认-1，无意义便于处理）
         public int reason;
         // true 建议尽量收缩原生UI，给游戏留出尽量大的操作空间 false 初始状态；
-        public boolean spaceMax;
+        public Boolean spaceMax;
     }
 
     /**

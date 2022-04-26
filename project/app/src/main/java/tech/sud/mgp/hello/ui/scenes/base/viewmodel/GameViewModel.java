@@ -63,6 +63,7 @@ public class GameViewModel implements SudFSMMGListener {
     public final MutableLiveData<Boolean> gameRTCPlayLiveData = new MutableLiveData<>(); // 游戏RTC拉流开关
     public final MutableLiveData<Object> playerInLiveData = new MutableLiveData<>(); // 有玩家加入或者离开了游戏
     public final MutableLiveData<Boolean> showFinishGameBtnLiveData = new MutableLiveData<>(); // 是否具备结束游戏的权力
+    public final MutableLiveData<Boolean> micSpaceMaxLiveData = new MutableLiveData<>(); // 是否收缩麦位
 
     private View gameView; // 游戏View
     private int selfMicIndex = -1; // 记录自己所在麦位
@@ -663,6 +664,9 @@ public class GameViewModel implements SudFSMMGListener {
     public void onPlayerMGCommonPlayerPlaying(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGCommonPlayerPlaying model) {
         if (model != null) {
             notifyUpdateMic();
+            if (userId != null && userId.equals(HSUserInfo.userId + "")) {
+                micSpaceMaxLiveData.setValue(model.spaceMax);
+            }
         }
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }

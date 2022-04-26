@@ -1,7 +1,8 @@
 package tech.sud.mgp.hello.common.utils;
 
 import android.content.Context;
-import android.util.DisplayMetrics;
+import android.graphics.Point;
+import android.view.WindowManager;
 
 import com.blankj.utilcode.util.Utils;
 
@@ -9,39 +10,57 @@ import tech.sud.mgp.hello.app.HelloSudApplication;
 
 public class DensityUtils {
 
-    /**
-     * dp转px
-     */
+    /** dp转px */
     public static int dp2px(Context context, float dpValue) {
         float scale = context.getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
     }
 
-    /**
-     * dp转px
-     */
+    /** dp转px */
     public static int dp2px(float dpValue) {
         return dp2px(HelloSudApplication.instance, dpValue);
     }
 
-    /**
-     * px转dp
-     */
+    /** px转dp */
     public static int px2dp(Context context, float pxValue) {
         float scale = context.getResources().getDisplayMetrics().density;
         return (int) (pxValue / scale + 0.5f);
     }
 
+    /** 获取屏幕真实宽度 */
     public static int getScreenWidth() {
-        return getDisplayMetrics(Utils.getApp()).widthPixels;
+        return getScreenSize().x;
     }
 
+    /** 获取屏幕真实高度 */
     public static int getScreenHeight() {
-        return getDisplayMetrics(Utils.getApp()).heightPixels;
+        return getScreenSize().y;
     }
 
-    public static DisplayMetrics getDisplayMetrics(Context context) {
-        return context.getResources().getDisplayMetrics();
+    /** 获取应用展示宽度 */
+    public static int getAppScreenWidth() {
+        return getAppScreenSize().x;
+    }
+
+    /** 获取应用展示高度 */
+    public static int getAppScreenHeight() {
+        return getAppScreenSize().y;
+    }
+
+    /** 获取app展示的宽高 */
+    public static Point getAppScreenSize() {
+        WindowManager wm = (WindowManager) Utils.getApp().getSystemService(Context.WINDOW_SERVICE);
+        Point point = new Point();
+        wm.getDefaultDisplay().getSize(point);
+        return point;
+    }
+
+    /** 获取屏幕真实宽高 */
+    public static Point getScreenSize() {
+        WindowManager wm = (WindowManager) Utils.getApp().getSystemService(Context.WINDOW_SERVICE);
+        Point point = new Point();
+        wm.getDefaultDisplay().getRealSize(point);
+        return point;
     }
 
 }

@@ -22,12 +22,12 @@ public class SudFSMMGDecorator implements ISudFSMMG {
     private SudFSMMGListener sudFSMMGListener;
 
     // 数据状态封装
-    private SudFSMMGCache sudFSMMGCache = new SudFSMMGCache();
+    private final SudFSMMGCache sudFSMMGCache = new SudFSMMGCache();
 
     /**
      * 设置回调
      *
-     * @param listener
+     * @param listener 监听器
      */
     public void setSudFSMMGListener(SudFSMMGListener listener) {
         sudFSMMGListener = listener;
@@ -87,7 +87,7 @@ public class SudFSMMGDecorator implements ISudFSMMG {
      * 获取游戏View信息，需要实现
      * APP接入方需要调用handle.success或handle.fail
      *
-     * @param handle
+     * @param handle   操作
      * @param dataJson {}
      */
     @Override
@@ -102,7 +102,7 @@ public class SudFSMMGDecorator implements ISudFSMMG {
      * 获取游戏Config，需要实现
      * APP接入方需要调用handle.success或handle.fail
      *
-     * @param handle
+     * @param handle   操作
      * @param dataJson {}
      *                 最低版本：v1.1.30.xx
      */
@@ -118,9 +118,9 @@ public class SudFSMMGDecorator implements ISudFSMMG {
      * 游戏状态变化
      * APP接入方需要调用handle.success或handle.fail
      *
-     * @param handle
-     * @param state
-     * @param dataJson
+     * @param handle   操作
+     * @param state    状态命令
+     * @param dataJson 状态值
      */
     @Override
     public void onGameStateChange(ISudFSMStateHandle handle, String state, String dataJson) {
@@ -291,10 +291,10 @@ public class SudFSMMGDecorator implements ISudFSMMG {
      * 游戏玩家状态变化
      * APP接入方需要调用handle.success或handle.fail
      *
-     * @param handle
-     * @param userId
-     * @param state
-     * @param dataJson
+     * @param handle   操作
+     * @param userId   用户id
+     * @param state    状态命令
+     * @param dataJson 状态值
      */
     @Override
     public void onPlayerStateChange(ISudFSMStateHandle handle, String userId, String state, String dataJson) {

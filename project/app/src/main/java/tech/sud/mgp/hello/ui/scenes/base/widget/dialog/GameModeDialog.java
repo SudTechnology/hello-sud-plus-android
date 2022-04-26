@@ -88,7 +88,7 @@ public class GameModeDialog extends BaseDialogFragment {
 
     @Override
     protected int getHeight() {
-        return (int) (DensityUtils.getScreenHeight() * 0.7);
+        return (int) (DensityUtils.getAppScreenHeight() * 0.7);
     }
 
     @Override

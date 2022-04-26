@@ -96,7 +96,7 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
     private GameModeDialog gameModeDialog;
 
     /** 场景配置，子类可对其进行修改进行定制化需求 */
-    protected final SceneConfig sceneConfig = new SceneConfig();
+    protected final RoomConfig roomConfig = new RoomConfig();
 
     @Override
     protected boolean beforeSetContentView() {
@@ -167,7 +167,7 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
     private void enterRoom() {
         if (binder != null) {
             binder.setCallback(this);
-            binder.enterRoom(sceneConfig, getClass(), roomInfoModel);
+            binder.enterRoom(roomConfig, getClass(), roomInfoModel);
         }
         updatePageStyle();
     }
@@ -673,7 +673,7 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
 
     protected void updateGameNumber() {
         long gameId = playingGameId;
-        if (gameId <= 0) {
+        if (gameId <= 0 || !roomConfig.isShowGameNumber) {
             tvGameNumber.setText("");
             return;
         }
@@ -772,7 +772,7 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
 
     // 切换游戏之后，更新页面样式
     protected void updatePageStyle() {
-        if (isSupportASR(playingGameId)) {
+        if (isSupportASR(playingGameId) && roomConfig.isShowASRTopHint) {
             tvASRHint.setVisibility(View.VISIBLE);
         } else {
             tvASRHint.setVisibility(View.GONE);

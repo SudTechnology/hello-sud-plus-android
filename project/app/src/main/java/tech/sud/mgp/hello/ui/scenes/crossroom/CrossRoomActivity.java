@@ -22,6 +22,13 @@ public class CrossRoomActivity extends BaseRoomActivity<GameViewModel> {
     }
 
     @Override
+    protected void initWidget() {
+        super.initWidget();
+        roomConfig.isShowGameNumber = false; // 不显示游戏人数
+        roomConfig.isShowASRTopHint = false; // 右上角不展示ASR提示
+    }
+
+    @Override
     protected int getLayoutId() {
         return R.layout.activity_cross_room;
     }

@@ -14,7 +14,7 @@ import androidx.annotation.Nullable;
 import java.util.List;
 
 import tech.sud.mgp.hello.ui.common.utils.channel.NotifyId;
-import tech.sud.mgp.hello.ui.scenes.base.activity.SceneConfig;
+import tech.sud.mgp.hello.ui.scenes.base.activity.RoomConfig;
 import tech.sud.mgp.hello.ui.scenes.base.constant.OperateMicType;
 import tech.sud.mgp.hello.ui.scenes.base.manager.SceneFloatingManager;
 import tech.sud.mgp.hello.ui.scenes.base.manager.SceneRoomServiceManager;
@@ -69,7 +69,7 @@ public class SceneRoomService extends Service {
          *
          * @param model 进入的房间信息
          */
-        public void enterRoom(SceneConfig config, Class<? extends Activity> startClass, RoomInfoModel model) {
+        public void enterRoom(RoomConfig config, Class<? extends Activity> startClass, RoomInfoModel model) {
             notificationHelper.setData(model.roomName, startClass);
 
             if (sceneRoomData.roomInfoModel != null && sceneRoomData.roomInfoModel.roomId != null) {
@@ -185,11 +185,15 @@ public class SceneRoomService extends Service {
             floatingManager.dismissFloating();
         }
 
-        /** 发起点单广播*/
-        public void broadcastOrder(long orderId, long gameId,String gameName, List<String> toUsers){serviceManager.sceneOrderManager.broadcastOrder(orderId, gameId,gameName, toUsers);}
+        /** 发起点单广播 */
+        public void broadcastOrder(long orderId, long gameId, String gameName, List<String> toUsers) {
+            serviceManager.sceneOrderManager.broadcastOrder(orderId, gameId, gameName, toUsers);
+        }
 
-        /** 发起点单广播*/
-        public void operateOrder(long orderId, long gameId, String gameName, String toUser, boolean state){serviceManager.sceneOrderManager.operateOrder(orderId, gameId,gameName, toUser,state);}
+        /** 发起点单广播 */
+        public void operateOrder(long orderId, long gameId, String gameName, String toUser, boolean state) {
+            serviceManager.sceneOrderManager.operateOrder(orderId, gameId, gameName, toUser, state);
+        }
     }
 
     /** 获取当前使用的房间基本数据 */

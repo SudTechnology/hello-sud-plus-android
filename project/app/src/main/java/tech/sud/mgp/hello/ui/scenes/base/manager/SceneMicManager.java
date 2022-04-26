@@ -16,7 +16,7 @@ import tech.sud.mgp.hello.service.room.repository.RoomRepository;
 import tech.sud.mgp.hello.service.room.response.RoomMicListResp;
 import tech.sud.mgp.hello.service.room.response.RoomMicResp;
 import tech.sud.mgp.hello.service.room.response.RoomMicSwitchResp;
-import tech.sud.mgp.hello.ui.scenes.base.activity.SceneConfig;
+import tech.sud.mgp.hello.ui.scenes.base.activity.RoomConfig;
 import tech.sud.mgp.hello.ui.scenes.base.constant.OperateMicType;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModelConverter;
@@ -50,7 +50,7 @@ public class SceneMicManager extends BaseServiceManager {
     }
 
     /** 初始化 */
-    private void init(SceneConfig config) {
+    private void init(RoomConfig config) {
         micList.clear();
         for (int i = 0; i < config.micCount; i++) {
             AudioRoomMicModel model = new AudioRoomMicModel();
@@ -60,7 +60,7 @@ public class SceneMicManager extends BaseServiceManager {
     }
 
     /** 进入房间 */
-    public void enterRoom(SceneConfig config, RoomInfoModel model) {
+    public void enterRoom(RoomConfig config, RoomInfoModel model) {
         init(config);
         enterRoomCompleted = false;
         notifyDataSetChange();

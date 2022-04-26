@@ -12,8 +12,8 @@ public class PkResultModel {
     public static class RoomPkInfo {
         public long roomId; // 房间id
         public long score; // PK分数
-        public long roomOwnerHeader; // 房主头像
-        public long roomOwnerNickname; // 房主昵称
+        public String roomOwnerHeader; // 房主头像
+        public String roomOwnerNickname; // 房主昵称
     }
 
 }

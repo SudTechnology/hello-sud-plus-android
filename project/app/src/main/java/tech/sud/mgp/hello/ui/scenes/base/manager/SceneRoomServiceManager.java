@@ -6,7 +6,7 @@ import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.service.game.repository.GameRepository;
-import tech.sud.mgp.hello.ui.scenes.base.activity.SceneConfig;
+import tech.sud.mgp.hello.ui.scenes.base.activity.RoomConfig;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoleType;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
@@ -113,7 +113,7 @@ public class SceneRoomServiceManager extends BaseServiceManager {
     }
 
     /** 进入房间 */
-    public void enterRoom(SceneConfig config, RoomInfoModel model) {
+    public void enterRoom(RoomConfig config, RoomInfoModel model) {
         enterRoomCompleted = false;
         roomInfoModel = model;
         sceneEngineManager.enterRoomCompletedListener = this::checkEnterRoomCompleted;

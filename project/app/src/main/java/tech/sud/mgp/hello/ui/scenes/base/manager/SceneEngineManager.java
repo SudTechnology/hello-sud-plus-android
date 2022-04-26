@@ -21,7 +21,7 @@ import tech.sud.mgp.hello.rtc.audio.impl.IMRoomManager;
 import tech.sud.mgp.hello.rtc.audio.model.AudioJoinRoomModel;
 import tech.sud.mgp.hello.service.main.resp.BaseConfigResp;
 import tech.sud.mgp.hello.ui.main.home.manager.RTCManager;
-import tech.sud.mgp.hello.ui.scenes.base.activity.SceneConfig;
+import tech.sud.mgp.hello.ui.scenes.base.activity.RoomConfig;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoleType;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
 import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomServiceCallback;
@@ -52,7 +52,7 @@ public class SceneEngineManager extends BaseServiceManager {
         this.parentManager = sceneRoomServiceManager;
     }
 
-    public void enterRoom(SceneConfig config, RoomInfoModel model) {
+    public void enterRoom(RoomConfig config, RoomInfoModel model) {
         if (!isInitEngine) {
             initEngine(model, new Runnable() {
                 @Override
@@ -132,7 +132,7 @@ public class SceneEngineManager extends BaseServiceManager {
     /**
      * 发送跨房信令
      *
-     * @param roomID 房间ID
+     * @param roomID  房间ID
      * @param command 信令内容
      * @param result  回调
      */

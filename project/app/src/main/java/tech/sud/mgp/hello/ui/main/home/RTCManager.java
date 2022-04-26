@@ -36,7 +36,7 @@ public class RTCManager {
             audioConfigModel.appId = zegoConfig.appId;
             audioConfigModel.token = rtiToken;
             audioConfigModel.userID = HSUserInfo.userId + "";
-            AudioEngineFactory.getEngine().initWithConfig(Utils.getApp(), audioConfigModel);
+            AudioEngineFactory.getEngine().initWithConfig(Utils.getApp(), audioConfigModel, runnable);
         } else if (config instanceof AgoraConfig) {
             AudioEngineFactory.create(AgoraAudioEngineImpl.class);
             AgoraConfig agoraConfig = (AgoraConfig) config;

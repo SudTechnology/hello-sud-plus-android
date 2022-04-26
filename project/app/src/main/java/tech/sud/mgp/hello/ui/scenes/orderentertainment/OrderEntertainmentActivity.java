@@ -3,8 +3,11 @@ package tech.sud.mgp.hello.ui.scenes.orderentertainment;
 import android.graphics.Color;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.blankj.utilcode.util.LogUtils;
 
@@ -13,17 +16,19 @@ import java.util.List;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
-import tech.sud.mgp.hello.ui.scenes.audio.activity.AbsAudioRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomService;
+import tech.sud.mgp.hello.ui.scenes.orderentertainment.activity.AbsOrderRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.orderentertainment.dialog.OrderDialog;
 import tech.sud.mgp.hello.ui.scenes.orderentertainment.viewmodel.OrderViewModel;
 
 /**
  * 点单娱乐类场景
  */
-public class OrderEntertainmentActivity extends AbsAudioRoomActivity<OrderViewModel> {
+public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewModel> {
 
+    private ConstraintLayout orderRootView;
     private TextView startGameBtn, hangupGameBtn, enterGameBtn;
+    private int topBtnState = 0;//当前按钮状态 0可以点单状态 1可以挂起游戏状态 2可以进入游戏状态
 
     @Override
     protected OrderViewModel initGameViewModel() {
@@ -38,9 +43,25 @@ public class OrderEntertainmentActivity extends AbsAudioRoomActivity<OrderViewMo
     @Override
     protected void initWidget() {
         super.initWidget();
+        orderRootView = findViewById(R.id.order_root_view);
         gameViewModel.gameConfigModel.ui.game_bg.hide = true;
         addTopBtn();
         changeTopBtn(0);
+
+        orderRootView.removeView(gameContainer);
+        //修改游戏容器位置以及大小
+        ConstraintLayout.LayoutParams cparams = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0);
+        cparams.topToBottom = R.id.room_top_view;
+        cparams.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID;
+        cparams.bottomMargin = DensityUtils.dp2px(150);
+        int childCount = orderRootView.getChildCount();
+        //把游戏view插入到giftview之前，后面的view需要展示再游戏view1之前
+        LogUtils.i("childCount =" + childCount);
+        if (childCount > 8 && giftContainer == orderRootView.getChildAt(7)) {
+            orderRootView.addView(gameContainer, 7, cparams);
+        } else {
+            orderRootView.addView(gameContainer, cparams);
+        }
     }
 
     private void addTopBtn() {
@@ -77,14 +98,14 @@ public class OrderEntertainmentActivity extends AbsAudioRoomActivity<OrderViewMo
         hangupGameBtn.setTextColor(Color.parseColor("#6AD04E"));
         hangupGameBtn.setGravity(Gravity.CENTER);
         hangupGameBtn.setText(getString(R.string.order_hang_up_game));
-        hangupGameBtn.setBackgroundColor(Color.parseColor("#4E9C39"));
+        hangupGameBtn.setBackgroundColor(Color.parseColor("#4d4E9C39"));
         LinearLayout.LayoutParams params2 = new LinearLayout.LayoutParams(DensityUtils.dp2px(66), DensityUtils.dp2px(20));
         params2.setMarginEnd(DensityUtils.dp2px(20));
         topView.addCustomView(hangupGameBtn, params2);
         hangupGameBtn.setVisibility(View.GONE);
         hangupGameBtn.setOnClickListener(v -> {
             LogUtils.i("hangupGameBtn onClick");
-//            gameViewModel.
+            changeTopBtn(2);
         });
 
         enterGameBtn = new TextView(this);
@@ -92,43 +113,56 @@ public class OrderEntertainmentActivity extends AbsAudioRoomActivity<OrderViewMo
         enterGameBtn.setTextColor(Color.parseColor("#6AD04E"));
         enterGameBtn.setGravity(Gravity.CENTER);
         enterGameBtn.setText(getString(R.string.order_enter_game));
-        enterGameBtn.setBackgroundColor(Color.parseColor("#4E9C39"));
-        enterGameBtn.setBackgroundResource(R.drawable.shape_gradient_f963ff_cc00e7);
+        enterGameBtn.setBackgroundColor(Color.parseColor("#4d4E9C39"));
         LinearLayout.LayoutParams params3 = new LinearLayout.LayoutParams(DensityUtils.dp2px(66), DensityUtils.dp2px(20));
         params3.setMarginEnd(DensityUtils.dp2px(20));
         topView.addCustomView(enterGameBtn, params3);
         enterGameBtn.setVisibility(View.GONE);
-        enterGameBtn.setOnClickListener(v -> LogUtils.i("enterGameBtn onClick"));
+        enterGameBtn.setOnClickListener(v -> {
+            LogUtils.i("enterGameBtn onClick");
+            changeTopBtn(1);
+        });
     }
 
-    //0开始游戏 1挂起游戏 2进入游戏
+    //0我要点单 1挂起游戏 2进入游戏 (tips：这是显示文案
     private void changeTopBtn(int state) {
+        topBtnState = state;
         switch (state) {
             case 0: {
                 startGameBtn.setVisibility(View.VISIBLE);
                 hangupGameBtn.setVisibility(View.GONE);
                 enterGameBtn.setVisibility(View.GONE);
+                gameContainer.setVisibility(View.INVISIBLE);
+                micView.setVisibility(View.VISIBLE);
                 break;
             }
             case 1: {
                 startGameBtn.setVisibility(View.GONE);
                 hangupGameBtn.setVisibility(View.VISIBLE);
                 enterGameBtn.setVisibility(View.GONE);
+                gameContainer.setVisibility(View.VISIBLE);
+                micView.setVisibility(View.INVISIBLE);
                 break;
             }
             case 2: {
                 startGameBtn.setVisibility(View.GONE);
                 hangupGameBtn.setVisibility(View.GONE);
                 enterGameBtn.setVisibility(View.VISIBLE);
+                gameContainer.setVisibility(View.INVISIBLE);
+                micView.setVisibility(View.VISIBLE);
                 break;
             }
         }
     }
 
     @Override
-    protected void initData() {
-        super.initData();
-
+    protected void updatePageStyle() {
+        super.updatePageStyle();
+        if (playingGameId > 0 && binder != null) {
+            changeTopBtn(1);
+        } else {
+            changeTopBtn(0);
+        }
     }
 
     @Override
@@ -143,6 +177,9 @@ public class OrderEntertainmentActivity extends AbsAudioRoomActivity<OrderViewMo
                         gameViewModel.orderModel.gameName,
                         gameViewModel.orderModel.sendUserId,
                         true);
+                //接受了并且切换游戏
+                switchGame(gameViewModel.orderModel.gameId, true);
+                changeTopBtn(1);
             } else if (integer == 2) {
                 operateOrder(
                         gameViewModel.orderModel.orderId,
@@ -150,6 +187,7 @@ public class OrderEntertainmentActivity extends AbsAudioRoomActivity<OrderViewMo
                         gameViewModel.orderModel.gameName,
                         gameViewModel.orderModel.sendUserId,
                         false);
+                gameViewModel.orderModel = null;
             } else if (integer == 3) {
 
             } else if (integer == 4) {
@@ -175,7 +213,7 @@ public class OrderEntertainmentActivity extends AbsAudioRoomActivity<OrderViewMo
             }
         });
         gameViewModel.orderDataLiveData.observe(this, data -> {
-            if (data.userIdList.size() > 0) {
+            if (data != null && data.userIdList.size() > 0) {
                 List<String> userStringList = new ArrayList<>();
                 for (Long userId : data.userIdList) {
                     userStringList.add(userId + "");
@@ -196,6 +234,10 @@ public class OrderEntertainmentActivity extends AbsAudioRoomActivity<OrderViewMo
     private void operateOrder(long orderId, long gameId, String gameName, String toUser, boolean state) {
         if (binder != null) {
             binder.operateOrder(orderId, gameId, gameName, toUser, state);
+            if (state) {
+                //同意邀请，需要调用后台接口
+                gameViewModel.roomOrderReceive(this, orderId);
+            }
         }
     }
 

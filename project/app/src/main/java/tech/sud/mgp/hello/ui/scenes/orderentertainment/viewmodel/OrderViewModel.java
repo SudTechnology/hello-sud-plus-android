@@ -1,18 +1,24 @@
 package tech.sud.mgp.hello.ui.scenes.orderentertainment.viewmodel;
 
 import android.content.Context;
+import android.view.ViewTreeObserver;
 
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 
 import com.blankj.utilcode.util.ActivityUtils;
+import com.blankj.utilcode.util.BarUtils;
+import com.blankj.utilcode.util.GsonUtils;
+import com.blankj.utilcode.util.Utils;
 
 import java.util.List;
 
 import tech.sud.mgp.core.ISudFSMStateHandle;
 import tech.sud.mgp.hello.R;
+import tech.sud.mgp.hello.SudMGPWrapper.model.GameViewInfoModel;
 import tech.sud.mgp.hello.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
+import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
 import tech.sud.mgp.hello.service.room.repository.AudioRepository;
 import tech.sud.mgp.hello.service.room.response.RoomOrderCreateResp;
@@ -32,9 +38,9 @@ public class OrderViewModel extends GameViewModel {
     private SimpleChooseDialog inviteDialog;//邀请弹窗
     private SimpleChooseDialog operateDialog;//拒绝弹窗
     private SimpleChooseDialog finishDialog;//结束弹窗
-    //被邀请弹窗数据
+    //被邀请弹窗数据（别人邀请
     public InviteOrderModel orderModel;
-    //用户主动点单数据
+    //用户主动点单数据（自己主动下单邀请
     public MutableLiveData<OrderDataModel> orderDataLiveData = new MutableLiveData<>();
 
     public void roomOrderCreate(LifecycleOwner owner,
@@ -55,13 +61,9 @@ public class OrderViewModel extends GameViewModel {
         });
     }
 
-    @Override
-    public void onGameMGCommonGameState(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameState model) {
-        super.onGameMGCommonGameState(handle, model);
-        if (model.gameState == SudMGPMGState.MGCommonGameState.IDLE) {
-            //游戏结束
-//            finishDialog(ActivityUtils.getTopActivity());
-        }
+    public void roomOrderReceive(LifecycleOwner owner, long orderId) {
+        AudioRepository.roomOrderReceive(owner, orderId, new RxCallback<Object>() {
+        });
     }
 
     /** 邀请弹窗 */
@@ -112,7 +114,7 @@ public class OrderViewModel extends GameViewModel {
     public void finishDialog(Context context) {
         if (finishDialog == null || !finishDialog.isShowing()) {
             finishDialog = new SimpleChooseDialog(context, context.getString(R.string.order_finish_conent),
-                    context.getString(R.string.order_finish_left_btn), context.getString(R.string.order_finish_right_btn));
+                    context.getString(R.string.order_finish_left_text), context.getString(R.string.order_finish_right_text));
             finishDialog.setOnChooseListener(index -> {
                 if (index == 1) {
                     dialogResult.postValue(5);
@@ -126,6 +128,26 @@ public class OrderViewModel extends GameViewModel {
         }
     }
 
+    @Override
+    public void onGameMGCommonGameSettle(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameSettle model) {
+        super.onGameMGCommonGameSettle(handle, model);
+        if (orderDataLiveData.getValue() != null) {
+            //游戏结束
+            finishDialog(ActivityUtils.getTopActivity());
+        }
+        orderDataLiveData.setValue(null);
+        orderModel = null;
+    }
+
+    @Override
+    protected void getGameRect(GameViewInfoModel gameViewInfoModel) {
+        gameViewInfoModel.view_game_rect.left = 0;
+        gameViewInfoModel.view_game_rect.top = 0;
+        gameViewInfoModel.view_game_rect.right = 0;
+        gameViewInfoModel.view_game_rect.bottom = 0;
+    }
+
+    /** 别人邀请我 */
     public class InviteOrderModel {
         public String sendUserId;//邀请者id
         public String sendUserName;//邀请者昵称

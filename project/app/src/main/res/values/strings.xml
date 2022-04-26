@@ -270,8 +270,8 @@ Go to homepage to create one~</string>
     <string name="order_invite_left_btn">拒绝</string>
     <string name="order_result_conent">%1$s 拒绝您的邀请，是否继续和其他主播一起玩？</string>
     <string name="order_finish_conent">此单已结束，是否继续和其他主播一起玩？</string>
-    <string name="order_finish_right_btn">返回</string>
-    <string name="order_finish_left_btn">继续</string>
+    <string name="order_finish_left_text">返回</string>
+    <string name="order_finish_right_text">去下单</string>
 
     <string name="game_api_in_title">加入游戏</string>
     <string name="game_api_in_state">app_common_self_in，"isIn": true</string>

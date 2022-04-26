@@ -41,6 +41,9 @@ public class SceneOrderManager extends BaseServiceManager {
     public void operateOrder(long orderId, long gameId, String gameName, String toUser, boolean state) {
         String command = RoomCmdModelUtils.buildCmdOrderResult(orderId, gameId, gameName, toUser, state);
         parentManager.sceneEngineManager.sendCommand(command, null);
+
+        //接受邀请后，发送切换游戏信令
+        parentManager.switchGame(gameId,true);
     }
 
     private final SceneCommandManager.UserOrderCommandListener userOrderCommandListener = new SceneCommandManager.UserOrderCommandListener() {

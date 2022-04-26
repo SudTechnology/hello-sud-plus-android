@@ -65,7 +65,7 @@ public class GameViewModel implements SudFSMMGListener {
     public final MutableLiveData<Boolean> showFinishGameBtnLiveData = new MutableLiveData<>(); // 是否具备结束游戏的权力
     public final MutableLiveData<Boolean> micSpaceMaxLiveData = new MutableLiveData<>(); // 是否收缩麦位
 
-    private View gameView; // 游戏View
+    public View gameView; // 游戏View
     private int selfMicIndex = -1; // 记录自己所在麦位
     public GameConfigModel gameConfigModel = new GameConfigModel(); // 游戏配置
 

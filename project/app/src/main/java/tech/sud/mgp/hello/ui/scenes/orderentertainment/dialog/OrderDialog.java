@@ -102,8 +102,18 @@ public class OrderDialog extends BaseDialogFragment {
             selectedAllTv.setSelected(!current);
         });
         orderBtn.setOnClickListener(v -> {
+            List<Long> anchors = findUsers();
+            if (anchors.size() < 1) {
+                ToastUtils.showLong(R.string.order_dialog_no_select_anchor);
+                return;
+            }
+            OrderGameModel game = findGame();
+            if (game == null) {
+                ToastUtils.showLong(R.string.order_dialog_no_select_game);
+                return;
+            }
             if (listener != null) {
-                listener.onCreateOrder(findUsers(), findGame());
+                listener.onCreateOrder(anchors, game);
             }
         });
     }

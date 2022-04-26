@@ -1,7 +1,10 @@
 package tech.sud.mgp.hello.ui.scenes.base.manager;
 
+import com.blankj.utilcode.util.Utils;
+
 import java.util.List;
 
+import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.RoomCmdModelUtils;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.order.RoomCmdOrderOperateModel;
@@ -42,8 +45,10 @@ public class SceneOrderManager extends BaseServiceManager {
         String command = RoomCmdModelUtils.buildCmdOrderResult(orderId, gameId, gameName, toUser, state);
         parentManager.sceneEngineManager.sendCommand(command, null);
 
-        //接受邀请后，发送切换游戏信令
-        parentManager.switchGame(gameId,true);
+        if (state) {
+            //接受邀请后，发送切换游戏信令
+            parentManager.switchGame(gameId, true);
+        }
     }
 
     private final SceneCommandManager.UserOrderCommandListener userOrderCommandListener = new SceneCommandManager.UserOrderCommandListener() {
@@ -66,15 +71,16 @@ public class SceneOrderManager extends BaseServiceManager {
     private final SceneCommandManager.OrderResultCommandListener orderResultCommandListener = new SceneCommandManager.OrderResultCommandListener() {
         @Override
         public void onRecvCommand(RoomCmdOrderOperateModel command, String userID) {
-            if (command.toUser.equals(HSUserInfo.userId+"")){
-                if (command.operate){
-                    ReceiveInviteMsgModel msgModel = new ReceiveInviteMsgModel();
-                    msgModel.gameId = command.gameId;
-                    msgModel.gameName = command.gameName;
-                    msgModel.userId  = command.sendUser.userID;
-                    msgModel.userName = command.sendUser.name;
-                    parentManager.sceneChatManager.addMsg(msgModel);
-                }else {
+            if (command.toUser.equals(HSUserInfo.userId + "")) {
+                if (command.operate) {
+//                    ReceiveInviteMsgModel msgModel = new ReceiveInviteMsgModel();
+//                    msgModel.gameId = command.gameId;
+//                    msgModel.gameName = command.gameName;
+//                    msgModel.userId  = command.sendUser.userID;
+//                    msgModel.userName = command.sendUser.name;
+                    String msg = Utils.getApp().getString(R.string.user_receive_invite_msg, command.sendUser.name, command.gameName);
+                    parentManager.sceneChatManager.addMsg(msg);
+                } else {
                     parentManager.getCallback().onOrderOperate(command.orderId, command.gameId, command.gameName, command.sendUser.userID, command.sendUser.name, command.operate);
                 }
             }

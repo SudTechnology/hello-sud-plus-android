@@ -11,7 +11,9 @@ import tech.sud.mgp.hello.ui.scenes.orderentertainment.model.ReceiveInviteMsgMod
 
 /**
  * 房间内，主播接受点单公屏消息
+ * 暂时未使用
  */
+@Deprecated
 public class RoomReceiveOrderProvider extends BaseItemProvider<Object> {
     @Override
     public int getItemViewType() {

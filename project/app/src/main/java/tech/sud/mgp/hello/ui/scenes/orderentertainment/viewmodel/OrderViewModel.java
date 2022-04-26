@@ -6,6 +6,7 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 
 import com.blankj.utilcode.util.ActivityUtils;
+import com.blankj.utilcode.util.LogUtils;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.SudMGPWrapper.model.GameViewInfoModel;
 import tech.sud.mgp.hello.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
+import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
 import tech.sud.mgp.hello.service.room.repository.RoomRepository;
 import tech.sud.mgp.hello.service.room.response.RoomOrderCreateResp;
@@ -37,6 +39,8 @@ public class OrderViewModel extends GameViewModel {
     public InviteOrderModel orderModel;
     //用户主动点单数据（自己主动下单邀请
     public MutableLiveData<OrderDataModel> orderDataLiveData = new MutableLiveData<>();
+    //游戏结束后，切回到语音房间
+    public MutableLiveData<Integer> changeToAduio = new MutableLiveData<>();
 
     public void roomOrderCreate(LifecycleOwner owner,
                                 long roomId,
@@ -107,6 +111,7 @@ public class OrderViewModel extends GameViewModel {
 
     /** 结束弹窗 */
     public void finishDialog(Context context) {
+        LogUtils.i("game over1");
         if (finishDialog == null || !finishDialog.isShowing()) {
             finishDialog = new SimpleChooseDialog(context, context.getString(R.string.order_finish_conent),
                     context.getString(R.string.order_finish_left_text), context.getString(R.string.order_finish_right_text));
@@ -124,6 +129,19 @@ public class OrderViewModel extends GameViewModel {
     }
 
     @Override
+    public void onGameMGCommonGameState(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameState model) {
+        super.onGameMGCommonGameState(handle, model);
+        LogUtils.i("onGameMGCommonGameState"+model.gameState);
+        if (model.gameState == SudMGPMGState.MGCommonGameState.IDLE) {
+            LogUtils.i("onGameMGCommonGameState游戏闲置");
+        }else if (model.gameState == SudMGPMGState.MGCommonGameState.LOADING) {
+            LogUtils.i("onGameMGCommonGameState游戏加载");
+        }else if (model.gameState == SudMGPMGState.MGCommonGameState.PLAYING) {
+            LogUtils.i("onGameMGCommonGameState游戏中");
+        }
+    }
+
+    @Override
     public void onGameMGCommonGameSettle(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameSettle model) {
         super.onGameMGCommonGameSettle(handle, model);
         if (orderDataLiveData.getValue() != null) {
@@ -132,6 +150,19 @@ public class OrderViewModel extends GameViewModel {
         }
         orderDataLiveData.setValue(null);
         orderModel = null;
+        //查找积分榜第一个未逃跑的人切回游戏到语音
+        if (model.results != null && model.results.size() > 0) {
+            for (SudMGPMGState.MGCommonGameSettle.PlayerResult playerResult : model.results) {
+                if (playerResult.isEscaped == 0) {
+                    LogUtils.i("onGameMGCommonGameSettle playerResult.uid = "+playerResult.uid);
+                    LogUtils.i("onGameMGCommonGameSettle HSUserInfo.userId ="+HSUserInfo.userId);
+                    if (playerResult.uid.equals(HSUserInfo.userId + "")){
+                        changeToAduio.setValue(1);
+                    }
+                    break;
+                }
+            }
+        }
     }
 
     @Override

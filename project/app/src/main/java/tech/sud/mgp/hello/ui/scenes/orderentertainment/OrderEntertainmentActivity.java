@@ -45,8 +45,14 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
     @Override
     protected void initWidget() {
         super.initWidget();
-        orderRootView = findViewById(R.id.order_root_view);
+
         gameViewModel.gameConfigModel.ui.game_bg.hide = true;
+//        gameViewModel.gameConfigModel.ui.level.hide = true;
+//        gameViewModel.gameConfigModel.ui.lobby_help_btn.hide = true;
+        roomConfig.isShowGameNumber = false; // 不显示游戏人数
+        roomConfig.isShowASRTopHint = false; // 右上角不展示ASR提示
+
+        orderRootView = findViewById(R.id.order_root_view);
         addTopBtn();
         changeTopBtn(0);
 
@@ -79,21 +85,7 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
         startGameBtn.setVisibility(View.GONE);
         startGameBtn.setOnClickListener(v -> {
             LogUtils.i("startGameBtn onClick");
-            if (binder != null) {
-                OrderDialog dialog = OrderDialog.getInstance(SceneRoomService.getSceneRoomData().roomInfoModel.sceneType);
-                dialog.updateMicList(binder.getMicList(), 0);
-                dialog.setCreateListener((userList, game) -> {
-                    if (userList.size() > 0 && game != null) {
-                        gameViewModel.roomOrderCreate(
-                                OrderEntertainmentActivity.this,
-                                roomInfoModel.roomId,
-                                userList,
-                                game);
-                        dialog.dismiss();
-                    }
-                });
-                dialog.show(getSupportFragmentManager(), null);
-            }
+            iWantOrder();
         });
         hangupGameBtn = new TextView(this);
         hangupGameBtn.setTextSize(12);
@@ -170,12 +162,12 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
     @Override
     protected void setListeners() {
         super.setListeners();
-        chatView.setMsgClickListener(o -> {
-            if (o instanceof ReceiveInviteMsgModel) {
-                ReceiveInviteMsgModel model = (ReceiveInviteMsgModel) o;
-                LogUtils.i("chatView setMsgClickListener topBtnState=" + topBtnState);
-            }
-        });
+//        chatView.setMsgClickListener(o -> {
+//            if (o instanceof ReceiveInviteMsgModel) {
+//                ReceiveInviteMsgModel model = (ReceiveInviteMsgModel) o;
+//                LogUtils.i("chatView setMsgClickListener topBtnState=" + topBtnState);
+//            }
+//        });
         gameViewModel.dialogResult.observe(this, integer -> {
             LogUtils.i("dialogResult.observe integer=" + integer);
             if (integer == 1) {
@@ -201,21 +193,7 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
             } else if (integer == 4) {
 
             } else if (integer == 5) {
-                if (binder != null) {
-                    OrderDialog dialog = OrderDialog.getInstance(SceneRoomService.getSceneRoomData().roomInfoModel.sceneType);
-                    dialog.updateMicList(binder.getMicList(), 0);
-                    dialog.setCreateListener((userList, game) -> {
-                        if (userList.size() > 0 && game != null) {
-                            gameViewModel.roomOrderCreate(
-                                    OrderEntertainmentActivity.this,
-                                    roomInfoModel.roomId,
-                                    userList,
-                                    game);
-                            dialog.dismiss();
-                        }
-                    });
-                    dialog.show(getSupportFragmentManager(), null);
-                }
+                iWantOrder();
             } else if (integer == 6) {
 
             }
@@ -227,6 +205,11 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
                     userStringList.add(userId + "");
                 }
                 sendOrder(data.resp.orderId, data.game.gameModel.gameId, data.game.gameModel.gameName, userStringList);
+            }
+        });
+        gameViewModel.changeToAduio.observe(this, integer -> {
+            if (integer == 1) {
+                switchGame(0, true);
             }
         });
     }
@@ -262,6 +245,27 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
         super.onOrderOperate(orderId, gameId, gameName, userId, userName, operate);
         if (!operate) {
             gameViewModel.operateDialog(this, userName);
+        }
+    }
+
+    /**
+     * 我要点单弹窗
+     */
+    private void iWantOrder() {
+        if (binder != null) {
+            OrderDialog dialog = OrderDialog.getInstance(SceneRoomService.getSceneRoomData().roomInfoModel.sceneType);
+            dialog.updateMicList(binder.getMicList(), 0);
+            dialog.setCreateListener((userList, game) -> {
+                if (userList.size() > 0 && game != null) {
+                    gameViewModel.roomOrderCreate(
+                            OrderEntertainmentActivity.this,
+                            roomInfoModel.roomId,
+                            userList,
+                            game);
+                    dialog.dismiss();
+                }
+            });
+            dialog.show(getSupportFragmentManager(), null);
         }
     }
 

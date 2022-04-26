@@ -57,15 +57,15 @@ public class SceneRoomChatView extends ConstraintLayout {
         mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
-        mAdapter.setOnItemClickListener((adapter, view, position) -> {
-            Object ob = mAdapter.getData().get(position);
-            if (ob instanceof ReceiveInviteMsgModel) {
-                if (listener!=null){
-                    listener.onMsgClick(ob);
-                }
-                LogUtils.i("SceneRoomChatView setOnItemClickListener");
-            }
-        });
+//        mAdapter.setOnItemClickListener((adapter, view, position) -> {
+//            Object ob = mAdapter.getData().get(position);
+//            if (ob instanceof ReceiveInviteMsgModel) {
+//                if (listener!=null){
+//                    listener.onMsgClick(ob);
+//                }
+//                LogUtils.i("SceneRoomChatView setOnItemClickListener");
+//            }
+//        });
         updateStyle();
     }
 

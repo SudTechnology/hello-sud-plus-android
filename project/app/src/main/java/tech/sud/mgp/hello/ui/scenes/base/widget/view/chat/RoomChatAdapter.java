@@ -26,7 +26,7 @@ public class RoomChatAdapter extends BaseProviderMultiAdapter<Object> {
         addItemProvider(new RoomGameTextProvider());
         addItemProvider(new EmptyProvider());
         addItemProvider(new RoomGiftNotifyProvider());
-        addItemProvider(new RoomReceiveOrderProvider());
+//        addItemProvider(new RoomReceiveOrderProvider());
     }
 
     @Override
@@ -40,9 +40,10 @@ public class RoomChatAdapter extends BaseProviderMultiAdapter<Object> {
             return TYPE_GAME_MSG;
         } else if (item instanceof String) {
             return TYPE_NORMAL_MSG;
-        }else if (item instanceof ReceiveInviteMsgModel){
-            return TYPE_RECEIVE_INVITE;
         }
+//        else if (item instanceof ReceiveInviteMsgModel){
+//            return TYPE_RECEIVE_INVITE;
+//        }
         return EmptyProvider.TYPE_EMPTY;
     }
 

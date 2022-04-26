@@ -390,7 +390,9 @@ Go to homepage to create one~</string>
     <string name="order_hang_up_game">挂起游戏</string>
     <string name="order_enter_game">进入游戏</string>
     <string name="order_game_playing">游戏中</string>
-    <string name="user_receive_invite_msg">%1$s 同意和你一起玩【%2$s】，快点加入吧</string>
+    <string name="user_receive_invite_msg">%1$s 同意和你一起玩【%2$s】。</string>
+    <string name="order_dialog_no_select_anchor">请选择主播</string>
+    <string name="order_dialog_no_select_game">请选择游戏</string>
     <!-- endregion 新增 -->
 
 </resources>

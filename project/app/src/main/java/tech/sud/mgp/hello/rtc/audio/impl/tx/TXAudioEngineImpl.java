@@ -63,11 +63,8 @@ public class TXAudioEngineImpl implements ISudAudioEngine {
 
     @Override
     public void destroy() {
-        TRTCCloud engine = getEngine();
-        if (engine != null) {
-            TRTCCloud.destroySharedInstance();
-            mEngine = null;
-        }
+        TRTCCloud.destroySharedInstance();
+        mEngine = null;
         roomUserList.clear();
     }
 

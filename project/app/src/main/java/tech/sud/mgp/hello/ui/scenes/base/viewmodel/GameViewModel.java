@@ -300,13 +300,18 @@ public class GameViewModel implements SudFSMMGListener {
         gameViewInfoModel.view_size.height = gameViewHeight;
 
         // 游戏安全操作区域
+        getGameRect(gameViewInfoModel);
+
+        // 给游戏侧进行返回
+        handle.success(GsonUtils.toJson(gameViewInfoModel));
+    }
+
+    /** 获取游戏的安全操作区域 */
+    protected void getGameRect(GameViewInfoModel gameViewInfoModel) {
         gameViewInfoModel.view_game_rect.left = 0;
         gameViewInfoModel.view_game_rect.top = DensityUtils.dp2px(Utils.getApp(), 131) + BarUtils.getStatusBarHeight();
         gameViewInfoModel.view_game_rect.right = 0;
         gameViewInfoModel.view_game_rect.bottom = DensityUtils.dp2px(Utils.getApp(), 160);
-
-        // 给游戏侧进行返回
-        handle.success(GsonUtils.toJson(gameViewInfoModel));
     }
 
     /**

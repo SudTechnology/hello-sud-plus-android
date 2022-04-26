@@ -154,8 +154,6 @@ public class OrderViewModel extends GameViewModel {
         if (model.results != null && model.results.size() > 0) {
             for (SudMGPMGState.MGCommonGameSettle.PlayerResult playerResult : model.results) {
                 if (playerResult.isEscaped == 0) {
-                    LogUtils.i("onGameMGCommonGameSettle playerResult.uid = "+playerResult.uid);
-                    LogUtils.i("onGameMGCommonGameSettle HSUserInfo.userId ="+HSUserInfo.userId);
                     if (playerResult.uid.equals(HSUserInfo.userId + "")){
                         changeToAduio.setValue(1);
                     }

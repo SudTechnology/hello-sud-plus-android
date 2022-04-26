@@ -12,7 +12,7 @@ import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.service.main.repository.UserInfoRepository;
 import tech.sud.mgp.hello.service.main.resp.UserInfoResp;
-import tech.sud.mgp.hello.service.room.repository.AudioRepository;
+import tech.sud.mgp.hello.service.room.repository.RoomRepository;
 import tech.sud.mgp.hello.service.room.response.RoomMicListResp;
 import tech.sud.mgp.hello.service.room.response.RoomMicResp;
 import tech.sud.mgp.hello.service.room.response.RoomMicSwitchResp;
@@ -69,7 +69,7 @@ public class SceneMicManager extends BaseServiceManager {
 
     /** 从后端拉取麦位列表并且更新 */
     private void refreshMicList() {
-        AudioRepository.getRoomMicList(null, parentManager.getRoomId(), new RxCallback<RoomMicListResp>() {
+        RoomRepository.getRoomMicList(null, parentManager.getRoomId(), new RxCallback<RoomMicListResp>() {
             @Override
             public void onNext(BaseResponse<RoomMicListResp> t) {
                 super.onNext(t);
@@ -179,7 +179,7 @@ public class SceneMicManager extends BaseServiceManager {
         }
 
         // 发送http告知后端
-        AudioRepository.roomMicLocationSwitch(null, parentManager.getRoomId(), micIndex, true, new RxCallback<RoomMicSwitchResp>() {
+        RoomRepository.roomMicLocationSwitch(null, parentManager.getRoomId(), micIndex, true, new RxCallback<RoomMicSwitchResp>() {
             @Override
             public void onSuccess(RoomMicSwitchResp roomMicSwitchResp) {
                 super.onSuccess(roomMicSwitchResp);
@@ -218,7 +218,7 @@ public class SceneMicManager extends BaseServiceManager {
      */
     public void downMicLocation(int micIndex, OperateMicType type) {
         // 发送http告知后端
-        AudioRepository.roomMicLocationSwitch(null, parentManager.getRoomId(), micIndex, false, new RxCallback<>());
+        RoomRepository.roomMicLocationSwitch(null, parentManager.getRoomId(), micIndex, false, new RxCallback<>());
 
         // 发送信令
         String command = RoomCmdModelUtils.buildDownMicCommand(micIndex);

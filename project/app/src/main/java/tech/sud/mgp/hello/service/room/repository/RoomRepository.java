@@ -20,7 +20,7 @@ import tech.sud.mgp.hello.service.room.response.RoomMicListResp;
 import tech.sud.mgp.hello.service.room.response.RoomMicSwitchResp;
 import tech.sud.mgp.hello.service.room.response.RoomOrderCreateResp;
 
-public class AudioRepository {
+public class RoomRepository {
 
     /**
      * 进入房间
@@ -116,9 +116,7 @@ public class AudioRepository {
      *
      * @param orderId 订单id
      */
-    public static void roomOrderReceive(LifecycleOwner owner,
-                                        long orderId,
-                                        RxCallback<Object> callback) {
+    public static void roomOrderReceive(LifecycleOwner owner, long orderId, RxCallback<Object> callback) {
         RoomOrderReceiveReq req = new RoomOrderReceiveReq();
         req.orderId = orderId;
         AudioRequestMethodFactory.getMethod()

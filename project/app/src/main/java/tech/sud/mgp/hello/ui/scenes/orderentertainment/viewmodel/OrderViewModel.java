@@ -1,15 +1,11 @@
 package tech.sud.mgp.hello.ui.scenes.orderentertainment.viewmodel;
 
 import android.content.Context;
-import android.view.ViewTreeObserver;
 
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 
 import com.blankj.utilcode.util.ActivityUtils;
-import com.blankj.utilcode.util.BarUtils;
-import com.blankj.utilcode.util.GsonUtils;
-import com.blankj.utilcode.util.Utils;
 
 import java.util.List;
 
@@ -18,9 +14,8 @@ import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.SudMGPWrapper.model.GameViewInfoModel;
 import tech.sud.mgp.hello.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
-import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
-import tech.sud.mgp.hello.service.room.repository.AudioRepository;
+import tech.sud.mgp.hello.service.room.repository.RoomRepository;
 import tech.sud.mgp.hello.service.room.response.RoomOrderCreateResp;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.GameViewModel;
 import tech.sud.mgp.hello.ui.scenes.orderentertainment.model.OrderDataModel;
@@ -47,7 +42,7 @@ public class OrderViewModel extends GameViewModel {
                                 long roomId,
                                 List<Long> userIdList,
                                 OrderGameModel game) {
-        AudioRepository.roomOrderCreate(owner, roomId, userIdList, game.gameModel.gameId, new RxCallback<RoomOrderCreateResp>() {
+        RoomRepository.roomOrderCreate(owner, roomId, userIdList, game.gameModel.gameId, new RxCallback<RoomOrderCreateResp>() {
             @Override
             public void onSuccess(RoomOrderCreateResp roomOrderCreateResp) {
                 super.onSuccess(roomOrderCreateResp);
@@ -62,7 +57,7 @@ public class OrderViewModel extends GameViewModel {
     }
 
     public void roomOrderReceive(LifecycleOwner owner, long orderId) {
-        AudioRepository.roomOrderReceive(owner, orderId, new RxCallback<Object>() {
+        RoomRepository.roomOrderReceive(owner, orderId, new RxCallback<Object>() {
         });
     }
 

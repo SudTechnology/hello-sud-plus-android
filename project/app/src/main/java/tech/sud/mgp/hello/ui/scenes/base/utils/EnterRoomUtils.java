@@ -9,7 +9,7 @@ import androidx.lifecycle.LifecycleOwner;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
-import tech.sud.mgp.hello.service.room.repository.AudioRepository;
+import tech.sud.mgp.hello.service.room.repository.RoomRepository;
 import tech.sud.mgp.hello.service.room.response.EnterRoomResp;
 import tech.sud.mgp.hello.ui.main.constant.SceneType;
 import tech.sud.mgp.hello.ui.scenes.asr.ASRActivity;
@@ -51,7 +51,7 @@ public class EnterRoomUtils {
         if (context instanceof LifecycleOwner) {
             owner = (LifecycleOwner) context;
         }
-        AudioRepository.enterRoom(owner, params.roomId, new RxCallback<EnterRoomResp>() {
+        RoomRepository.enterRoom(owner, params.roomId, new RxCallback<EnterRoomResp>() {
             @Override
             public void onNext(BaseResponse<EnterRoomResp> t) {
                 super.onNext(t);

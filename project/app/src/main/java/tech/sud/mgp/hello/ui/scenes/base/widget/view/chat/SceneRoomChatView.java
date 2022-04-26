@@ -28,6 +28,7 @@ public class SceneRoomChatView extends ConstraintLayout {
     private LinearLayoutManager mLayoutManager;
     private RoomChatAdapter mAdapter;
     private AudioRoomChatStyle chatStyle = AudioRoomChatStyle.NORMAL;
+    private MsgClickListener listener;
 
     public SceneRoomChatView(@NonNull Context context) {
         this(context, null);
@@ -59,10 +60,12 @@ public class SceneRoomChatView extends ConstraintLayout {
         mAdapter.setOnItemClickListener((adapter, view, position) -> {
             Object ob = mAdapter.getData().get(position);
             if (ob instanceof ReceiveInviteMsgModel) {
+                if (listener!=null){
+                    listener.onMsgClick(ob);
+                }
                 LogUtils.i("SceneRoomChatView setOnItemClickListener");
             }
         });
-
         updateStyle();
     }
 
@@ -107,6 +110,14 @@ public class SceneRoomChatView extends ConstraintLayout {
         }
         chatStyle = style;
         updateStyle();
+    }
+
+    public void setMsgClickListener(MsgClickListener listener) {
+        this.listener = listener;
+    }
+
+    public interface MsgClickListener{
+        void onMsgClick(Object o);
     }
 
     public enum AudioRoomChatStyle {

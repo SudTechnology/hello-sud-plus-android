@@ -17,8 +17,10 @@ import java.util.List;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomService;
+import tech.sud.mgp.hello.ui.scenes.base.widget.view.chat.SceneRoomChatView;
 import tech.sud.mgp.hello.ui.scenes.orderentertainment.activity.AbsOrderRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.orderentertainment.dialog.OrderDialog;
+import tech.sud.mgp.hello.ui.scenes.orderentertainment.model.ReceiveInviteMsgModel;
 import tech.sud.mgp.hello.ui.scenes.orderentertainment.viewmodel.OrderViewModel;
 
 /**
@@ -168,6 +170,12 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
     @Override
     protected void setListeners() {
         super.setListeners();
+        chatView.setMsgClickListener(o -> {
+            if (o instanceof ReceiveInviteMsgModel) {
+                ReceiveInviteMsgModel model = (ReceiveInviteMsgModel) o;
+                LogUtils.i("chatView setMsgClickListener topBtnState=" + topBtnState);
+            }
+        });
         gameViewModel.dialogResult.observe(this, integer -> {
             LogUtils.i("dialogResult.observe integer=" + integer);
             if (integer == 1) {

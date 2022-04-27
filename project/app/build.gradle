@@ -20,7 +20,7 @@ android {
             variant.outputs.all {
                 def temNewFileName = "${variant.flavorName}-${project.baseUrlConfig}-${project.versionName}-${project.versionCode}-${variant.buildType.name}"
                 // 修改apk名字
-                outputFileName = "HellodSud-Android-" + temNewFileName + ".apk"
+                outputFileName = "HelloSud-Android-" + temNewFileName + ".apk"
             }
         }
     }

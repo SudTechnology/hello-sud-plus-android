@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,16 +18,18 @@ import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
 import tech.sud.mgp.hello.common.utils.ShapeUtils;
 import tech.sud.mgp.hello.common.utils.ViewUtils;
+import tech.sud.mgp.hello.common.widget.view.round.RoundedImageView;
 import tech.sud.mgp.hello.service.room.model.PkStatus;
 import tech.sud.mgp.hello.service.room.response.RoomPkModel;
 import tech.sud.mgp.hello.service.room.response.RoomPkRoomInfo;
+import tech.sud.mgp.hello.ui.common.utils.FormatUtils;
 
 /**
  * 跨房pk顶部，显示pk信息的View
  */
 public class RoomPkInfoView extends ConstraintLayout {
 
-    private ImageView leftIvIcon;
+    private RoundedImageView leftIvIcon;
     private TextView leftTvName;
     private TextView leftTvScore;
     private View leftViewProgress;
@@ -40,7 +41,7 @@ public class RoomPkInfoView extends ConstraintLayout {
     private View viewVS;
     private View viewResultDraw;
 
-    private ImageView rightIvIcon;
+    private RoundedImageView rightIvIcon;
     private TextView rightTvName;
     private TextView rightTvScore;
     private View rightViewProgress;
@@ -140,7 +141,6 @@ public class RoomPkInfoView extends ConstraintLayout {
         switch (model.pkStatus) {
             case PkStatus.MATCHING: // 匹配中
             case PkStatus.MATCHED: // 已匹配
-                setVisibility(View.VISIBLE);
                 tvStatus.setText(R.string.wait_start);
                 viewVS.setVisibility(View.VISIBLE);
                 leftViewResult.setVisibility(View.GONE);
@@ -148,7 +148,6 @@ public class RoomPkInfoView extends ConstraintLayout {
                 viewResultDraw.setVisibility(View.GONE);
                 break;
             case PkStatus.STARTED: // 已开始
-                setVisibility(View.VISIBLE);
                 startCountdown(model.remainSecond);
                 viewVS.setVisibility(View.GONE);
                 leftViewResult.setVisibility(View.GONE);
@@ -156,16 +155,11 @@ public class RoomPkInfoView extends ConstraintLayout {
                 viewResultDraw.setVisibility(View.GONE);
                 break;
             case PkStatus.PK_END: // pk结束
-                setVisibility(View.VISIBLE);
                 tvStatus.setText(R.string.finished);
                 viewVS.setVisibility(View.GONE);
                 showPkResult();
                 break;
-            case PkStatus.MATCH_CLOSED:
-                setVisibility(View.GONE);
-                break;
             default:
-                setVisibility(View.VISIBLE);
                 tvStatus.setVisibility(View.GONE);
                 viewVS.setVisibility(View.GONE);
                 leftViewResult.setVisibility(View.GONE);
@@ -204,7 +198,7 @@ public class RoomPkInfoView extends ConstraintLayout {
         countdownTimer = new CustomCountdownTimer(count) {
             @Override
             protected void onTick(int count) {
-                tvStatus.setText(count + "");
+                tvStatus.setText(FormatUtils.formatTime(count));
                 if (roomPkModel != null) {
                     roomPkModel.remainSecond = count;
                 }
@@ -230,17 +224,18 @@ public class RoomPkInfoView extends ConstraintLayout {
     }
 
     /** 更新房间信息 */
-    private void updateRoomInfo(RoomPkRoomInfo info, ImageView ivIcon, TextView tvName, TextView tvScore, View viewProgress) {
+    private void updateRoomInfo(RoomPkRoomInfo info, RoundedImageView ivIcon, TextView tvName, TextView tvScore, View viewProgress) {
         if (info == null) {
+            ivIcon.setBorderColor(ContextCompat.getColor(getContext(), R.color.c_39bdff));
             ImageLoader.loadAvatar(ivIcon, null);
-            tvName.setText("");
+            tvName.setText(R.string.seat_empty);
             tvScore.setText("0");
             viewProgress.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.c_39bdff));
         } else {
             ImageLoader.loadAvatar(ivIcon, info.roomOwnerHeader);
             tvName.setText(info.roomOwnerNickname);
             tvScore.setText(info.score + "");
-            if (info.isSelfRoom) {
+            if (info.isInitiator) {
                 viewProgress.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.c_ff2959));
             } else {
                 viewProgress.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.c_39bdff));

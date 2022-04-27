@@ -28,8 +28,9 @@
 
     <TextView
         android:id="@+id/left_tv_name"
-        android:layout_width="90dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:maxWidth="90dp"
         android:textSize="10sp"
         android:textColor="@color/c_ffffff"
         android:singleLine="true"
@@ -116,8 +117,9 @@
 
     <TextView
         android:id="@+id/right_tv_name"
-        android:layout_width="90dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:maxWidth="90dp"
         android:textSize="10sp"
         android:textColor="@color/c_ffffff"
         android:singleLine="true"

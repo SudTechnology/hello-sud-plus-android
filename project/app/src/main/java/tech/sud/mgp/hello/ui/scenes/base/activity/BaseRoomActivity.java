@@ -247,22 +247,7 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
         topView.setSelectGameClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GameModeDialog dialog = GameModeDialog.getInstance(roomInfoModel.sceneType);
-                dialog.setFinishGame(gameViewModel.isOperateFinishGame());
-                dialog.setPlayingGameId(playingGameId);
-                dialog.show(getSupportFragmentManager(), null);
-                dialog.setSelectGameListener(new GameModeDialog.SelectGameListener() {
-                    @Override
-                    public void onSelectGame(long gameId, boolean isFinishGame) {
-                        if (gameId == 0 && isFinishGame) { // 结束游戏
-                            clickFinishGame();
-                        } else {
-                            switchGame(gameId, true);
-                        }
-                    }
-                });
-                dialog.setOnDestroyListener(() -> gameModeDialog = null);
-                gameModeDialog = dialog;
+                clickSelectGame();
             }
         });
         topView.setMoreOnClickListener(new View.OnClickListener() {
@@ -277,6 +262,26 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
                 clickFinishGame();
             }
         });
+    }
+
+    /** 点击了选择游戏 */
+    protected void clickSelectGame() {
+        GameModeDialog dialog = GameModeDialog.getInstance(roomInfoModel.sceneType);
+        dialog.setFinishGame(gameViewModel.isOperateFinishGame());
+        dialog.setPlayingGameId(playingGameId);
+        dialog.show(getSupportFragmentManager(), null);
+        dialog.setSelectGameListener(new GameModeDialog.SelectGameListener() {
+            @Override
+            public void onSelectGame(long gameId, boolean isFinishGame) {
+                if (gameId == 0 && isFinishGame) { // 结束游戏
+                    clickFinishGame();
+                } else {
+                    switchGame(gameId, true);
+                }
+            }
+        });
+        dialog.setOnDestroyListener(() -> gameModeDialog = null);
+        gameModeDialog = dialog;
     }
 
     /** 点击了更多按钮 */

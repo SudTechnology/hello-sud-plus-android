@@ -395,6 +395,12 @@ Go to homepage to create one~</string>
     <string name="order_dialog_no_select_game">请选择游戏</string>
     <string name="wait_start">待开始</string>
     <string name="finished">已结束</string>
+    <string name="seat_empty">虚位以待</string>
+    <string name="renew_pk">重新PK</string>
+    <string name="open_room_pk">开启跨房PK</string>
+    <string name="start_pk">开始PK</string>
+    <string name="pk_settings">PK设置</string>
+    <string name="select_game_hint">请选择一个游戏进行PK</string>
     <!-- endregion 新增 -->
 
 </resources>

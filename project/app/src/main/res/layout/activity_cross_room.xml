@@ -2,10 +2,50 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/ic_room_bg">
 
     <!-- 基础组件 -->
     <include layout="@layout/include_scene_content" />
+
+    <!-- 选择游戏的提示 -->
+    <LinearLayout
+        android:id="@+id/container_select_game"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="#10183a"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_marginTop="7dp"
+        android:layout_marginBottom="106dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/room_mic_view"
+        app:layout_constraintBottom_toTopOf="@id/room_bottom_view">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textColor="@color/c_ffffff"
+            android:text="@string/select_game_hint"
+            android:layout_marginHorizontal="16dp"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_select_game"
+            android:layout_width="168dp"
+            android:layout_height="36dp"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            android:text="@string/select_game"
+            android:gravity="center"
+            android:background="@color/white"
+            android:layout_marginTop="24dp" />
+
+    </LinearLayout>
 
     <!-- pk进度条 -->
     <tech.sud.mgp.hello.ui.scenes.crossroom.widget.RoomPkInfoView
@@ -13,6 +53,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="7dp"
+        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/room_mic_view" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

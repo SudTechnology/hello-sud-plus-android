@@ -85,7 +85,7 @@
             android:text="@string/finish_game"
             android:singleLine="true"
             android:ellipsize="end"
-            android:background="@drawable/shape_select_game"
+            android:background="@drawable/shape_room_top_btn_bg"
             android:gravity="center" />
 
         <!-- 选择游戏 -->
@@ -95,7 +95,7 @@
             android:layout_height="20dp"
             android:layout_marginEnd="7dp"
             android:paddingHorizontal="8dp"
-            android:background="@drawable/shape_select_game">
+            android:background="@drawable/shape_room_top_btn_bg">
 
             <TextView
                 android:id="@+id/top_tv_select_game"

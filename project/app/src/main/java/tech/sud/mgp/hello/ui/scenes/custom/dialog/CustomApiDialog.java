@@ -50,6 +50,11 @@ public class CustomApiDialog extends BaseDialogFragment {
     }
 
     @Override
+    protected int getHeight() {
+        return DensityUtils.dp2px(436);
+    }
+
+    @Override
     protected int getGravity() {
         return Gravity.BOTTOM;
     }

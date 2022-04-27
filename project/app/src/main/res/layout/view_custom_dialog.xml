@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:background="@drawable/shape_r8_ffffff"
     android:paddingHorizontal="10dp"
+    android:paddingBottom="16dp"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent">
@@ -160,9 +161,12 @@
         app:layout_constraintTop_toBottomOf="@id/escape_game_btn" />
 
     <View
-        android:layout_width="0.5dp"
-        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_width="1dp"
+        android:layout_height="0dp"
         android:background="#d1d1d1"
+        android:layout_marginBottom="18dp"
+        app:layout_constraintBottom_toBottomOf="@+id/release_game_btn"
         app:layout_constraintStart_toEndOf="@id/tv_game_state"
         app:layout_constraintTop_toTopOf="parent" />
 

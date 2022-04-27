@@ -393,6 +393,8 @@ Go to homepage to create one~</string>
     <string name="user_receive_invite_msg">%1$s 同意和你一起玩【%2$s】。</string>
     <string name="order_dialog_no_select_anchor">请选择主播</string>
     <string name="order_dialog_no_select_game">请选择游戏</string>
+    <string name="wait_start">待开始</string>
+    <string name="finished">已结束</string>
     <!-- endregion 新增 -->
 
 </resources>

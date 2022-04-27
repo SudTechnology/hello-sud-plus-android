@@ -60,12 +60,12 @@ public abstract class CustomCountdownTimer {
      *
      * @param count
      */
-    abstract void onTick(int count);
+    protected abstract void onTick(int count);
 
     /**
      * Callback fired when the time is up.
      */
-    abstract void onFinish();
+    protected abstract void onFinish();
 
     // handles counting down
     private final Handler mHandler = new Handler(Looper.getMainLooper()) {

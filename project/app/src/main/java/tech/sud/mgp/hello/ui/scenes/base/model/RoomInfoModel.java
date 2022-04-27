@@ -2,6 +2,8 @@ package tech.sud.mgp.hello.ui.scenes.base.model;
 
 import java.io.Serializable;
 
+import tech.sud.mgp.hello.service.room.response.RoomPkModel;
+
 /**
  * 房间信息模型
  */
@@ -16,4 +18,5 @@ public class RoomInfoModel implements Serializable {
     public String rtiToken; // 信令 token
     public String imToken;  // IM token
     public Integer gameLevel; // 门票场景游戏级别 从1开始
+    public RoomPkModel roomPkModel; // PK 结果
 }

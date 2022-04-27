@@ -16,7 +16,7 @@ import tech.sud.mgp.hello.ui.scenes.asr.ASRActivity;
 import tech.sud.mgp.hello.ui.scenes.audio.activity.AudioRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.base.model.EnterRoomParams;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
-import tech.sud.mgp.hello.ui.scenes.crossroom.CrossRoomActivity;
+import tech.sud.mgp.hello.ui.scenes.crossroom.activity.CrossRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.custom.CustomActivity;
 import tech.sud.mgp.hello.ui.scenes.orderentertainment.OrderEntertainmentActivity;
 import tech.sud.mgp.hello.ui.scenes.ticket.activity.TicketActivity;
@@ -89,6 +89,7 @@ public class EnterRoomUtils {
         model.rtiToken = enterRoomResp.rtiToken;
         model.imToken = enterRoomResp.imToken;
         model.gameLevel = enterRoomResp.gameLevel;
+        model.roomPkModel = enterRoomResp.pkResultVO;
         Intent intent = getSceneIntent(context, enterRoomResp.sceneType);
         intent.putExtra("RoomInfoModel", model);
         context.startActivity(intent);

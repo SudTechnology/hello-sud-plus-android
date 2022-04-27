@@ -118,7 +118,7 @@
 
         <!-- 夸房场景 -->
         <activity
-            android:name=".ui.scenes.crossroom.CrossRoomActivity"
+            android:name=".ui.scenes.crossroom.activity.CrossRoomActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />

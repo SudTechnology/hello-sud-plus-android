@@ -14,5 +14,5 @@ public class EnterRoomResp {
     public String rtcToken; // 推拉流token
     public String rtiToken; // 信令 token
     public String imToken;  // IM token
-    public PkResultModel pkResultVO; // PK 结果
+    public RoomPkModel pkResultVO; // PK 结果
 }

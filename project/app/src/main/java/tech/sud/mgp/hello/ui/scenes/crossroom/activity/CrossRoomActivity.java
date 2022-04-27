@@ -1,24 +1,40 @@
-package tech.sud.mgp.hello.ui.scenes.crossroom;
+package tech.sud.mgp.hello.ui.scenes.crossroom.activity;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.ui.scenes.audio.activity.AbsAudioRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.audio.widget.view.mic.AudioRoomGameMicView;
 import tech.sud.mgp.hello.ui.scenes.audio.widget.view.mic.AudioRoomMicView;
 import tech.sud.mgp.hello.ui.scenes.base.activity.BaseRoomActivity;
-import tech.sud.mgp.hello.ui.scenes.base.viewmodel.GameViewModel;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.chat.SceneRoomChatView;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.mic.BaseMicView;
+import tech.sud.mgp.hello.ui.scenes.crossroom.viewmodel.CrossRoomGameViewModel;
+import tech.sud.mgp.hello.ui.scenes.crossroom.widget.RoomPkInfoView;
 
 /**
  * 跨房互动类场景
  */
-public class CrossRoomActivity extends BaseRoomActivity<GameViewModel> {
+public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> {
 
     private AbsAudioRoomActivity.AudioRoomMicStyle audioRoomMicStyle;
+    private RoomPkInfoView roomPkInfoView;
 
     @Override
-    protected GameViewModel initGameViewModel() {
-        return new GameViewModel();
+    protected CrossRoomGameViewModel initGameViewModel() {
+        return new CrossRoomGameViewModel();
+    }
+
+    @Override
+    protected boolean beforeSetContentView() {
+        boolean isFinish = super.beforeSetContentView();
+        if (roomInfoModel != null && roomInfoModel.roomPkModel != null) {
+            roomInfoModel.roomPkModel.initInfo(roomInfoModel.roomId);
+        }
+        return isFinish;
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_cross_room;
     }
 
     @Override
@@ -26,11 +42,13 @@ public class CrossRoomActivity extends BaseRoomActivity<GameViewModel> {
         super.initWidget();
         roomConfig.isShowGameNumber = false; // 不显示游戏人数
         roomConfig.isShowASRTopHint = false; // 右上角不展示ASR提示
+        roomPkInfoView = findViewById(R.id.room_pk_info_view);
     }
 
     @Override
-    protected int getLayoutId() {
-        return R.layout.activity_cross_room;
+    protected void initData() {
+        super.initData();
+        roomPkInfoView.setRoomPkModel(roomInfoModel.roomPkModel);
     }
 
     @Override

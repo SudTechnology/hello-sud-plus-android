@@ -14,6 +14,7 @@ import im.zego.zim.callback.ZIMMessageSentCallback;
 import im.zego.zim.callback.ZIMRoomCreatedCallback;
 import im.zego.zim.callback.ZIMRoomJoinedCallback;
 import im.zego.zim.callback.ZIMRoomLeftCallback;
+import im.zego.zim.entity.ZIMCommandMessage;
 import im.zego.zim.entity.ZIMError;
 import im.zego.zim.entity.ZIMMessage;
 import im.zego.zim.entity.ZIMMessageSendConfig;
@@ -72,6 +73,12 @@ public class ZIMManager {
                         ZIMTextMessage zimTextMessage = (ZIMTextMessage) zimMessage;
                         if (receiveRoomMessageCallback != null) {
                             receiveRoomMessageCallback.onReceiveRoomMessage(fromRoomID, zimTextMessage.senderUserID, zimTextMessage.message);
+                        }
+                    } else if (zimMessage instanceof ZIMCommandMessage) {
+                        ZIMCommandMessage zimCommandMessage = (ZIMCommandMessage)zimMessage;
+                        if (receiveRoomMessageCallback != null) {
+                            String command = new String(zimCommandMessage.message);
+                            receiveRoomMessageCallback.onReceiveRoomMessage(fromRoomID, zimCommandMessage.senderUserID, command);
                         }
                     }
                 }

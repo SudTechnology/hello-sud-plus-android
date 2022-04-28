@@ -26,4 +26,11 @@ public abstract class AbsOrderRoomActivity<T extends GameViewModel> extends Base
         }
     }
 
+    /**
+     * 手动控制公屏的样式
+     * */
+    public void switchChatViewStyle(SceneRoomChatView.AudioRoomChatStyle style){
+        chatView.setChatStyle(style);
+    }
+
 }

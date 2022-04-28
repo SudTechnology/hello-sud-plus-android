@@ -80,9 +80,8 @@ public class SceneOrderManager extends BaseServiceManager {
 //                    msgModel.userName = command.sendUser.name;
                     String msg = Utils.getApp().getString(R.string.user_receive_invite_msg, command.sendUser.name, command.gameName);
                     parentManager.sceneChatManager.addMsg(msg);
-                } else {
-                    parentManager.getCallback().onOrderOperate(command.orderId, command.gameId, command.gameName, command.sendUser.userID, command.sendUser.name, command.operate);
                 }
+                parentManager.getCallback().onOrderOperate(command.orderId, command.gameId, command.gameName, command.sendUser.userID, command.sendUser.name, command.operate);
             }
         }
     };

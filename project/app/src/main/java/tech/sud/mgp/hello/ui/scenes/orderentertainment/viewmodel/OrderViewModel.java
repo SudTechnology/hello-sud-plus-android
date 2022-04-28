@@ -1,7 +1,9 @@
 package tech.sud.mgp.hello.ui.scenes.orderentertainment.viewmodel;
 
+import android.app.Activity;
 import android.content.Context;
 
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 
@@ -14,12 +16,15 @@ import tech.sud.mgp.core.ISudFSMStateHandle;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.SudMGPWrapper.model.GameViewInfoModel;
 import tech.sud.mgp.hello.SudMGPWrapper.state.SudMGPMGState;
+import tech.sud.mgp.hello.SudMGPWrapper.utils.ISudFSMStateHandleUtils;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
 import tech.sud.mgp.hello.service.room.repository.RoomRepository;
 import tech.sud.mgp.hello.service.room.response.RoomOrderCreateResp;
+import tech.sud.mgp.hello.ui.common.utils.DialogUtils;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.GameViewModel;
+import tech.sud.mgp.hello.ui.scenes.orderentertainment.OrderEntertainmentActivity;
 import tech.sud.mgp.hello.ui.scenes.orderentertainment.model.OrderDataModel;
 import tech.sud.mgp.hello.ui.scenes.orderentertainment.model.OrderGameModel;
 
@@ -41,6 +46,8 @@ public class OrderViewModel extends GameViewModel {
     public MutableLiveData<OrderDataModel> orderDataLiveData = new MutableLiveData<>();
     //游戏结束后，切回到语音房间
     public MutableLiveData<Integer> changeToAduio = new MutableLiveData<>();
+    // 0订单是别人发起的 1订单是自己发起的
+    public int isSelfOrder = 0;
 
     public void roomOrderCreate(LifecycleOwner owner,
                                 long roomId,
@@ -56,6 +63,7 @@ public class OrderViewModel extends GameViewModel {
                 model.userIdList = userIdList;
                 model.game = game;
                 orderDataLiveData.postValue(model);
+                orderModel = null;
             }
         });
     }
@@ -66,7 +74,14 @@ public class OrderViewModel extends GameViewModel {
     }
 
     /** 邀请弹窗 */
-    public void inviteDialog(Context context, long orderId, long gameId, String gameName, String userID, String nickname, List<String> toUsers) {
+    public void inviteDialog(Context context,
+                             LifecycleOwner owner,
+                             long orderId,
+                             long gameId,
+                             String gameName,
+                             String userID,
+                             String nickname,
+                             List<String> toUsers) {
         if (inviteDialog == null || !inviteDialog.isShowing()) {
             orderModel = new InviteOrderModel();
             orderModel.orderId = orderId;
@@ -81,18 +96,22 @@ public class OrderViewModel extends GameViewModel {
             inviteDialog.setOnChooseListener(index -> {
                 if (index == 1) {
                     dialogResult.postValue(1);
+                    orderDataLiveData.postValue(null);
+                    isSelfOrder = 0;
                 } else {
                     dialogResult.postValue(2);
                 }
                 inviteDialog.dismiss();
                 inviteDialog = null;
             });
-            inviteDialog.show();
+            DialogUtils.safeShowDialog(owner, inviteDialog);
         }
     }
 
     /** 被拒绝弹窗 */
-    public void operateDialog(Context context, String nickName) {
+    public void operateDialog(Context context,
+                              LifecycleOwner owner,
+                              String nickName) {
         if (operateDialog == null || !operateDialog.isShowing()) {
             operateDialog = new SimpleChooseDialog(context, context.getString(R.string.order_result_conent, nickName),
                     context.getString(R.string.cancel), context.getString(R.string.confirm));
@@ -105,16 +124,16 @@ public class OrderViewModel extends GameViewModel {
                 operateDialog.dismiss();
                 operateDialog = null;
             });
-            operateDialog.show();
+            DialogUtils.safeShowDialog(owner, operateDialog);
         }
     }
 
     /** 结束弹窗 */
-    public void finishDialog(Context context) {
-        LogUtils.i("game over1");
+    public void finishDialog(FragmentActivity activity) {
+        LogUtils.i("finishDialog game over1");
         if (finishDialog == null || !finishDialog.isShowing()) {
-            finishDialog = new SimpleChooseDialog(context, context.getString(R.string.order_finish_conent),
-                    context.getString(R.string.order_finish_left_text), context.getString(R.string.order_finish_right_text));
+            finishDialog = new SimpleChooseDialog(activity, activity.getString(R.string.order_finish_conent),
+                    activity.getString(R.string.order_finish_left_text), activity.getString(R.string.order_finish_right_text));
             finishDialog.setOnChooseListener(index -> {
                 if (index == 1) {
                     dialogResult.postValue(5);
@@ -124,19 +143,19 @@ public class OrderViewModel extends GameViewModel {
                 finishDialog.dismiss();
                 finishDialog = null;
             });
-            finishDialog.show();
+            DialogUtils.safeShowDialog(activity, finishDialog);
         }
     }
 
     @Override
     public void onGameMGCommonGameState(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameState model) {
         super.onGameMGCommonGameState(handle, model);
-        LogUtils.i("onGameMGCommonGameState"+model.gameState);
+        LogUtils.i("onGameMGCommonGameState" + model.gameState);
         if (model.gameState == SudMGPMGState.MGCommonGameState.IDLE) {
             LogUtils.i("onGameMGCommonGameState游戏闲置");
-        }else if (model.gameState == SudMGPMGState.MGCommonGameState.LOADING) {
+        } else if (model.gameState == SudMGPMGState.MGCommonGameState.LOADING) {
             LogUtils.i("onGameMGCommonGameState游戏加载");
-        }else if (model.gameState == SudMGPMGState.MGCommonGameState.PLAYING) {
+        } else if (model.gameState == SudMGPMGState.MGCommonGameState.PLAYING) {
             LogUtils.i("onGameMGCommonGameState游戏中");
         }
     }
@@ -144,23 +163,28 @@ public class OrderViewModel extends GameViewModel {
     @Override
     public void onGameMGCommonGameSettle(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameSettle model) {
         super.onGameMGCommonGameSettle(handle, model);
-        if (orderDataLiveData.getValue() != null) {
+        LogUtils.i("onGameMGCommonGameSettle");
+        if (isSelfOrder == 1) {
             //游戏结束
-            finishDialog(ActivityUtils.getTopActivity());
+            if (ActivityUtils.getTopActivity() instanceof OrderEntertainmentActivity) {
+                finishDialog((FragmentActivity) ActivityUtils.getTopActivity());
+            }
         }
+        isSelfOrder = 0;
         orderDataLiveData.setValue(null);
         orderModel = null;
         //查找积分榜第一个未逃跑的人切回游戏到语音
         if (model.results != null && model.results.size() > 0) {
             for (SudMGPMGState.MGCommonGameSettle.PlayerResult playerResult : model.results) {
                 if (playerResult.isEscaped == 0) {
-                    if (playerResult.uid.equals(HSUserInfo.userId + "")){
+                    if (playerResult.uid.equals(HSUserInfo.userId + "")) {
                         changeToAduio.setValue(1);
                     }
                     break;
                 }
             }
         }
+//        ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
     @Override

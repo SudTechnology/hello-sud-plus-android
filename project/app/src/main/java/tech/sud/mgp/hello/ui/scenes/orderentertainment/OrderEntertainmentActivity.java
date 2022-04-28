@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,8 +46,8 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
     @Override
     protected void initWidget() {
         super.initWidget();
-
         gameViewModel.gameConfigModel.ui.game_bg.hide = true;
+        gameViewModel.gameConfigModel.ui.lobby_players.hide = false;
 //        gameViewModel.gameConfigModel.ui.level.hide = true;
 //        gameViewModel.gameConfigModel.ui.lobby_help_btn.hide = true;
         roomConfig.isShowGameNumber = false; // 不显示游戏人数
@@ -128,6 +129,7 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
                 enterGameBtn.setVisibility(View.GONE);
                 gameContainer.setVisibility(View.INVISIBLE);
                 micView.setVisibility(View.VISIBLE);
+                switchChatViewStyle(SceneRoomChatView.AudioRoomChatStyle.NORMAL);
                 break;
             }
             case 1: {
@@ -136,6 +138,7 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
                 enterGameBtn.setVisibility(View.GONE);
                 gameContainer.setVisibility(View.VISIBLE);
                 micView.setVisibility(View.INVISIBLE);
+                switchChatViewStyle(SceneRoomChatView.AudioRoomChatStyle.GAME);
                 break;
             }
             case 2: {
@@ -144,6 +147,7 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
                 enterGameBtn.setVisibility(View.VISIBLE);
                 gameContainer.setVisibility(View.INVISIBLE);
                 micView.setVisibility(View.VISIBLE);
+                switchChatViewStyle(SceneRoomChatView.AudioRoomChatStyle.NORMAL);
                 break;
             }
         }
@@ -236,7 +240,7 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
     @Override
     public void onOrderInvite(long orderId, long gameId, String gameName, String userID, String nickname, List<String> toUsers) {
         super.onOrderInvite(orderId, gameId, gameName, userID, nickname, toUsers);
-        gameViewModel.inviteDialog(this, orderId, gameId, gameName, userID, nickname, toUsers);
+        gameViewModel.inviteDialog(this,this, orderId, gameId, gameName, userID, nickname, toUsers);
     }
 
     /** 有点单结果来了 */
@@ -244,7 +248,9 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
     public void onOrderOperate(long orderId, long gameId, String gameName, String userId, String userName, boolean operate) {
         super.onOrderOperate(orderId, gameId, gameName, userId, userName, operate);
         if (!operate) {
-            gameViewModel.operateDialog(this, userName);
+            gameViewModel.operateDialog(this, this,userName);
+        } else {
+            gameViewModel.isSelfOrder = 1;
         }
     }
 
@@ -263,6 +269,7 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
                             userList,
                             game);
                     dialog.dismiss();
+                    ToastUtils.showLong(R.string.order_inivte_complete);
                 }
             });
             dialog.show(getSupportFragmentManager(), null);

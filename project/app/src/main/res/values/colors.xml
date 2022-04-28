@@ -30,4 +30,6 @@
     <color name="c_ffd620">#ffd620</color>
     <color name="c_39bdff">#39bdff</color>
     <color name="c_ff2959">#ff2959</color>
+    <color name="c_aaaaaa">#aaaaaa</color>
+    <color name="primary">#000000</color>
 </resources>

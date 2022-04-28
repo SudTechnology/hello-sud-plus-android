@@ -18,10 +18,11 @@ public class APPConfig {
      */
     public static final boolean GAME_IS_TEST_ENV = BuildConfig.gameIsTestEnv;
 
-    /**
-     * Bugly的AppId
-     */
+    /** Bugly的AppId */
     public static final String BUGLY_APP_ID = BuildConfig.buglyAppId;
+
+    /** 分页刷新数据每页大小 */
+    public static int GLOBAL_PAGE_SIZE = 30;
 
     // region 占用大小
     public static final long SudMGPCoreSize = 590848;

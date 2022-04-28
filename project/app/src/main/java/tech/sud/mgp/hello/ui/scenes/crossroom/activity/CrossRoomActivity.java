@@ -18,7 +18,7 @@ import tech.sud.mgp.hello.ui.scenes.base.activity.BaseRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.chat.SceneRoomChatView;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.mic.BaseMicView;
 import tech.sud.mgp.hello.ui.scenes.crossroom.viewmodel.CrossRoomGameViewModel;
-import tech.sud.mgp.hello.ui.scenes.crossroom.widget.RoomPkInfoView;
+import tech.sud.mgp.hello.ui.scenes.crossroom.widget.view.RoomPkInfoView;
 
 /**
  * 跨房互动类场景
@@ -126,30 +126,39 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
         switch (getPkStatus()) {
             case PkStatus.MATCHING: // 匹配中
             case PkStatus.MATCHED: // 已匹配
+                roomPkInfoView.setVisibility(View.VISIBLE);
                 tvOpenPk.setVisibility(View.GONE);
                 tvStartPk.setVisibility(View.VISIBLE);
                 tvRenewPk.setVisibility(View.GONE);
                 tvPkSettings.setVisibility(View.GONE);
                 break;
             case PkStatus.STARTED: // 已开始
+                roomPkInfoView.setVisibility(View.VISIBLE);
                 tvOpenPk.setVisibility(View.GONE);
                 tvStartPk.setVisibility(View.GONE);
                 tvRenewPk.setVisibility(View.GONE);
                 tvPkSettings.setVisibility(View.VISIBLE);
                 break;
             case PkStatus.PK_END: // pk结束
+                roomPkInfoView.setVisibility(View.VISIBLE);
                 tvOpenPk.setVisibility(View.GONE);
                 tvStartPk.setVisibility(View.GONE);
                 tvRenewPk.setVisibility(View.VISIBLE);
                 tvPkSettings.setVisibility(View.GONE);
                 break;
             case PkStatus.MATCH_CLOSED: // 结束了匹配
+                roomPkInfoView.setVisibility(View.GONE);
                 tvOpenPk.setVisibility(View.VISIBLE);
                 tvStartPk.setVisibility(View.GONE);
                 tvRenewPk.setVisibility(View.GONE);
                 tvPkSettings.setVisibility(View.GONE);
                 break;
             default:
+                roomPkInfoView.setVisibility(View.VISIBLE);
+                tvOpenPk.setVisibility(View.GONE);
+                tvStartPk.setVisibility(View.GONE);
+                tvRenewPk.setVisibility(View.GONE);
+                tvPkSettings.setVisibility(View.GONE);
                 break;
         }
     }
@@ -209,7 +218,7 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
         if (v == tvOpenPk) {
 
         } else if (v == tvStartPk) {
-
+            
         } else if (v == tvRenewPk) {
 
         } else if (v == tvPkSettings) {

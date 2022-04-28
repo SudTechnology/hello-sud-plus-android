@@ -48,7 +48,7 @@
     </LinearLayout>
 
     <!-- pk进度条 -->
-    <tech.sud.mgp.hello.ui.scenes.crossroom.widget.RoomPkInfoView
+    <tech.sud.mgp.hello.ui.scenes.crossroom.widget.view.RoomPkInfoView
         android:id="@+id/room_pk_info_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

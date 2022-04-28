@@ -26,7 +26,7 @@ public abstract class RefreshDataHelper<T> {
 
     private BaseQuickAdapter<T, BaseViewHolder> mAdapter;
     private int mPageSize = APPConfig.GLOBAL_PAGE_SIZE;
-    private HSRefreshView mRefreshView;
+    private RefreshView mRefreshView;
     private boolean haveSetEmptyView = false; // 标记是否已经设置了emptyView
     private boolean isUseEmpty = false; // 标识是否使用空布局
     private StatusView mErrorView; // 发生错误时，展示的View
@@ -45,6 +45,14 @@ public abstract class RefreshDataHelper<T> {
         if (refreshModel == RefreshDataModel.IGNORE_PAGE_SIZE) {
             mCurPageNumber = firstPageNumber;
         }
+    }
+
+    /**
+     * 设置分页时，每页的大小。
+     * 可以通过设置pageSize = Integer.MAX_VALUE 。这样将不会触发加载更多，达到一次性拉取所有数据的目的
+     */
+    public void setPageSize(int pageSize) {
+        mPageSize = pageSize;
     }
 
     private void bindingRefreshView() {
@@ -132,10 +140,8 @@ public abstract class RefreshDataHelper<T> {
         }
     }
 
-    private void loadMoreAddData(BaseQuickAdapter<T, BaseViewHolder> adapter,
-                                 RecyclerView recyclerView, int pageNumber,
-                                 int backSize, int pageSize, List<T> backDatas
-    ) {
+    private void loadMoreAddData(BaseQuickAdapter<T, BaseViewHolder> adapter, RecyclerView recyclerView,
+                                 int pageNumber, int backSize, int pageSize, List<T> backDatas) {
         List<T> data = adapter.getData();
         switch (refreshModel) {
             case DEFAULT:
@@ -154,7 +160,6 @@ public abstract class RefreshDataHelper<T> {
                 }
                 if (backSize < pageSize) {
                     adapter.getLoadMoreModule().loadMoreEnd();
-                    ;
                 } else {
                     adapter.getLoadMoreModule().loadMoreComplete();
                 }
@@ -351,17 +356,17 @@ public abstract class RefreshDataHelper<T> {
         return null;
     }
 
-    abstract HSRefreshView getRefreshView();
+    protected abstract RefreshView getRefreshView();
 
-    abstract RecyclerView.LayoutManager getLayoutManager();
+    protected abstract RecyclerView.LayoutManager getLayoutManager();
 
-    abstract BaseQuickAdapter<T, BaseViewHolder> getAdapter();
+    protected abstract BaseQuickAdapter<T, BaseViewHolder> getAdapter();
 
     /**
      * 回调此方法时，表明需要数据
      * 数据返回成功或者不成功调用responseDatasSuccess或者responseDatasFailed方法
      */
-    abstract GetDataListener getDataListener();
+    protected abstract GetDataListener getDataListener();
 
     public interface GetDataListener {
         void onGetData(int pageNumber, int pageSize);

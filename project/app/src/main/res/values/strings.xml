@@ -405,6 +405,8 @@ Go to homepage to create one~</string>
     <string name="load_failed">加载失败，请点我重试</string>
     <string name="no_more">- 这是一条有态度的底线 -</string>
     <string name="load_completed">加载完成</string>
+    <string name="live_room">在播房间列表</string>
+    <string name="invite_pk">邀请PK</string>
     <!-- endregion 新增 -->
 
 </resources>

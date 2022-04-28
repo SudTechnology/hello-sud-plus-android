@@ -12,15 +12,15 @@ import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 /**
  * Description:自定义的列表控件，带下拉刷新及上拉加载更多的功能
  */
-public class HSRefreshView extends SmartRefreshLayout {
+public class RefreshView extends SmartRefreshLayout {
 
     private RecyclerView recyclerView;
 
-    public HSRefreshView(Context context) {
+    public RefreshView(Context context) {
         this(context, null);
     }
 
-    public HSRefreshView(Context context, AttributeSet attrs) {
+    public RefreshView(Context context, AttributeSet attrs) {
         super(context, attrs);
         initAttr();
         initHeadView();

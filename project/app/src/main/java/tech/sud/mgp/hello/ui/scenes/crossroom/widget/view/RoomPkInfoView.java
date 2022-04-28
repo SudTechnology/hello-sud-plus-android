@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.scenes.crossroom.widget;
+package tech.sud.mgp.hello.ui.scenes.crossroom.widget.view;
 
 import android.content.Context;
 import android.graphics.Color;

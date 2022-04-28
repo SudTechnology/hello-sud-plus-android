@@ -16,9 +16,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.blankj.utilcode.util.ToastUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseFragment;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
@@ -30,7 +27,6 @@ import tech.sud.mgp.hello.service.main.manager.HomeManager;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.main.resp.RoomListResp;
 import tech.sud.mgp.hello.ui.main.home.view.CoinDialog;
-import tech.sud.mgp.hello.ui.main.home.model.RoomItemModel;
 import tech.sud.mgp.hello.ui.scenes.base.utils.EnterRoomUtils;
 
 public class RoomListFragment extends BaseFragment {
@@ -42,7 +38,6 @@ public class RoomListFragment extends BaseFragment {
     private RecyclerView roomRecyclerView;
     private RoomListAdapter adapter;
     private SwipeRefreshLayout roomRefreshLayout;
-    private List<RoomItemModel> datas = new ArrayList<>();
 
     public RoomListFragment() {
     }
@@ -73,7 +68,7 @@ public class RoomListFragment extends BaseFragment {
     @Override
     protected void initData() {
         super.initData();
-        adapter = new RoomListAdapter(datas);
+        adapter = new RoomListAdapter();
         roomRecyclerView.setAdapter(adapter);
         roomRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
     }
@@ -119,7 +114,7 @@ public class RoomListFragment extends BaseFragment {
             return false;
         });
         adapter.setOnItemClickListener((adapter, view, position) -> {
-            EnterRoomUtils.enterRoom(requireContext(), datas.get(position).getRoomId());
+            EnterRoomUtils.enterRoom(requireContext(), this.adapter.getItem(position).getRoomId());
         });
         goSearch.setOnClickListener(v -> enterRoom());
         roomRefreshLayout.setOnRefreshListener(this::loadList);
@@ -151,12 +146,13 @@ public class RoomListFragment extends BaseFragment {
                 super.onNext(t);
                 if (t.getRetCode() == RetCode.SUCCESS) {
                     HomeManager.getInstance().roomListResp = t.getData();
-                    datas.clear();
-                    if (t.getData() != null && t.getData().getRoomInfoList() != null) {
-                        datas.addAll(t.getData().getRoomInfoList());
+                    RoomListResp data = t.getData();
+                    if (data == null) {
+                        adapter.setList(null);
+                    } else {
+                        adapter.setList(data.getRoomInfoList());
                     }
-                    adapter.setList(datas);
-                    if (datas.size() == 0) {
+                    if (adapter.getData().size() == 0) {
                         emptyTv.setVisibility(View.VISIBLE);
                     } else {
                         emptyTv.setVisibility(View.GONE);

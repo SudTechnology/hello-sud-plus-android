@@ -14,7 +14,7 @@ import tech.sud.mgp.hello.R;
 /**
  * Describe:  自定义加载更多的View
  */
-public class HSLoadMoreView extends BaseLoadMoreView {
+public class LoadMoreView extends BaseLoadMoreView {
     @NonNull
     @Override
     public View getLoadComplete(@NonNull BaseViewHolder holder) {

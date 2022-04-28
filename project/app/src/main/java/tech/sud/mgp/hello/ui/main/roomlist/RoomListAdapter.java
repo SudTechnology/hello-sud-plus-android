@@ -5,12 +5,11 @@ import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.module.LoadMoreModule;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
-
-import java.util.List;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.model.AppData;
@@ -18,10 +17,20 @@ import tech.sud.mgp.hello.common.utils.ImageLoader;
 import tech.sud.mgp.hello.ui.main.constant.SceneType;
 import tech.sud.mgp.hello.ui.main.home.model.RoomItemModel;
 
-public class RoomListAdapter extends BaseQuickAdapter<RoomItemModel, BaseViewHolder> {
+/**
+ * 房间列表适配器
+ */
+public class RoomListAdapter extends BaseQuickAdapter<RoomItemModel, BaseViewHolder> implements LoadMoreModule {
 
-    public RoomListAdapter(@Nullable List<RoomItemModel> data) {
-        super(R.layout.item_room_list, data);
+    private int btnText; // 右下角按钮的文字
+
+    public RoomListAdapter() {
+        this(0);
+    }
+
+    public RoomListAdapter(@StringRes int btnText) {
+        super(R.layout.item_room_list);
+        this.btnText = btnText;
     }
 
     @Override
@@ -44,6 +53,9 @@ public class RoomListAdapter extends BaseQuickAdapter<RoomItemModel, BaseViewHol
             ImageLoader.loadImage(cover, item.getRoomPic());
         } else {
             cover.setImageResource(R.drawable.icon_logo);
+        }
+        if (btnText > 0) {
+            helper.setText(R.id.room_enter, btnText);
         }
     }
 

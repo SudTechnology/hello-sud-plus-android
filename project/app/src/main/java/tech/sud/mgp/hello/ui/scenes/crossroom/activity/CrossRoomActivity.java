@@ -223,7 +223,7 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
     @Override
     public void onClick(View v) {
         if (v == tvOpenPk) {
-
+            
         } else if (v == tvStartPk) {
 
         } else if (v == tvRenewPk) {

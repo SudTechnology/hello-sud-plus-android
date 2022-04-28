@@ -416,6 +416,10 @@ Go to homepage to create one~</string>
     <string name="pk_rule_detail_6">第三名+20分</string>
     <string name="pk_rule_detail_7">4.为公平起见，双方可协商派出相同数量的玩家参与游戏PK~</string>
     <string name="order_inivte_complete">已下单</string>
+    <string name="pk_duration_settings">PK时长设置</string>
+    <string name="close_room_pk">关闭跨房PK</string>
+    <string name="number_minute">%1$s分钟</string>
+    <string name="confirm_modify">确认修改</string>
     <!-- endregion 新增 -->
 
 </resources>

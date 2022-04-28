@@ -18,6 +18,7 @@ import tech.sud.mgp.hello.ui.scenes.base.activity.BaseRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.chat.SceneRoomChatView;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.mic.BaseMicView;
 import tech.sud.mgp.hello.ui.scenes.crossroom.viewmodel.CrossRoomGameViewModel;
+import tech.sud.mgp.hello.ui.scenes.crossroom.widget.dialog.PkRuleDialog;
 import tech.sud.mgp.hello.ui.scenes.crossroom.widget.view.RoomPkInfoView;
 
 /**
@@ -119,6 +120,12 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
         tvRenewPk.setOnClickListener(this);
         tvPkSettings.setOnClickListener(this);
         tvSelectGame.setOnClickListener(this);
+        roomPkInfoView.setIssueOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new PkRuleDialog().show(getSupportFragmentManager(), null);
+            }
+        });
     }
 
     private void updatePkInfo() {
@@ -218,7 +225,7 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
         if (v == tvOpenPk) {
 
         } else if (v == tvStartPk) {
-            
+
         } else if (v == tvRenewPk) {
 
         } else if (v == tvPkSettings) {

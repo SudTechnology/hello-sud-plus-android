@@ -81,12 +81,13 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <View
+        <ImageView
             android:id="@+id/view_issue"
-            android:layout_width="12dp"
-            android:layout_height="12dp"
-            android:layout_marginEnd="13dp"
-            android:background="@drawable/ic_room_pk_issue"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:padding="13dp"
+            android:src="@drawable/ic_room_pk_issue"
+            android:scaleType="fitCenter"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />

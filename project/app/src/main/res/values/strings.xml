@@ -407,6 +407,14 @@ Go to homepage to create one~</string>
     <string name="load_completed">加载完成</string>
     <string name="live_room">在播房间列表</string>
     <string name="invite_pk">邀请PK</string>
+    <string name="pk_rule">PK规则</string>
+    <string name="pk_rule_detail_1">1.分为红蓝阵营，同个房间内的用户为一个阵营。</string>
+    <string name="pk_rule_detail_2">2.PK时间段内，通过玩游戏获得的排名得分，即可以为已方阵营加分。</string>
+    <string name="pk_rule_detail_3">3.每轮游戏的排名加分数值如下：</string>
+    <string name="pk_rule_detail_4">第一名+100分</string>
+    <string name="pk_rule_detail_5">第二名+50分</string>
+    <string name="pk_rule_detail_6">第三名+20分</string>
+    <string name="pk_rule_detail_7">4.为公平起见，双方可协商派出相同数量的玩家参与游戏PK~</string>
     <!-- endregion 新增 -->
 
 </resources>

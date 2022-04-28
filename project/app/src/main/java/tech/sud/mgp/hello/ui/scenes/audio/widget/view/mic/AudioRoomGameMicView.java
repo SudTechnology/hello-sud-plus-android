@@ -40,6 +40,8 @@ public class AudioRoomGameMicView extends BaseMicView<AudioRoomGameMicItemView> 
     private final long duration = 500;
     private final GameMicMode micMode = new GameMicMode();
 
+    private AnimatorSet mAnimatorSet;
+
     public AudioRoomGameMicView(@NonNull Context context) {
         this(context, null);
     }
@@ -121,6 +123,7 @@ public class AudioRoomGameMicView extends BaseMicView<AudioRoomGameMicItemView> 
     @Override
     public void spreadMicView() {
         if (!micMode.isShirnk) return;
+        cancelCurAnim();
         micMode.isShirnk = false;
         viewSpread.setVisibility(View.GONE);
 
@@ -146,15 +149,18 @@ public class AudioRoomGameMicView extends BaseMicView<AudioRoomGameMicItemView> 
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
+                mAnimatorSet = null;
                 ivShirnk.setVisibility(View.VISIBLE);
             }
         });
+        mAnimatorSet = animatorSet;
     }
 
     /** 缩放麦位 */
     @Override
     public void shirnkMicView() {
         if (micMode.isShirnk) return;
+        cancelCurAnim();
         micMode.isShirnk = true;
         ivShirnk.setVisibility(View.GONE);
 
@@ -180,13 +186,23 @@ public class AudioRoomGameMicView extends BaseMicView<AudioRoomGameMicItemView> 
         animatorSet.setDuration(duration);
         animatorSet.start();
 
+        viewSpread.setVisibility(View.VISIBLE);
+
         animatorSet.addListener(new SimpleAnimatorListener() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
-                viewSpread.setVisibility(View.VISIBLE);
+                mAnimatorSet = null;
             }
         });
+        mAnimatorSet = animatorSet;
+    }
+
+    private void cancelCurAnim() {
+        if (mAnimatorSet != null) {
+            mAnimatorSet.cancel();
+            mAnimatorSet = null;
+        }
     }
 
     public void changeItemSize() {

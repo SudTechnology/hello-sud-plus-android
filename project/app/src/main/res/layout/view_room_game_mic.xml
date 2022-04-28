@@ -16,6 +16,7 @@
             android:layout_width="115dp"
             android:layout_height="24dp"
             android:alpha="0"
+            android:layoutDirection="ltr"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent" />
 
@@ -27,6 +28,7 @@
             android:alpha="0"
             android:background="@drawable/ic_left_arrow"
             android:layout_marginStart="2dp"
+            android:layoutDirection="ltr"
             app:layout_constraintTop_toTopOf="@id/view_bg"
             app:layout_constraintBottom_toBottomOf="@id/view_bg"
             app:layout_constraintStart_toStartOf="@id/view_bg" />
@@ -57,6 +59,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:visibility="gone"
+            android:layoutDirection="ltr"
             app:layout_constraintStart_toStartOf="@id/view_bg"
             app:layout_constraintEnd_toEndOf="@id/view_bg"
             app:layout_constraintTop_toTopOf="@id/view_bg"
@@ -74,6 +77,7 @@
         android:paddingEnd="10dp"
         android:paddingVertical="6dp"
         android:scaleType="fitCenter"
+        android:layoutDirection="ltr"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:contentDescription="@null" />

@@ -175,23 +175,9 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
         gameViewModel.dialogResult.observe(this, integer -> {
             LogUtils.i("dialogResult.observe integer=" + integer);
             if (integer == 1) {
-                operateOrder(
-                        gameViewModel.orderModel.orderId,
-                        gameViewModel.orderModel.gameId,
-                        gameViewModel.orderModel.gameName,
-                        gameViewModel.orderModel.sendUserId,
-                        true);
-                //接受了并且切换游戏
-                switchGame(gameViewModel.orderModel.gameId, true);
-                changeTopBtn(1);
+                operateOrder(gameViewModel.orderModel.orderId, true);
             } else if (integer == 2) {
-                operateOrder(
-                        gameViewModel.orderModel.orderId,
-                        gameViewModel.orderModel.gameId,
-                        gameViewModel.orderModel.gameName,
-                        gameViewModel.orderModel.sendUserId,
-                        false);
-                gameViewModel.orderModel = null;
+                operateOrder(gameViewModel.orderModel.orderId, false);
             } else if (integer == 3) {
 
             } else if (integer == 4) {
@@ -216,6 +202,22 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
                 switchGame(0, true);
             }
         });
+        gameViewModel.receiveInvite.observe(this, b -> {
+            if (b) {
+                //接受接口成功后切游戏
+                if (binder != null) {
+                    binder.operateOrder(
+                            gameViewModel.orderModel.orderId,
+                            gameViewModel.orderModel.gameId,
+                            gameViewModel.orderModel.gameName,
+                            gameViewModel.orderModel.sendUserId,
+                            true);
+                }
+                //接受了并且切换游戏
+                switchGame(gameViewModel.orderModel.gameId, true);
+                changeTopBtn(1);
+            }
+        });
     }
 
     /** 主动发起点单 */
@@ -226,13 +228,19 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
     }
 
     /** 同意或者拒绝点单 */
-    private void operateOrder(long orderId, long gameId, String gameName, String toUser, boolean state) {
-        if (binder != null) {
-            binder.operateOrder(orderId, gameId, gameName, toUser, state);
-            if (state) {
-                //同意邀请，需要调用后台接口
-                gameViewModel.roomOrderReceive(this, orderId);
+    private void operateOrder(long orderId, boolean state) {
+        if (state) {
+            //同意邀请，需要调用后台接口
+            gameViewModel.roomOrderReceive(this, orderId);
+        } else {
+            if (binder != null) {
+                binder.operateOrder(
+                        gameViewModel.orderModel.orderId,
+                        gameViewModel.orderModel.gameId,
+                        gameViewModel.orderModel.gameName,
+                        gameViewModel.orderModel.sendUserId, false);
             }
+            gameViewModel.orderModel = null;
         }
     }
 
@@ -240,7 +248,7 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
     @Override
     public void onOrderInvite(long orderId, long gameId, String gameName, String userID, String nickname, List<String> toUsers) {
         super.onOrderInvite(orderId, gameId, gameName, userID, nickname, toUsers);
-        gameViewModel.inviteDialog(this,this, orderId, gameId, gameName, userID, nickname, toUsers);
+        gameViewModel.inviteDialog(this, this, orderId, gameId, gameName, userID, nickname, toUsers);
     }
 
     /** 有点单结果来了 */
@@ -248,7 +256,7 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
     public void onOrderOperate(long orderId, long gameId, String gameName, String userId, String userName, boolean operate) {
         super.onOrderOperate(orderId, gameId, gameName, userId, userName, operate);
         if (!operate) {
-            gameViewModel.operateDialog(this, this,userName);
+            gameViewModel.operateDialog(this, this, userName);
         } else {
             gameViewModel.isSelfOrder = 1;
         }

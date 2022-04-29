@@ -15,6 +15,8 @@ import tech.sud.mgp.core.ISudFSMStateHandle;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.SudMGPWrapper.model.GameViewInfoModel;
 import tech.sud.mgp.hello.SudMGPWrapper.state.SudMGPMGState;
+import tech.sud.mgp.hello.common.http.param.BaseResponse;
+import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
@@ -44,6 +46,8 @@ public class OrderViewModel extends GameViewModel {
     public MutableLiveData<OrderDataModel> orderDataLiveData = new MutableLiveData<>();
     //游戏结束后，切回到语音房间
     public MutableLiveData<Integer> changeToAduio = new MutableLiveData<>();
+    //接受邀请接口是否成功
+    public MutableLiveData<Boolean> receiveInvite = new MutableLiveData<>();
     // 0订单是别人发起的 1订单是自己发起的
     public int isSelfOrder = 0;
 
@@ -68,6 +72,15 @@ public class OrderViewModel extends GameViewModel {
 
     public void roomOrderReceive(LifecycleOwner owner, long orderId) {
         RoomRepository.roomOrderReceive(owner, orderId, new RxCallback<Object>() {
+            @Override
+            public void onNext(BaseResponse<Object> t) {
+                super.onNext(t);
+                if (t.getRetCode() == RetCode.SUCCESS){
+                    receiveInvite.postValue(true);
+                }else {
+                    receiveInvite.postValue(false);
+                }
+            }
         });
     }
 

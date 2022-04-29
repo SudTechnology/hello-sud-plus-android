@@ -33,13 +33,11 @@ import tech.sud.mgp.hello.ui.scenes.orderentertainment.model.OrderGameModel;
  */
 public class OrderViewModel extends GameViewModel {
 
-    // 1邀请弹窗确定 2取消
-    // 3拒绝弹窗确定 4取消
-    // 5结束弹窗确定 6取消
-    public MutableLiveData<Integer> dialogResult = new MutableLiveData<>();
     private SimpleChooseDialog inviteDialog;//邀请弹窗
     private SimpleChooseDialog operateDialog;//拒绝弹窗
     private SimpleChooseDialog finishDialog;//结束弹窗
+    // 1邀请弹窗确定 2取消 3拒绝弹窗确定 4取消 5结束弹窗确定 6取消
+    public MutableLiveData<Integer> dialogResult = new MutableLiveData<>();
     //被邀请弹窗数据（别人邀请
     public InviteOrderModel orderModel;
     //用户主动点单数据（自己主动下单邀请
@@ -75,9 +73,9 @@ public class OrderViewModel extends GameViewModel {
             @Override
             public void onNext(BaseResponse<Object> t) {
                 super.onNext(t);
-                if (t.getRetCode() == RetCode.SUCCESS){
+                if (t.getRetCode() == RetCode.SUCCESS) {
                     receiveInvite.postValue(true);
-                }else {
+                } else {
                     receiveInvite.postValue(false);
                 }
             }
@@ -195,7 +193,6 @@ public class OrderViewModel extends GameViewModel {
                 }
             }
         }
-//        ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
     @Override

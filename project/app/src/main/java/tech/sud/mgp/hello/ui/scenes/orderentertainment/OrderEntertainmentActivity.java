@@ -65,7 +65,6 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
         cparams.bottomMargin = DensityUtils.dp2px(150);
         int childCount = orderRootView.getChildCount();
         //把游戏view插入到giftview之前，后面的view需要展示再游戏view1之前
-        LogUtils.i("childCount =" + childCount);
         if (childCount > 8 && giftContainer == orderRootView.getChildAt(7)) {
             orderRootView.addView(gameContainer, 7, cparams);
         } else {
@@ -85,7 +84,6 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
         topView.addCustomView(startGameBtn, params1);
         startGameBtn.setVisibility(View.GONE);
         startGameBtn.setOnClickListener(v -> {
-            LogUtils.i("startGameBtn onClick");
             iWantOrder();
         });
         hangupGameBtn = new TextView(this);
@@ -99,7 +97,6 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
         topView.addCustomView(hangupGameBtn, params2);
         hangupGameBtn.setVisibility(View.GONE);
         hangupGameBtn.setOnClickListener(v -> {
-            LogUtils.i("hangupGameBtn onClick");
             changeTopBtn(2);
         });
 
@@ -114,7 +111,6 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
         topView.addCustomView(enterGameBtn, params3);
         enterGameBtn.setVisibility(View.GONE);
         enterGameBtn.setOnClickListener(v -> {
-            LogUtils.i("enterGameBtn onClick");
             changeTopBtn(1);
         });
     }
@@ -173,19 +169,15 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
 //            }
 //        });
         gameViewModel.dialogResult.observe(this, integer -> {
-            LogUtils.i("dialogResult.observe integer=" + integer);
             if (integer == 1) {
+                //接受邀请
                 operateOrder(gameViewModel.orderModel.orderId, true);
             } else if (integer == 2) {
+                //拒绝邀请
                 operateOrder(gameViewModel.orderModel.orderId, false);
-            } else if (integer == 3) {
-
-            } else if (integer == 4) {
-
             } else if (integer == 5) {
+                //接受弹窗，继续点单
                 iWantOrder();
-            } else if (integer == 6) {
-
             }
         });
         gameViewModel.orderDataLiveData.observe(this, data -> {
@@ -210,8 +202,7 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
                             gameViewModel.orderModel.orderId,
                             gameViewModel.orderModel.gameId,
                             gameViewModel.orderModel.gameName,
-                            gameViewModel.orderModel.sendUserId,
-                            true);
+                            gameViewModel.orderModel.sendUserId, true);
                 }
                 //接受了并且切换游戏
                 switchGame(gameViewModel.orderModel.gameId, true);
@@ -234,8 +225,7 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
             gameViewModel.roomOrderReceive(this, orderId);
         } else {
             if (binder != null) {
-                binder.operateOrder(
-                        gameViewModel.orderModel.orderId,
+                binder.operateOrder(gameViewModel.orderModel.orderId,
                         gameViewModel.orderModel.gameId,
                         gameViewModel.orderModel.gameName,
                         gameViewModel.orderModel.sendUserId, false);

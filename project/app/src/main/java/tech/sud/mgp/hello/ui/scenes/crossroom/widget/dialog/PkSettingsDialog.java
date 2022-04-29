@@ -17,6 +17,7 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import java.util.ArrayList;
 
 import tech.sud.mgp.hello.R;
+import tech.sud.mgp.hello.app.APPConfig;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 
@@ -32,7 +33,7 @@ public class PkSettingsDialog extends BaseDialogFragment implements View.OnClick
     private TextView tvChange;
     private RecyclerView recyclerView;
 
-    private int selectedMinute = 5;
+    private int selectedMinute = APPConfig.ROOM_PK_MINUTE;
     private SettingsMode settingsMode = SettingsMode.START;
     private final MyAdapter adapter = new MyAdapter();
 

@@ -123,7 +123,7 @@ public class RoomCmdModelUtils {
     }
 
     /** 构建信令:开启匹配跨房PK */
-    public static String buildCmdPkSettings() {
+    public static String buildCmdPkOpenMatch() {
         RoomCmdPKOpenMatchModel command = new RoomCmdPKOpenMatchModel(getSendUser());
         return command.toJson();
     }

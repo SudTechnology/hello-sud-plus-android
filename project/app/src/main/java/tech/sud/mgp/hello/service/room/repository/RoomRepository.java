@@ -180,7 +180,7 @@ public class RoomRepository {
     }
 
     /**
-     * 开始跨房Pk
+     * 同意PK
      *
      * @param srcRoomId  PK发起房间id
      * @param gameId     PK发起方游戏id

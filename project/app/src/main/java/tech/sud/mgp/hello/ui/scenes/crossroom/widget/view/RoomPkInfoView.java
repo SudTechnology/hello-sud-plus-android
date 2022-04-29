@@ -53,6 +53,8 @@ public class RoomPkInfoView extends ConstraintLayout {
     private RoomPkModel roomPkModel;
     private PkStatusChangeListener pkStatusChangeListener;
 
+    private int oldStatus = -1;
+
     public RoomPkInfoView(@NonNull Context context) {
         this(context, null);
     }
@@ -137,7 +139,8 @@ public class RoomPkInfoView extends ConstraintLayout {
             return;
         }
         tvStatus.setVisibility(View.VISIBLE);
-
+        if (oldStatus == model.pkStatus) return;
+        oldStatus = model.pkStatus;
         switch (model.pkStatus) {
             case PkStatus.MATCHING: // 匹配中
             case PkStatus.MATCHED: // 已匹配
@@ -246,10 +249,10 @@ public class RoomPkInfoView extends ConstraintLayout {
     /** 获取左边的房间信息 */
     public RoomPkRoomInfo getLeftRoomInfo() {
         if (roomPkModel == null) return null;
-        if (roomPkModel.srcRoomInfo.isSelfRoom) {
+        if (roomPkModel.srcRoomInfo != null && roomPkModel.srcRoomInfo.isSelfRoom) {
             return roomPkModel.srcRoomInfo;
         }
-        if (roomPkModel.destRoomInfo.isSelfRoom) {
+        if (roomPkModel.destRoomInfo != null && roomPkModel.destRoomInfo.isSelfRoom) {
             return roomPkModel.destRoomInfo;
         }
         return null;
@@ -258,10 +261,10 @@ public class RoomPkInfoView extends ConstraintLayout {
     /** 获取右边的房间信息 */
     public RoomPkRoomInfo getRightRoomInfo() {
         if (roomPkModel == null) return null;
-        if (roomPkModel.srcRoomInfo.isSelfRoom) {
+        if (roomPkModel.srcRoomInfo != null && roomPkModel.srcRoomInfo.isSelfRoom) {
             return roomPkModel.destRoomInfo;
         }
-        if (roomPkModel.destRoomInfo.isSelfRoom) {
+        if (roomPkModel.destRoomInfo != null && roomPkModel.destRoomInfo.isSelfRoom) {
             return roomPkModel.srcRoomInfo;
         }
         return null;

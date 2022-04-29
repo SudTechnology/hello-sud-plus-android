@@ -7,17 +7,23 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.Observer;
+
+import com.blankj.utilcode.util.ClickUtils;
 
 import tech.sud.mgp.hello.R;
+import tech.sud.mgp.hello.app.APPConfig;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.service.room.model.PkStatus;
 import tech.sud.mgp.hello.ui.scenes.audio.activity.AbsAudioRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.audio.widget.view.mic.AudioRoomGameMicView;
 import tech.sud.mgp.hello.ui.scenes.audio.widget.view.mic.AudioRoomMicView;
 import tech.sud.mgp.hello.ui.scenes.base.activity.BaseRoomActivity;
+import tech.sud.mgp.hello.ui.scenes.base.model.RoleType;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.chat.SceneRoomChatView;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.mic.BaseMicView;
 import tech.sud.mgp.hello.ui.scenes.crossroom.viewmodel.CrossRoomGameViewModel;
+import tech.sud.mgp.hello.ui.scenes.crossroom.viewmodel.CrossRoomViewModel;
 import tech.sud.mgp.hello.ui.scenes.crossroom.widget.dialog.PkRuleDialog;
 import tech.sud.mgp.hello.ui.scenes.crossroom.widget.view.RoomPkInfoView;
 
@@ -35,6 +41,8 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
     private View viewContainerSelectGame;
     private View tvSelectGame;
 
+    private CrossRoomViewModel viewModel = new CrossRoomViewModel();
+
     @Override
     protected CrossRoomGameViewModel initGameViewModel() {
         return new CrossRoomGameViewModel();
@@ -44,6 +52,7 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
     protected boolean beforeSetContentView() {
         boolean isFinish = super.beforeSetContentView();
         if (roomInfoModel != null && roomInfoModel.roomPkModel != null) {
+            roomInfoModel.roomPkModel.totalMinute = APPConfig.ROOM_PK_MINUTE;
             roomInfoModel.roomPkModel.initInfo(roomInfoModel.roomId);
         }
         return isFinish;
@@ -115,15 +124,32 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
     @Override
     protected void setListeners() {
         super.setListeners();
-        tvOpenPk.setOnClickListener(this);
-        tvStartPk.setOnClickListener(this);
-        tvRenewPk.setOnClickListener(this);
-        tvPkSettings.setOnClickListener(this);
-        tvSelectGame.setOnClickListener(this);
+        setClickListeners();
+        setLiveListeners();
+    }
+
+    private void setClickListeners() {
+        ClickUtils.applySingleDebouncing(tvOpenPk, this);
+        ClickUtils.applySingleDebouncing(tvStartPk, this);
+        ClickUtils.applySingleDebouncing(tvRenewPk, this);
+        ClickUtils.applySingleDebouncing(tvPkSettings, this);
+        ClickUtils.applySingleDebouncing(tvSelectGame, this);
         roomPkInfoView.setIssueOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new PkRuleDialog().show(getSupportFragmentManager(), null);
+            }
+        });
+    }
+
+    private void setLiveListeners() {
+        viewModel.pkSwitchLiveData.observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean pkSwitch) {
+                if (pkSwitch == null) return;
+                if (binder != null) {
+                    binder.roomPkSwitch(pkSwitch);
+                }
             }
         });
     }
@@ -135,7 +161,11 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
             case PkStatus.MATCHED: // 已匹配
                 roomPkInfoView.setVisibility(View.VISIBLE);
                 tvOpenPk.setVisibility(View.GONE);
-                tvStartPk.setVisibility(View.VISIBLE);
+                if (canOperatePk()) {
+                    tvStartPk.setVisibility(View.VISIBLE);
+                } else {
+                    tvStartPk.setVisibility(View.GONE);
+                }
                 tvRenewPk.setVisibility(View.GONE);
                 tvPkSettings.setVisibility(View.GONE);
                 break;
@@ -144,18 +174,30 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
                 tvOpenPk.setVisibility(View.GONE);
                 tvStartPk.setVisibility(View.GONE);
                 tvRenewPk.setVisibility(View.GONE);
-                tvPkSettings.setVisibility(View.VISIBLE);
+                if (canOperatePk()) {
+                    tvPkSettings.setVisibility(View.VISIBLE);
+                } else {
+                    tvPkSettings.setVisibility(View.GONE);
+                }
                 break;
             case PkStatus.PK_END: // pk结束
                 roomPkInfoView.setVisibility(View.VISIBLE);
                 tvOpenPk.setVisibility(View.GONE);
                 tvStartPk.setVisibility(View.GONE);
-                tvRenewPk.setVisibility(View.VISIBLE);
+                if (canOperatePk()) {
+                    tvRenewPk.setVisibility(View.VISIBLE);
+                } else {
+                    tvRenewPk.setVisibility(View.GONE);
+                }
                 tvPkSettings.setVisibility(View.GONE);
                 break;
             case PkStatus.MATCH_CLOSED: // 结束了匹配
                 roomPkInfoView.setVisibility(View.GONE);
-                tvOpenPk.setVisibility(View.VISIBLE);
+                if (canOperatePk()) {
+                    tvOpenPk.setVisibility(View.VISIBLE);
+                } else {
+                    tvOpenPk.setVisibility(View.GONE);
+                }
                 tvStartPk.setVisibility(View.GONE);
                 tvRenewPk.setVisibility(View.GONE);
                 tvPkSettings.setVisibility(View.GONE);
@@ -168,6 +210,11 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
                 tvPkSettings.setVisibility(View.GONE);
                 break;
         }
+    }
+
+    /** 是否可以操作pk流程 */
+    private boolean canOperatePk() {
+        return roomInfoModel.roleType == RoleType.OWNER;
     }
 
     /** 获取pk状态 */
@@ -194,7 +241,7 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
             setMicStyle(AbsAudioRoomActivity.AudioRoomMicStyle.NORMAL);
         }
         // 是否要提示其选择游戏
-        if (playingGameId > 0 || getPkStatus() == PkStatus.MATCH_CLOSED) {
+        if (playingGameId > 0 || getPkStatus() == PkStatus.MATCH_CLOSED || roomInfoModel.roleType != RoleType.OWNER) {
             viewContainerSelectGame.setVisibility(View.GONE);
         } else {
             viewContainerSelectGame.setVisibility(View.VISIBLE);
@@ -220,10 +267,14 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
         micView.setMicView(baseMicView);
     }
 
+    private long getRoomId() {
+        return roomInfoModel.roomId;
+    }
+
     @Override
     public void onClick(View v) {
-        if (v == tvOpenPk) {
-            
+        if (v == tvOpenPk) { // 开启匹配
+            viewModel.roomPkSwitch(this, getRoomId(), true);
         } else if (v == tvStartPk) {
 
         } else if (v == tvRenewPk) {
@@ -234,5 +285,14 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
             clickSelectGame();
         }
     }
+
+    // region service回调
+    @Override
+    public void onUpdateRoomPk() {
+        super.onUpdateRoomPk();
+        updatePkInfo();
+        updatePageStyle();
+    }
+    // endregion service回调
 
 }

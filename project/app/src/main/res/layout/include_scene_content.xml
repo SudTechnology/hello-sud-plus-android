@@ -81,11 +81,11 @@
 
     <!-- 展示礼物 -->
     <FrameLayout
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         android:id="@+id/gift_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <!-- 公屏输入框 -->
     <tech.sud.mgp.hello.ui.scenes.base.widget.view.chat.RoomInputMsgView

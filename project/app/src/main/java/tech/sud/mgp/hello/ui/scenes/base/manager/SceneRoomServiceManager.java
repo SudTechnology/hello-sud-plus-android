@@ -31,6 +31,7 @@ public class SceneRoomServiceManager extends BaseServiceManager {
     public final SceneGiftManager sceneGiftManager = new SceneGiftManager(this);
     public final SceneGameManager sceneGameManager = new SceneGameManager(this);
     public final SceneOrderManager sceneOrderManager = new SceneOrderManager(this);
+    public final SceneRoomPkManager sceneRoomPkManager = new SceneRoomPkManager(this);
 
     @Override
     public void onCreate() {
@@ -42,6 +43,7 @@ public class SceneRoomServiceManager extends BaseServiceManager {
         sceneGiftManager.onCreate();
         sceneGameManager.onCreate();
         sceneOrderManager.onCreate();
+        sceneRoomPkManager.onCreate();
         setListener();
     }
 
@@ -50,10 +52,7 @@ public class SceneRoomServiceManager extends BaseServiceManager {
             @Override
             public void onRecvCommand(RoomCmdChangeGameModel command, String userID) {
                 roomInfoModel.gameId = command.gameID;
-                SceneRoomServiceCallback callback = getCallback();
-                if (callback != null) {
-                    callback.onGameChange(command.gameID);
-                }
+                callbackOnGameChange(command.gameID);
             }
         });
         sceneEngineManager.setCommandListener(new SceneCommandManager.EnterRoomCommandListener() {
@@ -66,6 +65,14 @@ public class SceneRoomServiceManager extends BaseServiceManager {
                 sceneChatManager.addMsg(msg);
             }
         });
+    }
+
+    /** 回调页面，游戏切换了 */
+    public void callbackOnGameChange(long gameId) {
+        SceneRoomServiceCallback callback = getCallback();
+        if (callback != null) {
+            callback.onGameChange(gameId);
+        }
     }
 
     private String buildEnterRoomMsg(String nickName) {
@@ -82,6 +89,7 @@ public class SceneRoomServiceManager extends BaseServiceManager {
         sceneGiftManager.onDestroy();
         sceneGameManager.onDestroy();
         sceneOrderManager.onDestroy();
+        sceneRoomPkManager.onDestroy();
     }
 
     public void setCallback(SceneRoomServiceCallback callback) {
@@ -112,6 +120,10 @@ public class SceneRoomServiceManager extends BaseServiceManager {
         }
     }
 
+    public RoomInfoModel getRoomInfoModel() {
+        return roomInfoModel;
+    }
+
     /** 进入房间 */
     public void enterRoom(RoomConfig config, RoomInfoModel model) {
         enterRoomCompleted = false;
@@ -120,6 +132,7 @@ public class SceneRoomServiceManager extends BaseServiceManager {
         sceneMicManager.enterRoomCompletedListener = this::checkEnterRoomCompleted;
         sceneEngineManager.enterRoom(config, model);
         sceneMicManager.enterRoom(config, model);
+        sceneRoomPkManager.enterRoom(config, model);
     }
 
     /** 回调页面数据 */

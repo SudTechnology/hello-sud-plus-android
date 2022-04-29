@@ -21,6 +21,7 @@ import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.main.resp.RoomListResp;
+import tech.sud.mgp.hello.ui.common.widget.EmptyDataView;
 import tech.sud.mgp.hello.ui.common.widget.refresh.RefreshDataHelper;
 import tech.sud.mgp.hello.ui.common.widget.refresh.RefreshView;
 import tech.sud.mgp.hello.ui.main.home.model.RoomItemModel;
@@ -96,6 +97,13 @@ public class InvitePkDialog extends BaseDialogFragment {
                         getRoomList(pageNumber, pageSize);
                     }
                 };
+            }
+
+            @Override
+            protected View getEmptyView() {
+                EmptyDataView view = new EmptyDataView(requireContext());
+                view.setText(getString(R.string.empty_room_match));
+                return view;
             }
         };
         refreshDataHelper.setPageSize(Integer.MAX_VALUE);

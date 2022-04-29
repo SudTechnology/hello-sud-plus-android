@@ -239,8 +239,9 @@ public class SceneCommandManager extends BaseServiceManager {
     interface EnterRoomCommandListener extends ICommandListener {
         void onRecvCommand(RoomCmdEnterRoomModel command, String userID);
     }
-
     // endregion 基础信令监听
+
+    // region 跨房pk信令监听
     interface PKSendInviteCommandListener extends ICommandListener {
         void onRecvCommand(RoomCmdPKSendInviteModel command, String userID);
     }
@@ -272,8 +273,6 @@ public class SceneCommandManager extends BaseServiceManager {
     interface PKSettleCommandListener extends ICommandListener {
         void onRecvCommand(RoomCmdPKSettleModel command, String userID);
     }
-    // region 跨房pk信令监听
-
     // endregion 跨房pk信令监听
 
     // region 点单信令监听

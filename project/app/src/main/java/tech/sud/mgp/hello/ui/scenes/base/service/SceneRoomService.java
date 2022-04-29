@@ -194,6 +194,12 @@ public class SceneRoomService extends Service {
         public void operateOrder(long orderId, long gameId, String gameName, String toUser, boolean state) {
             serviceManager.sceneOrderManager.operateOrder(orderId, gameId, gameName, toUser, state);
         }
+
+        /** 跨房pk，开启匹配或者关闭Pk了 */
+        public void roomPkSwitch(boolean pkSwitch) {
+            serviceManager.sceneRoomPkManager.roomPkSwitch(pkSwitch);
+        }
+
     }
 
     /** 获取当前使用的房间基本数据 */

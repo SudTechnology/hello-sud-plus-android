@@ -9,13 +9,12 @@ import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.RoomCmdModelUtils;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.order.RoomCmdOrderOperateModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.order.RoomCmdUserOrderModel;
-import tech.sud.mgp.hello.ui.scenes.orderentertainment.model.ReceiveInviteMsgModel;
 
 /**
  * 点单场景
  */
 public class SceneOrderManager extends BaseServiceManager {
-    private SceneRoomServiceManager parentManager;
+    private final SceneRoomServiceManager parentManager;
 
     public SceneOrderManager(SceneRoomServiceManager sceneRoomServiceManager) {
         super();

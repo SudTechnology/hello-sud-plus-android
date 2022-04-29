@@ -930,14 +930,15 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
 
     @Override
     public void onOrderInvite(long orderId, long gameId, String gameName, String userID, String nickname, List<String> toUsers) {
-
     }
 
     @Override
     public void onOrderOperate(long orderId, long gameId, String gameName, String userId, String userName, boolean operate) {
-
     }
 
+    @Override
+    public void onUpdateRoomPk() {
+    }
     // endregion service回调
 
     @Override

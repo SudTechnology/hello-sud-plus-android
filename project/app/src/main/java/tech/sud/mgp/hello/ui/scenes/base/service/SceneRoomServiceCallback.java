@@ -64,7 +64,7 @@ public interface SceneRoomServiceCallback {
     /**
      * 房间内当前在线用户数量回调
      *
-     * @param count  人数
+     * @param count 人数
      */
     void onRoomOnlineUserCountUpdate(int count);
 
@@ -105,24 +105,30 @@ public interface SceneRoomServiceCallback {
     /**
      * 用户下单广播给主播（发起邀请
      *
-     * @param orderId   订单id
-     * @param gameId    游戏id
-     * @param gameName  游戏名字
-     *  @param userID  邀请者的userID
-     * @param nickname  邀请者的nickname
-     * @param toUsers   被邀请的主播id列表
+     * @param orderId  订单id
+     * @param gameId   游戏id
+     * @param gameName 游戏名字
+     * @param userID   邀请者的userID
+     * @param nickname 邀请者的nickname
+     * @param toUsers  被邀请的主播id列表
      */
-    void onOrderInvite(long orderId, long gameId,String gameName,String userID, String nickname,List<String> toUsers);
+    void onOrderInvite(long orderId, long gameId, String gameName, String userID, String nickname, List<String> toUsers);
 
     /**
      * 主播同意或者拒绝用户邀请
      *
-     * @param orderId   订单id
-     * @param gameId    游戏id
-     * @param gameName  游戏名字
-     * @param userId    主播id
-     * @param userName  主播名字
-     * @param operate   true同意false拒绝
+     * @param orderId  订单id
+     * @param gameId   游戏id
+     * @param gameName 游戏名字
+     * @param userId   主播id
+     * @param userName 主播名字
+     * @param operate  true同意false拒绝
      */
     void onOrderOperate(long orderId, long gameId, String gameName, String userId, String userName, boolean operate);
+
+    /**
+     * 更新跨房pk信息显示
+     */
+    void onUpdateRoomPk();
+
 }

@@ -24,6 +24,9 @@ public class APPConfig {
     /** 分页刷新数据每页大小 */
     public static int GLOBAL_PAGE_SIZE = 30;
 
+    /** 跨房pk默认时长 */
+    public static int ROOM_PK_MINUTE = 5;
+
     // region 占用大小
     public static final long SudMGPCoreSize = 590848;
     public static final long SudMGPASRSize = 76800;

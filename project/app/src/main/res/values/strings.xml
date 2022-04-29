@@ -420,6 +420,7 @@ Go to homepage to create one~</string>
     <string name="close_room_pk">关闭跨房PK</string>
     <string name="number_minute">%1$s分钟</string>
     <string name="confirm_modify">确认修改</string>
+    <string name="empty_room_match">暂时没有其他房间可匹配</string>
     <!-- endregion 新增 -->
 
 </resources>

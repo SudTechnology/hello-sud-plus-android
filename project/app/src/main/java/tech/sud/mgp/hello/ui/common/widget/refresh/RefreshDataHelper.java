@@ -28,7 +28,7 @@ public abstract class RefreshDataHelper<T> {
     private int mPageSize = APPConfig.GLOBAL_PAGE_SIZE;
     private RefreshView mRefreshView;
     private boolean haveSetEmptyView = false; // 标记是否已经设置了emptyView
-    private boolean isUseEmpty = false; // 标识是否使用空布局
+    private boolean isUseEmpty = true; // 标识是否使用空布局
     private StatusView mErrorView; // 发生错误时，展示的View
     private Integer mCurPageNumber; // IGNORE_PAGE_SIZE时，记录当前页码
     private boolean loadMoreEnable = true; // 设置是否可以加载更多

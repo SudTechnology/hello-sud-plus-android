@@ -36,6 +36,7 @@ import tech.sud.mgp.hello.rtc.audio.core.AudioPCMData;
 import tech.sud.mgp.hello.rtc.audio.core.AudioRoomState;
 import tech.sud.mgp.hello.rtc.audio.core.ISudAudioEngine;
 import tech.sud.mgp.hello.rtc.audio.core.ISudAudioEventListener;
+import tech.sud.mgp.hello.rtc.audio.impl.AsyncCallWrapper;
 import tech.sud.mgp.hello.rtc.audio.model.AudioConfigModel;
 import tech.sud.mgp.hello.rtc.audio.model.AudioJoinRoomModel;
 
@@ -62,32 +63,42 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
 
     @Override
     public void initWithConfig(Context context, AudioConfigModel model, Runnable success) {
-        // 初始化引擎
-        try {
-            RtcEngineConfig config = new RtcEngineConfig();
-            config.mAppId = model.appId;
-            config.mEventHandler = mIRtcEngineEventHandler;
-            config.mContext = context.getApplicationContext();
-            config.mAreaCode = AREA_CODE_GLOB;
-            mEngine = RtcEngine.create(config);
+        AsyncCallWrapper.sharedInstance().executeInSerial(new Runnable() {
+            @Override
+            public void run() {
+                // 初始化引擎
+                try {
+                    RtcEngineConfig config = new RtcEngineConfig();
+                    config.mAppId = model.appId;
+                    config.mEventHandler = mIRtcEngineEventHandler;
+                    config.mContext = context.getApplicationContext();
+                    config.mAreaCode = AREA_CODE_GLOB;
+                    mEngine = RtcEngine.create(config);
 
-            if (mEngine != null) {
-                mEngine.setChannelProfile(CHANNEL_PROFILE_COMMUNICATION);
-                mEngine.enableAudioVolumeIndication(300, 3, true);
+                    if (mEngine != null) {
+                        mEngine.setChannelProfile(CHANNEL_PROFILE_COMMUNICATION);
+                        mEngine.enableAudioVolumeIndication(300, 3, true);
 
-                // 初始化rtm信令
-                initRtm(context, model, success);
+                        // 初始化rtm信令
+                        initRtm(context, model, success);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        });
     }
 
     @Override
     public void destroy() {
-        RtcEngine.destroy();
-        mEngine = null;
-        destroyRtm();
+        AsyncCallWrapper.sharedInstance().executeInSerial(new Runnable() {
+            @Override
+            public void run() {
+                RtcEngine.destroy();
+                mEngine = null;
+                destroyRtm();
+            }
+        });
     }
 
     /**
@@ -98,112 +109,162 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
         if (model == null)
             return;
 
-        RtcEngine engine = getEngine();
-        if (engine != null) {
-            joinRtmRoom(model.roomID);
+        AsyncCallWrapper.sharedInstance().executeInSerial(new Runnable() {
+            @Override
+            public void run() {
+                RtcEngine engine = getEngine();
+                if (engine != null) {
+                    joinRtmRoom(model.roomID);
 
-            // 默认关闭麦克风，关掉推流
-            engine.enableLocalAudio(false);
-            ChannelMediaOptions channelMediaOptions = new ChannelMediaOptions();
-            channelMediaOptions.autoSubscribeAudio = true;
-            channelMediaOptions.autoSubscribeVideo = false;
-            channelMediaOptions.publishLocalAudio = false;
-            channelMediaOptions.publishLocalVideo = false;
-            // 加入频道
-            engine.joinChannelWithUserAccount(model.token, model.roomID, model.userID, channelMediaOptions);
-            engine.setEnableSpeakerphone(true); // 开启。音频路由为扬声器。
-        }
+                    // 默认关闭麦克风，关掉推流
+                    engine.enableLocalAudio(false);
+                    ChannelMediaOptions channelMediaOptions = new ChannelMediaOptions();
+                    channelMediaOptions.autoSubscribeAudio = true;
+                    channelMediaOptions.autoSubscribeVideo = false;
+                    channelMediaOptions.publishLocalAudio = false;
+                    channelMediaOptions.publishLocalVideo = false;
+                    // 加入频道
+                    engine.joinChannelWithUserAccount(model.token, model.roomID, model.userID, channelMediaOptions);
+                    engine.setEnableSpeakerphone(true); // 开启。音频路由为扬声器。
+                }
+            }
+        });
     }
 
     @Override
     public void leaveRoom() {
-        RtcEngine engine = getEngine();
-        if (engine != null) {
-            engine.leaveChannel();
-        }
-        leaveRtmRoom();
+        AsyncCallWrapper.sharedInstance().executeInSerial(new Runnable() {
+            @Override
+            public void run() {
+                RtcEngine engine = getEngine();
+                if (engine != null) {
+                    engine.leaveChannel();
+                }
+                leaveRtmRoom();
+            }
+        });
     }
 
     @Override
     public void startPublishStream() {
-        RtcEngine engine = getEngine();
-        if (engine != null) {
-            engine.enableLocalAudio(true); // 开启麦克风采集
-            engine.muteLocalAudioStream(false); // 发布本地音频流
-        }
+        AsyncCallWrapper.sharedInstance().executeInSerial(new Runnable() {
+            @Override
+            public void run() {
+                RtcEngine engine = getEngine();
+                if (engine != null) {
+                    engine.enableLocalAudio(true); // 开启麦克风采集
+                    engine.muteLocalAudioStream(false); // 发布本地音频流
+                }
+            }
+        });
     }
 
     @Override
     public void stopPublishStream() {
-        RtcEngine engine = getEngine();
-        if (engine != null) {
-            engine.enableLocalAudio(false); // 关闭麦克风采集
-            engine.muteLocalAudioStream(true); // 取消发布本地音频流
-        }
+        AsyncCallWrapper.sharedInstance().executeInSerial(new Runnable() {
+            @Override
+            public void run() {
+                RtcEngine engine = getEngine();
+                if (engine != null) {
+                    engine.enableLocalAudio(false); // 关闭麦克风采集
+                    engine.muteLocalAudioStream(true); // 取消发布本地音频流
+                }
+            }
+        });
     }
 
     @Override
     public void startSubscribingStream() {
-        RtcEngine engine = getEngine();
-        if (engine != null) {
-            engine.muteAllRemoteAudioStreams(false);
-        }
+        AsyncCallWrapper.sharedInstance().executeInSerial(new Runnable() {
+            @Override
+            public void run() {
+                RtcEngine engine = getEngine();
+                if (engine != null) {
+                    engine.muteAllRemoteAudioStreams(false);
+                }
+            }
+        });
     }
 
     @Override
     public void stopSubscribingStream() {
-        RtcEngine engine = getEngine();
-        if (engine != null) {
-            engine.muteAllRemoteAudioStreams(true);
-        }
+        AsyncCallWrapper.sharedInstance().executeInSerial(new Runnable() {
+            @Override
+            public void run() {
+                RtcEngine engine = getEngine();
+                if (engine != null) {
+                    engine.muteAllRemoteAudioStreams(true);
+                }
+            }
+        });
     }
 
     @Override
     public void startPCMCapture() {
-        RtcEngine engine = getEngine();
-        if (engine != null) {
-            /* 开启获取PCM数据功能 */
-            engine.registerAudioFrameObserver(iAudioFrameObserver);
-        }
+        AsyncCallWrapper.sharedInstance().executeInSerial(new Runnable() {
+            @Override
+            public void run() {
+                RtcEngine engine = getEngine();
+                if (engine != null) {
+                    /* 开启获取PCM数据功能 */
+                    engine.registerAudioFrameObserver(iAudioFrameObserver);
+                }
+            }
+        });
     }
 
     @Override
     public void stopPCMCapture() {
-        RtcEngine engine = getEngine();
-        if (engine != null) {
-            /* 关闭获取PCM数据功能 */
-            engine.registerAudioFrameObserver(null);
-        }
+        AsyncCallWrapper.sharedInstance().executeInSerial(new Runnable() {
+            @Override
+            public void run() {
+                RtcEngine engine = getEngine();
+                if (engine != null) {
+                    /* 关闭获取PCM数据功能 */
+                    engine.registerAudioFrameObserver(null);
+                }
+            }
+        });
     }
 
     @Override
     public void setAudioRouteToSpeaker(boolean enabled) {
-        RtcEngine engine = getEngine();
-        if (engine != null) {
-            engine.setEnableSpeakerphone(enabled);
-        }
+        AsyncCallWrapper.sharedInstance().executeInSerial(new Runnable() {
+            @Override
+            public void run() {
+                RtcEngine engine = getEngine();
+                if (engine != null) {
+                    engine.setEnableSpeakerphone(enabled);
+                }
+            }
+        });
     }
 
     @Override
     public void sendCommand(String command, SendCommandListener listener) {
-        if (mRtmChannel != null) {
-            // 创建消息实例
-            RtmMessage message = mRtmClient.createMessage();
-            message.setText(command);
+        AsyncCallWrapper.sharedInstance().executeInSerial(new Runnable() {
+            @Override
+            public void run() {
+                if (mRtmChannel != null) {
+                    // 创建消息实例
+                    RtmMessage message = mRtmClient.createMessage();
+                    message.setText(command);
 
-            // 发送频道消息
-            mRtmChannel.sendMessage(message, new ResultCallback<Void>() {
-                @Override
-                public void onSuccess(Void unused) {
-                    Log.d(kTag, "sendMessage onSuccess:");
-                }
+                    // 发送频道消息
+                    mRtmChannel.sendMessage(message, new ResultCallback<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            Log.d(kTag, "sendMessage onSuccess:");
+                        }
 
-                @Override
-                public void onFailure(ErrorInfo errorInfo) {
-                    Log.d(kTag, "sendMessage onFailure:" + errorInfo);
+                        @Override
+                        public void onFailure(ErrorInfo errorInfo) {
+                            Log.d(kTag, "sendMessage onFailure:" + errorInfo);
+                        }
+                    });
                 }
-            });
-        }
+            }
+        });
     }
 
     private AudioRoomState convertAudioRoomState(int state) {

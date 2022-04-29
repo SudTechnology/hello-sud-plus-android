@@ -24,6 +24,7 @@ import tech.sud.mgp.hello.service.main.resp.RoomListResp;
 import tech.sud.mgp.hello.ui.common.widget.EmptyDataView;
 import tech.sud.mgp.hello.ui.common.widget.refresh.RefreshDataHelper;
 import tech.sud.mgp.hello.ui.common.widget.refresh.RefreshView;
+import tech.sud.mgp.hello.ui.main.constant.SceneType;
 import tech.sud.mgp.hello.ui.main.home.model.RoomItemModel;
 import tech.sud.mgp.hello.ui.main.roomlist.RoomListAdapter;
 
@@ -116,7 +117,7 @@ public class InvitePkDialog extends BaseDialogFragment {
     }
 
     private void getRoomList(int pageNumber, int pageSize) {
-        HomeRepository.roomList(this, new RxCallback<RoomListResp>() {
+        HomeRepository.roomList(this, SceneType.CROSS_ROOM, new RxCallback<RoomListResp>() {
             @Override
             public void onNext(BaseResponse<RoomListResp> t) {
                 super.onNext(t);

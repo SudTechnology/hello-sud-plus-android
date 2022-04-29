@@ -11,6 +11,7 @@ import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdBaseModel;
 public class RoomCmdPKStartModel extends RoomCmdBaseModel {
 
     public int minuteDuration; // 持续时间；单位：分钟
+    public String pkId; // pkId
 
     public RoomCmdPKStartModel(UserInfo sendUser) {
         super(RoomCmd.CMD_ROOM_PK_START, sendUser);

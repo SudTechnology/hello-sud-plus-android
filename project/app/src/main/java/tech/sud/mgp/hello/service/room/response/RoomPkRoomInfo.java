@@ -16,4 +16,12 @@ public class RoomPkRoomInfo implements Serializable {
     public boolean isSelfRoom; // 是否是自己的房间
     // endregion 业务添加的参数
 
+    public void setRoomId(String roomId) {
+        try {
+            this.roomId = Long.parseLong(roomId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

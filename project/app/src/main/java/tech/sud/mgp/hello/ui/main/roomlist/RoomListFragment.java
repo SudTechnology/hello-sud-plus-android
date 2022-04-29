@@ -140,7 +140,7 @@ public class RoomListFragment extends BaseFragment {
     }
 
     private void loadList() {
-        HomeRepository.roomList(this, new RxCallback<RoomListResp>() {
+        HomeRepository.roomList(this, null, new RxCallback<RoomListResp>() {
             @Override
             public void onNext(BaseResponse<RoomListResp> t) {
                 super.onNext(t);

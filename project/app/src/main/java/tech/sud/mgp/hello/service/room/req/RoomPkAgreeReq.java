@@ -5,6 +5,5 @@ package tech.sud.mgp.hello.service.room.req;
  */
 public class RoomPkAgreeReq {
     public long srcRoomId; //  PK发起房间id
-    public long gameId; // PK发起方游戏id
     public long destRoomId; //  PK受邀房间id
 }

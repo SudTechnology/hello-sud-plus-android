@@ -4,7 +4,7 @@ package tech.sud.mgp.hello.ui.main.home.model;
  * 房间数据
  */
 public class RoomItemModel {
-    private int roomId; // 房间Id
+    private long roomId; // 房间Id
     private String roomNumber; // 房间号
     private String roomName; // 房间名称
     private int memberCount; // 房间在线人数
@@ -14,11 +14,11 @@ public class RoomItemModel {
     private String sceneTag; // 场景标签名称
     private String gameLevelDesc; // 游戏级别描述
 
-    public int getRoomId() {
+    public long getRoomId() {
         return roomId;
     }
 
-    public void setRoomId(int roomId) {
+    public void setRoomId(long roomId) {
         this.roomId = roomId;
     }
 

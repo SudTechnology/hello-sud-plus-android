@@ -19,6 +19,8 @@ public abstract class BaseDialog extends Dialog {
 
     protected View mRootView;
     private OnDestroyListener mOnDestroyListener;
+    private Boolean customCanceledOnTouchOutside;
+    private Boolean customCancelable;
 
     public BaseDialog(@NonNull Context context) {
         super(context);
@@ -49,8 +51,16 @@ public abstract class BaseDialog extends Dialog {
             attributes.gravity = getGravity();
             window.setAttributes(attributes);
         }
-        setCancelable(cancelable());
-        setCanceledOnTouchOutside(canceledOnTouchOutside());
+        if (customCancelable == null) {
+            setCancelable(cancelable());
+        } else {
+            setCancelable(customCancelable);
+        }
+        if (customCanceledOnTouchOutside == null) {
+            setCanceledOnTouchOutside(canceledOnTouchOutside());
+        } else {
+            setCanceledOnTouchOutside(customCanceledOnTouchOutside);
+        }
         initWidget();
         initData();
         setListeners();
@@ -104,7 +114,20 @@ public abstract class BaseDialog extends Dialog {
     }
 
     protected boolean canceledOnTouchOutside() {
+        if (customCanceledOnTouchOutside != null) {
+            return customCanceledOnTouchOutside;
+        }
         return true;
+    }
+
+    /** 设置点击空白处是否可以消失 */
+    public void setCustomCanceledOnTouchOutside(Boolean customCanceledOnTouchOutside) {
+        this.customCanceledOnTouchOutside = customCanceledOnTouchOutside;
+    }
+
+    /** 设置按返回键是否可以消失 */
+    public void setCustomCancelable(Boolean customCancelable) {
+        this.customCancelable = customCancelable;
     }
 
     public void setOnDestroyListener(OnDestroyListener listener) {

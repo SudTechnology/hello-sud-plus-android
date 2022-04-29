@@ -148,18 +148,6 @@
         app:layout_constraintEnd_toEndOf="parent" />
     <!-- region 右边房间信息 -->
 
-
-    <!-- vs -->
-    <View
-        android:id="@+id/view_vs"
-        android:layout_width="54dp"
-        android:layout_height="27dp"
-        android:background="@drawable/ic_room_pk_vs"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
     <!-- 进度条上面的闪烁的动画 -->
     <com.opensource.svgaplayer.SVGAImageView
         android:layout_width="24dp"
@@ -173,6 +161,17 @@
         app:layout_constraintTop_toTopOf="@id/left_view_progress"
         app:layout_constraintStart_toEndOf="@id/left_view_progress"
         app:layout_constraintEnd_toEndOf="@id/left_view_progress" />
+
+    <!-- vs -->
+    <View
+        android:id="@+id/view_vs"
+        android:layout_width="54dp"
+        android:layout_height="27dp"
+        android:background="@drawable/ic_room_pk_vs"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- 平局图标 -->
     <View

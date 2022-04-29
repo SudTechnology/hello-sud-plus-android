@@ -12,6 +12,8 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 
+import com.blankj.utilcode.util.ClickUtils;
+
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.utils.CustomCountdownTimer;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
@@ -55,6 +57,8 @@ public class RoomPkInfoView extends ConstraintLayout {
 
     private int oldStatus = -1;
 
+    public OnClickListener inviteOnClickListener;
+
     public RoomPkInfoView(@NonNull Context context) {
         this(context, null);
     }
@@ -67,6 +71,7 @@ public class RoomPkInfoView extends ConstraintLayout {
         super(context, attrs, defStyleAttr);
         initView();
         initStyles();
+        initListener();
     }
 
     private void initView() {
@@ -96,6 +101,18 @@ public class RoomPkInfoView extends ConstraintLayout {
                 new float[]{0, 0, 0, 0, radius, radius, radius, radius},
                 GradientDrawable.RECTANGLE, null, Color.parseColor("#80000000"));
         middleTopContainer.setBackground(topContainerBg);
+    }
+
+    private void initListener() {
+        ClickUtils.applySingleDebouncing(rightIvIcon, new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RoomPkRoomInfo rightRoomInfo = getRightRoomInfo();
+                if (rightRoomInfo == null) {
+                    inviteOnClickListener.onClick(v);
+                }
+            }
+        });
     }
 
     /** 设置数据源 */
@@ -234,14 +251,17 @@ public class RoomPkInfoView extends ConstraintLayout {
             tvName.setText(R.string.seat_empty);
             tvScore.setText("0");
             viewProgress.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.c_39bdff));
+            ImageLoader.loadDrawable(ivIcon, R.drawable.ic_room_pk_add);
         } else {
             ImageLoader.loadAvatar(ivIcon, info.roomOwnerHeader);
             tvName.setText(info.roomOwnerNickname);
             tvScore.setText(info.score + "");
             if (info.isInitiator) {
                 viewProgress.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.c_ff2959));
+                ivIcon.setBorderColor(ContextCompat.getColor(getContext(), R.color.c_ff2959));
             } else {
                 viewProgress.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.c_39bdff));
+                ivIcon.setBorderColor(ContextCompat.getColor(getContext(), R.color.c_39bdff));
             }
         }
     }
@@ -296,6 +316,11 @@ public class RoomPkInfoView extends ConstraintLayout {
     /** 设置问题按钮的点击事件 */
     public void setIssueOnClickListener(OnClickListener listener) {
         viewIssue.setOnClickListener(listener);
+    }
+
+    /** 设置点击"+"号，邀请pk对手的事件 */
+    public void setInviteOnClickListener(OnClickListener listener) {
+        inviteOnClickListener = listener;
     }
 
     public interface PkStatusChangeListener {

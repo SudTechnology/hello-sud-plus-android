@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import java.util.List;
 
 import tech.sud.mgp.hello.ui.common.utils.channel.NotifyId;
+import tech.sud.mgp.hello.ui.main.home.model.RoomItemModel;
 import tech.sud.mgp.hello.ui.scenes.base.activity.RoomConfig;
 import tech.sud.mgp.hello.ui.scenes.base.constant.OperateMicType;
 import tech.sud.mgp.hello.ui.scenes.base.manager.SceneFloatingManager;
@@ -23,6 +24,7 @@ import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.SceneRoomData;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.base.utils.SceneRoomNotificationHelper;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKSendInviteModel;
 
 /**
  * 房间服务
@@ -200,6 +202,20 @@ public class SceneRoomService extends Service {
             serviceManager.sceneRoomPkManager.roomPkSwitch(pkSwitch);
         }
 
+        /** 跨房pk，开始 */
+        public void roomPkStart() {
+            serviceManager.sceneRoomPkManager.roomPkStart();
+        }
+
+        /** 跨房pk，发送邀请 */
+        public void roomPkInvite(RoomItemModel model) {
+            serviceManager.sceneRoomPkManager.roomPkInvite(model);
+        }
+
+        /** 跨房pk，应答 */
+        public void roomPkAnswer(RoomCmdPKSendInviteModel model, boolean isAccept) {
+            serviceManager.sceneRoomPkManager.roomPkAnswer(model, isAccept);
+        }
     }
 
     /** 获取当前使用的房间基本数据 */

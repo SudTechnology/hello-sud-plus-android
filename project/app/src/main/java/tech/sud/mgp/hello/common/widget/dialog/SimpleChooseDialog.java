@@ -69,6 +69,22 @@ public class SimpleChooseDialog extends BaseDialog {
         }
     }
 
+    /** 设置左边按钮文本 */
+    public void setLeftText(String text) {
+        mLeftText = text;
+        if (mTvLeft != null) {
+            mTvLeft.setText(mLeftText);
+        }
+    }
+
+    /** 设置右边按钮文本 */
+    public void setRightText(String text) {
+        mRightText = text;
+        if (mTvRight != null) {
+            mTvRight.setText(mRightText);
+        }
+    }
+
     @Override
     protected void setListeners() {
         super.setListeners();

@@ -118,11 +118,12 @@ public class PkSettingsDialog extends BaseDialogFragment implements View.OnClick
         });
     }
 
+    /** 选择完成之后的回调 */
     public void setOnSelectedListener(OnSelectedListener onSelectedListener) {
         this.onSelectedListener = onSelectedListener;
     }
 
-    /** 设置关闭pk */
+    /** 设置关闭pk点击监听 */
     public void setClosePkOnClickListener(View.OnClickListener closePkOnClickListener) {
         this.closePkOnClickListener = closePkOnClickListener;
     }
@@ -151,7 +152,7 @@ public class PkSettingsDialog extends BaseDialogFragment implements View.OnClick
             dismiss();
         } else if (v == tvChange) {
             if (onSelectedListener != null) {
-                onSelectedListener.onSelected(selectedMinute, SettingsMode.START);
+                onSelectedListener.onSelected(selectedMinute, SettingsMode.CHANGE);
             }
             dismiss();
         } else if (v == tvCancel) {

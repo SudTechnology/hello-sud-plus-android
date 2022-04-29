@@ -10,6 +10,8 @@ import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdBaseModel;
  */
 public class RoomCmdPKSendInviteModel extends RoomCmdBaseModel {
 
+    public int minuteDuration; // 持续时间；单位：分钟
+
     public RoomCmdPKSendInviteModel(UserInfo sendUser) {
         super(RoomCmd.CMD_ROOM_PK_SEND_INVITE, sendUser);
     }

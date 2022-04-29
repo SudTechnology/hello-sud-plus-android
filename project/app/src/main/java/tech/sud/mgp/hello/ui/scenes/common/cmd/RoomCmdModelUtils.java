@@ -4,7 +4,9 @@ import java.util.List;
 
 import tech.sud.mgp.hello.common.model.Gender;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
+import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
+import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomService;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdChangeGameModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdChatTextModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdDownMicModel;
@@ -78,8 +80,9 @@ public class RoomCmdModelUtils {
     // region 跨房pK
 
     /** 构建信令:发送跨房PK邀请 */
-    public static String buildCmdPkSendInvite() {
+    public static String buildCmdPkSendInvite(int minuteDuration) {
         RoomCmdPKSendInviteModel command = new RoomCmdPKSendInviteModel(getSendUser());
+        command.minuteDuration = minuteDuration;
         return command.toJson();
     }
 
@@ -88,9 +91,10 @@ public class RoomCmdModelUtils {
      *
      * @param isAccept 是否接受
      */
-    public static String buildCmdPkAnswer(boolean isAccept) {
+    public static String buildCmdPkAnswer(UserInfo otherUser, boolean isAccept) {
         RoomCmdPKAnswerModel command = new RoomCmdPKAnswerModel(getSendUser());
         command.isAccept = isAccept;
+        command.otherUser = otherUser;
         return command.toJson();
     }
 
@@ -174,6 +178,10 @@ public class RoomCmdModelUtils {
             user.sex = 1;
         } else if (Gender.FEMALE.equals(HSUserInfo.gender)) {
             user.sex = 2;
+        }
+        RoomInfoModel roomInfoModel = SceneRoomService.getRoomInfoModel();
+        if (roomInfoModel != null && roomInfoModel.roomId != null) {
+            user.roomID = roomInfoModel.roomId + "";
         }
         return user;
     }

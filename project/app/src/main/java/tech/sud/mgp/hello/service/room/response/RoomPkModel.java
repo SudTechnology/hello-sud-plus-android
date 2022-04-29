@@ -9,6 +9,7 @@ import tech.sud.mgp.hello.service.room.model.PkStatus;
  */
 public class RoomPkModel implements Serializable {
     public int pkStatus = PkStatus.MATCH_CLOSED; // pk状态（1：待匹配 2：pk已匹配，未开始 3：pk已匹配，已开始 4：pk匹配关闭 5：pk已结束）
+    public long pkId; // pkId
     public int remainSecond; // PK剩余时间（单位：秒）
     public int totalMinute; // 选择的总分钟数
     public RoomPkRoomInfo srcRoomInfo; // 发起方房间信息
@@ -23,6 +24,17 @@ public class RoomPkModel implements Serializable {
         if (destRoomInfo != null) {
             destRoomInfo.isSelfRoom = destRoomInfo.roomId == selfRoomId;
         }
+    }
+
+    /** 获取pk对手 */
+    public RoomPkRoomInfo getPkRival() {
+        if (srcRoomInfo != null && !srcRoomInfo.isSelfRoom) {
+            return srcRoomInfo;
+        }
+        if (destRoomInfo != null && !destRoomInfo.isSelfRoom) {
+            return destRoomInfo;
+        }
+        return null;
     }
 
 }

@@ -20,6 +20,8 @@ public abstract class BaseDialogFragment extends DialogFragment {
 
     protected View mRootView;
     private OnDestroyListener mOnDestroyListener;
+    private Boolean customCanceledOnTouchOutside;
+    private Boolean customCancelable;
 
     @Nullable
     @Override
@@ -48,8 +50,16 @@ public abstract class BaseDialogFragment extends DialogFragment {
                 window.setAttributes(attributes);
                 customStyle(window);
             }
-            dialog.setCancelable(cancelable());
-            dialog.setCanceledOnTouchOutside(canceledOnTouchOutside());
+            if (customCancelable == null) {
+                dialog.setCancelable(cancelable());
+            } else {
+                dialog.setCancelable(customCancelable);
+            }
+            if (customCanceledOnTouchOutside == null) {
+                dialog.setCanceledOnTouchOutside(canceledOnTouchOutside());
+            } else {
+                dialog.setCanceledOnTouchOutside(customCanceledOnTouchOutside);
+            }
         }
         initWidget();
         initData();
@@ -88,6 +98,16 @@ public abstract class BaseDialogFragment extends DialogFragment {
 
     protected boolean canceledOnTouchOutside() {
         return true;
+    }
+
+    /** 设置点击空白处是否可以消失 */
+    public void setCustomCanceledOnTouchOutside(Boolean customCanceledOnTouchOutside) {
+        this.customCanceledOnTouchOutside = customCanceledOnTouchOutside;
+    }
+
+    /** 设置按返回键是否可以消失 */
+    public void setCustomCancelable(Boolean customCancelable) {
+        this.customCancelable = customCancelable;
     }
 
     public void setOnDestroyListener(OnDestroyListener listener) {

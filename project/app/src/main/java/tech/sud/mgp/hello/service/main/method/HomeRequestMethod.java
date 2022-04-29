@@ -9,6 +9,7 @@ import tech.sud.mgp.hello.common.http.param.IBaseUrl;
 import tech.sud.mgp.hello.service.base.RequestUrl;
 import tech.sud.mgp.hello.service.main.req.CreatRoomReq;
 import tech.sud.mgp.hello.service.main.req.MatchBodyReq;
+import tech.sud.mgp.hello.service.main.req.RoomListReq;
 import tech.sud.mgp.hello.service.main.req.TicketConfirmJoinReq;
 import tech.sud.mgp.hello.service.main.req.UserInfoReq;
 import tech.sud.mgp.hello.service.main.resp.BaseConfigResp;
@@ -30,7 +31,7 @@ public interface HomeRequestMethod {
      * 房间列表
      */
     @POST(RequestUrl.ROOM_LIST)
-    Observable<BaseResponse<RoomListResp>> roomList(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl);
+    Observable<BaseResponse<RoomListResp>> roomList(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body RoomListReq body);
 
     /**
      * 匹配游戏

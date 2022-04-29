@@ -183,14 +183,12 @@ public class RoomRepository {
      * 同意PK
      *
      * @param srcRoomId  PK发起房间id
-     * @param gameId     PK发起方游戏id
      * @param destRoomId PK受邀房间id
      */
-    public static void roomPkAgree(LifecycleOwner owner, long srcRoomId, long gameId, long destRoomId,
+    public static void roomPkAgree(LifecycleOwner owner, long srcRoomId, long destRoomId,
                                    RxCallback<RoomPkAgreeResp> callback) {
         RoomPkAgreeReq req = new RoomPkAgreeReq();
         req.srcRoomId = srcRoomId;
-        req.gameId = gameId;
         req.destRoomId = destRoomId;
         AudioRequestMethodFactory.getMethod()
                 .roomPkAgree(BaseUrlManager.getInteractBaseUrl(), req)

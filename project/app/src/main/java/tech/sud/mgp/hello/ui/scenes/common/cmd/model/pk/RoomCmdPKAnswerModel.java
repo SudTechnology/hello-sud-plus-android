@@ -11,6 +11,7 @@ import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdBaseModel;
 public class RoomCmdPKAnswerModel extends RoomCmdBaseModel {
 
     public boolean isAccept; // 是否接受
+    public UserInfo otherUser; // 是否接受
 
     public RoomCmdPKAnswerModel(UserInfo sendUser) {
         super(RoomCmd.CMD_ROOM_PK_ANSWER, sendUser);

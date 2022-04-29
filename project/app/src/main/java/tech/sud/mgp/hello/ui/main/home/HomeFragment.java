@@ -11,10 +11,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.blankj.utilcode.util.ToastUtils;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
+import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
 
@@ -55,7 +59,7 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
     private LinearLayout sceneLayout;
     private TextView nameTv, useridTv;
     private ImageView headerIv;
-    private SwipeRefreshLayout refreshLayout;
+    private SmartRefreshLayout refreshLayout;
     private MagicIndicator indicatorContainer;
     private IndicatorHelper helper;
     private NewNestedScrollView scrollView;
@@ -87,6 +91,8 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
         indicatorContainer = mRootView.findViewById(R.id.magic_indicator);
         scrollView = mRootView.findViewById(R.id.scrollView);
         menuIv = mRootView.findViewById(R.id.menu_iv);
+        refreshLayout.setEnableRefresh(true);
+        refreshLayout.setEnableLoadMore(false);
     }
 
     @Override
@@ -136,7 +142,7 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
             return false;
         });
         goSearch.setOnClickListener(v -> enterRoom());
-        refreshLayout.setOnRefreshListener(this::loadList);
+        refreshLayout.setOnRefreshListener(refreshLayout -> loadList());
         headerIv.setOnClickListener(v -> {
             new CoinDialog().show(getChildFragmentManager(), null);
         });
@@ -232,7 +238,8 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
             public void onFinally() {
                 super.onFinally();
                 if (refreshLayout.isRefreshing()) {
-                    refreshLayout.setRefreshing(false);
+                    refreshLayout.finishRefresh();
+                    refreshLayout.finishLoadMore();
                 }
             }
         });

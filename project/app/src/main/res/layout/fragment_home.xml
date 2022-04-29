@@ -91,35 +91,35 @@
     <LinearLayout
         android:id="@+id/indicator_container"
         android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        app:layout_constraintBottom_toTopOf="@id/refresh_layout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/index_header"
+        android:layout_height="44dp"
         android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
         android:paddingHorizontal="24dp"
-        android:layout_height="44dp">
+        app:layout_constraintBottom_toTopOf="@id/refresh_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/index_header">
 
         <net.lucode.hackware.magicindicator.MagicIndicator
             android:id="@+id/magic_indicator"
-            android:overScrollMode="never"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="44dp"
+            android:layout_weight="1"
             android:background="@color/white"
             android:fadingEdge="horizontal"
-            android:fadingEdgeLength="20dp" />
+            android:fadingEdgeLength="20dp"
+            android:overScrollMode="never" />
 
         <ImageView
             android:id="@+id/menu_iv"
-            android:src="@drawable/icon_scenes_menu"
             android:layout_width="24dp"
-            android:layout_height="24dp" />
+            android:layout_height="24dp"
+            android:src="@drawable/icon_scenes_menu" />
 
     </LinearLayout>
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    <com.scwang.smart.refresh.layout.SmartRefreshLayout
         android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -127,10 +127,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/indicator_container">
 
+        <com.scwang.smart.refresh.header.ClassicsHeader
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
         <tech.sud.mgp.hello.ui.main.home.view.NewNestedScrollView
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="match_parent"
             android:overScrollMode="never">
 
             <LinearLayout
@@ -143,6 +147,6 @@
 
         </tech.sud.mgp.hello.ui.main.home.view.NewNestedScrollView>
 
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

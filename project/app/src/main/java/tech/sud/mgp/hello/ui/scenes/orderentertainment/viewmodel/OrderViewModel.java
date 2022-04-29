@@ -1,6 +1,5 @@
 package tech.sud.mgp.hello.ui.scenes.orderentertainment.viewmodel;
 
-import android.app.Activity;
 import android.content.Context;
 
 import androidx.fragment.app.FragmentActivity;
@@ -16,7 +15,6 @@ import tech.sud.mgp.core.ISudFSMStateHandle;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.SudMGPWrapper.model.GameViewInfoModel;
 import tech.sud.mgp.hello.SudMGPWrapper.state.SudMGPMGState;
-import tech.sud.mgp.hello.SudMGPWrapper.utils.ISudFSMStateHandleUtils;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;

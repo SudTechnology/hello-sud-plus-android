@@ -1,5 +1,6 @@
 package tech.sud.mgp.hello.ui.main.home;
 
+import android.content.Context;
 import android.content.Intent;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -172,18 +173,21 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
 
     private void creatScene(GameListResp resp) {
         if (resp != null && resp.getSceneList().size() > 0) {
-            helper = new IndicatorHelper(indicatorContainer, resp.getSceneList(), scrollView);
-            helper.init(getContext());
-            helper.bind();
+            Context context = getContext();
+            if (context != null) {
+                helper = new IndicatorHelper(indicatorContainer, resp.getSceneList(), scrollView);
+                helper.init(context);
+                helper.bind();
 
-            sceneLayout.removeAllViews();
-            for (int i = 0; i < resp.getSceneList().size(); i++) {
-                SceneModel model = resp.getSceneList().get(i);
-                HomeRoomTypeView sceneView = new HomeRoomTypeView(requireContext());
-                sceneView.setGameItemListener(this);
-                sceneView.setCreatRoomClickListener(this);
-                sceneView.setData(model, HomeManager.getInstance().getSceneGame(model.getSceneId()));
-                sceneLayout.addView(sceneView);
+                sceneLayout.removeAllViews();
+                for (int i = 0; i < resp.getSceneList().size(); i++) {
+                    SceneModel model = resp.getSceneList().get(i);
+                    HomeRoomTypeView sceneView = new HomeRoomTypeView(context);
+                    sceneView.setGameItemListener(this);
+                    sceneView.setCreatRoomClickListener(this);
+                    sceneView.setData(model, HomeManager.getInstance().getSceneGame(model.getSceneId()));
+                    sceneLayout.addView(sceneView);
+                }
             }
         }
     }

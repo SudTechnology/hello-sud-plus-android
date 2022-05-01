@@ -80,6 +80,8 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
         if (engine != null) {
             engine.startSoundLevelMonitor();
             engine.enableAudioCaptureDevice(false);
+            engine.enableAEC(true);
+            engine.enableHeadphoneAEC(true);
         }
 
         if (success != null) {

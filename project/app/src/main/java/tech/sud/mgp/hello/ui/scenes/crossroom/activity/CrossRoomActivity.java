@@ -362,10 +362,36 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
         } else if (v == tvRenewPk) { // 重新开始pk
 
         } else if (v == tvPkSettings) {
-
+            clickPkSettings();
         } else if (v == tvSelectGame) {
             clickSelectGame();
         }
+    }
+
+    /** 点击pk设置 */
+    private void clickPkSettings() {
+        PkSettingsDialog dialog = new PkSettingsDialog();
+        dialog.setSettingsMode(PkSettingsDialog.SettingsMode.CHANGE);
+        dialog.setClosePkOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (binder != null) {
+                    binder.roomPkSwitch(false);
+                }
+            }
+        });
+        if (roomInfoModel.roomPkModel != null) {
+            dialog.setSelectedMinute(roomInfoModel.roomPkModel.totalMinute);
+        }
+        dialog.setOnSelectedListener(new PkSettingsDialog.OnSelectedListener() {
+            @Override
+            public void onSelected(int minute, PkSettingsDialog.SettingsMode mode) {
+                if (binder != null) {
+                    binder.roomPkSettings(minute);
+                }
+            }
+        });
+        dialog.show(getSupportFragmentManager(), null);
     }
 
     /** 点击了开始pk */

@@ -205,7 +205,7 @@ public class SceneRoomService extends Service {
         /**
          * 跨房pk，开始
          *
-         * @param minute
+         * @param minute 分钟数
          */
         public void roomPkStart(int minute) {
             serviceManager.sceneRoomPkManager.roomPkStart(minute);
@@ -224,6 +224,15 @@ public class SceneRoomService extends Service {
         /** 同步自己的游戏给对方房间 */
         public void roomPkSyncGame() {
             serviceManager.sceneRoomPkManager.syncGame();
+        }
+
+        /**
+         * 跨房pk，重新设置时长
+         *
+         * @param minute 分钟数
+         */
+        public void roomPkSettings(int minute) {
+            serviceManager.sceneRoomPkManager.roomPkSettings(minute);
         }
     }
 

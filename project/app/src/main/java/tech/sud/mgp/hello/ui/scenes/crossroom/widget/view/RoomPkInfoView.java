@@ -56,6 +56,7 @@ public class RoomPkInfoView extends ConstraintLayout {
     private PkStatusChangeListener pkStatusChangeListener;
 
     private int oldStatus = -1;
+    private int oldTotalMinute = -1;
 
     public OnClickListener inviteOnClickListener;
 
@@ -156,8 +157,9 @@ public class RoomPkInfoView extends ConstraintLayout {
             return;
         }
         tvStatus.setVisibility(View.VISIBLE);
-        if (oldStatus == model.pkStatus) return;
+        if (oldStatus == model.pkStatus && oldTotalMinute == model.totalMinute) return;
         oldStatus = model.pkStatus;
+        oldTotalMinute = model.totalMinute;
         switch (model.pkStatus) {
             case PkStatus.MATCHING: // 匹配中
             case PkStatus.MATCHED: // 已匹配

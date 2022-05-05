@@ -1,5 +1,7 @@
 package tech.sud.mgp.hello.ui.scenes.base.manager;
 
+import com.blankj.utilcode.util.LogUtils;
+
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -54,6 +56,7 @@ public class SceneCommandManager extends BaseServiceManager {
      * @param command 信令字符
      */
     public void onRecvCommand(String userID, String command) {
+        LogUtils.d("onRecvCommand:" + command);
         int commandCmd = getCommandCmd(command);
         switch (commandCmd) {
             case RoomCmd.CMD_CHAT_TEXT_NOTIFY: // 公屏消息

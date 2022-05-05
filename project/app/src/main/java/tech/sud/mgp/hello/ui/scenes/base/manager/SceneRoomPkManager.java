@@ -137,6 +137,9 @@ public class SceneRoomPkManager extends BaseServiceManager {
                     public void onSuccess(RoomPkStartResp resp) {
                         super.onSuccess(resp);
                         if (resp == null || getPkStatus() != PkStatus.MATCHED) return;
+
+                        roomPkModel.pkId = resp.pkId;
+
                         // 发送信令
                         String command = RoomCmdModelUtils.buildCmdPkStart(roomPkModel.totalMinute, resp.pkId + "");
                         sendCommand(command);
@@ -145,6 +148,38 @@ public class SceneRoomPkManager extends BaseServiceManager {
                         // 本地开始
                         roomPkModel.pkStatus = PkStatus.STARTED;
                         roomPkModel.remainSecond = roomPkModel.totalMinute * 60;
+                        callbackUpdateRoomPk();
+                    }
+                }
+        );
+    }
+
+    /**
+     * 跨房pk，重新设置时长
+     *
+     * @param minute 分钟数
+     */
+    public void roomPkSettings(int minute) {
+        if (roomPkModel == null || getPkStatus() != PkStatus.STARTED) return;
+        RoomPkRoomInfo pkRival = getPkRival();
+        if (pkRival == null) return;
+        // 发送http请求
+        RoomRepository.roomPkDuration(null, parentManager.getRoomId(), minute,
+                new RxCallback<Object>() {
+                    @Override
+                    public void onSuccess(Object resp) {
+                        super.onSuccess(resp);
+                        if (getPkStatus() != PkStatus.STARTED) return;
+
+                        roomPkModel.totalMinute = minute;
+
+                        // 发送信令
+                        String command = RoomCmdModelUtils.buildCmdPkSettings(minute);
+                        sendCommand(command);
+                        sendXRoomCommand(pkRival.roomId + "", command);
+
+                        // 本地数据刷新
+                        roomPkModel.remainSecond = minute * 60;
                         callbackUpdateRoomPk();
                     }
                 }
@@ -338,8 +373,11 @@ public class SceneRoomPkManager extends BaseServiceManager {
     /** 跨房PK设置 监听 */
     private final PKSettingsCommandListener settingsCommandListener = new PKSettingsCommandListener() {
         @Override
-        public void onRecvCommand(RoomCmdPKSettingsModel command, String userID) {
-
+        public void onRecvCommand(RoomCmdPKSettingsModel model, String userID) {
+            if (roomPkModel == null || getPkStatus() != PkStatus.STARTED) return;
+            roomPkModel.totalMinute = model.minuteDuration;
+            roomPkModel.remainSecond = model.minuteDuration * 60;
+            callbackUpdateRoomPk();
         }
     };
 

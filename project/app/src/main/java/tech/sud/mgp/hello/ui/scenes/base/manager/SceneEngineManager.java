@@ -120,6 +120,15 @@ public class SceneEngineManager extends BaseServiceManager {
      * 发送信令
      *
      * @param command 信令内容
+     */
+    public void sendCommand(String command) {
+        sendCommand(command, null);
+    }
+
+    /**
+     * 发送信令
+     *
+     * @param command 信令内容
      * @param result  回调
      */
     public void sendCommand(String command, ISudAudioEngine.SendCommandListener result) {
@@ -127,6 +136,16 @@ public class SceneEngineManager extends BaseServiceManager {
         if (engine != null) {
             engine.sendCommand(command, result);
         }
+    }
+
+    /**
+     * 发送跨房信令
+     *
+     * @param roomID  房间ID
+     * @param command 信令内容
+     */
+    public void sendXRoomCommand(String roomID, String command) {
+        sendXRoomCommand(roomID, command, null);
     }
 
     /**

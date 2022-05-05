@@ -425,6 +425,11 @@ Go to homepage to create one~</string>
     <string name="invite_pk_answer_title">%1$s的房间发来跨房PK邀请，是否接受PK？</string>
     <string name="refuse">拒绝</string>
     <string name="accept">接受</string>
+    <string name="win_info_first">恭喜%1$s夺得第一为%2$s加%3$s分！</string>
+    <string name="win_info_second">%1$s夺得第一为%2$s加%3$s分！</string>
+    <string name="win_info_thirdly">%1$s夺得第一为%2$s加%3$s分！</string>
+    <string name="team_red">红方</string>
+    <string name="team_blue">蓝方</string>
     <!-- endregion 新增 -->
 
 </resources>

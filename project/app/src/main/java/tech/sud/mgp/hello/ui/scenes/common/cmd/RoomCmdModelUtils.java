@@ -103,9 +103,10 @@ public class RoomCmdModelUtils {
      *
      * @param minuteDuration 持续时间；单位：分钟
      */
-    public static String buildCmdPkStart(int minuteDuration) {
+    public static String buildCmdPkStart(int minuteDuration, String pkId) {
         RoomCmdPKStartModel command = new RoomCmdPKStartModel(getSendUser());
         command.minuteDuration = minuteDuration;
+        command.pkId = pkId;
         return command.toJson();
     }
 

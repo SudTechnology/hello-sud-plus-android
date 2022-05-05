@@ -46,7 +46,7 @@ public class SceneOrderManager extends BaseServiceManager {
 
         if (state) {
             //接受邀请后，发送切换游戏信令
-            parentManager.switchGame(gameId, true);
+            parentManager.switchGame(gameId);
         }
     }
 

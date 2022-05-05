@@ -48,7 +48,7 @@ import tech.sud.mgp.hello.ui.scenes.base.model.GameTextModel;
  */
 public class GameViewModel implements SudFSMMGListener {
 
-    private long roomId; // 房间id
+    private long roomId; // 游戏房间id
     private long playingGameId; // 当前使用的游戏id
     public final SudFSTAPPDecorator sudFSTAPPDecorator = new SudFSTAPPDecorator(); // app调用sdk的封装类
     private final SudFSMMGDecorator sudFSMMGDecorator = new SudFSMMGDecorator(); // 用于处理游戏SDK部分回调业务
@@ -228,11 +228,13 @@ public class GameViewModel implements SudFSMMGListener {
     }
     // endregion 生命周期相关
 
-    /**
-     * 设置当前房间id
-     */
+    /** 设置当前房间id */
     public void setRoomId(long roomId) {
         this.roomId = roomId;
+    }
+
+    public long getRoomId() {
+        return roomId;
     }
 
     /**

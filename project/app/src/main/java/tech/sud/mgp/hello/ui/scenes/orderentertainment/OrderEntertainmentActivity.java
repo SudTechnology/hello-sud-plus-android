@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 
 import java.util.ArrayList;
@@ -21,7 +20,6 @@ import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomService;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.chat.SceneRoomChatView;
 import tech.sud.mgp.hello.ui.scenes.orderentertainment.activity.AbsOrderRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.orderentertainment.dialog.OrderDialog;
-import tech.sud.mgp.hello.ui.scenes.orderentertainment.model.ReceiveInviteMsgModel;
 import tech.sud.mgp.hello.ui.scenes.orderentertainment.viewmodel.OrderViewModel;
 
 /**
@@ -191,7 +189,7 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
         });
         gameViewModel.changeToAduio.observe(this, integer -> {
             if (integer == 1) {
-                switchGame(0, true);
+                switchGame(0);
             }
         });
         gameViewModel.receiveInvite.observe(this, b -> {
@@ -205,7 +203,7 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
                             gameViewModel.orderModel.sendUserId, true);
                 }
                 //接受了并且切换游戏
-                switchGame(gameViewModel.orderModel.gameId, true);
+                switchGame(gameViewModel.orderModel.gameId);
                 changeTopBtn(1);
             }
         });

@@ -161,6 +161,7 @@ public class RoomPkInfoView extends ConstraintLayout {
         switch (model.pkStatus) {
             case PkStatus.MATCHING: // 匹配中
             case PkStatus.MATCHED: // 已匹配
+                cancelCountdown();
                 tvStatus.setText(R.string.wait_start);
                 viewVS.setVisibility(View.VISIBLE);
                 leftViewResult.setVisibility(View.GONE);
@@ -175,6 +176,7 @@ public class RoomPkInfoView extends ConstraintLayout {
                 viewResultDraw.setVisibility(View.GONE);
                 break;
             case PkStatus.PK_END: // pk结束
+                cancelCountdown();
                 tvStatus.setText(R.string.finished);
                 viewVS.setVisibility(View.GONE);
                 showPkResult();

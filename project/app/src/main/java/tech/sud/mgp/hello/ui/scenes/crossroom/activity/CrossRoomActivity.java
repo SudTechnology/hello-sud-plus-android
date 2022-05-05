@@ -13,7 +13,6 @@ import com.blankj.utilcode.util.ClickUtils;
 import com.blankj.utilcode.util.ToastUtils;
 
 import tech.sud.mgp.hello.R;
-import tech.sud.mgp.hello.app.APPConfig;
 import tech.sud.mgp.hello.common.utils.CustomCountdownTimer;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
@@ -25,7 +24,9 @@ import tech.sud.mgp.hello.ui.scenes.audio.activity.AbsAudioRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.audio.widget.view.mic.AudioRoomGameMicView;
 import tech.sud.mgp.hello.ui.scenes.audio.widget.view.mic.AudioRoomMicView;
 import tech.sud.mgp.hello.ui.scenes.base.activity.BaseRoomActivity;
+import tech.sud.mgp.hello.ui.scenes.base.model.ReportGameInfoModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoleType;
+import tech.sud.mgp.hello.ui.scenes.base.utils.HSJsonUtils;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.chat.SceneRoomChatView;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.mic.BaseMicView;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKSendInviteModel;
@@ -33,6 +34,7 @@ import tech.sud.mgp.hello.ui.scenes.crossroom.viewmodel.CrossRoomGameViewModel;
 import tech.sud.mgp.hello.ui.scenes.crossroom.viewmodel.CrossRoomViewModel;
 import tech.sud.mgp.hello.ui.scenes.crossroom.widget.dialog.InvitePkDialog;
 import tech.sud.mgp.hello.ui.scenes.crossroom.widget.dialog.PkRuleDialog;
+import tech.sud.mgp.hello.ui.scenes.crossroom.widget.dialog.PkSettingsDialog;
 import tech.sud.mgp.hello.ui.scenes.crossroom.widget.view.RoomPkInfoView;
 
 /**
@@ -61,7 +63,6 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
     protected boolean beforeSetContentView() {
         boolean isFinish = super.beforeSetContentView();
         if (roomInfoModel != null && roomInfoModel.roomPkModel != null) {
-            roomInfoModel.roomPkModel.totalMinute = APPConfig.ROOM_PK_MINUTE;
             roomInfoModel.roomPkModel.initInfo(roomInfoModel.roomId);
         }
         return isFinish;
@@ -81,6 +82,7 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
 
         roomConfig.isShowGameNumber = false; // 不显示游戏人数
         roomConfig.isShowASRTopHint = false; // 右上角不展示ASR提示
+        gameViewModel.gameConfigModel.ui.start_btn.custom = true; // 接管游戏的开始按钮事件
 
         int marginEnd = DensityUtils.dp2px(this, 12);
         int maxWidth = DensityUtils.dp2px(this, 90);
@@ -217,15 +219,22 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
     }
 
     private void setLiveListeners() {
-        viewModel.pkSwitchLiveData.observe(this, new Observer<Boolean>() {
+        gameViewModel.clickStartBtnLiveData.observe(this, new Observer<Object>() {
             @Override
-            public void onChanged(Boolean pkSwitch) {
-                if (pkSwitch == null) return;
-                if (binder != null) {
-                    binder.roomPkSwitch(pkSwitch);
-                }
+            public void onChanged(Object o) {
+                clickStartGame();
             }
         });
+    }
+
+    /** 点击了开始游戏 */
+    private void clickStartGame() {
+        ReportGameInfoModel reportGameInfoModel = new ReportGameInfoModel();
+        if (roomInfoModel.roomPkModel != null) {
+            reportGameInfoModel.pkId = roomInfoModel.roomPkModel.pkId;
+        }
+        reportGameInfoModel.sceneId = roomInfoModel.sceneType;
+        gameViewModel.notifyAPPCommonSelfPlaying(true, HSJsonUtils.toJson(reportGameInfoModel));
     }
 
     private void updatePkInfo() {
@@ -300,6 +309,11 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
     }
 
     @Override
+    protected long getGameRoomId() {
+        return viewModel.getGameRoomId(roomInfoModel);
+    }
+
+    @Override
     protected void updatePageStyle() {
         super.updatePageStyle();
         // 公屏处理、麦位处理
@@ -337,17 +351,15 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
         micView.setMicView(baseMicView);
     }
 
-    private long getRoomId() {
-        return roomInfoModel.roomId;
-    }
-
     @Override
     public void onClick(View v) {
         if (v == tvOpenPk) { // 开启匹配
-            viewModel.roomPkSwitch(this, getRoomId(), true);
-        } else if (v == tvStartPk) {
+            if (binder != null) {
+                binder.roomPkSwitch(true);
+            }
+        } else if (v == tvStartPk) { // 开始pk
             clickStartPk();
-        } else if (v == tvRenewPk) {
+        } else if (v == tvRenewPk) { // 重新开始pk
 
         } else if (v == tvPkSettings) {
 
@@ -360,13 +372,33 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
     private void clickStartPk() {
         RoomPkRoomInfo pkRival = getPkRival();
         if (pkRival == null) {
-            ToastUtils.showLong(R.string.invite_pk_hint);
+            ToastUtils.showShort(R.string.invite_pk_hint);
             showInviteDialog();
             return;
         }
-        if (binder != null) {
-            binder.roomPkStart();
+        // 弹出设置pk时长
+        PkSettingsDialog dialog = new PkSettingsDialog();
+        dialog.setSettingsMode(PkSettingsDialog.SettingsMode.START);
+        dialog.setClosePkOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (binder != null) {
+                    binder.roomPkSwitch(false);
+                }
+            }
+        });
+        if (roomInfoModel.roomPkModel != null) {
+            dialog.setSelectedMinute(roomInfoModel.roomPkModel.totalMinute);
         }
+        dialog.setOnSelectedListener(new PkSettingsDialog.OnSelectedListener() {
+            @Override
+            public void onSelected(int minute, PkSettingsDialog.SettingsMode mode) {
+                if (binder != null) {
+                    binder.roomPkStart(minute);
+                }
+            }
+        });
+        dialog.show(getSupportFragmentManager(), null);
     }
 
     /** 获取pk对手 */
@@ -375,6 +407,14 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
             return roomInfoModel.roomPkModel.getPkRival();
         }
         return null;
+    }
+
+    @Override
+    protected void onSelfSwitchGame(long gameId) {
+        super.onSelfSwitchGame(gameId);
+        if (binder != null) {
+            binder.roomPkSyncGame();
+        }
     }
 
     // region service回调
@@ -395,6 +435,23 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
                 showInviteAnswerDialog(model);
             }
         });
+    }
+
+    @Override
+    public void onRoomPkChangeGame(long gameId) {
+        super.onRoomPkChangeGame(gameId);
+        if (roomInfoModel.roleType == RoleType.OWNER) {
+            if (gameViewModel.getRoomId() != viewModel.getGameRoomId(roomInfoModel) && gameId == playingGameId) {
+                playingGameId = 0;
+                roomInfoModel.gameId = 0;
+                gameViewModel.switchGame(this, 0);
+            }
+            if (switchGame(gameId)) {
+                if (binder != null) {
+                    binder.switchGame(gameId);
+                }
+            }
+        }
     }
     // endregion service回调
 

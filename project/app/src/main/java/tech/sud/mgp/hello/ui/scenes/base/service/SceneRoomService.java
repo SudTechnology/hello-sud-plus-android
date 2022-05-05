@@ -137,8 +137,8 @@ public class SceneRoomService extends Service {
         }
 
         /** 游戏切换 */
-        public void switchGame(long gameId, boolean selfSwitch) {
-            serviceManager.switchGame(gameId, selfSwitch);
+        public void switchGame(long gameId) {
+            serviceManager.switchGame(gameId);
         }
 
         /** 添加一条公屏消息 */
@@ -202,9 +202,13 @@ public class SceneRoomService extends Service {
             serviceManager.sceneRoomPkManager.roomPkSwitch(pkSwitch);
         }
 
-        /** 跨房pk，开始 */
-        public void roomPkStart() {
-            serviceManager.sceneRoomPkManager.roomPkStart();
+        /**
+         * 跨房pk，开始
+         *
+         * @param minute
+         */
+        public void roomPkStart(int minute) {
+            serviceManager.sceneRoomPkManager.roomPkStart(minute);
         }
 
         /** 跨房pk，发送邀请 */
@@ -215,6 +219,11 @@ public class SceneRoomService extends Service {
         /** 跨房pk，应答 */
         public void roomPkAnswer(RoomCmdPKSendInviteModel model, boolean isAccept) {
             serviceManager.sceneRoomPkManager.roomPkAnswer(model, isAccept);
+        }
+
+        /** 同步自己的游戏给对方房间 */
+        public void roomPkSyncGame() {
+            serviceManager.sceneRoomPkManager.syncGame();
         }
     }
 

@@ -1,30 +1,32 @@
 package tech.sud.mgp.hello.ui.scenes.crossroom.viewmodel;
 
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.MutableLiveData;
-
 import tech.sud.mgp.hello.common.base.BaseViewModel;
-import tech.sud.mgp.hello.common.http.rx.RxCallback;
-import tech.sud.mgp.hello.service.room.repository.RoomRepository;
+import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
 
 /**
  * 跨房Pk业务处理
  */
 public class CrossRoomViewModel extends BaseViewModel {
 
-    public MutableLiveData<Boolean> pkSwitchLiveData = new MutableLiveData<>();
-
     /**
-     * 打开跨房Pk匹配
+     * 初始化设置游戏房间的Id
+     *
+     * @param model
      */
-    public void roomPkSwitch(LifecycleOwner owner, long roomId, boolean pkSwitch) {
-        RoomRepository.roomPkSwitch(owner, roomId, pkSwitch, new RxCallback<Object>() {
-            @Override
-            public void onSuccess(Object o) {
-                super.onSuccess(o);
-                pkSwitchLiveData.setValue(pkSwitch);
-            }
-        });
+    public long getGameRoomId(RoomInfoModel model) {
+        long srcRoomId = getSrcRoomId(model);
+        if (srcRoomId != 0) {
+            return srcRoomId;
+        }
+        return model.roomId;
+    }
+
+    /** 获取发起方的房间Id */
+    private long getSrcRoomId(RoomInfoModel model) {
+        if (model.roomPkModel != null && model.roomPkModel.srcRoomInfo != null) {
+            return model.roomPkModel.srcRoomInfo.roomId;
+        }
+        return 0;
     }
 
 }

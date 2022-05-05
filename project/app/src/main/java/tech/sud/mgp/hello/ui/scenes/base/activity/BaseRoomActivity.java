@@ -277,7 +277,7 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
                 if (gameId == 0 && isFinishGame) { // 结束游戏
                     clickFinishGame();
                 } else {
-                    switchGame(gameId, true);
+                    intentSwitchGame(gameId);
                 }
             }
         });
@@ -646,35 +646,31 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
     }
 
     /**
-     * 切换游戏
+     * 自己主动切换游戏
      *
-     * @param gameId     游戏id
-     * @param selfSwitch 标识是否是自己切换的
+     * @param gameId 游戏id
      */
-    protected void switchGame(long gameId, boolean selfSwitch) {
-        if (playingGameId == gameId) {
+    protected void intentSwitchGame(long gameId) {
+        // 自己主动切游戏，需判断一下是否要拦截
+        int gameState = gameViewModel.getGameState();
+        if (gameState == SudMGPMGState.MGCommonGameState.LOADING || gameState == SudMGPMGState.MGCommonGameState.PLAYING) {
+            if (gameId > 0) {
+                ToastUtils.showLong(R.string.switch_game_warn);
+            } else {
+                ToastUtils.showLong(R.string.close_game_warn);
+            }
             return;
         }
-        if (selfSwitch) { // 自己主动切换时，如果游戏正在进行中，则不进行切换
-            int gameState = gameViewModel.getGameState();
-            if (gameState == SudMGPMGState.MGCommonGameState.LOADING || gameState == SudMGPMGState.MGCommonGameState.PLAYING) {
-                if (gameId > 0) {
-                    ToastUtils.showLong(R.string.switch_game_warn);
-                } else {
-                    ToastUtils.showLong(R.string.close_game_warn);
-                }
-                return;
-            }
+        if (switchGame(gameId)) {
+            onSelfSwitchGame(gameId);
         }
-        playingGameId = gameId;
-        roomInfoModel.gameId = gameId;
-        gameViewModel.switchGame(this, gameId);
+    }
+
+    /** 自己主动切换了游戏 */
+    protected void onSelfSwitchGame(long gameId) {
         if (binder != null) {
-            binder.updateMicList();
-            binder.switchGame(gameId, selfSwitch);
+            binder.switchGame(gameId);
         }
-        updatePageStyle();
-        updateGameNumber();
     }
 
     protected void updateGameNumber() {
@@ -771,9 +767,14 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
     }
 
     private void initGame() {
-        gameViewModel.setRoomId(roomInfoModel.roomId);
+        gameViewModel.setRoomId(getGameRoomId());
         gameViewModel.switchGame(this, roomInfoModel.gameId);
         updateGameNumber();
+    }
+
+    /** 获取游戏房间的id */
+    protected long getGameRoomId() {
+        return roomInfoModel.roomId;
     }
 
     // 切换游戏之后，更新页面样式
@@ -890,7 +891,23 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
 
     @Override
     public void onGameChange(long gameId) {
-        switchGame(gameId, false);
+        switchGame(gameId);
+    }
+
+    protected boolean switchGame(long gameId) {
+        if (playingGameId == gameId) {
+            return false;
+        }
+        playingGameId = gameId;
+        roomInfoModel.gameId = gameId;
+        gameViewModel.setRoomId(getGameRoomId());
+        gameViewModel.switchGame(this, gameId);
+        updatePageStyle();
+        updateGameNumber();
+        if (binder != null) {
+            binder.updateMicList();
+        }
+        return true;
     }
 
     @Override
@@ -943,6 +960,10 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
 
     @Override
     public void onRoomPkInvite(RoomCmdPKSendInviteModel model) {
+    }
+
+    @Override
+    public void onRoomPkChangeGame(long gameId) {
     }
     // endregion service回调
 

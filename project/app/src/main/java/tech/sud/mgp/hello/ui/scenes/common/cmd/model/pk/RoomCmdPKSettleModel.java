@@ -1,5 +1,7 @@
 package tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk;
 
+import java.util.List;
+
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.base.utils.HSJsonUtils;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmd;
@@ -23,7 +25,7 @@ public class RoomCmdPKSettleModel extends RoomCmdBaseModel {
     public static class Content {
         public SettleInfo srcPkGameSettleInfo; // 邀请者的结算
         public SettleInfo destPkGameSettleInfo; // 被邀请者的结算
-        public RankInfo userRankInfoList; // 排名
+        public List<RankInfo> userRankInfoList; // 排名
     }
 
     public static class SettleInfo {

@@ -133,4 +133,7 @@ public interface SceneRoomServiceCallback {
     /** 接收到跨房pk邀请 */
     void onRoomPkInvite(RoomCmdPKSendInviteModel model);
 
+    /** 跨房切换游戏 */
+    void onRoomPkChangeGame(long gameId);
+
 }

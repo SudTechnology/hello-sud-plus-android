@@ -178,18 +178,15 @@ public class SceneRoomServiceManager extends BaseServiceManager {
     /**
      * 游戏切换
      *
-     * @param gameId     游戏id
-     * @param selfSwitch 标识是否是自己切换的
+     * @param gameId 游戏id
      */
-    public void switchGame(long gameId, boolean selfSwitch) {
-        if (selfSwitch) {
-            // 发送http通知后台
-            GameRepository.switchGame(null, getRoomId(), gameId, new RxCallback<>());
+    public void switchGame(long gameId) {
+        // 发送http通知后台
+        GameRepository.switchGame(null, getRoomId(), gameId, new RxCallback<>());
 
-            // 发送信令通知房间内其他人
-            String command = RoomCmdModelUtils.buildGameChangeCommand(gameId);
-            sceneEngineManager.sendCommand(command, null);
-        }
+        // 发送信令通知房间内其他人
+        String command = RoomCmdModelUtils.buildGameChangeCommand(gameId);
+        sceneEngineManager.sendCommand(command, null);
     }
 
     /** 退出房间 */

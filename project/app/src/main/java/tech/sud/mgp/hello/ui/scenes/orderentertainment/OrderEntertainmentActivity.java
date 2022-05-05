@@ -189,7 +189,7 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
         });
         gameViewModel.changeToAduio.observe(this, integer -> {
             if (integer == 1) {
-                switchGame(0);
+                intentSwitchGame(0);
             }
         });
         gameViewModel.receiveInvite.observe(this, b -> {
@@ -203,7 +203,7 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
                             gameViewModel.orderModel.sendUserId, true);
                 }
                 //接受了并且切换游戏
-                switchGame(gameViewModel.orderModel.gameId);
+                intentSwitchGame(gameViewModel.orderModel.gameId);
                 changeTopBtn(1);
             }
         });

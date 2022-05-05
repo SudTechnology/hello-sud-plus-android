@@ -29,6 +29,7 @@ import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.hello.common.base.BaseActivity;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
+import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.permission.PermissionFragment;
 import tech.sud.mgp.hello.common.permission.SudPermissionUtils;
@@ -36,6 +37,7 @@ import tech.sud.mgp.hello.common.utils.AnimUtils;
 import tech.sud.mgp.hello.common.widget.dialog.BottomOptionDialog;
 import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
 import tech.sud.mgp.hello.rtc.audio.core.AudioPCMData;
+import tech.sud.mgp.hello.service.game.repository.GameRepository;
 import tech.sud.mgp.hello.ui.common.constant.RequestKey;
 import tech.sud.mgp.hello.ui.main.constant.GameIdCons;
 import tech.sud.mgp.hello.ui.scenes.base.constant.OperateMicType;
@@ -277,6 +279,16 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
                 if (gameId == 0 && isFinishGame) { // 结束游戏
                     clickFinishGame();
                 } else {
+                    // 自己主动切游戏，需判断一下是否要拦截
+                    int gameState = gameViewModel.getGameState();
+                    if (gameState == SudMGPMGState.MGCommonGameState.LOADING || gameState == SudMGPMGState.MGCommonGameState.PLAYING) {
+                        if (gameId > 0) {
+                            ToastUtils.showLong(R.string.switch_game_warn);
+                        } else {
+                            ToastUtils.showLong(R.string.close_game_warn);
+                        }
+                        return;
+                    }
                     intentSwitchGame(gameId);
                 }
             }
@@ -651,19 +663,16 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
      * @param gameId 游戏id
      */
     protected void intentSwitchGame(long gameId) {
-        // 自己主动切游戏，需判断一下是否要拦截
-        int gameState = gameViewModel.getGameState();
-        if (gameState == SudMGPMGState.MGCommonGameState.LOADING || gameState == SudMGPMGState.MGCommonGameState.PLAYING) {
-            if (gameId > 0) {
-                ToastUtils.showLong(R.string.switch_game_warn);
-            } else {
-                ToastUtils.showLong(R.string.close_game_warn);
+        // 发送http通知后台
+        GameRepository.switchGame(this, roomInfoModel.roomId, gameId, new RxCallback<Object>() {
+            @Override
+            public void onSuccess(Object o) {
+                super.onSuccess(o);
+                if (switchGame(gameId)) {
+                    onSelfSwitchGame(gameId);
+                }
             }
-            return;
-        }
-        if (switchGame(gameId)) {
-            onSelfSwitchGame(gameId);
-        }
+        });
     }
 
     /** 自己主动切换了游戏 */
@@ -767,8 +776,7 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
     }
 
     private void initGame() {
-        gameViewModel.setRoomId(getGameRoomId());
-        gameViewModel.switchGame(this, roomInfoModel.gameId);
+        gameViewModel.switchGame(this, getGameRoomId(), roomInfoModel.gameId);
         updateGameNumber();
     }
 
@@ -895,13 +903,12 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
     }
 
     protected boolean switchGame(long gameId) {
-        if (playingGameId == gameId) {
+        if (playingGameId == gameId && getGameRoomId() == gameViewModel.getGameRoomId()) {
             return false;
         }
         playingGameId = gameId;
         roomInfoModel.gameId = gameId;
-        gameViewModel.setRoomId(getGameRoomId());
-        gameViewModel.switchGame(this, gameId);
+        gameViewModel.switchGame(this, getGameRoomId(), gameId);
         updatePageStyle();
         updateGameNumber();
         if (binder != null) {
@@ -964,6 +971,10 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
 
     @Override
     public void onRoomPkChangeGame(long gameId) {
+    }
+
+    @Override
+    public void onRoomPkRemoveRival() {
     }
     // endregion service回调
 

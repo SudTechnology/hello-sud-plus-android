@@ -42,6 +42,11 @@ public class RoomPkModel implements Serializable {
     public void removePkRival() {
         if (srcRoomInfo != null && !srcRoomInfo.isSelfRoom) {
             srcRoomInfo = null;
+            if (destRoomInfo != null) { // 把自己移到发起方的位置
+                srcRoomInfo = destRoomInfo;
+                srcRoomInfo.isInitiator = true;
+                destRoomInfo = null;
+            }
         }
         if (destRoomInfo != null && !destRoomInfo.isSelfRoom) {
             destRoomInfo = null;
@@ -55,6 +60,14 @@ public class RoomPkModel implements Serializable {
         remainSecond = 0;
         srcRoomInfo = null;
         destRoomInfo = null;
+    }
+
+    public void setPkId(String pkId) {
+        try {
+            this.pkId = Long.parseLong(pkId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

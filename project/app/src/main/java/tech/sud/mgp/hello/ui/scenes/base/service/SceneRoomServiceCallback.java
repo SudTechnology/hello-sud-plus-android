@@ -136,4 +136,7 @@ public interface SceneRoomServiceCallback {
     /** 跨房切换游戏 */
     void onRoomPkChangeGame(long gameId);
 
+    /** 跨房移除了对手 */
+    void onRoomPkRemoveRival();
+
 }

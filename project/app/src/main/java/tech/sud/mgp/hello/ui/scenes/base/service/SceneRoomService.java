@@ -234,6 +234,11 @@ public class SceneRoomService extends Service {
         public void roomPkSettings(int minute) {
             serviceManager.sceneRoomPkManager.roomPkSettings(minute);
         }
+
+        /** 移除pk对手 */
+        public void removePkRival() {
+            serviceManager.sceneRoomPkManager.removePkRival();
+        }
     }
 
     /** 获取当前使用的房间基本数据 */

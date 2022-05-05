@@ -48,8 +48,14 @@ public class RoomCmd {
     /** 跨房PK，切换游戏 */
     public static final int CMD_ROOM_PK_CHANGE_GAME = 10106;
 
+    /** 跨房PK，移除对手 */
+    public static final int CMD_ROOM_PK_REMOVE_RIVAL = 10107;
+
     /** 跨房pk游戏结算消息通知 */
     public static final int CMD_ROOM_PK_SETTLE = 20000;
+
+    /** 跨房PK对手房间关闭消息 */
+    public static final int CMD_ROOM_PK_RIVAL_EXIT = 20001;
     // endregion 跨房PK
 
     // region 点单

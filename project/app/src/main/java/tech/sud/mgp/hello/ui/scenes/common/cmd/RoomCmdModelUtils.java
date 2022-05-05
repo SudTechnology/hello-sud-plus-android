@@ -19,6 +19,7 @@ import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKAnswerModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKChangeGameModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKFinishModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKOpenMatchModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKRemoveRivalModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKSendInviteModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKSettingsModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKStartModel;
@@ -91,10 +92,11 @@ public class RoomCmdModelUtils {
      *
      * @param isAccept 是否接受
      */
-    public static String buildCmdPkAnswer(UserInfo otherUser, boolean isAccept) {
+    public static String buildCmdPkAnswer(UserInfo otherUser, boolean isAccept, String pkId) {
         RoomCmdPKAnswerModel command = new RoomCmdPKAnswerModel(getSendUser());
         command.isAccept = isAccept;
         command.otherUser = otherUser;
+        command.pkId = pkId;
         return command.toJson();
     }
 
@@ -141,6 +143,14 @@ public class RoomCmdModelUtils {
     public static String buildCmdPkChangeGame(long gameID) {
         RoomCmdPKChangeGameModel command = new RoomCmdPKChangeGameModel(getSendUser());
         command.gameID = gameID;
+        return command.toJson();
+    }
+
+    /**
+     * 构建信令:跨房PK，切换游戏
+     */
+    public static String buildCmdPkRemoveRival() {
+        RoomCmdPKRemoveRivalModel command = new RoomCmdPKRemoveRivalModel(getSendUser());
         return command.toJson();
     }
     // endregion 跨房pK

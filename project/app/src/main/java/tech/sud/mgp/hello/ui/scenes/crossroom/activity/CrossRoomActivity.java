@@ -13,10 +13,14 @@ import com.blankj.utilcode.util.ClickUtils;
 import com.blankj.utilcode.util.ToastUtils;
 
 import tech.sud.mgp.hello.R;
+import tech.sud.mgp.hello.SudMGPWrapper.state.SudMGPMGState;
+import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.utils.CustomCountdownTimer;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
+import tech.sud.mgp.hello.service.game.repository.GameRepository;
 import tech.sud.mgp.hello.service.room.model.PkStatus;
+import tech.sud.mgp.hello.service.room.response.RoomPkModel;
 import tech.sud.mgp.hello.service.room.response.RoomPkRoomInfo;
 import tech.sud.mgp.hello.ui.common.utils.LifecycleUtils;
 import tech.sud.mgp.hello.ui.main.home.model.RoomItemModel;
@@ -26,6 +30,7 @@ import tech.sud.mgp.hello.ui.scenes.audio.widget.view.mic.AudioRoomMicView;
 import tech.sud.mgp.hello.ui.scenes.base.activity.BaseRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.base.model.ReportGameInfoModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoleType;
+import tech.sud.mgp.hello.ui.scenes.base.utils.EnterRoomUtils;
 import tech.sud.mgp.hello.ui.scenes.base.utils.HSJsonUtils;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.chat.SceneRoomChatView;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.mic.BaseMicView;
@@ -157,6 +162,68 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
                 showInviteDialog();
             }
         });
+        roomPkInfoView.setPkRivalOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (roomInfoModel.roleType == RoleType.OWNER) {
+                    intentRemovePkRival();
+                } else {
+                    intentEnterPkRivalRoom();
+                }
+            }
+        });
+    }
+
+    /** 意图移除pk对手 */
+    private void intentRemovePkRival() {
+        if (roomInfoModel.roomPkModel == null) return;
+        RoomPkRoomInfo pkRival = roomInfoModel.roomPkModel.getPkRival();
+        if (pkRival == null) return;
+        SimpleChooseDialog dialog = new SimpleChooseDialog(this, getString(R.string.remove_rival_confirm),
+                getString(R.string.cancel), getString(R.string.confirm_remove));
+        dialog.setOnChooseListener(new SimpleChooseDialog.OnChooseListener() {
+            @Override
+            public void onChoose(int index) {
+                if (index == 1) {
+                    // 游戏中不可以移除
+                    int gameState = gameViewModel.getGameState();
+                    if (gameState == SudMGPMGState.MGCommonGameState.LOADING || gameState == SudMGPMGState.MGCommonGameState.PLAYING) {
+                        ToastUtils.showShort(R.string.game_running_remove_warn);
+                        return;
+                    }
+                    if (binder != null) {
+                        binder.removePkRival();
+                    }
+                }
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+
+    /** 意图进入pk对手的房间 */
+    private void intentEnterPkRivalRoom() {
+        if (roomInfoModel.roomPkModel == null) return;
+        RoomPkRoomInfo pkRival = roomInfoModel.roomPkModel.getPkRival();
+        if (pkRival == null) return;
+        SimpleChooseDialog dialog = new SimpleChooseDialog(this, getString(R.string.enter_other_room_confirm),
+                getString(R.string.cancel), getString(R.string.confirm_to));
+        dialog.setOnChooseListener(new SimpleChooseDialog.OnChooseListener() {
+            @Override
+            public void onChoose(int index) {
+                if (index == 1) {
+                    enterPkRivalRoom(pkRival);
+                }
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+
+    /** 进入pk对手的房间 */
+    private void enterPkRivalRoom(RoomPkRoomInfo pkRival) {
+        EnterRoomUtils.enterRoom(this, pkRival.roomId);
+        finish();
     }
 
     /** 展示邀请pk弹窗 */
@@ -223,6 +290,15 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
             @Override
             public void onChanged(Object o) {
                 clickStartGame();
+            }
+        });
+        roomPkInfoView.setPkCountdownFinishListener(new RoomPkInfoView.PkCountdownFinishListener() {
+            @Override
+            public void onPkCountdownFinish() {
+                RoomPkModel roomPkModel = roomInfoModel.roomPkModel;
+                if (roomPkModel == null || roomPkModel.pkStatus != PkStatus.STARTED) return;
+                roomPkModel.pkStatus = PkStatus.PK_END;
+                onRoomPkUpdate();
             }
         });
     }
@@ -467,18 +543,30 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
     public void onRoomPkChangeGame(long gameId) {
         super.onRoomPkChangeGame(gameId);
         if (roomInfoModel.roleType == RoleType.OWNER) {
-            if (gameViewModel.getRoomId() != viewModel.getGameRoomId(roomInfoModel) && gameId == playingGameId) {
-                playingGameId = 0;
-                roomInfoModel.gameId = 0;
-                gameViewModel.switchGame(this, 0);
-            }
-            if (switchGame(gameId)) {
-                if (binder != null) {
-                    binder.switchGame(gameId);
-                }
-            }
+            ownerSwitchGame(gameId);
         }
     }
+
+    @Override
+    public void onRoomPkRemoveRival() {
+        super.onRoomPkRemoveRival();
+        switchGame(playingGameId);
+    }
     // endregion service回调
+
+    protected void ownerSwitchGame(long gameId) {
+        // 发送http通知后台
+        GameRepository.switchGame(this, roomInfoModel.roomId, gameId, new RxCallback<Object>() {
+            @Override
+            public void onSuccess(Object o) {
+                super.onSuccess(o);
+                if (switchGame(gameId)) {
+                    if (binder != null) {
+                        binder.switchGame(gameId);
+                    }
+                }
+            }
+        });
+    }
 
 }

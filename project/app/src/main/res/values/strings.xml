@@ -426,10 +426,16 @@ Go to homepage to create one~</string>
     <string name="refuse">拒绝</string>
     <string name="accept">接受</string>
     <string name="win_info_first">恭喜%1$s夺得第一为%2$s加%3$s分！</string>
-    <string name="win_info_second">%1$s夺得第一为%2$s加%3$s分！</string>
-    <string name="win_info_thirdly">%1$s夺得第一为%2$s加%3$s分！</string>
+    <string name="win_info_second">%1$s夺得第二为%2$s加%3$s分！</string>
+    <string name="win_info_thirdly">%1$s夺得第三为%2$s加%3$s分！</string>
     <string name="team_red">红方</string>
     <string name="team_blue">蓝方</string>
+    <string name="enter_other_room_confirm">是否前往对方的房间？</string>
+    <string name="confirm_to">确认前往</string>
+    <string name="game_running_remove_warn">游戏未结束，暂不可移除</string>
+    <string name="pk_running_remove_warn">PK未结束，暂不可移除</string>
+    <string name="remove_rival_confirm">是否要移除该PK对手？</string>
+    <string name="confirm_remove">确认移除</string>
     <!-- endregion 新增 -->
 
 </resources>

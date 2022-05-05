@@ -2,6 +2,7 @@ package tech.sud.mgp.hello.ui.scenes.base.manager;
 
 import android.app.Application;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.Utils;
 
 import tech.sud.mgp.hello.R;
@@ -20,6 +21,8 @@ import tech.sud.mgp.hello.ui.scenes.base.manager.SceneCommandManager.PKAnswerCom
 import tech.sud.mgp.hello.ui.scenes.base.manager.SceneCommandManager.PKChangeGameCommandListener;
 import tech.sud.mgp.hello.ui.scenes.base.manager.SceneCommandManager.PKFinishCommandListener;
 import tech.sud.mgp.hello.ui.scenes.base.manager.SceneCommandManager.PKOpenMatchCommandListener;
+import tech.sud.mgp.hello.ui.scenes.base.manager.SceneCommandManager.PKRemoveRivalCommandListener;
+import tech.sud.mgp.hello.ui.scenes.base.manager.SceneCommandManager.PKRivalExitCommandListener;
 import tech.sud.mgp.hello.ui.scenes.base.manager.SceneCommandManager.PKSendInviteCommandListener;
 import tech.sud.mgp.hello.ui.scenes.base.manager.SceneCommandManager.PKSettingsCommandListener;
 import tech.sud.mgp.hello.ui.scenes.base.manager.SceneCommandManager.PKSettleCommandListener;
@@ -34,6 +37,8 @@ import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKAnswerModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKChangeGameModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKFinishModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKOpenMatchModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKRemoveRivalModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKRivalExitModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKSendInviteModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKSettingsModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKSettleModel;
@@ -62,7 +67,9 @@ public class SceneRoomPkManager extends BaseServiceManager {
         parentManager.sceneEngineManager.setCommandListener(settingsCommandListener);
         parentManager.sceneEngineManager.setCommandListener(openMatchCommandListener);
         parentManager.sceneEngineManager.setCommandListener(pkChangeGameCommandListener);
+        parentManager.sceneEngineManager.setCommandListener(pkRemoveRivalCommandListener);
         parentManager.sceneEngineManager.setCommandListener(pkSettleCommandListener);
+        parentManager.sceneEngineManager.setCommandListener(pkRivalExitCommandListener);
     }
 
     public void enterRoom(RoomConfig config, RoomInfoModel model) {
@@ -186,6 +193,28 @@ public class SceneRoomPkManager extends BaseServiceManager {
         );
     }
 
+    /** 移除pk对手 */
+    public void removePkRival() {
+        // pk正在进行中，不可以移除
+        int pkStatus = roomPkModel.pkStatus;
+        if (pkStatus == PkStatus.STARTED) {
+            ToastUtils.showShort(R.string.pk_running_remove_warn);
+            return;
+        }
+        RoomPkRoomInfo pkRival = roomPkModel.getPkRival();
+        if (pkRival == null) return;
+        // 发送http请求
+        // TODO: 2022/5/5 待后端添加接口
+
+        // 发送信令
+        String command = RoomCmdModelUtils.buildCmdPkRemoveRival();
+        sendCommand(command);
+        sendXRoomCommand(pkRival.roomId + "", command);
+
+        // 本地移除
+        localRemovePkRival();
+    }
+
     /** 跨房pk，发送邀请 */
     public void roomPkInvite(RoomItemModel model) {
         if (model == null) return;
@@ -209,14 +238,14 @@ public class SceneRoomPkManager extends BaseServiceManager {
             RoomRepository.roomPkAgree(null, model.sendUser.getRoomId(), parentManager.getRoomId(),
                     new RxCallback<RoomPkAgreeResp>() {
                         @Override
-                        public void onSuccess(RoomPkAgreeResp roomPkAgreeResp) {
-                            super.onSuccess(roomPkAgreeResp);
+                        public void onSuccess(RoomPkAgreeResp resp) {
+                            super.onSuccess(resp);
                             if (getPkStatus() != PkStatus.MATCHING) {
                                 return;
                             }
 
                             // 发送信令
-                            String command = RoomCmdModelUtils.buildCmdPkAnswer(model.sendUser, isAccept);
+                            String command = RoomCmdModelUtils.buildCmdPkAnswer(model.sendUser, isAccept, resp.pkId + "");
                             sendCommand(command);
                             sendXRoomCommand(model.sendUser.roomID, command);
 
@@ -228,7 +257,7 @@ public class SceneRoomPkManager extends BaseServiceManager {
             );
         } else {
             // 发送信令
-            String command = RoomCmdModelUtils.buildCmdPkAnswer(model.sendUser, isAccept);
+            String command = RoomCmdModelUtils.buildCmdPkAnswer(model.sendUser, isAccept, null);
             sendXRoomCommand(model.sendUser.roomID, command);
         }
     }
@@ -254,7 +283,9 @@ public class SceneRoomPkManager extends BaseServiceManager {
             return;
         }
         initRoomPkModel();
+        roomPkModel.setPkId(model.pkId);
         roomPkModel.pkStatus = PkStatus.MATCHED;
+
         roomPkModel.srcRoomInfo = new RoomPkRoomInfo();
         roomPkModel.srcRoomInfo.setRoomId(model.otherUser.roomID);
         roomPkModel.srcRoomInfo.roomOwnerHeader = model.otherUser.icon;
@@ -297,9 +328,15 @@ public class SceneRoomPkManager extends BaseServiceManager {
     }
 
     /** 移除pk对手 */
-    private void removePkRival() {
+    private void localRemovePkRival() {
         if (roomPkModel != null) {
             roomPkModel.removePkRival();
+            roomPkModel.pkStatus = PkStatus.MATCHING;
+            callbackUpdateRoomPk();
+            SceneRoomServiceCallback callback = parentManager.getCallback();
+            if (callback != null) {
+                callback.onRoomPkRemoveRival();
+            }
         }
     }
 
@@ -316,6 +353,7 @@ public class SceneRoomPkManager extends BaseServiceManager {
     private final PKSendInviteCommandListener inviteCommandListener = new PKSendInviteCommandListener() {
         @Override
         public void onRecvCommand(RoomCmdPKSendInviteModel model, String userID) {
+            if (getPkStatus() != PkStatus.MATCHING) return;
             SceneRoomServiceCallback callback = parentManager.getCallback();
             if (callback != null) {
                 callback.onRoomPkInvite(model);
@@ -337,11 +375,7 @@ public class SceneRoomPkManager extends BaseServiceManager {
     private final PKStartCommandListener startCommandListener = new PKStartCommandListener() {
         @Override
         public void onRecvCommand(RoomCmdPKStartModel model, String userID) {
-            try {
-                roomPkModel.pkId = Long.parseLong(model.pkId);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            roomPkModel.setPkId(model.pkId);
             roomPkModel.pkStatus = PkStatus.STARTED;
             roomPkModel.totalMinute = model.minuteDuration;
             roomPkModel.remainSecond = model.minuteDuration * 60;
@@ -362,9 +396,7 @@ public class SceneRoomPkManager extends BaseServiceManager {
                 RoomPkRoomInfo pkRival = getPkRival();
                 if (pkRival != null && (pkRival.roomId + "").equals(fromRoomId)) {
                     // 对方房间关闭了跨房pk，回到待匹配状态
-                    roomPkModel.pkStatus = PkStatus.MATCHING;
-                    removePkRival();
-                    callbackUpdateRoomPk();
+                    localRemovePkRival();
                 }
             }
         }
@@ -401,6 +433,14 @@ public class SceneRoomPkManager extends BaseServiceManager {
             if (callback != null) {
                 callback.onRoomPkChangeGame(model.gameID);
             }
+        }
+    };
+
+    /** 跨房PK，移除对手 监听 */
+    private final PKRemoveRivalCommandListener pkRemoveRivalCommandListener = new PKRemoveRivalCommandListener() {
+        @Override
+        public void onRecvCommand(RoomCmdPKRemoveRivalModel command, String userID) {
+            localRemovePkRival();
         }
     };
 
@@ -450,11 +490,17 @@ public class SceneRoomPkManager extends BaseServiceManager {
             }
         }
     };
-    // endregion 信令监听
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
+    /** 跨房PK对手房间关闭消息 监听 */
+    private final PKRivalExitCommandListener pkRivalExitCommandListener = new PKRivalExitCommandListener() {
+        @Override
+        public void onRecvCommand(RoomCmdPKRivalExitModel model, String userID) {
+            RoomPkRoomInfo pkRival = getPkRival();
+            if (pkRival != null) {
+                localRemovePkRival();
+            }
+        }
+    };
+    // endregion 信令监听
 
 }

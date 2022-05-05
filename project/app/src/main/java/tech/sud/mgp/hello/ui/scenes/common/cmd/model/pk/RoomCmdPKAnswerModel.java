@@ -12,6 +12,7 @@ public class RoomCmdPKAnswerModel extends RoomCmdBaseModel {
 
     public boolean isAccept; // 是否接受
     public UserInfo otherUser; // 是否接受
+    public String pkId; // pkId
 
     public RoomCmdPKAnswerModel(UserInfo sendUser) {
         super(RoomCmd.CMD_ROOM_PK_ANSWER, sendUser);

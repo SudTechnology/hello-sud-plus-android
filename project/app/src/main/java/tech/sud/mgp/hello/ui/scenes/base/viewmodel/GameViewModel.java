@@ -48,7 +48,7 @@ import tech.sud.mgp.hello.ui.scenes.base.model.GameTextModel;
  */
 public class GameViewModel implements SudFSMMGListener {
 
-    private long roomId; // 游戏房间id
+    private long gameRoomId; // 游戏房间id
     private long playingGameId; // 当前使用的游戏id
     public final SudFSTAPPDecorator sudFSTAPPDecorator = new SudFSTAPPDecorator(); // app调用sdk的封装类
     private final SudFSMMGDecorator sudFSMMGDecorator = new SudFSMMGDecorator(); // 用于处理游戏SDK部分回调业务
@@ -80,8 +80,8 @@ public class GameViewModel implements SudFSMMGListener {
      * @param activity 游戏所在页面
      * @param gameId   游戏id
      */
-    public void switchGame(FragmentActivity activity, long gameId) {
-        if (playingGameId == gameId) {
+    public void switchGame(FragmentActivity activity, long gameRoomId, long gameId) {
+        if (playingGameId == gameId && this.gameRoomId == gameRoomId) {
             return;
         }
         destroyMG();
@@ -168,7 +168,7 @@ public class GameViewModel implements SudFSMMGListener {
         sudFSMMGDecorator.setSudFSMMGListener(this);
 
         // 调用游戏sdk加载游戏
-        ISudFSTAPP iSudFSTAPP = SudMGP.loadMG(activity, HSUserInfo.userId + "", roomId + "", code, gameId, SystemUtils.getLanguageCode(activity), sudFSMMGDecorator);
+        ISudFSTAPP iSudFSTAPP = SudMGP.loadMG(activity, HSUserInfo.userId + "", gameRoomId + "", code, gameId, SystemUtils.getLanguageCode(activity), sudFSMMGDecorator);
 
         // APP调用游戏接口的装饰类设置
         sudFSTAPPDecorator.setISudFSTAPP(iSudFSTAPP);
@@ -228,13 +228,9 @@ public class GameViewModel implements SudFSMMGListener {
     }
     // endregion 生命周期相关
 
-    /** 设置当前房间id */
-    public void setRoomId(long roomId) {
-        this.roomId = roomId;
-    }
-
-    public long getRoomId() {
-        return roomId;
+    /** 获取当前游戏房id */
+    public long getGameRoomId() {
+        return gameRoomId;
     }
 
     /**

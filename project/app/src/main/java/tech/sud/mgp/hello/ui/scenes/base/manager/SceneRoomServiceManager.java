@@ -3,9 +3,7 @@ package tech.sud.mgp.hello.ui.scenes.base.manager;
 import com.blankj.utilcode.util.Utils;
 
 import tech.sud.mgp.hello.R;
-import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
-import tech.sud.mgp.hello.service.game.repository.GameRepository;
 import tech.sud.mgp.hello.ui.scenes.base.activity.RoomConfig;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoleType;
@@ -181,9 +179,6 @@ public class SceneRoomServiceManager extends BaseServiceManager {
      * @param gameId 游戏id
      */
     public void switchGame(long gameId) {
-        // 发送http通知后台
-        GameRepository.switchGame(null, getRoomId(), gameId, new RxCallback<>());
-
         // 发送信令通知房间内其他人
         String command = RoomCmdModelUtils.buildGameChangeCommand(gameId);
         sceneEngineManager.sendCommand(command, null);

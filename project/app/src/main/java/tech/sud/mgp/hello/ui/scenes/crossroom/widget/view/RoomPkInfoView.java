@@ -53,7 +53,7 @@ public class RoomPkInfoView extends ConstraintLayout {
     private final int progressMinWidth = DensityUtils.dp2px(getContext(), 147); // 进度显示，至少保留的宽度
     private int progressCalcTotalWidth = DensityUtils.getScreenWidth() - progressMinWidth * 2; // 用于计算进度值的总可用宽度
     private RoomPkModel roomPkModel;
-    private PkStatusChangeListener pkStatusChangeListener;
+    private PkCountdownFinishListener pkCountdownFinishListener;
 
     private int oldStatus = -1;
     private int oldTotalMinute = -1;
@@ -230,11 +230,8 @@ public class RoomPkInfoView extends ConstraintLayout {
 
             @Override
             protected void onFinish() {
-                if (roomPkModel != null) {
-                    roomPkModel.pkStatus = PkStatus.PK_END;
-                }
-                if (pkStatusChangeListener != null) {
-                    pkStatusChangeListener.onStatusChanged(PkStatus.PK_END);
+                if (pkCountdownFinishListener != null) {
+                    pkCountdownFinishListener.onPkCountdownFinish();
                 }
             }
         };
@@ -312,9 +309,9 @@ public class RoomPkInfoView extends ConstraintLayout {
         progressCalcTotalWidth = getMeasuredWidth() - progressMinWidth * 2;
     }
 
-    /** 设置PK状态变更的监听器 */
-    public void setPkStatusChangeListener(PkStatusChangeListener pkStatusChangeListener) {
-        this.pkStatusChangeListener = pkStatusChangeListener;
+    /** 设置pk倒计时结束的监听 */
+    public void setPkCountdownFinishListener(PkCountdownFinishListener pkCountdownFinishListener) {
+        this.pkCountdownFinishListener = pkCountdownFinishListener;
     }
 
     /** 设置问题按钮的点击事件 */
@@ -322,13 +319,18 @@ public class RoomPkInfoView extends ConstraintLayout {
         viewIssue.setOnClickListener(listener);
     }
 
+    /** 设置pk对手头像的点击事件 */
+    public void setPkRivalOnClickListener(OnClickListener listener) {
+        rightIvIcon.setOnClickListener(listener);
+    }
+
     /** 设置点击"+"号，邀请pk对手的事件 */
     public void setInviteOnClickListener(OnClickListener listener) {
         inviteOnClickListener = listener;
     }
 
-    public interface PkStatusChangeListener {
-        void onStatusChanged(int status);
+    public interface PkCountdownFinishListener {
+        void onPkCountdownFinish();
     }
 
 }

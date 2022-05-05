@@ -21,6 +21,8 @@ import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKAnswerModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKChangeGameModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKFinishModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKOpenMatchModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKRemoveRivalModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKRivalExitModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKSendInviteModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKSettingsModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKSettleModel;
@@ -98,8 +100,14 @@ public class SceneCommandManager extends BaseServiceManager {
             case RoomCmd.CMD_ROOM_PK_CHANGE_GAME: // 跨房PK，切换游戏
                 dispatchCommand(commandCmd, RoomCmdPKChangeGameModel.fromJson(command), userID);
                 break;
+            case RoomCmd.CMD_ROOM_PK_REMOVE_RIVAL: // 跨房PK，移除对手
+                dispatchCommand(commandCmd, RoomCmdPKRemoveRivalModel.fromJson(command), userID);
+                break;
             case RoomCmd.CMD_ROOM_PK_SETTLE: // 跨房pk游戏结算消息通知
                 dispatchCommand(commandCmd, RoomCmdPKSettleModel.fromJson(command), userID);
+                break;
+            case RoomCmd.CMD_ROOM_PK_RIVAL_EXIT: // 跨房PK对手房间关闭消息
+                dispatchCommand(commandCmd, RoomCmdPKRivalExitModel.fromJson(command), userID);
                 break;
             case RoomCmd.CMD_USER_ORDER_NOTIFY: // 用户点单
                 dispatchCommand(commandCmd, RoomCmdUserOrderModel.fromJson(command), userID);
@@ -186,9 +194,19 @@ public class SceneCommandManager extends BaseServiceManager {
                         ((PKChangeGameCommandListener) listener).onRecvCommand((RoomCmdPKChangeGameModel) model, fromUserID);
                     }
                     break;
+                case RoomCmd.CMD_ROOM_PK_REMOVE_RIVAL: // 跨房PK，移除对手
+                    if (listener instanceof PKRemoveRivalCommandListener) {
+                        ((PKRemoveRivalCommandListener) listener).onRecvCommand((RoomCmdPKRemoveRivalModel) model, fromUserID);
+                    }
+                    break;
                 case RoomCmd.CMD_ROOM_PK_SETTLE: // 跨房pk游戏结算消息通知
                     if (listener instanceof PKSettleCommandListener) {
                         ((PKSettleCommandListener) listener).onRecvCommand((RoomCmdPKSettleModel) model, fromUserID);
+                    }
+                    break;
+                case RoomCmd.CMD_ROOM_PK_RIVAL_EXIT: // 跨房PK对手房间关闭消息
+                    if (listener instanceof PKRivalExitCommandListener) {
+                        ((PKRivalExitCommandListener) listener).onRecvCommand((RoomCmdPKRivalExitModel) model, fromUserID);
                     }
                     break;
                 case RoomCmd.CMD_USER_ORDER_NOTIFY: // 用户点单
@@ -220,72 +238,86 @@ public class SceneCommandManager extends BaseServiceManager {
 
     // region 基础信令监听
     interface PublicMsgCommandListener extends ICommandListener {
-        void onRecvCommand(RoomCmdChatTextModel command, String userID);
+        void onRecvCommand(RoomCmdChatTextModel model, String userID);
     }
 
     interface SendGiftCommandListener extends ICommandListener {
-        void onRecvCommand(RoomCmdSendGiftModel command, String userID);
+        void onRecvCommand(RoomCmdSendGiftModel model, String userID);
     }
 
     interface UpMicCommandListener extends ICommandListener {
-        void onRecvCommand(RoomCmdUpMicModel command, String userID);
+        void onRecvCommand(RoomCmdUpMicModel model, String userID);
     }
 
     interface DownMicCommandListener extends ICommandListener {
-        void onRecvCommand(RoomCmdDownMicModel command, String userID);
+        void onRecvCommand(RoomCmdDownMicModel model, String userID);
     }
 
     interface GameChangeCommandListener extends ICommandListener {
-        void onRecvCommand(RoomCmdChangeGameModel command, String userID);
+        void onRecvCommand(RoomCmdChangeGameModel model, String userID);
     }
 
     interface EnterRoomCommandListener extends ICommandListener {
-        void onRecvCommand(RoomCmdEnterRoomModel command, String userID);
+        void onRecvCommand(RoomCmdEnterRoomModel model, String userID);
     }
     // endregion 基础信令监听
 
     // region 跨房pk信令监听
     interface PKSendInviteCommandListener extends ICommandListener {
-        void onRecvCommand(RoomCmdPKSendInviteModel command, String userID);
+        void onRecvCommand(RoomCmdPKSendInviteModel model, String userID);
     }
 
     interface PKAnswerCommandListener extends ICommandListener {
-        void onRecvCommand(RoomCmdPKAnswerModel command, String userID);
+        void onRecvCommand(RoomCmdPKAnswerModel model, String userID);
     }
 
     interface PKStartCommandListener extends ICommandListener {
-        void onRecvCommand(RoomCmdPKStartModel command, String userID);
+        void onRecvCommand(RoomCmdPKStartModel model, String userID);
     }
 
     interface PKFinishCommandListener extends ICommandListener {
-        void onRecvCommand(RoomCmdPKFinishModel command, String userID);
+        void onRecvCommand(RoomCmdPKFinishModel model, String userID);
     }
 
     interface PKSettingsCommandListener extends ICommandListener {
-        void onRecvCommand(RoomCmdPKSettingsModel command, String userID);
+        void onRecvCommand(RoomCmdPKSettingsModel model, String userID);
     }
 
     interface PKOpenMatchCommandListener extends ICommandListener {
-        void onRecvCommand(RoomCmdPKOpenMatchModel command, String userID);
+        void onRecvCommand(RoomCmdPKOpenMatchModel model, String userID);
     }
 
     interface PKChangeGameCommandListener extends ICommandListener {
-        void onRecvCommand(RoomCmdPKChangeGameModel command, String userID);
+        void onRecvCommand(RoomCmdPKChangeGameModel model, String userID);
+    }
+
+    interface PKRemoveRivalCommandListener extends ICommandListener {
+        void onRecvCommand(RoomCmdPKRemoveRivalModel model, String userID);
     }
 
     interface PKSettleCommandListener extends ICommandListener {
-        void onRecvCommand(RoomCmdPKSettleModel command, String userID);
+        void onRecvCommand(RoomCmdPKSettleModel model, String userID);
+    }
+
+    interface PKRivalExitCommandListener extends ICommandListener {
+        void onRecvCommand(RoomCmdPKRivalExitModel model, String userID);
     }
     // endregion 跨房pk信令监听
 
     // region 点单信令监听
     interface UserOrderCommandListener extends ICommandListener {
-        void onRecvCommand(RoomCmdUserOrderModel command, String userID);
+        void onRecvCommand(RoomCmdUserOrderModel model, String userID);
     }
 
     interface OrderResultCommandListener extends ICommandListener {
-        void onRecvCommand(RoomCmdOrderOperateModel command, String userID);
+        void onRecvCommand(RoomCmdOrderOperateModel model, String userID);
     }
     // endregion 点单信令监听
 
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        listenerList.clear();
+    }
 }

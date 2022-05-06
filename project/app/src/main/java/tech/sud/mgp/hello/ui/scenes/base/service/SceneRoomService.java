@@ -13,6 +13,9 @@ import androidx.annotation.Nullable;
 
 import java.util.List;
 
+import tech.sud.mgp.hello.common.http.rx.RxCallback;
+import tech.sud.mgp.hello.service.room.repository.RoomRepository;
+import tech.sud.mgp.hello.service.room.response.RoomPkAgreeResp;
 import tech.sud.mgp.hello.ui.common.utils.channel.NotifyId;
 import tech.sud.mgp.hello.ui.main.home.model.RoomItemModel;
 import tech.sud.mgp.hello.ui.scenes.base.activity.RoomConfig;
@@ -66,6 +69,11 @@ public class SceneRoomService extends Service {
             serviceManager.setCallback(callback);
         }
 
+        /** 移除回调 */
+        public void removeCallback(SceneRoomServiceCallback callback) {
+            serviceManager.removeCallback(callback);
+        }
+
         /**
          * 进入房间
          *
@@ -82,9 +90,11 @@ public class SceneRoomService extends Service {
                 } else {
                     // 2.切换房间，销毁原有房间数据，然后再执行进入房间
                     SceneRoomServiceCallback callback = serviceManager.getCallback();
+                    RoomRepository.exitRoom(null, model.roomId, new RxCallback<>());
                     serviceManager.exitRoom();
                     serviceManager.onDestroy();
                     serviceManager = new SceneRoomServiceManager();
+                    serviceManager.onCreate();
                     serviceManager.setCallback(callback);
                 }
             }
@@ -238,6 +248,11 @@ public class SceneRoomService extends Service {
         /** 移除pk对手 */
         public void removePkRival() {
             serviceManager.sceneRoomPkManager.removePkRival();
+        }
+
+        /** 再来一轮PK */
+        public void roomPkAgain(RoomPkAgreeResp roomPkAgreeResp) {
+            serviceManager.sceneRoomPkManager.roomPkAgain(roomPkAgreeResp);
         }
     }
 

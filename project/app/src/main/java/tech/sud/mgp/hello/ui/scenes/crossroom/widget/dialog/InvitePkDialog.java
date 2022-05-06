@@ -1,5 +1,6 @@
 package tech.sud.mgp.hello.ui.scenes.crossroom.widget.dialog;
 
+import android.content.Context;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -102,7 +103,9 @@ public class InvitePkDialog extends BaseDialogFragment {
 
             @Override
             protected View getEmptyView() {
-                EmptyDataView view = new EmptyDataView(requireContext());
+                Context context = getContext();
+                if (context == null) return null;
+                EmptyDataView view = new EmptyDataView(context);
                 view.setText(getString(R.string.empty_room_match));
                 return view;
             }

@@ -301,7 +301,9 @@ public class GameViewModel implements SudFSMMGListener {
         getGameRect(gameViewInfoModel);
 
         // 给游戏侧进行返回
-        handle.success(GsonUtils.toJson(gameViewInfoModel));
+        String json = GsonUtils.toJson(gameViewInfoModel);
+        LogUtils.d("gameViewInfo:" + json);
+        handle.success(json);
     }
 
     /** 获取游戏的安全操作区域 */

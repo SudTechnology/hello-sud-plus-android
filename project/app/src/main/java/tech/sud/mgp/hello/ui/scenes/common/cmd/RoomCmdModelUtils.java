@@ -15,6 +15,7 @@ import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdSendGiftModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdUpMicModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.order.RoomCmdOrderOperateModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.order.RoomCmdUserOrderModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKAgainModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKAnswerModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKChangeGameModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKFinishModel;
@@ -151,6 +152,17 @@ public class RoomCmdModelUtils {
      */
     public static String buildCmdPkRemoveRival() {
         RoomCmdPKRemoveRivalModel command = new RoomCmdPKRemoveRivalModel(getSendUser());
+        return command.toJson();
+    }
+
+    /**
+     * 构建信令:跨房PK，再来一轮PK
+     */
+    public static String buildCmdPkAgain(UserInfo srcUser, UserInfo destUser, String pkId) {
+        RoomCmdPKAgainModel command = new RoomCmdPKAgainModel(getSendUser());
+        command.srcUser = srcUser;
+        command.destUser = destUser;
+        command.pkId = pkId;
         return command.toJson();
     }
     // endregion 跨房pK

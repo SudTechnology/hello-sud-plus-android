@@ -17,6 +17,7 @@ import tech.sud.mgp.hello.service.room.response.RoomPkStartResp;
 import tech.sud.mgp.hello.ui.main.constant.GameIdCons;
 import tech.sud.mgp.hello.ui.main.home.model.RoomItemModel;
 import tech.sud.mgp.hello.ui.scenes.base.activity.RoomConfig;
+import tech.sud.mgp.hello.ui.scenes.base.manager.SceneCommandManager.PKAgainCommandListener;
 import tech.sud.mgp.hello.ui.scenes.base.manager.SceneCommandManager.PKAnswerCommandListener;
 import tech.sud.mgp.hello.ui.scenes.base.manager.SceneCommandManager.PKChangeGameCommandListener;
 import tech.sud.mgp.hello.ui.scenes.base.manager.SceneCommandManager.PKFinishCommandListener;
@@ -30,9 +31,11 @@ import tech.sud.mgp.hello.ui.scenes.base.manager.SceneCommandManager.PKStartComm
 import tech.sud.mgp.hello.ui.scenes.base.model.GameTextModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoleType;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
+import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomServiceCallback;
 import tech.sud.mgp.hello.ui.scenes.base.utils.HSJsonUtils;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.RoomCmdModelUtils;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKAgainModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKAnswerModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKChangeGameModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKFinishModel;
@@ -70,6 +73,7 @@ public class SceneRoomPkManager extends BaseServiceManager {
         parentManager.sceneEngineManager.setCommandListener(pkRemoveRivalCommandListener);
         parentManager.sceneEngineManager.setCommandListener(pkSettleCommandListener);
         parentManager.sceneEngineManager.setCommandListener(pkRivalExitCommandListener);
+        parentManager.sceneEngineManager.setCommandListener(pkAgainCommandListener);
     }
 
     public void enterRoom(RoomConfig config, RoomInfoModel model) {
@@ -213,6 +217,58 @@ public class SceneRoomPkManager extends BaseServiceManager {
 
         // 本地移除
         localRemovePkRival();
+    }
+
+    /** 再来一轮PK */
+    public void roomPkAgain(RoomPkAgreeResp roomPkAgreeResp) {
+        RoomPkRoomInfo pkRival = getPkRival();
+        if (pkRival == null || roomPkModel == null || roomPkModel.srcRoomInfo == null || roomPkModel.destRoomInfo == null) {
+            return;
+        }
+        // 发送信令
+        UserInfo srcUser = new UserInfo();
+        srcUser.icon = roomPkModel.srcRoomInfo.roomOwnerHeader + "";
+        srcUser.name = roomPkModel.srcRoomInfo.roomOwnerNickname + "";
+        srcUser.roomID = roomPkModel.srcRoomInfo.roomId + "";
+        UserInfo destUser = new UserInfo();
+        destUser.icon = roomPkModel.destRoomInfo.roomOwnerHeader + "";
+        destUser.name = roomPkModel.destRoomInfo.roomOwnerNickname + "";
+        destUser.roomID = roomPkModel.destRoomInfo.roomId + "";
+        String command = RoomCmdModelUtils.buildCmdPkAgain(srcUser, destUser, roomPkAgreeResp.pkId + "");
+        sendCommand(command);
+        sendXRoomCommand(pkRival.roomId + "", command);
+
+        // 本地状态刷新
+        roomPkModel.pkId = roomPkAgreeResp.pkId;
+        roomPkModel.pkStatus = PkStatus.MATCHED;
+        roomPkModel.srcRoomInfo.score = 0;
+        roomPkModel.destRoomInfo.score = 0;
+        callbackUpdateRoomPk();
+    }
+
+    /** 接收到再来一轮pk 的信令 */
+    private void onRecvAgainCommand(RoomCmdPKAgainModel model) {
+        long roomId = parentManager.getRoomId();
+        initRoomPkModel();
+        if (model.srcUser != null) {
+            roomPkModel.srcRoomInfo.setRoomId(model.srcUser.roomID);
+            roomPkModel.srcRoomInfo.score = 0;
+            roomPkModel.srcRoomInfo.roomOwnerHeader = model.srcUser.icon;
+            roomPkModel.srcRoomInfo.roomOwnerNickname = model.srcUser.name;
+            roomPkModel.srcRoomInfo.isInitiator = true;
+            roomPkModel.srcRoomInfo.isSelfRoom = roomId == roomPkModel.srcRoomInfo.roomId;
+        }
+        if (model.destUser != null) {
+            roomPkModel.destRoomInfo.setRoomId(model.destUser.roomID);
+            roomPkModel.destRoomInfo.score = 0;
+            roomPkModel.destRoomInfo.roomOwnerHeader = model.destUser.icon;
+            roomPkModel.destRoomInfo.roomOwnerNickname = model.destUser.name;
+            roomPkModel.destRoomInfo.isInitiator = false;
+            roomPkModel.destRoomInfo.isSelfRoom = roomId == roomPkModel.destRoomInfo.roomId;
+        }
+        roomPkModel.setPkId(model.pkId);
+        roomPkModel.pkStatus = PkStatus.MATCHED;
+        callbackUpdateRoomPk();
     }
 
     /** 跨房pk，发送邀请 */
@@ -441,6 +497,14 @@ public class SceneRoomPkManager extends BaseServiceManager {
         @Override
         public void onRecvCommand(RoomCmdPKRemoveRivalModel command, String userID) {
             localRemovePkRival();
+        }
+    };
+
+    /** 跨房PK，再来一轮PK 监听 */
+    private final PKAgainCommandListener pkAgainCommandListener = new PKAgainCommandListener() {
+        @Override
+        public void onRecvCommand(RoomCmdPKAgainModel model, String userID) {
+            onRecvAgainCommand(model);
         }
     };
 

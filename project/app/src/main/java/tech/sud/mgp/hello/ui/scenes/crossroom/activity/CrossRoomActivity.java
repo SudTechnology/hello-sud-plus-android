@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer;
 import com.blankj.utilcode.util.ClickUtils;
 import com.blankj.utilcode.util.ToastUtils;
 
+import tech.sud.mgp.hello.BuildConfig;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
@@ -20,6 +21,7 @@ import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
 import tech.sud.mgp.hello.service.game.repository.GameRepository;
 import tech.sud.mgp.hello.service.room.model.PkStatus;
+import tech.sud.mgp.hello.service.room.response.RoomPkAgreeResp;
 import tech.sud.mgp.hello.service.room.response.RoomPkModel;
 import tech.sud.mgp.hello.service.room.response.RoomPkRoomInfo;
 import tech.sud.mgp.hello.ui.common.utils.LifecycleUtils;
@@ -141,7 +143,28 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
     protected void setListeners() {
         super.setListeners();
         setClickListeners();
+        setGameLiveListeners();
         setLiveListeners();
+    }
+
+    private void setLiveListeners() {
+        roomPkInfoView.setPkCountdownFinishListener(new RoomPkInfoView.PkCountdownFinishListener() {
+            @Override
+            public void onPkCountdownFinish() {
+                RoomPkModel roomPkModel = roomInfoModel.roomPkModel;
+                if (roomPkModel == null || roomPkModel.pkStatus != PkStatus.STARTED) return;
+                roomPkModel.pkStatus = PkStatus.PK_END;
+                onRoomPkUpdate();
+            }
+        });
+        viewModel.againPkLiveData.observe(this, new Observer<RoomPkAgreeResp>() {
+            @Override
+            public void onChanged(RoomPkAgreeResp roomPkAgreeResp) {
+                if (binder != null) {
+                    binder.roomPkAgain(roomPkAgreeResp);
+                }
+            }
+        });
     }
 
     private void setClickListeners() {
@@ -285,20 +308,12 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
         });
     }
 
-    private void setLiveListeners() {
+    /** 设置游戏相关的事件 */
+    private void setGameLiveListeners() {
         gameViewModel.clickStartBtnLiveData.observe(this, new Observer<Object>() {
             @Override
             public void onChanged(Object o) {
                 clickStartGame();
-            }
-        });
-        roomPkInfoView.setPkCountdownFinishListener(new RoomPkInfoView.PkCountdownFinishListener() {
-            @Override
-            public void onPkCountdownFinish() {
-                RoomPkModel roomPkModel = roomInfoModel.roomPkModel;
-                if (roomPkModel == null || roomPkModel.pkStatus != PkStatus.STARTED) return;
-                roomPkModel.pkStatus = PkStatus.PK_END;
-                onRoomPkUpdate();
             }
         });
     }
@@ -430,18 +445,35 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
     @Override
     public void onClick(View v) {
         if (v == tvOpenPk) { // 开启匹配
-            if (binder != null) {
-                binder.roomPkSwitch(true);
-            }
+            clickStartMatch();
         } else if (v == tvStartPk) { // 开始pk
             clickStartPk();
         } else if (v == tvRenewPk) { // 重新开始pk
-
+            clickAgainPk();
         } else if (v == tvPkSettings) {
             clickPkSettings();
         } else if (v == tvSelectGame) {
             clickSelectGame();
         }
+    }
+
+    /** 点击了打开pk */
+    private void clickStartMatch() {
+        if (binder != null) {
+            binder.roomPkSwitch(true);
+        }
+    }
+
+    /** 再来一次PK */
+    private void clickAgainPk() {
+        if (BuildConfig.DEBUG) {
+            if (binder != null) {
+                RoomPkAgreeResp roomPkAgreeResp = new RoomPkAgreeResp();
+                roomPkAgreeResp.pkId = roomInfoModel.roomPkModel.pkId;
+                binder.roomPkAgain(roomPkAgreeResp);
+            }
+        }
+        viewModel.againPk(this, roomInfoModel);
     }
 
     /** 点击pk设置 */

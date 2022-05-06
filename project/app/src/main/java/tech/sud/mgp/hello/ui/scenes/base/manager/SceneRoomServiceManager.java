@@ -90,8 +90,16 @@ public class SceneRoomServiceManager extends BaseServiceManager {
         sceneRoomPkManager.onDestroy();
     }
 
+    /** 设置回调 */
     public void setCallback(SceneRoomServiceCallback callback) {
         sceneRoomServiceCallback = callback;
+    }
+
+    /** 移除回调 */
+    public void removeCallback(SceneRoomServiceCallback callback) {
+        if (sceneRoomServiceCallback == callback) {
+            sceneRoomServiceCallback = null;
+        }
     }
 
     public SceneRoomServiceCallback getCallback() {

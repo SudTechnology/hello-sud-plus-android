@@ -17,6 +17,7 @@ import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdSendGiftModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdUpMicModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.order.RoomCmdOrderOperateModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.order.RoomCmdUserOrderModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKAgainModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKAnswerModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKChangeGameModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKFinishModel;
@@ -102,6 +103,9 @@ public class SceneCommandManager extends BaseServiceManager {
                 break;
             case RoomCmd.CMD_ROOM_PK_REMOVE_RIVAL: // 跨房PK，移除对手
                 dispatchCommand(commandCmd, RoomCmdPKRemoveRivalModel.fromJson(command), userID);
+                break;
+            case RoomCmd.CMD_ROOM_PK_AGAIN: // 跨房PK，再来一轮PK
+                dispatchCommand(commandCmd, RoomCmdPKAgainModel.fromJson(command), userID);
                 break;
             case RoomCmd.CMD_ROOM_PK_SETTLE: // 跨房pk游戏结算消息通知
                 dispatchCommand(commandCmd, RoomCmdPKSettleModel.fromJson(command), userID);
@@ -199,6 +203,11 @@ public class SceneCommandManager extends BaseServiceManager {
                         ((PKRemoveRivalCommandListener) listener).onRecvCommand((RoomCmdPKRemoveRivalModel) model, fromUserID);
                     }
                     break;
+                case RoomCmd.CMD_ROOM_PK_AGAIN: // 跨房PK，再来一轮PK
+                    if (listener instanceof PKAgainCommandListener) {
+                        ((PKAgainCommandListener) listener).onRecvCommand((RoomCmdPKAgainModel) model, fromUserID);
+                    }
+                    break;
                 case RoomCmd.CMD_ROOM_PK_SETTLE: // 跨房pk游戏结算消息通知
                     if (listener instanceof PKSettleCommandListener) {
                         ((PKSettleCommandListener) listener).onRecvCommand((RoomCmdPKSettleModel) model, fromUserID);
@@ -293,6 +302,10 @@ public class SceneCommandManager extends BaseServiceManager {
 
     interface PKRemoveRivalCommandListener extends ICommandListener {
         void onRecvCommand(RoomCmdPKRemoveRivalModel model, String userID);
+    }
+
+    interface PKAgainCommandListener extends ICommandListener {
+        void onRecvCommand(RoomCmdPKAgainModel model, String userID);
     }
 
     interface PKSettleCommandListener extends ICommandListener {

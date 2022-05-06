@@ -16,6 +16,7 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
 import java.util.ArrayList;
 
+import tech.sud.mgp.hello.BuildConfig;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.app.APPConfig;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
@@ -95,6 +96,9 @@ public class PkSettingsDialog extends BaseDialogFragment implements View.OnClick
     protected void initData() {
         super.initData();
         ArrayList<Integer> list = new ArrayList<>();
+        if (BuildConfig.DEBUG) {
+            list.add(1);
+        }
         list.add(5);
         list.add(15);
         list.add(30);

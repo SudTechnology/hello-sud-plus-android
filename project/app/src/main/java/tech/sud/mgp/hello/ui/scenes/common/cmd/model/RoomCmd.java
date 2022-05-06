@@ -51,6 +51,9 @@ public class RoomCmd {
     /** 跨房PK，移除对手 */
     public static final int CMD_ROOM_PK_REMOVE_RIVAL = 10107;
 
+    /** 再来一轮PK */
+    public static final int CMD_ROOM_PK_AGAIN = 10108;
+
     /** 跨房pk游戏结算消息通知 */
     public static final int CMD_ROOM_PK_SETTLE = 20000;
 

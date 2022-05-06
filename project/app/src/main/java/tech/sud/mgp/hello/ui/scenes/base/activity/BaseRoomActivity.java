@@ -910,6 +910,7 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
         roomInfoModel.gameId = gameId;
         gameViewModel.switchGame(this, getGameRoomId(), gameId);
         updatePageStyle();
+        updateStatusBar();
         updateGameNumber();
         if (binder != null) {
             binder.updateMicList();
@@ -1006,7 +1007,7 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
     // 释放绑定的服务
     private void releaseService() {
         if (binder != null) {
-            binder.setCallback(null);
+            binder.removeCallback(this);
             unbindService(serviceConnection);
             binder = null;
         }

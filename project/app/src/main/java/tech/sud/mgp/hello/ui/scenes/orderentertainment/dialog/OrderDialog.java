@@ -2,7 +2,6 @@ package tech.sud.mgp.hello.ui.scenes.orderentertainment.dialog;
 
 import android.os.Bundle;
 import android.view.Gravity;
-import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -21,7 +20,6 @@ import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
-import tech.sud.mgp.hello.common.utils.ResponseUtils;
 import tech.sud.mgp.hello.service.main.manager.HomeManager;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.main.resp.GameModel;
@@ -234,8 +232,6 @@ public class OrderDialog extends BaseDialogFragment {
                 super.onNext(t);
                 if (t.getRetCode() == RetCode.SUCCESS) {
                     coinTv.setText(t.getData().coin + "");
-                } else {
-                    ToastUtils.showShort(ResponseUtils.conver(t));
                 }
             }
         });

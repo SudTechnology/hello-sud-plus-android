@@ -115,6 +115,10 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
         tvPkSettings.setText(R.string.pk_settings);
         tvPkSettings.setBackgroundResource(R.drawable.shape_room_top_btn_bg);
         topView.addCustomView(tvPkSettings, (LinearLayout.LayoutParams) tvPkSettings.getLayoutParams());
+
+        giftContainer.bringToFront();
+        inputMsgView.bringToFront();
+        clOpenMic.bringToFront();
     }
 
     private TextView createTopTextView(int maxWidth, int paddingHorizontal, int textColor, int marginEnd) {

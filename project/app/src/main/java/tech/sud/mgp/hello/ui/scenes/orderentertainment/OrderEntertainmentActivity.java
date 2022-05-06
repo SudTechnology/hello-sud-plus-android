@@ -59,15 +59,13 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
         //修改游戏容器位置以及大小
         ConstraintLayout.LayoutParams cparams = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0);
         cparams.topToBottom = R.id.room_top_view;
-        cparams.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID;
-        cparams.bottomMargin = DensityUtils.dp2px(150);
-        int childCount = orderRootView.getChildCount();
-        //把游戏view插入到giftview之前，后面的view需要展示再游戏view1之前
-        if (childCount > 8 && giftContainer == orderRootView.getChildAt(7)) {
-            orderRootView.addView(gameContainer, 7, cparams);
-        } else {
-            orderRootView.addView(gameContainer, cparams);
-        }
+        cparams.bottomToTop = R.id.room_bottom_view;
+        cparams.bottomMargin = DensityUtils.dp2px(106);
+        orderRootView.addView(gameContainer, cparams);
+
+        giftContainer.bringToFront();
+        inputMsgView.bringToFront();
+        clOpenMic.bringToFront();
     }
 
     private void addTopBtn() {

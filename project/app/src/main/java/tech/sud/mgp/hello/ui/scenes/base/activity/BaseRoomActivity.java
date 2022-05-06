@@ -83,7 +83,7 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
     protected RoomInputMsgView inputMsgView;
     protected FrameLayout gameContainer;
     protected TextView tvGameNumber;
-    private View clOpenMic;
+    protected View clOpenMic;
     private TextView tvOpenMic;
     private TextView tvASRHint;
 

@@ -240,57 +240,8 @@ Go to homepage to create one~</string>
     <string name="app_version_update_btn2">Update now</string>
     <string name="ticket_level_notice">Congrats to %1$s for winning %2$s gold in the Intermediate Stage!</string>
 
-    <!-- region 新增 -->
-    <string name="unable_to_speak">当前不能发言</string>
-    <string name="no_empty_seat">没有空位啦</string>
-    <string name="more_settings">更多设置</string>
-    <string name="create_ticket_room_title">选择创建的门票场次级别</string>
-    <string name="take_first_place">夺得第一名</string>
-    <string name="high_gold_coin_award">最高可获得%1$d金币奖励</string>
-    <string name="transfer_captain">转让队长</string>
-    <string name="kick_game">踢出游戏</string>
-    <string name="net_error_hint">网络错误，请检查网络连接</string>
-    <string name="switched_language">已切换语言</string>
-    <string name="order_title">我要点单</string>
-    <string name="order_dialog_title">选择麦上用户</string>
-    <string name="order_dialog_sub_title">指定麦上主播和你一起玩</string>
-    <string name="order_btn">下单去玩</string>
-    <string name="order_selected_total">已选定%1$d人</string>
-    <string name="order_price">%1$d/局/人</string>
-    <string name="dialog_scene_title">所有场景</string>
-    <string name="hang_room">挂起房间</string>
-    <string name="exit_room">退出房间</string>
-    <string name="floating_permission_info">暂未开启悬浮窗权限，打开后才可使用小窗哦</string>
-    <string name="go_setting">去设置</string>
-    <string name="order_price_text">200/局/人</string>
-    <string name="close_game_warn">需先结束游戏，才可关闭游戏</string>
-    <string name="switch_game_warn">需先结束游戏，才可切换游戏</string>
-    <string name="order_invite_conent">%1$s \n希望和你一起玩【%2$s】\n是否加入</string>
-    <string name="order_invite_right_btn">加入</string>
-    <string name="order_invite_left_btn">拒绝</string>
-    <string name="order_result_conent">%1$s 拒绝您的邀请，是否继续和其他主播一起玩？</string>
-    <string name="order_finish_conent">此单已结束，是否继续和其他主播一起玩？</string>
-    <string name="order_finish_left_text">返回</string>
-    <string name="order_finish_right_text">去下单</string>
-
-    <string name="game_api_in_title">加入游戏</string>
-    <string name="game_api_in_state">app_common_self_in，"isIn": true</string>
-    <string name="game_api_ready_title">准备</string>
-    <string name="game_api_ready_state">app_common_self_ready，"isReady": true</string>
-    <string name="game_api_ready_title_cancle">取消准备</string>
-    <string name="game_api_ready_state_cancle">app_common_self_ready，"isReady": false</string>
-    <string name="game_api_in_title_false">退出游戏</string>
-    <string name="game_api_in_state_false">app_common_self_in，"isIn": false</string>
-    <string name="game_api_playing_title">开始游戏</string>
-    <string name="game_api_playing_state">app_common_self_playing， "isPlaying": true</string>
-    <string name="game_api_playing_title_false">逃跑</string>
-    <string name="game_api_playing_state_false">app_common_self_playing， "isPlaying": false</string>
-    <string name="game_api_end_title_false">解散游戏（队长）</string>
-    <string name="game_api_end_state_false">app_common_self_end，{}</string>
-    <string name="game_config_title">游戏配置</string>
-    <string name="game_config_tip">修改配置后请退出房间，重新加载游戏</string>
-
-    <string name="custom_config_game_system">游戏系统</string>
+    <!-- region 没有翻译完 -->
+    <string name="custom_config_game_system">Game system</string>
     <string name="custom_config_game_cpu">The CPU power dissipation of the game</string>
     <string name="custom_config_game_cpu_subtitle">(gameCPU)</string>
     <string name="custom_config_game_cpu0">0: normal</string>
@@ -372,6 +323,58 @@ Go to homepage to create one~</string>
     <string name="custom_config_game_block_change_seat_custom_subtitle">(ui.block_change_seat.custom)</string>
     <string name="custom_config_game_block_change_seat_custom_false">false: player seats can be changed</string>
     <string name="custom_config_game_block_change_seat_custom_true">true: player seats cannot be changed</string>
+    <!-- endregion 没有翻译完 -->
+
+    
+    <!-- region 新增 -->
+    <string name="unable_to_speak">当前不能发言</string>
+    <string name="no_empty_seat">没有空位啦</string>
+    <string name="more_settings">更多设置</string>
+    <string name="create_ticket_room_title">选择创建的门票场次级别</string>
+    <string name="take_first_place">夺得第一名</string>
+    <string name="high_gold_coin_award">最高可获得%1$d金币奖励</string>
+    <string name="transfer_captain">转让队长</string>
+    <string name="kick_game">踢出游戏</string>
+    <string name="net_error_hint">网络错误，请检查网络连接</string>
+    <string name="switched_language">已切换语言</string>
+    <string name="order_title">我要点单</string>
+    <string name="order_dialog_title">选择麦上用户</string>
+    <string name="order_dialog_sub_title">指定麦上主播和你一起玩</string>
+    <string name="order_btn">下单去玩</string>
+    <string name="order_selected_total">已选定%1$d人</string>
+    <string name="order_price">%1$d/局/人</string>
+    <string name="dialog_scene_title">所有场景</string>
+    <string name="hang_room">挂起房间</string>
+    <string name="exit_room">退出房间</string>
+    <string name="floating_permission_info">暂未开启悬浮窗权限，打开后才可使用小窗哦</string>
+    <string name="go_setting">去设置</string>
+    <string name="order_price_text">200/局/人</string>
+    <string name="close_game_warn">需先结束游戏，才可关闭游戏</string>
+    <string name="switch_game_warn">需先结束游戏，才可切换游戏</string>
+    <string name="order_invite_conent">%1$s \n希望和你一起玩【%2$s】\n是否加入</string>
+    <string name="order_invite_right_btn">加入</string>
+    <string name="order_invite_left_btn">拒绝</string>
+    <string name="order_result_conent">%1$s 拒绝您的邀请，是否继续和其他主播一起玩？</string>
+    <string name="order_finish_conent">此单已结束，是否继续和其他主播一起玩？</string>
+    <string name="order_finish_left_text">返回</string>
+    <string name="order_finish_right_text">去下单</string>
+
+    <string name="game_api_in_title">加入游戏</string>
+    <string name="game_api_in_state">app_common_self_in，"isIn": true</string>
+    <string name="game_api_ready_title">准备</string>
+    <string name="game_api_ready_state">app_common_self_ready，"isReady": true</string>
+    <string name="game_api_ready_title_cancle">取消准备</string>
+    <string name="game_api_ready_state_cancle">app_common_self_ready，"isReady": false</string>
+    <string name="game_api_in_title_false">退出游戏</string>
+    <string name="game_api_in_state_false">app_common_self_in，"isIn": false</string>
+    <string name="game_api_playing_title">开始游戏</string>
+    <string name="game_api_playing_state">app_common_self_playing， "isPlaying": true</string>
+    <string name="game_api_playing_title_false">逃跑</string>
+    <string name="game_api_playing_state_false">app_common_self_playing， "isPlaying": false</string>
+    <string name="game_api_end_title_false">解散游戏（队长）</string>
+    <string name="game_api_end_state_false">app_common_self_end，{}</string>
+    <string name="game_config_title">游戏配置</string>
+    <string name="game_config_tip">修改配置后请退出房间，重新加载游戏</string>
 
     <string name="dialog_game_stage">游戏阶段</string>
     <string name="dialog_game_api">API接口</string>

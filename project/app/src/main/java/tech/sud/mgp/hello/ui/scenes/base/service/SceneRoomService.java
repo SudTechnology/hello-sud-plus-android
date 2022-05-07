@@ -212,13 +212,9 @@ public class SceneRoomService extends Service {
             serviceManager.sceneRoomPkManager.roomPkSwitch(pkSwitch);
         }
 
-        /**
-         * 跨房pk，开始
-         *
-         * @param minute 分钟数
-         */
-        public void roomPkStart(int minute) {
-            serviceManager.sceneRoomPkManager.roomPkStart(minute);
+        /** 跨房pk，开始 */
+        public void roomPkStart() {
+            serviceManager.sceneRoomPkManager.roomPkStart();
         }
 
         /** 跨房pk，发送邀请 */

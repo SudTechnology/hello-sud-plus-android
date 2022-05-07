@@ -169,6 +169,30 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
                 }
             }
         });
+        viewModel.roomPkSwitchLiveData.observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if (binder != null) {
+                    binder.roomPkSwitch(aBoolean);
+                }
+            }
+        });
+        viewModel.roomPkStartLiveData.observe(this, new Observer<Object>() {
+            @Override
+            public void onChanged(Object o) {
+                if (binder != null) {
+                    binder.roomPkStart();
+                }
+            }
+        });
+        viewModel.roomPkSettingsLiveData.observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer minute) {
+                if (binder != null) {
+                    binder.roomPkSettings(minute);
+                }
+            }
+        });
     }
 
     private void setClickListeners() {
@@ -192,10 +216,14 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
         roomPkInfoView.setPkRivalOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (roomInfoModel.roleType == RoleType.OWNER) {
-                    intentRemovePkRival();
+                if (getPkStatus() == PkStatus.MATCHING) {
+                    showInviteDialog();
                 } else {
-                    intentEnterPkRivalRoom();
+                    if (roomInfoModel.roleType == RoleType.OWNER) {
+                        intentRemovePkRival();
+                    } else {
+                        intentEnterPkRivalRoom();
+                    }
                 }
             }
         });
@@ -463,9 +491,7 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
 
     /** 点击了打开pk */
     private void clickStartMatch() {
-        if (binder != null) {
-            binder.roomPkSwitch(true);
-        }
+        viewModel.roomPkSwitch(this, roomInfoModel.roomId, true);
     }
 
     /** 再来一次PK */
@@ -487,9 +513,7 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
         dialog.setClosePkOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (binder != null) {
-                    binder.roomPkSwitch(false);
-                }
+                viewModel.roomPkSwitch(context, roomInfoModel.roomId, false);
             }
         });
         if (roomInfoModel.roomPkModel != null) {
@@ -498,9 +522,7 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
         dialog.setOnSelectedListener(new PkSettingsDialog.OnSelectedListener() {
             @Override
             public void onSelected(int minute, PkSettingsDialog.SettingsMode mode) {
-                if (binder != null) {
-                    binder.roomPkSettings(minute);
-                }
+                viewModel.roomPkSettings(context, roomInfoModel, minute);
             }
         });
         dialog.show(getSupportFragmentManager(), null);
@@ -520,9 +542,7 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
         dialog.setClosePkOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (binder != null) {
-                    binder.roomPkSwitch(false);
-                }
+                viewModel.roomPkSwitch(context, roomInfoModel.roomId, false);
             }
         });
         if (roomInfoModel.roomPkModel != null) {
@@ -531,9 +551,7 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
         dialog.setOnSelectedListener(new PkSettingsDialog.OnSelectedListener() {
             @Override
             public void onSelected(int minute, PkSettingsDialog.SettingsMode mode) {
-                if (binder != null) {
-                    binder.roomPkStart(minute);
-                }
+                viewModel.roomPkStart(context, roomInfoModel, minute);
             }
         });
         dialog.show(getSupportFragmentManager(), null);

@@ -13,7 +13,6 @@ import tech.sud.mgp.hello.service.room.repository.RoomRepository;
 import tech.sud.mgp.hello.service.room.response.RoomPkAgreeResp;
 import tech.sud.mgp.hello.service.room.response.RoomPkModel;
 import tech.sud.mgp.hello.service.room.response.RoomPkRoomInfo;
-import tech.sud.mgp.hello.service.room.response.RoomPkStartResp;
 import tech.sud.mgp.hello.ui.main.constant.GameIdCons;
 import tech.sud.mgp.hello.ui.main.home.model.RoomItemModel;
 import tech.sud.mgp.hello.ui.scenes.base.activity.RoomConfig;
@@ -102,30 +101,24 @@ public class SceneRoomPkManager extends BaseServiceManager {
 
     /** 跨房pk，开启匹配或者关闭Pk了 */
     public void roomPkSwitch(boolean pkSwitch) {
-        RoomRepository.roomPkSwitch(null, parentManager.getRoomId(), pkSwitch, new RxCallback<Object>() {
-            @Override
-            public void onSuccess(Object o) {
-                super.onSuccess(o);
-                initRoomPkModel();
-                if (pkSwitch) {
-                    if (roomPkModel.pkStatus == PkStatus.MATCH_CLOSED) {
-                        sendCommand(RoomCmdModelUtils.buildCmdPkOpenMatch());
-                        roomPkModel.pkStatus = PkStatus.MATCHING;
-                        callbackUpdateRoomPk();
-                    }
-                } else {
-                    String command = RoomCmdModelUtils.buildCmdPkFinish();
-                    sendCommand(command);
-                    RoomPkRoomInfo pkRival = getPkRival();
-                    if (pkRival != null) {
-                        sendXRoomCommand(pkRival.roomId + "", command);
-                    }
-
-                    // 更新本地状态
-                    setPkStatusClosed();
-                }
+        initRoomPkModel();
+        if (pkSwitch) { // 开启匹配
+            if (roomPkModel.pkStatus == PkStatus.MATCH_CLOSED) {
+                sendCommand(RoomCmdModelUtils.buildCmdPkOpenMatch());
+                roomPkModel.pkStatus = PkStatus.MATCHING;
+                callbackUpdateRoomPk();
             }
-        });
+        } else { // 关闭跨房pk
+            String command = RoomCmdModelUtils.buildCmdPkFinish();
+            sendCommand(command);
+            RoomPkRoomInfo pkRival = getPkRival();
+            if (pkRival != null) {
+                sendXRoomCommand(pkRival.roomId + "", command);
+            }
+
+            // 更新本地状态
+            setPkStatusClosed();
+        }
     }
 
     /** 更新本地的pk状态为关闭了跨房pk */
@@ -136,33 +129,20 @@ public class SceneRoomPkManager extends BaseServiceManager {
     }
 
     /** 跨房pk，开始 */
-    public void roomPkStart(int minute) {
+    public void roomPkStart() {
         if (roomPkModel == null || getPkStatus() != PkStatus.MATCHED) return;
         RoomPkRoomInfo pkRival = getPkRival();
         if (pkRival == null) return;
-        roomPkModel.totalMinute = minute;
-        // 发送http请求
-        RoomRepository.roomPkStart(null, parentManager.getRoomId(), roomPkModel.totalMinute,
-                new RxCallback<RoomPkStartResp>() {
-                    @Override
-                    public void onSuccess(RoomPkStartResp resp) {
-                        super.onSuccess(resp);
-                        if (resp == null || getPkStatus() != PkStatus.MATCHED) return;
 
-                        roomPkModel.pkId = resp.pkId;
+        // 发送信令
+        String command = RoomCmdModelUtils.buildCmdPkStart(roomPkModel.totalMinute, roomPkModel.pkId + "");
+        sendCommand(command);
+        sendXRoomCommand(pkRival.roomId + "", command);
 
-                        // 发送信令
-                        String command = RoomCmdModelUtils.buildCmdPkStart(roomPkModel.totalMinute, resp.pkId + "");
-                        sendCommand(command);
-                        sendXRoomCommand(pkRival.roomId + "", command);
-
-                        // 本地开始
-                        roomPkModel.pkStatus = PkStatus.STARTED;
-                        roomPkModel.remainSecond = roomPkModel.totalMinute * 60;
-                        callbackUpdateRoomPk();
-                    }
-                }
-        );
+        // 本地开始
+        roomPkModel.pkStatus = PkStatus.STARTED;
+        roomPkModel.remainSecond = roomPkModel.totalMinute * 60;
+        callbackUpdateRoomPk();
     }
 
     /**
@@ -174,27 +154,17 @@ public class SceneRoomPkManager extends BaseServiceManager {
         if (roomPkModel == null || getPkStatus() != PkStatus.STARTED) return;
         RoomPkRoomInfo pkRival = getPkRival();
         if (pkRival == null) return;
-        // 发送http请求
-        RoomRepository.roomPkDuration(null, parentManager.getRoomId(), minute,
-                new RxCallback<Object>() {
-                    @Override
-                    public void onSuccess(Object resp) {
-                        super.onSuccess(resp);
-                        if (getPkStatus() != PkStatus.STARTED) return;
 
-                        roomPkModel.totalMinute = minute;
+        roomPkModel.totalMinute = minute;
 
-                        // 发送信令
-                        String command = RoomCmdModelUtils.buildCmdPkSettings(minute);
-                        sendCommand(command);
-                        sendXRoomCommand(pkRival.roomId + "", command);
+        // 发送信令
+        String command = RoomCmdModelUtils.buildCmdPkSettings(minute);
+        sendCommand(command);
+        sendXRoomCommand(pkRival.roomId + "", command);
 
-                        // 本地数据刷新
-                        roomPkModel.remainSecond = minute * 60;
-                        callbackUpdateRoomPk();
-                    }
-                }
-        );
+        // 本地数据刷新
+        roomPkModel.remainSecond = minute * 60;
+        callbackUpdateRoomPk();
     }
 
     /** 移除pk对手 */
@@ -273,7 +243,7 @@ public class SceneRoomPkManager extends BaseServiceManager {
 
     /** 跨房pk，发送邀请 */
     public void roomPkInvite(RoomItemModel model) {
-        if (model == null) return;
+        if (model == null || getPkStatus() != PkStatus.MATCHING) return;
         initRoomPkModel();
         sendXRoomCommand(model.getRoomId() + "", RoomCmdModelUtils.buildCmdPkSendInvite(roomPkModel.totalMinute));
     }
@@ -290,6 +260,9 @@ public class SceneRoomPkManager extends BaseServiceManager {
     public void roomPkAnswer(RoomCmdPKSendInviteModel model, boolean isAccept) {
         if (model == null || model.sendUser == null) return;
         if (isAccept) {
+            if (getPkStatus() != PkStatus.MATCHING) {
+                return;
+            }
             // 发送http请求
             RoomRepository.roomPkAgree(null, model.sendUser.getRoomId(), parentManager.getRoomId(),
                     new RxCallback<RoomPkAgreeResp>() {

@@ -15,6 +15,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.blankj.utilcode.util.ToastUtils;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseFragment;
@@ -37,7 +38,7 @@ public class RoomListFragment extends BaseFragment {
     private ImageView headerIv;
     private RecyclerView roomRecyclerView;
     private RoomListAdapter adapter;
-    private SwipeRefreshLayout roomRefreshLayout;
+    private SmartRefreshLayout refreshLayout;
 
     public RoomListFragment() {
     }
@@ -61,8 +62,10 @@ public class RoomListFragment extends BaseFragment {
         useridTv = mRootView.findViewById(R.id.userid_tv);
         headerIv = mRootView.findViewById(R.id.header_iv);
         roomRecyclerView = mRootView.findViewById(R.id.room_rv);
-        roomRefreshLayout = mRootView.findViewById(R.id.room_refresh_layout);
+        refreshLayout = mRootView.findViewById(R.id.room_refresh_layout);
         emptyTv = mRootView.findViewById(R.id.empty_tv);
+        refreshLayout.setEnableRefresh(true);
+        refreshLayout.setEnableLoadMore(false);
     }
 
     @Override
@@ -117,8 +120,7 @@ public class RoomListFragment extends BaseFragment {
             EnterRoomUtils.enterRoom(requireContext(), this.adapter.getItem(position).getRoomId());
         });
         goSearch.setOnClickListener(v -> enterRoom());
-        roomRefreshLayout.setOnRefreshListener(this::loadList);
-
+        refreshLayout.setOnRefreshListener(refreshLayout -> loadList());
         headerIv.setOnClickListener(v -> {
             new CoinDialog().show(getChildFragmentManager(), null);
         });
@@ -163,8 +165,9 @@ public class RoomListFragment extends BaseFragment {
             @Override
             public void onFinally() {
                 super.onFinally();
-                if (roomRefreshLayout.isRefreshing()) {
-                    roomRefreshLayout.setRefreshing(false);
+                if (refreshLayout.isRefreshing()) {
+                    refreshLayout.finishRefresh();
+                    refreshLayout.finishLoadMore();
                 }
             }
 

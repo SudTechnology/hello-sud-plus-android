@@ -1,9 +1,27 @@
 package tech.sud.mgp.hello.ui.scenes.base.manager;
 
-import com.blankj.utilcode.util.Utils;
+import androidx.annotation.NonNull;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LifecycleRegistry;
 
+import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.ThreadUtils;
+import com.blankj.utilcode.util.Utils;
+import com.trello.rxlifecycle4.LifecycleTransformer;
+import com.trello.rxlifecycle4.RxLifecycle;
+
+import io.reactivex.rxjava3.subjects.BehaviorSubject;
+import tech.sud.mgp.hello.BuildConfig;
 import tech.sud.mgp.hello.R;
+import tech.sud.mgp.hello.common.http.param.BaseResponse;
+import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
+import tech.sud.mgp.hello.common.utils.lifecycle.CustomLifecycleEvent;
+import tech.sud.mgp.hello.common.utils.lifecycle.CustomLifecycleProvider;
+import tech.sud.mgp.hello.service.main.repository.HomeRepository;
+import tech.sud.mgp.hello.service.main.resp.RoomListResp;
+import tech.sud.mgp.hello.ui.main.constant.SceneType;
 import tech.sud.mgp.hello.ui.scenes.base.activity.RoomConfig;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoleType;
@@ -16,7 +34,10 @@ import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdEnterRoomModel;
 /**
  * 房间主要业务逻辑
  */
-public class SceneRoomServiceManager extends BaseServiceManager {
+public class SceneRoomServiceManager extends BaseServiceManager implements CustomLifecycleProvider, LifecycleOwner {
+
+    private final BehaviorSubject<CustomLifecycleEvent> lifecycleSubject = BehaviorSubject.create();
+    private final LifecycleRegistry lifecycleRegistry = new LifecycleRegistry(this);
 
     private SceneRoomServiceCallback sceneRoomServiceCallback;
     private RoomInfoModel roomInfoModel;
@@ -34,6 +55,8 @@ public class SceneRoomServiceManager extends BaseServiceManager {
     @Override
     public void onCreate() {
         super.onCreate();
+        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_CREATE);
+        lifecycleSubject.onNext(CustomLifecycleEvent.CREATE);
         sceneEngineManager.onCreate();
         sceneChatManager.onCreate();
         sceneMicManager.onCreate();
@@ -80,6 +103,8 @@ public class SceneRoomServiceManager extends BaseServiceManager {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY);
+        lifecycleSubject.onNext(CustomLifecycleEvent.DESTROY);
         sceneEngineManager.onDestroy();
         sceneChatManager.onDestroy();
         sceneMicManager.onDestroy();
@@ -139,6 +164,37 @@ public class SceneRoomServiceManager extends BaseServiceManager {
         sceneEngineManager.enterRoom(config, model);
         sceneMicManager.enterRoom(config, model);
         sceneRoomPkManager.enterRoom(config, model);
+        if (BuildConfig.DEBUG) {
+            test();
+        }
+    }
+
+    private void test() {
+        HomeRepository.roomList(this, SceneType.CROSS_ROOM, new RxCallback<RoomListResp>() {
+            @Override
+            public void onSuccess(RoomListResp roomListResp) {
+                super.onSuccess(roomListResp);
+                LogUtils.d("test:onSuccess");
+                ThreadUtils.runOnUiThreadDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        test();
+                    }
+                }, 1000);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                LogUtils.d("test:onError");
+            }
+
+            @Override
+            public void onNext(BaseResponse<RoomListResp> t) {
+                super.onNext(t);
+                LogUtils.d("test:onNext");
+            }
+        });
     }
 
     /** 回调页面数据 */
@@ -195,6 +251,17 @@ public class SceneRoomServiceManager extends BaseServiceManager {
     /** 退出房间 */
     public void exitRoom() {
         sceneMicManager.exitRoom();
+    }
+
+    @Override
+    public <T> LifecycleTransformer<T> bindToLifecycle() {
+        return RxLifecycle.bindUntilEvent(lifecycleSubject, CustomLifecycleEvent.DESTROY);
+    }
+
+    @NonNull
+    @Override
+    public Lifecycle getLifecycle() {
+        return lifecycleRegistry;
     }
 
     /** 进入房间完成的回调,用于childManager */

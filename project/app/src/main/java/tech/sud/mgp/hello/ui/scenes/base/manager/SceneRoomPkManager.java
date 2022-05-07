@@ -264,7 +264,7 @@ public class SceneRoomPkManager extends BaseServiceManager {
                 return;
             }
             // 发送http请求
-            RoomRepository.roomPkAgree(null, model.sendUser.getRoomId(), parentManager.getRoomId(),
+            RoomRepository.roomPkAgree(parentManager, model.sendUser.getRoomId(), parentManager.getRoomId(),
                     new RxCallback<RoomPkAgreeResp>() {
                         @Override
                         public void onSuccess(RoomPkAgreeResp resp) {

@@ -15,7 +15,6 @@ import java.util.List;
 
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.service.room.repository.RoomRepository;
-import tech.sud.mgp.hello.service.room.response.RoomPkAgreeResp;
 import tech.sud.mgp.hello.ui.common.utils.channel.NotifyId;
 import tech.sud.mgp.hello.ui.main.home.model.RoomItemModel;
 import tech.sud.mgp.hello.ui.scenes.base.activity.RoomConfig;
@@ -213,8 +212,8 @@ public class SceneRoomService extends Service {
         }
 
         /** 跨房pk，开始 */
-        public void roomPkStart() {
-            serviceManager.sceneRoomPkManager.roomPkStart();
+        public void roomPkStart(int minute) {
+            serviceManager.sceneRoomPkManager.roomPkStart(minute);
         }
 
         /** 跨房pk，发送邀请 */
@@ -247,8 +246,8 @@ public class SceneRoomService extends Service {
         }
 
         /** 再来一轮PK */
-        public void roomPkAgain(RoomPkAgreeResp roomPkAgreeResp) {
-            serviceManager.sceneRoomPkManager.roomPkAgain(roomPkAgreeResp);
+        public void roomPkAgain() {
+            serviceManager.sceneRoomPkManager.roomPkAgain();
         }
     }
 

@@ -5,23 +5,15 @@ import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LifecycleRegistry;
 
-import com.blankj.utilcode.util.LogUtils;
-import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.Utils;
 import com.trello.rxlifecycle4.LifecycleTransformer;
 import com.trello.rxlifecycle4.RxLifecycle;
 
 import io.reactivex.rxjava3.subjects.BehaviorSubject;
-import tech.sud.mgp.hello.BuildConfig;
 import tech.sud.mgp.hello.R;
-import tech.sud.mgp.hello.common.http.param.BaseResponse;
-import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.lifecycle.CustomLifecycleEvent;
 import tech.sud.mgp.hello.common.utils.lifecycle.CustomLifecycleProvider;
-import tech.sud.mgp.hello.service.main.repository.HomeRepository;
-import tech.sud.mgp.hello.service.main.resp.RoomListResp;
-import tech.sud.mgp.hello.ui.main.constant.SceneType;
 import tech.sud.mgp.hello.ui.scenes.base.activity.RoomConfig;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoleType;
@@ -164,37 +156,6 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
         sceneEngineManager.enterRoom(config, model);
         sceneMicManager.enterRoom(config, model);
         sceneRoomPkManager.enterRoom(config, model);
-        if (BuildConfig.DEBUG) {
-            test();
-        }
-    }
-
-    private void test() {
-        HomeRepository.roomList(this, SceneType.CROSS_ROOM, new RxCallback<RoomListResp>() {
-            @Override
-            public void onSuccess(RoomListResp roomListResp) {
-                super.onSuccess(roomListResp);
-                LogUtils.d("test:onSuccess");
-                ThreadUtils.runOnUiThreadDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        test();
-                    }
-                }, 1000);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                super.onError(e);
-                LogUtils.d("test:onError");
-            }
-
-            @Override
-            public void onNext(BaseResponse<RoomListResp> t) {
-                super.onNext(t);
-                LogUtils.d("test:onNext");
-            }
-        });
     }
 
     /** 回调页面数据 */

@@ -15,6 +15,7 @@ import tech.sud.mgp.hello.service.room.req.RoomOrderCreateReq;
 import tech.sud.mgp.hello.service.room.req.RoomOrderReceiveReq;
 import tech.sud.mgp.hello.service.room.req.RoomPkAgreeReq;
 import tech.sud.mgp.hello.service.room.req.RoomPkDurationReq;
+import tech.sud.mgp.hello.service.room.req.RoomPkRemoveRivalReq;
 import tech.sud.mgp.hello.service.room.req.RoomPkStartReq;
 import tech.sud.mgp.hello.service.room.req.RoomPkSwitchReq;
 import tech.sud.mgp.hello.service.room.response.EnterRoomResp;
@@ -88,5 +89,11 @@ public interface AudioRequestMethod {
      */
     @POST(RequestUrl.ROOM_PK_AGREE)
     Observable<BaseResponse<RoomPkAgreeResp>> roomPkAgree(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body RoomPkAgreeReq req);
+
+    /**
+     * 移除pk对手
+     */
+    @POST(RequestUrl.ROOM_PK_REMOVE_RIVAL)
+    Observable<BaseResponse<Object>> roomPkRemoveRival(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body RoomPkRemoveRivalReq req);
 
 }

@@ -12,7 +12,6 @@ import androidx.lifecycle.Observer;
 import com.blankj.utilcode.util.ClickUtils;
 import com.blankj.utilcode.util.ToastUtils;
 
-import tech.sud.mgp.hello.BuildConfig;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
@@ -21,7 +20,6 @@ import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
 import tech.sud.mgp.hello.service.game.repository.GameRepository;
 import tech.sud.mgp.hello.service.room.model.PkStatus;
-import tech.sud.mgp.hello.service.room.response.RoomPkAgreeResp;
 import tech.sud.mgp.hello.service.room.response.RoomPkModel;
 import tech.sud.mgp.hello.service.room.response.RoomPkRoomInfo;
 import tech.sud.mgp.hello.ui.common.utils.LifecycleUtils;
@@ -159,38 +157,6 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
                 if (roomPkModel == null || roomPkModel.pkStatus != PkStatus.STARTED) return;
                 roomPkModel.pkStatus = PkStatus.PK_END;
                 onRoomPkUpdate();
-            }
-        });
-        viewModel.againPkLiveData.observe(this, new Observer<RoomPkAgreeResp>() {
-            @Override
-            public void onChanged(RoomPkAgreeResp roomPkAgreeResp) {
-                if (binder != null) {
-                    binder.roomPkAgain(roomPkAgreeResp);
-                }
-            }
-        });
-        viewModel.roomPkSwitchLiveData.observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean aBoolean) {
-                if (binder != null) {
-                    binder.roomPkSwitch(aBoolean);
-                }
-            }
-        });
-        viewModel.roomPkStartLiveData.observe(this, new Observer<Object>() {
-            @Override
-            public void onChanged(Object o) {
-                if (binder != null) {
-                    binder.roomPkStart();
-                }
-            }
-        });
-        viewModel.roomPkSettingsLiveData.observe(this, new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer minute) {
-                if (binder != null) {
-                    binder.roomPkSettings(minute);
-                }
             }
         });
     }
@@ -491,19 +457,16 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
 
     /** 点击了打开pk */
     private void clickStartMatch() {
-        viewModel.roomPkSwitch(this, roomInfoModel.roomId, true);
+        if (binder != null) {
+            binder.roomPkSwitch(true);
+        }
     }
 
     /** 再来一次PK */
     private void clickAgainPk() {
-        if (BuildConfig.DEBUG) {
-            if (binder != null) {
-                RoomPkAgreeResp roomPkAgreeResp = new RoomPkAgreeResp();
-                roomPkAgreeResp.pkId = roomInfoModel.roomPkModel.pkId;
-                binder.roomPkAgain(roomPkAgreeResp);
-            }
+        if (binder != null) {
+            binder.roomPkAgain();
         }
-        viewModel.againPk(this, roomInfoModel);
     }
 
     /** 点击pk设置 */
@@ -513,7 +476,9 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
         dialog.setClosePkOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                viewModel.roomPkSwitch(context, roomInfoModel.roomId, false);
+                if (binder != null) {
+                    binder.roomPkSwitch(false);
+                }
             }
         });
         if (roomInfoModel.roomPkModel != null) {
@@ -522,7 +487,9 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
         dialog.setOnSelectedListener(new PkSettingsDialog.OnSelectedListener() {
             @Override
             public void onSelected(int minute, PkSettingsDialog.SettingsMode mode) {
-                viewModel.roomPkSettings(context, roomInfoModel, minute);
+                if (binder != null) {
+                    binder.roomPkSettings(minute);
+                }
             }
         });
         dialog.show(getSupportFragmentManager(), null);
@@ -542,7 +509,9 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
         dialog.setClosePkOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                viewModel.roomPkSwitch(context, roomInfoModel.roomId, false);
+                if (binder != null) {
+                    binder.roomPkSwitch(false);
+                }
             }
         });
         if (roomInfoModel.roomPkModel != null) {
@@ -551,7 +520,9 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
         dialog.setOnSelectedListener(new PkSettingsDialog.OnSelectedListener() {
             @Override
             public void onSelected(int minute, PkSettingsDialog.SettingsMode mode) {
-                viewModel.roomPkStart(context, roomInfoModel, minute);
+                if (binder != null) {
+                    binder.roomPkStart(minute);
+                }
             }
         });
         dialog.show(getSupportFragmentManager(), null);

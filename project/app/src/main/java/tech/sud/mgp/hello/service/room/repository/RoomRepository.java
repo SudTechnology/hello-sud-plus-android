@@ -17,6 +17,7 @@ import tech.sud.mgp.hello.service.room.req.RoomOrderCreateReq;
 import tech.sud.mgp.hello.service.room.req.RoomOrderReceiveReq;
 import tech.sud.mgp.hello.service.room.req.RoomPkAgreeReq;
 import tech.sud.mgp.hello.service.room.req.RoomPkDurationReq;
+import tech.sud.mgp.hello.service.room.req.RoomPkRemoveRivalReq;
 import tech.sud.mgp.hello.service.room.req.RoomPkStartReq;
 import tech.sud.mgp.hello.service.room.req.RoomPkSwitchReq;
 import tech.sud.mgp.hello.service.room.response.EnterRoomResp;
@@ -192,6 +193,20 @@ public class RoomRepository {
         req.destRoomId = destRoomId;
         AudioRequestMethodFactory.getMethod()
                 .roomPkAgree(BaseUrlManager.getInteractBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /**
+     * 跨房pk移除pk对手
+     *
+     * @param roomId 房间Id
+     */
+    public static void roomPkRemoveRival(LifecycleOwner owner, long roomId, RxCallback<Object> callback) {
+        RoomPkRemoveRivalReq req = new RoomPkRemoveRivalReq();
+        req.roomId = roomId;
+        AudioRequestMethodFactory.getMethod()
+                .roomPkRemoveRival(BaseUrlManager.getInteractBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }

@@ -69,7 +69,7 @@ public class SceneMicManager extends BaseServiceManager {
 
     /** 从后端拉取麦位列表并且更新 */
     private void refreshMicList() {
-        RoomRepository.getRoomMicList(null, parentManager.getRoomId(), new RxCallback<RoomMicListResp>() {
+        RoomRepository.getRoomMicList(parentManager, parentManager.getRoomId(), new RxCallback<RoomMicListResp>() {
             @Override
             public void onNext(BaseResponse<RoomMicListResp> t) {
                 super.onNext(t);
@@ -103,7 +103,7 @@ public class SceneMicManager extends BaseServiceManager {
                     userIds.add(roomMicResp.userId);
                     list.add(AudioRoomMicModelConverter.conver(roomMicResp));
                 }
-                UserInfoRepository.getUserInfoList(null, userIds, new UserInfoRepository.UserInfoResultListener() {
+                UserInfoRepository.getUserInfoList(parentManager, userIds, new UserInfoRepository.UserInfoResultListener() {
                     @Override
                     public void userInfoList(List<UserInfoResp> userInfos) {
                         if (userInfos != null) {
@@ -179,7 +179,7 @@ public class SceneMicManager extends BaseServiceManager {
         }
 
         // 发送http告知后端
-        RoomRepository.roomMicLocationSwitch(null, parentManager.getRoomId(), micIndex, true, new RxCallback<RoomMicSwitchResp>() {
+        RoomRepository.roomMicLocationSwitch(parentManager, parentManager.getRoomId(), micIndex, true, new RxCallback<RoomMicSwitchResp>() {
             @Override
             public void onSuccess(RoomMicSwitchResp roomMicSwitchResp) {
                 super.onSuccess(roomMicSwitchResp);
@@ -218,7 +218,7 @@ public class SceneMicManager extends BaseServiceManager {
      */
     public void downMicLocation(int micIndex, OperateMicType type) {
         // 发送http告知后端
-        RoomRepository.roomMicLocationSwitch(null, parentManager.getRoomId(), micIndex, false, new RxCallback<>());
+        RoomRepository.roomMicLocationSwitch(parentManager, parentManager.getRoomId(), micIndex, false, new RxCallback<>());
 
         // 发送信令
         String command = RoomCmdModelUtils.buildDownMicCommand(micIndex);
@@ -258,7 +258,7 @@ public class SceneMicManager extends BaseServiceManager {
             } else {
                 List<Long> userIds = new ArrayList<>();
                 userIds.add(userId);
-                UserInfoRepository.getUserInfoList(null, userIds, new UserInfoRepository.UserInfoResultListener() {
+                UserInfoRepository.getUserInfoList(parentManager, userIds, new UserInfoRepository.UserInfoResultListener() {
                     @Override
                     public void userInfoList(List<UserInfoResp> userInfos) {
                         if (userInfos != null) {

@@ -75,5 +75,9 @@ public interface RequestUrl {
 
     /** 同意PK */
     String ROOM_PK_AGREE = "room/pk/agree/v1";
+
+    /** 移除pk对手 */
+    String ROOM_PK_REMOVE_RIVAL = "room/pk/remove/v1";
+
     // endregion 房间pk
 }

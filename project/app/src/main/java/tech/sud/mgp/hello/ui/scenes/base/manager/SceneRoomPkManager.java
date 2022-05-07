@@ -13,6 +13,7 @@ import tech.sud.mgp.hello.service.room.repository.RoomRepository;
 import tech.sud.mgp.hello.service.room.response.RoomPkAgreeResp;
 import tech.sud.mgp.hello.service.room.response.RoomPkModel;
 import tech.sud.mgp.hello.service.room.response.RoomPkRoomInfo;
+import tech.sud.mgp.hello.service.room.response.RoomPkStartResp;
 import tech.sud.mgp.hello.ui.main.constant.GameIdCons;
 import tech.sud.mgp.hello.ui.main.home.model.RoomItemModel;
 import tech.sud.mgp.hello.ui.scenes.base.activity.RoomConfig;
@@ -101,24 +102,31 @@ public class SceneRoomPkManager extends BaseServiceManager {
 
     /** 跨房pk，开启匹配或者关闭Pk了 */
     public void roomPkSwitch(boolean pkSwitch) {
-        initRoomPkModel();
-        if (pkSwitch) { // 开启匹配
-            if (roomPkModel.pkStatus == PkStatus.MATCH_CLOSED) {
-                sendCommand(RoomCmdModelUtils.buildCmdPkOpenMatch());
-                roomPkModel.pkStatus = PkStatus.MATCHING;
-                callbackUpdateRoomPk();
-            }
-        } else { // 关闭跨房pk
-            String command = RoomCmdModelUtils.buildCmdPkFinish();
-            sendCommand(command);
-            RoomPkRoomInfo pkRival = getPkRival();
-            if (pkRival != null) {
-                sendXRoomCommand(pkRival.roomId + "", command);
-            }
+        // 发送http请求
+        RoomRepository.roomPkSwitch(parentManager, parentManager.getRoomId(), pkSwitch, new RxCallback<Object>() {
+            @Override
+            public void onSuccess(Object o) {
+                super.onSuccess(o);
+                initRoomPkModel();
+                if (pkSwitch) { // 开启匹配
+                    if (roomPkModel.pkStatus == PkStatus.MATCH_CLOSED) {
+                        sendCommand(RoomCmdModelUtils.buildCmdPkOpenMatch());
+                        roomPkModel.pkStatus = PkStatus.MATCHING;
+                        callbackUpdateRoomPk();
+                    }
+                } else { // 关闭跨房pk
+                    String command = RoomCmdModelUtils.buildCmdPkFinish();
+                    sendCommand(command);
+                    RoomPkRoomInfo pkRival = getPkRival();
+                    if (pkRival != null) {
+                        sendXRoomCommand(pkRival.roomId + "", command);
+                    }
 
-            // 更新本地状态
-            setPkStatusClosed();
-        }
+                    // 更新本地状态
+                    setPkStatusClosed();
+                }
+            }
+        });
     }
 
     /** 更新本地的pk状态为关闭了跨房pk */
@@ -129,20 +137,38 @@ public class SceneRoomPkManager extends BaseServiceManager {
     }
 
     /** 跨房pk，开始 */
-    public void roomPkStart() {
+    public void roomPkStart(int minute) {
         if (roomPkModel == null || getPkStatus() != PkStatus.MATCHED) return;
         RoomPkRoomInfo pkRival = getPkRival();
         if (pkRival == null) return;
 
-        // 发送信令
-        String command = RoomCmdModelUtils.buildCmdPkStart(roomPkModel.totalMinute, roomPkModel.pkId + "");
-        sendCommand(command);
-        sendXRoomCommand(pkRival.roomId + "", command);
+        long pkRivalRoomId = pkRival.roomId;
+        // 发送http请求
+        RoomRepository.roomPkStart(parentManager, parentManager.getRoomId(), minute,
+                new RxCallback<RoomPkStartResp>() {
+                    @Override
+                    public void onSuccess(RoomPkStartResp resp) {
+                        super.onSuccess(resp);
+                        if (resp == null || roomPkModel.pkStatus != PkStatus.MATCHED
+                                || roomPkModel.getPkRival() == null
+                                || roomPkModel.getPkRival().roomId != pkRivalRoomId) {
+                            return;
+                        }
 
-        // 本地开始
-        roomPkModel.pkStatus = PkStatus.STARTED;
-        roomPkModel.remainSecond = roomPkModel.totalMinute * 60;
-        callbackUpdateRoomPk();
+                        roomPkModel.pkId = resp.pkId;
+                        roomPkModel.totalMinute = minute;
+                        // 发送信令
+                        String command = RoomCmdModelUtils.buildCmdPkStart(roomPkModel.totalMinute, roomPkModel.pkId + "");
+                        sendCommand(command);
+                        sendXRoomCommand(pkRival.roomId + "", command);
+
+                        // 本地开始
+                        roomPkModel.pkStatus = PkStatus.STARTED;
+                        roomPkModel.remainSecond = roomPkModel.totalMinute * 60;
+                        callbackUpdateRoomPk();
+                    }
+                }
+        );
     }
 
     /**
@@ -155,16 +181,27 @@ public class SceneRoomPkManager extends BaseServiceManager {
         RoomPkRoomInfo pkRival = getPkRival();
         if (pkRival == null) return;
 
-        roomPkModel.totalMinute = minute;
+        // 发送http请求
+        RoomRepository.roomPkDuration(parentManager, parentManager.getRoomId(), minute,
+                new RxCallback<Object>() {
+                    @Override
+                    public void onSuccess(Object resp) {
+                        super.onSuccess(resp);
+                        if (roomPkModel == null || roomPkModel.pkStatus != PkStatus.STARTED) return;
 
-        // 发送信令
-        String command = RoomCmdModelUtils.buildCmdPkSettings(minute);
-        sendCommand(command);
-        sendXRoomCommand(pkRival.roomId + "", command);
+                        roomPkModel.totalMinute = minute;
 
-        // 本地数据刷新
-        roomPkModel.remainSecond = minute * 60;
-        callbackUpdateRoomPk();
+                        // 发送信令
+                        String command = RoomCmdModelUtils.buildCmdPkSettings(minute);
+                        sendCommand(command);
+                        sendXRoomCommand(pkRival.roomId + "", command);
+
+                        // 本地数据刷新
+                        roomPkModel.remainSecond = minute * 60;
+                        callbackUpdateRoomPk();
+                    }
+                }
+        );
     }
 
     /** 移除pk对手 */
@@ -177,43 +214,66 @@ public class SceneRoomPkManager extends BaseServiceManager {
         }
         RoomPkRoomInfo pkRival = roomPkModel.getPkRival();
         if (pkRival == null) return;
+
+        // TODO: 2022/5/7 等待后端接口
         // 发送http请求
-        // TODO: 2022/5/5 待后端添加接口
+        RoomRepository.roomPkRemoveRival(parentManager, parentManager.getRoomId(), new RxCallback<Object>() {
+            @Override
+            public void onSuccess(Object o) {
+                super.onSuccess(o);
 
-        // 发送信令
-        String command = RoomCmdModelUtils.buildCmdPkRemoveRival();
-        sendCommand(command);
-        sendXRoomCommand(pkRival.roomId + "", command);
+                // 发送信令
+                String command = RoomCmdModelUtils.buildCmdPkRemoveRival();
+                sendCommand(command);
+                sendXRoomCommand(pkRival.roomId + "", command);
 
-        // 本地移除
-        localRemovePkRival();
+                // 本地移除
+                localRemovePkRival();
+            }
+        });
     }
 
     /** 再来一轮PK */
-    public void roomPkAgain(RoomPkAgreeResp roomPkAgreeResp) {
+    public void roomPkAgain() {
         RoomPkRoomInfo pkRival = getPkRival();
-        if (pkRival == null || roomPkModel == null || roomPkModel.srcRoomInfo == null || roomPkModel.destRoomInfo == null) {
+        if (pkRival == null || roomPkModel == null || roomPkModel.srcRoomInfo == null
+                || roomPkModel.destRoomInfo == null || getPkStatus() != PkStatus.PK_END) {
             return;
         }
-        // 发送信令
-        UserInfo srcUser = new UserInfo();
-        srcUser.icon = roomPkModel.srcRoomInfo.roomOwnerHeader + "";
-        srcUser.name = roomPkModel.srcRoomInfo.roomOwnerNickname + "";
-        srcUser.roomID = roomPkModel.srcRoomInfo.roomId + "";
-        UserInfo destUser = new UserInfo();
-        destUser.icon = roomPkModel.destRoomInfo.roomOwnerHeader + "";
-        destUser.name = roomPkModel.destRoomInfo.roomOwnerNickname + "";
-        destUser.roomID = roomPkModel.destRoomInfo.roomId + "";
-        String command = RoomCmdModelUtils.buildCmdPkAgain(srcUser, destUser, roomPkAgreeResp.pkId + "");
-        sendCommand(command);
-        sendXRoomCommand(pkRival.roomId + "", command);
 
-        // 本地状态刷新
-        roomPkModel.pkId = roomPkAgreeResp.pkId;
-        roomPkModel.pkStatus = PkStatus.MATCHED;
-        roomPkModel.srcRoomInfo.score = 0;
-        roomPkModel.destRoomInfo.score = 0;
-        callbackUpdateRoomPk();
+        // 再来一轮pk
+        RoomRepository.roomPkAgree(parentManager, roomPkModel.srcRoomInfo.roomId,
+                roomPkModel.destRoomInfo.roomId, new RxCallback<RoomPkAgreeResp>() {
+                    @Override
+                    public void onSuccess(RoomPkAgreeResp roomPkAgreeResp) {
+                        super.onSuccess(roomPkAgreeResp);
+                        if (roomPkAgreeResp == null || roomPkModel == null || roomPkModel.getPkRival() == null
+                                || roomPkModel.srcRoomInfo == null || roomPkModel.destRoomInfo == null
+                                || roomPkModel.pkStatus != PkStatus.PK_END) {
+                            return;
+                        }
+
+                        // 发送信令
+                        UserInfo srcUser = new UserInfo();
+                        srcUser.icon = roomPkModel.srcRoomInfo.roomOwnerHeader + "";
+                        srcUser.name = roomPkModel.srcRoomInfo.roomOwnerNickname + "";
+                        srcUser.roomID = roomPkModel.srcRoomInfo.roomId + "";
+                        UserInfo destUser = new UserInfo();
+                        destUser.icon = roomPkModel.destRoomInfo.roomOwnerHeader + "";
+                        destUser.name = roomPkModel.destRoomInfo.roomOwnerNickname + "";
+                        destUser.roomID = roomPkModel.destRoomInfo.roomId + "";
+                        String command = RoomCmdModelUtils.buildCmdPkAgain(srcUser, destUser, roomPkAgreeResp.pkId + "");
+                        sendCommand(command);
+                        sendXRoomCommand(pkRival.roomId + "", command);
+
+                        // 本地状态刷新
+                        roomPkModel.pkId = roomPkAgreeResp.pkId;
+                        roomPkModel.pkStatus = PkStatus.MATCHED;
+                        roomPkModel.srcRoomInfo.score = 0;
+                        roomPkModel.destRoomInfo.score = 0;
+                        callbackUpdateRoomPk();
+                    }
+                });
     }
 
     /** 接收到再来一轮pk 的信令 */

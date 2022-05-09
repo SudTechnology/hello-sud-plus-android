@@ -43,8 +43,9 @@ public class RoomPkModel implements Serializable {
         if (srcRoomInfo != null && !srcRoomInfo.isSelfRoom) {
             srcRoomInfo = null;
             if (destRoomInfo != null) { // 把自己移到发起方的位置
+                destRoomInfo.isInitiator = true;
+                destRoomInfo.score = 0;
                 srcRoomInfo = destRoomInfo;
-                srcRoomInfo.isInitiator = true;
                 destRoomInfo = null;
             }
         }

@@ -85,6 +85,7 @@ public class GameViewModel implements SudFSMMGListener {
             return;
         }
         destroyMG();
+        this.gameRoomId = gameRoomId;
         playingGameId = gameId;
         login(activity, gameId);
     }

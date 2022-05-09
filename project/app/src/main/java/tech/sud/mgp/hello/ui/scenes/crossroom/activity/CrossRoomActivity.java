@@ -447,7 +447,7 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
         } else if (v == tvStartPk) { // 开始pk
             clickStartPk();
         } else if (v == tvRenewPk) { // 重新开始pk
-            clickAgainPk();
+            clickStartPk();
         } else if (v == tvPkSettings) {
             clickPkSettings();
         } else if (v == tvSelectGame) {

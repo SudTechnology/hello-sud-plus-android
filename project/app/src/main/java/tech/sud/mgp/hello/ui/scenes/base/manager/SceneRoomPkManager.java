@@ -138,7 +138,7 @@ public class SceneRoomPkManager extends BaseServiceManager {
 
     /** 跨房pk，开始 */
     public void roomPkStart(int minute) {
-        if (roomPkModel == null || getPkStatus() != PkStatus.MATCHED) return;
+        if (roomPkModel == null || (getPkStatus() != PkStatus.MATCHED && getPkStatus() != PkStatus.PK_END)) return;
         RoomPkRoomInfo pkRival = getPkRival();
         if (pkRival == null) return;
 
@@ -149,7 +149,7 @@ public class SceneRoomPkManager extends BaseServiceManager {
                     @Override
                     public void onSuccess(RoomPkStartResp resp) {
                         super.onSuccess(resp);
-                        if (resp == null || roomPkModel.pkStatus != PkStatus.MATCHED
+                        if (resp == null || (getPkStatus() != PkStatus.MATCHED && getPkStatus() != PkStatus.PK_END)
                                 || roomPkModel.getPkRival() == null
                                 || roomPkModel.getPkRival().roomId != pkRivalRoomId) {
                             return;

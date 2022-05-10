@@ -63,8 +63,8 @@ public class IMRoomManager {
         mISudAudioEventListener = null;
     }
 
-    public void joinRoom(String roomID, String userID, String userName, String token, boolean isCreateRoom) {
-        ZIMManager.sharedInstance().joinRoom(roomID, userID, userName, token, isCreateRoom);
+    public void joinRoom(String roomID, String userID, String userName, String token) {
+        ZIMManager.sharedInstance().joinRoom(roomID, userID, userName, token);
     }
 
     public void leaveRoom() {

@@ -102,7 +102,7 @@ public class ZIMManager {
         mRoomID = null;
     }
 
-    public void joinRoom(String roomID, String userID, String userName, String token, boolean isCreateRoom) {
+    public void joinRoom(String roomID, String userID, String userName, String token) {
         if (zim == null) {
             return;
         }

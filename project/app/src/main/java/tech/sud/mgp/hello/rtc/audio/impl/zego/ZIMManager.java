@@ -6,18 +6,20 @@ import android.util.Log;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import im.zego.zim.ZIM;
 import im.zego.zim.callback.ZIMEventHandler;
 import im.zego.zim.callback.ZIMLoggedInCallback;
 import im.zego.zim.callback.ZIMMessageSentCallback;
-import im.zego.zim.callback.ZIMRoomCreatedCallback;
+import im.zego.zim.callback.ZIMRoomEnteredCallback;
 import im.zego.zim.callback.ZIMRoomJoinedCallback;
 import im.zego.zim.callback.ZIMRoomLeftCallback;
 import im.zego.zim.entity.ZIMCommandMessage;
 import im.zego.zim.entity.ZIMError;
 import im.zego.zim.entity.ZIMMessage;
 import im.zego.zim.entity.ZIMMessageSendConfig;
+import im.zego.zim.entity.ZIMRoomAdvancedConfig;
 import im.zego.zim.entity.ZIMRoomFullInfo;
 import im.zego.zim.entity.ZIMRoomInfo;
 import im.zego.zim.entity.ZIMTextMessage;
@@ -72,13 +74,13 @@ public class ZIMManager {
                     if (zimMessage instanceof ZIMTextMessage) {
                         ZIMTextMessage zimTextMessage = (ZIMTextMessage) zimMessage;
                         if (receiveRoomMessageCallback != null && mRoomID.equals(fromRoomID)) {
-                            receiveRoomMessageCallback.onReceiveRoomMessage(fromRoomID, zimTextMessage.senderUserID, zimTextMessage.message);
+                            receiveRoomMessageCallback.onReceiveRoomMessage(fromRoomID, zimTextMessage.getSenderUserID(), zimTextMessage.message);
                         }
                     } else if (zimMessage instanceof ZIMCommandMessage) {
                         ZIMCommandMessage zimCommandMessage = (ZIMCommandMessage)zimMessage;
                         if (receiveRoomMessageCallback != null && mRoomID.equals(fromRoomID)) {
                             String command = new String(zimCommandMessage.message);
-                            receiveRoomMessageCallback.onReceiveRoomMessage(fromRoomID, zimCommandMessage.senderUserID, command);
+                            receiveRoomMessageCallback.onReceiveRoomMessage(fromRoomID, zimCommandMessage.getSenderUserID(), command);
                         }
                     }
                 }
@@ -114,49 +116,23 @@ public class ZIMManager {
             @Override
             public void onLoggedIn(ZIMError errorInfo) {
                 if (errorInfo.code == ZIMErrorCode.SUCCESS || errorInfo.code == ZIMErrorCode.USER_HAS_ALREADY_LOGGED) {
-                    if (isCreateRoom) {
-                        zim.joinRoom(roomID, new ZIMRoomJoinedCallback() {
-                            @Override
-                            public void onRoomJoined(ZIMRoomFullInfo roomInfo, ZIMError errorInfo) {
-                                Log.i(kTag, "joinRoom: " + errorInfo.code);
-                                if (errorInfo.code == ZIMErrorCode.SUCCESS) {
-                                    mRoomID = roomID;
-                                }
 
-                                switch (errorInfo.code) {
-                                    case ROOM_SERVER_ERROR:
-                                    case ROOM_COMMON_ERROR:
-                                    case JOIN_ROOM_ERROR:
-                                    case ROOM_DOES_NOT_EXIST:
-                                    {
-                                        ZIMRoomInfo zimRoomInfo = new ZIMRoomInfo();
-                                        zimRoomInfo.roomID = roomID;
-                                        zimRoomInfo.roomName = roomID;
+                    ZIMRoomInfo zimRoomInfo = new ZIMRoomInfo();
+                    zimRoomInfo.roomID = roomID;
+                    zimRoomInfo.roomName = roomID;
 
-                                        zim.createRoom(zimRoomInfo, new ZIMRoomCreatedCallback() {
-                                            @Override
-                                            public void onRoomCreated(ZIMRoomFullInfo roomInfo, ZIMError errorInfo) {
-                                                if (errorInfo.code == ZIMErrorCode.SUCCESS) {
-                                                    mRoomID = roomID;
-                                                }
-                                            }
-                                        });
-                                        break;
-                                    }
-                                }
+                    ZIMRoomAdvancedConfig zimRoomAdvancedConfig = new ZIMRoomAdvancedConfig();
+                    zimRoomAdvancedConfig.roomAttributes = new HashMap<String, String>();
+
+                    zim.enterRoom(zimRoomInfo, zimRoomAdvancedConfig, new ZIMRoomEnteredCallback() {
+                        @Override
+                        public void onRoomEntered(ZIMRoomFullInfo roomInfo, ZIMError errorInfo) {
+                            Log.i(kTag, "enterRoom: " + errorInfo.code);
+                            if (errorInfo.code == ZIMErrorCode.SUCCESS) {
+                                mRoomID = roomID;
                             }
-                        });
-                    } else {
-                        zim.joinRoom(roomID, new ZIMRoomJoinedCallback() {
-                            @Override
-                            public void onRoomJoined(ZIMRoomFullInfo roomInfo, ZIMError errorInfo) {
-                                Log.i(kTag, "joinRoom: " + errorInfo.code);
-                                if (errorInfo.code == ZIMErrorCode.SUCCESS) {
-                                    mRoomID = roomID;
-                                }
-                            }
-                        });
-                    }
+                        }
+                    });
                 }
             }
         });

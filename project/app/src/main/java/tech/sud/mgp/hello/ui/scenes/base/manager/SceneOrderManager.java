@@ -32,7 +32,7 @@ public class SceneOrderManager extends BaseServiceManager {
     public void onDestroy() {
         super.onDestroy();
         parentManager.sceneEngineManager.removeCommandListener(userOrderCommandListener);
-        parentManager.sceneEngineManager.setCommandListener(orderResultCommandListener);
+        parentManager.sceneEngineManager.removeCommandListener(orderResultCommandListener);
     }
 
     public void broadcastOrder(long orderId, long gameId, String gameName, List<String> toUsers) {

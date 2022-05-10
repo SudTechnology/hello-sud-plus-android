@@ -25,12 +25,11 @@ import tech.sud.mgp.hello.service.main.resp.GameModel;
 import tech.sud.mgp.hello.service.main.resp.SceneModel;
 import tech.sud.mgp.hello.ui.main.constant.SceneType;
 import tech.sud.mgp.hello.ui.main.home.adapter.GameAdapter;
-import tech.sud.mgp.hello.ui.main.home.view.GameItemView;
 import tech.sud.mgp.hello.ui.scenes.custom.CustomConfigActivity;
 
 public class HomeRoomTypeView extends ConstraintLayout {
     private TextView sceneNameTv, creatRoomTv;
-    private ImageView sceneIv,customConfigIv;
+    private ImageView sceneIv, customConfigIv;
     private RecyclerView gameRecyclerview;
 
     private GameAdapter gameAdapter;
@@ -83,7 +82,7 @@ public class HomeRoomTypeView extends ConstraintLayout {
         customConfigIv.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (sceneModel.getSceneId() == SceneType.CUSTOM_SCENE){
+                if (sceneModel.getSceneId() == SceneType.CUSTOM_SCENE) {
                     getContext().startActivity(new Intent(getContext(), CustomConfigActivity.class));
                 }
             }
@@ -95,9 +94,9 @@ public class HomeRoomTypeView extends ConstraintLayout {
         if (!TextUtils.isEmpty(sceneModel.getSceneName())) {
             sceneNameTv.setText(sceneModel.getSceneName());
         }
-        if (sceneModel.getSceneId() == SceneType.CUSTOM_SCENE){
+        if (sceneModel.getSceneId() == SceneType.CUSTOM_SCENE) {
             customConfigIv.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             customConfigIv.setVisibility(View.GONE);
         }
         if (!TextUtils.isEmpty(sceneModel.getSceneImageNew())) {
@@ -120,9 +119,11 @@ public class HomeRoomTypeView extends ConstraintLayout {
                 gameItemListener.onGameClick(sceneModel, model);
             }
         });
+        gameRecyclerview.setHasFixedSize(true);//解决ScrollView嵌套RecyclerView滑动卡顿和加载不全的问题
+        gameRecyclerview.setNestedScrollingEnabled(false);
+        gameRecyclerview.setVisibility(View.VISIBLE);
         gameRecyclerview.setLayoutManager(new GridLayoutManager(getContext(), 3));
         gameRecyclerview.setAdapter(gameAdapter);
-        gameRecyclerview.setVisibility(View.VISIBLE);
         if (creatEnable) {
             //创建房间可点击状态
             creatRoomTv.setTextColor(Color.parseColor("#1a1a1a"));

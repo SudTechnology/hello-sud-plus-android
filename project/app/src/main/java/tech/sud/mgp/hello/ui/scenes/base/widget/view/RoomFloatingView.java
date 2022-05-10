@@ -17,6 +17,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.gyf.immersionbar.ImmersionBar;
+
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
@@ -24,8 +26,8 @@ import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
 public class RoomFloatingView extends ConstraintLayout {
 
     private WindowManager mWindowManager;
-    private WindowManager.LayoutParams mLayoutParams = new WindowManager.LayoutParams();
-    private Point screenSize = DensityUtils.getScreenSize();
+    private final WindowManager.LayoutParams mLayoutParams = new WindowManager.LayoutParams();
+    private final Point screenSize = DensityUtils.getScreenSize();
     private TextView tvName;
     private View viewShutdown;
 
@@ -50,8 +52,8 @@ public class RoomFloatingView extends ConstraintLayout {
 
     public RoomFloatingView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
         initView();
+        initWindow();
     }
 
     private void initView() {
@@ -60,7 +62,7 @@ public class RoomFloatingView extends ConstraintLayout {
         viewShutdown = findViewById(R.id.iv_shutdown);
     }
 
-    private void init() {
+    private void initWindow() {
         //悬浮窗管理相关
         mWindowManager = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -73,15 +75,19 @@ public class RoomFloatingView extends ConstraintLayout {
         mLayoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
         mLayoutParams.width = LinearLayout.LayoutParams.WRAP_CONTENT;
         mLayoutParams.height = LinearLayout.LayoutParams.WRAP_CONTENT;
-        maxX = screenSize.x - mLayoutParams.width;
-        maxY = screenSize.y - mLayoutParams.height;
+        measure(MeasureSpec.makeMeasureSpec(screenSize.x, MeasureSpec.AT_MOST), MeasureSpec.makeMeasureSpec(screenSize.y, MeasureSpec.AT_MOST));
+        updateMaxSize();
+    }
+
+    private void updateMaxSize() {
+        maxX = screenSize.x - getMeasuredWidth();
+        maxY = screenSize.y - getMeasuredHeight() - ImmersionBar.getNavigationBarHeight(getContext());
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        maxX = screenSize.x - mLayoutParams.width;
-        maxY = screenSize.y - mLayoutParams.height;
+        updateMaxSize();
     }
 
     @Override
@@ -127,8 +133,8 @@ public class RoomFloatingView extends ConstraintLayout {
     /** 显示 */
     public void show() {
         if (!mIsShow) {
-            mLayoutParams.x = maxX - DensityUtils.dp2px(140);
-            mLayoutParams.y = maxY - DensityUtils.dp2px(145);
+            mLayoutParams.x = maxX - DensityUtils.dp2px(6);
+            mLayoutParams.y = maxY - DensityUtils.dp2px(135);
             mWindowManager.addView(this, mLayoutParams);
             mIsShow = true;
         }
@@ -145,6 +151,8 @@ public class RoomFloatingView extends ConstraintLayout {
     /** 设置房间数据 */
     public void setRoomInfoModel(RoomInfoModel model) {
         tvName.setText(model.roomName);
+        measure(MeasureSpec.makeMeasureSpec(screenSize.x, MeasureSpec.AT_MOST), MeasureSpec.makeMeasureSpec(screenSize.y, MeasureSpec.AT_MOST));
+        updateMaxSize();
     }
 
     /** 设置关闭按钮监听器 */

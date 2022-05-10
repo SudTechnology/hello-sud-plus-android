@@ -3,8 +3,8 @@
     android:layout_width="wrap_content"
     android:layout_height="64dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:hl_shadowColor="@color/c_999999"
-    app:hl_cornerRadius="50dp"
+    app:hl_shadowColor="#e0000000"
+    app:hl_cornerRadius="8dp"
     app:hl_shadowLimit="10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout

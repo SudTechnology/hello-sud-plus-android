@@ -78,5 +78,8 @@ public interface RequestUrl {
 
     /** 移除pk对手 */
     String ROOM_PK_REMOVE_RIVAL = "room/pk/release/v1";
+
+    /** pk再来一局 */
+    String ROOM_PK_AGAIN = "room/pk/again/v1";
     // endregion 房间pk
 }

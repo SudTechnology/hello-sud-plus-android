@@ -1,5 +1,7 @@
 package tech.sud.mgp.hello.ui.scenes.base.manager;
 
+import com.blankj.utilcode.util.LogUtils;
+
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -132,9 +134,18 @@ public class SceneEngineManager extends BaseServiceManager {
      * @param result  回调
      */
     public void sendCommand(String command, ISudAudioEngine.SendCommandListener result) {
+        LogUtils.d("sendCommand:"+command);
         ISudAudioEngine engine = getEngine();
         if (engine != null) {
-            engine.sendCommand(command, result);
+            engine.sendCommand(command, new ISudAudioEngine.SendCommandListener() {
+                @Override
+                public void onResult(int value) {
+                    LogUtils.d("sendCommand onResult:"+value+"---:"+command);
+                    if(result!=null){
+                        result.onResult(value);
+                    }
+                }
+            });
         }
     }
 
@@ -156,7 +167,16 @@ public class SceneEngineManager extends BaseServiceManager {
      * @param result  回调
      */
     public void sendXRoomCommand(String roomID, String command, ISudAudioEngine.SendCommandListener result) {
-        IMRoomManager.sharedInstance().sendXRoomCommand(roomID, command, result);
+        LogUtils.d("sendXRoomCommand:"+command);
+        IMRoomManager.sharedInstance().sendXRoomCommand(roomID, command, new ISudAudioEngine.SendCommandListener() {
+            @Override
+            public void onResult(int value) {
+                LogUtils.d("sendXRoomCommand onResult:"+value+"---:"+command);
+                if(result!=null){
+                    result.onResult(value);
+                }
+            }
+        });
     }
 
     /**

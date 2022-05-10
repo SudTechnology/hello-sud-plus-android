@@ -244,11 +244,6 @@ public class SceneRoomService extends Service {
         public void removePkRival() {
             serviceManager.sceneRoomPkManager.removePkRival();
         }
-
-        /** 再来一轮PK */
-        public void roomPkAgain() {
-            serviceManager.sceneRoomPkManager.roomPkAgain();
-        }
     }
 
     /** 获取当前使用的房间基本数据 */

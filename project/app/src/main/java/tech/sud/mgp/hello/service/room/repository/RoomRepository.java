@@ -15,6 +15,7 @@ import tech.sud.mgp.hello.service.room.req.RoomMicListReq;
 import tech.sud.mgp.hello.service.room.req.RoomMicSwitchReq;
 import tech.sud.mgp.hello.service.room.req.RoomOrderCreateReq;
 import tech.sud.mgp.hello.service.room.req.RoomOrderReceiveReq;
+import tech.sud.mgp.hello.service.room.req.RoomPkAgainReq;
 import tech.sud.mgp.hello.service.room.req.RoomPkAgreeReq;
 import tech.sud.mgp.hello.service.room.req.RoomPkDurationReq;
 import tech.sud.mgp.hello.service.room.req.RoomPkRemoveRivalReq;
@@ -24,6 +25,7 @@ import tech.sud.mgp.hello.service.room.response.EnterRoomResp;
 import tech.sud.mgp.hello.service.room.response.RoomMicListResp;
 import tech.sud.mgp.hello.service.room.response.RoomMicSwitchResp;
 import tech.sud.mgp.hello.service.room.response.RoomOrderCreateResp;
+import tech.sud.mgp.hello.service.room.response.RoomPkAgainResp;
 import tech.sud.mgp.hello.service.room.response.RoomPkAgreeResp;
 import tech.sud.mgp.hello.service.room.response.RoomPkStartResp;
 
@@ -207,6 +209,25 @@ public class RoomRepository {
         req.roomId = roomId;
         AudioRequestMethodFactory.getMethod()
                 .roomPkRemoveRival(BaseUrlManager.getInteractBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+
+    /**
+     * pk再来一局
+     *
+     * @param srcRoomId  PK发起房间id
+     * @param destRoomId PK受邀房间id
+     * @param minute     时长分钟数
+     */
+    public static void roomPkAgain(LifecycleOwner owner, long srcRoomId, long destRoomId, int minute, RxCallback<RoomPkAgainResp> callback) {
+        RoomPkAgainReq req = new RoomPkAgainReq();
+        req.srcRoomId = srcRoomId;
+        req.destRoomId = destRoomId;
+        req.minute = minute;
+        AudioRequestMethodFactory.getMethod()
+                .roomPkAgain(BaseUrlManager.getInteractBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }

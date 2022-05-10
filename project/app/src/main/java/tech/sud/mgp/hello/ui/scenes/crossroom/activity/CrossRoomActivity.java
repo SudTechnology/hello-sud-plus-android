@@ -462,13 +462,6 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
         }
     }
 
-    /** 再来一次PK */
-    private void clickAgainPk() {
-        if (binder != null) {
-            binder.roomPkAgain();
-        }
-    }
-
     /** 点击pk设置 */
     private void clickPkSettings() {
         PkSettingsDialog dialog = new PkSettingsDialog();

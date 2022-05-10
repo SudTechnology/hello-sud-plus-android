@@ -205,16 +205,21 @@ public class ZIMManager {
                             public void onMessageSent(ZIMMessage message, ZIMError errorInfo) {
                                 Log.i(kTag, "sendRoomMessage: " + errorInfo.code);
 
+                                int errorCode = errorInfo.code.value();
                                 zim.leaveRoom(roomID, new ZIMRoomLeftCallback() {
                                     @Override
                                     public void onRoomLeft(String roomID, ZIMError errorInfo) {
                                         if (listener != null) {
-                                            listener.onResult(errorInfo.code.value());
+                                            listener.onResult(errorCode);
                                         }
                                     }
                                 });
                             }
                         });
+                    } else {
+                        if (listener != null) {
+                            listener.onResult(errorInfo.code.value());
+                        }
                     }
                 }
             });

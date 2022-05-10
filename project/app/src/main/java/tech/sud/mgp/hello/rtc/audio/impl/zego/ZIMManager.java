@@ -3,8 +3,6 @@ package tech.sud.mgp.hello.rtc.audio.impl.zego;
 import android.app.Application;
 import android.util.Log;
 
-import com.blankj.utilcode.util.ThreadUtils;
-
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -195,7 +193,7 @@ public class ZIMManager {
         ZIMTextMessage zimMessage = new ZIMTextMessage();
         zimMessage.message = command;
         ZIMMessageSendConfig config = new ZIMMessageSendConfig();
-        config.priority = ZIMMessagePriority.HIGH;
+        config.priority = ZIMMessagePriority.LOW;
 
         if (mRoomID != null && !mRoomID.equals(roomID)) {
             zim.joinRoom(roomID, new ZIMRoomJoinedCallback() {
@@ -207,21 +205,14 @@ public class ZIMManager {
                             public void onMessageSent(ZIMMessage message, ZIMError errorInfo) {
                                 Log.i(kTag, "sendRoomMessage: " + errorInfo.code);
 
-                                ThreadUtils.runOnUiThreadDelayed(new Runnable() {
+                                zim.leaveRoom(roomID, new ZIMRoomLeftCallback() {
                                     @Override
-                                    public void run() {
-                                        if (zim != null) {
-                                            zim.leaveRoom(roomID, new ZIMRoomLeftCallback() {
-                                                @Override
-                                                public void onRoomLeft(String roomID, ZIMError errorInfo) {
-                                                    if (listener != null) {
-                                                        listener.onResult(errorInfo.code.value());
-                                                    }
-                                                }
-                                            });
+                                    public void onRoomLeft(String roomID, ZIMError errorInfo) {
+                                        if (listener != null) {
+                                            listener.onResult(errorInfo.code.value());
                                         }
                                     }
-                                }, 500);
+                                });
                             }
                         });
                     }

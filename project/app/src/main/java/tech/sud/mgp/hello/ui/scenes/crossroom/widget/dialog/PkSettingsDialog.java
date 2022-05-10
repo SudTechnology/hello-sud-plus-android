@@ -103,6 +103,9 @@ public class PkSettingsDialog extends BaseDialogFragment implements View.OnClick
         list.add(15);
         list.add(30);
         list.add(60);
+        if (!list.contains(selectedMinute)) {
+            selectedMinute = APPConfig.ROOM_PK_MINUTE;
+        }
         adapter.setList(list);
     }
 

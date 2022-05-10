@@ -237,7 +237,6 @@ public class SceneRoomPkManager extends BaseServiceManager {
         RoomPkRoomInfo pkRival = roomPkModel.getPkRival();
         if (pkRival == null) return;
 
-        // TODO: 2022/5/7 等待后端接口
         // 发送http请求
         RoomRepository.roomPkRemoveRival(parentManager, parentManager.getRoomId(), new RxCallback<Object>() {
             @Override
@@ -405,9 +404,11 @@ public class SceneRoomPkManager extends BaseServiceManager {
         @Override
         public void onRecvCommand(RoomCmdPKSendInviteModel model, String userID) {
             if (getPkStatus() != PkStatus.MATCHING) return;
-            SceneRoomServiceCallback callback = parentManager.getCallback();
-            if (callback != null) {
-                callback.onRoomPkInvite(model);
+            if (parentManager.getRoleType() == RoleType.OWNER) {
+                SceneRoomServiceCallback callback = parentManager.getCallback();
+                if (callback != null) {
+                    callback.onRoomPkInvite(model);
+                }
             }
         }
     };

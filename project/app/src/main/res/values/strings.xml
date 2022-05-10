@@ -350,9 +350,7 @@ Go to homepage to create one~</string>
     <string name="pk_running_remove_warn">PK未结束，暂不可移除</string>
     <string name="remove_rival_confirm">是否要移除该PK对手？</string>
     <string name="confirm_remove">确认移除</string>
-    <!-- endregion 新增 -->
 
-    <!-- start   只有中文和英文-->
     <string name="custom_config_game_system">Game system</string>
     <string name="custom_config_game_cpu">The CPU power dissipation of the game</string>
     <string name="custom_config_game_cpu_subtitle">(gameCPU)</string>
@@ -435,6 +433,6 @@ Go to homepage to create one~</string>
     <string name="custom_config_game_block_change_seat_custom_subtitle">(ui.block_change_seat.custom)</string>
     <string name="custom_config_game_block_change_seat_custom_false">false: player seats can be changed</string>
     <string name="custom_config_game_block_change_seat_custom_true">true: player seats cannot be changed</string>
-    <!-- end  只有中文和英文-->
+    <!-- endregion 新增 -->
 
 </resources>

@@ -54,7 +54,7 @@ public class CustomApiHelpDialog extends BaseDialogFragment {
         recyclerView = mRootView.findViewById(R.id.recycler_view);
         for (int i = 0; i < titles.length; i++) {
             CustomApiModel apiModel = new CustomApiModel();
-            apiModel.apiName = titles[i] + ":";
+            apiModel.apiName = titles[i];
             apiModel.apiState = states[i];
             models.add(apiModel);
         }

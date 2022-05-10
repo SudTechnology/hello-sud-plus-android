@@ -3,6 +3,8 @@ package tech.sud.mgp.hello.rtc.audio.impl.zego;
 import android.app.Application;
 import android.util.Log;
 
+import com.blankj.utilcode.util.ThreadUtils;
+
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -205,14 +207,21 @@ public class ZIMManager {
                             public void onMessageSent(ZIMMessage message, ZIMError errorInfo) {
                                 Log.i(kTag, "sendRoomMessage: " + errorInfo.code);
 
-                                zim.leaveRoom(roomID, new ZIMRoomLeftCallback() {
+                                ThreadUtils.runOnUiThreadDelayed(new Runnable() {
                                     @Override
-                                    public void onRoomLeft(String roomID, ZIMError errorInfo) {
-                                        if (listener != null) {
-                                            listener.onResult(errorInfo.code.value());
+                                    public void run() {
+                                        if (zim != null) {
+                                            zim.leaveRoom(roomID, new ZIMRoomLeftCallback() {
+                                                @Override
+                                                public void onRoomLeft(String roomID, ZIMError errorInfo) {
+                                                    if (listener != null) {
+                                                        listener.onResult(errorInfo.code.value());
+                                                    }
+                                                }
+                                            });
                                         }
                                     }
-                                });
+                                }, 500);
                             }
                         });
                     }

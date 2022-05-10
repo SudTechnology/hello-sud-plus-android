@@ -217,14 +217,12 @@ public class RoomRepository {
     /**
      * pk再来一局
      *
-     * @param srcRoomId  PK发起房间id
-     * @param destRoomId PK受邀房间id
-     * @param minute     时长分钟数
+     * @param roomId 房间id
+     * @param minute 时长分钟数
      */
-    public static void roomPkAgain(LifecycleOwner owner, long srcRoomId, long destRoomId, int minute, RxCallback<RoomPkAgainResp> callback) {
+    public static void roomPkAgain(LifecycleOwner owner, long roomId, int minute, RxCallback<RoomPkAgainResp> callback) {
         RoomPkAgainReq req = new RoomPkAgainReq();
-        req.srcRoomId = srcRoomId;
-        req.destRoomId = destRoomId;
+        req.roomId = roomId;
         req.minute = minute;
         AudioRequestMethodFactory.getMethod()
                 .roomPkAgain(BaseUrlManager.getInteractBaseUrl(), req)

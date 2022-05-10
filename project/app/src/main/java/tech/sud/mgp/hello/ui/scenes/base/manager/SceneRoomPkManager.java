@@ -160,8 +160,7 @@ public class SceneRoomPkManager extends BaseServiceManager {
                     }
             );
         } else if (getPkStatus() == PkStatus.PK_END) {
-            if (roomPkModel.srcRoomInfo == null || roomPkModel.destRoomInfo == null) return;
-            RoomRepository.roomPkAgain(parentManager, roomPkModel.srcRoomInfo.roomId, roomPkModel.destRoomInfo.roomId, minute,
+            RoomRepository.roomPkAgain(parentManager, parentManager.getRoomId(), minute,
                     new RxCallback<RoomPkAgainResp>() {
                         @Override
                         public void onSuccess(RoomPkAgainResp resp) {

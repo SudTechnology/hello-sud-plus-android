@@ -90,7 +90,7 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
         gameViewModel.gameConfigModel.ui.start_btn.custom = true; // 接管游戏的开始按钮事件
 
         int marginEnd = DensityUtils.dp2px(this, 12);
-        int maxWidth = DensityUtils.dp2px(this, 90);
+        int maxWidth = DensityUtils.dp2px(this, 100);
         int paddingHorizontal = DensityUtils.dp2px(this, 8);
         int textColor = ContextCompat.getColor(this, R.color.white);
 

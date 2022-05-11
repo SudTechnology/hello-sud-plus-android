@@ -549,7 +549,7 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
     public void onRoomPkInvite(RoomCmdPKSendInviteModel model) {
         super.onRoomPkInvite(model);
         if (model == null) return;
-        LifecycleUtils.safeLifecycle(this, new LifecycleUtils.CompletedListener() {
+        LifecycleUtils.safeLifecycle(this, 8000, new LifecycleUtils.CompletedListener() {
             @Override
             public void onCompleted() {
                 showInviteAnswerDialog(model);

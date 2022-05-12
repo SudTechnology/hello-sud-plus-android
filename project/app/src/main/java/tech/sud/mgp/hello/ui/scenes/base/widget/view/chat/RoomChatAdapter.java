@@ -9,8 +9,7 @@ import java.util.List;
 import tech.sud.mgp.hello.common.widget.adapter.EmptyProvider;
 import tech.sud.mgp.hello.ui.scenes.base.model.GameTextModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoomTextModel;
-import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftNotifyDetailodel;
-import tech.sud.mgp.hello.ui.scenes.orderentertainment.model.ReceiveInviteMsgModel;
+import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftNotifyDetailModel;
 
 public class RoomChatAdapter extends BaseProviderMultiAdapter<Object> {
 
@@ -34,7 +33,7 @@ public class RoomChatAdapter extends BaseProviderMultiAdapter<Object> {
         Object item = list.get(position);
         if (item instanceof RoomTextModel) {
             return TYPE_TEXT;
-        } else if (item instanceof GiftNotifyDetailodel) {
+        } else if (item instanceof GiftNotifyDetailModel) {
             return TYPE_GIFT_NOTIFY;
         } else if (item instanceof GameTextModel) {
             return TYPE_GAME_MSG;

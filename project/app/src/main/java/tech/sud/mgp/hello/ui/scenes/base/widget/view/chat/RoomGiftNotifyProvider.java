@@ -20,7 +20,7 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
-import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftNotifyDetailodel;
+import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftNotifyDetailModel;
 import tech.sud.mgp.hello.ui.scenes.common.gift.utils.CenterImageSpan;
 
 public class RoomGiftNotifyProvider extends BaseItemProvider<Object> {
@@ -36,12 +36,12 @@ public class RoomGiftNotifyProvider extends BaseItemProvider<Object> {
 
     @Override
     public void convert(@NonNull BaseViewHolder baseViewHolder, Object o) {
-        GiftNotifyDetailodel item = (GiftNotifyDetailodel) o;
+        GiftNotifyDetailModel item = (GiftNotifyDetailModel) o;
         TextView textTv = baseViewHolder.getView(R.id.text_tv);
         loadImage(item, textTv);
     }
 
-    public void loadImage(GiftNotifyDetailodel item, TextView textTv) {
+    public void loadImage(GiftNotifyDetailModel item, TextView textTv) {
         ImageLoader.loadSizeGift(
                 textTv,
                 item.gift.giftSmallImage,
@@ -61,7 +61,7 @@ public class RoomGiftNotifyProvider extends BaseItemProvider<Object> {
                 });
     }
 
-    private void creatText(GiftNotifyDetailodel item, TextView textTv, Drawable drawable) {
+    private void creatText(GiftNotifyDetailModel item, TextView textTv, Drawable drawable) {
         SpannableStringBuilder builder = new SpannableStringBuilder();
         builder.append(item.sendUser.name);
         ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#aaaaaa"));

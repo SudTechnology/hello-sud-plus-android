@@ -62,7 +62,7 @@ import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKSendInviteModel
 import tech.sud.mgp.hello.ui.scenes.common.gift.listener.GiftSendClickListener;
 import tech.sud.mgp.hello.ui.scenes.common.gift.manager.GiftHelper;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftModel;
-import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftNotifyDetailodel;
+import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftNotifyDetailModel;
 import tech.sud.mgp.hello.ui.scenes.common.gift.view.GiftEffectView;
 import tech.sud.mgp.hello.ui.scenes.common.gift.view.RoomGiftDialog;
 
@@ -878,7 +878,7 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
     }
 
     @Override
-    public void sendGiftsNotify(GiftNotifyDetailodel notify) {
+    public void sendGiftsNotify(GiftNotifyDetailModel notify) {
         showGift(notify.gift);
     }
 

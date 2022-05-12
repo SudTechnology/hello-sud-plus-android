@@ -6,7 +6,7 @@ import tech.sud.mgp.hello.rtc.audio.core.AudioPCMData;
 import tech.sud.mgp.hello.ui.scenes.base.constant.OperateMicType;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKSendInviteModel;
-import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftNotifyDetailodel;
+import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftNotifyDetailModel;
 
 public interface SceneRoomServiceCallback {
 
@@ -48,7 +48,7 @@ public interface SceneRoomServiceCallback {
     /**
      * 礼物通知
      */
-    void sendGiftsNotify(GiftNotifyDetailodel notify);
+    void sendGiftsNotify(GiftNotifyDetailModel notify);
 
     /**
      * 麦克风开关状态变化

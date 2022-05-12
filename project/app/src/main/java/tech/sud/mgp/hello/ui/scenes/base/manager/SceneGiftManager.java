@@ -6,7 +6,7 @@ import tech.sud.mgp.hello.ui.scenes.common.cmd.RoomCmdModelUtils;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdSendGiftModel;
 import tech.sud.mgp.hello.ui.scenes.common.gift.manager.GiftHelper;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftModel;
-import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftNotifyDetailodel;
+import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftNotifyDetailModel;
 
 /**
  * 房间礼物
@@ -37,7 +37,7 @@ public class SceneGiftManager extends BaseServiceManager {
         String command = RoomCmdModelUtils.buildSendGiftCommand(giftID, giftCount, toUser);
 
         GiftModel giftModel = GiftHelper.getInstance().getGift(giftID);
-        GiftNotifyDetailodel notify = new GiftNotifyDetailodel();
+        GiftNotifyDetailModel notify = new GiftNotifyDetailModel();
         notify.gift = giftModel;
 
         UserInfo user = new UserInfo();
@@ -59,7 +59,7 @@ public class SceneGiftManager extends BaseServiceManager {
         @Override
         public void onRecvCommand(RoomCmdSendGiftModel command, String userID) {
             GiftModel giftModel = GiftHelper.getInstance().getGift(command.giftID);
-            GiftNotifyDetailodel notify = new GiftNotifyDetailodel();
+            GiftNotifyDetailModel notify = new GiftNotifyDetailModel();
             notify.gift = giftModel;
             notify.sendUser = command.sendUser;
             notify.toUser = command.toUser;

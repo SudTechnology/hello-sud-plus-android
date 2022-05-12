@@ -165,7 +165,8 @@ public class OrderDialog extends BaseDialogFragment {
                 if (micModel.userId != 0 && micModel.userId != HSUserInfo.userId) {
                     OrderMicModel orderMicModel = new OrderMicModel();
                     orderMicModel.userInfo = micModel;
-                    orderMicModel.checked = i == selectedIndex;
+//                    orderMicModel.checked = i == selectedIndex;
+                    orderMicModel.checked = false;
                     orderMicModel.indexMic = micModel.micIndex;
                     mUsers.add(orderMicModel);
                 }

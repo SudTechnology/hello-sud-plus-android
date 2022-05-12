@@ -28,7 +28,7 @@ public class OrderMicUserAdapter extends BaseQuickAdapter<OrderMicModel, BaseVie
         ImageView checkedIv = baseViewHolder.getView(R.id.checked_iv);
         checkedIv.setSelected(item.checked);
         if (item.checked) {
-            headerIv.setBorderColor(Color.WHITE);
+            headerIv.setBorderColor(Color.BLACK);
         } else {
             headerIv.setBorderColor(Color.TRANSPARENT);
         }

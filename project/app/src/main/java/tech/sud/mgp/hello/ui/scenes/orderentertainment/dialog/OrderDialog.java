@@ -133,7 +133,7 @@ public class OrderDialog extends BaseDialogFragment {
                 }
                 if (mUsers.get(i).checked) {
                     userCount++;
-                    totalPrice = +singlePrice;
+                    totalPrice += singlePrice;
                 }
             }
             setOrderPrice(userCount, totalPrice);
@@ -149,7 +149,7 @@ public class OrderDialog extends BaseDialogFragment {
                 mUsers.get(i).checked = selected;
                 if (mUsers.get(i).checked) {
                     userCount++;
-                    totalPrice = +singlePrice;
+                    totalPrice += singlePrice;
                 }
             }
             setOrderPrice(userCount, totalPrice);

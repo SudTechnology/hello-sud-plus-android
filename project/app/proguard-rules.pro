@@ -36,6 +36,10 @@
 -keep class tech.sud.mgp.hello.service.room.resp.** {*;}
 -keep class tech.sud.mgp.hello.service.room.model.** {*;}
 -keep class tech.sud.mgp.hello.ui.main.home.model.** {*;}
+-keep class tech.sud.mgp.hello.ui.scenes.base.model.** {*;}
+-keep class tech.sud.mgp.hello.ui.scenes.common.cmd.** {*;}
+-keep class tech.sud.mgp.hello.ui.scenes.custom.model.** {*;}
+-keep class tech.sud.mgp.hello.ui.scenes.orderentertainment.model.** {*;}
 
 # 腾讯bugly的混淆
 -dontwarn com.tencent.bugly.**

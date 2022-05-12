@@ -119,7 +119,6 @@ public class HomeRoomTypeView extends ConstraintLayout {
                 gameItemListener.onGameClick(sceneModel, model);
             }
         });
-        gameRecyclerview.setHasFixedSize(true);//解决ScrollView嵌套RecyclerView滑动卡顿和加载不全的问题
         gameRecyclerview.setNestedScrollingEnabled(false);
         gameRecyclerview.setVisibility(View.VISIBLE);
         gameRecyclerview.setLayoutManager(new GridLayoutManager(getContext(), 3));

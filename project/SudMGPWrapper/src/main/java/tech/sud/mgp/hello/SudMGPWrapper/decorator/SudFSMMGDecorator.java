@@ -10,8 +10,8 @@ import com.blankj.utilcode.util.LogUtils;
 import tech.sud.mgp.core.ISudFSMMG;
 import tech.sud.mgp.core.ISudFSMStateHandle;
 import tech.sud.mgp.hello.SudMGPWrapper.state.SudMGPMGState;
+import tech.sud.mgp.hello.SudMGPWrapper.utils.HSJsonUtils;
 import tech.sud.mgp.hello.SudMGPWrapper.utils.ISudFSMStateHandleUtils;
-import tech.sud.mgp.hello.ui.scenes.base.utils.HSJsonUtils;
 
 /**
  * ISudFSMMG 游戏调APP回调装饰类

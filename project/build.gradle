@@ -11,6 +11,10 @@ buildscript {
 }
 
 ext {
+    compileSdkVersion = 30
+    minSdkVersion = 21
+    targetSdkVersion = 30
+
     versionCode = "1"
     versionName = "1.3.0"
     baseUrlConfig = "fat"
@@ -19,6 +23,10 @@ ext {
     gameBaseUrl = "https://fat-game.sud.tech/"
     buglyAppId = "f471ed313c"
     gameIsTestEnv = "true"
+
+    appcompatVersion = "1.3.0"
+    materialVersion = "1.4.0"
+    constraintlayoutVersion = "2.0.4"
 }
 
 allprojects {

@@ -12,14 +12,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
-import com.scwang.smart.refresh.layout.api.RefreshLayout;
-import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
 
@@ -61,7 +56,7 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
     private TextView nameTv, useridTv;
     private ImageView headerIv;
     private SmartRefreshLayout refreshLayout;
-    private MagicIndicator indicatorContainer;
+    private MagicIndicator magicIndicator;
     private IndicatorHelper helper;
     private NewNestedScrollView scrollView;
     private ImageView menuIv;
@@ -89,7 +84,7 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
         useridTv = mRootView.findViewById(R.id.userid_tv);
         headerIv = mRootView.findViewById(R.id.header_iv);
         refreshLayout = mRootView.findViewById(R.id.refresh_layout);
-        indicatorContainer = mRootView.findViewById(R.id.magic_indicator);
+        magicIndicator = mRootView.findViewById(R.id.magic_indicator);
         scrollView = mRootView.findViewById(R.id.scrollView);
         menuIv = mRootView.findViewById(R.id.menu_iv);
         refreshLayout.setEnableRefresh(true);
@@ -175,7 +170,7 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
         if (resp != null && resp.getSceneList().size() > 0) {
             Context context = getContext();
             if (context != null) {
-                helper = new IndicatorHelper(indicatorContainer, resp.getSceneList(), scrollView);
+                helper = new IndicatorHelper(magicIndicator, resp.getSceneList(), scrollView);
                 helper.init(context);
                 helper.bind();
 

@@ -88,7 +88,7 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/indicator_container"
         android:layout_width="match_parent"
         android:layout_height="44dp"
@@ -107,17 +107,31 @@
             android:layout_height="44dp"
             android:layout_weight="1"
             android:background="@color/white"
-            android:fadingEdge="horizontal"
-            android:fadingEdgeLength="20dp"
-            android:overScrollMode="never" />
+            android:overScrollMode="never"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/menu_iv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/menu_iv"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/icon_scenes_menu" />
+            android:src="@drawable/icon_scenes_menu"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    </LinearLayout>
+        <ImageView
+            android:id="@+id/iv_shape_gradient"
+            android:layout_width="20dp"
+            android:layout_height="44dp"
+            android:background="@drawable/shape_gradient_ffffff_ang_180"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/magic_indicator"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.scwang.smart.refresh.layout.SmartRefreshLayout
         android:id="@+id/refresh_layout"

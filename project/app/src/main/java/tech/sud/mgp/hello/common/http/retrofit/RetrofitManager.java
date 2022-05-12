@@ -44,7 +44,7 @@ public class RetrofitManager {
 
     private OkHttpClient createOkHttpClient() {
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
-        loggingInterceptor.setLevel(BuildConfig.DEBUG ? HttpLoggingInterceptor.Level.BODY :
+        loggingInterceptor.setLevel(BuildConfig.DEBUG || BuildConfig.gameIsTestEnv ? HttpLoggingInterceptor.Level.BODY :
                 HttpLoggingInterceptor.Level.NONE); // debug模式才打印
         Builder builder = new Builder()
                 .connectTimeout(30, TimeUnit.SECONDS)

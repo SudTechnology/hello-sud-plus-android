@@ -21,7 +21,7 @@ import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
 import tech.sud.mgp.hello.service.room.repository.RoomRepository;
-import tech.sud.mgp.hello.service.room.response.RoomOrderCreateResp;
+import tech.sud.mgp.hello.service.room.resp.RoomOrderCreateResp;
 import tech.sud.mgp.hello.ui.common.utils.DialogUtils;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.GameViewModel;
 import tech.sud.mgp.hello.ui.scenes.orderentertainment.OrderEntertainmentActivity;

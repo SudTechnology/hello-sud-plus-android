@@ -167,16 +167,16 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
     }
 
     private void creatScene(GameListResp resp) {
-        if (resp != null && resp.getSceneList().size() > 0) {
+        if (resp != null && resp.sceneList.size() > 0) {
             Context context = getContext();
             if (context != null) {
-                helper = new IndicatorHelper(magicIndicator, resp.getSceneList(), scrollView);
+                helper = new IndicatorHelper(magicIndicator, resp.sceneList, scrollView);
                 helper.init(context);
                 helper.bind();
 
                 sceneLayout.removeAllViews();
-                for (int i = 0; i < resp.getSceneList().size(); i++) {
-                    SceneModel model = resp.getSceneList().get(i);
+                for (int i = 0; i < resp.sceneList.size(); i++) {
+                    SceneModel model = resp.sceneList.get(i);
                     HomeRoomTypeView sceneView = new HomeRoomTypeView(context);
                     sceneView.setGameItemListener(this);
                     sceneView.setCreatRoomClickListener(this);

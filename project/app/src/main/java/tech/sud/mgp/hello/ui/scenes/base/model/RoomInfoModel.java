@@ -2,7 +2,7 @@ package tech.sud.mgp.hello.ui.scenes.base.model;
 
 import java.io.Serializable;
 
-import tech.sud.mgp.hello.service.room.response.RoomPkModel;
+import tech.sud.mgp.hello.service.room.resp.RoomPkModel;
 
 /**
  * 房间信息模型

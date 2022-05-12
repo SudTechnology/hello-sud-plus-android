@@ -1,6 +1,6 @@
 package tech.sud.mgp.hello.ui.scenes.base.model;
 
-import tech.sud.mgp.hello.service.room.response.RoomMicResp;
+import tech.sud.mgp.hello.service.room.resp.RoomMicResp;
 
 public class AudioRoomMicModelConverter {
 

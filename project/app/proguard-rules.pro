@@ -21,7 +21,21 @@
 #-renamesourcefileattribute SourceFile
 
 # json序列化的混淆
+-keep class tech.sud.mgp.hello.SudMGPWrapper.** {*;}
 -keep class tech.sud.mgp.hello.ui.scenes.ticket.model.** {*;}
+-keep class tech.sud.mgp.hello.common.http.param.BaseBody {*;}
+-keep class tech.sud.mgp.hello.common.http.param.BaseResponse {*;}
+-keep class tech.sud.mgp.hello.service.game.req.** {*;}
+-keep class tech.sud.mgp.hello.service.game.resp.** {*;}
+-keep class tech.sud.mgp.hello.service.login.req.** {*;}
+-keep class tech.sud.mgp.hello.service.login.resp.** {*;}
+-keep class tech.sud.mgp.hello.service.main.req.** {*;}
+-keep class tech.sud.mgp.hello.service.main.resp.** {*;}
+-keep class tech.sud.mgp.hello.service.main.config.** {*;}
+-keep class tech.sud.mgp.hello.service.room.req.** {*;}
+-keep class tech.sud.mgp.hello.service.room.resp.** {*;}
+-keep class tech.sud.mgp.hello.service.room.model.** {*;}
+-keep class tech.sud.mgp.hello.ui.main.home.model.** {*;}
 
 # 腾讯bugly的混淆
 -dontwarn com.tencent.bugly.**

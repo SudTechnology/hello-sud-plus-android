@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.service.room.response;
+package tech.sud.mgp.hello.service.room.resp;
 
 /**
  * pk再来一局 返回参数

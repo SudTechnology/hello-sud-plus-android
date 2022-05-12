@@ -57,6 +57,7 @@
         android:layout_marginStart="16dp"
         android:singleLine="true"
         android:gravity="end"
+        android:visibility="gone"
         app:layout_constraintStart_toEndOf="@id/tv_game_number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/tv_game_number"

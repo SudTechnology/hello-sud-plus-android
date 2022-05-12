@@ -22,8 +22,8 @@ import tech.sud.mgp.hello.common.utils.ShapeUtils;
 import tech.sud.mgp.hello.common.utils.ViewUtils;
 import tech.sud.mgp.hello.common.widget.view.round.RoundedImageView;
 import tech.sud.mgp.hello.service.room.model.PkStatus;
-import tech.sud.mgp.hello.service.room.response.RoomPkModel;
-import tech.sud.mgp.hello.service.room.response.RoomPkRoomInfo;
+import tech.sud.mgp.hello.service.room.resp.RoomPkModel;
+import tech.sud.mgp.hello.service.room.resp.RoomPkRoomInfo;
 import tech.sud.mgp.hello.ui.common.utils.FormatUtils;
 
 /**

@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.service.room.response;
+package tech.sud.mgp.hello.service.room.resp;
 
 /**
  * 进入房间返回参数

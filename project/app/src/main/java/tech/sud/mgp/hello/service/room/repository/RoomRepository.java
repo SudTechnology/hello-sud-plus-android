@@ -21,13 +21,13 @@ import tech.sud.mgp.hello.service.room.req.RoomPkDurationReq;
 import tech.sud.mgp.hello.service.room.req.RoomPkRemoveRivalReq;
 import tech.sud.mgp.hello.service.room.req.RoomPkStartReq;
 import tech.sud.mgp.hello.service.room.req.RoomPkSwitchReq;
-import tech.sud.mgp.hello.service.room.response.EnterRoomResp;
-import tech.sud.mgp.hello.service.room.response.RoomMicListResp;
-import tech.sud.mgp.hello.service.room.response.RoomMicSwitchResp;
-import tech.sud.mgp.hello.service.room.response.RoomOrderCreateResp;
-import tech.sud.mgp.hello.service.room.response.RoomPkAgainResp;
-import tech.sud.mgp.hello.service.room.response.RoomPkAgreeResp;
-import tech.sud.mgp.hello.service.room.response.RoomPkStartResp;
+import tech.sud.mgp.hello.service.room.resp.EnterRoomResp;
+import tech.sud.mgp.hello.service.room.resp.RoomMicListResp;
+import tech.sud.mgp.hello.service.room.resp.RoomMicSwitchResp;
+import tech.sud.mgp.hello.service.room.resp.RoomOrderCreateResp;
+import tech.sud.mgp.hello.service.room.resp.RoomPkAgainResp;
+import tech.sud.mgp.hello.service.room.resp.RoomPkAgreeResp;
+import tech.sud.mgp.hello.service.room.resp.RoomPkStartResp;
 
 public class RoomRepository {
 

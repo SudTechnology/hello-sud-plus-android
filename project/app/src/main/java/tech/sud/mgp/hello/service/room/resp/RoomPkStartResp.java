@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.service.room.response;
+package tech.sud.mgp.hello.service.room.resp;
 
 /**
  * 开始跨房Pk 返回参数

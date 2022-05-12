@@ -2,10 +2,18 @@ package tech.sud.mgp.hello.ui.main.home.view;
 
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.blankj.utilcode.util.BarUtils;
+import com.blankj.utilcode.util.PhoneUtils;
+import com.blankj.utilcode.util.ScreenUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +32,7 @@ public class SceneTypeDialog extends BaseDialogFragment {
 
     private TextView dialogTitleTtv;
     private RecyclerView sceneRv;
+    private View emptyView;
     private int selected = 0;
     private SceneAdapter adapter = new SceneAdapter();
     private List<DialogSceneModel> models = new ArrayList<>();
@@ -43,10 +52,17 @@ public class SceneTypeDialog extends BaseDialogFragment {
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setStyle(STYLE_NORMAL, R.style.LightStatusBarDialogTheme);
+    }
+
+    @Override
     protected void initWidget() {
         super.initWidget();
         dialogTitleTtv = mRootView.findViewById(R.id.dialog_title_tv);
         sceneRv = mRootView.findViewById(R.id.scene_rv);
+        emptyView = mRootView.findViewById(R.id.empty_view);
     }
 
     @Override
@@ -71,11 +87,17 @@ public class SceneTypeDialog extends BaseDialogFragment {
     protected void setListeners() {
         super.setListeners();
         adapter.setOnItemClickListener((adapter, view, position) -> refreshList(position));
+        emptyView.setOnClickListener(v -> dismiss());
     }
 
     @Override
     protected int getWidth() {
         return DensityUtils.getAppScreenWidth();
+    }
+
+    @Override
+    protected int getHeight() {
+        return DensityUtils.getAppScreenHeight() - BarUtils.getStatusBarHeight();
     }
 
     @Override
@@ -93,6 +115,15 @@ public class SceneTypeDialog extends BaseDialogFragment {
             listener.selectedScene(position);
         }
         dismiss();
+    }
+
+    @Override
+    protected void customStyle(Window window) {
+        super.customStyle(window);
+        WindowManager.LayoutParams attributes = window.getAttributes();
+        attributes.y = BarUtils.getStatusBarHeight();
+        window.setDimAmount(0f);
+        window.setAttributes(attributes);
     }
 
     public class DialogSceneModel {

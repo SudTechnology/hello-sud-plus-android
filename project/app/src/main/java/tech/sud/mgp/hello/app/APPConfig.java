@@ -35,7 +35,9 @@ public class APPConfig {
     public static final long AgoraRTCSDKSize = 24431820;
     public static final long RCloudRTCSDKSize = 12436111;
     public static final long NeteaseRTCSDKSize = 10800332;
-    public static final long RTCSDKSize = 68975327;
+    public static final long ZegoZIMSDKSize = 27262976;
+    public static final long TxTRTCSDKSize = 8388608;
+    public static final long RTCSDKSize = 104626911;
     // endregion 占用大小
 
     // region url地址

@@ -1,6 +1,7 @@
 package tech.sud.mgp.hello.ui.scenes.orderentertainment.adapter;
 
 import android.graphics.Color;
+import android.view.View;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -18,6 +19,8 @@ import tech.sud.mgp.hello.ui.scenes.orderentertainment.model.OrderMicModel;
 
 public class OrderMicUserAdapter extends BaseQuickAdapter<OrderMicModel, BaseViewHolder> {
 
+    public boolean hasAnchor = false;//麦上是否有主播
+
     public OrderMicUserAdapter() {
         super(R.layout.item_order_mic_user);
     }
@@ -26,12 +29,18 @@ public class OrderMicUserAdapter extends BaseQuickAdapter<OrderMicModel, BaseVie
     protected void convert(@NonNull BaseViewHolder baseViewHolder, OrderMicModel item) {
         RoundedImageView headerIv = baseViewHolder.getView(R.id.avatar_riv);
         ImageView checkedIv = baseViewHolder.getView(R.id.checked_iv);
-        checkedIv.setSelected(item.checked);
-        if (item.checked) {
-            headerIv.setBorderColor(Color.BLACK);
-        } else {
+        if (item.isFake) {
+            ImageLoader.loadDrawable(headerIv, R.drawable.icon_order_empty_mic);
+            checkedIv.setVisibility(View.GONE);
             headerIv.setBorderColor(Color.TRANSPARENT);
+        } else {
+            checkedIv.setSelected(item.checked);
+            if (item.checked) {
+                headerIv.setBorderColor(Color.BLACK);
+            } else {
+                headerIv.setBorderColor(Color.TRANSPARENT);
+            }
+            ImageLoader.loadAvatar(headerIv, item.userInfo.avatar);
         }
-        ImageLoader.loadAvatar(headerIv, item.userInfo.avatar);
     }
 }

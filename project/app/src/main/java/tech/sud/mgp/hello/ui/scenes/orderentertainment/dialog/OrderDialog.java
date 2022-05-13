@@ -1,7 +1,9 @@
 package tech.sud.mgp.hello.ui.scenes.orderentertainment.dialog;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -38,6 +40,7 @@ public class OrderDialog extends BaseDialogFragment {
     private TextView coinTv, selectedAllTv, totalCoinTv, totalUserTv, orderBtn;
     private RecyclerView anchorsRv, gamesRv;
 
+    public boolean hasAnchor = false;//麦上是否有主播 false无主播样式
     private OrderMicUserAdapter userAdapter = new OrderMicUserAdapter();
     private List<OrderMicModel> mUsers = new ArrayList<>();
 
@@ -80,6 +83,7 @@ public class OrderDialog extends BaseDialogFragment {
         anchorsRv = mRootView.findViewById(R.id.anchors_rv);
         gamesRv = mRootView.findViewById(R.id.games_rv);
         selectedAllTv.setSelected(false);
+        initAnchorData();
         initUserRv();
         initGameRv();
         loadAccount();
@@ -116,6 +120,23 @@ public class OrderDialog extends BaseDialogFragment {
         });
     }
 
+    private void initAnchorData() {
+        hasAnchor = mUsers.size() > 0;
+        if (!hasAnchor) {
+            for (int i = 0; i < 8; i++) {
+                OrderMicModel model = new OrderMicModel();
+                model.isFake = true;
+                mUsers.add(model);
+            }
+            selectedAllTv.setVisibility(View.GONE);
+            orderBtn.setBackgroundColor(Color.parseColor("#33000000"));
+        } else {
+            selectedAllTv.setVisibility(View.VISIBLE);
+            orderBtn.setBackgroundColor(Color.BLACK);
+        }
+        userAdapter.hasAnchor = hasAnchor;
+    }
+
     private void initUserRv() {
         userAdapter.setList(mUsers);
         anchorsRv.setLayoutManager(new LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false));
@@ -124,7 +145,7 @@ public class OrderDialog extends BaseDialogFragment {
     }
 
     private void clickUser(int position) {
-        if (mUsers.size() > 0) {
+        if (mUsers.size() > 0 && hasAnchor) {
             int userCount = 0;
             int totalPrice = 0;
             for (int i = 0; i < mUsers.size(); i++) {

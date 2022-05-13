@@ -30,6 +30,7 @@ import tech.sud.mgp.hello.ui.login.listener.DialogSecondaryListener;
 import tech.sud.mgp.hello.ui.login.listener.DialogSelectListener;
 import tech.sud.mgp.hello.ui.main.activity.MainActivity;
 import tech.sud.mgp.hello.ui.main.utils.RouterUtils;
+import tech.sud.mgp.hello.ui.performance.PerformanceManager;
 
 /**
  * 登录页
@@ -64,6 +65,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         femaleCheck = findViewById(R.id.female_check);
         randomIv = findViewById(R.id.random_iv);
         names = getResources().getStringArray(R.array.names_list);
+        PerformanceManager.getInstance().start(this);
     }
 
     @Override

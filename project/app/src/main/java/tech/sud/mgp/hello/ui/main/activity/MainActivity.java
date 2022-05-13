@@ -31,6 +31,7 @@ import tech.sud.mgp.hello.ui.common.utils.channel.NotifyChannelHelper;
 import tech.sud.mgp.hello.ui.main.home.HomeFragment;
 import tech.sud.mgp.hello.ui.main.roomlist.RoomListFragment;
 import tech.sud.mgp.hello.ui.main.settings.fragment.SettingsFragment;
+import tech.sud.mgp.hello.ui.performance.PerformanceManager;
 
 /**
  * 首页
@@ -60,6 +61,7 @@ public class MainActivity extends BaseActivity implements MainTabView.TabClickLi
         }
         viewPager.setSaveEnabled(false);
         viewPager.setUserInputEnabled(false);
+        PerformanceManager.getInstance().start(this);
     }
 
     @Override

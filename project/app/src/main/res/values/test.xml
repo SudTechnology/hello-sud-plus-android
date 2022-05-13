@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="test_i_have_set">我已设置</string>
+    <string name="test_floating_permission">开启权限，使用性能检测</string>
+
+</resources>

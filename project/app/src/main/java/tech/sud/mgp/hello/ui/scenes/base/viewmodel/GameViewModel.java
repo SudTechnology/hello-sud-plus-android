@@ -348,6 +348,12 @@ public class GameViewModel implements SudFSMMGListener {
             model.isPlayingGame = false;
         }
 
+        if (hasUser&&isIn){
+            model.isIn = true;
+        }else {
+            model.isIn = false;
+        }
+
         // 处理麦位中显示准备未准备的逻辑
         if (hasUser && !isPlayingGame) { // 麦位有人，并且当前没有在游戏中
             if (isReady) { // 已准备

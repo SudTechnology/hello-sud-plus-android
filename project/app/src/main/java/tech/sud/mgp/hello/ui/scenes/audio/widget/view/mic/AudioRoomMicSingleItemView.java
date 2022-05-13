@@ -83,8 +83,8 @@ public class AudioRoomMicSingleItemView extends BaseMicItemView {
             giftIcon.setVisibility(View.GONE);
         }
 
-        // 是否正在游戏中
-        if (hasUser && item.isPlayingGame) {
+        // 是否显示正在游戏中（产品要求加入游戏就显示游戏中，点单场景）
+        if (hasUser && item.isIn) {
             tvGameState.setVisibility(View.VISIBLE);
         } else {
             tvGameState.setVisibility(View.GONE);

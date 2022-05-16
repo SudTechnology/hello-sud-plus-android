@@ -12,6 +12,7 @@ import android.view.Gravity;
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
+import com.didichuxing.doraemonkit.DoKit;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.SDKOptions;
 import com.tencent.bugly.crashreport.CrashReport;
@@ -40,7 +41,14 @@ public class HelloSudApplication extends Application {
             configToast();
             registerActivityLifecycleCallbacks(MyActivityManager.getInstance());
             initMinClient();
+            initDokit();
         }
+    }
+
+    private void initDokit() {
+        new DoKit.Builder(this)
+                .productId("需要使用平台功能的话，需要到dokit.cn平台申请id")
+                .build();
     }
 
     private void initMinClient() {

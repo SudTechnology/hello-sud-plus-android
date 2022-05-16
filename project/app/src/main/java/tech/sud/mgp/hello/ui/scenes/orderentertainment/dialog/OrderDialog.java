@@ -104,6 +104,7 @@ public class OrderDialog extends BaseDialogFragment {
             selectedAllTv.setSelected(!current);
         });
         orderBtn.setOnClickListener(v -> {
+            if (!hasAnchor) return;
             List<Long> anchors = findUsers();
             if (anchors.size() < 1) {
                 ToastUtils.showLong(R.string.order_dialog_no_select_anchor);

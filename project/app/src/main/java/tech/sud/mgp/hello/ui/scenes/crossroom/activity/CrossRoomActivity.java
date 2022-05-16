@@ -15,14 +15,12 @@ import com.blankj.utilcode.util.ToastUtils;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
-import tech.sud.mgp.hello.common.utils.CustomCountdownTimer;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
 import tech.sud.mgp.hello.service.game.repository.GameRepository;
 import tech.sud.mgp.hello.service.room.model.PkStatus;
 import tech.sud.mgp.hello.service.room.resp.RoomPkModel;
 import tech.sud.mgp.hello.service.room.resp.RoomPkRoomInfo;
-import tech.sud.mgp.hello.ui.common.utils.LifecycleUtils;
 import tech.sud.mgp.hello.ui.main.home.model.RoomItemModel;
 import tech.sud.mgp.hello.ui.scenes.audio.activity.AbsAudioRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.audio.widget.view.mic.AudioRoomGameMicView;
@@ -34,7 +32,6 @@ import tech.sud.mgp.hello.ui.scenes.base.utils.EnterRoomUtils;
 import tech.sud.mgp.hello.ui.scenes.base.utils.HSJsonUtils;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.chat.SceneRoomChatView;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.mic.BaseMicView;
-import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKSendInviteModel;
 import tech.sud.mgp.hello.ui.scenes.crossroom.viewmodel.CrossRoomGameViewModel;
 import tech.sud.mgp.hello.ui.scenes.crossroom.viewmodel.CrossRoomViewModel;
 import tech.sud.mgp.hello.ui.scenes.crossroom.widget.dialog.InvitePkDialog;
@@ -57,7 +54,6 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
     private View tvSelectGame;
 
     private final CrossRoomViewModel viewModel = new CrossRoomViewModel();
-    private SimpleChooseDialog inviteAnswerDialog;
 
     @Override
     protected CrossRoomGameViewModel initGameViewModel() {
@@ -260,50 +256,6 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
             }
         });
         dialog.show(getSupportFragmentManager(), null);
-    }
-
-    /** 展示邀请应答弹窗 */
-    private void showInviteAnswerDialog(RoomCmdPKSendInviteModel model) {
-        if (inviteAnswerDialog != null && inviteAnswerDialog.isShowing()) return;
-        // 显示dialog
-        SimpleChooseDialog dialog = new SimpleChooseDialog(this, getString(R.string.invite_pk_answer_title, model.sendUser.name)
-                , "", getString(R.string.accept));
-        dialog.setCustomCanceledOnTouchOutside(false);
-        dialog.setCancelable(false);
-        dialog.show();
-        // 倒计时
-        CustomCountdownTimer countdownTimer = new CustomCountdownTimer(8) {
-            @Override
-            protected void onTick(int count) {
-                String text = getString(R.string.refuse) + "(" + count + "s)";
-                dialog.setLeftText(text);
-            }
-
-            @Override
-            protected void onFinish() {
-                dialog.dismiss();
-            }
-        };
-        countdownTimer.start();
-        // 监听
-        dialog.setOnChooseListener(new SimpleChooseDialog.OnChooseListener() {
-            @Override
-            public void onChoose(int index) {
-                if (binder != null) {
-                    if (index == 0) { // 拒绝
-                        binder.roomPkAnswer(model, false);
-                    } else if (index == 1) { // 接受
-                        binder.roomPkAnswer(model, true);
-                    }
-                }
-                dialog.dismiss();
-            }
-        });
-        inviteAnswerDialog = dialog;
-        inviteAnswerDialog.setOnDestroyListener(() -> {
-            inviteAnswerDialog = null;
-            countdownTimer.cancel();
-        });
     }
 
     /** 设置游戏相关的事件 */
@@ -543,18 +495,6 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
         super.onRoomPkUpdate();
         updatePkInfo();
         updatePageStyle();
-    }
-
-    @Override
-    public void onRoomPkInvite(RoomCmdPKSendInviteModel model) {
-        super.onRoomPkInvite(model);
-        if (model == null) return;
-        LifecycleUtils.safeLifecycle(this, 8000, new LifecycleUtils.CompletedListener() {
-            @Override
-            public void onCompleted() {
-                showInviteAnswerDialog(model);
-            }
-        });
     }
 
     @Override

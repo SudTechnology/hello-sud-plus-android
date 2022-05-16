@@ -26,7 +26,6 @@ import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.SceneRoomData;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.base.utils.SceneRoomNotificationHelper;
-import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKSendInviteModel;
 
 /**
  * 房间服务
@@ -219,11 +218,6 @@ public class SceneRoomService extends Service {
         /** 跨房pk，发送邀请 */
         public void roomPkInvite(RoomItemModel model) {
             serviceManager.sceneRoomPkManager.roomPkInvite(model);
-        }
-
-        /** 跨房pk，应答 */
-        public void roomPkAnswer(RoomCmdPKSendInviteModel model, boolean isAccept) {
-            serviceManager.sceneRoomPkManager.roomPkAnswer(model, isAccept);
         }
 
         /** 同步自己的游戏给对方房间 */

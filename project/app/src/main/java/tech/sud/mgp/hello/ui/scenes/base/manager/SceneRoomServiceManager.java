@@ -183,6 +183,7 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
         sceneChatManager.callbackPageData();
         sceneMicManager.callbackPageData();
         sceneStreamManager.callbackPageData();
+        sceneRoomPkManager.callbackPageData();
     }
 
     /** 检查进入房间是否已完成 */

@@ -1,13 +1,22 @@
 package tech.sud.mgp.hello.ui.scenes.base.manager;
 
+import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
 
+import androidx.lifecycle.LifecycleOwner;
+
+import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.Utils;
+
+import java.util.concurrent.Future;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
+import tech.sud.mgp.hello.common.utils.CustomCountdownTimer;
+import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
 import tech.sud.mgp.hello.service.room.model.PkStatus;
 import tech.sud.mgp.hello.service.room.repository.RoomRepository;
 import tech.sud.mgp.hello.service.room.resp.RoomPkAgainResp;
@@ -15,6 +24,7 @@ import tech.sud.mgp.hello.service.room.resp.RoomPkAgreeResp;
 import tech.sud.mgp.hello.service.room.resp.RoomPkModel;
 import tech.sud.mgp.hello.service.room.resp.RoomPkRoomInfo;
 import tech.sud.mgp.hello.service.room.resp.RoomPkStartResp;
+import tech.sud.mgp.hello.ui.common.utils.LifecycleUtils;
 import tech.sud.mgp.hello.ui.main.constant.GameIdCons;
 import tech.sud.mgp.hello.ui.main.home.model.RoomItemModel;
 import tech.sud.mgp.hello.ui.scenes.base.activity.RoomConfig;
@@ -52,6 +62,8 @@ public class SceneRoomPkManager extends BaseServiceManager {
 
     private final SceneRoomServiceManager parentManager;
     private RoomPkModel roomPkModel;
+    private SimpleChooseDialog inviteAnswerDialog;
+    private Future<Object> showInviteDialogFuture;
 
     public SceneRoomPkManager(SceneRoomServiceManager sceneRoomServiceManager) {
         super();
@@ -75,6 +87,10 @@ public class SceneRoomPkManager extends BaseServiceManager {
 
     public void enterRoom(RoomConfig config, RoomInfoModel model) {
         roomPkModel = model.roomPkModel;
+    }
+
+    public void callbackPageData() {
+        callbackUpdateRoomPk();
     }
 
     public void initRoomPkModel() {
@@ -398,18 +414,82 @@ public class SceneRoomPkManager extends BaseServiceManager {
         return false;
     }
 
+    /**
+     * 处理跨房pk邀请
+     *
+     * @param model 邀请信息
+     */
+    private void processInvite(RoomCmdPKSendInviteModel model) {
+        if (getPkStatus() != PkStatus.MATCHING) return;
+        if (parentManager.getRoleType() != RoleType.OWNER) return;
+        if (showInviteDialogFuture != null && !showInviteDialogFuture.isDone()) return;
+        // 房主才处理
+        Activity topActivity = ActivityUtils.getTopActivity();
+        if (topActivity instanceof LifecycleOwner) {
+            LifecycleOwner owner = (LifecycleOwner) topActivity;
+            showInviteDialogFuture = LifecycleUtils.safeLifecycle(owner, 8000, new LifecycleUtils.CompletedListener() {
+                @Override
+                public void onCompleted() {
+                    if (getPkStatus() != PkStatus.MATCHING) return;
+                    showInviteAnswerDialog(topActivity, model);
+                }
+            });
+        }
+    }
+
+    /** 展示邀请应答弹窗 */
+    private void showInviteAnswerDialog(Context context, RoomCmdPKSendInviteModel model) {
+        if (inviteAnswerDialog != null && inviteAnswerDialog.isShowing()) return;
+        // 显示dialog
+        SimpleChooseDialog dialog = new SimpleChooseDialog(context, context.getString(R.string.invite_pk_answer_title, model.sendUser.name)
+                , "", context.getString(R.string.accept));
+        dialog.setCustomCanceledOnTouchOutside(false);
+        dialog.setCancelable(false);
+        dialog.show();
+        // 倒计时
+        CustomCountdownTimer countdownTimer = new CustomCountdownTimer(8) {
+            @Override
+            protected void onTick(int count) {
+                if (dialog.isShowing()) {
+                    String text = context.getString(R.string.refuse) + "(" + count + "s)";
+                    dialog.setLeftText(text);
+                }
+            }
+
+            @Override
+            protected void onFinish() {
+                if (dialog.isShowing()) {
+                    dialog.dismiss();
+                }
+            }
+        };
+        countdownTimer.start();
+        // 监听
+        dialog.setOnChooseListener(new SimpleChooseDialog.OnChooseListener() {
+            @Override
+            public void onChoose(int index) {
+                if (index == 0) { // 拒绝
+                    roomPkAnswer(model, false);
+                } else if (index == 1) { // 接受
+                    parentManager.startRoomActivity();
+                    roomPkAnswer(model, true);
+                }
+                dialog.dismiss();
+            }
+        });
+        inviteAnswerDialog = dialog;
+        inviteAnswerDialog.setOnDestroyListener(() -> {
+            inviteAnswerDialog = null;
+            countdownTimer.cancel();
+        });
+    }
+
     // region 信令监听
     /** 跨房PK邀请 监听 */
     private final PKSendInviteCommandListener inviteCommandListener = new PKSendInviteCommandListener() {
         @Override
         public void onRecvCommand(RoomCmdPKSendInviteModel model, String userID) {
-            if (getPkStatus() != PkStatus.MATCHING) return;
-            if (parentManager.getRoleType() == RoleType.OWNER) {
-                SceneRoomServiceCallback callback = parentManager.getCallback();
-                if (callback != null) {
-                    callback.onRoomPkInvite(model);
-                }
-            }
+            processInvite(model);
         }
     };
 
@@ -562,4 +642,17 @@ public class SceneRoomPkManager extends BaseServiceManager {
     };
     // endregion 信令监听
 
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (showInviteDialogFuture != null) {
+            showInviteDialogFuture.cancel(false);
+            showInviteDialogFuture = null;
+        }
+        if (inviteAnswerDialog != null) {
+            inviteAnswerDialog.dismiss();
+            inviteAnswerDialog = null;
+        }
+    }
 }

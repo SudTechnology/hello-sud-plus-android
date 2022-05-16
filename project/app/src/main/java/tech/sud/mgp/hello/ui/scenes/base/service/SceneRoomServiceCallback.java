@@ -5,7 +5,6 @@ import java.util.List;
 import tech.sud.mgp.hello.rtc.audio.core.AudioPCMData;
 import tech.sud.mgp.hello.ui.scenes.base.constant.OperateMicType;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
-import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKSendInviteModel;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftNotifyDetailModel;
 
 public interface SceneRoomServiceCallback {
@@ -129,9 +128,6 @@ public interface SceneRoomServiceCallback {
 
     /** 更新跨房pk信息显示 */
     void onRoomPkUpdate();
-
-    /** 接收到跨房pk邀请 */
-    void onRoomPkInvite(RoomCmdPKSendInviteModel model);
 
     /** 跨房切换游戏 */
     void onRoomPkChangeGame(long gameId);

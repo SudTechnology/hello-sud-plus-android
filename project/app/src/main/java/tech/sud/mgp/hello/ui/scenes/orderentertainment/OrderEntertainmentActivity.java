@@ -16,6 +16,7 @@ import java.util.List;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
+import tech.sud.mgp.hello.ui.scenes.base.model.OrderInviteModel;
 import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomService;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.chat.SceneRoomChatView;
 import tech.sud.mgp.hello.ui.scenes.orderentertainment.activity.AbsOrderRoomActivity;
@@ -158,21 +159,9 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
     @Override
     protected void setListeners() {
         super.setListeners();
-//        chatView.setMsgClickListener(o -> {
-//            if (o instanceof ReceiveInviteMsgModel) {
-//                ReceiveInviteMsgModel model = (ReceiveInviteMsgModel) o;
-//                LogUtils.i("chatView setMsgClickListener topBtnState=" + topBtnState);
-//            }
-//        });
         gameViewModel.dialogResult.observe(this, integer -> {
-            if (integer == 1) {
-                //接受邀请
-                operateOrder(gameViewModel.orderModel.orderId, true);
-            } else if (integer == 2) {
-                //拒绝邀请
-                operateOrder(gameViewModel.orderModel.orderId, false);
-            } else if (integer == 5) {
-                //接受弹窗，继续点单
+            if (integer == 5) {
+                //继续点单
                 iWantOrder();
             }
         });
@@ -190,21 +179,6 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
                 intentSwitchGame(0);
             }
         });
-        gameViewModel.receiveInvite.observe(this, b -> {
-            if (b) {
-                //接受接口成功后切游戏
-                if (binder != null) {
-                    binder.operateOrder(
-                            gameViewModel.orderModel.orderId,
-                            gameViewModel.orderModel.gameId,
-                            gameViewModel.orderModel.gameName,
-                            gameViewModel.orderModel.sendUserId, true);
-                }
-                //接受了并且切换游戏
-                intentSwitchGame(gameViewModel.orderModel.gameId);
-                changeTopBtn(1);
-            }
-        });
     }
 
     /** 主动发起点单 */
@@ -214,37 +188,41 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
         }
     }
 
-    /** 同意或者拒绝点单 */
-    private void operateOrder(long orderId, boolean state) {
-        if (state) {
-            //同意邀请，需要调用后台接口
-            gameViewModel.roomOrderReceive(this, orderId);
-        } else {
-            if (binder != null) {
-                binder.operateOrder(gameViewModel.orderModel.orderId,
-                        gameViewModel.orderModel.gameId,
-                        gameViewModel.orderModel.gameName,
-                        gameViewModel.orderModel.sendUserId, false);
-            }
-            gameViewModel.orderModel = null;
-        }
-    }
-
     /** 有点单邀请来了 */
     @Override
-    public void onOrderInvite(long orderId, long gameId, String gameName, String userID, String nickname, List<String> toUsers) {
-        super.onOrderInvite(orderId, gameId, gameName, userID, nickname, toUsers);
-        gameViewModel.inviteDialog(this, this, orderId, gameId, gameName, userID, nickname, toUsers);
+    public void onOrderInvite(OrderInviteModel model) {
+        super.onOrderInvite(model);
+//        gameViewModel.inviteDialog(this, this, orderId, gameId, gameName, userID, nickname, toUsers);
+        gameViewModel.orderDataLiveData.postValue(null);
+        gameViewModel.isSelfOrder = 0;
+        gameViewModel.orderModel = model;
     }
 
     /** 有点单结果来了 */
     @Override
     public void onOrderOperate(long orderId, long gameId, String gameName, String userId, String userName, boolean operate) {
         super.onOrderOperate(orderId, gameId, gameName, userId, userName, operate);
-        if (!operate) {
-            gameViewModel.operateDialog(this, this, userName);
-        } else {
+        if (operate) {
             gameViewModel.isSelfOrder = 1;
+        }
+    }
+
+    //接受邀请接口是否成功
+    @Override
+    public void onReceiveInvite(boolean agreeState) {
+        super.onReceiveInvite(agreeState);
+        if (agreeState){
+            //接受接口成功后切游戏
+            if (binder != null) {
+                binder.operateOrder(
+                        gameViewModel.orderModel.orderId,
+                        gameViewModel.orderModel.gameId,
+                        gameViewModel.orderModel.gameName,
+                        gameViewModel.orderModel.sendUserId, true);
+            }
+            //接受了并且切换游戏
+            intentSwitchGame(gameViewModel.orderModel.gameId);
+            changeTopBtn(1);
         }
     }
 
@@ -269,5 +247,4 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
             dialog.show(getSupportFragmentManager(), null);
         }
     }
-
 }

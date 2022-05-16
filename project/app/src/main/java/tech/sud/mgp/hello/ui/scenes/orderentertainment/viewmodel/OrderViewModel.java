@@ -23,6 +23,7 @@ import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
 import tech.sud.mgp.hello.service.room.repository.RoomRepository;
 import tech.sud.mgp.hello.service.room.resp.RoomOrderCreateResp;
 import tech.sud.mgp.hello.ui.common.utils.DialogUtils;
+import tech.sud.mgp.hello.ui.scenes.base.model.OrderInviteModel;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.GameViewModel;
 import tech.sud.mgp.hello.ui.scenes.orderentertainment.OrderEntertainmentActivity;
 import tech.sud.mgp.hello.ui.scenes.orderentertainment.model.OrderDataModel;
@@ -33,21 +34,18 @@ import tech.sud.mgp.hello.ui.scenes.orderentertainment.model.OrderGameModel;
  */
 public class OrderViewModel extends GameViewModel {
 
-    private SimpleChooseDialog inviteDialog;//邀请弹窗
-    private SimpleChooseDialog operateDialog;//拒绝弹窗
     private SimpleChooseDialog finishDialog;//结束弹窗
-    // 1邀请弹窗确定 2取消 3拒绝弹窗确定 4取消 5结束弹窗确定 6取消
+    // 5结束弹窗确定 6取消
     public MutableLiveData<Integer> dialogResult = new MutableLiveData<>();
-    //被邀请弹窗数据（别人邀请
-    public InviteOrderModel orderModel;
+
     //用户主动点单数据（自己主动下单邀请
     public MutableLiveData<OrderDataModel> orderDataLiveData = new MutableLiveData<>();
     //游戏结束后，切回到语音房间
     public MutableLiveData<Integer> changeToAduio = new MutableLiveData<>();
-    //接受邀请接口是否成功
-    public MutableLiveData<Boolean> receiveInvite = new MutableLiveData<>();
     // 0订单是别人发起的 1订单是自己发起的
     public int isSelfOrder = 0;
+    //点单
+    public OrderInviteModel orderModel;
 
     public void roomOrderCreate(LifecycleOwner owner,
                                 long roomId,
@@ -63,78 +61,8 @@ public class OrderViewModel extends GameViewModel {
                 model.userIdList = userIdList;
                 model.game = game;
                 orderDataLiveData.postValue(model);
-                orderModel = null;
             }
         });
-    }
-
-    public void roomOrderReceive(LifecycleOwner owner, long orderId) {
-        RoomRepository.roomOrderReceive(owner, orderId, new RxCallback<Object>() {
-            @Override
-            public void onNext(BaseResponse<Object> t) {
-                super.onNext(t);
-                if (t.getRetCode() == RetCode.SUCCESS) {
-                    receiveInvite.postValue(true);
-                } else {
-                    receiveInvite.postValue(false);
-                }
-            }
-        });
-    }
-
-    /** 邀请弹窗 */
-    public void inviteDialog(Context context,
-                             LifecycleOwner owner,
-                             long orderId,
-                             long gameId,
-                             String gameName,
-                             String userID,
-                             String nickname,
-                             List<String> toUsers) {
-        if (inviteDialog == null || !inviteDialog.isShowing()) {
-            orderModel = new InviteOrderModel();
-            orderModel.orderId = orderId;
-            orderModel.gameId = gameId;
-            orderModel.gameName = gameName;
-            orderModel.sendUserId = userID;
-            orderModel.sendUserName = nickname;
-            orderModel.toUsers = toUsers;
-            inviteDialog = new SimpleChooseDialog(context, context.getString(R.string.order_invite_conent, nickname, gameName),
-                    context.getString(R.string.order_invite_left_btn),
-                    context.getString(R.string.order_invite_right_btn));
-            inviteDialog.setOnChooseListener(index -> {
-                if (index == 1) {
-                    dialogResult.postValue(1);
-                    orderDataLiveData.postValue(null);
-                    isSelfOrder = 0;
-                } else {
-                    dialogResult.postValue(2);
-                }
-                inviteDialog.dismiss();
-                inviteDialog = null;
-            });
-            DialogUtils.safeShowDialog(owner, inviteDialog);
-        }
-    }
-
-    /** 被拒绝弹窗 */
-    public void operateDialog(Context context,
-                              LifecycleOwner owner,
-                              String nickName) {
-        if (operateDialog == null || !operateDialog.isShowing()) {
-            operateDialog = new SimpleChooseDialog(context, context.getString(R.string.order_result_conent, nickName),
-                    context.getString(R.string.cancel), context.getString(R.string.confirm));
-            operateDialog.setOnChooseListener(index -> {
-                if (index == 1) {
-                    dialogResult.postValue(3);
-                } else {
-                    dialogResult.postValue(4);
-                }
-                operateDialog.dismiss();
-                operateDialog = null;
-            });
-            DialogUtils.safeShowDialog(owner, operateDialog);
-        }
     }
 
     /** 结束弹窗 */
@@ -181,7 +109,6 @@ public class OrderViewModel extends GameViewModel {
         }
         isSelfOrder = 0;
         orderDataLiveData.setValue(null);
-        orderModel = null;
         //查找积分榜第一个未逃跑的人切回游戏到语音
         if (model.results != null && model.results.size() > 0) {
             for (SudMGPMGState.MGCommonGameSettle.PlayerResult playerResult : model.results) {
@@ -201,16 +128,6 @@ public class OrderViewModel extends GameViewModel {
         gameViewInfoModel.view_game_rect.top = 0;
         gameViewInfoModel.view_game_rect.right = 0;
         gameViewInfoModel.view_game_rect.bottom = 0;
-    }
-
-    /** 别人邀请我 */
-    public class InviteOrderModel {
-        public String sendUserId;//邀请者id
-        public String sendUserName;//邀请者昵称
-        public long orderId; // 订单id
-        public long gameId; //游戏id
-        public String gameName; //游戏名字
-        public List<String> toUsers; // 下单邀请的主播id列表
     }
 
 }

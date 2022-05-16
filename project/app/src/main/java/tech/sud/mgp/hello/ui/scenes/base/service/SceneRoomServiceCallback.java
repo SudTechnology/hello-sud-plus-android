@@ -5,6 +5,7 @@ import java.util.List;
 import tech.sud.mgp.hello.rtc.audio.core.AudioPCMData;
 import tech.sud.mgp.hello.ui.scenes.base.constant.OperateMicType;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
+import tech.sud.mgp.hello.ui.scenes.base.model.OrderInviteModel;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftNotifyDetailModel;
 
 public interface SceneRoomServiceCallback {
@@ -103,19 +104,12 @@ public interface SceneRoomServiceCallback {
     void onMicLocationSwitchCompleted(int micIndex, boolean operate, OperateMicType type);
 
     /**
-     * 用户下单广播给主播（发起邀请
-     *
-     * @param orderId  订单id
-     * @param gameId   游戏id
-     * @param gameName 游戏名字
-     * @param userID   邀请者的userID
-     * @param nickname 邀请者的nickname
-     * @param toUsers  被邀请的主播id列表
+     * 主播处理用户点单邀请
      */
-    void onOrderInvite(long orderId, long gameId, String gameName, String userID, String nickname, List<String> toUsers);
+    void onOrderInvite(OrderInviteModel model);
 
     /**
-     * 主播同意或者拒绝用户邀请
+     * 用户接收到点单结果
      *
      * @param orderId  订单id
      * @param gameId   游戏id
@@ -125,6 +119,11 @@ public interface SceneRoomServiceCallback {
      * @param operate  true同意false拒绝
      */
     void onOrderOperate(long orderId, long gameId, String gameName, String userId, String userName, boolean operate);
+
+    /**
+     * 主播接收用户点单邀请
+     */
+    void onReceiveInvite(boolean agreeState);
 
     /** 更新跨房pk信息显示 */
     void onRoomPkUpdate();

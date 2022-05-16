@@ -2,6 +2,7 @@ package tech.sud.mgp.hello.ui.scenes.base.manager;
 
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
+import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomServiceCallback;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.RoomCmdModelUtils;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdSendGiftModel;
 import tech.sud.mgp.hello.ui.scenes.common.gift.manager.GiftHelper;
@@ -65,7 +66,10 @@ public class SceneGiftManager extends BaseServiceManager {
             notify.toUser = command.toUser;
             notify.giftCount = command.giftCount;
             notify.giftID = command.giftID;
-            parentManager.getCallback().sendGiftsNotify(notify);
+            SceneRoomServiceCallback callback = parentManager.getCallback();
+            if (callback!=null){
+                callback.sendGiftsNotify(notify);
+            }
             parentManager.sceneChatManager.addMsg(notify);
         }
     };

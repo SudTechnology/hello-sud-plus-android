@@ -6,6 +6,7 @@ import java.util.List;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
+import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomServiceCallback;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.RoomCmdModelUtils;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.order.RoomCmdOrderOperateModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.order.RoomCmdUserOrderModel;
@@ -61,7 +62,10 @@ public class SceneOrderManager extends BaseServiceManager {
                     }
                 }
                 if (needDispatch) {
-                    parentManager.getCallback().onOrderInvite(command.orderId, command.gameId, command.gameName, command.sendUser.userID, command.sendUser.name, command.toUsers);
+                    SceneRoomServiceCallback callback = parentManager.getCallback();
+                    if (callback != null) {
+                        callback.onOrderInvite(command.orderId, command.gameId, command.gameName, command.sendUser.userID, command.sendUser.name, command.toUsers);
+                    }
                 }
             }
         }
@@ -80,7 +84,10 @@ public class SceneOrderManager extends BaseServiceManager {
                     String msg = Utils.getApp().getString(R.string.user_receive_invite_msg, command.sendUser.name, command.gameName);
                     parentManager.sceneChatManager.addMsg(msg);
                 }
-                parentManager.getCallback().onOrderOperate(command.orderId, command.gameId, command.gameName, command.sendUser.userID, command.sendUser.name, command.operate);
+                SceneRoomServiceCallback callback = parentManager.getCallback();
+                if (callback != null) {
+                    callback.onOrderOperate(command.orderId, command.gameId, command.gameName, command.sendUser.userID, command.sendUser.name, command.operate);
+                }
             }
         }
     };

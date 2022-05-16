@@ -46,6 +46,18 @@ public class SudFSMMGDecorator implements ISudFSMMG {
     }
 
     /**
+     * 游戏加载进度
+     *
+     * @param stage    阶段：start=1,loading=2,end=3
+     * @param retCode  错误码：0成功
+     * @param progress 进度：[0, 100]
+     */
+    @Override
+    public void onGameLoadingProgress(int stage, int retCode, int progress) {
+
+    }
+
+    /**
      * 游戏开始
      * 最低版本：v1.1.30.xx
      */

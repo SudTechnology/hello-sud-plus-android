@@ -1,10 +1,14 @@
 package tech.sud.mgp.hello.ui.scenes.base.manager;
 
+import android.app.Activity;
+import android.content.Intent;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LifecycleRegistry;
 
+import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.Utils;
 import com.trello.rxlifecycle4.LifecycleTransformer;
 import com.trello.rxlifecycle4.RxLifecycle;
@@ -14,6 +18,7 @@ import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.lifecycle.CustomLifecycleEvent;
 import tech.sud.mgp.hello.common.utils.lifecycle.CustomLifecycleProvider;
+import tech.sud.mgp.hello.ui.common.constant.RequestKey;
 import tech.sud.mgp.hello.ui.scenes.base.activity.RoomConfig;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoleType;
@@ -34,6 +39,7 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
     private SceneRoomServiceCallback sceneRoomServiceCallback;
     private RoomInfoModel roomInfoModel;
     private boolean enterRoomCompleted = false; // 标识是否进房成功
+    private Class<? extends Activity> roomActivityClass; // 当前展示的Activity
 
     public final SceneEngineManager sceneEngineManager = new SceneEngineManager(this);
     public final SceneChatManager sceneChatManager = new SceneChatManager(this);
@@ -95,6 +101,7 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
     @Override
     public void onDestroy() {
         super.onDestroy();
+        roomActivityClass = null;
         lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY);
         lifecycleSubject.onNext(CustomLifecycleEvent.DESTROY);
         sceneEngineManager.onDestroy();
@@ -148,7 +155,8 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
     }
 
     /** 进入房间 */
-    public void enterRoom(RoomConfig config, RoomInfoModel model) {
+    public void enterRoom(RoomConfig config, Class<? extends Activity> startClass, RoomInfoModel model) {
+        roomActivityClass = startClass;
         enterRoomCompleted = false;
         roomInfoModel = model;
         sceneEngineManager.enterRoomCompletedListener = this::checkEnterRoomCompleted;
@@ -156,6 +164,18 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
         sceneEngineManager.enterRoom(config, model);
         sceneMicManager.enterRoom(config, model);
         sceneRoomPkManager.enterRoom(config, model);
+    }
+
+    /** 打开房间的Activity页面 */
+    public void startRoomActivity() {
+        if (roomActivityClass == null) return;
+        Class<? extends Activity> cls = roomActivityClass;
+        if (ActivityUtils.isActivityExistsInStack(cls)) return;
+        Activity topActivity = ActivityUtils.getTopActivity();
+        if (topActivity == null) return;
+        Intent intent = new Intent(topActivity, cls);
+        intent.putExtra(RequestKey.KEY_IS_PENDING_INTENT, true);
+        topActivity.startActivity(intent);
     }
 
     /** 回调页面数据 */

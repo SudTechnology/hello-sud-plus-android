@@ -100,7 +100,7 @@ public class SceneRoomService extends Service {
 
             // 3.首次进入
             sceneRoomData.roomInfoModel = model;
-            serviceManager.enterRoom(config, model);
+            serviceManager.enterRoom(config, startClass, model);
         }
 
         /**

@@ -33,6 +33,8 @@ public class SceneOrderManager extends BaseServiceManager {
     private SimpleChooseDialog inviteDialog;//邀请弹窗
     private SimpleChooseDialog operateDialog;//拒绝弹窗
     private final SceneRoomServiceManager parentManager;
+    private OrderInviteModel orderModel;
+    private int receiveSate = 0;
 
     public SceneOrderManager(SceneRoomServiceManager sceneRoomServiceManager) {
         super();
@@ -132,7 +134,7 @@ public class SceneOrderManager extends BaseServiceManager {
                         }
                         parentManager.startRoomActivity();
                         //用户接受了邀请点单
-                        roomOrderReceive((LifecycleOwner) activity, orderId);
+                        roomOrderReceive((LifecycleOwner) activity, orderId, orderModel);
                     } else {
                         orderModel.agreeState = 2;
                         SceneRoomServiceCallback callback = parentManager.getCallback();
@@ -145,6 +147,7 @@ public class SceneOrderManager extends BaseServiceManager {
                     inviteDialog = null;
                 });
                 DialogUtils.safeShowDialog((LifecycleOwner) activity, inviteDialog);
+                this.orderModel = orderModel;
             }
         }
     }
@@ -169,21 +172,37 @@ public class SceneOrderManager extends BaseServiceManager {
         }
     }
 
-    public void roomOrderReceive(LifecycleOwner owner, long orderId) {
+    public void roomOrderReceive(LifecycleOwner owner, long orderId, OrderInviteModel orderModel) {
         RoomRepository.roomOrderReceive(owner, orderId, new RxCallback<Object>() {
             @Override
             public void onNext(BaseResponse<Object> t) {
                 super.onNext(t);
                 SceneRoomServiceCallback callback = parentManager.getCallback();
+                if (t.getRetCode() == RetCode.SUCCESS) {
+                    //接受接口成功后切游戏
+                    operateOrder(orderModel.orderId,
+                            orderModel.gameId,
+                            orderModel.gameName,
+                            orderModel.sendUserId, true);
+                }
                 if (callback != null) {
-                    if (t.getRetCode() == RetCode.SUCCESS) {
-                        callback.onReceiveInvite(true);
-                    } else {
-                        callback.onReceiveInvite(false);
-                    }
+                    receiveSate = t.getRetCode() == RetCode.SUCCESS ? 1 : 2;
+                    callback.onReceiveInvite(t.getRetCode() == RetCode.SUCCESS);
                 }
             }
         });
+    }
+
+    public void callbackPageData() {
+        SceneRoomServiceCallback callback = parentManager.getCallback();
+        if (callback != null) {
+            if (orderModel != null) {
+                callback.onOrderInvite(orderModel);
+            }
+            if (receiveSate != 0) {
+                callback.onReceiveInvite(receiveSate == 1);
+            }
+        }
     }
 
 }

@@ -212,14 +212,6 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
     public void onReceiveInvite(boolean agreeState) {
         super.onReceiveInvite(agreeState);
         if (agreeState){
-            //接受接口成功后切游戏
-            if (binder != null) {
-                binder.operateOrder(
-                        gameViewModel.orderModel.orderId,
-                        gameViewModel.orderModel.gameId,
-                        gameViewModel.orderModel.gameName,
-                        gameViewModel.orderModel.sendUserId, true);
-            }
             //接受了并且切换游戏
             intentSwitchGame(gameViewModel.orderModel.gameId);
             changeTopBtn(1);

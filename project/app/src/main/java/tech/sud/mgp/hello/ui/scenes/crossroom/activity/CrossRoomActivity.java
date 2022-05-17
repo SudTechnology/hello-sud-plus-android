@@ -169,17 +169,13 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
                 new PkRuleDialog().show(getSupportFragmentManager(), null);
             }
         });
-        roomPkInfoView.setInviteOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showInviteDialog();
-            }
-        });
         roomPkInfoView.setPkRivalOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (getPkStatus() == PkStatus.MATCHING) {
-                    showInviteDialog();
+                    if (roomInfoModel.roleType == RoleType.OWNER) {
+                        showInviteDialog();
+                    }
                 } else {
                     if (roomInfoModel.roleType == RoleType.OWNER) {
                         intentRemovePkRival();

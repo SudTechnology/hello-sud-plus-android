@@ -58,8 +58,6 @@ public class RoomPkInfoView extends ConstraintLayout {
     private int oldStatus = -1;
     private int oldTotalMinute = -1;
 
-    public OnClickListener inviteOnClickListener;
-
     public RoomPkInfoView(@NonNull Context context) {
         this(context, null);
     }
@@ -105,15 +103,6 @@ public class RoomPkInfoView extends ConstraintLayout {
     }
 
     private void initListener() {
-        ClickUtils.applySingleDebouncing(rightIvIcon, new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                RoomPkRoomInfo rightRoomInfo = getRightRoomInfo();
-                if (rightRoomInfo == null) {
-                    inviteOnClickListener.onClick(v);
-                }
-            }
-        });
     }
 
     /** 设置数据源 */
@@ -321,12 +310,7 @@ public class RoomPkInfoView extends ConstraintLayout {
 
     /** 设置pk对手头像的点击事件 */
     public void setPkRivalOnClickListener(OnClickListener listener) {
-        rightIvIcon.setOnClickListener(listener);
-    }
-
-    /** 设置点击"+"号，邀请pk对手的事件 */
-    public void setInviteOnClickListener(OnClickListener listener) {
-        inviteOnClickListener = listener;
+        ClickUtils.applySingleDebouncing(rightIvIcon, listener);
     }
 
     public interface PkCountdownFinishListener {

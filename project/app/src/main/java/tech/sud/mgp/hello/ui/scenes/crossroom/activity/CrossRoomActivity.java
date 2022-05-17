@@ -84,6 +84,7 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
         roomConfig.isShowGameNumber = false; // 不显示游戏人数
         roomConfig.isShowASRTopHint = false; // 右上角不展示ASR提示
         gameViewModel.gameConfigModel.ui.start_btn.custom = true; // 接管游戏的开始按钮事件
+        gameViewModel.gameConfigModel.ui.lobby_game_setting.hide = true; // 隐藏玩法设置
 
         int marginEnd = DensityUtils.dp2px(this, 12);
         int maxWidth = DensityUtils.dp2px(this, 100);

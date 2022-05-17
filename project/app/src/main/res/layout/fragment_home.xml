@@ -141,7 +141,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/indicator_container">
 
-        <com.scwang.smart.refresh.header.ClassicsHeader
+        <tech.sud.mgp.hello.ui.common.widget.refresh.CustomHeaderView
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

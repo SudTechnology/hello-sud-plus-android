@@ -6,7 +6,6 @@ import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.scwang.smart.refresh.header.ClassicsHeader;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 
 /**
@@ -32,7 +31,7 @@ public class RefreshView extends SmartRefreshLayout {
     }
 
     private void initHeadView() {
-        ClassicsHeader headerView = new ClassicsHeader(getContext());
+        CustomHeaderView headerView = new CustomHeaderView(getContext());
         addView(headerView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     }
 

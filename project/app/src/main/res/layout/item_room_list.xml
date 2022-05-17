@@ -7,13 +7,28 @@
     android:background="@color/white"
     android:padding="9dp">
 
-    <ImageView
+    <tech.sud.mgp.hello.common.widget.view.round.RoundedImageView
         android:id="@+id/room_cover"
         android:layout_width="64dp"
         android:layout_height="64dp"
+        app:riv_corner_radius="10dp"
+        android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_status"
+        android:layout_width="wrap_content"
+        android:layout_height="16dp"
+        android:gravity="center"
+        android:singleLine="true"
+        android:paddingStart="7dp"
+        android:paddingEnd="5dp"
+        android:textSize="10sp"
+        android:textColor="@color/c_ffffff"
+        app:layout_constraintTop_toTopOf="@id/room_cover"
+        app:layout_constraintStart_toStartOf="@id/room_cover" />
 
     <TextView
         android:id="@+id/room_scene"

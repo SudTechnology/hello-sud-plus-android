@@ -1,7 +1,9 @@
 package tech.sud.mgp.hello.ui.main.roomlist;
 
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,7 +17,10 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.model.AppData;
+import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
+import tech.sud.mgp.hello.common.utils.ShapeUtils;
+import tech.sud.mgp.hello.service.room.model.PkStatus;
 import tech.sud.mgp.hello.ui.main.constant.SceneType;
 import tech.sud.mgp.hello.ui.main.home.model.RoomItemModel;
 
@@ -25,6 +30,7 @@ import tech.sud.mgp.hello.ui.main.home.model.RoomItemModel;
 public class RoomListAdapter extends BaseQuickAdapter<RoomItemModel, BaseViewHolder> implements LoadMoreModule {
 
     private int btnText; // 右下角按钮的文字
+    private int radius = DensityUtils.dp2px(10);
 
     public RoomListAdapter() {
         this(0);
@@ -58,6 +64,30 @@ public class RoomListAdapter extends BaseQuickAdapter<RoomItemModel, BaseViewHol
         }
         if (btnText > 0) {
             helper.setText(R.id.room_enter, btnText);
+        }
+
+        TextView tvStatus = helper.getView(R.id.tv_status);
+        tvStatus.setBackground(ShapeUtils.createShape(null, null,
+                new float[]{radius, radius, 0, 0, 0, 0, 0, 0},
+                GradientDrawable.RECTANGLE, null, Color.parseColor("#cc000000")));
+        if (item.getSceneType() == SceneType.CROSS_ROOM) {
+            switch (item.pkStatus) {
+                case PkStatus.MATCHING:
+                    tvStatus.setVisibility(View.VISIBLE);
+                    tvStatus.setText(R.string.matching);
+                    break;
+                case PkStatus.MATCHED:
+                case PkStatus.STARTED:
+                case PkStatus.PK_END:
+                    tvStatus.setVisibility(View.VISIBLE);
+                    tvStatus.setText(R.string.in_game);
+                    break;
+                default:
+                    tvStatus.setVisibility(View.GONE);
+                    break;
+            }
+        } else {
+            tvStatus.setVisibility(View.GONE);
         }
     }
 

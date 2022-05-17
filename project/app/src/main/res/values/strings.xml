@@ -350,4 +350,9 @@ Go to homepage to create one~</string>
     <string name="confirm_remove">Confirm removal</string>
     <string name="room_invitation_send">Invitation sent, please wait</string>
 
+    <!-- region 新增 -->
+    <string name="matching">匹配中</string>
+    <string name="in_game">比赛中</string>
+    <!-- endregion 新增 -->
+
 </resources>

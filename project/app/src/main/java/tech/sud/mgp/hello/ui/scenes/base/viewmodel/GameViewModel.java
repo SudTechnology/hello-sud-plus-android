@@ -348,9 +348,9 @@ public class GameViewModel implements SudFSMMGListener {
             model.isPlayingGame = false;
         }
 
-        if (hasUser&&isIn){
+        if (hasUser && isIn) {
             model.isIn = true;
-        }else {
+        } else {
             model.isIn = false;
         }
 
@@ -601,6 +601,9 @@ public class GameViewModel implements SudFSMMGListener {
     @Override
     public void onGameMGCommonGameState(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameState model) {
         notifyShowFinishGameBtn();
+        if (model != null && model.gameState == SudMGPMGState.MGCommonGameState.LOADING) { // 游戏开始，收缩麦位
+            micSpaceMaxLiveData.setValue(true);
+        }
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -676,9 +679,6 @@ public class GameViewModel implements SudFSMMGListener {
     public void onPlayerMGCommonPlayerPlaying(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGCommonPlayerPlaying model) {
         if (model != null) {
             notifyUpdateMic();
-            if (userId != null && userId.equals(HSUserInfo.userId + "")) {
-                micSpaceMaxLiveData.setValue(model.spaceMax);
-            }
         }
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }

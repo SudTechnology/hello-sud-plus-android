@@ -322,7 +322,7 @@
     <string name="invite_pk">邀請</string>
     <string name="pk_rule">比賽規則</string>
     <string name="pk_rule_detail_1">1.分為紅藍陣營，同個房間內的用戶為一個陣營。</string>
-    <string name="pk_rule_detail_2">2.比賽時間段內，通過玩遊戲獲得的排名得分，即可以為已方陣營加分。</string>
+    <string name="pk_rule_detail_2">2.比賽時間段內，通過玩遊戲獲得的排名得分，即可以為己方陣營加分。</string>
     <string name="pk_rule_detail_3">3.每輪遊戲的排名加分數值如下：</string>
     <string name="pk_rule_detail_4">第一名+100分</string>
     <string name="pk_rule_detail_5">第二名+50分</string>

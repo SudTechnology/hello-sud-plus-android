@@ -39,7 +39,7 @@ public class CustomActivity extends AbsAudioRoomActivity<CustomGameViewModel> {
     protected void setListeners() {
         super.setListeners();
         apiTv.setOnClickListener(v -> {
-            CustomApiDialog dialog = CustomApiDialog.getInstance();
+            CustomApiDialog dialog = CustomApiDialog.newInstance();
             dialog.setListener(i -> {
                 switch (i) {
                     case 0: {
@@ -71,6 +71,7 @@ public class CustomActivity extends AbsAudioRoomActivity<CustomGameViewModel> {
                         break;
                     }
                 }
+                dialog.dismiss();
             });
             dialog.show(getSupportFragmentManager(), null);
         });

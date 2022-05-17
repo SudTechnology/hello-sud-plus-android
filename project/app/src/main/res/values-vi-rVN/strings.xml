@@ -331,7 +331,7 @@
     <string name="order_inivte_complete">Đã chốt đơn</string>
     <string name="pk_duration_settings">Thiết lập thời lượng thi đấu</string>
     <string name="close_room_pk">Tắt trò chơi xuyên phòng</string>
-    <string name="number_minute">%1$d phút</string>
+    <string name="number_minute">%1$s phút</string>
     <string name="confirm_modify">Xác nhận chỉnh sửa</string>
     <string name="empty_room_match">Hiện chưa có phòng để ghép đôi</string>
     <string name="invite_pk_hint">Vui lòng mời đối thủ</string>

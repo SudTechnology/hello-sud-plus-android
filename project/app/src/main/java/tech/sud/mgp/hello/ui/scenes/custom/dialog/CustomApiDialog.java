@@ -18,7 +18,7 @@ public class CustomApiDialog extends BaseDialogFragment {
         this.listener = listener;
     }
 
-    public static CustomApiDialog getInstance() {
+    public static CustomApiDialog newInstance() {
         return new CustomApiDialog();
     }
 

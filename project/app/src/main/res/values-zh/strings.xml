@@ -324,7 +324,7 @@
     <string name="invite_pk">邀请</string>
     <string name="pk_rule">比赛规则</string>
     <string name="pk_rule_detail_1">1.分为红蓝阵营，同个房间内的用户为一个阵营。</string>
-    <string name="pk_rule_detail_2">2.比赛时间段内，通过玩游戏获得的排名得分，即可以为已方阵营加分。</string>
+    <string name="pk_rule_detail_2">2.比赛时间段内，通过玩游戏获得的排名得分，即可以为己方阵营加分。</string>
     <string name="pk_rule_detail_3">3.每轮游戏的排名加分数值如下：</string>
     <string name="pk_rule_detail_4">第一名+100分</string>
     <string name="pk_rule_detail_5">第二名+50分</string>

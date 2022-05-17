@@ -331,7 +331,7 @@
     <string name="order_inivte_complete">สั่งซื้อแล้ว</string>
     <string name="pk_duration_settings">ตั้งค่าระยะเวลาการแข่งขัน</string>
     <string name="close_room_pk">ปิดการเล่นแบบข้ามห้อง</string>
-    <string name="number_minute">%1$S นาที</string>
+    <string name="number_minute">%1$s นาที</string>
     <string name="confirm_modify">ยืนยันการแก้ไข</string>
     <string name="empty_room_match">ขณะนี้ไม่มีห้องอื่นที่เข้ากันได้</string>
     <string name="invite_pk_hint">โปรดเชิญคู่ต่อสู้ก่อน</string>

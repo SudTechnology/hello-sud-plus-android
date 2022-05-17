@@ -5,13 +5,10 @@ import android.widget.TextView;
 
 import com.blankj.utilcode.util.LogUtils;
 
-import tech.sud.mgp.hello.BuildConfig;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.SudMGPWrapper.model.GameConfigModel;
 import tech.sud.mgp.hello.common.base.BaseActivity;
 import tech.sud.mgp.hello.common.utils.GlobalCache;
-import tech.sud.mgp.hello.ui.main.utils.GsonUtils;
-import tech.sud.mgp.hello.ui.scenes.custom.dialog.CustomApiDialog;
 import tech.sud.mgp.hello.ui.scenes.custom.model.ConfigItemModel;
 import tech.sud.mgp.hello.ui.scenes.custom.view.CustomPageItem1View;
 import tech.sud.mgp.hello.ui.scenes.custom.view.CustomPageItem2View;
@@ -37,12 +34,6 @@ public class CustomConfigActivity extends BaseActivity {
         super.initWidget();
         gameTipTv = findViewById(R.id.game_tip_tv);
         configContainer = findViewById(R.id.config_container);
-//        gameTipTv.setOnClickListener(v -> {
-//            if (BuildConfig.DEBUG) {
-//                LogUtils.i("initWidget configModel gameCpu=" + viewModel.configModel.gameSoundVolume);
-//                LogUtils.i("initWidget items value gameCpu=" + viewModel.items.get(2).value);
-//            }
-//        });
     }
 
     @Override
@@ -482,14 +473,8 @@ public class CustomConfigActivity extends BaseActivity {
         return titleModel;
     }
 
-    private ConfigItemModel addItem(String title,
-                                    String subTitle,
-                                    int type,
-                                    int value,
-                                    boolean hide,
-                                    boolean custom,
-                                    String optionTitle1,
-                                    String optionTitle2) {
+    private ConfigItemModel addItem(String title, String subTitle, int type, int value, boolean hide,
+                                    boolean custom, String optionTitle1, String optionTitle2) {
         ConfigItemModel itemModel = new ConfigItemModel(title, subTitle, type, value, hide, custom);
         if (type == 0) {
             if (optionTitle1 != null && optionTitle2 != null) {

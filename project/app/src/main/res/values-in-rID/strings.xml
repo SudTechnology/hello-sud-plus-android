@@ -332,7 +332,7 @@ Buat ruangan di Beranda</string>
     <string name="order_inivte_complete">Sudah dipesan</string>
     <string name="pk_duration_settings">Pengaturan durasi permainan</string>
     <string name="close_room_pk">Tutup permainan lintas ruangan</string>
-    <string name="number_minute">%1 $s menit</string>
+    <string name="number_minute">%1$s menit</string>
     <string name="confirm_modify">Konfirmasi </string>
     <string name="empty_room_match">Saat ini tidak ada ruangan lain yang tersedia</string>
     <string name="invite_pk_hint">Silakan undang lawan Anda terlebih dahulu</string>

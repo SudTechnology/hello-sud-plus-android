@@ -349,5 +349,6 @@
     <string name="pk_running_remove_warn">경기 완료 전, 삭제 못함</string>
     <string name="remove_rival_confirm">본 상대자의 삭제 여부?</string>
     <string name="confirm_remove">삭제 확인</string>
+    <string name="room_invitation_send">초청 발송완료, 대기하기</string>
 
 </resources>

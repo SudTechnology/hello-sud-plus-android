@@ -349,5 +349,6 @@ Kunjungi laman utama untuk mencipta satu~</string>
     <string name="pk_running_remove_warn">Pertandingan masih berlangsung dan tidak boleh disingkirkan buat masa ini</string>
     <string name="remove_rival_confirm">Adakah anda mahu menyingkirkan lawan ini?</string>
     <string name="confirm_remove">Sahkan penyingkiran</string>
+    <string name="room_invitation_send">Jemputan dihantar, sila tunggu</string>
 
 </resources>

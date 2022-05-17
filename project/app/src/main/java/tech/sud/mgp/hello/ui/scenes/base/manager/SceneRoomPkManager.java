@@ -275,6 +275,7 @@ public class SceneRoomPkManager extends BaseServiceManager {
         if (model == null || getPkStatus() != PkStatus.MATCHING) return;
         initRoomPkModel();
         sendXRoomCommand(model.getRoomId() + "", RoomCmdModelUtils.buildCmdPkSendInvite(roomPkModel.totalMinute));
+        ToastUtils.showShort(R.string.room_invitation_send);
     }
 
     public void sendCommand(String command) {

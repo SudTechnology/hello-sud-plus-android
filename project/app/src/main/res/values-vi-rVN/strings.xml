@@ -349,5 +349,6 @@
     <string name="pk_running_remove_warn">Tạm không thể xóa khi cuộc thi chưa kết thúc</string>
     <string name="remove_rival_confirm">Có xóa đối thủ này không?</string>
     <string name="confirm_remove">Xác nhận xóa</string>
+    <string name="room_invitation_send">Đã gửi lời mời, vui lòng đợi</string>
 
 </resources>

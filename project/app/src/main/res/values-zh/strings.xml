@@ -351,5 +351,6 @@
     <string name="pk_running_remove_warn">比赛未结束，暂不可移除</string>
     <string name="remove_rival_confirm">是否要移除该对手？</string>
     <string name="confirm_remove">确认移除</string>
+    <string name="room_invitation_send">已发送邀请,请等待</string>
 
 </resources>

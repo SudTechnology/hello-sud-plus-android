@@ -349,5 +349,6 @@
     <string name="pk_running_remove_warn">لم تنته المسابقة ولا يمكن إزالتها</string>
     <string name="remove_rival_confirm">هل تريد إزالة هذا الخصم؟</string>
     <string name="confirm_remove">تأكيد الإزالة</string>
+    <string name="room_invitation_send">تم إرسال الدعوة، يرجى الانتظار</string>
 
 </resources>

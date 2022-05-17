@@ -350,5 +350,6 @@ Buat ruangan di Beranda</string>
     <string name="pk_running_remove_warn">Pertandingan belum berakhir dan tidak dapat dihapus saat ini</string>
     <string name="remove_rival_confirm">Apakah Anda ingin menyingkirkan lawan ini?</string>
     <string name="confirm_remove">Konfirmasi</string>
+    <string name="room_invitation_send">Undangan terkirim, harap tunggu</string>
 
 </resources>

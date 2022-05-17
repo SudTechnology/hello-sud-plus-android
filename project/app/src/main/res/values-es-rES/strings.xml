@@ -349,5 +349,6 @@ Vaya a la página de inicio para crear una!</string>
     <string name="pk_running_remove_warn">La competición no ha terminado y no se puede eliminar por el momento.</string>
     <string name="remove_rival_confirm">¿Deseas eliminar tu combatiente?</string>
     <string name="confirm_remove">Confirmar eliminación</string>
+    <string name="room_invitation_send">Invitación enviada, por favor espere</string>
 
 </resources>

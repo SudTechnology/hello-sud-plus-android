@@ -79,7 +79,7 @@
     <string name="custom_config_game_settle_again_btn_custom_true">true: 游戏通知app按钮点击事件，并关闭结算界面返回大厅（不将玩家设置为准备状态）</string>
     <string name="custom_config_game_bg_hide">是否隐藏背景图，包括大厅和战斗</string>
     <string name="custom_config_game_bg_hide_subtitle">(ui.game_bg.hide)</string>
-    <string name="custom_config_game_block_change_seat_custom">自定义阻止换座位</string>
+    <string name="custom_config_game_block_change_seat_custom">自定义阻止换座位（目前仅支持飞行棋）</string>
     <string name="custom_config_game_block_change_seat_custom_subtitle">(ui.block_change_seat.custom)</string>
     <string name="custom_config_game_block_change_seat_custom_false">false: 可以换座位</string>
     <string name="custom_config_game_block_change_seat_custom_true">true: 不可以换座位</string>

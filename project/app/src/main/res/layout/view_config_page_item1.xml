@@ -8,9 +8,7 @@
     android:paddingHorizontal="20dp"
     android:paddingVertical="12dp">
 
-    <tech.sud.mgp.hello.common.widget.view.MarqueeTextView
-        android:singleLine="true"
-        android:ellipsize="end"
+    <TextView
         android:id="@+id/title_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

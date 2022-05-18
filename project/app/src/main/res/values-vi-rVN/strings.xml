@@ -344,7 +344,7 @@
     <string name="team_red">Phe đỏ</string>
     <string name="team_blue">Phe xanh</string>
     <string name="enter_other_room_confirm">Đến phòng của đối phương không?</string>
-    <string name="confirm_to">Xác nhận đi</string>
+    <string name="confirm_to">Đi</string>
     <string name="game_running_remove_warn">Tạm không thể xóa khi trò chơi chưa kết thúc</string>
     <string name="pk_running_remove_warn">Tạm không thể xóa khi cuộc thi chưa kết thúc</string>
     <string name="remove_rival_confirm">Có xóa đối thủ này không?</string>

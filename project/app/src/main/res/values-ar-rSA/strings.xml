@@ -344,7 +344,7 @@
     <string name="team_red">الفريق الأحمر</string>
     <string name="team_blue">الفريق الأزرق</string>
     <string name="enter_other_room_confirm">هل انت ذاهب الى غرفة الشخص الآخر؟</string>
-    <string name="confirm_to">تأكيد للذهاب</string>
+    <string name="confirm_to">اذهب</string>
     <string name="game_running_remove_warn">لم تنته اللعبة ولا يمكن إزالتها</string>
     <string name="pk_running_remove_warn">لم تنته المسابقة ولا يمكن إزالتها</string>
     <string name="remove_rival_confirm">هل تريد إزالة هذا الخصم؟</string>

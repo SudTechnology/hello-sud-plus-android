@@ -343,7 +343,7 @@ Go to homepage to create one~</string>
     <string name="team_red">Red team</string>
     <string name="team_blue">Blue team</string>
     <string name="enter_other_room_confirm">Are you going to your opponent\'s room?</string>
-    <string name="confirm_to">Confirm to go</string>
+    <string name="confirm_to">Go</string>
     <string name="game_running_remove_warn">The game is not over yet. You can\'t remove.</string>
     <string name="pk_running_remove_warn">The competition is not over yet. You can\'t remove.</string>
     <string name="remove_rival_confirm">Do you want to remove this opponent?</string>

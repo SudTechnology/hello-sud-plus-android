@@ -344,7 +344,7 @@
     <string name="team_red">赤チーム</string>
     <string name="team_blue">青チーム</string>
     <string name="enter_other_room_confirm">相手のルームに行きますか。</string>
-    <string name="confirm_to">移動を確認する</string>
+    <string name="confirm_to">行け</string>
     <string name="game_running_remove_warn">ゲームは終了していないので、しばらく削除できません</string>
     <string name="pk_running_remove_warn">試合は終了していないので、しばらく削除できません</string>
     <string name="remove_rival_confirm">この相手を削除しますか。</string>

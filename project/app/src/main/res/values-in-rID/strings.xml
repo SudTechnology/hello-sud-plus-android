@@ -345,7 +345,7 @@ Buat ruangan di Beranda</string>
     <string name="team_red">Tim Merah</string>
     <string name="team_blue">Tim Biru</string>
     <string name="enter_other_room_confirm">Apakah ingin pergi ke ruangan lawan?</string>
-    <string name="confirm_to">Konfirmasi</string>
+    <string name="confirm_to">Pergi</string>
     <string name="game_running_remove_warn">Permainan belum berakhir dan tidak dapat dihapus saat ini</string>
     <string name="pk_running_remove_warn">Pertandingan belum berakhir dan tidak dapat dihapus saat ini</string>
     <string name="remove_rival_confirm">Apakah Anda ingin menyingkirkan lawan ini?</string>

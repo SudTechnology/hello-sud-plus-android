@@ -365,7 +365,7 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
             chatView.setChatStyle(SceneRoomChatView.AudioRoomChatStyle.NORMAL);
         }
         // 是否要提示其选择游戏
-        if (playingGameId > 0 || getPkStatus() == PkStatus.MATCH_CLOSED || roomInfoModel.roleType != RoleType.OWNER) {
+        if (playingGameId > 0 || getPkStatus() == PkStatus.MATCH_CLOSED) {
             viewContainerSelectGame.setVisibility(View.GONE);
         } else {
             viewContainerSelectGame.setVisibility(View.VISIBLE);

@@ -1,5 +1,7 @@
 package tech.sud.mgp.hello.common.model;
 
+import java.util.UUID;
+
 import tech.sud.mgp.hello.app.HelloSudApplication;
 import tech.sud.mgp.hello.common.utils.SystemUtils;
 
@@ -44,6 +46,7 @@ public class SudMetaModel {
         }
         clientTimestamp = System.currentTimeMillis();
         rtcType = AppData.getInstance().getRtcType();
+        String uuid = UUID.randomUUID().toString();
         return locale +
                 "," +
                 clientChannel +
@@ -60,7 +63,9 @@ public class SudMetaModel {
                 "," +
                 clientTimestamp +
                 "," +
-                rtcType;
+                rtcType +
+                "," +
+                uuid;
     }
 
 }

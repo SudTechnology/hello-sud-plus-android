@@ -12,8 +12,6 @@ import android.view.Gravity;
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
-import com.netease.nimlib.sdk.NIMClient;
-import com.netease.nimlib.sdk.SDKOptions;
 import com.tencent.bugly.crashreport.CrashReport;
 
 import java.io.BufferedReader;
@@ -21,7 +19,6 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import tech.sud.mgp.hello.BuildConfig;
-import tech.sud.mgp.hello.ui.scenes.common.gift.manager.GiftHelper;
 
 public class HelloSudApplication extends Application {
 
@@ -35,20 +32,10 @@ public class HelloSudApplication extends Application {
         if (getPackageName().equals(processName)) {//只有是当前进程下才需要初始化如下参数
             instance = this;
             configBugly();
-            configGift();
             configLog();
             configToast();
             registerActivityLifecycleCallbacks(MyActivityManager.getInstance());
-            initMinClient();
         }
-    }
-
-    // 网易云信RTC初始化
-    private void initMinClient() {
-        SDKOptions options = new SDKOptions();
-        options.reducedIM = true;
-        options.disableAwake = true;
-        NIMClient.config(getApplicationContext(), null, options);
     }
 
     // Bugly config
@@ -57,10 +44,6 @@ public class HelloSudApplication extends Application {
         String versionAndCode = AppUtils.getAppVersionName() + "." + AppUtils.getAppVersionCode();
         strategy.setAppVersion(versionAndCode);
         CrashReport.initCrashReport(getApplicationContext(), APPConfig.BUGLY_APP_ID, BuildConfig.DEBUG, strategy);
-    }
-
-    private void configGift() {
-        GiftHelper.getInstance().creatGifts(this);
     }
 
     private void configLog() {

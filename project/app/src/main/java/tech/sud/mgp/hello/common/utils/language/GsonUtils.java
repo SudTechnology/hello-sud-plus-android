@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.main.utils;
+package tech.sud.mgp.hello.common.utils.language;
 
 import android.text.TextUtils;
 
@@ -287,11 +287,10 @@ public final class GsonUtils {
     }
 
     /**
-     *  解析成map
-     * */
-    public static HashMap<String, String> toHashMap(String str)
-    {
-        if (str == null||str.isEmpty())return null;
+     * 解析成map
+     */
+    public static HashMap<String, String> toHashMap(String str) {
+        if (str == null || str.isEmpty()) return null;
 
         HashMap<String, String> data = new HashMap<String, String>();
         // 将json字符串转换成jsonObject
@@ -300,8 +299,7 @@ public final class GsonUtils {
             jsonObject = new JSONObject(str);
             Iterator it = jsonObject.keys();
             // 遍历jsonObject数据，添加到Map对象
-            while (it.hasNext())
-            {
+            while (it.hasNext()) {
                 String key = String.valueOf(it.next());
                 String value = (String) jsonObject.get(key);
                 data.put(key, value);

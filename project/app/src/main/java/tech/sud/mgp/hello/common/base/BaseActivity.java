@@ -12,7 +12,7 @@ import com.trello.rxlifecycle4.components.support.RxAppCompatActivity;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
-import tech.sud.mgp.hello.ui.main.utils.HSLanguageUtils;
+import tech.sud.mgp.hello.common.utils.language.HSLanguageUtils;
 
 public abstract class BaseActivity extends RxAppCompatActivity {
 

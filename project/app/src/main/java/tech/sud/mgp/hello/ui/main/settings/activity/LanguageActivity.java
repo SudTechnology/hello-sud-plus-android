@@ -19,11 +19,11 @@ import tech.sud.mgp.hello.common.event.ChangeLanguageEvent;
 import tech.sud.mgp.hello.common.event.LiveEventBusKey;
 import tech.sud.mgp.hello.common.model.SudMetaModel;
 import tech.sud.mgp.hello.common.utils.SystemUtils;
+import tech.sud.mgp.hello.common.utils.language.HSLanguageUtils;
 import tech.sud.mgp.hello.ui.main.activity.MainActivity;
 import tech.sud.mgp.hello.ui.main.settings.adapter.LangAdapter;
 import tech.sud.mgp.hello.ui.main.settings.model.LangCellType;
 import tech.sud.mgp.hello.ui.main.settings.model.LangModel;
-import tech.sud.mgp.hello.ui.main.utils.HSLanguageUtils;
 
 /**
  * 切换语言

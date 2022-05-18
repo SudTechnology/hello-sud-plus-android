@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.main.utils;
+package tech.sud.mgp.hello.common.utils.language;
 
 import android.app.Activity;
 import android.content.Context;

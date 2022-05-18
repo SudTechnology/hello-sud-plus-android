@@ -10,7 +10,7 @@ import tech.sud.mgp.hello.BuildConfig;
 import tech.sud.mgp.hello.SudMGPWrapper.model.GameConfigModel;
 import tech.sud.mgp.hello.common.base.BaseViewModel;
 import tech.sud.mgp.hello.common.utils.GlobalCache;
-import tech.sud.mgp.hello.ui.main.utils.GsonUtils;
+import tech.sud.mgp.hello.common.utils.language.GsonUtils;
 import tech.sud.mgp.hello.ui.scenes.custom.model.ConfigItemModel;
 
 public class CustomConfigViewModel extends BaseViewModel {

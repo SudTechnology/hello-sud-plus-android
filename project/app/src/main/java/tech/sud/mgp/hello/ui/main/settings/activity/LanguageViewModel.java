@@ -6,9 +6,9 @@ import java.util.Locale;
 
 import tech.sud.mgp.hello.common.base.BaseViewModel;
 import tech.sud.mgp.hello.common.utils.GlobalSP;
+import tech.sud.mgp.hello.common.utils.language.HSLanguageUtils;
 import tech.sud.mgp.hello.ui.main.settings.model.LangCellType;
 import tech.sud.mgp.hello.ui.main.settings.model.LangModel;
-import tech.sud.mgp.hello.ui.main.utils.HSLanguageUtils;
 
 public class LanguageViewModel extends BaseViewModel {
 

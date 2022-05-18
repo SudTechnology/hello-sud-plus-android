@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.main.utils;
+package tech.sud.mgp.hello.common.utils.language;
 
 import static android.Manifest.permission.CALL_PHONE;
 

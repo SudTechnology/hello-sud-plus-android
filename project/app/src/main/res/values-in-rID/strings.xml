@@ -353,5 +353,6 @@ Buat ruangan di Beranda</string>
     <string name="room_invitation_send">Undangan terkirim, harap tunggu</string>
     <string name="room_close_pk_advance_tip">Apakah Anda yakin akan menutup permainan lintas ruangan? \ n Menutup permainan akan membuat selesai lebih cepat dan permainan akan berakhir</string>
     <string name="close">Tutup</string>
+    <string name="room_pk_wait_onwer_select">Menunggu pemilik ruangan untuk memilih permainan</string>
 
 </resources>

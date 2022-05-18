@@ -352,5 +352,6 @@
     <string name="room_invitation_send">تم إرسال الدعوة، يرجى الانتظار</string>
     <string name="room_close_pk_advance_tip">هل أنت متأكد من إيقاف تشغيل اللعب عبر الغرف؟ \n ستتم التسوية أولًا قبل الإغلاق، لإنهاء اللعبة</string>
     <string name="close">إغلاق</string>
+    <string name="room_pk_wait_onwer_select">انتظار مالك الغرفة لاختيار اللعبة</string>
 
 </resources>

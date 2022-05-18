@@ -351,6 +351,7 @@ Go to homepage to create one~</string>
     <string name="room_invitation_send">Invitation sent, please wait</string>
     <string name="room_close_pk_advance_tip">Are you sure to turn off cross-room gaming? \nIf you turn off now, the settlement will begin right away and the game will be terminated</string>
     <string name="close">Close</string>
+    <string name="room_pk_wait_onwer_select">Waiting for the holder to select the game</string>
 
     <!-- region 不用翻译 -->
     <string name="custom">Custom</string>

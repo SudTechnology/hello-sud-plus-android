@@ -352,5 +352,6 @@ Kunjungi laman utama untuk mencipta satu~</string>
     <string name="room_invitation_send">Jemputan dihantar, sila tunggu</string>
     <string name="room_close_pk_advance_tip">Adakah anda pasti untuk mematikan permainan merentas bilik? \n Penutupan akan diselesaikan lebih awal dan permainan akan ditamatkan</string>
     <string name="close">Tutup</string>
+    <string name="room_pk_wait_onwer_select">Menunggu pemilik bilik untuk memilih permainan</string>
 
 </resources>

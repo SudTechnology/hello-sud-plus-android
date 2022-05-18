@@ -52,6 +52,7 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
     private TextView tvPkSettings;
     private View viewContainerSelectGame;
     private View tvSelectGame;
+    private TextView tvSelectGameTitle;
 
     private final CrossRoomViewModel viewModel = new CrossRoomViewModel();
 
@@ -80,6 +81,7 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
         roomPkInfoView = findViewById(R.id.room_pk_info_view);
         viewContainerSelectGame = findViewById(R.id.container_select_game);
         tvSelectGame = findViewById(R.id.tv_select_game);
+        tvSelectGameTitle = findViewById(R.id.tv_select_game_title);
 
         roomConfig.isShowGameNumber = false; // 不显示游戏人数
         roomConfig.isShowASRTopHint = false; // 右上角不展示ASR提示
@@ -367,6 +369,13 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
             viewContainerSelectGame.setVisibility(View.GONE);
         } else {
             viewContainerSelectGame.setVisibility(View.VISIBLE);
+            if (roomInfoModel.roleType == RoleType.OWNER) {
+                tvSelectGame.setVisibility(View.VISIBLE);
+                tvSelectGameTitle.setText(R.string.select_game_hint);
+            } else {
+                tvSelectGame.setVisibility(View.GONE);
+                tvSelectGameTitle.setText(R.string.room_pk_wait_onwer_select);
+            }
         }
     }
 

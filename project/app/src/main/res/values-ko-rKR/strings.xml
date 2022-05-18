@@ -352,5 +352,6 @@
     <string name="room_invitation_send">초청 발송완료, 대기하기</string>
     <string name="room_close_pk_advance_tip">다른룸 게임 끄기 확인?\n 끄면 앞당겨 결제 및 게임 종지.</string>
     <string name="close">끄기</string>
+    <string name="room_pk_wait_onwer_select">방주인의 게임선택을 대기</string>
 
 </resources>

@@ -351,5 +351,6 @@ Vaya a la página de inicio para crear una!</string>
     <string name="confirm_remove">Confirmar eliminación</string>
     <string name="room_invitation_send">Invitación enviada, por favor espere</string>
     <string name="room_close_pk_advance_tip">¿Deseas desactivar el juego entre sesiones? \nLa desactivación se hará antes de terminar el juego</string>
+    <string name="close">Cerrar</string>
 
 </resources>

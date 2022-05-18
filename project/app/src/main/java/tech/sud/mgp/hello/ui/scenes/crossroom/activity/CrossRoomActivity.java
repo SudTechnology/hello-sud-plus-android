@@ -469,7 +469,7 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
     /** 意图关闭pk */
     private void intentClosePk() {
         SimpleChooseDialog dialog = new SimpleChooseDialog(this, getString(R.string.room_close_pk_advance_tip),
-                getString(R.string.cancel), getString(R.string.close_room_pk));
+                getString(R.string.cancel), getString(R.string.close));
         dialog.setOnChooseListener(new SimpleChooseDialog.OnChooseListener() {
             @Override
             public void onChoose(int index) {

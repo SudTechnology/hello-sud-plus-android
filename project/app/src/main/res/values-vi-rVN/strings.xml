@@ -351,5 +351,6 @@
     <string name="confirm_remove">Xác nhận xóa</string>
     <string name="room_invitation_send">Đã gửi lời mời, vui lòng đợi</string>
     <string name="room_close_pk_advance_tip">Bạn có chắc rằng muốn tắt chức năng chơi game xuyên phòng không? \n Khi tắt sẽ kết toán trước, trò chơi dừng lại</string>
+    <string name="close">Thoát</string>
 
 </resources>

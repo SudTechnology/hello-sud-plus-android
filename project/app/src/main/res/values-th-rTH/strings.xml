@@ -351,5 +351,6 @@
     <string name="confirm_remove">ยืนยันการลบ</string>
     <string name="room_invitation_send">ส่งคำเชิญแล้ว กรุณารอสักครู่</string>
     <string name="room_close_pk_advance_tip">ตกลงจะปิดการเล่นแบบข้ามห้อง n การปิดจะทำให้เกมจบก่อนเวลา และเกมจะสิ้นสุดลง</string>
+    <string name="close">ปิด</string>
 
 </resources>

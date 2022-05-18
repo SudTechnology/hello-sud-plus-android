@@ -353,5 +353,6 @@
     <string name="room_close_pk_advance_tip">ตกลงจะปิดการเล่นแบบข้ามห้อง n การปิดจะทำให้เกมจบก่อนเวลา และเกมจะสิ้นสุดลง</string>
     <string name="close">ปิด</string>
     <string name="room_pk_wait_onwer_select">รอให้เจ้าของห้องเลือกเกม</string>
+    <string name="room_round_game_over">เกมรอบนี้จบแล้ว \n จะเล่นอีกครั้งหรือไม่</string>
 
 </resources>

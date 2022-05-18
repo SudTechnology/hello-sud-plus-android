@@ -353,5 +353,6 @@
     <string name="room_close_pk_advance_tip">هل أنت متأكد من إيقاف تشغيل اللعب عبر الغرف؟ \n ستتم التسوية أولًا قبل الإغلاق، لإنهاء اللعبة</string>
     <string name="close">إغلاق</string>
     <string name="room_pk_wait_onwer_select">انتظار مالك الغرفة لاختيار اللعبة</string>
+    <string name="room_round_game_over">انتهت هذه الجولة من اللعبة، \n هل تريد طلب آخر؟</string>
 
 </resources>

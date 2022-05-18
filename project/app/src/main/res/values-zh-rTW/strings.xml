@@ -353,5 +353,6 @@
     <string name="room_close_pk_advance_tip">確認關閉跨房玩遊戲嗎？\n關閉將提前結算，遊戲終止</string>
     <string name="close">關閉</string>
     <string name="room_pk_wait_onwer_select">等待房主選擇遊戲</string>
+    <string name="room_round_game_over">本輪遊戲已結束，\n是否再來一單？</string>
 
 </resources>

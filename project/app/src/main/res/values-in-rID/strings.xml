@@ -354,5 +354,6 @@ Buat ruangan di Beranda</string>
     <string name="room_close_pk_advance_tip">Apakah Anda yakin akan menutup permainan lintas ruangan? \ n Menutup permainan akan membuat selesai lebih cepat dan permainan akan berakhir</string>
     <string name="close">Tutup</string>
     <string name="room_pk_wait_onwer_select">Menunggu pemilik ruangan untuk memilih permainan</string>
+    <string name="room_round_game_over">Permainan telah berakhir, \ n Apakah Anda ingin melakukan pemesanan lagi?</string>
 
 </resources>

@@ -1,7 +1,5 @@
 package tech.sud.mgp.hello.ui.scenes.orderentertainment.viewmodel;
 
-import android.content.Context;
-
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
@@ -15,8 +13,6 @@ import tech.sud.mgp.core.ISudFSMStateHandle;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.SudMGPWrapper.model.GameViewInfoModel;
 import tech.sud.mgp.hello.SudMGPWrapper.state.SudMGPMGState;
-import tech.sud.mgp.hello.common.http.param.BaseResponse;
-import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
@@ -69,7 +65,7 @@ public class OrderViewModel extends GameViewModel {
     public void finishDialog(FragmentActivity activity) {
         LogUtils.i("finishDialog game over1");
         if (finishDialog == null || !finishDialog.isShowing()) {
-            finishDialog = new SimpleChooseDialog(activity, activity.getString(R.string.order_finish_conent),
+            finishDialog = new SimpleChooseDialog(activity, activity.getString(R.string.room_round_game_over),
                     activity.getString(R.string.order_finish_left_text), activity.getString(R.string.order_finish_right_text));
             finishDialog.setOnChooseListener(index -> {
                 if (index == 1) {

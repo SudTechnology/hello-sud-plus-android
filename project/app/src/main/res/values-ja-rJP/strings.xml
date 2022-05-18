@@ -353,5 +353,6 @@
     <string name="room_close_pk_advance_tip">クロスルームプレイをオフにしますか。\nシャットダウンは前倒しで決済されて、ゲームは終了します</string>
     <string name="close">閉じる</string>
     <string name="room_pk_wait_onwer_select">ルーム管理者がゲームを選ぶのを待つ</string>
+    <string name="room_round_game_over">今回のゲームは終了しました。\n追加しますか。</string>
 
 </resources>

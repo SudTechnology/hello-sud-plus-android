@@ -43,29 +43,38 @@ public class RoomListAdapter extends BaseQuickAdapter<RoomItemModel, BaseViewHol
 
     @Override
     protected void convert(BaseViewHolder helper, RoomItemModel item) {
+        // 封面
         ImageView cover = helper.getView(R.id.room_cover);
-        TextView sceneNameTv = helper.getView(R.id.room_scene);
-        if (item.getSceneType() == SceneType.TICKET) {
-            helper.setText(R.id.room_name, item.getRoomName() + "·" + item.getGameLevelDesc());
-        } else {
-            helper.setText(R.id.room_name, item.getRoomName());
-        }
-        helper.setText(R.id.room_id, cover.getContext().getString(R.string.room_list_roomid, item.getRoomNumber()));
-        helper.setText(R.id.room_online, cover.getContext().getString(R.string.room_list_online, item.getMemberCount() + ""));
-        helper.setText(R.id.rtc_name, AppData.getInstance().getRtcNameByRtcType(item.getRtcType()));
-        sceneNameTv.setText(item.getSceneTag());
-        SceneTagColor sceneTagColor = sceneTagResId(item.getSceneType());
-        sceneNameTv.setBackgroundColor(sceneTagColor.colorBg);
-        sceneNameTv.setTextColor(sceneTagColor.colorText);
         if (!TextUtils.isEmpty(item.getRoomPic())) {
             ImageLoader.loadImage(cover, item.getRoomPic());
         } else {
             cover.setImageResource(R.drawable.icon_logo);
         }
+
+        // 房间名称
+        if (item.getSceneType() == SceneType.TICKET) {
+            helper.setText(R.id.room_name, item.getRoomName() + "·" + item.getGameLevelDesc());
+        } else {
+            helper.setText(R.id.room_name, item.getRoomName());
+        }
+
+        helper.setText(R.id.room_id, getContext().getString(R.string.room_list_roomid, item.getRoomNumber()));
+        helper.setText(R.id.room_online, getContext().getString(R.string.room_list_online, item.getMemberCount() + ""));
+        helper.setText(R.id.rtc_name, AppData.getInstance().getRtcNameByRtcType(item.getRtcType()));
+
+        // 场景名称
+        TextView sceneNameTv = helper.getView(R.id.room_scene);
+        sceneNameTv.setText(item.getSceneTag());
+        SceneTagColor sceneTagColor = sceneTagResId(item.getSceneType());
+        sceneNameTv.setBackgroundColor(sceneTagColor.colorBg);
+        sceneNameTv.setTextColor(sceneTagColor.colorText);
+
+        // 右下角按钮
         if (btnText > 0) {
             helper.setText(R.id.room_enter, btnText);
         }
 
+        // 跨房比赛的状态
         TextView tvStatus = helper.getView(R.id.tv_status);
         tvStatus.setBackground(ShapeUtils.createShape(null, null,
                 new float[]{radius, radius, 0, 0, 0, 0, 0, 0},
@@ -132,6 +141,10 @@ public class RoomListAdapter extends BaseQuickAdapter<RoomItemModel, BaseViewHol
                 break;
             case SceneType.AUDIO:
                 color.colorBg = Color.parseColor("#8324DF");
+                color.colorText = Color.parseColor("#FFFFFF");
+                break;
+            case SceneType.CUSTOM_SCENE:
+                color.colorBg = Color.parseColor("#198de2");
                 color.colorText = Color.parseColor("#FFFFFF");
                 break;
             default:

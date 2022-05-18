@@ -350,5 +350,6 @@
     <string name="remove_rival_confirm">この相手を削除しますか。</string>
     <string name="confirm_remove">削除を確認する</string>
     <string name="room_invitation_send">招待を送信しました。お待ちください</string>
+    <string name="room_close_pk_advance_tip">クロスルームプレイをオフにしますか。\nシャットダウンは前倒しで決済されて、ゲームは終了します</string>
 
 </resources>

@@ -352,5 +352,6 @@
     <string name="remove_rival_confirm">是否要移除该对手？</string>
     <string name="confirm_remove">确认移除</string>
     <string name="room_invitation_send">已发送邀请,请等待</string>
+    <string name="room_close_pk_advance_tip">确认关闭跨房玩游戏吗？\n关闭将提前结算，游戏终止</string>
 
 </resources>

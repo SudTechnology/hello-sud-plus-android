@@ -351,5 +351,6 @@ Buat ruangan di Beranda</string>
     <string name="remove_rival_confirm">Apakah Anda ingin menyingkirkan lawan ini?</string>
     <string name="confirm_remove">Konfirmasi</string>
     <string name="room_invitation_send">Undangan terkirim, harap tunggu</string>
+    <string name="room_close_pk_advance_tip">Apakah Anda yakin akan menutup permainan lintas ruangan? \ n Menutup permainan akan membuat selesai lebih cepat dan permainan akan berakhir</string>
 
 </resources>

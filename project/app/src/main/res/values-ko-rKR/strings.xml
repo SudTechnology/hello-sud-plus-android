@@ -350,5 +350,6 @@
     <string name="remove_rival_confirm">본 상대자의 삭제 여부?</string>
     <string name="confirm_remove">삭제 확인</string>
     <string name="room_invitation_send">초청 발송완료, 대기하기</string>
+    <string name="room_close_pk_advance_tip">다른룸 게임 끄기 확인?\n 끄면 앞당겨 결제 및 게임 종지.</string>
 
 </resources>

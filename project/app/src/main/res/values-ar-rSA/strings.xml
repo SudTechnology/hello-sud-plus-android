@@ -350,5 +350,6 @@
     <string name="remove_rival_confirm">هل تريد إزالة هذا الخصم؟</string>
     <string name="confirm_remove">تأكيد الإزالة</string>
     <string name="room_invitation_send">تم إرسال الدعوة، يرجى الانتظار</string>
+    <string name="room_close_pk_advance_tip">هل أنت متأكد من إيقاف تشغيل اللعب عبر الغرف؟ \n ستتم التسوية أولًا قبل الإغلاق، لإنهاء اللعبة</string>
 
 </resources>

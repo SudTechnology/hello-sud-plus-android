@@ -349,6 +349,7 @@ Go to homepage to create one~</string>
     <string name="remove_rival_confirm">Do you want to remove this opponent?</string>
     <string name="confirm_remove">Confirm removal</string>
     <string name="room_invitation_send">Invitation sent, please wait</string>
+    <string name="room_close_pk_advance_tip">Are you sure to turn off cross-room gaming? \nIf you turn off now, the settlement will begin right away and the game will be terminated</string>
 
     <!-- region 不用翻译 -->
     <string name="custom">Custom</string>

@@ -418,9 +418,7 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
         dialog.setClosePkOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (binder != null) {
-                    binder.roomPkSwitch(false);
-                }
+                intentClosePk();
             }
         });
         if (roomInfoModel.roomPkModel != null) {
@@ -451,9 +449,7 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
         dialog.setClosePkOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (binder != null) {
-                    binder.roomPkSwitch(false);
-                }
+                intentClosePk();
             }
         });
         if (roomInfoModel.roomPkModel != null) {
@@ -468,6 +464,24 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
             }
         });
         dialog.show(getSupportFragmentManager(), null);
+    }
+
+    /** 意图关闭pk */
+    private void intentClosePk() {
+        SimpleChooseDialog dialog = new SimpleChooseDialog(this, getString(R.string.room_close_pk_advance_tip),
+                getString(R.string.cancel), getString(R.string.close_room_pk));
+        dialog.setOnChooseListener(new SimpleChooseDialog.OnChooseListener() {
+            @Override
+            public void onChoose(int index) {
+                if (index == 1) {
+                    if (binder != null) {
+                        binder.roomPkSwitch(false);
+                    }
+                }
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 
     /** 获取pk对手 */

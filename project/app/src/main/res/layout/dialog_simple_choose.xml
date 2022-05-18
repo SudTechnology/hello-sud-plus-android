@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/common_shape_dialog_bg"
     android:padding="24dp">
@@ -31,7 +31,7 @@
         app:layout_constraintTop_toBottomOf="@id/tv_title"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
+    <tech.sud.mgp.hello.common.widget.view.MarqueeTextView
         android:id="@+id/tv_right"
         android:layout_width="104dp"
         android:layout_height="36dp"
@@ -40,6 +40,7 @@
         android:textColor="#ffffff"
         android:gravity="center"
         android:text="@string/confirm"
+        android:singleLine="true"
         app:layout_constraintTop_toTopOf="@id/tv_left"
         app:layout_constraintEnd_toEndOf="parent" />
 

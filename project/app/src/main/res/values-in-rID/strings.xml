@@ -339,9 +339,9 @@ Buat ruangan di Beranda</string>
     <string name="invite_pk_answer_title">Ruangan %1 $ s mengirim undangan untuk bermain di ruangan seberang. Apakah Anda menerimanya?</string>
     <string name="refuse">Menolak</string>
     <string name="accept">OK</string>
-    <string name="win_info_first">Selamat kepada %1 $s karena memenangkan peringkat pertama dengan %3 $s plus %2 $s poin!</string>
-    <string name="win_info_second">%1 $s memenangkan peringkat ke-2 dengan %2 $s ditambah %3 $s poin!</string>
-    <string name="win_info_thirdly">%1 $ s memenangkan peringkat ke-3 dengan %2 $ s ditambah %3 $ s poin!</string>
+    <string name="win_info_first">Selamat kepada %1$s karena memenangkan peringkat pertama dengan %3$s plus %2$s poin!</string>
+    <string name="win_info_second">%1$s memenangkan peringkat ke-2 dengan %2$s ditambah %3$s poin!</string>
+    <string name="win_info_thirdly">%1$s memenangkan peringkat ke-3 dengan %2$s ditambah %3$s poin!</string>
     <string name="team_red">Tim Merah</string>
     <string name="team_blue">Tim Biru</string>
     <string name="enter_other_room_confirm">Apakah ingin pergi ke ruangan lawan?</string>

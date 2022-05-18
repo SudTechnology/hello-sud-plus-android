@@ -485,6 +485,12 @@ public class SceneRoomPkManager extends BaseServiceManager {
         });
     }
 
+    /** 添加一条对方结束pk的公屏消息 */
+    private void addInterceptChatMsg() {
+        String msg = Utils.getApp().getString(R.string.intercept_room_pk);
+        parentManager.sceneChatManager.addMsg(msg);
+    }
+
     // region 信令监听
     /** 跨房PK邀请 监听 */
     private final PKSendInviteCommandListener inviteCommandListener = new PKSendInviteCommandListener() {
@@ -531,6 +537,7 @@ public class SceneRoomPkManager extends BaseServiceManager {
                     // 对方房间关闭了跨房pk，回到待匹配状态
                     localRemovePkRival();
                 }
+                addInterceptChatMsg();
             }
         }
     };
@@ -638,6 +645,7 @@ public class SceneRoomPkManager extends BaseServiceManager {
             RoomPkRoomInfo pkRival = getPkRival();
             if (pkRival != null) {
                 localRemovePkRival();
+                addInterceptChatMsg();
             }
         }
     };

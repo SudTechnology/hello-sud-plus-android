@@ -358,6 +358,7 @@ Go to homepage to create one~</string>
     <!-- region 新增 -->
     <string name="matching">匹配中</string>
     <string name="in_game">比赛中</string>
+    <string name="intercept_room_pk">由于对方强制退出比赛，比赛提前结束</string>
     <!-- endregion 新增 -->
 
 </resources>

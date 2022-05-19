@@ -89,7 +89,12 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
     /** 回调页面，游戏切换了 */
     public void callbackOnGameChange(long gameId) {
         SceneRoomServiceCallback callback = getCallback();
-        if (callback != null) {
+        if (callback == null) {
+            // 没有回调对象，可能页面挂起了，直接修改数据
+            if (roomInfoModel != null) {
+                roomInfoModel.gameId = gameId;
+            }
+        } else {
             callback.onGameChange(gameId);
         }
     }

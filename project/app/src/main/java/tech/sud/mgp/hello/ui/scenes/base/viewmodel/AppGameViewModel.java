@@ -40,14 +40,15 @@ import tech.sud.mgp.hello.rtc.audio.core.AudioPCMData;
 import tech.sud.mgp.hello.service.game.repository.GameRepository;
 import tech.sud.mgp.hello.service.game.resp.GameLoginResp;
 import tech.sud.mgp.hello.service.main.config.SudConfig;
-import tech.sud.mgp.hello.ui.main.constant.GameIdCons;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.GameTextModel;
 
 /**
  * 游戏业务逻辑
  */
-public class GameViewModel implements SudFSMMGListener {
+public class AppGameViewModel implements SudFSMMGListener {
+
+    public static long GAME_ID_NONE = 0; // 没有游戏
 
     private long gameRoomId; // 游戏房间id
     private long playingGameId; // 当前使用的游戏id
@@ -71,7 +72,7 @@ public class GameViewModel implements SudFSMMGListener {
     private int selfMicIndex = -1; // 记录自己所在麦位
     public GameConfigModel gameConfigModel = new GameConfigModel(); // 游戏配置
 
-    public GameViewModel() {
+    public AppGameViewModel() {
         // 配置不展示大厅玩家展示位
         gameConfigModel.ui.lobby_players.hide = true;
     }
@@ -92,11 +93,11 @@ public class GameViewModel implements SudFSMMGListener {
                 if (!isRunning) {
                     return;
                 }
-                if (playingGameId == gameId && GameViewModel.this.gameRoomId == gameRoomId) {
+                if (playingGameId == gameId && AppGameViewModel.this.gameRoomId == gameRoomId) {
                     return;
                 }
                 destroyMG();
-                GameViewModel.this.gameRoomId = gameRoomId;
+                AppGameViewModel.this.gameRoomId = gameRoomId;
                 playingGameId = gameId;
                 login(activity, gameId);
             }
@@ -109,7 +110,7 @@ public class GameViewModel implements SudFSMMGListener {
             int gameState = getGameState();
             if (gameState == SudMGPMGState.MGCommonGameState.LOADING
                     || gameState == SudMGPMGState.MGCommonGameState.PLAYING) {
-                if (newGameId == GameIdCons.NONE) {
+                if (newGameId == GAME_ID_NONE) {
                     finishGame();
                 }
             }

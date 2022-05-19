@@ -200,6 +200,7 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
         dialog.setOnChooseListener(new SimpleChooseDialog.OnChooseListener() {
             @Override
             public void onChoose(int index) {
+                dialog.dismiss();
                 if (index == 1) {
                     // 游戏中不可以移除
                     int gameState = gameViewModel.getGameState();
@@ -211,7 +212,6 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
                         binder.removePkRival();
                     }
                 }
-                dialog.dismiss();
             }
         });
         dialog.show();

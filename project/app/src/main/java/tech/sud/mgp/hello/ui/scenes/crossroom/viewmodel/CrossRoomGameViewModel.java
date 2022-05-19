@@ -9,12 +9,12 @@ import tech.sud.mgp.core.ISudFSMStateHandle;
 import tech.sud.mgp.hello.SudMGPWrapper.model.GameViewInfoModel;
 import tech.sud.mgp.hello.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
-import tech.sud.mgp.hello.ui.scenes.base.viewmodel.GameViewModel;
+import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
 
 /**
  * 跨房pk的游戏业务
  */
-public class CrossRoomGameViewModel extends GameViewModel {
+public class CrossRoomGameViewModel extends AppGameViewModel {
 
     public MutableLiveData<Object> clickStartBtnLiveData = new MutableLiveData<>();
 

@@ -17,6 +17,7 @@ import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.CustomCountdownTimer;
 import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
+import tech.sud.mgp.hello.service.game.repository.GameRepository;
 import tech.sud.mgp.hello.service.room.model.PkStatus;
 import tech.sud.mgp.hello.service.room.repository.RoomRepository;
 import tech.sud.mgp.hello.service.room.resp.RoomPkAgainResp;
@@ -592,7 +593,23 @@ public class SceneRoomPkManager extends BaseServiceManager {
         @Override
         public void onRecvCommand(RoomCmdPKChangeGameModel model, String userID) {
             SceneRoomServiceCallback callback = parentManager.getCallback();
-            if (callback != null) {
+            if (callback == null) {
+                // 没有回调的情况下，可能页面已经挂起了，直接处理数据
+                if (parentManager.getRoleType() == RoleType.OWNER) {
+                    // 发送http通知后台
+                    GameRepository.switchGame(parentManager, parentManager.getRoomId(), model.gameID, new RxCallback<Object>() {
+                        @Override
+                        public void onSuccess(Object o) {
+                            super.onSuccess(o);
+                            RoomInfoModel roomInfoModel = parentManager.getRoomInfoModel();
+                            if (roomInfoModel != null) {
+                                roomInfoModel.gameId = model.gameID;
+                            }
+                            parentManager.switchGame(model.gameID);
+                        }
+                    });
+                }
+            } else {
                 callback.onRoomPkChangeGame(model.gameID);
             }
         }

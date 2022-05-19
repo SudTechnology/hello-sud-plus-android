@@ -49,7 +49,7 @@ import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomService;
 import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomServiceCallback;
-import tech.sud.mgp.hello.ui.scenes.base.viewmodel.GameViewModel;
+import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.SceneRoomViewModel;
 import tech.sud.mgp.hello.ui.scenes.base.widget.dialog.GameModeDialog;
 import tech.sud.mgp.hello.ui.scenes.base.widget.dialog.RoomMoreDialog;
@@ -69,7 +69,7 @@ import tech.sud.mgp.hello.ui.scenes.common.gift.view.RoomGiftDialog;
 /**
  * 场景房间的基类
  */
-public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActivity implements SceneRoomServiceCallback {
+public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseActivity implements SceneRoomServiceCallback {
 
     protected RoomInfoModel roomInfoModel; // 房间信息
     protected long playingGameId; // 当前正在玩的游戏id

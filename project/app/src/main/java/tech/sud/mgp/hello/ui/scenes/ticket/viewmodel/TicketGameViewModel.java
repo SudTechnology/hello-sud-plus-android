@@ -4,12 +4,12 @@ import androidx.lifecycle.MutableLiveData;
 
 import tech.sud.mgp.core.ISudFSMStateHandle;
 import tech.sud.mgp.hello.SudMGPWrapper.state.SudMGPMGState;
-import tech.sud.mgp.hello.ui.scenes.base.viewmodel.GameViewModel;
+import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
 
 /**
  * 门票场景的游戏业务
  */
-public class TicketGameViewModel extends GameViewModel {
+public class TicketGameViewModel extends AppGameViewModel {
 
     public MutableLiveData<Object> clickStartBtnLiveData = new MutableLiveData<>();
     public MutableLiveData<Object> clickReadyBtnLiveData = new MutableLiveData<>();

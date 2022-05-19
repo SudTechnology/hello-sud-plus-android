@@ -206,7 +206,20 @@ public class SceneRoomPkManager extends BaseServiceManager {
         // 本地开始
         roomPkModel.pkStatus = PkStatus.STARTED;
         roomPkModel.remainSecond = roomPkModel.totalMinute * 60;
+        clearScore();
         callbackUpdateRoomPk();
+    }
+
+    /** 清除双方分数 */
+    private void clearScore() {
+        if (roomPkModel != null) {
+            if (roomPkModel.srcRoomInfo != null) {
+                roomPkModel.srcRoomInfo.score = 0;
+            }
+            if (roomPkModel.destRoomInfo != null) {
+                roomPkModel.destRoomInfo.score = 0;
+            }
+        }
     }
 
     /**
@@ -518,6 +531,7 @@ public class SceneRoomPkManager extends BaseServiceManager {
             roomPkModel.pkStatus = PkStatus.STARTED;
             roomPkModel.totalMinute = model.minuteDuration;
             roomPkModel.remainSecond = model.minuteDuration * 60;
+            clearScore();
             callbackUpdateRoomPk();
         }
     };
@@ -538,6 +552,7 @@ public class SceneRoomPkManager extends BaseServiceManager {
                     localRemovePkRival();
                 }
                 addInterceptChatMsg();
+                parentManager.callbackOnGameChange(GameIdCons.NONE);
             }
         }
     };

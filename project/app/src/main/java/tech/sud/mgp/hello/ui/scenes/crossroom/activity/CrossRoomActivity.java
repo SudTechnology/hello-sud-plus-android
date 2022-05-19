@@ -282,6 +282,7 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
         switch (getPkStatus()) {
             case PkStatus.MATCHING: // 匹配中
             case PkStatus.MATCHED: // 已匹配
+                topView.setSelectGameVisible(roomInfoModel.roleType == RoleType.OWNER);
                 roomPkInfoView.setVisibility(View.VISIBLE);
                 tvOpenPk.setVisibility(View.GONE);
                 if (canOperatePk()) {
@@ -293,6 +294,7 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
                 tvPkSettings.setVisibility(View.GONE);
                 break;
             case PkStatus.STARTED: // 已开始
+                topView.setSelectGameVisible(roomInfoModel.roleType == RoleType.OWNER);
                 roomPkInfoView.setVisibility(View.VISIBLE);
                 tvOpenPk.setVisibility(View.GONE);
                 tvStartPk.setVisibility(View.GONE);
@@ -304,6 +306,7 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
                 }
                 break;
             case PkStatus.PK_END: // pk结束
+                topView.setSelectGameVisible(roomInfoModel.roleType == RoleType.OWNER);
                 roomPkInfoView.setVisibility(View.VISIBLE);
                 tvOpenPk.setVisibility(View.GONE);
                 tvStartPk.setVisibility(View.GONE);
@@ -315,6 +318,7 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
                 tvPkSettings.setVisibility(View.GONE);
                 break;
             case PkStatus.MATCH_CLOSED: // 结束了匹配
+                topView.setSelectGameVisible(false);
                 roomPkInfoView.setVisibility(View.GONE);
                 if (canOperatePk()) {
                     tvOpenPk.setVisibility(View.VISIBLE);
@@ -326,6 +330,7 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
                 tvPkSettings.setVisibility(View.GONE);
                 break;
             default:
+                topView.setSelectGameVisible(false);
                 roomPkInfoView.setVisibility(View.VISIBLE);
                 tvOpenPk.setVisibility(View.GONE);
                 tvStartPk.setVisibility(View.GONE);

@@ -384,10 +384,12 @@ public class SceneRoomPkManager extends BaseServiceManager {
 
     /** 同步自己的游戏给对方房间 */
     public void syncGame() {
-        RoomPkRoomInfo pkRival = getPkRival();
-        if (pkRival != null) {
-            long gameId = parentManager.getRoomInfoModel().gameId;
-            sendXRoomCommand(pkRival.roomId + "", RoomCmdModelUtils.buildCmdPkChangeGame(gameId));
+        if (parentManager.getRoleType() == RoleType.OWNER) {
+            RoomPkRoomInfo pkRival = getPkRival();
+            if (pkRival != null) {
+                long gameId = parentManager.getRoomInfoModel().gameId;
+                sendXRoomCommand(pkRival.roomId + "", RoomCmdModelUtils.buildCmdPkChangeGame(gameId));
+            }
         }
     }
 
@@ -661,6 +663,7 @@ public class SceneRoomPkManager extends BaseServiceManager {
             if (pkRival != null) {
                 localRemovePkRival();
                 addInterceptChatMsg();
+                parentManager.callbackOnGameChange(GameIdCons.NONE);
             }
         }
     };

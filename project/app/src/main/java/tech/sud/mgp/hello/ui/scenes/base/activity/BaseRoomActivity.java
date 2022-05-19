@@ -1020,7 +1020,7 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
         if (effectView != null) {
             effectView.onDestory();
         }
-        gameViewModel.destroyMG();
+        gameViewModel.onDestroy();
     }
 
     @Override

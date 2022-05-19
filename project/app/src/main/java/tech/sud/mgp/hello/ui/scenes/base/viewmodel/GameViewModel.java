@@ -40,6 +40,7 @@ import tech.sud.mgp.hello.rtc.audio.core.AudioPCMData;
 import tech.sud.mgp.hello.service.game.repository.GameRepository;
 import tech.sud.mgp.hello.service.game.resp.GameLoginResp;
 import tech.sud.mgp.hello.service.main.config.SudConfig;
+import tech.sud.mgp.hello.ui.main.constant.GameIdCons;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.GameTextModel;
 
@@ -65,6 +66,7 @@ public class GameViewModel implements SudFSMMGListener {
     public final MutableLiveData<Boolean> showFinishGameBtnLiveData = new MutableLiveData<>(); // 是否具备结束游戏的权力
     public final MutableLiveData<Boolean> micSpaceMaxLiveData = new MutableLiveData<>(); // 是否收缩麦位
 
+    private boolean isRunning = true; // 业务是否还在运行
     public View gameView; // 游戏View
     private int selfMicIndex = -1; // 记录自己所在麦位
     public GameConfigModel gameConfigModel = new GameConfigModel(); // 游戏配置
@@ -81,13 +83,37 @@ public class GameViewModel implements SudFSMMGListener {
      * @param gameId   游戏id
      */
     public void switchGame(FragmentActivity activity, long gameRoomId, long gameId) {
-        if (playingGameId == gameId && this.gameRoomId == gameRoomId) {
-            return;
+        checkFinishGame(gameId);
+        // 因为finishGame需要一定时间发送给游戏服务，所以这里带了delay
+        // 如果没有finishGame的需求，那可以不需要delay
+        ThreadUtils.runOnUiThreadDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (!isRunning) {
+                    return;
+                }
+                if (playingGameId == gameId && GameViewModel.this.gameRoomId == gameRoomId) {
+                    return;
+                }
+                destroyMG();
+                GameViewModel.this.gameRoomId = gameRoomId;
+                playingGameId = gameId;
+                login(activity, gameId);
+            }
+        }, 100);
+    }
+
+    private void checkFinishGame(long newGameId) {
+        // 自己是队长，并且游戏在进行中，收到关闭游戏的指令，则发送结束游戏的状态给游戏
+        if (isCaptain(HSUserInfo.userId)) {
+            int gameState = getGameState();
+            if (gameState == SudMGPMGState.MGCommonGameState.LOADING
+                    || gameState == SudMGPMGState.MGCommonGameState.PLAYING) {
+                if (newGameId == GameIdCons.NONE) {
+                    finishGame();
+                }
+            }
         }
-        destroyMG();
-        this.gameRoomId = gameRoomId;
-        playingGameId = gameId;
-        login(activity, gameId);
     }
 
     /**
@@ -217,7 +243,12 @@ public class GameViewModel implements SudFSMMGListener {
     public void onStop() {
     }
 
-    public void destroyMG() {
+    public void onDestroy() {
+        isRunning = false;
+        destroyMG();
+    }
+
+    private void destroyMG() {
         if (playingGameId > 0) {
             sudFSTAPPDecorator.destroyMG();
             sudFSMMGDecorator.destroyMG();

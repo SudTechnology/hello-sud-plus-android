@@ -336,7 +336,7 @@ Buat ruangan di Beranda</string>
     <string name="confirm_modify">Konfirmasi </string>
     <string name="empty_room_match">Saat ini tidak ada ruangan lain yang tersedia</string>
     <string name="invite_pk_hint">Silakan undang lawan Anda terlebih dahulu</string>
-    <string name="invite_pk_answer_title">Ruangan %1 $ s mengirim undangan untuk bermain di ruangan seberang. Apakah Anda menerimanya?</string>
+    <string name="invite_pk_answer_title">Ruangan %1$s mengirim undangan untuk bermain di ruangan seberang. Apakah Anda menerimanya?</string>
     <string name="refuse">Menolak</string>
     <string name="accept">OK</string>
     <string name="win_info_first">Selamat kepada %1$s karena memenangkan peringkat pertama dengan %3$s plus %2$s poin!</string>

@@ -335,7 +335,7 @@
     <string name="confirm_modify">Xác nhận chỉnh sửa</string>
     <string name="empty_room_match">Hiện chưa có phòng để ghép đôi</string>
     <string name="invite_pk_hint">Vui lòng mời đối thủ</string>
-    <string name="invite_pk_answer_title">Phòng %1$d dã gửi  lời mời chơi trò chơi xuyên phòng, bạn chấp nhận không?</string>
+    <string name="invite_pk_answer_title">Phòng %1$s dã gửi  lời mời chơi trò chơi xuyên phòng, bạn chấp nhận không?</string>
     <string name="refuse">Từ chối</string>
     <string name="accept">OK</string>
     <string name="win_info_first">Chúc mừng %1$s đạt được hạng nhất, cộng thêm %3$s điểm cho %2$s!</string>

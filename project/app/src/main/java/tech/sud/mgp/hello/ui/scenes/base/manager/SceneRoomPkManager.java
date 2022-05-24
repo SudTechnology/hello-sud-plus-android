@@ -151,6 +151,9 @@ public class SceneRoomPkManager extends BaseServiceManager {
 
                     // 发送http协议，通知后端关闭游戏
                     GameRepository.switchGame(parentManager, parentManager.getRoomId(), GameIdCons.NONE, new RxCallback<>());
+
+                    // 发送信令
+                    parentManager.switchGame(GameIdCons.NONE);
                 }
             }
         });
@@ -636,8 +639,9 @@ public class SceneRoomPkManager extends BaseServiceManager {
                 if (parentManager.getRoleType() == RoleType.OWNER) {
                     // 发送http协议，通知后端关闭游戏
                     GameRepository.switchGame(parentManager, parentManager.getRoomId(), GameIdCons.NONE, new RxCallback<>());
+                    parentManager.switchGame(GameIdCons.NONE);
+                    parentManager.callbackOnGameChange(GameIdCons.NONE);
                 }
-                parentManager.callbackOnGameChange(GameIdCons.NONE);
             }
         }
     };
@@ -765,8 +769,10 @@ public class SceneRoomPkManager extends BaseServiceManager {
                 if (parentManager.getRoleType() == RoleType.OWNER) {
                     // 发送http协议，通知后端关闭游戏
                     GameRepository.switchGame(parentManager, parentManager.getRoomId(), GameIdCons.NONE, new RxCallback<>());
+                    // 发送信令
+                    parentManager.switchGame(GameIdCons.NONE);
+                    parentManager.callbackOnGameChange(GameIdCons.NONE);
                 }
-                parentManager.callbackOnGameChange(GameIdCons.NONE);
             }
         }
     };

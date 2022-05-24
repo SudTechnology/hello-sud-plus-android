@@ -293,7 +293,7 @@
     <string name="dialog_game_ready">준비 단계</string>
     <string name="dialog_game_ready_btn">②준비</string>
     <string name="dialog_game_cancel_ready_btn">준비취소</string>
-    <string name="dialog_game_start_btn">게임시작</string>
+    <string name="dialog_game_start_btn">③게임시작</string>
     <string name="dialog_game_exit_btn">게임 종료</string>
     <string name="dialog_game_playing">게임 중</string>
     <string name="dialog_game_escape">도주</string>

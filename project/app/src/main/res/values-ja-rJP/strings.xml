@@ -293,7 +293,7 @@
     <string name="dialog_game_ready">準備段階</string>
     <string name="dialog_game_ready_btn">②準備</string>
     <string name="dialog_game_cancel_ready_btn">キャンセル</string>
-    <string name="dialog_game_start_btn">スタート</string>
+    <string name="dialog_game_start_btn">③スタート</string>
     <string name="dialog_game_exit_btn">ゲームを終了する</string>
     <string name="dialog_game_playing">ゲーム中</string>
     <string name="dialog_game_escape">脫走</string>

@@ -294,7 +294,7 @@ Buat ruangan di Beranda</string>
     <string name="dialog_game_ready">Tahap persiapan</string>
     <string name="dialog_game_ready_btn">②Bersiap</string>
     <string name="dialog_game_cancel_ready_btn">Batalkan</string>
-    <string name="dialog_game_start_btn">Mulai game</string>
+    <string name="dialog_game_start_btn">③Mulai game</string>
     <string name="dialog_game_exit_btn">Keluar</string>
     <string name="dialog_game_playing">Dalam permainan</string>
     <string name="dialog_game_escape">Melarikan diri</string>

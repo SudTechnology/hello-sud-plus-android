@@ -293,7 +293,7 @@
     <string name="dialog_game_ready">Giai đoạn chuẩn bị</string>
     <string name="dialog_game_ready_btn">② Sẵn sàng</string>
     <string name="dialog_game_cancel_ready_btn">Hủy</string>
-    <string name="dialog_game_start_btn">Bắt đầu</string>
+    <string name="dialog_game_start_btn">③Bắt đầu</string>
     <string name="dialog_game_exit_btn">Thoát khỏi trò chơi</string>
     <string name="dialog_game_playing">Đang chơi</string>
     <string name="dialog_game_escape">Đào tẩu</string>

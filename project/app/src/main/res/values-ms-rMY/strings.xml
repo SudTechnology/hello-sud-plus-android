@@ -293,7 +293,7 @@ Kunjungi laman utama untuk mencipta satu~</string>
     <string name="dialog_game_ready">Fasa penyediaan</string>
     <string name="dialog_game_ready_btn">②Sediakan</string>
     <string name="dialog_game_cancel_ready_btn">Tidak Sedia</string>
-    <string name="dialog_game_start_btn">Mulakan</string>
+    <string name="dialog_game_start_btn">③Mulakan</string>
     <string name="dialog_game_exit_btn">Keluar dari permainan</string>
     <string name="dialog_game_playing">Dalam permainan</string>
     <string name="dialog_game_escape">Melarikan diri</string>

@@ -293,7 +293,7 @@ Vaya a la página de inicio para crear una!</string>
     <string name="dialog_game_ready">Etapa de preparación</string>
     <string name="dialog_game_ready_btn">②Preparación</string>
     <string name="dialog_game_cancel_ready_btn">Cancelar</string>
-    <string name="dialog_game_start_btn">Comienza</string>
+    <string name="dialog_game_start_btn">③Comienza</string>
     <string name="dialog_game_exit_btn">Salir del juego</string>
     <string name="dialog_game_playing">Jugando</string>
     <string name="dialog_game_escape">Huir</string>

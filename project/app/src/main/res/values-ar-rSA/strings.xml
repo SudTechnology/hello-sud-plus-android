@@ -293,7 +293,7 @@
     <string name="dialog_game_ready">مرحلة التحضير</string>
     <string name="dialog_game_ready_btn">② التحضير</string>
     <string name="dialog_game_cancel_ready_btn">إلغاء الاستعداد</string>
-    <string name="dialog_game_start_btn">بدء اللعبة</string>
+    <string name="dialog_game_start_btn">③بدء اللعبة</string>
     <string name="dialog_game_exit_btn">الخروج من اللعبة</string>
     <string name="dialog_game_playing">في اللعبة</string>
     <string name="dialog_game_escape">هرب</string>

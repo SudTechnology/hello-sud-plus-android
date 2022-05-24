@@ -293,7 +293,7 @@
     <string name="dialog_game_ready">ขั้นตอนการเตรียมการ</string>
     <string name="dialog_game_ready_btn">② เตรียมตัว</string>
     <string name="dialog_game_cancel_ready_btn">ยกเลิกเตรียม</string>
-    <string name="dialog_game_start_btn">เริ่มเกม</string>
+    <string name="dialog_game_start_btn">③เริ่มเกม</string>
     <string name="dialog_game_exit_btn">ออกจากเกม</string>
     <string name="dialog_game_playing">เล่นเกมอยู่</string>
     <string name="dialog_game_escape">วิ่งหนี</string>

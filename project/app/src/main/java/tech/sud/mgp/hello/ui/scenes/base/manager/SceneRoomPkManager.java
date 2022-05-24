@@ -145,6 +145,9 @@ public class SceneRoomPkManager extends BaseServiceManager {
 
                     // 更新本地状态
                     setPkStatusClosed();
+
+                    // 发送http协议，通知后端关闭游戏
+                    GameRepository.switchGame(parentManager, parentManager.getRoomId(), GameIdCons.NONE, new RxCallback<>());
                 }
             }
         });
@@ -545,16 +548,20 @@ public class SceneRoomPkManager extends BaseServiceManager {
         public void onRecvCommand(RoomCmdPKFinishModel model, String userID) {
             if (model.sendUser == null || roomPkModel == null) return;
             String fromRoomId = model.sendUser.roomID;
-            if ((parentManager.getRoomId() + "").equals(fromRoomId)) {
-                // 关闭自己房间的pk
+            if ((parentManager.getRoomId() + "").equals(fromRoomId)) { // 自己的房间结束了跨房pk
                 setPkStatusClosed();
-            } else {
+            } else { // 对方房间结束跨房pk
                 RoomPkRoomInfo pkRival = getPkRival();
                 if (pkRival != null && (pkRival.roomId + "").equals(fromRoomId)) {
                     // 对方房间关闭了跨房pk，回到待匹配状态
                     localRemovePkRival();
                 }
                 addInterceptChatMsg();
+
+                if (parentManager.getRoleType() == RoleType.OWNER) {
+                    // 发送http协议，通知后端关闭游戏
+                    GameRepository.switchGame(parentManager, parentManager.getRoomId(), GameIdCons.NONE, new RxCallback<>());
+                }
                 parentManager.callbackOnGameChange(GameIdCons.NONE);
             }
         }
@@ -680,6 +687,10 @@ public class SceneRoomPkManager extends BaseServiceManager {
             if (pkRival != null) {
                 localRemovePkRival();
                 addInterceptChatMsg();
+                if (parentManager.getRoleType() == RoleType.OWNER) {
+                    // 发送http协议，通知后端关闭游戏
+                    GameRepository.switchGame(parentManager, parentManager.getRoomId(), GameIdCons.NONE, new RxCallback<>());
+                }
                 parentManager.callbackOnGameChange(GameIdCons.NONE);
             }
         }

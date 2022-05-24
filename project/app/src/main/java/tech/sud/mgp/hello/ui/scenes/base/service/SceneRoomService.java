@@ -17,6 +17,7 @@ import com.jeremyliao.liveeventbus.LiveEventBus;
 import java.util.List;
 
 import tech.sud.mgp.hello.common.event.ChangeRTCEvent;
+import tech.sud.mgp.hello.common.event.EnterRoomEvent;
 import tech.sud.mgp.hello.common.event.LiveEventBusKey;
 import tech.sud.mgp.hello.ui.common.utils.channel.NotifyId;
 import tech.sud.mgp.hello.ui.main.home.model.RoomItemModel;
@@ -41,6 +42,7 @@ public class SceneRoomService extends Service {
     private SceneRoomNotificationHelper notificationHelper;
     private Context context = this;
     private Observer<ChangeRTCEvent> changeRTCEventObserver;
+    private Observer<EnterRoomEvent> enterRoomEventObserver;
 
     /** 房间数据 */
     private static SceneRoomData sceneRoomData;
@@ -67,11 +69,27 @@ public class SceneRoomService extends Service {
     private void setListeners() {
         changeRTCEventObserver = new Observer<ChangeRTCEvent>() {
             @Override
-            public void onChanged(ChangeRTCEvent changeRTCEvent) {
+            public void onChanged(ChangeRTCEvent event) {
                 binder.exitRoom();
             }
         };
         LiveEventBus.<ChangeRTCEvent>get(LiveEventBusKey.KEY_CHANGE_RTC).observeForever(changeRTCEventObserver);
+        enterRoomEventObserver = new Observer<EnterRoomEvent>() {
+            @Override
+            public void onChanged(EnterRoomEvent event) {
+                if (getRoomId() != event.roomId && serviceManager.getCallback() == null) {
+                    binder.exitRoom();
+                }
+            }
+        };
+        LiveEventBus.<EnterRoomEvent>get(LiveEventBusKey.KEY_ENTER_ROOM).observeForever(enterRoomEventObserver);
+    }
+
+    private long getRoomId() {
+        if (sceneRoomData.roomInfoModel != null && sceneRoomData.roomInfoModel.roomId != null) {
+            return sceneRoomData.roomInfoModel.roomId;
+        }
+        return 0;
     }
 
     @Nullable
@@ -291,6 +309,10 @@ public class SceneRoomService extends Service {
         if (changeRTCEventObserver != null) {
             LiveEventBus.<ChangeRTCEvent>get(LiveEventBusKey.KEY_CHANGE_RTC).removeObserver(changeRTCEventObserver);
             changeRTCEventObserver = null;
+        }
+        if (enterRoomEventObserver != null) {
+            LiveEventBus.<EnterRoomEvent>get(LiveEventBusKey.KEY_ENTER_ROOM).removeObserver(enterRoomEventObserver);
+            enterRoomEventObserver = null;
         }
     }
 }

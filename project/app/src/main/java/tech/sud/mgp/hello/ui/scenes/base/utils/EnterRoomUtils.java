@@ -6,6 +6,10 @@ import android.content.Intent;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
 
+import com.jeremyliao.liveeventbus.LiveEventBus;
+
+import tech.sud.mgp.hello.common.event.EnterRoomEvent;
+import tech.sud.mgp.hello.common.event.LiveEventBusKey;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
@@ -47,11 +51,17 @@ public class EnterRoomUtils {
             return;
         }
         isRunning = true;
+
+        long roomId = params.roomId;
+        EnterRoomEvent enterRoomEvent = new EnterRoomEvent();
+        enterRoomEvent.roomId = roomId;
+        LiveEventBus.<EnterRoomEvent>get(LiveEventBusKey.KEY_ENTER_ROOM).post(enterRoomEvent);
+
         LifecycleOwner owner = null;
         if (context instanceof LifecycleOwner) {
             owner = (LifecycleOwner) context;
         }
-        RoomRepository.enterRoom(owner, params.roomId, new RxCallback<EnterRoomResp>() {
+        RoomRepository.enterRoom(owner, roomId, new RxCallback<EnterRoomResp>() {
             @Override
             public void onNext(BaseResponse<EnterRoomResp> t) {
                 super.onNext(t);

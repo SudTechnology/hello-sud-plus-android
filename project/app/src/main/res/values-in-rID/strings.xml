@@ -267,7 +267,7 @@ Buat ruangan di Beranda</string>
     <string name="order_invite_conent">%1$s \ n ingin bermain [%2$s] dengan Anda \ n Apakah Anda ingin bergabung</string>
     <string name="order_invite_right_btn">Join</string>
     <string name="order_invite_left_btn">Menolak</string>
-    <string name="order_result_conent">%1 $ s menolak undangan Anda, apakah Anda ingin terus bermain dengan host lain?</string>
+    <string name="order_result_conent">%1$s menolak undangan Anda, apakah Anda ingin terus bermain dengan host lain?</string>
     <string name="order_finish_conent">Pesanan ini telah kedaluwarsa, apakah Anda ingin terus bermain dengan host lain?</string>
     <string name="order_finish_left_text">Kembali</string>
     <string name="order_finish_right_text">Memesan</string>

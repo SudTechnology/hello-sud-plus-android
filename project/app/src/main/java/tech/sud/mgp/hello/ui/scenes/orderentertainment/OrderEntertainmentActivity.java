@@ -206,12 +206,12 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
         }
     }
 
-    //接受邀请接口是否成功
+    // 接受邀请接口是否成功
     @Override
     public void onReceiveInvite(boolean agreeState) {
         super.onReceiveInvite(agreeState);
         if (agreeState) {
-            //接受了并且切换游戏
+            // 接受了并且切换游戏
             intentSwitchGame(gameViewModel.orderModel.gameId);
             changeTopBtn(1);
         }

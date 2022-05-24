@@ -1,7 +1,6 @@
 package tech.sud.mgp.hello.ui.scenes.base.manager;
 
 import android.app.Activity;
-import android.content.Context;
 
 import androidx.lifecycle.LifecycleOwner;
 
@@ -16,14 +15,15 @@ import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
+import tech.sud.mgp.hello.service.game.repository.GameRepository;
 import tech.sud.mgp.hello.service.room.repository.RoomRepository;
 import tech.sud.mgp.hello.ui.common.utils.DialogUtils;
+import tech.sud.mgp.hello.ui.main.constant.GameIdCons;
 import tech.sud.mgp.hello.ui.scenes.base.model.OrderInviteModel;
 import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomServiceCallback;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.RoomCmdModelUtils;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.order.RoomCmdOrderOperateModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.order.RoomCmdUserOrderModel;
-import tech.sud.mgp.hello.ui.scenes.orderentertainment.viewmodel.OrderViewModel;
 
 /**
  * 点单场景
@@ -34,7 +34,7 @@ public class SceneOrderManager extends BaseServiceManager {
     private SimpleChooseDialog operateDialog;//拒绝弹窗
     private final SceneRoomServiceManager parentManager;
     private OrderInviteModel orderModel;
-    private int receiveSate = 0;
+    private int receiveSate = 0; // 1已成功接受点单 2接受点单不成功
 
     public SceneOrderManager(SceneRoomServiceManager sceneRoomServiceManager) {
         super();
@@ -60,14 +60,9 @@ public class SceneOrderManager extends BaseServiceManager {
         parentManager.sceneEngineManager.sendCommand(command, null);
     }
 
-    public void operateOrder(long orderId, long gameId, String gameName, String toUser, boolean state) {
-        String command = RoomCmdModelUtils.buildCmdOrderResult(orderId, gameId, gameName, toUser, state);
+    public void operateOrder(long orderId, long gameId, String gameName, String toUser, boolean isAccept) {
+        String command = RoomCmdModelUtils.buildCmdOrderResult(orderId, gameId, gameName, toUser, isAccept);
         parentManager.sceneEngineManager.sendCommand(command, null);
-
-        if (state) {
-            //接受邀请后，发送切换游戏信令
-            parentManager.switchGame(gameId);
-        }
     }
 
     private final SceneCommandManager.UserOrderCommandListener userOrderCommandListener = new SceneCommandManager.UserOrderCommandListener() {
@@ -110,7 +105,7 @@ public class SceneOrderManager extends BaseServiceManager {
     public void inviteDialog(long orderId, long gameId, String gameName,
                              String userID, String nickname, List<String> toUsers) {
         Activity activity = ActivityUtils.getTopActivity();
-        if (activity == null) return;
+        if (activity == null || activity.isDestroyed()) return;
         if (activity instanceof LifecycleOwner) {
             if (inviteDialog == null || !inviteDialog.isShowing()) {
                 OrderInviteModel orderModel = new OrderInviteModel();
@@ -132,9 +127,8 @@ public class SceneOrderManager extends BaseServiceManager {
                         if (callback != null) {
                             callback.onOrderInvite(orderModel);
                         }
-                        parentManager.startRoomActivity();
                         //用户接受了邀请点单
-                        roomOrderReceive((LifecycleOwner) activity, orderId, orderModel);
+                        roomOrderReceive(orderId, orderModel);
                     } else {
                         orderModel.agreeState = 2;
                         SceneRoomServiceCallback callback = parentManager.getCallback();
@@ -172,22 +166,36 @@ public class SceneOrderManager extends BaseServiceManager {
         }
     }
 
-    public void roomOrderReceive(LifecycleOwner owner, long orderId, OrderInviteModel orderModel) {
-        RoomRepository.roomOrderReceive(owner, orderId, new RxCallback<Object>() {
+    public void roomOrderReceive(long orderId, OrderInviteModel orderModel) {
+        RoomRepository.roomOrderReceive(parentManager, orderId, new RxCallback<Object>() {
             @Override
             public void onNext(BaseResponse<Object> t) {
                 super.onNext(t);
                 SceneRoomServiceCallback callback = parentManager.getCallback();
                 if (t.getRetCode() == RetCode.SUCCESS) {
-                    //接受接口成功后切游戏
-                    operateOrder(orderModel.orderId,
-                            orderModel.gameId,
-                            orderModel.gameName,
-                            orderModel.sendUserId, true);
-                }
-                if (callback != null) {
-                    receiveSate = t.getRetCode() == RetCode.SUCCESS ? 1 : 2;
-                    callback.onReceiveInvite(t.getRetCode() == RetCode.SUCCESS);
+                    receiveSate = 1;
+                    parentManager.startRoomActivity();
+                    
+                    // 发送信令
+                    operateOrder(orderModel.orderId, orderModel.gameId, orderModel.gameName, orderModel.sendUserId, true);
+
+                    if (callback == null) {
+                        long gameId = orderModel.gameId;
+                        // 发送http协议，通知后端
+                        GameRepository.switchGame(parentManager, parentManager.getRoomId(), GameIdCons.NONE, new RxCallback<Object>() {
+                            @Override
+                            public void onSuccess(Object o) {
+                                super.onSuccess(o);
+                                // 发送切换游戏信令
+                                parentManager.switchGame(gameId);
+                                parentManager.callbackOnGameChange(gameId);
+                            }
+                        });
+                    } else {
+                        callback.onReceiveInvite(t.getRetCode() == RetCode.SUCCESS);
+                    }
+                } else {
+                    receiveSate = 2;
                 }
             }
         });

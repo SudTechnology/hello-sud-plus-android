@@ -15,15 +15,17 @@
         app:layout_constraintTop_toTopOf="parent"
         app:topbar_titleText="@string/game_config_title" />
 
-    <TextView
+    <tech.sud.mgp.hello.common.widget.view.MarqueeTextView
         android:id="@+id/game_tip_tv"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:background="#FFEFDB"
         android:gravity="center"
         android:text="@string/game_config_tip"
+        android:singleLine="true"
         android:textColor="#ED9F20"
         android:textSize="14sp"
+        android:paddingHorizontal="16dp"
         app:layout_constraintTop_toBottomOf="@+id/top_bar" />
 
     <androidx.core.widget.NestedScrollView

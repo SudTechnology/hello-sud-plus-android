@@ -260,6 +260,7 @@ public class AppGameViewModel implements SudFSMMGListener {
             gameView = null;
             gameViewLiveData.setValue(null);
             gameRTCPublishLiveData.setValue(null);
+            notifyUpdateMic();
         }
     }
     // endregion 生命周期相关
@@ -383,6 +384,7 @@ public class AppGameViewModel implements SudFSMMGListener {
             model.isPlayingGame = false;
         }
 
+        // 是否已加入了游戏
         if (hasUser && isIn) {
             model.isIn = true;
         } else {

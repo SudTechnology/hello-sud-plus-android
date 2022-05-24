@@ -648,7 +648,6 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
             binder.exitRoom();
         }
         releaseService();
-        viewModel.exitRoom(roomInfoModel.roomId);
         finish();
     }
 

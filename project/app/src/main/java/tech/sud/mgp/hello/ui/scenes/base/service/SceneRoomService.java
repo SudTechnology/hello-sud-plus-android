@@ -10,11 +10,14 @@ import android.os.IBinder;
 import android.view.View;
 
 import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
+
+import com.jeremyliao.liveeventbus.LiveEventBus;
 
 import java.util.List;
 
-import tech.sud.mgp.hello.common.http.rx.RxCallback;
-import tech.sud.mgp.hello.service.room.repository.RoomRepository;
+import tech.sud.mgp.hello.common.event.ChangeRTCEvent;
+import tech.sud.mgp.hello.common.event.LiveEventBusKey;
 import tech.sud.mgp.hello.ui.common.utils.channel.NotifyId;
 import tech.sud.mgp.hello.ui.main.home.model.RoomItemModel;
 import tech.sud.mgp.hello.ui.scenes.base.activity.RoomConfig;
@@ -37,6 +40,7 @@ public class SceneRoomService extends Service {
     private final MyBinder binder = new MyBinder();
     private SceneRoomNotificationHelper notificationHelper;
     private Context context = this;
+    private Observer<ChangeRTCEvent> changeRTCEventObserver;
 
     /** 房间数据 */
     private static SceneRoomData sceneRoomData;
@@ -45,13 +49,29 @@ public class SceneRoomService extends Service {
     public void onCreate() {
         super.onCreate();
         sceneRoomData = new SceneRoomData();
+
+        // 通知栏处理
         notificationHelper = new SceneRoomNotificationHelper(this);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) { //android8.0及以后需要开启前台服务
             startForeground(NotifyId.SCENE_ROOM_NOTIFY_ID.getValue(), notificationHelper.createNotification());
         } else {
             notificationHelper.show();
         }
+
+        // 事件监听
+        setListeners();
+
         serviceManager.onCreate();
+    }
+
+    private void setListeners() {
+        changeRTCEventObserver = new Observer<ChangeRTCEvent>() {
+            @Override
+            public void onChanged(ChangeRTCEvent changeRTCEvent) {
+                binder.exitRoom();
+            }
+        };
+        LiveEventBus.<ChangeRTCEvent>get(LiveEventBusKey.KEY_CHANGE_RTC).observeForever(changeRTCEventObserver);
     }
 
     @Nullable
@@ -88,7 +108,6 @@ public class SceneRoomService extends Service {
                 } else {
                     // 2.切换房间，销毁原有房间数据，然后再执行进入房间
                     SceneRoomServiceCallback callback = serviceManager.getCallback();
-                    RoomRepository.exitRoom(null, model.roomId, new RxCallback<>());
                     serviceManager.exitRoom();
                     serviceManager.onDestroy();
                     serviceManager = new SceneRoomServiceManager();
@@ -269,5 +288,9 @@ public class SceneRoomService extends Service {
             notificationHelper.hide();
         }
         serviceManager.onDestroy();
+        if (changeRTCEventObserver != null) {
+            LiveEventBus.<ChangeRTCEvent>get(LiveEventBusKey.KEY_CHANGE_RTC).removeObserver(changeRTCEventObserver);
+            changeRTCEventObserver = null;
+        }
     }
 }

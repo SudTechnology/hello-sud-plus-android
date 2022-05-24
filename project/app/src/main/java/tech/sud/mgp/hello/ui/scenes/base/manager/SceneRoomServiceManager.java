@@ -15,9 +15,11 @@ import com.trello.rxlifecycle4.RxLifecycle;
 
 import io.reactivex.rxjava3.subjects.BehaviorSubject;
 import tech.sud.mgp.hello.R;
+import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.lifecycle.CustomLifecycleEvent;
 import tech.sud.mgp.hello.common.utils.lifecycle.CustomLifecycleProvider;
+import tech.sud.mgp.hello.service.room.repository.RoomRepository;
 import tech.sud.mgp.hello.ui.common.constant.RequestKey;
 import tech.sud.mgp.hello.ui.scenes.base.activity.RoomConfig;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
@@ -238,6 +240,10 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
 
     /** 退出房间 */
     public void exitRoom() {
+        long roomId = getRoomId();
+        if (roomId > 0) {
+            RoomRepository.exitRoom(null, roomId, new RxCallback<>());
+        }
         sceneMicManager.exitRoom();
     }
 

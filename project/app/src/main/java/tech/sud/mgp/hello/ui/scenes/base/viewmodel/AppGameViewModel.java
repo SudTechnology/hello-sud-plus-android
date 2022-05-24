@@ -134,6 +134,9 @@ public class AppGameViewModel implements SudFSMMGListener {
             @Override
             public void onNext(BaseResponse<GameLoginResp> t) {
                 super.onNext(t);
+                if (!isRunning || gameId != playingGameId) {
+                    return;
+                }
                 if (t.getRetCode() == RetCode.SUCCESS && t.getData() != null) {
                     initSdk(activity, gameId, t.getData().code);
                 } else {
@@ -188,7 +191,7 @@ public class AppGameViewModel implements SudFSMMGListener {
      * @param gameId   游戏id
      */
     private void loadGame(FragmentActivity activity, String code, long gameId) {
-        if (activity.isDestroyed()) {
+        if (activity.isDestroyed() || !isRunning || gameId != playingGameId) {
             return;
         }
 

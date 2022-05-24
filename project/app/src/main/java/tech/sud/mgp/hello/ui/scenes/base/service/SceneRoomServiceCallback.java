@@ -134,4 +134,7 @@ public interface SceneRoomServiceCallback {
     /** 跨房移除了对手 */
     void onRoomPkRemoveRival();
 
+    /** 更新倒计时 */
+    void onRoomPkCoutndown();
+
 }

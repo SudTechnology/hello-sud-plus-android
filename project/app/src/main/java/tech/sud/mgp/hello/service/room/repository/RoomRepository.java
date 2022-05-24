@@ -213,7 +213,6 @@ public class RoomRepository {
                 .subscribe(callback);
     }
 
-
     /**
      * pk再来一局
      *

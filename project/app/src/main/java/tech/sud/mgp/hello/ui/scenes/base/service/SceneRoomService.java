@@ -252,6 +252,11 @@ public class SceneRoomService extends Service {
         public void removePkRival() {
             serviceManager.sceneRoomPkManager.removePkRival();
         }
+
+        /** 刷新房间pk信息 */
+        public void refreshRoomPkInfo() {
+            serviceManager.sceneRoomPkManager.refreshRoomPkInfo();
+        }
     }
 
     /** 获取当前使用的房间基本数据 */

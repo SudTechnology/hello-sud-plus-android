@@ -440,7 +440,7 @@ public class AppGameViewModel implements SudFSMMGListener {
     }
 
     /**
-     * 退出游戏
+     * 退出游戏，执行逃跑逻辑
      */
     public void exitGame() {
         if (playerIsPlaying(HSUserInfo.userId)) {

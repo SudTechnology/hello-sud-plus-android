@@ -976,6 +976,10 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
     @Override
     public void onRoomPkRemoveRival() {
     }
+
+    @Override
+    public void onRoomPkCoutndown() {
+    }
     // endregion service回调
 
     @Override

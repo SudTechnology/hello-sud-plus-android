@@ -20,6 +20,7 @@ import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
 import tech.sud.mgp.hello.service.game.repository.GameRepository;
 import tech.sud.mgp.hello.service.room.model.PkStatus;
 import tech.sud.mgp.hello.service.room.repository.RoomRepository;
+import tech.sud.mgp.hello.service.room.resp.EnterRoomResp;
 import tech.sud.mgp.hello.service.room.resp.RoomPkAgainResp;
 import tech.sud.mgp.hello.service.room.resp.RoomPkAgreeResp;
 import tech.sud.mgp.hello.service.room.resp.RoomPkModel;
@@ -65,6 +66,7 @@ public class SceneRoomPkManager extends BaseServiceManager {
     private RoomPkModel roomPkModel;
     private SimpleChooseDialog inviteAnswerDialog;
     private Future<Object> showInviteDialogFuture;
+    private CustomCountdownTimer countdownTimer;
 
     public SceneRoomPkManager(SceneRoomServiceManager sceneRoomServiceManager) {
         super();
@@ -88,6 +90,7 @@ public class SceneRoomPkManager extends BaseServiceManager {
 
     public void enterRoom(RoomConfig config, RoomInfoModel model) {
         roomPkModel = model.roomPkModel;
+        checkCountdown();
     }
 
     public void callbackPageData() {
@@ -132,7 +135,7 @@ public class SceneRoomPkManager extends BaseServiceManager {
                     if (roomPkModel.pkStatus == PkStatus.MATCH_CLOSED) {
                         setSelfSrcRoomInfo();
                         sendCommand(RoomCmdModelUtils.buildCmdPkOpenMatch());
-                        roomPkModel.pkStatus = PkStatus.MATCHING;
+                        setPkStatus(PkStatus.MATCHING);
                         callbackUpdateRoomPk();
                     }
                 } else { // 关闭跨房pk
@@ -153,9 +156,24 @@ public class SceneRoomPkManager extends BaseServiceManager {
         });
     }
 
+    /** 设置pk状态 */
+    private void setPkStatus(int pkStatus) {
+        roomPkModel.pkStatus = pkStatus;
+        checkCountdown();
+    }
+
+    private void checkCountdown() {
+        if (getPkStatus() == PkStatus.STARTED && roomPkModel != null) {
+            startCountdown(roomPkModel.remainSecond);
+        } else {
+            cancelCountdown();
+        }
+    }
+
     /** 更新本地的pk状态为关闭了跨房pk */
     private void setPkStatusClosed() {
         roomPkModel.clear();
+        checkCountdown();
         callbackUpdateRoomPk();
         parentManager.callbackOnGameChange(GameIdCons.NONE);
     }
@@ -208,8 +226,8 @@ public class SceneRoomPkManager extends BaseServiceManager {
         sendXRoomCommand(pkRivalRoomId + "", command);
 
         // 本地开始
-        roomPkModel.pkStatus = PkStatus.STARTED;
         roomPkModel.remainSecond = roomPkModel.totalMinute * 60;
+        setPkStatus(PkStatus.STARTED);
         clearScore();
         callbackUpdateRoomPk();
     }
@@ -287,6 +305,27 @@ public class SceneRoomPkManager extends BaseServiceManager {
         });
     }
 
+    /** 刷新房间pk信息 */
+    public void refreshRoomPkInfo() {
+        long roomId = parentManager.getRoomId();
+        RoomRepository.enterRoom(parentManager, roomId, new RxCallback<EnterRoomResp>() {
+            @Override
+            public void onSuccess(EnterRoomResp resp) {
+                super.onSuccess(resp);
+                if (resp != null && resp.pkResultVO != null) {
+                    resp.pkResultVO.initInfo(roomId);
+                    RoomInfoModel roomInfoModel = parentManager.getRoomInfoModel();
+                    if (roomInfoModel != null) {
+                        roomInfoModel.roomPkModel = resp.pkResultVO;
+                    }
+                    roomPkModel = resp.pkResultVO;
+                    checkCountdown();
+                    callbackUpdateRoomPk();
+                }
+            }
+        });
+    }
+
     /** 跨房pk，发送邀请 */
     public void roomPkInvite(RoomItemModel model) {
         if (model == null || getPkStatus() != PkStatus.MATCHING) return;
@@ -352,6 +391,13 @@ public class SceneRoomPkManager extends BaseServiceManager {
         }
     }
 
+    private void callbackUpdateCountdown() {
+        SceneRoomServiceCallback callback = parentManager.getCallback();
+        if (callback != null) {
+            callback.onRoomPkCoutndown();
+        }
+    }
+
     /** 同意pk之后的处理 */
     private void acceptRoomPk(RoomCmdPKAnswerModel model) {
         if (model == null || model.sendUser == null || model.otherUser == null || !model.isAccept) return;
@@ -360,7 +406,7 @@ public class SceneRoomPkManager extends BaseServiceManager {
         }
         initRoomPkModel();
         roomPkModel.setPkId(model.pkId);
-        roomPkModel.pkStatus = PkStatus.MATCHED;
+        setPkStatus(PkStatus.MATCHED);
 
         roomPkModel.srcRoomInfo = new RoomPkRoomInfo();
         roomPkModel.srcRoomInfo.setRoomId(model.otherUser.roomID);
@@ -409,7 +455,7 @@ public class SceneRoomPkManager extends BaseServiceManager {
     private void localRemovePkRival() {
         if (roomPkModel != null) {
             roomPkModel.removePkRival();
-            roomPkModel.pkStatus = PkStatus.MATCHING;
+            setPkStatus(PkStatus.MATCHING);
             callbackUpdateRoomPk();
             SceneRoomServiceCallback callback = parentManager.getCallback();
             if (callback != null) {
@@ -510,6 +556,35 @@ public class SceneRoomPkManager extends BaseServiceManager {
         parentManager.sceneChatManager.addMsg(msg);
     }
 
+    /** 取消时长倒计时 */
+    private void cancelCountdown() {
+        if (countdownTimer == null) return;
+        countdownTimer.cancel();
+        countdownTimer = null;
+    }
+
+    /** 开启倒计时 */
+    private void startCountdown(int count) {
+        cancelCountdown();
+        countdownTimer = new CustomCountdownTimer(count) {
+            @Override
+            protected void onTick(int count) {
+                if (getPkStatus() == PkStatus.STARTED) {
+                    roomPkModel.remainSecond = count;
+                    callbackUpdateCountdown();
+                }
+            }
+
+            @Override
+            protected void onFinish() {
+                if (roomPkModel == null || roomPkModel.pkStatus != PkStatus.STARTED) return;
+                setPkStatus(PkStatus.PK_END);
+                callbackUpdateRoomPk();
+            }
+        };
+        countdownTimer.start();
+    }
+
     // region 信令监听
     /** 跨房PK邀请 监听 */
     private final PKSendInviteCommandListener inviteCommandListener = new PKSendInviteCommandListener() {
@@ -534,10 +609,10 @@ public class SceneRoomPkManager extends BaseServiceManager {
         @Override
         public void onRecvCommand(RoomCmdPKStartModel model, String userID) {
             roomPkModel.setPkId(model.pkId);
-            roomPkModel.pkStatus = PkStatus.STARTED;
             roomPkModel.totalMinute = model.minuteDuration;
             roomPkModel.remainSecond = model.minuteDuration * 60;
             clearScore();
+            setPkStatus(PkStatus.STARTED);
             callbackUpdateRoomPk();
         }
     };
@@ -590,7 +665,7 @@ public class SceneRoomPkManager extends BaseServiceManager {
             roomPkModel.srcRoomInfo.score = 0;
             roomPkModel.srcRoomInfo.isInitiator = true;
             roomPkModel.srcRoomInfo.isSelfRoom = parentManager.getRoomId() == roomPkModel.srcRoomInfo.roomId;
-            roomPkModel.pkStatus = PkStatus.MATCHING;
+            setPkStatus(PkStatus.MATCHING);
             callbackUpdateRoomPk();
         }
     };

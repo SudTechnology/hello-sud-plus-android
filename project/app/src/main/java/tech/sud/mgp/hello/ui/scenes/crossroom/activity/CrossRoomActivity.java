@@ -145,19 +145,6 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
         super.setListeners();
         setClickListeners();
         setGameLiveListeners();
-        setLiveListeners();
-    }
-
-    private void setLiveListeners() {
-        roomPkInfoView.setPkCountdownFinishListener(new RoomPkInfoView.PkCountdownFinishListener() {
-            @Override
-            public void onPkCountdownFinish() {
-                RoomPkModel roomPkModel = roomInfoModel.roomPkModel;
-                if (roomPkModel == null || roomPkModel.pkStatus != PkStatus.STARTED) return;
-                roomPkModel.pkStatus = PkStatus.PK_END;
-                onRoomPkUpdate();
-            }
-        });
     }
 
     private void setClickListeners() {
@@ -516,6 +503,15 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
 
     // region service回调
     @Override
+    public void onEnterRoomSuccess() {
+        super.onEnterRoomSuccess();
+        if (binder != null) {
+            // 在进房连接service、rtc这段时间，pk状态可能会产生变化
+            binder.refreshRoomPkInfo();
+        }
+    }
+
+    @Override
     public void onRoomPkUpdate() {
         super.onRoomPkUpdate();
         updatePkInfo();
@@ -534,6 +530,15 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
     public void onRoomPkRemoveRival() {
         super.onRoomPkRemoveRival();
         switchGame(playingGameId);
+    }
+
+    @Override
+    public void onRoomPkCoutndown() {
+        super.onRoomPkCoutndown();
+        RoomPkModel roomPkModel = roomInfoModel.roomPkModel;
+        if (roomPkModel != null) {
+            roomPkInfoView.setCountdown(roomPkModel.remainSecond);
+        }
     }
     // endregion service回调
 

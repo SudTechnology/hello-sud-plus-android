@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!-- 游戏View容器 -->
+    <!-- 游戏View容器，容器不能设置为android:visibility="gone"，可能会出现未知问题 -->
     <FrameLayout
         android:id="@+id/game_container"
         android:layout_width="match_parent"

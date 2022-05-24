@@ -253,7 +253,7 @@
     <string name="order_title">ฉันต้องการสั่ง</string>
     <string name="order_dialog_title">เลือกผู้ใช้ที่ใช้ไมค์</string>
     <string name="order_dialog_sub_title">กำหนดโฮสต์ที่ใช้ไมค์เพื่อเล่นกับคุณ</string>
-    <string name="order_btn">สั่งซื้อแล้วเล่น</string>
+    <string name="order_btn">ริเริ่ม</string>
     <string name="order_selected_total">ได้เลือก %1$d คน</string>
     <string name="order_price">%1$d/รอบ/คน</string>
     <string name="dialog_scene_title">ทุกฉาก</string>

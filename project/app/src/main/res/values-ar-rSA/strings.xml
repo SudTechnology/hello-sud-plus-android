@@ -253,7 +253,7 @@
     <string name="order_title">أريد تقديم طلب</string>
     <string name="order_dialog_title">حدد مستخدم الميكروفون</string>
     <string name="order_dialog_sub_title">عيّن مضيف الميكروفون ليلعب معك</string>
-    <string name="order_btn">اطلب لتلعب</string>
+    <string name="order_btn">الشروع في</string>
     <string name="order_selected_total">تم تحديد %1$d شخصًا</string>
     <string name="order_price">%1$d/جولة/شخص</string>
     <string name="dialog_scene_title">كل المشاهد</string>

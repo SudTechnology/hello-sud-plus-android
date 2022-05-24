@@ -253,7 +253,7 @@ Kunjungi laman utama untuk mencipta satu~</string>
     <string name="order_title">Saya ingin memesan</string>
     <string name="order_dialog_title">Pilih pengguna MaiShang</string>
     <string name="order_dialog_sub_title">Tetapkan hos MaiShang untuk bermain dengan anda</string>
-    <string name="order_btn">Memesan untuk bermain</string>
+    <string name="order_btn">Mulakan</string>
     <string name="order_selected_total">Telah memilih %1$d orang </string>
     <string name="order_price">%1$d/permainan/orang</string>
     <string name="dialog_scene_title">Semua adegan</string>

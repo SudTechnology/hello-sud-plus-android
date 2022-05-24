@@ -254,7 +254,7 @@ Buat ruangan di Beranda</string>
     <string name="order_title">Saya ingin memesan</string>
     <string name="order_dialog_title">Pilih Mai Shang pengguna</string>
     <string name="order_dialog_sub_title">Siapkan Mai Shang untuk bermain dengan Anda</string>
-    <string name="order_btn">Perintah untuk bermain</string>
+    <string name="order_btn">Memulai</string>
     <string name="order_selected_total">%1 $ d orang dipilih</string>
     <string name="order_price">%1 $ d/permainan/orang</string>
     <string name="dialog_scene_title">Semua lokasi</string>

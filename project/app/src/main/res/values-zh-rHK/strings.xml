@@ -250,7 +250,6 @@
     <string name="kick_game">踢出遊戲</string>
     <string name="net_error_hint">網路錯誤，請檢查網路連接</string>
     <string name="switched_language">已切換語言</string>
-    <string name="order_title">我要點單</string>
     <string name="order_dialog_title">選擇麥上用戶</string>
     <string name="order_dialog_sub_title">指定麥上主播和你一起玩</string>
     <string name="order_btn">下單去玩</string>
@@ -293,8 +292,8 @@
     <string name="dialog_game_join_btn">①加入遊戲</string>
     <string name="dialog_game_ready">準備階段</string>
     <string name="dialog_game_ready_btn">②準備</string>
-    <string name="dialog_game_cancel_ready_btn">取消准备</string>
-    <string name="dialog_game_start_btn">③开始游戏</string>
+    <string name="dialog_game_cancel_ready_btn">取消準備</string>
+    <string name="dialog_game_start_btn">③開始遊戲</string>
     <string name="dialog_game_exit_btn">退出遊戲</string>
     <string name="dialog_game_playing">遊戲中</string>
     <string name="dialog_game_escape">逃跑</string>

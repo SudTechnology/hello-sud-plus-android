@@ -252,7 +252,6 @@
     <string name="kick_game">踢出游戏</string>
     <string name="net_error_hint">网络错误，请检查网络连接</string>
     <string name="switched_language">已切换语言</string>
-    <string name="order_title">我要点单</string>
     <string name="order_dialog_title">选择麦上用户</string>
     <string name="order_dialog_sub_title">指定麦上主播和你一起玩</string>
     <string name="order_btn">下单去玩</string>

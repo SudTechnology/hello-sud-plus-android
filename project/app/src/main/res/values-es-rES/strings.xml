@@ -250,7 +250,6 @@ Vaya a la página de inicio para crear una!</string>
     <string name="kick_game">Expulsar del juego</string>
     <string name="net_error_hint">Error de red, compruebe la conexión</string>
     <string name="switched_language">Idioma seleccionado</string>
-    <string name="order_title">Mi lista de pedidos</string>
     <string name="order_dialog_title">Seleccionar el usuario en línea</string>
     <string name="order_dialog_sub_title">Designe un presentador en línea para que juegue contigo</string>
     <string name="order_btn">Iniciar</string>

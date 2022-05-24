@@ -25,6 +25,7 @@ public class MarqueeTextView extends androidx.appcompat.widget.AppCompatTextView
 
     public MarqueeTextView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        setSingleLine(true);
         setEllipsize(TextUtils.TruncateAt.MARQUEE);
         setMarqueeRepeatLimit(-1);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {//禁用全局反色

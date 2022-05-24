@@ -250,7 +250,6 @@
     <string name="kick_game">طرد من اللعبة</string>
     <string name="net_error_hint">خطأ في الشبكة، يرجى التحقق من اتصال الشبكة</string>
     <string name="switched_language">تم تحويل اللغة</string>
-    <string name="order_title">أريد تقديم طلب</string>
     <string name="order_dialog_title">حدد مستخدم الميكروفون</string>
     <string name="order_dialog_sub_title">عيّن مضيف الميكروفون ليلعب معك</string>
     <string name="order_btn">الشروع في</string>

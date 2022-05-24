@@ -250,7 +250,6 @@
     <string name="kick_game">게임에서 쫓겨나기</string>
     <string name="net_error_hint">네트 오류, 네트 연결을 확인하십시오</string>
     <string name="switched_language">언어 전환됨</string>
-    <string name="order_title">주문 필요</string>
     <string name="order_dialog_title">마이크 사용자를 선택</string>
     <string name="order_dialog_sub_title">마이크 앵커를 지정하여 함께 플레이</string>
     <string name="order_btn">시작하다</string>

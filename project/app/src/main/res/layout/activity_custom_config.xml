@@ -22,7 +22,6 @@
         android:background="#FFEFDB"
         android:gravity="center"
         android:text="@string/game_config_tip"
-        android:singleLine="true"
         android:textColor="#ED9F20"
         android:textSize="14sp"
         android:paddingHorizontal="16dp"

@@ -16,6 +16,7 @@ import java.util.List;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
+import tech.sud.mgp.hello.common.widget.view.MarqueeTextView;
 import tech.sud.mgp.hello.ui.scenes.base.model.OrderInviteModel;
 import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomService;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.chat.SceneRoomChatView;
@@ -30,7 +31,6 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
 
     private ConstraintLayout orderRootView;
     private TextView startGameBtn, hangupGameBtn, enterGameBtn;
-    private int topBtnState = 0;//当前按钮状态 0可以点单状态 1可以挂起游戏状态 2可以进入游戏状态
 
     @Override
     protected OrderViewModel initGameViewModel() {
@@ -47,8 +47,6 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
         super.initWidget();
         gameViewModel.gameConfigModel.ui.game_bg.hide = true;
         gameViewModel.gameConfigModel.ui.lobby_players.hide = false;
-//        gameViewModel.gameConfigModel.ui.level.hide = true;
-//        gameViewModel.gameConfigModel.ui.lobby_help_btn.hide = true;
         roomConfig.isShowGameNumber = false; // 不显示游戏人数
         roomConfig.isShowASRTopHint = false; // 右上角不展示ASR提示
 
@@ -57,7 +55,7 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
         changeTopBtn(0);
 
         orderRootView.removeView(gameContainer);
-        //修改游戏容器位置以及大小
+        // 修改游戏容器位置以及大小
         ConstraintLayout.LayoutParams cparams = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0);
         cparams.topToBottom = R.id.room_top_view;
         cparams.bottomToTop = R.id.room_bottom_view;
@@ -70,12 +68,14 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
     }
 
     private void addTopBtn() {
-        startGameBtn = new TextView(this);
+        startGameBtn = new MarqueeTextView(this);
         startGameBtn.setTextSize(12);
         startGameBtn.setTextColor(Color.WHITE);
         startGameBtn.setGravity(Gravity.CENTER);
         startGameBtn.setText(getString(R.string.order_start_order));
         startGameBtn.setBackgroundResource(R.drawable.shape_gradient_f963ff_cc00e7);
+        int paddingHorizontal = DensityUtils.dp2px(this, 3);
+        startGameBtn.setPadding(paddingHorizontal, 0, paddingHorizontal, 0);
         LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(DensityUtils.dp2px(66), DensityUtils.dp2px(20));
         params1.setMarginEnd(DensityUtils.dp2px(20));
         topView.addCustomView(startGameBtn, params1);
@@ -112,9 +112,8 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
         });
     }
 
-    //0我要点单 1挂起游戏 2进入游戏 (tips：这是显示文案
+    // 0我要点单 1挂起游戏 2进入游戏 (tips：这是显示文案
     private void changeTopBtn(int state) {
-        topBtnState = state;
         switch (state) {
             case 0: {
                 startGameBtn.setVisibility(View.VISIBLE);
@@ -211,7 +210,7 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
     @Override
     public void onReceiveInvite(boolean agreeState) {
         super.onReceiveInvite(agreeState);
-        if (agreeState){
+        if (agreeState) {
             //接受了并且切换游戏
             intentSwitchGame(gameViewModel.orderModel.gameId);
             changeTopBtn(1);

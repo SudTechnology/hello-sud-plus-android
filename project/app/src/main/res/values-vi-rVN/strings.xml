@@ -250,7 +250,6 @@
     <string name="kick_game">Cho out khỏi trò chơi</string>
     <string name="net_error_hint">Lỗi mạng, vui lòng kiểm tra kết nối mạng</string>
     <string name="switched_language">Đã chuyển đổi ngôn ngữ</string>
-    <string name="order_title">Tôi muốn lên đơn</string>
     <string name="order_dialog_title">Chọn người dùng đang trên mic</string>
     <string name="order_dialog_sub_title">Chỉ định streamer đang trên mic cùng chơi với bạn</string>
     <string name="order_btn">Khởi xướng</string>

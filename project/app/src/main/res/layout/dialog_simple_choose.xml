@@ -40,7 +40,6 @@
         android:textColor="#ffffff"
         android:gravity="center"
         android:text="@string/confirm"
-        android:singleLine="true"
         app:layout_constraintTop_toTopOf="@id/tv_left"
         app:layout_constraintEnd_toEndOf="parent" />
 

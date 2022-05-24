@@ -19,7 +19,6 @@
             android:layout_height="wrap_content"
             android:maxWidth="106dp"
             android:textSize="14sp"
-            android:singleLine="true"
             android:textColor="@color/c_ffffff"
             android:paddingStart="12dp"
             android:paddingEnd="10dp"

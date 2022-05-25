@@ -354,5 +354,6 @@ Vaya a la página de inicio para crear una!</string>
     <string name="room_pk_wait_onwer_select">Esperando a que el creador de la sesión elija el juego</string>
     <string name="room_round_game_over">Esta ronda de juego ha terminado,\n¿Quiere hacer otro pedido?</string>
     <string name="matching">Pareo</string>
+    <string name="in_game">In play</string>
 
 </resources>

@@ -354,5 +354,6 @@
     <string name="room_pk_wait_onwer_select">방주인의 게임선택을 대기</string>
     <string name="room_round_game_over">이번 게임 완료,\n 또한번 시도 여부?</string>
     <string name="matching">어울리는</string>
+    <string name="in_game">게임 중</string>
 
 </resources>

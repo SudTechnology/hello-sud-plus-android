@@ -354,5 +354,6 @@ Kunjungi laman utama untuk mencipta satu~</string>
     <string name="room_pk_wait_onwer_select">Menunggu pemilik bilik untuk memilih permainan</string>
     <string name="room_round_game_over">Permainan ini telah tamat,\n Adakah anda mahu membuat pesanan lain?</string>
     <string name="matching">Padanan</string>
+    <string name="in_game">Dalam permainan</string>
 
 </resources>

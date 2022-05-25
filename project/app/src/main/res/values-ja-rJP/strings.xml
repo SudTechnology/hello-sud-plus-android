@@ -354,5 +354,6 @@
     <string name="room_pk_wait_onwer_select">ルーム管理者がゲームを選ぶのを待つ</string>
     <string name="room_round_game_over">今回のゲームは終了しました。\n追加しますか。</string>
     <string name="matching">マッチング</string>
+    <string name="in_game">インプレー</string>
 
 </resources>

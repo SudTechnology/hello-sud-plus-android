@@ -354,5 +354,6 @@
     <string name="room_pk_wait_onwer_select">รอให้เจ้าของห้องเลือกเกม</string>
     <string name="room_round_game_over">เกมรอบนี้จบแล้ว \n จะเล่นอีกครั้งหรือไม่</string>
     <string name="matching">จับคู่</string>
+    <string name="in_game">ในเกม</string>
 
 </resources>

@@ -354,5 +354,6 @@
     <string name="room_pk_wait_onwer_select">等待房主選擇遊戲</string>
     <string name="room_round_game_over">本輪遊戲已結束，\n是否再來一單？</string>
     <string name="matching">匹配中</string>
+    <string name="in_game">比賽中</string>
 
 </resources>

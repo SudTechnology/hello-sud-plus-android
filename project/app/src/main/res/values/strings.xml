@@ -353,13 +353,13 @@ Go to homepage to create one~</string>
     <string name="room_pk_wait_onwer_select">Waiting for the holder to select the game</string>
     <string name="room_round_game_over">This round of game is over,\nDo you want to make another order?</string>
     <string name="matching">Matching</string>
+    <string name="in_game">In play</string>
 
     <!-- region 不用翻译 -->
     <string name="custom">Custom</string>
     <!-- endregion 不用翻译 -->
 
     <!-- region 新增 -->
-    <string name="in_game">比赛中</string>
     <string name="intercept_room_pk">由于对方强制退出比赛，比赛提前结束</string>
     <!-- endregion 新增 -->
 

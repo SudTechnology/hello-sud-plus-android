@@ -48,4 +48,13 @@ public class MarqueeTextView extends androidx.appcompat.widget.AppCompatTextView
         return 0;
     }
 
+    /**
+     * 在某些情形下，设置了Visibility时可能会失效
+     * 调用此方法让其重新跑起来
+     */
+    public void checkFocus() {
+        requestFocus();
+        setText(getText());
+    }
+
 }

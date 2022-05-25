@@ -5,7 +5,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -30,7 +29,7 @@ import tech.sud.mgp.hello.ui.scenes.orderentertainment.viewmodel.OrderViewModel;
 public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewModel> {
 
     private ConstraintLayout orderRootView;
-    private TextView startGameBtn, hangupGameBtn, enterGameBtn;
+    private MarqueeTextView startGameBtn, hangupGameBtn, enterGameBtn;
 
     @Override
     protected OrderViewModel initGameViewModel() {
@@ -121,7 +120,7 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
                 gameContainer.setVisibility(View.INVISIBLE);
                 micView.setVisibility(View.VISIBLE);
                 startGameBtn.setVisibility(View.VISIBLE);
-                startGameBtn.requestFocus();
+                startGameBtn.checkFocus();
                 switchChatViewStyle(SceneRoomChatView.AudioRoomChatStyle.NORMAL);
                 break;
             }
@@ -131,7 +130,7 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
                 gameContainer.setVisibility(View.VISIBLE);
                 micView.setVisibility(View.INVISIBLE);
                 hangupGameBtn.setVisibility(View.VISIBLE);
-                hangupGameBtn.requestFocus();
+                hangupGameBtn.checkFocus();
                 switchChatViewStyle(SceneRoomChatView.AudioRoomChatStyle.GAME);
                 break;
             }
@@ -141,7 +140,7 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
                 gameContainer.setVisibility(View.INVISIBLE);
                 micView.setVisibility(View.VISIBLE);
                 enterGameBtn.setVisibility(View.VISIBLE);
-                enterGameBtn.requestFocus();
+                enterGameBtn.checkFocus();
                 switchChatViewStyle(SceneRoomChatView.AudioRoomChatStyle.NORMAL);
                 break;
             }

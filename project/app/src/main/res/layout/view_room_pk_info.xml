@@ -154,6 +154,7 @@
 
     <!-- 进度条上面的闪烁的动画 -->
     <com.opensource.svgaplayer.SVGAImageView
+        android:id="@+id/siv_progress_point"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:scaleType="fitXY"

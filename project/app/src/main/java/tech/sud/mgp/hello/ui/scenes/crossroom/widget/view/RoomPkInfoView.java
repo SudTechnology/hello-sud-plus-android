@@ -47,6 +47,7 @@ public class RoomPkInfoView extends ConstraintLayout {
     private TextView rightTvScore;
     private View rightViewProgress;
     private View rightViewResult;
+    private View viewPoint; // 进度条上面的闪烁动画
 
     private final int progressMinWidth = DensityUtils.dp2px(getContext(), 147); // 进度显示，至少保留的宽度
     private int progressCalcTotalWidth = DensityUtils.getScreenWidth() - progressMinWidth * 2; // 用于计算进度值的总可用宽度
@@ -89,6 +90,7 @@ public class RoomPkInfoView extends ConstraintLayout {
         rightTvScore = findViewById(R.id.right_tv_score);
         rightViewProgress = findViewById(R.id.right_view_progress);
         rightViewResult = findViewById(R.id.right_view_result);
+        viewPoint = findViewById(R.id.siv_progress_point);
     }
 
     private void initStyles() {
@@ -149,6 +151,7 @@ public class RoomPkInfoView extends ConstraintLayout {
         switch (model.pkStatus) {
             case PkStatus.MATCHING: // 匹配中
             case PkStatus.MATCHED: // 已匹配
+                viewPoint.setVisibility(View.GONE);
                 tvStatus.setText(R.string.wait_start);
                 viewVS.setVisibility(View.VISIBLE);
                 leftViewResult.setVisibility(View.GONE);
@@ -156,6 +159,7 @@ public class RoomPkInfoView extends ConstraintLayout {
                 viewResultDraw.setVisibility(View.GONE);
                 break;
             case PkStatus.STARTED: // 已开始
+                viewPoint.setVisibility(View.VISIBLE);
                 setCountdown(model.remainSecond);
                 viewVS.setVisibility(View.GONE);
                 leftViewResult.setVisibility(View.GONE);
@@ -163,6 +167,7 @@ public class RoomPkInfoView extends ConstraintLayout {
                 viewResultDraw.setVisibility(View.GONE);
                 break;
             case PkStatus.PK_END: // pk结束
+                viewPoint.setVisibility(View.VISIBLE);
                 tvStatus.setText(R.string.finished);
                 viewVS.setVisibility(View.GONE);
                 showPkResult();

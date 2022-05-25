@@ -79,12 +79,13 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
         int paddingHorizontal = DensityUtils.dp2px(this, 3);
         startGameBtn.setPadding(paddingHorizontal, 0, paddingHorizontal, 0);
         LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(DensityUtils.dp2px(66), DensityUtils.dp2px(20));
-        params1.setMarginEnd(DensityUtils.dp2px(20));
+        params1.setMarginEnd(DensityUtils.dp2px(12));
         topView.addCustomView(startGameBtn, params1);
         startGameBtn.setVisibility(View.GONE);
         startGameBtn.setOnClickListener(v -> {
             iWantOrder();
         });
+
         hangupGameBtn = new MarqueeTextView(this);
         hangupGameBtn.setTextSize(12);
         hangupGameBtn.setTextColor(Color.parseColor("#6AD04E"));
@@ -92,7 +93,7 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
         hangupGameBtn.setText(getString(R.string.order_hang_up_game));
         hangupGameBtn.setBackgroundColor(Color.parseColor("#4d4E9C39"));
         LinearLayout.LayoutParams params2 = new LinearLayout.LayoutParams(DensityUtils.dp2px(66), DensityUtils.dp2px(20));
-        params2.setMarginEnd(DensityUtils.dp2px(20));
+        params2.setMarginEnd(DensityUtils.dp2px(12));
         topView.addCustomView(hangupGameBtn, params2);
         hangupGameBtn.setVisibility(View.GONE);
         hangupGameBtn.setOnClickListener(v -> {
@@ -106,7 +107,7 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
         enterGameBtn.setText(getString(R.string.order_enter_game));
         enterGameBtn.setBackgroundColor(Color.parseColor("#4d4E9C39"));
         LinearLayout.LayoutParams params3 = new LinearLayout.LayoutParams(DensityUtils.dp2px(66), DensityUtils.dp2px(20));
-        params3.setMarginEnd(DensityUtils.dp2px(20));
+        params3.setMarginEnd(DensityUtils.dp2px(12));
         topView.addCustomView(enterGameBtn, params3);
         enterGameBtn.setVisibility(View.GONE);
         enterGameBtn.setOnClickListener(v -> {

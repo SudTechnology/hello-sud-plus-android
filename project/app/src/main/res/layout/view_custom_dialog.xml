@@ -66,7 +66,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_game_ready" />
 
-    <TextView
+    <tech.sud.mgp.hello.common.widget.view.MarqueeTextView
         android:id="@+id/join_game_btn"
         android:layout_width="104dp"
         android:layout_height="36dp"
@@ -75,11 +75,12 @@
         android:text="@string/dialog_game_join_btn"
         android:textColor="#003722"
         android:textSize="14sp"
+        android:paddingHorizontal="2dp"
         app:layout_constraintBottom_toBottomOf="@id/tv_game_before"
         app:layout_constraintStart_toStartOf="@id/tv_game_api"
         app:layout_constraintTop_toTopOf="@id/tv_game_before" />
 
-    <TextView
+    <tech.sud.mgp.hello.common.widget.view.MarqueeTextView
         android:id="@+id/ready_game_btn"
         android:layout_width="104dp"
         android:layout_height="36dp"
@@ -88,11 +89,12 @@
         android:text="@string/dialog_game_ready_btn"
         android:textColor="#003722"
         android:textSize="14sp"
+        android:paddingHorizontal="2dp"
         app:layout_constraintBottom_toBottomOf="@id/tv_game_ready"
         app:layout_constraintStart_toStartOf="@id/tv_game_api"
         app:layout_constraintTop_toTopOf="@id/tv_game_ready" />
 
-    <TextView
+    <tech.sud.mgp.hello.common.widget.view.MarqueeTextView
         android:id="@+id/exit_game_btn"
         android:layout_width="104dp"
         android:layout_height="36dp"
@@ -102,11 +104,12 @@
         android:text="@string/dialog_game_exit_btn"
         android:textColor="#003722"
         android:textSize="14sp"
+        android:paddingHorizontal="2dp"
         app:layout_constraintBottom_toBottomOf="@id/tv_game_ready"
         app:layout_constraintStart_toEndOf="@id/ready_game_btn"
         app:layout_constraintTop_toTopOf="@id/tv_game_ready" />
 
-    <TextView
+    <tech.sud.mgp.hello.common.widget.view.MarqueeTextView
         android:id="@+id/cancel_ready_btn"
         android:layout_width="104dp"
         android:layout_height="36dp"
@@ -117,10 +120,11 @@
         android:text="@string/dialog_game_cancel_ready_btn"
         android:textColor="#003722"
         android:textSize="14sp"
+        android:paddingHorizontal="2dp"
         app:layout_constraintStart_toEndOf="@id/ready_game_btn"
         app:layout_constraintTop_toBottomOf="@id/exit_game_btn" />
 
-    <TextView
+    <tech.sud.mgp.hello.common.widget.view.MarqueeTextView
         android:id="@+id/start_game_btn"
         android:layout_width="104dp"
         android:layout_height="36dp"
@@ -130,11 +134,12 @@
         android:text="@string/dialog_game_start_btn"
         android:textColor="#003722"
         android:textSize="14sp"
+        android:paddingHorizontal="2dp"
         app:layout_constraintEnd_toEndOf="@id/ready_game_btn"
         app:layout_constraintStart_toStartOf="@id/ready_game_btn"
         app:layout_constraintTop_toBottomOf="@id/ready_game_btn" />
 
-    <TextView
+    <tech.sud.mgp.hello.common.widget.view.MarqueeTextView
         android:id="@+id/escape_game_btn"
         android:layout_width="104dp"
         android:layout_height="36dp"
@@ -143,11 +148,12 @@
         android:text="@string/dialog_game_escape"
         android:textColor="#003722"
         android:textSize="14sp"
+        android:paddingHorizontal="2dp"
         app:layout_constraintBottom_toBottomOf="@id/tv_game_playing"
         app:layout_constraintStart_toStartOf="@id/ready_game_btn"
         app:layout_constraintTop_toTopOf="@id/tv_game_playing" />
 
-    <TextView
+    <tech.sud.mgp.hello.common.widget.view.MarqueeTextView
         android:id="@+id/release_game_btn"
         android:layout_width="104dp"
         android:layout_height="36dp"
@@ -157,6 +163,7 @@
         android:text="@string/dialog_game_release"
         android:textColor="#003722"
         android:textSize="14sp"
+        android:paddingHorizontal="2dp"
         app:layout_constraintStart_toStartOf="@id/ready_game_btn"
         app:layout_constraintTop_toBottomOf="@id/escape_game_btn" />
 

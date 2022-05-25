@@ -1,6 +1,5 @@
 package tech.sud.mgp.hello.ui.scenes.crossroom.activity;
 
-import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -17,6 +16,7 @@ import tech.sud.mgp.hello.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
+import tech.sud.mgp.hello.common.widget.view.MarqueeTextView;
 import tech.sud.mgp.hello.service.game.repository.GameRepository;
 import tech.sud.mgp.hello.service.room.model.PkStatus;
 import tech.sud.mgp.hello.service.room.resp.RoomPkModel;
@@ -119,11 +119,9 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
     }
 
     private TextView createTopTextView(int maxWidth, int paddingHorizontal, int textColor, int marginEnd) {
-        TextView tv = new TextView(this);
+        MarqueeTextView tv = new MarqueeTextView(this);
         tv.setMaxWidth(maxWidth);
         tv.setGravity(Gravity.CENTER);
-        tv.setMaxLines(1);
-        tv.setEllipsize(TextUtils.TruncateAt.END);
         tv.setPadding(paddingHorizontal, 0, paddingHorizontal, 0);
         tv.setTextSize(12);
         tv.setTextColor(textColor);

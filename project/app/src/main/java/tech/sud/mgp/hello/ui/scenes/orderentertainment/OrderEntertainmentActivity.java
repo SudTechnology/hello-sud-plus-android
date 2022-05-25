@@ -83,7 +83,7 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
         startGameBtn.setOnClickListener(v -> {
             iWantOrder();
         });
-        hangupGameBtn = new TextView(this);
+        hangupGameBtn = new MarqueeTextView(this);
         hangupGameBtn.setTextSize(12);
         hangupGameBtn.setTextColor(Color.parseColor("#6AD04E"));
         hangupGameBtn.setGravity(Gravity.CENTER);
@@ -97,7 +97,7 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
             changeTopBtn(2);
         });
 
-        enterGameBtn = new TextView(this);
+        enterGameBtn = new MarqueeTextView(this);
         enterGameBtn.setTextSize(12);
         enterGameBtn.setTextColor(Color.parseColor("#6AD04E"));
         enterGameBtn.setGravity(Gravity.CENTER);

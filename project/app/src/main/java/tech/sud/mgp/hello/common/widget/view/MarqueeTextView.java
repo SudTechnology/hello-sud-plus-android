@@ -25,6 +25,8 @@ public class MarqueeTextView extends androidx.appcompat.widget.AppCompatTextView
 
     public MarqueeTextView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        setFocusableInTouchMode(true);
+        setFocusable(true);
         setSingleLine(true);
         setEllipsize(TextUtils.TruncateAt.MARQUEE);
         setMarqueeRepeatLimit(-1);

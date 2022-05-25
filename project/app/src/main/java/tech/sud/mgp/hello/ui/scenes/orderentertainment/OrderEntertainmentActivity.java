@@ -116,29 +116,32 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
     private void changeTopBtn(int state) {
         switch (state) {
             case 0: {
-                startGameBtn.setVisibility(View.VISIBLE);
                 hangupGameBtn.setVisibility(View.GONE);
                 enterGameBtn.setVisibility(View.GONE);
                 gameContainer.setVisibility(View.INVISIBLE);
                 micView.setVisibility(View.VISIBLE);
+                startGameBtn.setVisibility(View.VISIBLE);
+                startGameBtn.requestFocus();
                 switchChatViewStyle(SceneRoomChatView.AudioRoomChatStyle.NORMAL);
                 break;
             }
             case 1: {
                 startGameBtn.setVisibility(View.GONE);
-                hangupGameBtn.setVisibility(View.VISIBLE);
                 enterGameBtn.setVisibility(View.GONE);
                 gameContainer.setVisibility(View.VISIBLE);
                 micView.setVisibility(View.INVISIBLE);
+                hangupGameBtn.setVisibility(View.VISIBLE);
+                hangupGameBtn.requestFocus();
                 switchChatViewStyle(SceneRoomChatView.AudioRoomChatStyle.GAME);
                 break;
             }
             case 2: {
                 startGameBtn.setVisibility(View.GONE);
                 hangupGameBtn.setVisibility(View.GONE);
-                enterGameBtn.setVisibility(View.VISIBLE);
                 gameContainer.setVisibility(View.INVISIBLE);
                 micView.setVisibility(View.VISIBLE);
+                enterGameBtn.setVisibility(View.VISIBLE);
+                enterGameBtn.requestFocus();
                 switchChatViewStyle(SceneRoomChatView.AudioRoomChatStyle.NORMAL);
                 break;
             }

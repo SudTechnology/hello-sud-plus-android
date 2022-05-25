@@ -145,6 +145,8 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         tvASRHint = findViewById(R.id.tv_asr_hint);
         clOpenMic.setVisibility(View.GONE);
 
+        gameViewModel.gameConfigModel.ui.lobby_players.hide = true; // 配置不展示大厅玩家展示位
+
         // 设置沉浸式状态栏时，顶部view的间距
         ViewGroup.LayoutParams topViewParams = topView.getLayoutParams();
         if (topViewParams instanceof ViewGroup.MarginLayoutParams) {

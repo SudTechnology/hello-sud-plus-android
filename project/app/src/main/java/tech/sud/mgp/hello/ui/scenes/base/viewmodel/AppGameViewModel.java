@@ -72,11 +72,6 @@ public class AppGameViewModel implements SudFSMMGListener {
     private int selfMicIndex = -1; // 记录自己所在麦位
     public GameConfigModel gameConfigModel = new GameConfigModel(); // 游戏配置
 
-    public AppGameViewModel() {
-        // 配置不展示大厅玩家展示位
-        gameConfigModel.ui.lobby_players.hide = true;
-    }
-
     /**
      * 外部调用切换游戏
      *

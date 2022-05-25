@@ -156,6 +156,7 @@ public class RoomPkInfoView extends ConstraintLayout {
                 viewResultDraw.setVisibility(View.GONE);
                 break;
             case PkStatus.STARTED: // 已开始
+                setCountdown(model.remainSecond);
                 viewVS.setVisibility(View.GONE);
                 leftViewResult.setVisibility(View.GONE);
                 rightViewResult.setVisibility(View.GONE);

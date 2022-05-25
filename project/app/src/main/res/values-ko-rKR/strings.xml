@@ -147,7 +147,7 @@
     </string-array>
 
     <string-array name="language_list">
-        <item>跟随系统</item>
+        <item>추적 시스템</item>
         <item>简体中文</item>
         <item>繁體中文</item>
         <item>English</item>
@@ -353,5 +353,6 @@
     <string name="close">끄기</string>
     <string name="room_pk_wait_onwer_select">방주인의 게임선택을 대기</string>
     <string name="room_round_game_over">이번 게임 완료,\n 또한번 시도 여부?</string>
+    <string name="matching">어울리는</string>
 
 </resources>

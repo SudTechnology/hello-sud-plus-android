@@ -147,7 +147,7 @@
     </string-array>
 
     <string-array name="language_list">
-        <item>跟随系统</item>
+        <item>Hệ thống đi kèm</item>
         <item>简体中文</item>
         <item>繁體中文</item>
         <item>English</item>
@@ -353,5 +353,6 @@
     <string name="close">Thoát</string>
     <string name="room_pk_wait_onwer_select">Đợi chủ phòng chọn trò chơi</string>
     <string name="room_round_game_over">Trò chơi vòng này đã kết thúc, \n có chơi thêm ván nữa không?</string>
+    <string name="matching">Phù hợp</string>
 
 </resources>

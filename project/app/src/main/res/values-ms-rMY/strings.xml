@@ -147,7 +147,7 @@
     </string-array>
 
     <string-array name="language_list">
-        <item>跟随系统</item>
+        <item>Ikut sistem</item>
         <item>简体中文</item>
         <item>繁體中文</item>
         <item>English</item>
@@ -353,5 +353,6 @@ Kunjungi laman utama untuk mencipta satu~</string>
     <string name="close">Tutup</string>
     <string name="room_pk_wait_onwer_select">Menunggu pemilik bilik untuk memilih permainan</string>
     <string name="room_round_game_over">Permainan ini telah tamat,\n Adakah anda mahu membuat pesanan lain?</string>
+    <string name="matching">Padanan</string>
 
 </resources>

@@ -147,7 +147,7 @@
     </string-array>
 
     <string-array name="language_list">
-        <item>跟随系统</item>
+        <item>Ajustar a parametros del sistema</item>
         <item>简体中文</item>
         <item>繁體中文</item>
         <item>English</item>
@@ -353,5 +353,6 @@ Vaya a la página de inicio para crear una!</string>
     <string name="close">Cerrar</string>
     <string name="room_pk_wait_onwer_select">Esperando a que el creador de la sesión elija el juego</string>
     <string name="room_round_game_over">Esta ronda de juego ha terminado,\n¿Quiere hacer otro pedido?</string>
+    <string name="matching">Pareo</string>
 
 </resources>

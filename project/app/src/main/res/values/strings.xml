@@ -147,7 +147,7 @@
     </string-array>
 
     <string-array name="language_list">
-        <item>跟随系统</item>
+        <item>Follow the system</item>
         <item>简体中文</item>
         <item>繁體中文</item>
         <item>English</item>
@@ -352,13 +352,13 @@ Go to homepage to create one~</string>
     <string name="close">Close</string>
     <string name="room_pk_wait_onwer_select">Waiting for the holder to select the game</string>
     <string name="room_round_game_over">This round of game is over,\nDo you want to make another order?</string>
+    <string name="matching">Matching</string>
 
     <!-- region 不用翻译 -->
     <string name="custom">Custom</string>
     <!-- endregion 不用翻译 -->
 
     <!-- region 新增 -->
-    <string name="matching">匹配中</string>
     <string name="in_game">比赛中</string>
     <string name="intercept_room_pk">由于对方强制退出比赛，比赛提前结束</string>
     <!-- endregion 新增 -->

@@ -355,5 +355,6 @@
     <string name="close">关闭</string>
     <string name="room_pk_wait_onwer_select">等待房主选择游戏</string>
     <string name="room_round_game_over">本轮游戏已结束，\n是否再来一单？</string>
+    <string name="matching">匹配中</string>
 
 </resources>

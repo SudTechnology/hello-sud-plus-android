@@ -12,6 +12,9 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import com.gyf.immersionbar.BarHide;
+import com.gyf.immersionbar.ImmersionBar;
+
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
@@ -139,6 +142,7 @@ public class JoinTicketConfirmDialog extends BaseDialogFragment implements View.
     protected void customStyle(Window window) {
         super.customStyle(window);
         window.setWindowAnimations(R.style.BottomToTopAnim);
+        ImmersionBar.with(this).hideBar(BarHide.FLAG_HIDE_NAVIGATION_BAR).init();
     }
 
     @Override

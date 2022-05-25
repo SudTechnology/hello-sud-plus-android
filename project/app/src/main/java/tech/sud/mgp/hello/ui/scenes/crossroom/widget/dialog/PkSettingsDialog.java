@@ -20,7 +20,6 @@ import tech.sud.mgp.hello.BuildConfig;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.app.APPConfig;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
-import tech.sud.mgp.hello.common.utils.DensityUtils;
 
 /**
  * pk设置弹窗
@@ -54,11 +53,6 @@ public class PkSettingsDialog extends BaseDialogFragment implements View.OnClick
     @Override
     protected int getWidth() {
         return ViewGroup.LayoutParams.MATCH_PARENT;
-    }
-
-    @Override
-    protected int getHeight() {
-        return DensityUtils.dp2px(360);
     }
 
     @Override

@@ -78,7 +78,7 @@
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             app:layout_constraintWidth_max="78dp"
-            android:layout_marginEnd="7dp"
+            android:layout_marginEnd="12dp"
             android:paddingHorizontal="8dp"
             android:textSize="12sp"
             android:textColor="@color/c_ffffff"
@@ -93,7 +93,7 @@
             android:id="@+id/top_container_select_game"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
-            android:layout_marginEnd="7dp"
+            android:layout_marginEnd="12dp"
             android:paddingHorizontal="8dp"
             android:background="@drawable/shape_room_top_btn_bg">
 
@@ -127,9 +127,11 @@
         <!-- 更多按钮 -->
         <ImageView
             android:id="@+id/top_iv_more"
-            android:layout_width="34dp"
+            android:layout_width="29dp"
             android:layout_height="34dp"
-            android:padding="5dp"
+            android:paddingStart="0dp"
+            android:paddingEnd="5dp"
+            android:paddingVertical="5dp"
             android:src="@drawable/ic_room_more"
             android:scaleType="fitCenter"
             android:layout_marginEnd="11dp"

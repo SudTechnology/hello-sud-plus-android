@@ -254,7 +254,6 @@
     <string name="order_dialog_sub_title">กำหนดโฮสต์ที่ใช้ไมค์เพื่อเล่นกับคุณ</string>
     <string name="order_btn">ริเริ่ม</string>
     <string name="order_selected_total">ได้เลือก %1$d คน</string>
-    <string name="order_price">%1$d/รอบ/คน</string>
     <string name="dialog_scene_title">ทุกฉาก</string>
     <string name="hang_room">ระงับห้อง</string>
     <string name="exit_room">ออกจากห้อง</string>

@@ -254,7 +254,6 @@
     <string name="order_dialog_sub_title">Chỉ định streamer đang trên mic cùng chơi với bạn</string>
     <string name="order_btn">Khởi xướng</string>
     <string name="order_selected_total">Đã chọn %1$d người</string>
-    <string name="order_price">%1$d/ván/người</string>
     <string name="dialog_scene_title">Tất cả bối cảnh</string>
     <string name="hang_room">Treo phòng</string>
     <string name="exit_room">Thoát khỏi phòng</string>

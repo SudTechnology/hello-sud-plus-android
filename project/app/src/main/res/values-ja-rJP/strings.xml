@@ -254,7 +254,6 @@
     <string name="order_dialog_sub_title">マイク接続中のキャスターをあなたとプレイするように指定します</string>
     <string name="order_btn">開始する</string>
     <string name="order_selected_total">%1$d人を選びました</string>
-    <string name="order_price">%1$d/局/人</string>
     <string name="dialog_scene_title">すべてのシーン</string>
     <string name="hang_room">ルームをサスペンドする</string>
     <string name="exit_room">ルームから出る</string>

@@ -253,7 +253,6 @@ Go to homepage to create one~</string>
     <string name="order_dialog_sub_title">Designate the speaking streamer to play with you</string>
     <string name="order_btn">Initiate</string>
     <string name="order_selected_total">%1$d people selected</string>
-    <string name="order_price">%1$d/Round/Person</string>
     <string name="dialog_scene_title">All scenes</string>
     <string name="hang_room">Suspend the room</string>
     <string name="exit_room">Exit the room</string>

@@ -254,7 +254,6 @@
     <string name="order_dialog_sub_title">마이크 앵커를 지정하여 함께 플레이</string>
     <string name="order_btn">시작하다</string>
     <string name="order_selected_total">%1$d명을 선정</string>
-    <string name="order_price">%1$d/판/인</string>
     <string name="dialog_scene_title">모든 장면</string>
     <string name="hang_room">룸 중단</string>
     <string name="exit_room">룸 퇴출</string>

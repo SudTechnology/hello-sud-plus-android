@@ -254,7 +254,6 @@ Vaya a la página de inicio para crear una!</string>
     <string name="order_dialog_sub_title">Designe un presentador en línea para que juegue contigo</string>
     <string name="order_btn">Iniciar</string>
     <string name="order_selected_total">%1$d personas seleccionadas</string>
-    <string name="order_price">%1$d/ronda/persona</string>
     <string name="dialog_scene_title">Todas las escenas</string>
     <string name="hang_room">Suspender la sesión</string>
     <string name="exit_room">Salir de la sesión</string>

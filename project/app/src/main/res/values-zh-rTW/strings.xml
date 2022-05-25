@@ -254,7 +254,6 @@
     <string name="order_dialog_sub_title">指定麥上主播和你一起玩</string>
     <string name="order_btn">下單去玩</string>
     <string name="order_selected_total">已選定%1$d人</string>
-    <string name="order_price">%1$d/局/人</string>
     <string name="dialog_scene_title">所有場景</string>
     <string name="hang_room">掛起房間</string>
     <string name="exit_room">退出房間</string>

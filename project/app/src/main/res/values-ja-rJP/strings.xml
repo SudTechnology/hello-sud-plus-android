@@ -347,7 +347,7 @@
     <string name="game_running_remove_warn">ゲームは終了していないので、しばらく削除できません</string>
     <string name="pk_running_remove_warn">試合は終了していないので、しばらく削除できません</string>
     <string name="remove_rival_confirm">この相手を削除しますか。</string>
-    <string name="confirm_remove">削除を確認する</string>
+    <string name="confirm_remove">はい</string>
     <string name="room_invitation_send">招待を送信しました。お待ちください</string>
     <string name="room_close_pk_advance_tip">クロスルームプレイをオフにしますか。\nシャットダウンは前倒しで決済されて、ゲームは終了します</string>
     <string name="close">閉じる</string>

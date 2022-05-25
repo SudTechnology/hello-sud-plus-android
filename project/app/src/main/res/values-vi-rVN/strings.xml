@@ -347,7 +347,7 @@
     <string name="game_running_remove_warn">Tạm không thể xóa khi trò chơi chưa kết thúc</string>
     <string name="pk_running_remove_warn">Tạm không thể xóa khi cuộc thi chưa kết thúc</string>
     <string name="remove_rival_confirm">Có xóa đối thủ này không?</string>
-    <string name="confirm_remove">Xác nhận xóa</string>
+    <string name="confirm_remove">Đúng</string>
     <string name="room_invitation_send">Đã gửi lời mời, vui lòng đợi</string>
     <string name="room_close_pk_advance_tip">Bạn có chắc rằng muốn tắt chức năng chơi game xuyên phòng không? \n Khi tắt sẽ kết toán trước, trò chơi dừng lại</string>
     <string name="close">Thoát</string>

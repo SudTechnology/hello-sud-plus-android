@@ -346,7 +346,7 @@ Go to homepage to create one~</string>
     <string name="game_running_remove_warn">The game is not over yet. You can\'t remove.</string>
     <string name="pk_running_remove_warn">The competition is not over yet. You can\'t remove.</string>
     <string name="remove_rival_confirm">Do you want to remove this opponent?</string>
-    <string name="confirm_remove">Confirm removal</string>
+    <string name="confirm_remove">Confirm</string>
     <string name="room_invitation_send">Invitation sent, please wait</string>
     <string name="room_close_pk_advance_tip">Are you sure to turn off cross-room gaming? \nIf you turn off now, the settlement will begin right away and the game will be terminated</string>
     <string name="close">Close</string>

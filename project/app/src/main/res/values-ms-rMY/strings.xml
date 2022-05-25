@@ -347,7 +347,7 @@ Kunjungi laman utama untuk mencipta satu~</string>
     <string name="game_running_remove_warn">Permainan masih berlangsung dan tidak boleh disingkirkan buat masa ini</string>
     <string name="pk_running_remove_warn">Pertandingan masih berlangsung dan tidak boleh disingkirkan buat masa ini</string>
     <string name="remove_rival_confirm">Adakah anda mahu menyingkirkan lawan ini?</string>
-    <string name="confirm_remove">Sahkan penyingkiran</string>
+    <string name="confirm_remove">ya</string>
     <string name="room_invitation_send">Jemputan dihantar, sila tunggu</string>
     <string name="room_close_pk_advance_tip">Adakah anda pasti untuk mematikan permainan merentas bilik? \n Penutupan akan diselesaikan lebih awal dan permainan akan ditamatkan</string>
     <string name="close">Tutup</string>

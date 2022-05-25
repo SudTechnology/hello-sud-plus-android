@@ -347,7 +347,7 @@
     <string name="game_running_remove_warn">เกมยังไม่จบและไม่สามารถลบได้ในขณะนี้</string>
     <string name="pk_running_remove_warn">การแข่งขันยังไม่จบและไม่สามารถลบได้ในขณะนี้</string>
     <string name="remove_rival_confirm">จะลบคู่ต่อสู้นี้ใช่หรือไม่</string>
-    <string name="confirm_remove">ยืนยันการลบ</string>
+    <string name="confirm_remove">ใช่</string>
     <string name="room_invitation_send">ส่งคำเชิญแล้ว กรุณารอสักครู่</string>
     <string name="room_close_pk_advance_tip">ตกลงจะปิดการเล่นแบบข้ามห้อง n การปิดจะทำให้เกมจบก่อนเวลา และเกมจะสิ้นสุดลง</string>
     <string name="close">ปิด</string>

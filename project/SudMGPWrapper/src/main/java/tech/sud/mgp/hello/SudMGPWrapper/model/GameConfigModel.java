@@ -160,6 +160,7 @@ public class GameConfigModel implements Serializable {
     }
 
     // 是否隐藏背景图，包括大厅和战斗
+    // ！！！这里只隐藏加载完成后的背景图，加载中背景图如需隐藏则调用：{SudMGP.getCfg().setShowLoadingGameBg(false); }
     public static class GameBg implements Serializable {
         //（false: 显示； true: 隐藏，默认为false）
         public boolean hide = false;

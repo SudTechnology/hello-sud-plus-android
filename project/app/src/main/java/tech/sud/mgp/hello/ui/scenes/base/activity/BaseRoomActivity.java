@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import tech.sud.mgp.core.SudMGP;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.hello.common.base.BaseActivity;
@@ -145,6 +146,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         tvASRHint = findViewById(R.id.tv_asr_hint);
         clOpenMic.setVisibility(View.GONE);
 
+        SudMGP.getCfg().setShowLoadingGameBg(true); // 默认需要显示加载游戏时的背景图
         gameViewModel.gameConfigModel.ui.lobby_players.hide = true; // 配置不展示大厅玩家展示位
 
         // 设置沉浸式状态栏时，顶部view的间距

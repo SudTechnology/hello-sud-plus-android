@@ -13,6 +13,7 @@ import com.blankj.utilcode.util.ToastUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+import tech.sud.mgp.core.SudMGP;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.widget.view.MarqueeTextView;
@@ -44,6 +45,8 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
     @Override
     protected void initWidget() {
         super.initWidget();
+        SudMGP.getCfg().setShowLoadingGameBg(false);
+
         gameViewModel.gameConfigModel.ui.game_bg.hide = true;
         gameViewModel.gameConfigModel.ui.lobby_players.hide = false;
         roomConfig.isShowGameNumber = false; // 不显示游戏人数

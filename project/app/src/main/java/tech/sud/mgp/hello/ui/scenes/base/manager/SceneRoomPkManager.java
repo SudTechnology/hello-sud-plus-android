@@ -274,6 +274,7 @@ public class SceneRoomPkManager extends BaseServiceManager {
 
                         // 本地数据刷新
                         roomPkModel.remainSecond = minute * 60;
+                        checkCountdown();
                         callbackUpdateRoomPk();
                     }
                 }
@@ -653,6 +654,7 @@ public class SceneRoomPkManager extends BaseServiceManager {
             if (roomPkModel == null || getPkStatus() != PkStatus.STARTED) return;
             roomPkModel.totalMinute = model.minuteDuration;
             roomPkModel.remainSecond = model.minuteDuration * 60;
+            checkCountdown();
             callbackUpdateRoomPk();
         }
     };

@@ -251,7 +251,7 @@ Go to homepage to create one~</string>
     <string name="switched_language">Language switched</string>
     <string name="order_dialog_title">Select speaking users</string>
     <string name="order_dialog_sub_title">Designate the speaking streamer to play with you</string>
-    <string name="order_btn">Make an order to play</string>
+    <string name="order_btn">Initiate</string>
     <string name="order_selected_total">%1$d people selected</string>
     <string name="order_price">%1$d/Round/Person</string>
     <string name="dialog_scene_title">All scenes</string>
@@ -297,7 +297,7 @@ Go to homepage to create one~</string>
     <string name="dialog_game_playing">In game</string>
     <string name="dialog_game_escape">Run away</string>
     <string name="dialog_game_release">End game</string>
-    <string name="order_start_order">I want to order</string>
+    <string name="order_start_order">Make an order</string>
     <string name="order_hang_up_game">Suspend the game</string>
     <string name="order_enter_game">Enter the game</string>
     <string name="order_game_playing">In game</string>

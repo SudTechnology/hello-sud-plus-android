@@ -26,7 +26,7 @@ public class RxCallback<T> implements Observer<BaseResponse<T>> {
 
     @Override
     public void onNext(BaseResponse<T> t) {
-        if (t.getRetCode() == RetCode.SUCCESS) {
+        if (t.getRet_code() == RetCode.SUCCESS) {
             onSuccess(t.getData());
         } else {
             ToastUtils.showLong(ResponseUtils.conver(t));

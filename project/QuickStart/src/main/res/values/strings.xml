@@ -13,5 +13,13 @@
     <string name="common_setting_permission_info">请在设置中开启%1$s权限，以正常使用 %2$s APP功能</string>
     <string name="main_top_title">SudMGP</string>
     <string name="main_top_url">www.sud.tech</string>
+    <string name="select_game">选择游戏</string>
+    <string name="audio_chat_hint">聊一聊~</string>
+    <string name="audio_gameing">游戏中</string>
+    <string name="close_game">关闭游戏</string>
+    <string name="room_name">来一起玩游戏吧</string>
+    <string name="enter">进入</string>
+    <string name="room_number">房号</string>
+    <string name="exit_room">退出房间</string>
 
 </resources>

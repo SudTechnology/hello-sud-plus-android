@@ -38,6 +38,15 @@
             android:windowSoftInputMode="adjustPan"
             tools:ignore="LockedOrientationActivity" />
 
+        <!-- 游戏页 -->
+        <activity
+            android:name=".ui.game.GameActivity"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
+            tools:ignore="LockedOrientationActivity" />
+
         <!-- 屏幕适配配置 -->
         <meta-data
             android:name="design_width_in_dp"

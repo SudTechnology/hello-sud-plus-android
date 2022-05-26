@@ -21,4 +21,9 @@ public class APPConfig {
     /** Bugly的AppId */
     public static final String BUGLY_APP_ID = BuildConfig.buglyAppId;
 
+    // region 游戏所用的appId与appKey
+    public static String SudMGP_APP_ID = "1461564080052506636";
+    public static String SudMGP_APP_KEY = "03pNxK2lEXsKiiwrBQ9GbH541Fk2Sfnc";
+    // endregion 游戏所用的appId与appKey
+
 }

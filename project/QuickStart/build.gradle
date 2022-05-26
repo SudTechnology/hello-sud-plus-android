@@ -50,9 +50,6 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    buildFeatures {
-        viewBinding true
-    }
 
     flavorDimensions 'channel'
     productFlavors {
@@ -82,9 +79,6 @@ dependencies {
     // 依赖okhttp
     implementation 'com.squareup.okhttp3:okhttp:4.9.2'
 
-    // 图片加载库
-    implementation 'com.github.bumptech.glide:glide:4.12.0'
-
     // 网络请求库
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
@@ -101,14 +95,5 @@ dependencies {
 
     // 沉浸式状态栏
     implementation 'com.geyifeng.immersionbar:immersionbar:3.2.2'
-
-    // 设置阴影颜色的控件
-    implementation 'com.github.lihangleo2:ShadowLayout:2.1.7'
-
-    // 下拉刷新，核心库
-    implementation 'com.scwang.smart:refresh-layout-kernel:2.0.3'
-
-    // 下拉刷新，经典刷新头
-    implementation 'com.scwang.smart:refresh-header-classics:2.0.3'
 
 }

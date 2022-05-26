@@ -19,6 +19,8 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import tech.sud.mgp.hello.BuildConfig;
+import tech.sud.mgp.hello.common.model.HSUserInfo;
+import tech.sud.mgp.hello.common.utils.UserUtils;
 
 public class HelloSudApplication extends Application {
 
@@ -31,11 +33,15 @@ public class HelloSudApplication extends Application {
         LogUtils.d("processName:" + processName);
         if (getPackageName().equals(processName)) {//只有是当前进程下才需要初始化如下参数
             instance = this;
+            initUser();
             configBugly();
             configLog();
             configToast();
-            registerActivityLifecycleCallbacks(MyActivityManager.getInstance());
         }
+    }
+
+    private void initUser() {
+        HSUserInfo.userId = UserUtils.genUserID();
     }
 
     // Bugly config

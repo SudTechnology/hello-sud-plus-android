@@ -77,7 +77,7 @@ public class SceneRoomTopView extends ConstraintLayout {
         containerSelectGame.setOnClickListener(listener);
     }
 
-    /** 设置更我按钮的点击监听 */
+    /** 设置更多按钮的点击监听 */
     public void setMoreOnClickListener(OnClickListener listener) {
         ivMore.setOnClickListener(listener);
     }

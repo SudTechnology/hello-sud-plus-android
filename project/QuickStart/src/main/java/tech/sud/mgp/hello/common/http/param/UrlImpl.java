@@ -4,20 +4,12 @@ public class UrlImpl implements IBaseUrl {
 
     @Override
     public String getBaseUrl() {
-        // TODO: 2022/5/25 dd
-        return "";
-    }
-
-    @Override
-    public String getInteractBaseUrl() {
-        // TODO: 2022/5/25 dd
-        return "";
+        return "https://fat-mgp-hello.sudden.ltd/";
     }
 
     @Override
     public String getGameBaseUrl() {
-        // TODO: 2022/5/25 dd
-        return "";
+        return "https://fat-mgp-hello.sudden.ltd/";
     }
 
 }

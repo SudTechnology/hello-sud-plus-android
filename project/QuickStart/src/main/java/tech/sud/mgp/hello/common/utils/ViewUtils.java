@@ -1,7 +1,9 @@
 package tech.sud.mgp.hello.common.utils;
 
+import android.text.Editable;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 public class ViewUtils {
 
@@ -120,6 +122,12 @@ public class ViewUtils {
     public static void setTranslationX(View view, int value) {
         if (view == null) return;
         view.setTranslationX(value);
+    }
+
+    public static String getEditTextText(EditText editText) {
+        Editable text = editText.getText();
+        if (text == null) return null;
+        return text.toString();
     }
 
 }

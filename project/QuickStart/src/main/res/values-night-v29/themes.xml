@@ -1,5 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+
     <style name="Theme.Hellosudandroid" parent="Theme.MaterialComponents.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
@@ -14,6 +15,7 @@
         <!-- Customize your theme here. -->
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@color/white</item>
+        <item name="android:forceDarkAllowed">false</item>  <!-- 此字段用于禁用全局反色 -->
     </style>
 
     <!--解决启动白屏问题,在启动页通过Theme引用-->
@@ -21,14 +23,6 @@
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowBackground">@drawable/branded_launch_screens</item>
         <item name="android:windowFullscreen">false</item>
-    </style>
-
-    <!-- 全屏activity -->
-    <style name="MyTranslucentTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowBackground">@color/transparent</item>
-        <item name="android:colorBackgroundCacheHint">@null</item>
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowAnimationStyle">@null</item>
     </style>
 
 </resources>

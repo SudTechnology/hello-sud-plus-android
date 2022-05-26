@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:opacity="opaque">
+    <!-- 背景颜色 -->
+    <item android:drawable="@color/c_ffffff" />
+    <!-- 产品logo -->
+    <!-- 因为6.0以下的机器不支持宽高,所以这里把logo去掉 -->
+    <!--    <item-->
+    <!--        android:gravity="center">-->
+    <!--        <bitmap android:src="@drawable/ic_splash_logo" />-->
+    <!--    </item>-->
+</layer-list>

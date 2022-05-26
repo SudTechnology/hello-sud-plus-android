@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.game;
+package tech.sud.mgp.hello;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,9 +10,9 @@ import androidx.lifecycle.Observer;
 import com.gyf.immersionbar.BarHide;
 import com.gyf.immersionbar.ImmersionBar;
 
-import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseActivity;
 import tech.sud.mgp.hello.common.utils.ViewUtils;
+import tech.sud.mgp.hello.ui.game.GameViewModel;
 import tech.sud.mgp.hello.ui.game.widget.GameModeDialog;
 import tech.sud.mgp.hello.ui.game.widget.GameRoomMoreDialog;
 import tech.sud.mgp.hello.ui.game.widget.GameRoomTopView;

@@ -21,6 +21,7 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
 import java.util.List;
 
+import tech.sud.mgp.hello.GameActivity;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseActivity;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
@@ -28,7 +29,6 @@ import tech.sud.mgp.hello.common.utils.ViewUtils;
 import tech.sud.mgp.hello.common.widget.view.SimpleTextWatcher;
 import tech.sud.mgp.hello.common.widget.view.round.RoundedImageView;
 import tech.sud.mgp.hello.service.MainRepository;
-import tech.sud.mgp.hello.ui.game.GameActivity;
 
 /**
  * 主页

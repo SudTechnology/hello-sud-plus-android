@@ -40,7 +40,7 @@
 
         <!-- 游戏页 -->
         <activity
-            android:name=".ui.game.GameActivity"
+            android:name=".GameActivity"
             android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"

@@ -56,16 +56,15 @@ android {
         official {
             String channel = "official"
             buildConfigField("String", "CHANNEL", "\"" + channel + "\"")
-            buildConfigField("String", "buglyAppId", "\"" + project.buglyAppId + "\"")
         }
     }
 }
 
 dependencies {
 
-    implementation 'androidx.appcompat:appcompat:1.3.0'
-    implementation 'com.google.android.material:material:1.4.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'androidx.appcompat:appcompat:1.4.1'
+    implementation 'com.google.android.material:material:1.5.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
 
     // 引入 SudMGPWrapper
     implementation project(':SudMGPWrapper')
@@ -73,15 +72,12 @@ dependencies {
     // 屏幕适配：https://github.com/JessYanCoding/AndroidAutoSize
     implementation 'com.github.JessYanCoding:AndroidAutoSize:v1.2.1'
 
-    // 腾讯bugly奔溃统计
-    implementation 'com.tencent.bugly:crashreport:4.0.0'
-
     // 依赖okhttp
     implementation 'com.squareup.okhttp3:okhttp:4.9.2'
 
     // 网络请求库
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava3:2.9.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.9.1'
     implementation 'com.trello.rxlifecycle4:rxlifecycle:4.0.2'

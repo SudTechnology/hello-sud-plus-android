@@ -27,7 +27,6 @@ import tech.sud.mgp.hello.app.APPConfig;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
-import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.utils.SystemUtils;
 import tech.sud.mgp.hello.service.GameLoginResp;
@@ -81,7 +80,7 @@ public class GameViewModel implements SudFSMMGListener {
             return;
         }
         // 请求登录code
-        MainRepository.login(activity, HSUserInfo.userId, APPConfig.SudMGP_APP_ID, new RxCallback<GameLoginResp>() {
+        MainRepository.login(activity, APPConfig.userId, APPConfig.SudMGP_APP_ID, new RxCallback<GameLoginResp>() {
             @Override
             public void onNext(BaseResponse<GameLoginResp> t) {
                 super.onNext(t);
@@ -147,7 +146,7 @@ public class GameViewModel implements SudFSMMGListener {
         sudFSMMGDecorator.setSudFSMMGListener(this);
 
         // 调用游戏sdk加载游戏
-        ISudFSTAPP iSudFSTAPP = SudMGP.loadMG(activity, HSUserInfo.userId, gameRoomId + "", code, gameId, SystemUtils.getLanguageCode(activity), sudFSMMGDecorator);
+        ISudFSTAPP iSudFSTAPP = SudMGP.loadMG(activity, APPConfig.userId, gameRoomId + "", code, gameId, SystemUtils.getLanguageCode(activity), sudFSMMGDecorator);
 
         // APP调用游戏接口的装饰类设置
         sudFSTAPPDecorator.setISudFSTAPP(iSudFSTAPP);
@@ -263,7 +262,7 @@ public class GameViewModel implements SudFSMMGListener {
     /** 处理code过期 */
     public void processOnExpireCode(SudFSTAPPDecorator sudFSTAPPManager, ISudFSMStateHandle handle) {
         // code过期，刷新code
-        MainRepository.login(null, HSUserInfo.userId, APPConfig.SudMGP_APP_ID, new RxCallback<GameLoginResp>() {
+        MainRepository.login(null, APPConfig.userId, APPConfig.SudMGP_APP_ID, new RxCallback<GameLoginResp>() {
             @Override
             public void onNext(BaseResponse<GameLoginResp> t) {
                 super.onNext(t);

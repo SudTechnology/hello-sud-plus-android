@@ -16,4 +16,13 @@ public class UserInfo {
         return 0;
     }
 
+    public long getLongUserId() {
+        try {
+            return Long.parseLong(userID);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
 }

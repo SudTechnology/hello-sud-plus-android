@@ -159,12 +159,13 @@ public class RoomCmdModelUtils {
     // region 点单
 
     /** 构建点单信令 */
-    public static String buildCmdUserOrder(long orderId, long gameId, String gameName, List<String> toUsers) {
+    public static String buildCmdUserOrder(long orderId, long gameId, String gameName, List<String> toUsers, List<String> toUserNames) {
         RoomCmdUserOrderModel command = new RoomCmdUserOrderModel(getSendUser());
         command.orderId = orderId;
         command.gameId = gameId;
         command.gameName = gameName;
         command.toUsers = toUsers;
+        command.toUserNames = toUserNames;
         return command.toJson();
     }
 

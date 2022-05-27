@@ -7,6 +7,7 @@ import androidx.lifecycle.LifecycleOwner;
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.Utils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import tech.sud.mgp.hello.R;
@@ -20,6 +21,7 @@ import tech.sud.mgp.hello.service.room.repository.RoomRepository;
 import tech.sud.mgp.hello.ui.common.utils.DialogUtils;
 import tech.sud.mgp.hello.ui.main.constant.GameIdCons;
 import tech.sud.mgp.hello.ui.scenes.base.model.OrderInviteModel;
+import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomServiceCallback;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.RoomCmdModelUtils;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.order.RoomCmdOrderOperateModel;
@@ -55,9 +57,39 @@ public class SceneOrderManager extends BaseServiceManager {
         parentManager.sceneEngineManager.removeCommandListener(orderResultCommandListener);
     }
 
-    public void broadcastOrder(long orderId, long gameId, String gameName, List<String> toUsers) {
-        String command = RoomCmdModelUtils.buildCmdUserOrder(orderId, gameId, gameName, toUsers);
+    public void broadcastOrder(long orderId, long gameId, String gameName, List<UserInfo> userList) {
+        List<String> userIdList = new ArrayList<>();
+        List<String> userNameList = new ArrayList<>();
+        for (UserInfo userInfo : userList) {
+            userIdList.add(userInfo.userID);
+            userNameList.add(userInfo.name);
+        }
+        // 发送信令
+        String command = RoomCmdModelUtils.buildCmdUserOrder(orderId, gameId, gameName, userIdList, userNameList);
         parentManager.sceneEngineManager.sendCommand(command, null);
+
+        // 发送公屏
+        sendOrderChat(HSUserInfo.nickName, userNameList, gameName);
+    }
+
+    /**
+     * 向公屏推送一则下单的消息
+     *
+     * @param nickName     邀请方名称
+     * @param userNameList 被邀请方名称列表
+     * @param gameName     游戏名称
+     */
+    private void sendOrderChat(String nickName, List<String> userNameList, String gameName) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < userNameList.size(); i++) {
+            String name = userNameList.get(i);
+            if (sb.length() > 0) {
+                sb.append("、");
+            }
+            sb.append(name);
+        }
+        String msg = Utils.getApp().getString(R.string.send_order_chat_msg, nickName, sb.toString(), gameName);
+        parentManager.sceneChatManager.addMsg(msg);
     }
 
     public void operateOrder(long orderId, long gameId, String gameName, String toUser, boolean isAccept) {
@@ -82,6 +114,10 @@ public class SceneOrderManager extends BaseServiceManager {
                         callback.onOrderInvite(command);
                     }
                 }
+            }
+            // 推送一条公屏消息
+            if (command.toUserNames != null && command.toUserNames.size() > 0) {
+                sendOrderChat(command.sendUser.name, command.toUserNames, command.gameName);
             }
         }
     };
@@ -131,7 +167,7 @@ public class SceneOrderManager extends BaseServiceManager {
                         if (callback != null) {
                             callback.onOrderInviteAnswered(orderModel);
                         }
-                        //用户接受了邀请点单
+                        // 用户接受了邀请点单
                         roomOrderReceive(orderId, orderModel);
                     } else {
                         orderModel.agreeState = 2;
@@ -170,6 +206,7 @@ public class SceneOrderManager extends BaseServiceManager {
         }
     }
 
+    /** 用户接受了邀请点单 */
     public void roomOrderReceive(long orderId, OrderInviteModel orderModel) {
         RoomRepository.roomOrderReceive(parentManager, orderId, new RxCallback<Object>() {
             @Override

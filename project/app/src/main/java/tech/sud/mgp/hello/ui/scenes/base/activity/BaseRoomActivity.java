@@ -476,6 +476,17 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
                 }
             }
         });
+        gameViewModel.autoJoinGameLiveData.observe(this, new Observer<Object>() {
+            @Override
+            public void onChanged(Object o) {
+                autoJoinGame();
+            }
+        });
+    }
+
+    /** 触发自动加入游戏 */
+    protected void autoJoinGame() {
+        gameViewModel.joinGame();
     }
 
     // asr的开启与关闭

@@ -233,7 +233,7 @@ public class SceneRoomService extends Service {
         }
 
         /** 发起点单广播 */
-        public void broadcastOrder(long orderId, long gameId, String gameName, List<String> toUsers) {
+        public void broadcastOrder(long orderId, long gameId, String gameName, List<UserInfo> toUsers) {
             serviceManager.sceneOrderManager.broadcastOrder(orderId, gameId, gameName, toUsers);
         }
 

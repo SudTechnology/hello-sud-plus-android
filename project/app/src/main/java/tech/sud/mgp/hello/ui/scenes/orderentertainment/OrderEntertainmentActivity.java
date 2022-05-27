@@ -10,7 +10,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.blankj.utilcode.util.ToastUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import tech.sud.mgp.core.SudMGP;
@@ -19,6 +18,7 @@ import tech.sud.mgp.hello.common.base.BaseDialogFragment;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.widget.view.MarqueeTextView;
 import tech.sud.mgp.hello.ui.scenes.base.model.OrderInviteModel;
+import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomService;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.chat.SceneRoomChatView;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.order.RoomCmdUserOrderModel;
@@ -174,12 +174,8 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
             }
         });
         gameViewModel.orderDataLiveData.observe(this, data -> {
-            if (data != null && data.userIdList.size() > 0) {
-                List<String> userStringList = new ArrayList<>();
-                for (Long userId : data.userIdList) {
-                    userStringList.add(userId + "");
-                }
-                sendOrder(data.resp.orderId, data.game.gameModel.gameId, data.game.gameModel.gameName, userStringList);
+            if (data != null && data.userList.size() > 0) {
+                sendOrder(data.resp.orderId, data.game.gameModel.gameId, data.game.gameModel.gameName, data.userList);
             }
         });
         gameViewModel.changeToAduio.observe(this, integer -> {
@@ -190,7 +186,7 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
     }
 
     /** 主动发起点单 */
-    private void sendOrder(long orderId, long gameId, String gameName, List<String> toUsers) {
+    private void sendOrder(long orderId, long gameId, String gameName, List<UserInfo> toUsers) {
         if (binder != null) {
             binder.broadcastOrder(orderId, gameId, gameName, toUsers);
         }
@@ -207,7 +203,7 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
     public void onOrderInviteAnswered(OrderInviteModel model) {
         super.onOrderInviteAnswered(model);
         gameViewModel.orderDataLiveData.postValue(null);
-        gameViewModel.isSelfOrder = 0;
+        gameViewModel.isSelfOrder = false;
         gameViewModel.orderModel = model;
     }
 
@@ -223,7 +219,7 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
     public void onOrderOperate(long orderId, long gameId, String gameName, String userId, String userName, boolean operate) {
         super.onOrderOperate(orderId, gameId, gameName, userId, userName, operate);
         if (operate) {
-            gameViewModel.isSelfOrder = 1;
+            gameViewModel.isSelfOrder = true;
         }
     }
 
@@ -247,11 +243,7 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
             dialog.updateMicList(binder.getMicList(), 0);
             dialog.setCreateListener((userList, game) -> {
                 if (userList.size() > 0 && game != null) {
-                    gameViewModel.roomOrderCreate(
-                            OrderEntertainmentActivity.this,
-                            roomInfoModel.roomId,
-                            userList,
-                            game);
+                    gameViewModel.roomOrderCreate(context, roomInfoModel.roomId, userList, game);
                     dialog.dismiss();
                     ToastUtils.showLong(R.string.order_inivte_complete);
                 }
@@ -266,4 +258,13 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
             dialog.show(getSupportFragmentManager(), null);
         }
     }
+
+    @Override
+    protected void autoJoinGame() {
+        // 自己发起的单，或者自己已经同意了邀请，才可以自动加入游戏
+        if (gameViewModel.isSelfOrder || (gameViewModel.orderModel != null && gameViewModel.orderModel.agreeState == 1)) {
+            super.autoJoinGame();
+        }
+    }
+
 }

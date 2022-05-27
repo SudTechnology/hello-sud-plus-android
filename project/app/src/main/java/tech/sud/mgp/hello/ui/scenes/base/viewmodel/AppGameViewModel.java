@@ -66,6 +66,7 @@ public class AppGameViewModel implements SudFSMMGListener {
     public final MutableLiveData<Object> playerInLiveData = new MutableLiveData<>(); // 有玩家加入或者离开了游戏
     public final MutableLiveData<Boolean> showFinishGameBtnLiveData = new MutableLiveData<>(); // 是否具备结束游戏的权力
     public final MutableLiveData<Boolean> micSpaceMaxLiveData = new MutableLiveData<>(); // 是否收缩麦位
+    public final MutableLiveData<Object> autoJoinGameLiveData = new MutableLiveData<>(); // 触发自动加入游戏
 
     private boolean isRunning = true; // 业务是否还在运行
     public View gameView; // 游戏View
@@ -409,15 +410,18 @@ public class AppGameViewModel implements SudFSMMGListener {
      */
     public void selfMicIndex(int micIndex) {
         if (micIndex >= 0 && selfMicIndex != micIndex) { // 可选项。这里展示的逻辑是：上麦自动加入游戏。根据需求选择是否要执行此逻辑。
-            joinGame(micIndex);
+            autoJoinGame();
         }
         selfMicIndex = micIndex;
     }
 
-    /**
-     * 加入游戏
-     */
-    private void joinGame(int micIndex) {
+    /** 自动加入游戏 */
+    private void autoJoinGame() {
+        autoJoinGameLiveData.postValue(null);
+    }
+
+    /** 加入游戏 */
+    public void joinGame() {
         // 游戏闲置，并且自己没有加入游戏时，才发送
         if (sudFSMMGDecorator.getGameState() == SudMGPMGState.MGCommonGameState.IDLE && !isSelfInGame()) {
             sudFSTAPPDecorator.notifyAPPCommonSelfIn(true, -1, true, 1);
@@ -594,7 +598,7 @@ public class AppGameViewModel implements SudFSMMGListener {
     @Override
     public void onGameStarted() {
         if (selfMicIndex >= 0) {
-            joinGame(selfMicIndex);
+            autoJoinGame();
         }
     }
 

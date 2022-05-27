@@ -27,6 +27,7 @@ import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.main.resp.GameModel;
 import tech.sud.mgp.hello.service.main.resp.GetAccountResp;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
+import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.orderentertainment.adapter.OrderGameAdapter;
 import tech.sud.mgp.hello.ui.scenes.orderentertainment.adapter.OrderMicUserAdapter;
 import tech.sud.mgp.hello.ui.scenes.orderentertainment.model.OrderGameModel;
@@ -105,7 +106,7 @@ public class OrderDialog extends BaseDialogFragment {
         });
         orderBtn.setOnClickListener(v -> {
             if (!hasAnchor) return;
-            List<Long> anchors = findUsers();
+            List<UserInfo> anchors = findUsers();
             if (anchors.size() < 1) {
                 ToastUtils.showLong(R.string.order_dialog_no_select_anchor);
                 return;
@@ -264,13 +265,16 @@ public class OrderDialog extends BaseDialogFragment {
      * 遍历查找选中的主播
      * return 用户id集合
      */
-    private List<Long> findUsers() {
-        List<Long> userList = new ArrayList<>();
+    private List<UserInfo> findUsers() {
+        List<UserInfo> userList = new ArrayList<>();
         if (mUsers.size() > 0) {
             for (int i = 0; i < mUsers.size(); i++) {
                 OrderMicModel micUser = mUsers.get(i);
                 if (micUser.checked && micUser.userInfo.userId != 0 && micUser.userInfo.userId != HSUserInfo.userId) {
-                    userList.add(micUser.userInfo.userId);
+                    UserInfo userInfo = new UserInfo();
+                    userInfo.userID = micUser.userInfo.userId + "";
+                    userInfo.name = micUser.userInfo.nickName;
+                    userList.add(userInfo);
                 }
             }
         }
@@ -294,6 +298,6 @@ public class OrderDialog extends BaseDialogFragment {
     }
 
     public interface CreateClickListener {
-        void onCreateOrder(List<Long> userList, OrderGameModel game);
+        void onCreateOrder(List<UserInfo> userList, OrderGameModel game);
     }
 }

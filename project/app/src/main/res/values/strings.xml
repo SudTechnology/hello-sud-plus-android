@@ -360,6 +360,7 @@ Go to homepage to create one~</string>
 
     <!-- region 新增 -->
     <string name="intercept_room_pk">由于对方强制退出比赛，比赛提前结束</string>
+    <string name="send_order_chat_msg">%1$s 给%2$s下了一单，约玩【%3$s】</string>
     <!-- endregion 新增 -->
 
 </resources>

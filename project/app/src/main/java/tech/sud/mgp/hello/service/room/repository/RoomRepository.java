@@ -105,10 +105,7 @@ public class RoomRepository {
      * @param userIdList 受邀主播用户id
      * @param gameId     游戏id
      */
-    public static void roomOrderCreate(LifecycleOwner owner,
-                                       long roomId,
-                                       List<Long> userIdList,
-                                       long gameId,
+    public static void roomOrderCreate(LifecycleOwner owner, long roomId, List<Long> userIdList, long gameId,
                                        RxCallback<RoomOrderCreateResp> callback) {
         RoomOrderCreateReq req = new RoomOrderCreateReq();
         req.roomId = roomId;

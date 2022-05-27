@@ -305,7 +305,7 @@
     <string name="order_dialog_no_select_anchor">앵커를 선택하기</string>
     <string name="order_dialog_no_select_game">게임을 선택하기</string>
     <string name="wait_start">시작 대기</string>
-    <string name="finished">이미 완료</string>
+    <string name="finished">종료</string>
     <string name="seat_empty" />
     <string name="renew_pk">한번더</string>
     <string name="open_room_pk">다른 서버룸 열기</string>

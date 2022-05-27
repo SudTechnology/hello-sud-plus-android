@@ -305,7 +305,7 @@ Buat ruangan di Beranda</string>
     <string name="user_receive_invite_msg">%1$s setuju untuk bermain [%2$s] dengan Anda.</string>
     <string name="order_dialog_no_select_anchor">Silakan pilih host</string>
     <string name="order_dialog_no_select_game">Silakan pilih permainan</string>
-    <string name="wait_start">Menunggu dimulai</string>
+    <string name="wait_start">Belum mulai</string>
     <string name="finished">Selesai</string>
     <string name="seat_empty" />
     <string name="renew_pk">Sekali lagi</string>

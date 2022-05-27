@@ -305,7 +305,7 @@
     <string name="order_dialog_no_select_anchor">โปรดเลือกโฮสต์</string>
     <string name="order_dialog_no_select_game">โปรดเลือกเกม</string>
     <string name="wait_start">รอเริ่ม</string>
-    <string name="finished">จบแล้ว</string>
+    <string name="finished">เกิน</string>
     <string name="seat_empty" />
     <string name="renew_pk">เล่นอีกครั้ง</string>
     <string name="open_room_pk">เปิดการเล่นแบบข้ามห้อง</string>

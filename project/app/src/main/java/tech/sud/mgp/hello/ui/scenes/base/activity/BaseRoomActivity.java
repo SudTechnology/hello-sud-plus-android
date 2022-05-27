@@ -128,7 +128,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
 
     @Override
     protected void setStatusBar() {
-        ImmersionBar.with(this).statusBarColor(R.color.transparent).init();
+        updateStatusBar();
     }
 
     @Override
@@ -800,7 +800,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
 
     private void updateStatusBar() {
         if (roomInfoModel != null && roomInfoModel.gameId > 0) { // 玩着游戏
-            ImmersionBar.with(this).statusBarColor(R.color.transparent).hideBar(BarHide.FLAG_HIDE_NAVIGATION_BAR).init();
+            ImmersionBar.with(this).statusBarColor(R.color.transparent).fullScreen(true).hideBar(BarHide.FLAG_HIDE_NAVIGATION_BAR).init();
         } else {
             ImmersionBar.with(this).statusBarColor(R.color.transparent).hideBar(BarHide.FLAG_SHOW_BAR).init();
         }

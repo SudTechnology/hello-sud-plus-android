@@ -104,11 +104,14 @@
             android:textColor="@color/black"
             android:textSize="12sp" />
 
-        <tech.sud.mgp.hello.common.widget.view.MarqueeTextView
+        <TextView
             android:id="@+id/room_enter"
-            android:layout_width="48dp"
+            android:layout_width="wrap_content"
             android:layout_height="24dp"
             android:gravity="center"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:paddingHorizontal="12dp"
             android:text="@string/room_list_enter"
             android:textColor="@color/white"
             android:textSize="12sp" />

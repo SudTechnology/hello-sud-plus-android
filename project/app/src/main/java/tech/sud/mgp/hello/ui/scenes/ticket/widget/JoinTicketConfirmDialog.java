@@ -142,6 +142,11 @@ public class JoinTicketConfirmDialog extends BaseDialogFragment implements View.
     protected void customStyle(Window window) {
         super.customStyle(window);
         window.setWindowAnimations(R.style.BottomToTopAnim);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         ImmersionBar.with(this).hideBar(BarHide.FLAG_HIDE_NAVIGATION_BAR).init();
     }
 

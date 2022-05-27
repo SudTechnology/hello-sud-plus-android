@@ -264,7 +264,7 @@ Go to homepage to create one~</string>
     <string name="order_invite_conent">%1$s \n invites you to the game【%2$s】\nDo you want to join?</string>
     <string name="order_invite_right_btn">Join</string>
     <string name="order_invite_left_btn">Decline</string>
-    <string name="order_result_conent">%1$s has declined your invitation. Would you like to play with other streamers?</string>
+    <string name="order_result_conent">%1$s has declined your invitation. Go play with someone else</string>
     <string name="order_finish_conent">This order has finished. Would you like to continue playing with other streamers?</string>
     <string name="order_finish_left_text">Return</string>
     <string name="order_finish_right_text">Make an order</string>
@@ -303,9 +303,9 @@ Go to homepage to create one~</string>
     <string name="user_receive_invite_msg">%1$s agree to join you in【%2$s】</string>
     <string name="order_dialog_no_select_anchor">Select  streamer</string>
     <string name="order_dialog_no_select_game">Select game</string>
-    <string name="wait_start">Please wait</string>
-    <string name="finished">It\'s over</string>
-    <string name="seat_empty">Seat available</string>
+    <string name="wait_start">Not-Started</string>
+    <string name="finished">Over</string>
+    <string name="seat_empty" />
     <string name="renew_pk">Again</string>
     <string name="open_room_pk">Turn on cross-room gaming</string>
     <string name="start_pk">Start the competiton</string>

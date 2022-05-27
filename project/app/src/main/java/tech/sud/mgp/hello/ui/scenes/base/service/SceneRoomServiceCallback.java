@@ -6,6 +6,7 @@ import tech.sud.mgp.hello.rtc.audio.core.AudioPCMData;
 import tech.sud.mgp.hello.ui.scenes.base.constant.OperateMicType;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.OrderInviteModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.order.RoomCmdUserOrderModel;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftNotifyDetailModel;
 
 public interface SceneRoomServiceCallback {
@@ -104,9 +105,14 @@ public interface SceneRoomServiceCallback {
     void onMicLocationSwitchCompleted(int micIndex, boolean operate, OperateMicType type);
 
     /**
+     * 收到了点单邀请
+     */
+    void onOrderInvite(RoomCmdUserOrderModel model);
+
+    /**
      * 主播处理用户点单邀请
      */
-    void onOrderInvite(OrderInviteModel model);
+    void onOrderInviteAnswered(OrderInviteModel model);
 
     /**
      * 用户接收到点单结果

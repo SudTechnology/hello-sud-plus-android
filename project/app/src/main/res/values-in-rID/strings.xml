@@ -266,7 +266,7 @@ Buat ruangan di Beranda</string>
     <string name="order_invite_conent">%1$s \ n ingin bermain [%2$s] dengan Anda \ n Apakah Anda ingin bergabung</string>
     <string name="order_invite_right_btn">Join</string>
     <string name="order_invite_left_btn">Menolak</string>
-    <string name="order_result_conent">%1$s menolak undangan Anda, apakah Anda ingin terus bermain dengan host lain?</string>
+    <string name="order_result_conent">%1$s menolak undangan Anda, cari orang lain untuk bermain</string>
     <string name="order_finish_conent">Pesanan ini telah kedaluwarsa, apakah Anda ingin terus bermain dengan host lain?</string>
     <string name="order_finish_left_text">Kembali</string>
     <string name="order_finish_right_text">Memesan</string>
@@ -287,7 +287,7 @@ Buat ruangan di Beranda</string>
     <string name="game_config_title">Pengaturan permainan</string>
     <string name="game_config_tip">Setelah mengubah pengaturan, silakan tinggalkan ruangan dan muat ulang</string>
     <string name="dialog_game_stage">Tahapan permainan</string>
-    <string name="dialog_game_api">Tampilan API</string>
+    <string name="dialog_game_api">API</string>
     <string name="dialog_game_before">Sebelum bergabung dengan permainan</string>
     <string name="dialog_game_join_btn">①Bergabung</string>
     <string name="dialog_game_ready">Tahap persiapan</string>
@@ -307,7 +307,7 @@ Buat ruangan di Beranda</string>
     <string name="order_dialog_no_select_game">Silakan pilih permainan</string>
     <string name="wait_start">Menunggu dimulai</string>
     <string name="finished">Selesai</string>
-    <string name="seat_empty">Meninggalkan tempat kosong untuk seseorang</string>
+    <string name="seat_empty" />
     <string name="renew_pk">Sekali lagi</string>
     <string name="open_room_pk">Mulai permainan lintas ruangan</string>
     <string name="start_pk">Memulai permainan</string>
@@ -349,7 +349,7 @@ Buat ruangan di Beranda</string>
     <string name="remove_rival_confirm">Apakah Anda ingin menyingkirkan lawan ini?</string>
     <string name="confirm_remove">Ya</string>
     <string name="room_invitation_send">Undangan terkirim, harap tunggu</string>
-    <string name="room_close_pk_advance_tip">Apakah Anda yakin akan menutup permainan lintas ruangan? \ n Menutup permainan akan membuat selesai lebih cepat dan permainan akan berakhir</string>
+    <string name="room_close_pk_advance_tip">Apakah Anda yakin akan menutup permainan lintas ruangan? Menutup permainan akan membuat selesai lebih cepat dan permainan akan berakhir</string>
     <string name="close">Tutup</string>
     <string name="room_pk_wait_onwer_select">Menunggu pemilik ruangan untuk memilih permainan</string>
     <string name="room_round_game_over">Permainan telah berakhir, \ n Apakah Anda ingin melakukan pemesanan lagi?</string>

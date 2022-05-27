@@ -49,7 +49,7 @@ public class RoomPkInfoView extends ConstraintLayout {
     private View rightViewResult;
     private View viewPoint; // 进度条上面的闪烁动画
 
-    private final int progressMinWidth = DensityUtils.dp2px(getContext(), 147); // 进度显示，至少保留的宽度
+    private final int progressMinWidth = DensityUtils.dp2px(getContext(), 100); // 进度显示，至少保留的宽度
     private int progressCalcTotalWidth = DensityUtils.getScreenWidth() - progressMinWidth * 2; // 用于计算进度值的总可用宽度
     private RoomPkModel roomPkModel;
 

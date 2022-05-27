@@ -77,6 +77,10 @@ public class SceneOrderManager extends BaseServiceManager {
                 }
                 if (needDispatch) {
                     inviteDialog(command.orderId, command.gameId, command.gameName, command.sendUser.userID, command.sendUser.name, command.toUsers);
+                    SceneRoomServiceCallback callback = parentManager.getCallback();
+                    if (callback != null) {
+                        callback.onOrderInvite(command);
+                    }
                 }
             }
         }
@@ -125,7 +129,7 @@ public class SceneOrderManager extends BaseServiceManager {
                         orderModel.agreeState = 1;
                         SceneRoomServiceCallback callback = parentManager.getCallback();
                         if (callback != null) {
-                            callback.onOrderInvite(orderModel);
+                            callback.onOrderInviteAnswered(orderModel);
                         }
                         //用户接受了邀请点单
                         roomOrderReceive(orderId, orderModel);
@@ -133,7 +137,7 @@ public class SceneOrderManager extends BaseServiceManager {
                         orderModel.agreeState = 2;
                         SceneRoomServiceCallback callback = parentManager.getCallback();
                         if (callback != null) {
-                            callback.onOrderInvite(orderModel);
+                            callback.onOrderInviteAnswered(orderModel);
                         }
                         operateOrder(orderId, gameId, gameName, orderModel.sendUserId, false);
                     }
@@ -175,7 +179,7 @@ public class SceneOrderManager extends BaseServiceManager {
                 if (t.getRetCode() == RetCode.SUCCESS) {
                     receiveSate = 1;
                     parentManager.startRoomActivity();
-                    
+
                     // 发送信令
                     operateOrder(orderModel.orderId, orderModel.gameId, orderModel.gameName, orderModel.sendUserId, true);
 
@@ -205,7 +209,7 @@ public class SceneOrderManager extends BaseServiceManager {
         SceneRoomServiceCallback callback = parentManager.getCallback();
         if (callback != null) {
             if (orderModel != null) {
-                callback.onOrderInvite(orderModel);
+                callback.onOrderInviteAnswered(orderModel);
             }
             if (receiveSate != 0) {
                 callback.onReceiveInvite(receiveSate == 1);

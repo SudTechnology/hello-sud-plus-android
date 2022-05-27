@@ -265,7 +265,7 @@
     <string name="order_invite_conent">%1$s\nがあなたとのプレイを希望しています【%2$s】\n入りますか</string>
     <string name="order_invite_right_btn">プレイする</string>
     <string name="order_invite_left_btn">斷る</string>
-    <string name="order_result_conent">%1$sは招待を斷りました。他のキャスターとプレイを続けますか。</string>
+    <string name="order_result_conent">%1$sはあなたの招待を斷りました、他の人とプレイしましょう</string>
     <string name="order_finish_conent">この注文は終了しました。他のキャスターとプレイを続けますか。</string>
     <string name="order_finish_left_text">戻る</string>
     <string name="order_finish_right_text">注文する</string>
@@ -286,7 +286,7 @@
     <string name="game_config_title">ゲーム設定</string>
     <string name="game_config_tip">設定を変更したらルームを出てゲームをリロードしてください</string>
     <string name="dialog_game_stage">ゲームステージ</string>
-    <string name="dialog_game_api">APIインタフェース</string>
+    <string name="dialog_game_api">API</string>
     <string name="dialog_game_before">ゲームに入る前に</string>
     <string name="dialog_game_join_btn">①ゲームに入る</string>
     <string name="dialog_game_ready">準備段階</string>
@@ -304,9 +304,9 @@
     <string name="user_receive_invite_msg">%1$sはあなたと【%2$s】をプレイすることに同意しました。</string>
     <string name="order_dialog_no_select_anchor">キャスターを選択してください</string>
     <string name="order_dialog_no_select_game">ゲームを選択してください</string>
-    <string name="wait_start">これから開始します</string>
+    <string name="wait_start">始まっていない</string>
     <string name="finished">終了しました</string>
-    <string name="seat_empty">空席待ちです</string>
+    <string name="seat_empty" />
     <string name="renew_pk">もう一回遊ぶ</string>
     <string name="open_room_pk">クロスルームでゲームを開始する</string>
     <string name="start_pk">試合開始</string>

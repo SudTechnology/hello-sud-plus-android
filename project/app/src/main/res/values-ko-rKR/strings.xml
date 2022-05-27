@@ -265,7 +265,7 @@
     <string name="order_invite_conent">%1$s \n【%2$s】함께 게임을 희망\n 가입 여부</string>
     <string name="order_invite_right_btn">게임입장</string>
     <string name="order_invite_left_btn">거절</string>
-    <string name="order_result_conent">%1$s 당신의 초청을 거절, 기타 앵커와 함께 계속 플레이 여부?</string>
+    <string name="order_result_conent">%1$s 초청을 거절, 타인을 찾아 게임하기</string>
     <string name="order_finish_conent">완료된 주문, 기타 앵카와 함께 계속 게임여부?</string>
     <string name="order_finish_left_text">나가기</string>
     <string name="order_finish_right_text">주문하기</string>
@@ -286,7 +286,7 @@
     <string name="game_config_title">게임 구성</string>
     <string name="game_config_tip">배치를 수정한후 룸을 종료하고 다시 게임을 로딩</string>
     <string name="dialog_game_stage">게임 단계</string>
-    <string name="dialog_game_api">API 포트</string>
+    <string name="dialog_game_api">API</string>
     <string name="dialog_game_before">게임 가입전</string>
     <string name="dialog_game_join_btn">①게임 가입</string>
     <string name="dialog_game_ready">준비 단계</string>
@@ -301,12 +301,12 @@
     <string name="order_hang_up_game">게임 중단</string>
     <string name="order_enter_game">게임 진입</string>
     <string name="order_game_playing">게임 중</string>
-    <string name="user_receive_invite_msg">【%2$s】당신과 함께 플레이를 동의</string>
+    <string name="user_receive_invite_msg">%1$s 당신과 함께 플레이를 동의【%2$s】</string>
     <string name="order_dialog_no_select_anchor">앵커를 선택하기</string>
     <string name="order_dialog_no_select_game">게임을 선택하기</string>
     <string name="wait_start">시작 대기</string>
     <string name="finished">이미 완료</string>
-    <string name="seat_empty">자리를 비워 두고 대기</string>
+    <string name="seat_empty" />
     <string name="renew_pk">한번더</string>
     <string name="open_room_pk">다른 서버룸 열기</string>
     <string name="start_pk">경기 시작</string>
@@ -321,7 +321,7 @@
     <string name="pk_rule">경기 규칙</string>
     <string name="pk_rule_detail_1">1.레드 블루 진영으로 구분하며 동일한 룸내의 사용자는 한개 진영.</string>
     <string name="pk_rule_detail_2">2.경기 시간내에 게임 득점 순위를 통하여 자기측 진영에 점수를 추가 가능.</string>
-    <string name="pk_rule_detail_3">매번 게임의 순위 가점수:</string>
+    <string name="pk_rule_detail_3">3.매번 게임의 순위 가점수:</string>
     <string name="pk_rule_detail_4">1등+100점</string>
     <string name="pk_rule_detail_5">2등+50점</string>
     <string name="pk_rule_detail_6">3등+20점</string>

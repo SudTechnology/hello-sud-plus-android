@@ -265,7 +265,7 @@
     <string name="order_invite_conent">%1$s \n يريد أن يلعب معك [%2$s] هل ترغب \n في الانضمام</string>
     <string name="order_invite_right_btn">انضم إلى اللعبة</string>
     <string name="order_invite_left_btn">رفض</string>
-    <string name="order_result_conent">رفض %1$s دعوتك، هل تريد مواصلة اللعب مع لاعبين آخرين؟</string>
+    <string name="order_result_conent">رفض %1$s دعوتك، قم بالبحث عن شخص آخر للعب</string>
     <string name="order_finish_conent">انتهى هذا الطلب، هل تريد مواصلة اللعب مع لاعبين آخرين؟</string>
     <string name="order_finish_left_text">رجوع</string>
     <string name="order_finish_right_text">اذهب واطلب</string>
@@ -286,7 +286,7 @@
     <string name="game_config_title">تكوين اللعبة</string>
     <string name="game_config_tip">يرجى الخروج من الغرفة بعد تعديل التكوين وإعادة تحميل اللعبة</string>
     <string name="dialog_game_stage">مرحلة اللعبة</string>
-    <string name="dialog_game_api">واجهة API</string>
+    <string name="dialog_game_api">API</string>
     <string name="dialog_game_before">قبل الانضمام إلى اللعبة</string>
     <string name="dialog_game_join_btn">① انضم إلى اللعبة</string>
     <string name="dialog_game_ready">مرحلة التحضير</string>
@@ -304,9 +304,9 @@
     <string name="user_receive_invite_msg">يوافق %1$s على لعب [%2$s] معك.</string>
     <string name="order_dialog_no_select_anchor">الرجاء تحديد مضيف</string>
     <string name="order_dialog_no_select_game">الرجاء تحديد لعبة</string>
-    <string name="wait_start">انتظار البدء</string>
-    <string name="finished">قد انتهى</string>
-    <string name="seat_empty">ينتظر</string>
+    <string name="wait_start">لم يبدأ</string>
+    <string name="finished">انتهى</string>
+    <string name="seat_empty" />
     <string name="renew_pk">مرة أخرى</string>
     <string name="open_room_pk">ابدأ اللعب عبر الغرف</string>
     <string name="start_pk">ابدأ اللعبة</string>

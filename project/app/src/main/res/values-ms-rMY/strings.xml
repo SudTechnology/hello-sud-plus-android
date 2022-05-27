@@ -265,7 +265,7 @@ Kunjungi laman utama untuk mencipta satu~</string>
     <string name="order_invite_conent">%1$s \n mahu bermain [%2$s] dengan anda\n Adakah anda mahu menyertai</string>
     <string name="order_invite_right_btn">Sertai</string>
     <string name="order_invite_left_btn">Menolak</string>
-    <string name="order_result_conent">%1$s menolak jemputan anda, adakah anda mahu terus bermain dengan hos lain?</string>
+    <string name="order_result_conent">%1$s menolak jemputan anda, mencari orang lain untuk bermain </string>
     <string name="order_finish_conent">Pesanan ini telah tamat, adakah anda mahu terus bermain dengan hos lain?</string>
     <string name="order_finish_left_text">Kembali</string>
     <string name="order_finish_right_text">Pesan</string>
@@ -286,7 +286,7 @@ Kunjungi laman utama untuk mencipta satu~</string>
     <string name="game_config_title">Tetapan permainan</string>
     <string name="game_config_tip">Sila muat semula permainan selepas berundur daipada bilik</string>
     <string name="dialog_game_stage">Fasa permainan</string>
-    <string name="dialog_game_api">Antara muka API</string>
+    <string name="dialog_game_api">API</string>
     <string name="dialog_game_before">Sebelum menyertai permainan</string>
     <string name="dialog_game_join_btn">①Menyertai permainan</string>
     <string name="dialog_game_ready">Fasa penyediaan</string>
@@ -304,9 +304,9 @@ Kunjungi laman utama untuk mencipta satu~</string>
     <string name="user_receive_invite_msg">%1$s bersetuju untuk bermain [%2$s] dengan anda.</string>
     <string name="order_dialog_no_select_anchor">Sila pilih hos</string>
     <string name="order_dialog_no_select_game">Sila pilih permainan</string>
-    <string name="wait_start">Tunggu untuk bermula</string>
+    <string name="wait_start">Tidak bermula</string>
     <string name="finished">Selesai</string>
-    <string name="seat_empty">Meninggalkan tempat kosong untuk seseorang</string>
+    <string name="seat_empty" />
     <string name="renew_pk">Sekali lagi</string>
     <string name="open_room_pk">Mulakan permainan merentas bilik</string>
     <string name="start_pk">Mulakan permainan</string>

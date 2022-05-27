@@ -265,7 +265,7 @@
     <string name="order_invite_conent">%1$s \n希望和你一起玩【%2$s】\n是否加入</string>
     <string name="order_invite_right_btn">加入</string>
     <string name="order_invite_left_btn">拒絕</string>
-    <string name="order_result_conent">%1$s 拒絕您的邀請，是否繼續和其他主播一起玩？</string>
+    <string name="order_result_conent">%1$s拒絕您的邀請，找其他人一起玩</string>
     <string name="order_finish_conent">此單已結束，是否繼續和其他主播一起玩？</string>
     <string name="order_finish_left_text">返回</string>
     <string name="order_finish_right_text">去下單</string>
@@ -286,7 +286,7 @@
     <string name="game_config_title">遊戲配置</string>
     <string name="game_config_tip">修改配置後請退出房間，重新加載遊戲</string>
     <string name="dialog_game_stage">遊戲階段</string>
-    <string name="dialog_game_api">API介面</string>
+    <string name="dialog_game_api">API接口</string>
     <string name="dialog_game_before">加入遊戲前</string>
     <string name="dialog_game_join_btn">①加入遊戲</string>
     <string name="dialog_game_ready">準備階段</string>

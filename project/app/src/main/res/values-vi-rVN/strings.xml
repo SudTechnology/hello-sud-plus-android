@@ -265,7 +265,7 @@
     <string name="order_invite_conent">%1$s \n muốn chơi cùng bạn【%2$s】\n Có tham gia không</string>
     <string name="order_invite_right_btn">Chơi</string>
     <string name="order_invite_left_btn">Từ chối</string>
-    <string name="order_result_conent">%1$s đã từ chối lời mời từ bạn, bạn có muốn tiếp tục chơi với streamer khác không?</string>
+    <string name="order_result_conent">%1$s đã từ chối lời mời của bạn, tìm người khác cùng chơi nhé</string>
     <string name="order_finish_conent">Đơn này đã kết thúc, bạn có muốn tiếp tục chơi với streamer khác không?</string>
     <string name="order_finish_left_text">Quay lại</string>
     <string name="order_finish_right_text">Chốt đơn</string>
@@ -286,7 +286,7 @@
     <string name="game_config_title">Cấu hình trò chơi</string>
     <string name="game_config_tip">Sau khi sửa đổi cấu hình vui lòng thoát khỏi phòng rồi load lại trò chơi</string>
     <string name="dialog_game_stage">Các giai đoạn của trò chơi</string>
-    <string name="dialog_game_api">Giao diện API</string>
+    <string name="dialog_game_api">API</string>
     <string name="dialog_game_before">Trước khi tham gia trò chơi</string>
     <string name="dialog_game_join_btn">① Tham gia trò chơi</string>
     <string name="dialog_game_ready">Giai đoạn chuẩn bị</string>
@@ -305,8 +305,8 @@
     <string name="order_dialog_no_select_anchor">Vui lòng chọn streamer</string>
     <string name="order_dialog_no_select_game">Vui lòng chọn trò chơi</string>
     <string name="wait_start">Đợi bắt đầu</string>
-    <string name="finished">Đã kết thúc</string>
-    <string name="seat_empty">Vẫn còn chỗ trống chờ bạn  vào đấy</string>
+    <string name="finished">Kết thúc</string>
+    <string name="seat_empty" />
     <string name="renew_pk">Thêm lần nữa</string>
     <string name="open_room_pk">Mở tính năng chơi game xuyên phòng</string>
     <string name="start_pk">Bắt đầu thi đấu</string>

@@ -7,7 +7,7 @@
 
     <LinearLayout
         android:id="@+id/container_hang"
-        android:layout_width="56dp"
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical"
@@ -35,11 +35,11 @@
 
     <LinearLayout
         android:id="@+id/container_exit"
-        android:layout_width="56dp"
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical"
-        android:layout_marginStart="94dp"
+        android:layout_marginStart="20dp"
         app:layout_constraintStart_toEndOf="@id/container_hang"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/container_hang">

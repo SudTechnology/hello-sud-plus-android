@@ -265,7 +265,7 @@
     <string name="order_invite_conent">%1$s \n หวังว่าจะเล่น [%2$s] กับคุณ\n คุณต้องการที่จะเข้าร่วมหรือไม่</string>
     <string name="order_invite_right_btn">ร่วมเกม</string>
     <string name="order_invite_left_btn">ปฏิเสธ</string>
-    <string name="order_result_conent">%1$s ปฏิเสธคำเชิญของคุณ คุณต้องการเล่นกับโฮสต์คนอื่นๆ ต่อหรือไม่</string>
+    <string name="order_result_conent">%1$s ปฏิเสธคำเชิญของคุณ หาคนอื่นเล่นด้วย</string>
     <string name="order_finish_conent">ออเดอร์นี้จบลงแล้ว  คุณต้องการเล่นกับโฮสต์คนอื่นๆ ต่อหรือไม่</string>
     <string name="order_finish_left_text">กลับไปก่อนหน้า</string>
     <string name="order_finish_right_text">ไปออเดอร์</string>
@@ -286,7 +286,7 @@
     <string name="game_config_title">กำหนดค่าเกม</string>
     <string name="game_config_tip">หลังแก้ไขกำหนดค่าแล้ว โปรดออกจากห้องและโหลดเกมใหม่อีกครั้ง</string>
     <string name="dialog_game_stage">ขั้นตอนของเกม</string>
-    <string name="dialog_game_api">อินเตอร์เฟซ API</string>
+    <string name="dialog_game_api">API</string>
     <string name="dialog_game_before">ก่อนเข้าร่วมเกม</string>
     <string name="dialog_game_join_btn">① เข้าร่วมเกม</string>
     <string name="dialog_game_ready">ขั้นตอนการเตรียมการ</string>
@@ -306,7 +306,7 @@
     <string name="order_dialog_no_select_game">โปรดเลือกเกม</string>
     <string name="wait_start">รอเริ่ม</string>
     <string name="finished">จบแล้ว</string>
-    <string name="seat_empty">พื้นที่ว่าง</string>
+    <string name="seat_empty" />
     <string name="renew_pk">เล่นอีกครั้ง</string>
     <string name="open_room_pk">เปิดการเล่นแบบข้ามห้อง</string>
     <string name="start_pk">เริ่มการแข่งขัน</string>

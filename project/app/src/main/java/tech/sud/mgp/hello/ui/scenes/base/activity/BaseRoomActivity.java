@@ -60,6 +60,7 @@ import tech.sud.mgp.hello.ui.scenes.base.widget.view.chat.RoomInputMsgView;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.chat.SceneRoomChatView;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.mic.OnMicItemClickListener;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.mic.SceneRoomMicWrapView;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.order.RoomCmdUserOrderModel;
 import tech.sud.mgp.hello.ui.scenes.common.gift.listener.GiftSendClickListener;
 import tech.sud.mgp.hello.ui.scenes.common.gift.manager.GiftHelper;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftModel;
@@ -958,7 +959,11 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
     }
 
     @Override
-    public void onOrderInvite(OrderInviteModel model) {
+    public void onOrderInvite(RoomCmdUserOrderModel model) {
+    }
+
+    @Override
+    public void onOrderInviteAnswered(OrderInviteModel model) {
     }
 
     @Override

@@ -265,7 +265,7 @@ Vaya a la página de inicio para crear una!</string>
     <string name="order_invite_conent">%1$s \ndesea jugar [%2$s] contigo\n¿Quieres unirte?</string>
     <string name="order_invite_right_btn">Unirte</string>
     <string name="order_invite_left_btn">Rechazar</string>
-    <string name="order_result_conent">%1$s rechazó tu invitación, ¿quieres seguir jugando con otros presentadores?</string>
+    <string name="order_result_conent">%1$s rechazó su invitación, juegue (juega) con otra persona</string>
     <string name="order_finish_conent">Pedido caducado, ¿quieres seguir jugando con otros presentadores?</string>
     <string name="order_finish_left_text">Volver</string>
     <string name="order_finish_right_text">Hacer pedido</string>
@@ -286,7 +286,7 @@ Vaya a la página de inicio para crear una!</string>
     <string name="game_config_title">Ajustes del juego</string>
     <string name="game_config_tip">Después de modificar los ajustes, termina la sesión y vuelve a cargar el juego.</string>
     <string name="dialog_game_stage">Etapa de juego</string>
-    <string name="dialog_game_api">Interfaz API</string>
+    <string name="dialog_game_api">API</string>
     <string name="dialog_game_before">Antes de entrar al juego</string>
     <string name="dialog_game_join_btn">①Entrar al juego</string>
     <string name="dialog_game_ready">Etapa de preparación</string>
@@ -304,9 +304,9 @@ Vaya a la página de inicio para crear una!</string>
     <string name="user_receive_invite_msg">%1$s acepta jugar [%2$s] contigo.</string>
     <string name="order_dialog_no_select_anchor">Seleccionar un presentador</string>
     <string name="order_dialog_no_select_game">Seleccionar un juego</string>
-    <string name="wait_start">En espera de iniciar</string>
+    <string name="wait_start">No empezado</string>
     <string name="finished">Terminado</string>
-    <string name="seat_empty">Plazas vacantes disponibles</string>
+    <string name="seat_empty" />
     <string name="renew_pk">Otra vez</string>
     <string name="open_room_pk">Comenzar la competición entre sesiones</string>
     <string name="start_pk">Comenzar con la competición</string>
@@ -353,6 +353,6 @@ Vaya a la página de inicio para crear una!</string>
     <string name="room_pk_wait_onwer_select">Esperando a que el creador de la sesión elija el juego</string>
     <string name="room_round_game_over">Esta ronda de juego ha terminado,\n¿Quiere hacer otro pedido?</string>
     <string name="matching">Pareo</string>
-    <string name="in_game">In play</string>
+    <string name="in_game">En el juego</string>
 
 </resources>

@@ -15,11 +15,13 @@ import java.util.List;
 
 import tech.sud.mgp.core.SudMGP;
 import tech.sud.mgp.hello.R;
+import tech.sud.mgp.hello.common.base.BaseDialogFragment;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.widget.view.MarqueeTextView;
 import tech.sud.mgp.hello.ui.scenes.base.model.OrderInviteModel;
 import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomService;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.chat.SceneRoomChatView;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.order.RoomCmdUserOrderModel;
 import tech.sud.mgp.hello.ui.scenes.orderentertainment.activity.AbsOrderRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.orderentertainment.dialog.OrderDialog;
 import tech.sud.mgp.hello.ui.scenes.orderentertainment.viewmodel.OrderViewModel;
@@ -31,6 +33,7 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
 
     private ConstraintLayout orderRootView;
     private MarqueeTextView startGameBtn, hangupGameBtn, enterGameBtn;
+    private OrderDialog orderDialog;
 
     @Override
     protected OrderViewModel initGameViewModel() {
@@ -193,14 +196,26 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
         }
     }
 
-    /** 有点单邀请来了 */
     @Override
-    public void onOrderInvite(OrderInviteModel model) {
+    public void onOrderInvite(RoomCmdUserOrderModel model) {
         super.onOrderInvite(model);
-//        gameViewModel.inviteDialog(this, this, orderId, gameId, gameName, userID, nickname, toUsers);
+        dismissOrderDialog();
+    }
+
+    /** 主播处理用户点单邀请 */
+    @Override
+    public void onOrderInviteAnswered(OrderInviteModel model) {
+        super.onOrderInviteAnswered(model);
         gameViewModel.orderDataLiveData.postValue(null);
         gameViewModel.isSelfOrder = 0;
         gameViewModel.orderModel = model;
+    }
+
+    private void dismissOrderDialog() {
+        if (orderDialog != null) {
+            orderDialog.dismiss();
+            orderDialog = null;
+        }
     }
 
     /** 有点单结果来了 */
@@ -239,6 +254,13 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
                             game);
                     dialog.dismiss();
                     ToastUtils.showLong(R.string.order_inivte_complete);
+                }
+            });
+            orderDialog = dialog;
+            dialog.setOnDestroyListener(new BaseDialogFragment.OnDestroyListener() {
+                @Override
+                public void onDestroy() {
+                    orderDialog = null;
                 }
             });
             dialog.show(getSupportFragmentManager(), null);

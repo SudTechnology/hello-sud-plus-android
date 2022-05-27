@@ -21,8 +21,8 @@
         android:id="@+id/tv_status"
         android:layout_width="wrap_content"
         android:layout_height="16dp"
+        android:maxWidth="64dp"
         android:gravity="center"
-        android:singleLine="true"
         android:paddingStart="7dp"
         android:paddingEnd="5dp"
         android:textSize="10sp"
@@ -102,7 +102,7 @@
             android:textColor="@color/black"
             android:textSize="12sp" />
 
-        <TextView
+        <tech.sud.mgp.hello.common.widget.view.MarqueeTextView
             android:id="@+id/room_enter"
             android:layout_width="48dp"
             android:layout_height="24dp"

@@ -29,6 +29,7 @@ public class AudioRoomMicSingleItemView extends BaseMicItemView {
     private RoundedImageView mRivIcon;
     private TextView mTvName;
     private ImageView giftIcon;
+    private TextView tvGameState;
 
     public AudioRoomMicSingleItemView(@NonNull Context context) {
         this(context, null);
@@ -49,6 +50,7 @@ public class AudioRoomMicSingleItemView extends BaseMicItemView {
         mRivIcon = findViewById(R.id.riv_avatar);
         mTvName = findViewById(R.id.tv_name);
         giftIcon = findViewById(R.id.gift_icon_iv);
+        tvGameState = findViewById(R.id.tv_game_state);
     }
 
     @Override
@@ -80,6 +82,14 @@ public class AudioRoomMicSingleItemView extends BaseMicItemView {
         } else {
             giftIcon.setVisibility(View.GONE);
         }
+
+        // 是否显示正在游戏中（产品要求加入游戏就显示游戏中，点单场景）
+        if (hasUser && item.isIn) {
+            tvGameState.setVisibility(View.VISIBLE);
+        } else {
+            tvGameState.setVisibility(View.GONE);
+        }
+
     }
 
     @Override

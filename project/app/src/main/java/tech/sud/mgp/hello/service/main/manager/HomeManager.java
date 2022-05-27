@@ -17,8 +17,8 @@ public class HomeManager {
 
     private static HomeManager homeManager;
 
-    private GameListResp gameListResp;
-    private RoomListResp roomListResp;
+    public GameListResp gameListResp;
+    public RoomListResp roomListResp;
 
     private HomeManager() {
     }
@@ -34,74 +34,14 @@ public class HomeManager {
         return homeManager;
     }
 
-    public void updateGameList(GameListResp gameListResp) {
-        this.gameListResp = gameListResp;
-    }
-
-    public void updateRoomList(RoomListResp roomListResp) {
-        this.roomListResp = roomListResp;
-    }
-
-    /**
-     * 获取场景TAG
-     * sceneType:场景id
-     * 暂时先每个都列出来，后面ui需要修改就替换颜色
-     */
-    public SceneTagColor sceneTagResId(int sceneType) {
-        SceneTagColor color = new SceneTagColor();
-        switch (sceneType) {
-            case SceneType.ASR:
-                color.colorBg = Color.parseColor("#9622C1");
-                color.colorText = Color.parseColor("#FFFFFF");
-                break;
-            case SceneType.TICKET:
-                color.colorBg = Color.parseColor("#E35017");
-                color.colorText = Color.parseColor("#FFFFFF");
-                break;
-            case SceneType.TALENT:
-                color.colorBg = Color.parseColor("#F7268B");
-                color.colorText = Color.parseColor("#FFFFFF");
-                break;
-            case SceneType.CROSS_ROOM:
-                color.colorBg = Color.parseColor("#504EEB");
-                color.colorText = Color.parseColor("#FFFFFF");
-                break;
-            case SceneType.ONE_ONE:
-                color.colorBg = Color.parseColor("#1378F1");
-                color.colorText = Color.parseColor("#FFFFFF");
-                break;
-            case SceneType.ORDER_ENTERTAINMENT:
-                color.colorBg = Color.parseColor("#27B7E8");
-                color.colorText = Color.parseColor("#FFFFFF");
-                break;
-            case SceneType.QUIZ:
-                color.colorBg = Color.parseColor("#FDAB26");
-                color.colorText = Color.parseColor("#FFFFFF");
-                break;
-            case SceneType.SHOW:
-                color.colorBg = Color.parseColor("#EC5420");
-                color.colorText = Color.parseColor("#FFFFFF");
-                break;
-            case SceneType.AUDIO:
-                color.colorBg = Color.parseColor("#8324DF");
-                color.colorText = Color.parseColor("#FFFFFF");
-                break;
-            default:
-                color.colorBg = Color.parseColor("#f5f5f5");
-                color.colorText = Color.parseColor("#999999");
-                break;
-        }
-        return color;
-    }
-
     /**
      * 获取场景下可用的游戏
      */
-    public List<GameModel> getSceneGame(SceneModel model) {
+    public List<GameModel> getSceneGame(int sceneId) {
         if (gameListResp == null) {
             return null;
         }
-        return gameListResp.getGameList(model.getSceneId());
+        return gameListResp.getGameList(sceneId);
     }
 
     /**
@@ -132,14 +72,6 @@ public class HomeManager {
             }
         }
         return null;
-    }
-
-    /**
-     * 根据场景id，返回场景信息的model
-     */
-    public static class SceneTagColor {
-        public int colorBg;
-        public int colorText;
     }
 
 }

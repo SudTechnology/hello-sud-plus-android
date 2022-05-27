@@ -8,7 +8,7 @@ import tech.sud.mgp.hello.service.main.config.CommsEaseConfig;
 import tech.sud.mgp.hello.service.main.config.RongCloudConfig;
 import tech.sud.mgp.hello.service.main.config.SudConfig;
 import tech.sud.mgp.hello.service.main.config.TencentCloudConfig;
-import tech.sud.mgp.hello.service.main.config.VoicEngineConfig;
+import tech.sud.mgp.hello.service.main.config.VolcConfig;
 import tech.sud.mgp.hello.service.main.config.ZegoConfig;
 
 /**
@@ -20,7 +20,7 @@ public class BaseConfigResp implements Serializable {
     public AgoraConfig agoraCfg; // 声网配置
     public RongCloudConfig rongCloudCfg; // 融云配置
     public CommsEaseConfig commsEaseCfg; // 网易云信配置
-    public VoicEngineConfig voicEngineCfg; // 火山引擎配置
+    public VolcConfig volcEngineCfg; // 火山引擎配置
     public AlibabaCloudConfig alibabaCloudCfg; // 阿里云配置
     public TencentCloudConfig tencentCloudCfg; // 腾讯云配置
 }

@@ -2,8 +2,6 @@ package tech.sud.mgp.hello.rtc.audio.impl.rcloud;
 
 import android.content.Context;
 
-import androidx.annotation.NonNull;
-
 import com.blankj.utilcode.util.ThreadUtils;
 
 import java.nio.ByteBuffer;
@@ -57,11 +55,6 @@ public class RCloudAudioEngineImpl implements ISudAudioEngine {
     @Override
     public void setEventListener(ISudAudioEventListener eventHandler) {
         mISudAudioEventListener = eventHandler;
-    }
-
-    @Override
-    public void initWithConfig(@NonNull Context context, @NonNull AudioConfigModel model) {
-        initWithConfig(context, model, null);
     }
 
     @Override
@@ -128,13 +121,9 @@ public class RCloudAudioEngineImpl implements ISudAudioEngine {
                     ThreadUtils.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            if (model.isPublishStream) {
-                                startPublishStream();
-                            }
-
-                            ISudAudioEventListener handler = mISudAudioEventListener;
-                            if (handler != null) {
-                                handler.onRoomStateUpdate(model.roomID, AudioRoomState.CONNECTED, 0, null);
+                            ISudAudioEventListener listener = mISudAudioEventListener;
+                            if (listener != null) {
+                                listener.onRoomStateUpdate(AudioRoomState.CONNECTED, 0, null);
                                 updateRoomUserCount();
                             }
 
@@ -296,9 +285,9 @@ public class RCloudAudioEngineImpl implements ISudAudioEngine {
         if (rcrtcRoom == null)
             return;
 
-        ISudAudioEventListener handler = mISudAudioEventListener;
-        if (handler != null) {
-            handler.onRoomOnlineUserCountUpdate(rcrtcRoom.getRoomId(), roomUserList.size() + 1);
+        ISudAudioEventListener listener = mISudAudioEventListener;
+        if (listener != null) {
+            listener.onRoomOnlineUserCountUpdate(roomUserList.size() + 1);
         }
     }
 

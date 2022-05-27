@@ -17,5 +17,7 @@ public class BaseRtcConfig implements Serializable {
 
     public String rtcType;
     public String desc;
+    public String appId;
+    public String appKey;
 
 }

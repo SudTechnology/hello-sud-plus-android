@@ -5,7 +5,9 @@ import java.util.List;
 import tech.sud.mgp.hello.rtc.audio.core.AudioPCMData;
 import tech.sud.mgp.hello.ui.scenes.base.constant.OperateMicType;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
-import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftNotifyDetailodel;
+import tech.sud.mgp.hello.ui.scenes.base.model.OrderInviteModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.order.RoomCmdUserOrderModel;
+import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftNotifyDetailModel;
 
 public interface SceneRoomServiceCallback {
 
@@ -19,7 +21,7 @@ public interface SceneRoomServiceCallback {
      *
      * @param list 麦位列表
      */
-    void setMicList(List<AudioRoomMicModel> list);
+    void onMicList(List<AudioRoomMicModel> list);
 
     /**
      * 更新某个麦位
@@ -40,9 +42,14 @@ public interface SceneRoomServiceCallback {
     void addPublicMsg(Object msg);
 
     /**
+     * 刷新公屏消息
+     */
+    void onChatList(List<Object> list);
+
+    /**
      * 礼物通知
      */
-    void sendGiftsNotify(GiftNotifyDetailodel notify);
+    void sendGiftsNotify(GiftNotifyDetailModel notify);
 
     /**
      * 麦克风开关状态变化
@@ -59,10 +66,9 @@ public interface SceneRoomServiceCallback {
     /**
      * 房间内当前在线用户数量回调
      *
-     * @param roomID 房间ID
-     * @param count  人数
+     * @param count 人数
      */
-    void onRoomOnlineUserCountUpdate(String roomID, int count);
+    void onRoomOnlineUserCountUpdate(int count);
 
     /**
      * 游戏被房主切换了
@@ -90,11 +96,51 @@ public interface SceneRoomServiceCallback {
     void onSelfSendMsg(String msg);
 
     /**
-     * 麦克切换完成
+     * 麦克风切换完成
      *
      * @param micIndex 麦位序号
      * @param operate  true上麦 false下麦
      * @param type     操作类型
      */
     void onMicLocationSwitchCompleted(int micIndex, boolean operate, OperateMicType type);
+
+    /**
+     * 收到了点单邀请
+     */
+    void onOrderInvite(RoomCmdUserOrderModel model);
+
+    /**
+     * 主播处理用户点单邀请
+     */
+    void onOrderInviteAnswered(OrderInviteModel model);
+
+    /**
+     * 用户接收到点单结果
+     *
+     * @param orderId  订单id
+     * @param gameId   游戏id
+     * @param gameName 游戏名字
+     * @param userId   主播id
+     * @param userName 主播名字
+     * @param operate  true同意false拒绝
+     */
+    void onOrderOperate(long orderId, long gameId, String gameName, String userId, String userName, boolean operate);
+
+    /**
+     * 主播接收用户点单邀请
+     */
+    void onReceiveInvite(boolean agreeState);
+
+    /** 更新跨房pk信息显示 */
+    void onRoomPkUpdate();
+
+    /** 跨房切换游戏 */
+    void onRoomPkChangeGame(long gameId);
+
+    /** 跨房移除了对手 */
+    void onRoomPkRemoveRival();
+
+    /** 更新倒计时 */
+    void onRoomPkCoutndown();
+
 }

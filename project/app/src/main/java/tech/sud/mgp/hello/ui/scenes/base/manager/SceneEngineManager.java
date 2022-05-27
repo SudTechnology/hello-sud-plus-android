@@ -1,5 +1,7 @@
 package tech.sud.mgp.hello.ui.scenes.base.manager;
 
+import com.blankj.utilcode.util.LogUtils;
+
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -9,6 +11,7 @@ import java.util.Set;
 
 import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
+import tech.sud.mgp.hello.common.utils.GlobalCache;
 import tech.sud.mgp.hello.rtc.audio.core.AudioEngineUpdateType;
 import tech.sud.mgp.hello.rtc.audio.core.AudioPCMData;
 import tech.sud.mgp.hello.rtc.audio.core.AudioRoomState;
@@ -16,8 +19,12 @@ import tech.sud.mgp.hello.rtc.audio.core.AudioStream;
 import tech.sud.mgp.hello.rtc.audio.core.ISudAudioEngine;
 import tech.sud.mgp.hello.rtc.audio.core.ISudAudioEventListener;
 import tech.sud.mgp.hello.rtc.audio.factory.AudioEngineFactory;
+import tech.sud.mgp.hello.rtc.audio.impl.IMRoomManager;
 import tech.sud.mgp.hello.rtc.audio.model.AudioJoinRoomModel;
-import tech.sud.mgp.hello.ui.main.home.RTCManager;
+import tech.sud.mgp.hello.service.main.resp.BaseConfigResp;
+import tech.sud.mgp.hello.ui.main.home.manager.RTCManager;
+import tech.sud.mgp.hello.ui.scenes.base.activity.RoomConfig;
+import tech.sud.mgp.hello.ui.scenes.base.model.RoleType;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
 import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomServiceCallback;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.RoomCmdModelUtils;
@@ -47,7 +54,7 @@ public class SceneEngineManager extends BaseServiceManager {
         this.parentManager = sceneRoomServiceManager;
     }
 
-    public void enterRoom(RoomInfoModel model) {
+    public void enterRoom(RoomConfig config, RoomInfoModel model) {
         if (!isInitEngine) {
             initEngine(model, new Runnable() {
                 @Override
@@ -55,10 +62,18 @@ public class SceneEngineManager extends BaseServiceManager {
                     joinRoom(model);
                 }
             });
+
+            BaseConfigResp baseConfigResp = (BaseConfigResp) GlobalCache.getInstance().getSerializable(GlobalCache.BASE_CONFIG_KEY);
+            if (baseConfigResp != null && baseConfigResp.zegoCfg != null) {
+                IMRoomManager.sharedInstance().init(baseConfigResp.zegoCfg.appId, eventHandler);
+                IMRoomManager.sharedInstance().joinRoom(model.roomId + "", HSUserInfo.userId + "", HSUserInfo.nickName, model.imToken);
+            }
             return;
         }
 
         joinRoom(model);
+
+        IMRoomManager.sharedInstance().joinRoom(model.roomId + "", HSUserInfo.userId + "", HSUserInfo.nickName, model.imToken);
     }
 
     private void joinRoom(RoomInfoModel model) {
@@ -73,6 +88,8 @@ public class SceneEngineManager extends BaseServiceManager {
         audioJoinRoomModel.roomName = model.roomName;
         audioJoinRoomModel.timestamp = System.currentTimeMillis();
         audioJoinRoomModel.token = model.rtcToken;
+        audioJoinRoomModel.appId = AppData.getInstance().getSelectRtcConfig().appId;
+
         engine.joinRoom(audioJoinRoomModel);
         engine.setEventListener(eventHandler);
         engine.setAudioRouteToSpeaker(true);
@@ -105,13 +122,61 @@ public class SceneEngineManager extends BaseServiceManager {
      * 发送信令
      *
      * @param command 信令内容
+     */
+    public void sendCommand(String command) {
+        sendCommand(command, null);
+    }
+
+    /**
+     * 发送信令
+     *
+     * @param command 信令内容
      * @param result  回调
      */
     public void sendCommand(String command, ISudAudioEngine.SendCommandListener result) {
+        LogUtils.d("sendCommand:"+command);
         ISudAudioEngine engine = getEngine();
         if (engine != null) {
-            engine.sendCommand(command, result);
+            engine.sendCommand(command, new ISudAudioEngine.SendCommandListener() {
+                @Override
+                public void onResult(int value) {
+                    LogUtils.d("sendCommand onResult:"+value+"---:"+command);
+                    if(result!=null){
+                        result.onResult(value);
+                    }
+                }
+            });
         }
+    }
+
+    /**
+     * 发送跨房信令
+     *
+     * @param roomID  房间ID
+     * @param command 信令内容
+     */
+    public void sendXRoomCommand(String roomID, String command) {
+        sendXRoomCommand(roomID, command, null);
+    }
+
+    /**
+     * 发送跨房信令
+     *
+     * @param roomID  房间ID
+     * @param command 信令内容
+     * @param result  回调
+     */
+    public void sendXRoomCommand(String roomID, String command, ISudAudioEngine.SendCommandListener result) {
+        LogUtils.d("sendXRoomCommand:"+command);
+        IMRoomManager.sharedInstance().sendXRoomCommand(roomID, command, new ISudAudioEngine.SendCommandListener() {
+            @Override
+            public void onResult(int value) {
+                LogUtils.d("sendXRoomCommand onResult:"+value+"---:"+command);
+                if(result!=null){
+                    result.onResult(value);
+                }
+            }
+        });
     }
 
     /**
@@ -232,15 +297,20 @@ public class SceneEngineManager extends BaseServiceManager {
         }
 
         @Override
-        public void onRoomOnlineUserCountUpdate(String roomID, int count) {
+        public void onRecvXRoomCommand(String fromRoomID, String fromUserID, String command) {
+            commandManager.onRecvCommand(fromUserID, command);
+        }
+
+        @Override
+        public void onRoomOnlineUserCountUpdate(int count) {
             SceneRoomServiceCallback callback = parentManager.getCallback();
             if (callback != null) {
-                callback.onRoomOnlineUserCountUpdate(roomID, count);
+                callback.onRoomOnlineUserCountUpdate(count);
             }
         }
 
         @Override
-        public void onRoomStateUpdate(String roomID, AudioRoomState state, int errorCode, JSONObject extendedData) {
+        public void onRoomStateUpdate(AudioRoomState state, int errorCode, JSONObject extendedData) {
             if (state == AudioRoomState.CONNECTED) { // 连接成功之后发送进房信令
                 sendCommand(RoomCmdModelUtils.buildEnterRoomCommand(), null);
                 enterRoomCompleted();
@@ -261,6 +331,7 @@ public class SceneEngineManager extends BaseServiceManager {
         super.onDestroy();
         commandManager.onDestroy();
         AudioEngineFactory.destroy();
+        IMRoomManager.sharedInstance().destroy();
     }
 
     public interface OnRoomStreamUpdateListener {

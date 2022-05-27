@@ -147,7 +147,7 @@
     </string-array>
 
     <string-array name="language_list">
-        <item>跟随系统</item>
+        <item>Follow the system</item>
         <item>简体中文</item>
         <item>繁體中文</item>
         <item>English</item>
@@ -187,7 +187,6 @@ Go to homepage to create one~</string>
     <string name="audio_gameing">In Game</string>
     <string name="audio_room_number">room ID</string>
     <string name="audio_close_room_title">Are you sure you want to leave the room?</string>
-    <string name="audio_switch_game_warn">Already n game, can\'t switch games</string>
     <string name="audio_enter_the_room">Entered the room</string>
     <string name="audio_down_mic">Mike off</string>
     <string name="cancel">Cancel</string>
@@ -220,7 +219,7 @@ Go to homepage to create one~</string>
     <string name="rtc_name_agora">Agora</string>
     <string name="rtc_name_rong_cloud">RongCloud</string>
     <string name="rtc_name_comms_ease">CommsEase</string>
-    <string name="rtc_name_voic_engine">VoiceEngine</string>
+    <string name="rtc_name_volc_engine">VoiceEngine</string>
     <string name="rtc_name_alibaba_cloud">Alibaba Cloud</string>
     <string name="rtc_name_tencent_cloud">Tencent Cloud</string>
     <string name="asr_guide">Our game supports speech recognition, turn your mic on and show your charming side~</string>
@@ -240,18 +239,128 @@ Go to homepage to create one~</string>
     <string name="app_version_update_btn1">Later</string>
     <string name="app_version_update_btn2">Update now</string>
     <string name="ticket_level_notice">Congrats to %1$s for winning %2$s gold in the Intermediate Stage!</string>
+    <string name="unable_to_speak">You can\'t speak now</string>
+    <string name="no_empty_seat">No empty seats</string>
+    <string name="more_settings">More settings</string>
+    <string name="create_ticket_room_title">Select the created ticket session level</string>
+    <string name="take_first_place">You got first place</string>
+    <string name="high_gold_coin_award">Up to %1$d gold coin reward</string>
+    <string name="transfer_captain">Transfer leadership</string>
+    <string name="kick_game">Kicked out</string>
+    <string name="net_error_hint">Network error, please check your network connection</string>
+    <string name="switched_language">Language switched</string>
+    <string name="order_dialog_title">Select speaking users</string>
+    <string name="order_dialog_sub_title">Designate the speaking streamer to play with you</string>
+    <string name="order_btn">Initiate</string>
+    <string name="order_selected_total">%1$d people selected</string>
+    <string name="dialog_scene_title">All scenes</string>
+    <string name="hang_room">Suspend the room</string>
+    <string name="exit_room">Exit the room</string>
+    <string name="floating_permission_info">The permission for the floating window has not been turned on yet</string>
+    <string name="go_setting">Go to Settings</string>
+    <string name="order_price_text">200/Round/Person</string>
+    <string name="close_game_warn">You must end the game before quitting the game</string>
+    <string name="switch_game_warn">You must end the game before switching to other games</string>
+    <string name="order_invite_conent">%1$s \n invites you to the game【%2$s】\nDo you want to join?</string>
+    <string name="order_invite_right_btn">Join</string>
+    <string name="order_invite_left_btn">Decline</string>
+    <string name="order_result_conent">%1$s has declined your invitation. Go play with someone else</string>
+    <string name="order_finish_conent">This order has finished. Would you like to continue playing with other streamers?</string>
+    <string name="order_finish_left_text">Return</string>
+    <string name="order_finish_right_text">Make an order</string>
+    <string name="game_api_in_title">Join</string>
+    <string name="game_api_in_state">app_common_self_in，"isIn":true</string>
+    <string name="game_api_ready_title">Ready</string>
+    <string name="game_api_ready_state">app_common_self_ready，"isReady":true</string>
+    <string name="game_api_ready_title_cancle">Cancel Ready</string>
+    <string name="game_api_ready_state_cancle">app_common_self_ready，"isReady":false</string>
+    <string name="game_api_in_title_false">Quit</string>
+    <string name="game_api_in_state_false">app_common_self_in，"isIn":false</string>
+    <string name="game_api_playing_title">Start</string>
+    <string name="game_api_playing_state">app_common_self_playing，"isPlaying":true</string>
+    <string name="game_api_playing_title_false">Escape:</string>
+    <string name="game_api_playing_state_false">app_common_self_playing，"isPlaying":false</string>
+    <string name="game_api_end_title_false">Disband (Leadership):</string>
+    <string name="game_api_end_state_false">app_common_self_end，{}</string>
+    <string name="game_config_title">Game configuration</string>
+    <string name="game_config_tip">After modifying the configuration, please exit the room and reload the game</string>
+    <string name="dialog_game_stage">Game stage</string>
+    <string name="dialog_game_api">API</string>
+    <string name="dialog_game_before">Before joining the game</string>
+    <string name="dialog_game_join_btn">①Join</string>
+    <string name="dialog_game_ready">Preparation stage</string>
+    <string name="dialog_game_ready_btn">②Ready</string>
+    <string name="dialog_game_cancel_ready_btn">Cancel Ready</string>
+    <string name="dialog_game_start_btn">③Start</string>
+    <string name="dialog_game_exit_btn">Exit game</string>
+    <string name="dialog_game_playing">In game</string>
+    <string name="dialog_game_escape">Run away</string>
+    <string name="dialog_game_release">End game</string>
+    <string name="order_start_order">Make an order</string>
+    <string name="order_hang_up_game">Suspend the game</string>
+    <string name="order_enter_game">Enter the game</string>
+    <string name="order_game_playing">In game</string>
+    <string name="user_receive_invite_msg">%1$s agree to join you in【%2$s】</string>
+    <string name="order_dialog_no_select_anchor">Select  streamer</string>
+    <string name="order_dialog_no_select_game">Select game</string>
+    <string name="wait_start">Not-Started</string>
+    <string name="finished">Over</string>
+    <string name="seat_empty" />
+    <string name="renew_pk">Again</string>
+    <string name="open_room_pk">Turn on cross-room gaming</string>
+    <string name="start_pk">Start the competiton</string>
+    <string name="pk_settings">Set up</string>
+    <string name="select_game_hint">Please select a game to battle</string>
+    <string name="loading">Loading&#8230;</string>
+    <string name="load_failed">Loading failed, please click here to try again</string>
+    <string name="no_more">-The coolest bottom line-</string>
+    <string name="load_completed">Loading completed</string>
+    <string name="live_room">Streaming room list</string>
+    <string name="invite_pk">Invite</string>
+    <string name="pk_rule">Competition rules</string>
+    <string name="pk_rule_detail_1">1. Users will be divided into red and blue teams. Users in the same room are teammates.</string>
+    <string name="pk_rule_detail_2">2. During the competition, you can add points to your team by obtaining ranking points from playing games.</string>
+    <string name="pk_rule_detail_3">3. The ranking points for each round of the game are as follows:</string>
+    <string name="pk_rule_detail_4">The first place +100 points</string>
+    <string name="pk_rule_detail_5">The second place +50 points</string>
+    <string name="pk_rule_detail_6">The third place + 20 points</string>
+    <string name="pk_rule_detail_7">4. To be fair, both teams can negotiate to send the same number of users to join the game~</string>
+    <string name="order_inivte_complete">Order created</string>
+    <string name="pk_duration_settings">Competition duration settings</string>
+    <string name="close_room_pk">Turn off cross-room gaming</string>
+    <string name="number_minute">%1$s minutes</string>
+    <string name="confirm_modify">Confirm the changes</string>
+    <string name="empty_room_match">No rooms available now</string>
+    <string name="invite_pk_hint">Please invite your opponent first</string>
+    <string name="invite_pk_answer_title">Room %1$s sends an invitation for cross-room gaming. Do you accept it?</string>
+    <string name="refuse">Refuse</string>
+    <string name="accept">OK</string>
+    <string name="win_info_first">Congratulations to %1$s for winning the first place! %3$s points are added to %2$s!</string>
+    <string name="win_info_second">%1$s has won the second place! %3$s points are added to %2$s!</string>
+    <string name="win_info_thirdly">%1$s has won the third place! %3$s points are added to %2$s!</string>
+    <string name="team_red">Red team</string>
+    <string name="team_blue">Blue team</string>
+    <string name="enter_other_room_confirm">Are you going to your opponent\'s room?</string>
+    <string name="confirm_to">Go</string>
+    <string name="game_running_remove_warn">The game is not over yet. You can\'t remove.</string>
+    <string name="pk_running_remove_warn">The competition is not over yet. You can\'t remove.</string>
+    <string name="remove_rival_confirm">Do you want to remove this opponent?</string>
+    <string name="confirm_remove">Confirm</string>
+    <string name="room_invitation_send">Invitation sent, please wait</string>
+    <string name="room_close_pk_advance_tip">Are you sure to turn off cross-room gaming? \nIf you turn off now, the settlement will begin right away and the game will be terminated</string>
+    <string name="close">Close</string>
+    <string name="room_pk_wait_onwer_select">Waiting for the holder to select the game</string>
+    <string name="room_round_game_over">This round of game is over,\nDo you want to make another order?</string>
+    <string name="matching">Matching</string>
+    <string name="in_game">In play</string>
+
+    <!-- region 不用翻译 -->
+    <string name="custom">Custom</string>
+    <!-- endregion 不用翻译 -->
 
     <!-- region 新增 -->
-    <string name="unable_to_speak">当前不能发言</string>
-    <string name="no_empty_seat">没有空位啦</string>
-    <string name="more_settings">更多设置</string>
-    <string name="create_ticket_room_title">选择创建的门票场次级别</string>
-    <string name="take_first_place">夺得第一名</string>
-    <string name="high_gold_coin_award">最高可获得%1$d金币奖励</string>
-    <string name="transfer_captain">转让队长</string>
-    <string name="kick_game">踢出游戏</string>
-    <string name="net_error_hint">网络错误，请检查网络连接</string>
-    <string name="switched_language">已切换语言</string>
+    <string name="intercept_room_pk">由于对方强制退出比赛，比赛提前结束</string>
+    <string name="send_order_chat_msg">%1$s 给%2$s下了一单，约玩【%3$s】</string>
     <!-- endregion 新增 -->
 
 </resources>

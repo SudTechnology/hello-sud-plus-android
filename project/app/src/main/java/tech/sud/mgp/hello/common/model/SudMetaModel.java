@@ -1,5 +1,7 @@
 package tech.sud.mgp.hello.common.model;
 
+import java.util.UUID;
+
 import tech.sud.mgp.hello.app.HelloSudApplication;
 import tech.sud.mgp.hello.common.utils.SystemUtils;
 
@@ -15,6 +17,7 @@ public class SudMetaModel {
     public static String systemVersion; // 系统版本
     public static long clientTimestamp; // 客户端时间戳
     public static int buildNumber; // 构建编号
+    public static String rtcType; // rtcType
 
     /**
      * 生成发送给后端的字符串数据
@@ -42,6 +45,8 @@ public class SudMetaModel {
             systemVersion = SystemUtils.getSystemVersion();
         }
         clientTimestamp = System.currentTimeMillis();
+        rtcType = AppData.getInstance().getRtcType();
+        String uuid = UUID.randomUUID().toString();
         return locale +
                 "," +
                 clientChannel +
@@ -56,7 +61,11 @@ public class SudMetaModel {
                 "," +
                 systemVersion +
                 "," +
-                clientTimestamp;
+                clientTimestamp +
+                "," +
+                rtcType +
+                "," +
+                uuid;
     }
 
 }

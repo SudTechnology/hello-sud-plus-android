@@ -17,13 +17,8 @@ public class AliyunAudioEngineImpl implements ISudAudioEngine {
     }
 
     @Override
-    public void initWithConfig(Context context, AudioConfigModel model) {
-
-    }
-
-    @Override
     public void initWithConfig(Context context, AudioConfigModel model, Runnable success) {
-        initWithConfig(context, model);
+
     }
 
     @Override

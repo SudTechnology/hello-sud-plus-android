@@ -5,8 +5,14 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- 运行前台服务 -->
+
+    <!-- 悬浮窗所需权限 -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW" />
 
     <!-- 运行时权限 -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
@@ -72,6 +78,7 @@
         <activity
             android:name=".ui.scenes.show.ShowActivity"
             android:exported="false"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
 
@@ -79,6 +86,7 @@
         <activity
             android:name=".ui.scenes.oneone.OneOneActivity"
             android:exported="false"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
 
@@ -86,6 +94,7 @@
         <activity
             android:name=".ui.scenes.talent.TalentRoomActivity"
             android:exported="false"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
 
@@ -93,6 +102,7 @@
         <activity
             android:name=".ui.scenes.ticket.activity.TicketActivity"
             android:exported="false"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
 
@@ -100,6 +110,7 @@
         <activity
             android:name=".ui.scenes.ticket.activity.TicketLevelActivity"
             android:exported="false"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
 
@@ -107,13 +118,15 @@
         <activity
             android:name=".ui.scenes.quiz.QuizActivity"
             android:exported="false"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
 
-        <!-- 夸房场景 -->
+        <!-- 跨房场景 -->
         <activity
-            android:name=".ui.scenes.crossroom.CrossRoomActivity"
+            android:name=".ui.scenes.crossroom.activity.CrossRoomActivity"
             android:exported="false"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
 
@@ -121,6 +134,7 @@
         <activity
             android:name=".ui.scenes.asr.ASRActivity"
             android:exported="false"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
 
@@ -128,6 +142,23 @@
         <activity
             android:name=".ui.scenes.orderentertainment.OrderEntertainmentActivity"
             android:exported="false"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+
+        <!-- Custom场景 -->
+        <activity
+            android:name=".ui.scenes.custom.CustomActivity"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+
+        <!-- Custom配置场景 -->
+        <activity
+            android:name=".ui.scenes.custom.CustomConfigActivity"
+            android:exported="false"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
 
@@ -135,6 +166,7 @@
         <activity
             android:name=".ui.main.settings.activity.MoreSettingsActivity"
             android:exported="false"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
 
@@ -142,6 +174,7 @@
         <activity
             android:name=".ui.main.settings.activity.ChangeRtcActivity"
             android:exported="false"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
 
@@ -149,6 +182,7 @@
         <activity
             android:name=".ui.main.settings.activity.VersionInfoActivity"
             android:exported="false"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
 
@@ -163,8 +197,15 @@
         <activity
             android:name=".ui.main.settings.activity.LanguageActivity"
             android:exported="false"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
+
+        <!-- 透明Activity -->
+        <activity
+            android:name=".ui.common.activity.MyTranslucentActivity"
+            android:theme="@style/MyTranslucentTheme"
+            android:exported="false" />
 
         <!-- 屏幕适配配置 -->
         <meta-data
@@ -222,6 +263,10 @@
             android:name="com.netease.nimlib.ipc.cp.provider.PreferenceContentProvider"
             android:authorities="tech.sud.mgp.hello.ipc.provider.preference"
             android:exported="false" />
+
+        <!-- 房间服务 -->
+        <service android:name=".ui.scenes.base.service.SceneRoomService" />
+
     </application>
 
 </manifest>

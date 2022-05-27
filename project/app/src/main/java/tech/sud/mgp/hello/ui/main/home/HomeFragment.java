@@ -1,5 +1,6 @@
 package tech.sud.mgp.hello.ui.main.home;
 
+import android.content.Context;
 import android.content.Intent;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -11,10 +12,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.blankj.utilcode.util.ToastUtils;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
+
+import net.lucode.hackware.magicindicator.MagicIndicator;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseFragment;
@@ -31,6 +33,13 @@ import tech.sud.mgp.hello.service.main.resp.GameModel;
 import tech.sud.mgp.hello.service.main.resp.SceneModel;
 import tech.sud.mgp.hello.ui.common.constant.RequestKey;
 import tech.sud.mgp.hello.ui.main.constant.SceneType;
+import tech.sud.mgp.hello.ui.main.home.manager.IndicatorHelper;
+import tech.sud.mgp.hello.ui.main.home.model.MatchRoomModel;
+import tech.sud.mgp.hello.ui.main.home.view.CoinDialog;
+import tech.sud.mgp.hello.ui.main.home.view.GameItemView;
+import tech.sud.mgp.hello.ui.main.home.view.HomeRoomTypeView;
+import tech.sud.mgp.hello.ui.main.home.view.NewNestedScrollView;
+import tech.sud.mgp.hello.ui.main.home.view.SceneTypeDialog;
 import tech.sud.mgp.hello.ui.main.widget.CreateTicketRoomDialog;
 import tech.sud.mgp.hello.ui.scenes.base.utils.EnterRoomUtils;
 import tech.sud.mgp.hello.ui.scenes.ticket.activity.TicketLevelActivity;
@@ -46,7 +55,11 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
     private LinearLayout sceneLayout;
     private TextView nameTv, useridTv;
     private ImageView headerIv;
-    private SwipeRefreshLayout refreshLayout;
+    private SmartRefreshLayout refreshLayout;
+    private MagicIndicator magicIndicator;
+    private IndicatorHelper helper;
+    private NewNestedScrollView scrollView;
+    private ImageView menuIv;
 
     public HomeFragment() {
     }
@@ -71,6 +84,11 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
         useridTv = mRootView.findViewById(R.id.userid_tv);
         headerIv = mRootView.findViewById(R.id.header_iv);
         refreshLayout = mRootView.findViewById(R.id.refresh_layout);
+        magicIndicator = mRootView.findViewById(R.id.magic_indicator);
+        scrollView = mRootView.findViewById(R.id.scrollView);
+        menuIv = mRootView.findViewById(R.id.menu_iv);
+        refreshLayout.setEnableRefresh(true);
+        refreshLayout.setEnableLoadMore(false);
     }
 
     @Override
@@ -79,6 +97,7 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
         nameTv.setText(HSUserInfo.nickName);
         useridTv.setText(getString(R.string.setting_userid, HSUserInfo.userId + ""));
         ImageLoader.loadImage(headerIv, HSUserInfo.avatar);
+        loadList();
     }
 
     @Override
@@ -119,9 +138,16 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
             return false;
         });
         goSearch.setOnClickListener(v -> enterRoom());
-        refreshLayout.setOnRefreshListener(this::loadList);
+        refreshLayout.setOnRefreshListener(refreshLayout -> loadList());
         headerIv.setOnClickListener(v -> {
             new CoinDialog().show(getChildFragmentManager(), null);
+        });
+        menuIv.setOnClickListener(v -> {
+            if (helper != null) {
+                SceneTypeDialog dialog = SceneTypeDialog.getInstance(helper.getSelectedIndex());
+                dialog.listener = position -> helper.clickIndicator(position);
+                dialog.show(getChildFragmentManager(), "SceneTypeDialog");
+            }
         });
     }
 
@@ -141,15 +167,22 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
     }
 
     private void creatScene(GameListResp resp) {
-        if (resp != null && resp.getSceneList().size() > 0) {
-            sceneLayout.removeAllViews();
-            for (int i = 0; i < resp.getSceneList().size(); i++) {
-                SceneModel model = resp.getSceneList().get(i);
-                HomeRoomTypeView sceneView = new HomeRoomTypeView(requireContext());
-                sceneView.setGameItemListener(this);
-                sceneView.setCreatRoomClickListener(this);
-                sceneView.setData(model, HomeManager.getInstance().getSceneGame(model));
-                sceneLayout.addView(sceneView);
+        if (resp != null && resp.sceneList.size() > 0) {
+            Context context = getContext();
+            if (context != null) {
+                helper = new IndicatorHelper(magicIndicator, resp.sceneList, scrollView);
+                helper.init(context);
+                helper.bind();
+
+                sceneLayout.removeAllViews();
+                for (int i = 0; i < resp.sceneList.size(); i++) {
+                    SceneModel model = resp.sceneList.get(i);
+                    HomeRoomTypeView sceneView = new HomeRoomTypeView(context);
+                    sceneView.setGameItemListener(this);
+                    sceneView.setCreatRoomClickListener(this);
+                    sceneView.setData(model, HomeManager.getInstance().getSceneGame(model.getSceneId()));
+                    sceneLayout.addView(sceneView);
+                }
             }
         }
     }
@@ -195,7 +228,7 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
             public void onNext(BaseResponse<GameListResp> t) {
                 super.onNext(t);
                 if (t.getRetCode() == RetCode.SUCCESS) {
-                    HomeManager.getInstance().updateGameList(t.getData());
+                    HomeManager.getInstance().gameListResp = t.getData();
                     creatScene(t.getData());
                 }
             }
@@ -204,7 +237,8 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
             public void onFinally() {
                 super.onFinally();
                 if (refreshLayout.isRefreshing()) {
-                    refreshLayout.setRefreshing(false);
+                    refreshLayout.finishRefresh();
+                    refreshLayout.finishLoadMore();
                 }
             }
         });
@@ -213,7 +247,7 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
     @Override
     public void onResume() {
         super.onResume();
-        loadList();
+
     }
 
     @Override

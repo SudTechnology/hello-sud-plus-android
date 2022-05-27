@@ -6,16 +6,23 @@ import android.content.Intent;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
 
+import com.jeremyliao.liveeventbus.LiveEventBus;
+
+import tech.sud.mgp.hello.common.event.EnterRoomEvent;
+import tech.sud.mgp.hello.common.event.LiveEventBusKey;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
-import tech.sud.mgp.hello.service.room.repository.AudioRepository;
-import tech.sud.mgp.hello.service.room.response.EnterRoomResp;
+import tech.sud.mgp.hello.service.room.repository.RoomRepository;
+import tech.sud.mgp.hello.service.room.resp.EnterRoomResp;
 import tech.sud.mgp.hello.ui.main.constant.SceneType;
 import tech.sud.mgp.hello.ui.scenes.asr.ASRActivity;
 import tech.sud.mgp.hello.ui.scenes.audio.activity.AudioRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.base.model.EnterRoomParams;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
+import tech.sud.mgp.hello.ui.scenes.crossroom.activity.CrossRoomActivity;
+import tech.sud.mgp.hello.ui.scenes.custom.CustomActivity;
+import tech.sud.mgp.hello.ui.scenes.orderentertainment.OrderEntertainmentActivity;
 import tech.sud.mgp.hello.ui.scenes.ticket.activity.TicketActivity;
 
 public class EnterRoomUtils {
@@ -44,11 +51,17 @@ public class EnterRoomUtils {
             return;
         }
         isRunning = true;
+
+        long roomId = params.roomId;
+        EnterRoomEvent enterRoomEvent = new EnterRoomEvent();
+        enterRoomEvent.roomId = roomId;
+        LiveEventBus.<EnterRoomEvent>get(LiveEventBusKey.KEY_ENTER_ROOM).post(enterRoomEvent);
+
         LifecycleOwner owner = null;
         if (context instanceof LifecycleOwner) {
             owner = (LifecycleOwner) context;
         }
-        AudioRepository.enterRoom(owner, params.roomId, new RxCallback<EnterRoomResp>() {
+        RoomRepository.enterRoom(owner, roomId, new RxCallback<EnterRoomResp>() {
             @Override
             public void onNext(BaseResponse<EnterRoomResp> t) {
                 super.onNext(t);
@@ -84,7 +97,9 @@ public class EnterRoomUtils {
         model.roleType = enterRoomResp.roleType;
         model.rtcToken = enterRoomResp.rtcToken;
         model.rtiToken = enterRoomResp.rtiToken;
+        model.imToken = enterRoomResp.imToken;
         model.gameLevel = enterRoomResp.gameLevel;
+        model.roomPkModel = enterRoomResp.pkResultVO;
         Intent intent = getSceneIntent(context, enterRoomResp.sceneType);
         intent.putExtra("RoomInfoModel", model);
         context.startActivity(intent);
@@ -98,14 +113,16 @@ public class EnterRoomUtils {
                 return new Intent(context, ASRActivity.class);
             case SceneType.TICKET:
                 return new Intent(context, TicketActivity.class);
+            case SceneType.ORDER_ENTERTAINMENT:
+                return new Intent(context, OrderEntertainmentActivity.class);
+            case SceneType.CUSTOM_SCENE:
+                return new Intent(context, CustomActivity.class);
+            case SceneType.CROSS_ROOM:
+                return new Intent(context, CrossRoomActivity.class);
 //            case SceneType.TALENT:
 //                return new Intent(context, TalentRoomActivity.class);
-//            case SceneType.CROSS_ROOM:
-//                return new Intent(context, CrossRoomActivity.class);
 //            case SceneType.ONE_ONE:
 //                return new Intent(context, OneOneActivity.class);
-//            case SceneType.ORDER_ENTERTAINMENT:
-//                return new Intent(context, OrderEntertainmentActivity.class);
 //            case SceneType.QUIZ:
 //                return new Intent(context, QuizActivity.class);
 //            case SceneType.SHOW:

@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -26,6 +27,7 @@ import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.main.resp.BaseConfigResp;
+import tech.sud.mgp.hello.ui.common.utils.channel.NotifyChannelHelper;
 import tech.sud.mgp.hello.ui.main.home.HomeFragment;
 import tech.sud.mgp.hello.ui.main.roomlist.RoomListFragment;
 import tech.sud.mgp.hello.ui.main.settings.fragment.SettingsFragment;
@@ -38,8 +40,8 @@ public class MainActivity extends BaseActivity implements MainTabView.TabClickLi
     private ViewPager2 viewPager;
     private LinearLayout tabLayout;
     private MainTabView currentTabView;
-    private List<TabModel> tabs = new ArrayList<TabModel>();
-    private List<MainTabView> tabViews = new ArrayList<MainTabView>();
+    private final List<TabModel> tabs = new ArrayList<>();
+    private final List<MainTabView> tabViews = new ArrayList<>();
 
     @Override
     protected int getLayoutId() {
@@ -47,8 +49,23 @@ public class MainActivity extends BaseActivity implements MainTabView.TabClickLi
     }
 
     @Override
+    protected void initWidget() {
+        super.initWidget();
+        viewPager = findViewById(R.id.viewPager);
+        tabLayout = findViewById(R.id.tab_layout);
+        View view = viewPager.getChildAt(0);
+        if (view instanceof RecyclerView) {
+            RecyclerView recyclerView = (RecyclerView) view;
+            recyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
+        }
+        viewPager.setSaveEnabled(false);
+        viewPager.setUserInputEnabled(false);
+    }
+
+    @Override
     protected void initData() {
         super.initData();
+        new NotifyChannelHelper().initChannel(this);
         getBaseConfig();
     }
 
@@ -87,8 +104,6 @@ public class MainActivity extends BaseActivity implements MainTabView.TabClickLi
     @Override
     protected void setListeners() {
         super.setListeners();
-        viewPager = findViewById(R.id.viewPager);
-        tabLayout = findViewById(R.id.tab_layout);
         initTabs();
     }
 

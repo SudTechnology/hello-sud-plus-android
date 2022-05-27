@@ -7,13 +7,30 @@
     android:background="@color/white"
     android:padding="9dp">
 
-    <ImageView
+    <tech.sud.mgp.hello.common.widget.view.round.RoundedImageView
         android:id="@+id/room_cover"
         android:layout_width="64dp"
         android:layout_height="64dp"
+        app:riv_corner_radius="10dp"
+        android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="16dp"
+        android:maxWidth="64dp"
+        android:gravity="center"
+        android:paddingStart="7dp"
+        android:paddingEnd="5dp"
+        android:textSize="10sp"
+        android:textColor="@color/c_ffffff"
+        android:background="@color/black"
+        app:layout_constraintTop_toTopOf="@id/room_cover"
+        app:layout_constraintStart_toStartOf="@id/room_cover" />
 
     <TextView
         android:id="@+id/room_scene"
@@ -32,7 +49,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:singleLine="true"
         android:ellipsize="end"
         android:textColor="#1a1a1a"
         android:textSize="16sp"
@@ -78,6 +94,7 @@
         <TextView
             android:background="@color/c_ffffff"
             android:id="@+id/rtc_name"
+            android:visibility="gone"
             android:minWidth="34dp"
             android:layout_width="wrap_content"
             android:layout_height="22dp"
@@ -89,9 +106,12 @@
 
         <TextView
             android:id="@+id/room_enter"
-            android:layout_width="48dp"
+            android:layout_width="wrap_content"
             android:layout_height="24dp"
             android:gravity="center"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:paddingHorizontal="12dp"
             android:text="@string/room_list_enter"
             android:textColor="@color/white"
             android:textSize="12sp" />

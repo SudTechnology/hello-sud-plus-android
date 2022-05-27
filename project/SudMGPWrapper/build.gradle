@@ -1,0 +1,42 @@
+plugins {
+    id 'com.android.library'
+}
+
+android {
+    compileSdkVersion project.compileSdkVersion
+
+    defaultConfig {
+        minSdkVersion project.minSdkVersion
+        targetSdkVersion project.targetSdkVersion
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+
+    implementation "androidx.appcompat:appcompat:${project.appcompatVersion}"
+    implementation "com.google.android.material:material:${project.materialVersion}"
+
+    // 引入 SudMGPSDK
+    api project(':SudMGPSDK')
+
+    // 工具类库: https://github.com/Blankj/AndroidUtilCode
+    api 'com.blankj:utilcodex:1.31.0'
+
+    // gson
+    api 'com.google.code.gson:gson:2.8.6'
+
+}

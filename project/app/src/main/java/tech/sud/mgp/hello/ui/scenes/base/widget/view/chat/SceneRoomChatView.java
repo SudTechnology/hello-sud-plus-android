@@ -2,6 +2,7 @@ package tech.sud.mgp.hello.ui.scenes.base.widget.view.chat;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -10,11 +11,16 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.blankj.utilcode.util.LogUtils;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
+
 import java.util.List;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.widget.view.TopFadingEdgeRecyclerView;
+import tech.sud.mgp.hello.ui.scenes.orderentertainment.model.ReceiveInviteMsgModel;
 
 public class SceneRoomChatView extends ConstraintLayout {
 
@@ -22,6 +28,7 @@ public class SceneRoomChatView extends ConstraintLayout {
     private LinearLayoutManager mLayoutManager;
     private RoomChatAdapter mAdapter;
     private AudioRoomChatStyle chatStyle = AudioRoomChatStyle.NORMAL;
+    private MsgClickListener listener;
 
     public SceneRoomChatView(@NonNull Context context) {
         this(context, null);
@@ -50,7 +57,15 @@ public class SceneRoomChatView extends ConstraintLayout {
         mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
-
+//        mAdapter.setOnItemClickListener((adapter, view, position) -> {
+//            Object ob = mAdapter.getData().get(position);
+//            if (ob instanceof ReceiveInviteMsgModel) {
+//                if (listener!=null){
+//                    listener.onMsgClick(ob);
+//                }
+//                LogUtils.i("SceneRoomChatView setOnItemClickListener");
+//            }
+//        });
         updateStyle();
     }
 
@@ -76,6 +91,7 @@ public class SceneRoomChatView extends ConstraintLayout {
 
     public void setList(List<Object> list) {
         mAdapter.setList(list);
+        moveToBottom();
     }
 
     public void addMsg(Object obj) {
@@ -94,6 +110,14 @@ public class SceneRoomChatView extends ConstraintLayout {
         }
         chatStyle = style;
         updateStyle();
+    }
+
+    public void setMsgClickListener(MsgClickListener listener) {
+        this.listener = listener;
+    }
+
+    public interface MsgClickListener{
+        void onMsgClick(Object o);
     }
 
     public enum AudioRoomChatStyle {

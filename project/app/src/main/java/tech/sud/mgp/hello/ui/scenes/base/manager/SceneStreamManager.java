@@ -88,6 +88,11 @@ public class SceneStreamManager extends BaseServiceManager {
         parentManager.sceneEngineManager.removeOnRoomStreamUpdateListener(onRoomStreamUpdateListener);
     }
 
+    /** 回调页面数据 */
+    public void callbackPageData() {
+        callbackStreamState();
+    }
+
     public enum StreamState {
         STOP, // 没有推流
         MIC_STREAM // 麦克风推流中

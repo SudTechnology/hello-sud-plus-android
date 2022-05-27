@@ -62,11 +62,6 @@ public class NeteaseAudioEngineImpl implements ISudAudioEngine {
     }
 
     @Override
-    public void initWithConfig(Context context, AudioConfigModel model) {
-        initWithConfig(context, model, null);
-    }
-
-    @Override
     public void initWithConfig(Context context, AudioConfigModel model, Runnable success) {
         if (model == null)
             return;
@@ -279,7 +274,7 @@ public class NeteaseAudioEngineImpl implements ISudAudioEngine {
     private void updateRoomUserCount() {
         ISudAudioEventListener handler = mISudAudioEventListener;
         if (handler != null) {
-            handler.onRoomOnlineUserCountUpdate(mRoomID, roomUserList.size() + 1);
+            handler.onRoomOnlineUserCountUpdate(roomUserList.size() + 1);
         }
     }
 
@@ -292,7 +287,7 @@ public class NeteaseAudioEngineImpl implements ISudAudioEngine {
                     public void run() {
                         ISudAudioEventListener handler = mISudAudioEventListener;
                         if (handler != null) {
-                            handler.onRoomStateUpdate(mRoomID, AudioRoomState.CONNECTED, 0, null);
+                            handler.onRoomStateUpdate(AudioRoomState.CONNECTED, 0, null);
                         }
                     }
                 });

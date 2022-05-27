@@ -54,11 +54,6 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
     }
 
     @Override
-    public void initWithConfig(Context context, AudioConfigModel model) {
-        initWithConfig(context, model, null);
-    }
-
-    @Override
     public void initWithConfig(Context context, AudioConfigModel model, Runnable success) {
         if (model == null)
             return;
@@ -85,6 +80,8 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
         if (engine != null) {
             engine.startSoundLevelMonitor();
             engine.enableAudioCaptureDevice(false);
+            engine.enableAEC(true);
+            engine.enableHeadphoneAEC(true);
         }
 
         if (success != null) {
@@ -123,8 +120,8 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
         if (engine != null) {
             /* 退出房间 */
             engine.logoutRoom();
-            mRoomId = null;
         }
+        mRoomId = null;
     }
 
     /* 开始推流 */
@@ -270,7 +267,7 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
 
             ISudAudioEventListener listener = mISudAudioEventListener;
             if (listener != null) {
-                listener.onRoomStateUpdate(roomID, convertAudioRoomState(state), errorCode, extendedData);
+                listener.onRoomStateUpdate(convertAudioRoomState(state), errorCode, extendedData);
             }
         }
 
@@ -355,7 +352,7 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
             super.onRoomOnlineUserCountUpdate(roomID, count);
             ISudAudioEventListener listener = mISudAudioEventListener;
             if (listener != null) {
-                listener.onRoomOnlineUserCountUpdate(roomID, count);
+                listener.onRoomOnlineUserCountUpdate(count);
             }
         }
     };
@@ -373,5 +370,4 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
             }
         }
     };
-
 }

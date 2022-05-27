@@ -11,23 +11,27 @@ import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.main.resp.GameListResp;
 import tech.sud.mgp.hello.service.main.resp.GameModeModel;
 import tech.sud.mgp.hello.service.main.resp.GameModel;
-import tech.sud.mgp.hello.service.room.repository.AudioRepository;
 
+/**
+ * 房间业务
+ */
 public class SceneRoomViewModel extends BaseViewModel {
 
     private int getGameListErrCount;
 
+    /** 初始化数据 */
     public void initData() {
         getGameList();
     }
 
+    /** 获取游戏列表 */
     private void getGameList() {
         HomeRepository.gameList(null, new RxCallback<GameListResp>() {
             @Override
             public void onNext(BaseResponse<GameListResp> t) {
                 super.onNext(t);
                 if (t.getRetCode() == RetCode.SUCCESS) {
-                    HomeManager.getInstance().updateGameList(t.getData());
+                    HomeManager.getInstance().gameListResp = t.getData();
                 } else {
                     delayGetGameList();
                 }
@@ -52,13 +56,6 @@ public class SceneRoomViewModel extends BaseViewModel {
                 getGameList();
             }
         }, 3000);
-    }
-
-    /**
-     * 退出房间
-     */
-    public void exitRoom(Long roomId) {
-        AudioRepository.exitRoom(null, roomId, new RxCallback<>());
     }
 
     /**

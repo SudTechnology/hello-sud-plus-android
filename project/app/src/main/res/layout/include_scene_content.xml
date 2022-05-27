@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!-- 游戏View容器 -->
+    <!-- 游戏View容器，容器不能设置为android:visibility="gone"，可能会出现未知问题 -->
     <FrameLayout
         android:id="@+id/game_container"
         android:layout_width="match_parent"
@@ -45,6 +45,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/room_mic_view" />
 
+    <!-- 提示信息 -->
+    <tech.sud.mgp.hello.common.widget.view.MarqueeTextView
+        android:id="@+id/tv_asr_hint"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="11sp"
+        android:textColor="@color/white"
+        android:layout_marginEnd="10dp"
+        android:text="@string/asr_guide"
+        android:layout_marginStart="16dp"
+        android:gravity="end"
+        android:visibility="gone"
+        app:layout_constraintStart_toEndOf="@id/tv_game_number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_game_number"
+        app:layout_constraintBottom_toBottomOf="@id/tv_game_number" />
+
     <!-- 公屏 -->
     <tech.sud.mgp.hello.ui.scenes.base.widget.view.chat.SceneRoomChatView
         android:id="@+id/room_chat_view"
@@ -64,11 +81,11 @@
 
     <!-- 展示礼物 -->
     <FrameLayout
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         android:id="@+id/gift_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <!-- 公屏输入框 -->
     <tech.sud.mgp.hello.ui.scenes.base.widget.view.chat.RoomInputMsgView
@@ -76,5 +93,38 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone" />
+
+    <!-- 开启麦克风的提示 -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_open_mic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintWidth_max="343dp"
+        android:layout_marginHorizontal="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/room_bottom_view">
+
+        <TextView
+            android:id="@+id/tv_open_mic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/asr_guide_draw"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:background="@drawable/shape_r8_ffffff"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="5dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <View
+            android:layout_width="19dp"
+            android:layout_height="9dp"
+            android:background="@drawable/ic_aar_tip"
+            android:layout_marginStart="19dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_open_mic" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </merge>

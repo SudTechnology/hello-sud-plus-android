@@ -19,7 +19,7 @@ import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 public class SceneRoomMicWrapView extends ConstraintLayout {
 
     protected ArrayList<AudioRoomMicModel> mDatas = new ArrayList<>();
-    private BaseMicView mBaseMicView;
+    private BaseMicView<?> mBaseMicView;
     private OnMicItemClickListener onMicItemClickListener;
 
     public SceneRoomMicWrapView(@NonNull Context context) {
@@ -34,7 +34,7 @@ public class SceneRoomMicWrapView extends ConstraintLayout {
         super(context, attrs, defStyleAttr);
     }
 
-    private void addBaseMicView(BaseMicView baseMicView) {
+    private void addBaseMicView(BaseMicView<?> baseMicView) {
         if (baseMicView == null) return;
         LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         params.topToTop = LayoutParams.PARENT_ID;
@@ -57,7 +57,7 @@ public class SceneRoomMicWrapView extends ConstraintLayout {
      *
      * @param baseMicView 麦位View
      */
-    public void setMicView(BaseMicView baseMicView) {
+    public void setMicView(BaseMicView<?> baseMicView) {
         if (mBaseMicView == baseMicView) {
             return;
         }
@@ -65,31 +65,35 @@ public class SceneRoomMicWrapView extends ConstraintLayout {
         addBaseMicView(baseMicView);
     }
 
+    /** 设置数据集 */
     public void setList(List<AudioRoomMicModel> list) {
         mDatas.clear();
         if (list != null) {
             mDatas.addAll(list);
         }
-        BaseMicView baseMicView = mBaseMicView;
+        BaseMicView<?> baseMicView = mBaseMicView;
         if (baseMicView != null) {
             baseMicView.setList(list);
         }
     }
 
+    /** 启动声浪显示 */
     public void startSoundLevel(int position) {
-        BaseMicView baseMicView = mBaseMicView;
+        BaseMicView<?> baseMicView = mBaseMicView;
         if (baseMicView != null) {
             baseMicView.startSoundLevel(position);
         }
     }
 
+    /** 停止声浪显示 */
     public void stopSoundLevel(int position) {
-        BaseMicView baseMicView = mBaseMicView;
+        BaseMicView<?> baseMicView = mBaseMicView;
         if (baseMicView != null) {
             baseMicView.stopSoundLevel(position);
         }
     }
 
+    /** 获取某一条数据 */
     public AudioRoomMicModel getItem(int position) {
         if (position >= 0 && position < mDatas.size()) {
             return mDatas.get(position);
@@ -97,21 +101,39 @@ public class SceneRoomMicWrapView extends ConstraintLayout {
         return null;
     }
 
+    /** 设置item点击监听 */
     public void setOnMicItemClickListener(OnMicItemClickListener listener) {
         onMicItemClickListener = listener;
-        BaseMicView baseMicView = mBaseMicView;
+        BaseMicView<?> baseMicView = mBaseMicView;
         if (baseMicView != null) {
             baseMicView.setOnMicItemClickListener(listener);
         }
     }
 
+    /** 更新某一条数据 */
     public void notifyItemChange(int micIndex, AudioRoomMicModel model) {
         if (micIndex >= 0 && micIndex < mDatas.size()) {
             mDatas.set(micIndex, model);
         }
-        BaseMicView baseMicView = mBaseMicView;
+        BaseMicView<?> baseMicView = mBaseMicView;
         if (baseMicView != null) {
             baseMicView.notifyItemChange(micIndex, model);
+        }
+    }
+
+    /** 收缩麦位 */
+    public void shirnkMicView() {
+        BaseMicView<?> baseMicView = mBaseMicView;
+        if (baseMicView != null) {
+            baseMicView.shirnkMicView();
+        }
+    }
+
+    /** 展开麦位 */
+    public void spreadMicView() {
+        BaseMicView<?> baseMicView = mBaseMicView;
+        if (baseMicView != null) {
+            baseMicView.spreadMicView();
         }
     }
 

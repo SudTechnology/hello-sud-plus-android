@@ -12,9 +12,7 @@ public class AudioJoinRoomModel {
 
     public String token;
 
-    public String nonce;
-
     public long timestamp;
 
-    public boolean isPublishStream;
+    public String appId;
 }

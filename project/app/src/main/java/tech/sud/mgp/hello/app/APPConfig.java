@@ -18,10 +18,14 @@ public class APPConfig {
      */
     public static final boolean GAME_IS_TEST_ENV = BuildConfig.gameIsTestEnv;
 
-    /**
-     * Bugly的AppId
-     */
+    /** Bugly的AppId */
     public static final String BUGLY_APP_ID = BuildConfig.buglyAppId;
+
+    /** 分页刷新数据每页大小 */
+    public static int GLOBAL_PAGE_SIZE = 30;
+
+    /** 跨房pk默认时长 */
+    public static int ROOM_PK_MINUTE = 5;
 
     // region 占用大小
     public static final long SudMGPCoreSize = 590848;
@@ -31,7 +35,9 @@ public class APPConfig {
     public static final long AgoraRTCSDKSize = 24431820;
     public static final long RCloudRTCSDKSize = 12436111;
     public static final long NeteaseRTCSDKSize = 10800332;
-    public static final long RTCSDKSize = 68975327;
+    public static final long ZegoZIMSDKSize = 24117248;
+    public static final long TxTRTCSDKSize = 8388608;
+    public static final long RTCSDKSize = 101481183;
     // endregion 占用大小
 
     // region url地址

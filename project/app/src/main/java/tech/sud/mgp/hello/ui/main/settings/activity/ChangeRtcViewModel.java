@@ -52,31 +52,44 @@ public class ChangeRtcViewModel extends BaseViewModel {
                 list.add(new BaseRtcConfig(null, rtcNameAgora));
             }
 
-//            // 添加融云
-//            String rtcNameRong = context.getString(R.string.rtc_name_rong_cloud);
-//            if (baseConfigResp != null && baseConfigResp.rongCloudCfg != null) {
-//                baseConfigResp.rongCloudCfg.desc = rtcNameRong;
-//                list.add(baseConfigResp.rongCloudCfg);
-//            } else {
-//                list.add(new BaseRtcConfig(null, rtcNameRong));
-//            }
-//
-//            // 添加网易云信
-//            String rtcNameComms = context.getString(R.string.rtc_name_comms_ease);
-//            if (baseConfigResp != null && baseConfigResp.commsEaseCfg != null) {
-//                baseConfigResp.commsEaseCfg.desc = rtcNameComms;
-//                list.add(baseConfigResp.commsEaseCfg);
-//            } else {
-//                list.add(new BaseRtcConfig(null, rtcNameComms));
-//            }
+            // 添加融云
+            String rtcNameRong = context.getString(R.string.rtc_name_rong_cloud);
+            if (baseConfigResp != null && baseConfigResp.rongCloudCfg != null) {
+                baseConfigResp.rongCloudCfg.desc = rtcNameRong;
+                list.add(baseConfigResp.rongCloudCfg);
+            } else {
+                list.add(new BaseRtcConfig(null, rtcNameRong));
+            }
 
-            list.add(new BaseRtcConfig(null, context.getString(R.string.rtc_name_rong_cloud)));
-            list.add(new BaseRtcConfig(null, context.getString(R.string.rtc_name_comms_ease)));
+            // 添加网易云信
+            String rtcNameComms = context.getString(R.string.rtc_name_comms_ease);
+            if (baseConfigResp != null && baseConfigResp.commsEaseCfg != null) {
+                baseConfigResp.commsEaseCfg.desc = rtcNameComms;
+                list.add(baseConfigResp.commsEaseCfg);
+            } else {
+                list.add(new BaseRtcConfig(null, rtcNameComms));
+            }
+
+            // 添加火山引擎
+            String rtcNameVolc = context.getString(R.string.rtc_name_volc_engine);
+            if (baseConfigResp != null && baseConfigResp.volcEngineCfg != null) {
+                baseConfigResp.volcEngineCfg.desc = rtcNameVolc;
+                list.add(baseConfigResp.volcEngineCfg);
+            } else {
+                list.add(new BaseRtcConfig(null, rtcNameVolc));
+            }
+
+            // 添加腾讯云
+            String rtcNameTX = context.getString(R.string.rtc_name_tencent_cloud);
+            if (baseConfigResp != null && baseConfigResp.tencentCloudCfg != null) {
+                baseConfigResp.tencentCloudCfg.desc = rtcNameTX;
+                list.add(baseConfigResp.tencentCloudCfg);
+            } else {
+                list.add(new BaseRtcConfig(null, rtcNameTX));
+            }
 
             // 添加其它暂未支持的rtc
-            list.add(new BaseRtcConfig(null, context.getString(R.string.rtc_name_voic_engine)));
             list.add(new BaseRtcConfig(null, context.getString(R.string.rtc_name_alibaba_cloud)));
-            list.add(new BaseRtcConfig(null, context.getString(R.string.rtc_name_tencent_cloud)));
 
             rtcDatasLiveData.postValue(list);
         });

@@ -8,8 +8,8 @@ import tech.sud.mgp.hello.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.service.main.resp.TicketConfirmJoinResp;
 import tech.sud.mgp.hello.ui.scenes.audio.activity.AbsAudioRoomActivity;
+import tech.sud.mgp.hello.ui.scenes.base.model.ReportGameInfoModel;
 import tech.sud.mgp.hello.ui.scenes.base.utils.HSJsonUtils;
-import tech.sud.mgp.hello.ui.scenes.ticket.model.TicketSeriaNetModel;
 import tech.sud.mgp.hello.ui.scenes.ticket.viewmodel.TicketGameViewModel;
 import tech.sud.mgp.hello.ui.scenes.ticket.viewmodel.TicketViewModel;
 import tech.sud.mgp.hello.ui.scenes.ticket.widget.JoinTicketConfirmDialog;
@@ -19,7 +19,7 @@ import tech.sud.mgp.hello.ui.scenes.ticket.widget.JoinTicketConfirmDialog;
  */
 public class TicketActivity extends AbsAudioRoomActivity<TicketGameViewModel> {
 
-    private TicketViewModel viewModel = new TicketViewModel();
+    private final TicketViewModel viewModel = new TicketViewModel();
     private TicketConfirmJoinResp ticketConfirmJoinResp;
 
     @Override
@@ -63,11 +63,12 @@ public class TicketActivity extends AbsAudioRoomActivity<TicketGameViewModel> {
 
     // 点击了开始游戏
     private void clickStartGame() {
-        TicketSeriaNetModel ticketSeriaNetModel = new TicketSeriaNetModel();
+        ReportGameInfoModel reportGameInfoModel = new ReportGameInfoModel();
         if (ticketConfirmJoinResp != null) {
-            ticketSeriaNetModel.gameSessionId = ticketConfirmJoinResp.gameSessionId;
+            reportGameInfoModel.gameSessionId = ticketConfirmJoinResp.gameSessionId;
         }
-        gameViewModel.notifyAPPCommonSelfPlaying(true, HSJsonUtils.toJson(ticketSeriaNetModel));
+        reportGameInfoModel.sceneId = roomInfoModel.sceneType;
+        gameViewModel.notifyAPPCommonSelfPlaying(true, HSJsonUtils.toJson(reportGameInfoModel));
     }
 
     // 点击了准备游戏

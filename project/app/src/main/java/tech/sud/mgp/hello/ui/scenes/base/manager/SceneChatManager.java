@@ -1,5 +1,8 @@
 package tech.sud.mgp.hello.ui.scenes.base.manager;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoomTextModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
@@ -13,6 +16,7 @@ import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdChatTextModel;
 public class SceneChatManager extends BaseServiceManager {
 
     private SceneRoomServiceManager parentManager;
+    private List<Object> datas = new ArrayList<>();
 
     public SceneChatManager(SceneRoomServiceManager sceneRoomServiceManager) {
         super();
@@ -41,11 +45,14 @@ public class SceneChatManager extends BaseServiceManager {
         parentManager.sceneEngineManager.sendCommand(command, null);
     }
 
+    /** 添加一条公屏消息 */
     public void addMsg(Object msg) {
+        if (msg == null) return;
         SceneRoomServiceCallback callback = parentManager.getCallback();
         if (callback != null) {
             callback.addPublicMsg(msg);
         }
+        datas.add(msg);
     }
 
     /**
@@ -76,5 +83,13 @@ public class SceneChatManager extends BaseServiceManager {
             addMsg(model);
         }
     };
+
+    /** 回调页面数据 */
+    public void callbackPageData() {
+        SceneRoomServiceCallback callback = parentManager.getCallback();
+        if (callback != null) {
+            callback.onChatList(new ArrayList<>(datas));
+        }
+    }
 
 }

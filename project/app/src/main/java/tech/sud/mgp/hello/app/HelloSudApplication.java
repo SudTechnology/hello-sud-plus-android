@@ -43,6 +43,7 @@ public class HelloSudApplication extends Application {
         }
     }
 
+    // 网易云信RTC初始化
     private void initMinClient() {
         SDKOptions options = new SDKOptions();
         options.reducedIM = true;

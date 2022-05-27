@@ -13,6 +13,7 @@ import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.ObservableSource;
 import io.reactivex.rxjava3.core.ObservableTransformer;
 import io.reactivex.rxjava3.schedulers.Schedulers;
+import tech.sud.mgp.hello.common.utils.lifecycle.CustomLifecycleProvider;
 
 /**
  * RxJava调度器工具(线程切换)
@@ -35,6 +36,9 @@ public class RxUtils {
         }
         if (owner instanceof RxFragment) {
             return observable.compose(((RxFragment) owner).bindUntilEvent(FragmentEvent.DESTROY));
+        }
+        if (owner instanceof CustomLifecycleProvider) {
+            return observable.compose(((CustomLifecycleProvider) owner).bindToLifecycle());
         }
         return observable;
     }

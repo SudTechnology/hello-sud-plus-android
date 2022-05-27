@@ -12,11 +12,11 @@ import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.service.main.repository.UserInfoRepository;
 import tech.sud.mgp.hello.service.main.resp.UserInfoResp;
-import tech.sud.mgp.hello.service.room.repository.AudioRepository;
-import tech.sud.mgp.hello.service.room.response.RoomMicListResp;
-import tech.sud.mgp.hello.service.room.response.RoomMicResp;
-import tech.sud.mgp.hello.service.room.response.RoomMicSwitchResp;
-import tech.sud.mgp.hello.ui.scenes.base.activity.SceneConfig;
+import tech.sud.mgp.hello.service.room.repository.RoomRepository;
+import tech.sud.mgp.hello.service.room.resp.RoomMicListResp;
+import tech.sud.mgp.hello.service.room.resp.RoomMicResp;
+import tech.sud.mgp.hello.service.room.resp.RoomMicSwitchResp;
+import tech.sud.mgp.hello.ui.scenes.base.activity.RoomConfig;
 import tech.sud.mgp.hello.ui.scenes.base.constant.OperateMicType;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModelConverter;
@@ -49,10 +49,9 @@ public class SceneMicManager extends BaseServiceManager {
         parentManager.sceneEngineManager.setCommandListener(downMicCommandListener);
     }
 
-    /**
-     * 初始化
-     */
-    public void init(SceneConfig config) {
+    /** 初始化 */
+    private void init(RoomConfig config) {
+        micList.clear();
         for (int i = 0; i < config.micCount; i++) {
             AudioRoomMicModel model = new AudioRoomMicModel();
             model.micIndex = i;
@@ -60,17 +59,17 @@ public class SceneMicManager extends BaseServiceManager {
         }
     }
 
-    public void enterRoom(RoomInfoModel model) {
+    /** 进入房间 */
+    public void enterRoom(RoomConfig config, RoomInfoModel model) {
+        init(config);
         enterRoomCompleted = false;
         notifyDataSetChange();
         refreshMicList();
     }
 
-    /**
-     * 从后端拉取麦位列表并且更新
-     */
+    /** 从后端拉取麦位列表并且更新 */
     private void refreshMicList() {
-        AudioRepository.getRoomMicList(null, parentManager.getRoomId(), new RxCallback<RoomMicListResp>() {
+        RoomRepository.getRoomMicList(parentManager, parentManager.getRoomId(), new RxCallback<RoomMicListResp>() {
             @Override
             public void onNext(BaseResponse<RoomMicListResp> t) {
                 super.onNext(t);
@@ -104,7 +103,7 @@ public class SceneMicManager extends BaseServiceManager {
                     userIds.add(roomMicResp.userId);
                     list.add(AudioRoomMicModelConverter.conver(roomMicResp));
                 }
-                UserInfoRepository.getUserInfoList(null, userIds, new UserInfoRepository.UserInfoResultListener() {
+                UserInfoRepository.getUserInfoList(parentManager, userIds, new UserInfoRepository.UserInfoResultListener() {
                     @Override
                     public void userInfoList(List<UserInfoResp> userInfos) {
                         if (userInfos != null) {
@@ -136,9 +135,7 @@ public class SceneMicManager extends BaseServiceManager {
         notifyDataSetChange();
     }
 
-    /**
-     * 更新某个麦位模型
-     */
+    /** 更新某个麦位模型 */
     private void updateMicModel(AudioRoomMicModel model) {
         int micIndex = model.micIndex;
         if (micIndex >= 0 && micIndex < micList.size()) {
@@ -182,7 +179,7 @@ public class SceneMicManager extends BaseServiceManager {
         }
 
         // 发送http告知后端
-        AudioRepository.roomMicLocationSwitch(null, parentManager.getRoomId(), micIndex, true, new RxCallback<RoomMicSwitchResp>() {
+        RoomRepository.roomMicLocationSwitch(parentManager, parentManager.getRoomId(), micIndex, true, new RxCallback<RoomMicSwitchResp>() {
             @Override
             public void onSuccess(RoomMicSwitchResp roomMicSwitchResp) {
                 super.onSuccess(roomMicSwitchResp);
@@ -221,7 +218,7 @@ public class SceneMicManager extends BaseServiceManager {
      */
     public void downMicLocation(int micIndex, OperateMicType type) {
         // 发送http告知后端
-        AudioRepository.roomMicLocationSwitch(null, parentManager.getRoomId(), micIndex, false, new RxCallback<>());
+        RoomRepository.roomMicLocationSwitch(parentManager, parentManager.getRoomId(), micIndex, false, new RxCallback<>());
 
         // 发送信令
         String command = RoomCmdModelUtils.buildDownMicCommand(micIndex);
@@ -261,7 +258,7 @@ public class SceneMicManager extends BaseServiceManager {
             } else {
                 List<Long> userIds = new ArrayList<>();
                 userIds.add(userId);
-                UserInfoRepository.getUserInfoList(null, userIds, new UserInfoRepository.UserInfoResultListener() {
+                UserInfoRepository.getUserInfoList(parentManager, userIds, new UserInfoRepository.UserInfoResultListener() {
                     @Override
                     public void userInfoList(List<UserInfoResp> userInfos) {
                         if (userInfos != null) {
@@ -315,7 +312,7 @@ public class SceneMicManager extends BaseServiceManager {
             for (AudioRoomMicModel audioRoomMicModel : micList) {
                 wrapMicModel(callback, audioRoomMicModel);
             }
-            callback.setMicList(micList);
+            callback.onMicList(micList);
             callbackSelfMicIndex();
         }
     }
@@ -406,7 +403,7 @@ public class SceneMicManager extends BaseServiceManager {
         return -1;
     }
 
-    // 上麦信令监听
+    /** 上麦信令监听 */
     private final SceneCommandManager.UpMicCommandListener upMicCommandListener = new SceneCommandManager.UpMicCommandListener() {
         @Override
         public void onRecvCommand(RoomCmdUpMicModel command, String userID) {
@@ -437,7 +434,7 @@ public class SceneMicManager extends BaseServiceManager {
         }
     };
 
-    // 下麦信令监听
+    /** 下麦信令监听 */
     private final SceneCommandManager.DownMicCommandListener downMicCommandListener = new SceneCommandManager.DownMicCommandListener() {
         @Override
         public void onRecvCommand(RoomCmdDownMicModel command, String userID) {
@@ -454,7 +451,7 @@ public class SceneMicManager extends BaseServiceManager {
         }
     };
 
-    // 退出房间
+    /** 退出房间 */
     public void exitRoom() {
         // 如果自己在麦上 则下麦
         int selfMicIndex = findSelfMicIndex();
@@ -476,6 +473,11 @@ public class SceneMicManager extends BaseServiceManager {
         if (listener != null) {
             listener.onEnterRoomCompleted();
         }
+    }
+
+    /** 回调页面数据 */
+    public void callbackPageData() {
+        notifyDataSetChange();
     }
 
 }

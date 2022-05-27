@@ -36,6 +36,7 @@ public class GameModeDialog extends BaseDialogFragment {
     private final GameModeAdapter gameModeAdapter = new GameModeAdapter();
     private long playingGameId; // 当前正在玩的游戏id
     private SelectGameListener selectGameListener;
+    private boolean isFinishGame; // 第一个按钮状态,true为结束游戏 false为关闭游戏
 
     public static GameModeDialog getInstance(int sceneType) {
         GameModeDialog dialog = new GameModeDialog();
@@ -87,7 +88,7 @@ public class GameModeDialog extends BaseDialogFragment {
 
     @Override
     protected int getHeight() {
-        return (int) (DensityUtils.getScreenHeight() * 0.7);
+        return (int) (DensityUtils.getAppScreenHeight() * 0.7);
     }
 
     @Override
@@ -133,8 +134,14 @@ public class GameModeDialog extends BaseDialogFragment {
     private void selectGameMode(long gameId) {
         dismiss();
         if (selectGameListener != null) {
-            selectGameListener.onSelectGame(gameId);
+            selectGameListener.onSelectGame(gameId, isFinishGame);
         }
+    }
+
+    /** 设置是否要显示结束游戏 */
+    public void setFinishGame(boolean finishGame) {
+        isFinishGame = finishGame;
+        gameModeAdapter.notifyDataSetChanged();
     }
 
     private class GameModeAdapter extends BaseQuickAdapter<GameModel, BaseViewHolder> {
@@ -149,9 +156,14 @@ public class GameModeDialog extends BaseDialogFragment {
 
             long gameId = gameModel.getGameId();
             if (gameId == 0) {// 设置为关闭游戏的选项
-                ImageLoader.loadDrawable(ivIcon, R.drawable.ic_close_game);
                 baseViewHolder.setVisible(R.id.item_game_mode_tv_gameing, false);
-                baseViewHolder.setText(R.id.item_game_mode_tv_name, R.string.close_game);
+                if (isFinishGame) {
+                    ImageLoader.loadDrawable(ivIcon, R.drawable.ic_finish_game);
+                    baseViewHolder.setText(R.id.item_game_mode_tv_name, R.string.finish_game);
+                } else {
+                    ImageLoader.loadDrawable(ivIcon, R.drawable.ic_close_game);
+                    baseViewHolder.setText(R.id.item_game_mode_tv_name, R.string.close_game);
+                }
                 return;
             }
 
@@ -171,9 +183,10 @@ public class GameModeDialog extends BaseDialogFragment {
         /**
          * 选择了游戏模式
          *
-         * @param gameId 如果为0，则没有选择游戏
+         * @param gameId       如果为0，则没有选择游戏，根据isFinishGame来判断是结束游戏还是关闭游戏
+         * @param isFinishGame 当gameId为0时，是否是结束游戏
          */
-        void onSelectGame(long gameId);
+        void onSelectGame(long gameId, boolean isFinishGame);
     }
 
 }

@@ -1,8 +1,15 @@
 package tech.sud.mgp.hello.ui.scenes.base.activity;
 
 import android.Manifest;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.Build;
+import android.os.IBinder;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -18,48 +25,56 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import tech.sud.mgp.core.SudMGP;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.hello.common.base.BaseActivity;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
+import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
-import tech.sud.mgp.hello.common.permission.PermissionFragment;
-import tech.sud.mgp.hello.common.permission.SudPermissionUtils;
+import tech.sud.mgp.hello.common.utils.AnimUtils;
+import tech.sud.mgp.hello.common.utils.permission.PermissionFragment;
+import tech.sud.mgp.hello.common.utils.permission.SudPermissionUtils;
 import tech.sud.mgp.hello.common.widget.dialog.BottomOptionDialog;
 import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
 import tech.sud.mgp.hello.rtc.audio.core.AudioPCMData;
+import tech.sud.mgp.hello.service.game.repository.GameRepository;
+import tech.sud.mgp.hello.ui.common.constant.RequestKey;
+import tech.sud.mgp.hello.ui.main.constant.GameIdCons;
 import tech.sud.mgp.hello.ui.scenes.base.constant.OperateMicType;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.GameTextModel;
+import tech.sud.mgp.hello.ui.scenes.base.model.OrderInviteModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoleType;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomService;
 import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomServiceCallback;
-import tech.sud.mgp.hello.ui.scenes.base.viewmodel.GameViewModel;
+import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.SceneRoomViewModel;
 import tech.sud.mgp.hello.ui.scenes.base.widget.dialog.GameModeDialog;
+import tech.sud.mgp.hello.ui.scenes.base.widget.dialog.RoomMoreDialog;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.SceneRoomBottomView;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.SceneRoomTopView;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.chat.RoomInputMsgView;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.chat.SceneRoomChatView;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.mic.OnMicItemClickListener;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.mic.SceneRoomMicWrapView;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.order.RoomCmdUserOrderModel;
 import tech.sud.mgp.hello.ui.scenes.common.gift.listener.GiftSendClickListener;
 import tech.sud.mgp.hello.ui.scenes.common.gift.manager.GiftHelper;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftModel;
-import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftNotifyDetailodel;
+import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftNotifyDetailModel;
 import tech.sud.mgp.hello.ui.scenes.common.gift.view.GiftEffectView;
 import tech.sud.mgp.hello.ui.scenes.common.gift.view.RoomGiftDialog;
 
 /**
  * 场景房间的基类
  */
-public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActivity implements SceneRoomServiceCallback {
+public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseActivity implements SceneRoomServiceCallback {
 
     protected RoomInfoModel roomInfoModel; // 房间信息
     protected long playingGameId; // 当前正在玩的游戏id
-    protected boolean needEnterRoom = true; // 标识是否需要进入房间
 
     protected SceneRoomTopView topView;
     protected SceneRoomMicWrapView micView;
@@ -70,10 +85,12 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
     protected RoomInputMsgView inputMsgView;
     protected FrameLayout gameContainer;
     protected TextView tvGameNumber;
+    protected View clOpenMic;
+    private TextView tvOpenMic;
+    private TextView tvASRHint;
 
     private boolean closeing; // 标识是否正在关闭房间
-    protected final SceneRoomService sceneRoomService = new SceneRoomService();
-    protected final SceneRoomService.MyBinder binder = sceneRoomService.getBinder();
+    protected SceneRoomService.MyBinder binder;
     protected final SceneRoomViewModel viewModel = new SceneRoomViewModel();
     protected final T gameViewModel = initGameViewModel();
 
@@ -81,22 +98,26 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
     protected abstract T initGameViewModel();
 
     private RoomGiftDialog roomGiftDialog;
+    private GameModeDialog gameModeDialog;
 
-    /**
-     * 场景配置，子类可对其进行修改进行定制化需求
-     */
-    protected final SceneConfig sceneConfig = new SceneConfig();
+    /** 场景配置，子类可对其进行修改进行定制化需求 */
+    protected final RoomConfig roomConfig = new RoomConfig();
 
     @Override
     protected boolean beforeSetContentView() {
-        Serializable roomInfoModel = getIntent().getSerializableExtra("RoomInfoModel");
-        if (roomInfoModel instanceof RoomInfoModel) {
-            this.roomInfoModel = (RoomInfoModel) roomInfoModel;
+        Serializable modelSerializable = getIntent().getSerializableExtra("RoomInfoModel");
+        if (modelSerializable instanceof RoomInfoModel) {
+            roomInfoModel = (RoomInfoModel) modelSerializable;
+        } else {
+            boolean isPendingIntent = getIntent().getBooleanExtra(RequestKey.KEY_IS_PENDING_INTENT, false);
+            if (isPendingIntent) {
+                roomInfoModel = SceneRoomService.getRoomInfoModel();
+            }
         }
-        if (this.roomInfoModel == null || this.roomInfoModel.roomId == 0) {
+        if (roomInfoModel == null || roomInfoModel.roomId == 0) {
             return true;
         }
-        playingGameId = this.roomInfoModel.gameId;
+        playingGameId = roomInfoModel.gameId;
         return super.beforeSetContentView();
     }
 
@@ -107,7 +128,7 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
 
     @Override
     protected void setStatusBar() {
-        ImmersionBar.with(this).statusBarColor(R.color.transparent).init();
+        updateStatusBar();
     }
 
     @Override
@@ -121,6 +142,13 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
         inputMsgView = findViewById(R.id.room_input_msg_view);
         gameContainer = findViewById(R.id.game_container);
         tvGameNumber = findViewById(R.id.tv_game_number);
+        clOpenMic = findViewById(R.id.cl_open_mic);
+        tvOpenMic = findViewById(R.id.tv_open_mic);
+        tvASRHint = findViewById(R.id.tv_asr_hint);
+        clOpenMic.setVisibility(View.GONE);
+
+        SudMGP.getCfg().setShowLoadingGameBg(true); // 默认需要显示加载游戏时的背景图
+        gameViewModel.gameConfigModel.ui.lobby_players.hide = true; // 配置不展示大厅玩家展示位
 
         // 设置沉浸式状态栏时，顶部view的间距
         ViewGroup.LayoutParams topViewParams = topView.getLayoutParams();
@@ -141,14 +169,15 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
         topView.setId(getString(R.string.audio_room_number) + " " + roomInfoModel.roomNumber);
         viewModel.initData();
         initGame();
+        bindService();
     }
 
     private void enterRoom() {
-        sceneRoomService.onCreate();
-        binder.setCallback(this);
-        binder.init(sceneConfig);
+        if (binder != null) {
+            binder.setCallback(this);
+            binder.enterRoom(roomConfig, getClass(), roomInfoModel);
+        }
         updatePageStyle();
-        binder.enterRoom(roomInfoModel);
     }
 
     @Override
@@ -174,7 +203,9 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
                 AudioRoomMicModel model = micView.getItem(position);
                 if (model != null) {
                     if (model.userId == 0) {
-                        binder.micLocationSwitch(position, true, OperateMicType.USER);
+                        if (binder != null) {
+                            binder.micLocationSwitch(position, true, OperateMicType.USER);
+                        }
                     } else if (model.userId == HSUserInfo.userId) {
                         clickSelfMicLocation(position);
                     } else if (model.userId > 0) {
@@ -189,7 +220,9 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
         bottomView.setGotMicClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                binder.autoUpMic(OperateMicType.USER);
+                if (binder != null) {
+                    binder.autoUpMic(OperateMicType.USER);
+                }
             }
         });
         bottomView.setInputClickListener(new View.OnClickListener() {
@@ -212,7 +245,9 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
         inputMsgView.setSendMsgListener(new RoomInputMsgView.SendMsgListener() {
             @Override
             public void onSendMsg(CharSequence msg) {
-                binder.sendPublicMsg(msg);
+                if (binder != null) {
+                    binder.sendPublicMsg(msg);
+                }
                 inputMsgView.hide();
                 inputMsgView.clearInput();
             }
@@ -220,21 +255,13 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
         topView.setSelectGameClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GameModeDialog dialog = GameModeDialog.getInstance(roomInfoModel.sceneType);
-                dialog.setPlayingGameId(playingGameId);
-                dialog.show(getSupportFragmentManager(), null);
-                dialog.setSelectGameListener(new GameModeDialog.SelectGameListener() {
-                    @Override
-                    public void onSelectGame(long gameId) {
-                        switchGame(gameId, true);
-                    }
-                });
+                clickSelectGame();
             }
         });
-        topView.setCloseClickListener(new View.OnClickListener() {
+        topView.setMoreOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intentClose();
+                clickMore();
             }
         });
         topView.setFinishGameOnClickListener(new View.OnClickListener() {
@@ -243,6 +270,94 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
                 clickFinishGame();
             }
         });
+    }
+
+    /** 点击了选择游戏 */
+    protected void clickSelectGame() {
+        GameModeDialog dialog = GameModeDialog.getInstance(roomInfoModel.sceneType);
+        dialog.setFinishGame(gameViewModel.isOperateFinishGame());
+        dialog.setPlayingGameId(playingGameId);
+        dialog.show(getSupportFragmentManager(), null);
+        dialog.setSelectGameListener(new GameModeDialog.SelectGameListener() {
+            @Override
+            public void onSelectGame(long gameId, boolean isFinishGame) {
+                if (gameId == 0 && isFinishGame) { // 结束游戏
+                    clickFinishGame();
+                } else {
+                    // 自己主动切游戏，需判断一下是否要拦截
+                    int gameState = gameViewModel.getGameState();
+                    if (gameState == SudMGPMGState.MGCommonGameState.LOADING || gameState == SudMGPMGState.MGCommonGameState.PLAYING) {
+                        if (gameId > 0) {
+                            ToastUtils.showLong(R.string.switch_game_warn);
+                        } else {
+                            ToastUtils.showLong(R.string.close_game_warn);
+                        }
+                        return;
+                    }
+                    intentSwitchGame(gameId);
+                }
+            }
+        });
+        dialog.setOnDestroyListener(() -> gameModeDialog = null);
+        gameModeDialog = dialog;
+    }
+
+    /** 点击了更多按钮 */
+    private void clickMore() {
+        RoomMoreDialog dialog = RoomMoreDialog.getInstance(isFullScreen());
+        dialog.setHangOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                intentHang();
+            }
+        });
+        dialog.setExitOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                intentClose();
+            }
+        });
+        dialog.show(getSupportFragmentManager(), null);
+    }
+
+    /** 意图挂起房间 */
+    private void intentHang() {
+        if (SudPermissionUtils.checkFloatPermission(this)) {
+            hangRoom();
+        } else {
+            SimpleChooseDialog dialog = new SimpleChooseDialog(this,
+                    getString(R.string.floating_permission_info),
+                    getString(R.string.exit_room),
+                    getString(R.string.go_setting));
+            dialog.setOnChooseListener(new SimpleChooseDialog.OnChooseListener() {
+                @Override
+                public void onChoose(int index) {
+                    if (index == 0) {
+                        exitRoom();
+                    } else if (index == 1) {
+                        SudPermissionUtils.setFloatPermission(context);
+                    }
+                    dialog.dismiss();
+                }
+            });
+            dialog.show();
+        }
+    }
+
+    /** 是否是全屏显示的 */
+    protected boolean isFullScreen() {
+        return playingGameId > 0;
+    }
+
+    /** 挂起房间 */
+    private void hangRoom() {
+        if (binder != null) {
+            binder.showFloating(roomInfoModel, getClass());
+        }
+        releaseService();
+        finish();
     }
 
     /**
@@ -287,20 +402,26 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
             @Override
             public void onChanged(GameTextModel msg) {
                 if (msg != null) {
-                    binder.addChatMsg(msg);
+                    if (binder != null) {
+                        binder.addChatMsg(msg);
+                    }
                 }
             }
         });
         gameViewModel.updateMicLiveData.observe(this, new Observer<Object>() {
             @Override
             public void onChanged(Object obj) {
-                binder.updateMicList();
+                if (binder != null) {
+                    binder.updateMicList();
+                }
             }
         });
         gameViewModel.autoUpMicLiveData.observe(this, new Observer<Object>() {
             @Override
             public void onChanged(Object o) {
-                binder.autoUpMic(OperateMicType.GAME_AUTO);
+                if (binder != null) {
+                    binder.autoUpMic(OperateMicType.GAME_AUTO);
+                }
             }
         });
         gameViewModel.gameASRLiveData.observe(this, new Observer<Boolean>() {
@@ -321,13 +442,24 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
         gameViewModel.gameRTCPlayLiveData.observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
-                binder.setRTCPlay(aBoolean);
+                if (binder != null) {
+                    binder.setRTCPlay(aBoolean);
+                }
             }
         });
         gameViewModel.showFinishGameBtnLiveData.observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean isShow) {
-                topView.setFinishGameVisible(isShow != null && isShow);
+                boolean isOperateFinishGame = isShow != null && isShow;
+                // 是房主，则不显示结束游戏按钮，放到选择游戏弹窗当中
+                if (roomInfoModel.roleType == RoleType.OWNER) {
+                    topView.setFinishGameVisible(false);
+                } else {
+                    topView.setFinishGameVisible(isOperateFinishGame);
+                }
+                if (gameModeDialog != null) {
+                    gameModeDialog.setFinishGame(isOperateFinishGame);
+                }
             }
         });
         gameViewModel.playerInLiveData.observe(this, new Observer<Object>() {
@@ -336,11 +468,58 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
                 updateGameNumber();
             }
         });
+        gameViewModel.micSpaceMaxLiveData.observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean spaceMax) {
+                if (spaceMax) {
+                    micView.shirnkMicView();
+                }
+            }
+        });
+        gameViewModel.autoJoinGameLiveData.observe(this, new Observer<Object>() {
+            @Override
+            public void onChanged(Object o) {
+                autoJoinGame();
+            }
+        });
+    }
+
+    /** 触发自动加入游戏 */
+    protected void autoJoinGame() {
+        gameViewModel.joinGame();
     }
 
     // asr的开启与关闭
     protected void onASRChanged(boolean open) {
-        binder.setASROpen(open);
+        if (binder != null) {
+            binder.setASROpen(open);
+            if (open && !binder.isOpenedMic()) {
+                clOpenMic.setVisibility(View.VISIBLE);
+                clOpenMic.removeCallbacks(delayDismissTask);
+                clOpenMic.postDelayed(delayDismissTask, 3000);
+                AnimUtils.shakeVertical(clOpenMic);
+                setOpenMicText();
+            }
+        }
+    }
+
+    /** 设置开麦提示的文字 */
+    private void setOpenMicText() {
+        if (playingGameId == GameIdCons.I_GUESS_YOU_SAID) { //  你说我猜
+            tvOpenMic.setText(R.string.asr_guide_draw);
+        } else if (playingGameId == GameIdCons.DIGITAL_BOMB) { // 数字炸弹
+            tvOpenMic.setText(R.string.asr_guide_number_boom);
+        } else if (playingGameId == GameIdCons.YOU_DRAW_AND_I_GUESS) { // 你画我猜
+            tvOpenMic.setText(R.string.asr_guide_draw);
+        }
+    }
+
+    // 是否支持ASR
+    private boolean isSupportASR(long gameId) {
+        if (gameId == GameIdCons.I_GUESS_YOU_SAID) return true;
+        if (gameId == GameIdCons.DIGITAL_BOMB) return true;
+        if (gameId == GameIdCons.YOU_DRAW_AND_I_GUESS) return true;
+        return false;
     }
 
     // 点击了自己的麦位
@@ -357,7 +536,9 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
                     if (gameViewModel.playerIsPlaying(HSUserInfo.userId)) {
                         playingDownMic(position);
                     } else {
-                        binder.micLocationSwitch(position, false, OperateMicType.USER); // 执行下麦
+                        if (binder != null) {
+                            binder.micLocationSwitch(position, false, OperateMicType.USER); // 执行下麦
+                        }
                         gameViewModel.exitGame();
                     }
                 }
@@ -430,7 +611,9 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
             @Override
             public void onChoose(int index) {
                 if (index == 1) {
-                    binder.micLocationSwitch(position, false, OperateMicType.USER); // 执行下麦
+                    if (binder != null) {
+                        binder.micLocationSwitch(position, false, OperateMicType.USER); // 执行下麦
+                    }
                     gameViewModel.exitGame();
                 }
                 dialog.dismiss();
@@ -438,9 +621,7 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
         });
     }
 
-    /**
-     * 意图退出房间
-     */
+    /** 意图退出房间 */
     private void intentClose() {
         SimpleChooseDialog dialog = new SimpleChooseDialog(this,
                 getString(R.string.audio_close_room_title),
@@ -479,45 +660,46 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
 
     // 退出房间
     private void exitRoom() {
-        binder.exitRoom();
-        viewModel.exitRoom(roomInfoModel.roomId);
+        if (binder != null) {
+            binder.exitRoom();
+        }
+        releaseService();
         finish();
     }
 
     @Override
     public void onBackPressed() {
-        intentClose();
+        intentHang();
     }
 
     /**
-     * 切换游戏
+     * 自己主动切换游戏
      *
-     * @param gameId
-     * @param selfSwitch 标识是否是自己切换的
+     * @param gameId 游戏id
      */
-    private void switchGame(long gameId, boolean selfSwitch) {
-        if (playingGameId == gameId) {
-            return;
-        }
-        if (selfSwitch) { // 自己主动切换时，如果游戏正在进行中，则不进行切换
-            int gameState = gameViewModel.getGameState();
-            if (gameState == SudMGPMGState.MGCommonGameState.LOADING || gameState == SudMGPMGState.MGCommonGameState.PLAYING) {
-                ToastUtils.showLong(R.string.audio_switch_game_warn);
-                return;
+    protected void intentSwitchGame(long gameId) {
+        // 发送http通知后台
+        GameRepository.switchGame(this, roomInfoModel.roomId, gameId, new RxCallback<Object>() {
+            @Override
+            public void onSuccess(Object o) {
+                super.onSuccess(o);
+                if (switchGame(gameId)) {
+                    onSelfSwitchGame(gameId);
+                }
             }
-        }
-        playingGameId = gameId;
-        roomInfoModel.gameId = gameId;
-        gameViewModel.switchGame(this, gameId);
-        binder.updateMicList();
-        binder.switchGame(gameId, selfSwitch);
-        updatePageStyle();
-        updateGameNumber();
+        });
     }
 
-    private void updateGameNumber() {
+    /** 自己主动切换了游戏 */
+    protected void onSelfSwitchGame(long gameId) {
+        if (binder != null) {
+            binder.switchGame(gameId);
+        }
+    }
+
+    protected void updateGameNumber() {
         long gameId = playingGameId;
-        if (gameId <= 0) {
+        if (gameId <= 0 || !roomConfig.isShowGameNumber) {
             tvGameNumber.setText("");
             return;
         }
@@ -534,16 +716,20 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
                     @Override
                     public void onPermission(boolean success) {
                         if (success) {
-                            binder.setMicState(true);
-                            boolean asrIsOpen = gameViewModel.gameASRLiveData.getValue() != null && gameViewModel.gameASRLiveData.getValue();
-                            binder.setASROpen(asrIsOpen);
+                            if (binder != null) {
+                                binder.setMicState(true);
+                                boolean asrIsOpen = gameViewModel.gameASRLiveData.getValue() != null && gameViewModel.gameASRLiveData.getValue();
+                                binder.setASROpen(asrIsOpen);
+                            }
                         }
                     }
                 });
     }
 
     private void closeMic() {
-        binder.setMicState(false);
+        if (binder != null) {
+            binder.setMicState(false);
+        }
     }
 
     /**
@@ -557,7 +743,9 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
     private void showSendGiftDialog(UserInfo underUser, int index) {
         roomGiftDialog = new RoomGiftDialog();
         if (underUser == null) {
-            roomGiftDialog.setMicUsers(binder.getMicList(), index);
+            if (binder != null) {
+                roomGiftDialog.setMicUsers(binder.getMicList(), index);
+            }
         } else {
             roomGiftDialog.setToUser(underUser);
         }
@@ -566,7 +754,9 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
             public void onSendClick(int giftId, int giftCount, List<UserInfo> toUsers) {
                 if (toUsers != null && toUsers.size() > 0) {
                     for (UserInfo user : toUsers) {
-                        binder.sendGift(giftId, giftCount, user);
+                        if (binder != null) {
+                            binder.sendGift(giftId, giftCount, user);
+                        }
                     }
                 }
                 showGift(GiftHelper.getInstance().getGift(giftId));
@@ -574,7 +764,9 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
 
             @Override
             public void onNotify(Map<Long, Boolean> userState) {
-                binder.updateMicList();
+                if (binder != null) {
+                    binder.updateMicList();
+                }
             }
         };
         roomGiftDialog.show(getSupportFragmentManager(), "gift");
@@ -582,7 +774,9 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
             @Override
             public void onDestroy() {
                 roomGiftDialog = null;
-                binder.updateMicList();
+                if (binder != null) {
+                    binder.updateMicList();
+                }
             }
         });
     }
@@ -597,31 +791,71 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
     }
 
     private void initGame() {
-        gameViewModel.setRoomId(roomInfoModel.roomId);
-        gameViewModel.switchGame(this, roomInfoModel.gameId);
+        gameViewModel.switchGame(this, getGameRoomId(), roomInfoModel.gameId);
         updateGameNumber();
+    }
+
+    /** 获取游戏房间的id */
+    protected long getGameRoomId() {
+        return roomInfoModel.roomId;
     }
 
     // 切换游戏之后，更新页面样式
     protected void updatePageStyle() {
+        if (isSupportASR(playingGameId) && roomConfig.isShowASRTopHint) {
+            tvASRHint.setVisibility(View.VISIBLE);
+        } else {
+            tvASRHint.setVisibility(View.GONE);
+        }
     }
 
     private void updateStatusBar() {
         if (roomInfoModel != null && roomInfoModel.gameId > 0) { // 玩着游戏
-            ImmersionBar.with(this).statusBarColor(R.color.transparent).hideBar(BarHide.FLAG_HIDE_NAVIGATION_BAR).init();
+            ImmersionBar.with(this).statusBarColor(R.color.transparent).fullScreen(true).hideBar(BarHide.FLAG_HIDE_NAVIGATION_BAR).init();
         } else {
             ImmersionBar.with(this).statusBarColor(R.color.transparent).hideBar(BarHide.FLAG_SHOW_BAR).init();
         }
     }
 
+    /**
+     * 绑定后台服务
+     */
+    private void bindService() {
+        Intent intent = new Intent(this, SceneRoomService.class);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) { //Android8后需要开启前台服务才可以
+            startForegroundService(intent);
+        } else {
+            startService(intent);
+        }
+        bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
+    }
+
+    private final ServiceConnection serviceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            binder = (SceneRoomService.MyBinder) service;
+            binder.dismissFloating();
+            enterRoom();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            // 系统会在与服务的连接意外中断（或者随着activity 的生命周期stop）时调用该方法，当客户端取消绑定的时候，不会回调该方法
+            finish();
+        }
+    };
+
+
     // region service回调
     @Override
     public void onEnterRoomSuccess() {
-        binder.autoUpMic(OperateMicType.USER);
+        if (binder != null) {
+            binder.autoUpMic(OperateMicType.USER);
+        }
     }
 
     @Override
-    public void setMicList(List<AudioRoomMicModel> list) {
+    public void onMicList(List<AudioRoomMicModel> list) {
         micView.setList(list);
         if (roomGiftDialog != null) {
             roomGiftDialog.updateMicUsers(list);
@@ -654,7 +888,12 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
     }
 
     @Override
-    public void sendGiftsNotify(GiftNotifyDetailodel notify) {
+    public void onChatList(List<Object> list) {
+        chatView.setList(list);
+    }
+
+    @Override
+    public void sendGiftsNotify(GiftNotifyDetailModel notify) {
         showGift(notify.gift);
     }
 
@@ -669,13 +908,29 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
     }
 
     @Override
-    public void onRoomOnlineUserCountUpdate(String roomID, int count) {
+    public void onRoomOnlineUserCountUpdate(int count) {
         topView.setNumber(count + "");
     }
 
     @Override
     public void onGameChange(long gameId) {
-        switchGame(gameId, false);
+        switchGame(gameId);
+    }
+
+    protected boolean switchGame(long gameId) {
+        if (playingGameId == gameId && getGameRoomId() == gameViewModel.getGameRoomId()) {
+            return false;
+        }
+        playingGameId = gameId;
+        roomInfoModel.gameId = gameId;
+        gameViewModel.switchGame(this, getGameRoomId(), gameId);
+        updatePageStyle();
+        updateStatusBar();
+        updateGameNumber();
+        if (binder != null) {
+            binder.updateMicList();
+        }
+        return true;
     }
 
     @Override
@@ -713,6 +968,38 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
             }
         }
     }
+
+    @Override
+    public void onOrderInvite(RoomCmdUserOrderModel model) {
+    }
+
+    @Override
+    public void onOrderInviteAnswered(OrderInviteModel model) {
+    }
+
+    @Override
+    public void onOrderOperate(long orderId, long gameId, String gameName, String userId, String userName, boolean operate) {
+    }
+
+    @Override
+    public void onReceiveInvite(boolean agreeState) {
+    }
+
+    @Override
+    public void onRoomPkUpdate() {
+    }
+
+    @Override
+    public void onRoomPkChangeGame(long gameId) {
+    }
+
+    @Override
+    public void onRoomPkRemoveRival() {
+    }
+
+    @Override
+    public void onRoomPkCoutndown() {
+    }
     // endregion service回调
 
     @Override
@@ -725,10 +1012,6 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
     protected void onResume() {
         super.onResume();
         gameViewModel.onResume();
-        if (needEnterRoom) {
-            needEnterRoom = false;
-            enterRoom();
-        }
         updateStatusBar();
     }
 
@@ -744,15 +1027,23 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
         gameViewModel.onStop();
     }
 
+    // 释放绑定的服务
+    private void releaseService() {
+        if (binder != null) {
+            binder.removeCallback(this);
+            unbindService(serviceConnection);
+            binder = null;
+        }
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        sceneRoomService.onDestroy();
-        binder.setCallback(null);
+        releaseService();
         if (effectView != null) {
             effectView.onDestory();
         }
-        gameViewModel.destroyMG();
+        gameViewModel.onDestroy();
     }
 
     @Override
@@ -762,4 +1053,16 @@ public abstract class BaseRoomActivity<T extends GameViewModel> extends BaseActi
             updateStatusBar();
         }
     }
+
+    private final Runnable delayDismissTask = new Runnable() {
+        @Override
+        public void run() {
+            Animation animation = clOpenMic.getAnimation();
+            if (animation != null) {
+                animation.cancel();
+            }
+            clOpenMic.setVisibility(View.GONE);
+        }
+    };
+
 }

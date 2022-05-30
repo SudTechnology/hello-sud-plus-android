@@ -69,11 +69,12 @@ dependencies {
     // 引入 SudMGPWrapper
     implementation project(':SudMGPWrapper')
 
-    // 屏幕适配：https://github.com/JessYanCoding/AndroidAutoSize
-    implementation 'com.github.JessYanCoding:AndroidAutoSize:v1.2.1'
-
     // 依赖okhttp
     implementation 'com.squareup.okhttp3:okhttp:4.9.2'
+
+    // region QuickStart使用
+    // 屏幕适配：https://github.com/JessYanCoding/AndroidAutoSize
+    implementation 'com.github.JessYanCoding:AndroidAutoSize:v1.2.1'
 
     // 网络请求库
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
@@ -91,5 +92,6 @@ dependencies {
 
     // 沉浸式状态栏
     implementation 'com.geyifeng.immersionbar:immersionbar:3.2.2'
+    // endregion QuickStart使用
 
 }

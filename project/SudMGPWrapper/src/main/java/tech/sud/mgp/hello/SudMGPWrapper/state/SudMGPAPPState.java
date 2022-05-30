@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * APP to MG 的通用状态定义
- * 参考文档：https://github.com/SudTechnology/sud-mgp-doc/blob/main/Client/APP%20FST/%E9%80%9A%E7%94%A8%E7%8A%B6%E6%80%81.md
+ * 参考文档：https://docs.sud.tech/zh-CN/app/Client/APPFST/
  */
 public class SudMGPAPPState {
 

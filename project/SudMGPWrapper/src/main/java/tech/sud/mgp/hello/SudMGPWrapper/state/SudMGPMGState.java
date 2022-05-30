@@ -11,11 +11,12 @@ import java.util.List;
 
 /**
  * MG to APP 的状态定义
+ * 参考文档：https://docs.sud.tech/zh-CN/app/Client/MGFSM/
  */
 public class SudMGPMGState {
 
     // region MG状态机-通用状态-游戏
-    // 参考文档：https://github.com/SudTechnology/sud-mgp-doc/blob/main/Client/MG%20FSM/%E9%80%9A%E7%94%A8%E7%8A%B6%E6%80%81-%E6%B8%B8%E6%88%8F.md
+    // 参考文档：https://docs.sud.tech/zh-CN/app/Client/MGFSM/CommonStateGame.html
     /**
      * 1. 公屏消息（已修改）
      * 最低版本: v1.1.30.xx
@@ -428,7 +429,7 @@ public class SudMGPMGState {
 
 
     // region MG状态机-通用状态-玩家
-    // 参考：https://github.com/SudTechnology/sud-mgp-doc/blob/main/Client/MG%20FSM/%E9%80%9A%E7%94%A8%E7%8A%B6%E6%80%81-%E7%8E%A9%E5%AE%B6.md
+    // 参考：https://docs.sud.tech/zh-CN/app/Client/MGFSM/CommonStatePlayer.html
 
     /**
      * 1.加入状态（已修改）
@@ -557,15 +558,13 @@ public class SudMGPMGState {
 
 
     // region 碰碰我最强
-    // 参考文档：https://github.com/SudTechnology/sud-mgp-doc/blob/main/Client/MG%20FSM/%E7%A0%B0%E7%A0%B0%E6%88%91%E6%9C%80%E5%BC%BA.md
     // endregion 碰碰我最强
 
     // region 飞刀达人
-    // 参考文档：https://github.com/SudTechnology/sud-mgp-doc/blob/main/Client/MG%20FSM/%E9%A3%9E%E5%88%80%E5%A4%A7%E6%88%98.md
     // endregion 飞刀达人
 
     // region 你画我猜
-    // 参考文档：https://github.com/SudTechnology/sud-mgp-doc/blob/main/Client/MG%20FSM/%E4%BD%A0%E7%94%BB%E6%88%91%E7%8C%9C.md
+    // 参考文档：https://docs.sud.tech/zh-CN/app/Client/MGFSM/DrawGuess.html
 
     /**
      * 1. 选词中状态（已修改）

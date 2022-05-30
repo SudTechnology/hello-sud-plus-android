@@ -7,6 +7,7 @@ package tech.sud.mgp.hello.SudMGPWrapper.model;
 
 /**
  * 游戏视图
+ * 参考文档：https://docs.sud.tech/zh-CN/app/Client/API/ISudFSMMG/onGetGameViewInfo.html
  */
 public class GameViewInfoModel {
     // 返回码

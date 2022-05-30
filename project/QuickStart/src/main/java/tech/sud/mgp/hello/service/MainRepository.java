@@ -53,9 +53,12 @@ public class MainRepository {
     }
 
     /**
-     * 游戏登录
+     * 接入方客户端调用接入方服务端获取短期令牌code（getCode）
+     * { 接入方服务端仓库：https://github.com/SudTechnology/hello-sud-java }
      *
      * @param owner    生命周期对象
+     * @param userId   用户id
+     * @param appId    SudMGP appId
      * @param callback 回调
      */
     public static void login(LifecycleOwner owner, String userId, String appId, RxCallback<GameLoginResp> callback) {

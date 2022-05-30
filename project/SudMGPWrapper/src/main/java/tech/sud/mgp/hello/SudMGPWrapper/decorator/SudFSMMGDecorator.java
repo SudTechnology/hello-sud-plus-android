@@ -15,6 +15,7 @@ import tech.sud.mgp.hello.SudMGPWrapper.utils.ISudFSMStateHandleUtils;
 
 /**
  * ISudFSMMG 游戏调APP回调装饰类
+ * 参考文档：https://docs.sud.tech/zh-CN/app/Client/API/ISudFSMMG.html
  */
 public class SudFSMMGDecorator implements ISudFSMMG {
 

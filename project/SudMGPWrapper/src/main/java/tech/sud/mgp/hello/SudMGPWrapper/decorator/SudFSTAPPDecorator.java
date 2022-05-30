@@ -16,6 +16,7 @@ import tech.sud.mgp.hello.SudMGPWrapper.state.SudMGPAPPState;
 
 /**
  * ISudFSTAPP的装饰类，接近于业务
+ * 参考文档：https://docs.sud.tech/zh-CN/app/Client/API/ISudFSTAPP.html
  */
 public class SudFSTAPPDecorator {
 

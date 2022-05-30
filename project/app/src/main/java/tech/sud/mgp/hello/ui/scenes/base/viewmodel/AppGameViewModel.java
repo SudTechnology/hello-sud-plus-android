@@ -116,7 +116,7 @@ public class AppGameViewModel implements SudFSMMGListener {
     /**
      * 第1步，获取短期令牌code，用于换取游戏Server访问APP Server的长期ssToken
      * 接入方客户端 调用 接入方服务端 login 获取 短期令牌code
-     * 参考文档时序图：sud-mgp-doc(https://github.com/SudTechnology/sud-mgp-doc)
+     * 参考文档时序图：sud-mgp-doc(https://docs.sud.tech/zh-CN/app/Client/StartUp-Android.html)
      *
      * @param activity 游戏所在页面
      * @param gameId   游戏id
@@ -297,7 +297,7 @@ public class AppGameViewModel implements SudFSMMGListener {
 
     /**
      * 处理游戏视图信息(游戏安全区)
-     * 文档：https://github.com/SudTechnology/sud-mgp-doc/blob/main/Client/API/ISudFSMMG/onGetGameViewInfo.md
+     * 文档：https://docs.sud.tech/zh-CN/app/Client/API/ISudFSMMG/onGetGameViewInfo.html
      */
     public void processOnGetGameViewInfo(View gameView, ISudFSMStateHandle handle) {
         //拿到游戏View的宽高
@@ -349,7 +349,7 @@ public class AppGameViewModel implements SudFSMMGListener {
 
     /**
      * 处理游戏配置
-     * 文档：https://github.com/SudTechnology/sud-mgp-doc/blob/main/Client/API/ISudFSMMG/onGetGameCfg.md
+     * 文档：https://docs.sud.tech/zh-CN/app/Client/API/ISudFSMMG/onGetGameCfg.html
      */
     public void processOnGetGameCfg(ISudFSMStateHandle handle, String dataJson) {
         handle.success(GsonUtils.toJson(gameConfigModel));

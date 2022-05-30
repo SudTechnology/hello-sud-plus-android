@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 
 import com.blankj.utilcode.util.ClickUtils;
+import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.ToastUtils;
 
 import tech.sud.mgp.hello.R;
@@ -224,8 +225,13 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
 
     /** 进入pk对手的房间 */
     private void enterPkRivalRoom(RoomPkRoomInfo pkRival) {
-        EnterRoomUtils.enterRoom(this, pkRival.roomId);
-        finish();
+        delayExitRoom();
+        ThreadUtils.runOnUiThreadDelayed(new Runnable() {
+            @Override
+            public void run() {
+                EnterRoomUtils.enterRoom(null, pkRival.roomId);
+            }
+        }, 1000);
     }
 
     /** 展示邀请pk弹窗 */

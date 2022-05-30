@@ -641,7 +641,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
     }
 
     // 延迟退出房间
-    private void delayExitRoom() {
+    public void delayExitRoom() {
         if (closeing) return;
         closeing = true;
         if (playingGameId > 0) {

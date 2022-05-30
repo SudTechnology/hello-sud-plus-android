@@ -1,11 +1,13 @@
 package tech.sud.mgp.hello.ui.scenes.base.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
 
+import com.blankj.utilcode.util.ActivityUtils;
 import com.jeremyliao.liveeventbus.LiveEventBus;
 
 import tech.sud.mgp.hello.common.event.EnterRoomEvent;
@@ -15,6 +17,7 @@ import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.service.room.repository.RoomRepository;
 import tech.sud.mgp.hello.service.room.resp.EnterRoomResp;
+import tech.sud.mgp.hello.ui.common.utils.LifecycleUtils;
 import tech.sud.mgp.hello.ui.main.constant.SceneType;
 import tech.sud.mgp.hello.ui.scenes.asr.ASRActivity;
 import tech.sud.mgp.hello.ui.scenes.audio.activity.AudioRoomActivity;
@@ -68,7 +71,7 @@ public class EnterRoomUtils {
                 EnterRoomResp resp = t.getData();
                 if (t.getRetCode() == RetCode.SUCCESS) {
                     if (resp != null) {
-                        startSceneRoomActivity(context, resp);
+                        safeStartSceneRoomActivity(context, resp);
                     }
                 }
                 isRunning = false;
@@ -80,6 +83,23 @@ public class EnterRoomUtils {
                 isRunning = false;
             }
         });
+    }
+
+    /** 安全地打开场景房间 */
+    private static void safeStartSceneRoomActivity(Context context, EnterRoomResp resp) {
+        if (context == null) {
+            Activity topActivity = ActivityUtils.getTopActivity();
+            if (topActivity instanceof LifecycleOwner) {
+                LifecycleUtils.safeLifecycle((LifecycleOwner) topActivity, new LifecycleUtils.CompletedListener() {
+                    @Override
+                    public void onCompleted() {
+                        startSceneRoomActivity(topActivity, resp);
+                    }
+                });
+            }
+        } else {
+            startSceneRoomActivity(context, resp);
+        }
     }
 
     /**

@@ -225,13 +225,14 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
 
     /** 进入pk对手的房间 */
     private void enterPkRivalRoom(RoomPkRoomInfo pkRival) {
-        delayExitRoom();
+        if (closeing) return;
+        long delayDuration = delayExitRoom();
         ThreadUtils.runOnUiThreadDelayed(new Runnable() {
             @Override
             public void run() {
                 EnterRoomUtils.enterRoom(null, pkRival.roomId);
             }
-        }, 1000);
+        }, delayDuration + 200);
     }
 
     /** 展示邀请pk弹窗 */

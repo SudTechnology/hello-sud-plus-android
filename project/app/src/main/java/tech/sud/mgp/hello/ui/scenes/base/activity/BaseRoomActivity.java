@@ -89,7 +89,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
     private TextView tvOpenMic;
     private TextView tvASRHint;
 
-    private boolean closeing; // 标识是否正在关闭房间
+    protected boolean closeing; // 标识是否正在关闭房间
     protected SceneRoomService.MyBinder binder;
     protected final SceneRoomViewModel viewModel = new SceneRoomViewModel();
     protected final T gameViewModel = initGameViewModel();
@@ -102,6 +102,8 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
 
     /** 场景配置，子类可对其进行修改进行定制化需求 */
     protected final RoomConfig roomConfig = new RoomConfig();
+
+    public long delayExitDuration = 500; // 延时关闭的时长
 
     @Override
     protected boolean beforeSetContentView() {
@@ -641,8 +643,8 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
     }
 
     // 延迟退出房间
-    public void delayExitRoom() {
-        if (closeing) return;
+    public long delayExitRoom() {
+        if (closeing) return 0;
         closeing = true;
         if (playingGameId > 0) {
             // 在游戏时才需要
@@ -652,9 +654,11 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
                 public void run() {
                     exitRoom();
                 }
-            }, 500);
+            }, delayExitDuration);
+            return delayExitDuration;
         } else {
             exitRoom();
+            return 0;
         }
     }
 

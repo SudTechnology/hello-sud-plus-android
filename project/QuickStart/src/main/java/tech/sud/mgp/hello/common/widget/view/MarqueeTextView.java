@@ -54,9 +54,16 @@ public class MarqueeTextView extends androidx.appcompat.widget.AppCompatTextView
      * 调用此方法让其重新跑起来
      */
     public void checkFocus() {
-        requestFocus();
-        setText(getText());
+        postDelayed(delayStartMarquee, 1000);
     }
+
+    public Runnable delayStartMarquee = new Runnable() {
+        @Override
+        public void run() {
+            setSelected(true);
+            requestFocus();
+        }
+    };
 
     /**
      * 用于EditText抢注焦点的问题

@@ -122,6 +122,7 @@ public class SceneOrderManager extends BaseServiceManager {
         }
     };
 
+    /** 主播同意或者拒绝用户点单 */
     private final SceneCommandManager.OrderResultCommandListener orderResultCommandListener = new SceneCommandManager.OrderResultCommandListener() {
         @Override
         public void onRecvCommand(RoomCmdOrderOperateModel command, String userID) {

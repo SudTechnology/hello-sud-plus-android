@@ -58,7 +58,7 @@ android {
         }
     }
 
-    ndkVersion '24.0.8215888'
+    ndkVersion '21.4.7075529'
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8

@@ -238,16 +238,41 @@ public class SudMGPAPPState {
     }
 
     /**
-     * 15. 设置游戏上报信息扩展参数（透传）（2022-01-21新增）
+     * 15.  设置游戏玩法选项（2022-05-10新增）
      */
-    public static final String APP_COMMON_REPORT_GAME_INFO_EXTRAS = "app_common_report_game_info_extras";
+    public static final String APP_COMMON_GAME_SETTING_SELECT_INFO = "app_common_game_setting_select_info";
 
     /**
-     * 15. 设置游戏上报信息扩展参数（透传）（2022-01-21新增） 模型
+     * 15.  设置游戏玩法选项（2022-05-10新增） 模型
      */
-    public static class APPCommonReportGameInfoExtras {
-        // string类型，Https服务回调report_game_info参数，最大长度1024字节，超过则截断（2022-01-21）
-        public String reportGameInfoExtras;
+    public static class APPCommonGameSettingSelectInfo {
+        public Ludo ludo; // 游戏名称
+    }
+
+    public static class Ludo {
+        public int mode; // mode: 默认赛制，0: 快速, 1: 经典;
+        public int chessNum; // chessNum: 默认棋子数量, 2: 对应2颗棋子; 4: 对应4颗棋子;
+        public int item; // item: 默认道具, 1: 有道具, 0: 没有道具
+    }
+
+    /**
+     * 16. 设置游戏中的AI玩家（2022-05-11新增）
+     */
+    public static final String APP_COMMON_GAME_ADD_AI_PLAYERS = "app_common_game_add_ai_players";
+
+    /**
+     * 16. 设置游戏中的AI玩家（2022-05-11新增） 模型
+     */
+    public static class APPCommonGameAddAIPlayers {
+        public List<AIPlayers> aiPlayers; // AI玩家
+        public int isReady = 1; // 机器人加入后是否自动准备 1：自动准备，0：不自动准备 默认为1
+    }
+
+    public static class AIPlayers {
+        public String userId; // 玩家id
+        public String avatar; // 头像url
+        public String name; // 名字
+        public String gender; // 性别 male：男，female：女
     }
 
 }

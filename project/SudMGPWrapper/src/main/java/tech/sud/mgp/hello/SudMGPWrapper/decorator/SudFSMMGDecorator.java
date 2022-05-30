@@ -294,6 +294,22 @@ public class SudFSMMGDecorator implements ISudFSMMG {
                     listener.onGameMGCommonSelfHeadphone(handle, mgCommonSelfHeadphone);
                 }
                 break;
+            case SudMGPMGState.MG_COMMON_APP_COMMON_SELF_X_RESP: // 20. App通用状态操作结果错误码（2022-05-10新增）
+                SudMGPMGState.MGCommonAPPCommonSelfXResp mgCommonAPPCommonSelfXResp = HSJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonAPPCommonSelfXResp.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGCommonAPPCommonSelfXResp(handle, mgCommonAPPCommonSelfXResp);
+                }
+                break;
+            case SudMGPMGState.MG_COMMON_GAME_ADD_AI_PLAYERS: // 21. 游戏通知app层添加陪玩机器人是否成功（2022-05-17新增）
+                SudMGPMGState.MGCommonGameAddAIPlayers mgCommonGameAddAIPlayers = HSJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonGameAddAIPlayers.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGCommonGameAddAIPlayers(handle, mgCommonGameAddAIPlayers);
+                }
+                break;
             default:
                 ISudFSMStateHandleUtils.handleSuccess(handle);
                 break;
@@ -372,6 +388,38 @@ public class SudFSMMGDecorator implements ISudFSMMG {
                     ISudFSMStateHandleUtils.handleSuccess(handle);
                 } else {
                     listener.onPlayerMGCommonSelfClickGamePlayerIcon(handle, userId, mgCommonSelfClickGamePlayerIcon);
+                }
+                break;
+            case SudMGPMGState.MG_COMMON_SELF_DIE_STATUS: // 8. 游戏通知app玩家死亡状态（2022-04-24新增）
+                SudMGPMGState.MGCommonSelfDieStatus mgCommonSelfDieStatus = HSJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonSelfDieStatus.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onPlayerMGCommonSelfDieStatus(handle, userId, mgCommonSelfDieStatus);
+                }
+                break;
+            case SudMGPMGState.MG_COMMON_SELF_TURN_STATUS: // 9. 游戏通知app轮到玩家出手状态（2022-04-24新增）
+                SudMGPMGState.MGCommonSelfTurnStatus mgCommonSelfTurnStatus = HSJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonSelfTurnStatus.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onPlayerMGCommonSelfTurnStatus(handle, userId, mgCommonSelfTurnStatus);
+                }
+                break;
+            case SudMGPMGState.MG_COMMON_SELF_SELECT_STATUS: // 10. 游戏通知app玩家选择状态（2022-04-24新增）
+                SudMGPMGState.MGCommonSelfSelectStatus mgCommonSelfSelectStatus = HSJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonSelfSelectStatus.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onPlayerMGCommonSelfSelectStatus(handle, userId, mgCommonSelfSelectStatus);
+                }
+                break;
+            case SudMGPMGState.MG_COMMON_GAME_COUNTDOWN_TIME: // 11. 游戏通知app层当前游戏剩余时间（2022-05-23新增，目前UMO生效）
+                SudMGPMGState.MGCommonGameCountdownTime mgCommonGameCountdownTime = HSJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonGameCountdownTime.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onPlayerMGCommonGameCountdownTime(handle, userId, mgCommonGameCountdownTime);
                 }
                 break;
             case SudMGPMGState.MG_DG_SELECTING: // 1. 选词中状态（已修改）

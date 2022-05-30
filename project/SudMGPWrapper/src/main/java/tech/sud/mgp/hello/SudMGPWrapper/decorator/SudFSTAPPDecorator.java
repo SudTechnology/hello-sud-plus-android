@@ -253,22 +253,37 @@ public class SudFSTAPPDecorator {
         }
     }
 
-//    /**
-//     * 发送
-//     * 15. 设置游戏上报信息扩展参数（透传）（2022-01-21新增）
-//     * 接口暂未实现
-//     *
-//     * @param reportGameInfoExtras string类型，Https服务回调report_game_info参数，最大长度1024字节，超过则截断（2022-01-21）
-//     */
-//    public void notifyAPPCommonReportGameInfoExtras(String reportGameInfoExtras) {
-//        ISudFSTAPP iSudFSTAPP = this.iSudFSTAPP;
-//        if (iSudFSTAPP != null) {
-//            SudMGPAPPState.APPCommonReportGameInfoExtras state = new SudMGPAPPState.APPCommonReportGameInfoExtras();
-//            state.reportGameInfoExtras = reportGameInfoExtras;
-//            iSudFSTAPP.notifyStateChange(SudMGPAPPState.APP_COMMON_REPORT_GAME_INFO_EXTRAS, GsonUtils.toJson(state), null);
-//        }
-//    }
+    /**
+     * 发送
+     * 15.  设置游戏玩法选项（2022-05-10新增）
+     *
+     * @param ludo ludo游戏
+     */
+    public void notifyAPPCommonGameSettingSelectInfo(SudMGPAPPState.Ludo ludo) {
+        ISudFSTAPP iSudFSTAPP = this.iSudFSTAPP;
+        if (iSudFSTAPP != null) {
+            SudMGPAPPState.APPCommonGameSettingSelectInfo state = new SudMGPAPPState.APPCommonGameSettingSelectInfo();
+            state.ludo = ludo;
+            iSudFSTAPP.notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_SETTING_SELECT_INFO, GsonUtils.toJson(state), null);
+        }
+    }
 
+    /**
+     * 发送
+     * 16. 设置游戏中的AI玩家（2022-05-11新增）
+     *
+     * @param aiPlayers AI玩家
+     * @param isReady   机器人加入后是否自动准备 1：自动准备，0：不自动准备 默认为1
+     */
+    public void notifyAPPCommonGameAddAIPlayers(List<SudMGPAPPState.AIPlayers> aiPlayers, int isReady) {
+        ISudFSTAPP iSudFSTAPP = this.iSudFSTAPP;
+        if (iSudFSTAPP != null) {
+            SudMGPAPPState.APPCommonGameAddAIPlayers state = new SudMGPAPPState.APPCommonGameAddAIPlayers();
+            state.aiPlayers = aiPlayers;
+            state.isReady = isReady;
+            iSudFSTAPP.notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_ADD_AI_PLAYERS, GsonUtils.toJson(state), null);
+        }
+    }
     // endregion 状态通知，ISudFSTAPP.notifyStateChange
 
     // region 生命周期

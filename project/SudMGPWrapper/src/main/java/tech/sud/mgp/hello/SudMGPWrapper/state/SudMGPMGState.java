@@ -425,6 +425,38 @@ public class SudMGPMGState {
         public boolean isOn;
     }
 
+    /**
+     * 20. App通用状态操作结果错误码（2022-05-10新增）
+     */
+    public static final String MG_COMMON_APP_COMMON_SELF_X_RESP = "mg_common_app_common_self_x_resp";
+
+    /**
+     * 20. App通用状态操作结果错误码（2022-05-10新增） 模型
+     */
+    public static class MGCommonAPPCommonSelfXResp {
+        public String state; // 字段必填, 参考：游戏业务错误 https://docs.sud.tech/zh-CN/app/Client/APPFST/CommonState.html
+        public int resultCode; // 字段必填，参考：游戏业务错误 https://docs.sud.tech/zh-CN/app/Server/ErrorCode.html
+        public boolean isIn; // 当state=app_common_self_in时，字段必填
+        public boolean isReady; // 当state=app_common_self_ready时，字段必填
+        public boolean isPlaying; // 当state=app_common_self_playing时，字段必填
+        public String reportGameInfoExtras; // 当state=app_common_self_playing时，字段必填
+        public String curCaptainUID; // 当state=app_common_self_captain时，字段必填
+        public String kickedUID; // 当state=app_common_self_kick时，字段必填
+    }
+
+    /**
+     * 21. 游戏通知app层添加陪玩机器人是否成功（2022-05-17新增）
+     */
+    public static final String MG_COMMON_GAME_ADD_AI_PLAYERS = "mg_common_game_add_ai_players";
+
+    /**
+     * 21. 游戏通知app层添加陪玩机器人是否成功（2022-05-17新增） 模型
+     */
+    public static class MGCommonGameAddAIPlayers {
+        public int resultCode; // 返回码 0：成功，非0：不成功
+        public List<String> userIds; // 加入成功的playerId列表
+    }
+
     // endregion 通用状态-游戏
 
 
@@ -552,6 +584,57 @@ public class SudMGPMGState {
     public static class MGCommonSelfClickGamePlayerIcon {
         // 被点击头像的用户id
         public String uid;
+    }
+
+    /**
+     * 8. 游戏通知app玩家死亡状态（2022-04-24新增）
+     */
+    public static final String MG_COMMON_SELF_DIE_STATUS = "mg_common_self_die_status";
+
+    /**
+     * 8. 游戏通知app玩家死亡状态（2022-04-24新增）模型
+     */
+    public static class MGCommonSelfDieStatus {
+        public String uid; // 用户id
+        public boolean isDeath; // 玩家是否死亡 true:死亡, false: 未死亡；默认 false
+    }
+
+    /**
+     * 9. 游戏通知app轮到玩家出手状态（2022-04-24新增）
+     */
+    public static final String MG_COMMON_SELF_TURN_STATUS = "mg_common_self_turn_status";
+
+    /**
+     * 9. 游戏通知app轮到玩家出手状态（2022-04-24新增）模型
+     */
+    public static class MGCommonSelfTurnStatus {
+        public String uid; // 用户id
+        public boolean isTurn; // 是否轮到玩家出手 true:是上面uid玩家的出手回合, false: 不是上面uid玩家的出手回合；默认false
+    }
+
+    /**
+     * 10. 游戏通知app玩家选择状态（2022-04-24新增）
+     */
+    public static final String MG_COMMON_SELF_SELECT_STATUS = "mg_common_self_select_status";
+
+    /**
+     * 10. 游戏通知app玩家选择状态（2022-04-24新增）模型
+     */
+    public static class MGCommonSelfSelectStatus {
+        public String uid; // 用户id
+        public boolean isSelected; // 玩家是否选择 true:选择, false: 未选择； 默认false
+    }
+
+    /**
+     * 11. 游戏通知app层当前游戏剩余时间（2022-05-23新增，目前UMO生效）
+     */
+    public static final String MG_COMMON_GAME_COUNTDOWN_TIME = "mg_common_game_countdown_time";
+
+    /**
+     * 11. 游戏通知app层当前游戏剩余时间（2022-05-23新增，目前UMO生效）模型
+     */
+    public static class MGCommonGameCountdownTime {
+        public int countdown;// 剩余时间，单位为秒
     }
 
     // endregion 通用状态-玩家

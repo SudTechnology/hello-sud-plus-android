@@ -1,7 +1,7 @@
 package tech.sud.mgp.hello.ui.scenes.common.cmd.model;
 
+import tech.sud.mgp.hello.SudMGPWrapper.utils.SudJsonUtils;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
-import tech.sud.mgp.hello.ui.scenes.base.utils.HSJsonUtils;
 
 /**
  * 用户进入房间通知
@@ -12,7 +12,7 @@ public class RoomCmdEnterRoomModel extends RoomCmdBaseModel {
     }
 
     public static RoomCmdEnterRoomModel fromJson(String json) {
-        return HSJsonUtils.fromJson(json, RoomCmdEnterRoomModel.class);
+        return SudJsonUtils.fromJson(json, RoomCmdEnterRoomModel.class);
     }
 
 }

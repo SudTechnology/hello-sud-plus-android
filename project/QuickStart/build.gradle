@@ -72,7 +72,8 @@ dependencies {
     // 依赖okhttp
     implementation 'com.squareup.okhttp3:okhttp:4.9.2'
 
-    // region QuickStart使用
+    // --- region QuickStart使用
+
     // 屏幕适配：https://github.com/JessYanCoding/AndroidAutoSize
     implementation 'com.github.JessYanCoding:AndroidAutoSize:v1.2.1'
 
@@ -92,6 +93,10 @@ dependencies {
 
     // 沉浸式状态栏
     implementation 'com.geyifeng.immersionbar:immersionbar:3.2.2'
-    // endregion QuickStart使用
+
+    // 工具类库: https://github.com/Blankj/AndroidUtilCode
+    implementation 'com.blankj:utilcodex:1.31.0'
+
+    // --- endregion QuickStart使用
 
 }

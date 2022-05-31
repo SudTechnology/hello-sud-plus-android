@@ -2,8 +2,8 @@ package tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk;
 
 import java.util.List;
 
+import tech.sud.mgp.hello.SudMGPWrapper.utils.SudJsonUtils;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
-import tech.sud.mgp.hello.ui.scenes.base.utils.HSJsonUtils;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmd;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdBaseModel;
 
@@ -19,7 +19,7 @@ public class RoomCmdPKSettleModel extends RoomCmdBaseModel {
     }
 
     public static RoomCmdPKSettleModel fromJson(String json) {
-        return HSJsonUtils.fromJson(json, RoomCmdPKSettleModel.class);
+        return SudJsonUtils.fromJson(json, RoomCmdPKSettleModel.class);
     }
 
     public static class Content {

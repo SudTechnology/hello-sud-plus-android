@@ -13,6 +13,7 @@ import com.blankj.utilcode.util.Utils;
 import java.util.concurrent.Future;
 
 import tech.sud.mgp.hello.R;
+import tech.sud.mgp.hello.SudMGPWrapper.utils.SudJsonUtils;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.CustomCountdownTimer;
@@ -44,7 +45,6 @@ import tech.sud.mgp.hello.ui.scenes.base.model.GameTextModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoleType;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
 import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomServiceCallback;
-import tech.sud.mgp.hello.ui.scenes.base.utils.HSJsonUtils;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.RoomCmdModelUtils;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKAnswerModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKChangeGameModel;
@@ -369,7 +369,7 @@ public class SceneRoomPkManager extends BaseServiceManager {
                             sendXRoomCommand(model.sendUser.roomID, command);
 
                             // 修改本地状态，更新页面显示
-                            acceptRoomPk(HSJsonUtils.fromJson(command, RoomCmdPKAnswerModel.class));
+                            acceptRoomPk(SudJsonUtils.fromJson(command, RoomCmdPKAnswerModel.class));
                             roomPkModel.totalMinute = model.minuteDuration;
                         }
                     }

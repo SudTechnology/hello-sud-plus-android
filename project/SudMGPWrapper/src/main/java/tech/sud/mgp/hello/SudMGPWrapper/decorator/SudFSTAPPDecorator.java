@@ -5,14 +5,13 @@
 
 package tech.sud.mgp.hello.SudMGPWrapper.decorator;
 
-import com.blankj.utilcode.util.GsonUtils;
-
 import java.nio.ByteBuffer;
 import java.util.List;
 
 import tech.sud.mgp.core.ISudFSTAPP;
 import tech.sud.mgp.core.ISudListenerNotifyStateChange;
 import tech.sud.mgp.hello.SudMGPWrapper.state.SudMGPAPPState;
+import tech.sud.mgp.hello.SudMGPWrapper.utils.SudJsonUtils;
 
 /**
  * ISudFSTAPP的装饰类，接近于业务
@@ -53,7 +52,7 @@ public class SudFSTAPPDecorator {
             state.seatIndex = seatIndex;
             state.isSeatRandom = isSeatRandom;
             state.teamId = teamId;
-            iSudFSTAPP.notifyStateChange(SudMGPAPPState.APP_COMMON_SELF_IN, GsonUtils.toJson(state), null);
+            iSudFSTAPP.notifyStateChange(SudMGPAPPState.APP_COMMON_SELF_IN, SudJsonUtils.toJson(state), null);
         }
     }
 
@@ -69,7 +68,7 @@ public class SudFSTAPPDecorator {
         if (iSudFSTAPP != null) {
             SudMGPAPPState.APPCommonSelfReady state = new SudMGPAPPState.APPCommonSelfReady();
             state.isReady = isReady;
-            iSudFSTAPP.notifyStateChange(SudMGPAPPState.APP_COMMON_SELF_READY, GsonUtils.toJson(state), null);
+            iSudFSTAPP.notifyStateChange(SudMGPAPPState.APP_COMMON_SELF_READY, SudJsonUtils.toJson(state), null);
         }
     }
 
@@ -93,7 +92,7 @@ public class SudFSTAPPDecorator {
             SudMGPAPPState.APPCommonSelfPlaying state = new SudMGPAPPState.APPCommonSelfPlaying();
             state.isPlaying = isPlaying;
             state.reportGameInfoExtras = reportGameInfoExtras;
-            iSudFSTAPP.notifyStateChange(SudMGPAPPState.APP_COMMON_SELF_PLAYING, GsonUtils.toJson(state), null);
+            iSudFSTAPP.notifyStateChange(SudMGPAPPState.APP_COMMON_SELF_PLAYING, SudJsonUtils.toJson(state), null);
         }
     }
 
@@ -109,7 +108,7 @@ public class SudFSTAPPDecorator {
         if (iSudFSTAPP != null) {
             SudMGPAPPState.APPCommonSelfCaptain state = new SudMGPAPPState.APPCommonSelfCaptain();
             state.curCaptainUID = curCaptainUID;
-            iSudFSTAPP.notifyStateChange(SudMGPAPPState.APP_COMMON_SELF_CAPTAIN, GsonUtils.toJson(state), null);
+            iSudFSTAPP.notifyStateChange(SudMGPAPPState.APP_COMMON_SELF_CAPTAIN, SudJsonUtils.toJson(state), null);
         }
     }
 
@@ -126,7 +125,7 @@ public class SudFSTAPPDecorator {
         if (iSudFSTAPP != null) {
             SudMGPAPPState.APPCommonSelfKick state = new SudMGPAPPState.APPCommonSelfKick();
             state.kickedUID = kickedUID;
-            iSudFSTAPP.notifyStateChange(SudMGPAPPState.APP_COMMON_SELF_KICK, GsonUtils.toJson(state), null);
+            iSudFSTAPP.notifyStateChange(SudMGPAPPState.APP_COMMON_SELF_KICK, SudJsonUtils.toJson(state), null);
         }
     }
 
@@ -139,7 +138,7 @@ public class SudFSTAPPDecorator {
         ISudFSTAPP iSudFSTAPP = this.iSudFSTAPP;
         if (iSudFSTAPP != null) {
             SudMGPAPPState.APPCommonSelfEnd state = new SudMGPAPPState.APPCommonSelfEnd();
-            iSudFSTAPP.notifyStateChange(SudMGPAPPState.APP_COMMON_SELF_END, GsonUtils.toJson(state), null);
+            iSudFSTAPP.notifyStateChange(SudMGPAPPState.APP_COMMON_SELF_END, SudJsonUtils.toJson(state), null);
         }
     }
 
@@ -159,7 +158,7 @@ public class SudFSTAPPDecorator {
             SudMGPAPPState.APPCommonSelfMicrophone state = new SudMGPAPPState.APPCommonSelfMicrophone();
             state.isOn = isOn;
             state.isDisabled = isDisabled;
-            iSudFSTAPP.notifyStateChange(SudMGPAPPState.APP_COMMON_SELF_MICROPHONE, GsonUtils.toJson(state), null);
+            iSudFSTAPP.notifyStateChange(SudMGPAPPState.APP_COMMON_SELF_MICROPHONE, SudJsonUtils.toJson(state), null);
         }
     }
 
@@ -189,7 +188,7 @@ public class SudFSTAPPDecorator {
             state.wordType = wordType;
             state.keyWordList = keyWordList;
             state.numberList = numberList;
-            iSudFSTAPP.notifyStateChange(SudMGPAPPState.APP_COMMON_SELF_TEXT_HIT, GsonUtils.toJson(state), null);
+            iSudFSTAPP.notifyStateChange(SudMGPAPPState.APP_COMMON_SELF_TEXT_HIT, SudJsonUtils.toJson(state), null);
         }
     }
 
@@ -204,7 +203,7 @@ public class SudFSTAPPDecorator {
         if (iSudFSTAPP != null) {
             SudMGPAPPState.APPCommonOpenBgMusic state = new SudMGPAPPState.APPCommonOpenBgMusic();
             state.isOpen = isOpen;
-            iSudFSTAPP.notifyStateChange(SudMGPAPPState.APP_COMMON_OPEN_BG_MUSIC, GsonUtils.toJson(state), null);
+            iSudFSTAPP.notifyStateChange(SudMGPAPPState.APP_COMMON_OPEN_BG_MUSIC, SudJsonUtils.toJson(state), null);
         }
     }
 
@@ -219,7 +218,7 @@ public class SudFSTAPPDecorator {
         if (iSudFSTAPP != null) {
             SudMGPAPPState.APPCommonOpenSound state = new SudMGPAPPState.APPCommonOpenSound();
             state.isOpen = isOpen;
-            iSudFSTAPP.notifyStateChange(SudMGPAPPState.APP_COMMON_OPEN_SOUND, GsonUtils.toJson(state), null);
+            iSudFSTAPP.notifyStateChange(SudMGPAPPState.APP_COMMON_OPEN_SOUND, SudJsonUtils.toJson(state), null);
         }
     }
 
@@ -234,7 +233,7 @@ public class SudFSTAPPDecorator {
         if (iSudFSTAPP != null) {
             SudMGPAPPState.APPCommonOpenVibrate state = new SudMGPAPPState.APPCommonOpenVibrate();
             state.isOpen = isOpen;
-            iSudFSTAPP.notifyStateChange(SudMGPAPPState.APP_COMMON_OPEN_VIBRATE, GsonUtils.toJson(state), null);
+            iSudFSTAPP.notifyStateChange(SudMGPAPPState.APP_COMMON_OPEN_VIBRATE, SudJsonUtils.toJson(state), null);
         }
     }
 
@@ -249,7 +248,7 @@ public class SudFSTAPPDecorator {
         if (iSudFSTAPP != null) {
             SudMGPAPPState.APPCommonGameSoundVolume state = new SudMGPAPPState.APPCommonGameSoundVolume();
             state.volume = volume;
-            iSudFSTAPP.notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_SOUND_VOLUME, GsonUtils.toJson(state), null);
+            iSudFSTAPP.notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_SOUND_VOLUME, SudJsonUtils.toJson(state), null);
         }
     }
 
@@ -264,7 +263,7 @@ public class SudFSTAPPDecorator {
         if (iSudFSTAPP != null) {
             SudMGPAPPState.APPCommonGameSettingSelectInfo state = new SudMGPAPPState.APPCommonGameSettingSelectInfo();
             state.ludo = ludo;
-            iSudFSTAPP.notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_SETTING_SELECT_INFO, GsonUtils.toJson(state), null);
+            iSudFSTAPP.notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_SETTING_SELECT_INFO, SudJsonUtils.toJson(state), null);
         }
     }
 
@@ -281,7 +280,7 @@ public class SudFSTAPPDecorator {
             SudMGPAPPState.APPCommonGameAddAIPlayers state = new SudMGPAPPState.APPCommonGameAddAIPlayers();
             state.aiPlayers = aiPlayers;
             state.isReady = isReady;
-            iSudFSTAPP.notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_ADD_AI_PLAYERS, GsonUtils.toJson(state), null);
+            iSudFSTAPP.notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_ADD_AI_PLAYERS, SudJsonUtils.toJson(state), null);
         }
     }
     // endregion 状态通知，ISudFSTAPP.notifyStateChange

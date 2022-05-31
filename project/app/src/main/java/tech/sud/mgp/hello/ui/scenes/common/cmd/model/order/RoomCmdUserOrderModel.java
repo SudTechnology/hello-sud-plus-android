@@ -2,8 +2,8 @@ package tech.sud.mgp.hello.ui.scenes.common.cmd.model.order;
 
 import java.util.List;
 
+import tech.sud.mgp.hello.SudMGPWrapper.utils.SudJsonUtils;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
-import tech.sud.mgp.hello.ui.scenes.base.utils.HSJsonUtils;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmd;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdBaseModel;
 
@@ -22,7 +22,7 @@ public class RoomCmdUserOrderModel extends RoomCmdBaseModel {
     public List<String> toUserNames; // 被邀请主播昵称的列表
 
     public static RoomCmdUserOrderModel fromJson(String json) {
-        return HSJsonUtils.fromJson(json, RoomCmdUserOrderModel.class);
+        return SudJsonUtils.fromJson(json, RoomCmdUserOrderModel.class);
     }
 
 }

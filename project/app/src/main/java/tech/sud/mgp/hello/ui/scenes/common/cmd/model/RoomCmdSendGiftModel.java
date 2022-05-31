@@ -1,7 +1,7 @@
 package tech.sud.mgp.hello.ui.scenes.common.cmd.model;
 
+import tech.sud.mgp.hello.SudMGPWrapper.utils.SudJsonUtils;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
-import tech.sud.mgp.hello.ui.scenes.base.utils.HSJsonUtils;
 
 /**
  * 送礼消息信令
@@ -16,7 +16,7 @@ public class RoomCmdSendGiftModel extends RoomCmdBaseModel {
     public UserInfo toUser; // 收礼人
 
     public static RoomCmdSendGiftModel fromJson(String json) {
-        return HSJsonUtils.fromJson(json, RoomCmdSendGiftModel.class);
+        return SudJsonUtils.fromJson(json, RoomCmdSendGiftModel.class);
     }
 
 }

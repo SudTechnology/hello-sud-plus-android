@@ -1,7 +1,7 @@
 package tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk;
 
+import tech.sud.mgp.hello.SudMGPWrapper.utils.SudJsonUtils;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
-import tech.sud.mgp.hello.ui.scenes.base.utils.HSJsonUtils;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmd;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdBaseModel;
 
@@ -19,7 +19,7 @@ public class RoomCmdPKAnswerModel extends RoomCmdBaseModel {
     }
 
     public static RoomCmdPKAnswerModel fromJson(String json) {
-        return HSJsonUtils.fromJson(json, RoomCmdPKAnswerModel.class);
+        return SudJsonUtils.fromJson(json, RoomCmdPKAnswerModel.class);
     }
 
 }

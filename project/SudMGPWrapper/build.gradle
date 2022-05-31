@@ -33,9 +33,6 @@ dependencies {
     // 引入 SudMGPSDK
     api project(':SudMGPSDK')
 
-    // 工具类库: https://github.com/Blankj/AndroidUtilCode
-    api 'com.blankj:utilcodex:1.31.0'
-
     // gson
     api 'com.google.code.gson:gson:2.8.6'
 

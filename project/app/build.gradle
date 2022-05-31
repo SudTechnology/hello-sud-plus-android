@@ -157,4 +157,7 @@ dependencies {
     // 下拉刷新，经典刷新头
     implementation 'com.scwang.smart:refresh-header-classics:2.0.3'
 
+    // 工具类库: https://github.com/Blankj/AndroidUtilCode
+    implementation 'com.blankj:utilcodex:1.31.0'
+
 }

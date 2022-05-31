@@ -5,11 +5,11 @@ import android.view.View;
 import androidx.lifecycle.Observer;
 
 import tech.sud.mgp.hello.SudMGPWrapper.state.SudMGPMGState;
+import tech.sud.mgp.hello.SudMGPWrapper.utils.SudJsonUtils;
 import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.service.main.resp.TicketConfirmJoinResp;
 import tech.sud.mgp.hello.ui.scenes.audio.activity.AbsAudioRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.base.model.ReportGameInfoModel;
-import tech.sud.mgp.hello.ui.scenes.base.utils.HSJsonUtils;
 import tech.sud.mgp.hello.ui.scenes.ticket.viewmodel.TicketGameViewModel;
 import tech.sud.mgp.hello.ui.scenes.ticket.viewmodel.TicketViewModel;
 import tech.sud.mgp.hello.ui.scenes.ticket.widget.JoinTicketConfirmDialog;
@@ -68,7 +68,7 @@ public class TicketActivity extends AbsAudioRoomActivity<TicketGameViewModel> {
             reportGameInfoModel.gameSessionId = ticketConfirmJoinResp.gameSessionId;
         }
         reportGameInfoModel.sceneId = roomInfoModel.sceneType;
-        gameViewModel.notifyAPPCommonSelfPlaying(true, HSJsonUtils.toJson(reportGameInfoModel));
+        gameViewModel.notifyAPPCommonSelfPlaying(true, SudJsonUtils.toJson(reportGameInfoModel));
     }
 
     // 点击了准备游戏

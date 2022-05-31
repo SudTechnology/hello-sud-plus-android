@@ -1,7 +1,7 @@
 package tech.sud.mgp.hello.ui.scenes.common.cmd.model.order;
 
+import tech.sud.mgp.hello.SudMGPWrapper.utils.SudJsonUtils;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
-import tech.sud.mgp.hello.ui.scenes.base.utils.HSJsonUtils;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmd;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdBaseModel;
 
@@ -20,7 +20,7 @@ public class RoomCmdOrderOperateModel extends RoomCmdBaseModel {
     public boolean operate;//true同意false拒绝
 
     public static RoomCmdOrderOperateModel fromJson(String json) {
-        return HSJsonUtils.fromJson(json, RoomCmdOrderOperateModel.class);
+        return SudJsonUtils.fromJson(json, RoomCmdOrderOperateModel.class);
     }
 
 }

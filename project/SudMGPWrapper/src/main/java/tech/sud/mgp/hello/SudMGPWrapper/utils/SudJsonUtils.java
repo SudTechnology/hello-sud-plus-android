@@ -2,12 +2,13 @@ package tech.sud.mgp.hello.SudMGPWrapper.utils;
 
 import androidx.annotation.NonNull;
 
-import com.blankj.utilcode.util.GsonUtils;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 /**
  * json解析工具
  */
-public class HSJsonUtils {
+public class SudJsonUtils {
 
     /**
      * 解析json
@@ -16,7 +17,7 @@ public class HSJsonUtils {
      */
     public static <T> T fromJson(final String json, @NonNull final Class<T> type) {
         try {
-            return GsonUtils.fromJson(json, type);
+            return getGson().fromJson(json, type);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -30,7 +31,15 @@ public class HSJsonUtils {
      * @return
      */
     public static String toJson(final Object object) {
-        return GsonUtils.toJson(object);
+        return getGson().toJson(object);
+    }
+
+    public static Gson getGson(){
+        return InnerClass.gson;
+    }
+
+    public static class InnerClass {
+        public static Gson gson = new GsonBuilder().serializeNulls().disableHtmlEscaping().create();
     }
 
 }

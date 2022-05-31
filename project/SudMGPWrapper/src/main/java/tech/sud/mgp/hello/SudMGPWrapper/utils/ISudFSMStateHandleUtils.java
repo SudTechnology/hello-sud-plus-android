@@ -19,7 +19,7 @@ public class ISudFSMStateHandleUtils {
         MGStateResponse response = new MGStateResponse();
         response.ret_code = MGStateResponse.SUCCESS;
         response.ret_msg = "success";
-        handle.success(HSJsonUtils.toJson(response));
+        handle.success(SudJsonUtils.toJson(response));
     }
 
 }

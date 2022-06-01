@@ -140,12 +140,9 @@
 - 3.6 `QuickStart 服务端`[hello-sud-java](https://github.com/SudTechnology/hello-sud-java) ，login(App getCode 获取短期令牌code) ，`如果访问不了，请联系SUD添加，github账号`
 
 # 4. QuickStart运行效果图
-<img src="https://github.com/SudTechnology/hello-sud-plus-android/blob/master/project/QuickStart/doc/QuickStartHome.png" width="50%" height="50%">
-<img src="https://github.com/SudTechnology/hello-sud-plus-android/blob/master/project/QuickStart/doc/QuickStartGame.png" width="50%" height="50%">
-
-[comment]: <> (![QuickStartHome.png]&#40;doc/QuickStartHome.png&#41;)
-
-[comment]: <> (![QuickStartGame.png]&#40;doc/QuickStartGame.png&#41;)
+![QuickStartHome.png](doc/QuickStartHome.png)
+![QuickStartGame.png](doc/QuickStartGame.png)
 
 # 5. 接入方客户端和SudMGP SDK调用时序图
 ![AppCallSudMGPSeqDiag.png](doc/AppCallSudMGPSeqDiag.png)
+

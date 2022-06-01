@@ -1,102 +1,136 @@
-# 1. QuickStart
-![QuickStartArch.png](QuickStartArch.png)
-- 1.1. 依赖SudMGPSDK、SudMGPWrapper快速接入游戏。
-- 1.2. 参考文档：[StartUp-Android](https://docs.sud.tech/zh-CN/app/Client/StartUp-Android.html)
-- 1.3. Run此项目：![Run](QuickStartRun.png)
-- 1.4. 核心类：
-  - 1.4.1. `tech.sud.mgp.hello.ui.game.GameViewModel`
-    - 职责： login --> initSdk --> loadMG
-  - 1.4.2. `tech.sud.mgp.hello.GameActivity`
-    - 职责： addGameView
+# QuickStart 架构图
+![QuickStartArch.png](doc/QuickStartArch.png)
+
+# 1. SudMGP SDK
+### 1.1 SudMGP Android 客户端SDK
+- 例如：SudMGP-v1.1.52.554.aar
+- [下载 SudMGP-Android SDK](https://github.com/SudTechnology/sud-mgp-android/releases)
+  
+### 1.2 SudMGP iOS 客户端SDK
+- 例如：SudMGP.xcframework
+- [下载 SudMGP-iOS SDK](https://github.com/SudTechnology/sud-mgp-ios/releases)
+
+### 1.3 接入文档
+- [接入文档](https://docs.sud.tech/zh-CN/app/Client/)
+
+### 1.4 接入FAQ
+ - 准备中，敬请期待
 
 # 2. SudMGPWrapper
-  - 1. App和游戏相互调用接口封装
-    - 1.1. 封装ISudFSTAPP（App调用游戏）：`SudFSTAPPDecorator` <br>
-      在调用`SudMGP.loadMG`时会返回`ISudFSTAPP`对象，该对象被`SudFSTAPPDecorator`封装。 <br>
-      参考文档：[ISudFSTAPP](https://docs.sud.tech/zh-CN/app/Client/API/ISudFSTAPP.html) <br><br>
-    - 1.2. 封装ISudFSMMG（游戏调用App）：`SudFSMMGDecorator` <br>
-      在调用`SudMGP.loadMG`时需要传入`ISudFSMMG`对象，`SudFSMMGDecorator`实现了`ISudFSMMG`接口。 <br>
-      参考文档：[ISudFSMMG](https://docs.sud.tech/zh-CN/app/Client/API/ISudFSMMG.html) <br>
-      其中`SudFSMMGListener`是`SudFSMMGDecorator`的回调接口，回调装饰之后的游戏状态等等。<br>
-      `SudFSMMGListener`类中有标明哪些是需要实现的方法。可参考`GameViewModel`的用法。<br>
-  
+- `SudMGPWrapper封装SudMGP的App和游戏相互调用接口`；
+- `SudMGPWrapper会长期维护和保持更新`；
+- `推荐APP接入方使用SudMGPWrapper`
+- `SudMGPAPPState` ，`SudMGPMGState`，`SudFSMMGListener`，`SudFSMMGDecorator` ，`SudFSTAPPDecorator核心类`；
 
-  - 2. App和游戏相互调用状态封装
-    - 2.1. App调用游戏或者游戏调用App都是使用Json数据格式进行通信，`SudMGPWrapper`将这些数据(状态)定义成Model。<br><br>
-    - 2.2. **App状态**：`SudMGPAPPState` <br>
-      `SudFSTAPPDecorator`已将其封装为方法参数，开发者通常情况下只需要关注方法参数即可。<br>
-      参考文档：[App状态](https://docs.sud.tech/zh-CN/app/Client/APPFST/) <br><br>
-    - 2.3. **游戏状态**：`SudMGPMGState`<br>
-      参考文档：[游戏状态](https://docs.sud.tech/zh-CN/app/Client/MGFSM/) <br>
-      游戏通过`ISudFSMMG`接口将状态通知到App。<br><br>
-      - 2.3.1. **通用状态-游戏**
-        - 参考文档：[通用状态-游戏](https://docs.sud.tech/zh-CN/app/Client/MGFSM/CommonStateGame.html)
-          - 通过onGameStateChange方法通知
-            ```
-            /**
-             * 游戏状态变化
-             * APP接入方需要调用handle.success
-             * @param handle
-             * @param state
-             * @param dataJson
-             */
-            void onGameStateChange(ISudFSMStateHandle handle, String state, String dataJson);
-            ```
-      - 2.3.2. **通用状态-玩家**
-          - 参考文档：[通用状态-玩家](https://docs.sud.tech/zh-CN/app/Client/MGFSM/CommonStatePlayer.html)
-            - 通过onPlayerStateChange方法通知
-              ```
-              /**
-               * 游戏玩家状态变化
-               * APP接入方需要调用handle.success
-               * @param handle
-               * @param userId
-               * @param state
-               * @param dataJson
-               */
-              void onPlayerStateChange(ISudFSMStateHandle handle, String userId, String state, String dataJson);
-              ```
-      - 2.3.3. **游戏特定状态**
-        - 同样是通过onPlayerStateChange方法通知
-        - 2.3.3.1. **你画我猜**
-            - 参考文档：[你画我猜](https://docs.sud.tech/zh-CN/app/Client/MGFSM/DrawGuess.html) <br><br>
+### 2.1 App状态和游戏状态
+- `SudMGPAPPState` [App通用状态](https://docs.sud.tech/zh-CN/app/Client/APPFST/CommonState.html)
+- `SudMGPMGState` [通用状态-游戏](https://docs.sud.tech/zh-CN/app/Client/MGFSM/CommonStateGame.html) 和 [通用状态-玩家](https://docs.sud.tech/zh-CN/app/Client/MGFSM/CommonStatePlayer.html)
 
-    - 2.4. **游戏配置Model：**`GameConfigModel`
-      ```
-      /**
-       * 获取游戏Config
-       * @param handle
-       * @param dataJson {}
-       * 最低版本：v1.1.30.xx
-       */
-      void onGetGameCfg(ISudFSMStateHandle handle, String dataJson);
-      ```
-      参考文档：[onGetGameCfg](https://docs.sud.tech/zh-CN/app/Client/API/ISudFSMMG/onGetGameCfg.html) <br>
-      参考代码：`tech.sud.mgp.hello.ui.game.GameViewModel` <br><br>
-  
-    - 2.5. **游戏视图Model：**`GameViewInfoModel`
-      ```
-      /**
-       * 获取游戏View信息
-       * @param handle
-       * @param dataJson {}
-       */
-      void onGetGameViewInfo(ISudFSMStateHandle handle, String dataJson);
-      ```
-  
-      参考文档：[onGetGameViewInfo](https://docs.sud.tech/zh-CN/app/Client/API/ISudFSMMG/onGetGameViewInfo.html) <br>
-      参考代码：`tech.sud.mgp.hello.ui.game.GameViewModel`
+### 2.2 App调用游戏
+- [ISudFSTAPP](https://docs.sud.tech/zh-CN/app/Client/API/ISudFSTAPP.html) 的装饰类`SudFSTAPPDecorator`，负责封装每一个App状态接口
+- `SudFSTAPPDecorator`封装ISudFSTAPP两类接口[notifyStateChange](https://docs.sud.tech/zh-CN/app/Client/APPFST/CommonState.html) 和 foo
 
-# 3. SudMGPSDK
-- SudMGPSDK提供游戏接入的能力
+``` java
+public class SudFSTAPPDecorator {
+    // iSudFSTAPP = SudMGP.loadMG(activity, userId, roomId, code, gameId, language, sudFSMMGDecorator);
+    public void setISudFSTAPP(ISudFSTAPP iSudFSTAPP);
+    // 1. 加入状态
+    public void notifyAPPCommonSelfIn(boolean isIn, int seatIndex, boolean isSeatRandom, int teamId);
+    ...
 
-# 5. 项目目录介绍
-目录|介绍
----|---
-QuickStart      |	快速接入示例
-app             |	可下载APK体验：[HelloSudDemo](https://www.sud.tech/?lang=zh)
-SudMGPSDK       |	存放SudMGP aar包
-SudMGPWrapper   |	对SudMGP的封装
+    // 16. 设置游戏中的AI玩家（2022-05-11新增）
+    public void notifyAPPCommonGameAddAIPlayers(List<SudMGPAPPState.AIPlayers> aiPlayers, int isReady);
+    public void startMG();
+    public void pauseMG();
+    public void playMG();
+    public void stopMG();
+    public void destroyMG();
+    public void updateCode(String code, ISudListenerNotifyStateChange listener);
+    public void pushAudio(ByteBuffer buffer, int bufferLength);
+}
+```
+### 2.3 游戏调用App
+- `SudFSMMGListener`负责把游戏每一个状态封装成单独的回调函数
+- `SudFSMMGListener`封装[ISudFSMMG](https://docs.sud.tech/zh-CN/app/Client/API/ISudFSMMG.html) 三类回调函数onGameStateChange，onPlayerStateChange，onFoo
+``` java
+public interface SudFSMMGListener {
+    default void onGameLog(String str) {}
+    void onGameStarted();
+    void onGameDestroyed();
+    void onExpireCode(ISudFSMStateHandle handle, String dataJson);
+    void onGetGameViewInfo(ISudFSMStateHandle handle, String dataJson);
+    void onGetGameCfg(ISudFSMStateHandle handle, String dataJson);
 
-# 6. 接入文档
-[接入文档](https://docs.sud.tech/zh-CN/app/Client/)
+    // 通用状态 - 游戏
+    // void onGameStateChange(ISudFSMStateHandle handle, String state, String dataJson)；
+    // 文档: https://docs.sud.tech/zh-CN/app/Client/MGFSM/CommonStateGame.html
+    // 1.游戏公屏消息
+    default void onGameMGCommonPublicMessage(ISudFSMStateHandle handle, SudMGPMGState.MGCommonPublicMessage model);
+    ...
+
+    // 21. 游戏通知app层添加陪玩机器人是否成功（2022-05-17新增）
+    default void onGameMGCommonGameAddAIPlayers(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameAddAIPlayers model);
+    
+    // 通用状态 - 玩家
+    // void onPlayerStateChange(ISudFSMStateHandle handle, String userId, String state, String dataJson);
+    // 文档: https://docs.sud.tech/zh-CN/app/Client/MGFSM/CommonStatePlayer.html
+    // 1.加入状态
+    default void onPlayerMGCommonPlayerIn(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGCommonPlayerIn model);
+    ...
+
+    // 11. 游戏通知app层当前游戏剩余时间（2022-05-23新增，目前UMO生效）
+    default void onPlayerMGCommonGameCountdownTime(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGCommonGameCountdownTime model);
+
+    // 游戏个性化状态：你画我猜
+    // 文档：https://docs.sud.tech/zh-CN/app/Client/MGFSM/DrawGuess.html
+    // 1. 选词中状态
+    default void onPlayerMGDGSelecting(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGDGSelecting model);
+    ...
+}
+```
+- [ISudFSMMG](https://docs.sud.tech/zh-CN/app/Client/API/ISudFSMMG.html) 的装饰类`SudFSMMGDecorator`，负责派发每一个游戏状态，缓存需要的游戏状态
+``` java
+public class SudFSMMGDecorator implements ISudFSMMG {
+    // 设置回调
+    public void setSudFSMMGListener(SudFSMMGListener listener);
+    // 游戏日志
+    public void onGameLog(String dataJson);
+    // 游戏加载进度
+    public void onGameLoadingProgress(int stage, int retCode, int progress);
+    // 游戏已开始，游戏长连接完成
+    public void onGameStarted();
+    // 游戏销毁
+    public void onGameDestroyed();
+    // Code过期，必须实现；APP接入方必须调用handle.success，释放异步回调对象
+    public void onExpireCode(ISudFSMStateHandle handle, String dataJson);
+    // 获取游戏View信息，必须实现；APP接入方必须调用handle.success，释放异步回调对象
+    // GameViewInfoModel文档: https://docs.sud.tech/zh-CN/app/Client/API/ISudFSMMG/onGetGameViewInfo.html
+    public void onGetGameViewInfo(ISudFSMStateHandle handle, String dataJson);
+    // 获取游戏Config，必须实现；APP接入方必须调用handle.success，释放异步回调对象
+    // GameConfigModel文档: https://docs.sud.tech/zh-CN/app/Client/API/ISudFSMMG/onGetGameCfg.html
+    public void onGetGameCfg(ISudFSMStateHandle handle, String dataJson);
+    // 游戏状态变化；APP接入方必须调用handle.success，释放异步回调对象
+    public void onGameStateChange(ISudFSMStateHandle handle, String state, String dataJson);
+    // 游戏玩家状态变化，APP接入方必须调用handle.success，释放异步回调对象
+    public void onPlayerStateChange(ISudFSMStateHandle handle, String userId, String state, String dataJson);
+}
+```
+
+# 3. QuickStart
+- 3.1 请使用QuickStart项目运行；
+- 3.2 QuickStart使用SudMGPWrapper、SudMGPSDK实现快速接入游戏；
+- 3.3 快速接入文档：[StartUp-Android](https://docs.sud.tech/zh-CN/app/Client/StartUp-Android.html) 和 [StartUp-iOS](https://docs.sud.tech/zh-CN/app/Client/StartUp-iOS.html)
+- 3.4 `GameViewModel`负责login(App getCode) --> SudMGP.initSDK --> SudMGP.loadMG
+- 3.5 `GameActivity`负责addGameView
+- 3.6 `QuickStart 服务端`[hello-sud-java](https://github.com/SudTechnology/hello-sud-java) ，login(App getCode 获取短期令牌code) ，`如果访问不了，请联系SUD添加，github账号`
+
+# 4. QuickStart运行效果图
+<img src="https://github.com/SudTechnology/hello-sud-plus-android/blob/master/project/QuickStart/doc/QuickStartHome.png" width="50%" height="50%">
+<img src="https://github.com/SudTechnology/hello-sud-plus-android/blob/master/project/QuickStart/doc/QuickStartGame.png" width="50%" height="50%">
+
+[comment]: <> (![QuickStartHome.png]&#40;doc/QuickStartHome.png&#41;)
+
+[comment]: <> (![QuickStartGame.png]&#40;doc/QuickStartGame.png&#41;)
+
+# 5. 接入方客户端和SudMGP SDK调用时序图
+![AppCallSudMGPSeqDiag.png](doc/AppCallSudMGPSeqDiag.png)

@@ -30,7 +30,21 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
+        <com.opensource.svgaplayer.SVGAImageView
+            android:layout_width="0dp"
+            android:layout_height="24dp"
+            android:scaleType="fitXY"
+            app:source="more_activity_bg.svga"
+            app:autoPlay="true"
+            app:loopCount="0"
+            android:background="@color/transparent"
+            app:layout_constraintStart_toStartOf="@id/tv_more_activity"
+            app:layout_constraintEnd_toEndOf="@id/tv_more_activity"
+            app:layout_constraintTop_toTopOf="@id/tv_more_activity"
+            app:layout_constraintBottom_toBottomOf="@id/tv_more_activity" />
+
         <TextView
+            android:id="@+id/tv_more_activity"
             android:layout_width="wrap_content"
             android:layout_height="24dp"
             android:paddingHorizontal="14dp"
@@ -38,7 +52,6 @@
             android:text="@string/more_activity"
             android:textColor="@color/white"
             android:gravity="center"
-            android:background="@drawable/shape_more_activity_bg"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent" />

@@ -24,7 +24,7 @@
 
 ### 2.1 App调用游戏
 - `SudMGPAPPState` 封装 [App通用状态](https://docs.sud.tech/zh-CN/app/Client/APPFST/CommonState.html) ；
-- `SudFSTAPPDecorator`封装 [ISudFSTAPP](https://docs.sud.tech/zh-CN/app/Client/API/ISudFSTAPP.html) 两类接口，[notifyStateChange](https://docs.sud.tech/zh-CN/app/Client/APPFST/CommonState.html) 、 foo；
+- `SudFSTAPPDecorator` 封装 [ISudFSTAPP](https://docs.sud.tech/zh-CN/app/Client/API/ISudFSTAPP.html) 两类接口，[notifyStateChange](https://docs.sud.tech/zh-CN/app/Client/APPFST/CommonState.html) 、 foo；
 - `SudFSTAPPDecorator` 负责把每一个App通用状态封装成接口；
     <details>
     <summary>代码框架 java class SudFSTAPPDecorator</summary>
@@ -53,8 +53,8 @@
 
 ### 2.2 游戏调用App
 - `SudMGPMGState` 封装 [通用状态-游戏](https://docs.sud.tech/zh-CN/app/Client/MGFSM/CommonStateGame.html) 和 [通用状态-玩家](https://docs.sud.tech/zh-CN/app/Client/MGFSM/CommonStatePlayer.html) ；
-- `SudFSMMGListener`封装[ISudFSMMG](https://docs.sud.tech/zh-CN/app/Client/API/ISudFSMMG.html) 三类回调函数，onGameStateChange、onPlayerStateChange、onFoo；
-- `SudFSMMGListener`负责把游戏每一个状态封装成单独的回调函数；
+- `SudFSMMGListener` 封装[ISudFSMMG](https://docs.sud.tech/zh-CN/app/Client/API/ISudFSMMG.html) 三类回调函数，onGameStateChange、onPlayerStateChange、onFoo；
+- `SudFSMMGListener` 负责把游戏每一个状态封装成单独的回调函数；
     <details>
     <summary>代码框架 java interface SudFSMMGListener</summary>
     
@@ -133,9 +133,9 @@
 - 请使用QuickStart项目运行；
 - QuickStart使用SudMGPWrapper、SudMGPSDK实现快速接入游戏；
 - 快速接入文档：[StartUp-Android](https://docs.sud.tech/zh-CN/app/Client/StartUp-Android.html) 和 [StartUp-iOS](https://docs.sud.tech/zh-CN/app/Client/StartUp-iOS.html) ；
-- `GameViewModel`负责login(App getCode) --> SudMGP.initSDK --> SudMGP.loadMG
-- `GameActivity`负责addGameView；
-- `QuickStart 服务端`[hello-sud-java](https://github.com/SudTechnology/hello-sud-java) ，login(App getCode 获取短期令牌code) ，`如果访问不了代码仓库，请联系SUD添加，github账号`；
+- `GameViewModel` 负责login(App getCode) --> SudMGP.initSDK --> SudMGP.loadMG；
+- `GameActivity` 负责addGameView；
+- `QuickStart 服务端` [hello-sud-java](https://github.com/SudTechnology/hello-sud-java) ，login(App getCode 获取短期令牌code) ，`如果访问不了代码仓库，请联系SUD添加，github账号`；
 
 # 4. QuickStart运行效果图
 ![QuickStartHome.png](doc/QuickStartHome.png)

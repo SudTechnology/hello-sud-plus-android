@@ -8,8 +8,8 @@
     <string name="custom_config_game_cpu1">1：CPU低功耗</string>
     <string name="custom_config_game_sound_control">游戏中声音</string>
     <string name="custom_config_game_sound_control_subtitle">(gameSoundControl)</string>
-    <string name="custom_config_game_sound_control0">0：游戏播放声音</string>
-    <string name="custom_config_game_sound_control1">1：app层播放声音，游戏中不播放任何声音</string>
+    <string name="custom_config_game_sound_control0">0：游戏内置</string>
+    <string name="custom_config_game_sound_control1">1：APP调度</string>
     <string name="custom_config_game_sound_volume">游戏中音量</string>
     <string name="custom_config_game_sound_volume_subtitle">(gameSoundVolume)</string>
 

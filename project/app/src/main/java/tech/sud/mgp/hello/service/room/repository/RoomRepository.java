@@ -11,6 +11,7 @@ import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.service.room.method.AudioRequestMethodFactory;
 import tech.sud.mgp.hello.service.room.req.EnterRoomReq;
 import tech.sud.mgp.hello.service.room.req.ExitRoomReq;
+import tech.sud.mgp.hello.service.room.req.QuizGamePlayerReq;
 import tech.sud.mgp.hello.service.room.req.RoomMicListReq;
 import tech.sud.mgp.hello.service.room.req.RoomMicSwitchReq;
 import tech.sud.mgp.hello.service.room.req.RoomOrderCreateReq;
@@ -22,6 +23,7 @@ import tech.sud.mgp.hello.service.room.req.RoomPkRemoveRivalReq;
 import tech.sud.mgp.hello.service.room.req.RoomPkStartReq;
 import tech.sud.mgp.hello.service.room.req.RoomPkSwitchReq;
 import tech.sud.mgp.hello.service.room.resp.EnterRoomResp;
+import tech.sud.mgp.hello.service.room.resp.QuizGamePlayerResp;
 import tech.sud.mgp.hello.service.room.resp.RoomMicListResp;
 import tech.sud.mgp.hello.service.room.resp.RoomMicSwitchResp;
 import tech.sud.mgp.hello.service.room.resp.RoomOrderCreateResp;
@@ -222,6 +224,22 @@ public class RoomRepository {
         req.minute = minute;
         AudioRequestMethodFactory.getMethod()
                 .roomPkAgain(BaseUrlManager.getInteractBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /**
+     * 查询竞猜场景游戏玩家列表（房间内）
+     *
+     * @param roomId     房间id
+     * @param playerList 玩家列表
+     */
+    public static void quizGamePlayer(LifecycleOwner owner, long roomId, List<Long> playerList, RxCallback<QuizGamePlayerResp> callback) {
+        QuizGamePlayerReq req = new QuizGamePlayerReq();
+        req.roomId = roomId;
+        req.playerList = playerList;
+        AudioRequestMethodFactory.getMethod()
+                .quizGamePlayer(BaseUrlManager.getInteractBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }

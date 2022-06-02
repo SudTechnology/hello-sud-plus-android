@@ -105,7 +105,7 @@ public class GameModeDialog extends BaseDialogFragment {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
                 GameModel gameModel = gameModeAdapter.getItem(position);
-                selectGameMode(gameModel.getGameId());
+                selectGameMode(gameModel.gameId);
             }
         });
     }
@@ -154,7 +154,7 @@ public class GameModeDialog extends BaseDialogFragment {
         protected void convert(@NonNull BaseViewHolder baseViewHolder, GameModel gameModel) {
             ImageView ivIcon = baseViewHolder.getView(R.id.item_game_mode_iv_icon);
 
-            long gameId = gameModel.getGameId();
+            long gameId = gameModel.gameId;
             if (gameId == 0) {// 设置为关闭游戏的选项
                 baseViewHolder.setVisible(R.id.item_game_mode_tv_gameing, false);
                 if (isFinishGame) {
@@ -167,7 +167,7 @@ public class GameModeDialog extends BaseDialogFragment {
                 return;
             }
 
-            ImageLoader.loadImage(ivIcon, gameModel.getGamePic());
+            ImageLoader.loadImage(ivIcon, gameModel.gamePic);
 
             if (playingGameId == gameId) {
                 baseViewHolder.setVisible(R.id.item_game_mode_tv_gameing, true);
@@ -175,7 +175,7 @@ public class GameModeDialog extends BaseDialogFragment {
                 baseViewHolder.setVisible(R.id.item_game_mode_tv_gameing, false);
             }
 
-            baseViewHolder.setText(R.id.item_game_mode_tv_name, gameModel.getGameName());
+            baseViewHolder.setText(R.id.item_game_mode_tv_name, gameModel.gameName);
         }
     }
 

@@ -361,6 +361,13 @@ Go to homepage to create one~</string>
     <!-- region 新增 -->
     <string name="intercept_room_pk">由于对方强制退出比赛，比赛提前结束</string>
     <string name="send_order_chat_msg">%1$s 给%2$s下了一单，约玩【%3$s】</string>
+    <string name="more_activity">更多活动</string>
+    <string name="award">奖励</string>
+    <string name="join_now">立即加入</string>
+    <string name="residue">剩余</string>
+    <string name="maximum_number_of_participants">参与人数上限</string>
+    <string name="entrance">入场</string>
+    <string name="free">免费</string>
     <!-- endregion 新增 -->
 
 </resources>

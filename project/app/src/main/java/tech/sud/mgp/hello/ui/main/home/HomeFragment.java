@@ -30,6 +30,7 @@ import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.main.resp.CreatRoomResp;
 import tech.sud.mgp.hello.service.main.resp.GameListResp;
 import tech.sud.mgp.hello.service.main.resp.GameModel;
+import tech.sud.mgp.hello.service.main.resp.QuizGameListResp;
 import tech.sud.mgp.hello.service.main.resp.SceneModel;
 import tech.sud.mgp.hello.ui.common.constant.RequestKey;
 import tech.sud.mgp.hello.ui.main.constant.SceneType;
@@ -60,9 +61,6 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
     private IndicatorHelper helper;
     private NewNestedScrollView scrollView;
     private ImageView menuIv;
-
-    public HomeFragment() {
-    }
 
     public static HomeFragment newInstance() {
         HomeFragment fragment = new HomeFragment();
@@ -166,7 +164,7 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
         }
     }
 
-    private void creatScene(GameListResp resp) {
+    private void createScene(GameListResp resp, QuizGameListResp quizGameListResp) {
         if (resp != null && resp.sceneList.size() > 0) {
             Context context = getContext();
             if (context != null) {
@@ -180,7 +178,13 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
                     HomeRoomTypeView sceneView = new HomeRoomTypeView(context);
                     sceneView.setGameItemListener(this);
                     sceneView.setCreatRoomClickListener(this);
-                    sceneView.setData(model, HomeManager.getInstance().getSceneGame(model.getSceneId()));
+                    sceneView.setData(model, HomeManager.getInstance().getSceneGame(model.getSceneId()), quizGameListResp);
+                    sceneView.setMoreActivityOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // TODO: 2022/6/2 待实现
+                        }
+                    });
                     sceneLayout.addView(sceneView);
                 }
             }
@@ -194,7 +198,7 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
                 startTicketLevelActivity(sceneModel, gameModel);
                 break;
             default:
-                matchGame(sceneModel.getSceneId(), gameModel.getGameId());
+                matchGame(sceneModel.getSceneId(), gameModel.gameId);
                 break;
         }
     }
@@ -216,7 +220,7 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
             public void onNext(BaseResponse<MatchRoomModel> t) {
                 super.onNext(t);
                 if (t.getRetCode() == RetCode.SUCCESS) {
-                    EnterRoomUtils.enterRoom(requireContext(), t.getData().roomId);
+                    EnterRoomUtils.enterRoom(null, t.getData().roomId);
                 }
             }
         });
@@ -228,30 +232,43 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
             public void onNext(BaseResponse<GameListResp> t) {
                 super.onNext(t);
                 if (t.getRetCode() == RetCode.SUCCESS) {
-                    HomeManager.getInstance().gameListResp = t.getData();
-                    creatScene(t.getData());
+                    GameListResp gameListResp = t.getData();
+                    HomeManager.getInstance().gameListResp = gameListResp;
+                    HomeRepository.quizGameList(HomeFragment.this, new RxCallback<QuizGameListResp>() {
+                        @Override
+                        public void onSuccess(QuizGameListResp quizGameListResp) {
+                            super.onSuccess(quizGameListResp);
+                            createScene(gameListResp, quizGameListResp);
+                        }
+
+                        @Override
+                        public void onFinally() {
+                            super.onFinally();
+                            loadCompleted();
+                        }
+                    });
+                } else {
+                    loadCompleted();
                 }
             }
 
             @Override
-            public void onFinally() {
-                super.onFinally();
-                if (refreshLayout.isRefreshing()) {
-                    refreshLayout.finishRefresh();
-                    refreshLayout.finishLoadMore();
-                }
+            public void onError(Throwable e) {
+                super.onError(e);
+                loadCompleted();
             }
         });
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
+    private void loadCompleted() {
+        if (refreshLayout.isRefreshing()) {
+            refreshLayout.finishRefresh();
+            refreshLayout.finishLoadMore();
+        }
     }
 
     @Override
-    public void onCreatRoomClick(SceneModel sceneModel) {
+    public void onCreateRoomClick(SceneModel sceneModel) {
         //创建房间
         if (sceneModel != null) {
             switch (sceneModel.getSceneId()) {
@@ -271,7 +288,7 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
             public void onNext(BaseResponse<CreatRoomResp> t) {
                 super.onNext(t);
                 if (t.getRetCode() == RetCode.SUCCESS) {
-                    EnterRoomUtils.enterRoom(requireContext(), t.getData().roomId);
+                    EnterRoomUtils.enterRoom(null, t.getData().roomId);
                 }
             }
         });

@@ -9,6 +9,7 @@ import tech.sud.mgp.hello.common.http.param.IBaseUrl;
 import tech.sud.mgp.hello.service.base.RequestUrl;
 import tech.sud.mgp.hello.service.room.req.EnterRoomReq;
 import tech.sud.mgp.hello.service.room.req.ExitRoomReq;
+import tech.sud.mgp.hello.service.room.req.QuizGamePlayerReq;
 import tech.sud.mgp.hello.service.room.req.RoomMicListReq;
 import tech.sud.mgp.hello.service.room.req.RoomMicSwitchReq;
 import tech.sud.mgp.hello.service.room.req.RoomOrderCreateReq;
@@ -20,6 +21,7 @@ import tech.sud.mgp.hello.service.room.req.RoomPkRemoveRivalReq;
 import tech.sud.mgp.hello.service.room.req.RoomPkStartReq;
 import tech.sud.mgp.hello.service.room.req.RoomPkSwitchReq;
 import tech.sud.mgp.hello.service.room.resp.EnterRoomResp;
+import tech.sud.mgp.hello.service.room.resp.QuizGamePlayerResp;
 import tech.sud.mgp.hello.service.room.resp.RoomMicListResp;
 import tech.sud.mgp.hello.service.room.resp.RoomMicSwitchResp;
 import tech.sud.mgp.hello.service.room.resp.RoomOrderCreateResp;
@@ -103,5 +105,11 @@ public interface AudioRequestMethod {
      */
     @POST(RequestUrl.ROOM_PK_AGAIN)
     Observable<BaseResponse<RoomPkAgainResp>> roomPkAgain(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body RoomPkAgainReq req);
+
+    /**
+     * 查询竞猜场景游戏玩家列表（房间内）
+     */
+    @POST(RequestUrl.QUIZ_GAME_PLAYER)
+    Observable<BaseResponse<QuizGamePlayerResp>> quizGamePlayer(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body QuizGamePlayerReq req);
 
 }

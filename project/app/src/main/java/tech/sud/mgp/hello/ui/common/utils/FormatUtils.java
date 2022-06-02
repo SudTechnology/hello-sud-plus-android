@@ -3,7 +3,9 @@ package tech.sud.mgp.hello.ui.common.utils;
 public class FormatUtils {
 
     /**
-     * 格式化时长，返回"xx:xx"
+     * 格式化时长，返回"xx:xx"（分:秒）
+     *
+     * @param duration 单位为秒
      */
     public static String formatTime(long duration) {
         long second = duration % 60;
@@ -17,6 +19,41 @@ public class FormatUtils {
             return "0" + time;
         }
         return time + "";
+    }
+
+    /**
+     * 格式化时长，返回"xx:xx:xx:xx"（天:时:分:秒）
+     *
+     * @param duration 单位为秒
+     */
+    public static String formatTimeDay(long duration) {
+        long oneMinute = 60;
+        long oneHour = 60 * 60;
+        long oneDay = oneHour * 24;
+
+        // 计算秒
+        long second = duration % oneMinute;
+
+        // 计算分钟
+        long minute;
+        if (duration >= oneHour) {
+            minute = duration % oneHour;
+        } else {
+            minute = duration / oneMinute;
+        }
+
+        // 计算小时
+        long hour;
+        if (duration >= oneDay) {
+            hour = duration % oneDay;
+        } else {
+            hour = duration / oneHour;
+        }
+
+        // 计算天
+        long day = duration / oneDay;
+
+        return coverTime(day) + ":" + coverTime(hour) + ":" + coverTime(minute) + ":" + coverTime(second);
     }
 
 }

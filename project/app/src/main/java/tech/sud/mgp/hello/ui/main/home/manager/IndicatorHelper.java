@@ -62,7 +62,7 @@ public class IndicatorHelper {
                 SceneModel model = sceneList.get(index);
                 CommonPagerTitleView pagerTitleView = new CommonPagerTitleView(context);
                 ColorTransitionPagerTitleView simplePagerTitleView = new ColorTransitionPagerTitleView(context);
-                simplePagerTitleView.setText(model.getSceneName());
+                simplePagerTitleView.setText(model.sceneName);
 
                 simplePagerTitleView.setTextSize(16);
                 simplePagerTitleView.setOnClickListener(v -> clickIndicator(index));
@@ -160,7 +160,7 @@ public class IndicatorHelper {
                     float sceneViewBottomY = sceneView.getY() + sceneView.getHeight();
                     if (sceneViewY < locationY && sceneViewBottomY > locationY) {
                         HomeRoomTypeView homeRoomTypeView = (HomeRoomTypeView) sceneView;
-                        LogUtils.i("=====", "IDLE findView=" + homeRoomTypeView.sceneModel.getSceneName());
+                        LogUtils.i("=====", "IDLE findView=" + homeRoomTypeView.sceneModel.sceneName);
                         scroll(i);
                         return homeRoomTypeView;
                     }

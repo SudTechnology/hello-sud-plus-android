@@ -19,7 +19,7 @@ public class SceneAdapter extends BaseQuickAdapter<SceneTypeDialog.DialogSceneMo
     @Override
     protected void convert(@NonNull BaseViewHolder baseViewHolder, SceneTypeDialog.DialogSceneModel sceneModel) {
         TextView nameTv = baseViewHolder.getView(R.id.scene_name_tv);
-        nameTv.setText(sceneModel.model.getSceneName());
+        nameTv.setText(sceneModel.model.sceneName);
         nameTv.setSelected(sceneModel.selected);
     }
 }

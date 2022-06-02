@@ -17,20 +17,17 @@
  - 准备中，敬请期待
 
 # 2. SudMGPWrapper
-- `SudMGPWrapper封装SudMGP的App和游戏相互调用接口`；
-- `SudMGPWrapper会长期维护和保持更新`；
-- `推荐APP接入方使用SudMGPWrapper`
-- `SudMGPAPPState` ，`SudMGPMGState`，`SudFSMMGListener`，`SudFSMMGDecorator` ，`SudFSTAPPDecorator核心类`；
+- `SudMGPWrapper封装SudMGP，简化App和游戏相互调用接口`；
+- `SudMGPWrapper长期维护和保持更新`；
+- `推荐APP接入方使用SudMGPWrapper`；
+- `SudMGPAPPState`、`SudMGPMGState`、`SudFSMMGListener`、`SudFSMMGDecorator`、`SudFSTAPPDecorator核心类`；
 
-### 2.1 App状态和游戏状态
-- `SudMGPAPPState` [App通用状态](https://docs.sud.tech/zh-CN/app/Client/APPFST/CommonState.html)
-- `SudMGPMGState` [通用状态-游戏](https://docs.sud.tech/zh-CN/app/Client/MGFSM/CommonStateGame.html) 和 [通用状态-玩家](https://docs.sud.tech/zh-CN/app/Client/MGFSM/CommonStatePlayer.html)
-
-### 2.2 App调用游戏
-- [ISudFSTAPP](https://docs.sud.tech/zh-CN/app/Client/API/ISudFSTAPP.html) 的装饰类`SudFSTAPPDecorator`，负责封装每一个App状态接口
-- `SudFSTAPPDecorator`封装ISudFSTAPP两类接口[notifyStateChange](https://docs.sud.tech/zh-CN/app/Client/APPFST/CommonState.html) 和 foo
+### 2.1 App调用游戏
+- `SudMGPAPPState` 封装 [App通用状态](https://docs.sud.tech/zh-CN/app/Client/APPFST/CommonState.html) ；
+- `SudFSTAPPDecorator`封装 [ISudFSTAPP](https://docs.sud.tech/zh-CN/app/Client/API/ISudFSTAPP.html) 两类接口，[notifyStateChange](https://docs.sud.tech/zh-CN/app/Client/APPFST/CommonState.html) 、 foo；
+- `SudFSTAPPDecorator` 负责把每一个App通用状态封装成接口；
     <details>
-    <summary>class SudFSTAPPDecorator</summary>
+    <summary>代码框架 java class SudFSTAPPDecorator</summary>
 
     ``` java
     public class SudFSTAPPDecorator {
@@ -49,15 +46,17 @@
         public void destroyMG();
         public void updateCode(String code, ISudListenerNotifyStateChange listener);
         public void pushAudio(ByteBuffer buffer, int bufferLength);
+        ...
     }
     ```
     </details>
 
-### 2.3 游戏调用App
-- `SudFSMMGListener`负责把游戏每一个状态封装成单独的回调函数
-- `SudFSMMGListener`封装[ISudFSMMG](https://docs.sud.tech/zh-CN/app/Client/API/ISudFSMMG.html) 三类回调函数onGameStateChange，onPlayerStateChange，onFoo
+### 2.2 游戏调用App
+- `SudMGPMGState` 封装 [通用状态-游戏](https://docs.sud.tech/zh-CN/app/Client/MGFSM/CommonStateGame.html) 和 [通用状态-玩家](https://docs.sud.tech/zh-CN/app/Client/MGFSM/CommonStatePlayer.html) ；
+- `SudFSMMGListener`封装[ISudFSMMG](https://docs.sud.tech/zh-CN/app/Client/API/ISudFSMMG.html) 三类回调函数，onGameStateChange、onPlayerStateChange、onFoo；
+- `SudFSMMGListener`负责把游戏每一个状态封装成单独的回调函数；
     <details>
-    <summary>interface SudFSMMGListener</summary>
+    <summary>代码框架 java interface SudFSMMGListener</summary>
     
     ``` java
     public interface SudFSMMGListener {
@@ -96,10 +95,9 @@
     }
     ```
     </details>
-
-- [ISudFSMMG](https://docs.sud.tech/zh-CN/app/Client/API/ISudFSMMG.html) 的装饰类`SudFSMMGDecorator`，负责派发每一个游戏状态，缓存需要的游戏状态
+- [ISudFSMMG](https://docs.sud.tech/zh-CN/app/Client/API/ISudFSMMG.html) 的装饰类`SudFSMMGDecorator`，负责派发每一个游戏状态，缓存需要的游戏状态；
     <details>
-    <summary>class SudFSMMGDecorator</summary>
+    <summary>代码框架 java class SudFSMMGDecorator</summary>
     
     ``` java
     public class SudFSMMGDecorator implements ISudFSMMG {
@@ -125,19 +123,19 @@
         public void onGameStateChange(ISudFSMStateHandle handle, String state, String dataJson);
         // 游戏玩家状态变化，APP接入方必须调用handle.success，释放异步回调对象
         public void onPlayerStateChange(ISudFSMStateHandle handle, String userId, String state, String dataJson);
+  
+        ...
     }
     ```
     </details>
 
-
-
 # 3. QuickStart
-- 3.1 请使用QuickStart项目运行；
-- 3.2 QuickStart使用SudMGPWrapper、SudMGPSDK实现快速接入游戏；
-- 3.3 快速接入文档：[StartUp-Android](https://docs.sud.tech/zh-CN/app/Client/StartUp-Android.html) 和 [StartUp-iOS](https://docs.sud.tech/zh-CN/app/Client/StartUp-iOS.html)
-- 3.4 `GameViewModel`负责login(App getCode) --> SudMGP.initSDK --> SudMGP.loadMG
-- 3.5 `GameActivity`负责addGameView
-- 3.6 `QuickStart 服务端`[hello-sud-java](https://github.com/SudTechnology/hello-sud-java) ，login(App getCode 获取短期令牌code) ，`如果访问不了，请联系SUD添加，github账号`
+- 请使用QuickStart项目运行；
+- QuickStart使用SudMGPWrapper、SudMGPSDK实现快速接入游戏；
+- 快速接入文档：[StartUp-Android](https://docs.sud.tech/zh-CN/app/Client/StartUp-Android.html) 和 [StartUp-iOS](https://docs.sud.tech/zh-CN/app/Client/StartUp-iOS.html) ；
+- `GameViewModel`负责login(App getCode) --> SudMGP.initSDK --> SudMGP.loadMG
+- `GameActivity`负责addGameView；
+- `QuickStart 服务端`[hello-sud-java](https://github.com/SudTechnology/hello-sud-java) ，login(App getCode 获取短期令牌code) ，`如果访问不了代码仓库，请联系SUD添加，github账号`；
 
 # 4. QuickStart运行效果图
 ![QuickStartHome.png](doc/QuickStartHome.png)

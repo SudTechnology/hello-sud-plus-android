@@ -8,8 +8,8 @@
     <string name="custom_config_game_cpu1">1：low</string>
     <string name="custom_config_game_sound_control">Indicates whether the game plays sound</string>
     <string name="custom_config_game_sound_control_subtitle">(gameSoundControl)</string>
-    <string name="custom_config_game_sound_control0">0：the game plays sound</string>
-    <string name="custom_config_game_sound_control1">1：the game does not play sound</string>
+    <string name="custom_config_game_sound_control0">0: game play sound</string>
+    <string name="custom_config_game_sound_control1">1: app play sound</string>
     <string name="custom_config_game_sound_volume">The volume level of the game</string>
     <string name="custom_config_game_sound_volume_subtitle">(gameSoundVolume)</string>
 

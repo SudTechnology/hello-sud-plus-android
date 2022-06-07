@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="124dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginTop="10dp"
+    android:background="@drawable/shape_item_more_quiz">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginTop="11dp"
+        android:background="@drawable/shape_quiz_win_bg"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="6dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/award"
+            android:textColor="@color/c_ffffff"
+            android:textSize="14sp" />
+
+        <View
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_marginStart="4dp"
+            android:background="@drawable/icon_coin" />
+
+        <TextView
+            android:id="@+id/tv_win_award"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:textColor="#ffff22"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_countdown"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:background="@drawable/shape_quiz_countdown"
+        android:orientation="horizontal"
+        android:paddingStart="6dp"
+        android:paddingEnd="10dp"
+        android:gravity="center_vertical"
+        android:layout_marginTop="14dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <View
+            android:layout_width="12dp"
+            android:layout_height="13dp"
+            android:background="@drawable/ic_countdown" />
+
+        <TextView
+            android:id="@+id/tv_countdown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#6c3800"
+            android:layout_marginStart="6dp" />
+
+    </LinearLayout>
+
+    <tech.sud.mgp.hello.common.widget.view.round.RoundedImageView
+        android:id="@+id/iv_icon"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="49dp"
+        app:riv_corner_radius="8dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <tech.sud.mgp.hello.common.widget.view.MarqueeTextView
+        android:id="@+id/tv_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        android:layout_marginTop="7dp"
+        android:layout_marginHorizontal="8dp"
+        app:layout_constraintEnd_toStartOf="@id/tv_play"
+        app:layout_constraintStart_toEndOf="@id/iv_icon"
+        app:layout_constraintTop_toTopOf="@id/iv_icon" />
+
+    <TextView
+        android:id="@+id/tv_entrance"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textColor="#b3000000"
+        android:layout_marginTop="3dp"
+        app:layout_constraintEnd_toEndOf="@id/tv_name"
+        app:layout_constraintTop_toBottomOf="@id/tv_name"
+        app:layout_constraintStart_toStartOf="@id/tv_name" />
+
+    <TextView
+        android:id="@+id/tv_play"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="11dp"
+        android:gravity="center"
+        android:textSize="16sp"
+        android:textColor="#6c3800"
+        android:text="@string/play_immediately"
+        android:background="@drawable/shape_item_more_quiz_btn"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

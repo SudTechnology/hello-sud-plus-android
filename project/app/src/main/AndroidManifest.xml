@@ -116,7 +116,7 @@
 
         <!-- 竞猜类场景 -->
         <activity
-            android:name=".ui.scenes.quiz.QuizActivity"
+            android:name=".ui.scenes.quiz.activity.QuizActivity"
             android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
@@ -198,6 +198,13 @@
             android:name=".ui.main.settings.activity.LanguageActivity"
             android:exported="false"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+
+        <!-- 竞猜场景更多活动 -->
+        <activity
+            android:name=".ui.scenes.quiz.activity.MoreQuizActivity"
+            android:exported="false"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
 

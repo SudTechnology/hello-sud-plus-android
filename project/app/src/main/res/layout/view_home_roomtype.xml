@@ -27,7 +27,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="12dp"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@id/scene_name"
+        app:layout_constraintBottom_toBottomOf="@id/scene_name"
         app:layout_constraintEnd_toEndOf="parent">
 
         <com.opensource.svgaplayer.SVGAImageView

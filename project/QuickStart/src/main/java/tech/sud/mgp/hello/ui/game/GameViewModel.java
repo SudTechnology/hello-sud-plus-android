@@ -117,7 +117,7 @@ public class GameViewModel implements SudFSMMGListener {
         SudMGP.initSDK(activity, appId, appKey, APPConfig.GAME_IS_TEST_ENV, new ISudListenerInitSDK() {
             @Override
             public void onSuccess() {
-                loadMG(activity, code, gameId);
+                loadGame(activity, code, gameId);
             }
 
             @Override
@@ -138,7 +138,7 @@ public class GameViewModel implements SudFSMMGListener {
      * @param code     登录令牌
      * @param gameId   游戏id
      */
-    private void loadMG(FragmentActivity activity, String code, long gameId) {
+    private void loadGame(FragmentActivity activity, String code, long gameId) {
         if (activity.isDestroyed() || !isRunning || gameId != playingGameId) {
             return;
         }

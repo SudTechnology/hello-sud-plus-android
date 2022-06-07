@@ -43,6 +43,7 @@ import tech.sud.mgp.hello.ui.main.home.view.NewNestedScrollView;
 import tech.sud.mgp.hello.ui.main.home.view.SceneTypeDialog;
 import tech.sud.mgp.hello.ui.main.widget.CreateTicketRoomDialog;
 import tech.sud.mgp.hello.ui.scenes.base.utils.EnterRoomUtils;
+import tech.sud.mgp.hello.ui.scenes.quiz.activity.MoreQuizActivity;
 import tech.sud.mgp.hello.ui.scenes.ticket.activity.TicketLevelActivity;
 import tech.sud.mgp.hello.ui.scenes.ticket.model.TicketLevelParams;
 
@@ -182,7 +183,7 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
                     sceneView.setMoreActivityOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            // TODO: 2022/6/2 待实现
+                            startActivity(new Intent(context, MoreQuizActivity.class));
                         }
                     });
                     sceneLayout.addView(sceneView);

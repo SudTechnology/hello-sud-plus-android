@@ -149,7 +149,7 @@ public class HomeRepository {
      * @param supportedUserIdList 被支持用户id
      * @param coin                投注金币数
      */
-    public static void quicBet(LifecycleOwner owner, int quizType, Long coin, List<Long> supportedUserIdList, RxCallback<Object> callback) {
+    public static void quizBet(LifecycleOwner owner, int quizType, Long coin, List<Long> supportedUserIdList, RxCallback<Object> callback) {
         QuizBetReq req = new QuizBetReq();
         req.quizType = quizType;
         req.coin = coin;

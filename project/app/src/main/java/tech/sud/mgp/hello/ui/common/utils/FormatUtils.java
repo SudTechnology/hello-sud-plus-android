@@ -1,5 +1,7 @@
 package tech.sud.mgp.hello.ui.common.utils;
 
+import java.text.DecimalFormat;
+
 public class FormatUtils {
 
     /**
@@ -35,20 +37,10 @@ public class FormatUtils {
         long second = duration % oneMinute;
 
         // 计算分钟
-        long minute;
-        if (duration >= oneHour) {
-            minute = duration % oneHour;
-        } else {
-            minute = duration / oneMinute;
-        }
+        long minute = duration % oneHour / oneMinute;
 
         // 计算小时
-        long hour;
-        if (duration >= oneDay) {
-            hour = duration % oneDay;
-        } else {
-            hour = duration / oneHour;
-        }
+        long hour = duration % oneDay / oneHour;
 
         // 计算天
         long day = duration / oneDay;
@@ -56,4 +48,26 @@ public class FormatUtils {
         return coverTime(day) + ":" + coverTime(hour) + ":" + coverTime(minute) + ":" + coverTime(second);
     }
 
+    /**
+     * 格式化金钱
+     *
+     * @param money
+     * @return
+     */
+    public static String formatMoney(double money) {
+        DecimalFormat decimalFormat = new DecimalFormat("###,##0.00");
+        return decimalFormat.format(money);
+    }
+
+    /**
+     * 格式化金钱
+     *
+     * @param money
+     * @return
+     */
+    public static String formatMoney(long money) {
+        DecimalFormat decimalFormat = new DecimalFormat("###,##0");
+        return decimalFormat.format(money);
+    }
+    
 }

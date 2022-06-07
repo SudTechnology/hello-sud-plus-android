@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 
 import java.io.Serializable;
+import java.util.List;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.app.HelloSudApplication;
@@ -13,6 +14,7 @@ import tech.sud.mgp.hello.common.utils.GlobalCache;
 import tech.sud.mgp.hello.service.main.config.BaseRtcConfig;
 import tech.sud.mgp.hello.service.main.config.SudConfig;
 import tech.sud.mgp.hello.service.main.resp.BaseConfigResp;
+import tech.sud.mgp.hello.ui.scenes.quiz.model.QuizRoomPkModel;
 
 /**
  * 全局使用的数据
@@ -24,6 +26,7 @@ public class AppData {
     private BaseConfigResp baseConfigResp; // 基础配置
     private BaseRtcConfig selectRtcConfig; // 当前所使用的rtc配置
     private boolean joinTicketNoRemind = false; // 加入门票场景不再提醒
+    private List<QuizRoomPkModel> quizRoomPkModelList; // 竞猜场景更多活动页下的跨房玩游戏列表数据
 
     private AppData() {
     }
@@ -149,4 +152,11 @@ public class AppData {
         this.joinTicketNoRemind = joinTicketNoRemind;
     }
 
+    public List<QuizRoomPkModel> getQuizRoomPkModelList() {
+        return quizRoomPkModelList;
+    }
+
+    public void setQuizRoomPkModelList(List<QuizRoomPkModel> quizRoomPkModelList) {
+        this.quizRoomPkModelList = quizRoomPkModelList;
+    }
 }

@@ -356,6 +356,10 @@ Go to homepage to create one~</string>
 
     <!-- region 不用翻译 -->
     <string name="custom">Custom</string>
+    <string name="name_1">趣味辩论</string>
+    <string name="name_2">念念不忘团</string>
+    <string name="name_3">梦语女友</string>
+    <string name="name_4">彼岸花开</string>
     <!-- endregion 不用翻译 -->
 
     <!-- region 新增 -->
@@ -368,6 +372,21 @@ Go to homepage to create one~</string>
     <string name="maximum_number_of_participants">参与人数上限</string>
     <string name="entrance">入场</string>
     <string name="free">免费</string>
+    <string name="more_quiz_title">精彩竞猜活动</string>
+    <string name="more_quiz_hint">跨房玩游戏，猜猜谁最强？</string>
+    <string name="add_cast">加投</string>
+    <string name="guess_he_win">猜TA赢</string>
+    <string name="quiz_number">%1$s人已参与竞猜</string>
+    <string name="quiz_win_result_detail">%1$s人预测成功瓜分奖池</string>
+    <string name="quiz_win_result">预测成功瓜分奖池</string>
+    <string name="have_support">已支持</string>
+    <string name="from_start">距离开始</string>
+    <string name="limited_quiz">限时竞猜活动</string>
+    <string name="play_immediately">立即玩</string>
+    <string name="quiz_bet_title">你要投入多少支持</string>
+    <string name="quiz_bet_hint">投的多分的多</string>
+    <string name="support_now">立即支持</string>
+    <string name="gold_coin">金币</string>
     <!-- endregion 新增 -->
 
 </resources>

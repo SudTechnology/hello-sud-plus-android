@@ -208,6 +208,13 @@
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
 
+        <!-- 竞猜排行榜页面 -->
+        <activity
+            android:name=".ui.scenes.quiz.activity.QuizRankingActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+
         <!-- 透明Activity -->
         <activity
             android:name=".ui.common.activity.MyTranslucentActivity"

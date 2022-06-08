@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <tech.sud.mgp.hello.ui.common.widget.NestedScrollableHost
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/view_pager2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </tech.sud.mgp.hello.ui.common.widget.NestedScrollableHost>
+
+    <net.lucode.hackware.magicindicator.MagicIndicator
+        android:id="@+id/magic_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="22dp"
+        android:layout_marginTop="56dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,6 +6,7 @@
     android:orientation="vertical">
 
     <tech.sud.mgp.hello.common.widget.view.round.RoundedImageView
+        android:id="@+id/iv_ranking"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         app:riv_corner_radius="8dp"

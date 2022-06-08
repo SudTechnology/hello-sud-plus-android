@@ -49,7 +49,7 @@ public class HomeQuizGameAdapter extends BaseQuickAdapter<GameModel, BaseViewHol
         if (item.ticketCoin == 0) {
             helper.setText(R.id.tv_tickets, R.string.free);
         } else {
-            helper.setText(R.id.tv_tickets, item.ticketCoin + "");
+            helper.setText(R.id.tv_tickets, item.ticketCoin + getContext().getString(R.string.gold_coin));
         }
     }
 

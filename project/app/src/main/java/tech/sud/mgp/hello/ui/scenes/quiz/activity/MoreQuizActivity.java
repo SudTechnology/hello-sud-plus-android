@@ -1,5 +1,6 @@
 package tech.sud.mgp.hello.ui.scenes.quiz.activity;
 
+import android.content.Intent;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -137,6 +138,12 @@ public class MoreQuizActivity extends BaseActivity {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
                 itemClick(position);
+            }
+        });
+        headView.setRankingOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(context, QuizRankingActivity.class));
             }
         });
     }

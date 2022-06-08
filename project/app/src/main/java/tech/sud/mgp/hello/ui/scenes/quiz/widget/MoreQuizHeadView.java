@@ -117,6 +117,11 @@ public class MoreQuizHeadView extends ConstraintLayout {
         this.onGuessListener = onGuessListener;
     }
 
+    /** 设置排行榜点击监听 */
+    public void setRankingOnClickListener(OnClickListener listener) {
+        findViewById(R.id.iv_ranking).setOnClickListener(listener);
+    }
+
     public interface OnGuessListener {
         void onGuess(QuizRoomPkModel.RoomPkInfoModel model);
     }

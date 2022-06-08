@@ -360,6 +360,16 @@ Go to homepage to create one~</string>
     <string name="name_2">念念不忘团</string>
     <string name="name_3">梦语女友</string>
     <string name="name_4">彼岸花开</string>
+    <string name="name_5">盛世红盛</string>
+    <string name="name_6">念念不忘</string>
+    <string name="name_7">杏岛绮月</string>
+    <string name="name_8">娜以香</string>
+    <string name="name_9">大真蓓</string>
+    <string name="name_10">宦滢</string>
+    <string name="name_11">易宁</string>
+    <string name="name_12">庹启黛</string>
+    <string name="name_13">贝茗</string>
+    <string name="name_14">满馨</string>
     <!-- endregion 不用翻译 -->
 
     <!-- region 新增 -->
@@ -387,6 +397,15 @@ Go to homepage to create one~</string>
     <string name="quiz_bet_hint">投的多分的多</string>
     <string name="support_now">立即支持</string>
     <string name="gold_coin">金币</string>
+    <string name="ranking_of_quiz">竞猜王</string>
+    <string name="ranking_of_big_god">大神榜</string>
+    <string name="ranking_of_day">日榜</string>
+    <string name="ranking_of_week">周榜</string>
+    <string name="victory_count">胜利(场)</string>
+    <string name="quiz_king">竞猜王者</string>
+    <string name="quiz_win">竞猜获胜</string>
+    <string name="game_master">游戏高手</string>
+    <string name="win_victory">获胜</string>
     <!-- endregion 新增 -->
 
 </resources>

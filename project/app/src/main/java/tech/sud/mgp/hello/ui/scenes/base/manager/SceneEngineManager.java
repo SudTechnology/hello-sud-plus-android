@@ -324,6 +324,16 @@ public class SceneEngineManager extends BaseServiceManager {
                 callback.onCapturedAudioData(audioPCMData);
             }
         }
+
+        @Override
+        public void onLiveStreamingCome() {
+
+        }
+
+        @Override
+        public void onLiveStreamingCancle() {
+
+        }
     };
 
     @Override

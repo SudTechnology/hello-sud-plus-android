@@ -1,6 +1,7 @@
 package tech.sud.mgp.hello.rtc.audio.core;
 
 import android.content.Context;
+import android.view.View;
 
 import tech.sud.mgp.hello.rtc.audio.model.AudioConfigModel;
 import tech.sud.mgp.hello.rtc.audio.model.AudioJoinRoomModel;
@@ -103,4 +104,32 @@ public interface ISudAudioEngine {
     interface SendCommandListener {
         void onResult(int value);
     }
+    // endregion
+
+    // region 8. 直播接口
+    /**
+     * 设置频道场景，是通信场景，还是直播场景，默认是通信场景
+     * 设置为直播场景后，会默认设置用户角色为观众
+     * @param profile
+     */
+    void setChannelProfile(SudRTIChannelProfile profile);
+
+    /**
+     * 设置直播场景下的用户角色，默认是观众角色
+     * 只有直播场景下设置才有效
+     */
+    void setClientRole(SudRTIClientRole clientRole);
+
+    /**
+     * 主播开启直播
+     * 只有直播场景, 主播角色，调用才有效
+     */
+    void startLiveStreaming(View view);
+
+    /**
+     * 主播关闭直播
+     * 只有直播场景下设置才有效
+     */
+    void stopLiveStreaming();
+    // endregion
 }

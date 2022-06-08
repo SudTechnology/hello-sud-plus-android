@@ -1,6 +1,7 @@
 package tech.sud.mgp.hello.rtc.audio.impl.tx;
 
 import android.content.Context;
+import android.view.View;
 
 import com.blankj.utilcode.util.ThreadUtils;
 import com.tencent.trtc.TRTCCloud;
@@ -16,6 +17,8 @@ import tech.sud.mgp.hello.rtc.audio.core.AudioPCMData;
 import tech.sud.mgp.hello.rtc.audio.core.AudioRoomState;
 import tech.sud.mgp.hello.rtc.audio.core.ISudAudioEngine;
 import tech.sud.mgp.hello.rtc.audio.core.ISudAudioEventListener;
+import tech.sud.mgp.hello.rtc.audio.core.SudRTIChannelProfile;
+import tech.sud.mgp.hello.rtc.audio.core.SudRTIClientRole;
 import tech.sud.mgp.hello.rtc.audio.model.AudioConfigModel;
 import tech.sud.mgp.hello.rtc.audio.model.AudioJoinRoomModel;
 
@@ -179,6 +182,26 @@ public class TXAudioEngineImpl implements ISudAudioEngine {
         if (engine != null) {
             engine.sendCustomCmdMsg(0, command.getBytes(), true, true);
         }
+    }
+
+    @Override
+    public void setChannelProfile(SudRTIChannelProfile profile) {
+
+    }
+
+    @Override
+    public void setClientRole(SudRTIClientRole clientRole) {
+
+    }
+
+    @Override
+    public void startLiveStreaming(View view) {
+
+    }
+
+    @Override
+    public void stopLiveStreaming() {
+
     }
 
     // 更新房间内用户总人数

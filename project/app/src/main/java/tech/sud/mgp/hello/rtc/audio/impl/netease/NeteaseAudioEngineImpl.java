@@ -4,6 +4,7 @@ import static com.netease.lava.nertc.sdk.NERtcConstants.RTCChannelProfile.COMMUN
 
 import android.content.Context;
 import android.graphics.Rect;
+import android.view.View;
 
 import com.blankj.utilcode.util.ThreadUtils;
 import com.netease.lava.nertc.sdk.NERtcCallbackEx;
@@ -36,6 +37,8 @@ import tech.sud.mgp.hello.rtc.audio.core.AudioPCMData;
 import tech.sud.mgp.hello.rtc.audio.core.AudioRoomState;
 import tech.sud.mgp.hello.rtc.audio.core.ISudAudioEngine;
 import tech.sud.mgp.hello.rtc.audio.core.ISudAudioEventListener;
+import tech.sud.mgp.hello.rtc.audio.core.SudRTIChannelProfile;
+import tech.sud.mgp.hello.rtc.audio.core.SudRTIClientRole;
 import tech.sud.mgp.hello.rtc.audio.model.AudioConfigModel;
 import tech.sud.mgp.hello.rtc.audio.model.AudioJoinRoomModel;
 
@@ -268,6 +271,26 @@ public class NeteaseAudioEngineImpl implements ISudAudioEngine {
                 }
             });
         }
+    }
+
+    @Override
+    public void setChannelProfile(SudRTIChannelProfile profile) {
+
+    }
+
+    @Override
+    public void setClientRole(SudRTIClientRole clientRole) {
+
+    }
+
+    @Override
+    public void startLiveStreaming(View view) {
+
+    }
+
+    @Override
+    public void stopLiveStreaming() {
+
     }
 
     // 更新房间内用户总人数

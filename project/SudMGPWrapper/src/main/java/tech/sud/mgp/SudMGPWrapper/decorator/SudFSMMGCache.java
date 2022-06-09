@@ -3,12 +3,12 @@
  * https://sud.tech
  */
 
-package tech.sud.mgp.hello.SudMGPWrapper.decorator;
+package tech.sud.mgp.SudMGPWrapper.decorator;
 
 import java.util.HashMap;
 import java.util.HashSet;
 
-import tech.sud.mgp.hello.SudMGPWrapper.state.SudMGPMGState;
+import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
 
 /**
  * 游戏回调数据缓存

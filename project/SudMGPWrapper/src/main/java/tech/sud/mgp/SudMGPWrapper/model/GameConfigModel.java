@@ -3,7 +3,7 @@
  * https://sud.tech
  */
 
-package tech.sud.mgp.hello.SudMGPWrapper.model;
+package tech.sud.mgp.SudMGPWrapper.model;
 
 import java.io.Serializable;
 

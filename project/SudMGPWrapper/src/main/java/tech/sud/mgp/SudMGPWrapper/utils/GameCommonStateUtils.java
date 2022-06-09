@@ -3,11 +3,11 @@
  * https://sud.tech
  */
 
-package tech.sud.mgp.hello.SudMGPWrapper.utils;
+package tech.sud.mgp.SudMGPWrapper.utils;
 
 import android.text.TextUtils;
 
-import tech.sud.mgp.hello.SudMGPWrapper.state.SudMGPMGState;
+import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
 
 /**
  * 游戏通用状态工具类

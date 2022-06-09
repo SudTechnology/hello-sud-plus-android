@@ -3,13 +3,13 @@
  * https://sud.tech
  */
 
-package tech.sud.mgp.hello.SudMGPWrapper.decorator;
+package tech.sud.mgp.SudMGPWrapper.decorator;
 
+import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
+import tech.sud.mgp.SudMGPWrapper.utils.ISudFSMStateHandleUtils;
+import tech.sud.mgp.SudMGPWrapper.utils.SudJsonUtils;
 import tech.sud.mgp.core.ISudFSMMG;
 import tech.sud.mgp.core.ISudFSMStateHandle;
-import tech.sud.mgp.hello.SudMGPWrapper.state.SudMGPMGState;
-import tech.sud.mgp.hello.SudMGPWrapper.utils.SudJsonUtils;
-import tech.sud.mgp.hello.SudMGPWrapper.utils.ISudFSMStateHandleUtils;
 
 /**
  * ISudFSMMG 游戏调APP回调装饰类

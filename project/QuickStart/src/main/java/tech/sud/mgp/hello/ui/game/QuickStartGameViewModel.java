@@ -8,7 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.blankj.utilcode.util.BarUtils;
 import com.blankj.utilcode.util.Utils;
 
-import tech.sud.mgp.hello.SudMGPWrapper.model.GameViewInfoModel;
+import tech.sud.mgp.SudMGPWrapper.model.GameViewInfoModel;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;

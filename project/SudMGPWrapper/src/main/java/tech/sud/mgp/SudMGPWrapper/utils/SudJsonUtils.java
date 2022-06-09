@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.SudMGPWrapper.utils;
+package tech.sud.mgp.SudMGPWrapper.utils;
 
 import androidx.annotation.NonNull;
 

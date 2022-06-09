@@ -13,7 +13,7 @@ import com.blankj.utilcode.util.Utils;
 import java.util.concurrent.Future;
 
 import tech.sud.mgp.hello.R;
-import tech.sud.mgp.hello.SudMGPWrapper.utils.SudJsonUtils;
+import tech.sud.mgp.SudMGPWrapper.utils.SudJsonUtils;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.CustomCountdownTimer;

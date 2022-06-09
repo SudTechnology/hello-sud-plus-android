@@ -3,15 +3,15 @@
  * https://sud.tech
  */
 
-package tech.sud.mgp.hello.SudMGPWrapper.decorator;
+package tech.sud.mgp.SudMGPWrapper.decorator;
 
 import java.nio.ByteBuffer;
 import java.util.List;
 
+import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
+import tech.sud.mgp.SudMGPWrapper.utils.SudJsonUtils;
 import tech.sud.mgp.core.ISudFSTAPP;
 import tech.sud.mgp.core.ISudListenerNotifyStateChange;
-import tech.sud.mgp.hello.SudMGPWrapper.state.SudMGPAPPState;
-import tech.sud.mgp.hello.SudMGPWrapper.utils.SudJsonUtils;
 
 /**
  * ISudFSTAPP的装饰类，接近于业务

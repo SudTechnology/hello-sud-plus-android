@@ -11,13 +11,13 @@ import tech.sud.mgp.core.ISudFSMStateHandle;
 import tech.sud.mgp.core.ISudFSTAPP;
 import tech.sud.mgp.core.ISudListenerInitSDK;
 import tech.sud.mgp.core.SudMGP;
-import tech.sud.mgp.hello.SudMGPWrapper.decorator.SudFSMMGDecorator;
-import tech.sud.mgp.hello.SudMGPWrapper.decorator.SudFSMMGListener;
-import tech.sud.mgp.hello.SudMGPWrapper.decorator.SudFSTAPPDecorator;
-import tech.sud.mgp.hello.SudMGPWrapper.model.GameConfigModel;
-import tech.sud.mgp.hello.SudMGPWrapper.model.GameViewInfoModel;
-import tech.sud.mgp.hello.SudMGPWrapper.state.MGStateResponse;
-import tech.sud.mgp.hello.SudMGPWrapper.utils.SudJsonUtils;
+import tech.sud.mgp.SudMGPWrapper.decorator.SudFSMMGDecorator;
+import tech.sud.mgp.SudMGPWrapper.decorator.SudFSMMGListener;
+import tech.sud.mgp.SudMGPWrapper.decorator.SudFSTAPPDecorator;
+import tech.sud.mgp.SudMGPWrapper.model.GameConfigModel;
+import tech.sud.mgp.SudMGPWrapper.model.GameViewInfoModel;
+import tech.sud.mgp.SudMGPWrapper.state.MGStateResponse;
+import tech.sud.mgp.SudMGPWrapper.utils.SudJsonUtils;
 
 /**
  * 游戏业务逻辑抽象类

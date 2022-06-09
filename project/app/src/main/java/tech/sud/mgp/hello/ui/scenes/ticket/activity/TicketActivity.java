@@ -4,8 +4,8 @@ import android.view.View;
 
 import androidx.lifecycle.Observer;
 
-import tech.sud.mgp.hello.SudMGPWrapper.state.SudMGPMGState;
-import tech.sud.mgp.hello.SudMGPWrapper.utils.SudJsonUtils;
+import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
+import tech.sud.mgp.SudMGPWrapper.utils.SudJsonUtils;
 import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.service.main.resp.TicketConfirmJoinResp;
 import tech.sud.mgp.hello.ui.scenes.audio.activity.AbsAudioRoomActivity;

@@ -11,17 +11,18 @@ import tech.sud.mgp.core.ISudFSMStateHandle;
 import tech.sud.mgp.core.ISudFSTAPP;
 import tech.sud.mgp.core.ISudListenerInitSDK;
 import tech.sud.mgp.core.SudMGP;
-import tech.sud.mgp.hello.SudMGPWrapper.decorator.SudFSMMGDecorator;
-import tech.sud.mgp.hello.SudMGPWrapper.decorator.SudFSMMGListener;
-import tech.sud.mgp.hello.SudMGPWrapper.decorator.SudFSTAPPDecorator;
-import tech.sud.mgp.hello.SudMGPWrapper.model.GameConfigModel;
-import tech.sud.mgp.hello.SudMGPWrapper.model.GameViewInfoModel;
-import tech.sud.mgp.hello.SudMGPWrapper.state.MGStateResponse;
-import tech.sud.mgp.hello.SudMGPWrapper.utils.SudJsonUtils;
+import tech.sud.mgp.SudMGPWrapper.decorator.SudFSMMGDecorator;
+import tech.sud.mgp.SudMGPWrapper.decorator.SudFSMMGListener;
+import tech.sud.mgp.SudMGPWrapper.decorator.SudFSTAPPDecorator;
+import tech.sud.mgp.SudMGPWrapper.model.GameConfigModel;
+import tech.sud.mgp.SudMGPWrapper.model.GameViewInfoModel;
+import tech.sud.mgp.SudMGPWrapper.state.MGStateResponse;
+import tech.sud.mgp.SudMGPWrapper.utils.SudJsonUtils;
 
 /**
  * 游戏业务逻辑抽象类
  * 定自义ViewModel继承此类，实现对应方法即可
+ * 外部调用switchGame()方法启动游戏
  */
 public abstract class BaseGameViewModel implements SudFSMMGListener {
 
@@ -194,14 +195,14 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
     protected abstract String getUserId();
 
     /**
-     * 设置appId
+     * 设置游戏所用的appId
      *
      * @return 返回游戏服务appId
      */
     protected abstract String getAppId();
 
     /**
-     * 设置appKey
+     * 设置游戏所用的appKey
      *
      * @return 返回游戏服务appKey
      */

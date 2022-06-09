@@ -1,3 +1,8 @@
+# 三分钟集成代码
+- 第一步：导入'SudMGPSDK'、'SudMGPWrapper'两个Module，并在app主Module引入
+- 第二步：拷贝BaseGameViewModel类，自定义GameViewModel继承它并实现对应方法
+- 第三步：在页面中调用BaseGameViewModel.switchGame()方法
+
 # QuickStart 架构图
 ![QuickStartArch.png](doc/QuickStartArch.png)
 
@@ -136,11 +141,6 @@
 - `QuickStartGameViewModel` 负责login(App getCode) --> SudMGP.initSDK --> SudMGP.loadMG；
 - `GameActivity` 负责addGameView；
 - `QuickStart 服务端` [hello-sud-java](https://github.com/SudTechnology/hello-sud-java) ，login(App getCode 获取短期令牌code) ，`如果访问不了代码仓库，请联系SUD添加，github账号`；
-
-  ## 如何集成到App里面?
-  - 导入'SudMGPSDK'、'SudMGPWrapper'两个Module，并在app主Module引入
-  - 拷贝BaseGameViewModel类，自定义GameViewModel继承它并实现对应方法
-  - 在页面中调用BaseGameViewModel.switchGame()方法
 
 # 4. QuickStart运行效果图
 ![QuickStartHome.png](doc/QuickStartHome.png)

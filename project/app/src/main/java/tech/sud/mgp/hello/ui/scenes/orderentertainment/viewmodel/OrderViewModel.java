@@ -12,8 +12,8 @@ import java.util.List;
 
 import tech.sud.mgp.core.ISudFSMStateHandle;
 import tech.sud.mgp.hello.R;
-import tech.sud.mgp.hello.SudMGPWrapper.model.GameViewInfoModel;
-import tech.sud.mgp.hello.SudMGPWrapper.state.SudMGPMGState;
+import tech.sud.mgp.SudMGPWrapper.model.GameViewInfoModel;
+import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;

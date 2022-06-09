@@ -8,28 +8,39 @@ import androidx.lifecycle.MutableLiveData;
 import com.blankj.utilcode.util.BarUtils;
 import com.blankj.utilcode.util.Utils;
 
-import tech.sud.mgp.hello.SudMGPWrapper.model.GameViewInfoModel;
-import tech.sud.mgp.hello.app.APPConfig;
+import tech.sud.mgp.SudMGPWrapper.model.GameViewInfoModel;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.utils.SystemUtils;
+import tech.sud.mgp.hello.common.utils.UserUtils;
 import tech.sud.mgp.hello.service.GameLoginResp;
 import tech.sud.mgp.hello.service.MainRepository;
 
 /**
  * 游戏业务逻辑
  * ---接入方开发者，将下面的方法填空成自己的
+ * ---外部调用switchGame()方法启动游戏
  */
 public class QuickStartGameViewModel extends BaseGameViewModel {
+
+    /** Sud平台申请的appId */
+    public static String SudMGP_APP_ID = "1461564080052506636";
+    /** Sud平台申请的appKey */
+    public static String SudMGP_APP_KEY = "03pNxK2lEXsKiiwrBQ9GbH541Fk2Sfnc";
+    /** true 加载游戏时为测试环境 false 加载游戏时为生产环境 */
+    public static final boolean GAME_IS_TEST_ENV = true;
+
+    /** 使用的UserId,这里为随机生成演示，请使用业务真实userId */
+    public static String userId = UserUtils.genUserID();
 
     public final MutableLiveData<View> gameViewLiveData = new MutableLiveData<>(); // 游戏View回调
 
     /** 向接入方服务器获取code */
     @Override
     protected void getCode(FragmentActivity activity, String userId, String appId, GameGetCodeListener listener) {
-        MainRepository.login(activity, APPConfig.userId, APPConfig.SudMGP_APP_ID, new RxCallback<GameLoginResp>() {
+        MainRepository.login(activity, getUserId(), getAppId(), new RxCallback<GameLoginResp>() {
             @Override
             public void onNext(BaseResponse<GameLoginResp> t) {
                 super.onNext(t);
@@ -51,19 +62,19 @@ public class QuickStartGameViewModel extends BaseGameViewModel {
     /** 设置当前用户id(接入方定义) */
     @Override
     protected String getUserId() {
-        return APPConfig.userId;
+        return userId;
     }
 
-    /** 设置appId */
+    /** 设置Sud平台申请的appId */
     @Override
     protected String getAppId() {
-        return APPConfig.SudMGP_APP_ID;
+        return SudMGP_APP_ID;
     }
 
-    /** 设置appKey */
+    /** 设置Sud平台申请的appKey */
     @Override
     protected String getAppKey() {
-        return APPConfig.SudMGP_APP_KEY;
+        return SudMGP_APP_KEY;
     }
 
     /** 设置游戏的语言代码 */
@@ -88,7 +99,7 @@ public class QuickStartGameViewModel extends BaseGameViewModel {
      */
     @Override
     protected boolean isTestEnv() {
-        return APPConfig.GAME_IS_TEST_ENV;
+        return GAME_IS_TEST_ENV;
     }
 
     /** 将游戏View添加到页面中 */

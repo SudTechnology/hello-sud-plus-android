@@ -1,6 +1,6 @@
 package tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk;
 
-import tech.sud.mgp.hello.SudMGPWrapper.utils.SudJsonUtils;
+import tech.sud.mgp.SudMGPWrapper.utils.SudJsonUtils;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmd;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdBaseModel;

@@ -3,7 +3,7 @@
  * https://sud.tech
  */
 
-package tech.sud.mgp.hello.SudMGPWrapper.state;
+package tech.sud.mgp.SudMGPWrapper.state;
 
 /**
  * mg2app，状态响应

@@ -6,8 +6,8 @@ import com.blankj.utilcode.util.BarUtils;
 import com.blankj.utilcode.util.Utils;
 
 import tech.sud.mgp.core.ISudFSMStateHandle;
-import tech.sud.mgp.hello.SudMGPWrapper.model.GameViewInfoModel;
-import tech.sud.mgp.hello.SudMGPWrapper.state.SudMGPMGState;
+import tech.sud.mgp.SudMGPWrapper.model.GameViewInfoModel;
+import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
 

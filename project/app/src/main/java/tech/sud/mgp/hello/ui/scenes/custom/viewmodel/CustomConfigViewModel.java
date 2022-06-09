@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tech.sud.mgp.hello.BuildConfig;
-import tech.sud.mgp.hello.SudMGPWrapper.model.GameConfigModel;
+import tech.sud.mgp.SudMGPWrapper.model.GameConfigModel;
 import tech.sud.mgp.hello.common.base.BaseViewModel;
 import tech.sud.mgp.hello.common.utils.GlobalCache;
 import tech.sud.mgp.hello.common.utils.language.GsonUtils;

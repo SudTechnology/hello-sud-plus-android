@@ -27,7 +27,7 @@ import java.util.Map;
 
 import tech.sud.mgp.core.SudMGP;
 import tech.sud.mgp.hello.R;
-import tech.sud.mgp.hello.SudMGPWrapper.state.SudMGPMGState;
+import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.hello.common.base.BaseActivity;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;

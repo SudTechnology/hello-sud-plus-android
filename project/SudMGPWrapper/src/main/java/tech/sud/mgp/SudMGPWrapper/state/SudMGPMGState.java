@@ -3,7 +3,7 @@
  * https://sud.tech
  */
 
-package tech.sud.mgp.hello.SudMGPWrapper.state;
+package tech.sud.mgp.SudMGPWrapper.state;
 
 import com.google.gson.annotations.SerializedName;
 

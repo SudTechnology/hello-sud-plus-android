@@ -37,10 +37,11 @@ import tech.sud.mgp.hello.ui.main.constant.SceneType;
 import tech.sud.mgp.hello.ui.main.home.manager.IndicatorHelper;
 import tech.sud.mgp.hello.ui.main.home.model.MatchRoomModel;
 import tech.sud.mgp.hello.ui.main.home.view.CoinDialog;
-import tech.sud.mgp.hello.ui.main.home.view.GameItemView;
-import tech.sud.mgp.hello.ui.main.home.view.HomeRoomTypeView;
 import tech.sud.mgp.hello.ui.main.home.view.NewNestedScrollView;
 import tech.sud.mgp.hello.ui.main.home.view.SceneTypeDialog;
+import tech.sud.mgp.hello.ui.main.home.view.homeitem.CreatRoomClickListener;
+import tech.sud.mgp.hello.ui.main.home.view.homeitem.GameItemListener;
+import tech.sud.mgp.hello.ui.main.home.view.homeitem.HomeItemView;
 import tech.sud.mgp.hello.ui.main.widget.CreateTicketRoomDialog;
 import tech.sud.mgp.hello.ui.scenes.base.utils.EnterRoomUtils;
 import tech.sud.mgp.hello.ui.scenes.quiz.activity.MoreQuizActivity;
@@ -50,7 +51,7 @@ import tech.sud.mgp.hello.ui.scenes.ticket.model.TicketLevelParams;
 /**
  * 首页页面
  */
-public class HomeFragment extends BaseFragment implements HomeRoomTypeView.CreatRoomClickListener, GameItemView.GameItemListener {
+public class HomeFragment extends BaseFragment implements CreatRoomClickListener, GameItemListener {
 
     private EditText searchEt;
     private TextView goSearch;
@@ -176,17 +177,17 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
                 sceneLayout.removeAllViews();
                 for (int i = 0; i < resp.sceneList.size(); i++) {
                     SceneModel model = resp.sceneList.get(i);
-                    HomeRoomTypeView sceneView = new HomeRoomTypeView(context);
-                    sceneView.setGameItemListener(this);
-                    sceneView.setCreatRoomClickListener(this);
-                    sceneView.setData(model, HomeManager.getInstance().getSceneGame(model.getSceneId()), quizGameListResp);
-                    sceneView.setMoreActivityOnClickListener(new View.OnClickListener() {
+                    HomeItemView view = new HomeItemView(context);
+                    view.setData(model, HomeManager.getInstance().getSceneGame(model.getSceneId()), quizGameListResp);
+                    view.setGameItemListener(this);
+                    view.setCreatRoomClickListener(this);
+                    view.setMoreActivityOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             startActivity(new Intent(context, MoreQuizActivity.class));
                         }
                     });
-                    sceneLayout.addView(sceneView);
+                    sceneLayout.addView(view);
                 }
             }
         }
@@ -228,6 +229,7 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
     }
 
     private void loadList() {
+        // 1，游戏列表
         HomeRepository.gameList(this, new RxCallback<GameListResp>() {
             @Override
             public void onNext(BaseResponse<GameListResp> t) {
@@ -235,6 +237,8 @@ public class HomeFragment extends BaseFragment implements HomeRoomTypeView.Creat
                 if (t.getRetCode() == RetCode.SUCCESS) {
                     GameListResp gameListResp = t.getData();
                     HomeManager.getInstance().gameListResp = gameListResp;
+
+                    // 2，竞猜游戏列表
                     HomeRepository.quizGameList(HomeFragment.this, new RxCallback<QuizGameListResp>() {
                         @Override
                         public void onSuccess(QuizGameListResp quizGameListResp) {

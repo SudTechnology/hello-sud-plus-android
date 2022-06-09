@@ -1,9 +1,7 @@
 package tech.sud.mgp.hello.ui.main.home.manager;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -23,8 +21,8 @@ import java.util.List;
 
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.service.main.resp.SceneModel;
-import tech.sud.mgp.hello.ui.main.home.view.HomeRoomTypeView;
 import tech.sud.mgp.hello.ui.main.home.view.NewNestedScrollView;
+import tech.sud.mgp.hello.ui.main.home.view.homeitem.HomeItemView;
 
 /**
  * 管理indicator和Scrollview的联动效果
@@ -149,20 +147,19 @@ public class IndicatorHelper {
     }
 
     /** 查找1坐标最接近的view */
-    private HomeRoomTypeView findView(int locationY) {
+    private HomeItemView findView(int locationY) {
         LinearLayout childView = (LinearLayout) nestedScrollView.getChildAt(0);
         int count = childView.getChildCount();
         if (count > 0) {
             for (int i = 0; i < count; i++) {
                 View sceneView = childView.getChildAt(i);
-                if (sceneView instanceof HomeRoomTypeView) {
+                if (sceneView instanceof HomeItemView) {
                     float sceneViewY = sceneView.getY();
                     float sceneViewBottomY = sceneView.getY() + sceneView.getHeight();
                     if (sceneViewY < locationY && sceneViewBottomY > locationY) {
-                        HomeRoomTypeView homeRoomTypeView = (HomeRoomTypeView) sceneView;
-                        LogUtils.i("=====", "IDLE findView=" + homeRoomTypeView.sceneModel.sceneName);
+                        HomeItemView homeItemView = (HomeItemView) sceneView;
                         scroll(i);
-                        return homeRoomTypeView;
+                        return homeItemView;
                     }
                 }
             }

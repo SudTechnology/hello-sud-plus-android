@@ -59,18 +59,6 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- 自定义场景的配置 -->
-    <ImageView
-        android:id="@+id/custom_config_iv"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginEnd="14dp"
-        android:src="@drawable/icon_custom_config"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@id/scene_name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/scene_name" />
-
     <!-- 创建房间 -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/scene_img_cl"

@@ -1,17 +1,11 @@
 package tech.sud.mgp.hello.ui.game;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.view.ViewTreeObserver;
 
 import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.MutableLiveData;
-
-import com.blankj.utilcode.util.BarUtils;
-import com.blankj.utilcode.util.GsonUtils;
-import com.blankj.utilcode.util.LogUtils;
-import com.blankj.utilcode.util.ThreadUtils;
-import com.blankj.utilcode.util.ToastUtils;
-import com.blankj.utilcode.util.Utils;
 
 import tech.sud.mgp.core.ISudFSMStateHandle;
 import tech.sud.mgp.core.ISudFSTAPP;
@@ -23,47 +17,40 @@ import tech.sud.mgp.hello.SudMGPWrapper.decorator.SudFSTAPPDecorator;
 import tech.sud.mgp.hello.SudMGPWrapper.model.GameConfigModel;
 import tech.sud.mgp.hello.SudMGPWrapper.model.GameViewInfoModel;
 import tech.sud.mgp.hello.SudMGPWrapper.state.MGStateResponse;
-import tech.sud.mgp.hello.app.APPConfig;
-import tech.sud.mgp.hello.common.http.param.BaseResponse;
-import tech.sud.mgp.hello.common.http.param.RetCode;
-import tech.sud.mgp.hello.common.http.rx.RxCallback;
-import tech.sud.mgp.hello.common.utils.DensityUtils;
-import tech.sud.mgp.hello.common.utils.SystemUtils;
-import tech.sud.mgp.hello.service.GameLoginResp;
-import tech.sud.mgp.hello.service.MainRepository;
+import tech.sud.mgp.hello.SudMGPWrapper.utils.SudJsonUtils;
 
 /**
- * 游戏业务逻辑
- * 开发者参考此类进行自定义及扩展
+ * 游戏业务逻辑抽象类
+ * 定自义ViewModel继承此类，实现对应方法即可
  */
-public class GameViewModel implements SudFSMMGListener {
+public abstract class BaseGameViewModel implements SudFSMMGListener {
 
     private long gameRoomId; // 游戏房间id
     private long playingGameId; // 当前使用的游戏id
     public final SudFSTAPPDecorator sudFSTAPPDecorator = new SudFSTAPPDecorator(); // app调用sdk的封装类
     private final SudFSMMGDecorator sudFSMMGDecorator = new SudFSMMGDecorator(); // 用于处理游戏SDK部分回调业务
 
-    public final MutableLiveData<View> gameViewLiveData = new MutableLiveData<>(); // 游戏View回调
-
     private boolean isRunning = true; // 业务是否还在运行
     public View gameView; // 游戏View
     public GameConfigModel gameConfigModel = new GameConfigModel(); // 游戏配置
+    private final Handler handler = new Handler(Looper.getMainLooper());
 
     /**
      * 外部调用切换游戏
      *
-     * @param activity 游戏所在页面
-     * @param gameId   游戏id
+     * @param activity   游戏所在页面
+     * @param gameRoomId 游戏房间id
+     * @param gameId     游戏id
      */
     public void switchGame(FragmentActivity activity, long gameRoomId, long gameId) {
         if (!isRunning) {
             return;
         }
-        if (playingGameId == gameId && GameViewModel.this.gameRoomId == gameRoomId) {
+        if (playingGameId == gameId && BaseGameViewModel.this.gameRoomId == gameRoomId) {
             return;
         }
         destroyMG();
-        GameViewModel.this.gameRoomId = gameRoomId;
+        BaseGameViewModel.this.gameRoomId = gameRoomId;
         playingGameId = gameId;
         login(activity, gameId);
     }
@@ -81,23 +68,17 @@ public class GameViewModel implements SudFSMMGListener {
             return;
         }
         // 请求登录code
-        MainRepository.login(activity, APPConfig.userId, APPConfig.SudMGP_APP_ID, new RxCallback<GameLoginResp>() {
+        getCode(activity, getUserId(), getAppId(), new GameGetCodeListener() {
             @Override
-            public void onNext(BaseResponse<GameLoginResp> t) {
-                super.onNext(t);
+            public void onSuccess(String code) {
                 if (!isRunning || gameId != playingGameId) {
                     return;
                 }
-                if (t.getRet_code() == RetCode.SUCCESS && t.getData() != null) {
-                    initSdk(activity, gameId, t.getData().code);
-                } else {
-                    delayLoadGame(activity, gameId);
-                }
+                initSdk(activity, gameId, code);
             }
 
             @Override
-            public void onError(Throwable e) {
-                super.onError(e);
+            public void onFailed() {
                 delayLoadGame(activity, gameId);
             }
         });
@@ -111,18 +92,17 @@ public class GameViewModel implements SudFSMMGListener {
      * @param code     令牌
      */
     private void initSdk(FragmentActivity activity, long gameId, String code) {
-        String appId = APPConfig.SudMGP_APP_ID;
-        String appKey = APPConfig.SudMGP_APP_KEY;
+        String appId = getAppId();
+        String appKey = getAppKey();
         // 初始化sdk
-        SudMGP.initSDK(activity, appId, appKey, APPConfig.GAME_IS_TEST_ENV, new ISudListenerInitSDK() {
+        SudMGP.initSDK(activity, appId, appKey, isTestEnv(), new ISudListenerInitSDK() {
             @Override
             public void onSuccess() {
-                loadMG(activity, code, gameId);
+                loadGame(activity, code, gameId);
             }
 
             @Override
             public void onFailure(int errCode, String errMsg) {
-                ToastUtils.showShort("initSDK onFailure:" + errMsg + "(" + errCode + ")");
                 delayLoadGame(activity, gameId);
             }
         });
@@ -138,7 +118,7 @@ public class GameViewModel implements SudFSMMGListener {
      * @param code     登录令牌
      * @param gameId   游戏id
      */
-    private void loadMG(FragmentActivity activity, String code, long gameId) {
+    private void loadGame(FragmentActivity activity, String code, long gameId) {
         if (activity.isDestroyed() || !isRunning || gameId != playingGameId) {
             return;
         }
@@ -147,7 +127,7 @@ public class GameViewModel implements SudFSMMGListener {
         sudFSMMGDecorator.setSudFSMMGListener(this);
 
         // 调用游戏sdk加载游戏
-        ISudFSTAPP iSudFSTAPP = SudMGP.loadMG(activity, APPConfig.userId, gameRoomId + "", code, gameId, SystemUtils.getLanguageCode(activity), sudFSMMGDecorator);
+        ISudFSTAPP iSudFSTAPP = SudMGP.loadMG(activity, getUserId(), gameRoomId + "", code, gameId, getLanguageCode(), sudFSMMGDecorator);
 
         // APP调用游戏接口的装饰类设置
         sudFSTAPPDecorator.setISudFSTAPP(iSudFSTAPP);
@@ -155,7 +135,7 @@ public class GameViewModel implements SudFSMMGListener {
         // 获取游戏视图，将其抛回Activity进行展示
         // Activity调用：gameContainer.addView(view, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
         gameView = iSudFSTAPP.getGameView();
-        gameViewLiveData.setValue(gameView);
+        onAddGameView(gameView);
     }
 
     /**
@@ -165,7 +145,7 @@ public class GameViewModel implements SudFSMMGListener {
      * @param gameId   游戏id
      */
     private void delayLoadGame(FragmentActivity activity, long gameId) {
-        ThreadUtils.runOnUiThreadDelayed(new Runnable() {
+        handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 login(activity, gameId);
@@ -173,26 +153,94 @@ public class GameViewModel implements SudFSMMGListener {
         }, 5000);
     }
 
+    // region 生命周期相关
+
+    /** 页面销毁的时候调用 */
     public void onDestroy() {
         isRunning = false;
         destroyMG();
     }
+    // endregion 生命周期相关
 
+
+    /** 销毁游戏 */
     private void destroyMG() {
         if (playingGameId > 0) {
             sudFSTAPPDecorator.destroyMG();
             sudFSMMGDecorator.destroyMG();
             playingGameId = 0;
             gameView = null;
-            gameViewLiveData.setValue(null);
+            onRemoveGameView();
         }
     }
-    // endregion 生命周期相关
 
     /** 获取当前游戏房id */
     public long getGameRoomId() {
         return gameRoomId;
     }
+
+    // region 子类需要实现的方法
+
+    /**
+     * 向接入方服务器获取code
+     */
+    protected abstract void getCode(FragmentActivity activity, String userId, String appId, GameGetCodeListener listener);
+
+    /**
+     * 设置当前用户id(接入方定义)
+     *
+     * @return 返回用户id
+     */
+    protected abstract String getUserId();
+
+    /**
+     * 设置appId
+     *
+     * @return 返回游戏服务appId
+     */
+    protected abstract String getAppId();
+
+    /**
+     * 设置appKey
+     *
+     * @return 返回游戏服务appKey
+     */
+    protected abstract String getAppKey();
+
+    /**
+     * 设置游戏的语言代码
+     * 参考文档：https://docs.sud.tech/zh-CN/app/Client/Languages/
+     *
+     * @return 返回语言代码
+     */
+    protected abstract String getLanguageCode();
+
+    /**
+     * 设置游戏的安全操作区域
+     *
+     * @param gameViewInfoModel 游戏视图大小
+     */
+    protected abstract void getGameRect(GameViewInfoModel gameViewInfoModel);
+
+    /**
+     * true 加载游戏时为测试环境
+     * false 加载游戏时为生产环境
+     */
+    protected abstract boolean isTestEnv();
+
+    /**
+     * 将游戏View添加到页面中
+     *
+     * @param gameView
+     */
+    protected abstract void onAddGameView(View gameView);
+
+    /**
+     * 将页面中的游戏View移除
+     */
+    protected abstract void onRemoveGameView();
+
+    // endregion 子类需要实现的方法
 
     // region 游戏侧回调
 
@@ -203,7 +251,6 @@ public class GameViewModel implements SudFSMMGListener {
     @Override
     public void onGameLog(String str) {
         SudFSMMGListener.super.onGameLog(str);
-        LogUtils.d(str);
     }
 
     /**
@@ -263,26 +310,21 @@ public class GameViewModel implements SudFSMMGListener {
     /** 处理code过期 */
     public void processOnExpireCode(SudFSTAPPDecorator sudFSTAPPManager, ISudFSMStateHandle handle) {
         // code过期，刷新code
-        MainRepository.login(null, APPConfig.userId, APPConfig.SudMGP_APP_ID, new RxCallback<GameLoginResp>() {
+        getCode(null, getUserId(), getAppId(), new GameGetCodeListener() {
             @Override
-            public void onNext(BaseResponse<GameLoginResp> t) {
-                super.onNext(t);
+            public void onSuccess(String code) {
+                if (!isRunning) return;
                 MGStateResponse mgStateResponse = new MGStateResponse();
-                mgStateResponse.ret_code = t.getRet_code();
-                if (t.getRet_code() == RetCode.SUCCESS && t.getData() != null) {
-                    sudFSTAPPManager.updateCode(t.getData().code, null);
-                    handle.success(GsonUtils.toJson(mgStateResponse));
-                } else {
-                    handle.failure(GsonUtils.toJson(mgStateResponse));
-                }
+                mgStateResponse.ret_code = MGStateResponse.SUCCESS;
+                sudFSTAPPManager.updateCode(code, null);
+                handle.success(SudJsonUtils.toJson(mgStateResponse));
             }
 
             @Override
-            public void onError(Throwable e) {
-                super.onError(e);
+            public void onFailed() {
                 MGStateResponse mgStateResponse = new MGStateResponse();
                 mgStateResponse.ret_code = -1;
-                handle.failure(GsonUtils.toJson(mgStateResponse));
+                handle.failure(SudJsonUtils.toJson(mgStateResponse));
             }
         });
     }
@@ -324,17 +366,8 @@ public class GameViewModel implements SudFSMMGListener {
         getGameRect(gameViewInfoModel);
 
         // 给游戏侧进行返回
-        String json = GsonUtils.toJson(gameViewInfoModel);
-        LogUtils.d("gameViewInfo:" + json);
+        String json = SudJsonUtils.toJson(gameViewInfoModel);
         handle.success(json);
-    }
-
-    /** 获取游戏的安全操作区域 */
-    protected void getGameRect(GameViewInfoModel gameViewInfoModel) {
-        gameViewInfoModel.view_game_rect.left = 0;
-        gameViewInfoModel.view_game_rect.top = DensityUtils.dp2px(Utils.getApp(), 54) + BarUtils.getStatusBarHeight();
-        gameViewInfoModel.view_game_rect.right = 0;
-        gameViewInfoModel.view_game_rect.bottom = DensityUtils.dp2px(Utils.getApp(), 54);
     }
 
     /**
@@ -342,7 +375,16 @@ public class GameViewModel implements SudFSMMGListener {
      * 文档：https://docs.sud.tech/zh-CN/app/Client/API/ISudFSMMG/onGetGameCfg.html
      */
     public void processOnGetGameCfg(ISudFSMStateHandle handle, String dataJson) {
-        handle.success(GsonUtils.toJson(gameConfigModel));
+        handle.success(SudJsonUtils.toJson(gameConfigModel));
+    }
+
+    /** 游戏login(getCode)监听 */
+    public interface GameGetCodeListener {
+        /** 成功 */
+        void onSuccess(String code);
+
+        /** 失败 */
+        void onFailed();
     }
 
 }

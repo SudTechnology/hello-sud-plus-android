@@ -133,9 +133,14 @@
 - 请使用QuickStart项目运行；
 - QuickStart使用SudMGPWrapper、SudMGPSDK实现快速接入游戏；
 - 快速接入文档：[StartUp-Android](https://docs.sud.tech/zh-CN/app/Client/StartUp-Android.html) 和 [StartUp-iOS](https://docs.sud.tech/zh-CN/app/Client/StartUp-iOS.html) ；
-- `GameViewModel` 负责login(App getCode) --> SudMGP.initSDK --> SudMGP.loadMG；
+- `QuickStartGameViewModel` 负责login(App getCode) --> SudMGP.initSDK --> SudMGP.loadMG；
 - `GameActivity` 负责addGameView；
 - `QuickStart 服务端` [hello-sud-java](https://github.com/SudTechnology/hello-sud-java) ，login(App getCode 获取短期令牌code) ，`如果访问不了代码仓库，请联系SUD添加，github账号`；
+
+  ## 如何集成到App里面?
+  - 导入'SudMGPSDK'、'SudMGPWrapper'两个Module，并在app主Module引入
+  - 拷贝BaseGameViewModel类，自定义GameViewModel继承它并实现对应方法
+  - 在页面中调用BaseGameViewModel.switchGame()方法
 
 # 4. QuickStart运行效果图
 ![QuickStartHome.png](doc/QuickStartHome.png)

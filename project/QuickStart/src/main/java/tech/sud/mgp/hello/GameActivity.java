@@ -12,7 +12,7 @@ import com.gyf.immersionbar.ImmersionBar;
 
 import tech.sud.mgp.hello.common.base.BaseActivity;
 import tech.sud.mgp.hello.common.utils.ViewUtils;
-import tech.sud.mgp.hello.ui.game.GameViewModel;
+import tech.sud.mgp.hello.ui.game.QuickStartGameViewModel;
 import tech.sud.mgp.hello.ui.game.widget.GameModeDialog;
 import tech.sud.mgp.hello.ui.game.widget.GameRoomMoreDialog;
 import tech.sud.mgp.hello.ui.game.widget.GameRoomTopView;
@@ -28,7 +28,7 @@ public class GameActivity extends BaseActivity {
     private FrameLayout gameContainer;
     private GameRoomTopView topView;
 
-    private final GameViewModel gameViewModel = new GameViewModel();
+    private final QuickStartGameViewModel gameViewModel = new QuickStartGameViewModel();
 
     /** 外部调用，打开游戏页面 */
     public static void start(Context context, long roomId, long gameId) {

@@ -1,8 +1,9 @@
 # 三分钟集成代码
-- 第一步：导入'SudMGPSDK'、'SudMGPWrapper'两个Module，并在app主Module引入
-- 第二步：拷贝BaseGameViewModel类，自定义GameViewModel继承它并实现对应方法
-- 第三步：在页面中调用BaseGameViewModel.switchGame()方法加载游戏
-- 第四步：页面销毁时调用BaseGameViewModel.onDestroy()方法释放资源
+- 第一步：导入'SudMGPSDK'、'SudMGPWrapper'两个Module，在app主Module中引用SudMGPWrapper;
+- 第二步：拷贝BaseGameViewModel、QuickStartGameViewModel、QuickStartUtils类;
+- 第三步：QuickStartGameViewModel gameViewModel = new QuickStartGameViewModel()。监听onAddGameView(View gameView)回调，将gameView添加到页面中;
+- 第四步：在页面中调用gameViewModel.switchGame()方法加载游戏;
+- 第五步：页面销毁时调用gameViewModel.onDestroy()方法释放资源;
 
 # QuickStart 架构图
 ![QuickStartArch.png](doc/QuickStartArch.png)

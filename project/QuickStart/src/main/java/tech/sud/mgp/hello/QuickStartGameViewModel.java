@@ -6,9 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.MutableLiveData;
 
-import com.blankj.utilcode.util.BarUtils;
-import com.blankj.utilcode.util.Utils;
-
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -23,9 +20,6 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import tech.sud.mgp.SudMGPWrapper.model.GameViewInfoModel;
 import tech.sud.mgp.SudMGPWrapper.state.MGStateResponse;
-import tech.sud.mgp.hello.common.utils.DensityUtils;
-import tech.sud.mgp.hello.common.utils.SystemUtils;
-import tech.sud.mgp.hello.common.utils.UserUtils;
 
 /**
  * 游戏业务逻辑
@@ -43,7 +37,13 @@ public class QuickStartGameViewModel extends BaseGameViewModel {
     public static final boolean GAME_IS_TEST_ENV = true;
 
     /** 使用的UserId。这里随机生成作演示，开发者将其修改为业务使用的唯一userId */
-    public static String userId = UserUtils.genUserID();
+    public static String userId = QuickStartUtils.genUserID();
+
+    /** 游戏自定义安全操作区域 */
+    public GameViewInfoModel.GameViewRectModel gameViewRectModel;
+
+    /** 游戏的语言代码 */
+    public String languageCode = "zh-CN";
 
     public final MutableLiveData<View> gameViewLiveData = new MutableLiveData<>(); // 游戏View回调
 
@@ -132,17 +132,16 @@ public class QuickStartGameViewModel extends BaseGameViewModel {
     /** 设置游戏的语言代码 */
     @Override
     protected String getLanguageCode() {
-        return SystemUtils.getLanguageCode(Utils.getApp());
+        return languageCode;
     }
 
     /** 设置游戏的安全操作区域 */
     @Override
     protected void getGameRect(GameViewInfoModel gameViewInfoModel) {
         // 相对于view_size（左、上、右、下）边框偏移（单位像素）
-        gameViewInfoModel.view_game_rect.left = 0;
-        gameViewInfoModel.view_game_rect.top = DensityUtils.dp2px(Utils.getApp(), 54) + BarUtils.getStatusBarHeight();
-        gameViewInfoModel.view_game_rect.right = 0;
-        gameViewInfoModel.view_game_rect.bottom = DensityUtils.dp2px(Utils.getApp(), 54);
+        if (gameViewRectModel != null) {
+            gameViewInfoModel.view_game_rect = gameViewRectModel;
+        }
     }
 
     /**

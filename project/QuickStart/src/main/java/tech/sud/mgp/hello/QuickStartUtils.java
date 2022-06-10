@@ -1,22 +1,13 @@
-/*
- * Copyright © Sud.Tech
- * https://sud.tech
- */
-
-package tech.sud.mgp.hello.common.utils;
-
+package tech.sud.mgp.hello;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.UUID;
 
-/**
- * @author guanghui
- * Created on 2021/12/4
- */
-public class UserUtils {
+public class QuickStartUtils {
 
+    /** 随机生成一个userId，用于演示 */
     public static String genUserID() {
         return md5Hex8(UUID.randomUUID().toString());
     }

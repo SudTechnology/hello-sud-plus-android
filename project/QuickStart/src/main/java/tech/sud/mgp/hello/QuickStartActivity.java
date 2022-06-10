@@ -7,10 +7,15 @@ import android.widget.FrameLayout;
 
 import androidx.lifecycle.Observer;
 
+import com.blankj.utilcode.util.BarUtils;
+import com.blankj.utilcode.util.Utils;
 import com.gyf.immersionbar.BarHide;
 import com.gyf.immersionbar.ImmersionBar;
 
+import tech.sud.mgp.SudMGPWrapper.model.GameViewInfoModel;
 import tech.sud.mgp.hello.common.base.BaseActivity;
+import tech.sud.mgp.hello.common.utils.DensityUtils;
+import tech.sud.mgp.hello.common.utils.SystemUtils;
 import tech.sud.mgp.hello.common.utils.ViewUtils;
 import tech.sud.mgp.hello.ui.game.widget.GameModeDialog;
 import tech.sud.mgp.hello.ui.game.widget.GameRoomMoreDialog;
@@ -64,6 +69,17 @@ public class QuickStartActivity extends BaseActivity {
 
         topView.setName(getString(R.string.room_name));
         topView.setId(getString(R.string.room_number) + " " + roomId);
+
+        // 设置游戏安全操作区域
+        GameViewInfoModel.GameViewRectModel gameViewRectModel = new GameViewInfoModel.GameViewRectModel();
+        gameViewRectModel.left = 0;
+        gameViewRectModel.top = DensityUtils.dp2px(Utils.getApp(), 54) + BarUtils.getStatusBarHeight();
+        gameViewRectModel.right = 0;
+        gameViewRectModel.bottom = DensityUtils.dp2px(Utils.getApp(), 54);
+        gameViewModel.gameViewRectModel = gameViewRectModel;
+
+        // 语言代码
+        gameViewModel.languageCode = SystemUtils.getLanguageCode(this);
     }
 
     @Override

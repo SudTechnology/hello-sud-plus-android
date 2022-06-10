@@ -69,9 +69,6 @@ dependencies {
     // 引入 SudMGPWrapper
     implementation project(':SudMGPWrapper')
 
-    // 依赖okhttp
-    implementation 'com.squareup.okhttp3:okhttp:4.9.2'
-
     // --- region QuickStart使用
 
     // 屏幕适配：https://github.com/JessYanCoding/AndroidAutoSize

@@ -27,11 +27,11 @@ android {
 
 dependencies {
 
-    implementation "androidx.appcompat:appcompat:${project.appcompatVersion}"
-    implementation "com.google.android.material:material:${project.materialVersion}"
-
     // 引入 SudMGPSDK
     api project(':SudMGPSDK')
+
+    // 依赖okhttp
+    api 'com.squareup.okhttp3:okhttp:4.9.2'
 
     // gson
     api 'com.google.code.gson:gson:2.8.6'

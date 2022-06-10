@@ -1,7 +1,5 @@
 package tech.sud.mgp.hello.rtc.audio.model;
 
-import android.view.View;
-
 public class AudioJoinRoomModel {
 
     public String userID;

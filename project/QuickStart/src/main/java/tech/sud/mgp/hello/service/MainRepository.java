@@ -55,6 +55,7 @@ public class MainRepository {
     /**
      * 接入方客户端调用接入方服务端获取短期令牌code（getCode）
      * { 接入方服务端仓库：https://github.com/SudTechnology/hello-sud-java }
+     * ------ 暂时不使用此方法，改为使用okhttp直接请求数据
      *
      * @param owner    生命周期对象
      * @param userId   用户id

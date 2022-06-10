@@ -12,7 +12,6 @@ import com.gyf.immersionbar.ImmersionBar;
 
 import tech.sud.mgp.hello.common.base.BaseActivity;
 import tech.sud.mgp.hello.common.utils.ViewUtils;
-import tech.sud.mgp.hello.ui.game.QuickStartGameViewModel;
 import tech.sud.mgp.hello.ui.game.widget.GameModeDialog;
 import tech.sud.mgp.hello.ui.game.widget.GameRoomMoreDialog;
 import tech.sud.mgp.hello.ui.game.widget.GameRoomTopView;
@@ -20,7 +19,7 @@ import tech.sud.mgp.hello.ui.game.widget.GameRoomTopView;
 /**
  * 游戏页面
  */
-public class GameActivity extends BaseActivity {
+public class QuickStartActivity extends BaseActivity {
 
     private long roomId;
     private long gameId;
@@ -32,7 +31,7 @@ public class GameActivity extends BaseActivity {
 
     /** 外部调用，打开游戏页面 */
     public static void start(Context context, long roomId, long gameId) {
-        Intent intent = new Intent(context, GameActivity.class);
+        Intent intent = new Intent(context, QuickStartActivity.class);
         intent.putExtra("roomId", roomId);
         intent.putExtra("gameId", gameId);
         context.startActivity(intent);
@@ -70,8 +69,8 @@ public class GameActivity extends BaseActivity {
     @Override
     protected void initData() {
         super.initData();
-        // 调用此方法，加载对应的游戏
-        gameViewModel.switchGame(this, roomId, gameId);
+        // 调用此方法，加载对应的游戏，开发者可根据业务决定什么时候加载游戏。
+        gameViewModel.switchGame(this, roomId + "", gameId);
         updateStatusBar();
     }
 
@@ -125,8 +124,8 @@ public class GameActivity extends BaseActivity {
         dialog.setSelectGameListener(new GameModeDialog.SelectGameListener() {
             @Override
             public void onSelectGame(long gameId) {
-                GameActivity.this.gameId = gameId;
-                gameViewModel.switchGame(context, roomId, gameId);
+                QuickStartActivity.this.gameId = gameId;
+                gameViewModel.switchGame(context, roomId + "", gameId);
             }
         });
         dialog.show(getSupportFragmentManager(), null);

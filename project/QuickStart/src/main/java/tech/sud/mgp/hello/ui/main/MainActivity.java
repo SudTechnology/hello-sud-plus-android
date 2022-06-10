@@ -21,7 +21,7 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
 import java.util.List;
 
-import tech.sud.mgp.hello.GameActivity;
+import tech.sud.mgp.hello.QuickStartActivity;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseActivity;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
@@ -125,7 +125,7 @@ public class MainActivity extends BaseActivity {
     private boolean enterRoom() {
         Long number = getInputNumber();
         if (number == null) return false;
-        GameActivity.start(this, number, 0);
+        QuickStartActivity.start(this, number, 0);
         return true;
     }
 
@@ -144,7 +144,7 @@ public class MainActivity extends BaseActivity {
     /** 点击了游戏 */
     private void clickGame(int position) {
         GameModel model = adapter.getItem(position);
-        GameActivity.start(this, roomId, model.gameId);
+        QuickStartActivity.start(this, roomId, model.gameId);
     }
 
     private static class MyAdapter extends BaseQuickAdapter<GameModel, BaseViewHolder> {

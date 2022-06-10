@@ -17,7 +17,4 @@ public class AudioJoinRoomModel {
     public long timestamp;
 
     public String appId;
-
-    // 接收视频时，传入视频画面View
-    public View localView;
 }

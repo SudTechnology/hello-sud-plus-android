@@ -108,28 +108,16 @@ public interface ISudAudioEngine {
 
     // region 8. 直播接口
     /**
-     * 设置频道场景，是通信场景，还是直播场景，默认是通信场景
-     * 设置为直播场景后，会默认设置用户角色为观众
-     * @param profile
+     * 观众开始拉流
+     * @param streamID
+     * @param view
      */
-    void setChannelProfile(SudRTIChannelProfile profile);
+    void startPlayingStream(String streamID, View view);
 
     /**
-     * 设置直播场景下的用户角色，默认是观众角色
-     * 只有直播场景下设置才有效
+     * 观众停止拉流
+     * @param streamID
      */
-    void setClientRole(SudRTIClientRole clientRole);
-
-    /**
-     * 主播开启直播
-     * 只有直播场景, 主播角色，调用才有效
-     */
-    void startLiveStreaming(View view);
-
-    /**
-     * 主播关闭直播
-     * 只有直播场景下设置才有效
-     */
-    void stopLiveStreaming();
+    void stopPlayingStream(String streamID);
     // endregion
 }

@@ -24,7 +24,6 @@ import tech.sud.mgp.hello.rtc.audio.model.AudioJoinRoomModel;
 import tech.sud.mgp.hello.service.main.resp.BaseConfigResp;
 import tech.sud.mgp.hello.ui.main.home.manager.RTCManager;
 import tech.sud.mgp.hello.ui.scenes.base.activity.RoomConfig;
-import tech.sud.mgp.hello.ui.scenes.base.model.RoleType;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
 import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomServiceCallback;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.RoomCmdModelUtils;
@@ -326,12 +325,12 @@ public class SceneEngineManager extends BaseServiceManager {
         }
 
         @Override
-        public void onLiveStreamingCome() {
+        public void onPlayingStreamingAdd(String streamID) {
 
         }
 
         @Override
-        public void onLiveStreamingCancle() {
+        public void onPlayingStreamingDelete(String streamID) {
 
         }
     };

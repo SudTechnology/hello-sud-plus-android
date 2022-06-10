@@ -1,7 +1,5 @@
 package tech.sud.mgp.SudMGPWrapper.utils;
 
-import androidx.annotation.NonNull;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -15,7 +13,7 @@ public class SudJsonUtils {
      *
      * @return 如果解析出错，则返回空对象
      */
-    public static <T> T fromJson(final String json, @NonNull final Class<T> type) {
+    public static <T> T fromJson(final String json, final Class<T> type) {
         try {
             return getGson().fromJson(json, type);
         } catch (Exception e) {
@@ -34,7 +32,7 @@ public class SudJsonUtils {
         return getGson().toJson(object);
     }
 
-    public static Gson getGson(){
+    public static Gson getGson() {
         return InnerClass.gson;
     }
 

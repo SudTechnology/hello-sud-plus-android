@@ -1,16 +1,13 @@
-package tech.sud.mgp.hello.ui.game;
+package tech.sud.mgp.hello;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewTreeObserver;
 
 import androidx.fragment.app.FragmentActivity;
 
-import tech.sud.mgp.core.ISudFSMStateHandle;
-import tech.sud.mgp.core.ISudFSTAPP;
-import tech.sud.mgp.core.ISudListenerInitSDK;
-import tech.sud.mgp.core.SudMGP;
 import tech.sud.mgp.SudMGPWrapper.decorator.SudFSMMGDecorator;
 import tech.sud.mgp.SudMGPWrapper.decorator.SudFSMMGListener;
 import tech.sud.mgp.SudMGPWrapper.decorator.SudFSTAPPDecorator;
@@ -18,15 +15,20 @@ import tech.sud.mgp.SudMGPWrapper.model.GameConfigModel;
 import tech.sud.mgp.SudMGPWrapper.model.GameViewInfoModel;
 import tech.sud.mgp.SudMGPWrapper.state.MGStateResponse;
 import tech.sud.mgp.SudMGPWrapper.utils.SudJsonUtils;
+import tech.sud.mgp.core.ISudFSMStateHandle;
+import tech.sud.mgp.core.ISudFSTAPP;
+import tech.sud.mgp.core.ISudListenerInitSDK;
+import tech.sud.mgp.core.SudMGP;
 
 /**
  * 游戏业务逻辑抽象类
- * 定自义ViewModel继承此类，实现对应方法即可
- * 外部调用switchGame()方法启动游戏
+ * 1.定自义ViewModel继承此类，实现对应方法。(注意：onAddGameView()与onRemoveGameView()与页面有交互)
+ * 2.外部调用switchGame()方法启动游戏
+ * 3.页面销毁时调用onDestroy()
  */
 public abstract class BaseGameViewModel implements SudFSMMGListener {
 
-    private long gameRoomId; // 游戏房间id
+    private String gameRoomId; // 游戏房间id
     private long playingGameId; // 当前使用的游戏id
     public final SudFSTAPPDecorator sudFSTAPPDecorator = new SudFSTAPPDecorator(); // app调用sdk的封装类
     private final SudFSMMGDecorator sudFSMMGDecorator = new SudFSMMGDecorator(); // 用于处理游戏SDK部分回调业务
@@ -34,24 +36,27 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
     private boolean isRunning = true; // 业务是否还在运行
     public View gameView; // 游戏View
     public GameConfigModel gameConfigModel = new GameConfigModel(); // 游戏配置
-    private final Handler handler = new Handler(Looper.getMainLooper());
+    protected final Handler handler = new Handler(Looper.getMainLooper());
 
     /**
      * 外部调用切换游戏
      *
-     * @param activity   游戏所在页面
-     * @param gameRoomId 游戏房间id
-     * @param gameId     游戏id
+     * @param activity   游戏所在页面，用作于生命周期判断
+     * @param gameRoomId 游戏房间id，房间隔离，同一房间才能一起游戏
+     * @param gameId     游戏id，传入不同的游戏id，即可加载不同的游戏
      */
-    public void switchGame(FragmentActivity activity, long gameRoomId, long gameId) {
+    public void switchGame(FragmentActivity activity, String gameRoomId, long gameId) {
+        if (TextUtils.isEmpty(gameRoomId)) {
+            throw new IllegalArgumentException();
+        }
         if (!isRunning) {
             return;
         }
-        if (playingGameId == gameId && BaseGameViewModel.this.gameRoomId == gameRoomId) {
+        if (playingGameId == gameId && gameRoomId.equals(this.gameRoomId)) {
             return;
         }
         destroyMG();
-        BaseGameViewModel.this.gameRoomId = gameRoomId;
+        this.gameRoomId = gameRoomId;
         playingGameId = gameId;
         login(activity, gameId);
     }
@@ -128,7 +133,7 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
         sudFSMMGDecorator.setSudFSMMGListener(this);
 
         // 调用游戏sdk加载游戏
-        ISudFSTAPP iSudFSTAPP = SudMGP.loadMG(activity, getUserId(), gameRoomId + "", code, gameId, getLanguageCode(), sudFSMMGDecorator);
+        ISudFSTAPP iSudFSTAPP = SudMGP.loadMG(activity, getUserId(), gameRoomId, code, gameId, getLanguageCode(), sudFSMMGDecorator);
 
         // APP调用游戏接口的装饰类设置
         sudFSTAPPDecorator.setISudFSTAPP(iSudFSTAPP);
@@ -176,7 +181,7 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
     }
 
     /** 获取当前游戏房id */
-    public long getGameRoomId() {
+    public String getGameRoomId() {
         return gameRoomId;
     }
 

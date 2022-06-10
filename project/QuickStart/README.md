@@ -62,22 +62,16 @@
 ![QuickStartArch.png](doc/QuickStartArch.png)
 
 # 1. SudMGP SDK
-### 1.1 SudMGP Android 客户端SDK
-- 例如：SudMGP-v1.1.52.554.aar
-- [下载 SudMGP-Android SDK](https://github.com/SudTechnology/sud-mgp-android/releases)
-  
-### 1.2 SudMGP iOS 客户端SDK
-- 例如：SudMGP.xcframework
-- [下载 SudMGP-iOS SDK](https://github.com/SudTechnology/sud-mgp-ios/releases)
+### 1.1 SudMGP Client SDK
+- [下载 SudMGP-Android-v1.1.52.554.zip](https://github.com/SudTechnology/sud-mgp-android/releases)
+- [下载 SudMGP-iOS-v1.1.52.527.zip](https://github.com/SudTechnology/sud-mgp-ios/releases)
 
-### 1.3 接入文档
-- [接入文档](https://docs.sud.tech/zh-CN/app/Client/)
-
-### 1.4 接入FAQ
- - 准备中，敬请期待
+### 1.2 接入文档
+- [接入文档](https://docs.sud.tech/zh-CN/app/Client/API/)
+- [FAQ](https://docs.sud.tech/zh-CN/app/Client/FAQ/)
 
 # 2. SudMGPWrapper
-- `SudMGPWrapper封装SudMGP，简化App和游戏相互调用接口`；
+- `SudMGPWrapper封装SudMGP，简化App和游戏相互调用`；
 - `SudMGPWrapper长期维护和保持更新`；
 - `推荐APP接入方使用SudMGPWrapper`；
 - `SudMGPAPPState`、`SudMGPMGState`、`SudFSMMGListener`、`SudFSMMGDecorator`、`SudFSTAPPDecorator核心类`；

@@ -1,10 +1,63 @@
 # 三分钟集成代码
 - 第一步：导入'SudMGPSDK'、'SudMGPWrapper'两个Module，在app主Module中引用SudMGPWrapper;
 - 第二步：拷贝BaseGameViewModel、QuickStartGameViewModel、QuickStartUtils类;
-- 第三步：QuickStartGameViewModel gameViewModel = new QuickStartGameViewModel()。监听onAddGameView(View gameView)回调，将gameView添加到页面中;
-- 第四步：在页面中调用gameViewModel.switchGame()方法加载游戏;
-- 第五步：页面销毁时调用gameViewModel.onDestroy()方法释放资源;
+- 第三步：页面xml布局中定义一个游戏View容器
+    <details>
+    <summary>activity.xml</summary>
 
+    ``` xml
+    <!-- 游戏View容器，容器不能设置为android:visibility="gone"，可能会出现未知问题 -->
+    <FrameLayout
+        android:id="@+id/game_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    ```
+    </details>
+- 第四步：页面中创建QuickStartGameViewModel实例，实现游戏View的添加与移除
+    <details>
+    <summary>activity.java</summary>
+
+    ``` java
+    private final QuickStartGameViewModel gameViewModel = new QuickStartGameViewModel(); // 创建ViewModel
+  
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        FrameLayout gameContainer = findViewById(R.id.game_container); // 获取游戏View容器
+        gameViewModel.gameViewLiveData.observe(this, new Observer<View>() {
+            @Override
+            public void onChanged(View view) {
+                if (view == null) { // 在关闭游戏时，把游戏View给移除
+                    gameContainer.removeAllViews();
+                } else { // 把游戏View添加到容器内
+                    gameContainer.addView(view, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+                }
+            }
+        });
+    }
+    ```
+    </details>
+- 第五步：页面中加载游戏
+    <details>
+    <summary>activity.java</summary>
+
+    ``` java
+    // 加载游戏，参数定义可查看方法注释
+    gameViewModel.switchGame(this, "10000", 1461227817776713818L);       
+    ```
+    </details>
+- 第六步：页面销毁时释放资源;
+    <details>
+    <summary>activity.java</summary>
+
+    ``` java
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        gameViewModel.onDestroy();
+    }    
+    ```
+    </details>
 # QuickStart 架构图
 ![QuickStartArch.png](doc/QuickStartArch.png)
 

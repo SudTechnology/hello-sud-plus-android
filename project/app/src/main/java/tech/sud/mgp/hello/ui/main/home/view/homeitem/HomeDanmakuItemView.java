@@ -3,12 +3,18 @@ package tech.sud.mgp.hello.ui.main.home.view.homeitem;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
 import java.util.List;
 
@@ -17,8 +23,6 @@ import tech.sud.mgp.hello.common.utils.WebPUtils;
 import tech.sud.mgp.hello.service.main.resp.GameModel;
 import tech.sud.mgp.hello.service.main.resp.QuizGameListResp;
 import tech.sud.mgp.hello.service.main.resp.SceneModel;
-import tech.sud.mgp.hello.ui.scenes.common.gift.listener.PlayResultListener;
-import tech.sud.mgp.hello.ui.scenes.common.gift.model.PlayResult;
 
 /**
  * 首页竞猜场景itemView
@@ -26,7 +30,7 @@ import tech.sud.mgp.hello.ui.scenes.common.gift.model.PlayResult;
 public class HomeDanmakuItemView extends ConstraintLayout implements IHomeChildItemView {
 
     private TextView sceneNameTv;
-    private ImageView ivKingWarAnim;
+    private RecyclerView recyclerView;
 
     private GameItemListener gameItemListener;
     public SceneModel sceneModel;
@@ -49,7 +53,7 @@ public class HomeDanmakuItemView extends ConstraintLayout implements IHomeChildI
     private void init(Context context) {
         inflate(context, R.layout.view_home_danmaku_item, this);
         sceneNameTv = findViewById(R.id.scene_name);
-        ivKingWarAnim = findViewById(R.id.iv_king_war_anim);
+        recyclerView = findViewById(R.id.recycler_view);
     }
 
     /** 设置数据 */
@@ -62,13 +66,41 @@ public class HomeDanmakuItemView extends ConstraintLayout implements IHomeChildI
             sceneNameTv.setText(sceneModel.sceneName);
         }
 
-        // 王者战争
-        WebPUtils.loadWebp(ivKingWarAnim, R.drawable.ic_home_danmaku, -1, new PlayResultListener() {
-            @Override
-            public void onResult(PlayResult result) {
+        // 加载游戏列表
+        setGameList(sceneModel, datas);
+    }
 
+    // 设置默认的游戏列表数据
+    private void setGameList(SceneModel sceneModel, List<GameModel> datas) {
+        MyAdapter gameAdapter = new MyAdapter();
+        gameAdapter.setOnItemClickListener((adapter, view, position) -> {
+            GameModel model = gameAdapter.getItem(position);
+            if (gameItemListener != null && model.gameId != -1) {
+                gameItemListener.onGameClick(sceneModel, model);
             }
         });
+        recyclerView.setNestedScrollingEnabled(false);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        recyclerView.setAdapter(gameAdapter);
+        gameAdapter.setList(datas);
+
+        if (datas == null || datas.size() == 0) {
+            recyclerView.setVisibility(View.GONE);
+        }
+    }
+
+    private static class MyAdapter extends BaseQuickAdapter<GameModel, BaseViewHolder> {
+
+        public MyAdapter() {
+            super(R.layout.item_home_danmaku);
+        }
+
+        @Override
+        protected void convert(@NonNull BaseViewHolder holder, GameModel model) {
+            ImageView ivIcon = holder.getView(R.id.iv_icon);
+            WebPUtils.loadWebP(ivIcon, model.homeGamePic, -1);
+            holder.setText(R.id.tv_name, model.gameName);
+        }
     }
 
     @Override

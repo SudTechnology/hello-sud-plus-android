@@ -21,24 +21,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- 王者战争 -->
-    <tech.sud.mgp.hello.common.widget.view.CornersConstraintLayout
+    <!-- 游戏列表 -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/transparent"
-        app:ccl_cornerRadius="10dp"
-        android:layout_marginTop="59dp"
-        android:layout_marginHorizontal="13dp"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/iv_king_war_anim"
-            android:layout_width="match_parent"
-            android:layout_height="140dp"
-            android:scaleType="centerCrop"
-            app:layout_constraintTop_toTopOf="parent"
-            android:contentDescription="@null" />
-
-    </tech.sud.mgp.hello.common.widget.view.CornersConstraintLayout>
+        android:layout_marginTop="49dp"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

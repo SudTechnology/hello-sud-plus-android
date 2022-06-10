@@ -78,7 +78,7 @@ public interface ISudAudioEventListener {
     void onPlayingStreamingAdd(String streamID);
 
     /**
-     * 观众参与直播结束通知
+     * 观众拉流结束通知
      * @param streamID
      */
     void onPlayingStreamingDelete(String streamID);

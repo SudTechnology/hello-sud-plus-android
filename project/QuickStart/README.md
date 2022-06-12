@@ -1,22 +1,104 @@
+# 开启快速接入和联调SUD游戏之旅
+- 第一步：APP客户端集成SUD游戏（三分钟集成代码）
+  <details>
+  <summary>详细描述</summary>
+
+      1.使用APP自己的appId、appKey、isTestEnv=true、bundleId(Android applicationId)；
+      2.先使用QuickStart的后端服务，login/getCode获取短期令牌code；
+      3.完成集成，游戏跑起来;
+  QuickStart 后端服务[hello-sud-java代码仓库](https://github.com/SudTechnology/hello-sud-java) ，`如果访问不了代码仓库，请联系SUD添加，github账号`；
+  </details>
+
+  
+- 第二步：APP客户端和APP服务端联调
+  <details>
+  <summary>详细描述</summary>
+
+      1.APP服务端实现5个HTTP API（接入信息表填的）
+      2.APP客户端替换login/getCode获取短期令牌code逻辑代码；
+      3.完成联调；
+  </details>
+
+
+- 第三步：APP专注于自身业务需求
+  <details>
+  <summary>详细描述</summary>
+
+      1.参考SudMGP文档、SudMGPWrapper、QuickStart、HelloSud体验Demo（展示多场景，Custom自定义场景）；
+      2.专注于APP UI交互、功能是否支持、如何实现
+      比如：
+      调整游戏View大小、位置；
+      调整APP和游戏交互流程，UI元素是否可隐藏，按钮是否可隐藏APP实现，点击事件是否支持拦截回调；
+      
+      3.专注于APP业务逻辑流程、实现
+      比如：
+      一局游戏开始如何透传数值类型参数、Key类型参数；（结算）
+  ![Android](doc/hello_sudplus_android.png)
+  ![iPhone](doc/hello_sudplus_iphone.png)
+  </details>
+
 # 三分钟集成代码
-- 第一步：导入'SudMGPSDK'、'SudMGPWrapper'两个Module，在app主Module中引用SudMGPWrapper;
-- 第二步：拷贝BaseGameViewModel、QuickStartGameViewModel、QuickStartUtils类;
-- 第三步：页面xml布局中定义一个游戏View容器
+- 第一步：导入模块SudMGPSDK、SudMGPWrapper
+  <details>
+  <summary>详细描述</summary>
+
+      1.通过Android Studio的Import Module功能，导入SudMGPSDK、SudMGPWrapper；
+      2.APP主工程文件build.gradle中，添加 SudMGPWrapper 依赖;
+  ``` java
+  build.gradle
+  
+  dependencies {
+    // 引入 SudMGPWrapper
+    implementation project(':SudMGPWrapper')
+  }
+  ```
+  </details>
+  
+
+- 第二步：拷贝QuickStart 3个文件，并保持配置参数不变
+  <details>
+  <summary>详细描述</summary>
+      
+      1.拷贝3个文件:
+        BaseGameViewModel.java
+        QuickStartGameViewModel.java
+        QuickStartUtils.java
+      2.保持配置参数不变，appId和appKey使用QuickStart
+        文件QuickStartGameViewModel.java
+  ```java
+  /** Sud平台申请的appId */
+  public static String SudMGP_APP_ID = "1461564080052506636";
+  /** Sud平台申请的appKey */
+  public static String SudMGP_APP_KEY = "03pNxK2lEXsKiiwrBQ9GbH541Fk2Sfnc";
+  /** true 加载游戏时为测试环境 false 加载游戏时为生产环境 */
+  public static final boolean GAME_IS_TEST_ENV = true;
+  ```
+      3.保持使用QuickStart后端服务login/getCode；
+        3.1 实现APP快速加载运行游戏，使用QuickStart服务；
+        3.2 填好接入信息表后，测试环境，会把APP的bundleId和applicationId，同时加入到QuickStart的appId；
+  </details>
+  
+
+- 第三步：布局文件中定义一个游戏View容器，例如：app_audio_room_activity.xml
     <details>
-    <summary>activity.xml</summary>
+    <summary>详细描述 app_audio_room_activity.xml</summary>
 
     ``` xml
-    <!-- 游戏View容器，容器不能设置为android:visibility="gone"，可能会出现未知问题 -->
+    <!-- 游戏View容器，android:visibility属性不能设置为gone -->
     <FrameLayout
         android:id="@+id/game_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
     ```
     </details>
-- 第四步：页面中创建QuickStartGameViewModel实例，实现游戏View的添加与移除
-    <details>
-    <summary>activity.java</summary>
+  
 
+- 第四步：创建QuickStartGameViewModel实例，例如：AppAudioRoomActivity
+    <details>
+    <summary>详细描述 AppAudioRoomActivity.java</summary>
+    
+      1.实现游戏View的添加与移除；
+      2.代码；
     ``` java
     private final QuickStartGameViewModel gameViewModel = new QuickStartGameViewModel(); // 创建ViewModel
   
@@ -37,18 +119,27 @@
     }
     ```
     </details>
-- 第五步：页面中加载游戏
+  
+
+- 第五步：加载游戏
     <details>
-    <summary>activity.java</summary>
+    <summary>详细描述 AppAudioRoomActivity.java</summary>
 
     ``` java
     // 加载游戏，参数定义可查看方法注释
-    gameViewModel.switchGame(this, "10000", 1461227817776713818L);       
+  
+    // App的房间ID
+    String appRoomId = "10000";       
+    // SudMGP平台64bit游戏ID
+    long mgId = 1461227817776713818L; // 碰碰我最强
+    gameViewModel.switchGame(this, appRoomId, mgId);       
     ```
     </details>
-- 第六步：页面销毁时释放资源;
+  
+
+- 第六步：销毁游戏
     <details>
-    <summary>activity.java</summary>
+    <summary>详细描述 AppAudioRoomActivity.java</summary>
 
     ``` java
     @Override
@@ -58,6 +149,7 @@
     }    
     ```
     </details>
+
 # QuickStart 架构图
 ![QuickStartArch.png](doc/QuickStartArch.png)
 
@@ -85,7 +177,7 @@
 
     ``` java
     public class SudFSTAPPDecorator {
-        // iSudFSTAPP = SudMGP.loadMG(activity, userId, roomId, code, gameId, language, sudFSMMGDecorator);
+        // iSudFSTAPP = SudMGP.loadMG(AppAudioRoomActivity, userId, roomId, code, gameId, language, sudFSMMGDecorator);
         public void setISudFSTAPP(ISudFSTAPP iSudFSTAPP);
         // 1. 加入状态
         public void notifyAPPCommonSelfIn(boolean isIn, int seatIndex, boolean isSeatRandom, int teamId);
@@ -194,6 +286,11 @@
 # 4. QuickStart运行效果图
 ![QuickStartHome.png](doc/QuickStartHome.png)
 ![QuickStartGame.png](doc/QuickStartGame.png)
+
+- HelloSud体验Demo（展示多业务场景）
+
+![Android](doc/hello_sudplus_android.png)
+![iPhone](doc/hello_sudplus_iphone.png)
 
 # 5. 接入方客户端和SudMGP SDK调用时序图
 ![AppCallSudMGPSeqDiag.png](doc/AppCallSudMGPSeqDiag.png)

@@ -5,8 +5,11 @@ import android.os.Looper;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.Toast;
 
 import androidx.fragment.app.FragmentActivity;
+
+import com.blankj.utilcode.util.ToastUtils;
 
 import tech.sud.mgp.SudMGPWrapper.decorator.SudFSMMGDecorator;
 import tech.sud.mgp.SudMGPWrapper.decorator.SudFSMMGListener;
@@ -109,6 +112,11 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
 
             @Override
             public void onFailure(int errCode, String errMsg) {
+                // TODO: 2022/6/13 下面toast可以根据业务需要决定是否保留
+                if (isTestEnv()) {
+                    Toast.makeText(activity, "initSDK onFailure:" + errMsg + "(" + errCode + ")", Toast.LENGTH_LONG).show();
+                }
+
                 delayLoadGame(activity, gameId);
             }
         });

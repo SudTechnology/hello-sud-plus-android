@@ -2,9 +2,11 @@ package tech.sud.mgp.hello;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
 
 import com.blankj.utilcode.util.BarUtils;
@@ -29,7 +31,7 @@ public class QuickStartActivity extends BaseActivity {
     private long roomId;
     private long gameId;
 
-    private FrameLayout gameContainer;
+
     private GameRoomTopView topView;
 
     private final QuickStartGameViewModel gameViewModel = new QuickStartGameViewModel();
@@ -62,7 +64,6 @@ public class QuickStartActivity extends BaseActivity {
     @Override
     protected void initWidget() {
         super.initWidget();
-        gameContainer = findViewById(R.id.game_container);
         topView = findViewById(R.id.room_top_view);
 
         ViewUtils.addMarginTop(topView, ImmersionBar.getStatusBarHeight(this));
@@ -93,13 +94,13 @@ public class QuickStartActivity extends BaseActivity {
     @Override
     protected void setListeners() {
         super.setListeners();
-        // 在此处拿到游戏View，添加到Activity中去
+        FrameLayout gameContainer = findViewById(R.id.game_container); // 获取游戏View容器
         gameViewModel.gameViewLiveData.observe(this, new Observer<View>() {
             @Override
             public void onChanged(View view) {
-                if (view == null) {
+                if (view == null) { // 在关闭游戏时，把游戏View给移除
                     gameContainer.removeAllViews();
-                } else {
+                } else { // 把游戏View添加到容器内
                     gameContainer.addView(view, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
                 }
             }

@@ -31,9 +31,9 @@ import tech.sud.mgp.hello.service.main.resp.GetAccountResp;
 import tech.sud.mgp.hello.ui.common.utils.FormatUtils;
 
 /**
- * 竞猜投注弹窗
+ * 竞猜活动内的 投注弹窗
  */
-public class QuizBetDialog extends BaseDialogFragment {
+public class MoreQuizBetDialog extends BaseDialogFragment {
 
     private TextView tvCoin;
     private TextView tvTitle;
@@ -42,8 +42,8 @@ public class QuizBetDialog extends BaseDialogFragment {
     private OnSelectedListener onSelectedListener;
     private String nickName;
 
-    public static QuizBetDialog newInstance(String nickName) {
-        QuizBetDialog dialog = new QuizBetDialog();
+    public static MoreQuizBetDialog newInstance(String nickName) {
+        MoreQuizBetDialog dialog = new MoreQuizBetDialog();
         Bundle bundle = new Bundle();
         bundle.putString("nickName", nickName);
         dialog.setArguments(bundle);
@@ -134,7 +134,7 @@ public class QuizBetDialog extends BaseDialogFragment {
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
-                List<BetModel> list = QuizBetDialog.this.adapter.getData();
+                List<BetModel> list = MoreQuizBetDialog.this.adapter.getData();
                 BetModel item = list.get(position);
                 if (item.isSelected) {
                     return;

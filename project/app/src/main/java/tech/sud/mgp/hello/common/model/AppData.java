@@ -27,6 +27,7 @@ public class AppData {
     private BaseRtcConfig selectRtcConfig; // 当前所使用的rtc配置
     private boolean joinTicketNoRemind = false; // 加入门票场景不再提醒
     private List<QuizRoomPkModel> quizRoomPkModelList; // 竞猜场景更多活动页下的跨房玩游戏列表数据
+    private boolean quizAutoGuessIWin; // 竞猜场景是否自动猜自己赢
 
     private AppData() {
     }
@@ -152,11 +153,23 @@ public class AppData {
         this.joinTicketNoRemind = joinTicketNoRemind;
     }
 
+    // 竞猜场景更多活动页下的跨房玩游戏列表数据
     public List<QuizRoomPkModel> getQuizRoomPkModelList() {
         return quizRoomPkModelList;
     }
 
+    // 竞猜场景更多活动页下的跨房玩游戏列表数据
     public void setQuizRoomPkModelList(List<QuizRoomPkModel> quizRoomPkModelList) {
         this.quizRoomPkModelList = quizRoomPkModelList;
+    }
+
+    // 竞猜场景是否自动猜自己赢
+    public boolean isQuizAutoGuessIWin() {
+        return quizAutoGuessIWin;
+    }
+
+    // 竞猜场景是否自动猜自己赢
+    public void setQuizAutoGuessIWin(boolean quizAutoGuessIWin) {
+        this.quizAutoGuessIWin = quizAutoGuessIWin;
     }
 }

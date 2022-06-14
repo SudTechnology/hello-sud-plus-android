@@ -406,6 +406,26 @@ Go to homepage to create one~</string>
     <string name="quiz_win">竞猜获胜</string>
     <string name="game_master">游戏高手</string>
     <string name="win_victory">获胜</string>
+    <string name="guess_win_or_lose">猜输赢</string>
+    <string name="select_support_player">选择你支持的玩家</string>
+    <string name="guess_hint">猜对得5倍奖励!</string>
+    <string name="affirm_coin">确认(%1$s金币)</string>
+    <string name="support_count">已有%1$s人支持</string>
+    <string name="guess_i_win">猜自己赢</string>
+    <string name="guess_i_win_hint">夺第一名 得5倍奖励</string>
+    <string name="guess_i_win_auto">是否开启每轮自动猜自己赢？</string>
+    <string name="each_round_coin">（每轮%1$s金币）</string>
+    <string name="cancel_start">暂不开启</string>
+    <string name="start_now">立即开启</string>
+    <string name="game_playing_start_quiz_warn">游戏进行中，暂不可开启竞猜</string>
+    <string name="game_playing_close_quiz_warn">游戏进行中，暂不可关闭竞猜</string>
+    <string name="auto_quiz">自动竞猜</string>
+    <string name="close_auto_guess_i_win_title">是否关闭每轮自动猜自己赢?</string>
+    <string name="confirm_close">确认关闭</string>
+    <string name="quiz_bet_msg">%1$s 为 %2$s 打call，猜TA会赢！</string>
+    <string name="quiz_guess_i_win_msg">%1$s 胸有成竹，猜自己一定能赢！</string>
+    <string name="game_player_empty">暂无玩家游戏中，请稍候再来</string>
+    <string name="bet_completed">已投注，等待游戏结果公布</string>
     <!-- endregion 新增 -->
 
 </resources>

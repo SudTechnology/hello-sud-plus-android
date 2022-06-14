@@ -23,6 +23,7 @@ import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKRemoveRivalMode
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKSendInviteModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKSettingsModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKStartModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.quiz.QuizBetModel;
 
 /**
  * 房间信令工具类
@@ -181,7 +182,17 @@ public class RoomCmdModelUtils {
     }
     // endregion 点单
 
-    private static UserInfo getSendUser() {
+    // region 竞猜
+
+    /** 构建 竞猜下注通知 信令 */
+    public static String buildCmdQuizBet(List<UserInfo> recUser) {
+        QuizBetModel command = new QuizBetModel(getSendUser());
+        command.recUser = recUser;
+        return command.toJson();
+    }
+    // endregion 竞猜
+
+    public static UserInfo getSendUser() {
         UserInfo user = new UserInfo();
         user.userID = HSUserInfo.userId + "";
         user.name = HSUserInfo.nickName;

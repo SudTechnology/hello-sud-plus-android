@@ -27,6 +27,7 @@ import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKSendInviteModel
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKSettingsModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKSettleModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKStartModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.quiz.QuizBetModel;
 
 /**
  * 房间信令相关
@@ -114,6 +115,9 @@ public class SceneCommandManager extends BaseServiceManager {
                 break;
             case RoomCmd.CMD_ORDER_OPERATE_NOTIFY: // 主播同意或者拒绝用户点单
                 dispatchCommand(commandCmd, RoomCmdOrderOperateModel.fromJson(command), userID);
+                break;
+            case RoomCmd.CMD_QUIZ_BET: // v
+                dispatchCommand(commandCmd, QuizBetModel.fromJson(command), userID);
                 break;
         }
     }
@@ -219,6 +223,11 @@ public class SceneCommandManager extends BaseServiceManager {
                         ((OrderResultCommandListener) listener).onRecvCommand((RoomCmdOrderOperateModel) model, fromUserID);
                     }
                     break;
+                case RoomCmd.CMD_QUIZ_BET: // 竞猜下注通知
+                    if (listener instanceof QuizBetCommandListener) {
+                        ((QuizBetCommandListener) listener).onRecvCommand((QuizBetModel) model, fromUserID);
+                    }
+                    break;
             }
         }
     }
@@ -313,6 +322,12 @@ public class SceneCommandManager extends BaseServiceManager {
         void onRecvCommand(RoomCmdOrderOperateModel model, String userID);
     }
     // endregion 点单信令监听
+
+    // region 竞猜信令监听
+    interface QuizBetCommandListener extends ICommandListener {
+        void onRecvCommand(QuizBetModel model, String userID);
+    }
+    // endregion 竞猜信令监听
 
 
     @Override

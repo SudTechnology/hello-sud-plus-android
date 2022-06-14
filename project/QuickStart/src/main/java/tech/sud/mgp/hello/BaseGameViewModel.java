@@ -9,8 +9,6 @@ import android.widget.Toast;
 
 import androidx.fragment.app.FragmentActivity;
 
-import com.blankj.utilcode.util.ToastUtils;
-
 import tech.sud.mgp.SudMGPWrapper.decorator.SudFSMMGDecorator;
 import tech.sud.mgp.SudMGPWrapper.decorator.SudFSMMGListener;
 import tech.sud.mgp.SudMGPWrapper.decorator.SudFSTAPPDecorator;
@@ -322,7 +320,7 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
 
 
     /** 处理code过期 */
-    public void processOnExpireCode(SudFSTAPPDecorator sudFSTAPPManager, ISudFSMStateHandle handle) {
+    public void processOnExpireCode(SudFSTAPPDecorator sudFSTAPPDecorator, ISudFSMStateHandle handle) {
         // code过期，刷新code
         getCode(null, getUserId(), getAppId(), new GameGetCodeListener() {
             @Override
@@ -330,7 +328,7 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
                 if (!isRunning) return;
                 MGStateResponse mgStateResponse = new MGStateResponse();
                 mgStateResponse.ret_code = MGStateResponse.SUCCESS;
-                sudFSTAPPManager.updateCode(code, null);
+                sudFSTAPPDecorator.updateCode(code, null);
                 handle.success(SudJsonUtils.toJson(mgStateResponse));
             }
 

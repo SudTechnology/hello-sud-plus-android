@@ -30,6 +30,8 @@ import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.SceneRoomData;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.base.utils.SceneRoomNotificationHelper;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.RoomCmdModelUtils;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.quiz.QuizBetModel;
 
 /**
  * 房间服务
@@ -274,6 +276,14 @@ public class SceneRoomService extends Service {
         /** 刷新房间pk信息 */
         public void refreshRoomPkInfo() {
             serviceManager.sceneRoomPkManager.refreshRoomPkInfo();
+        }
+
+        /** 竞猜下注，进行通知 */
+        public void notifyQuizBet(List<UserInfo> recUser) {
+            QuizBetModel command = new QuizBetModel(RoomCmdModelUtils.getSendUser());
+            command.recUser = recUser;
+            serviceManager.sceneEngineManager.sendCommand(command.toJson());
+            serviceManager.sceneQuizManager.addQuizBetChatMsg(command);
         }
     }
 

@@ -51,6 +51,7 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
     public final SceneGameManager sceneGameManager = new SceneGameManager(this);
     public final SceneOrderManager sceneOrderManager = new SceneOrderManager(this);
     public final SceneRoomPkManager sceneRoomPkManager = new SceneRoomPkManager(this);
+    public final SceneQuizManager sceneQuizManager = new SceneQuizManager(this);
 
     @Override
     public void onCreate() {
@@ -65,6 +66,7 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
         sceneGameManager.onCreate();
         sceneOrderManager.onCreate();
         sceneRoomPkManager.onCreate();
+        sceneQuizManager.onCreate();
         setListener();
     }
 
@@ -119,6 +121,7 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
         sceneGameManager.onDestroy();
         sceneOrderManager.onDestroy();
         sceneRoomPkManager.onDestroy();
+        sceneQuizManager.onDestroy();
     }
 
     /** 设置回调 */

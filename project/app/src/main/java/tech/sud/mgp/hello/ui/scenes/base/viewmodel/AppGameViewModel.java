@@ -14,10 +14,6 @@ import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.Utils;
 
-import tech.sud.mgp.core.ISudFSMStateHandle;
-import tech.sud.mgp.core.ISudFSTAPP;
-import tech.sud.mgp.core.ISudListenerInitSDK;
-import tech.sud.mgp.core.SudMGP;
 import tech.sud.mgp.SudMGPWrapper.decorator.SudFSMMGDecorator;
 import tech.sud.mgp.SudMGPWrapper.decorator.SudFSMMGListener;
 import tech.sud.mgp.SudMGPWrapper.decorator.SudFSTAPPDecorator;
@@ -27,6 +23,10 @@ import tech.sud.mgp.SudMGPWrapper.state.MGStateResponse;
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.SudMGPWrapper.utils.GameCommonStateUtils;
 import tech.sud.mgp.SudMGPWrapper.utils.ISudFSMStateHandleUtils;
+import tech.sud.mgp.core.ISudFSMStateHandle;
+import tech.sud.mgp.core.ISudFSTAPP;
+import tech.sud.mgp.core.ISudListenerInitSDK;
+import tech.sud.mgp.core.SudMGP;
 import tech.sud.mgp.hello.app.APPConfig;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
@@ -53,7 +53,7 @@ public class AppGameViewModel implements SudFSMMGListener {
     private long gameRoomId; // 游戏房间id
     private long playingGameId; // 当前使用的游戏id
     public final SudFSTAPPDecorator sudFSTAPPDecorator = new SudFSTAPPDecorator(); // app调用sdk的封装类
-    private final SudFSMMGDecorator sudFSMMGDecorator = new SudFSMMGDecorator(); // 用于处理游戏SDK部分回调业务
+    public final SudFSMMGDecorator sudFSMMGDecorator = new SudFSMMGDecorator(); // 用于处理游戏SDK部分回调业务
 
     public final MutableLiveData<View> gameViewLiveData = new MutableLiveData<>(); // 游戏View回调
     public final MutableLiveData<GameTextModel> gameMessageLiveData = new MutableLiveData<>(); // 游戏消息
@@ -248,7 +248,7 @@ public class AppGameViewModel implements SudFSMMGListener {
         destroyMG();
     }
 
-    private void destroyMG() {
+    protected void destroyMG() {
         if (playingGameId > 0) {
             sudFSTAPPDecorator.destroyMG();
             sudFSMMGDecorator.destroyMG();
@@ -261,6 +261,11 @@ public class AppGameViewModel implements SudFSMMGListener {
     }
     // endregion 生命周期相关
 
+    /** 获取当前玩着的游戏id */
+    public long getPlayingGameId() {
+        return playingGameId;
+    }
+
     /** 获取当前游戏房id */
     public long getGameRoomId() {
         return gameRoomId;
@@ -269,7 +274,7 @@ public class AppGameViewModel implements SudFSMMGListener {
     /**
      * 处理code过期
      */
-    public void processOnExpireCode(SudFSTAPPDecorator sudFSTAPPManager, ISudFSMStateHandle handle) {
+    public void processOnExpireCode(SudFSTAPPDecorator sudFSTAPPDecorator, ISudFSMStateHandle handle) {
         // code过期，刷新code
         GameRepository.login(null, new RxCallback<GameLoginResp>() {
             @Override
@@ -278,7 +283,7 @@ public class AppGameViewModel implements SudFSMMGListener {
                 MGStateResponse mgStateResponse = new MGStateResponse();
                 mgStateResponse.ret_code = t.getRetCode();
                 if (t.getRetCode() == RetCode.SUCCESS && t.getData() != null) {
-                    sudFSTAPPManager.updateCode(t.getData().code, null);
+                    sudFSTAPPDecorator.updateCode(t.getData().code, null);
                     handle.success(GsonUtils.toJson(mgStateResponse));
                 } else {
                     handle.failure(GsonUtils.toJson(mgStateResponse));
@@ -637,7 +642,7 @@ public class AppGameViewModel implements SudFSMMGListener {
     @Override
     public void onGameMGCommonGameState(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameState model) {
         notifyShowFinishGameBtn();
-        if (model != null && model.gameState == SudMGPMGState.MGCommonGameState.LOADING) { // 游戏开始，收缩麦位
+        if (model.gameState == SudMGPMGState.MGCommonGameState.LOADING) { // 游戏开始，收缩麦位
             micSpaceMaxLiveData.setValue(true);
         }
         ISudFSMStateHandleUtils.handleSuccess(handle);

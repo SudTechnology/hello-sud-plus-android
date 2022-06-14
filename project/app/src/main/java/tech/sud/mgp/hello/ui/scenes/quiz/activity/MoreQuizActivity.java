@@ -34,8 +34,8 @@ import tech.sud.mgp.hello.ui.scenes.base.utils.EnterRoomUtils;
 import tech.sud.mgp.hello.ui.scenes.quiz.adapter.MoreQuizAdapter;
 import tech.sud.mgp.hello.ui.scenes.quiz.model.QuizRoomPkModel;
 import tech.sud.mgp.hello.ui.scenes.quiz.viewmodel.MoreQuizViewModel;
+import tech.sud.mgp.hello.ui.scenes.quiz.widget.MoreQuizBetDialog;
 import tech.sud.mgp.hello.ui.scenes.quiz.widget.MoreQuizHeadView;
-import tech.sud.mgp.hello.ui.scenes.quiz.widget.QuizBetDialog;
 
 /**
  * 竞猜场景 更多活动
@@ -166,8 +166,8 @@ public class MoreQuizActivity extends BaseActivity {
     }
 
     private void showBetDialog(QuizRoomPkModel.RoomPkInfoModel model) {
-        QuizBetDialog dialog = QuizBetDialog.newInstance(model.roomName);
-        dialog.setOnSelectedListener(new QuizBetDialog.OnSelectedListener() {
+        MoreQuizBetDialog dialog = MoreQuizBetDialog.newInstance(model.roomName);
+        dialog.setOnSelectedListener(new MoreQuizBetDialog.OnSelectedListener() {
             @Override
             public void onSelected(long money) {
                 model.betNumber += money;

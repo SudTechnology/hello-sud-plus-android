@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="12dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <tech.sud.mgp.hello.common.widget.view.round.RoundedImageView
+        android:id="@+id/iv_icon"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="1:1"
+        android:scaleType="centerCrop"
+        app:riv_oval="true"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/view_selected"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/shape_round_stroke2_ffbf3a"
+        app:layout_constraintTop_toTopOf="@id/iv_icon"
+        app:layout_constraintBottom_toBottomOf="@id/iv_icon"
+        app:layout_constraintStart_toStartOf="@id/iv_icon"
+        app:layout_constraintEnd_toEndOf="@id/iv_icon" />
+
+    <TextView
+        android:id="@+id/tv_guess"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="3"
+        android:ellipsize="end"
+        android:textColor="@color/selector_guess_btn_color"
+        android:background="@drawable/selector_round_guess_btn"
+        android:layout_marginTop="72dp"
+        android:paddingHorizontal="11dp"
+        android:paddingVertical="8dp"
+        android:text="@string/guess_he_win"
+        android:textSize="14sp"
+        android:enabled="false"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_support_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textColor="#b3000000"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_guess" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -221,7 +221,7 @@ public class QuizSettleDialog extends BaseDialogFragment {
 
     public void startCountdown() {
         cancelCountdown();
-        countdownTimer = new CustomCountdownTimer(100) {
+        countdownTimer = new CustomCountdownTimer(10) {
             @Override
             protected void onTick(int count) {
                 Context context = getContext();

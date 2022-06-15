@@ -5,13 +5,14 @@
 
 package tech.sud.mgp.SudMGPWrapper.state;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * APP to MG 的通用状态定义
  * 参考文档：https://docs.sud.tech/zh-CN/app/Client/APPFST/
  */
-public class SudMGPAPPState {
+public class SudMGPAPPState implements Serializable {
 
     /**
      * 1. 加入状态
@@ -26,7 +27,7 @@ public class SudMGPAPPState {
      * 1.isIn=true: 加入游戏=>准备游戏=>开始游戏;
      * 2.isIn=false: 结束=>取消准备=>退出游戏;
      */
-    public static class APPCommonSelfIn {
+    public static class APPCommonSelfIn implements Serializable {
         // rue 加入游戏，false 退出游戏
         public boolean isIn;
 
@@ -50,7 +51,7 @@ public class SudMGPAPPState {
      * 2. 准备状态 模型
      * 用户（本人）准备/取消准备
      */
-    public static class APPCommonSelfReady {
+    public static class APPCommonSelfReady implements Serializable {
         // true 准备，false 取消准备
         public boolean isReady;
     }
@@ -71,7 +72,7 @@ public class SudMGPAPPState {
      * 收缩麦位；
      * 如果不在游戏中，则恢复。
      */
-    public static class APPCommonSelfPlaying {
+    public static class APPCommonSelfPlaying implements Serializable {
         // true 开始游戏，false 结束游戏
         public boolean isPlaying;
 
@@ -89,7 +90,7 @@ public class SudMGPAPPState {
      * 4. 队长状态 模型
      * 用户是否为队长，队长在游戏中会有开始游戏的权利。
      */
-    public static class APPCommonSelfCaptain {
+    public static class APPCommonSelfCaptain implements Serializable {
         // 必填，指定队长uid
         public String curCaptainUID;
     }
@@ -105,7 +106,7 @@ public class SudMGPAPPState {
      * 用户（本人，队长）踢其他玩家；
      * 队长才能踢人；
      */
-    public static class APPCommonSelfKick {
+    public static class APPCommonSelfKick implements Serializable {
         // 被踢用户uid
         public String kickedUID;
     }
@@ -120,7 +121,7 @@ public class SudMGPAPPState {
      * 6. 结束游戏 模型
      * 用户（本人，队长）结束（本局）游戏
      */
-    public static class APPCommonSelfEnd {
+    public static class APPCommonSelfEnd implements Serializable {
         // 当前不需要传参
     }
 
@@ -145,7 +146,7 @@ public class SudMGPAPPState {
      * 进入房间后初始通知一次；
      * 每次变更（开麦/闭麦/禁麦/解麦）通知一次；
      */
-    public static class APPCommonSelfMicrophone {
+    public static class APPCommonSelfMicrophone implements Serializable {
         // true 开麦，false 闭麦
         public boolean isOn;
 
@@ -165,7 +166,7 @@ public class SudMGPAPPState {
      * 首次聊天内容命中关键词之后，后续聊天内容不翻转成未命中；
      * 直至小游戏侧关键词更新，再将状态翻转为未命中；
      */
-    public static class APPCommonSelfTextHitState {
+    public static class APPCommonSelfTextHitState implements Serializable {
         // true 命中，false 未命中
         public boolean isHit;
 
@@ -193,7 +194,7 @@ public class SudMGPAPPState {
     /**
      * 11. 打开或关闭背景音乐（2021-12-27新增） 模型
      */
-    public static class APPCommonOpenBgMusic {
+    public static class APPCommonOpenBgMusic implements Serializable {
         // true 打开背景音乐，false 关闭背景音乐
         public boolean isOpen;
     }
@@ -206,7 +207,7 @@ public class SudMGPAPPState {
     /**
      * 12. 打开或关闭音效（2021-12-27新增） 模型
      */
-    public static class APPCommonOpenSound {
+    public static class APPCommonOpenSound implements Serializable {
         // true 打开音效，false 关闭音效
         public boolean isOpen;
     }
@@ -219,7 +220,7 @@ public class SudMGPAPPState {
     /**
      * 13. 打开或关闭游戏中的振动效果（2021-12-27新增）模型
      */
-    public static class APPCommonOpenVibrate {
+    public static class APPCommonOpenVibrate implements Serializable {
         // true 打开振动效果，false 关闭振动效果
         public boolean isOpen;
     }
@@ -232,7 +233,7 @@ public class SudMGPAPPState {
     /**
      * 14. 设置游戏的音量大小（2021-12-31新增）模型
      */
-    public static class APPCommonGameSoundVolume {
+    public static class APPCommonGameSoundVolume implements Serializable {
         // 音量大小 0 到 100
         public int volume;
     }
@@ -245,11 +246,11 @@ public class SudMGPAPPState {
     /**
      * 15.  设置游戏玩法选项（2022-05-10新增） 模型
      */
-    public static class APPCommonGameSettingSelectInfo {
+    public static class APPCommonGameSettingSelectInfo implements Serializable {
         public Ludo ludo; // 游戏名称
     }
 
-    public static class Ludo {
+    public static class Ludo implements Serializable {
         public int mode; // mode: 默认赛制，0: 快速, 1: 经典;
         public int chessNum; // chessNum: 默认棋子数量, 2: 对应2颗棋子; 4: 对应4颗棋子;
         public int item; // item: 默认道具, 1: 有道具, 0: 没有道具
@@ -263,12 +264,12 @@ public class SudMGPAPPState {
     /**
      * 16. 设置游戏中的AI玩家（2022-05-11新增） 模型
      */
-    public static class APPCommonGameAddAIPlayers {
+    public static class APPCommonGameAddAIPlayers implements Serializable {
         public List<AIPlayers> aiPlayers; // AI玩家
         public int isReady = 1; // 机器人加入后是否自动准备 1：自动准备，0：不自动准备 默认为1
     }
 
-    public static class AIPlayers {
+    public static class AIPlayers implements Serializable {
         public String userId; // 玩家id
         public String avatar; // 头像url
         public String name; // 名字

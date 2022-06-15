@@ -16,9 +16,11 @@ import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
  */
 public class QuizGameViewModel extends AppGameViewModel {
 
+    public MutableLiveData<Object> clickStartBtnLiveData = new MutableLiveData<>(); // 开始按钮点击事件
     public MutableLiveData<Boolean> selfIsInLiveData = new MutableLiveData<>(); // 自己是否已经加入了游戏
     public MutableLiveData<Boolean> gameLoadingCompletedLiveData = new MutableLiveData<>(); // 游戏是否已加载完成
     public MutableLiveData<Integer> gameStateChangedLiveData = new MutableLiveData<>(); // 游戏状态变化
+    public MutableLiveData<SudMGPMGState.MGCommonGameSettle> gameSettleLiveData = new MutableLiveData<>(); // 游戏结算
 
     // 游戏加载完成
     @Override
@@ -71,6 +73,19 @@ public class QuizGameViewModel extends AppGameViewModel {
             }
         }
         return list;
+    }
+
+    // 开始按钮点击事件
+    @Override
+    public void onGameMGCommonSelfClickStartBtn(ISudFSMStateHandle handle, SudMGPMGState.MGCommonSelfClickStartBtn model) {
+        super.onGameMGCommonSelfClickStartBtn(handle, model);
+        clickStartBtnLiveData.setValue(null);
+    }
+
+    @Override
+    public void onGameMGCommonGameSettle(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameSettle model) {
+        super.onGameMGCommonGameSettle(handle, model);
+        gameSettleLiveData.setValue(model);
     }
 
 }

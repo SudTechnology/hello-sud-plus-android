@@ -37,6 +37,10 @@ public abstract class BaseDialogFragment extends DialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        if (beforeSetContentView()) {
+            dismiss();
+            return;
+        }
         Dialog dialog = getDialog();
         if (dialog != null) {
             Window window = dialog.getWindow();
@@ -64,6 +68,15 @@ public abstract class BaseDialogFragment extends DialogFragment {
         initWidget();
         initData();
         setListeners();
+    }
+
+    /**
+     * 在初始化之前会调用
+     *
+     * @return 返回true则直接销毁页面，不进行后续初始化
+     */
+    protected boolean beforeSetContentView() {
+        return false;
     }
 
     protected void customStyle(Window window) {

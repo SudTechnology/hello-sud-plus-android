@@ -1,14 +1,15 @@
 package tech.sud.mgp.hello.service.room.resp;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * 查询竞猜场景游戏玩家列表（房间内） 返回参数
  */
-public class QuizGamePlayerResp {
+public class QuizGamePlayerResp implements Serializable {
     public List<Player> playerList;
 
-    public static class Player {
+    public static class Player implements Serializable {
         public long userId; // 用户id
         public String header; // 头像
         public String nickname; // 昵称

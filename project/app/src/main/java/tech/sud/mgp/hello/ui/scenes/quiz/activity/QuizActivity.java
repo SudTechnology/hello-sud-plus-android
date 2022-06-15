@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
+import tech.sud.mgp.SudMGPWrapper.utils.SudJsonUtils;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.app.APPConfig;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
@@ -27,13 +28,16 @@ import tech.sud.mgp.hello.common.utils.ShapeUtils;
 import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.main.req.QuizBetReq;
+import tech.sud.mgp.hello.service.room.repository.RoomRepository;
 import tech.sud.mgp.hello.service.room.resp.QuizGamePlayerResp;
 import tech.sud.mgp.hello.ui.scenes.audio.activity.AbsAudioRoomActivity;
+import tech.sud.mgp.hello.ui.scenes.base.model.ReportGameInfoModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.RoomCmdModelUtils;
 import tech.sud.mgp.hello.ui.scenes.quiz.viewmodel.QuizGameViewModel;
 import tech.sud.mgp.hello.ui.scenes.quiz.widget.GuessIWinDialog;
 import tech.sud.mgp.hello.ui.scenes.quiz.widget.QuizGuessDialog;
+import tech.sud.mgp.hello.ui.scenes.quiz.widget.QuizSettleDialog;
 
 /**
  * 竞猜类场景
@@ -43,6 +47,7 @@ public class QuizActivity extends AbsAudioRoomActivity<QuizGameViewModel> {
     private TextView tvGuess;
     private ConstraintLayout clGuessIWin;
     private ConstraintLayout viewAutoGuessIWin; // 已经开启了自动猜自己赢
+    private List<QuizGamePlayerResp.Player> playerList; // 游戏玩家列表
 
     @Override
     protected QuizGameViewModel initGameViewModel() {
@@ -58,6 +63,9 @@ public class QuizActivity extends AbsAudioRoomActivity<QuizGameViewModel> {
     @Override
     protected void initWidget() {
         super.initWidget();
+        gameViewModel.gameConfigModel.ui.gameSettle.hide = true; // 隐藏结算界面
+        gameViewModel.gameConfigModel.ui.start_btn.custom = true; // 接管游戏的开始按钮事件
+
         clGuessIWin = findViewById(R.id.cl_guess_i_win);
         TextView tvGuessIWinCount = findViewById(R.id.tv_guess_i_win_count);
 
@@ -135,6 +143,11 @@ public class QuizActivity extends AbsAudioRoomActivity<QuizGameViewModel> {
     @Override
     protected void setListeners() {
         super.setListeners();
+        setGameListeners();
+        setClickListeners();
+    }
+
+    private void setGameListeners() {
         gameViewModel.selfIsInLiveData.observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean isIn) {
@@ -151,9 +164,40 @@ public class QuizActivity extends AbsAudioRoomActivity<QuizGameViewModel> {
             @Override
             public void onChanged(Integer gameState) {
                 updateGuessState();
-                checkAutoGuessIWin(gameState);
+                boolean autoGuessIWin = checkAutoGuessIWin(gameState);
+                if (!autoGuessIWin) {
+                    getPlayers();
+                }
             }
         });
+        gameViewModel.clickStartBtnLiveData.observe(this, new Observer<Object>() {
+            @Override
+            public void onChanged(Object o) {
+                clickStartGame();
+            }
+        });
+        gameViewModel.gameSettleLiveData.observe(this, new Observer<SudMGPMGState.MGCommonGameSettle>() {
+            @Override
+            public void onChanged(SudMGPMGState.MGCommonGameSettle mgCommonGameSettle) {
+                onGameSettle(mgCommonGameSettle);
+            }
+        });
+    }
+
+    /** 游戏结算 */
+    private void onGameSettle(SudMGPMGState.MGCommonGameSettle gameSettle) {
+        QuizSettleDialog dialog = QuizSettleDialog.newInstance(playerList, gameSettle);
+        dialog.setAgainOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 再来一局
+                gameViewModel.notifyAPPCommonSelfReady(true);
+            }
+        });
+        dialog.show(getSupportFragmentManager(), null);
+    }
+
+    private void setClickListeners() {
         tvGuess.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -191,14 +235,41 @@ public class QuizActivity extends AbsAudioRoomActivity<QuizGameViewModel> {
         });
     }
 
+    // 点击了开始游戏
+    private void clickStartGame() {
+        ReportGameInfoModel reportGameInfoModel = new ReportGameInfoModel();
+        reportGameInfoModel.sceneId = roomInfoModel.sceneType;
+        gameViewModel.notifyAPPCommonSelfPlaying(true, SudJsonUtils.toJson(reportGameInfoModel));
+    }
+
     /**
      * 检查是否要执行自动猜自己赢
      * 开启了自动猜自己赢并且游戏状态是在loading状态
      */
-    private void checkAutoGuessIWin(Integer gameState) {
+    private boolean checkAutoGuessIWin(Integer gameState) {
         if (AppData.getInstance().isQuizAutoGuessIWin() && gameState == SudMGPMGState.MGCommonGameState.LOADING) {
-            HomeRepository.quizBet(context, QuizBetReq.QUIZ_TYPE_GAME, APPConfig.QUIZ_SINGLE_BET_COUNT, HSUserInfo.userId, new RxCallback<>());
-            return;
+            HomeRepository.quizBet(context, QuizBetReq.QUIZ_TYPE_GAME, APPConfig.QUIZ_SINGLE_BET_COUNT, HSUserInfo.userId, new RxCallback<Object>() {
+                @Override
+                public void onSuccess(Object o) {
+                    super.onSuccess(o);
+                    getPlayers();
+                }
+            });
+            return true;
+        }
+        return false;
+    }
+
+    /** 从后台获取下注的玩家列表，用于显示结算页 */
+    private void getPlayers() {
+        if (gameViewModel.getGameState() != SudMGPMGState.MGCommonGameState.IDLE) {
+            RoomRepository.quizGamePlayer(this, roomInfoModel.roomId, gameViewModel.getPlayers(), new RxCallback<QuizGamePlayerResp>() {
+                @Override
+                public void onSuccess(QuizGamePlayerResp resp) {
+                    super.onSuccess(resp);
+                    playerList = resp.playerList;
+                }
+            });
         }
     }
 

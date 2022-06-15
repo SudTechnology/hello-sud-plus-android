@@ -7,13 +7,14 @@ package tech.sud.mgp.SudMGPWrapper.state;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * MG to APP 的状态定义
  * 参考文档：https://docs.sud.tech/zh-CN/app/Client/MGFSM/
  */
-public class SudMGPMGState {
+public class SudMGPMGState implements Serializable {
 
     // region MG状态机-通用状态-游戏
     // 参考文档：https://docs.sud.tech/zh-CN/app/Client/MGFSM/CommonStateGame.html
@@ -38,7 +39,7 @@ public class SudMGPMGState {
      * <!--name:|uid:|color:-->
      * SDK仅会缓存最新一条。
      */
-    public static class MGCommonPublicMessage {
+    public static class MGCommonPublicMessage implements Serializable {
         // 0 通知
         // 1 提醒
         // 2 结算
@@ -48,14 +49,14 @@ public class SudMGPMGState {
         // 消息内容
         public List<MGCommonPublicMessageMsg> msg;
 
-        public static class MGCommonPublicMessageMsg {
+        public static class MGCommonPublicMessageMsg implements Serializable {
             // 词组类型 当phrase=1时，会返回text; 当phrase=2时，会返回user
             public int phrase;
             public MGCommonPublicMessageMsgText text;
             public MGCommonPublicMessageMsgUser user;
         }
 
-        public static class MGCommonPublicMessageMsgText {
+        public static class MGCommonPublicMessageMsgText implements Serializable {
             @SerializedName(value = "default")
             public String defaultStr; // 默认文本
 
@@ -114,7 +115,7 @@ public class SudMGPMGState {
             public String tr_TR; // 土耳其语
         }
 
-        public static class MGCommonPublicMessageMsgUser {
+        public static class MGCommonPublicMessageMsgUser implements Serializable {
             // 默认内容
             public String defaultStr;
             // 用户名称
@@ -134,7 +135,7 @@ public class SudMGPMGState {
     /**
      * 2. 关键词状态
      */
-    public static class MGCommonKeyWordToHit {
+    public static class MGCommonKeyWordToHit implements Serializable {
         // 必填字段；text:文本包含匹配; number:数字等于匹配(必填字段)；默认:text（你画我猜、你说我猜）；数字炸弹填number；
         public String wordType;
 
@@ -156,7 +157,7 @@ public class SudMGPMGState {
     /**
      * 3. 游戏结算状态
      */
-    public static class MGCommonGameSettle {
+    public static class MGCommonGameSettle implements Serializable {
         // 游戏模式默认为1
         public int gameMode;
 
@@ -169,19 +170,14 @@ public class SudMGPMGState {
         /**
          * 游戏结果玩家定义
          */
-        public static class PlayerResult {
-            // 用户id
-            public String uid;
-            // 排名 从 1 开始
-            public int rank;
-            // 奖励
-            public int award;
-            // 积分
-            public int score;
-            // 是否逃跑 1：逃跑 0：非逃跑
-            public int isEscaped;
-            // 杀自己的玩家的id
-            public String killerId;
+        public static class PlayerResult implements Serializable {
+            public String uid; // 用户id
+            public int rank; // 排名 从 1 开始
+            public int award; // 奖励
+            public int score; // 积分
+            public int isEscaped; // 是否逃跑 1：逃跑 0：非逃跑
+            public String killerId; // 杀自己的玩家的id
+            public int isAI; // 是否是AI玩家
         }
     }
 
@@ -194,7 +190,7 @@ public class SudMGPMGState {
      * 4. 加入游戏按钮点击状态 模型
      * 用户（本人）点击加入按钮，或者点击头像加入
      */
-    public static class MGCommonSelfClickJoinBtn {
+    public static class MGCommonSelfClickJoinBtn implements Serializable {
         // 点击头像加入游戏对应的座位号，int 类型，从0开始， 如果seatIndex=-1，则是随机加入一个空位，如果seatIndex 大于座位数，则加入不成功
         public int seatIndex;
     }
@@ -208,7 +204,7 @@ public class SudMGPMGState {
      * 5. 取消加入(退出)游戏按钮点击状态 模型
      * 用户（本人）点击取消加入按钮
      */
-    public static class MGCommonSelfClickCancelJoinBtn {
+    public static class MGCommonSelfClickCancelJoinBtn implements Serializable {
     }
 
     /**
@@ -219,7 +215,7 @@ public class SudMGPMGState {
     /**
      * 6. 准备按钮点击状态 模型
      */
-    public static class MGCommonSelfClickReadyBtn {
+    public static class MGCommonSelfClickReadyBtn implements Serializable {
     }
 
     /**
@@ -230,7 +226,7 @@ public class SudMGPMGState {
     /**
      * 7. 取消准备按钮点击状态 模型
      */
-    public static class MGCommonSelfClickCancelReadyBtn {
+    public static class MGCommonSelfClickCancelReadyBtn implements Serializable {
     }
 
     /**
@@ -241,7 +237,7 @@ public class SudMGPMGState {
     /**
      * 8. 开始游戏按钮点击状态 模型
      */
-    public static class MGCommonSelfClickStartBtn {
+    public static class MGCommonSelfClickStartBtn implements Serializable {
     }
 
     /**
@@ -253,7 +249,7 @@ public class SudMGPMGState {
      * 9. 分享按钮点击状态 模型
      * 用户（本人）点击分享按钮
      */
-    public static class MGCommonSelfClickShareBtn {
+    public static class MGCommonSelfClickShareBtn implements Serializable {
     }
 
     /**
@@ -264,7 +260,7 @@ public class SudMGPMGState {
     /**
      * 10. 游戏状态 模型
      */
-    public static class MGCommonGameState {
+    public static class MGCommonGameState implements Serializable {
         public static final int UNKNOW = -1; // 未知
         public static final int IDLE = 0;
         public static final int LOADING = 1;
@@ -285,7 +281,7 @@ public class SudMGPMGState {
      * 11. 结算界面关闭按钮点击状态（2021-12-27新增） 模型
      * 用户（本人）点击结算界面关闭按钮
      */
-    public static class MGCommonSelfClickGameSettleCloseBtn {
+    public static class MGCommonSelfClickGameSettleCloseBtn implements Serializable {
     }
 
     /**
@@ -297,7 +293,7 @@ public class SudMGPMGState {
      * 12. 结算界面再来一局按钮点击状态（2021-12-27新增）模型
      * 用户（本人）点击结算界面再来一局按钮
      */
-    public static class MGCommonSelfClickGameSettleAgainBtn {
+    public static class MGCommonSelfClickGameSettleAgainBtn implements Serializable {
     }
 
     /**
@@ -309,11 +305,11 @@ public class SudMGPMGState {
      * 13. 游戏上报游戏中的声音列表（2021-12-30新增，现在只支持碰碰我最强） 模型
      * 游戏上报本游戏中所有的声音资源列表
      */
-    public static class MGCommonGameSoundList {
+    public static class MGCommonGameSoundList implements Serializable {
         // 声音资源列表
         public List<MGCommonGameSound> list;
 
-        public static class MGCommonGameSound {
+        public static class MGCommonGameSound implements Serializable {
             // 声音资源的名字
             public String name;
             // 声音资源的URL链接
@@ -332,7 +328,7 @@ public class SudMGPMGState {
      * 14. 游通知app层播放声音（2021-12-30新增，现在只支持碰碰我最强） 模型
      * 游戏通知app层播放背景音乐的开关状态
      */
-    public static class MGCommonGameSound {
+    public static class MGCommonGameSound implements Serializable {
         // 是否播放 isPlay==true(播放)，isPlay==false(停止)
         public boolean isPlay;
         // 要播放的声音文件名，不带后缀
@@ -354,7 +350,7 @@ public class SudMGPMGState {
      * 15. 游戏通知app层播放背景音乐状态（2022-01-07新增，现在只支持碰碰我最强） 模型
      * 游戏通知app层播放背景音乐的开关状态
      */
-    public static class MGCommonGameBgMusicState {
+    public static class MGCommonGameBgMusicState implements Serializable {
         // 背景音乐的开关状态 true: 开，false: 关
         public boolean state;
     }
@@ -368,7 +364,7 @@ public class SudMGPMGState {
      * 16. 游戏通知app层播放音效的状态（2022-01-07新增，现在只支持碰碰我最强） 模型
      * 游戏通知app层播放音效的状态
      */
-    public static class MGCommonGameSoundState {
+    public static class MGCommonGameSoundState implements Serializable {
         // 背景音乐的开关状态 true: 开，false: 关
         public boolean state;
     }
@@ -381,7 +377,7 @@ public class SudMGPMGState {
     /**
      * 17. ASR状态(开启和关闭语音识别状态，v1.1.45.xx 版本新增) 模型
      */
-    public static class MGCommonGameASR {
+    public static class MGCommonGameASR implements Serializable {
         // true:打开语音识别 false:关闭语音识别
         public boolean isOpen;
         // 必填字段；关键词列表，可以传送多个关键词
@@ -407,7 +403,7 @@ public class SudMGPMGState {
      * 18. 麦克风状态（2022-02-08新增） 模型
      * 游戏通知app麦克风状态
      */
-    public static class MGCommonSelfMicrophone {
+    public static class MGCommonSelfMicrophone implements Serializable {
         // 麦克风开关状态 true: 开，false: 关
         public boolean isOn;
     }
@@ -420,7 +416,7 @@ public class SudMGPMGState {
     /**
      * 19. 耳机（听筒，扬声器）状态（2022-02-08新增） 模型
      */
-    public static class MGCommonSelfHeadphone {
+    public static class MGCommonSelfHeadphone implements Serializable {
         // 耳机（听筒，喇叭）开关状态 true: 开，false: 关
         public boolean isOn;
     }
@@ -433,7 +429,7 @@ public class SudMGPMGState {
     /**
      * 20. App通用状态操作结果错误码（2022-05-10新增） 模型
      */
-    public static class MGCommonAPPCommonSelfXResp {
+    public static class MGCommonAPPCommonSelfXResp implements Serializable {
         public String state; // 字段必填, 参考：游戏业务错误 https://docs.sud.tech/zh-CN/app/Client/APPFST/CommonState.html
         public int resultCode; // 字段必填，参考：游戏业务错误 https://docs.sud.tech/zh-CN/app/Server/ErrorCode.html
         public boolean isIn; // 当state=app_common_self_in时，字段必填
@@ -452,7 +448,7 @@ public class SudMGPMGState {
     /**
      * 21. 游戏通知app层添加陪玩机器人是否成功（2022-05-17新增） 模型
      */
-    public static class MGCommonGameAddAIPlayers {
+    public static class MGCommonGameAddAIPlayers implements Serializable {
         public int resultCode; // 返回码 0：成功，非0：不成功
         public List<String> userIds; // 加入成功的playerId列表
     }
@@ -474,7 +470,7 @@ public class SudMGPMGState {
      * 用户是否加入游戏；
      * 游戏开始后，未加入的用户为OB视角。
      */
-    public static class MGCommonPlayerIn {
+    public static class MGCommonPlayerIn implements Serializable {
         // true 已加入，false 未加入
         public boolean isIn;
 
@@ -498,7 +494,7 @@ public class SudMGPMGState {
      * 2.准备状态（已修改） 模型
      * 用户是否为队长，队长在游戏中会有开始游戏的权利。
      */
-    public static class MGCommonPlayerReady {
+    public static class MGCommonPlayerReady implements Serializable {
         // 当retCode==0时有效；true 已准备，false 未准备
         public boolean isReady;
     }
@@ -513,7 +509,7 @@ public class SudMGPMGState {
      * 3.队长状态（已修改） 模型
      * 用户是否为队长，队长在游戏中会有开始游戏的权利。
      */
-    public static class MGCommonPlayerCaptain {
+    public static class MGCommonPlayerCaptain implements Serializable {
         // true 是队长，false 不是队长；
         public boolean isCaptain;
     }
@@ -534,7 +530,7 @@ public class SudMGPMGState {
      * 收缩麦位；
      * 如果不在游戏中，则恢复。
      */
-    public static class MGCommonPlayerPlaying {
+    public static class MGCommonPlayerPlaying implements Serializable {
         // true 游戏中，false 未在游戏中；
         public boolean isPlaying;
         // 本轮游戏id，当isPlaying==true时有效
@@ -553,7 +549,7 @@ public class SudMGPMGState {
     /**
      * 5.玩家在线状态 模型
      */
-    public static class MGCommonPlayerOnline {
+    public static class MGCommonPlayerOnline implements Serializable {
         // true：在线，false： 离线
         public boolean isOnline;
     }
@@ -566,7 +562,7 @@ public class SudMGPMGState {
     /**
      * 6.玩家换游戏位状态 模型
      */
-    public static class MGCommonPlayerChangeSeat {
+    public static class MGCommonPlayerChangeSeat implements Serializable {
         // 换位前的游戏位(座位号)
         public int preSeatIndex;
         // 换位成功后的游戏位(座位号)
@@ -581,7 +577,7 @@ public class SudMGPMGState {
     /**
      * 7. 游戏通知app点击玩家头像（2022-02-09新增，现在只支持飞行棋ludo，仅用于游戏场景中的玩家头像）模型
      */
-    public static class MGCommonSelfClickGamePlayerIcon {
+    public static class MGCommonSelfClickGamePlayerIcon implements Serializable {
         // 被点击头像的用户id
         public String uid;
     }
@@ -594,7 +590,7 @@ public class SudMGPMGState {
     /**
      * 8. 游戏通知app玩家死亡状态（2022-04-24新增）模型
      */
-    public static class MGCommonSelfDieStatus {
+    public static class MGCommonSelfDieStatus implements Serializable {
         public String uid; // 用户id
         public boolean isDeath; // 玩家是否死亡 true:死亡, false: 未死亡；默认 false
     }
@@ -607,7 +603,7 @@ public class SudMGPMGState {
     /**
      * 9. 游戏通知app轮到玩家出手状态（2022-04-24新增）模型
      */
-    public static class MGCommonSelfTurnStatus {
+    public static class MGCommonSelfTurnStatus implements Serializable {
         public String uid; // 用户id
         public boolean isTurn; // 是否轮到玩家出手 true:是上面uid玩家的出手回合, false: 不是上面uid玩家的出手回合；默认false
     }
@@ -620,7 +616,7 @@ public class SudMGPMGState {
     /**
      * 10. 游戏通知app玩家选择状态（2022-04-24新增）模型
      */
-    public static class MGCommonSelfSelectStatus {
+    public static class MGCommonSelfSelectStatus implements Serializable {
         public String uid; // 用户id
         public boolean isSelected; // 玩家是否选择 true:选择, false: 未选择； 默认false
     }
@@ -633,7 +629,7 @@ public class SudMGPMGState {
     /**
      * 11. 游戏通知app层当前游戏剩余时间（2022-05-23新增，目前UMO生效）模型
      */
-    public static class MGCommonGameCountdownTime {
+    public static class MGCommonGameCountdownTime implements Serializable {
         public int countdown;// 剩余时间，单位为秒
     }
 
@@ -658,7 +654,7 @@ public class SudMGPMGState {
      * 1. 选词中状态（已修改） 模型
      * 选词中，头像正下方
      */
-    public static class MGDGSelecting {
+    public static class MGDGSelecting implements Serializable {
         // bool 类型 true：正在选词中，false: 不在选词中
         public boolean isSelecting;
     }
@@ -672,7 +668,7 @@ public class SudMGPMGState {
      * 2. 作画中状态（已修改） 模型
      * 作画中，头像正下方
      */
-    public static class MGDGPainting {
+    public static class MGDGPainting implements Serializable {
         // true: 绘画中，false: 取消绘画
         public boolean isPainting;
     }
@@ -686,7 +682,7 @@ public class SudMGPMGState {
      * 3. 显示错误答案状态（已修改） 模型
      * 错误的答案，最多6中文，头像正下方
      */
-    public static class MGDGErroranswer {
+    public static class MGDGErroranswer implements Serializable {
         // 字符串类型，展示错误答案
         public String msg;
     }
@@ -700,7 +696,7 @@ public class SudMGPMGState {
      * 4. 显示总积分状态（已修改） 模型
      * 总积分，位于头像右上角
      */
-    public static class MGDGTotalscore {
+    public static class MGDGTotalscore implements Serializable {
         // 字符串类型 总积分
         public String msg;
     }
@@ -714,7 +710,7 @@ public class SudMGPMGState {
      * 5. 本次获得积分状态（已修改） 模型
      * 本次积分，头像正下方
      */
-    public static final class MGDGScore {
+    public static final class MGDGScore implements Serializable {
         // string类型，展示本次获得积分
         public String msg;
     }

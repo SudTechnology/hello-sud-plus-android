@@ -25,14 +25,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.core.SudMGP;
 import tech.sud.mgp.hello.R;
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.hello.common.base.BaseActivity;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.AnimUtils;
+import tech.sud.mgp.hello.common.utils.ViewUtils;
 import tech.sud.mgp.hello.common.utils.permission.PermissionFragment;
 import tech.sud.mgp.hello.common.utils.permission.SudPermissionUtils;
 import tech.sud.mgp.hello.common.widget.dialog.BottomOptionDialog;
@@ -230,6 +231,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         bottomView.setInputClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ViewUtils.logSoftInputMode(getWindow().getAttributes().softInputMode);
                 inputMsgView.show();
             }
         });

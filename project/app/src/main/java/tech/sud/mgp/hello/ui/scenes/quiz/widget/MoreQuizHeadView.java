@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,7 +25,6 @@ import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.utils.CustomCountdownTimer;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.utils.ShapeUtils;
-import tech.sud.mgp.hello.common.widget.view.round.RoundedImageView;
 import tech.sud.mgp.hello.ui.common.utils.FormatUtils;
 import tech.sud.mgp.hello.ui.common.utils.SceneUtils;
 import tech.sud.mgp.hello.ui.scenes.quiz.model.QuizRoomPkModel;
@@ -191,18 +189,6 @@ public class MoreQuizHeadView extends ConstraintLayout {
             viewRightStar.setAlpha(alpha);
             tvRightBetNumber.setAlpha(alpha);
 
-            // 固定的参与者头像
-            FrameLayout flActor = holder.getView(R.id.fl_actor);
-            if (flActor.getChildCount() == 0) {
-                int ivSize = DensityUtils.dp2px(getContext(), 24);
-                int baseMarginStart = DensityUtils.dp2px(getContext(), 18);
-                addActor(flActor, R.drawable.ic_avatar_1, ivSize, baseMarginStart);
-                addActor(flActor, R.drawable.ic_avatar_2, ivSize, baseMarginStart);
-                addActor(flActor, R.drawable.ic_avatar_3, ivSize, baseMarginStart);
-                addActor(flActor, R.drawable.ic_avatar_4, ivSize, baseMarginStart);
-                addActor(flActor, R.drawable.ic_avatar_5, ivSize, baseMarginStart);
-                addActor(flActor, R.drawable.ic_avatar_6, ivSize, baseMarginStart);
-            }
             // 多少人参与了竞猜
             holder.setText(R.id.tv_member_number, getContext().getString(R.string.quiz_number, model.memberNumber + ""));
 
@@ -275,17 +261,6 @@ public class MoreQuizHeadView extends ConstraintLayout {
             } else {
                 viewResult.setBackgroundResource(R.drawable.ic_quiz_lose);
             }
-        }
-
-        // 添加一个参与者头像
-        private void addActor(FrameLayout flActor, int resId, int ivSize, int baseMarginStart) {
-            RoundedImageView iv = new RoundedImageView(getContext());
-            iv.setOval(true);
-            iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            iv.setImageResource(resId);
-            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ivSize, ivSize);
-            params.setMarginStart(baseMarginStart * flActor.getChildCount());
-            flActor.addView(iv, 0, params);
         }
 
     }

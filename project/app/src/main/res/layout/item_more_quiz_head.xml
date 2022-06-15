@@ -211,11 +211,10 @@
         app:layout_constraintTop_toBottomOf="@id/view_vs">
 
         <!-- 头像 -->
-        <FrameLayout
+        <tech.sud.mgp.hello.ui.common.widget.AvatarGroupView
             android:id="@+id/fl_actor"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" />
+            android:layout_height="24dp" />
 
         <tech.sud.mgp.hello.common.widget.view.MarqueeTextView
             android:id="@+id/tv_member_number"

@@ -52,6 +52,7 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
     public final SceneOrderManager sceneOrderManager = new SceneOrderManager(this);
     public final SceneRoomPkManager sceneRoomPkManager = new SceneRoomPkManager(this);
     public final SceneQuizManager sceneQuizManager = new SceneQuizManager(this);
+    public SceneFloatingManager floatingManager = new SceneFloatingManager(this);
 
     @Override
     public void onCreate() {
@@ -67,6 +68,7 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
         sceneOrderManager.onCreate();
         sceneRoomPkManager.onCreate();
         sceneQuizManager.onCreate();
+        floatingManager.onCreate();
         setListener();
     }
 
@@ -122,6 +124,7 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
         sceneOrderManager.onDestroy();
         sceneRoomPkManager.onDestroy();
         sceneQuizManager.onDestroy();
+        floatingManager.onDestroy();
     }
 
     /** 设置回调 */

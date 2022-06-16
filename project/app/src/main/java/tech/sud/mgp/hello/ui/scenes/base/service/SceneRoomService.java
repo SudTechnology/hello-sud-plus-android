@@ -23,7 +23,6 @@ import tech.sud.mgp.hello.ui.common.utils.channel.NotifyId;
 import tech.sud.mgp.hello.ui.main.home.model.RoomItemModel;
 import tech.sud.mgp.hello.ui.scenes.base.activity.RoomConfig;
 import tech.sud.mgp.hello.ui.scenes.base.constant.OperateMicType;
-import tech.sud.mgp.hello.ui.scenes.base.manager.SceneFloatingManager;
 import tech.sud.mgp.hello.ui.scenes.base.manager.SceneRoomServiceManager;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
@@ -39,7 +38,6 @@ import tech.sud.mgp.hello.ui.scenes.common.cmd.model.quiz.QuizBetModel;
 public class SceneRoomService extends Service {
 
     private SceneRoomServiceManager serviceManager = new SceneRoomServiceManager();
-    private SceneFloatingManager floatingManager = new SceneFloatingManager();
     private final MyBinder binder = new MyBinder();
     private SceneRoomNotificationHelper notificationHelper;
     private Context context = this;
@@ -221,7 +219,7 @@ public class SceneRoomService extends Service {
 
         /** 显示悬浮窗 */
         public void showFloating(RoomInfoModel model, Class<? extends Activity> startClass) {
-            floatingManager.showFloating(context, model, startClass, new View.OnClickListener() {
+            serviceManager.floatingManager.showFloating(context, model, startClass, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     exitRoom();
@@ -231,7 +229,7 @@ public class SceneRoomService extends Service {
 
         /** 隐藏悬浮窗 */
         public void dismissFloating() {
-            floatingManager.dismissFloating();
+            serviceManager.floatingManager.dismissFloating();
         }
 
         /** 发起点单广播 */
@@ -292,8 +290,8 @@ public class SceneRoomService extends Service {
         }
 
         /** 停止视频流 */
-        public void stopVideo(String streamID) {
-            serviceManager.sceneEngineManager.stopVideo(streamID);
+        public void stopVideo(String streamID, View view) {
+            serviceManager.sceneEngineManager.stopVideo(streamID, view);
         }
     }
 
@@ -318,7 +316,6 @@ public class SceneRoomService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        floatingManager.dismissFloating();
         sceneRoomData = null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) { //android8.0及以后需要开启前台服务，这里关闭服务
             stopForeground(true);

@@ -41,6 +41,7 @@ public class DanmakuActivity extends BaseRoomActivity<AppGameViewModel> implemen
     private SceneRoomTopView topViewLand;
 
     private boolean isFullscreen;
+    private View playingVideoView;
 
     @Override
     protected AppGameViewModel initGameViewModel() {
@@ -140,15 +141,17 @@ public class DanmakuActivity extends BaseRoomActivity<AppGameViewModel> implemen
         if (binder != null) {
             if (isFullscreen) {
                 binder.startVideo(roomInfoModel.streamId, videoViewLand);
+                playingVideoView = videoViewLand;
             } else {
                 binder.startVideo(roomInfoModel.streamId, videoView);
+                playingVideoView = videoView;
             }
         }
     }
 
     private void stopVideo() {
         if (binder != null && roomInfoModel != null) {
-            binder.stopVideo(roomInfoModel.streamId);
+            binder.stopVideo(roomInfoModel.streamId, playingVideoView);
         }
     }
 

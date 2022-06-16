@@ -8,13 +8,18 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
 
 import com.blankj.utilcode.util.ActivityUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.jeremyliao.liveeventbus.LiveEventBus;
 
+import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.event.EnterRoomEvent;
 import tech.sud.mgp.hello.common.event.LiveEventBusKey;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
+import tech.sud.mgp.hello.common.model.AppData;
+import tech.sud.mgp.hello.service.main.config.BaseRtcConfig;
+import tech.sud.mgp.hello.service.main.config.ZegoConfig;
 import tech.sud.mgp.hello.service.room.repository.RoomRepository;
 import tech.sud.mgp.hello.service.room.resp.EnterRoomResp;
 import tech.sud.mgp.hello.ui.common.utils.CompletedListener;
@@ -74,7 +79,9 @@ public class EnterRoomUtils {
                 EnterRoomResp resp = t.getData();
                 if (t.getRetCode() == RetCode.SUCCESS) {
                     if (resp != null) {
-                        safeStartSceneRoomActivity(context, resp);
+                        if (canEnterRoom(resp)) {
+                            safeStartSceneRoomActivity(context, resp);
+                        }
                     }
                 }
                 isRunning = false;
@@ -86,6 +93,18 @@ public class EnterRoomUtils {
                 isRunning = false;
             }
         });
+    }
+
+    private static boolean canEnterRoom(EnterRoomResp resp) {
+        if (resp.sceneType == SceneType.DANMAKU) {
+            // TODO: 2022/6/16 弹幕游戏目前只支持即构RTC
+            BaseRtcConfig rtcConfig = AppData.getInstance().getSelectRtcConfig();
+            if (!(rtcConfig instanceof ZegoConfig)) {
+                ToastUtils.showLong(R.string.danmaku_enter_intercept);
+                return false;
+            }
+        }
+        return true;
     }
 
     /** 安全地打开场景房间 */

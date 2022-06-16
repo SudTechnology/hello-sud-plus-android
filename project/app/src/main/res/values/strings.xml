@@ -441,6 +441,7 @@ Go to homepage to create one~</string>
     <string name="auto_land_title">游戏激战中，横屏体验更佳</string>
     <string name="auto_land_countdown">%1$s秒后会自动进入全屏</string>
     <string name="enter_now">马上进入</string>
+    <string name="danmaku_enter_intercept">请使用即构RTC体验</string>
     <!-- endregion 新增 -->
 
 </resources>

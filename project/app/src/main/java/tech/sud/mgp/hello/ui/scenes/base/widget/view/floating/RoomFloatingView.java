@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.scenes.base.widget.view;
+package tech.sud.mgp.hello.ui.scenes.base.widget.view.floating;
 
 import android.content.Context;
 import android.graphics.PixelFormat;
@@ -23,7 +23,7 @@ import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
 
-public class RoomFloatingView extends ConstraintLayout {
+public class RoomFloatingView extends ConstraintLayout implements IRoomFloating {
 
     private WindowManager mWindowManager;
     private final WindowManager.LayoutParams mLayoutParams = new WindowManager.LayoutParams();
@@ -131,6 +131,7 @@ public class RoomFloatingView extends ConstraintLayout {
     }
 
     /** 显示 */
+    @Override
     public void show() {
         if (!mIsShow) {
             mLayoutParams.x = maxX - DensityUtils.dp2px(6);
@@ -141,6 +142,7 @@ public class RoomFloatingView extends ConstraintLayout {
     }
 
     /** 隐藏 */
+    @Override
     public void dismiss() {
         if (mIsShow) {
             mWindowManager.removeView(this);
@@ -149,6 +151,7 @@ public class RoomFloatingView extends ConstraintLayout {
     }
 
     /** 设置房间数据 */
+    @Override
     public void setRoomInfoModel(RoomInfoModel model) {
         tvName.setText(model.roomName);
         measure(MeasureSpec.makeMeasureSpec(screenSize.x, MeasureSpec.AT_MOST), MeasureSpec.makeMeasureSpec(screenSize.y, MeasureSpec.AT_MOST));
@@ -156,6 +159,7 @@ public class RoomFloatingView extends ConstraintLayout {
     }
 
     /** 设置关闭按钮监听器 */
+    @Override
     public void setShutdownListener(OnClickListener listener) {
         viewShutdown.setOnClickListener(listener);
     }

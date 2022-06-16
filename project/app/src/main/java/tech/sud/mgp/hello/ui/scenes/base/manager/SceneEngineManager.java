@@ -43,6 +43,7 @@ public class SceneEngineManager extends BaseServiceManager {
     private boolean enterRoomCompleted = false; // 标识是否进房成功
     private boolean isInitEngine = false; // 标识是否已初始化engine
     public SceneRoomServiceManager.EnterRoomCompletedListener enterRoomCompletedListener;
+    private View videoView;
 
     @Override
     public void onCreate() {
@@ -224,7 +225,17 @@ public class SceneEngineManager extends BaseServiceManager {
     public void startVideo(String streamID, View view) {
         ISudAudioEngine engine = getEngine();
         if (engine != null) {
+            videoView = view;
             engine.startPlayingStream(streamID, view);
+        }
+    }
+
+    /** 停止视频流 */
+    public void stopVideo(String streamID, View view) {
+        ISudAudioEngine engine = getEngine();
+        if (engine != null && videoView == view) {
+            engine.stopPlayingStream(streamID);
+            videoView = null;
         }
     }
 
@@ -233,6 +244,7 @@ public class SceneEngineManager extends BaseServiceManager {
         ISudAudioEngine engine = getEngine();
         if (engine != null) {
             engine.stopPlayingStream(streamID);
+            videoView = null;
         }
     }
 

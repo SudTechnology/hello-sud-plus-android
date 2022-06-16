@@ -285,6 +285,16 @@ public class SceneRoomService extends Service {
             serviceManager.sceneEngineManager.sendCommand(command.toJson());
             serviceManager.sceneQuizManager.addQuizBetChatMsg(command);
         }
+
+        /** 开始拉视频流 */
+        public void startVideo(String streamID, View view) {
+            serviceManager.sceneEngineManager.startVideo(streamID, view);
+        }
+
+        /** 停止视频流 */
+        public void stopVideo(String streamID) {
+            serviceManager.sceneEngineManager.stopVideo(streamID);
+        }
     }
 
     /** 获取当前使用的房间基本数据 */

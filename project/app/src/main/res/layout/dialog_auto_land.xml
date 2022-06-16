@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/shape_auto_land_bg">
+
+    <View
+        android:id="@+id/view_close"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:background="@drawable/ic_dialog_close"
+        android:layout_margin="10dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:paddingHorizontal="16dp"
+        android:paddingBottom="24dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:text="@string/auto_land_title"
+            android:layout_marginTop="44dp" />
+
+        <TextView
+            android:id="@+id/tv_countdown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="@color/black"
+            android:layout_marginTop="9dp" />
+
+        <View
+            android:layout_width="91dp"
+            android:layout_height="100dp"
+            android:background="@drawable/ic_rotation_landscape"
+            android:layout_marginTop="17dp" />
+
+        <TextView
+            android:id="@+id/tv_enter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="160dp"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:textColor="@color/white"
+            android:text="@string/enter_now"
+            android:padding="8dp"
+            android:background="@color/black"
+            android:layout_marginTop="21dp" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

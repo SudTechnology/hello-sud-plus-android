@@ -11,9 +11,7 @@ import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftNotifyDetailModel;
 
 public interface SceneRoomServiceCallback {
 
-    /**
-     * 进入房间成功
-     */
+    /** 进入房间成功 */
     void onEnterRoomSuccess();
 
     /**
@@ -31,29 +29,19 @@ public interface SceneRoomServiceCallback {
      */
     void notifyMicItemChange(int micIndex, AudioRoomMicModel model);
 
-    /**
-     * 自己在哪个麦位上，-1表示不在麦位上
-     */
+    /** 自己在哪个麦位上，-1表示不在麦位上 */
     void selfMicIndex(int micIndex);
 
-    /**
-     * 增加一条公屏消息
-     */
+    /** 增加一条公屏消息 */
     void addPublicMsg(Object msg);
 
-    /**
-     * 刷新公屏消息
-     */
+    /** 刷新公屏消息 */
     void onChatList(List<Object> list);
 
-    /**
-     * 礼物通知
-     */
+    /** 礼物通知 */
     void sendGiftsNotify(GiftNotifyDetailModel notify);
 
-    /**
-     * 麦克风开关状态变化
-     */
+    /** 麦克风开关状态变化 */
     void onMicStateChanged(boolean isOpened);
 
     /**
@@ -77,14 +65,10 @@ public interface SceneRoomServiceCallback {
      */
     void onGameChange(long gameId);
 
-    /**
-     * 对麦位数据进行赋值
-     */
+    /** 对麦位数据进行赋值 */
     void onWrapMicModel(AudioRoomMicModel model);
 
-    /**
-     * 对音频流监听回调
-     */
+    /** 对音频流监听回调 */
     void onCapturedAudioData(AudioPCMData audioPCMData);
 
     /**
@@ -104,14 +88,10 @@ public interface SceneRoomServiceCallback {
      */
     void onMicLocationSwitchCompleted(int micIndex, boolean operate, OperateMicType type);
 
-    /**
-     * 收到了点单邀请
-     */
+    /** 收到了点单邀请 */
     void onOrderInvite(RoomCmdUserOrderModel model);
 
-    /**
-     * 主播处理用户点单邀请
-     */
+    /** 主播处理用户点单邀请 */
     void onOrderInviteAnswered(OrderInviteModel model);
 
     /**
@@ -126,9 +106,7 @@ public interface SceneRoomServiceCallback {
      */
     void onOrderOperate(long orderId, long gameId, String gameName, String userId, String userName, boolean operate);
 
-    /**
-     * 主播接收用户点单邀请
-     */
+    /** 主播接收用户点单邀请 */
     void onReceiveInvite(boolean agreeState);
 
     /** 更新跨房pk信息显示 */
@@ -142,5 +120,8 @@ public interface SceneRoomServiceCallback {
 
     /** 更新倒计时 */
     void onRoomPkCoutndown();
+
+    /** 挂起，重新唤起页面完成的回调，同一房间才有此回调 */
+    void onRecoverCompleted();
 
 }

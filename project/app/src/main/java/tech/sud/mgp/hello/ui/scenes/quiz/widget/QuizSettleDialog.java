@@ -30,6 +30,7 @@ import tech.sud.mgp.hello.common.utils.CustomCountdownTimer;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
 import tech.sud.mgp.hello.service.room.resp.QuizGamePlayerResp;
+import tech.sud.mgp.hello.ui.common.utils.CompletedListener;
 import tech.sud.mgp.hello.ui.common.utils.LifecycleUtils;
 
 /**
@@ -235,7 +236,7 @@ public class QuizSettleDialog extends BaseDialogFragment {
 
             @Override
             protected void onFinish() {
-                LifecycleUtils.safeLifecycle(QuizSettleDialog.this, new LifecycleUtils.CompletedListener() {
+                LifecycleUtils.safeLifecycle(QuizSettleDialog.this, new CompletedListener() {
                     @Override
                     public void onCompleted() {
                         dismiss();

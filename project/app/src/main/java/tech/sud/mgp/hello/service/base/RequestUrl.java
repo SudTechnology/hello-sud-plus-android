@@ -93,4 +93,9 @@ public interface RequestUrl {
     /** 查询竞猜场景游戏玩家列表（房间内） */
     String QUIZ_GAME_PLAYER = "quiz/game-player/v1";
     // endregion 竞猜场景
+
+    // region 弹幕游戏
+    /** 弹幕列表 */
+    String DANMAKU_LIST = "bullet-chat-game/barrage-list/v1";
+    // endregion 弹幕游戏
 }

@@ -438,6 +438,9 @@ Go to homepage to create one~</string>
     <string name="not_quiz_player_hint">投自己赢，获胜将赢得5倍奖励！</string>
     <string name="quiz_audience_win_hint">料事如神，乘胜追击~</string>
     <string name="not_quiz_audience_hint">猜中将获得5倍奖励！下轮一起来吧~</string>
+    <string name="auto_land_title">游戏激战中，横屏体验更佳</string>
+    <string name="auto_land_countdown">%1$s秒后会自动进入全屏</string>
+    <string name="enter_now">马上进入</string>
     <!-- endregion 新增 -->
 
 </resources>

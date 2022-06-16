@@ -12,8 +12,8 @@ import com.blankj.utilcode.util.Utils;
 
 import java.util.concurrent.Future;
 
-import tech.sud.mgp.hello.R;
 import tech.sud.mgp.SudMGPWrapper.utils.SudJsonUtils;
+import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.CustomCountdownTimer;
@@ -27,6 +27,7 @@ import tech.sud.mgp.hello.service.room.resp.RoomPkAgreeResp;
 import tech.sud.mgp.hello.service.room.resp.RoomPkModel;
 import tech.sud.mgp.hello.service.room.resp.RoomPkRoomInfo;
 import tech.sud.mgp.hello.service.room.resp.RoomPkStartResp;
+import tech.sud.mgp.hello.ui.common.utils.CompletedListener;
 import tech.sud.mgp.hello.ui.common.utils.LifecycleUtils;
 import tech.sud.mgp.hello.ui.main.constant.GameIdCons;
 import tech.sud.mgp.hello.ui.main.home.model.RoomItemModel;
@@ -497,7 +498,7 @@ public class SceneRoomPkManager extends BaseServiceManager {
         Activity topActivity = ActivityUtils.getTopActivity();
         if (topActivity instanceof LifecycleOwner) {
             LifecycleOwner owner = (LifecycleOwner) topActivity;
-            showInviteDialogFuture = LifecycleUtils.safeLifecycle(owner, 8000, new LifecycleUtils.CompletedListener() {
+            showInviteDialogFuture = LifecycleUtils.safeLifecycle(owner, 8000, new CompletedListener() {
                 @Override
                 public void onCompleted() {
                     if (getPkStatus() != PkStatus.MATCHING) return;

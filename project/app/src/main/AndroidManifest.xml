@@ -154,6 +154,15 @@
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
 
+        <!-- 弹幕游戏场景 -->
+        <activity
+            android:name=".ui.scenes.danmaku.activity.DanmakuActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+
         <!-- Custom配置场景 -->
         <activity
             android:name=".ui.scenes.custom.CustomConfigActivity"
@@ -225,6 +234,11 @@
         <meta-data
             android:name="design_width_in_dp"
             android:value="375" />
+
+        <!-- 屏幕适配配置 -->
+        <meta-data
+            android:name="design_height_in_dp"
+            android:value="812" />
 
         <meta-data
             android:name="com.netease.nim.appKey"

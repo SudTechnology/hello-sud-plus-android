@@ -17,6 +17,7 @@ import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.service.room.repository.RoomRepository;
 import tech.sud.mgp.hello.service.room.resp.EnterRoomResp;
+import tech.sud.mgp.hello.ui.common.utils.CompletedListener;
 import tech.sud.mgp.hello.ui.common.utils.LifecycleUtils;
 import tech.sud.mgp.hello.ui.main.constant.SceneType;
 import tech.sud.mgp.hello.ui.scenes.asr.ASRActivity;
@@ -25,6 +26,7 @@ import tech.sud.mgp.hello.ui.scenes.base.model.EnterRoomParams;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
 import tech.sud.mgp.hello.ui.scenes.crossroom.activity.CrossRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.custom.CustomActivity;
+import tech.sud.mgp.hello.ui.scenes.danmaku.activity.DanmakuActivity;
 import tech.sud.mgp.hello.ui.scenes.orderentertainment.OrderEntertainmentActivity;
 import tech.sud.mgp.hello.ui.scenes.quiz.activity.QuizActivity;
 import tech.sud.mgp.hello.ui.scenes.ticket.activity.TicketActivity;
@@ -91,7 +93,7 @@ public class EnterRoomUtils {
         if (context == null) {
             Activity topActivity = ActivityUtils.getTopActivity();
             if (topActivity instanceof LifecycleOwner) {
-                LifecycleUtils.safeLifecycle((LifecycleOwner) topActivity, new LifecycleUtils.CompletedListener() {
+                LifecycleUtils.safeLifecycle((LifecycleOwner) topActivity, new CompletedListener() {
                     @Override
                     public void onCompleted() {
                         startSceneRoomActivity(topActivity, resp);
@@ -121,6 +123,7 @@ public class EnterRoomUtils {
         model.imToken = enterRoomResp.imToken;
         model.gameLevel = enterRoomResp.gameLevel;
         model.roomPkModel = enterRoomResp.pkResultVO;
+        model.streamId = enterRoomResp.streamId;
         Intent intent = getSceneIntent(context, enterRoomResp.sceneType);
         intent.putExtra("RoomInfoModel", model);
         context.startActivity(intent);
@@ -142,6 +145,8 @@ public class EnterRoomUtils {
                 return new Intent(context, CrossRoomActivity.class);
             case SceneType.QUIZ:
                 return new Intent(context, QuizActivity.class);
+            case SceneType.DANMAKU:
+                return new Intent(context, DanmakuActivity.class);
 //            case SceneType.TALENT:
 //                return new Intent(context, TalentRoomActivity.class);
 //            case SceneType.ONE_ONE:

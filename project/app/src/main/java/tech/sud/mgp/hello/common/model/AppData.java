@@ -28,6 +28,7 @@ public class AppData {
     private boolean joinTicketNoRemind = false; // 加入门票场景不再提醒
     private List<QuizRoomPkModel> quizRoomPkModelList; // 竞猜场景更多活动页下的跨房玩游戏列表数据
     private boolean quizAutoGuessIWin; // 竞猜场景是否自动猜自己赢
+    private boolean danmakuLandHintCompleted; // 弹幕场景是否已经进行了横屏提示
 
     private AppData() {
     }
@@ -171,5 +172,15 @@ public class AppData {
     // 竞猜场景是否自动猜自己赢
     public void setQuizAutoGuessIWin(boolean quizAutoGuessIWin) {
         this.quizAutoGuessIWin = quizAutoGuessIWin;
+    }
+
+    // 弹幕场景是否已经进行了横屏提示
+    public boolean isDanmakuLandHintCompleted() {
+        return danmakuLandHintCompleted;
+    }
+
+    // 弹幕场景是否已经进行了横屏提示
+    public void setDanmakuLandHintCompleted(boolean danmakuLandHintCompleted) {
+        this.danmakuLandHintCompleted = danmakuLandHintCompleted;
     }
 }

@@ -1,7 +1,9 @@
 package tech.sud.mgp.hello.ui.scenes.danmaku.activity;
 
 import android.content.pm.ActivityInfo;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -12,8 +14,12 @@ import com.gyf.immersionbar.ImmersionBar;
 import me.jessyan.autosize.AutoSizeConfig;
 import me.jessyan.autosize.internal.CustomAdapt;
 import tech.sud.mgp.hello.R;
+import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.AppData;
+import tech.sud.mgp.hello.common.utils.AnimUtils;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
+import tech.sud.mgp.hello.service.room.repository.RoomRepository;
+import tech.sud.mgp.hello.service.room.resp.DanmakuListResp;
 import tech.sud.mgp.hello.ui.common.utils.CompletedListener;
 import tech.sud.mgp.hello.ui.common.utils.LifecycleUtils;
 import tech.sud.mgp.hello.ui.scenes.base.activity.BaseRoomActivity;
@@ -27,6 +33,8 @@ import tech.sud.mgp.hello.ui.scenes.danmaku.widget.DanmakuListView;
  */
 public class DanmakuActivity extends BaseRoomActivity<AppGameViewModel> implements CustomAdapt {
 
+    public static boolean isShowGuide = true; // 是否要显示引导
+
     private View viewPortrait;
     private View videoView;
     private View viewFullscreen;
@@ -39,9 +47,18 @@ public class DanmakuActivity extends BaseRoomActivity<AppGameViewModel> implemen
     private View videoViewLand;
     private View viewExitFullscreen;
     private SceneRoomTopView topViewLand;
+    private DanmakuListView danmakuListViewLand;
+    private View viewShrinkLand;
+    private View viewSpreadLand;
+    private View viewTopArrowLand;
+    private View viewShowWidget;
+    private View viewGuide;
+    private TextView tvGuide;
 
     private boolean isFullscreen;
     private View playingVideoView;
+
+    private DanmakuListResp danmakuListResp;
 
     @Override
     protected AppGameViewModel initGameViewModel() {
@@ -78,6 +95,13 @@ public class DanmakuActivity extends BaseRoomActivity<AppGameViewModel> implemen
         videoViewLand = findViewById(R.id.video_view_land);
         viewExitFullscreen = findViewById(R.id.view_exit_fullscreen);
         topViewLand = findViewById(R.id.room_top_view_land);
+        danmakuListViewLand = findViewById(R.id.danmaku_list_view_land);
+        viewShrinkLand = findViewById(R.id.view_shrink_land);
+        viewSpreadLand = findViewById(R.id.view_spread_land);
+        viewTopArrowLand = findViewById(R.id.view_top_arrow_land);
+        viewShowWidget = findViewById(R.id.view_show_widget);
+        viewGuide = findViewById(R.id.cl_guide);
+        tvGuide = findViewById(R.id.tv_guide);
 
         topView.setSelectGameVisible(false);
         topViewLand.setName(roomInfoModel.roomName);
@@ -96,6 +120,26 @@ public class DanmakuActivity extends BaseRoomActivity<AppGameViewModel> implemen
         giftContainer.bringToFront();
         inputMsgView.bringToFront();
         clOpenMic.bringToFront();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refreshDanmakuList();
+    }
+
+    /** 刷新弹幕列表 */
+    private void refreshDanmakuList() {
+        RoomRepository.danmakuList(this, roomInfoModel.gameId, new RxCallback<DanmakuListResp>() {
+            @Override
+            public void onSuccess(DanmakuListResp resp) {
+                super.onSuccess(resp);
+                tvGuide.setText(resp.guideText);
+                danmakuListResp = resp;
+                danmakuListView.setDatas(resp);
+                danmakuListViewLand.setDatas(resp);
+            }
+        });
     }
 
     /** 判断是否要显示横屏提示 */
@@ -158,6 +202,7 @@ public class DanmakuActivity extends BaseRoomActivity<AppGameViewModel> implemen
     @Override
     protected void setListeners() {
         super.setListeners();
+        // 竖屏的
         viewShrink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -180,6 +225,26 @@ public class DanmakuActivity extends BaseRoomActivity<AppGameViewModel> implemen
                 startFullscreen();
             }
         });
+        danmakuListView.setDanmakuOnClickListener(danmakuOnClickListener);
+
+        // 横屏的
+        viewShrinkLand.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                danmakuListViewLand.setVisibility(View.GONE);
+                viewShrinkLand.setVisibility(View.GONE);
+                viewSpreadLand.setVisibility(View.VISIBLE);
+                AnimUtils.shakeVertical(viewTopArrowLand, 500, DensityUtils.dp2px(2));
+            }
+        });
+        viewSpreadLand.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                danmakuListViewLand.setVisibility(View.VISIBLE);
+                viewShrinkLand.setVisibility(View.VISIBLE);
+                viewSpreadLand.setVisibility(View.GONE);
+            }
+        });
         viewExitFullscreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -198,6 +263,91 @@ public class DanmakuActivity extends BaseRoomActivity<AppGameViewModel> implemen
                 clickMore();
             }
         });
+        viewShowWidget.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (topViewLand.getVisibility() == View.VISIBLE) {
+                    hideFullscreenWidget();
+                } else {
+                    showFullscreenWidget();
+                }
+            }
+        });
+        viewGuide.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isShowGuide = false;
+                viewGuide.setVisibility(View.GONE);
+                cancelDelayShowGuide();
+            }
+        });
+        danmakuListViewLand.setDanmakuOnClickListener(danmakuOnClickListener);
+    }
+
+    private DanmakuListView.DanmakuOnClickListener danmakuOnClickListener = new DanmakuListView.DanmakuOnClickListener() {
+        @Override
+        public void onClickTeam(DanmakuListResp.JoinTeam model) {
+            fastDanmaku(model.content);
+        }
+
+        @Override
+        public void onClickProp(DanmakuListResp.Prop model) {
+            if (model.callMode == DanmakuListResp.CALL_MODE_DANMAKU) {
+                fastDanmaku(model.content);
+            } else if (model.callMode == DanmakuListResp.CALL_MODE_GIFT) {
+                fastSendGift(model);
+            }
+        }
+    };
+
+    /** 快捷指令送出礼物 */
+    private void fastSendGift(DanmakuListResp.Prop model) {
+        RoomRepository.sendGift(this, roomInfoModel.roomId, model.giftId, 1, new RxCallback<>());
+    }
+
+    /** 快捷指令发弹幕 */
+    private void fastDanmaku(String content) {
+        if (TextUtils.isEmpty(content)) {
+            return;
+        }
+        // 发送弹幕内容到后端
+        RoomRepository.sendDanmaku(this, roomInfoModel.roomId, content, new RxCallback<>());
+
+        // 发送公屏
+        if (binder != null) {
+            binder.sendPublicMsg(content);
+        }
+    }
+
+    /** 发送了公屏 */
+    @Override
+    protected void sendPublicMsgCompleted(CharSequence msg) {
+        super.sendPublicMsgCompleted(msg);
+        checkHitDanmaku(msg.toString());
+    }
+
+    /** 检查公屏消息是否命中了弹幕 */
+    private void checkHitDanmaku(String msg) {
+        DanmakuListResp resp = danmakuListResp;
+        if (TextUtils.isEmpty(msg) || resp == null) {
+            return;
+        }
+        if (resp.joinTeamList != null) {
+            for (DanmakuListResp.JoinTeam model : resp.joinTeamList) {
+                if (msg.equals(model.content)) {
+                    // 发送弹幕内容到后端
+                    RoomRepository.sendDanmaku(this, roomInfoModel.roomId, msg, new RxCallback<>());
+                }
+            }
+        }
+        if (resp.propList != null) {
+            for (DanmakuListResp.Prop model : resp.propList) {
+                if (model.callMode == DanmakuListResp.CALL_MODE_DANMAKU && msg.equals(model.content)) {
+                    // 发送弹幕内容到后端
+                    RoomRepository.sendDanmaku(this, roomInfoModel.roomId, msg, new RxCallback<>());
+                }
+            }
+        }
     }
 
     /** 开启全屏 */
@@ -210,7 +360,31 @@ public class DanmakuActivity extends BaseRoomActivity<AppGameViewModel> implemen
         viewLandscape.setVisibility(View.VISIBLE);
         updateStatusBar();
         startVideo();
+        showFullscreenWidget();
+        checkShowGuide();
     }
+
+    private void checkShowGuide() {
+        if (isShowGuide) {
+            startDelayShowGuide();
+        }
+    }
+
+    private void startDelayShowGuide() {
+        cancelDelayShowGuide();
+        viewGuide.postDelayed(delayShowGuide, 3000);
+    }
+
+    private void cancelDelayShowGuide() {
+        viewGuide.removeCallbacks(delayShowGuide);
+    }
+
+    private final Runnable delayShowGuide = new Runnable() {
+        @Override
+        public void run() {
+            viewGuide.setVisibility(View.VISIBLE);
+        }
+    };
 
     /** 退出全屏 */
     private void exitFullscreen() {
@@ -222,6 +396,38 @@ public class DanmakuActivity extends BaseRoomActivity<AppGameViewModel> implemen
         viewLandscape.setVisibility(View.GONE);
         startVideo();
     }
+
+    /** 显示全屏时的"更多"控件 */
+    private void showFullscreenWidget() {
+        startDelayHideFullscreenWidget();
+        topViewLand.setVisibility(View.VISIBLE);
+        viewExitFullscreen.setVisibility(View.VISIBLE);
+    }
+
+    /** 隐藏全屏时的"更多"控件 */
+    private void hideFullscreenWidget() {
+        topViewLand.setVisibility(View.GONE);
+        viewExitFullscreen.setVisibility(View.GONE);
+    }
+
+    /** 一定时间之后，自动隐藏全屏时的"更多"控件 */
+    private void startDelayHideFullscreenWidget() {
+        cancelDelayHideFullscreenWidget();
+        topViewLand.postDelayed(delayHideFullscreenWidget, 3000);
+    }
+
+    /** 取消delay 自动隐藏全屏时的"更多"控件 */
+    private void cancelDelayHideFullscreenWidget() {
+        topViewLand.removeCallbacks(delayHideFullscreenWidget);
+    }
+
+    /** delay 自动隐藏全屏时的"更多"控件 */
+    private final Runnable delayHideFullscreenWidget = new Runnable() {
+        @Override
+        public void run() {
+            hideFullscreenWidget();
+        }
+    };
 
     @Override
     protected void updateStatusBar() {
@@ -278,6 +484,11 @@ public class DanmakuActivity extends BaseRoomActivity<AppGameViewModel> implemen
     protected void releaseService() {
         stopVideo();
         super.releaseService();
+    }
+
+    @Override
+    protected boolean canShowGift() {
+        return !isFullscreen; // 非全屏时才展示礼物动画
     }
 
 }

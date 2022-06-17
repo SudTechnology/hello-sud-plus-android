@@ -94,6 +94,7 @@ public class RoomFloatingView extends ConstraintLayout implements IRoomFloating 
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                updateMaxSize();
                 clickTime = System.currentTimeMillis();
                 downX = event.getRawX();
                 downY = event.getRawY();
@@ -109,11 +110,25 @@ public class RoomFloatingView extends ConstraintLayout implements IRoomFloating 
             case MotionEvent.ACTION_MOVE:
                 float movedX = event.getRawX() - downX;
                 float movedY = event.getRawY() - downY;
-                float intentX = downViewX + movedX;
-                float intentY = downViewY + movedY;
+                int intentX = (int) (downViewX + movedX);
+                int intentY = (int) (downViewY + movedY);
 
-                if (intentX > minX && intentX < maxX) mLayoutParams.x = (int) intentX;
-                if (intentY > minY && intentY < maxY) mLayoutParams.y = (int) intentY;
+                if (intentX < minX) {
+                    mLayoutParams.x = minX;
+                } else if (intentX > maxX) {
+                    mLayoutParams.x = maxX;
+                } else {
+                    mLayoutParams.x = intentX;
+                }
+
+                if (intentY < minY) {
+                    mLayoutParams.y = minY;
+                } else if (intentY > maxY) {
+                    mLayoutParams.y = maxY;
+                } else {
+                    mLayoutParams.y = intentY;
+                }
+
                 // 更新悬浮窗控件布局
                 mWindowManager.updateViewLayout(this, mLayoutParams);
                 break;

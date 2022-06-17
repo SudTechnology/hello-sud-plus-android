@@ -96,6 +96,17 @@ public interface RequestUrl {
 
     // region 弹幕游戏
     /** 弹幕列表 */
-    String DANMAKU_LIST = "bullet-chat-game/barrage-list/v1";
+    String DANMAKU_LIST = "bullet-chat-game/shortcut-window/v1";
+
+    /** 发送弹幕 */
+    String SEND_DANMAKU = "bullet-chat-game/send-barrage/v1";
     // endregion 弹幕游戏
+
+    // region 礼物
+    /** 送礼 */
+    String SEND_GIFT = "gift/send/v1";
+
+    /** 礼物列表 */
+    String GIFT_LIST = "gift/list/v1";
+    // endregion 礼物
 }

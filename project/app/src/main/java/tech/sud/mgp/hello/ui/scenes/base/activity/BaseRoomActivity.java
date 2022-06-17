@@ -251,6 +251,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
             public void onSendMsg(CharSequence msg) {
                 if (binder != null) {
                     binder.sendPublicMsg(msg);
+                    sendPublicMsgCompleted(msg);
                 }
                 inputMsgView.hide();
                 inputMsgView.clearInput();
@@ -274,6 +275,10 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
                 clickFinishGame();
             }
         });
+    }
+
+    /** 发送公屏消息完成 */
+    protected void sendPublicMsgCompleted(CharSequence msg) {
     }
 
     /** 点击了选择游戏 */
@@ -788,12 +793,20 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
     }
 
     private void showGift(GiftModel giftModel) {
+        if (!canShowGift()) {
+            return;
+        }
         if (effectView == null) {
             effectView = new GiftEffectView(this);
             effectView.addLifecycleObserver(this);
             giftContainer.addView(effectView);
         }
         effectView.showEffect(giftModel);
+    }
+
+    /** 是否可以展示礼物动画 */
+    protected boolean canShowGift() {
+        return true;
     }
 
     private void initGame() {

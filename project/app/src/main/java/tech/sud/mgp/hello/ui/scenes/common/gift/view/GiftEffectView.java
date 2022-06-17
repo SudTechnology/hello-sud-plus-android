@@ -176,7 +176,6 @@ public class GiftEffectView extends ConstraintLayout implements LifecycleObserve
         giftDisplayManager.showEffect(model, strategy);
     }
 
-
     private void playWebp(GiftModel giftModel) {
         GiftWebpStrategy strategy = new GiftWebpStrategy();
         GiftWebpModel model = new GiftWebpModel();

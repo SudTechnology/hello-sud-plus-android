@@ -16,4 +16,5 @@ public class SceneType {
     public static final int ASR = 9; // asr场景
     public static final int LEAGUE = 10; // 联赛场景
     public static final int CUSTOM_SCENE = 11; // 自定义场景
+    public static final int DANMAKU = 12; // 弹幕游戏
 }

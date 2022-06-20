@@ -153,9 +153,10 @@ public class RoomGiftDialog extends BaseDialogFragment implements SendGiftToUser
         GiftHelper.getInstance().underMicUser = user;
     }
 
+    /** 判断是否展示礼物icon */
     public void setGiftEnable(AudioRoomMicModel model) {
         if (GiftHelper.getInstance().inMic && topView != null) {
-            model.giftEnable = topView.userState.get(model.userId) != null && topView.userState.get(model.userId);
+            model.giftEnable = Boolean.TRUE.equals(topView.userState.get(model.userId));
         }
     }
 

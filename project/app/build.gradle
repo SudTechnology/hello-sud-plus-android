@@ -160,4 +160,7 @@ dependencies {
     // 工具类库: https://github.com/Blankj/AndroidUtilCode
     implementation 'com.blankj:utilcodex:1.31.0'
 
+    // 指示器：https://github.com/hackware1993/MagicIndicator
+    implementation "com.github.hackware1993:MagicIndicator:1.7.0"
+
 }

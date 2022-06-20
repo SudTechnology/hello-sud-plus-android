@@ -34,10 +34,6 @@ public class LifecycleUtils {
         return myFuture;
     }
 
-    public interface CompletedListener {
-        void onCompleted();
-    }
-
     public static class MyFuture implements Future<Object> {
 
         private boolean isCancelled;

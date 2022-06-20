@@ -2,6 +2,9 @@ package tech.sud.mgp.hello.common.utils;
 
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+
+import com.blankj.utilcode.util.LogUtils;
 
 public class ViewUtils {
 
@@ -120,6 +123,22 @@ public class ViewUtils {
     public static void setTranslationX(View view, int value) {
         if (view == null) return;
         view.setTranslationX(value);
+    }
+
+    /** 打印输入模式 */
+    public static void logSoftInputMode(int softInputMode) {
+        if (softInputMode == WindowManager.LayoutParams.SOFT_INPUT_ADJUST_UNSPECIFIED) {
+            LogUtils.d("logSoftInputMode:SOFT_INPUT_ADJUST_UNSPECIFIED");
+        }
+        logSoftInputMode(softInputMode, WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE, "SOFT_INPUT_ADJUST_RESIZE");
+        logSoftInputMode(softInputMode, WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN, "SOFT_INPUT_ADJUST_PAN");
+        logSoftInputMode(softInputMode, WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING, "SOFT_INPUT_ADJUST_NOTHING");
+    }
+
+    public static void logSoftInputMode(int softInputMode, int checkMode, String name) {
+        if ((softInputMode & checkMode) == checkMode) {
+            LogUtils.d("logSoftInputMode:" + name);
+        }
     }
 
 }

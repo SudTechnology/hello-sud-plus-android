@@ -51,6 +51,8 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
     public final SceneGameManager sceneGameManager = new SceneGameManager(this);
     public final SceneOrderManager sceneOrderManager = new SceneOrderManager(this);
     public final SceneRoomPkManager sceneRoomPkManager = new SceneRoomPkManager(this);
+    public final SceneQuizManager sceneQuizManager = new SceneQuizManager(this);
+    public SceneFloatingManager floatingManager = new SceneFloatingManager(this);
 
     @Override
     public void onCreate() {
@@ -65,6 +67,8 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
         sceneGameManager.onCreate();
         sceneOrderManager.onCreate();
         sceneRoomPkManager.onCreate();
+        sceneQuizManager.onCreate();
+        floatingManager.onCreate();
         setListener();
     }
 
@@ -119,6 +123,8 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
         sceneGameManager.onDestroy();
         sceneOrderManager.onDestroy();
         sceneRoomPkManager.onDestroy();
+        sceneQuizManager.onDestroy();
+        floatingManager.onDestroy();
     }
 
     /** 设置回调 */
@@ -192,6 +198,10 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
         sceneStreamManager.callbackPageData();
         sceneRoomPkManager.callbackPageData();
         sceneOrderManager.callbackPageData();
+        SceneRoomServiceCallback callback = getCallback();
+        if (callback != null) {
+            callback.onRecoverCompleted();
+        }
     }
 
     /** 检查进入房间是否已完成 */

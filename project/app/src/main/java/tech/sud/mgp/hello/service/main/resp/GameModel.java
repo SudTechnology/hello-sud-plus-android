@@ -2,6 +2,9 @@ package tech.sud.mgp.hello.service.main.resp;
 
 import java.util.List;
 
+/**
+ * 游戏描述
+ */
 public class GameModel {
     public long gameId; // 游戏ID
     public String gameName; // 游戏名称
@@ -10,51 +13,9 @@ public class GameModel {
     public List<Integer> suitScene; // 适用场景
     public List<GameModeModel> gameModeList; // 游戏模式
 
-    public String getGameName() {
-        return gameName;
-    }
-
-    public void setGameName(String gameName) {
-        this.gameName = gameName;
-    }
-
-    public long getGameId() {
-        return gameId;
-    }
-
-    public void setGameId(long gameId) {
-        this.gameId = gameId;
-    }
-
-    public String getGamePic() {
-        return gamePic;
-    }
-
-    public void setGamePic(String gamePic) {
-        this.gamePic = gamePic;
-    }
-
-    public List<Integer> getSuitScene() {
-        return suitScene;
-    }
-
-    public void setSuitScene(List<Integer> suitScene) {
-        this.suitScene = suitScene;
-    }
-
-    public String getHomeGamePic() {
-        return homeGamePic;
-    }
-
-    public void setHomeGamePic(String homeGamePic) {
-        this.homeGamePic = homeGamePic;
-    }
-
-    public List<GameModeModel> getGameModeList() {
-        return gameModeList;
-    }
-
-    public void setGameModeList(List<GameModeModel> gameModeList) {
-        this.gameModeList = gameModeList;
-    }
+    // region 查询竞猜游戏列表时会返回
+    public int ticketCoin; // 入场门票(金币)
+    public int winCoin; // 奖励(金币)
+    public int gameCountDownCycle; // 游戏倒计时间隔（秒）
+    // endregion 查询竞猜游戏列表时会返回
 }

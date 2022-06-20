@@ -3,6 +3,7 @@ package tech.sud.mgp.hello.service.main.repository;
 
 import androidx.lifecycle.LifecycleOwner;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import tech.sud.mgp.hello.common.http.param.BaseUrlManager;
@@ -12,6 +13,7 @@ import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.service.main.method.HomeRequestMethodFactory;
 import tech.sud.mgp.hello.service.main.req.CreatRoomReq;
 import tech.sud.mgp.hello.service.main.req.MatchBodyReq;
+import tech.sud.mgp.hello.service.main.req.QuizBetReq;
 import tech.sud.mgp.hello.service.main.req.RoomListReq;
 import tech.sud.mgp.hello.service.main.req.TicketConfirmJoinReq;
 import tech.sud.mgp.hello.service.main.req.UserInfoReq;
@@ -20,6 +22,7 @@ import tech.sud.mgp.hello.service.main.resp.CheckUpgradeResp;
 import tech.sud.mgp.hello.service.main.resp.CreatRoomResp;
 import tech.sud.mgp.hello.service.main.resp.GameListResp;
 import tech.sud.mgp.hello.service.main.resp.GetAccountResp;
+import tech.sud.mgp.hello.service.main.resp.QuizGameListResp;
 import tech.sud.mgp.hello.service.main.resp.RoomListResp;
 import tech.sud.mgp.hello.service.main.resp.TicketConfirmJoinResp;
 import tech.sud.mgp.hello.service.main.resp.UserInfoListResp;
@@ -136,6 +139,56 @@ public class HomeRepository {
     public static void checkUpgrade(LifecycleOwner owner, RxCallback<CheckUpgradeResp> callback) {
         HomeRequestMethodFactory.getMethod()
                 .checkUpgrade(BaseUrlManager.getBaseUrl())
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /**
+     * 下注
+     *
+     * @param quizType            竞猜类型(1：跨房PK 2：游戏)
+     * @param supportedUserIdList 被支持用户id
+     * @param coin                投注金币数
+     */
+    public static void quizBet(LifecycleOwner owner, int quizType, long coin, List<Long> supportedUserIdList, RxCallback<Object> callback) {
+        QuizBetReq req = new QuizBetReq();
+        req.quizType = quizType;
+        req.coin = coin;
+        req.supportedUserIdList = supportedUserIdList;
+        HomeRequestMethodFactory.getMethod()
+                .quizBet(BaseUrlManager.getInteractBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /**
+     * 下注
+     *
+     * @param quizType 竞猜类型(1：跨房PK 2：游戏)
+     * @param userId   被支持用户id
+     * @param coin     投注金币数
+     */
+    public static void quizBet(LifecycleOwner owner, int quizType, long coin, Long userId, RxCallback<Object> callback) {
+        QuizBetReq req = new QuizBetReq();
+        req.quizType = quizType;
+        req.coin = coin;
+        if (userId != null) {
+            List<Long> list = new ArrayList<>();
+            list.add(userId);
+            req.supportedUserIdList = list;
+        }
+        HomeRequestMethodFactory.getMethod()
+                .quizBet(BaseUrlManager.getInteractBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /**
+     * 查询竞猜游戏列表
+     */
+    public static void quizGameList(LifecycleOwner owner, RxCallback<QuizGameListResp> callback) {
+        HomeRequestMethodFactory.getMethod()
+                .quizGameList(BaseUrlManager.getInteractBaseUrl())
                 .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }

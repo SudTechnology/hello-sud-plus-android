@@ -27,6 +27,8 @@ public class SceneRoomTopView extends ConstraintLayout {
     private ImageView ivMore;
     private LinearLayout endContainer;
 
+    private ImageView ivBack;
+
     public SceneRoomTopView(@NonNull Context context) {
         this(context, null);
     }
@@ -50,6 +52,17 @@ public class SceneRoomTopView extends ConstraintLayout {
         ivMore = findViewById(R.id.top_iv_more);
         tvFinishGame = findViewById(R.id.top_tv_finish_game);
         endContainer = findViewById(R.id.end_container);
+        ivBack = findViewById(R.id.iv_back);
+    }
+
+    /** 设置返回键可见属性 */
+    public void setBackVisibility(int visibility) {
+        ivBack.setVisibility(visibility);
+    }
+
+    /** 设置返回键点击事件 */
+    public void setBackOnClickListener(OnClickListener listener) {
+        ivBack.setOnClickListener(listener);
     }
 
     /** 设置房间名称 */

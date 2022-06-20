@@ -5,8 +5,6 @@ import android.view.View;
 
 import tech.sud.mgp.hello.rtc.audio.core.ISudAudioEngine;
 import tech.sud.mgp.hello.rtc.audio.core.ISudAudioEventListener;
-import tech.sud.mgp.hello.rtc.audio.core.SudRTIChannelProfile;
-import tech.sud.mgp.hello.rtc.audio.core.SudRTIClientRole;
 import tech.sud.mgp.hello.rtc.audio.model.AudioConfigModel;
 import tech.sud.mgp.hello.rtc.audio.model.AudioJoinRoomModel;
 
@@ -80,22 +78,12 @@ public class AliyunAudioEngineImpl implements ISudAudioEngine {
     }
 
     @Override
-    public void setChannelProfile(SudRTIChannelProfile profile) {
+    public void startPlayingStream(String streamID, View view) {
 
     }
 
     @Override
-    public void setClientRole(SudRTIClientRole clientRole) {
-
-    }
-
-    @Override
-    public void startLiveStreaming(View view) {
-
-    }
-
-    @Override
-    public void stopLiveStreaming() {
+    public void stopPlayingStream(String streamID) {
 
     }
 }

@@ -1,5 +1,7 @@
 package tech.sud.mgp.hello.ui.scenes.base.manager;
 
+import android.view.View;
+
 import com.blankj.utilcode.util.LogUtils;
 
 import org.json.JSONObject;
@@ -24,7 +26,6 @@ import tech.sud.mgp.hello.rtc.audio.model.AudioJoinRoomModel;
 import tech.sud.mgp.hello.service.main.resp.BaseConfigResp;
 import tech.sud.mgp.hello.ui.main.home.manager.RTCManager;
 import tech.sud.mgp.hello.ui.scenes.base.activity.RoomConfig;
-import tech.sud.mgp.hello.ui.scenes.base.model.RoleType;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
 import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomServiceCallback;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.RoomCmdModelUtils;
@@ -42,6 +43,7 @@ public class SceneEngineManager extends BaseServiceManager {
     private boolean enterRoomCompleted = false; // 标识是否进房成功
     private boolean isInitEngine = false; // 标识是否已初始化engine
     public SceneRoomServiceManager.EnterRoomCompletedListener enterRoomCompletedListener;
+    private View videoView;
 
     @Override
     public void onCreate() {
@@ -134,14 +136,14 @@ public class SceneEngineManager extends BaseServiceManager {
      * @param result  回调
      */
     public void sendCommand(String command, ISudAudioEngine.SendCommandListener result) {
-        LogUtils.d("sendCommand:"+command);
+        LogUtils.d("sendCommand:" + command);
         ISudAudioEngine engine = getEngine();
         if (engine != null) {
             engine.sendCommand(command, new ISudAudioEngine.SendCommandListener() {
                 @Override
                 public void onResult(int value) {
-                    LogUtils.d("sendCommand onResult:"+value+"---:"+command);
-                    if(result!=null){
+                    LogUtils.d("sendCommand onResult:" + value + "---:" + command);
+                    if (result != null) {
                         result.onResult(value);
                     }
                 }
@@ -167,12 +169,12 @@ public class SceneEngineManager extends BaseServiceManager {
      * @param result  回调
      */
     public void sendXRoomCommand(String roomID, String command, ISudAudioEngine.SendCommandListener result) {
-        LogUtils.d("sendXRoomCommand:"+command);
+        LogUtils.d("sendXRoomCommand:" + command);
         IMRoomManager.sharedInstance().sendXRoomCommand(roomID, command, new ISudAudioEngine.SendCommandListener() {
             @Override
             public void onResult(int value) {
-                LogUtils.d("sendXRoomCommand onResult:"+value+"---:"+command);
-                if(result!=null){
+                LogUtils.d("sendXRoomCommand onResult:" + value + "---:" + command);
+                if (result != null) {
                     result.onResult(value);
                 }
             }
@@ -216,6 +218,33 @@ public class SceneEngineManager extends BaseServiceManager {
         ISudAudioEngine engine = getEngine();
         if (engine != null) {
             engine.stopSubscribingStream();
+        }
+    }
+
+    /** 开始拉视频流 */
+    public void startVideo(String streamID, View view) {
+        ISudAudioEngine engine = getEngine();
+        if (engine != null) {
+            videoView = view;
+            engine.startPlayingStream(streamID, view);
+        }
+    }
+
+    /** 停止视频流 */
+    public void stopVideo(String streamID, View view) {
+        ISudAudioEngine engine = getEngine();
+        if (engine != null && videoView == view) {
+            engine.stopPlayingStream(streamID);
+            videoView = null;
+        }
+    }
+
+    /** 停止视频流 */
+    public void stopVideo(String streamID) {
+        ISudAudioEngine engine = getEngine();
+        if (engine != null) {
+            engine.stopPlayingStream(streamID);
+            videoView = null;
         }
     }
 
@@ -326,12 +355,12 @@ public class SceneEngineManager extends BaseServiceManager {
         }
 
         @Override
-        public void onLiveStreamingCome() {
+        public void onPlayingStreamingAdd(String streamID) {
 
         }
 
         @Override
-        public void onLiveStreamingCancle() {
+        public void onPlayingStreamingDelete(String streamID) {
 
         }
     };

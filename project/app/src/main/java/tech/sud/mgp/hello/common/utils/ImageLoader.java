@@ -2,16 +2,24 @@ package tech.sud.mgp.hello.common.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.ImageView;
 
 import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.CustomViewTarget;
+import com.bumptech.glide.request.transition.Transition;
+
+import java.io.File;
 
 import tech.sud.mgp.hello.R;
+import tech.sud.mgp.hello.common.widget.view.XStretchDrawable;
 
 public class ImageLoader {
 
@@ -73,6 +81,39 @@ public class ImageLoader {
             return ((Activity) context).isDestroyed();
         }
         return false;
+    }
+
+    /** 加载中间像素点拉伸，两边保持等比的图像作为背景 */
+    public static void loadXStretchBackground(View view, String path) {
+        if (isDestroy(view)) return;
+        int maxSize;
+        if (view.getMeasuredWidth() <= 0) {
+            maxSize = DensityUtils.dp2px(375);
+        } else {
+            maxSize = view.getMeasuredWidth();
+        }
+        Glide.with(view.getContext())
+                .asFile()
+                .load(path)
+                .into(new CustomViewTarget<View, File>(view) {
+                    @Override
+                    public void onLoadFailed(@Nullable Drawable errorDrawable) {
+                        view.setBackground(errorDrawable);
+                    }
+
+                    @Override
+                    public void onResourceReady(@NonNull File resource, @Nullable Transition<? super File> transition) {
+                        Bitmap bitmap = ImageUtils.getBitmap(resource, maxSize, maxSize);
+                        if (bitmap != null) {
+                            view.setBackground(new XStretchDrawable(bitmap));
+                        }
+                    }
+
+                    @Override
+                    protected void onResourceCleared(@Nullable Drawable placeholder) {
+                        
+                    }
+                });
     }
 
 }

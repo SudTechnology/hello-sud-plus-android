@@ -506,4 +506,9 @@ public class SudFSMMGDecorator implements ISudFSMMG {
         return sudFSMMGCache.getGameState();
     }
 
+    /** 获取缓存的状态 */
+    public SudFSMMGCache getSudFSMMGCache() {
+        return sudFSMMGCache;
+    }
+
 }

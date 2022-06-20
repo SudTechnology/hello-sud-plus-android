@@ -25,14 +25,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.core.SudMGP;
 import tech.sud.mgp.hello.R;
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.hello.common.base.BaseActivity;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.AnimUtils;
+import tech.sud.mgp.hello.common.utils.ViewUtils;
 import tech.sud.mgp.hello.common.utils.permission.PermissionFragment;
 import tech.sud.mgp.hello.common.utils.permission.SudPermissionUtils;
 import tech.sud.mgp.hello.common.widget.dialog.BottomOptionDialog;
@@ -230,6 +231,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         bottomView.setInputClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ViewUtils.logSoftInputMode(getWindow().getAttributes().softInputMode);
                 inputMsgView.show();
             }
         });
@@ -249,6 +251,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
             public void onSendMsg(CharSequence msg) {
                 if (binder != null) {
                     binder.sendPublicMsg(msg);
+                    sendPublicMsgCompleted(msg);
                 }
                 inputMsgView.hide();
                 inputMsgView.clearInput();
@@ -272,6 +275,10 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
                 clickFinishGame();
             }
         });
+    }
+
+    /** 发送公屏消息完成 */
+    protected void sendPublicMsgCompleted(CharSequence msg) {
     }
 
     /** 点击了选择游戏 */
@@ -305,8 +312,8 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
     }
 
     /** 点击了更多按钮 */
-    private void clickMore() {
-        RoomMoreDialog dialog = RoomMoreDialog.getInstance(isFullScreen());
+    protected void clickMore() {
+        RoomMoreDialog dialog = RoomMoreDialog.getInstance(isGamePlaying());
         dialog.setHangOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -349,7 +356,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
     }
 
     /** 是否是全屏显示的 */
-    protected boolean isFullScreen() {
+    private boolean isGamePlaying() {
         return playingGameId > 0;
     }
 
@@ -703,7 +710,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
 
     protected void updateGameNumber() {
         long gameId = playingGameId;
-        if (gameId <= 0 || !roomConfig.isShowGameNumber) {
+        if (!roomConfig.isSudGame || gameId <= 0 || !roomConfig.isShowGameNumber) {
             tvGameNumber.setText("");
             return;
         }
@@ -786,6 +793,9 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
     }
 
     private void showGift(GiftModel giftModel) {
+        if (!canShowGift()) {
+            return;
+        }
         if (effectView == null) {
             effectView = new GiftEffectView(this);
             effectView.addLifecycleObserver(this);
@@ -794,8 +804,15 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         effectView.showEffect(giftModel);
     }
 
+    /** 是否可以展示礼物动画 */
+    protected boolean canShowGift() {
+        return true;
+    }
+
     private void initGame() {
-        gameViewModel.switchGame(this, getGameRoomId(), roomInfoModel.gameId);
+        if (roomConfig.isSudGame) {
+            gameViewModel.switchGame(this, getGameRoomId(), roomInfoModel.gameId);
+        }
         updateGameNumber();
     }
 
@@ -813,8 +830,8 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         }
     }
 
-    private void updateStatusBar() {
-        if (roomInfoModel != null && roomInfoModel.gameId > 0) { // 玩着游戏
+    protected void updateStatusBar() {
+        if (roomConfig.isSudGame && roomInfoModel != null && roomInfoModel.gameId > 0) { // 玩着游戏
             ImmersionBar.with(this).statusBarColor(R.color.transparent).fullScreen(true).hideBar(BarHide.FLAG_HIDE_NAVIGATION_BAR).init();
         } else {
             ImmersionBar.with(this).statusBarColor(R.color.transparent).hideBar(BarHide.FLAG_SHOW_BAR).init();
@@ -922,6 +939,9 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
     }
 
     protected boolean switchGame(long gameId) {
+        if (!roomConfig.isSudGame) {
+            return false;
+        }
         if (playingGameId == gameId && getGameRoomId() == gameViewModel.getGameRoomId()) {
             return false;
         }
@@ -1004,6 +1024,10 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
     @Override
     public void onRoomPkCoutndown() {
     }
+
+    @Override
+    public void onRecoverCompleted() {
+    }
     // endregion service回调
 
     @Override
@@ -1032,7 +1056,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
     }
 
     // 释放绑定的服务
-    private void releaseService() {
+    protected void releaseService() {
         if (binder != null) {
             binder.removeCallback(this);
             unbindService(serviceConnection);

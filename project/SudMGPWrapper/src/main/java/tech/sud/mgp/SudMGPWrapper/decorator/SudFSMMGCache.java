@@ -126,6 +126,26 @@ public class SudFSMMGCache {
         playerPlayingMap.clear();
     }
 
+    /** 获取队长userId */
+    public long getCaptainUserId() {
+        return captainUserId;
+    }
+
+    /** 获取当前已加入游戏的玩家集合 */
+    public HashSet<String> getPlayerInSet() {
+        return new HashSet<>(playerInSet);
+    }
+
+    /** 获取当前已准备的玩家集合 */
+    public HashSet<String> getPlayerReadySet() {
+        return new HashSet<>(playerReadySet);
+    }
+
+    /** 获取玩家游戏状态集合 */
+    public HashMap<String, SudMGPMGState.MGCommonPlayerPlaying> getPlayerPlayingMap() {
+        return new HashMap<>(playerPlayingMap);
+    }
+
     /**
      * 返回当前游戏的状态，数值参数{@link SudMGPMGState.MGCommonGameState}
      */

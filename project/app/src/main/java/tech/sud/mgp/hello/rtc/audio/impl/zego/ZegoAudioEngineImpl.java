@@ -1,9 +1,5 @@
 package tech.sud.mgp.hello.rtc.audio.impl.zego;
 
-import static tech.sud.mgp.hello.rtc.audio.core.SudRTIChannelProfile.SUD_RTI_CHANNEL_PROFILE_BROADCASTING;
-import static tech.sud.mgp.hello.rtc.audio.core.SudRTIChannelProfile.SUD_RTI_CHANNEL_PROFILE_COMMUNICATION;
-import static tech.sud.mgp.hello.rtc.audio.core.SudRTIClientRole.SUD_RTI_CLIENT_ROLE_AUDIENCE;
-
 import android.app.Application;
 import android.content.Context;
 import android.view.View;
@@ -25,6 +21,7 @@ import im.zego.zegoexpress.callback.IZegoIMSendCustomCommandCallback;
 import im.zego.zegoexpress.constants.ZegoAudioChannel;
 import im.zego.zegoexpress.constants.ZegoAudioDataCallbackBitMask;
 import im.zego.zegoexpress.constants.ZegoAudioSampleRate;
+import im.zego.zegoexpress.constants.ZegoPlayerState;
 import im.zego.zegoexpress.constants.ZegoRoomState;
 import im.zego.zegoexpress.constants.ZegoScenario;
 import im.zego.zegoexpress.constants.ZegoUpdateType;
@@ -41,8 +38,6 @@ import tech.sud.mgp.hello.rtc.audio.core.AudioRoomState;
 import tech.sud.mgp.hello.rtc.audio.core.AudioStream;
 import tech.sud.mgp.hello.rtc.audio.core.ISudAudioEngine;
 import tech.sud.mgp.hello.rtc.audio.core.ISudAudioEventListener;
-import tech.sud.mgp.hello.rtc.audio.core.SudRTIChannelProfile;
-import tech.sud.mgp.hello.rtc.audio.core.SudRTIClientRole;
 import tech.sud.mgp.hello.rtc.audio.model.AudioConfigModel;
 import tech.sud.mgp.hello.rtc.audio.model.AudioJoinRoomModel;
 
@@ -54,37 +49,6 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
 
     private ZegoExpressEngine getEngine() {
         return ZegoExpressEngine.getEngine();
-    }
-
-    // 默认的频道场景为通信场景
-    private SudRTIChannelProfile mChannelProfile = SUD_RTI_CHANNEL_PROFILE_COMMUNICATION;
-    // 默认的用户角色为观众
-    private SudRTIClientRole mClientRole = SUD_RTI_CLIENT_ROLE_AUDIENCE;
-    // 直播场景下的视频画面
-    private View mLocalView;
-
-    @Override
-    public void setChannelProfile(SudRTIChannelProfile profile) {
-        mChannelProfile = profile;
-        if (mChannelProfile == SUD_RTI_CHANNEL_PROFILE_BROADCASTING) {
-            mClientRole = SUD_RTI_CLIENT_ROLE_AUDIENCE;
-        }
-    }
-
-    @Override
-    public void setClientRole(SudRTIClientRole clientRole) {
-        if (mChannelProfile == SUD_RTI_CHANNEL_PROFILE_BROADCASTING) {
-            mClientRole = clientRole;
-        }
-    }
-
-    // 是否是直播场景下的用户角色
-    private boolean isLiveStreamAudience() {
-        if (mChannelProfile == SUD_RTI_CHANNEL_PROFILE_BROADCASTING && mClientRole == SUD_RTI_CLIENT_ROLE_AUDIENCE) {
-            return true;
-        }
-
-        return false;
     }
 
     @Override
@@ -150,8 +114,6 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
             zegoRoomConfig.token = model.token;
             /* 开始登陆房间 */
             engine.loginRoom(model.roomID, zegoUser, zegoRoomConfig);
-
-            mLocalView = model.localView;
         }
     }
 
@@ -168,10 +130,6 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
     /* 开始推流 */
     @Override
     public void startPublishStream() {
-        if (isLiveStreamAudience()) {
-            return;
-        }
-
         ZegoExpressEngine engine = getEngine();
         if (engine != null) {
             String streamId = UUID.randomUUID().toString() + "-" + String.valueOf(new Date().getTime());
@@ -257,31 +215,19 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
     }
 
     @Override
-    public void startLiveStreaming(View view) {
-        if (isLiveStreamAudience()) {
-            return;
-        }
-
+    public void startPlayingStream(String streamID, View view) {
         ZegoExpressEngine engine = getEngine();
         if (engine != null) {
-            String streamId = UUID.randomUUID().toString() + "-" + String.valueOf(new Date().getTime());
-            engine.startPublishingStream(streamId);
-            engine.enableAudioCaptureDevice(true);
-
-            if (view != null) {
-                ZegoCanvas canvas = new ZegoCanvas(view);
-                engine.startPreview(canvas);
-            }
+            ZegoCanvas canvas = new ZegoCanvas(view);
+            engine.startPlayingStream(streamID, canvas);
         }
     }
 
     @Override
-    public void stopLiveStreaming() {
+    public void stopPlayingStream(String streamID) {
         ZegoExpressEngine engine = getEngine();
         if (engine != null) {
-            engine.stopPublishingStream();
-            engine.enableAudioCaptureDevice(false);
-            engine.stopPreview();
+            engine.stopPlayingStream(streamID);
         }
     }
 
@@ -392,31 +338,12 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
                     switch (updateType) {
                         case ADD:
                             for (ZegoStream zegoStream :streamList) {
-                                if (mChannelProfile == SUD_RTI_CHANNEL_PROFILE_BROADCASTING && mClientRole == SUD_RTI_CLIENT_ROLE_AUDIENCE) {
-                                    if (mLocalView != null) {
-                                        ZegoCanvas canvas = new ZegoCanvas(mLocalView);
-                                        engine.startPlayingStream(zegoStream.streamID, canvas);
-
-                                        if (mISudAudioEventListener != null) {
-                                            mISudAudioEventListener.onLiveStreamingCome();
-                                        }
-                                        break;
-                                    }
-                                }
-
                                 engine.startPlayingStream(zegoStream.streamID, null);
                             }
                             break;
                         case DELETE:
                             for (ZegoStream zegoStream :streamList) {
                                 engine.stopPlayingStream(zegoStream.streamID);
-
-                                if (mChannelProfile == SUD_RTI_CHANNEL_PROFILE_BROADCASTING && mClientRole == SUD_RTI_CLIENT_ROLE_AUDIENCE) {
-                                    if (mISudAudioEventListener != null) {
-                                        mISudAudioEventListener.onLiveStreamingCancle();
-                                    }
-                                    break;
-                                }
                             }
                             break;
                     }
@@ -446,6 +373,19 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
             ISudAudioEventListener listener = mISudAudioEventListener;
             if (listener != null) {
                 listener.onRoomOnlineUserCountUpdate(count);
+            }
+        }
+
+        @Override
+        public void onPlayerStateUpdate(String streamID, ZegoPlayerState state, int errorCode, JSONObject extendedData) {
+            if (state == ZegoPlayerState.PLAYING) {
+                if (mISudAudioEventListener != null) {
+                    mISudAudioEventListener.onPlayingStreamingAdd(streamID);
+                }
+            } else if (state == ZegoPlayerState.NO_PLAY) {
+                if (mISudAudioEventListener != null) {
+                    mISudAudioEventListener.onPlayingStreamingDelete(streamID);
+                }
             }
         }
     };

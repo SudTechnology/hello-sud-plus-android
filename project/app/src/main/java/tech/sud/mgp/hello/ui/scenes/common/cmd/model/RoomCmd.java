@@ -66,4 +66,9 @@ public class RoomCmd {
     public static final int CMD_ORDER_OPERATE_NOTIFY = 10201;
     // endregion 点单
 
+    // region 竞猜
+    /** 竞猜下注通知 */
+    public static final int CMD_QUIZ_BET = 10300;
+    // endregion 竞猜
+
 }

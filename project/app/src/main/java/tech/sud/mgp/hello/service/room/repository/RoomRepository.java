@@ -9,8 +9,11 @@ import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.http.rx.RxUtils;
 import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.service.room.method.AudioRequestMethodFactory;
+import tech.sud.mgp.hello.service.room.req.DanmakuListReq;
 import tech.sud.mgp.hello.service.room.req.EnterRoomReq;
 import tech.sud.mgp.hello.service.room.req.ExitRoomReq;
+import tech.sud.mgp.hello.service.room.req.GiftListReq;
+import tech.sud.mgp.hello.service.room.req.QuizGamePlayerReq;
 import tech.sud.mgp.hello.service.room.req.RoomMicListReq;
 import tech.sud.mgp.hello.service.room.req.RoomMicSwitchReq;
 import tech.sud.mgp.hello.service.room.req.RoomOrderCreateReq;
@@ -21,7 +24,12 @@ import tech.sud.mgp.hello.service.room.req.RoomPkDurationReq;
 import tech.sud.mgp.hello.service.room.req.RoomPkRemoveRivalReq;
 import tech.sud.mgp.hello.service.room.req.RoomPkStartReq;
 import tech.sud.mgp.hello.service.room.req.RoomPkSwitchReq;
+import tech.sud.mgp.hello.service.room.req.SendDanmakuReq;
+import tech.sud.mgp.hello.service.room.req.SendGiftReq;
+import tech.sud.mgp.hello.service.room.resp.DanmakuListResp;
 import tech.sud.mgp.hello.service.room.resp.EnterRoomResp;
+import tech.sud.mgp.hello.service.room.resp.GiftListResp;
+import tech.sud.mgp.hello.service.room.resp.QuizGamePlayerResp;
 import tech.sud.mgp.hello.service.room.resp.RoomMicListResp;
 import tech.sud.mgp.hello.service.room.resp.RoomMicSwitchResp;
 import tech.sud.mgp.hello.service.room.resp.RoomOrderCreateResp;
@@ -222,6 +230,86 @@ public class RoomRepository {
         req.minute = minute;
         AudioRequestMethodFactory.getMethod()
                 .roomPkAgain(BaseUrlManager.getInteractBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /**
+     * 查询竞猜场景游戏玩家列表（房间内）
+     *
+     * @param roomId     房间id
+     * @param playerList 玩家列表
+     */
+    public static void quizGamePlayer(LifecycleOwner owner, long roomId, List<Long> playerList, RxCallback<QuizGamePlayerResp> callback) {
+        QuizGamePlayerReq req = new QuizGamePlayerReq();
+        req.roomId = roomId;
+        req.playerList = playerList;
+        AudioRequestMethodFactory.getMethod()
+                .quizGamePlayer(BaseUrlManager.getInteractBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /**
+     * 弹幕列表
+     *
+     * @param gameId 游戏id
+     */
+    public static void danmakuList(LifecycleOwner owner, long gameId, RxCallback<DanmakuListResp> callback) {
+        DanmakuListReq req = new DanmakuListReq();
+        req.gameId = gameId;
+        AudioRequestMethodFactory.getMethod()
+                .danmakuList(BaseUrlManager.getInteractBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /**
+     * 发送弹幕
+     *
+     * @param roomId  房间id
+     * @param content 弹幕内容（具体值跟游戏类型相关）
+     */
+    public static void sendDanmaku(LifecycleOwner owner, long roomId, String content, RxCallback<Object> callback) {
+        SendDanmakuReq req = new SendDanmakuReq();
+        req.roomId = roomId;
+        req.content = content;
+        AudioRequestMethodFactory.getMethod()
+                .sendDanmaku(BaseUrlManager.getInteractBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /**
+     * 发送礼物
+     *
+     * @param roomId 房间id
+     * @param giftId 礼物id
+     * @param amount 总数量
+     */
+    public static void sendGift(LifecycleOwner owner, long roomId, String giftId, int amount, RxCallback<Object> callback) {
+        SendGiftReq req = new SendGiftReq();
+        req.roomId = roomId;
+        req.giftId = giftId;
+        req.amount = amount;
+        AudioRequestMethodFactory.getMethod()
+                .sendGift(BaseUrlManager.getInteractBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /**
+     * 礼物列表
+     *
+     * @param gameId  游戏id
+     * @param sceneId 场景id
+     */
+    public static void giftList(LifecycleOwner owner, long gameId, int sceneId, RxCallback<GiftListResp> callback) {
+        GiftListReq req = new GiftListReq();
+        req.gameId = gameId;
+        req.sceneId = sceneId;
+        AudioRequestMethodFactory.getMethod()
+                .giftList(BaseUrlManager.getInteractBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }

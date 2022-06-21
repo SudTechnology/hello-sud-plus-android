@@ -28,9 +28,10 @@ public class DanmakuListResp {
         public String content; // 文本内容(弹幕使用)
         public List<String> warcraftImageList; // 魔兽图片列表
         public int giftAmount; // 礼物数量
-        public String giftId; // 礼物id
+        public long giftId; // 礼物id
         public int giftPrice; // 礼物价格
         public String giftUrl; // 礼物图片
+        public String animationUrl; // 礼物动图
     }
 
     public static class JoinTeam {

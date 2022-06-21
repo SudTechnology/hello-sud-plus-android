@@ -40,6 +40,7 @@ import tech.sud.mgp.hello.common.widget.dialog.BottomOptionDialog;
 import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
 import tech.sud.mgp.hello.rtc.audio.core.AudioPCMData;
 import tech.sud.mgp.hello.service.game.repository.GameRepository;
+import tech.sud.mgp.hello.service.room.repository.RoomRepository;
 import tech.sud.mgp.hello.ui.common.constant.RequestKey;
 import tech.sud.mgp.hello.ui.main.constant.GameIdCons;
 import tech.sud.mgp.hello.ui.scenes.base.constant.OperateMicType;
@@ -63,7 +64,6 @@ import tech.sud.mgp.hello.ui.scenes.base.widget.view.mic.OnMicItemClickListener;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.mic.SceneRoomMicWrapView;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.order.RoomCmdUserOrderModel;
 import tech.sud.mgp.hello.ui.scenes.common.gift.listener.GiftSendClickListener;
-import tech.sud.mgp.hello.ui.scenes.common.gift.manager.GiftHelper;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftModel;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftNotifyDetailModel;
 import tech.sud.mgp.hello.ui.scenes.common.gift.view.GiftEffectView;
@@ -428,9 +428,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         gameViewModel.autoUpMicLiveData.observe(this, new Observer<Object>() {
             @Override
             public void onChanged(Object o) {
-                if (binder != null) {
-                    binder.autoUpMic(OperateMicType.GAME_AUTO);
-                }
+                businessAutoUpMic();
             }
         });
         gameViewModel.gameASRLiveData.observe(this, new Observer<Boolean>() {
@@ -752,7 +750,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
      * index:默认选中的麦上用户麦序号
      */
     private void showSendGiftDialog(UserInfo underUser, int index) {
-        roomGiftDialog = new RoomGiftDialog();
+        roomGiftDialog = RoomGiftDialog.newInstance(roomInfoModel.sceneType, roomInfoModel.gameId);
         if (underUser == null) {
             if (binder != null) {
                 roomGiftDialog.setMicUsers(binder.getMicList(), index);
@@ -762,15 +760,25 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         }
         roomGiftDialog.giftSendClickListener = new GiftSendClickListener() {
             @Override
-            public void onSendClick(int giftId, int giftCount, List<UserInfo> toUsers) {
+            public void onSendClick(GiftModel giftModel, int giftCount, List<UserInfo> toUsers) {
                 if (toUsers != null && toUsers.size() > 0) {
                     for (UserInfo user : toUsers) {
                         if (binder != null) {
-                            binder.sendGift(giftId, giftCount, user);
+                            binder.sendGift(giftModel.giftId, giftCount, user,
+                                    giftModel.type, giftModel.giftName, giftModel.giftUrl, giftModel.animationUrl);
                         }
+                        // 发送http到后端
+                        int giftConfigType; // 礼物配置方式（1：客户端，2：服务端）
+                        if (giftModel.type == 0) { // 1.4.0新增:礼物类型 0：内置礼物 1：后端配置礼物
+                            giftConfigType = 1;
+                        } else {
+                            giftConfigType = 2;
+                        }
+                        RoomRepository.sendGift(context, roomInfoModel.roomId, giftModel.giftId,
+                                giftCount, giftConfigType, giftModel.giftPrice, new RxCallback<>());
                     }
                 }
-                showGift(GiftHelper.getInstance().getGift(giftId));
+                showGift(giftModel);
             }
 
             @Override
@@ -792,7 +800,8 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         });
     }
 
-    private void showGift(GiftModel giftModel) {
+    /** 显示礼物 */
+    protected void showGift(GiftModel giftModel) {
         if (!canShowGift()) {
             return;
         }
@@ -870,6 +879,11 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
     // region service回调
     @Override
     public void onEnterRoomSuccess() {
+        businessAutoUpMic();
+    }
+
+    /** 业务自动上麦 */
+    protected void businessAutoUpMic() {
         if (binder != null) {
             binder.autoUpMic(OperateMicType.USER);
         }

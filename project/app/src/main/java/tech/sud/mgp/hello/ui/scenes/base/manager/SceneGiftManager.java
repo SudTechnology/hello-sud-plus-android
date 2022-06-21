@@ -32,12 +32,25 @@ public class SceneGiftManager extends BaseServiceManager {
         parentManager.sceneEngineManager.removeCommandListener(sendGiftCommandListener);
     }
 
-    public void sendGift(int giftID,
-                         int giftCount,
-                         UserInfo toUser) {
-        String command = RoomCmdModelUtils.buildSendGiftCommand(giftID, giftCount, toUser);
+    /** 发送礼物 */
+    public void sendGift(long giftID, int giftCount, UserInfo toUser) {
+        sendGift(giftID, giftCount, toUser, 0, null, null, null);
+    }
 
-        GiftModel giftModel = GiftHelper.getInstance().getGift(giftID);
+    /** 发送礼物 */
+    public void sendGift(long giftID, int giftCount, UserInfo toUser, int type, String giftName, String giftUrl, String animationUrl) {
+        String command = RoomCmdModelUtils.buildSendGiftCommand(giftID, giftCount, toUser, type, giftName, giftUrl, animationUrl);
+
+        GiftModel giftModel;
+        if (type == 0) {
+            giftModel = GiftHelper.getInstance().getGift(giftID);
+        } else {
+            giftModel = new GiftModel();
+            giftModel.type = type;
+            giftModel.giftName = giftName;
+            giftModel.giftUrl = giftUrl;
+            giftModel.animationUrl = animationUrl;
+        }
         GiftNotifyDetailModel notify = new GiftNotifyDetailModel();
         notify.gift = giftModel;
 
@@ -59,7 +72,16 @@ public class SceneGiftManager extends BaseServiceManager {
     private final SceneCommandManager.SendGiftCommandListener sendGiftCommandListener = new SceneCommandManager.SendGiftCommandListener() {
         @Override
         public void onRecvCommand(RoomCmdSendGiftModel command, String userID) {
-            GiftModel giftModel = GiftHelper.getInstance().getGift(command.giftID);
+            GiftModel giftModel;
+            if (command.type == 0) {
+                giftModel = GiftHelper.getInstance().getGift(command.giftID);
+            } else {
+                giftModel = new GiftModel();
+                giftModel.type = command.type;
+                giftModel.giftName = command.giftName;
+                giftModel.giftUrl = command.giftUrl;
+                giftModel.animationUrl = command.animationUrl;
+            }
             GiftNotifyDetailModel notify = new GiftNotifyDetailModel();
             notify.gift = giftModel;
             notify.sendUser = command.sendUser;
@@ -67,7 +89,7 @@ public class SceneGiftManager extends BaseServiceManager {
             notify.giftCount = command.giftCount;
             notify.giftID = command.giftID;
             SceneRoomServiceCallback callback = parentManager.getCallback();
-            if (callback!=null){
+            if (callback != null) {
                 callback.sendGiftsNotify(notify);
             }
             parentManager.sceneChatManager.addMsg(notify);

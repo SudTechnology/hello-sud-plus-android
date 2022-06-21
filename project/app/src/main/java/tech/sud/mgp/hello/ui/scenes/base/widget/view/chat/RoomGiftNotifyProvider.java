@@ -42,35 +42,64 @@ public class RoomGiftNotifyProvider extends BaseItemProvider<Object> {
     }
 
     public void loadImage(GiftNotifyDetailModel item, TextView textTv) {
-        ImageLoader.loadSizeGift(
-                textTv,
-                item.gift.giftSmallImage,
-                DensityUtils.dp2px(getContext(), 20),
+        if (item.gift != null) {
+            if (item.gift.type == 0) {
+                loadLocalImage(item, textTv);
+            } else if (item.gift.type == 1) {
+                loadImageByUrl(item, textTv);
+            }
+        }
+    }
+
+    private void loadImageByUrl(GiftNotifyDetailModel item, TextView textTv) {
+        int overSize = DensityUtils.dp2px(getContext(), 20);
+        ImageLoader.loadSizeGift(textTv, item.gift.giftUrl, overSize,
                 new RequestListener<Drawable>() {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                        creatText(item, textTv, null);
+                        creatText(item, textTv, null, overSize);
                         return false;
                     }
 
                     @Override
                     public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                        creatText(item, textTv, resource);
+                        creatText(item, textTv, resource, overSize);
                         return false;
                     }
                 });
     }
 
-    private void creatText(GiftNotifyDetailModel item, TextView textTv, Drawable drawable) {
+    private void loadLocalImage(GiftNotifyDetailModel item, TextView textTv) {
+        int overSize = DensityUtils.dp2px(getContext(), 20);
+        ImageLoader.loadSizeGift(textTv, item.gift.giftSmallImage, overSize,
+                new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        creatText(item, textTv, null, overSize);
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        creatText(item, textTv, resource, overSize);
+                        return false;
+                    }
+                });
+    }
+
+    private void creatText(GiftNotifyDetailModel item, TextView textTv, Drawable drawable, int overSize) {
         SpannableStringBuilder builder = new SpannableStringBuilder();
         builder.append(item.sendUser.name);
         ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#aaaaaa"));
         builder.append(" " + getContext().getString(R.string.audio_dialog_present) + " ", colorSpan, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        builder.append(item.toUser.name + "  " + item.gift.giftName + " ");
+        if (item.toUser != null) {
+            builder.append(item.toUser.name);
+        }
+        builder.append("  " + item.gift.giftName + " ");
 
         if (drawable != null) {
             builder.append("o");
-            drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+            drawable.setBounds(0, 0, overSize, overSize);
             CenterImageSpan span = new CenterImageSpan(drawable);
             builder.setSpan(span, builder.length() - 1, builder.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
             builder.append("x" + item.giftCount);

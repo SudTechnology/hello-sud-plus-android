@@ -29,7 +29,6 @@ public class QuickStartActivity extends BaseActivity {
     private long roomId;
     private long gameId;
 
-
     private GameRoomTopView topView;
 
     private final QuickStartGameViewModel gameViewModel = new QuickStartGameViewModel();

@@ -49,6 +49,7 @@ public class GiftHelper {
             model1.giftImage = R.drawable.icon_gift_600;
             model1.giftSmallImage = R.drawable.icon_gift_128;
             model1.checkState = true;
+            model1.giftPrice = 1;
             gifts.add(model1);
 
             GiftModel model2 = new GiftModel();
@@ -58,6 +59,7 @@ public class GiftHelper {
             model2.path = "sud_lottie_600.json";
             model2.giftImage = R.drawable.icon_gift_600;
             model2.giftSmallImage = R.drawable.icon_gift_128;
+            model2.giftPrice = 100;
             gifts.add(model2);
 
             GiftModel model3 = new GiftModel();
@@ -67,6 +69,7 @@ public class GiftHelper {
             model3.resId = R.raw.sud_webp_600;
             model3.giftImage = R.drawable.icon_gift_600;
             model3.giftSmallImage = R.drawable.icon_gift_128;
+            model3.giftPrice = 1000;
             gifts.add(model3);
 
             copyFileToSdcrad(context, R.raw.sud_mp4_600, "sud_mp4_600.mp4");
@@ -78,6 +81,7 @@ public class GiftHelper {
             model4.path = context.getCacheDir().getAbsolutePath() + File.separator + "sud_mp4_600.mp4";
             model4.giftImage = R.drawable.icon_gift_600;
             model4.giftSmallImage = R.drawable.icon_gift_128;
+            model4.giftPrice = 10000;
             gifts.add(model4);
 
             this.gifts.clear();
@@ -86,19 +90,10 @@ public class GiftHelper {
         return gifts;
     }
 
-    public GiftModel getGift(int giftId) {
+    public GiftModel getGift(long giftId) {
         for (GiftModel model : gifts) {
             if (giftId == model.giftId) {
                 return model;
-            }
-        }
-        return null;
-    }
-
-    public GiftModel getCheckedGift() {
-        for (GiftModel giftModel : gifts) {
-            if (giftModel.checkState) {
-                return giftModel;
             }
         }
         return null;

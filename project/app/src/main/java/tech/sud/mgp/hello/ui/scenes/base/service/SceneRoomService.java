@@ -163,8 +163,14 @@ public class SceneRoomService extends Service {
             serviceManager.sceneChatManager.sendPublicMsg(msg);
         }
 
-        public void sendGift(int giftID, int giftCount, UserInfo toUser) {
+        /** 发送礼物 */
+        public void sendGift(long giftID, int giftCount, UserInfo toUser) {
             serviceManager.sceneGiftManager.sendGift(giftID, giftCount, toUser);
+        }
+
+        /** 发送礼物 */
+        public void sendGift(long giftID, int giftCount, UserInfo toUser, int type, String giftName, String giftUrl, String animationUrl) {
+            serviceManager.sceneGiftManager.sendGift(giftID, giftCount, toUser, type, giftName, giftUrl, animationUrl);
         }
 
         /**

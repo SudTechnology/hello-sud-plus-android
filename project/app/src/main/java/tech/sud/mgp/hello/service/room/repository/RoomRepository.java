@@ -283,15 +283,20 @@ public class RoomRepository {
     /**
      * 发送礼物
      *
-     * @param roomId 房间id
-     * @param giftId 礼物id
-     * @param amount 总数量
+     * @param roomId         房间id
+     * @param giftId         礼物id
+     * @param amount         总数量
+     * @param giftConfigType 礼物配置方式（1：客户端，2：服务端）
+     * @param giftPrice      礼物价格(金币)
      */
-    public static void sendGift(LifecycleOwner owner, long roomId, String giftId, int amount, RxCallback<Object> callback) {
+    public static void sendGift(LifecycleOwner owner, long roomId, long giftId, int amount,
+                                int giftConfigType, int giftPrice, RxCallback<Object> callback) {
         SendGiftReq req = new SendGiftReq();
         req.roomId = roomId;
         req.giftId = giftId;
         req.amount = amount;
+        req.giftConfigType = giftConfigType;
+        req.giftPrice = giftPrice;
         AudioRequestMethodFactory.getMethod()
                 .sendGift(BaseUrlManager.getInteractBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
@@ -301,13 +306,13 @@ public class RoomRepository {
     /**
      * 礼物列表
      *
-     * @param gameId  游戏id
      * @param sceneId 场景id
+     * @param gameId  游戏id
      */
-    public static void giftList(LifecycleOwner owner, long gameId, int sceneId, RxCallback<GiftListResp> callback) {
+    public static void giftList(LifecycleOwner owner, int sceneId, long gameId, RxCallback<GiftListResp> callback) {
         GiftListReq req = new GiftListReq();
-        req.gameId = gameId;
         req.sceneId = sceneId;
+        req.gameId = gameId;
         AudioRequestMethodFactory.getMethod()
                 .giftList(BaseUrlManager.getInteractBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))

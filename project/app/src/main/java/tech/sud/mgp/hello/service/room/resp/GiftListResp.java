@@ -11,7 +11,7 @@ public class GiftListResp {
 
     public static class BackGiftModel {
         public long gameId; // 游戏id
-        public String giftId; // 礼物id
+        public long giftId; // 礼物id
         public String name; // 名称
         public int giftPrice; // 礼物价格(金币)
         public String giftUrl; // 礼物图片

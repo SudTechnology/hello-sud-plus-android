@@ -58,7 +58,7 @@ public class DanmakuListView extends ConstraintLayout {
     }
 
     private void initView() {
-        setBackgroundColor(Color.parseColor("#e6000000"));
+        setBackgroundColor(Color.parseColor("#000000"));
         inflate(getContext(), R.layout.view_danmaku_list, this);
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));

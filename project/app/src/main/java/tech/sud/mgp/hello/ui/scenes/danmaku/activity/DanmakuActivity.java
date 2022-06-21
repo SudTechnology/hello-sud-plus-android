@@ -11,6 +11,8 @@ import com.blankj.utilcode.util.ScreenUtils;
 import com.gyf.immersionbar.BarHide;
 import com.gyf.immersionbar.ImmersionBar;
 
+import java.util.List;
+
 import me.jessyan.autosize.AutoSizeConfig;
 import me.jessyan.autosize.internal.CustomAdapt;
 import tech.sud.mgp.hello.R;
@@ -23,8 +25,12 @@ import tech.sud.mgp.hello.service.room.resp.DanmakuListResp;
 import tech.sud.mgp.hello.ui.common.utils.CompletedListener;
 import tech.sud.mgp.hello.ui.common.utils.LifecycleUtils;
 import tech.sud.mgp.hello.ui.scenes.base.activity.BaseRoomActivity;
+import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
+import tech.sud.mgp.hello.ui.scenes.base.model.RoleType;
+import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.SceneRoomTopView;
+import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftModel;
 import tech.sud.mgp.hello.ui.scenes.danmaku.widget.AutoLandDialog;
 import tech.sud.mgp.hello.ui.scenes.danmaku.widget.DanmakuListView;
 
@@ -302,7 +308,36 @@ public class DanmakuActivity extends BaseRoomActivity<AppGameViewModel> implemen
 
     /** 快捷指令送出礼物 */
     private void fastSendGift(DanmakuListResp.Prop model) {
-        RoomRepository.sendGift(this, roomInfoModel.roomId, model.giftId, 1, new RxCallback<>());
+        // 发送http到后端
+        RoomRepository.sendGift(this, roomInfoModel.roomId, model.giftId, 1, 2, model.giftPrice, new RxCallback<>());
+
+        // 送给房主
+        UserInfo toUser = new UserInfo();
+        if (binder != null) {
+            List<AudioRoomMicModel> micList = binder.getMicList();
+            if (micList != null) {
+                for (AudioRoomMicModel audioRoomMicModel : micList) {
+                    if (audioRoomMicModel.roleType == RoleType.OWNER) {
+                        toUser.userID = audioRoomMicModel.userId + "";
+                        toUser.name = audioRoomMicModel.nickName;
+                        toUser.icon = audioRoomMicModel.avatar;
+                    }
+                }
+            }
+        }
+
+        // 展示礼物
+        GiftModel giftModel = new GiftModel();
+        giftModel.type = 1;
+        giftModel.giftName = model.name;
+        giftModel.giftUrl = model.giftUrl;
+        giftModel.animationUrl = model.animationUrl;
+        showGift(giftModel);
+
+        // 发送"送礼消息"
+        if (binder != null) {
+            binder.sendGift(0, 1, toUser, 1, model.name, model.giftUrl, model.animationUrl);
+        }
     }
 
     /** 快捷指令发弹幕 */
@@ -480,15 +515,25 @@ public class DanmakuActivity extends BaseRoomActivity<AppGameViewModel> implemen
         super.onBackPressed();
     }
 
+    /** 释放资源 */
     @Override
     protected void releaseService() {
         stopVideo();
         super.releaseService();
     }
 
+    /** 是否可以展示礼物 */
     @Override
     protected boolean canShowGift() {
         return !isFullscreen; // 非全屏时才展示礼物动画
+    }
+
+    /** 业务上，自动上麦 */
+    @Override
+    protected void businessAutoUpMic() {
+        if (roomInfoModel != null && roomInfoModel.roleType == RoleType.OWNER) {
+            super.businessAutoUpMic();
+        }
     }
 
 }

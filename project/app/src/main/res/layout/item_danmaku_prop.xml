@@ -61,6 +61,7 @@
             android:id="@+id/ll_gift_btn"
             android:layout_width="0dp"
             android:layout_height="20dp"
+            app:layout_constraintWidth_max="90dp"
             android:paddingHorizontal="8dp"
             android:background="@drawable/shape_danmaku_btn_bg"
             app:layout_constraintStart_toStartOf="parent"

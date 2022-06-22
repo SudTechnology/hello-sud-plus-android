@@ -21,6 +21,8 @@ import tech.sud.mgp.hello.ui.scenes.common.gift.manager.stategy.lottie.GiftJsonM
 import tech.sud.mgp.hello.ui.scenes.common.gift.manager.stategy.lottie.GiftJsonStrategy;
 import tech.sud.mgp.hello.ui.scenes.common.gift.manager.stategy.mp4.GiftMp4Model;
 import tech.sud.mgp.hello.ui.scenes.common.gift.manager.stategy.mp4.GiftMp4Strategy;
+import tech.sud.mgp.hello.ui.scenes.common.gift.manager.stategy.svga.GiftSVGAByUrlModel;
+import tech.sud.mgp.hello.ui.scenes.common.gift.manager.stategy.svga.GiftSVGAByUrlStrategy;
 import tech.sud.mgp.hello.ui.scenes.common.gift.manager.stategy.svga.GiftSVGAModel;
 import tech.sud.mgp.hello.ui.scenes.common.gift.manager.stategy.svga.GiftSVGAStrategy;
 import tech.sud.mgp.hello.ui.scenes.common.gift.manager.stategy.webp.GiftWebpModel;
@@ -60,6 +62,50 @@ public class GiftEffectView extends ConstraintLayout implements LifecycleObserve
     }
 
     public void showEffect(GiftModel giftModel) {
+        if (giftModel.type == 0) {
+            showLocalEffect(giftModel);
+        } else if (giftModel.type == 1) {
+            showEffectByUrl(giftModel);
+        }
+    }
+
+    /** 展示网络动画资源 */
+    private void showEffectByUrl(GiftModel giftModel) {
+        playSVGAByUrl(giftModel);
+    }
+
+    private void playSVGAByUrl(GiftModel giftModel) {
+        SVGAImageView svgaImageView = creatSVGAImageView();
+
+        GiftSVGAByUrlStrategy strategy = new GiftSVGAByUrlStrategy();
+
+        GiftSVGAByUrlModel svgaModel = new GiftSVGAByUrlModel();
+        svgaModel.svgaView = svgaImageView;
+        svgaModel.giftModel = giftModel;
+
+        aContainer.addView(svgaImageView);
+        svgaImageView.setVisibility(View.VISIBLE);
+
+        svgaModel.setPlayResultListener(result -> {
+            switch (result) {
+                case START: {
+                    break;
+                }
+                //END和ERROR状态根据具体业务需求去处理，这里资源文件一定存在所以统一处理了
+                case PLAYEND:
+                case PLAYERROR: {
+                    aContainer.post(() -> {
+                        aContainer.removeView(svgaImageView);
+                    });
+                    break;
+                }
+            }
+        });
+        giftDisplayManager.showEffect(svgaModel, strategy);
+    }
+
+    /** 展示本地的资源 */
+    private void showLocalEffect(GiftModel giftModel) {
         switch (giftModel.animationType) {
             case SVGA: {
                 playSVGA(giftModel);

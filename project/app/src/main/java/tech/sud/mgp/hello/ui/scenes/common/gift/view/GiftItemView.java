@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import tech.sud.mgp.hello.R;
+import tech.sud.mgp.hello.common.utils.ImageLoader;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftModel;
 
 public class GiftItemView extends ConstraintLayout {
@@ -17,6 +18,7 @@ public class GiftItemView extends ConstraintLayout {
     private ConstraintLayout itemGiftBg;
     private ImageView itemGiftImgIv;
     private TextView itemGiftNameTv;
+    private TextView tvPrice;
 
     public GiftItemView(@NonNull Context context) {
         super(context);
@@ -38,16 +40,18 @@ public class GiftItemView extends ConstraintLayout {
         itemGiftBg = findViewById(R.id.item_gift_bg);
         itemGiftImgIv = findViewById(R.id.item_gift_img_iv);
         itemGiftNameTv = findViewById(R.id.item_gift_name_tv);
+        tvPrice = findViewById(R.id.tv_price);
     }
 
     public void setModel(GiftModel model) {
-        itemGiftImgIv.setImageResource(model.giftImage);
-        itemGiftNameTv.setText(model.giftName);
-        if (model.checkState) {
-            itemGiftBg.setSelected(true);
+        if (model.type == 0) {
+            ImageLoader.loadDrawable(itemGiftImgIv, model.giftImage);
         } else {
-            itemGiftBg.setSelected(false);
+            ImageLoader.loadImage(itemGiftImgIv, model.giftUrl);
         }
+        itemGiftNameTv.setText(model.giftName);
+        itemGiftBg.setSelected(model.checkState);
+        tvPrice.setText(model.giftPrice + "");
     }
 
 }

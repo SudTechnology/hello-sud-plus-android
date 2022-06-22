@@ -17,6 +17,7 @@ import tech.sud.mgp.hello.ui.scenes.common.gift.manager.stategy.PlayStrategy;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.PlayResult;
 
 public class GiftSVGAStrategy extends PlayStrategy<GiftSVGAModel> {
+
     @Override
     public void play(GiftSVGAModel giftSVGAModel) {
         playSvgaAsset(giftSVGAModel.getResId(), giftSVGAModel.getPath(), giftSVGAModel.getSvgaView(), giftSVGAModel.getPlayResultListener());
@@ -25,12 +26,11 @@ public class GiftSVGAStrategy extends PlayStrategy<GiftSVGAModel> {
     /**
      * 播放svga
      */
-    public void playSvgaAsset(int svgaRes,String path, SVGAImageView svgaView, PlayResultListener listener) {
+    private void playSvgaAsset(int svgaRes, String path, SVGAImageView svgaView, PlayResultListener listener) {
         SVGAParser parser = SVGAParser.Companion.shareParser();
         svgaView.setCallback(new SVGACallback() {
             @Override
             public void onPause() {
-
             }
 
             @Override
@@ -44,12 +44,10 @@ public class GiftSVGAStrategy extends PlayStrategy<GiftSVGAModel> {
 
             @Override
             public void onRepeat() {
-
             }
 
             @Override
             public void onStep(int i, double v) {
-
             }
         });
         InputStream inputStream = svgaView.getResources().openRawResource(svgaRes);

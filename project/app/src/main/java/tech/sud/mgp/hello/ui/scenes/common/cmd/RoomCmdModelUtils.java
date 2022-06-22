@@ -40,11 +40,25 @@ public class RoomCmdModelUtils {
     }
 
     /** 构建发礼消息信令 */
-    public static String buildSendGiftCommand(int giftID, int giftCount, UserInfo toUser) {
+    public static String buildSendGiftCommand(long giftID, int giftCount, UserInfo toUser) {
         RoomCmdSendGiftModel command = new RoomCmdSendGiftModel(getSendUser());
         command.giftID = giftID;
         command.giftCount = giftCount;
         command.toUser = toUser;
+        return command.toJson();
+    }
+
+    /** 构建发礼消息信令 */
+    public static String buildSendGiftCommand(long giftID, int giftCount, UserInfo toUser,
+                                              int type, String giftName, String giftUrl, String animationUrl) {
+        RoomCmdSendGiftModel command = new RoomCmdSendGiftModel(getSendUser());
+        command.giftID = giftID;
+        command.giftCount = giftCount;
+        command.toUser = toUser;
+        command.type = type;
+        command.giftName = giftName;
+        command.giftUrl = giftUrl;
+        command.animationUrl = animationUrl;
         return command.toJson();
     }
 

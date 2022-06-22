@@ -54,6 +54,15 @@ public class ImageLoader {
                 .submit();
     }
 
+    // 加载礼物图片
+    public static void loadSizeGift(View view, String url, int size, RequestListener<Drawable> callback) {
+        if (isDestroy(view)) return;
+        Glide.with(view).asDrawable().load(url)
+                .listener(callback)
+                .override(size, size)
+                .submit();
+    }
+
     // 加载游戏图片
     public static void loadGameCover(ImageView view, String url) {
         if (isDestroy(view)) return;
@@ -111,7 +120,7 @@ public class ImageLoader {
 
                     @Override
                     protected void onResourceCleared(@Nullable Drawable placeholder) {
-                        
+
                     }
                 });
     }

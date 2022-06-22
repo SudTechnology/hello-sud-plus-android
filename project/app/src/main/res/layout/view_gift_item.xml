@@ -1,42 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:minWidth="90dip"
     android:id="@+id/item_gift_bg"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="11dp"
     android:background="@drawable/selector_gift_list"
-    android:layout_height="100dip">
+    app:layout_constraintTop_toTopOf="parent">
 
-    <LinearLayout
-        app:layout_constraintTop_toTopOf="parent"
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/item_gift_img_iv"
+        android:scaleType="fitCenter"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="1dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <tech.sud.mgp.hello.common.widget.view.MarqueeTextView
+        android:id="@+id/item_gift_name_tv"
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:minWidth="85dip"
-        android:gravity="center_horizontal"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:background="@color/transparent"
+        android:gravity="center"
+        android:textSize="12sp"
+        android:textColor="@color/c_ffffff"
+        app:layout_constraintTop_toBottomOf="@id/item_gift_img_iv" />
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/item_gift_img_iv"
-            android:scaleType="fitCenter"
-            android:layout_width="64dp"
-            android:layout_height="64dp" />
+    <View
+        android:id="@+id/view_coin"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:background="@drawable/icon_coin"
+        android:layout_marginTop="9dp"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintTop_toBottomOf="@id/item_gift_name_tv"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tv_price" />
 
-        <TextView
-            android:background="@color/transparent"
-            android:fadingEdge="horizontal"
-            android:gravity="center"
-            android:ellipsize="marquee"
-            android:marqueeRepeatLimit="marquee_forever"
-            android:id="@+id/item_gift_name_tv"
-            android:textSize="12sp"
-            android:singleLine="true"
-            android:textColor="@color/c_ffffff"
-            android:layout_width="82dip"
-            android:layout_height="wrap_content" />
-
-    </LinearLayout>
+    <TextView
+        android:id="@+id/tv_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textColor="@color/c_f6a209"
+        android:layout_marginStart="6dp"
+        app:layout_constraintTop_toTopOf="@id/view_coin"
+        app:layout_constraintBottom_toBottomOf="@id/view_coin"
+        app:layout_constraintStart_toEndOf="@id/view_coin"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,7 +5,9 @@
 
 package tech.sud.mgp.hello.app;
 
+import android.app.Activity;
 import android.app.Application;
+import android.graphics.Point;
 import android.text.TextUtils;
 import android.view.Gravity;
 
@@ -20,7 +22,11 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
+import me.jessyan.autosize.AutoSize;
+import me.jessyan.autosize.AutoSizeConfig;
+import me.jessyan.autosize.onAdaptListener;
 import tech.sud.mgp.hello.BuildConfig;
+import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.ui.scenes.common.gift.manager.GiftHelper;
 
 public class HelloSudApplication extends Application {
@@ -40,7 +46,36 @@ public class HelloSudApplication extends Application {
             configToast();
             registerActivityLifecycleCallbacks(MyActivityManager.getInstance());
             initMinClient();
+            configAutoSize();
         }
+    }
+
+    private void configAutoSize() {
+        AutoSize.checkAndInit(this);
+        AutoSizeConfig.getInstance().setUseDeviceSize(true);
+        AutoSizeConfig.getInstance().setExcludeFontScale(true); //屏蔽系统设置对字体大小的影响
+        AutoSizeConfig.getInstance().setOnAdaptListener(new onAdaptListener() {
+            @Override
+            public void onAdaptBefore(Object target, Activity activity) {
+                setAutoSizeScreenSize();
+            }
+
+            @Override
+            public void onAdaptAfter(Object target, Activity activity) {
+                LogUtils.d("dp2px density=" + activity.getResources().getDisplayMetrics().density);
+            }
+        });
+    }
+
+    /**
+     * @link ScreenUtils.getScreenSize()
+     * 在某些机型上面，竖屏切换到横屏时，适配框架里面的获取屏幕宽高的方法有问题，拿到的宽高值还没有变换过来
+     * 所以使用下面的方法重新设置框架内的屏蔽宽高值
+     */
+    public void setAutoSizeScreenSize() {
+        Point appScreenSize = DensityUtils.getAppScreenSize();
+        AutoSizeConfig.getInstance().setScreenWidth(appScreenSize.x);
+        AutoSizeConfig.getInstance().setScreenHeight(appScreenSize.y);
     }
 
     // 网易云信RTC初始化

@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.blankj.utilcode.util.LogUtils;
 import com.chad.library.adapter.base.BaseProviderMultiAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
@@ -35,7 +36,7 @@ import tech.sud.mgp.hello.service.room.resp.DanmakuListResp;
  */
 public class DanmakuListView extends ConstraintLayout {
 
-    private RecyclerView recyclerView;
+    private RecyclerView recyclerView = new RecyclerView(getContext());
     private MyAdapter adapter = new MyAdapter();
     private DanmakuOnClickListener danmakuOnClickListener;
 
@@ -59,8 +60,9 @@ public class DanmakuListView extends ConstraintLayout {
 
     private void initView() {
         setBackgroundColor(Color.parseColor("#000000"));
-        inflate(getContext(), R.layout.view_danmaku_list, this);
-        recyclerView = findViewById(R.id.recycler_view);
+//        inflate(getContext(), R.layout.view_danmaku_list, this);
+//        recyclerView = findViewById(R.id.recycler_view);
+        addView(recyclerView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         recyclerView.setAdapter(adapter);
     }

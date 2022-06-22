@@ -1,21 +1,26 @@
 package tech.sud.mgp.hello.ui.scenes.danmaku.activity;
 
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ScreenUtils;
 import com.gyf.immersionbar.BarHide;
 import com.gyf.immersionbar.ImmersionBar;
 
 import java.util.List;
 
+import me.jessyan.autosize.AutoSize;
 import me.jessyan.autosize.AutoSizeConfig;
 import me.jessyan.autosize.internal.CustomAdapt;
 import tech.sud.mgp.hello.R;
+import tech.sud.mgp.hello.app.HelloSudApplication;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.common.utils.AnimUtils;
@@ -397,6 +402,14 @@ public class DanmakuActivity extends BaseRoomActivity<AppGameViewModel> implemen
         startVideo();
         showFullscreenWidget();
         checkShowGuide();
+    }
+
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        LogUtils.d("density onConfigurationChanged:" + getResources().getDisplayMetrics().density);
+        HelloSudApplication.instance.setAutoSizeScreenSize();
+        AutoSize.autoConvertDensityOfCustomAdapt(this, this);
     }
 
     private void checkShowGuide() {

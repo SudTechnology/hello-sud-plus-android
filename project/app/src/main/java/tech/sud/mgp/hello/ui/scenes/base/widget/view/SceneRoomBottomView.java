@@ -19,6 +19,7 @@ public class SceneRoomBottomView extends ConstraintLayout {
     private ImageView mIvMicState;
     private TextView mTvInput;
     private View mViewGift;
+    private View leftContainer;
 
     private boolean micOpened = false;
 
@@ -41,6 +42,7 @@ public class SceneRoomBottomView extends ConstraintLayout {
         mIvMicState = findViewById(R.id.iv_mic_state);
         mTvInput = findViewById(R.id.tv_input);
         mViewGift = findViewById(R.id.view_gift);
+        leftContainer = findViewById(R.id.left_container);
     }
 
     public void showMicState() {
@@ -61,6 +63,11 @@ public class SceneRoomBottomView extends ConstraintLayout {
 
     public boolean isMicOpened() {
         return micOpened;
+    }
+
+    /** 设置上麦按钮、麦克风按钮等等，是否显示 */
+    public void setLeftContainerVisibility(int visibility) {
+        leftContainer.setVisibility(visibility);
     }
 
     public void setMicOpened(boolean micOpened) {

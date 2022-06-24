@@ -65,6 +65,7 @@ public class QuizActivity extends AbsAudioRoomActivity<QuizGameViewModel> {
         super.initWidget();
         gameViewModel.gameConfigModel.ui.gameSettle.hide = true; // 隐藏结算界面
         gameViewModel.gameConfigModel.ui.start_btn.custom = true; // 接管游戏的开始按钮事件
+        gameViewModel.gameConfigModel.ui.join_btn.custom = true; // 接管游戏的加入游戏按钮事件
 
         clGuessIWin = findViewById(R.id.cl_guess_i_win);
         TextView tvGuessIWinCount = findViewById(R.id.tv_guess_i_win_count);
@@ -176,6 +177,16 @@ public class QuizActivity extends AbsAudioRoomActivity<QuizGameViewModel> {
                 clickStartGame();
             }
         });
+        gameViewModel.clickJoinBtnLiveData.observe(this, new Observer<Object>() {
+            @Override
+            public void onChanged(Object o) {
+                gameViewModel.joinGame();
+                // 没有开启自动竞猜时，弹窗提示
+                if (!AppData.getInstance().isQuizAutoGuessIWin()) {
+                    showGussIWinConfirmDialog();
+                }
+            }
+        });
         gameViewModel.gameSettleLiveData.observe(this, new Observer<SudMGPMGState.MGCommonGameSettle>() {
             @Override
             public void onChanged(SudMGPMGState.MGCommonGameSettle mgCommonGameSettle) {
@@ -207,7 +218,7 @@ public class QuizActivity extends AbsAudioRoomActivity<QuizGameViewModel> {
         clGuessIWin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clickGussIWin();
+                showGussIWinConfirmDialog();
             }
         });
         viewAutoGuessIWin.setOnClickListener(new View.OnClickListener() {
@@ -273,7 +284,8 @@ public class QuizActivity extends AbsAudioRoomActivity<QuizGameViewModel> {
         }
     }
 
-    private void clickGussIWin() {
+    /** 自动猜自己赢确认弹窗 */
+    private void showGussIWinConfirmDialog() {
         // 游戏进行中时，不可以开启自动猜自己赢
         int gameState = gameViewModel.getGameState();
         if (gameState == SudMGPMGState.MGCommonGameState.LOADING || gameState == SudMGPMGState.MGCommonGameState.PLAYING) {

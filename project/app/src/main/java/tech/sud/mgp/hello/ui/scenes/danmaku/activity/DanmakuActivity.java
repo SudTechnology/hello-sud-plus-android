@@ -163,7 +163,7 @@ public class DanmakuActivity extends BaseRoomActivity<AppGameViewModel> implemen
         viewFullscreen.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (interceptShowAutoLandHint()) {
+                if (isFullscreen) {
                     return;
                 }
                 LifecycleUtils.safeLifecycle(context, new CompletedListener() {

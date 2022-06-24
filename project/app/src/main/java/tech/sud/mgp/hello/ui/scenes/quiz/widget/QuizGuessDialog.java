@@ -22,6 +22,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.app.APPConfig;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
@@ -49,17 +50,19 @@ public class QuizGuessDialog extends BaseDialogFragment {
     private List<Long> players;
     private MyAdapter adapter = new MyAdapter();
     public int spanCount = 3;
+    private int gameState; // 游戏状态
 
     private BetListener betListener;
 
     public int singleGuessMoney = APPConfig.QUIZ_SINGLE_BET_COUNT; // 猜单个人，固定数量
 
-    public static QuizGuessDialog newInstance(long roomId, List<Long> players) {
+    public static QuizGuessDialog newInstance(long roomId, List<Long> players, int gameState) {
         QuizGuessDialog dialog = new QuizGuessDialog();
         Bundle bundle = new Bundle();
         GuessDialogParams params = new GuessDialogParams();
         params.roomId = roomId;
         params.players = players;
+        params.gameState = gameState;
         bundle.putSerializable("params", params);
         dialog.setArguments(bundle);
         return dialog;
@@ -74,6 +77,7 @@ public class QuizGuessDialog extends BaseDialogFragment {
             if (params != null) {
                 roomId = params.roomId;
                 players = params.players;
+                gameState = params.gameState;
             }
         }
     }
@@ -181,14 +185,26 @@ public class QuizGuessDialog extends BaseDialogFragment {
         });
     }
 
+    public void setGameState(int gameState) {
+        this.gameState = gameState;
+        if (tvConfirm != null) {
+            updateConfirmBtn();
+        }
+    }
+
     private void updateConfirmBtn() {
-        List<QuizGamePlayerResp.Player> list = getSelectedList();
-        if (list.size() == 0) {
-            tvConfirm.setEnabled(false);
-            tvConfirm.setText(getString(R.string.affirm_coin, singleGuessMoney + ""));
+        if (gameState == SudMGPMGState.MGCommonGameState.IDLE) {
+            List<QuizGamePlayerResp.Player> list = getSelectedList();
+            if (list.size() == 0) {
+                tvConfirm.setEnabled(false);
+                tvConfirm.setText(getString(R.string.affirm_coin, singleGuessMoney + ""));
+            } else {
+                tvConfirm.setEnabled(true);
+                tvConfirm.setText(getString(R.string.affirm_coin, (singleGuessMoney * list.size()) + ""));
+            }
         } else {
-            tvConfirm.setEnabled(true);
-            tvConfirm.setText(getString(R.string.affirm_coin, (singleGuessMoney * list.size()) + ""));
+            tvConfirm.setEnabled(false);
+            tvConfirm.setText(R.string.is_end);
         }
     }
 
@@ -250,6 +266,7 @@ public class QuizGuessDialog extends BaseDialogFragment {
     public static class GuessDialogParams implements Serializable {
         public long roomId;
         public List<Long> players;
+        public int gameState;
     }
 
     public void setBetListener(BetListener betListener) {

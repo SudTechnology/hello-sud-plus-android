@@ -444,6 +444,7 @@ Go to homepage to create one~</string>
     <string name="danmaku_enter_intercept">请使用即构RTC体验</string>
     <string name="join_team">加入战队</string>
     <string name="gold_coin_count">%1$s金币</string>
+    <string name="is_end">已截止</string>
     <!-- endregion 新增 -->
 
 </resources>

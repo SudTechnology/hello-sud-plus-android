@@ -20,6 +20,7 @@ import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.SudMGPWrapper.utils.SudJsonUtils;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.app.APPConfig;
+import tech.sud.mgp.hello.common.base.BaseDialogFragment;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
@@ -48,6 +49,7 @@ public class QuizActivity extends AbsAudioRoomActivity<QuizGameViewModel> {
     private ConstraintLayout clGuessIWin;
     private ConstraintLayout viewAutoGuessIWin; // 已经开启了自动猜自己赢
     private List<QuizGamePlayerResp.Player> playerList; // 游戏玩家列表
+    private QuizGuessDialog quizGuessDialog;
 
     @Override
     protected QuizGameViewModel initGameViewModel() {
@@ -168,6 +170,9 @@ public class QuizActivity extends AbsAudioRoomActivity<QuizGameViewModel> {
                 boolean autoGuessIWin = checkAutoGuessIWin(gameState);
                 if (!autoGuessIWin) {
                     getPlayers();
+                }
+                if (quizGuessDialog != null) {
+                    quizGuessDialog.setGameState(gameState);
                 }
             }
         });
@@ -337,14 +342,25 @@ public class QuizActivity extends AbsAudioRoomActivity<QuizGameViewModel> {
 
     /** 点击了顶部猜输赢按钮 */
     private void clickGuess() {
-        QuizGuessDialog dialog = QuizGuessDialog.newInstance(roomInfoModel.roomId, gameViewModel.getPlayers());
+        if (quizGuessDialog != null) {
+            quizGuessDialog.dismiss();
+            quizGuessDialog = null;
+        }
+        QuizGuessDialog dialog = QuizGuessDialog.newInstance(roomInfoModel.roomId, gameViewModel.getPlayers(), gameViewModel.getGameState());
         dialog.setBetListener(new QuizGuessDialog.BetListener() {
             @Override
             public void onSelected(List<QuizGamePlayerResp.Player> list) {
                 betPlayer(list);
             }
         });
+        dialog.setOnDestroyListener(new BaseDialogFragment.OnDestroyListener() {
+            @Override
+            public void onDestroy() {
+                quizGuessDialog = null;
+            }
+        });
         dialog.show(getSupportFragmentManager(), null);
+        quizGuessDialog = dialog;
     }
 
     /** 给玩家下注 */

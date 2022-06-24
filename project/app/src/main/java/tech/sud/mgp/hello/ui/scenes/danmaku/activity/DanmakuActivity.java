@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ScreenUtils;
@@ -189,7 +191,12 @@ public class DanmakuActivity extends BaseRoomActivity<AppGameViewModel> implemen
         dialog.setCompletedListener(new CompletedListener() {
             @Override
             public void onCompleted() {
-                startFullscreen();
+                LifecycleUtils.safeLifecycle(context, new CompletedListener() {
+                    @Override
+                    public void onCompleted() {
+                        startFullscreen();
+                    }
+                });
             }
         });
         dialog.show(getSupportFragmentManager(), null);
@@ -395,6 +402,7 @@ public class DanmakuActivity extends BaseRoomActivity<AppGameViewModel> implemen
 
     /** 开启全屏 */
     private void startFullscreen() {
+        dismissAllDialog();
         AppData.getInstance().setDanmakuLandHintCompleted(true);
         isFullscreen = true;
         stopVideo();
@@ -405,6 +413,16 @@ public class DanmakuActivity extends BaseRoomActivity<AppGameViewModel> implemen
         startVideo();
         showFullscreenWidget();
         checkShowGuide();
+    }
+
+    private void dismissAllDialog() {
+        List<Fragment> fragments = getSupportFragmentManager().getFragments();
+        for (Fragment fragment : fragments) {
+            if (fragment instanceof DialogFragment) {
+                DialogFragment dialogFragment = (DialogFragment) fragment;
+                dialogFragment.dismiss();
+            }
+        }
     }
 
     @Override

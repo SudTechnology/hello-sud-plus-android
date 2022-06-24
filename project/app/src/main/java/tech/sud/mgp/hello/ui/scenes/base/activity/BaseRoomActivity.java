@@ -741,6 +741,14 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         }
     }
 
+    /** 获取初始化礼物弹窗时的麦位数据 */
+    protected List<AudioRoomMicModel> getGiftDialogMicList() {
+        if (binder != null) {
+            return binder.getMicList();
+        }
+        return null;
+    }
+
     /**
      * 1.如果送给单个对象
      * underUser:代表送礼人信息
@@ -752,9 +760,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
     private void showSendGiftDialog(UserInfo underUser, int index) {
         roomGiftDialog = RoomGiftDialog.newInstance(roomInfoModel.sceneType, roomInfoModel.gameId);
         if (underUser == null) {
-            if (binder != null) {
-                roomGiftDialog.setMicUsers(binder.getMicList(), index);
-            }
+            roomGiftDialog.setMicUsers(getGiftDialogMicList(), index);
         } else {
             roomGiftDialog.setToUser(underUser);
         }
@@ -893,13 +899,18 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
     public void onMicList(List<AudioRoomMicModel> list) {
         micView.setList(list);
         if (roomGiftDialog != null) {
-            roomGiftDialog.updateMicUsers(list);
+            roomGiftDialog.updateMicUsers(getGiftDialogMicList());
         }
     }
 
     @Override
     public void notifyMicItemChange(int micIndex, AudioRoomMicModel model) {
         micView.notifyItemChange(micIndex, model);
+        updateGiftDialogMicUsers(model);
+    }
+
+    /** 更新礼物弹窗上面的麦位数据 */
+    protected void updateGiftDialogMicUsers(AudioRoomMicModel model) {
         if (roomGiftDialog != null) {
             roomGiftDialog.updateOneMicUsers(model);
         }

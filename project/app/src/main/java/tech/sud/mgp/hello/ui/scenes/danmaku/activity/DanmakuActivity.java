@@ -14,6 +14,7 @@ import com.blankj.utilcode.util.ScreenUtils;
 import com.gyf.immersionbar.BarHide;
 import com.gyf.immersionbar.ImmersionBar;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import me.jessyan.autosize.AutoSize;
@@ -548,6 +549,32 @@ public class DanmakuActivity extends BaseRoomActivity<AppGameViewModel> implemen
     protected void businessAutoUpMic() {
         if (roomInfoModel != null && roomInfoModel.roleType == RoleType.OWNER) {
             super.businessAutoUpMic();
+        }
+    }
+
+    /** 获取初始化礼物弹窗时的麦位数据 */
+    @Override
+    protected List<AudioRoomMicModel> getGiftDialogMicList() {
+        if (binder != null) {
+            List<AudioRoomMicModel> filterList = new ArrayList<>();
+            List<AudioRoomMicModel> micList = binder.getMicList();
+            if (micList != null) {
+                for (AudioRoomMicModel model : micList) {
+                    if (model.roleType == RoleType.OWNER) {
+                        filterList.add(model);
+                    }
+                }
+            }
+            return filterList;
+        }
+        return null;
+    }
+
+    /** 更新礼物弹窗上面的麦位数据 */
+    @Override
+    protected void updateGiftDialogMicUsers(AudioRoomMicModel model) {
+        if (model.roleType == RoleType.OWNER) {
+            super.updateGiftDialogMicUsers(model);
         }
     }
 

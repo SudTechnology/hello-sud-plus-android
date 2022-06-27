@@ -1,10 +1,14 @@
 package tech.sud.mgp.hello.ui.scenes.quiz.activity;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -46,6 +50,7 @@ import tech.sud.mgp.hello.ui.scenes.quiz.widget.QuizSettleDialog;
 public class QuizActivity extends AbsAudioRoomActivity<QuizGameViewModel> {
 
     private TextView tvGuess;
+    private View viewFinger;
     private ConstraintLayout clGuessIWin;
     private ConstraintLayout viewAutoGuessIWin; // 已经开启了自动猜自己赢
     private List<QuizGamePlayerResp.Player> playerList; // 游戏玩家列表
@@ -70,6 +75,7 @@ public class QuizActivity extends AbsAudioRoomActivity<QuizGameViewModel> {
         gameViewModel.gameConfigModel.ui.join_btn.custom = true; // 接管游戏的加入游戏按钮事件
 
         clGuessIWin = findViewById(R.id.cl_guess_i_win);
+        viewFinger = findViewById(R.id.view_finger);
         TextView tvGuessIWinCount = findViewById(R.id.tv_guess_i_win_count);
 
         // 增加猜输赢按钮
@@ -81,6 +87,8 @@ public class QuizActivity extends AbsAudioRoomActivity<QuizGameViewModel> {
         tvGuess.setBackgroundResource(R.drawable.shape_quiz_top_tv_bg);
         topView.addCustomView(tvGuess, (LinearLayout.LayoutParams) tvGuess.getLayoutParams());
         tvGuess.setVisibility(View.GONE);
+
+        viewFinger.setVisibility(View.GONE);
 
         // 增加自动竞猜按钮
         createAutoGuessIWinView(marginEnd);
@@ -395,6 +403,7 @@ public class QuizActivity extends AbsAudioRoomActivity<QuizGameViewModel> {
     private void updateGuessState() {
         if (playingGameId == 0 || !gameViewModel.gameLoadingCompleted()) {
             tvGuess.setVisibility(View.GONE);
+            viewFinger.setVisibility(View.GONE);
             clGuessIWin.setVisibility(View.GONE);
             viewAutoGuessIWin.setVisibility(View.GONE);
             return;
@@ -402,6 +411,7 @@ public class QuizActivity extends AbsAudioRoomActivity<QuizGameViewModel> {
         // 游戏已加载完成，游戏未开始，才判断是显示猜自己赢还是猜别的玩家赢
         if (gameViewModel.isSelfInGame()) { // 自己是玩家
             tvGuess.setVisibility(View.GONE);
+            viewFinger.setVisibility(View.GONE);
             if (AppData.getInstance().isQuizAutoGuessIWin()) {
                 viewAutoGuessIWin.setVisibility(View.VISIBLE);
                 clGuessIWin.setVisibility(View.GONE);
@@ -411,9 +421,55 @@ public class QuizActivity extends AbsAudioRoomActivity<QuizGameViewModel> {
             }
         } else {
             tvGuess.setVisibility(View.VISIBLE);
+            int gameState = gameViewModel.getGameState();
+            if (gameState == SudMGPMGState.MGCommonGameState.LOADING || gameState == SudMGPMGState.MGCommonGameState.PLAYING) {
+                viewFinger.setVisibility(View.GONE);
+            } else {
+                viewFinger.setVisibility(View.VISIBLE);
+            }
+            setFingerLocation();
             clGuessIWin.setVisibility(View.GONE);
             viewAutoGuessIWin.setVisibility(View.GONE);
         }
+    }
+
+    private void setFingerLocation() {
+        tvGuess.post(new Runnable() {
+            @Override
+            public void run() {
+                int[] location = new int[2];
+                tvGuess.getLocationInWindow(location);
+                ViewGroup.LayoutParams params = viewFinger.getLayoutParams();
+                if (params instanceof ViewGroup.MarginLayoutParams) {
+                    ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) params;
+                    marginLayoutParams.leftMargin = location[0] + tvGuess.getMeasuredWidth() - DensityUtils.dp2px(2);
+                    marginLayoutParams.topMargin = location[1] + tvGuess.getMeasuredHeight();
+                    viewFinger.setLayoutParams(params);
+                }
+                startFingerAnim();
+            }
+        });
+    }
+
+    private void startFingerAnim() {
+        Object tag = viewFinger.getTag(R.id.obj);
+        if (tag != null) return;
+
+        AnimatorSet animatorSet = new AnimatorSet();
+
+        ObjectAnimator animatorX = ObjectAnimator.ofFloat(viewFinger, "translationX", 0f, -DensityUtils.dp2px(10));
+        ObjectAnimator animatorY = ObjectAnimator.ofFloat(viewFinger, "translationY", 0f, -DensityUtils.dp2px(13));
+        animatorX.setRepeatCount(ObjectAnimator.INFINITE);
+        animatorY.setRepeatCount(ObjectAnimator.INFINITE);
+        animatorX.setRepeatMode(ObjectAnimator.REVERSE);
+        animatorY.setRepeatMode(ObjectAnimator.REVERSE);
+
+        animatorSet.playTogether(animatorX, animatorY);
+        animatorSet.setInterpolator(new AccelerateInterpolator());
+        animatorSet.setDuration(500);
+        animatorSet.start();
+
+        viewFinger.setTag(R.id.obj, animatorSet);
     }
 
 }

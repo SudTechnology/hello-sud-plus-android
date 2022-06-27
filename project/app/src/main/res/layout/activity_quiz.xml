@@ -51,4 +51,13 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <!-- 指示猜输赢的View -->
+    <View
+        android:id="@+id/view_finger"
+        android:layout_width="31dp"
+        android:layout_height="26dp"
+        android:background="@drawable/ic_finger"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

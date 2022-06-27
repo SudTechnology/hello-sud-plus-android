@@ -244,7 +244,7 @@ public class QuizActivity extends AbsAudioRoomActivity<QuizGameViewModel> {
                     return;
                 }
                 SimpleChooseDialog dialog = new SimpleChooseDialog(context, getString(R.string.close_auto_guess_i_win_title),
-                        getString(R.string.order_finish_left_text), getString(R.string.confirm_close));
+                        getString(R.string.order_finish_left_text), getString(R.string.close));
                 dialog.setOnChooseListener(new SimpleChooseDialog.OnChooseListener() {
                     @Override
                     public void onChoose(int index) {

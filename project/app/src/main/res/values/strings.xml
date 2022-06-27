@@ -421,7 +421,6 @@ Go to homepage to create one~</string>
     <string name="game_playing_close_quiz_warn">游戏进行中，暂不可关闭竞猜</string>
     <string name="auto_quiz">自动竞猜</string>
     <string name="close_auto_guess_i_win_title">是否关闭每轮自动猜自己赢?</string>
-    <string name="confirm_close">确认关闭</string>
     <string name="quiz_bet_msg">%1$s 为 %2$s 打call，猜TA会赢！</string>
     <string name="quiz_guess_i_win_msg">%1$s 胸有成竹，猜自己一定能赢！</string>
     <string name="game_player_empty">暂无玩家游戏中，请稍候再来</string>

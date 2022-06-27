@@ -4,8 +4,10 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.TextView;
 
 import tech.sud.mgp.hello.R;
+import tech.sud.mgp.hello.app.APPConfig;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
 
 /**
@@ -39,6 +41,8 @@ public class GuessIWinDialog extends BaseDialogFragment {
     @Override
     protected void initWidget() {
         super.initWidget();
+        TextView tvHint = findViewById(R.id.tv_hint_auto_hint);
+        tvHint.setText(getString(R.string.each_round_coin, APPConfig.QUIZ_SINGLE_BET_COUNT + ""));
     }
 
     @Override

@@ -44,6 +44,9 @@ public class HomeItemView extends FrameLayout {
             case SceneType.QUIZ:
                 view = new HomeQuizItemView(getContext());
                 break;
+            case SceneType.DISCO:
+                view = new HomeDiscoItemView(getContext());
+                break;
             default:
                 view = new HomeNormalItemView(getContext());
                 break;

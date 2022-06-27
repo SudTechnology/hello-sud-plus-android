@@ -71,7 +71,7 @@ public class HomeNormalItemView extends ConstraintLayout implements IHomeChildIt
             @Override
             public void onClick(View v) {
                 if (creatRoomClickListener != null && createEnable) {
-                    creatRoomClickListener.onCreateRoomClick(sceneModel);
+                    creatRoomClickListener.onCreateRoomClick(sceneModel, null);
                 }
             }
         });

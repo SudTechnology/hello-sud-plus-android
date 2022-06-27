@@ -184,7 +184,13 @@ public class HomeFragment extends BaseFragment implements CreatRoomClickListener
                     view.setMoreActivityOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            startActivity(new Intent(context, MoreQuizActivity.class));
+                            switch (model.sceneId) {
+                                case SceneType.QUIZ:
+                                    startActivity(new Intent(context, MoreQuizActivity.class));
+                                    break;
+                                case SceneType.DISCO:
+                                    break;
+                            }
                         }
                     });
                     sceneLayout.addView(view);
@@ -272,23 +278,14 @@ public class HomeFragment extends BaseFragment implements CreatRoomClickListener
         }
     }
 
-    @Override
-    public void onCreateRoomClick(SceneModel sceneModel) {
-        //创建房间
-        if (sceneModel != null) {
-            switch (sceneModel.getSceneId()) {
-                case SceneType.TICKET:
-                    new CreateTicketRoomDialog().show(getChildFragmentManager(), null);
-                    break;
-                default:
-                    creatRoom(sceneModel.getSceneId());
-                    break;
-            }
+    private void createRoom(Integer sceneType, GameModel gameModel) {
+        Long gameId;
+        if (gameModel == null) {
+            gameId = null;
+        } else {
+            gameId = gameModel.gameId;
         }
-    }
-
-    private void creatRoom(Integer sceneType) {
-        HomeRepository.creatRoom(sceneType, null, this, new RxCallback<CreatRoomResp>() {
+        HomeRepository.creatRoom(sceneType, gameId, null, this, new RxCallback<CreatRoomResp>() {
             @Override
             public void onNext(BaseResponse<CreatRoomResp> t) {
                 super.onNext(t);
@@ -297,6 +294,21 @@ public class HomeFragment extends BaseFragment implements CreatRoomClickListener
                 }
             }
         });
+    }
+
+    @Override
+    public void onCreateRoomClick(SceneModel sceneModel, GameModel gameModel) {
+        //创建房间
+        if (sceneModel != null) {
+            switch (sceneModel.getSceneId()) {
+                case SceneType.TICKET:
+                    new CreateTicketRoomDialog().show(getChildFragmentManager(), null);
+                    break;
+                default:
+                    createRoom(sceneModel.getSceneId(), gameModel);
+                    break;
+            }
+        }
     }
 
 }

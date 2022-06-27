@@ -25,6 +25,8 @@ import tech.sud.mgp.SudMGPWrapper.utils.SudJsonUtils;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.app.APPConfig;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
+import tech.sud.mgp.hello.common.http.param.BaseResponse;
+import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
@@ -273,6 +275,18 @@ public class QuizActivity extends AbsAudioRoomActivity<QuizGameViewModel> {
     private boolean checkAutoGuessIWin(Integer gameState) {
         if (AppData.getInstance().isQuizAutoGuessIWin() && gameState == SudMGPMGState.MGCommonGameState.LOADING) {
             HomeRepository.quizBet(context, QuizBetReq.QUIZ_TYPE_GAME, APPConfig.QUIZ_SINGLE_BET_COUNT, HSUserInfo.userId, new RxCallback<Object>() {
+
+                @Override
+                public void onNext(BaseResponse<Object> t) {
+                    super.onNext(t);
+                    if (t.getRetCode() == RetCode.RET_USER_BALANCE_NOT_ENOUGH) {
+                        // 余额不足，关闭自动竞猜
+                        if (AppData.getInstance().isQuizAutoGuessIWin()) {
+                            closeAutoGuessIWin();
+                        }
+                    }
+                }
+
                 @Override
                 public void onSuccess(Object o) {
                     super.onSuccess(o);

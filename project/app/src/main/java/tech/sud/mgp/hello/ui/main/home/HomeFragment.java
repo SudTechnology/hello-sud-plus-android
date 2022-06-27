@@ -44,6 +44,7 @@ import tech.sud.mgp.hello.ui.main.home.view.homeitem.GameItemListener;
 import tech.sud.mgp.hello.ui.main.home.view.homeitem.HomeItemView;
 import tech.sud.mgp.hello.ui.main.widget.CreateTicketRoomDialog;
 import tech.sud.mgp.hello.ui.scenes.base.utils.EnterRoomUtils;
+import tech.sud.mgp.hello.ui.scenes.disco.activity.DiscoRankingActivity;
 import tech.sud.mgp.hello.ui.scenes.quiz.activity.MoreQuizActivity;
 import tech.sud.mgp.hello.ui.scenes.ticket.activity.TicketLevelActivity;
 import tech.sud.mgp.hello.ui.scenes.ticket.model.TicketLevelParams;
@@ -189,6 +190,7 @@ public class HomeFragment extends BaseFragment implements CreatRoomClickListener
                                     startActivity(new Intent(context, MoreQuizActivity.class));
                                     break;
                                 case SceneType.DISCO:
+                                    startActivity(new Intent(context, DiscoRankingActivity.class));
                                     break;
                             }
                         }

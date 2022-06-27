@@ -224,6 +224,20 @@
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
 
+        <!-- 蹦迪排行榜页面 -->
+        <activity
+            android:name=".ui.scenes.disco.activity.DiscoRankingActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+
+        <!-- 蹦迪排行榜说明页面 -->
+        <activity
+            android:name=".ui.scenes.disco.activity.DiscoRankingExplainActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+
         <!-- 透明Activity -->
         <activity
             android:name=".ui.common.activity.MyTranslucentActivity"

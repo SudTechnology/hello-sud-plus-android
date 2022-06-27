@@ -444,6 +444,14 @@ Go to homepage to create one~</string>
     <string name="join_team">加入战队</string>
     <string name="gold_coin_count">%1$s金币</string>
     <string name="is_end">已截止</string>
+    <string name="disco_ranking">蹦迪排行</string>
+    <string name="explain">说明</string>
+    <string name="focus_king">焦点王</string>
+    <string name="popular_anchors_list">人气主播榜</string>
+    <string name="focus_king_title">获得特写(次)</string>
+    <string name="popular_anchors_list_title">被邀约(次)</string>
+    <string name="disco_ranking_explain">蹦迪排行说明</string>
+    <string name="disco_ranking_explain_content">榜单周期：周一0点至周日24点，每个自然周为一个榜单周期\n\n焦点王：\n云蹦迪场中，角色获得特写的次数排行\n\n人气主播榜：\n云蹦迪场中，被邀请跳舞的次数排行</string>
     <!-- endregion 新增 -->
 
 </resources>

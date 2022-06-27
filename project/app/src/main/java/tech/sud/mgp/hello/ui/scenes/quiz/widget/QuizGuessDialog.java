@@ -163,6 +163,9 @@ public class QuizGuessDialog extends BaseDialogFragment {
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> baseQuickAdapter, @NonNull View view, int position) {
+                if (gameState != SudMGPMGState.MGCommonGameState.IDLE) {
+                    return;
+                }
                 QuizGamePlayerResp.Player item = adapter.getItem(position);
                 if (item.support) return;
                 item.isSelected = !item.isSelected;

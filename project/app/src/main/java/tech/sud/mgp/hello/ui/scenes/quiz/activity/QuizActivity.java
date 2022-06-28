@@ -282,7 +282,7 @@ public class QuizActivity extends AbsAudioRoomActivity<QuizGameViewModel> {
      * 开启了自动猜自己赢并且游戏状态是在loading状态
      */
     private boolean checkAutoGuessIWin(Integer gameState) {
-        if (AppData.getInstance().isQuizAutoGuessIWin() && gameState == SudMGPMGState.MGCommonGameState.LOADING) {
+        if (gameViewModel.isSelfInGame() && AppData.getInstance().isQuizAutoGuessIWin() && gameState == SudMGPMGState.MGCommonGameState.LOADING) {
             HomeRepository.quizBet(context, QuizBetReq.QUIZ_TYPE_GAME, APPConfig.QUIZ_SINGLE_BET_COUNT, HSUserInfo.userId, new RxCallback<Object>() {
 
                 @Override

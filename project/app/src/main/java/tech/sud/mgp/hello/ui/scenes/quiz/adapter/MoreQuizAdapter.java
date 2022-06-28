@@ -48,7 +48,8 @@ public class MoreQuizAdapter extends BaseQuickAdapter<GameModel, BaseViewHolder>
 
         // 入场
         if (model.ticketCoin == 0) {
-            holder.setText(R.id.tv_entrance, R.string.free);
+            holder.setText(R.id.tv_entrance, getContext().getString(R.string.entrance) + " "
+                    + getContext().getString(R.string.free));
         } else {
             holder.setText(R.id.tv_entrance, getContext().getString(R.string.entrance) + " "
                     + model.ticketCoin + getContext().getString(R.string.gold_coin));

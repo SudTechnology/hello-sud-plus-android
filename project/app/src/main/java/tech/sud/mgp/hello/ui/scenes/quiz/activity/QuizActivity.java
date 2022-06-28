@@ -170,7 +170,16 @@ public class QuizActivity extends AbsAudioRoomActivity<QuizGameViewModel> {
         gameViewModel.gameLoadingCompletedLiveData.observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean isCompleted) {
-                updateGuessState();
+                if (isCompleted) {
+                    tvGuess.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            updateGuessState();
+                        }
+                    }, 1000);
+                } else {
+                    updateGuessState();
+                }
             }
         });
         gameViewModel.gameStateChangedLiveData.observe(this, new Observer<Integer>() {

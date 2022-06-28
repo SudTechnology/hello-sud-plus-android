@@ -284,7 +284,6 @@ public class QuizActivity extends AbsAudioRoomActivity<QuizGameViewModel> {
     private boolean checkAutoGuessIWin(Integer gameState) {
         if (gameViewModel.isSelfInGame() && AppData.getInstance().isQuizAutoGuessIWin() && gameState == SudMGPMGState.MGCommonGameState.LOADING) {
             HomeRepository.quizBet(context, QuizBetReq.QUIZ_TYPE_GAME, APPConfig.QUIZ_SINGLE_BET_COUNT, HSUserInfo.userId, new RxCallback<Object>() {
-
                 @Override
                 public void onNext(BaseResponse<Object> t) {
                     super.onNext(t);
@@ -293,12 +292,20 @@ public class QuizActivity extends AbsAudioRoomActivity<QuizGameViewModel> {
                         if (AppData.getInstance().isQuizAutoGuessIWin()) {
                             closeAutoGuessIWin();
                         }
+                        ToastUtils.showLong(R.string.close_auto_guess_warn);
                     }
                 }
 
                 @Override
-                public void onSuccess(Object o) {
-                    super.onSuccess(o);
+                protected void showToast(BaseResponse<Object> t) {
+                    if (t.getRetCode() != RetCode.RET_USER_BALANCE_NOT_ENOUGH) {
+                        super.showToast(t);
+                    }
+                }
+
+                @Override
+                public void onFinally() {
+                    super.onFinally();
                     getPlayers();
                 }
             });

@@ -14,6 +14,7 @@ import java.util.List;
  */
 public class SudMGPAPPState implements Serializable {
 
+    // region 通用状态
     /**
      * 1. 加入状态
      * 最低版本: v1.1.30.xx
@@ -275,5 +276,25 @@ public class SudMGPAPPState implements Serializable {
         public String name; // 名字
         public String gender; // 性别 male：男，female：女
     }
+    // endregion 通用状态
+
+    // region 元宇宙砂砂舞
+    /**
+     * 1. 元宇宙砂砂舞相关设置
+     * 参考文档：https://docs.sud.tech/zh-CN/app/Client/APPFST/CommonStateForDisco.html
+     */
+    public static final String APP_COMMON_GAME_DISCO_ACTION = "app_common_game_disco_action";
+
+    /**
+     * 1. 元宇宙砂砂舞相关设置 模型
+     */
+    public static class AppCommonGameDiscoAction implements Serializable {
+        public int actionId; // 必传的参数，用于指定类型的序号，不同序号用于区分游戏内的不同功能，不传则会判断为无效指令，具体序号代表的功能见下表
+        public Integer cooldown; // 持续时间，单位秒，部分功能有持续时间就需要传对应的数值，不传或传错则会按各自功能的默认值处理（见下表）
+        public Boolean isTop; // 是否置顶，针对部分功能可排队置顶（false：不置顶；true：置顶；默认为false）
+        public String field1; // 额外参数1，针对部分功能有具体的意义
+        public String field2; // 额外参数2，针对部分功能有具体的意义
+    }
+    // endregion 元宇宙砂砂舞
 
 }

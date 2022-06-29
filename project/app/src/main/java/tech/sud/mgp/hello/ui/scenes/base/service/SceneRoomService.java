@@ -19,6 +19,7 @@ import java.util.List;
 import tech.sud.mgp.hello.common.event.ChangeRTCEvent;
 import tech.sud.mgp.hello.common.event.EnterRoomEvent;
 import tech.sud.mgp.hello.common.event.LiveEventBusKey;
+import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.ui.common.utils.channel.NotifyId;
 import tech.sud.mgp.hello.ui.main.home.model.RoomItemModel;
 import tech.sud.mgp.hello.ui.scenes.base.activity.RoomConfig;
@@ -137,6 +138,9 @@ public class SceneRoomService extends Service {
             // 3.首次进入
             sceneRoomData.roomInfoModel = model;
             serviceManager.enterRoom(config, startClass, model);
+
+            // 重新进房之后，关闭自动猜自己赢
+            AppData.getInstance().setQuizAutoGuessIWin(false);
         }
 
         /**

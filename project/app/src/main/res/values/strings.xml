@@ -453,6 +453,9 @@ Go to homepage to create one~</string>
     <string name="disco_ranking_explain">蹦迪排行说明</string>
     <string name="disco_ranking_explain_content">榜单周期：周一0点至周日24点，每个自然周为一个榜单周期\n\n焦点王：\n云蹦迪场中，角色获得特写的次数排行\n\n人气主播榜：\n云蹦迪场中，被邀请跳舞的次数排行</string>
     <string name="close_auto_guess_warn">余额不足，自动竞猜已关闭，快去充值吧~</string>
+    <string name="start_disco">开启蹦迪</string>
+    <string name="close_disco">关闭蹦迪</string>
+    <string name="close_disco_title">确定要关闭蹦迪吗？\n关闭后本场蹦迪将清空，包括正在进行中的跳舞、排队中的跳舞、角色特效等</string>
     <!-- endregion 新增 -->
 
 </resources>

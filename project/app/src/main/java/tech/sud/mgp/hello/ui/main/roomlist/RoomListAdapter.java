@@ -147,6 +147,14 @@ public class RoomListAdapter extends BaseQuickAdapter<RoomItemModel, BaseViewHol
                 color.colorBg = Color.parseColor("#198de2");
                 color.colorText = Color.parseColor("#FFFFFF");
                 break;
+            case SceneType.DANMAKU:
+                color.colorBg = Color.parseColor("#00cbd2");
+                color.colorText = Color.parseColor("#FFFFFF");
+                break;
+            case SceneType.DISCO:
+                color.colorBg = Color.parseColor("#dd01cb");
+                color.colorText = Color.parseColor("#FFFFFF");
+                break;
             default:
                 color.colorBg = Color.parseColor("#f5f5f5");
                 color.colorText = Color.parseColor("#999999");

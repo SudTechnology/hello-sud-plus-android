@@ -20,4 +20,6 @@ public class RoomInfoModel implements Serializable {
     public Integer gameLevel; // 门票场景游戏级别 从1开始
     public RoomPkModel roomPkModel; // PK 结果
     public String streamId; // 流id(弹幕游戏用)
+
+    public long initGameId; // 用于记录初始的游戏id
 }

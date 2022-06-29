@@ -346,4 +346,31 @@ public class SudFSTAPPDecorator {
         }
     }
 
+    // region 元宇宙砂砂舞
+
+    /**
+     * 发送
+     * 1. 元宇宙砂砂舞相关设置
+     * 参考文档：https://docs.sud.tech/zh-CN/app/Client/APPFST/CommonStateForDisco.html
+     *
+     * @param actionId 必传的参数，用于指定类型的序号，不同序号用于区分游戏内的不同功能，不传则会判断为无效指令，具体序号代表的功能见下表
+     * @param cooldown 持续时间，单位秒，部分功能有持续时间就需要传对应的数值，不传或传错则会按各自功能的默认值处理（见下表）
+     * @param isTop    是否置顶，针对部分功能可排队置顶（false：不置顶；true：置顶；默认为false）
+     * @param field1   额外参数1，针对部分功能有具体的意义
+     * @param field2   额外参数2，针对部分功能有具体的意义
+     */
+    public void notifyAppCommonGameDiscoAction(int actionId, Integer cooldown, Boolean isTop, String field1, String field2) {
+        ISudFSTAPP iSudFSTAPP = this.iSudFSTAPP;
+        if (iSudFSTAPP != null) {
+            SudMGPAPPState.AppCommonGameDiscoAction state = new SudMGPAPPState.AppCommonGameDiscoAction();
+            state.actionId = actionId;
+            state.cooldown = cooldown;
+            state.isTop = isTop;
+            state.field1 = field1;
+            state.field2 = field2;
+            iSudFSTAPP.notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_DISCO_ACTION, SudJsonUtils.toJson(state), null);
+        }
+    }
+    // endregion 元宇宙砂砂舞
+
 }

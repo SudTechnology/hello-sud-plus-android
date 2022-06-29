@@ -26,6 +26,7 @@ import tech.sud.mgp.SudMGPWrapper.utils.ISudFSMStateHandleUtils;
 import tech.sud.mgp.core.ISudFSMStateHandle;
 import tech.sud.mgp.core.ISudFSTAPP;
 import tech.sud.mgp.core.ISudListenerInitSDK;
+import tech.sud.mgp.core.ISudListenerNotifyStateChange;
 import tech.sud.mgp.core.SudMGP;
 import tech.sud.mgp.hello.app.APPConfig;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
@@ -475,7 +476,7 @@ public class AppGameViewModel implements SudFSMMGListener {
         if (msg == null || msg.isEmpty()) {
             return;
         }
-        //数字炸弹
+        // 数字炸弹
         if (sudFSMMGDecorator.isHitBomb() && HSTextUtils.isInteger(msg)) {
             sudFSTAPPDecorator.notifyAPPCommonSelfTextHitState(false, null, msg, null, null, null);
             return;
@@ -484,7 +485,7 @@ public class AppGameViewModel implements SudFSMMGListener {
         if (keyword == null || keyword.isEmpty()) {
             return;
         }
-        if (msg.contains(keyword)) { //命中
+        if (msg.contains(keyword)) { // 命中
             sudFSTAPPDecorator.notifyAPPCommonSelfTextHitState(true, keyword, msg, null, null, null);
             gameKeywordLiveData.setValue(null);
         }
@@ -514,7 +515,12 @@ public class AppGameViewModel implements SudFSMMGListener {
         return sudFSMMGDecorator.playerIsPlaying(userId);
     }
 
-    // 队长结束游戏
+    /**
+     * 队长结束游戏。提前结束游戏的条件:
+     * 1.游戏已经加载完成（onGameStarted()回调之后），并且游戏正在进行中
+     * 2.必须由游戏队长来调用才有效
+     * 3.发送此状态之后，不能立即finish Activity或者destroyMG，建议delay(500ms)之后再执行销毁的逻辑。
+     */
     public void finishGame() {
         sudFSTAPPDecorator.notifyAPPCommonSelfEnd();
     }
@@ -591,6 +597,17 @@ public class AppGameViewModel implements SudFSMMGListener {
             }
         }
         return false;
+    }
+
+    /**
+     * APP状态通知给小游戏
+     *
+     * @param state    状态标识
+     * @param dataJson 数据
+     * @param listener 回调监听
+     */
+    public void notifyStateChange(String state, String dataJson, ISudListenerNotifyStateChange listener) {
+        sudFSTAPPDecorator.notifyStateChange(state, dataJson, listener);
     }
 
     // region 游戏侧回调

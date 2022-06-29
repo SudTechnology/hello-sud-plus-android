@@ -371,9 +371,9 @@ public class DanmakuActivity extends BaseRoomActivity<AppGameViewModel> implemen
 
     /** 发送了公屏 */
     @Override
-    protected void sendPublicMsgCompleted(CharSequence msg) {
-        super.sendPublicMsgCompleted(msg);
-        checkHitDanmaku(msg.toString());
+    public void onSelfSendMsg(String msg) {
+        super.onSelfSendMsg(msg);
+        checkHitDanmaku(msg);
     }
 
     /** 检查公屏消息是否命中了弹幕 */

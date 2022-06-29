@@ -18,6 +18,7 @@ import tech.sud.mgp.hello.service.main.resp.GameListResp;
 import tech.sud.mgp.hello.service.main.resp.GameModel;
 import tech.sud.mgp.hello.ui.main.constant.GameIdCons;
 import tech.sud.mgp.hello.ui.scenes.audio.activity.AbsAudioRoomActivity;
+import tech.sud.mgp.hello.ui.scenes.base.constant.OperateMicType;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoleType;
 import tech.sud.mgp.hello.ui.scenes.disco.viewmodel.DiscoGameViewModel;
 
@@ -158,6 +159,19 @@ public class DiscoActivity extends AbsAudioRoomActivity<DiscoGameViewModel> {
                 }
             }
         });
+    }
+
+    /** 空实现，业务不自动上麦 */
+    @Override
+    protected void businessAutoUpMic() {
+    }
+
+    @Override
+    public void onMicLocationSwitchCompleted(int micIndex, boolean operate, OperateMicType type) {
+        super.onMicLocationSwitchCompleted(micIndex, operate, type);
+        if (operate) {
+            gameViewModel.joinAnchor(null);
+        }
     }
 
 }

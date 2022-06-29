@@ -373,4 +373,28 @@ public class SudFSTAPPDecorator {
     }
     // endregion 元宇宙砂砂舞
 
+    /**
+     * APP状态通知给小游戏
+     *
+     * @param state    状态标识
+     * @param dataJson 数据
+     * @param listener 回调监听
+     */
+    public void notifyStateChange(String state, String dataJson, ISudListenerNotifyStateChange listener) {
+        ISudFSTAPP iSudFSTAPP = this.iSudFSTAPP;
+        if (iSudFSTAPP != null) {
+            iSudFSTAPP.notifyStateChange(state, dataJson, listener);
+        }
+    }
+
+    /**
+     * APP状态通知给小游戏
+     *
+     * @param state    状态标识
+     * @param dataJson 数据
+     */
+    public void notifyStateChange(String state, String dataJson) {
+        notifyStateChange(state, dataJson, null);
+    }
+
 }

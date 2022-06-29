@@ -34,8 +34,4 @@ public class CustomGameViewModel extends AppGameViewModel {
         sudFSTAPPDecorator.notifyAPPCommonSelfPlaying(false, "");
     }
 
-    //结束游戏
-    public void finishGame() {
-        sudFSTAPPDecorator.notifyAPPCommonSelfEnd();
-    }
 }

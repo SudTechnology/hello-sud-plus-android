@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
+import tech.sud.mgp.core.ISudListenerNotifyStateChange;
 import tech.sud.mgp.core.SudMGP;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseActivity;
@@ -251,7 +252,6 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
             public void onSendMsg(CharSequence msg) {
                 if (binder != null) {
                     binder.sendPublicMsg(msg);
-                    sendPublicMsgCompleted(msg);
                 }
                 inputMsgView.hide();
                 inputMsgView.clearInput();
@@ -275,10 +275,6 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
                 clickFinishGame();
             }
         });
-    }
-
-    /** 发送公屏消息完成 */
-    protected void sendPublicMsgCompleted(CharSequence msg) {
     }
 
     /** 点击了选择游戏 */
@@ -849,7 +845,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         if (roomConfig.isSudGame && roomInfoModel != null && roomInfoModel.gameId > 0) { // 玩着游戏
             ImmersionBar.with(this).statusBarColor(R.color.transparent).fullScreen(true).hideBar(BarHide.FLAG_HIDE_NAVIGATION_BAR).init();
         } else {
-            ImmersionBar.with(this).statusBarColor(R.color.transparent).hideBar(BarHide.FLAG_SHOW_BAR).init();
+            ImmersionBar.with(this).statusBarColor(R.color.transparent).fullScreen(false).hideBar(BarHide.FLAG_SHOW_BAR).init();
         }
     }
 
@@ -1052,6 +1048,11 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
 
     @Override
     public void onRecoverCompleted() {
+    }
+
+    @Override
+    public void notifyStateChange(String state, String dataJson, ISudListenerNotifyStateChange listener) {
+        gameViewModel.notifyStateChange(state, dataJson, listener);
     }
     // endregion service回调
 

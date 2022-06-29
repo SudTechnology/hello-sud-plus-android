@@ -2,6 +2,7 @@ package tech.sud.mgp.hello.ui.scenes.base.service;
 
 import java.util.List;
 
+import tech.sud.mgp.core.ISudListenerNotifyStateChange;
 import tech.sud.mgp.hello.rtc.audio.core.AudioPCMData;
 import tech.sud.mgp.hello.ui.scenes.base.constant.OperateMicType;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
@@ -80,7 +81,7 @@ public interface SceneRoomServiceCallback {
     void onSelfSendMsg(String msg);
 
     /**
-     * 麦克风切换完成
+     * 麦位切换完成
      *
      * @param micIndex 麦位序号
      * @param operate  true上麦 false下麦
@@ -123,5 +124,14 @@ public interface SceneRoomServiceCallback {
 
     /** 挂起，重新唤起页面完成的回调，同一房间才有此回调 */
     void onRecoverCompleted();
+
+    /**
+     * APP状态通知给小游戏
+     *
+     * @param state    状态标识
+     * @param dataJson 数据
+     * @param listener 回调监听
+     */
+    void notifyStateChange(String state, String dataJson, ISudListenerNotifyStateChange listener);
 
 }

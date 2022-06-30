@@ -19,6 +19,7 @@ import com.netease.nimlib.sdk.SDKOptions;
 import com.tencent.bugly.crashreport.CrashReport;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -47,7 +48,14 @@ public class HelloSudApplication extends Application {
             registerActivityLifecycleCallbacks(MyActivityManager.getInstance());
             initMinClient();
             configAutoSize();
+            initCrashHandler();
+            LogUtils.file("onCreate");
         }
+    }
+
+    private void initCrashHandler() {
+        CrashHandler instance = CrashHandler.getInstance();
+        instance.init(this);
     }
 
     private void configAutoSize() {
@@ -106,6 +114,7 @@ public class HelloSudApplication extends Application {
             config.setLogHeadSwitch(false);
             config.setSingleTagSwitch(true);
             config.setBorderSwitch(false);
+            config.setDir(getExternalFilesDir(null) + File.separator + "helloLogs");
         }
     }
 

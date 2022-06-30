@@ -6,6 +6,7 @@ import com.blankj.utilcode.util.Utils;
 
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
 import tech.sud.mgp.hello.R;
+import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomServiceCallback;
 import tech.sud.mgp.hello.ui.scenes.disco.viewmodel.DiscoActionHelper;
 
@@ -87,6 +88,7 @@ public class SceneDiscoManager extends BaseServiceManager {
         callbackAction(helper.roleFocus(4, false));
     }
 
+    /** 回调页面让其通知游戏蹦迪动作 */
     private void callbackAction(String dataJson) {
         SceneRoomServiceCallback callback = parentManager.getCallback();
         if (callback != null) {
@@ -98,6 +100,48 @@ public class SceneDiscoManager extends BaseServiceManager {
     public void onDestroy() {
         super.onDestroy();
         parentManager.sceneChatManager.removeSendMsgListener(sendMsgListener);
+    }
+
+    /** 送出了礼物 */
+    public void sendGift(long giftID, int giftCount, UserInfo toUser, int type, String giftName, String giftUrl, String animationUrl) {
+        // 目前是内置礼物才有动效
+        if (type != 0) {
+            return;
+        }
+
+        Application context = Utils.getApp();
+        // 根据送的礼物来决定给予其什么特效
+        if (giftID == 1) {
+            callbackAction(helper.textPop(3, context.getString(R.string.send_gift_title, giftCount + "", giftName)));
+        } else if (giftID == 2) {
+            callbackAction(helper.textPop(3, context.getString(R.string.send_gift_title, giftCount + "", giftName)));
+            callbackAction(helper.roleFocus(3, null));
+        } else if (giftID == 3) {
+            callbackAction(helper.textPop(6, context.getString(R.string.send_gift_title, giftCount + "", giftName)));
+            callbackAction(helper.roleBig(30, 2));
+            callbackAction(helper.roleFocus(4, null));
+        } else if (giftID == 4) {
+            callbackAction(helper.textPop(9, context.getString(R.string.send_gift_title, giftCount + "", giftName)));
+            callbackAction(helper.roleBig(60, 2));
+            callbackAction(helper.roleFocus(5, null));
+            callbackAction(helper.roleEffects(60 * 60 * 2, null));
+        } else if (giftID == 5) {
+            dance(1);
+        } else if (giftID == 6) {
+            dance(3);
+        } else if (giftID == 7) {
+            danceTop(toUser);
+        }
+    }
+
+    /** 跳舞 */
+    private void dance(int minute) {
+        
+    }
+
+    /** 跳舞插队 */
+    private void danceTop(UserInfo toUser) {
+
     }
 
 }

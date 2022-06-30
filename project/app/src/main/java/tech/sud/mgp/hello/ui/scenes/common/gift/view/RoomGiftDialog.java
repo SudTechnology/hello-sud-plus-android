@@ -2,15 +2,19 @@ package tech.sud.mgp.hello.ui.scenes.common.gift.view;
 
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.ToastUtils;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,13 +23,17 @@ import java.util.Map;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
+import tech.sud.mgp.hello.service.main.repository.HomeRepository;
+import tech.sud.mgp.hello.service.main.resp.GetAccountResp;
 import tech.sud.mgp.hello.service.room.repository.RoomRepository;
 import tech.sud.mgp.hello.service.room.resp.GiftListResp;
+import tech.sud.mgp.hello.ui.common.utils.FormatUtils;
 import tech.sud.mgp.hello.ui.main.constant.SceneType;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.common.gift.adapter.GiftListAdapter;
 import tech.sud.mgp.hello.ui.scenes.common.gift.listener.GiftSendClickListener;
+import tech.sud.mgp.hello.ui.scenes.common.gift.listener.PresentClickListener;
 import tech.sud.mgp.hello.ui.scenes.common.gift.listener.SendGiftToUserListener;
 import tech.sud.mgp.hello.ui.scenes.common.gift.manager.GiftHelper;
 import tech.sud.mgp.hello.ui.scenes.common.gift.manager.RoomGiftDialogManager;
@@ -42,7 +50,7 @@ public class RoomGiftDialog extends BaseDialogFragment implements SendGiftToUser
     private RecyclerView giftRv;
     private GiftListAdapter giftListAdapter;
     public GiftSendClickListener giftSendClickListener;
-    private RoomGiftDialogManager dialogManager = new RoomGiftDialogManager();
+    private final RoomGiftDialogManager dialogManager = new RoomGiftDialogManager();
     private int sceneType; // 场景类型
     private long gameId; // 游戏id
     private GridLayoutManager layoutManager;
@@ -85,38 +93,15 @@ public class RoomGiftDialog extends BaseDialogFragment implements SendGiftToUser
     @Override
     protected void initWidget() {
         super.initWidget();
-        topView = mRootView.findViewById(R.id.gift_top_view);
-        bottomView = mRootView.findViewById(R.id.gift_bottom_view);
-        giftRv = mRootView.findViewById(R.id.gift_data_rv);
-        mRootView.findViewById(R.id.send_gift_empty_view).setOnClickListener(v -> dismiss());
-        bottomView.presentClickListener = count -> {
-            GiftModel checkedGift = getCheckedGift();
-            if (giftSendClickListener != null && checkedGift != null) {
-                List<UserInfo> userInfos = new ArrayList<>();
-                if (GiftHelper.getInstance().inMic) {
-                    if (GiftHelper.getInstance().inMics.size() > 0) {
-                        for (MicUserInfoModel userInfo : GiftHelper.getInstance().inMics) {
-                            if (userInfo.checked) {
-                                UserInfo info = new UserInfo();
-                                info.userID = userInfo.userInfo.userId + "";
-                                info.name = userInfo.userInfo.nickName;
-                                info.icon = userInfo.userInfo.avatar;
-                                userInfos.add(info);
-                            }
-                        }
-                    }
-                } else {
-                    userInfos.add(GiftHelper.getInstance().underMicUser);
-                }
-                if (userInfos.size() > 0) {
-                    giftSendClickListener.onSendClick(checkedGift, 1, userInfos);
-                } else {
-                    ToastUtils.showShort(R.string.audio_send_gift_user_empty);
-                }
-            } else {
-                ToastUtils.showShort(R.string.audio_send_gift_empty);
-            }
-        };
+        topView = findViewById(R.id.gift_top_view);
+        bottomView = findViewById(R.id.gift_bottom_view);
+        giftRv = findViewById(R.id.gift_data_rv);
+
+        layoutManager = new GridLayoutManager(requireContext(), 4);
+        giftRv.setLayoutManager(layoutManager);
+        giftListAdapter = new GiftListAdapter();
+        giftRv.setAdapter(giftListAdapter);
+        giftRv.setItemAnimator(null);
     }
 
     public GiftModel getCheckedGift() {
@@ -131,31 +116,19 @@ public class RoomGiftDialog extends BaseDialogFragment implements SendGiftToUser
     @Override
     protected void initData() {
         super.initData();
-        List<GiftModel> gifts = GiftHelper.getInstance().creatGifts(requireContext());
-        giftListAdapter = new GiftListAdapter();
-        giftRv.setAdapter(giftListAdapter);
-        layoutManager = new GridLayoutManager(requireContext(), 4);
-        giftRv.setLayoutManager(layoutManager);
-        giftRv.setItemAnimator(null);
-        giftListAdapter.setList(gifts);
-        giftListAdapter.setOnItemClickListener((adapter, view, position) -> {
-            GiftModel item = giftListAdapter.getItem(position);
-            if (item.checkState) {
-                return;
-            }
-            item.checkState = true;
-            giftListAdapter.notifyItemChanged(position);
-            for (int i = 0; i < giftListAdapter.getData().size(); i++) {
-                GiftModel model = giftListAdapter.getItem(i);
-                if (i != position && model.checkState) {
-                    model.checkState = false;
-                    giftListAdapter.notifyItemChanged(i);
-                }
-            }
+        // 礼物列表是否显示标签
+        if (sceneType == SceneType.DISCO) {
+            giftListAdapter.isShowFlag = true;
+        }
 
-            oldSelectedGiftId = item.giftId;
-            oldSelectedGiftType = item.type;
-        });
+        List<GiftModel> gifts = GiftHelper.getInstance().creatGifts(requireContext());
+        giftListAdapter.setList(gifts);
+
+        // 添加不同场景不同的数据
+        if (sceneType == SceneType.DISCO) {
+            addDiscoData();
+        }
+
         if (GiftHelper.getInstance().inMic) {
             topView.sendGiftToUserListener = this;
             topView.setInMic(GiftHelper.getInstance().inMics);
@@ -163,6 +136,91 @@ public class RoomGiftDialog extends BaseDialogFragment implements SendGiftToUser
             topView.setMicOut(GiftHelper.getInstance().underMicUser);
         }
         addServerGifts();
+        initBalance();
+    }
+
+    private void addDiscoData() {
+        giftListAdapter.addData(GiftHelper.getInstance().createGiftModel(5));
+        giftListAdapter.addData(GiftHelper.getInstance().createGiftModel(6));
+        giftListAdapter.addData(GiftHelper.getInstance().createGiftModel(7));
+    }
+
+    private void initBalance() {
+        HomeRepository.getAccount(this, new RxCallback<GetAccountResp>() {
+            @Override
+            public void onSuccess(GetAccountResp resp) {
+                super.onSuccess(resp);
+                if (resp != null) {
+                    bottomView.setBalance(FormatUtils.formatMoney(resp.coin));
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void setListeners() {
+        super.setListeners();
+        findViewById(R.id.send_gift_empty_view).setOnClickListener(v -> dismiss());
+        bottomView.presentClickListener = new PresentClickListener() {
+            @Override
+            public void onPresent(int count) {
+                onClickPresent();
+            }
+        };
+        giftListAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
+                onClickGift(position);
+            }
+        });
+    }
+
+    private void onClickGift(int position) {
+        GiftModel item = giftListAdapter.getItem(position);
+        if (item.checkState) {
+            return;
+        }
+        item.checkState = true;
+        giftListAdapter.notifyItemChanged(position);
+        for (int i = 0; i < giftListAdapter.getData().size(); i++) {
+            GiftModel model = giftListAdapter.getItem(i);
+            if (i != position && model.checkState) {
+                model.checkState = false;
+                giftListAdapter.notifyItemChanged(i);
+            }
+        }
+
+        oldSelectedGiftId = item.giftId;
+        oldSelectedGiftType = item.type;
+    }
+
+    private void onClickPresent() {
+        GiftModel checkedGift = getCheckedGift();
+        if (giftSendClickListener != null && checkedGift != null) {
+            List<UserInfo> userInfos = new ArrayList<>();
+            if (GiftHelper.getInstance().inMic) {
+                if (GiftHelper.getInstance().inMics.size() > 0) {
+                    for (MicUserInfoModel userInfo : GiftHelper.getInstance().inMics) {
+                        if (userInfo.checked) {
+                            UserInfo info = new UserInfo();
+                            info.userID = userInfo.userInfo.userId + "";
+                            info.name = userInfo.userInfo.nickName;
+                            info.icon = userInfo.userInfo.avatar;
+                            userInfos.add(info);
+                        }
+                    }
+                }
+            } else {
+                userInfos.add(GiftHelper.getInstance().underMicUser);
+            }
+            if (userInfos.size() > 0) {
+                giftSendClickListener.onSendClick(checkedGift, 1, userInfos);
+            } else {
+                ToastUtils.showShort(R.string.audio_send_gift_user_empty);
+            }
+        } else {
+            ToastUtils.showShort(R.string.audio_send_gift_empty);
+        }
     }
 
     /** 添加后端配置的礼物 */
@@ -264,11 +322,6 @@ public class RoomGiftDialog extends BaseDialogFragment implements SendGiftToUser
         if (GiftHelper.getInstance().inMic && topView != null) {
             model.giftEnable = Boolean.TRUE.equals(topView.userState.get(model.userId));
         }
-    }
-
-    @Override
-    protected void setListeners() {
-        super.setListeners();
     }
 
     @Override

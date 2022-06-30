@@ -168,13 +168,8 @@ public class SceneRoomService extends Service {
         }
 
         /** 发送礼物 */
-        public void sendGift(long giftID, int giftCount, UserInfo toUser) {
-            serviceManager.sceneGiftManager.sendGift(giftID, giftCount, toUser);
-        }
-
-        /** 发送礼物 */
         public void sendGift(long giftID, int giftCount, UserInfo toUser, int type, String giftName, String giftUrl, String animationUrl) {
-            serviceManager.sceneGiftManager.sendGift(giftID, giftCount, toUser, type, giftName, giftUrl, animationUrl);
+            serviceManager.sendGift(giftID, giftCount, toUser, type, giftName, giftUrl, animationUrl);
         }
 
         /**

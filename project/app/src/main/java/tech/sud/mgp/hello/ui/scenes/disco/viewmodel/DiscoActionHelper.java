@@ -172,9 +172,9 @@ public class DiscoActionHelper {
      * @param cooldown 变大的持续时间，单位秒（-1为永久）默认60秒
      * @param multiple field1:放大倍数的数值（范围为0.1-5，保留1位小数点，1为原始大小，超出范围会取默认值）；默认2
      */
-    public String roleBig(Integer cooldown, String multiple) {
+    public String roleBig(Integer cooldown, float multiple) {
         Boolean isTop = null;
-        String field1 = multiple;
+        String field1 = multiple + "";
         String field2 = null;
         return buidlJson(ACTION_ROLE_BIG, cooldown, isTop, field1, field2);
     }

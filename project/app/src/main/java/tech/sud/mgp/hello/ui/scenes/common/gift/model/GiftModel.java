@@ -19,4 +19,8 @@ public class GiftModel {
     public int type; // 1.4.0新增:礼物类型 0：内置礼物 1：后端配置礼物
     public String giftUrl; // 礼物图片
     public String animationUrl; // 礼物动图
+
+    public boolean isFeature; // 是否是特写
+    public boolean isEffect; // 是否是特效
+
 }

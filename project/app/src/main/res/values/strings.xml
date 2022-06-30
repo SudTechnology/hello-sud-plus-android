@@ -464,6 +464,12 @@ Go to homepage to create one~</string>
     <string name="get_off_work">下班</string>
     <string name="focus">聚焦</string>
 
+    <string name="feature">特写</string>
+    <string name="effect">特效</string>
+    <string name="dancing_minute_count">跳舞%1$s分钟</string>
+    <string name="dance_top">跳舞插队</string>
+    <string name="send_gift_title">我送了%1$s个【%2$s】</string>
+
     <!-- endregion 新增 -->
 
 </resources>

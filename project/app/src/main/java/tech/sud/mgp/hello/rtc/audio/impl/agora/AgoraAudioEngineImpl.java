@@ -33,6 +33,7 @@ import io.agora.rtm.RtmFileMessage;
 import io.agora.rtm.RtmImageMessage;
 import io.agora.rtm.RtmMediaOperationProgress;
 import io.agora.rtm.RtmMessage;
+import io.agora.rtm.RtmStatusCode;
 import tech.sud.mgp.hello.rtc.audio.core.AudioPCMData;
 import tech.sud.mgp.hello.rtc.audio.core.AudioRoomState;
 import tech.sud.mgp.hello.rtc.audio.core.ISudAudioEngine;
@@ -460,7 +461,16 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
 
                     @Override
                     public void onFailure(ErrorInfo errorInfo) {
-
+                        if (errorInfo.getErrorCode() == RtmStatusCode.LoginError.LOGIN_ERR_ALREADY_LOGIN) {
+                            if (success != null) {
+                                ThreadUtils.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        success.run();
+                                    }
+                                });
+                            }
+                        }
                     }
                 });
             }

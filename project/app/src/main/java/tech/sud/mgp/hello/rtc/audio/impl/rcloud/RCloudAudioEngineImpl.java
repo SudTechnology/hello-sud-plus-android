@@ -1,5 +1,7 @@
 package tech.sud.mgp.hello.rtc.audio.impl.rcloud;
 
+import static io.rong.imlib.IRongCoreEnum.ConnectionErrorCode.RC_CONNECTION_EXIST;
+
 import android.content.Context;
 import android.view.View;
 
@@ -81,7 +83,17 @@ public class RCloudAudioEngineImpl implements ISudAudioEngine {
             }
 
             @Override
-            public void onError(IRongCoreEnum.ConnectionErrorCode e) {
+            public void onError(IRongCoreEnum.ConnectionErrorCode errorCode) {
+                if (errorCode == RC_CONNECTION_EXIST) {
+                    if (success != null) {
+                        ThreadUtils.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                success.run();
+                            }
+                        });
+                    }
+                }
             }
 
             @Override

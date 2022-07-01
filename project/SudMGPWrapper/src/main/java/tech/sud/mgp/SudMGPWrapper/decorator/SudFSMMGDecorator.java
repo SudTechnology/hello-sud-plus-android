@@ -464,9 +464,9 @@ public class SudFSMMGDecorator implements ISudFSMMG {
         }
     }
 
-    // 返回该用户是否为游戏队长
-    public boolean isCaptain(long userId) {
-        return sudFSMMGCache.isCaptain(userId);
+    /** 获取队长userId */
+    public String getCaptainUserId() {
+        return sudFSMMGCache.getCaptainUserId();
     }
 
     // 返回该玩家是否正在游戏中

@@ -7,6 +7,7 @@ package tech.sud.mgp.SudMGPWrapper.decorator;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Objects;
 
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
 
@@ -15,7 +16,7 @@ import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
  */
 public class SudFSMMGCache {
 
-    private long captainUserId; // 记录当前队长的用户id
+    private String captainUserId; // 记录当前队长的用户id
     private SudMGPMGState.MGCommonGameState mgCommonGameStateModel; // 全局游戏状态
     private boolean isHitBomb = false; // 是否数字炸弹
     private final HashSet<String> playerInSet = new HashSet<>(); // 记录已经加入了游戏的玩家
@@ -25,17 +26,12 @@ public class SudFSMMGCache {
     // 队长状态 处理
     public void onPlayerMGCommonPlayerCaptain(String userId, SudMGPMGState.MGCommonPlayerCaptain model) {
         if (model != null) {
-            try {
-                long parseUserId = Long.parseLong(userId);
-                if (model.isCaptain) {
-                    captainUserId = parseUserId;
-                } else {
-                    if (parseUserId == captainUserId) {
-                        captainUserId = 0;
-                    }
+            if (model.isCaptain) {
+                captainUserId = userId;
+            } else {
+                if (Objects.equals(captainUserId, userId)) {
+                    captainUserId = null;
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
             }
         }
     }
@@ -82,11 +78,6 @@ public class SudFSMMGCache {
         }
     }
 
-    // 返回该用户是否为游戏队长
-    public boolean isCaptain(long userId) {
-        return captainUserId == userId;
-    }
-
     // 返回该玩家是否正在游戏中
     public boolean playerIsPlaying(long userId) {
         SudMGPMGState.MGCommonPlayerPlaying mgCommonPlayerPlaying = playerPlayingMap.get(userId + "");
@@ -118,7 +109,7 @@ public class SudFSMMGCache {
 
     // 销毁游戏
     public void destroyMG() {
-        captainUserId = 0;
+        captainUserId = null;
         mgCommonGameStateModel = null;
         isHitBomb = false;
         playerInSet.clear();
@@ -127,7 +118,7 @@ public class SudFSMMGCache {
     }
 
     /** 获取队长userId */
-    public long getCaptainUserId() {
+    public String getCaptainUserId() {
         return captainUserId;
     }
 

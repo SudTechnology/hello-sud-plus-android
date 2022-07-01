@@ -31,6 +31,7 @@ import tech.sud.mgp.hello.ui.scenes.base.model.SceneRoomData;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.base.utils.SceneRoomNotificationHelper;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.RoomCmdModelUtils;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.DanceModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.quiz.QuizBetModel;
 
 /**
@@ -297,6 +298,11 @@ public class SceneRoomService extends Service {
         /** 停止视频流 */
         public void stopVideo(String streamID, View view) {
             serviceManager.sceneEngineManager.stopVideo(streamID, view);
+        }
+
+        /** 获取跳舞集合 */
+        public List<DanceModel> getDanceList() {
+            return serviceManager.getDanceList();
         }
     }
 

@@ -200,7 +200,7 @@ public class QuizGuessDialog extends BaseDialogFragment {
             List<QuizGamePlayerResp.Player> list = getSelectedList();
             if (list.size() == 0) {
                 tvConfirm.setEnabled(false);
-                tvConfirm.setText(getString(R.string.affirm_coin, singleGuessMoney + ""));
+                tvConfirm.setText(getString(R.string.affirm_coin, "0"));
             } else {
                 tvConfirm.setEnabled(true);
                 tvConfirm.setText(getString(R.string.affirm_coin, (singleGuessMoney * list.size()) + ""));

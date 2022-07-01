@@ -97,9 +97,7 @@ public class QuizActivity extends AbsAudioRoomActivity<QuizGameViewModel> {
 
         tvGuessIWinCount.setText("x" + APPConfig.QUIZ_SINGLE_BET_COUNT);
 
-        giftContainer.bringToFront();
-        inputMsgView.bringToFront();
-        clOpenMic.bringToFront();
+        bringToFrontViews();
     }
 
     private void createAutoGuessIWinView(int marginEnd) {

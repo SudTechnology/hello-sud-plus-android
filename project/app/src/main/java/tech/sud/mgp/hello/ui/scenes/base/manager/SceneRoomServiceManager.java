@@ -13,6 +13,8 @@ import com.blankj.utilcode.util.Utils;
 import com.trello.rxlifecycle4.LifecycleTransformer;
 import com.trello.rxlifecycle4.RxLifecycle;
 
+import java.util.List;
+
 import io.reactivex.rxjava3.subjects.BehaviorSubject;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
@@ -31,6 +33,7 @@ import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomServiceCallback;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.RoomCmdModelUtils;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdChangeGameModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdEnterRoomModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.DanceModel;
 
 /**
  * 房间主要业务逻辑
@@ -296,6 +299,14 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
     /** 进入房间完成的回调,用于childManager */
     public interface EnterRoomCompletedListener {
         void onEnterRoomCompleted();
+    }
+
+    /** 获取跳舞集合 */
+    public List<DanceModel> getDanceList() {
+        if (sceneDiscoManager != null) {
+            return sceneDiscoManager.getDanceList();
+        }
+        return null;
     }
 
 }

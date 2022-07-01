@@ -137,6 +137,7 @@ public class RoomGiftDialog extends BaseDialogFragment implements SendGiftToUser
         }
         addServerGifts();
         initBalance();
+        checkSelectedItem();
     }
 
     private void addDiscoData() {

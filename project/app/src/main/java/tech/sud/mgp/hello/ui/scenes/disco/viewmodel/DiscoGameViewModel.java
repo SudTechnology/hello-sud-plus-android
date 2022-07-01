@@ -1,6 +1,9 @@
 package tech.sud.mgp.hello.ui.scenes.disco.viewmodel;
 
+import androidx.lifecycle.MutableLiveData;
+
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
+import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
 
 /**
@@ -9,6 +12,7 @@ import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
 public class DiscoGameViewModel extends AppGameViewModel {
 
     private final DiscoActionHelper helper = new DiscoActionHelper();
+    public final MutableLiveData<Boolean> gameStartedLiveData = new MutableLiveData<>();
 
     /**
      * 切歌
@@ -187,15 +191,19 @@ public class DiscoGameViewModel extends AppGameViewModel {
      * @param isTop    isTop:false-不置顶；true-置顶
      * @param userId   field1:playerId（主播玩家的id）；该参数必传，不传则没有任何效果
      */
-    public void anchorDance(Integer cooldown, Boolean isTop, String userId) {
-        sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_DISCO_ACTION, helper.anchorDance(cooldown, isTop, userId));
+    public void danceWithAnchor(Integer cooldown, Boolean isTop, String userId) {
+        sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_DISCO_ACTION, helper.danceWithAnchor(cooldown, isTop, userId));
     }
 
     @Override
     public void onGameStarted() {
         super.onGameStarted();
         danceMode(1);
-        joinDancingFloor(null);
+        gameStartedLiveData.setValue(true);
     }
 
+    @Override
+    public void wrapMicModel(AudioRoomMicModel model) {
+        // 不展示任何游戏相关的状态
+    }
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,5 +8,36 @@
 
     <!-- 基础组件 -->
     <include layout="@layout/include_scene_content" />
+
+    <!-- 跳舞邀请发出时的提示 -->
+    <TextView
+        android:id="@+id/tv_dance_send_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:layout_marginEnd="17dp"
+        android:textSize="10sp"
+        android:textColor="@color/white"
+        android:text="@string/dance_invite_send_hint"
+        android:background="@drawable/ic_dance_wait"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="2dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/tv_dancing_menu" />
+
+    <!-- 舞台节目单 -->
+    <TextView
+        android:id="@+id/tv_dancing_menu"
+        android:layout_width="122dp"
+        android:layout_height="45dp"
+        android:textSize="14sp"
+        android:textColor="@color/white"
+        android:text="@string/stage_menu"
+        android:gravity="center"
+        android:background="@drawable/ic_dancing_menu_btn"
+        android:layout_marginBottom="57dp"
+        android:layout_marginEnd="9dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/room_bottom_view" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

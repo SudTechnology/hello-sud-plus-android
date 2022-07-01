@@ -451,7 +451,9 @@ Go to homepage to create one~</string>
     <string name="focus_king_title">获得特写(次)</string>
     <string name="popular_anchors_list_title">被邀约(次)</string>
     <string name="disco_ranking_explain">蹦迪排行说明</string>
-    <string name="disco_ranking_explain_content">榜单周期：周一0点至周日24点，每个自然周为一个榜单周期\n\n焦点王：\n云蹦迪场中，角色获得特写的次数排行\n\n人气主播榜：\n云蹦迪场中，被邀请跳舞的次数排行</string>
+    <string name="disco_ranking_explain_content_1">榜单周期：周一0点至周日24点，每个自然周为一个榜单周期</string>
+    <string name="disco_ranking_explain_content_2">焦点王：\n云蹦迪场中，角色获得特写的次数排行</string>
+    <string name="disco_ranking_explain_content_3">人气主播榜：\n云蹦迪场中，被邀请跳舞的次数排行</string>
     <string name="close_auto_guess_warn">余额不足，自动竞猜已关闭，快去充值吧~</string>
     <string name="start_disco">开启蹦迪</string>
     <string name="close_disco">关闭蹦迪</string>
@@ -469,6 +471,16 @@ Go to homepage to create one~</string>
     <string name="dancing_minute_count">跳舞%1$s分钟</string>
     <string name="dance_top">跳舞插队</string>
     <string name="send_gift_title">我送了%1$s个【%2$s】</string>
+    <string name="stage_menu">舞台节目单</string>
+    <string name="invite_dance_info">邀请 %1$s 跳舞%2$s分钟</string>
+    <string name="residue_minute">剩余%1$smins</string>
+    <string name="residue_second">剩余%1$ss</string>
+    <string name="empty_dancing_menu">暂无节目，送礼即可邀请主播跳舞哦</string>
+    <string name="rule">规则</string>
+    <string name="dance_rule_1">1、主播正在空闲中，送给主播【跳舞1分钟】或【跳舞3分钟】礼物后，可立即与该主播上到中心舞台跳舞，跳1分钟或3分钟。</string>
+    <string name="dance_rule_2">2、主播正在与其他用户跳舞，送出上述两个礼物将进入排队。</string>
+    <string name="dance_rule_3">3、你邀约的主播正在队列中排队，送出【跳舞插队】可以将你从主播的队列中置顶，等待主播与当前用户跳完，下一个就轮到你。</string>
+    <string name="dance_invite_send_hint">跳舞邀请已发出，请稍等</string>
 
     <!-- endregion 新增 -->
 

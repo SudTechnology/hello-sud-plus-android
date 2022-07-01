@@ -67,9 +67,7 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
         cparams.bottomMargin = DensityUtils.dp2px(106);
         orderRootView.addView(gameContainer, cparams);
 
-        giftContainer.bringToFront();
-        inputMsgView.bringToFront();
-        clOpenMic.bringToFront();
+        bringToFrontViews();
     }
 
     private void addTopBtn() {

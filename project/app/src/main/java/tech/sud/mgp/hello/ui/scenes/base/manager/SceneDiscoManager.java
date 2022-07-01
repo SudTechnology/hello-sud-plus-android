@@ -4,10 +4,18 @@ import android.app.Application;
 
 import com.blankj.utilcode.util.Utils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
 import tech.sud.mgp.hello.R;
+import tech.sud.mgp.hello.common.model.HSUserInfo;
+import tech.sud.mgp.hello.common.utils.CustomCountdownTimer;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomServiceCallback;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.RoomCmdModelUtils;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdSendGiftModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.DanceModel;
 import tech.sud.mgp.hello.ui.scenes.disco.viewmodel.DiscoActionHelper;
 
 /**
@@ -17,6 +25,7 @@ public class SceneDiscoManager extends BaseServiceManager {
 
     private SceneRoomServiceManager parentManager;
     private final DiscoActionHelper helper = new DiscoActionHelper(); // 操作蹦迪动作助手
+    private final List<DanceModel> danceList = new ArrayList<>(); // 跳舞列表，包含所有
 
     public SceneDiscoManager(SceneRoomServiceManager sceneRoomServiceManager) {
         super();
@@ -27,6 +36,7 @@ public class SceneDiscoManager extends BaseServiceManager {
     public void onCreate() {
         super.onCreate();
         parentManager.sceneChatManager.addSendMsgListener(sendMsgListener);
+        parentManager.sceneEngineManager.setCommandListener(sendGiftCommandListener);
     }
 
     /** 发送公屏监听 */
@@ -74,13 +84,15 @@ public class SceneDiscoManager extends BaseServiceManager {
     private void triggerGoToWork() {
         int selfMicIndex = parentManager.sceneMicManager.findSelfMicIndex();
         if (selfMicIndex >= 0) {
+            // TODO: 2022/7/1 如果不在舞池中，连续发送的时候，会报请先加入舞池
+            callbackAction(helper.joinDancingFloor("#ff0000"));
             callbackAction(helper.joinAnchor(null));
         }
     }
 
     /** 触发【下班】 */
     private void triggerGetOffWork() {
-        callbackAction(helper.leaveAnchor(null));
+        callbackAction(helper.leaveAnchor(HSUserInfo.userId + ""));
     }
 
     /** 触发【聚焦】 */
@@ -94,12 +106,6 @@ public class SceneDiscoManager extends BaseServiceManager {
         if (callback != null) {
             callback.notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_DISCO_ACTION, dataJson, null);
         }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        parentManager.sceneChatManager.removeSendMsgListener(sendMsgListener);
     }
 
     /** 送出了礼物 */
@@ -126,22 +132,222 @@ public class SceneDiscoManager extends BaseServiceManager {
             callbackAction(helper.roleFocus(5, null));
             callbackAction(helper.roleEffects(60 * 60 * 2, null));
         } else if (giftID == 5) {
-            dance(1);
+            addDance(RoomCmdModelUtils.getSendUser(), toUser, 60);
         } else if (giftID == 6) {
-            dance(3);
+            addDance(RoomCmdModelUtils.getSendUser(), toUser, 3 * 60);
         } else if (giftID == 7) {
-            danceTop(toUser);
+            danceTop(RoomCmdModelUtils.getSendUser(), toUser);
         }
     }
 
-    /** 跳舞 */
-    private void dance(int minute) {
-        
+    /** 增加一个跳舞请求 */
+    private void addDance(UserInfo fromUser, UserInfo toUser, int duration) {
+        if (fromUser == null || toUser == null) {
+            return;
+        }
+        DanceModel model = findDancingModel(fromUser, toUser);
+        if (model == null) {
+            // 没有在队列中的相同数据，直接添加到队列中即可
+            model = new DanceModel();
+            model.fromUser = fromUser;
+            model.toUser = toUser;
+            model.duration = duration;
+            int insetPosition = -1;
+            for (int i = danceList.size() - 1; i >= 0; i--) {
+                DanceModel danceModel = danceList.get(i);
+                if (danceModel.isCompleted) {
+                    insetPosition = i;
+                    break;
+                }
+            }
+            if (insetPosition == -1) {
+                danceList.add(model);
+            } else {
+                danceList.add(insetPosition, model);
+            }
+            sortDanceList();
+            callbackDanceList();
+            checkDanceStart();
+        } else {
+            if (model.beginTime > 0) { // 如果正在执行中
+                model.duration += duration;
+                if ((HSUserInfo.userId + "").equals(fromUser.userID)) { // 自己发起的，则自己去触发
+                    callDanceWithAnchor(toUser, duration);
+                }
+                startCountdownTimer(model);
+            } else { // 如果在排队等待执行中
+                model.duration += duration;
+                callbackUpdateDance(danceList.indexOf(model));
+                if ((HSUserInfo.userId + "").equals(fromUser.userID)) { // 自己发起的，提示等待
+                    SceneRoomServiceCallback callback = parentManager.getCallback();
+                    if (callback != null) {
+                        callback.onDanceWait();
+                    }
+                }
+            }
+        }
+    }
+
+    /** 向游戏发送状态，与该主播跳舞 */
+    private void callDanceWithAnchor(UserInfo toUser, int duration) {
+        callbackAction(helper.danceWithAnchor(duration, false, toUser.userID));
+        callbackAction(helper.roleFocus(3, false));
+    }
+
+    /** 整理跳舞数据 */
+    private void sortDanceList() {
+        boolean isFirstCompleted = true;
+        for (DanceModel model : danceList) {
+            if (model.isCompleted) {
+                if (isFirstCompleted) {
+                    isFirstCompleted = false;
+                    model.isShowCompletedTitle = true;
+                } else {
+                    model.isShowCompletedTitle = false;
+                }
+            }
+        }
+    }
+
+    /** 开始倒计时 */
+    private void startCountdownTimer(DanceModel model) {
+        CustomCountdownTimer countdownTimer = model.countdownTimer;
+        if (countdownTimer != null) {
+            countdownTimer.cancel();
+        }
+        long curTimeSecond = System.currentTimeMillis() / 1000;
+        if (model.beginTime == 0) {
+            model.beginTime = curTimeSecond;
+        }
+        int duration = (int) (model.beginTime + model.duration - curTimeSecond);
+        countdownTimer = new CustomCountdownTimer(duration) {
+            int index = danceList.indexOf(model);
+
+            @Override
+            protected void onTick(int count) {
+                model.countdown = count;
+                DanceModel listDanceModel = danceList.get(index);
+                if (listDanceModel != model) {
+                    index = danceList.indexOf(model);
+                }
+                callbackUpdateDance(index);
+            }
+
+            @Override
+            protected void onFinish() {
+                danceCompleted(model);
+            }
+        };
+        model.countdownTimer = countdownTimer;
+        countdownTimer.start();
+    }
+
+    /** 跳舞结束了 */
+    private void danceCompleted(DanceModel model) {
+        model.countdownTimer = null;
+        model.isCompleted = true;
+        sortDanceList();
+        callbackDanceList();
+        checkDanceStart();
     }
 
     /** 跳舞插队 */
-    private void danceTop(UserInfo toUser) {
+    private void danceTop(UserInfo sendUser, UserInfo toUser) {
+        // TODO: 2022/6/30
+    }
 
+    /** 查找正在跳舞的数据 */
+    private DanceModel findDancingModel(UserInfo fromUser, UserInfo toUser) {
+        for (DanceModel model : danceList) {
+            if (model.isCompleted) {
+                continue;
+            }
+            if (model.fromUser != null && model.fromUser.equals(fromUser)
+                    && model.toUser != null && model.toUser.equals(toUser)) {
+                return model;
+            }
+        }
+        return null;
+    }
+
+    /** 回调整个跳舞队列 */
+    private void callbackDanceList() {
+        SceneRoomServiceCallback callback = parentManager.getCallback();
+        if (callback != null) {
+            callback.onDanceList(danceList);
+        }
+    }
+
+    /** 回调页面更新某一个跳舞数据 */
+    private void callbackUpdateDance(int index) {
+        SceneRoomServiceCallback callback = parentManager.getCallback();
+        if (callback != null) {
+            callback.onUpdateDance(index);
+        }
+    }
+
+    /** 检查跳舞队列，哪个可以执行开始了 */
+    private void checkDanceStart() {
+        for (DanceModel model : danceList) {
+            // 正在执行的，或者已经结束的，不处理
+            if (model.beginTime > 0 || model.isCompleted) {
+                continue;
+            }
+            // 查找该主播是否正在跳着舞
+            if (isAnchorDancing(model.toUser)) {
+                continue;
+            }
+            if ((HSUserInfo.userId + "").equals(model.fromUser.userID)) { // 自己发起的，则自己去触发
+                callDanceWithAnchor(model.toUser, model.duration);
+            }
+            startCountdownTimer(model);
+        }
+    }
+
+    /** 查找该主播是否正在跳着舞 */
+    private boolean isAnchorDancing(UserInfo userInfo) {
+        for (DanceModel model : danceList) {
+            if (model.isCompleted) {
+                continue;
+            }
+            if (model.beginTime > 0 && model.toUser.equals(userInfo)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /** 获取跳舞集合 */
+    public List<DanceModel> getDanceList() {
+        return danceList;
+    }
+
+    /** 发送礼物监听 */
+    private final SceneCommandManager.SendGiftCommandListener sendGiftCommandListener = new SceneCommandManager.SendGiftCommandListener() {
+        @Override
+        public void onRecvCommand(RoomCmdSendGiftModel model, String userID) {
+            if (model.type == 0) {
+                if (model.giftID == 5) {
+                    addDance(model.sendUser, model.toUser, 60);
+                } else if (model.giftID == 6) {
+                    addDance(model.sendUser, model.toUser, 3 * 60);
+                } else if (model.giftID == 7) {
+                    danceTop(model.sendUser, model.toUser);
+                }
+            }
+        }
+    };
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        parentManager.sceneChatManager.removeSendMsgListener(sendMsgListener);
+        parentManager.sceneEngineManager.removeCommandListener(sendGiftCommandListener);
+        for (DanceModel danceModel : danceList) {
+            if (danceModel.countdownTimer != null) {
+                danceModel.countdownTimer.cancel();
+            }
+        }
     }
 
 }

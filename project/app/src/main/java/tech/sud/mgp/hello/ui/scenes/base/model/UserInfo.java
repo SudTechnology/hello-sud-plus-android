@@ -1,5 +1,7 @@
 package tech.sud.mgp.hello.ui.scenes.base.model;
 
+import java.util.Objects;
+
 public class UserInfo {
     public String userID; // 用户id
     public String name; // 用户昵称
@@ -23,6 +25,19 @@ public class UserInfo {
             e.printStackTrace();
         }
         return 0;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserInfo userInfo = (UserInfo) o;
+        return Objects.equals(userID, userInfo.userID);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userID);
     }
 
 }

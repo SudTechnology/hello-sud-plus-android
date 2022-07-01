@@ -64,6 +64,7 @@ import tech.sud.mgp.hello.ui.scenes.base.widget.view.chat.RoomInputMsgView;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.chat.SceneRoomChatView;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.mic.OnMicItemClickListener;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.mic.SceneRoomMicWrapView;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.DanceModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.order.RoomCmdUserOrderModel;
 import tech.sud.mgp.hello.ui.scenes.common.gift.listener.GiftSendClickListener;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftModel;
@@ -165,6 +166,12 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
 
         topView.setFinishGameVisible(false);
         topView.setSelectGameVisible(roomInfoModel.roleType == RoleType.OWNER);
+    }
+
+    protected void bringToFrontViews() {
+        giftContainer.bringToFront();
+        inputMsgView.bringToFront();
+        clOpenMic.bringToFront();
     }
 
     @Override
@@ -1069,6 +1076,18 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
     @Override
     public void notifyStateChange(String state, String dataJson, ISudListenerNotifyStateChange listener) {
         gameViewModel.notifyStateChange(state, dataJson, listener);
+    }
+
+    @Override
+    public void onDanceList(List<DanceModel> list) {
+    }
+
+    @Override
+    public void onUpdateDance(int index) {
+    }
+
+    @Override
+    public void onDanceWait() {
     }
     // endregion service回调
 

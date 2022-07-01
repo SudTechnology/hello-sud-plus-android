@@ -228,11 +228,15 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
     private void checkEnterRoomCompleted() {
         if (enterRoomCompleted) return;
         if (sceneEngineManager.isEnterRoomCompleted() && sceneMicManager.isEnterRoomCompleted()) {
+            // 初始化完成了
             enterRoomCompleted = true;
             sceneChatManager.addMsg(buildEnterRoomMsg(HSUserInfo.nickName));
             SceneRoomServiceCallback callback = sceneRoomServiceCallback;
             if (callback != null) {
                 callback.onEnterRoomSuccess();
+            }
+            if (sceneDiscoManager != null) {
+                sceneDiscoManager.onEnterRoomSuccess();
             }
         }
     }

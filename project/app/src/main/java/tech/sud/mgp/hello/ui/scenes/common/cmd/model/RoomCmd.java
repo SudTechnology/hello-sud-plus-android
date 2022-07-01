@@ -71,4 +71,11 @@ public class RoomCmd {
     public static final int CMD_QUIZ_BET = 10300;
     // endregion 竞猜
 
+    // region 蹦迪
+    /** 请求蹦迪信息 */
+    public static final int CMD_ROOM_DISCO_INFO_REQ = 10400;
+    /** 响应蹦迪信息 */
+    public static final int CMD_ROOM_DISCO_INFO_RESP = 10401;
+    // endregion 蹦迪
+
 }

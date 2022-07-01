@@ -15,7 +15,10 @@ import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomServiceCallback;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.RoomCmdModelUtils;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdSendGiftModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.ContributionModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.DanceModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdDiscoInfoReqModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdDiscoInfoRespModel;
 import tech.sud.mgp.hello.ui.scenes.disco.viewmodel.DiscoActionHelper;
 
 /**
@@ -26,6 +29,8 @@ public class SceneDiscoManager extends BaseServiceManager {
     private SceneRoomServiceManager parentManager;
     private final DiscoActionHelper helper = new DiscoActionHelper(); // 操作蹦迪动作助手
     private final List<DanceModel> danceList = new ArrayList<>(); // 跳舞列表，包含所有
+    private final List<ContributionModel> contributionModels = new ArrayList<>(); // 房间贡献列表
+    private boolean initDiscoInfoCompleted; // 是否已经初始化完成了蹦迪信息
 
     public SceneDiscoManager(SceneRoomServiceManager sceneRoomServiceManager) {
         super();
@@ -37,6 +42,8 @@ public class SceneDiscoManager extends BaseServiceManager {
         super.onCreate();
         parentManager.sceneChatManager.addSendMsgListener(sendMsgListener);
         parentManager.sceneEngineManager.setCommandListener(sendGiftCommandListener);
+        parentManager.sceneEngineManager.setCommandListener(discoInfoReqListener);
+        parentManager.sceneEngineManager.setCommandListener(discoInfoRespListener);
     }
 
     /** 发送公屏监听 */
@@ -106,6 +113,13 @@ public class SceneDiscoManager extends BaseServiceManager {
         if (callback != null) {
             callback.notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_DISCO_ACTION, dataJson, null);
         }
+    }
+
+    /** 进入房间成功 */
+    public void onEnterRoomSuccess() {
+        // 向其他房间的人，获取房间信息
+        String discoInfoReqCmd = RoomCmdModelUtils.buildCmdDiscoInfoReq();
+        parentManager.sceneEngineManager.sendCommand(discoInfoReqCmd);
     }
 
     /** 送出了礼物 */
@@ -278,6 +292,14 @@ public class SceneDiscoManager extends BaseServiceManager {
         }
     }
 
+    /** 回调蹦迪排行榜变化 */
+    private void callbackContribution() {
+        SceneRoomServiceCallback callback = parentManager.getCallback();
+        if (callback != null) {
+            callback.onDiscoContribution(contributionModels);
+        }
+    }
+
     /** 回调页面更新某一个跳舞数据 */
     private void callbackUpdateDance(int index) {
         SceneRoomServiceCallback callback = parentManager.getCallback();
@@ -289,8 +311,13 @@ public class SceneDiscoManager extends BaseServiceManager {
     /** 检查跳舞队列，哪个可以执行开始了 */
     private void checkDanceStart() {
         for (DanceModel model : danceList) {
-            // 正在执行的，或者已经结束的，不处理
-            if (model.beginTime > 0 || model.isCompleted) {
+            if (model.isCompleted) { // 已结束的就不管了
+                continue;
+            }
+            if (model.beginTime > 0) { // 如果已经开始的，检查一下是否有执行定时任务
+                if (model.countdownTimer == null) {
+                    startCountdownTimer(model);
+                }
                 continue;
             }
             // 查找该主播是否正在跳着舞
@@ -338,16 +365,55 @@ public class SceneDiscoManager extends BaseServiceManager {
         }
     };
 
+    /** 请求蹦迪信息通知 */
+    private final SceneCommandManager.DiscoInfoReqCommandListener discoInfoReqListener = new SceneCommandManager.DiscoInfoReqCommandListener() {
+        @Override
+        public void onRecvCommand(RoomCmdDiscoInfoReqModel model, String userID) {
+            String cmd = RoomCmdModelUtils.buildCmdDiscoInfoResp(danceList, contributionModels);
+            parentManager.sceneEngineManager.sendCommand(cmd);
+        }
+    };
+
+    /** 响应蹦迪信息通知 */
+    private final SceneCommandManager.DiscoInfoRespCommandListener discoInfoRespListener = new SceneCommandManager.DiscoInfoRespCommandListener() {
+        @Override
+        public void onRecvCommand(RoomCmdDiscoInfoRespModel model, String userID) {
+            if (initDiscoInfoCompleted) {
+                return;
+            }
+            // 跳舞队列
+            releaseDanceList();
+            danceList.clear();
+            if (model.dancingMenu != null) {
+                danceList.addAll(model.dancingMenu);
+            }
+            callbackDanceList();
+            checkDanceStart();
+
+            // 排行榜
+            contributionModels.clear();
+            if (model.contribution != null) {
+                contributionModels.addAll(model.contribution);
+            }
+            callbackContribution();
+        }
+    };
+
     @Override
     public void onDestroy() {
         super.onDestroy();
         parentManager.sceneChatManager.removeSendMsgListener(sendMsgListener);
         parentManager.sceneEngineManager.removeCommandListener(sendGiftCommandListener);
+        parentManager.sceneEngineManager.removeCommandListener(discoInfoReqListener);
+        parentManager.sceneEngineManager.removeCommandListener(discoInfoRespListener);
+        releaseDanceList();
+    }
+
+    private void releaseDanceList() {
         for (DanceModel danceModel : danceList) {
             if (danceModel.countdownTimer != null) {
                 danceModel.countdownTimer.cancel();
             }
         }
     }
-
 }

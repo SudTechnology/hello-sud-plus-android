@@ -15,6 +15,8 @@ import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdDownMicModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdEnterRoomModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdSendGiftModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdUpMicModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdDiscoInfoReqModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdDiscoInfoRespModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.order.RoomCmdOrderOperateModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.order.RoomCmdUserOrderModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKAnswerModel;
@@ -116,8 +118,14 @@ public class SceneCommandManager extends BaseServiceManager {
             case RoomCmd.CMD_ORDER_OPERATE_NOTIFY: // 主播同意或者拒绝用户点单
                 dispatchCommand(commandCmd, RoomCmdOrderOperateModel.fromJson(command), userID);
                 break;
-            case RoomCmd.CMD_QUIZ_BET: // v
+            case RoomCmd.CMD_QUIZ_BET: // 竞猜下注通知
                 dispatchCommand(commandCmd, QuizBetModel.fromJson(command), userID);
+                break;
+            case RoomCmd.CMD_ROOM_DISCO_INFO_REQ: // 请求蹦迪信息
+                dispatchCommand(commandCmd, RoomCmdDiscoInfoReqModel.fromJson(command), userID);
+                break;
+            case RoomCmd.CMD_ROOM_DISCO_INFO_RESP: // 响应蹦迪信息
+                dispatchCommand(commandCmd, RoomCmdDiscoInfoRespModel.fromJson(command), userID);
                 break;
         }
     }
@@ -228,6 +236,16 @@ public class SceneCommandManager extends BaseServiceManager {
                         ((QuizBetCommandListener) listener).onRecvCommand((QuizBetModel) model, fromUserID);
                     }
                     break;
+                case RoomCmd.CMD_ROOM_DISCO_INFO_REQ: // 请求蹦迪信息
+                    if (listener instanceof DiscoInfoReqCommandListener) {
+                        ((DiscoInfoReqCommandListener) listener).onRecvCommand((RoomCmdDiscoInfoReqModel) model, fromUserID);
+                    }
+                    break;
+                case RoomCmd.CMD_ROOM_DISCO_INFO_RESP: // 响应蹦迪信息
+                    if (listener instanceof DiscoInfoRespCommandListener) {
+                        ((DiscoInfoRespCommandListener) listener).onRecvCommand((RoomCmdDiscoInfoRespModel) model, fromUserID);
+                    }
+                    break;
             }
         }
     }
@@ -328,6 +346,16 @@ public class SceneCommandManager extends BaseServiceManager {
         void onRecvCommand(QuizBetModel model, String userID);
     }
     // endregion 竞猜信令监听
+
+    // region 蹦迪信令监听
+    interface DiscoInfoReqCommandListener extends ICommandListener {
+        void onRecvCommand(RoomCmdDiscoInfoReqModel model, String userID);
+    }
+
+    interface DiscoInfoRespCommandListener extends ICommandListener {
+        void onRecvCommand(RoomCmdDiscoInfoRespModel model, String userID);
+    }
+    // endregion 蹦迪信令监听
 
 
     @Override

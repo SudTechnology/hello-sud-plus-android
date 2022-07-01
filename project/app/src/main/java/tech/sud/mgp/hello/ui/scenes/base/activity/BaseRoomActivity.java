@@ -64,6 +64,7 @@ import tech.sud.mgp.hello.ui.scenes.base.widget.view.chat.RoomInputMsgView;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.chat.SceneRoomChatView;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.mic.OnMicItemClickListener;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.mic.SceneRoomMicWrapView;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.ContributionModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.DanceModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.order.RoomCmdUserOrderModel;
 import tech.sud.mgp.hello.ui.scenes.common.gift.listener.GiftSendClickListener;
@@ -1088,6 +1089,10 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
 
     @Override
     public void onDanceWait() {
+    }
+
+    @Override
+    public void onDiscoContribution(List<ContributionModel> list) {
     }
     // endregion service回调
 

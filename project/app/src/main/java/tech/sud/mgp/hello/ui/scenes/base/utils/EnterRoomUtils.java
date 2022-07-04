@@ -32,7 +32,6 @@ import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
 import tech.sud.mgp.hello.ui.scenes.crossroom.activity.CrossRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.custom.CustomActivity;
 import tech.sud.mgp.hello.ui.scenes.danmaku.activity.DanmakuActivity;
-import tech.sud.mgp.hello.ui.scenes.disco.activity.DiscoActivity;
 import tech.sud.mgp.hello.ui.scenes.orderentertainment.OrderEntertainmentActivity;
 import tech.sud.mgp.hello.ui.scenes.quiz.activity.QuizActivity;
 import tech.sud.mgp.hello.ui.scenes.ticket.activity.TicketActivity;
@@ -167,8 +166,8 @@ public class EnterRoomUtils {
                 return new Intent(context, QuizActivity.class);
             case SceneType.DANMAKU:
                 return new Intent(context, DanmakuActivity.class);
-            case SceneType.DISCO:
-                return new Intent(context, DiscoActivity.class);
+//            case SceneType.DISCO:
+//                return new Intent(context, DiscoActivity.class);
 //            case SceneType.TALENT:
 //                return new Intent(context, TalentRoomActivity.class);
 //            case SceneType.ONE_ONE:

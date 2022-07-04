@@ -6,6 +6,7 @@ import com.blankj.utilcode.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
 import tech.sud.mgp.hello.R;
@@ -143,7 +144,7 @@ public class SceneDiscoManager extends BaseServiceManager {
         } else if (giftID == 4) {
             callbackAction(helper.textPop(9, context.getString(R.string.send_gift_title, giftCount + "", giftName)));
             callbackAction(helper.roleBig(60, 2));
-            callbackAction(helper.roleFocus(5, null));
+            callbackAction(helper.roleFocus(5, true));
             callbackAction(helper.roleEffects(60 * 60 * 2, null));
         } else if (giftID == 5) {
             addDance(RoomCmdModelUtils.getSendUser(), toUser, 60);
@@ -166,21 +167,13 @@ public class SceneDiscoManager extends BaseServiceManager {
             model.fromUser = fromUser;
             model.toUser = toUser;
             model.duration = duration;
-            int insetPosition = -1;
-            for (int i = danceList.size() - 1; i >= 0; i--) {
-                DanceModel danceModel = danceList.get(i);
-                if (danceModel.isCompleted) {
-                    insetPosition = i;
-                    break;
-                }
-            }
+            int insetPosition = findFirstCompletedDanceModel();
             if (insetPosition == -1) {
                 danceList.add(model);
             } else {
                 danceList.add(insetPosition, model);
             }
-            sortDanceList();
-            callbackDanceList();
+            collatingDanceList();
             checkDanceStart();
         } else {
             if (model.beginTime > 0) { // 如果正在执行中
@@ -202,6 +195,19 @@ public class SceneDiscoManager extends BaseServiceManager {
         }
     }
 
+    /** 查找第一个已经完成的跳舞数据，没找到，则返回-1 */
+    private int findFirstCompletedDanceModel() {
+        int firstPosition = -1;
+        for (int i = danceList.size() - 1; i >= 0; i--) {
+            DanceModel danceModel = danceList.get(i);
+            if (danceModel.isCompleted) {
+                firstPosition = i;
+                break;
+            }
+        }
+        return firstPosition;
+    }
+
     /** 向游戏发送状态，与该主播跳舞 */
     private void callDanceWithAnchor(UserInfo toUser, int duration) {
         callbackAction(helper.danceWithAnchor(duration, false, toUser.userID));
@@ -209,7 +215,7 @@ public class SceneDiscoManager extends BaseServiceManager {
     }
 
     /** 整理跳舞数据 */
-    private void sortDanceList() {
+    private void collatingDanceList() {
         boolean isFirstCompleted = true;
         for (DanceModel model : danceList) {
             if (model.isCompleted) {
@@ -221,6 +227,7 @@ public class SceneDiscoManager extends BaseServiceManager {
                 }
             }
         }
+        callbackDanceList();
     }
 
     /** 开始倒计时 */
@@ -260,17 +267,52 @@ public class SceneDiscoManager extends BaseServiceManager {
     private void danceCompleted(DanceModel model) {
         model.countdownTimer = null;
         model.isCompleted = true;
-        sortDanceList();
-        callbackDanceList();
+        danceList.remove(model);
+        int insetPosition = findFirstCompletedDanceModel();
+        if (insetPosition == -1) {
+            danceList.add(model);
+        } else {
+            danceList.add(insetPosition, model);
+        }
+        collatingDanceList();
         checkDanceStart();
     }
 
     /** 跳舞插队 */
-    private void danceTop(UserInfo sendUser, UserInfo toUser) {
-        // TODO: 2022/6/30
+    private void danceTop(UserInfo fromUser, UserInfo toUser) {
+        if (fromUser == null || toUser == null) {
+            return;
+        }
+        // 找到用户与该主播正在排队中的数据
+        DanceModel danceWaitingModel = findDanceWaitingModel(fromUser, toUser);
+        if (danceWaitingModel == null) { // 没有排队中的数据，不能插队
+            return;
+        }
+        // 找到该主播排队中的第一位
+        int insertPosition = -1;
+        for (int i = 0; i < danceList.size(); i++) {
+            DanceModel model = danceList.get(i);
+            if (model.isCompleted) {
+                continue;
+            }
+            if (model.beginTime == 0 && Objects.equals(model.toUser, toUser)) {
+                insertPosition = i;
+                break;
+            }
+        }
+        if (insertPosition == -1) {
+            return;
+        }
+
+        int curPosition = danceList.indexOf(danceWaitingModel);
+        if (insertPosition < curPosition) { // 找到的该主播排队第一名，比现在的位置要大
+            danceList.remove(danceWaitingModel);
+            danceList.add(insertPosition, danceWaitingModel);
+            callbackDanceList();
+        }
     }
 
-    /** 查找正在跳舞的数据 */
+    /** 匹配用户与主播，找到未结束的跳舞数据 */
     private DanceModel findDancingModel(UserInfo fromUser, UserInfo toUser) {
         for (DanceModel model : danceList) {
             if (model.isCompleted) {
@@ -279,6 +321,22 @@ public class SceneDiscoManager extends BaseServiceManager {
             if (model.fromUser != null && model.fromUser.equals(fromUser)
                     && model.toUser != null && model.toUser.equals(toUser)) {
                 return model;
+            }
+        }
+        return null;
+    }
+
+    /** 匹配用户与主播，找到排队中的跳舞数据 */
+    private DanceModel findDanceWaitingModel(UserInfo fromUser, UserInfo toUser) {
+        for (DanceModel model : danceList) {
+            if (model.isCompleted) {
+                continue;
+            }
+            if (model.fromUser != null && model.fromUser.equals(fromUser)
+                    && model.toUser != null && model.toUser.equals(toUser)) {
+                if (model.beginTime == 0) {
+                    return model;
+                }
             }
         }
         return null;
@@ -381,13 +439,20 @@ public class SceneDiscoManager extends BaseServiceManager {
             if (initDiscoInfoCompleted) {
                 return;
             }
+            initDiscoInfoCompleted = true;
             // 跳舞队列
             releaseDanceList();
             danceList.clear();
             if (model.dancingMenu != null) {
                 danceList.addAll(model.dancingMenu);
             }
-            callbackDanceList();
+            long curTimeSecond = System.currentTimeMillis() / 1000;
+            for (DanceModel danceModel : danceList) {
+                if (danceModel.beginTime > 0 && (danceModel.beginTime + danceModel.duration) < curTimeSecond) {
+                    danceModel.isCompleted = true;
+                }
+            }
+            collatingDanceList();
             checkDanceStart();
 
             // 排行榜

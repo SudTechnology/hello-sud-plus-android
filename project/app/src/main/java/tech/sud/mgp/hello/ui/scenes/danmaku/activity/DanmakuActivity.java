@@ -322,35 +322,40 @@ public class DanmakuActivity extends BaseRoomActivity<AppGameViewModel> implemen
     /** 快捷指令送出礼物 */
     private void fastSendGift(DanmakuListResp.Prop model) {
         // 发送http到后端
-        RoomRepository.sendGift(this, roomInfoModel.roomId, model.giftId, 1, 2, model.giftPrice, new RxCallback<>());
+        RoomRepository.sendGift(this, roomInfoModel.roomId, model.giftId, 1, 2, model.giftPrice, new RxCallback<Object>() {
+            @Override
+            public void onSuccess(Object o) {
+                super.onSuccess(o);
 
-        // 送给房主
-        UserInfo toUser = new UserInfo();
-        if (binder != null) {
-            List<AudioRoomMicModel> micList = binder.getMicList();
-            if (micList != null) {
-                for (AudioRoomMicModel audioRoomMicModel : micList) {
-                    if (audioRoomMicModel.roleType == RoleType.OWNER) {
-                        toUser.userID = audioRoomMicModel.userId + "";
-                        toUser.name = audioRoomMicModel.nickName;
-                        toUser.icon = audioRoomMicModel.avatar;
+                // 送给房主
+                UserInfo toUser = new UserInfo();
+                if (binder != null) {
+                    List<AudioRoomMicModel> micList = binder.getMicList();
+                    if (micList != null) {
+                        for (AudioRoomMicModel audioRoomMicModel : micList) {
+                            if (audioRoomMicModel.roleType == RoleType.OWNER) {
+                                toUser.userID = audioRoomMicModel.userId + "";
+                                toUser.name = audioRoomMicModel.nickName;
+                                toUser.icon = audioRoomMicModel.avatar;
+                            }
+                        }
                     }
                 }
+
+                // 展示礼物
+                GiftModel giftModel = new GiftModel();
+                giftModel.type = 1;
+                giftModel.giftName = model.name;
+                giftModel.giftUrl = model.giftUrl;
+                giftModel.animationUrl = model.animationUrl;
+                showGift(giftModel);
+
+                // 发送"送礼消息"
+                if (binder != null) {
+                    binder.sendGift(0, 1, toUser, 1, model.name, model.giftUrl, model.animationUrl);
+                }
             }
-        }
-
-        // 展示礼物
-        GiftModel giftModel = new GiftModel();
-        giftModel.type = 1;
-        giftModel.giftName = model.name;
-        giftModel.giftUrl = model.giftUrl;
-        giftModel.animationUrl = model.animationUrl;
-        showGift(giftModel);
-
-        // 发送"送礼消息"
-        if (binder != null) {
-            binder.sendGift(0, 1, toUser, 1, model.name, model.giftUrl, model.animationUrl);
-        }
+        });
     }
 
     /** 快捷指令发弹幕 */

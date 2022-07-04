@@ -228,6 +228,24 @@ public class OrderDialog extends BaseDialogFragment {
             }
             gameAdapter.notifyDataSetChanged();
         }
+        updateInfo();
+    }
+
+    private void updateInfo() {
+        if (mUsers.size() > 0 && hasAnchor) {
+            int userCount = 0;
+            int totalPrice = 0;
+            OrderGameModel game = findGame();
+            for (int i = 0; i < mUsers.size(); i++) {
+                if (mUsers.get(i).checked) {
+                    userCount++;
+                    if (game != null) {
+                        totalPrice += singlePrice;
+                    }
+                }
+            }
+            setOrderPrice(userCount, totalPrice);
+        }
     }
 
     @Override

@@ -7,6 +7,8 @@ import tech.sud.mgp.hello.rtc.audio.core.AudioPCMData;
 import tech.sud.mgp.hello.ui.scenes.base.constant.OperateMicType;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.OrderInviteModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.ContributionModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.DanceModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.order.RoomCmdUserOrderModel;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftNotifyDetailModel;
 
@@ -134,4 +136,18 @@ public interface SceneRoomServiceCallback {
      */
     void notifyStateChange(String state, String dataJson, ISudListenerNotifyStateChange listener);
 
+    // region 蹦迪
+
+    /** 回调整个跳舞队列 */
+    void onDanceList(List<DanceModel> list);
+
+    /** 回调页面更新某一个跳舞数据 */
+    void onUpdateDance(int index);
+
+    /** 发出跳请时，主播正在跟其他人在跳舞，请等待 */
+    void onDanceWait();
+
+    /** 回调蹦迪排行榜 */
+    void onDiscoContribution(List<ContributionModel> list);
+    // endregion 蹦迪
 }

@@ -1,8 +1,11 @@
 package tech.sud.mgp.hello.ui.scenes.common.gift.manager;
 
+import android.app.Application;
 import android.content.Context;
 
 import androidx.annotation.RawRes;
+
+import com.blankj.utilcode.util.Utils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -60,6 +63,7 @@ public class GiftHelper {
             model2.giftImage = R.drawable.icon_gift_600;
             model2.giftSmallImage = R.drawable.icon_gift_128;
             model2.giftPrice = 100;
+            model2.isFeature = true;
             gifts.add(model2);
 
             GiftModel model3 = new GiftModel();
@@ -70,6 +74,7 @@ public class GiftHelper {
             model3.giftImage = R.drawable.icon_gift_600;
             model3.giftSmallImage = R.drawable.icon_gift_128;
             model3.giftPrice = 1000;
+            model3.isFeature = true;
             gifts.add(model3);
 
             copyFileToSdcrad(context, R.raw.sud_mp4_600, "sud_mp4_600.mp4");
@@ -82,6 +87,8 @@ public class GiftHelper {
             model4.giftImage = R.drawable.icon_gift_600;
             model4.giftSmallImage = R.drawable.icon_gift_128;
             model4.giftPrice = 10000;
+            model4.isFeature = true;
+            model4.isEffect = true;
             gifts.add(model4);
 
             this.gifts.clear();
@@ -95,6 +102,56 @@ public class GiftHelper {
             if (giftId == model.giftId) {
                 return model;
             }
+        }
+        return createGiftModel(giftId);
+    }
+
+    /**
+     * 除去通用的内置礼物
+     * id:5 为蹦迪场景 跳舞1分钟
+     * id:6 为蹦迪场景 跳舞3分钟
+     * id:7 为蹦迪场景 跳舞插队
+     *
+     * @param giftId
+     * @return
+     */
+    public GiftModel createGiftModel(long giftId) {
+        Application context = Utils.getApp();
+        if (giftId == 5) {
+            GiftModel model = new GiftModel();
+            model.giftId = giftId;
+            model.giftName = context.getString(R.string.dancing_minute_count, "1");
+            model.animationType = EffectAnimationFormat.SVGA;
+            model.path = context.getCacheDir().getAbsolutePath() + File.separator + "sud_svga_600.svga";
+            model.resId = R.raw.sud_svga_600;
+            model.giftImage = R.drawable.icon_gift_600;
+            model.giftSmallImage = R.drawable.icon_gift_128;
+            model.giftPrice = 50;
+            return model;
+        }
+        if (giftId == 6) {
+            GiftModel model = new GiftModel();
+            model.giftId = giftId;
+            model.giftName = context.getString(R.string.dancing_minute_count, "3");
+            model.animationType = EffectAnimationFormat.SVGA;
+            model.path = context.getCacheDir().getAbsolutePath() + File.separator + "sud_svga_600.svga";
+            model.resId = R.raw.sud_svga_600;
+            model.giftImage = R.drawable.icon_gift_600;
+            model.giftSmallImage = R.drawable.icon_gift_128;
+            model.giftPrice = 150;
+            return model;
+        }
+        if (giftId == 7) {
+            GiftModel model = new GiftModel();
+            model.giftId = giftId;
+            model.giftName = context.getString(R.string.dance_top);
+            model.animationType = EffectAnimationFormat.SVGA;
+            model.path = context.getCacheDir().getAbsolutePath() + File.separator + "sud_svga_600.svga";
+            model.resId = R.raw.sud_svga_600;
+            model.giftImage = R.drawable.icon_gift_600;
+            model.giftSmallImage = R.drawable.icon_gift_128;
+            model.giftPrice = 1500;
+            return model;
         }
         return null;
     }

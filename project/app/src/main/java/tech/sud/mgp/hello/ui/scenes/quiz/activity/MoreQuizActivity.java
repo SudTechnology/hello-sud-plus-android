@@ -58,7 +58,7 @@ public class MoreQuizActivity extends BaseActivity {
     protected void initWidget() {
         super.initWidget();
         refreshView = findViewById(R.id.refresh_view);
-        refreshView.setEnableRefresh(false);
+//        refreshView.setEnableRefresh(false);
         headView = new MoreQuizHeadView(this);
         initRefreshDataHelper();
         adapter.setHeaderWithEmptyEnable(true);

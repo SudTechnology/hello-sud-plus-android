@@ -369,7 +369,7 @@ public class AppGameViewModel implements SudFSMMGListener {
     public void wrapMicModel(AudioRoomMicModel model) {
         boolean hasUser = model.userId > 0;
         // 是否是游戏中的队长
-        if (hasUser && sudFSMMGDecorator.isCaptain(model.userId)) {
+        if (hasUser && isCaptain(model.userId)) {
             model.isCaptain = true;
         } else {
             model.isCaptain = false;
@@ -500,7 +500,7 @@ public class AppGameViewModel implements SudFSMMGListener {
     public void notifyShowFinishGameBtn() {
         // 队长以及游戏中才显示
         boolean isShow = playingGameId > 0
-                && sudFSMMGDecorator.isCaptain(HSUserInfo.userId)
+                && isCaptain(HSUserInfo.userId)
                 && isGamePlaying();
         showFinishGameBtnLiveData.setValue(isShow);
     }
@@ -533,7 +533,8 @@ public class AppGameViewModel implements SudFSMMGListener {
 
     // 返回该用户是否为游戏队长
     public boolean isCaptain(long userId) {
-        return sudFSMMGDecorator.isCaptain(userId);
+        String captainUserId = sudFSMMGDecorator.getCaptainUserId();
+        return (userId + "").equals(captainUserId);
     }
 
     /**

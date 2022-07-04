@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/c_f5f6fb"
+    android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <tech.sud.mgp.hello.ui.common.widget.HSTopBar
@@ -11,19 +12,33 @@
         android:layout_height="54dp"
         app:topbar_titleText="@string/disco_ranking_explain"
         android:paddingTop="10dp"
-        android:background="@color/white"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:background="@color/white" />
 
     <TextView
-        android:id="@+id/tv_content"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:paddingHorizontal="16dp"
-        android:paddingTop="24dp"
+        android:layout_marginTop="24dp"
         android:textSize="14sp"
         android:textColor="@color/c_1a1a1a"
-        android:text="@string/disco_ranking_explain_content"
-        app:layout_constraintTop_toBottomOf="@id/top_bar"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        android:text="@string/disco_ranking_explain_content_1" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="16dp"
+        android:layout_marginTop="24dp"
+        android:textSize="14sp"
+        android:textColor="@color/c_1a1a1a"
+        android:text="@string/disco_ranking_explain_content_2" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="16dp"
+        android:layout_marginTop="24dp"
+        android:textSize="14sp"
+        android:textColor="@color/c_1a1a1a"
+        android:text="@string/disco_ranking_explain_content_3" />
+
+</LinearLayout>

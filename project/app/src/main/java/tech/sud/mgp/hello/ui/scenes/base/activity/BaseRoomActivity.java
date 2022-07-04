@@ -46,6 +46,7 @@ import tech.sud.mgp.hello.ui.common.constant.RequestKey;
 import tech.sud.mgp.hello.ui.main.constant.GameIdCons;
 import tech.sud.mgp.hello.ui.scenes.base.constant.OperateMicType;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
+import tech.sud.mgp.hello.ui.scenes.base.model.BooleanModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.GameTextModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.OrderInviteModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoleType;
@@ -63,6 +64,8 @@ import tech.sud.mgp.hello.ui.scenes.base.widget.view.chat.RoomInputMsgView;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.chat.SceneRoomChatView;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.mic.OnMicItemClickListener;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.mic.SceneRoomMicWrapView;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.ContributionModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.DanceModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.order.RoomCmdUserOrderModel;
 import tech.sud.mgp.hello.ui.scenes.common.gift.listener.GiftSendClickListener;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftModel;
@@ -164,6 +167,12 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
 
         topView.setFinishGameVisible(false);
         topView.setSelectGameVisible(roomInfoModel.roleType == RoleType.OWNER);
+    }
+
+    protected void bringToFrontViews() {
+        giftContainer.bringToFront();
+        inputMsgView.bringToFront();
+        clOpenMic.bringToFront();
     }
 
     @Override
@@ -763,24 +772,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         roomGiftDialog.giftSendClickListener = new GiftSendClickListener() {
             @Override
             public void onSendClick(GiftModel giftModel, int giftCount, List<UserInfo> toUsers) {
-                if (toUsers != null && toUsers.size() > 0) {
-                    for (UserInfo user : toUsers) {
-                        if (binder != null) {
-                            binder.sendGift(giftModel.giftId, giftCount, user,
-                                    giftModel.type, giftModel.giftName, giftModel.giftUrl, giftModel.animationUrl);
-                        }
-                        // 发送http到后端
-                        int giftConfigType; // 礼物配置方式（1：客户端，2：服务端）
-                        if (giftModel.type == 0) { // 1.4.0新增:礼物类型 0：内置礼物 1：后端配置礼物
-                            giftConfigType = 1;
-                        } else {
-                            giftConfigType = 2;
-                        }
-                        RoomRepository.sendGift(context, roomInfoModel.roomId, giftModel.giftId,
-                                giftCount, giftConfigType, giftModel.giftPrice, new RxCallback<>());
-                    }
-                }
-                showGift(giftModel);
+                onSendGift(giftModel, giftCount, toUsers);
             }
 
             @Override
@@ -800,6 +792,38 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
                 }
             }
         });
+    }
+
+    private void onSendGift(GiftModel giftModel, int giftCount, List<UserInfo> toUsers) {
+        if (toUsers == null || toUsers.size() == 0) {
+            return;
+        }
+        BooleanModel isShowGift = new BooleanModel();
+        isShowGift.value = true;
+        for (UserInfo user : toUsers) {
+            // 发送http到后端
+            int giftConfigType; // 礼物配置方式（1：客户端，2：服务端）
+            if (giftModel.type == 0) { // 1.4.0新增:礼物类型 0：内置礼物 1：后端配置礼物
+                giftConfigType = 1;
+            } else {
+                giftConfigType = 2;
+            }
+            RoomRepository.sendGift(context, roomInfoModel.roomId, giftModel.giftId, giftCount,
+                    giftConfigType, giftModel.giftPrice, new RxCallback<Object>() {
+                        @Override
+                        public void onSuccess(Object o) {
+                            super.onSuccess(o);
+                            if (binder != null) {
+                                binder.sendGift(giftModel.giftId, giftCount, user,
+                                        giftModel.type, giftModel.giftName, giftModel.giftUrl, giftModel.animationUrl);
+                            }
+                            if (isShowGift.value) { // 只显示一次动效
+                                isShowGift.value = false;
+                                showGift(giftModel);
+                            }
+                        }
+                    });
+        }
     }
 
     /** 显示礼物 */
@@ -1053,6 +1077,22 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
     @Override
     public void notifyStateChange(String state, String dataJson, ISudListenerNotifyStateChange listener) {
         gameViewModel.notifyStateChange(state, dataJson, listener);
+    }
+
+    @Override
+    public void onDanceList(List<DanceModel> list) {
+    }
+
+    @Override
+    public void onUpdateDance(int index) {
+    }
+
+    @Override
+    public void onDanceWait() {
+    }
+
+    @Override
+    public void onDiscoContribution(List<ContributionModel> list) {
     }
     // endregion service回调
 

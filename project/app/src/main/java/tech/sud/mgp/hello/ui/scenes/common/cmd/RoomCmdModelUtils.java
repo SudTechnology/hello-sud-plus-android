@@ -13,6 +13,10 @@ import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdDownMicModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdEnterRoomModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdSendGiftModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdUpMicModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.ContributionModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.DanceModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdDiscoInfoReqModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdDiscoInfoRespModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.order.RoomCmdOrderOperateModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.order.RoomCmdUserOrderModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKAnswerModel;
@@ -202,6 +206,23 @@ public class RoomCmdModelUtils {
     public static String buildCmdQuizBet(List<UserInfo> recUser) {
         QuizBetModel command = new QuizBetModel(getSendUser());
         command.recUser = recUser;
+        return command.toJson();
+    }
+    // endregion 竞猜
+
+    // region 蹦迪
+
+    /** 构建 请求蹦迪信息 信令 */
+    public static String buildCmdDiscoInfoReq() {
+        RoomCmdDiscoInfoReqModel command = new RoomCmdDiscoInfoReqModel(getSendUser());
+        return command.toJson();
+    }
+
+    /** 构建 响应蹦迪信息 信令 */
+    public static String buildCmdDiscoInfoResp(List<DanceModel> dancingMenu, List<ContributionModel> contribution) {
+        RoomCmdDiscoInfoRespModel command = new RoomCmdDiscoInfoRespModel(getSendUser());
+        command.dancingMenu = dancingMenu;
+        command.contribution = contribution;
         return command.toJson();
     }
     // endregion 竞猜

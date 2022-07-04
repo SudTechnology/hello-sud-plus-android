@@ -133,9 +133,7 @@ public class DanmakuActivity extends BaseRoomActivity<AppGameViewModel> implemen
         chatView.normalTopMargin = DensityUtils.dp2px(this, 26);
         chatView.updateStyle();
 
-        giftContainer.bringToFront();
-        inputMsgView.bringToFront();
-        clOpenMic.bringToFront();
+        bringToFrontViews();
     }
 
     @Override

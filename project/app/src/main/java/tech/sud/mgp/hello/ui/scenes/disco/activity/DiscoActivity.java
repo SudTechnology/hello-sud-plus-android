@@ -7,9 +7,12 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.lifecycle.Observer;
+
 import java.util.List;
 
 import tech.sud.mgp.hello.R;
+import tech.sud.mgp.hello.common.base.BaseDialogFragment;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
@@ -20,7 +23,9 @@ import tech.sud.mgp.hello.ui.main.constant.GameIdCons;
 import tech.sud.mgp.hello.ui.scenes.audio.activity.AbsAudioRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.base.constant.OperateMicType;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoleType;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.DanceModel;
 import tech.sud.mgp.hello.ui.scenes.disco.viewmodel.DiscoGameViewModel;
+import tech.sud.mgp.hello.ui.scenes.disco.widget.DancingMenuDialog;
 
 /**
  * 蹦迪 场景
@@ -29,6 +34,9 @@ public class DiscoActivity extends AbsAudioRoomActivity<DiscoGameViewModel> {
 
     private TextView tvStartDisco;
     private TextView tvCloseDisco;
+    private TextView tvDencingMenu;
+    private TextView tvDanceWait;
+    private DancingMenuDialog dancingMenuDialog;
 
     @Override
     protected DiscoGameViewModel initGameViewModel() {
@@ -44,6 +52,9 @@ public class DiscoActivity extends AbsAudioRoomActivity<DiscoGameViewModel> {
     protected void initWidget() {
         super.initWidget();
         roomConfig.isShowGameNumber = false; // 不显示游戏人数
+
+        tvDencingMenu = findViewById(R.id.tv_dancing_menu);
+        tvDanceWait = findViewById(R.id.tv_dance_send_hint);
 
         // 开启蹦迪按钮
         int paddingHorizontal = DensityUtils.dp2px(this, 8);
@@ -65,6 +76,8 @@ public class DiscoActivity extends AbsAudioRoomActivity<DiscoGameViewModel> {
         tvCloseDisco.setVisibility(View.GONE);
 
         topView.setSelectGameVisible(false);
+
+        bringToFrontViews();
     }
 
     private TextView createTopTextView(int paddingHorizontal, int textColor, int marginEnd) {
@@ -113,6 +126,43 @@ public class DiscoActivity extends AbsAudioRoomActivity<DiscoGameViewModel> {
             @Override
             public void onClick(View v) {
                 closeDisco();
+            }
+        });
+        tvDencingMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDancingMenu();
+            }
+        });
+
+        gameViewModel.gameStartedLiveData.observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                // 游戏开始后，自动加入舞池，这里delay是为了让游戏状态能同步
+                tvCloseDisco.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        gameViewModel.joinDancingFloor(null);
+                    }
+                }, 1000);
+            }
+        });
+    }
+
+    private void showDancingMenu() {
+        if (dancingMenuDialog != null) {
+            return;
+        }
+        DancingMenuDialog dialog = new DancingMenuDialog();
+        dialog.show(getSupportFragmentManager(), null);
+        if (binder != null) {
+            dialog.notifyDataSetChange(binder.getDanceList());
+        }
+        dancingMenuDialog = dialog;
+        dialog.setOnDestroyListener(new BaseDialogFragment.OnDestroyListener() {
+            @Override
+            public void onDestroy() {
+                dancingMenuDialog = null;
             }
         });
     }
@@ -173,5 +223,36 @@ public class DiscoActivity extends AbsAudioRoomActivity<DiscoGameViewModel> {
             gameViewModel.joinAnchor(null);
         }
     }
+
+    @Override
+    public void onDanceList(List<DanceModel> list) {
+        super.onDanceList(list);
+        if (dancingMenuDialog != null) {
+            dancingMenuDialog.notifyDataSetChange(list);
+        }
+    }
+
+    @Override
+    public void onUpdateDance(int index) {
+        super.onUpdateDance(index);
+        if (dancingMenuDialog != null) {
+            dancingMenuDialog.notifyItemChanged(index);
+        }
+    }
+
+    @Override
+    public void onDanceWait() {
+        super.onDanceWait();
+        tvDanceWait.removeCallbacks(danceWaitHideTask);
+        tvDanceWait.setVisibility(View.VISIBLE);
+        tvDanceWait.postDelayed(danceWaitHideTask, 4000);
+    }
+
+    private final Runnable danceWaitHideTask = new Runnable() {
+        @Override
+        public void run() {
+            tvDanceWait.setVisibility(View.GONE);
+        }
+    };
 
 }

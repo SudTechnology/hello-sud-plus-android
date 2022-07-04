@@ -2,6 +2,7 @@ package tech.sud.mgp.hello.ui.scenes.common.gift.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,6 +20,9 @@ public class GiftItemView extends ConstraintLayout {
     private ImageView itemGiftImgIv;
     private TextView itemGiftNameTv;
     private TextView tvPrice;
+    private TextView tvFeature;
+    private TextView tvEffect;
+    public boolean isShowFlag; // 是否显示标记
 
     public GiftItemView(@NonNull Context context) {
         super(context);
@@ -41,6 +45,8 @@ public class GiftItemView extends ConstraintLayout {
         itemGiftImgIv = findViewById(R.id.item_gift_img_iv);
         itemGiftNameTv = findViewById(R.id.item_gift_name_tv);
         tvPrice = findViewById(R.id.tv_price);
+        tvFeature = findViewById(R.id.tv_feature);
+        tvEffect = findViewById(R.id.tv_effect);
     }
 
     public void setModel(GiftModel model) {
@@ -52,6 +58,22 @@ public class GiftItemView extends ConstraintLayout {
         itemGiftNameTv.setText(model.giftName);
         itemGiftBg.setSelected(model.checkState);
         tvPrice.setText(model.giftPrice + "");
+
+        if (isShowFlag) {
+            if (model.isFeature) {
+                tvFeature.setVisibility(View.VISIBLE);
+            } else {
+                tvFeature.setVisibility(View.GONE);
+            }
+            if (model.isEffect) {
+                tvEffect.setVisibility(View.VISIBLE);
+            } else {
+                tvEffect.setVisibility(View.GONE);
+            }
+        } else {
+            tvFeature.setVisibility(View.GONE);
+            tvEffect.setVisibility(View.GONE);
+        }
     }
 
 }

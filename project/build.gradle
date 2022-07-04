@@ -18,9 +18,9 @@ ext {
     versionCode = "1"
     versionName = "1.3.0"
     baseUrlConfig = "fat"
-    baseUrl = "https://fat-base.sud.tech/"
-    interactBaseUrl = "https://fat-interact.sud.tech/"
-    gameBaseUrl = "https://fat-game.sud.tech/"
+    baseUrl = "https://fat-base-hello-sud.sud.tech/"
+    interactBaseUrl = "https://fat-interact-hello-sud.sud.tech/"
+    gameBaseUrl = "https://fat-game-hello-sud.sud.tech/"
     buglyAppId = "f471ed313c"
     gameIsTestEnv = "true"
 

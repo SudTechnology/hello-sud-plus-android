@@ -21,7 +21,6 @@
 #-renamesourcefileattribute SourceFile
 
 # json序列化的混淆
--keep class tech.sud.mgp.SudMGPWrapper.** {*;}
 -keep class tech.sud.mgp.hello.ui.scenes.ticket.model.** {*;}
 -keep class tech.sud.mgp.hello.common.http.param.BaseBody {*;}
 -keep class tech.sud.mgp.hello.common.http.param.BaseResponse {*;}

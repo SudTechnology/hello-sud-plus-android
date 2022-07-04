@@ -150,13 +150,16 @@ public class OrderDialog extends BaseDialogFragment {
         if (mUsers.size() > 0 && hasAnchor) {
             int userCount = 0;
             int totalPrice = 0;
+            OrderGameModel game = findGame();
             for (int i = 0; i < mUsers.size(); i++) {
                 if (i == position) {
                     mUsers.get(i).checked = !mUsers.get(i).checked;
                 }
                 if (mUsers.get(i).checked) {
                     userCount++;
-                    totalPrice += singlePrice;
+                    if (game != null) {
+                        totalPrice += singlePrice;
+                    }
                 }
             }
             setOrderPrice(userCount, totalPrice);

@@ -259,9 +259,7 @@ public class DanmakuActivity extends BaseRoomActivity<AppGameViewModel> implemen
         viewSpreadLand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                danmakuListViewLand.setVisibility(View.VISIBLE);
-                viewShrinkLand.setVisibility(View.VISIBLE);
-                viewSpreadLand.setVisibility(View.GONE);
+                spreadLandDanmakuList();
             }
         });
         viewExitFullscreen.setOnClickListener(new View.OnClickListener() {
@@ -301,6 +299,13 @@ public class DanmakuActivity extends BaseRoomActivity<AppGameViewModel> implemen
             }
         });
         danmakuListViewLand.setDanmakuOnClickListener(danmakuOnClickListener);
+    }
+
+    /** 展开横屏的弹幕列表 */
+    private void spreadLandDanmakuList() {
+        danmakuListViewLand.setVisibility(View.VISIBLE);
+        viewShrinkLand.setVisibility(View.VISIBLE);
+        viewSpreadLand.setVisibility(View.GONE);
     }
 
     private DanmakuListView.DanmakuOnClickListener danmakuOnClickListener = new DanmakuListView.DanmakuOnClickListener() {
@@ -418,6 +423,7 @@ public class DanmakuActivity extends BaseRoomActivity<AppGameViewModel> implemen
         startVideo();
         showFullscreenWidget();
         checkShowGuide();
+        spreadLandDanmakuList();
     }
 
     private void dismissAllDialog() {

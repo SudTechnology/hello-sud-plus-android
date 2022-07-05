@@ -16,7 +16,9 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigat
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTitleView;
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.ClipPagerTitleView;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.LinePagerIndicator;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.ColorTransitionPagerTitleView;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.SimplePagerTitleView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +30,6 @@ import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.utils.ViewUtils;
 import tech.sud.mgp.hello.ui.common.widget.ViewPager2Helper;
 import tech.sud.mgp.hello.ui.scenes.quiz.fragment.QuizRankingTwoStageFragment;
-import tech.sud.mgp.hello.ui.scenes.quiz.widget.CustomLinePagerIndicator;
 
 /**
  * 竞猜排行榜页面
@@ -71,7 +72,7 @@ public class QuizRankingActivity extends BaseActivity {
 
     private void initMagicIndicator() {
         CommonNavigator commonNavigator = new CommonNavigator(this);
-        commonNavigator.setAdjustMode(true);
+        int paddingHorizontal = DensityUtils.dp2px(this, 24);
         commonNavigator.setAdapter(new CommonNavigatorAdapter() {
             @Override
             public int getCount() {
@@ -80,28 +81,29 @@ public class QuizRankingActivity extends BaseActivity {
 
             @Override
             public IPagerTitleView getTitleView(Context context, int index) {
-                ClipPagerTitleView clipPagerTitleView = new ClipPagerTitleView(context);
-                clipPagerTitleView.setText(tabs.get(index));
-                clipPagerTitleView.setTextColor(Color.WHITE);
-                clipPagerTitleView.setClipColor(Color.parseColor("#1a1a1a"));
-                clipPagerTitleView.setOnClickListener(new View.OnClickListener() {
+                SimplePagerTitleView simplePagerTitleView = new ColorTransitionPagerTitleView(context);
+                simplePagerTitleView.setText(tabs.get(index));
+                simplePagerTitleView.setNormalColor(Color.parseColor("#b3ffffff"));
+                simplePagerTitleView.setSelectedColor(Color.WHITE);
+                simplePagerTitleView.setPadding(paddingHorizontal, 0, paddingHorizontal, 0);
+                simplePagerTitleView.setTextSize(18);
+                simplePagerTitleView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         viewPager.setCurrentItem(index);
                     }
                 });
-                return clipPagerTitleView;
+                return simplePagerTitleView;
             }
 
             @Override
             public IPagerIndicator getIndicator(Context context) {
-                CustomLinePagerIndicator indicator = new CustomLinePagerIndicator(context);
-                float navigatorHeight = DensityUtils.dp2px(context, 36);
-                float borderWidth = 0;
-                float lineHeight = navigatorHeight - 2 * borderWidth;
-                indicator.setLineHeight(lineHeight);
-                indicator.setRoundRadius(DensityUtils.dp2px(context, 4));
-                indicator.setColors(Color.parseColor("#fff2e3"));
+                LinePagerIndicator indicator = new LinePagerIndicator(context);
+                indicator.setColors(Color.WHITE);
+                indicator.setMode(LinePagerIndicator.MODE_EXACTLY);
+                indicator.setLineWidth(DensityUtils.dp2px(context, 20));
+                indicator.setLineHeight(DensityUtils.dp2px(context, 2));
+                indicator.setYOffset(DensityUtils.dp2px(context, 5));
                 return indicator;
             }
         });

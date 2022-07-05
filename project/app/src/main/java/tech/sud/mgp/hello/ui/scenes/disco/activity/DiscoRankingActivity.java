@@ -18,8 +18,7 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNav
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTitleView;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.LinePagerIndicator;
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.ColorTransitionPagerTitleView;
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.SimplePagerTitleView;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.ClipPagerTitleView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,7 +72,7 @@ public class DiscoRankingActivity extends BaseActivity {
 
     private void initMagicIndicator() {
         CommonNavigator commonNavigator = new CommonNavigator(this);
-        int paddingHorizontal = DensityUtils.dp2px(this, 15);
+        commonNavigator.setAdjustMode(true);
         commonNavigator.setAdapter(new CommonNavigatorAdapter() {
             @Override
             public int getCount() {
@@ -82,28 +81,29 @@ public class DiscoRankingActivity extends BaseActivity {
 
             @Override
             public IPagerTitleView getTitleView(Context context, int index) {
-                SimplePagerTitleView simplePagerTitleView = new ColorTransitionPagerTitleView(context);
-                simplePagerTitleView.setText(tabs.get(index));
-                simplePagerTitleView.setNormalColor(Color.parseColor("#ccffffff"));
-                simplePagerTitleView.setSelectedColor(Color.WHITE);
-                simplePagerTitleView.setPadding(paddingHorizontal, 0, paddingHorizontal, 0);
-                simplePagerTitleView.setTextSize(12);
-                simplePagerTitleView.setOnClickListener(new View.OnClickListener() {
+                ClipPagerTitleView clipPagerTitleView = new ClipPagerTitleView(context);
+                clipPagerTitleView.setText(tabs.get(index));
+                clipPagerTitleView.setTextColor(Color.parseColor("#ccffffff"));
+                clipPagerTitleView.setClipColor(Color.parseColor("#3f3228"));
+                clipPagerTitleView.setTextSize(DensityUtils.sp2px(12));
+                clipPagerTitleView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         viewPager.setCurrentItem(index);
                     }
                 });
-                return simplePagerTitleView;
+                return clipPagerTitleView;
             }
 
             @Override
             public IPagerIndicator getIndicator(Context context) {
                 LinePagerIndicator indicator = new LinePagerIndicator(context);
-                indicator.setColors(Color.WHITE);
-                indicator.setMode(LinePagerIndicator.MODE_EXACTLY);
-                indicator.setLineWidth(DensityUtils.dp2px(context, 8));
-                indicator.setLineHeight(DensityUtils.dp2px(context, 2));
+                float navigatorHeight = DensityUtils.dp2px(context, 24);
+                float borderWidth = 0;
+                float lineHeight = navigatorHeight - 2 * borderWidth;
+                indicator.setLineHeight(lineHeight);
+                indicator.setRoundRadius(DensityUtils.dp2px(context, 12));
+                indicator.setColors(Color.parseColor("#fff2e3"));
                 return indicator;
             }
         });

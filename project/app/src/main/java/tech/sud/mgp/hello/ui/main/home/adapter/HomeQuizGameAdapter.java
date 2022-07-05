@@ -32,6 +32,9 @@ public class HomeQuizGameAdapter extends BaseQuickAdapter<GameModel, BaseViewHol
         ImageView ivIcon = helper.getView(R.id.iv_icon);
         ImageLoader.loadGameCover(ivIcon, item.homeGamePic);
 
+        ImageView ivIconMini = helper.getView(R.id.iv_icon_mini);
+        ImageLoader.loadGameCover(ivIconMini, item.gamePic);
+
         // 赢得的奖励
         helper.setText(R.id.tv_win_award, item.winCoin + "");
 

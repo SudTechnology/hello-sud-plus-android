@@ -92,7 +92,7 @@ public class RoomGiftNotifyProvider extends BaseItemProvider<Object> {
         builder.append(item.sendUser.name);
         ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#aaaaaa"));
         builder.append(" " + getContext().getString(R.string.audio_dialog_present) + " ", colorSpan, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        if (item.toUser != null) {
+        if (item.toUser != null && item.toUser.name != null) {
             builder.append(item.toUser.name);
         }
         builder.append("  " + item.gift.giftName + " ");

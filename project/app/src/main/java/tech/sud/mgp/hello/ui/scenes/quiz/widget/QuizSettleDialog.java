@@ -343,7 +343,11 @@ public class QuizSettleDialog extends BaseDialogFragment {
             holder.setText(R.id.tv_award, "+" + model.award);
 
             View viewHaveSupport = holder.getView(R.id.ll_have_support);
-            viewHaveSupport.setVisibility(model.support ? View.VISIBLE : View.GONE);
+            if (!(HSUserInfo.userId + "").equals(model.userId) && model.support) {
+                viewHaveSupport.setVisibility(View.VISIBLE);
+            } else {
+                viewHaveSupport.setVisibility(View.GONE);
+            }
 
             View viewMain = holder.getView(R.id.cl_main);
             if (model.isSelf) {

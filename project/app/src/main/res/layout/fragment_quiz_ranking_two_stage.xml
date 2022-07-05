@@ -18,8 +18,9 @@
     <net.lucode.hackware.magicindicator.MagicIndicator
         android:id="@+id/magic_indicator"
         android:layout_width="wrap_content"
-        android:layout_height="22dp"
+        android:layout_height="24dp"
         android:layout_marginTop="56dp"
+        android:background="@drawable/shape_ranking_tab_bg"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

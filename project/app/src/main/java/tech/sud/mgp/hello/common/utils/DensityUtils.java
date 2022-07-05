@@ -2,6 +2,7 @@ package tech.sud.mgp.hello.common.utils;
 
 import android.content.Context;
 import android.graphics.Point;
+import android.util.TypedValue;
 import android.view.WindowManager;
 
 import com.blankj.utilcode.util.Utils;
@@ -20,6 +21,34 @@ public class DensityUtils {
     public static int dp2px(float dpValue) {
         return dp2px(HelloSudApplication.instance, dpValue);
     }
+
+    /** sp转px */
+    public static int sp2px(Context context, float sp) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP,
+                sp, context.getResources().getDisplayMetrics());
+    }
+
+    /** sp转px */
+    public static int sp2px(float sp) {
+        return sp2px(HelloSudApplication.instance, sp);
+    }
+
+//    /**
+//     * sp转px
+//     *
+//     * @param sp
+//     * @return
+//     */
+//    fun sp2px(sp: Float): Int {
+//        return sp2px(Utils.getApp(), sp)
+//    }
+//
+//    fun sp2px(context: Context, sp: Float): Int {
+//        return TypedValue.applyDimension(
+//                TypedValue.COMPLEX_UNIT_SP,
+//                sp, context.resources.displayMetrics
+//        ).toInt()
+//    }
 
     /** px转dp */
     public static int px2dp(Context context, float pxValue) {

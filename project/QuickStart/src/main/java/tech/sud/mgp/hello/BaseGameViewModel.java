@@ -41,6 +41,7 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
 
     /**
      * 外部调用切换游戏
+     * gameId传0 等同于关闭游戏
      *
      * @param activity   游戏所在页面，用作于生命周期判断
      * @param gameRoomId 游戏房间id，房间隔离，同一房间才能一起游戏

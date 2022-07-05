@@ -31,8 +31,10 @@ import tech.sud.mgp.hello.ui.scenes.base.model.SceneRoomData;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.base.utils.SceneRoomNotificationHelper;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.RoomCmdModelUtils;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.ContributionModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.DanceModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.quiz.QuizBetModel;
+import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftModel;
 
 /**
  * 房间服务
@@ -169,8 +171,8 @@ public class SceneRoomService extends Service {
         }
 
         /** 发送礼物 */
-        public void sendGift(long giftID, int giftCount, UserInfo toUser, int type, String giftName, String giftUrl, String animationUrl) {
-            serviceManager.sendGift(giftID, giftCount, toUser, type, giftName, giftUrl, animationUrl);
+        public void sendGift(GiftModel giftModel, int giftCount, UserInfo toUser) {
+            serviceManager.sendGift(giftModel, giftCount, toUser);
         }
 
         /**
@@ -303,6 +305,11 @@ public class SceneRoomService extends Service {
         /** 获取跳舞集合 */
         public List<DanceModel> getDanceList() {
             return serviceManager.getDanceList();
+        }
+
+        /** 获取蹦迪贡献榜 */
+        public List<ContributionModel> getDiscoContribution() {
+            return serviceManager.getDiscoContribution();
         }
     }
 

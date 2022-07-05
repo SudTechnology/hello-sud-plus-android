@@ -33,8 +33,31 @@ public class SceneGiftManager extends BaseServiceManager {
     }
 
     /** 发送礼物 */
-    public void sendGift(long giftID, int giftCount, UserInfo toUser) {
-        sendGift(giftID, giftCount, toUser, 0, null, null, null);
+    public void sendGift(GiftModel giftModel, int giftCount, UserInfo toUser) {
+        long giftID = giftModel.giftId;
+        int type = giftModel.type;
+        String giftName = giftModel.giftName;
+        String giftUrl = giftModel.giftUrl;
+        String animationUrl = giftModel.animationUrl;
+
+        String command = RoomCmdModelUtils.buildSendGiftCommand(giftID, giftCount, toUser, type, giftName, giftUrl, animationUrl);
+
+        GiftNotifyDetailModel notify = new GiftNotifyDetailModel();
+        notify.gift = giftModel;
+
+        UserInfo user = new UserInfo();
+        user.userID = HSUserInfo.userId + "";
+        user.name = HSUserInfo.nickName;
+        user.icon = HSUserInfo.avatar;
+
+        notify.sendUser = user;
+        notify.toUser = toUser;
+        notify.giftCount = giftCount;
+        notify.giftID = giftID;
+
+        parentManager.sceneChatManager.addMsg(notify);
+
+        parentManager.sceneEngineManager.sendCommand(command, null);
     }
 
     /** 发送礼物 */

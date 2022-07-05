@@ -481,6 +481,9 @@ Go to homepage to create one~</string>
     <string name="dance_rule_2">2、主播正在与其他用户跳舞，送出上述两个礼物将进入排队。</string>
     <string name="dance_rule_3">3、你邀约的主播正在队列中排队，送出【跳舞插队】可以将你从主播的队列中置顶，等待主播与当前用户跳完，下一个就轮到你。</string>
     <string name="dance_invite_send_hint">跳舞邀请已发出，请稍等</string>
+    <string name="contribution_ranking">贡献榜</string>
+    <string name="contribution_ranking_info">送礼、发弹幕均可上榜</string>
+    <string name="contribution_value">贡献值</string>
 
     <!-- endregion 新增 -->
 

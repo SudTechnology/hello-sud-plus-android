@@ -344,15 +344,17 @@ public class DanmakuActivity extends BaseRoomActivity<AppGameViewModel> implemen
 
                 // 展示礼物
                 GiftModel giftModel = new GiftModel();
+                giftModel.giftId = model.giftId;
                 giftModel.type = 1;
                 giftModel.giftName = model.name;
                 giftModel.giftUrl = model.giftUrl;
                 giftModel.animationUrl = model.animationUrl;
+                giftModel.giftPrice = model.giftPrice;
                 showGift(giftModel);
 
                 // 发送"送礼消息"
                 if (binder != null) {
-                    binder.sendGift(0, 1, toUser, 1, model.name, model.giftUrl, model.animationUrl);
+                    binder.sendGift(giftModel, 1, toUser);
                 }
             }
         });

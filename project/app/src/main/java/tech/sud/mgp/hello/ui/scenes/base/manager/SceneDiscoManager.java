@@ -5,6 +5,7 @@ import android.app.Application;
 import com.blankj.utilcode.util.Utils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -15,11 +16,14 @@ import tech.sud.mgp.hello.common.utils.CustomCountdownTimer;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomServiceCallback;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.RoomCmdModelUtils;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdChatTextModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdSendGiftModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.ContributionModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.DanceModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdDiscoInfoReqModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdDiscoInfoRespModel;
+import tech.sud.mgp.hello.ui.scenes.common.gift.manager.GiftHelper;
+import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftModel;
 import tech.sud.mgp.hello.ui.scenes.disco.viewmodel.DiscoActionHelper;
 
 /**
@@ -45,6 +49,7 @@ public class SceneDiscoManager extends BaseServiceManager {
         parentManager.sceneEngineManager.setCommandListener(sendGiftCommandListener);
         parentManager.sceneEngineManager.setCommandListener(discoInfoReqListener);
         parentManager.sceneEngineManager.setCommandListener(discoInfoRespListener);
+        parentManager.sceneEngineManager.setCommandListener(publicMsgCommandListener);
     }
 
     /** 发送公屏监听 */
@@ -52,8 +57,26 @@ public class SceneDiscoManager extends BaseServiceManager {
         @Override
         public void onSendMsgCompleted(String msg) {
             checkChatMsgHit(msg);
+            addPublicMsgContribution(null);
         }
     };
+
+    /** 每发送一条公屏，加1贡献值 */
+    private void addPublicMsgContribution(UserInfo userInfo) {
+        ContributionModel contributionModel = findContributionUser(userInfo);
+        if (contributionModel == null) {
+            contributionModel = new ContributionModel();
+            if (userInfo == null) {
+                contributionModel.fromUser = RoomCmdModelUtils.getSendUser();
+            } else {
+                contributionModel.fromUser = userInfo;
+            }
+            contributionModels.add(contributionModel);
+        }
+        contributionModel.count += 1;
+        sortContributions();
+        callbackContribution();
+    }
 
     /** 检查是否命中 */
     private void checkChatMsgHit(String msg) {
@@ -92,8 +115,6 @@ public class SceneDiscoManager extends BaseServiceManager {
     private void triggerGoToWork() {
         int selfMicIndex = parentManager.sceneMicManager.findSelfMicIndex();
         if (selfMicIndex >= 0) {
-            // TODO: 2022/7/1 如果不在舞池中，连续发送的时候，会报请先加入舞池
-            callbackAction(helper.joinDancingFloor("#ff0000"));
             callbackAction(helper.joinAnchor(null));
         }
     }
@@ -123,8 +144,39 @@ public class SceneDiscoManager extends BaseServiceManager {
         parentManager.sceneEngineManager.sendCommand(discoInfoReqCmd);
     }
 
-    /** 送出了礼物 */
-    public void sendGift(long giftID, int giftCount, UserInfo toUser, int type, String giftName, String giftUrl, String animationUrl) {
+    /** 发送礼物 */
+    public void onSendGift(GiftModel giftModel, int giftCount, UserInfo toUser) {
+        if (toUser == null || giftModel == null) {
+            return;
+        }
+        processGiftAction(giftModel.giftId, giftCount, toUser, giftModel.type, giftModel.giftName);
+        addGiftContribution(giftModel, giftCount, toUser);
+    }
+
+    /** 添加礼物贡献 */
+    private void addGiftContribution(GiftModel giftModel, int giftCount, UserInfo toUser) {
+        ContributionModel contributionModel = findContributionUser(toUser);
+        if (contributionModel == null) {
+            contributionModel = new ContributionModel();
+            contributionModel.fromUser = toUser;
+            contributionModels.add(contributionModel);
+        }
+        contributionModel.count += (long) giftModel.giftPrice * giftCount;
+        sortContributions();
+        callbackContribution();
+    }
+
+    private ContributionModel findContributionUser(UserInfo toUser) {
+        for (ContributionModel model : contributionModels) {
+            if (model.fromUser != null && model.fromUser.equals(toUser)) {
+                return model;
+            }
+        }
+        return null;
+    }
+
+    /** 处理送礼动效 */
+    private void processGiftAction(long giftID, int giftCount, UserInfo toUser, int type, String giftName) {
         // 目前是内置礼物才有动效
         if (type != 0) {
             return;
@@ -350,6 +402,11 @@ public class SceneDiscoManager extends BaseServiceManager {
         }
     }
 
+    /** 贡献榜进行排序 */
+    private void sortContributions() {
+        Collections.sort(contributionModels);
+    }
+
     /** 回调蹦迪排行榜变化 */
     private void callbackContribution() {
         SceneRoomServiceCallback callback = parentManager.getCallback();
@@ -420,6 +477,10 @@ public class SceneDiscoManager extends BaseServiceManager {
                     danceTop(model.sendUser, model.toUser);
                 }
             }
+            GiftModel giftModel = GiftHelper.getInstance().getGift(model.giftID);
+            if (model.sendUser != null && giftModel != null) {
+                addGiftContribution(giftModel, model.giftCount, model.sendUser);
+            }
         }
     };
 
@@ -460,7 +521,17 @@ public class SceneDiscoManager extends BaseServiceManager {
             if (model.contribution != null) {
                 contributionModels.addAll(model.contribution);
             }
+            sortContributions();
             callbackContribution();
+        }
+    };
+
+    private final SceneCommandManager.PublicMsgCommandListener publicMsgCommandListener = new SceneCommandManager.PublicMsgCommandListener() {
+        @Override
+        public void onRecvCommand(RoomCmdChatTextModel command, String userID) {
+            UserInfo userInfo = command.sendUser;
+            if (userInfo == null) return;
+            addPublicMsgContribution(userInfo);
         }
     };
 
@@ -471,6 +542,7 @@ public class SceneDiscoManager extends BaseServiceManager {
         parentManager.sceneEngineManager.removeCommandListener(sendGiftCommandListener);
         parentManager.sceneEngineManager.removeCommandListener(discoInfoReqListener);
         parentManager.sceneEngineManager.removeCommandListener(discoInfoRespListener);
+        parentManager.sceneEngineManager.removeCommandListener(publicMsgCommandListener);
         releaseDanceList();
     }
 
@@ -480,5 +552,9 @@ public class SceneDiscoManager extends BaseServiceManager {
                 danceModel.countdownTimer.cancel();
             }
         }
+    }
+
+    public List<ContributionModel> getDiscoContribution() {
+        return contributionModels;
     }
 }

@@ -814,8 +814,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
                         public void onSuccess(Object o) {
                             super.onSuccess(o);
                             if (binder != null) {
-                                binder.sendGift(giftModel.giftId, giftCount, user,
-                                        giftModel.type, giftModel.giftName, giftModel.giftUrl, giftModel.animationUrl);
+                                binder.sendGift(giftModel, giftCount, user);
                             }
                             if (isShowGift.value) { // 只显示一次动效
                                 isShowGift.value = false;

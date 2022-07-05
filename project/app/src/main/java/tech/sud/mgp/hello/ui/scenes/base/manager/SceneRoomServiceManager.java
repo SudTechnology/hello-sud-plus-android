@@ -33,7 +33,9 @@ import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomServiceCallback;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.RoomCmdModelUtils;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdChangeGameModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdEnterRoomModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.ContributionModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.DanceModel;
+import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftModel;
 
 /**
  * 房间主要业务逻辑
@@ -293,11 +295,18 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
     }
 
     /** 发送礼物 */
-    public void sendGift(long giftID, int giftCount, UserInfo toUser, int type, String giftName, String giftUrl, String animationUrl) {
-        sceneGiftManager.sendGift(giftID, giftCount, toUser, type, giftName, giftUrl, animationUrl);
+    public void sendGift(GiftModel giftModel, int giftCount, UserInfo toUser) {
+        sceneGiftManager.sendGift(giftModel, giftCount, toUser);
         if (sceneDiscoManager != null) {
-            sceneDiscoManager.sendGift(giftID, giftCount, toUser, type, giftName, giftUrl, animationUrl);
+            sceneDiscoManager.onSendGift(giftModel, giftCount, toUser);
         }
+    }
+
+    public List<ContributionModel> getDiscoContribution() {
+        if (sceneDiscoManager != null) {
+            return sceneDiscoManager.getDiscoContribution();
+        }
+        return null;
     }
 
     /** 进入房间完成的回调,用于childManager */

@@ -33,6 +33,8 @@ import tech.sud.mgp.hello.service.main.resp.GameModel;
 import tech.sud.mgp.hello.service.main.resp.QuizGameListResp;
 import tech.sud.mgp.hello.service.main.resp.SceneModel;
 import tech.sud.mgp.hello.ui.common.constant.RequestKey;
+import tech.sud.mgp.hello.ui.common.utils.CompletedListener;
+import tech.sud.mgp.hello.ui.common.utils.LifecycleUtils;
 import tech.sud.mgp.hello.ui.main.constant.SceneType;
 import tech.sud.mgp.hello.ui.main.home.manager.IndicatorHelper;
 import tech.sud.mgp.hello.ui.main.home.model.MatchRoomModel;
@@ -251,7 +253,7 @@ public class HomeFragment extends BaseFragment implements CreatRoomClickListener
                         @Override
                         public void onSuccess(QuizGameListResp quizGameListResp) {
                             super.onSuccess(quizGameListResp);
-                            createScene(gameListResp, quizGameListResp);
+                            safeCreateScene(gameListResp, quizGameListResp);
                         }
 
                         @Override
@@ -269,6 +271,15 @@ public class HomeFragment extends BaseFragment implements CreatRoomClickListener
             public void onError(Throwable e) {
                 super.onError(e);
                 loadCompleted();
+            }
+        });
+    }
+
+    private void safeCreateScene(GameListResp resp, QuizGameListResp quizGameListResp) {
+        LifecycleUtils.safeLifecycle(this, new CompletedListener() {
+            @Override
+            public void onCompleted() {
+                createScene(resp, quizGameListResp);
             }
         });
     }

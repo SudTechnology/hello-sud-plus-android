@@ -23,9 +23,12 @@ import tech.sud.mgp.hello.ui.main.constant.GameIdCons;
 import tech.sud.mgp.hello.ui.scenes.audio.activity.AbsAudioRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.base.constant.OperateMicType;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoleType;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.ContributionModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.DanceModel;
 import tech.sud.mgp.hello.ui.scenes.disco.viewmodel.DiscoGameViewModel;
+import tech.sud.mgp.hello.ui.scenes.disco.widget.ContributionRankingDialog;
 import tech.sud.mgp.hello.ui.scenes.disco.widget.DancingMenuDialog;
+import tech.sud.mgp.hello.ui.scenes.disco.widget.DiscoRankingView;
 
 /**
  * 蹦迪 场景
@@ -36,7 +39,11 @@ public class DiscoActivity extends AbsAudioRoomActivity<DiscoGameViewModel> {
     private TextView tvCloseDisco;
     private TextView tvDencingMenu;
     private TextView tvDanceWait;
+
+    private DiscoRankingView discoRankingView;
+
     private DancingMenuDialog dancingMenuDialog;
+    private ContributionRankingDialog contributionRankingDialog;
 
     @Override
     protected DiscoGameViewModel initGameViewModel() {
@@ -56,10 +63,19 @@ public class DiscoActivity extends AbsAudioRoomActivity<DiscoGameViewModel> {
         tvDencingMenu = findViewById(R.id.tv_dancing_menu);
         tvDanceWait = findViewById(R.id.tv_dance_send_hint);
 
-        // 开启蹦迪按钮
         int paddingHorizontal = DensityUtils.dp2px(this, 8);
         int textColor = Color.parseColor("#ffffff");
         int marginEnd = DensityUtils.dp2px(this, 11);
+
+        // 初始化排行榜的View
+        discoRankingView = new DiscoRankingView(this);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        params.setMarginEnd(marginEnd);
+        topView.addCustomView(discoRankingView, params);
+        discoRankingView.setVisibility(View.GONE);
+
+        // 开启蹦迪按钮
         tvStartDisco = createTopTextView(paddingHorizontal, textColor, marginEnd);
         tvStartDisco.setText(R.string.start_disco);
         GradientDrawable gradientDrawable = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
@@ -75,6 +91,7 @@ public class DiscoActivity extends AbsAudioRoomActivity<DiscoGameViewModel> {
         topView.addCustomView(tvCloseDisco, (LinearLayout.LayoutParams) tvCloseDisco.getLayoutParams());
         tvCloseDisco.setVisibility(View.GONE);
 
+        // 不展示选择游戏
         topView.setSelectGameVisible(false);
 
         bringToFrontViews();
@@ -147,6 +164,28 @@ public class DiscoActivity extends AbsAudioRoomActivity<DiscoGameViewModel> {
                 }, 1000);
             }
         });
+
+        discoRankingView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showRanking();
+            }
+        });
+    }
+
+    private void showRanking() {
+        ContributionRankingDialog dialog = new ContributionRankingDialog();
+        if (binder != null) {
+            dialog.setDatas(binder.getDiscoContribution());
+        }
+        contributionRankingDialog = dialog;
+        dialog.setOnDestroyListener(new BaseDialogFragment.OnDestroyListener() {
+            @Override
+            public void onDestroy() {
+                contributionRankingDialog = null;
+            }
+        });
+        dialog.show(getSupportFragmentManager(), null);
     }
 
     private void showDancingMenu() {
@@ -246,6 +285,20 @@ public class DiscoActivity extends AbsAudioRoomActivity<DiscoGameViewModel> {
         tvDanceWait.removeCallbacks(danceWaitHideTask);
         tvDanceWait.setVisibility(View.VISIBLE);
         tvDanceWait.postDelayed(danceWaitHideTask, 4000);
+    }
+
+    @Override
+    public void onDiscoContribution(List<ContributionModel> list) {
+        super.onDiscoContribution(list);
+        discoRankingView.setDatas(list);
+        if (list == null || list.size() == 0) {
+            discoRankingView.setVisibility(View.GONE);
+        } else {
+            discoRankingView.setVisibility(View.VISIBLE);
+        }
+        if (contributionRankingDialog != null) {
+            contributionRankingDialog.setDatas(list);
+        }
     }
 
     private final Runnable danceWaitHideTask = new Runnable() {

@@ -77,8 +77,9 @@ public class AppGameViewModel implements SudFSMMGListener {
     /**
      * 外部调用切换游戏
      *
-     * @param activity 游戏所在页面
-     * @param gameId   游戏id
+     * @param activity   游戏所在页面，用作于生命周期判断
+     * @param gameRoomId 游戏房间id，房间隔离，同一房间才能一起游戏
+     * @param gameId     游戏id，传入不同的游戏id，即可加载不同的游戏，传0等同于关闭游戏。
      */
     public void switchGame(FragmentActivity activity, long gameRoomId, long gameId) {
         checkFinishGame(gameId);

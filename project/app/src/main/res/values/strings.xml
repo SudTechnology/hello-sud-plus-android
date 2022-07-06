@@ -484,6 +484,12 @@ Go to homepage to create one~</string>
     <string name="contribution_ranking">贡献榜</string>
     <string name="contribution_ranking_info">送礼、发弹幕均可上榜</string>
     <string name="contribution_value">贡献值</string>
+    <string name="disco_explain_top_5">前五</string>
+    <string name="disco_explain_1">1. 贡献榜%1$s随机DJ（%2$s秒刷新）。</string>
+    <string name="disco_explain_2">2. 送礼可触发不同的效果或点主播跳舞。</string>
+    <string name="disco_explain_3">3. 公屏指令：【%1$s】【%2$s】【%3$s】。</string>
+    <string name="disco_explain_4">4. 麦上用户发送【%1$s】可上到主播位，\n&#160;&#160;&#160;&#160;发送【%2$s】可下主播位。</string>
+    <string name="disco_explain_5">5. 主播发文字【%1$s】可触发特写。</string>
 
     <!-- endregion 新增 -->
 

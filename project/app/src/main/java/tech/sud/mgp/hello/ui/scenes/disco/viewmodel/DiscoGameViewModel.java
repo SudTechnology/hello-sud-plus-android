@@ -2,7 +2,12 @@ package tech.sud.mgp.hello.ui.scenes.disco.viewmodel;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.blankj.utilcode.util.BarUtils;
+import com.blankj.utilcode.util.Utils;
+
+import tech.sud.mgp.SudMGPWrapper.model.GameViewInfoModel;
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
+import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
 
@@ -206,4 +211,11 @@ public class DiscoGameViewModel extends AppGameViewModel {
     public void wrapMicModel(AudioRoomMicModel model) {
         // 不展示任何游戏相关的状态
     }
+
+    @Override
+    protected void getGameRect(GameViewInfoModel gameViewInfoModel) {
+        super.getGameRect(gameViewInfoModel);
+        gameViewInfoModel.view_game_rect.top = DensityUtils.dp2px(Utils.getApp(), 145) + BarUtils.getStatusBarHeight();
+    }
+
 }

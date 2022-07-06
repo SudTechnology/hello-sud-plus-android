@@ -16,7 +16,7 @@ ext {
     targetSdkVersion = 30
 
     versionCode = "1"
-    versionName = "1.3.0"
+    versionName = "1.4.0"
     baseUrlConfig = "fat"
     baseUrl = "https://fat-base-hello-sud.sud.tech/"
     interactBaseUrl = "https://fat-interact-hello-sud.sud.tech/"

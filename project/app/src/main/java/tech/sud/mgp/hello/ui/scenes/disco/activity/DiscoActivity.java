@@ -76,7 +76,6 @@ public class DiscoActivity extends AbsAudioRoomActivity<DiscoGameViewModel> {
                 LinearLayout.LayoutParams.WRAP_CONTENT);
         params.setMarginEnd(marginEnd);
         topView.addCustomView(discoRankingView, params);
-        discoRankingView.setVisibility(View.GONE);
 
         // 开启蹦迪按钮
         tvStartDisco = createTopTextView(paddingHorizontal, textColor, marginEnd);
@@ -295,11 +294,6 @@ public class DiscoActivity extends AbsAudioRoomActivity<DiscoGameViewModel> {
     public void onDiscoContribution(List<ContributionModel> list) {
         super.onDiscoContribution(list);
         discoRankingView.setDatas(list);
-        if (list == null || list.size() == 0) {
-            discoRankingView.setVisibility(View.GONE);
-        } else {
-            discoRankingView.setVisibility(View.VISIBLE);
-        }
         if (contributionRankingDialog != null) {
             contributionRankingDialog.setDatas(list);
         }

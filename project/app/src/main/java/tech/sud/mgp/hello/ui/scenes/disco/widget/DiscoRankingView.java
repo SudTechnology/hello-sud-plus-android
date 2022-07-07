@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.util.AttributeSet;
 import android.view.Gravity;
-import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -91,6 +90,8 @@ public class DiscoRankingView extends FrameLayout {
         iconParams.startToStart = ConstraintLayout.LayoutParams.PARENT_ID;
         viewGroup.addView(ivIcon, iconParams);
 
+        ImageLoader.loadDrawable(ivIcon, R.drawable.icon_order_empty_mic);
+
         TextView tv = new TextView(getContext());
         tv.setTextSize(6);
         tv.setTextColor(ContextCompat.getColor(getContext(), R.color.black));
@@ -116,32 +117,19 @@ public class DiscoRankingView extends FrameLayout {
 
     /** 设置数据 */
     public void setDatas(List<ContributionModel> list) {
-        if (list == null) {
-            viewRanking1.setVisibility(View.GONE);
-            viewRanking2.setVisibility(View.GONE);
-            viewRanking3.setVisibility(View.GONE);
+        if (list == null || list.size() == 0) {
+            ImageLoader.loadDrawable(ivIcon1, R.drawable.icon_order_empty_mic);
+            ImageLoader.loadDrawable(ivIcon2, R.drawable.icon_order_empty_mic);
+            ImageLoader.loadDrawable(ivIcon3, R.drawable.icon_order_empty_mic);
             return;
         }
         switch (list.size()) {
-            case 0:
-                viewRanking1.setVisibility(View.GONE);
-                viewRanking2.setVisibility(View.GONE);
-                viewRanking3.setVisibility(View.GONE);
-                break;
             case 1:
-                viewRanking1.setVisibility(View.VISIBLE);
-                viewRanking2.setVisibility(View.GONE);
-                viewRanking3.setVisibility(View.GONE);
+                ImageLoader.loadDrawable(ivIcon2, R.drawable.icon_order_empty_mic);
+                ImageLoader.loadDrawable(ivIcon3, R.drawable.icon_order_empty_mic);
                 break;
             case 2:
-                viewRanking1.setVisibility(View.VISIBLE);
-                viewRanking2.setVisibility(View.VISIBLE);
-                viewRanking3.setVisibility(View.GONE);
-                break;
-            case 3:
-                viewRanking1.setVisibility(View.VISIBLE);
-                viewRanking2.setVisibility(View.VISIBLE);
-                viewRanking3.setVisibility(View.VISIBLE);
+                ImageLoader.loadDrawable(ivIcon3, R.drawable.icon_order_empty_mic);
                 break;
         }
         for (int i = 0; i < list.size(); i++) {

@@ -149,5 +149,8 @@ public interface SceneRoomServiceCallback {
 
     /** 回调蹦迪排行榜 */
     void onDiscoContribution(List<ContributionModel> list);
+
+    /** 倒计时刷新dj */
+    void onDJCountdown(int countdown);
     // endregion 蹦迪
 }

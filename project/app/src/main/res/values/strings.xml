@@ -490,6 +490,7 @@ Go to homepage to create one~</string>
     <string name="disco_explain_3">3. 公屏指令：【%1$s】【%2$s】【%3$s】。</string>
     <string name="disco_explain_4">4. 麦上用户发送【%1$s】可上到主播位，\n&#160;&#160;&#160;&#160;发送【%2$s】可下主播位。</string>
     <string name="disco_explain_5">5. 主播发文字【%1$s】可触发特写。</string>
+    <string name="waiting">等待中</string>
 
     <!-- endregion 新增 -->
 

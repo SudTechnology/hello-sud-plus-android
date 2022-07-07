@@ -487,7 +487,8 @@ public class AppGameViewModel implements SudFSMMGListener {
         if (keyword == null || keyword.isEmpty()) {
             return;
         }
-        if (msg.contains(keyword)) { // 命中
+        // 判断是否命中了关键字，这里是contains判断。接入方可根据自身业务使用equals或者其它自定义的条件。
+        if (msg.contains(keyword)) {
             sudFSTAPPDecorator.notifyAPPCommonSelfTextHitState(true, keyword, msg, null, null, null);
             gameKeywordLiveData.setValue(null);
         }

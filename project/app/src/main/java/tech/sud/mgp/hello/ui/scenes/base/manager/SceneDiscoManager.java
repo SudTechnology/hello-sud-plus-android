@@ -2,17 +2,21 @@ package tech.sud.mgp.hello.ui.scenes.base.manager;
 
 import android.app.Application;
 
+import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.Utils;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.CustomCountdownTimer;
+import tech.sud.mgp.hello.ui.common.utils.SceneUtils;
+import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomServiceCallback;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.RoomCmdModelUtils;
@@ -20,6 +24,7 @@ import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdChatTextModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdSendGiftModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.ContributionModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.DanceModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdBecomeDJModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdDiscoInfoReqModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdDiscoInfoRespModel;
 import tech.sud.mgp.hello.ui.scenes.common.gift.manager.GiftHelper;
@@ -34,8 +39,12 @@ public class SceneDiscoManager extends BaseServiceManager {
     private SceneRoomServiceManager parentManager;
     private final DiscoActionHelper helper = new DiscoActionHelper(); // 操作蹦迪动作助手
     private final List<DanceModel> danceList = new ArrayList<>(); // 跳舞列表，包含所有
-    private final List<ContributionModel> contributionModels = new ArrayList<>(); // 房间贡献列表
+    private final List<ContributionModel> contributionList = new ArrayList<>(); // 房间贡献列表
     private boolean initDiscoInfoCompleted; // 是否已经初始化完成了蹦迪信息
+    private UserInfo initRecUserInfo; // 初始化时，只接受该用户传递过来的数据
+    private CustomCountdownTimer djCountdownTimer;
+    private int djCountdownCycle = 60;
+    private UserInfo selfUserInfo = RoomCmdModelUtils.getSendUser();
 
     public SceneDiscoManager(SceneRoomServiceManager sceneRoomServiceManager) {
         super();
@@ -50,14 +59,15 @@ public class SceneDiscoManager extends BaseServiceManager {
         parentManager.sceneEngineManager.setCommandListener(discoInfoReqListener);
         parentManager.sceneEngineManager.setCommandListener(discoInfoRespListener);
         parentManager.sceneEngineManager.setCommandListener(publicMsgCommandListener);
+        parentManager.sceneEngineManager.setCommandListener(becomeDJCommandListener);
     }
 
-    /** 发送公屏监听 */
+    /** 自己发送了公屏消息监听 */
     private final SceneChatManager.SendMsgListener sendMsgListener = new SceneChatManager.SendMsgListener() {
         @Override
         public void onSendMsgCompleted(String msg) {
             checkChatMsgHit(msg);
-            addPublicMsgContribution(null);
+            addPublicMsgContribution(selfUserInfo);
         }
     };
 
@@ -71,7 +81,7 @@ public class SceneDiscoManager extends BaseServiceManager {
             } else {
                 contributionModel.fromUser = userInfo;
             }
-            contributionModels.add(contributionModel);
+            contributionList.add(contributionModel);
         }
         contributionModel.count += 1;
         sortContributions();
@@ -142,33 +152,104 @@ public class SceneDiscoManager extends BaseServiceManager {
         // 向其他房间的人，获取房间信息
         String discoInfoReqCmd = RoomCmdModelUtils.buildCmdDiscoInfoReq();
         parentManager.sceneEngineManager.sendCommand(discoInfoReqCmd);
+
+        // 倒计时成为dj
+        startDJCountdown();
     }
 
-    /** 发送礼物 */
+    private void startDJCountdown() {
+        cancelDJCountdown();
+        djCountdownTimer = new CustomCountdownTimer(SceneUtils.getTotalCount(djCountdownCycle)) {
+            @Override
+            protected void onTick(int count) {
+                callbackDjCountdowm(count);
+            }
+
+            @Override
+            protected void onFinish() {
+                startDJCountdown();
+                randomDJ();
+            }
+        };
+        djCountdownTimer.start();
+    }
+
+    /** 随机产生一个dj */
+    private void randomDJ() {
+        // 自己是麦位第一人，才执行
+        boolean isPermission = false;
+        List<AudioRoomMicModel> micList = parentManager.sceneMicManager.getMicList();
+        for (AudioRoomMicModel model : micList) {
+            if (model.userId > 0) {
+                if (model.userId == HSUserInfo.userId) {
+                    isPermission = true;
+                }
+                break;
+            }
+        }
+        if (!isPermission) {
+            return;
+        }
+
+        int size = contributionList.size();
+        if (size == 0) {
+            return;
+        }
+        // 最多取前五位
+        if (size > 5) {
+            size = 5;
+        }
+        Random random = new Random();
+        ContributionModel contributionModel = contributionList.get(random.nextInt(size));
+        if (contributionModel.fromUser != null) {
+            if ((HSUserInfo.userId + "").equals(contributionModel.fromUser.userID)) {
+                callbackAction(helper.upDJ(djCountdownCycle));
+            } else {
+                String cmd = RoomCmdModelUtils.buildCmdBecomeDJ(contributionModel.fromUser.userID);
+                parentManager.sceneEngineManager.sendCommand(cmd);
+            }
+        }
+    }
+
+    private void callbackDjCountdowm(int countdown) {
+        SceneRoomServiceCallback callback = parentManager.getCallback();
+        if (callback != null) {
+            callback.onDJCountdown(countdown);
+        }
+    }
+
+    private void cancelDJCountdown() {
+        if (djCountdownTimer != null) {
+            djCountdownTimer.cancel();
+            djCountdownTimer = null;
+        }
+    }
+
+    /** 自己发送了礼物 */
     public void onSendGift(GiftModel giftModel, int giftCount, UserInfo toUser) {
         if (toUser == null || giftModel == null) {
             return;
         }
         processGiftAction(giftModel.giftId, giftCount, toUser, giftModel.type, giftModel.giftName);
-        addGiftContribution(giftModel, giftCount, toUser);
+        addGiftContribution(giftModel, giftCount, selfUserInfo);
     }
 
     /** 添加礼物贡献 */
-    private void addGiftContribution(GiftModel giftModel, int giftCount, UserInfo toUser) {
-        ContributionModel contributionModel = findContributionUser(toUser);
+    private void addGiftContribution(GiftModel giftModel, int giftCount, UserInfo userInfo) {
+        ContributionModel contributionModel = findContributionUser(userInfo);
         if (contributionModel == null) {
             contributionModel = new ContributionModel();
-            contributionModel.fromUser = toUser;
-            contributionModels.add(contributionModel);
+            contributionModel.fromUser = userInfo;
+            contributionList.add(contributionModel);
         }
         contributionModel.count += (long) giftModel.giftPrice * giftCount;
         sortContributions();
         callbackContribution();
     }
 
-    private ContributionModel findContributionUser(UserInfo toUser) {
-        for (ContributionModel model : contributionModels) {
-            if (model.fromUser != null && model.fromUser.equals(toUser)) {
+    private ContributionModel findContributionUser(UserInfo fromUser) {
+        for (ContributionModel model : contributionList) {
+            if (model.fromUser != null && model.fromUser.equals(fromUser)) {
                 return model;
             }
         }
@@ -404,14 +485,14 @@ public class SceneDiscoManager extends BaseServiceManager {
 
     /** 贡献榜进行排序 */
     private void sortContributions() {
-        Collections.sort(contributionModels);
+        Collections.sort(contributionList);
     }
 
     /** 回调蹦迪排行榜变化 */
     private void callbackContribution() {
         SceneRoomServiceCallback callback = parentManager.getCallback();
         if (callback != null) {
-            callback.onDiscoContribution(contributionModels);
+            callback.onDiscoContribution(contributionList);
         }
     }
 
@@ -488,8 +569,20 @@ public class SceneDiscoManager extends BaseServiceManager {
     private final SceneCommandManager.DiscoInfoReqCommandListener discoInfoReqListener = new SceneCommandManager.DiscoInfoReqCommandListener() {
         @Override
         public void onRecvCommand(RoomCmdDiscoInfoReqModel model, String userID) {
-            String cmd = RoomCmdModelUtils.buildCmdDiscoInfoResp(danceList, contributionModels);
-            parentManager.sceneEngineManager.sendCommand(cmd);
+            for (int i = 0; i < contributionList.size(); i++) {
+                String cmd = RoomCmdModelUtils.buildCmdDiscoInfoResp(null, contributionList.subList(i, i + 1), false);
+                parentManager.sceneEngineManager.sendCommand(cmd);
+            }
+            for (int i = 0; i < danceList.size(); i++) {
+                boolean isEnd = (i == (danceList.size() - 1));
+                String cmd = RoomCmdModelUtils.buildCmdDiscoInfoResp(danceList.subList(i, i + 1), null, isEnd);
+                ThreadUtils.runOnUiThreadDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        parentManager.sceneEngineManager.sendCommand(cmd);
+                    }
+                }, 10L * i);
+            }
         }
     };
 
@@ -498,40 +591,67 @@ public class SceneDiscoManager extends BaseServiceManager {
         @Override
         public void onRecvCommand(RoomCmdDiscoInfoRespModel model, String userID) {
             if (initDiscoInfoCompleted) {
+                // 已完成初始化，则不再处理新的数据
                 return;
             }
-            initDiscoInfoCompleted = true;
-            // 跳舞队列
-            releaseDanceList();
-            danceList.clear();
-            if (model.dancingMenu != null) {
-                danceList.addAll(model.dancingMenu);
+            if (initRecUserInfo == null) {
+                initRecUserInfo = model.sendUser;
+            } else {
+                // 只接受指定第一个用户发送过来的数据
+                if (!initRecUserInfo.equals(model.sendUser)) {
+                    return;
+                }
             }
+
+            if (model.isEnd) {
+                initDiscoInfoCompleted = true;
+            }
+
+            // 排行榜
+            if (model.contribution != null) {
+                for (ContributionModel contributionModel : model.contribution) {
+                    if (!contributionList.contains(contributionModel)) {
+                        contributionList.add(contributionModel);
+                    }
+                }
+            }
+            sortContributions();
+            callbackContribution();
+
+            // 跳舞队列
             long curTimeSecond = System.currentTimeMillis() / 1000;
-            for (DanceModel danceModel : danceList) {
-                if (danceModel.beginTime > 0 && (danceModel.beginTime + danceModel.duration) < curTimeSecond) {
-                    danceModel.isCompleted = true;
+            if (model.dancingMenu != null) {
+                for (DanceModel danceModel : model.dancingMenu) {
+                    if (danceModel.beginTime > 0 && (danceModel.beginTime + danceModel.duration) < curTimeSecond) {
+                        danceModel.isCompleted = true;
+                    }
+                    if (!danceList.contains(danceModel)) {
+                        danceList.add(danceModel);
+                    }
                 }
             }
             collatingDanceList();
             checkDanceStart();
-
-            // 排行榜
-            contributionModels.clear();
-            if (model.contribution != null) {
-                contributionModels.addAll(model.contribution);
-            }
-            sortContributions();
-            callbackContribution();
         }
     };
 
+    /** 公屏消息信令通知 */
     private final SceneCommandManager.PublicMsgCommandListener publicMsgCommandListener = new SceneCommandManager.PublicMsgCommandListener() {
         @Override
         public void onRecvCommand(RoomCmdChatTextModel command, String userID) {
             UserInfo userInfo = command.sendUser;
             if (userInfo == null) return;
             addPublicMsgContribution(userInfo);
+        }
+    };
+
+    /** 上dj台通知 */
+    private final SceneCommandManager.DiscoBecomeDJCommandListener becomeDJCommandListener = new SceneCommandManager.DiscoBecomeDJCommandListener() {
+        @Override
+        public void onRecvCommand(RoomCmdBecomeDJModel model, String userID) {
+            if ((HSUserInfo.userId + "").equals(model.userID)) {
+                callbackAction(helper.upDJ(djCountdownCycle));
+            }
         }
     };
 
@@ -543,7 +663,9 @@ public class SceneDiscoManager extends BaseServiceManager {
         parentManager.sceneEngineManager.removeCommandListener(discoInfoReqListener);
         parentManager.sceneEngineManager.removeCommandListener(discoInfoRespListener);
         parentManager.sceneEngineManager.removeCommandListener(publicMsgCommandListener);
+        parentManager.sceneEngineManager.removeCommandListener(becomeDJCommandListener);
         releaseDanceList();
+        cancelDJCountdown();
     }
 
     private void releaseDanceList() {
@@ -555,6 +677,6 @@ public class SceneDiscoManager extends BaseServiceManager {
     }
 
     public List<ContributionModel> getDiscoContribution() {
-        return contributionModels;
+        return contributionList;
     }
 }

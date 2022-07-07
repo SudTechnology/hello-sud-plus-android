@@ -20,6 +20,8 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import tech.sud.mgp.SudMGPWrapper.model.GameViewInfoModel;
 import tech.sud.mgp.SudMGPWrapper.state.MGStateResponse;
+import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
+import tech.sud.mgp.core.ISudFSMStateHandle;
 
 /**
  * 游戏业务逻辑
@@ -163,6 +165,14 @@ public class QuickStartGameViewModel extends BaseGameViewModel {
     @Override
     protected void onRemoveGameView() {
         gameViewLiveData.setValue(null);
+    }
+
+    /**
+     * 10. 游戏状态 通知
+     */
+    @Override
+    public void onGameMGCommonGameState(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameState model) {
+        super.onGameMGCommonGameState(handle, model);
     }
 
 }

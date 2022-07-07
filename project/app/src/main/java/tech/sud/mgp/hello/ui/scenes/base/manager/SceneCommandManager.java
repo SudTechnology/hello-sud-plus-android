@@ -15,6 +15,7 @@ import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdDownMicModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdEnterRoomModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdSendGiftModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdUpMicModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdBecomeDJModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdDiscoInfoReqModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdDiscoInfoRespModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.order.RoomCmdOrderOperateModel;
@@ -126,6 +127,9 @@ public class SceneCommandManager extends BaseServiceManager {
                 break;
             case RoomCmd.CMD_ROOM_DISCO_INFO_RESP: // 响应蹦迪信息
                 dispatchCommand(commandCmd, RoomCmdDiscoInfoRespModel.fromJson(command), userID);
+                break;
+            case RoomCmd.CMD_ROOM_DISCO_BECOME_DJ: // 上DJ台
+                dispatchCommand(commandCmd, RoomCmdBecomeDJModel.fromJson(command), userID);
                 break;
         }
     }
@@ -246,6 +250,11 @@ public class SceneCommandManager extends BaseServiceManager {
                         ((DiscoInfoRespCommandListener) listener).onRecvCommand((RoomCmdDiscoInfoRespModel) model, fromUserID);
                     }
                     break;
+                case RoomCmd.CMD_ROOM_DISCO_BECOME_DJ: // 上DJ台
+                    if (listener instanceof DiscoBecomeDJCommandListener) {
+                        ((DiscoBecomeDJCommandListener) listener).onRecvCommand((RoomCmdBecomeDJModel) model, fromUserID);
+                    }
+                    break;
             }
         }
     }
@@ -354,6 +363,10 @@ public class SceneCommandManager extends BaseServiceManager {
 
     interface DiscoInfoRespCommandListener extends ICommandListener {
         void onRecvCommand(RoomCmdDiscoInfoRespModel model, String userID);
+    }
+
+    interface DiscoBecomeDJCommandListener extends ICommandListener {
+        void onRecvCommand(RoomCmdBecomeDJModel model, String userID);
     }
     // endregion 蹦迪信令监听
 

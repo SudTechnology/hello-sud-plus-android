@@ -18,6 +18,7 @@ public class RoomCmdDiscoInfoRespModel extends RoomCmdBaseModel {
 
     public List<DanceModel> dancingMenu; // 跳舞节目单
     public List<ContributionModel> contribution; // 贡献排行
+    public boolean isEnd; // 是否是最后一条消息
 
     public static RoomCmdDiscoInfoRespModel fromJson(String json) {
         return SudJsonUtils.fromJson(json, RoomCmdDiscoInfoRespModel.class);

@@ -1,5 +1,7 @@
 package tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco;
 
+import java.util.Objects;
+
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 
 /**
@@ -23,4 +25,16 @@ public class ContributionModel implements Comparable<ContributionModel> {
         return 1;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ContributionModel that = (ContributionModel) o;
+        return Objects.equals(fromUser, that.fromUser);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(fromUser);
+    }
 }

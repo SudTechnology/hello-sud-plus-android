@@ -28,6 +28,7 @@ import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.DanceModel;
 import tech.sud.mgp.hello.ui.scenes.disco.viewmodel.DiscoGameViewModel;
 import tech.sud.mgp.hello.ui.scenes.disco.widget.ContributionRankingDialog;
 import tech.sud.mgp.hello.ui.scenes.disco.widget.DancingMenuDialog;
+import tech.sud.mgp.hello.ui.scenes.disco.widget.DiscoExplainView;
 import tech.sud.mgp.hello.ui.scenes.disco.widget.DiscoRankingView;
 
 /**
@@ -41,6 +42,7 @@ public class DiscoActivity extends AbsAudioRoomActivity<DiscoGameViewModel> {
     private TextView tvDanceWait;
 
     private DiscoRankingView discoRankingView;
+    private DiscoExplainView discoExplainView;
 
     private DancingMenuDialog dancingMenuDialog;
     private ContributionRankingDialog contributionRankingDialog;
@@ -62,6 +64,7 @@ public class DiscoActivity extends AbsAudioRoomActivity<DiscoGameViewModel> {
 
         tvDencingMenu = findViewById(R.id.tv_dancing_menu);
         tvDanceWait = findViewById(R.id.tv_dance_send_hint);
+        discoExplainView = findViewById(R.id.disco_explain_view);
 
         int paddingHorizontal = DensityUtils.dp2px(this, 8);
         int textColor = Color.parseColor("#ffffff");
@@ -307,5 +310,11 @@ public class DiscoActivity extends AbsAudioRoomActivity<DiscoGameViewModel> {
             tvDanceWait.setVisibility(View.GONE);
         }
     };
+
+    @Override
+    public void onDJCountdown(int countdown) {
+        super.onDJCountdown(countdown);
+        discoExplainView.setCountdown(countdown);
+    }
 
 }

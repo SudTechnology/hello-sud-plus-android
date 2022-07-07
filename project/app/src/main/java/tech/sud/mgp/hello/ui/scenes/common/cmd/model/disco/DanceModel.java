@@ -2,6 +2,8 @@ package tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco;
 
 import com.google.gson.annotations.Expose;
 
+import java.util.Objects;
+
 import tech.sud.mgp.hello.common.utils.CustomCountdownTimer;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 
@@ -28,4 +30,17 @@ public class DanceModel {
 
     @Expose(serialize = false, deserialize = false) // 既不序列化也不反序列化
     public boolean isShowCompletedTitle; // 是否要显示已完成的title
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DanceModel that = (DanceModel) o;
+        return isCompleted == that.isCompleted && Objects.equals(fromUser, that.fromUser) && Objects.equals(toUser, that.toUser);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(fromUser, toUser, isCompleted);
+    }
 }

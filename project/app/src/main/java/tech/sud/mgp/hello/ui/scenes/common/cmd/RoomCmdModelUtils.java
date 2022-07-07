@@ -15,6 +15,7 @@ import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdSendGiftModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdUpMicModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.ContributionModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.DanceModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdBecomeDJModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdDiscoInfoReqModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdDiscoInfoRespModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.order.RoomCmdOrderOperateModel;
@@ -219,10 +220,18 @@ public class RoomCmdModelUtils {
     }
 
     /** 构建 响应蹦迪信息 信令 */
-    public static String buildCmdDiscoInfoResp(List<DanceModel> dancingMenu, List<ContributionModel> contribution) {
+    public static String buildCmdDiscoInfoResp(List<DanceModel> dancingMenu, List<ContributionModel> contribution, boolean isEnd) {
         RoomCmdDiscoInfoRespModel command = new RoomCmdDiscoInfoRespModel(getSendUser());
         command.dancingMenu = dancingMenu;
         command.contribution = contribution;
+        command.isEnd = isEnd;
+        return command.toJson();
+    }
+
+    /** 构建 上DJ台 信令 */
+    public static String buildCmdBecomeDJ(String userId) {
+        RoomCmdBecomeDJModel command = new RoomCmdBecomeDJModel(getSendUser());
+        command.userID = userId;
         return command.toJson();
     }
     // endregion 竞猜

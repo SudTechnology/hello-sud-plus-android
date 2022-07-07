@@ -76,6 +76,8 @@ public class RoomCmd {
     public static final int CMD_ROOM_DISCO_INFO_REQ = 10400;
     /** 响应蹦迪信息 */
     public static final int CMD_ROOM_DISCO_INFO_RESP = 10401;
+    /** 上DJ台 */
+    public static final int CMD_ROOM_DISCO_BECOME_DJ = 10402;
     // endregion 蹦迪
 
 }

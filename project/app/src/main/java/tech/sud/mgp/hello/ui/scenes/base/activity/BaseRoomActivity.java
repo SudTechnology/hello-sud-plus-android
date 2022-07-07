@@ -1093,6 +1093,10 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
     @Override
     public void onDiscoContribution(List<ContributionModel> list) {
     }
+
+    @Override
+    public void onDJCountdown(int countdown) {
+    }
     // endregion service回调
 
     @Override

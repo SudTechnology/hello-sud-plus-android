@@ -20,6 +20,7 @@ import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomServiceCallback;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.RoomCmdModelUtils;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdChangeGameModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdChatTextModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdSendGiftModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.ContributionModel;
@@ -60,6 +61,7 @@ public class SceneDiscoManager extends BaseServiceManager {
         parentManager.sceneEngineManager.setCommandListener(discoInfoRespListener);
         parentManager.sceneEngineManager.setCommandListener(publicMsgCommandListener);
         parentManager.sceneEngineManager.setCommandListener(becomeDJCommandListener);
+        parentManager.sceneEngineManager.setCommandListener(gameChangeCommandListener);
     }
 
     /** 自己发送了公屏消息监听 */
@@ -655,6 +657,16 @@ public class SceneDiscoManager extends BaseServiceManager {
         }
     };
 
+    /** 游戏切换信令 通知 */
+    private final SceneCommandManager.GameChangeCommandListener gameChangeCommandListener = new SceneCommandManager.GameChangeCommandListener() {
+        @Override
+        public void onRecvCommand(RoomCmdChangeGameModel model, String userID) {
+            if (model.gameID == 0) {
+                closeDisco();
+            }
+        }
+    };
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -664,6 +676,7 @@ public class SceneDiscoManager extends BaseServiceManager {
         parentManager.sceneEngineManager.removeCommandListener(discoInfoRespListener);
         parentManager.sceneEngineManager.removeCommandListener(publicMsgCommandListener);
         parentManager.sceneEngineManager.removeCommandListener(becomeDJCommandListener);
+        parentManager.sceneEngineManager.removeCommandListener(gameChangeCommandListener);
         releaseDanceList();
         cancelDJCountdown();
     }
@@ -674,9 +687,24 @@ public class SceneDiscoManager extends BaseServiceManager {
                 danceModel.countdownTimer.cancel();
             }
         }
+        danceList.clear();
     }
 
     public List<ContributionModel> getDiscoContribution() {
         return contributionList;
     }
+
+    public void switchGame(long gameId) {
+        if (gameId == 0) {
+            closeDisco();
+        }
+    }
+
+    /** 关闭了蹦迪 */
+    private void closeDisco() {
+        // 清除舞台节目单
+        releaseDanceList();
+        callbackDanceList();
+    }
+
 }

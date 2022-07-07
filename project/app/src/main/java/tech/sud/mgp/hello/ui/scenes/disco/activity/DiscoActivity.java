@@ -124,6 +124,15 @@ public class DiscoActivity extends AbsAudioRoomActivity<DiscoGameViewModel> {
                 tvCloseDisco.setVisibility(View.GONE);
             }
         }
+        if (playingGameId > 0) {
+            discoExplainView.setVisibility(View.VISIBLE);
+            discoRankingView.setVisibility(View.VISIBLE);
+            tvDencingMenu.setVisibility(View.VISIBLE);
+        } else {
+            discoExplainView.setVisibility(View.GONE);
+            discoRankingView.setVisibility(View.GONE);
+            tvDencingMenu.setVisibility(View.GONE);
+        }
     }
 
     @Override

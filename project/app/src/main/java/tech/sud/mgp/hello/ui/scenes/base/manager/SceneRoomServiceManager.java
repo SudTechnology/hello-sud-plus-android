@@ -272,6 +272,9 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
         // 发送信令通知房间内其他人
         String command = RoomCmdModelUtils.buildGameChangeCommand(gameId);
         sceneEngineManager.sendCommand(command, null);
+        if (sceneDiscoManager != null) {
+            sceneDiscoManager.switchGame(gameId);
+        }
     }
 
     /** 退出房间 */

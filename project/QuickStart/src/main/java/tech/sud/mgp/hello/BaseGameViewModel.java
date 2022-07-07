@@ -40,12 +40,12 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
     protected final Handler handler = new Handler(Looper.getMainLooper());
 
     /**
-     * 外部调用切换游戏
+     * 外部调用切换游戏，传不同的gameId即可加载不同的游戏
      * gameId传0 等同于关闭游戏
      *
      * @param activity   游戏所在页面，用作于生命周期判断
      * @param gameRoomId 游戏房间id，房间隔离，同一房间才能一起游戏
-     * @param gameId     游戏id，传入不同的游戏id，即可加载不同的游戏，传0等同于关闭游戏。
+     * @param gameId     游戏id，传入不同的游戏id，即可加载不同的游戏，传0等同于关闭游戏
      */
     public void switchGame(FragmentActivity activity, String gameRoomId, long gameId) {
         if (TextUtils.isEmpty(gameRoomId)) {

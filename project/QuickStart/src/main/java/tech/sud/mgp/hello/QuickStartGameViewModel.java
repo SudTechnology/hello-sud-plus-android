@@ -18,6 +18,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import tech.sud.mgp.SudMGPWrapper.decorator.SudFSMMGListener;
+import tech.sud.mgp.SudMGPWrapper.decorator.SudFSTAPPDecorator;
 import tech.sud.mgp.SudMGPWrapper.model.GameViewInfoModel;
 import tech.sud.mgp.SudMGPWrapper.state.MGStateResponse;
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
@@ -26,7 +28,7 @@ import tech.sud.mgp.core.ISudFSMStateHandle;
 /**
  * 游戏业务逻辑
  * 1.定自义ViewModel继承此类，实现对应方法。(注意：onAddGameView()与onRemoveGameView()与页面有交互)
- * 2.外部调用switchGame()方法启动游戏
+ * 2.外部调用switchGame(activity,gameRoomId,gameId)方法启动游戏，参数定义可查看方法注释。
  * 3.页面销毁时调用onDestroy()
  */
 public class QuickStartGameViewModel extends BaseGameViewModel {
@@ -167,8 +169,26 @@ public class QuickStartGameViewModel extends BaseGameViewModel {
         gameViewLiveData.setValue(null);
     }
 
+    // ************ 上面是基础能力以及必要配置，下面讲解状态交互
+    // ************ 主要有：1.App向游戏发送状态；2.游戏向App回调状态
+
     /**
-     * 10. 游戏状态 通知
+     * 1.App向游戏发送状态
+     * 这里演示的是发送：1. 加入状态；
+     * 开发者可自由定义方法，能发送的状态都封装在{@link SudFSTAPPDecorator}
+     * 参考文档：https://docs.sud.tech/zh-CN/app/Client/APPFST/
+     * 注意：
+     * 1，App向游戏发送状态，因为需要走网络，所以向游戏发送状态之后，不能马上销毁游戏或者finish Activity，否则状态无法发送成功。
+     * 2，要保证状态能到达，可以发送之后，delay 500ms再销毁游戏或者finish Activity。
+     */
+    public void notifyAPPCommonSelfIn(boolean isIn, int seatIndex, boolean isSeatRandom, int teamId) {
+        sudFSTAPPDecorator.notifyAPPCommonSelfIn(isIn, seatIndex, isSeatRandom, teamId);
+    }
+
+    /**
+     * 2.游戏向App回调状态
+     * 这里演示的是接收游戏回调状态：10. 游戏状态 mg_common_game_state
+     * 游戏回调的每个状态都对应着一个方法，方法定义在：{@link SudFSMMGListener}
      */
     @Override
     public void onGameMGCommonGameState(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameState model) {

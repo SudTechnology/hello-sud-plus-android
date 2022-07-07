@@ -283,6 +283,18 @@ public class SudFSTAPPDecorator {
             iSudFSTAPP.notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_ADD_AI_PLAYERS, SudJsonUtils.toJson(state), null);
         }
     }
+
+    /**
+     * 发送
+     * 17. app在收到游戏断开连接通知后，通知游戏重试连接（2022-06-21新增，暂时支持ludo）
+     */
+    public void notifyAPPCommonGameReconnect() {
+        ISudFSTAPP iSudFSTAPP = this.iSudFSTAPP;
+        if (iSudFSTAPP != null) {
+            SudMGPAPPState.APPCommonGameReconnect state = new SudMGPAPPState.APPCommonGameReconnect();
+            iSudFSTAPP.notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_RECONNECT, SudJsonUtils.toJson(state), null);
+        }
+    }
     // endregion 状态通知，ISudFSTAPP.notifyStateChange
 
     // region 生命周期

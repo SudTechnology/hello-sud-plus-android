@@ -453,6 +453,17 @@ public class SudMGPMGState implements Serializable {
         public List<String> userIds; // 加入成功的playerId列表
     }
 
+    /**
+     * 22. 游戏通知app层添当前网络连接状态（2022-06-21新增）
+     */
+    public static final String MG_COMMON_GAME_NETWORK_STATE = "mg_common_game_network_state";
+
+    /**
+     * 22. 游戏通知app层添当前网络连接状态（2022-06-21新增） 模型
+     */
+    public static class MGCommonGameNetworkState implements Serializable {
+        public int state; // 0:closed, 1: connected
+    }
     // endregion 通用状态-游戏
 
 
@@ -716,5 +727,35 @@ public class SudMGPMGState implements Serializable {
     }
 
     // endregion 你画我猜
+
+    // region 元宇宙砂砂舞
+    /**
+     * 1. 元宇宙砂砂舞指令回调
+     */
+    public static final String MG_COMMON_GAME_DISCO_ACTION = "mg_common_game_disco_action";
+
+    /**
+     * 1. 元宇宙砂砂舞指令回调 模型
+     * app指令请求游戏客户端成功与否的回调
+     */
+    public static final class MGCommonGameDiscoAction implements Serializable {
+        public int actionId; // 指令序号类型
+        public boolean isSuccess; // true 指令成功，false 指令失败
+    }
+
+    /**
+     * 2. 元宇宙砂砂舞指令动作结束通知
+     */
+    public static final String MG_COMMON_GAME_DISCO_ACTION_END = "mg_common_game_disco_action_end";
+
+    /**
+     * 2. 元宇宙砂砂舞指令动作结束通知 模型
+     * 游戏客户端通知APP指令动作结束
+     */
+    public static final class MGCommonGameDiscoActionEnd implements Serializable {
+        public int actionId; // 指令序号类型
+        public String playerId; // // 玩家ID string 类型
+    }
+    // endregion 元宇宙砂砂舞
 
 }

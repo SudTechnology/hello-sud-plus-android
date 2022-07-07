@@ -276,6 +276,17 @@ public class SudMGPAPPState implements Serializable {
         public String name; // 名字
         public String gender; // 性别 male：男，female：女
     }
+
+    /**
+     * 17. app在收到游戏断开连接通知后，通知游戏重试连接（2022-06-21新增，暂时支持ludo）
+     */
+    public static final String APP_COMMON_GAME_RECONNECT = "app_common_game_reconnect";
+
+    /**
+     * 17. app在收到游戏断开连接通知后，通知游戏重试连接（2022-06-21新增，暂时支持ludo） 模型
+     */
+    public static class APPCommonGameReconnect implements Serializable {
+    }
     // endregion 通用状态
 
     // region 元宇宙砂砂舞

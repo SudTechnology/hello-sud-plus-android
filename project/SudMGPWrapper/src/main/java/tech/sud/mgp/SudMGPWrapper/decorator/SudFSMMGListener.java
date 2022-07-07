@@ -219,6 +219,13 @@ public interface SudFSMMGListener {
     default void onGameMGCommonGameAddAIPlayers(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameAddAIPlayers model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
+
+    /**
+     * 22. 游戏通知app层添当前网络连接状态（2022-06-21新增） 模型
+     */
+    default void onGameMGCommonGameNetworkState(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameNetworkState model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
     // endregion 游戏回调APP 通用状态
 
     // region 游戏回调APP 玩家状态
@@ -341,5 +348,22 @@ public interface SudFSMMGListener {
     }
 
     // endregion 游戏回调APP 玩家状态 你画我猜
+
+    // region 游戏回调APP 玩家状态 元宇宙砂砂舞
+
+    /**
+     * 1. 元宇宙砂砂舞指令回调
+     */
+    default void onGameMGCommonGameDiscoAction(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameDiscoAction model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 2. 元宇宙砂砂舞指令动作结束通知
+     */
+    default void onGameMGCommonGameDiscoActionEnd(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameDiscoActionEnd model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+    // endregion 游戏回调APP 玩家状态 元宇宙砂砂舞
 
 }

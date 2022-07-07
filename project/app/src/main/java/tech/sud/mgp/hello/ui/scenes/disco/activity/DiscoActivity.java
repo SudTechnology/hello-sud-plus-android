@@ -258,6 +258,7 @@ public class DiscoActivity extends AbsAudioRoomActivity<DiscoGameViewModel> {
     protected void businessAutoUpMic() {
     }
 
+    /** 麦位切换完成 */
     @Override
     public void onMicLocationSwitchCompleted(int micIndex, boolean operate, OperateMicType type) {
         super.onMicLocationSwitchCompleted(micIndex, operate, type);

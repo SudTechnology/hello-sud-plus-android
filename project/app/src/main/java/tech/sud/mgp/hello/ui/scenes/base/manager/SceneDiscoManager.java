@@ -320,12 +320,13 @@ public class SceneDiscoManager extends BaseServiceManager {
             } else { // 如果在排队等待执行中
                 model.duration += duration;
                 callbackUpdateDance(danceList.indexOf(model));
-                if ((HSUserInfo.userId + "").equals(fromUser.userID)) { // 自己发起的，提示等待
-                    SceneRoomServiceCallback callback = parentManager.getCallback();
-                    if (callback != null) {
-                        callback.onDanceWait();
-                    }
-                }
+            }
+        }
+
+        if (model.beginTime == 0 && (HSUserInfo.userId + "").equals(fromUser.userID)) { // 自己发起的，提示等待
+            SceneRoomServiceCallback callback = parentManager.getCallback();
+            if (callback != null) {
+                callback.onDanceWait();
             }
         }
     }

@@ -23,4 +23,8 @@
         <item name="android:backgroundDimEnabled">true</item>
         <item name="android:windowSoftInputMode">adjustNothing</item>
     </style>
+
+    <style name="LightStatusBarDialogTheme" parent="Theme.MaterialComponents.Dialog">
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
 </resources>

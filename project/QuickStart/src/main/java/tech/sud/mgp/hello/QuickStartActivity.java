@@ -12,6 +12,7 @@ import com.blankj.utilcode.util.Utils;
 import com.gyf.immersionbar.BarHide;
 import com.gyf.immersionbar.ImmersionBar;
 
+import tech.sud.mgp.SudMGPWrapper.model.GameConfigModel;
 import tech.sud.mgp.SudMGPWrapper.model.GameViewInfoModel;
 import tech.sud.mgp.hello.common.base.BaseActivity;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
@@ -75,6 +76,10 @@ public class QuickStartActivity extends BaseActivity {
         gameViewRectModel.right = 0;
         gameViewRectModel.bottom = DensityUtils.dp2px(Utils.getApp(), 54);
         gameViewModel.gameViewRectModel = gameViewRectModel;
+
+        // 游戏配置
+        GameConfigModel gameConfigModel = gameViewModel.getGameConfigModel();
+        gameConfigModel.ui.ping.hide = false; // 配置不隐藏ping值
 
         // 语言代码
         gameViewModel.languageCode = SystemUtils.getLanguageCode(this);

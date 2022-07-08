@@ -10,3 +10,4 @@ project/local.properties
 project/fastlane/report.xml
 project/fastlane/README.md
 project/SudMGPSDK/build
+project/DeveloperKit/build

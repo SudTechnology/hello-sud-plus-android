@@ -4,15 +4,6 @@ import com.blankj.utilcode.util.Utils;
 
 import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
-import tech.sud.mgp.hello.rtc.audio.core.ISudAudioEngine;
-import tech.sud.mgp.hello.rtc.audio.factory.AudioEngineFactory;
-import tech.sud.mgp.hello.rtc.audio.impl.agora.AgoraAudioEngineImpl;
-import tech.sud.mgp.hello.rtc.audio.impl.netease.NeteaseAudioEngineImpl;
-import tech.sud.mgp.hello.rtc.audio.impl.rcloud.RCloudAudioEngineImpl;
-import tech.sud.mgp.hello.rtc.audio.impl.tx.TXAudioEngineImpl;
-import tech.sud.mgp.hello.rtc.audio.impl.volc.VolcAudioEngineImpl;
-import tech.sud.mgp.hello.rtc.audio.impl.zego.ZegoAudioEngineImpl;
-import tech.sud.mgp.hello.rtc.audio.model.AudioConfigModel;
 import tech.sud.mgp.hello.service.main.config.AgoraConfig;
 import tech.sud.mgp.hello.service.main.config.BaseRtcConfig;
 import tech.sud.mgp.hello.service.main.config.CommsEaseConfig;
@@ -20,6 +11,15 @@ import tech.sud.mgp.hello.service.main.config.RongCloudConfig;
 import tech.sud.mgp.hello.service.main.config.TencentCloudConfig;
 import tech.sud.mgp.hello.service.main.config.VolcConfig;
 import tech.sud.mgp.hello.service.main.config.ZegoConfig;
+import tech.sud.mgp.rtc.audio.core.ISudAudioEngine;
+import tech.sud.mgp.rtc.audio.factory.AudioEngineFactory;
+import tech.sud.mgp.rtc.audio.impl.agora.AgoraAudioEngineImpl;
+import tech.sud.mgp.rtc.audio.impl.netease.NeteaseAudioEngineImpl;
+import tech.sud.mgp.rtc.audio.impl.rcloud.RCloudAudioEngineImpl;
+import tech.sud.mgp.rtc.audio.impl.tx.TXAudioEngineImpl;
+import tech.sud.mgp.rtc.audio.impl.volc.VolcAudioEngineImpl;
+import tech.sud.mgp.rtc.audio.impl.zego.ZegoAudioEngineImpl;
+import tech.sud.mgp.rtc.audio.model.AudioConfigModel;
 
 /**
  * 应用rtc管理

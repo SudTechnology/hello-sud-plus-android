@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">QuickStart</string>
+    <string name="app_name">DeveloperKit</string>
 
     <string name="cancel">取消</string>
     <string name="confirm">确定</string>
@@ -21,5 +21,9 @@
     <string name="enter">进入</string>
     <string name="room_number">房号</string>
     <string name="exit_room">退出房间</string>
+
+    <string name="tabs_index">首页</string>
+    <string name="tabs_room">房间</string>
+    <string name="tabs_set">设置</string>
 
 </resources>

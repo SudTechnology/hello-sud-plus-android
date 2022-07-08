@@ -18,7 +18,7 @@ import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.service.MainRepository;
-import tech.sud.mgp.hello.ui.main.GameModel;
+import tech.sud.mgp.hello.ui.main.base.GameModel;
 
 /**
  * 选择游戏模式的弹窗

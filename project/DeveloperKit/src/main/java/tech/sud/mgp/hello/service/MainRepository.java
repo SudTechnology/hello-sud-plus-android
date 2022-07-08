@@ -10,7 +10,7 @@ import tech.sud.mgp.hello.common.http.param.BaseUrlManager;
 import tech.sud.mgp.hello.common.http.retrofit.RetrofitManager;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.http.rx.RxUtils;
-import tech.sud.mgp.hello.ui.main.GameModel;
+import tech.sud.mgp.hello.ui.main.base.GameModel;
 
 public class MainRepository {
 

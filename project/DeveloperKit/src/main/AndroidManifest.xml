@@ -31,7 +31,7 @@
 
         <!-- 首页 -->
         <activity
-            android:name=".ui.main.MainActivity"
+            android:name=".ui.main.base.MainActivity"
             android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"

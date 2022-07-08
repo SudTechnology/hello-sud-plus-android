@@ -4,7 +4,7 @@ import android.content.Intent;
 
 import me.jessyan.autosize.internal.CancelAdapt;
 import tech.sud.mgp.hello.common.base.BaseActivity;
-import tech.sud.mgp.hello.ui.main.MainActivity;
+import tech.sud.mgp.hello.ui.main.base.MainActivity;
 
 public class SplashActiivty extends BaseActivity implements CancelAdapt {
 

@@ -1,12 +1,10 @@
-package tech.sud.mgp.hello.ui.main;
+package tech.sud.mgp.hello.ui.main.home;
 
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,7 +12,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.blankj.utilcode.util.KeyboardUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
@@ -23,17 +20,15 @@ import java.util.List;
 
 import tech.sud.mgp.hello.QuickStartActivity;
 import tech.sud.mgp.hello.R;
-import tech.sud.mgp.hello.common.base.BaseActivity;
+import tech.sud.mgp.hello.common.base.BaseFragment;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.utils.ViewUtils;
 import tech.sud.mgp.hello.common.widget.view.SimpleTextWatcher;
 import tech.sud.mgp.hello.common.widget.view.round.RoundedImageView;
 import tech.sud.mgp.hello.service.MainRepository;
+import tech.sud.mgp.hello.ui.main.base.GameModel;
 
-/**
- * 主页
- */
-public class MainActivity extends BaseActivity {
+public class HomeFragment extends BaseFragment {
 
     private final MyAdapter adapter = new MyAdapter();
     private final long roomId = 10000; // 默认使用的房间Id
@@ -43,7 +38,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_main;
+        return R.layout.fragment_home;
     }
 
     @Override
@@ -56,23 +51,23 @@ public class MainActivity extends BaseActivity {
         editText.setHint(roomId + "");
 
         adapter.setHeaderView(getHeaderView());
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 3, LinearLayoutManager.VERTICAL, false);
+        GridLayoutManager layoutManager = new GridLayoutManager(requireContext(), 3, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
     }
 
     private View getHeaderView() {
-        LinearLayout container = new LinearLayout(this);
+        LinearLayout container = new LinearLayout(requireContext());
 
-        RoundedImageView iv = new RoundedImageView(this);
+        RoundedImageView iv = new RoundedImageView(requireContext());
         iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
         iv.setImageResource(R.drawable.ic_quick_start);
-        int radius = DensityUtils.dp2px(this, 8);
+        int radius = DensityUtils.dp2px(requireContext(), 8);
         iv.setCornerRadius(radius, radius, 0, 0);
 
-        LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-        params.topMargin = DensityUtils.dp2px(this, 8);
-        int marginHorizontal = DensityUtils.dp2px(this, 5);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        params.topMargin = DensityUtils.dp2px(requireContext(), 8);
+        int marginHorizontal = DensityUtils.dp2px(requireContext(), 5);
         params.setMarginStart(marginHorizontal);
         params.setMarginEnd(marginHorizontal);
         container.addView(iv, params);
@@ -125,7 +120,7 @@ public class MainActivity extends BaseActivity {
     private boolean enterRoom() {
         Long number = getInputNumber();
         if (number == null) return false;
-        QuickStartActivity.start(this, number, 0);
+        QuickStartActivity.start(requireContext(), number, 0);
         return true;
     }
 
@@ -144,7 +139,7 @@ public class MainActivity extends BaseActivity {
     /** 点击了游戏 */
     private void clickGame(int position) {
         GameModel model = adapter.getItem(position);
-        QuickStartActivity.start(this, roomId, model.gameId);
+        QuickStartActivity.start(requireContext(), roomId, model.gameId);
     }
 
     private static class MyAdapter extends BaseQuickAdapter<GameModel, BaseViewHolder> {
@@ -158,36 +153,5 @@ public class MainActivity extends BaseActivity {
             holder.setText(R.id.tv_name, gameModel.gameName);
         }
     }
-
-    // region 点击屏幕空白区域隐藏软键盘
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
-            View v = getCurrentFocus();
-            if (isShouldHideKeyboard(v, ev)) {
-                KeyboardUtils.hideSoftInput(this);
-                return false;
-            }
-        }
-        return super.dispatchTouchEvent(ev);
-    }
-
-    // Return whether touch the view.
-    private boolean isShouldHideKeyboard(View v, MotionEvent event) {
-        if (!KeyboardUtils.isSoftInputVisible(this)) return false;
-        if ((v instanceof EditText)) {
-            int[] l = {0, 0};
-            v.getLocationOnScreen(l);
-            int left = l[0];
-            int top = l[1];
-            int bottom = top + v.getHeight();
-            int right = left + v.getWidth();
-            float rawX = event.getRawX();
-            float rawY = event.getRawY();
-            return !(rawX > left && rawX < right && rawY > top && rawY < bottom);
-        }
-        return false;
-    }
-    // endregion 点击屏幕空白区域隐藏软键盘
 
 }

@@ -271,11 +271,11 @@ public class SceneDiscoManager extends BaseServiceManager {
             callbackAction(helper.textPop(3, context.getString(R.string.send_gift_title, giftCount + "", giftName)));
         } else if (giftID == 2) {
             callbackAction(helper.textPop(3, context.getString(R.string.send_gift_title, giftCount + "", giftName)));
-            callbackAction(helper.roleFocus(3, null));
+            callbackAction(helper.roleFocus(3, true));
         } else if (giftID == 3) {
             callbackAction(helper.textPop(6, context.getString(R.string.send_gift_title, giftCount + "", giftName)));
             callbackAction(helper.roleBig(30, 2));
-            callbackAction(helper.roleFocus(4, null));
+            callbackAction(helper.roleFocus(4, true));
         } else if (giftID == 4) {
             callbackAction(helper.textPop(9, context.getString(R.string.send_gift_title, giftCount + "", giftName)));
             callbackAction(helper.roleBig(60, 2));

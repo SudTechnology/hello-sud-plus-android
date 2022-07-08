@@ -20,9 +20,11 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import tech.sud.mgp.SudMGPWrapper.decorator.SudFSMMGListener;
 import tech.sud.mgp.SudMGPWrapper.decorator.SudFSTAPPDecorator;
+import tech.sud.mgp.SudMGPWrapper.model.GameConfigModel;
 import tech.sud.mgp.SudMGPWrapper.model.GameViewInfoModel;
 import tech.sud.mgp.SudMGPWrapper.state.MGStateResponse;
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
+import tech.sud.mgp.core.ISudFSMMG;
 import tech.sud.mgp.core.ISudFSMStateHandle;
 
 /**
@@ -139,13 +141,31 @@ public class QuickStartGameViewModel extends BaseGameViewModel {
         return languageCode;
     }
 
-    /** 设置游戏的安全操作区域 */
+    /**
+     * 设置游戏的安全操作区域，{@link ISudFSMMG}.onGetGameViewInfo()的实现。
+     * 参考文档：https://docs.sud.tech/zh-CN/app/Client/API/ISudFSMMG/onGetGameViewInfo.html
+     *
+     * @param gameViewInfoModel 游戏视图模型
+     */
     @Override
     protected void getGameRect(GameViewInfoModel gameViewInfoModel) {
         // 相对于view_size（左、上、右、下）边框偏移（单位像素）
+        // 开发者可自定义gameViewRectModel来控制安全区域
         if (gameViewRectModel != null) {
             gameViewInfoModel.view_game_rect = gameViewRectModel;
         }
+    }
+
+    /**
+     * 获取游戏配置对象，{@link ISudFSMMG}.onGetGameCfg()的实现。
+     * 参考文档：https://docs.sud.tech/zh-CN/app/Client/API/ISudFSMMG/onGetGameCfg.html
+     * 开发者拿到此对象之后，可修改自己需要的配置
+     * 注意：在加载游戏之前配置才有效
+     *
+     * @return 游戏配置对象
+     */
+    public GameConfigModel getGameConfigModel() {
+        return gameConfigModel;
     }
 
     /**

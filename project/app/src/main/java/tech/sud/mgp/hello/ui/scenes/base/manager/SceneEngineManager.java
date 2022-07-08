@@ -14,21 +14,21 @@ import java.util.Set;
 import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.GlobalCache;
-import tech.sud.mgp.hello.rtc.audio.core.AudioEngineUpdateType;
-import tech.sud.mgp.hello.rtc.audio.core.AudioPCMData;
-import tech.sud.mgp.hello.rtc.audio.core.AudioRoomState;
-import tech.sud.mgp.hello.rtc.audio.core.AudioStream;
-import tech.sud.mgp.hello.rtc.audio.core.ISudAudioEngine;
-import tech.sud.mgp.hello.rtc.audio.core.ISudAudioEventListener;
-import tech.sud.mgp.hello.rtc.audio.factory.AudioEngineFactory;
-import tech.sud.mgp.hello.rtc.audio.impl.IMRoomManager;
-import tech.sud.mgp.hello.rtc.audio.model.AudioJoinRoomModel;
 import tech.sud.mgp.hello.service.main.resp.BaseConfigResp;
 import tech.sud.mgp.hello.ui.main.home.manager.RTCManager;
 import tech.sud.mgp.hello.ui.scenes.base.activity.RoomConfig;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
 import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomServiceCallback;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.RoomCmdModelUtils;
+import tech.sud.mgp.rtc.audio.core.AudioEngineUpdateType;
+import tech.sud.mgp.rtc.audio.core.AudioPCMData;
+import tech.sud.mgp.rtc.audio.core.AudioRoomState;
+import tech.sud.mgp.rtc.audio.core.AudioStream;
+import tech.sud.mgp.rtc.audio.core.ISudAudioEngine;
+import tech.sud.mgp.rtc.audio.core.ISudAudioEventListener;
+import tech.sud.mgp.rtc.audio.factory.AudioEngineFactory;
+import tech.sud.mgp.rtc.audio.impl.IMRoomManager;
+import tech.sud.mgp.rtc.audio.model.AudioJoinRoomModel;
 
 /**
  * 语音引擎

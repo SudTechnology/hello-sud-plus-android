@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginHorizontal="5dp"
+    android:layout_marginTop="20dp">
+
+    <!-- 图标 -->
+    <ImageView
+        android:id="@+id/item_game_mode_iv_icon"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="1:1"
+        android:scaleType="centerCrop"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@null" />
+
+    <!-- 标识是否在游戏中 -->
+    <TextView
+        android:id="@+id/item_game_mode_tv_gameing"
+        android:layout_width="40dp"
+        android:layout_height="16dp"
+        android:text="@string/audio_gameing"
+        android:textSize="10sp"
+        android:gravity="center"
+        android:textColor="@color/c_ffffff"
+        android:background="@color/c_000000"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- 游戏名称 -->
+    <TextView
+        android:id="@+id/item_game_mode_tv_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="6dp"
+        android:textSize="14sp"
+        android:textColor="@color/c_1a1a1a"
+        android:maxLines="2"
+        android:ellipsize="end"
+        app:layout_constraintTop_toBottomOf="@id/item_game_mode_iv_icon" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

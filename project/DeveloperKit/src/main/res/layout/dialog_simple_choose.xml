@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/common_shape_dialog_bg"
+    android:padding="24dp">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textColor="#1a1a1a"
+        android:textStyle="bold"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_left"
+        android:layout_width="104dp"
+        android:layout_height="36dp"
+        android:background="#ffffff"
+        android:textSize="14sp"
+        android:textColor="#000000"
+        android:gravity="center"
+        android:layout_marginTop="32dp"
+        android:text="@string/cancel"
+        app:layout_constraintTop_toBottomOf="@id/tv_title"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <tech.sud.mgp.hello.common.widget.view.MarqueeTextView
+        android:id="@+id/tv_right"
+        android:layout_width="104dp"
+        android:layout_height="36dp"
+        android:background="#000000"
+        android:textSize="14sp"
+        android:textColor="#ffffff"
+        android:gravity="center"
+        android:text="@string/confirm"
+        app:layout_constraintTop_toTopOf="@id/tv_left"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

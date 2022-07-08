@@ -145,6 +145,7 @@ public class DancingMenuDialog extends BaseDialogFragment {
             TextView tvFinished = holder.getView(R.id.tv_finished);
             TextView tvCountdown = holder.getView(R.id.tv_countdown);
             TextView tvWaiting = holder.getView(R.id.tv_waiting);
+            TextView tvRank = holder.getView(R.id.tv_rank);
             if (model.isCompleted) { // 已结束
                 if (model.isShowCompletedTitle) {
                     tvFinished.setVisibility(View.VISIBLE);
@@ -153,8 +154,11 @@ public class DancingMenuDialog extends BaseDialogFragment {
                 }
                 tvCountdown.setVisibility(View.GONE);
                 tvWaiting.setVisibility(View.GONE);
+                tvRank.setVisibility(View.GONE);
             } else { // 未结束
                 tvFinished.setVisibility(View.GONE);
+                tvRank.setVisibility(View.VISIBLE);
+                tvRank.setText(holder.getAdapterPosition() + 1 + "");
                 if (model.beginTime > 0) { // 在执行中了
                     tvCountdown.setVisibility(View.VISIBLE);
                     tvWaiting.setVisibility(View.GONE);

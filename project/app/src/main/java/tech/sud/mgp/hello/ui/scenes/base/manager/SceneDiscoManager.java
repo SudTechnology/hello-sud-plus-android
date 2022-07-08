@@ -333,7 +333,7 @@ public class SceneDiscoManager extends BaseServiceManager {
     /** 查找第一个已经完成的跳舞数据，没找到，则返回-1 */
     private int findFirstCompletedDanceModel() {
         int firstPosition = -1;
-        for (int i = danceList.size() - 1; i >= 0; i--) {
+        for (int i = 0; i < danceList.size(); i++) {
             DanceModel danceModel = danceList.get(i);
             if (danceModel.isCompleted) {
                 firstPosition = i;

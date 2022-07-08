@@ -18,7 +18,19 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:paddingHorizontal="20dp">
+        android:paddingStart="0dp"
+        android:paddingEnd="20dp">
+
+        <TextView
+            android:id="@+id/tv_rank"
+            android:layout_width="57dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:textColor="#99ffffff"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <tech.sud.mgp.hello.common.widget.view.round.RoundedImageView
             android:id="@+id/iv_icon"
@@ -26,7 +38,8 @@
             android:layout_height="36dp"
             app:riv_oval="true"
             android:scaleType="centerCrop"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_goneMarginStart="20dp"
+            app:layout_constraintStart_toEndOf="@id/tv_rank"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent" />
 

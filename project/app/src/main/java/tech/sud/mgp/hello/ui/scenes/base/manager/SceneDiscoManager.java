@@ -292,7 +292,7 @@ public class SceneDiscoManager extends BaseServiceManager {
 
     /** 增加一个跳舞请求 */
     private void addDance(UserInfo fromUser, UserInfo toUser, int duration) {
-        if (fromUser == null || toUser == null) {
+        if (fromUser == null || toUser == null || fromUser.equals(toUser)) {
             return;
         }
         DanceModel model = findDancingModel(fromUser, toUser);

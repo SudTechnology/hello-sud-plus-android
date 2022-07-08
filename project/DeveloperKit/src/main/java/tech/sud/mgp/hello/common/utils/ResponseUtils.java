@@ -14,7 +14,7 @@ public class ResponseUtils {
         if (response == null) {
             return null;
         }
-        return response.getRet_msg() + "(" + response.getRet_code() + ")";
+        return response.getRetMsg() + "(" + response.getRetCode() + ")";
     }
 
 }

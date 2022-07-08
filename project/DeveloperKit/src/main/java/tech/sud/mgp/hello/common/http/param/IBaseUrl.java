@@ -18,6 +18,11 @@ public interface IBaseUrl {
     String getBaseUrl();
 
     /**
+     * 交互服务
+     */
+    String getInteractBaseUrl();
+
+    /**
      * 游戏服务
      */
     String getGameBaseUrl();

@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:layout_constraintTop_toTopOf="parent"
+    android:background="@drawable/ic_room_pk_bg">
+
+    <!-- region 左边房间信息 -->
+    <View
+        android:id="@+id/left_view_progress"
+        android:layout_width="188dp"
+        android:layout_height="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <tech.sud.mgp.hello.common.widget.view.round.RoundedImageView
+        android:id="@+id/left_iv_icon"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:scaleType="centerCrop"
+        app:riv_oval="true"
+        app:riv_border_width="0.5dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <TextView
+        android:id="@+id/left_tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxWidth="90dp"
+        android:textSize="10sp"
+        android:textColor="@color/c_ffffff"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="4dp"
+        app:layout_constraintStart_toEndOf="@id/left_iv_icon"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/left_tv_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textColor="@color/c_ffffff"
+        app:layout_constraintStart_toStartOf="@id/left_tv_name"
+        app:layout_constraintBottom_toBottomOf="@id/left_view_progress"
+        app:layout_constraintTop_toTopOf="@id/left_view_progress" />
+
+    <View
+        android:id="@+id/left_view_result"
+        android:layout_width="68dp"
+        android:layout_height="22dp"
+        android:layout_marginEnd="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/left_iv_icon"
+        app:layout_constraintStart_toStartOf="@id/left_iv_icon" />
+    <!-- endregion 左边房间信息 -->
+
+    <!-- region  中间显示的信息 -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/middle_top_container"
+        android:layout_width="88dp"
+        android:layout_height="26dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tv_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="59dp"
+            android:layout_marginEnd="29dp"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:textSize="16sp"
+            android:textColor="@color/c_ffffff"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <ImageView
+            android:id="@+id/view_issue"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:padding="13dp"
+            android:src="@drawable/ic_room_pk_issue"
+            android:scaleType="fitCenter"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- endregion 中间显示的信息 -->
+
+    <!-- region 右边房间信息 -->
+    <View
+        android:id="@+id/right_view_progress"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        app:layout_constraintStart_toEndOf="@id/left_view_progress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <tech.sud.mgp.hello.common.widget.view.round.RoundedImageView
+        android:id="@+id/right_iv_icon"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:scaleType="centerCrop"
+        app:riv_oval="true"
+        app:riv_border_width="0.5dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <TextView
+        android:id="@+id/right_tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxWidth="90dp"
+        android:textSize="10sp"
+        android:textColor="@color/c_ffffff"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintEnd_toStartOf="@id/right_iv_icon"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/right_tv_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textColor="@color/c_ffffff"
+        app:layout_constraintEnd_toEndOf="@id/right_tv_name"
+        app:layout_constraintBottom_toBottomOf="@id/right_view_progress"
+        app:layout_constraintTop_toTopOf="@id/right_view_progress" />
+
+    <View
+        android:id="@+id/right_view_result"
+        android:layout_width="68dp"
+        android:layout_height="22dp"
+        android:layout_marginStart="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/right_iv_icon"
+        app:layout_constraintEnd_toEndOf="@id/right_iv_icon" />
+    <!-- region 右边房间信息 -->
+
+    <!-- 进度条上面的闪烁的动画 -->
+    <com.opensource.svgaplayer.SVGAImageView
+        android:id="@+id/siv_progress_point"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:scaleType="fitXY"
+        app:source="progress_middle_light.svga"
+        app:autoPlay="true"
+        app:loopCount="0"
+        android:background="@color/transparent"
+        app:layout_constraintBottom_toBottomOf="@id/left_view_progress"
+        app:layout_constraintTop_toTopOf="@id/left_view_progress"
+        app:layout_constraintStart_toEndOf="@id/left_view_progress"
+        app:layout_constraintEnd_toEndOf="@id/left_view_progress" />
+
+    <!-- vs -->
+    <View
+        android:id="@+id/view_vs"
+        android:layout_width="54dp"
+        android:layout_height="27dp"
+        android:background="@drawable/ic_room_pk_vs"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- 平局图标 -->
+    <View
+        android:id="@+id/view_result_draw"
+        android:layout_width="76dp"
+        android:layout_height="24dp"
+        android:background="@drawable/ic_pk_draw"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

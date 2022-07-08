@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="82dp"
+    android:layout_marginVertical="4dp"
+    android:background="@color/white"
+    android:padding="9dp">
+
+    <tech.sud.mgp.hello.common.widget.view.round.RoundedImageView
+        android:id="@+id/room_cover"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        app:riv_corner_radius="10dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="16dp"
+        android:maxWidth="64dp"
+        android:gravity="center"
+        android:paddingStart="7dp"
+        android:paddingEnd="5dp"
+        android:textSize="10sp"
+        android:textColor="@color/c_ffffff"
+        android:background="@color/black"
+        app:layout_constraintTop_toTopOf="@id/room_cover"
+        app:layout_constraintStart_toStartOf="@id/room_cover" />
+
+    <TextView
+        android:id="@+id/room_scene"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="4dp"
+        android:paddingHorizontal="5dp"
+        android:paddingVertical="3dp"
+        android:textSize="10sp"
+        app:layout_constraintStart_toEndOf="@id/room_cover"
+        app:layout_constraintTop_toTopOf="@id/room_cover" />
+
+    <tech.sud.mgp.hello.common.widget.view.MarqueeTextView
+        android:id="@+id/room_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:ellipsize="end"
+        android:textColor="#1a1a1a"
+        android:textSize="16sp"
+        android:layout_marginHorizontal="6dp"
+        android:layout_marginTop="3dp"
+        app:layout_constraintStart_toEndOf="@id/room_scene"
+        app:layout_constraintEnd_toStartOf="@id/room_online"
+        app:layout_constraintTop_toTopOf="@id/room_cover" />
+
+    <TextView
+        android:id="@+id/room_online"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxWidth="80dp"
+        android:layout_marginTop="6dp"
+        android:textColor="#666666"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/room_cover" />
+
+    <TextView
+        android:id="@+id/room_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="5dp"
+        android:singleLine="true"
+        android:textColor="#666666"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/room_cover"
+        app:layout_constraintStart_toEndOf="@id/room_cover" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:id="@+id/room_enter_ll"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        app:layout_constraintBottom_toBottomOf="@id/room_cover"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@color/black"
+        android:layout_height="24dp">
+
+        <TextView
+            android:background="@color/c_ffffff"
+            android:id="@+id/rtc_name"
+            android:visibility="gone"
+            android:minWidth="34dp"
+            android:layout_width="wrap_content"
+            android:layout_height="22dp"
+            android:gravity="center"
+            android:paddingHorizontal="8dp"
+            android:layout_margin="1dp"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/room_enter"
+            android:layout_width="wrap_content"
+            android:layout_height="24dp"
+            android:gravity="center"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:paddingHorizontal="12dp"
+            android:text="@string/room_list_enter"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

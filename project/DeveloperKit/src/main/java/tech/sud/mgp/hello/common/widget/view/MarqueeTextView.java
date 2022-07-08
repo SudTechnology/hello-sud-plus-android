@@ -84,4 +84,5 @@ public class MarqueeTextView extends androidx.appcompat.widget.AppCompatTextView
             super.onWindowFocusChanged(hasWindowFocus);
         }
     }
+
 }

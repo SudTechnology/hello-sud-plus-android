@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="gradient_color_disco">
+        <item>#f40ade</item>
+        <item>#e02020</item>
+        <item>#fa6400</item>
+        <item>#ebac00</item>
+        <item>#6dd400</item>
+        <item>#0091ff</item>
+        <item>#6236ff</item>
+    </array>
+</resources>

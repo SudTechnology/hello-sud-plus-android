@@ -1,13 +1,18 @@
 package tech.sud.mgp.hello.common.base;
 
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.gyf.immersionbar.ImmersionBar;
 import com.trello.rxlifecycle4.components.support.RxAppCompatActivity;
 
 import tech.sud.mgp.hello.R;
+import tech.sud.mgp.hello.common.model.AppData;
+import tech.sud.mgp.hello.common.model.HSUserInfo;
+import tech.sud.mgp.hello.common.utils.language.HSLanguageUtils;
 
 public abstract class BaseActivity extends RxAppCompatActivity {
 
@@ -65,6 +70,25 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     }
 
     protected void setListeners() {
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        HSUserInfo.onSaveInstanceState(outState);
+        AppData.getInstance().onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        HSUserInfo.onRestoreInstanceState(savedInstanceState);
+        AppData.getInstance().onRestoreInstanceState(savedInstanceState);
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(HSLanguageUtils.attachBaseContext(newBase));
     }
 
 }

@@ -1,9 +1,20 @@
 package tech.sud.mgp.hello.common.utils;
 
-import android.text.Editable;
+import android.content.Context;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
+import android.view.WindowManager;
+import android.widget.TextView;
+
+import androidx.annotation.ColorRes;
+import androidx.core.content.ContextCompat;
+
+import com.blankj.utilcode.util.LogUtils;
+
+import java.util.Locale;
 
 public class ViewUtils {
 
@@ -124,10 +135,65 @@ public class ViewUtils {
         view.setTranslationX(value);
     }
 
-    public static String getEditTextText(EditText editText) {
-        Editable text = editText.getText();
-        if (text == null) return null;
-        return text.toString();
+    /** 打印输入模式 */
+    public static void logSoftInputMode(int softInputMode) {
+        if (softInputMode == WindowManager.LayoutParams.SOFT_INPUT_ADJUST_UNSPECIFIED) {
+            LogUtils.d("logSoftInputMode:SOFT_INPUT_ADJUST_UNSPECIFIED");
+        }
+        logSoftInputMode(softInputMode, WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE, "SOFT_INPUT_ADJUST_RESIZE");
+        logSoftInputMode(softInputMode, WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN, "SOFT_INPUT_ADJUST_PAN");
+        logSoftInputMode(softInputMode, WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING, "SOFT_INPUT_ADJUST_NOTHING");
+    }
+
+    public static void logSoftInputMode(int softInputMode, int checkMode, String name) {
+        if ((softInputMode & checkMode) == checkMode) {
+            LogUtils.d("logSoftInputMode:" + name);
+        }
+    }
+
+    /**
+     * 设置textview富文本，关键字可自定义颜色
+     */
+    public static void setTextKeywordColor(Context context, TextView tv, String str, @ColorRes int keywordResid, String... keys) {
+        if (keys == null || keys.length == 0) {
+            tv.setText(str);
+            return;
+        }
+        SpannableStringBuilder builder = new SpannableStringBuilder(str);
+        // ForegroundColorSpan 为文字前景色，BackgroundColorSpan为文字背景色
+        int startIndex = 0;
+        String lowerStr = str.toLowerCase(Locale.getDefault());
+        for (String key : keys) {
+            String lowerKey = key.toLowerCase(Locale.getDefault());
+            int start = lowerStr.indexOf(lowerKey, startIndex);
+            if (start >= 0) {
+                int end = start + key.length();
+                builder.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context, keywordResid)), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+        }
+        tv.setText(builder);
+    }
+
+    /**
+     * 设置textview富文本，关键字可自定义颜色
+     */
+    public static CharSequence getTextKeywordColor(Context context, String str, @ColorRes int keywordResid, String... keys) {
+        if (keys == null || keys.length == 0) {
+            return str;
+        }
+        SpannableStringBuilder builder = new SpannableStringBuilder(str);
+        // ForegroundColorSpan 为文字前景色，BackgroundColorSpan为文字背景色
+        int startIndex = 0;
+        String lowerStr = str.toLowerCase(Locale.getDefault());
+        for (String key : keys) {
+            String lowerKey = key.toLowerCase(Locale.getDefault());
+            int start = lowerStr.indexOf(lowerKey, startIndex);
+            if (start >= 0) {
+                int end = start + key.length();
+                builder.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context, keywordResid)), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+        }
+        return builder;
     }
 
 }

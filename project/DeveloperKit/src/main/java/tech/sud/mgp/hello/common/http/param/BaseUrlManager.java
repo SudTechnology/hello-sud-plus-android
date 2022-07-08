@@ -12,6 +12,13 @@ public class BaseUrlManager {
     }
 
     /**
+     * 获取房间服务
+     */
+    public static String getInteractBaseUrl() {
+        return iBaseUrl.getInteractBaseUrl();
+    }
+
+    /**
      * 获取游戏服务
      */
     public static String getGameBaseUrl() {

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <tech.sud.mgp.hello.ui.common.widget.HSTopBar
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        app:topbar_titleText="@string/more_quiz_title"
+        android:paddingTop="10dp"
+        android:background="@color/white" />
+
+    <tech.sud.mgp.hello.ui.common.widget.refresh.RefreshView
+        android:id="@+id/refresh_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/ic_more_quiz_bg" />
+
+</LinearLayout>

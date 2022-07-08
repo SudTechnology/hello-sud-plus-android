@@ -1,5 +1,10 @@
 package tech.sud.mgp.hello.ui.main.home;
 
+import android.content.Context;
+import android.content.Intent;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -7,34 +12,65 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import com.blankj.utilcode.util.KeyboardUtils;
+import com.blankj.utilcode.util.ToastUtils;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.listener.OnItemClickListener;
-import com.chad.library.adapter.base.viewholder.BaseViewHolder;
+import net.lucode.hackware.magicindicator.MagicIndicator;
 
-import java.util.List;
-
-import tech.sud.mgp.hello.QuickStartActivity;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseFragment;
-import tech.sud.mgp.hello.common.utils.DensityUtils;
-import tech.sud.mgp.hello.common.utils.ViewUtils;
-import tech.sud.mgp.hello.common.widget.view.SimpleTextWatcher;
-import tech.sud.mgp.hello.common.widget.view.round.RoundedImageView;
-import tech.sud.mgp.hello.service.MainRepository;
-import tech.sud.mgp.hello.ui.main.base.GameModel;
+import tech.sud.mgp.hello.common.http.param.BaseResponse;
+import tech.sud.mgp.hello.common.http.param.RetCode;
+import tech.sud.mgp.hello.common.http.rx.RxCallback;
+import tech.sud.mgp.hello.common.model.HSUserInfo;
+import tech.sud.mgp.hello.common.utils.ImageLoader;
+import tech.sud.mgp.hello.service.main.manager.HomeManager;
+import tech.sud.mgp.hello.service.main.repository.HomeRepository;
+import tech.sud.mgp.hello.service.main.resp.CreatRoomResp;
+import tech.sud.mgp.hello.service.main.resp.GameListResp;
+import tech.sud.mgp.hello.service.main.resp.GameModel;
+import tech.sud.mgp.hello.service.main.resp.QuizGameListResp;
+import tech.sud.mgp.hello.service.main.resp.SceneModel;
+import tech.sud.mgp.hello.ui.common.constant.RequestKey;
+import tech.sud.mgp.hello.ui.common.utils.CompletedListener;
+import tech.sud.mgp.hello.ui.common.utils.LifecycleUtils;
+import tech.sud.mgp.hello.ui.main.constant.SceneType;
+import tech.sud.mgp.hello.ui.main.home.manager.IndicatorHelper;
+import tech.sud.mgp.hello.ui.main.home.model.MatchRoomModel;
+import tech.sud.mgp.hello.ui.main.home.view.CoinDialog;
+import tech.sud.mgp.hello.ui.main.home.view.NewNestedScrollView;
+import tech.sud.mgp.hello.ui.main.home.view.SceneTypeDialog;
+import tech.sud.mgp.hello.ui.main.home.view.homeitem.CreatRoomClickListener;
+import tech.sud.mgp.hello.ui.main.home.view.homeitem.GameItemListener;
+import tech.sud.mgp.hello.ui.main.home.view.homeitem.HomeItemView;
+import tech.sud.mgp.hello.ui.main.widget.CreateTicketRoomDialog;
+import tech.sud.mgp.hello.ui.scenes.base.utils.EnterRoomUtils;
+import tech.sud.mgp.hello.ui.scenes.disco.activity.DiscoRankingActivity;
+import tech.sud.mgp.hello.ui.scenes.quiz.activity.MoreQuizActivity;
+import tech.sud.mgp.hello.ui.scenes.ticket.activity.TicketLevelActivity;
+import tech.sud.mgp.hello.ui.scenes.ticket.model.TicketLevelParams;
 
-public class HomeFragment extends BaseFragment {
+/**
+ * 首页页面
+ */
+public class HomeFragment extends BaseFragment implements CreatRoomClickListener, GameItemListener {
 
-    private final MyAdapter adapter = new MyAdapter();
-    private final long roomId = 10000; // 默认使用的房间Id
+    private EditText searchEt;
+    private TextView goSearch;
+    private LinearLayout sceneLayout;
+    private TextView nameTv, useridTv;
+    private ImageView headerIv;
+    private SmartRefreshLayout refreshLayout;
+    private MagicIndicator magicIndicator;
+    private IndicatorHelper helper;
+    private NewNestedScrollView scrollView;
+    private ImageView menuIv;
 
-    private EditText editText;
-    private TextView tvEnter;
+    public static HomeFragment newInstance() {
+        HomeFragment fragment = new HomeFragment();
+        return fragment;
+    }
 
     @Override
     protected int getLayoutId() {
@@ -44,113 +80,247 @@ public class HomeFragment extends BaseFragment {
     @Override
     protected void initWidget() {
         super.initWidget();
-        editText = findViewById(R.id.et_room_id);
-        tvEnter = findViewById(R.id.tv_enter);
-        RecyclerView recyclerView = findViewById(R.id.recycler_view);
-
-        editText.setHint(roomId + "");
-
-        adapter.setHeaderView(getHeaderView());
-        GridLayoutManager layoutManager = new GridLayoutManager(requireContext(), 3, LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
-    }
-
-    private View getHeaderView() {
-        LinearLayout container = new LinearLayout(requireContext());
-
-        RoundedImageView iv = new RoundedImageView(requireContext());
-        iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        iv.setImageResource(R.drawable.ic_quick_start);
-        int radius = DensityUtils.dp2px(requireContext(), 8);
-        iv.setCornerRadius(radius, radius, 0, 0);
-
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-        params.topMargin = DensityUtils.dp2px(requireContext(), 8);
-        int marginHorizontal = DensityUtils.dp2px(requireContext(), 5);
-        params.setMarginStart(marginHorizontal);
-        params.setMarginEnd(marginHorizontal);
-        container.addView(iv, params);
-
-        return container;
+        searchEt = mRootView.findViewById(R.id.search_et);
+        goSearch = mRootView.findViewById(R.id.go_search);
+        sceneLayout = mRootView.findViewById(R.id.scene_root);
+        nameTv = mRootView.findViewById(R.id.name_tv);
+        useridTv = mRootView.findViewById(R.id.userid_tv);
+        headerIv = mRootView.findViewById(R.id.header_iv);
+        refreshLayout = mRootView.findViewById(R.id.refresh_layout);
+        magicIndicator = mRootView.findViewById(R.id.magic_indicator);
+        scrollView = mRootView.findViewById(R.id.scrollView);
+        menuIv = mRootView.findViewById(R.id.menu_iv);
+        refreshLayout.setEnableRefresh(true);
+        refreshLayout.setEnableLoadMore(false);
     }
 
     @Override
     protected void initData() {
         super.initData();
-        List<GameModel> gameList = MainRepository.getGameList();
-        adapter.setList(gameList);
+        nameTv.setText(HSUserInfo.nickName);
+        useridTv.setText(getString(R.string.setting_userid, HSUserInfo.userId + ""));
+        ImageLoader.loadImage(headerIv, HSUserInfo.avatar);
+        loadList();
     }
 
     @Override
     protected void setListeners() {
         super.setListeners();
-        adapter.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
-                clickGame(position);
+        searchEt.setOnFocusChangeListener((v, hasFocus) -> {
+            String keyword = searchEt.getText().toString();
+            if (keyword.length() > 0) {
+                goSearch.setVisibility(View.VISIBLE);
+            } else {
+                goSearch.setVisibility(View.GONE);
             }
         });
-        editText.addTextChangedListener(new SimpleTextWatcher() {
+        searchEt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                Long number = getInputNumber();
-                if (number == null) {
-                    tvEnter.setVisibility(View.GONE);
+                if (s.length() > 0) {
+                    goSearch.setVisibility(View.VISIBLE);
                 } else {
-                    tvEnter.setVisibility(View.VISIBLE);
+                    goSearch.setVisibility(View.GONE);
                 }
             }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
         });
-        editText.setOnEditorActionListener((v, actionId, event) -> {
-            if (actionId == EditorInfo.IME_ACTION_GO) {
-                return !enterRoom();
+        searchEt.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                enterRoom();
             }
             return false;
         });
-        tvEnter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                enterRoom();
+        goSearch.setOnClickListener(v -> enterRoom());
+        refreshLayout.setOnRefreshListener(refreshLayout -> loadList());
+        headerIv.setOnClickListener(v -> {
+            new CoinDialog().show(getChildFragmentManager(), null);
+        });
+        menuIv.setOnClickListener(v -> {
+            if (helper != null) {
+                SceneTypeDialog dialog = SceneTypeDialog.getInstance(helper.getSelectedIndex());
+                dialog.listener = position -> helper.clickIndicator(position);
+                dialog.show(getChildFragmentManager(), "SceneTypeDialog");
             }
         });
     }
 
-    /** 进入房间 */
-    private boolean enterRoom() {
-        Long number = getInputNumber();
-        if (number == null) return false;
-        QuickStartActivity.start(requireContext(), number, 0);
-        return true;
-    }
-
-    /** 获取输入的房间号 */
-    private Long getInputNumber() {
-        String content = ViewUtils.getEditTextText(editText);
-        if (content == null) return null;
+    private void enterRoom() {
         try {
-            return Long.parseLong(content);
+            String roomIdString = searchEt.getText().toString().trim();
+            if (!TextUtils.isEmpty(roomIdString)) {
+                long roomId = Long.parseLong(roomIdString);
+                EnterRoomUtils.enterRoom(requireContext(), roomId);
+            }
+            KeyboardUtils.hideSoftInput(searchEt);
+            searchEt.setText("");
+            searchEt.clearFocus();
         } catch (Exception e) {
-            e.printStackTrace();
+            ToastUtils.showShort(getString(R.string.search_room_error));
         }
-        return null;
     }
 
-    /** 点击了游戏 */
-    private void clickGame(int position) {
-        GameModel model = adapter.getItem(position);
-        QuickStartActivity.start(requireContext(), roomId, model.gameId);
+    private void createScene(GameListResp resp, QuizGameListResp quizGameListResp) {
+        if (resp != null && resp.sceneList.size() > 0) {
+            Context context = getContext();
+            if (context != null) {
+                helper = new IndicatorHelper(magicIndicator, resp.sceneList, scrollView);
+                helper.init(context);
+                helper.bind();
+
+                sceneLayout.removeAllViews();
+                for (int i = 0; i < resp.sceneList.size(); i++) {
+                    SceneModel model = resp.sceneList.get(i);
+                    HomeItemView view = new HomeItemView(context);
+                    view.setData(model, HomeManager.getInstance().getSceneGame(model.getSceneId()), quizGameListResp);
+                    view.setGameItemListener(this);
+                    view.setCreatRoomClickListener(this);
+                    view.setMoreActivityOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            switch (model.sceneId) {
+                                case SceneType.QUIZ:
+                                    startActivity(new Intent(context, MoreQuizActivity.class));
+                                    break;
+                                case SceneType.DISCO:
+                                    startActivity(new Intent(context, DiscoRankingActivity.class));
+                                    break;
+                            }
+                        }
+                    });
+                    sceneLayout.addView(view);
+                }
+            }
+        }
     }
 
-    private static class MyAdapter extends BaseQuickAdapter<GameModel, BaseViewHolder> {
-        public MyAdapter() {
-            super(R.layout.item_home_game);
+    @Override
+    public void onGameClick(SceneModel sceneModel, GameModel gameModel) {
+        switch (sceneModel.getSceneId()) {
+            case SceneType.TICKET: // 门票制场景
+                startTicketLevelActivity(sceneModel, gameModel);
+                break;
+            default:
+                matchGame(sceneModel.getSceneId(), gameModel.gameId);
+                break;
         }
+    }
 
-        @Override
-        protected void convert(@NonNull BaseViewHolder holder, GameModel gameModel) {
-            holder.setImageResource(R.id.iv_icon, gameModel.homeGamePic);
-            holder.setText(R.id.tv_name, gameModel.gameName);
+    // 打开场景等级选择页面
+    private void startTicketLevelActivity(SceneModel sceneModel, GameModel gameModel) {
+        TicketLevelParams params = new TicketLevelParams();
+        params.sceneType = sceneModel.getSceneId();
+        params.gameId = gameModel.gameId;
+        params.gameName = gameModel.gameName;
+        Intent intent = new Intent(requireContext(), TicketLevelActivity.class);
+        intent.putExtra(RequestKey.TICKET_LEVEL_PARAMS, params);
+        startActivity(intent);
+    }
+
+    private void matchGame(int sceneId, Long gameId) {
+        HomeRepository.matchGame(sceneId, gameId, null, this, new RxCallback<MatchRoomModel>() {
+            @Override
+            public void onNext(BaseResponse<MatchRoomModel> t) {
+                super.onNext(t);
+                if (t.getRetCode() == RetCode.SUCCESS) {
+                    EnterRoomUtils.enterRoom(null, t.getData().roomId);
+                }
+            }
+        });
+    }
+
+    private void loadList() {
+        // 1，游戏列表
+        HomeRepository.gameList(this, new RxCallback<GameListResp>() {
+            @Override
+            public void onNext(BaseResponse<GameListResp> t) {
+                super.onNext(t);
+                if (t.getRetCode() == RetCode.SUCCESS) {
+                    GameListResp gameListResp = t.getData();
+                    HomeManager.getInstance().gameListResp = gameListResp;
+
+                    // 2，竞猜游戏列表
+                    HomeRepository.quizGameList(HomeFragment.this, new RxCallback<QuizGameListResp>() {
+                        @Override
+                        public void onSuccess(QuizGameListResp quizGameListResp) {
+                            super.onSuccess(quizGameListResp);
+                            safeCreateScene(gameListResp, quizGameListResp);
+                        }
+
+                        @Override
+                        public void onFinally() {
+                            super.onFinally();
+                            loadCompleted();
+                        }
+                    });
+                } else {
+                    loadCompleted();
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                loadCompleted();
+            }
+        });
+    }
+
+    private void safeCreateScene(GameListResp resp, QuizGameListResp quizGameListResp) {
+        LifecycleUtils.safeLifecycle(this, new CompletedListener() {
+            @Override
+            public void onCompleted() {
+                createScene(resp, quizGameListResp);
+            }
+        });
+    }
+
+    private void loadCompleted() {
+        if (refreshLayout.isRefreshing()) {
+            refreshLayout.finishRefresh();
+            refreshLayout.finishLoadMore();
+        }
+    }
+
+    private void createRoom(Integer sceneType, GameModel gameModel) {
+        Long gameId;
+        if (gameModel == null) {
+            gameId = null;
+        } else {
+            gameId = gameModel.gameId;
+        }
+        HomeRepository.creatRoom(sceneType, gameId, null, this, new RxCallback<CreatRoomResp>() {
+            @Override
+            public void onNext(BaseResponse<CreatRoomResp> t) {
+                super.onNext(t);
+                if (t.getRetCode() == RetCode.SUCCESS) {
+                    EnterRoomUtils.enterRoom(null, t.getData().roomId);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onCreateRoomClick(SceneModel sceneModel, GameModel gameModel) {
+        //创建房间
+        if (sceneModel != null) {
+            switch (sceneModel.getSceneId()) {
+                case SceneType.TICKET:
+                    new CreateTicketRoomDialog().show(getChildFragmentManager(), null);
+                    break;
+                default:
+                    createRoom(sceneModel.getSceneId(), gameModel);
+                    break;
+            }
         }
     }
 

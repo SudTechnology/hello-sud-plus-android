@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/ic_ticket_level_bg"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <tech.sud.mgp.hello.ui.common.widget.HSTopBar
+        android:id="@+id/top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        app:topbar_backSrc="@drawable/icon_navi_back_white"
+        app:topbar_titleTextColor="@color/white"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <tech.sud.mgp.hello.ui.scenes.ticket.widget.TicketLevelNoticeView
+        android:id="@+id/tv_notice"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="@drawable/ic_notice_bg"
+        android:layout_marginHorizontal="38dp"
+        android:layout_marginTop="10dp" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="16dp"
+        android:layout_marginTop="10dp"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        android:clipToPadding="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- 初级 -->
+            <tech.sud.mgp.hello.ui.scenes.ticket.widget.TicketLevelView
+                android:id="@+id/level_view_primary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:tlv_level="primary"
+                android:layout_marginTop="10dp" />
+
+            <!-- 初级 -->
+            <tech.sud.mgp.hello.ui.scenes.ticket.widget.TicketLevelView
+                android:id="@+id/level_view_middle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:tlv_level="middle"
+                android:layout_marginTop="10dp" />
+
+            <!-- 初级 -->
+            <tech.sud.mgp.hello.ui.scenes.ticket.widget.TicketLevelView
+                android:id="@+id/level_view_high"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:tlv_level="high"
+                android:layout_marginTop="10dp" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

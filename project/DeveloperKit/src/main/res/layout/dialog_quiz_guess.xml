@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/ic_guess_dialog_bg">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:textColor="@color/black"
+        android:text="@string/select_support_player"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:shadowRadius="3"
+        android:shadowColor="#ffde00"
+        android:shadowDx="1"
+        android:shadowDy="2"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_hint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        android:textColor="@color/black"
+        android:text="@string/guess_hint"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:shadowRadius="3"
+        android:shadowColor="#ffde00"
+        android:shadowDx="1"
+        android:shadowDy="2"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="1dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_title" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginBottom="15dp"
+        android:overScrollMode="never"
+        app:layout_constraintTop_toBottomOf="@id/tv_hint"
+        app:layout_constraintBottom_toTopOf="@id/tv_confirm" />
+
+    <TextView
+        android:id="@+id/tv_empty"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:textSize="14sp"
+        android:textColor="#66000000"
+        android:text="@string/game_player_empty"
+        android:layout_marginHorizontal="16dp"
+        app:layout_constraintTop_toTopOf="@id/recycler_view"
+        app:layout_constraintBottom_toBottomOf="@id/recycler_view" />
+
+    <LinearLayout
+        android:id="@+id/ll_coin"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:background="@drawable/shape_round_ffffff"
+        android:gravity="center_vertical"
+        android:paddingStart="8dp"
+        android:paddingEnd="7dp"
+        android:orientation="horizontal"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="18dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <View
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:background="@drawable/icon_coin" />
+
+        <TextView
+            android:id="@+id/tv_coin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#f6a209"
+            android:layout_marginStart="6dp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_confirm"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:minWidth="180dp"
+        android:paddingHorizontal="16dp"
+        android:gravity="center"
+        android:textSize="14sp"
+        android:textColor="@color/selector_guess_btn_color"
+        android:background="@drawable/selector_guess_btn"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/ll_coin"
+        app:layout_constraintBottom_toBottomOf="@id/ll_coin" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

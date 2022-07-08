@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.lihang.ShadowLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="64dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:hl_shadowColor="#60000000"
+    app:hl_cornerRadius="8dp"
+    app:hl_shadowLimit="10dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/floating_cl_content"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@drawable/shape_r8_000000">
+
+        <tech.sud.mgp.hello.common.widget.view.MarqueeTextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="106dp"
+            android:textSize="14sp"
+            android:textColor="@color/c_ffffff"
+            android:paddingStart="12dp"
+            android:paddingEnd="10dp"
+            app:layout_constraintEnd_toStartOf="@id/iv_shutdown"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_shutdown"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:src="@drawable/ic_room_close"
+            android:scaleType="fitCenter"
+            android:layout_marginEnd="6dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</com.lihang.ShadowLayout>

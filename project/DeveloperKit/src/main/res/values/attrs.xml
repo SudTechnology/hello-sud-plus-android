@@ -30,8 +30,47 @@
         </attr>
     </declare-styleable>
 
+    <declare-styleable name="SoundLevelView">
+        <attr name="slv_circle_color" format="color" /> <!--圆圈颜色-->
+        <attr name="slv_start_width" format="dimension" /> <!--圆圈的起始直径-->
+        <attr name="slv_end_alpha" format="integer" /> <!-- 圆圈到最后要消失时的一个透明度 -->
+        <attr name="slv_speed" format="dimension" />    <!-- 扩散速度，直径增长值 -->
+        <attr name="slv_circle_interval" format="dimension" />  <!-- 每个圆圈之间的间隔，也就是直径之间的距离 -->
+        <attr name="slv_anim_duration" format="integer" />   <!-- 动画持续时间 -->
+        <attr name="slv_stroke_width" format="dimension" />   <!-- 圆圈的大小 -->
+    </declare-styleable>
+
+    <declare-styleable name="SettingButton">
+        <attr name="sb_name" format="string" /> <!-- 左边的名称 -->
+        <attr name="sb_hint" format="string" /> <!-- 右边显示的信息 -->
+    </declare-styleable>
+
+    <declare-styleable name="HSTopBar">
+        <attr name="topbar_titleText" format="string|reference" /> <!-- 标题文字 -->
+        <attr name="topbar_titleTextColor" format="color" /> <!--标题颜色-->
+        <attr name="topbar_backSrc" format="reference|color" /> <!-- 返回按钮的资源 -->
+    </declare-styleable>
+
     <declare-styleable name="MarqueeTextView">
         <attr name="mtv_drawMask" format="boolean" /> <!-- 在轮播时，绘制蒙板 -->
+    </declare-styleable>
+
+    <declare-styleable name="TicketLevelView">
+        <attr name="tlv_level"> <!-- 等级 -->
+            <enum name="primary" value="1" />
+            <enum name="middle" value="2" />
+            <enum name="high" value="3" />
+        </attr>
+    </declare-styleable>
+
+    <!--圆角约束布局-->
+    <declare-styleable name="CornersConstraintLayout">
+        <attr name="ccl_leftTopCorner" format="boolean" />
+        <attr name="ccl_rightTopCorner" format="boolean" />
+        <attr name="ccl_leftBottomCorner" format="boolean" />
+        <attr name="ccl_rightBottomCorner" format="boolean" />
+        <!--圆角半径-->
+        <attr name="ccl_cornerRadius" format="dimension" />
     </declare-styleable>
 
 </resources>

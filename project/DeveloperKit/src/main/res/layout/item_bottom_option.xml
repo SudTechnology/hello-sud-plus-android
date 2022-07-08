@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_bottom_option_tv_name"
+    android:layout_width="match_parent"
+    android:layout_height="56dp"
+    android:textSize="16sp"
+    android:textColor="@color/c_1a1a1a"
+    android:gravity="center" />

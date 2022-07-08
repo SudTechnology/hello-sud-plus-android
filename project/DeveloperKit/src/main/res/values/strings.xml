@@ -1,29 +1,497 @@
 <resources>
-    <string name="app_name">DeveloperKit</string>
+    <string name="app_name">HelloSud</string>
 
-    <string name="cancel">取消</string>
-    <string name="confirm">确定</string>
-    <string name="net_error_hint">网络错误，请检查网络连接</string>
-    <string name="common_go_setting">去设置</string>
-    <string name="common_camera">相机</string>
-    <string name="common_storage">存储</string>
-    <string name="common_correlation">相关</string>
-    <string name="common_record_audio">录音</string>
-    <string name="common_phone">电话</string>
-    <string name="common_setting_permission_info">请在设置中开启%1$s权限，以正常使用 %2$s APP功能</string>
-    <string name="main_top_title">SudMGP</string>
-    <string name="main_top_url">www.sud.tech</string>
-    <string name="select_game">选择游戏</string>
-    <string name="audio_chat_hint">聊一聊~</string>
-    <string name="audio_gameing">游戏中</string>
-    <string name="close_game">关闭游戏</string>
-    <string name="room_name">来一起玩游戏吧</string>
-    <string name="enter">进入</string>
-    <string name="room_number">房号</string>
-    <string name="exit_room">退出房间</string>
+    <string name="login_welcome">Welcome \nHelloSud</string>
+    <string name="login_your_name">Your nickname</string>
+    <string name="title_hellosud">HelloSud</string>
+    <string name="login_edit_name">Enter your nickname</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="play_now">Try Now</string>
+    <string name="search_hint">Join With Room Number</string>
 
-    <string name="tabs_index">首页</string>
-    <string name="tabs_room">房间</string>
-    <string name="tabs_set">设置</string>
+    <string name="tabs_index">Home</string>
+    <string name="tabs_room">Room</string>
+    <string name="tabs_set">Settings</string>
+    <string name="useragreement_title">Welcome to HelloSud</string>
+    <string name="useragreement_content_part1">We take the protection of your personal information very seriously. For more information about the collection and use of personal information, tap the</string>
+    <string name="useragreement_content_part2">User Agreement</string>
+    <string name="useragreement_content_part3">and</string>
+    <string name="useragreement_content_part4">Privacy Policy</string>
+    <string name="useragreement_content_part5">Read carefully. Tap Agree to indicate you\'ve read and agreed to all of the above agreements</string>
+    <string name="useragreement_reject">Don\'t agree</string>
+    <string name="useragreement_agree">Agree</string>
+    <string name="user_secondary_title">Tip</string>
+    <string name="user_secondary_content">HelloSud will only use your information for providing services and improving the experience. We will do our best to protect your information security, agree to continue
+\n If you don\'t agree to the Privacy Policy, unfortunatelly we can not provide you with the complete products and services</string>
+    <string name="user_secondary_reject">Close App</string>
+    <string name="user_secondary_agree">Agree and continue to use</string>
+    <string name="setting_sdk_version">SDK Version</string>
+    <string name="setting_app_version">App Version</string>
+    <string name="setting_useragreement">User Agreement</string>
+    <string name="setting_privacy">Privacy Policy</string>
+    <string name="setting_contact">Contact Us</string>
+    <string name="setting_userid">User ID %1$s</string>
+    <string name="setting_userid1">User ID: %1$s</string>
+    <string name="coming_soon">Stay tuned</string>
+    <string name="room_list_enter">Enter</string>
+    <string name="room_list_roomid">room ID: %1$s</string>
+    <string name="room_list_online">%1$s users</string>
+    <string name="setting_contact1_content">For more information or feedback,contact us via email: help@sud.tech</string>
+    <string name="setting_contact1_but">OK</string>
+    <string-array name="names_list">
+        <item>哈利</item>
+        <item>祺祥</item>
+        <item>沐辰</item>
+        <item>阿米莉亚</item>
+        <item>齐默尔曼</item>
+        <item>陌北</item>
+        <item>旺仔</item>
+        <item>半夏</item>
+        <item>朝雨</item>
+        <item>卫斯理</item>
+        <item>阿道夫</item>
+        <item>长青</item>
+        <item>安小六</item>
+        <item>小凡</item>
+        <item>炎月</item>
+        <item>醉风</item>
+        <item>斯科特</item>
+        <item>布卢默</item>
+        <item>宛岩</item>
+        <item>平萱</item>
+        <item>凝雁</item>
+        <item>怀亚特</item>
+        <item>格伦巴特</item>
+        <item>尔白</item>
+        <item>南露</item>
+        <item>爱丽丝</item>
+        <item>埃尔维斯</item>
+        <item>奥利维亚</item>
+        <item>妙竹</item>
+        <item>雲思衣</item>
+        <item>少女大佬</item>
+        <item>兔兔别跑</item>
+        <item>夏纱</item>
+        <item>嘉慕</item>
+        <item>阿拉贝拉</item>
+        <item>星剑</item>
+        <item>罗德斯</item>
+        <item>渡满归</item>
+        <item>星浅</item>
+        <item>问水</item>
+        <item>星奕晨</item>
+        <item>丹尼尔</item>
+        <item>白止扇</item>
+        <item>暖暖</item>
+        <item>埃迪</item>
+        <item>杰里米</item>
+        <item>玛德琳</item>
+        <item>波佩</item>
+        <item>卡诺</item>
+        <item>泡芙</item>
+        <item>帕特里克</item>
+        <item>梅雷迪斯</item>
+        <item>公孙昕</item>
+        <item>青弘</item>
+        <item>潘豆豆</item>
+        <item>小番秀二</item>
+        <item>大一宇</item>
+        <item>米奇</item>
+        <item>戴夫</item>
+        <item>伯特</item>
+        <item>米洛布雷</item>
+        <item>阿德莱德</item>
+        <item>吉宝</item>
+        <item>伊娃</item>
+        <item>路易斯</item>
+        <item>希拉姆</item>
+        <item>杰西</item>
+        <item>贝特西</item>
+        <item>利奥波德</item>
+        <item>丽塔</item>
+        <item>拉姆斯登</item>
+        <item>伯纳德</item>
+        <item>理查德</item>
+        <item>奥尔德里奇</item>
+        <item>劳里</item>
+        <item>奥兰多</item>
+        <item>埃尔罗伊</item>
+        <item>栗和顺</item>
+        <item>朱雀佳行</item>
+        <item>理德拉</item>
+        <item>凡勃伦</item>
+        <item>科波菲尔</item>
+        <item>玉谷大三</item>
+        <item>大木元司</item>
+        <item>钮阳冰</item>
+        <item>盖勤</item>
+        <item>紫心</item>
+        <item>弘慕慕</item>
+        <item>怀星驰</item>
+        <item>泉宏胜</item>
+        <item>闻人星海</item>
+        <item>Watt</item>
+        <item>Kevin</item>
+        <item>Toby</item>
+        <item>瓦利斯</item>
+        <item>苏珊娜</item>
+        <item>罗密欧</item>
+        <item>福克纳</item>
+        <item>多萝西</item>
+        <item>贝尔</item>
+        <item>卡门</item>
+        <item>安德烈</item>
+        <item>朱丽叶</item>
+        <item>吉姆</item>
+    </string-array>
+
+    <string-array name="language_list">
+        <item>Follow the system</item>
+        <item>简体中文</item>
+        <item>繁體中文</item>
+        <item>English</item>
+        <item>لغة عربية</item>
+        <item>Bahasa Indonesia</item>
+        <item>Bahasa Melayu</item>
+        <item>ภาษาไทย</item>
+        <item>Tiếng Việt</item>
+        <item>한국어</item>
+        <item>Español</item>
+        <item>日本語</item>
+    </string-array>
+    <string name="search_room_error">Enter the correct room number</string>
+    <string name="user_agreement_title">User Agreement</string>
+    <string name="user_privacy_title">Privacy Policy</string>
+    <string name="roomlist_empty">No live streams right now \n
+Go to homepage to create one~</string>
+    <string name="search_enter">Enter</string>
+    <string name="select_game">Select game</string>
+    <string name="audio_click_got_mic">Click to turn mike on</string>
+    <string name="audio_has_ready">Ready</string>
+    <string name="audio_not_ready">Not ready</string>
+    <string name="audio_got_mic">Mike on</string>
+    <string name="audio_chat_hint">Let\'s chat~</string>
+    <string name="audio_dialog_gift_present">Gift</string>
+    <string name="audio_dialog_present">Give</string>
+    <string name="audio_cancle">Cancel</string>
+    <string name="audio_all">all</string>
+    <string name="audio_mic_index">%1$d mic</string>
+    <string name="audio_room_admin">Host</string>
+    <string name="audio_send">Send</string>
+    <string name="audio_send_msg_hint">Send a message…</string>
+    <string name="audio_send_gift_user_empty">Select recipient</string>
+    <string name="audio_send_gift_empty">Select present</string>
+    <string name="audio_recreation_chat">General Chat</string>
+    <string name="audio_chat_room">Chat Room</string>
+    <string name="audio_gameing">In Game</string>
+    <string name="audio_room_number">room ID</string>
+    <string name="audio_close_room_title">Are you sure you want to leave the room?</string>
+    <string name="audio_enter_the_room">Entered the room</string>
+    <string name="audio_down_mic">Mike off</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Confirm</string>
+    <string name="confirm_">Confirm to leave</string>
+    <string name="common_go_setting">Settings</string>
+    <string name="common_camera">Camera</string>
+    <string name="common_storage">Storage</string>
+    <string name="common_correlation">Related</string>
+    <string name="common_record_audio">Recording</string>
+    <string name="common_phone">Phone</string>
+    <string name="common_setting_permission_info">Enable the %1$s permission in settings to use the %2$s APP function normally</string>
+    <string name="close_game">Close Game</string>
+    <string name="finish_game">End Game</string>
+    <string name="index_creat_room">Create Room</string>
+    <string name="index_game_join">Join </string>
+    <string name="occupy_size">Occupied size</string>
+    <string name="version_info">Version Info</string>
+    <string name="change_rtc_service">Switch RTC service provider</string>
+    <string name="change_language">Switch language</string>
+    <string name="github">GitHub</string>
+    <string name="open_source_licenses">Open source protocol</string>
+    <string name="change_rtc_confirm">Are you sure you wan\'t to switch the RTC service provider to [%1$s]?</string>
+    <string name="be_making">In production, stay tuned!</string>
+    <string name="total_value">Total %1$s</string>
+    <string name="finish_game_confirm">Are you sure you want to end the game?</string>
+    <string name="playing_down_mic">The game has already started, are you sure you wan\'t to leave?</string>
+    <string name="game_number">Number of players</string>
+    <string name="rtc_name_zego">Zego</string>
+    <string name="rtc_name_agora">Agora</string>
+    <string name="rtc_name_rong_cloud">RongCloud</string>
+    <string name="rtc_name_comms_ease">CommsEase</string>
+    <string name="rtc_name_volc_engine">VoiceEngine</string>
+    <string name="rtc_name_alibaba_cloud">Alibaba Cloud</string>
+    <string name="rtc_name_tencent_cloud">Tencent Cloud</string>
+    <string name="asr_guide">Our game supports speech recognition, turn your mic on and show your charming side~</string>
+    <string name="asr_guide_number_boom">You can turn on the mic to count off. Bonus for slackers!</string>
+    <string name="primary_field">Beginner Stage</string>
+    <string name="middle_field">Intermediate Stage</string>
+    <string name="high_field">Advanced Stage</string>
+    <string name="win_multiple_award">Win %1$dx reward</string>
+    <string name="count_people_play">%1$s players online</string>
+    <string name="now_participation">Join now</string>
+    <string name="join_game_confirm">Participating consumes %1$d gold, do you want to continue?</string>
+    <string name="no_longer_remind">Don\'t show again</string>
+    <string name="confirm_join">Confirm to join</string>
+    <string name="asr_guide_draw">Using the mike is faster than typing!</string>
+    <string name="app_version_low">This version of the app is low, please update to the latest version</string>
+    <string name="app_version_update_tip">There is a new version available, update now?</string>
+    <string name="app_version_update_btn1">Later</string>
+    <string name="app_version_update_btn2">Update now</string>
+    <string name="ticket_level_notice">Congrats to %1$s for winning %2$s gold in the Intermediate Stage!</string>
+    <string name="unable_to_speak">You can\'t speak now</string>
+    <string name="no_empty_seat">No empty seats</string>
+    <string name="more_settings">More settings</string>
+    <string name="create_ticket_room_title">Select the created ticket session level</string>
+    <string name="take_first_place">You got first place</string>
+    <string name="high_gold_coin_award">Up to %1$d gold coin reward</string>
+    <string name="transfer_captain">Transfer leadership</string>
+    <string name="kick_game">Kicked out</string>
+    <string name="net_error_hint">Network error, please check your network connection</string>
+    <string name="switched_language">Language switched</string>
+    <string name="order_dialog_title">Select speaking users</string>
+    <string name="order_dialog_sub_title">Designate the speaking streamer to play with you</string>
+    <string name="order_btn">Initiate</string>
+    <string name="order_selected_total">%1$d people selected</string>
+    <string name="dialog_scene_title">All scenes</string>
+    <string name="hang_room">Suspend the room</string>
+    <string name="exit_room">Exit the room</string>
+    <string name="floating_permission_info">The permission for the floating window has not been turned on yet</string>
+    <string name="go_setting">Go to Settings</string>
+    <string name="order_price_text">200/Round/Person</string>
+    <string name="close_game_warn">You must end the game before quitting the game</string>
+    <string name="switch_game_warn">You must end the game before switching to other games</string>
+    <string name="order_invite_conent">%1$s \n invites you to the game【%2$s】\nDo you want to join?</string>
+    <string name="order_invite_right_btn">Join</string>
+    <string name="order_invite_left_btn">Decline</string>
+    <string name="order_result_conent">%1$s has declined your invitation. Go play with someone else</string>
+    <string name="order_finish_conent">This order has finished. Would you like to continue playing with other streamers?</string>
+    <string name="order_finish_left_text">Return</string>
+    <string name="order_finish_right_text">Make an order</string>
+    <string name="game_api_in_title">Join</string>
+    <string name="game_api_in_state">app_common_self_in，\"isIn\":true</string>
+    <string name="game_api_ready_title">Ready</string>
+    <string name="game_api_ready_state">app_common_self_ready，\"isReady\":true</string>
+    <string name="game_api_ready_title_cancle">Cancel Ready</string>
+    <string name="game_api_ready_state_cancle">app_common_self_ready，\"isReady\":false</string>
+    <string name="game_api_in_title_false">Quit</string>
+    <string name="game_api_in_state_false">app_common_self_in，\"isIn\":false</string>
+    <string name="game_api_playing_title">Start</string>
+    <string name="game_api_playing_state">app_common_self_playing，\"isPlaying\":true</string>
+    <string name="game_api_playing_title_false">Escape:</string>
+    <string name="game_api_playing_state_false">app_common_self_playing，\"isPlaying\":false</string>
+    <string name="game_api_end_title_false">Disband (Leadership):</string>
+    <string name="game_api_end_state_false">app_common_self_end，{}</string>
+    <string name="game_config_title">Game configuration</string>
+    <string name="game_config_tip">After modifying the configuration, please exit the room and reload the game</string>
+    <string name="dialog_game_stage">Game stage</string>
+    <string name="dialog_game_api">API</string>
+    <string name="dialog_game_before">Before joining the game</string>
+    <string name="dialog_game_join_btn">①Join</string>
+    <string name="dialog_game_ready">Preparation stage</string>
+    <string name="dialog_game_ready_btn">②Ready</string>
+    <string name="dialog_game_cancel_ready_btn">Cancel Ready</string>
+    <string name="dialog_game_start_btn">③Start</string>
+    <string name="dialog_game_exit_btn">Exit game</string>
+    <string name="dialog_game_playing">In game</string>
+    <string name="dialog_game_escape">Run away</string>
+    <string name="dialog_game_release">End game</string>
+    <string name="order_start_order">Make an order</string>
+    <string name="order_hang_up_game">Suspend the game</string>
+    <string name="order_enter_game">Enter the game</string>
+    <string name="order_game_playing">In game</string>
+    <string name="user_receive_invite_msg">%1$s agree to join you in【%2$s】</string>
+    <string name="order_dialog_no_select_anchor">Select  streamer</string>
+    <string name="order_dialog_no_select_game">Select game</string>
+    <string name="wait_start">Not-Started</string>
+    <string name="finished">Over</string>
+    <string name="seat_empty" />
+    <string name="renew_pk">Again</string>
+    <string name="open_room_pk">Turn on cross-room gaming</string>
+    <string name="start_pk">Start the competiton</string>
+    <string name="pk_settings">Set up</string>
+    <string name="select_game_hint">Please select a game to battle</string>
+    <string name="loading">Loading&#8230;</string>
+    <string name="load_failed">Loading failed, please click here to try again</string>
+    <string name="no_more">-The coolest bottom line-</string>
+    <string name="load_completed">Loading completed</string>
+    <string name="live_room">Streaming room list</string>
+    <string name="invite_pk">Invite</string>
+    <string name="pk_rule">Competition rules</string>
+    <string name="pk_rule_detail_1">1. Users will be divided into red and blue teams. Users in the same room are teammates.</string>
+    <string name="pk_rule_detail_2">2. During the competition, you can add points to your team by obtaining ranking points from playing games.</string>
+    <string name="pk_rule_detail_3">3. The ranking points for each round of the game are as follows:</string>
+    <string name="pk_rule_detail_4">The first place +100 points</string>
+    <string name="pk_rule_detail_5">The second place +50 points</string>
+    <string name="pk_rule_detail_6">The third place + 20 points</string>
+    <string name="pk_rule_detail_7">4. To be fair, both teams can negotiate to send the same number of users to join the game~</string>
+    <string name="order_inivte_complete">Order created</string>
+    <string name="pk_duration_settings">Competition duration settings</string>
+    <string name="close_room_pk">Turn off cross-room gaming</string>
+    <string name="number_minute">%1$s minutes</string>
+    <string name="confirm_modify">Confirm the changes</string>
+    <string name="empty_room_match">No rooms available now</string>
+    <string name="invite_pk_hint">Please invite your opponent first</string>
+    <string name="invite_pk_answer_title">Room %1$s sends an invitation for cross-room gaming. Do you accept it?</string>
+    <string name="refuse">Refuse</string>
+    <string name="accept">OK</string>
+    <string name="win_info_first">Congratulations to %1$s for winning the first place! %3$s points are added to %2$s!</string>
+    <string name="win_info_second">%1$s has won the second place! %3$s points are added to %2$s!</string>
+    <string name="win_info_thirdly">%1$s has won the third place! %3$s points are added to %2$s!</string>
+    <string name="team_red">Red team</string>
+    <string name="team_blue">Blue team</string>
+    <string name="enter_other_room_confirm">Are you going to your opponent\'s room?</string>
+    <string name="confirm_to">Go</string>
+    <string name="game_running_remove_warn">The game is not over yet. You can\'t remove.</string>
+    <string name="pk_running_remove_warn">The competition is not over yet. You can\'t remove.</string>
+    <string name="remove_rival_confirm">Do you want to remove this opponent?</string>
+    <string name="confirm_remove">Confirm</string>
+    <string name="room_invitation_send">Invitation sent, please wait</string>
+    <string name="room_close_pk_advance_tip">Are you sure to turn off cross-room gaming? \nIf you turn off now, the settlement will begin right away and the game will be terminated</string>
+    <string name="close">Close</string>
+    <string name="room_pk_wait_onwer_select">Waiting for the holder to select the game</string>
+    <string name="room_round_game_over">This round of game is over,\nDo you want to make another order?</string>
+    <string name="matching">Matching</string>
+    <string name="in_game">In play</string>
+
+    <!-- region 不用翻译 -->
+    <string name="custom">Custom</string>
+    <string name="name_1">趣味辩论</string>
+    <string name="name_2">念念不忘团</string>
+    <string name="name_3">梦语女友</string>
+    <string name="name_4">彼岸花开</string>
+    <string name="name_5">盛世红盛</string>
+    <string name="name_6">念念不忘</string>
+    <string name="name_7">杏岛绮月</string>
+    <string name="name_8">娜以香</string>
+    <string name="name_9">大真蓓</string>
+    <string name="name_10">宦滢</string>
+    <string name="name_11">易宁</string>
+    <string name="name_12">庹启黛</string>
+    <string name="name_13">贝茗</string>
+    <string name="name_14">满馨</string>
+    <!-- endregion 不用翻译 -->
+
+    <!-- region 新增 -->
+    <string name="intercept_room_pk">由于对方强制退出比赛，比赛提前结束</string>
+    <string name="send_order_chat_msg">%1$s 给%2$s下了一单，约玩【%3$s】</string>
+    <string name="more_activity">更多活动</string>
+    <string name="award">奖励</string>
+    <string name="join_now">立即加入</string>
+    <string name="residue">剩余</string>
+    <string name="maximum_number_of_participants">参与人数上限</string>
+    <string name="entrance">入场</string>
+    <string name="free">免费</string>
+    <string name="more_quiz_title">精彩竞猜活动</string>
+    <string name="more_quiz_hint">跨房玩游戏，猜猜谁最强？</string>
+    <string name="add_cast">加投</string>
+    <string name="guess_he_win">猜TA赢</string>
+    <string name="quiz_number">%1$s人已参与竞猜</string>
+    <string name="quiz_win_result_detail">%1$s人预测成功瓜分奖池</string>
+    <string name="quiz_win_result">预测成功瓜分奖池</string>
+    <string name="have_support">已支持</string>
+    <string name="from_start">距离开始</string>
+    <string name="limited_quiz">限时竞猜活动</string>
+    <string name="play_immediately">立即玩</string>
+    <string name="quiz_bet_title">你要投入多少支持</string>
+    <string name="quiz_bet_hint">投的多分的多</string>
+    <string name="support_now">立即支持</string>
+    <string name="gold_coin">金币</string>
+    <string name="ranking_of_quiz">竞猜王</string>
+    <string name="ranking_of_big_god">大神榜</string>
+    <string name="ranking_of_day">日榜</string>
+    <string name="ranking_of_week">周榜</string>
+    <string name="victory_count">胜利(场)</string>
+    <string name="quiz_king">竞猜王者</string>
+    <string name="quiz_win">竞猜获胜</string>
+    <string name="game_master">游戏高手</string>
+    <string name="win_victory">获胜</string>
+    <string name="guess_win_or_lose">猜输赢</string>
+    <string name="select_support_player">选择你支持的玩家</string>
+    <string name="guess_hint">猜对得5倍奖励!</string>
+    <string name="affirm_coin">确认(%1$s金币)</string>
+    <string name="support_count">已有%1$s人支持</string>
+    <string name="guess_i_win">猜自己赢</string>
+    <string name="guess_i_win_hint">夺第一名 得5倍奖励</string>
+    <string name="guess_i_win_auto">是否开启每轮自动猜自己赢？</string>
+    <string name="each_round_coin">（每轮%1$s金币）</string>
+    <string name="cancel_start">暂不开启</string>
+    <string name="start_now">立即开启</string>
+    <string name="game_playing_start_quiz_warn">游戏进行中，暂不可开启竞猜</string>
+    <string name="game_playing_close_quiz_warn">游戏进行中，暂不可关闭竞猜</string>
+    <string name="auto_quiz">自动竞猜</string>
+    <string name="close_auto_guess_i_win_title">是否关闭每轮自动猜自己赢?</string>
+    <string name="quiz_bet_msg">%1$s 为 %2$s 打call，猜TA会赢！</string>
+    <string name="quiz_guess_i_win_msg">%1$s 胸有成竹，猜自己一定能赢！</string>
+    <string name="game_player_empty">暂无玩家游戏中，请稍候再来</string>
+    <string name="bet_completed">已投注，等待游戏结果公布</string>
+    <string name="game_situation">游戏战况</string>
+    <string name="quiz_lose_title">不必气馁，下把翻盘！</string>
+    <string name="they_join_quiz">他们已参与竞猜</string>
+    <string name="to_a_game">再来一局</string>
+    <string name="guess_correctly">猜中了</string>
+    <string name="the_next_refueling">下次加油</string>
+    <string name="not_quiz">未竞猜</string>
+    <string name="congratulation_win">恭喜获胜</string>
+    <string name="quiz_player_win_hint">超过了94.8%的人</string>
+    <string name="not_quiz_player_hint">投自己赢，获胜将赢得5倍奖励！</string>
+    <string name="quiz_audience_win_hint">料事如神，乘胜追击~</string>
+    <string name="not_quiz_audience_hint">猜中将获得5倍奖励！下轮一起来吧~</string>
+    <string name="auto_land_title">游戏激战中，横屏体验更佳</string>
+    <string name="auto_land_countdown">%1$s秒后会自动进入全屏</string>
+    <string name="enter_now">马上进入</string>
+    <string name="danmaku_enter_intercept">请使用即构RTC体验</string>
+    <string name="join_team">加入战队</string>
+    <string name="gold_coin_count">%1$s金币</string>
+    <string name="is_end">已截止</string>
+    <string name="disco_ranking">蹦迪排行</string>
+    <string name="explain">说明</string>
+    <string name="focus_king">焦点王</string>
+    <string name="popular_anchors_list">人气主播榜</string>
+    <string name="focus_king_title">获得特写(次)</string>
+    <string name="popular_anchors_list_title">被邀约(次)</string>
+    <string name="disco_ranking_explain">蹦迪排行说明</string>
+    <string name="disco_ranking_explain_content_1">榜单周期：周一0点至周日24点，每个自然周为一个榜单周期</string>
+    <string name="disco_ranking_explain_content_2">焦点王：\n云蹦迪场中，角色获得特写的次数排行</string>
+    <string name="disco_ranking_explain_content_3">人气主播榜：\n云蹦迪场中，被邀请跳舞的次数排行</string>
+    <string name="close_auto_guess_warn">余额不足，自动竞猜已关闭，快去充值吧~</string>
+    <string name="start_disco">开启蹦迪</string>
+    <string name="close_disco">关闭蹦迪</string>
+    <string name="close_disco_title">确定要关闭蹦迪吗？\n关闭后本场蹦迪将清空，包括正在进行中的跳舞、排队中的跳舞、角色特效等</string>
+
+    <string name="move">移动</string>
+    <string name="god">上天</string>
+    <string name="change_role">换角色</string>
+    <string name="go_to_work">上班</string>
+    <string name="get_off_work">下班</string>
+    <string name="focus">聚焦</string>
+
+    <string name="feature">特写</string>
+    <string name="effect">特效</string>
+    <string name="dancing_minute_count">跳舞%1$s分钟</string>
+    <string name="dance_top">跳舞插队</string>
+    <string name="send_gift_title">我送了%1$s个【%2$s】</string>
+    <string name="stage_menu">舞台节目单</string>
+    <string name="invite_dance_info">邀请 %1$s 跳舞%2$s分钟</string>
+    <string name="residue_minute">剩余%1$smins</string>
+    <string name="residue_second">剩余%1$ss</string>
+    <string name="empty_dancing_menu">暂无节目，送礼即可邀请主播跳舞哦</string>
+    <string name="rule">规则</string>
+    <string name="dance_rule_1">1、主播正在空闲中，送给主播【跳舞1分钟】或【跳舞3分钟】礼物后，可立即与该主播上到中心舞台跳舞，跳1分钟或3分钟。</string>
+    <string name="dance_rule_2">2、主播正在与其他用户跳舞，送出上述两个礼物将进入排队。</string>
+    <string name="dance_rule_3">3、你邀约的主播正在队列中排队，送出【跳舞插队】可以将你从主播的队列中置顶，等待主播与当前用户跳完，下一个就轮到你。</string>
+    <string name="dance_invite_send_hint">跳舞邀请已发出，请稍等</string>
+    <string name="contribution_ranking">贡献榜</string>
+    <string name="contribution_ranking_info">送礼、发弹幕均可上榜</string>
+    <string name="contribution_value">贡献值</string>
+    <string name="disco_explain_top_5">前五</string>
+    <string name="disco_explain_1">1. 贡献榜%1$s随机DJ（%2$s秒刷新）。</string>
+    <string name="disco_explain_2">2. 送礼可触发不同的效果或点主播跳舞。</string>
+    <string name="disco_explain_3">3. 公屏指令：【%1$s】【%2$s】【%3$s】。</string>
+    <string name="disco_explain_4">4. 麦上用户发送【%1$s】可上到主播位，\n&#160;&#160;&#160;&#160;发送【%2$s】可下主播位。</string>
+    <string name="disco_explain_5">5. 主播发文字【%1$s】可触发特写。</string>
+    <string name="waiting">等待中</string>
+
+    <!-- endregion 新增 -->
 
 </resources>

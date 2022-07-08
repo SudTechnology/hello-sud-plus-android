@@ -31,7 +31,7 @@ platform :android do
         # outputDir = parentOutputDir + "/fat/" + versionCode
         # puts outputDir
         gradle(
-            task: "assemble",
+            task: ":app:assemble",
             build_type:"Release",
             flavor:"official",
             print_command: true,
@@ -55,7 +55,7 @@ platform :android do
         # outputDir = parentOutputDir + "/fat/" + versionCode
         # puts outputDir
         gradle(
-            task: "assemble",
+            task: ":app:assemble",
             build_type:"Release",
             flavor:"official",
             print_command: true,

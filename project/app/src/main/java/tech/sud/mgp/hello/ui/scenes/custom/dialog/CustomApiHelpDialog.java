@@ -22,7 +22,6 @@ public class CustomApiHelpDialog extends BaseDialogFragment {
     private ApiFlowAdapter adapter = new ApiFlowAdapter();
     private List<CustomApiModel> models = new ArrayList<>();
 
-
     public static CustomApiHelpDialog getInstance() {
         return new CustomApiHelpDialog();
     }

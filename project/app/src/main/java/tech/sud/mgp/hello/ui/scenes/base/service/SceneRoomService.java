@@ -10,22 +10,31 @@ import android.os.IBinder;
 import android.view.View;
 
 import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
+
+import com.jeremyliao.liveeventbus.LiveEventBus;
 
 import java.util.List;
 
-import tech.sud.mgp.hello.common.http.rx.RxCallback;
-import tech.sud.mgp.hello.service.room.repository.RoomRepository;
+import tech.sud.mgp.hello.common.event.ChangeRTCEvent;
+import tech.sud.mgp.hello.common.event.EnterRoomEvent;
+import tech.sud.mgp.hello.common.event.LiveEventBusKey;
+import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.ui.common.utils.channel.NotifyId;
 import tech.sud.mgp.hello.ui.main.home.model.RoomItemModel;
 import tech.sud.mgp.hello.ui.scenes.base.activity.RoomConfig;
 import tech.sud.mgp.hello.ui.scenes.base.constant.OperateMicType;
-import tech.sud.mgp.hello.ui.scenes.base.manager.SceneFloatingManager;
 import tech.sud.mgp.hello.ui.scenes.base.manager.SceneRoomServiceManager;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.SceneRoomData;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.base.utils.SceneRoomNotificationHelper;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.RoomCmdModelUtils;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.ContributionModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.DanceModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.quiz.QuizBetModel;
+import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftModel;
 
 /**
  * 房间服务
@@ -33,10 +42,11 @@ import tech.sud.mgp.hello.ui.scenes.base.utils.SceneRoomNotificationHelper;
 public class SceneRoomService extends Service {
 
     private SceneRoomServiceManager serviceManager = new SceneRoomServiceManager();
-    private SceneFloatingManager floatingManager = new SceneFloatingManager();
     private final MyBinder binder = new MyBinder();
     private SceneRoomNotificationHelper notificationHelper;
     private Context context = this;
+    private Observer<ChangeRTCEvent> changeRTCEventObserver;
+    private Observer<EnterRoomEvent> enterRoomEventObserver;
 
     /** 房间数据 */
     private static SceneRoomData sceneRoomData;
@@ -45,13 +55,45 @@ public class SceneRoomService extends Service {
     public void onCreate() {
         super.onCreate();
         sceneRoomData = new SceneRoomData();
+
+        // 通知栏处理
         notificationHelper = new SceneRoomNotificationHelper(this);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) { //android8.0及以后需要开启前台服务
             startForeground(NotifyId.SCENE_ROOM_NOTIFY_ID.getValue(), notificationHelper.createNotification());
         } else {
             notificationHelper.show();
         }
+
+        // 事件监听
+        setListeners();
+
         serviceManager.onCreate();
+    }
+
+    private void setListeners() {
+        changeRTCEventObserver = new Observer<ChangeRTCEvent>() {
+            @Override
+            public void onChanged(ChangeRTCEvent event) {
+                binder.exitRoom();
+            }
+        };
+        LiveEventBus.<ChangeRTCEvent>get(LiveEventBusKey.KEY_CHANGE_RTC).observeForever(changeRTCEventObserver);
+        enterRoomEventObserver = new Observer<EnterRoomEvent>() {
+            @Override
+            public void onChanged(EnterRoomEvent event) {
+                if (getRoomId() != event.roomId && serviceManager.getCallback() == null) {
+                    binder.exitRoom();
+                }
+            }
+        };
+        LiveEventBus.<EnterRoomEvent>get(LiveEventBusKey.KEY_ENTER_ROOM).observeForever(enterRoomEventObserver);
+    }
+
+    private long getRoomId() {
+        if (sceneRoomData.roomInfoModel != null && sceneRoomData.roomInfoModel.roomId != null) {
+            return sceneRoomData.roomInfoModel.roomId;
+        }
+        return 0;
     }
 
     @Nullable
@@ -88,7 +130,6 @@ public class SceneRoomService extends Service {
                 } else {
                     // 2.切换房间，销毁原有房间数据，然后再执行进入房间
                     SceneRoomServiceCallback callback = serviceManager.getCallback();
-                    RoomRepository.exitRoom(null, model.roomId, new RxCallback<>());
                     serviceManager.exitRoom();
                     serviceManager.onDestroy();
                     serviceManager = new SceneRoomServiceManager();
@@ -100,6 +141,9 @@ public class SceneRoomService extends Service {
             // 3.首次进入
             sceneRoomData.roomInfoModel = model;
             serviceManager.enterRoom(config, startClass, model);
+
+            // 重新进房之后，关闭自动猜自己赢
+            AppData.getInstance().setQuizAutoGuessIWin(false);
         }
 
         /**
@@ -126,8 +170,9 @@ public class SceneRoomService extends Service {
             serviceManager.sceneChatManager.sendPublicMsg(msg);
         }
 
-        public void sendGift(int giftID, int giftCount, UserInfo toUser) {
-            serviceManager.sceneGiftManager.sendGift(giftID, giftCount, toUser);
+        /** 发送礼物 */
+        public void sendGift(GiftModel giftModel, int giftCount, UserInfo toUser) {
+            serviceManager.sendGift(giftModel, giftCount, toUser);
         }
 
         /**
@@ -182,7 +227,7 @@ public class SceneRoomService extends Service {
 
         /** 显示悬浮窗 */
         public void showFloating(RoomInfoModel model, Class<? extends Activity> startClass) {
-            floatingManager.showFloating(context, model, startClass, new View.OnClickListener() {
+            serviceManager.floatingManager.showFloating(context, model, startClass, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     exitRoom();
@@ -192,17 +237,12 @@ public class SceneRoomService extends Service {
 
         /** 隐藏悬浮窗 */
         public void dismissFloating() {
-            floatingManager.dismissFloating();
+            serviceManager.floatingManager.dismissFloating();
         }
 
         /** 发起点单广播 */
-        public void broadcastOrder(long orderId, long gameId, String gameName, List<String> toUsers) {
+        public void broadcastOrder(long orderId, long gameId, String gameName, List<UserInfo> toUsers) {
             serviceManager.sceneOrderManager.broadcastOrder(orderId, gameId, gameName, toUsers);
-        }
-
-        /** 发起点单广播 */
-        public void operateOrder(long orderId, long gameId, String gameName, String toUser, boolean state) {
-            serviceManager.sceneOrderManager.operateOrder(orderId, gameId, gameName, toUser, state);
         }
 
         /** 跨房pk，开启匹配或者关闭Pk了 */
@@ -238,6 +278,39 @@ public class SceneRoomService extends Service {
         public void removePkRival() {
             serviceManager.sceneRoomPkManager.removePkRival();
         }
+
+        /** 刷新房间pk信息 */
+        public void refreshRoomPkInfo() {
+            serviceManager.sceneRoomPkManager.refreshRoomPkInfo();
+        }
+
+        /** 竞猜下注，进行通知 */
+        public void notifyQuizBet(List<UserInfo> recUser) {
+            QuizBetModel command = new QuizBetModel(RoomCmdModelUtils.getSendUser());
+            command.recUser = recUser;
+            serviceManager.sceneEngineManager.sendCommand(command.toJson());
+            serviceManager.sceneQuizManager.addQuizBetChatMsg(command);
+        }
+
+        /** 开始拉视频流 */
+        public void startVideo(String streamID, View view) {
+            serviceManager.sceneEngineManager.startVideo(streamID, view);
+        }
+
+        /** 停止视频流 */
+        public void stopVideo(String streamID, View view) {
+            serviceManager.sceneEngineManager.stopVideo(streamID, view);
+        }
+
+        /** 获取跳舞集合 */
+        public List<DanceModel> getDanceList() {
+            return serviceManager.getDanceList();
+        }
+
+        /** 获取蹦迪贡献榜 */
+        public List<ContributionModel> getDiscoContribution() {
+            return serviceManager.getDiscoContribution();
+        }
     }
 
     /** 获取当前使用的房间基本数据 */
@@ -261,7 +334,6 @@ public class SceneRoomService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        floatingManager.dismissFloating();
         sceneRoomData = null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) { //android8.0及以后需要开启前台服务，这里关闭服务
             stopForeground(true);
@@ -269,5 +341,13 @@ public class SceneRoomService extends Service {
             notificationHelper.hide();
         }
         serviceManager.onDestroy();
+        if (changeRTCEventObserver != null) {
+            LiveEventBus.<ChangeRTCEvent>get(LiveEventBusKey.KEY_CHANGE_RTC).removeObserver(changeRTCEventObserver);
+            changeRTCEventObserver = null;
+        }
+        if (enterRoomEventObserver != null) {
+            LiveEventBus.<EnterRoomEvent>get(LiveEventBusKey.KEY_ENTER_ROOM).removeObserver(enterRoomEventObserver);
+            enterRoomEventObserver = null;
+        }
     }
 }

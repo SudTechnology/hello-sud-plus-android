@@ -47,4 +47,10 @@ public class APPConfig {
     public static final String GIT_HUB_URL = "https://github.com/SudTechnology/hello-sud-android";
     // endregion url地址
 
+    /** 竞猜场景，单人竞猜数量 */
+    public static int QUIZ_SINGLE_BET_COUNT = 200;
+
+    /** 竞猜场景，赢取的金币数量 */
+    public static int QUIZ_WIN_COUNT = 1000;
+
 }

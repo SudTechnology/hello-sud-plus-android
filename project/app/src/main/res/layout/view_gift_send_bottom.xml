@@ -18,22 +18,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/coin_count_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:textColor="@color/c_ffffff"
-            android:textSize="16sp" />
+        <View
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:background="@drawable/icon_coin"
+            android:layout_marginStart="8dp" />
 
         <TextView
-            android:id="@+id/to_recharge_tv"
+            android:id="@+id/tv_balance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dip"
-            android:gravity="center_vertical"
-            android:textColor="#ff3b2f"
-            android:textSize="12sp" />
+            android:textSize="14sp"
+            android:textColor="@color/c_f6a209"
+            android:layout_marginStart="6dp" />
 
         <Space
             android:layout_width="0dip"

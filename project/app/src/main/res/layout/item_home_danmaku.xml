@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?><!-- 王者战争 -->
+<tech.sud.mgp.hello.common.widget.view.CornersConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/transparent"
+    app:ccl_cornerRadius="10dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginHorizontal="13dp">
+
+    <ImageView
+        android:id="@+id/iv_icon"
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@null" />
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textColor="@color/c_ffffff"
+        android:layout_marginStart="12dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</tech.sud.mgp.hello.common.widget.view.CornersConstraintLayout>
+

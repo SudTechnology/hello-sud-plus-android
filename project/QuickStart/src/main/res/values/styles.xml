@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 从底部弹出的动画 -->
+    <style name="BottomToTopAnim" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/audio_bottomview_anim_enter</item>
+        <item name="android:windowExitAnimation">@anim/audio_bottomview_anim_exit</item>
+    </style>
+
+    <!-- 从顶部滑出的动画 -->
+    <style name="TopToBottomAnim" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/topview_anim_enter</item>
+        <item name="android:windowExitAnimation">@anim/topview_anim_exit</item>
+    </style>
+
+</resources>

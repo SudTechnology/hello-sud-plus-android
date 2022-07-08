@@ -47,13 +47,13 @@ public class HomeManager {
     /**
      * 敬请期待数据
      */
-    public List<GameModel> getSceneEmptyGame(Context context, SceneModel model) {
+    public List<GameModel> getSceneEmptyGame(Context context) {
         List<GameModel> gameModels = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
             GameModel game = new GameModel();
-            game.setGameId(-1);
-            game.setGameName(context.getString(R.string.coming_soon));
-            game.setHomeGamePic("");
+            game.gameId = -1;
+            game.gameName = context.getString(R.string.coming_soon);
+            game.homeGamePic = "";
             gameModels.add(game);
         }
         return gameModels;

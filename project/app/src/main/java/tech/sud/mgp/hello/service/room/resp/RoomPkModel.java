@@ -52,6 +52,9 @@ public class RoomPkModel implements Serializable {
         if (destRoomInfo != null && !destRoomInfo.isSelfRoom) {
             destRoomInfo = null;
         }
+        if (srcRoomInfo != null && srcRoomInfo.isSelfRoom) {
+            srcRoomInfo.score = 0;
+        }
     }
 
     /** 恢复数据为原始状态 */

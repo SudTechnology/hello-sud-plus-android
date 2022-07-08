@@ -3,7 +3,7 @@ package tech.sud.mgp.hello.ui.scenes.custom;
 import android.widget.TextView;
 
 import tech.sud.mgp.hello.R;
-import tech.sud.mgp.hello.SudMGPWrapper.model.GameConfigModel;
+import tech.sud.mgp.SudMGPWrapper.model.GameConfigModel;
 import tech.sud.mgp.hello.common.utils.GlobalCache;
 import tech.sud.mgp.hello.ui.scenes.audio.activity.AbsAudioRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.custom.dialog.CustomApiDialog;
@@ -39,7 +39,7 @@ public class CustomActivity extends AbsAudioRoomActivity<CustomGameViewModel> {
     protected void setListeners() {
         super.setListeners();
         apiTv.setOnClickListener(v -> {
-            CustomApiDialog dialog = CustomApiDialog.getInstance();
+            CustomApiDialog dialog = CustomApiDialog.newInstance();
             dialog.setListener(i -> {
                 switch (i) {
                     case 0: {
@@ -71,6 +71,7 @@ public class CustomActivity extends AbsAudioRoomActivity<CustomGameViewModel> {
                         break;
                     }
                 }
+                dialog.dismiss();
             });
             dialog.show(getSupportFragmentManager(), null);
         });

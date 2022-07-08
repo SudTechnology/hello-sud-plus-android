@@ -70,4 +70,16 @@ public interface ISudAudioEventListener {
      * @param audioPCMData 音频流数据
      */
     void onCapturedPCMData(AudioPCMData audioPCMData);
+
+    /**
+     * 观众拉流成功通知
+     * @param streamID
+     */
+    void onPlayingStreamingAdd(String streamID);
+
+    /**
+     * 观众拉流结束通知
+     * @param streamID
+     */
+    void onPlayingStreamingDelete(String streamID);
 }

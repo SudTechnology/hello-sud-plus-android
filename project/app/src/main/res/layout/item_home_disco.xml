@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?><!-- 王者战争 -->
+<tech.sud.mgp.hello.common.widget.view.CornersConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/transparent"
+    app:ccl_cornerRadius="10dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginHorizontal="13dp">
+
+    <ImageView
+        android:id="@+id/iv_icon"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@null" />
+
+    <TextView
+        android:id="@+id/tv_create"
+        android:layout_width="wrap_content"
+        android:layout_height="44dp"
+        android:minWidth="118dp"
+        android:background="@drawable/shape_creat_room_bg"
+        android:gravity="center"
+        android:textSize="14sp"
+        android:textColor="@color/c_1a1a1a"
+        android:text="@string/index_creat_room"
+        android:paddingHorizontal="8dp"
+        android:layout_marginBottom="12dp"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tv_join"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_join"
+        android:layout_width="wrap_content"
+        android:layout_height="44dp"
+        android:minWidth="118dp"
+        android:background="@drawable/shape_creat_room_bg"
+        android:gravity="center"
+        android:textSize="14sp"
+        android:textColor="@color/c_1a1a1a"
+        android:text="@string/join_now"
+        android:paddingHorizontal="8dp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_create"
+        app:layout_constraintStart_toEndOf="@id/tv_create"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</tech.sud.mgp.hello.common.widget.view.CornersConstraintLayout>
+

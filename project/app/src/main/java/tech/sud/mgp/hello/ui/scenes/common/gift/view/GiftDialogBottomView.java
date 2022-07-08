@@ -17,6 +17,7 @@ public class GiftDialogBottomView extends ConstraintLayout {
 
     private TextView presentTv, sendGiftCountTv;
     private ImageView arrowIv;
+    private TextView tvBalance;
     public PresentClickListener presentClickListener;
 
     public GiftDialogBottomView(@NonNull Context context) {
@@ -39,6 +40,7 @@ public class GiftDialogBottomView extends ConstraintLayout {
         presentTv = findViewById(R.id.present_tv);
         sendGiftCountTv = findViewById(R.id.send_gift_count_tv);
         arrowIv = findViewById(R.id.send_gift_bottom_arrow_iv);
+        tvBalance = findViewById(R.id.tv_balance);
         presentTv.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -48,4 +50,10 @@ public class GiftDialogBottomView extends ConstraintLayout {
             }
         });
     }
+
+    /** 设置余额 */
+    public void setBalance(String text) {
+        tvBalance.setText(text);
+    }
+
 }

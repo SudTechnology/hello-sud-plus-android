@@ -63,4 +63,14 @@
         </attr>
     </declare-styleable>
 
+    <!--圆角约束布局-->
+    <declare-styleable name="CornersConstraintLayout">
+        <attr name="ccl_leftTopCorner" format="boolean" />
+        <attr name="ccl_rightTopCorner" format="boolean" />
+        <attr name="ccl_leftBottomCorner" format="boolean" />
+        <attr name="ccl_rightBottomCorner" format="boolean" />
+        <!--圆角半径-->
+        <attr name="ccl_cornerRadius" format="dimension" />
+    </declare-styleable>
+
 </resources>

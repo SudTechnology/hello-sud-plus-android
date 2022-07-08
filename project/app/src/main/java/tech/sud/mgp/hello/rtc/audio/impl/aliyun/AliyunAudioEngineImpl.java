@@ -1,6 +1,7 @@
 package tech.sud.mgp.hello.rtc.audio.impl.aliyun;
 
 import android.content.Context;
+import android.view.View;
 
 import tech.sud.mgp.hello.rtc.audio.core.ISudAudioEngine;
 import tech.sud.mgp.hello.rtc.audio.core.ISudAudioEventListener;
@@ -73,6 +74,16 @@ public class AliyunAudioEngineImpl implements ISudAudioEngine {
 
     @Override
     public void setAudioRouteToSpeaker(boolean enabled) {
+
+    }
+
+    @Override
+    public void startPlayingStream(String streamID, View view) {
+
+    }
+
+    @Override
+    public void stopPlayingStream(String streamID) {
 
     }
 }

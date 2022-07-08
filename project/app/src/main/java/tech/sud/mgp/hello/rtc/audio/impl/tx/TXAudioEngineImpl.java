@@ -1,6 +1,7 @@
 package tech.sud.mgp.hello.rtc.audio.impl.tx;
 
 import android.content.Context;
+import android.view.View;
 
 import com.blankj.utilcode.util.ThreadUtils;
 import com.tencent.trtc.TRTCCloud;
@@ -179,6 +180,16 @@ public class TXAudioEngineImpl implements ISudAudioEngine {
         if (engine != null) {
             engine.sendCustomCmdMsg(0, command.getBytes(), true, true);
         }
+    }
+
+    @Override
+    public void startPlayingStream(String streamID, View view) {
+
+    }
+
+    @Override
+    public void stopPlayingStream(String streamID) {
+
     }
 
     // 更新房间内用户总人数

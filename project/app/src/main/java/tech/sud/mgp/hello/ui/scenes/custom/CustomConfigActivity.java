@@ -5,13 +5,10 @@ import android.widget.TextView;
 
 import com.blankj.utilcode.util.LogUtils;
 
-import tech.sud.mgp.hello.BuildConfig;
 import tech.sud.mgp.hello.R;
-import tech.sud.mgp.hello.SudMGPWrapper.model.GameConfigModel;
+import tech.sud.mgp.SudMGPWrapper.model.GameConfigModel;
 import tech.sud.mgp.hello.common.base.BaseActivity;
 import tech.sud.mgp.hello.common.utils.GlobalCache;
-import tech.sud.mgp.hello.ui.main.utils.GsonUtils;
-import tech.sud.mgp.hello.ui.scenes.custom.dialog.CustomApiDialog;
 import tech.sud.mgp.hello.ui.scenes.custom.model.ConfigItemModel;
 import tech.sud.mgp.hello.ui.scenes.custom.view.CustomPageItem1View;
 import tech.sud.mgp.hello.ui.scenes.custom.view.CustomPageItem2View;
@@ -37,12 +34,6 @@ public class CustomConfigActivity extends BaseActivity {
         super.initWidget();
         gameTipTv = findViewById(R.id.game_tip_tv);
         configContainer = findViewById(R.id.config_container);
-//        gameTipTv.setOnClickListener(v -> {
-//            if (BuildConfig.DEBUG) {
-//                LogUtils.i("initWidget configModel gameCpu=" + viewModel.configModel.gameSoundVolume);
-//                LogUtils.i("initWidget items value gameCpu=" + viewModel.items.get(2).value);
-//            }
-//        });
     }
 
     @Override
@@ -187,18 +178,6 @@ public class CustomConfigActivity extends BaseActivity {
         item1View11.setData(itemModel11);
         configContainer.addView(item1View11);
 
-        //点击大厅游戏位加入游戏
-        CustomPageItem1View item1View12 = new CustomPageItem1View(this);
-        ConfigItemModel itemModel12 = addItem(
-                getString(R.string.custom_config_game_lobby_players_custom),
-                getString(R.string.custom_config_game_lobby_players_custom_subtitle),
-                2, 0, false, viewModel.configModel.ui.lobby_players.custom,
-                getString(R.string.custom_config_game_custom_false),
-                getString(R.string.custom_config_game_custom_true));
-        item1View12.setListener(itemModel -> viewModel.configModel.ui.lobby_players.custom = itemModel.custom);
-        item1View12.setData(itemModel12);
-        configContainer.addView(item1View12);
-
         //是否隐藏大厅游戏位
         CustomPageItem1View item1View13 = new CustomPageItem1View(this);
         ConfigItemModel itemModel13 = addItem(
@@ -259,18 +238,6 @@ public class CustomConfigActivity extends BaseActivity {
         item1View17.setData(itemModel17);
         configContainer.addView(item1View17);
 
-        //『加入游戏』按钮抛事件
-        CustomPageItem1View item1View18 = new CustomPageItem1View(this);
-        ConfigItemModel itemModel18 = addItem(
-                getString(R.string.custom_config_game_join_btn_custom),
-                getString(R.string.custom_config_game_join_btn_custom_subtitle),
-                2, 0, false, viewModel.configModel.ui.join_btn.custom,
-                getString(R.string.custom_config_game_custom_false),
-                getString(R.string.custom_config_game_custom_true));
-        item1View18.setListener(itemModel -> viewModel.configModel.ui.join_btn.custom = itemModel.custom);
-        item1View18.setData(itemModel18);
-        configContainer.addView(item1View18);
-
         //是否隐藏『加入游戏』按钮
         CustomPageItem1View item1View19 = new CustomPageItem1View(this);
         ConfigItemModel itemModel19 = addItem(
@@ -282,18 +249,6 @@ public class CustomConfigActivity extends BaseActivity {
         item1View19.setListener(itemModel -> viewModel.configModel.ui.join_btn.hide = itemModel.hide);
         item1View19.setData(itemModel19);
         configContainer.addView(item1View19);
-
-        //『退出游戏』按钮抛事件
-        CustomPageItem1View item1View20 = new CustomPageItem1View(this);
-        ConfigItemModel itemModel20 = addItem(
-                getString(R.string.custom_config_game_cancel_join_btn_custom),
-                getString(R.string.custom_config_game_cancel_join_btn_custom_subtitle),
-                2, 0, false, viewModel.configModel.ui.cancel_join_btn.custom,
-                getString(R.string.custom_config_game_custom_false),
-                getString(R.string.custom_config_game_custom_true));
-        item1View20.setListener(itemModel -> viewModel.configModel.ui.cancel_join_btn.custom = itemModel.custom);
-        item1View20.setData(itemModel20);
-        configContainer.addView(item1View20);
 
         //是否隐藏『退出游戏』按钮
         CustomPageItem1View item1View21 = new CustomPageItem1View(this);
@@ -307,18 +262,6 @@ public class CustomConfigActivity extends BaseActivity {
         item1View21.setData(itemModel21);
         configContainer.addView(item1View21);
 
-        //『准备』按钮抛事件
-        CustomPageItem1View item1View22 = new CustomPageItem1View(this);
-        ConfigItemModel itemModel22 = addItem(
-                getString(R.string.custom_config_game_ready_btn_custom),
-                getString(R.string.custom_config_game_ready_btn_custom_subtitle),
-                2, 0, false, viewModel.configModel.ui.ready_btn.custom,
-                getString(R.string.custom_config_game_custom_false),
-                getString(R.string.custom_config_game_custom_true));
-        item1View22.setListener(itemModel -> viewModel.configModel.ui.ready_btn.custom = itemModel.custom);
-        item1View22.setData(itemModel22);
-        configContainer.addView(item1View22);
-
         //是否隐藏『准备』按钮
         CustomPageItem1View item1View23 = new CustomPageItem1View(this);
         ConfigItemModel itemModel23 = addItem(
@@ -330,18 +273,6 @@ public class CustomConfigActivity extends BaseActivity {
         item1View23.setListener(itemModel -> viewModel.configModel.ui.ready_btn.hide = itemModel.hide);
         item1View23.setData(itemModel23);
         configContainer.addView(item1View23);
-
-        //『取消准备』按钮抛事件
-        CustomPageItem1View item1View24 = new CustomPageItem1View(this);
-        ConfigItemModel itemModel24 = addItem(
-                getString(R.string.custom_config_game_cancel_ready_btn_custom),
-                getString(R.string.custom_config_game_cancel_ready_btn_custom_subtitle),
-                2, 0, false, viewModel.configModel.ui.cancel_ready_btn.custom,
-                getString(R.string.custom_config_game_custom_false),
-                getString(R.string.custom_config_game_custom_true));
-        item1View24.setListener(itemModel -> viewModel.configModel.ui.cancel_ready_btn.custom = itemModel.custom);
-        item1View24.setData(itemModel24);
-        configContainer.addView(item1View24);
 
         // 是否隐藏『取消准备』按钮
         CustomPageItem1View item1View25 = new CustomPageItem1View(this);
@@ -355,18 +286,6 @@ public class CustomConfigActivity extends BaseActivity {
         item1View25.setData(itemModel25);
         configContainer.addView(item1View25);
 
-        //『开始游戏』按钮抛事件
-        CustomPageItem1View item1View26 = new CustomPageItem1View(this);
-        ConfigItemModel itemModel26 = addItem(
-                getString(R.string.custom_config_game_start_btn_custom),
-                getString(R.string.custom_config_game_start_btn_custom_subtitle),
-                2, 0, false, viewModel.configModel.ui.start_btn.custom,
-                getString(R.string.custom_config_game_custom_false),
-                getString(R.string.custom_config_game_custom_true));
-        item1View26.setListener(itemModel -> viewModel.configModel.ui.start_btn.custom = itemModel.custom);
-        item1View26.setData(itemModel26);
-        configContainer.addView(item1View26);
-
         // 是否隐藏『开始游戏』按钮
         CustomPageItem1View item1View27 = new CustomPageItem1View(this);
         ConfigItemModel itemModel27 = addItem(
@@ -378,18 +297,6 @@ public class CustomConfigActivity extends BaseActivity {
         item1View27.setListener(itemModel -> viewModel.configModel.ui.start_btn.hide = itemModel.hide);
         item1View27.setData(itemModel27);
         configContainer.addView(item1View27);
-
-        //『分享』按钮抛事件
-        CustomPageItem1View item1View28 = new CustomPageItem1View(this);
-        ConfigItemModel itemModel28 = addItem(
-                getString(R.string.custom_config_game_share_btn_custom),
-                getString(R.string.custom_config_game_share_btn_custom_subtitle),
-                2, 0, false, viewModel.configModel.ui.share_btn.custom,
-                getString(R.string.custom_config_game_custom_false),
-                getString(R.string.custom_config_game_custom_true));
-        item1View28.setListener(itemModel -> viewModel.configModel.ui.share_btn.custom = itemModel.custom);
-        item1View28.setData(itemModel28);
-        configContainer.addView(item1View28);
 
         // 是否隐藏『分享』按钮
         CustomPageItem1View item1View29 = new CustomPageItem1View(this);
@@ -427,30 +334,6 @@ public class CustomConfigActivity extends BaseActivity {
         item1View31.setData(itemModel31);
         configContainer.addView(item1View31);
 
-        //结算界面中的『关闭』按钮抛事件
-        CustomPageItem1View item1View32 = new CustomPageItem1View(this);
-        ConfigItemModel itemModel32 = addItem(
-                getString(R.string.custom_config_game_settle_close_btn_custom),
-                getString(R.string.custom_config_game_settle_close_btn_custom_subtitle),
-                2, 0, false, viewModel.configModel.ui.game_settle_close_btn.custom,
-                getString(R.string.custom_config_game_settle_close_btn_custom_false),
-                getString(R.string.custom_config_game_settle_close_btn_custom_true));
-        item1View32.setListener(itemModel -> viewModel.configModel.ui.game_settle_close_btn.custom = itemModel.custom);
-        item1View32.setData(itemModel32);
-        configContainer.addView(item1View32);
-
-        //结算界面中的『再来一局』按钮抛事件
-        CustomPageItem1View item1View33 = new CustomPageItem1View(this);
-        ConfigItemModel itemModel33 = addItem(
-                getString(R.string.custom_config_game_settle_again_btn_custom),
-                getString(R.string.custom_config_game_settle_again_btn_custom_subtitle),
-                2, 0, false, viewModel.configModel.ui.game_settle_again_btn.custom,
-                getString(R.string.custom_config_game_settle_again_btn_custom_false),
-                getString(R.string.custom_config_game_settle_again_btn_custom_true));
-        item1View33.setListener(itemModel -> viewModel.configModel.ui.game_settle_again_btn.custom = itemModel.custom);
-        item1View33.setData(itemModel33);
-        configContainer.addView(item1View33);
-
         // 是否隐藏背景图，包括大厅和战斗
         CustomPageItem1View item1View34 = new CustomPageItem1View(this);
         ConfigItemModel itemModel34 = addItem(
@@ -463,7 +346,122 @@ public class CustomConfigActivity extends BaseActivity {
         item1View34.setData(itemModel34);
         configContainer.addView(item1View34);
 
-        //自定义阻止换座位
+        // region ------- Custom
+
+        // Custom分类
+        CustomPageTitleView titleViewCustom = new CustomPageTitleView(this);
+        titleViewCustom.setData(addTitle(getString(R.string.custom)));
+        configContainer.addView(titleViewCustom);
+
+        // 点击大厅游戏位加入游戏
+        CustomPageItem1View item1View12 = new CustomPageItem1View(this);
+        ConfigItemModel itemModel12 = addItem(
+                getString(R.string.custom_config_game_lobby_players_custom),
+                getString(R.string.custom_config_game_lobby_players_custom_subtitle),
+                2, 0, false, viewModel.configModel.ui.lobby_players.custom,
+                getString(R.string.custom_config_game_custom_false),
+                getString(R.string.custom_config_game_custom_true));
+        item1View12.setListener(itemModel -> viewModel.configModel.ui.lobby_players.custom = itemModel.custom);
+        item1View12.setData(itemModel12);
+        configContainer.addView(item1View12);
+
+        //『加入游戏』按钮抛事件
+        CustomPageItem1View item1View18 = new CustomPageItem1View(this);
+        ConfigItemModel itemModel18 = addItem(
+                getString(R.string.custom_config_game_join_btn_custom),
+                getString(R.string.custom_config_game_join_btn_custom_subtitle),
+                2, 0, false, viewModel.configModel.ui.join_btn.custom,
+                getString(R.string.custom_config_game_custom_false),
+                getString(R.string.custom_config_game_custom_true));
+        item1View18.setListener(itemModel -> viewModel.configModel.ui.join_btn.custom = itemModel.custom);
+        item1View18.setData(itemModel18);
+        configContainer.addView(item1View18);
+
+        //『退出游戏』按钮抛事件
+        CustomPageItem1View item1View20 = new CustomPageItem1View(this);
+        ConfigItemModel itemModel20 = addItem(
+                getString(R.string.custom_config_game_cancel_join_btn_custom),
+                getString(R.string.custom_config_game_cancel_join_btn_custom_subtitle),
+                2, 0, false, viewModel.configModel.ui.cancel_join_btn.custom,
+                getString(R.string.custom_config_game_custom_false),
+                getString(R.string.custom_config_game_custom_true));
+        item1View20.setListener(itemModel -> viewModel.configModel.ui.cancel_join_btn.custom = itemModel.custom);
+        item1View20.setData(itemModel20);
+        configContainer.addView(item1View20);
+
+        //『准备』按钮抛事件
+        CustomPageItem1View item1View22 = new CustomPageItem1View(this);
+        ConfigItemModel itemModel22 = addItem(
+                getString(R.string.custom_config_game_ready_btn_custom),
+                getString(R.string.custom_config_game_ready_btn_custom_subtitle),
+                2, 0, false, viewModel.configModel.ui.ready_btn.custom,
+                getString(R.string.custom_config_game_custom_false),
+                getString(R.string.custom_config_game_custom_true));
+        item1View22.setListener(itemModel -> viewModel.configModel.ui.ready_btn.custom = itemModel.custom);
+        item1View22.setData(itemModel22);
+        configContainer.addView(item1View22);
+
+        //『取消准备』按钮抛事件
+        CustomPageItem1View item1View24 = new CustomPageItem1View(this);
+        ConfigItemModel itemModel24 = addItem(
+                getString(R.string.custom_config_game_cancel_ready_btn_custom),
+                getString(R.string.custom_config_game_cancel_ready_btn_custom_subtitle),
+                2, 0, false, viewModel.configModel.ui.cancel_ready_btn.custom,
+                getString(R.string.custom_config_game_custom_false),
+                getString(R.string.custom_config_game_custom_true));
+        item1View24.setListener(itemModel -> viewModel.configModel.ui.cancel_ready_btn.custom = itemModel.custom);
+        item1View24.setData(itemModel24);
+        configContainer.addView(item1View24);
+
+        //『开始游戏』按钮抛事件
+        CustomPageItem1View item1View26 = new CustomPageItem1View(this);
+        ConfigItemModel itemModel26 = addItem(
+                getString(R.string.custom_config_game_start_btn_custom),
+                getString(R.string.custom_config_game_start_btn_custom_subtitle),
+                2, 0, false, viewModel.configModel.ui.start_btn.custom,
+                getString(R.string.custom_config_game_custom_false),
+                getString(R.string.custom_config_game_custom_true));
+        item1View26.setListener(itemModel -> viewModel.configModel.ui.start_btn.custom = itemModel.custom);
+        item1View26.setData(itemModel26);
+        configContainer.addView(item1View26);
+
+        //『分享』按钮抛事件
+        CustomPageItem1View item1View28 = new CustomPageItem1View(this);
+        ConfigItemModel itemModel28 = addItem(
+                getString(R.string.custom_config_game_share_btn_custom),
+                getString(R.string.custom_config_game_share_btn_custom_subtitle),
+                2, 0, false, viewModel.configModel.ui.share_btn.custom,
+                getString(R.string.custom_config_game_custom_false),
+                getString(R.string.custom_config_game_custom_true));
+        item1View28.setListener(itemModel -> viewModel.configModel.ui.share_btn.custom = itemModel.custom);
+        item1View28.setData(itemModel28);
+        configContainer.addView(item1View28);
+
+        // 结算界面中的『关闭』按钮抛事件
+        CustomPageItem1View item1View32 = new CustomPageItem1View(this);
+        ConfigItemModel itemModel32 = addItem(
+                getString(R.string.custom_config_game_settle_close_btn_custom),
+                getString(R.string.custom_config_game_settle_close_btn_custom_subtitle),
+                2, 0, false, viewModel.configModel.ui.game_settle_close_btn.custom,
+                getString(R.string.custom_config_game_settle_close_btn_custom_false),
+                getString(R.string.custom_config_game_settle_close_btn_custom_true));
+        item1View32.setListener(itemModel -> viewModel.configModel.ui.game_settle_close_btn.custom = itemModel.custom);
+        item1View32.setData(itemModel32);
+        configContainer.addView(item1View32);
+
+        // 结算界面中的『再来一局』按钮抛事件
+        CustomPageItem1View item1View33 = new CustomPageItem1View(this);
+        ConfigItemModel itemModel33 = addItem(
+                getString(R.string.custom_config_game_settle_again_btn_custom),
+                getString(R.string.custom_config_game_settle_again_btn_custom_subtitle),
+                2, 0, false, viewModel.configModel.ui.game_settle_again_btn.custom,
+                getString(R.string.custom_config_game_settle_again_btn_custom_false),
+                getString(R.string.custom_config_game_settle_again_btn_custom_true));
+        item1View33.setListener(itemModel -> viewModel.configModel.ui.game_settle_again_btn.custom = itemModel.custom);
+        item1View33.setData(itemModel33);
+        configContainer.addView(item1View33);
+
+        // 自定义阻止换座位
         CustomPageItem1View item1View35 = new CustomPageItem1View(this);
         ConfigItemModel itemModel35 = addItem(
                 getString(R.string.custom_config_game_block_change_seat_custom),
@@ -474,6 +472,7 @@ public class CustomConfigActivity extends BaseActivity {
         item1View35.setListener(itemModel -> viewModel.configModel.ui.block_change_seat.custom = itemModel.custom);
         item1View35.setData(itemModel35);
         configContainer.addView(item1View35);
+        // endregion ------- Custom
     }
 
     private ConfigItemModel addTitle(String title) {
@@ -482,14 +481,8 @@ public class CustomConfigActivity extends BaseActivity {
         return titleModel;
     }
 
-    private ConfigItemModel addItem(String title,
-                                    String subTitle,
-                                    int type,
-                                    int value,
-                                    boolean hide,
-                                    boolean custom,
-                                    String optionTitle1,
-                                    String optionTitle2) {
+    private ConfigItemModel addItem(String title, String subTitle, int type, int value, boolean hide,
+                                    boolean custom, String optionTitle1, String optionTitle2) {
         ConfigItemModel itemModel = new ConfigItemModel(title, subTitle, type, value, hide, custom);
         if (type == 0) {
             if (optionTitle1 != null && optionTitle2 != null) {

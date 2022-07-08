@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/srl_classics_arrow"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_centerInParent="true"
+        android:contentDescription="@android:string/untitled" />
+
+    <ImageView
+        android:id="@+id/srl_classics_progress"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_centerInParent="true"
+        android:contentDescription="@android:string/untitled"
+        tools:tint="#666666"
+        tools:src="@android:drawable/stat_notify_sync" />
+
+</merge>

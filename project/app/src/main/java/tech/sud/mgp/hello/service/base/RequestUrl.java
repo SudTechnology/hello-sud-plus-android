@@ -82,4 +82,31 @@ public interface RequestUrl {
     /** pk再来一局 */
     String ROOM_PK_AGAIN = "room/pk/again/v1";
     // endregion 房间pk
+
+    // region 竞猜场景
+    /** 下注 */
+    String QUIZ_BET = "quiz/bet/v1";
+
+    /** 查询竞猜游戏列表 */
+    String QUIZ_GAME_LIST = "quiz/list/v1";
+
+    /** 查询竞猜场景游戏玩家列表（房间内） */
+    String QUIZ_GAME_PLAYER = "quiz/game-player/v1";
+    // endregion 竞猜场景
+
+    // region 弹幕游戏
+    /** 弹幕列表 */
+    String DANMAKU_LIST = "bullet-chat-game/shortcut-window/v1";
+
+    /** 发送弹幕 */
+    String SEND_DANMAKU = "bullet-chat-game/send-barrage/v1";
+    // endregion 弹幕游戏
+
+    // region 礼物
+    /** 送礼 */
+    String SEND_GIFT = "gift/send/v1";
+
+    /** 礼物列表 */
+    String GIFT_LIST = "gift/list/v1";
+    // endregion 礼物
 }

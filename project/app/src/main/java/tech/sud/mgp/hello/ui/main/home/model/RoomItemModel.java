@@ -13,6 +13,7 @@ public class RoomItemModel {
     private String rtcType; // rtcType类型
     private String sceneTag; // 场景标签名称
     private String gameLevelDesc; // 游戏级别描述
+    public int pkStatus; // pk状态
 
     public long getRoomId() {
         return roomId;

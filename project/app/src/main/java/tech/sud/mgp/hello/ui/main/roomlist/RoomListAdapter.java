@@ -1,7 +1,9 @@
 package tech.sud.mgp.hello.ui.main.roomlist;
 
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,7 +17,10 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.model.AppData;
+import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
+import tech.sud.mgp.hello.common.utils.ShapeUtils;
+import tech.sud.mgp.hello.service.room.model.PkStatus;
 import tech.sud.mgp.hello.ui.main.constant.SceneType;
 import tech.sud.mgp.hello.ui.main.home.model.RoomItemModel;
 
@@ -25,6 +30,7 @@ import tech.sud.mgp.hello.ui.main.home.model.RoomItemModel;
 public class RoomListAdapter extends BaseQuickAdapter<RoomItemModel, BaseViewHolder> implements LoadMoreModule {
 
     private int btnText; // 右下角按钮的文字
+    private int radius = DensityUtils.dp2px(10);
 
     public RoomListAdapter() {
         this(0);
@@ -37,27 +43,60 @@ public class RoomListAdapter extends BaseQuickAdapter<RoomItemModel, BaseViewHol
 
     @Override
     protected void convert(BaseViewHolder helper, RoomItemModel item) {
+        // 封面
         ImageView cover = helper.getView(R.id.room_cover);
-        TextView sceneNameTv = helper.getView(R.id.room_scene);
-        if (item.getSceneType() == SceneType.TICKET) {
-            helper.setText(R.id.room_name, item.getRoomName() + "·" + item.getGameLevelDesc());
-        } else {
-            helper.setText(R.id.room_name, item.getRoomName());
-        }
-        helper.setText(R.id.room_id, cover.getContext().getString(R.string.room_list_roomid, item.getRoomNumber()));
-        helper.setText(R.id.room_online, cover.getContext().getString(R.string.room_list_online, item.getMemberCount() + ""));
-        helper.setText(R.id.rtc_name, AppData.getInstance().getRtcNameByRtcType(item.getRtcType()));
-        sceneNameTv.setText(item.getSceneTag());
-        SceneTagColor sceneTagColor = sceneTagResId(item.getSceneType());
-        sceneNameTv.setBackgroundColor(sceneTagColor.colorBg);
-        sceneNameTv.setTextColor(sceneTagColor.colorText);
         if (!TextUtils.isEmpty(item.getRoomPic())) {
             ImageLoader.loadImage(cover, item.getRoomPic());
         } else {
             cover.setImageResource(R.drawable.icon_logo);
         }
+
+        // 房间名称
+        if (item.getSceneType() == SceneType.TICKET) {
+            helper.setText(R.id.room_name, item.getRoomName() + "·" + item.getGameLevelDesc());
+        } else {
+            helper.setText(R.id.room_name, item.getRoomName());
+        }
+
+        helper.setText(R.id.room_id, getContext().getString(R.string.room_list_roomid, item.getRoomNumber()));
+        helper.setText(R.id.room_online, getContext().getString(R.string.room_list_online, item.getMemberCount() + ""));
+        helper.setText(R.id.rtc_name, AppData.getInstance().getRtcNameByRtcType(item.getRtcType()));
+
+        // 场景名称
+        TextView sceneNameTv = helper.getView(R.id.room_scene);
+        sceneNameTv.setText(item.getSceneTag());
+        SceneTagColor sceneTagColor = sceneTagResId(item.getSceneType());
+        sceneNameTv.setBackgroundColor(sceneTagColor.colorBg);
+        sceneNameTv.setTextColor(sceneTagColor.colorText);
+
+        // 右下角按钮
         if (btnText > 0) {
             helper.setText(R.id.room_enter, btnText);
+        }
+
+        // 跨房比赛的状态
+        TextView tvStatus = helper.getView(R.id.tv_status);
+        tvStatus.setBackground(ShapeUtils.createShape(null, null,
+                new float[]{radius, radius, 0, 0, 0, 0, 0, 0},
+                GradientDrawable.RECTANGLE, null, Color.parseColor("#cc000000")));
+        if (item.getSceneType() == SceneType.CROSS_ROOM) {
+            switch (item.pkStatus) {
+                case PkStatus.MATCHING:
+                    tvStatus.setVisibility(View.VISIBLE);
+                    tvStatus.setText(R.string.matching);
+                    break;
+                case PkStatus.MATCHED:
+                case PkStatus.STARTED:
+                case PkStatus.PK_END:
+                    tvStatus.setVisibility(View.VISIBLE);
+                    tvStatus.setText(R.string.in_game);
+                    break;
+                default:
+                    tvStatus.setVisibility(View.GONE);
+                    break;
+            }
+        } else {
+            tvStatus.setVisibility(View.GONE);
         }
     }
 
@@ -102,6 +141,18 @@ public class RoomListAdapter extends BaseQuickAdapter<RoomItemModel, BaseViewHol
                 break;
             case SceneType.AUDIO:
                 color.colorBg = Color.parseColor("#8324DF");
+                color.colorText = Color.parseColor("#FFFFFF");
+                break;
+            case SceneType.CUSTOM_SCENE:
+                color.colorBg = Color.parseColor("#198de2");
+                color.colorText = Color.parseColor("#FFFFFF");
+                break;
+            case SceneType.DANMAKU:
+                color.colorBg = Color.parseColor("#00cbd2");
+                color.colorText = Color.parseColor("#FFFFFF");
+                break;
+            case SceneType.DISCO:
+                color.colorBg = Color.parseColor("#dd01cb");
                 color.colorText = Color.parseColor("#FFFFFF");
                 break;
             default:

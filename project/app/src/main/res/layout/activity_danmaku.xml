@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:keepScreenOn="true"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/ic_room_bg">
+
+    <!-- 竖屏布局 -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_portrait"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- 基础组件 -->
+        <include layout="@layout/include_scene_content" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_video"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/room_top_view">
+
+            <TextureView
+                android:id="@+id/video_view"
+                android:layout_width="match_parent"
+                android:layout_height="212dp"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/view_fullscreen"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@drawable/ic_fullscreen"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="6dp"
+                app:layout_constraintBottom_toBottomOf="@id/video_view"
+                app:layout_constraintEnd_toEndOf="@id/video_view" />
+
+            <tech.sud.mgp.hello.ui.scenes.danmaku.widget.DanmakuListView
+                android:id="@+id/danmaku_list_view"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                app:layout_constraintTop_toBottomOf="@id/video_view" />
+
+            <View
+                android:id="@+id/view_shrink"
+                android:layout_width="90dp"
+                android:layout_height="24dp"
+                android:background="@drawable/ic_danmaku_shrink"
+                android:layout_marginTop="96dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/danmaku_list_view" />
+
+            <View
+                android:id="@+id/view_spread"
+                android:layout_width="match_parent"
+                android:layout_height="24dp"
+                android:background="@drawable/ic_danmaku_spread"
+                android:visibility="gone"
+                android:layout_marginTop="206dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/video_view" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- 横屏布局 -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_landscape"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextureView
+            android:id="@+id/video_view_land"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- 点击此控件，可控制显示更多元素 -->
+        <View
+            android:id="@+id/view_show_widget"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <!-- 顶部View -->
+        <tech.sud.mgp.hello.ui.scenes.base.widget.view.SceneRoomTopView
+            android:id="@+id/room_top_view_land"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginTop="14dp"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- 点击，退出全屏 -->
+        <View
+            android:id="@+id/view_exit_fullscreen"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@drawable/ic_exit_fullscreen"
+            android:layout_marginEnd="48dp"
+            android:layout_marginBottom="22dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <!-- 引导 -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_guide"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#aa000000">
+
+            <TextView
+                android:id="@+id/tv_guide"
+                android:layout_width="wrap_content"
+                android:layout_height="37dp"
+                android:textSize="12sp"
+                android:textColor="@color/white"
+                android:background="@drawable/ic_danmaku_guide_bg"
+                android:layout_marginBottom="122dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/space_guide" />
+
+            <Space
+                android:id="@+id/space_guide"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                app:layout_constraintWidth_percent="0.7"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- 弹幕列表 -->
+        <tech.sud.mgp.hello.ui.scenes.danmaku.widget.DanmakuListView
+            android:id="@+id/danmaku_list_view_land"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            app:layout_constraintWidth_percent="0.7"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <!-- 点击，收起弹幕列表 -->
+        <View
+            android:id="@+id/view_shrink_land"
+            android:layout_width="120dp"
+            android:layout_height="24dp"
+            android:background="@drawable/ic_shrink_land"
+            android:layout_marginBottom="98dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- 点击，展开弹幕列表 -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/view_spread_land"
+            android:layout_width="0dp"
+            android:layout_height="34dp"
+            android:background="@drawable/ic_spread_bg_land"
+            android:visibility="gone"
+            app:layout_constraintWidth_percent="0.69"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <View
+                android:id="@+id/view_top_arrow_land"
+                android:layout_width="26dp"
+                android:layout_height="16dp"
+                android:background="@drawable/ic_top_arrow_land"
+                android:layout_marginTop="1dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

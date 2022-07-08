@@ -1,6 +1,7 @@
 package tech.sud.mgp.hello.rtc.audio.core;
 
 import android.content.Context;
+import android.view.View;
 
 import tech.sud.mgp.hello.rtc.audio.model.AudioConfigModel;
 import tech.sud.mgp.hello.rtc.audio.model.AudioJoinRoomModel;
@@ -103,4 +104,20 @@ public interface ISudAudioEngine {
     interface SendCommandListener {
         void onResult(int value);
     }
+    // endregion
+
+    // region 8. 直播接口
+    /**
+     * 观众开始拉流
+     * @param streamID
+     * @param view
+     */
+    void startPlayingStream(String streamID, View view);
+
+    /**
+     * 观众停止拉流
+     * @param streamID
+     */
+    void stopPlayingStream(String streamID);
+    // endregion
 }

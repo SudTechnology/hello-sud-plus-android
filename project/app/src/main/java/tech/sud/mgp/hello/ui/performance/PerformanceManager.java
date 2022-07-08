@@ -6,7 +6,7 @@ import com.blankj.utilcode.util.Utils;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.performance.PerformanceDataManager;
-import tech.sud.mgp.hello.common.permission.SudPermissionUtils;
+import tech.sud.mgp.hello.common.utils.permission.SudPermissionUtils;
 import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
 
 /** 性能检测管理类 */
@@ -79,6 +79,7 @@ public class PerformanceManager {
                         if (SudPermissionUtils.checkFloatPermission(context)) {
                             startMonitor();
                         }
+                        dialog.dismiss();
                     } else if (index == 1) {
                         SudPermissionUtils.setFloatPermission(context);
                     }

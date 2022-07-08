@@ -50,6 +50,7 @@ public abstract class BaseDialog extends Dialog {
             attributes.height = getHeight();
             attributes.gravity = getGravity();
             window.setAttributes(attributes);
+            customStyle(window);
         }
         if (customCancelable == null) {
             setCancelable(cancelable());
@@ -74,6 +75,9 @@ public abstract class BaseDialog extends Dialog {
     }
 
     protected void initData() {
+    }
+
+    protected void customStyle(Window window) {
     }
 
     protected void setListeners() {

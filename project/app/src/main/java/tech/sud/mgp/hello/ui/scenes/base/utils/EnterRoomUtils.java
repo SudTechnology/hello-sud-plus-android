@@ -1,16 +1,29 @@
 package tech.sud.mgp.hello.ui.scenes.base.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
 
+import com.blankj.utilcode.util.ActivityUtils;
+import com.blankj.utilcode.util.ToastUtils;
+import com.jeremyliao.liveeventbus.LiveEventBus;
+
+import tech.sud.mgp.hello.R;
+import tech.sud.mgp.hello.common.event.EnterRoomEvent;
+import tech.sud.mgp.hello.common.event.LiveEventBusKey;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
+import tech.sud.mgp.hello.common.model.AppData;
+import tech.sud.mgp.hello.service.main.config.BaseRtcConfig;
+import tech.sud.mgp.hello.service.main.config.ZegoConfig;
 import tech.sud.mgp.hello.service.room.repository.RoomRepository;
 import tech.sud.mgp.hello.service.room.resp.EnterRoomResp;
+import tech.sud.mgp.hello.ui.common.utils.CompletedListener;
+import tech.sud.mgp.hello.ui.common.utils.LifecycleUtils;
 import tech.sud.mgp.hello.ui.main.constant.SceneType;
 import tech.sud.mgp.hello.ui.scenes.asr.ASRActivity;
 import tech.sud.mgp.hello.ui.scenes.audio.activity.AudioRoomActivity;
@@ -18,7 +31,10 @@ import tech.sud.mgp.hello.ui.scenes.base.model.EnterRoomParams;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
 import tech.sud.mgp.hello.ui.scenes.crossroom.activity.CrossRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.custom.CustomActivity;
+import tech.sud.mgp.hello.ui.scenes.danmaku.activity.DanmakuActivity;
+import tech.sud.mgp.hello.ui.scenes.disco.activity.DiscoActivity;
 import tech.sud.mgp.hello.ui.scenes.orderentertainment.OrderEntertainmentActivity;
+import tech.sud.mgp.hello.ui.scenes.quiz.activity.QuizActivity;
 import tech.sud.mgp.hello.ui.scenes.ticket.activity.TicketActivity;
 
 public class EnterRoomUtils {
@@ -47,18 +63,26 @@ public class EnterRoomUtils {
             return;
         }
         isRunning = true;
+
+        long roomId = params.roomId;
+        EnterRoomEvent enterRoomEvent = new EnterRoomEvent();
+        enterRoomEvent.roomId = roomId;
+        LiveEventBus.<EnterRoomEvent>get(LiveEventBusKey.KEY_ENTER_ROOM).post(enterRoomEvent);
+
         LifecycleOwner owner = null;
         if (context instanceof LifecycleOwner) {
             owner = (LifecycleOwner) context;
         }
-        RoomRepository.enterRoom(owner, params.roomId, new RxCallback<EnterRoomResp>() {
+        RoomRepository.enterRoom(owner, roomId, new RxCallback<EnterRoomResp>() {
             @Override
             public void onNext(BaseResponse<EnterRoomResp> t) {
                 super.onNext(t);
                 EnterRoomResp resp = t.getData();
                 if (t.getRetCode() == RetCode.SUCCESS) {
                     if (resp != null) {
-                        startSceneRoomActivity(context, resp);
+                        if (canEnterRoom(resp)) {
+                            safeStartSceneRoomActivity(context, resp);
+                        }
                     }
                 }
                 isRunning = false;
@@ -70,6 +94,35 @@ public class EnterRoomUtils {
                 isRunning = false;
             }
         });
+    }
+
+    private static boolean canEnterRoom(EnterRoomResp resp) {
+        if (resp.sceneType == SceneType.DANMAKU) {
+            // TODO: 2022/6/16 弹幕游戏目前只支持即构RTC
+            BaseRtcConfig rtcConfig = AppData.getInstance().getSelectRtcConfig();
+            if (!(rtcConfig instanceof ZegoConfig)) {
+                ToastUtils.showLong(R.string.danmaku_enter_intercept);
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /** 安全地打开场景房间 */
+    private static void safeStartSceneRoomActivity(Context context, EnterRoomResp resp) {
+        if (context == null) {
+            Activity topActivity = ActivityUtils.getTopActivity();
+            if (topActivity instanceof LifecycleOwner) {
+                LifecycleUtils.safeLifecycle((LifecycleOwner) topActivity, new CompletedListener() {
+                    @Override
+                    public void onCompleted() {
+                        startSceneRoomActivity(topActivity, resp);
+                    }
+                });
+            }
+        } else {
+            startSceneRoomActivity(context, resp);
+        }
     }
 
     /**
@@ -90,6 +143,7 @@ public class EnterRoomUtils {
         model.imToken = enterRoomResp.imToken;
         model.gameLevel = enterRoomResp.gameLevel;
         model.roomPkModel = enterRoomResp.pkResultVO;
+        model.streamId = enterRoomResp.streamId;
         Intent intent = getSceneIntent(context, enterRoomResp.sceneType);
         intent.putExtra("RoomInfoModel", model);
         context.startActivity(intent);
@@ -109,12 +163,16 @@ public class EnterRoomUtils {
                 return new Intent(context, CustomActivity.class);
             case SceneType.CROSS_ROOM:
                 return new Intent(context, CrossRoomActivity.class);
+            case SceneType.QUIZ:
+                return new Intent(context, QuizActivity.class);
+            case SceneType.DANMAKU:
+                return new Intent(context, DanmakuActivity.class);
+            case SceneType.DISCO:
+                return new Intent(context, DiscoActivity.class);
 //            case SceneType.TALENT:
 //                return new Intent(context, TalentRoomActivity.class);
 //            case SceneType.ONE_ONE:
 //                return new Intent(context, OneOneActivity.class);
-//            case SceneType.QUIZ:
-//                return new Intent(context, QuizActivity.class);
 //            case SceneType.SHOW:
 //                return new Intent(context, ShowActivity.class);
             case SceneType.AUDIO:

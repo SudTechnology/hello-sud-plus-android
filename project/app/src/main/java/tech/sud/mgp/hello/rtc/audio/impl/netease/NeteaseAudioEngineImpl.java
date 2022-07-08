@@ -4,6 +4,7 @@ import static com.netease.lava.nertc.sdk.NERtcConstants.RTCChannelProfile.COMMUN
 
 import android.content.Context;
 import android.graphics.Rect;
+import android.view.View;
 
 import com.blankj.utilcode.util.ThreadUtils;
 import com.netease.lava.nertc.sdk.NERtcCallbackEx;
@@ -268,6 +269,16 @@ public class NeteaseAudioEngineImpl implements ISudAudioEngine {
                 }
             });
         }
+    }
+
+    @Override
+    public void startPlayingStream(String streamID, View view) {
+
+    }
+
+    @Override
+    public void stopPlayingStream(String streamID) {
+
     }
 
     // 更新房间内用户总人数

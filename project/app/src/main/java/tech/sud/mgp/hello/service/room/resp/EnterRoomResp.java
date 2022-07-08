@@ -15,4 +15,5 @@ public class EnterRoomResp {
     public String rtiToken; // 信令 token
     public String imToken;  // IM token
     public RoomPkModel pkResultVO; // PK 结果
+    public String streamId; // 流id(弹幕游戏用)
 }

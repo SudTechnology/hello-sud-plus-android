@@ -30,6 +30,25 @@ public class AnimUtils {
         view.startAnimation(shake);
     }
 
+    /**
+     * 抖动动画，上下浮动
+     *
+     * @param view     要执行动画的view
+     * @param duration 播放时长，可控制抖动速度
+     * @param yOffset  上下抖动Y值
+     */
+    public static void shakeVertical(View view, long duration, int yOffset) {
+        Animation animation = view.getAnimation();
+        if (animation != null) {
+            animation.cancel();
+        }
+        TranslateAnimation shake = new TranslateAnimation(0f, 0f, yOffset, -yOffset); //移动方向
+        shake.setDuration(duration);  // 执行总时间
+        shake.setRepeatCount(Animation.INFINITE);
+        shake.setRepeatMode(Animation.REVERSE);
+        view.startAnimation(shake);
+    }
+
     /** 创建一个缩放动画 */
     public static Animator createScaleAnimation(View view, long duration, int repeatCount, int repeatMode, float... scale) {
         ArrayList<Animator> animatorList = new ArrayList<>();

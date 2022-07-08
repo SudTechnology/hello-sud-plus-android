@@ -13,7 +13,7 @@ public class DialogUtils {
      * 这里监听应用是否在前台显示，如果不在前台，则监听，到了前台之后再进行显示dialog
      */
     public static void safeShowDialog(LifecycleOwner owner, BaseDialog dialog) {
-        LifecycleUtils.safeLifecycle(owner, new LifecycleUtils.CompletedListener() {
+        LifecycleUtils.safeLifecycle(owner, new CompletedListener() {
             @Override
             public void onCompleted() {
                 dialog.show();
@@ -26,7 +26,7 @@ public class DialogUtils {
      * 这里监听应用是否在前台显示，如果不在前台，则监听，到了前台之后再进行显示dialog
      */
     public static void safeShowDialog(LifecycleOwner owner, BaseDialogFragment dialog, FragmentManager manager, String tag) {
-        LifecycleUtils.safeLifecycle(owner, new LifecycleUtils.CompletedListener() {
+        LifecycleUtils.safeLifecycle(owner, new CompletedListener() {
             @Override
             public void onCompleted() {
                 dialog.show(manager, tag);

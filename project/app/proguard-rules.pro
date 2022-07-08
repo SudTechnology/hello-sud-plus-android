@@ -14,14 +14,13 @@
 
 # Uncomment this to preserve the line number information for
 # debugging stack traces.
-#-keepattributes SourceFile,LineNumberTable
+-keepattributes SourceFile,LineNumberTable
 
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
-#-renamesourcefileattribute SourceFile
+-renamesourcefileattribute SourceFile
 
 # json序列化的混淆
--keep class tech.sud.mgp.hello.SudMGPWrapper.** {*;}
 -keep class tech.sud.mgp.hello.ui.scenes.ticket.model.** {*;}
 -keep class tech.sud.mgp.hello.common.http.param.BaseBody {*;}
 -keep class tech.sud.mgp.hello.common.http.param.BaseResponse {*;}
@@ -75,6 +74,9 @@
 -keep class cn.rongcloud.voiceroom.utils.** {*;}
 -keep class cn.rongcloud.messager.** {*;}
 
-#网易云信的混淆
+# 网易云信的混淆
 -dontwarn com.netease.**
 -keep class com.netease.** {*;}
+
+# 腾讯云
+-keep class com.tencent.** { *; }

@@ -73,7 +73,7 @@ public class CustomConfigSelectDialog extends BaseDialog {
         void selected(int position);
     }
 
-    public class SelectedAdapter extends BaseQuickAdapter<ConfigItemModel.OptionListBean, BaseViewHolder> {
+    public static class SelectedAdapter extends BaseQuickAdapter<ConfigItemModel.OptionListBean, BaseViewHolder> {
 
         public SelectedAdapter() {
             super(R.layout.item_selected_custom_config);
@@ -86,7 +86,7 @@ public class CustomConfigSelectDialog extends BaseDialog {
             if (optionListBean.isSeleted) {
                 stateIv.setVisibility(View.VISIBLE);
             } else {
-                stateIv.setVisibility(View.GONE);
+                stateIv.setVisibility(View.INVISIBLE);
             }
         }
     }

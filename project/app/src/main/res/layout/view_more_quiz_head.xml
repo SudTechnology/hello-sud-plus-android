@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <tech.sud.mgp.hello.common.widget.view.round.RoundedImageView
+        android:id="@+id/iv_ranking"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        app:riv_corner_radius="8dp"
+        android:src="@drawable/ic_ranking"
+        android:scaleType="centerCrop"
+        android:layout_marginTop="12dp"
+        android:layout_marginHorizontal="16dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="22sp"
+        android:textColor="@color/black"
+        android:text="@string/more_quiz_hint"
+        android:textStyle="bold"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="20dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:paddingHorizontal="11dp"
+        android:clipToPadding="false" />
+
+    <TextView
+        android:id="@+id/tv_limited_quiz"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="22sp"
+        android:textColor="@color/black"
+        android:text="@string/limited_quiz"
+        android:textStyle="bold"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="20dp" />
+
+</LinearLayout>

@@ -1,6 +1,9 @@
 package tech.sud.mgp.hello.rtc.audio.impl.rcloud;
 
+import static io.rong.imlib.IRongCoreEnum.ConnectionErrorCode.RC_CONNECTION_EXIST;
+
 import android.content.Context;
+import android.view.View;
 
 import com.blankj.utilcode.util.ThreadUtils;
 
@@ -16,7 +19,6 @@ import cn.rongcloud.rtc.api.callback.IRCRTCAudioDataListener;
 import cn.rongcloud.rtc.api.stream.RCRTCMicOutputStream;
 import cn.rongcloud.rtc.base.RCRTCAudioFrame;
 import cn.rongcloud.voiceroom.api.IRCVoiceRoomEngine;
-
 import cn.rongcloud.voiceroom.api.RCVoiceRoomEngine;
 import cn.rongcloud.voiceroom.api.callback.RCVoiceRoomCallback;
 import cn.rongcloud.voiceroom.api.callback.RCVoiceRoomEventListener;
@@ -81,7 +83,17 @@ public class RCloudAudioEngineImpl implements ISudAudioEngine {
             }
 
             @Override
-            public void onError(IRongCoreEnum.ConnectionErrorCode e) {
+            public void onError(IRongCoreEnum.ConnectionErrorCode errorCode) {
+                if (errorCode == RC_CONNECTION_EXIST) {
+                    if (success != null) {
+                        ThreadUtils.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                success.run();
+                            }
+                        });
+                    }
+                }
             }
 
             @Override
@@ -277,6 +289,16 @@ public class RCloudAudioEngineImpl implements ISudAudioEngine {
                 }
             });
         }
+    }
+
+    @Override
+    public void startPlayingStream(String streamID, View view) {
+
+    }
+
+    @Override
+    public void stopPlayingStream(String streamID) {
+
     }
 
     // 更新房间内用户总人数

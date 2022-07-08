@@ -2,6 +2,7 @@ package tech.sud.mgp.hello.rtc.audio.impl.zego;
 
 import android.app.Application;
 import android.content.Context;
+import android.view.View;
 
 import org.json.JSONObject;
 
@@ -20,10 +21,12 @@ import im.zego.zegoexpress.callback.IZegoIMSendCustomCommandCallback;
 import im.zego.zegoexpress.constants.ZegoAudioChannel;
 import im.zego.zegoexpress.constants.ZegoAudioDataCallbackBitMask;
 import im.zego.zegoexpress.constants.ZegoAudioSampleRate;
+import im.zego.zegoexpress.constants.ZegoPlayerState;
 import im.zego.zegoexpress.constants.ZegoRoomState;
 import im.zego.zegoexpress.constants.ZegoScenario;
 import im.zego.zegoexpress.constants.ZegoUpdateType;
 import im.zego.zegoexpress.entity.ZegoAudioFrameParam;
+import im.zego.zegoexpress.entity.ZegoCanvas;
 import im.zego.zegoexpress.entity.ZegoEngineConfig;
 import im.zego.zegoexpress.entity.ZegoEngineProfile;
 import im.zego.zegoexpress.entity.ZegoRoomConfig;
@@ -211,6 +214,23 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
         }
     }
 
+    @Override
+    public void startPlayingStream(String streamID, View view) {
+        ZegoExpressEngine engine = getEngine();
+        if (engine != null) {
+            ZegoCanvas canvas = new ZegoCanvas(view);
+            engine.startPlayingStream(streamID, canvas);
+        }
+    }
+
+    @Override
+    public void stopPlayingStream(String streamID) {
+        ZegoExpressEngine engine = getEngine();
+        if (engine != null) {
+            engine.stopPlayingStream(streamID);
+        }
+    }
+
     private AudioRoomState convertAudioRoomState(ZegoRoomState state) {
         switch (state) {
             case DISCONNECTED:
@@ -353,6 +373,19 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
             ISudAudioEventListener listener = mISudAudioEventListener;
             if (listener != null) {
                 listener.onRoomOnlineUserCountUpdate(count);
+            }
+        }
+
+        @Override
+        public void onPlayerStateUpdate(String streamID, ZegoPlayerState state, int errorCode, JSONObject extendedData) {
+            if (state == ZegoPlayerState.PLAYING) {
+                if (mISudAudioEventListener != null) {
+                    mISudAudioEventListener.onPlayingStreamingAdd(streamID);
+                }
+            } else if (state == ZegoPlayerState.NO_PLAY) {
+                if (mISudAudioEventListener != null) {
+                    mISudAudioEventListener.onPlayingStreamingDelete(streamID);
+                }
             }
         }
     };

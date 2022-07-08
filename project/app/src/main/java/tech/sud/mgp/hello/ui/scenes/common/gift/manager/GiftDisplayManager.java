@@ -27,7 +27,7 @@ public class GiftDisplayManager extends GiftBaseManager {
         SVGAParser.Companion.shareParser().init(context);
     }
 
-    public void showEffect(PlayGiftModel info, PlayStrategy strategy) {
+    public <T extends PlayGiftModel> void showEffect(T info, PlayStrategy<T> strategy) {
         strategy.play(info);
     }
 

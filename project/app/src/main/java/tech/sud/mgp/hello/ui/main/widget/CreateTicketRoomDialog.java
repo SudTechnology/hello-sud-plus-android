@@ -77,7 +77,7 @@ public class CreateTicketRoomDialog extends BaseDialogFragment implements View.O
     private void createRoom(int gameLevel) {
         if (isCreating) return;
         isCreating = true;
-        HomeRepository.creatRoom(SceneType.TICKET, gameLevel, this, new RxCallback<CreatRoomResp>() {
+        HomeRepository.creatRoom(SceneType.TICKET, null, gameLevel, this, new RxCallback<CreatRoomResp>() {
             @Override
             public void onNext(BaseResponse<CreatRoomResp> t) {
                 super.onNext(t);

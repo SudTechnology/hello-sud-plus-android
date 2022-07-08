@@ -19,7 +19,7 @@ public class BaseUrlManager {
     }
 
     /**
-     * 获取房间服务
+     * 获取游戏服务
      */
     public static String getGameBaseUrl() {
         return iBaseUrl.getGameBaseUrl();

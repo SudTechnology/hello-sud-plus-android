@@ -3,24 +3,21 @@ package tech.sud.mgp.hello.ui.main.home.view;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.BarUtils;
-import com.blankj.utilcode.util.PhoneUtils;
-import com.blankj.utilcode.util.ScreenUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
-import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.service.main.manager.HomeManager;
 import tech.sud.mgp.hello.service.main.resp.SceneModel;
 import tech.sud.mgp.hello.ui.main.home.adapter.SceneAdapter;
@@ -30,12 +27,11 @@ import tech.sud.mgp.hello.ui.main.home.adapter.SceneAdapter;
  */
 public class SceneTypeDialog extends BaseDialogFragment {
 
-    private TextView dialogTitleTtv;
     private RecyclerView sceneRv;
     private View emptyView;
     private int selected = 0;
-    private SceneAdapter adapter = new SceneAdapter();
-    private List<DialogSceneModel> models = new ArrayList<>();
+    private final SceneAdapter adapter = new SceneAdapter();
+    private final List<DialogSceneModel> models = new ArrayList<>();
     public SelectedSceneListener listener;
 
     public static SceneTypeDialog getInstance(int selected) {
@@ -60,7 +56,6 @@ public class SceneTypeDialog extends BaseDialogFragment {
     @Override
     protected void initWidget() {
         super.initWidget();
-        dialogTitleTtv = mRootView.findViewById(R.id.dialog_title_tv);
         sceneRv = mRootView.findViewById(R.id.scene_rv);
         emptyView = mRootView.findViewById(R.id.empty_view);
     }
@@ -68,7 +63,10 @@ public class SceneTypeDialog extends BaseDialogFragment {
     @Override
     protected void initData() {
         super.initData();
-        selected = getArguments().getInt("selectedIndex", 0);
+        Bundle arguments = getArguments();
+        if (arguments != null) {
+            selected = arguments.getInt("selectedIndex", 0);
+        }
         List<SceneModel> sceneList = HomeManager.getInstance().gameListResp.sceneList;
         if (sceneList != null && sceneList.size() > 0) {
             for (int i = 0; i < sceneList.size(); i++) {
@@ -92,12 +90,12 @@ public class SceneTypeDialog extends BaseDialogFragment {
 
     @Override
     protected int getWidth() {
-        return DensityUtils.getAppScreenWidth();
+        return ViewGroup.LayoutParams.MATCH_PARENT;
     }
 
     @Override
     protected int getHeight() {
-        return DensityUtils.getAppScreenHeight() - BarUtils.getStatusBarHeight();
+        return ViewGroup.LayoutParams.MATCH_PARENT;
     }
 
     @Override
@@ -106,11 +104,6 @@ public class SceneTypeDialog extends BaseDialogFragment {
     }
 
     private void refreshList(int position) {
-//        for (int i = 0; i < models.size(); i++) {
-//            models.get(i).selected = (i == position);
-//        }
-//        adapter.notifyDataSetChanged();
-
         if (listener != null) {
             listener.selectedScene(position);
         }
@@ -126,13 +119,13 @@ public class SceneTypeDialog extends BaseDialogFragment {
         window.setAttributes(attributes);
     }
 
-    public class DialogSceneModel {
+    public static class DialogSceneModel {
         public SceneModel model;
         public boolean selected;
     }
 
     public interface SelectedSceneListener {
-        public void selectedScene(int position);
+        void selectedScene(int position);
     }
 
 }

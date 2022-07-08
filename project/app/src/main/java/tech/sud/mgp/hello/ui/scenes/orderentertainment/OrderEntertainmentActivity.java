@@ -5,19 +5,23 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.blankj.utilcode.util.ToastUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import tech.sud.mgp.core.SudMGP;
 import tech.sud.mgp.hello.R;
+import tech.sud.mgp.hello.common.base.BaseDialogFragment;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
+import tech.sud.mgp.hello.common.widget.view.MarqueeTextView;
+import tech.sud.mgp.hello.ui.scenes.base.model.OrderInviteModel;
+import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomService;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.chat.SceneRoomChatView;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.order.RoomCmdUserOrderModel;
 import tech.sud.mgp.hello.ui.scenes.orderentertainment.activity.AbsOrderRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.orderentertainment.dialog.OrderDialog;
 import tech.sud.mgp.hello.ui.scenes.orderentertainment.viewmodel.OrderViewModel;
@@ -28,8 +32,8 @@ import tech.sud.mgp.hello.ui.scenes.orderentertainment.viewmodel.OrderViewModel;
 public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewModel> {
 
     private ConstraintLayout orderRootView;
-    private TextView startGameBtn, hangupGameBtn, enterGameBtn;
-    private int topBtnState = 0;//当前按钮状态 0可以点单状态 1可以挂起游戏状态 2可以进入游戏状态
+    private MarqueeTextView startGameBtn, hangupGameBtn, enterGameBtn;
+    private OrderDialog orderDialog;
 
     @Override
     protected OrderViewModel initGameViewModel() {
@@ -44,10 +48,10 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
     @Override
     protected void initWidget() {
         super.initWidget();
+        SudMGP.getCfg().setShowLoadingGameBg(false);
+
         gameViewModel.gameConfigModel.ui.game_bg.hide = true;
         gameViewModel.gameConfigModel.ui.lobby_players.hide = false;
-//        gameViewModel.gameConfigModel.ui.level.hide = true;
-//        gameViewModel.gameConfigModel.ui.lobby_help_btn.hide = true;
         roomConfig.isShowGameNumber = false; // 不显示游戏人数
         roomConfig.isShowASRTopHint = false; // 右上角不展示ASR提示
 
@@ -56,54 +60,55 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
         changeTopBtn(0);
 
         orderRootView.removeView(gameContainer);
-        //修改游戏容器位置以及大小
+        // 修改游戏容器位置以及大小
         ConstraintLayout.LayoutParams cparams = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0);
         cparams.topToBottom = R.id.room_top_view;
         cparams.bottomToTop = R.id.room_bottom_view;
         cparams.bottomMargin = DensityUtils.dp2px(106);
         orderRootView.addView(gameContainer, cparams);
 
-        giftContainer.bringToFront();
-        inputMsgView.bringToFront();
-        clOpenMic.bringToFront();
+        bringToFrontViews();
     }
 
     private void addTopBtn() {
-        startGameBtn = new TextView(this);
+        startGameBtn = new MarqueeTextView(this);
         startGameBtn.setTextSize(12);
         startGameBtn.setTextColor(Color.WHITE);
         startGameBtn.setGravity(Gravity.CENTER);
         startGameBtn.setText(getString(R.string.order_start_order));
         startGameBtn.setBackgroundResource(R.drawable.shape_gradient_f963ff_cc00e7);
+        int paddingHorizontal = DensityUtils.dp2px(this, 3);
+        startGameBtn.setPadding(paddingHorizontal, 0, paddingHorizontal, 0);
         LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(DensityUtils.dp2px(66), DensityUtils.dp2px(20));
-        params1.setMarginEnd(DensityUtils.dp2px(20));
+        params1.setMarginEnd(DensityUtils.dp2px(12));
         topView.addCustomView(startGameBtn, params1);
         startGameBtn.setVisibility(View.GONE);
         startGameBtn.setOnClickListener(v -> {
             iWantOrder();
         });
-        hangupGameBtn = new TextView(this);
+
+        hangupGameBtn = new MarqueeTextView(this);
         hangupGameBtn.setTextSize(12);
         hangupGameBtn.setTextColor(Color.parseColor("#6AD04E"));
         hangupGameBtn.setGravity(Gravity.CENTER);
         hangupGameBtn.setText(getString(R.string.order_hang_up_game));
         hangupGameBtn.setBackgroundColor(Color.parseColor("#4d4E9C39"));
         LinearLayout.LayoutParams params2 = new LinearLayout.LayoutParams(DensityUtils.dp2px(66), DensityUtils.dp2px(20));
-        params2.setMarginEnd(DensityUtils.dp2px(20));
+        params2.setMarginEnd(DensityUtils.dp2px(12));
         topView.addCustomView(hangupGameBtn, params2);
         hangupGameBtn.setVisibility(View.GONE);
         hangupGameBtn.setOnClickListener(v -> {
             changeTopBtn(2);
         });
 
-        enterGameBtn = new TextView(this);
+        enterGameBtn = new MarqueeTextView(this);
         enterGameBtn.setTextSize(12);
         enterGameBtn.setTextColor(Color.parseColor("#6AD04E"));
         enterGameBtn.setGravity(Gravity.CENTER);
         enterGameBtn.setText(getString(R.string.order_enter_game));
         enterGameBtn.setBackgroundColor(Color.parseColor("#4d4E9C39"));
         LinearLayout.LayoutParams params3 = new LinearLayout.LayoutParams(DensityUtils.dp2px(66), DensityUtils.dp2px(20));
-        params3.setMarginEnd(DensityUtils.dp2px(20));
+        params3.setMarginEnd(DensityUtils.dp2px(12));
         topView.addCustomView(enterGameBtn, params3);
         enterGameBtn.setVisibility(View.GONE);
         enterGameBtn.setOnClickListener(v -> {
@@ -111,34 +116,36 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
         });
     }
 
-    //0我要点单 1挂起游戏 2进入游戏 (tips：这是显示文案
+    // 0我要点单 1挂起游戏 2进入游戏 (tips：这是显示文案
     private void changeTopBtn(int state) {
-        topBtnState = state;
         switch (state) {
             case 0: {
-                startGameBtn.setVisibility(View.VISIBLE);
                 hangupGameBtn.setVisibility(View.GONE);
                 enterGameBtn.setVisibility(View.GONE);
                 gameContainer.setVisibility(View.INVISIBLE);
                 micView.setVisibility(View.VISIBLE);
+                startGameBtn.setVisibility(View.VISIBLE);
+                startGameBtn.checkFocus();
                 switchChatViewStyle(SceneRoomChatView.AudioRoomChatStyle.NORMAL);
                 break;
             }
             case 1: {
                 startGameBtn.setVisibility(View.GONE);
-                hangupGameBtn.setVisibility(View.VISIBLE);
                 enterGameBtn.setVisibility(View.GONE);
                 gameContainer.setVisibility(View.VISIBLE);
                 micView.setVisibility(View.INVISIBLE);
+                hangupGameBtn.setVisibility(View.VISIBLE);
+                hangupGameBtn.checkFocus();
                 switchChatViewStyle(SceneRoomChatView.AudioRoomChatStyle.GAME);
                 break;
             }
             case 2: {
                 startGameBtn.setVisibility(View.GONE);
                 hangupGameBtn.setVisibility(View.GONE);
-                enterGameBtn.setVisibility(View.VISIBLE);
                 gameContainer.setVisibility(View.INVISIBLE);
                 micView.setVisibility(View.VISIBLE);
+                enterGameBtn.setVisibility(View.VISIBLE);
+                enterGameBtn.checkFocus();
                 switchChatViewStyle(SceneRoomChatView.AudioRoomChatStyle.NORMAL);
                 break;
             }
@@ -158,31 +165,15 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
     @Override
     protected void setListeners() {
         super.setListeners();
-//        chatView.setMsgClickListener(o -> {
-//            if (o instanceof ReceiveInviteMsgModel) {
-//                ReceiveInviteMsgModel model = (ReceiveInviteMsgModel) o;
-//                LogUtils.i("chatView setMsgClickListener topBtnState=" + topBtnState);
-//            }
-//        });
         gameViewModel.dialogResult.observe(this, integer -> {
-            if (integer == 1) {
-                //接受邀请
-                operateOrder(gameViewModel.orderModel.orderId, true);
-            } else if (integer == 2) {
-                //拒绝邀请
-                operateOrder(gameViewModel.orderModel.orderId, false);
-            } else if (integer == 5) {
-                //接受弹窗，继续点单
+            if (integer == 5) {
+                //继续点单
                 iWantOrder();
             }
         });
         gameViewModel.orderDataLiveData.observe(this, data -> {
-            if (data != null && data.userIdList.size() > 0) {
-                List<String> userStringList = new ArrayList<>();
-                for (Long userId : data.userIdList) {
-                    userStringList.add(userId + "");
-                }
-                sendOrder(data.resp.orderId, data.game.gameModel.gameId, data.game.gameModel.gameName, userStringList);
+            if (data != null && data.userList.size() > 0) {
+                sendOrder(data.resp.orderId, data.game.gameModel.gameId, data.game.gameModel.gameName, data.userList);
             }
         });
         gameViewModel.changeToAduio.observe(this, integer -> {
@@ -190,61 +181,54 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
                 intentSwitchGame(0);
             }
         });
-        gameViewModel.receiveInvite.observe(this, b -> {
-            if (b) {
-                //接受接口成功后切游戏
-                if (binder != null) {
-                    binder.operateOrder(
-                            gameViewModel.orderModel.orderId,
-                            gameViewModel.orderModel.gameId,
-                            gameViewModel.orderModel.gameName,
-                            gameViewModel.orderModel.sendUserId, true);
-                }
-                //接受了并且切换游戏
-                intentSwitchGame(gameViewModel.orderModel.gameId);
-                changeTopBtn(1);
-            }
-        });
     }
 
     /** 主动发起点单 */
-    private void sendOrder(long orderId, long gameId, String gameName, List<String> toUsers) {
+    private void sendOrder(long orderId, long gameId, String gameName, List<UserInfo> toUsers) {
         if (binder != null) {
             binder.broadcastOrder(orderId, gameId, gameName, toUsers);
         }
     }
 
-    /** 同意或者拒绝点单 */
-    private void operateOrder(long orderId, boolean state) {
-        if (state) {
-            //同意邀请，需要调用后台接口
-            gameViewModel.roomOrderReceive(this, orderId);
-        } else {
-            if (binder != null) {
-                binder.operateOrder(gameViewModel.orderModel.orderId,
-                        gameViewModel.orderModel.gameId,
-                        gameViewModel.orderModel.gameName,
-                        gameViewModel.orderModel.sendUserId, false);
-            }
-            gameViewModel.orderModel = null;
-        }
+    @Override
+    public void onOrderInvite(RoomCmdUserOrderModel model) {
+        super.onOrderInvite(model);
+        dismissOrderDialog();
     }
 
-    /** 有点单邀请来了 */
+    /** 主播处理用户点单邀请 */
     @Override
-    public void onOrderInvite(long orderId, long gameId, String gameName, String userID, String nickname, List<String> toUsers) {
-        super.onOrderInvite(orderId, gameId, gameName, userID, nickname, toUsers);
-        gameViewModel.inviteDialog(this, this, orderId, gameId, gameName, userID, nickname, toUsers);
+    public void onOrderInviteAnswered(OrderInviteModel model) {
+        super.onOrderInviteAnswered(model);
+        gameViewModel.orderDataLiveData.postValue(null);
+        gameViewModel.isSelfOrder = false;
+        gameViewModel.orderModel = model;
+    }
+
+    private void dismissOrderDialog() {
+        if (orderDialog != null) {
+            orderDialog.dismiss();
+            orderDialog = null;
+        }
     }
 
     /** 有点单结果来了 */
     @Override
     public void onOrderOperate(long orderId, long gameId, String gameName, String userId, String userName, boolean operate) {
         super.onOrderOperate(orderId, gameId, gameName, userId, userName, operate);
-        if (!operate) {
-            gameViewModel.operateDialog(this, this, userName);
-        } else {
-            gameViewModel.isSelfOrder = 1;
+        if (operate) {
+            gameViewModel.isSelfOrder = true;
+        }
+    }
+
+    // 接受邀请接口是否成功
+    @Override
+    public void onReceiveInvite(boolean agreeState) {
+        super.onReceiveInvite(agreeState);
+        if (agreeState) {
+            // 接受了并且切换游戏
+            intentSwitchGame(gameViewModel.orderModel.gameId);
+            changeTopBtn(1);
         }
     }
 
@@ -257,16 +241,27 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
             dialog.updateMicList(binder.getMicList(), 0);
             dialog.setCreateListener((userList, game) -> {
                 if (userList.size() > 0 && game != null) {
-                    gameViewModel.roomOrderCreate(
-                            OrderEntertainmentActivity.this,
-                            roomInfoModel.roomId,
-                            userList,
-                            game);
+                    gameViewModel.roomOrderCreate(context, roomInfoModel.roomId, userList, game);
                     dialog.dismiss();
                     ToastUtils.showLong(R.string.order_inivte_complete);
                 }
             });
+            orderDialog = dialog;
+            dialog.setOnDestroyListener(new BaseDialogFragment.OnDestroyListener() {
+                @Override
+                public void onDestroy() {
+                    orderDialog = null;
+                }
+            });
             dialog.show(getSupportFragmentManager(), null);
+        }
+    }
+
+    @Override
+    protected void autoJoinGame() {
+        // 自己发起的单，或者自己已经同意了邀请，才可以自动加入游戏
+        if (gameViewModel.isSelfOrder || (gameViewModel.orderModel != null && gameViewModel.orderModel.agreeState == 1)) {
+            super.autoJoinGame();
         }
     }
 

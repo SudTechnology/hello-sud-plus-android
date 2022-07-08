@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <View
+        android:id="@+id/view_ranking"
+        android:layout_width="23dp"
+        android:layout_height="19dp"
+        android:background="@drawable/ic_ranking_1" />
+
+    <tech.sud.mgp.hello.common.widget.view.round.RoundedImageView
+        android:id="@+id/iv_icon"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        app:riv_oval="true"
+        android:scaleType="centerCrop"
+        app:riv_border_width="2dp"
+        app:riv_border_color="#ffd324"
+        android:layout_marginTop="5dp" />
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textSize="12sp"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:layout_marginTop="6dp" />
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textSize="10sp"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:layout_marginTop="2dp" />
+
+</merge>

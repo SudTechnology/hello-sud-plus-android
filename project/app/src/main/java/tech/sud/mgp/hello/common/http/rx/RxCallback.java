@@ -29,9 +29,19 @@ public class RxCallback<T> implements Observer<BaseResponse<T>> {
         if (t.getRetCode() == RetCode.SUCCESS) {
             onSuccess(t.getData());
         } else {
-            ToastUtils.showLong(ResponseUtils.conver(t));
+            showToast(t);
         }
         onFinally();
+    }
+
+    /** 弹出错误提示 */
+    protected void showToast(BaseResponse<T> t) {
+        ToastUtils.showLong(ResponseUtils.conver(t));
+    }
+
+    /** 弹出错误提示 */
+    protected void showToast(Throwable e) {
+        ToastUtils.showShort(Utils.getApp().getString(R.string.net_error_hint));
     }
 
     @Override
@@ -53,7 +63,7 @@ public class RxCallback<T> implements Observer<BaseResponse<T>> {
 //        } else if (e instanceof JSONException) { // 数据异常
 //        } else {// 其他错误
 //        }
-        ToastUtils.showShort(Utils.getApp().getString(R.string.net_error_hint));
+        showToast(e);
     }
 
     @Override

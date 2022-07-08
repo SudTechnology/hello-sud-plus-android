@@ -9,6 +9,7 @@ import static com.ss.bytertc.engine.data.AudioPlaybackDevice.AUDIO_PLAYBACK_DEVI
 import static com.ss.bytertc.engine.data.AudioPlaybackDevice.AUDIO_PLAYBACK_DEVICE_SPEAKERPHONE;
 
 import android.content.Context;
+import android.view.View;
 
 import com.blankj.utilcode.util.ThreadUtils;
 import com.ss.bytertc.engine.IAudioProcessor;
@@ -169,6 +170,16 @@ public class VolcAudioEngineImpl implements ISudAudioEngine {
         if (engine != null) {
             engine.sendRoomMessage(command);
         }
+    }
+
+    @Override
+    public void startPlayingStream(String streamID, View view) {
+
+    }
+
+    @Override
+    public void stopPlayingStream(String streamID) {
+
     }
 
     private AudioRoomState convertAudioRoomState(int state) {

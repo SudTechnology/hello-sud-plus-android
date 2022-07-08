@@ -11,7 +11,6 @@ import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.main.resp.GameListResp;
 import tech.sud.mgp.hello.service.main.resp.GameModeModel;
 import tech.sud.mgp.hello.service.main.resp.GameModel;
-import tech.sud.mgp.hello.service.room.repository.RoomRepository;
 
 /**
  * 房间业务
@@ -57,13 +56,6 @@ public class SceneRoomViewModel extends BaseViewModel {
                 getGameList();
             }
         }, 3000);
-    }
-
-    /**
-     * 退出房间
-     */
-    public void exitRoom(Long roomId) {
-        RoomRepository.exitRoom(null, roomId, new RxCallback<>());
     }
 
     /**

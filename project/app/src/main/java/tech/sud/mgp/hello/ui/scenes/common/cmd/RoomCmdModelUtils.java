@@ -13,6 +13,11 @@ import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdDownMicModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdEnterRoomModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdSendGiftModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdUpMicModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.ContributionModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.DanceModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdBecomeDJModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdDiscoInfoReqModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdDiscoInfoRespModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.order.RoomCmdOrderOperateModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.order.RoomCmdUserOrderModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKAnswerModel;
@@ -23,6 +28,7 @@ import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKRemoveRivalMode
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKSendInviteModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKSettingsModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKStartModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.quiz.QuizBetModel;
 
 /**
  * 房间信令工具类
@@ -39,11 +45,25 @@ public class RoomCmdModelUtils {
     }
 
     /** 构建发礼消息信令 */
-    public static String buildSendGiftCommand(int giftID, int giftCount, UserInfo toUser) {
+    public static String buildSendGiftCommand(long giftID, int giftCount, UserInfo toUser) {
         RoomCmdSendGiftModel command = new RoomCmdSendGiftModel(getSendUser());
         command.giftID = giftID;
         command.giftCount = giftCount;
         command.toUser = toUser;
+        return command.toJson();
+    }
+
+    /** 构建发礼消息信令 */
+    public static String buildSendGiftCommand(long giftID, int giftCount, UserInfo toUser,
+                                              int type, String giftName, String giftUrl, String animationUrl) {
+        RoomCmdSendGiftModel command = new RoomCmdSendGiftModel(getSendUser());
+        command.giftID = giftID;
+        command.giftCount = giftCount;
+        command.toUser = toUser;
+        command.type = type;
+        command.giftName = giftName;
+        command.giftUrl = giftUrl;
+        command.animationUrl = animationUrl;
         return command.toJson();
     }
 
@@ -159,12 +179,13 @@ public class RoomCmdModelUtils {
     // region 点单
 
     /** 构建点单信令 */
-    public static String buildCmdUserOrder(long orderId, long gameId, String gameName, List<String> toUsers) {
+    public static String buildCmdUserOrder(long orderId, long gameId, String gameName, List<String> toUsers, List<String> toUserNames) {
         RoomCmdUserOrderModel command = new RoomCmdUserOrderModel(getSendUser());
         command.orderId = orderId;
         command.gameId = gameId;
         command.gameName = gameName;
         command.toUsers = toUsers;
+        command.toUserNames = toUserNames;
         return command.toJson();
     }
 
@@ -180,7 +201,42 @@ public class RoomCmdModelUtils {
     }
     // endregion 点单
 
-    private static UserInfo getSendUser() {
+    // region 竞猜
+
+    /** 构建 竞猜下注通知 信令 */
+    public static String buildCmdQuizBet(List<UserInfo> recUser) {
+        QuizBetModel command = new QuizBetModel(getSendUser());
+        command.recUser = recUser;
+        return command.toJson();
+    }
+    // endregion 竞猜
+
+    // region 蹦迪
+
+    /** 构建 请求蹦迪信息 信令 */
+    public static String buildCmdDiscoInfoReq() {
+        RoomCmdDiscoInfoReqModel command = new RoomCmdDiscoInfoReqModel(getSendUser());
+        return command.toJson();
+    }
+
+    /** 构建 响应蹦迪信息 信令 */
+    public static String buildCmdDiscoInfoResp(List<DanceModel> dancingMenu, List<ContributionModel> contribution, boolean isEnd) {
+        RoomCmdDiscoInfoRespModel command = new RoomCmdDiscoInfoRespModel(getSendUser());
+        command.dancingMenu = dancingMenu;
+        command.contribution = contribution;
+        command.isEnd = isEnd;
+        return command.toJson();
+    }
+
+    /** 构建 上DJ台 信令 */
+    public static String buildCmdBecomeDJ(String userId) {
+        RoomCmdBecomeDJModel command = new RoomCmdBecomeDJModel(getSendUser());
+        command.userID = userId;
+        return command.toJson();
+    }
+    // endregion 竞猜
+
+    public static UserInfo getSendUser() {
         UserInfo user = new UserInfo();
         user.userID = HSUserInfo.userId + "";
         user.name = HSUserInfo.nickName;

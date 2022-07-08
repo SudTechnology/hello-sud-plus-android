@@ -15,7 +15,6 @@ import androidx.core.content.ContextCompat;
 import com.blankj.utilcode.util.ClickUtils;
 
 import tech.sud.mgp.hello.R;
-import tech.sud.mgp.hello.common.utils.CustomCountdownTimer;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
 import tech.sud.mgp.hello.common.utils.ShapeUtils;
@@ -48,17 +47,14 @@ public class RoomPkInfoView extends ConstraintLayout {
     private TextView rightTvScore;
     private View rightViewProgress;
     private View rightViewResult;
+    private View viewPoint; // 进度条上面的闪烁动画
 
-    private CustomCountdownTimer countdownTimer;
-    private final int progressMinWidth = DensityUtils.dp2px(getContext(), 147); // 进度显示，至少保留的宽度
+    private final int progressMinWidth = DensityUtils.dp2px(getContext(), 100); // 进度显示，至少保留的宽度
     private int progressCalcTotalWidth = DensityUtils.getScreenWidth() - progressMinWidth * 2; // 用于计算进度值的总可用宽度
     private RoomPkModel roomPkModel;
-    private PkCountdownFinishListener pkCountdownFinishListener;
 
     private int oldStatus = -1;
     private int oldTotalMinute = -1;
-
-    public OnClickListener inviteOnClickListener;
 
     public RoomPkInfoView(@NonNull Context context) {
         this(context, null);
@@ -94,6 +90,7 @@ public class RoomPkInfoView extends ConstraintLayout {
         rightTvScore = findViewById(R.id.right_tv_score);
         rightViewProgress = findViewById(R.id.right_view_progress);
         rightViewResult = findViewById(R.id.right_view_result);
+        viewPoint = findViewById(R.id.siv_progress_point);
     }
 
     private void initStyles() {
@@ -105,15 +102,6 @@ public class RoomPkInfoView extends ConstraintLayout {
     }
 
     private void initListener() {
-        ClickUtils.applySingleDebouncing(rightIvIcon, new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                RoomPkRoomInfo rightRoomInfo = getRightRoomInfo();
-                if (rightRoomInfo == null) {
-                    inviteOnClickListener.onClick(v);
-                }
-            }
-        });
     }
 
     /** 设置数据源 */
@@ -163,7 +151,7 @@ public class RoomPkInfoView extends ConstraintLayout {
         switch (model.pkStatus) {
             case PkStatus.MATCHING: // 匹配中
             case PkStatus.MATCHED: // 已匹配
-                cancelCountdown();
+                viewPoint.setVisibility(View.GONE);
                 tvStatus.setText(R.string.wait_start);
                 viewVS.setVisibility(View.VISIBLE);
                 leftViewResult.setVisibility(View.GONE);
@@ -171,14 +159,15 @@ public class RoomPkInfoView extends ConstraintLayout {
                 viewResultDraw.setVisibility(View.GONE);
                 break;
             case PkStatus.STARTED: // 已开始
-                startCountdown(model.remainSecond);
+                viewPoint.setVisibility(View.VISIBLE);
+                setCountdown(model.remainSecond);
                 viewVS.setVisibility(View.GONE);
                 leftViewResult.setVisibility(View.GONE);
                 rightViewResult.setVisibility(View.GONE);
                 viewResultDraw.setVisibility(View.GONE);
                 break;
             case PkStatus.PK_END: // pk结束
-                cancelCountdown();
+                viewPoint.setVisibility(View.VISIBLE);
                 tvStatus.setText(R.string.finished);
                 viewVS.setVisibility(View.GONE);
                 showPkResult();
@@ -214,34 +203,6 @@ public class RoomPkInfoView extends ConstraintLayout {
             rightViewResult.setBackgroundResource(R.drawable.ic_pk_win);
             viewResultDraw.setVisibility(View.GONE);
         }
-    }
-
-    /** 开启倒计时 */
-    private void startCountdown(int count) {
-        cancelCountdown();
-        countdownTimer = new CustomCountdownTimer(count) {
-            @Override
-            protected void onTick(int count) {
-                tvStatus.setText(FormatUtils.formatTime(count));
-                if (roomPkModel != null) {
-                    roomPkModel.remainSecond = count;
-                }
-            }
-
-            @Override
-            protected void onFinish() {
-                if (pkCountdownFinishListener != null) {
-                    pkCountdownFinishListener.onPkCountdownFinish();
-                }
-            }
-        };
-        countdownTimer.start();
-    }
-
-    private void cancelCountdown() {
-        if (countdownTimer == null) return;
-        countdownTimer.cancel();
-        countdownTimer = null;
     }
 
     /** 更新房间信息 */
@@ -309,11 +270,6 @@ public class RoomPkInfoView extends ConstraintLayout {
         progressCalcTotalWidth = getMeasuredWidth() - progressMinWidth * 2;
     }
 
-    /** 设置pk倒计时结束的监听 */
-    public void setPkCountdownFinishListener(PkCountdownFinishListener pkCountdownFinishListener) {
-        this.pkCountdownFinishListener = pkCountdownFinishListener;
-    }
-
     /** 设置问题按钮的点击事件 */
     public void setIssueOnClickListener(OnClickListener listener) {
         viewIssue.setOnClickListener(listener);
@@ -321,16 +277,12 @@ public class RoomPkInfoView extends ConstraintLayout {
 
     /** 设置pk对手头像的点击事件 */
     public void setPkRivalOnClickListener(OnClickListener listener) {
-        rightIvIcon.setOnClickListener(listener);
+        ClickUtils.applySingleDebouncing(rightIvIcon, listener);
     }
 
-    /** 设置点击"+"号，邀请pk对手的事件 */
-    public void setInviteOnClickListener(OnClickListener listener) {
-        inviteOnClickListener = listener;
-    }
-
-    public interface PkCountdownFinishListener {
-        void onPkCountdownFinish();
+    /** 设置倒计时 */
+    public void setCountdown(int remainSecond) {
+        tvStatus.setText(FormatUtils.formatTime(remainSecond));
     }
 
 }

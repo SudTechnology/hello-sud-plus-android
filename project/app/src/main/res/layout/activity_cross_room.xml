@@ -24,6 +24,7 @@
         app:layout_constraintBottom_toTopOf="@id/room_bottom_view">
 
         <TextView
+            android:id="@+id/tv_select_game_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"

@@ -66,4 +66,18 @@ public class RoomCmd {
     public static final int CMD_ORDER_OPERATE_NOTIFY = 10201;
     // endregion 点单
 
+    // region 竞猜
+    /** 竞猜下注通知 */
+    public static final int CMD_QUIZ_BET = 10300;
+    // endregion 竞猜
+
+    // region 蹦迪
+    /** 请求蹦迪信息 */
+    public static final int CMD_ROOM_DISCO_INFO_REQ = 10400;
+    /** 响应蹦迪信息 */
+    public static final int CMD_ROOM_DISCO_INFO_RESP = 10401;
+    /** 上DJ台 */
+    public static final int CMD_ROOM_DISCO_BECOME_DJ = 10402;
+    // endregion 蹦迪
+
 }

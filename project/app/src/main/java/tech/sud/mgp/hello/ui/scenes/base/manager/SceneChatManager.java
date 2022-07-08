@@ -1,6 +1,7 @@
 package tech.sud.mgp.hello.ui.scenes.base.manager;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import tech.sud.mgp.hello.common.model.HSUserInfo;
@@ -17,6 +18,7 @@ public class SceneChatManager extends BaseServiceManager {
 
     private SceneRoomServiceManager parentManager;
     private List<Object> datas = new ArrayList<>();
+    private HashSet<SendMsgListener> sendMsgListeners = new HashSet<>();
 
     public SceneChatManager(SceneRoomServiceManager sceneRoomServiceManager) {
         super();
@@ -64,6 +66,26 @@ public class SceneChatManager extends BaseServiceManager {
         if (callback != null) {
             callback.onSelfSendMsg(msg);
         }
+        for (SendMsgListener listener : sendMsgListeners) {
+            if (listener != null) {
+                listener.onSendMsgCompleted(msg);
+            }
+        }
+    }
+
+    /** 添加发送公屏消息的监听 */
+    public void addSendMsgListener(SendMsgListener listener) {
+        sendMsgListeners.add(listener);
+    }
+
+    /** 移除发送公屏消息的监听 */
+    public void removeSendMsgListener(SendMsgListener listener) {
+        sendMsgListeners.remove(listener);
+    }
+
+    /** 发送公屏消息的监听 */
+    public interface SendMsgListener {
+        void onSendMsgCompleted(String msg);
     }
 
     private final SceneCommandManager.PublicMsgCommandListener publicMsgCommandListener = new SceneCommandManager.PublicMsgCommandListener() {

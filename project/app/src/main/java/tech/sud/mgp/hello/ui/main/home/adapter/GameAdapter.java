@@ -25,11 +25,11 @@ public class GameAdapter extends BaseQuickAdapter<GameModel, BaseViewHolder> {
     @Override
     protected void convert(BaseViewHolder helper, GameModel item) {
         TextView nameTv = helper.getView(R.id.game_name);
-        nameTv.setText(item.getGameName());
+        nameTv.setText(item.gameName);
         ImageView iconView = helper.getView(R.id.game_icon);
-        if (!TextUtils.isEmpty(item.getHomeGamePic())) {
+        if (!TextUtils.isEmpty(item.homeGamePic)) {
             nameTv.setTextColor(Color.WHITE);
-            ImageLoader.loadGameCover(iconView, item.getHomeGamePic());
+            ImageLoader.loadGameCover(iconView, item.homeGamePic);
             nameTv.setShadowLayer(3.0f,0,0,Color.parseColor("#66000000"));
         } else {
             nameTv.setTextColor(Color.parseColor("#AAAAAA"));

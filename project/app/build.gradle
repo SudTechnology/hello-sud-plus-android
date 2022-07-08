@@ -64,11 +64,6 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    sourceSets {
-        main {
-            jniLibs.srcDirs = ['libs/zego', 'libs/agora', 'libs/netease', 'libs/volc', 'libs/tx']
-        }
-    }
     flavorDimensions 'channel'
     productFlavors {
         official {
@@ -85,18 +80,16 @@ android {
 
 dependencies {
 
-    implementation fileTree(include: ['*.jar', "*.aar", '*.so'], dir: 'libs/zego')
-    implementation fileTree(include: ['*.jar', "*.aar", '*.so'], dir: 'libs/agora')
-    implementation fileTree(include: ['*.jar', "*.aar", '*.so'], dir: 'libs/netease')
-    implementation fileTree(include: ['*.jar', "*.aar", '*.so'], dir: 'libs/volc')
-    implementation fileTree(include: ['*.jar', "*.aar", '*.so'], dir: 'libs/tx')
-    implementation "androidx.appcompat:appcompat:${project.appcompatVersion}"
-    implementation "com.google.android.material:material:${project.materialVersion}"
+    implementation "androidx.appcompat:appcompat:${appcompatVersion}"
+    implementation "com.google.android.material:material:${materialVersion}"
     implementation "androidx.constraintlayout:constraintlayout:${constraintlayoutVersion}"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     // 引入 SudMGPWrapper
     implementation project(':SudMGPWrapper')
+
+    // 引入 SudMGPRTC
+    implementation project(':SudMGPRTC')
 
     // 屏幕适配：https://github.com/JessYanCoding/AndroidAutoSize
     implementation 'com.github.JessYanCoding:AndroidAutoSize:v1.2.1'
@@ -139,14 +132,6 @@ dependencies {
 
     // 事件通知
     implementation 'io.github.jeremyliao:live-event-bus:1.8.0'
-
-    // RongCloud IM
-    implementation 'cn.rongcloud.sdk:im_lib:5.2.0'
-    // RongCloud IM
-    implementation 'cn.rongcloud.sdk:rtc_lib:5.2.0'
-    // RongCloud IM 语聊房
-    implementation 'cn.rongcloud.sdk:voiceroom_lib:2.0.8'
-    implementation "com.github.hackware1993:MagicIndicator:1.7.0"
 
     // 设置阴影颜色的控件
     implementation 'com.github.lihangleo2:ShadowLayout:2.1.7'

@@ -8,9 +8,9 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-import tech.sud.mgp.hello.rtc.audio.core.AudioEngineUpdateType;
-import tech.sud.mgp.hello.rtc.audio.core.AudioStream;
 import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomServiceCallback;
+import tech.sud.mgp.rtc.audio.core.AudioEngineUpdateType;
+import tech.sud.mgp.rtc.audio.core.AudioStream;
 
 /**
  * 房间音频流

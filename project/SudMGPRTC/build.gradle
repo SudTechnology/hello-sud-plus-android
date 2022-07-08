@@ -1,0 +1,50 @@
+plugins {
+    id 'com.android.library'
+}
+
+android {
+    compileSdkVersion project.compileSdkVersion
+
+    defaultConfig {
+        minSdkVersion project.minSdkVersion
+        targetSdkVersion project.targetSdkVersion
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs/zego', 'libs/agora', 'libs/netease', 'libs/volc', 'libs/tx']
+        }
+    }
+}
+
+dependencies {
+
+    api fileTree(include: ['*.jar', "*.aar", '*.so'], dir: 'libs/zego')
+    api fileTree(include: ['*.jar', "*.aar", '*.so'], dir: 'libs/agora')
+    api fileTree(include: ['*.jar', "*.aar", '*.so'], dir: 'libs/netease')
+    api fileTree(include: ['*.jar', "*.aar", '*.so'], dir: 'libs/volc')
+    api fileTree(include: ['*.jar', "*.aar", '*.so'], dir: 'libs/tx')
+
+    // 工具类库: https://github.com/Blankj/AndroidUtilCode
+    api 'com.blankj:utilcodex:1.31.0'
+
+    // RongCloud IM
+    api 'cn.rongcloud.sdk:im_lib:5.2.0'
+    // RongCloud IM
+    api 'cn.rongcloud.sdk:rtc_lib:5.2.0'
+    // RongCloud IM 语聊房
+    api 'cn.rongcloud.sdk:voiceroom_lib:2.0.8'
+}

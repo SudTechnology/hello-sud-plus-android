@@ -47,17 +47,10 @@ public class HelloSudApplication extends Application {
             configToast();
             registerActivityLifecycleCallbacks(MyActivityManager.getInstance());
             initMinClient();
-            initDokit();
             configAutoSize();
             initCrashHandler();
             LogUtils.file("onCreate");
         }
-    }
-
-    private void initDokit() {
-//        new DoKit.Builder(this)
-//                .productId("需要使用平台功能的话，需要到dokit.cn平台申请id")
-//                .build();
     }
 
     private void initCrashHandler() {

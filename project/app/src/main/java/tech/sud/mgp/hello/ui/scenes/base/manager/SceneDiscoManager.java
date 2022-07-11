@@ -520,7 +520,7 @@ public class SceneDiscoManager extends BaseServiceManager {
                 continue;
             }
             // 查找该主播是否正在跳着舞
-            if (isAnchorDancing(model.toUser)) {
+            if (isAnchorDancing(model.fromUser) || isAnchorDancing(model.toUser)) {
                 continue;
             }
             if ((HSUserInfo.userId + "").equals(model.fromUser.userID)) { // 自己发起的，则自己去触发

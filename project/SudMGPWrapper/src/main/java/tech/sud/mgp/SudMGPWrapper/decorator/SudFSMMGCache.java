@@ -79,8 +79,8 @@ public class SudFSMMGCache {
     }
 
     // 返回该玩家是否正在游戏中
-    public boolean playerIsPlaying(long userId) {
-        SudMGPMGState.MGCommonPlayerPlaying mgCommonPlayerPlaying = playerPlayingMap.get(userId + "");
+    public boolean playerIsPlaying(String userId) {
+        SudMGPMGState.MGCommonPlayerPlaying mgCommonPlayerPlaying = playerPlayingMap.get(userId);
         if (mgCommonPlayerPlaying != null) {
             return mgCommonPlayerPlaying.isPlaying;
         }
@@ -88,13 +88,13 @@ public class SudFSMMGCache {
     }
 
     // 返回该玩家是否已准备
-    public boolean playerIsReady(long userId) {
-        return playerReadySet.contains(userId + "");
+    public boolean playerIsReady(String userId) {
+        return playerReadySet.contains(userId);
     }
 
     // 返回该玩家是否已加入了游戏
-    public boolean playerIsIn(long userId) {
-        return playerInSet.contains(userId + "");
+    public boolean playerIsIn(String userId) {
+        return playerInSet.contains(userId);
     }
 
     // 获取当前游戏中的人数

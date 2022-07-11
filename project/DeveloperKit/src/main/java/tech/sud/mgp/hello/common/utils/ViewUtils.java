@@ -1,12 +1,14 @@
 package tech.sud.mgp.hello.common.utils;
 
 import android.content.Context;
+import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.ColorRes;
@@ -194,6 +196,13 @@ public class ViewUtils {
             }
         }
         return builder;
+    }
+
+    /** 获取editText内容 */
+    public static String getEditTextText(EditText editText) {
+        Editable text = editText.getText();
+        if (text == null) return null;
+        return text.toString();
     }
 
 }

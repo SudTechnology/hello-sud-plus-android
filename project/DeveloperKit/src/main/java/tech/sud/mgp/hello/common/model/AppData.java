@@ -6,7 +6,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 
 import java.io.Serializable;
-import java.util.List;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.app.HelloSudApplication;
@@ -14,7 +13,6 @@ import tech.sud.mgp.hello.common.utils.GlobalCache;
 import tech.sud.mgp.hello.service.main.config.BaseRtcConfig;
 import tech.sud.mgp.hello.service.main.config.SudConfig;
 import tech.sud.mgp.hello.service.main.resp.BaseConfigResp;
-import tech.sud.mgp.hello.ui.scenes.quiz.model.QuizRoomPkModel;
 
 /**
  * 全局使用的数据
@@ -25,10 +23,6 @@ public class AppData {
 
     private BaseConfigResp baseConfigResp; // 基础配置
     private BaseRtcConfig selectRtcConfig; // 当前所使用的rtc配置
-    private boolean joinTicketNoRemind = false; // 加入门票场景不再提醒
-    private List<QuizRoomPkModel> quizRoomPkModelList; // 竞猜场景更多活动页下的跨房玩游戏列表数据
-    private boolean quizAutoGuessIWin; // 竞猜场景是否自动猜自己赢
-    private boolean danmakuLandHintCompleted; // 弹幕场景是否已经进行了横屏提示
 
     private AppData() {
     }
@@ -143,44 +137,5 @@ public class AppData {
         }
         return null;
     }
-
-    // 加入门票场景是否不再提醒扣费
-    public boolean isJoinTicketNoRemind() {
-        return joinTicketNoRemind;
-    }
-
-    // 设置加入门票场景是否不再提醒扣费
-    public void setJoinTicketNoRemind(boolean joinTicketNoRemind) {
-        this.joinTicketNoRemind = joinTicketNoRemind;
-    }
-
-    // 竞猜场景更多活动页下的跨房玩游戏列表数据
-    public List<QuizRoomPkModel> getQuizRoomPkModelList() {
-        return quizRoomPkModelList;
-    }
-
-    // 竞猜场景更多活动页下的跨房玩游戏列表数据
-    public void setQuizRoomPkModelList(List<QuizRoomPkModel> quizRoomPkModelList) {
-        this.quizRoomPkModelList = quizRoomPkModelList;
-    }
-
-    // 竞猜场景是否自动猜自己赢
-    public boolean isQuizAutoGuessIWin() {
-        return quizAutoGuessIWin;
-    }
-
-    // 竞猜场景是否自动猜自己赢
-    public void setQuizAutoGuessIWin(boolean quizAutoGuessIWin) {
-        this.quizAutoGuessIWin = quizAutoGuessIWin;
-    }
-
-    // 弹幕场景是否已经进行了横屏提示
-    public boolean isDanmakuLandHintCompleted() {
-        return danmakuLandHintCompleted;
-    }
-
-    // 弹幕场景是否已经进行了横屏提示
-    public void setDanmakuLandHintCompleted(boolean danmakuLandHintCompleted) {
-        this.danmakuLandHintCompleted = danmakuLandHintCompleted;
-    }
+    
 }

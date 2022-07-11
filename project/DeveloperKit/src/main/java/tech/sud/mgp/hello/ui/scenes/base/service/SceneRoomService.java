@@ -19,9 +19,7 @@ import java.util.List;
 import tech.sud.mgp.hello.common.event.ChangeRTCEvent;
 import tech.sud.mgp.hello.common.event.EnterRoomEvent;
 import tech.sud.mgp.hello.common.event.LiveEventBusKey;
-import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.ui.common.utils.channel.NotifyId;
-import tech.sud.mgp.hello.ui.main.home.model.RoomItemModel;
 import tech.sud.mgp.hello.ui.scenes.base.activity.RoomConfig;
 import tech.sud.mgp.hello.ui.scenes.base.constant.OperateMicType;
 import tech.sud.mgp.hello.ui.scenes.base.manager.SceneRoomServiceManager;
@@ -30,10 +28,6 @@ import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.SceneRoomData;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.base.utils.SceneRoomNotificationHelper;
-import tech.sud.mgp.hello.ui.scenes.common.cmd.RoomCmdModelUtils;
-import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.ContributionModel;
-import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.DanceModel;
-import tech.sud.mgp.hello.ui.scenes.common.cmd.model.quiz.QuizBetModel;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftModel;
 
 /**
@@ -141,9 +135,6 @@ public class SceneRoomService extends Service {
             // 3.首次进入
             sceneRoomData.roomInfoModel = model;
             serviceManager.enterRoom(config, startClass, model);
-
-            // 重新进房之后，关闭自动猜自己赢
-            AppData.getInstance().setQuizAutoGuessIWin(false);
         }
 
         /**
@@ -240,58 +231,6 @@ public class SceneRoomService extends Service {
             serviceManager.floatingManager.dismissFloating();
         }
 
-        /** 发起点单广播 */
-        public void broadcastOrder(long orderId, long gameId, String gameName, List<UserInfo> toUsers) {
-            serviceManager.sceneOrderManager.broadcastOrder(orderId, gameId, gameName, toUsers);
-        }
-
-        /** 跨房pk，开启匹配或者关闭Pk了 */
-        public void roomPkSwitch(boolean pkSwitch) {
-            serviceManager.sceneRoomPkManager.roomPkSwitch(pkSwitch);
-        }
-
-        /** 跨房pk，开始 */
-        public void roomPkStart(int minute) {
-            serviceManager.sceneRoomPkManager.roomPkStart(minute);
-        }
-
-        /** 跨房pk，发送邀请 */
-        public void roomPkInvite(RoomItemModel model) {
-            serviceManager.sceneRoomPkManager.roomPkInvite(model);
-        }
-
-        /** 同步自己的游戏给对方房间 */
-        public void roomPkSyncGame() {
-            serviceManager.sceneRoomPkManager.syncGame();
-        }
-
-        /**
-         * 跨房pk，重新设置时长
-         *
-         * @param minute 分钟数
-         */
-        public void roomPkSettings(int minute) {
-            serviceManager.sceneRoomPkManager.roomPkSettings(minute);
-        }
-
-        /** 移除pk对手 */
-        public void removePkRival() {
-            serviceManager.sceneRoomPkManager.removePkRival();
-        }
-
-        /** 刷新房间pk信息 */
-        public void refreshRoomPkInfo() {
-            serviceManager.sceneRoomPkManager.refreshRoomPkInfo();
-        }
-
-        /** 竞猜下注，进行通知 */
-        public void notifyQuizBet(List<UserInfo> recUser) {
-            QuizBetModel command = new QuizBetModel(RoomCmdModelUtils.getSendUser());
-            command.recUser = recUser;
-            serviceManager.sceneEngineManager.sendCommand(command.toJson());
-            serviceManager.sceneQuizManager.addQuizBetChatMsg(command);
-        }
-
         /** 开始拉视频流 */
         public void startVideo(String streamID, View view) {
             serviceManager.sceneEngineManager.startVideo(streamID, view);
@@ -302,15 +241,6 @@ public class SceneRoomService extends Service {
             serviceManager.sceneEngineManager.stopVideo(streamID, view);
         }
 
-        /** 获取跳舞集合 */
-        public List<DanceModel> getDanceList() {
-            return serviceManager.getDanceList();
-        }
-
-        /** 获取蹦迪贡献榜 */
-        public List<ContributionModel> getDiscoContribution() {
-            return serviceManager.getDiscoContribution();
-        }
     }
 
     /** 获取当前使用的房间基本数据 */

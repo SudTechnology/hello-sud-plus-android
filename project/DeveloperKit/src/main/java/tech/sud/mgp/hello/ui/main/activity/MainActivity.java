@@ -29,9 +29,9 @@ import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.main.resp.BaseConfigResp;
 import tech.sud.mgp.hello.ui.common.utils.channel.NotifyChannelHelper;
 import tech.sud.mgp.hello.ui.main.home.HomeFragment;
+import tech.sud.mgp.hello.ui.main.performance.PerformanceManager;
 import tech.sud.mgp.hello.ui.main.roomlist.RoomListFragment;
 import tech.sud.mgp.hello.ui.main.settings.fragment.SettingsFragment;
-import tech.sud.mgp.hello.ui.performance.PerformanceManager;
 
 /**
  * 首页
@@ -171,7 +171,7 @@ public class MainActivity extends BaseActivity implements MainTabView.TabClickLi
         public Fragment createFragment(int position) {
             switch (position) {
                 case 0: {
-                    return HomeFragment.newInstance();
+                    return new HomeFragment();
                 }
                 case 1: {
                     return RoomListFragment.newInstance();

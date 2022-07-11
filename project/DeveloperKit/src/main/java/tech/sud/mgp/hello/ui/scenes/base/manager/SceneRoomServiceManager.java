@@ -13,8 +13,6 @@ import com.blankj.utilcode.util.Utils;
 import com.trello.rxlifecycle4.LifecycleTransformer;
 import com.trello.rxlifecycle4.RxLifecycle;
 
-import java.util.List;
-
 import io.reactivex.rxjava3.subjects.BehaviorSubject;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
@@ -23,7 +21,6 @@ import tech.sud.mgp.hello.common.utils.lifecycle.CustomLifecycleEvent;
 import tech.sud.mgp.hello.common.utils.lifecycle.CustomLifecycleProvider;
 import tech.sud.mgp.hello.service.room.repository.RoomRepository;
 import tech.sud.mgp.hello.ui.common.constant.RequestKey;
-import tech.sud.mgp.hello.ui.main.constant.SceneType;
 import tech.sud.mgp.hello.ui.scenes.base.activity.RoomConfig;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoleType;
@@ -33,8 +30,6 @@ import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomServiceCallback;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.RoomCmdModelUtils;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdChangeGameModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdEnterRoomModel;
-import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.ContributionModel;
-import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.DanceModel;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftModel;
 
 /**
@@ -56,11 +51,7 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
     public final SceneStreamManager sceneStreamManager = new SceneStreamManager(this);
     public final SceneGiftManager sceneGiftManager = new SceneGiftManager(this);
     public final SceneGameManager sceneGameManager = new SceneGameManager(this);
-    public final SceneOrderManager sceneOrderManager = new SceneOrderManager(this);
-    public final SceneRoomPkManager sceneRoomPkManager = new SceneRoomPkManager(this);
-    public final SceneQuizManager sceneQuizManager = new SceneQuizManager(this);
     public final SceneFloatingManager floatingManager = new SceneFloatingManager(this);
-    private SceneDiscoManager sceneDiscoManager;
 
     @Override
     public void onCreate() {
@@ -73,9 +64,6 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
         sceneStreamManager.onCreate();
         sceneGiftManager.onCreate();
         sceneGameManager.onCreate();
-        sceneOrderManager.onCreate();
-        sceneRoomPkManager.onCreate();
-        sceneQuizManager.onCreate();
         floatingManager.onCreate();
         setListener();
     }
@@ -129,13 +117,7 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
         sceneStreamManager.onDestroy();
         sceneGiftManager.onDestroy();
         sceneGameManager.onDestroy();
-        sceneOrderManager.onDestroy();
-        sceneRoomPkManager.onDestroy();
-        sceneQuizManager.onDestroy();
         floatingManager.onDestroy();
-        if (sceneDiscoManager != null) {
-            sceneDiscoManager.onDestroy();
-        }
     }
 
     /** 设置回调 */
@@ -188,17 +170,11 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
         sceneMicManager.enterRoomCompletedListener = this::checkEnterRoomCompleted;
         sceneEngineManager.enterRoom(config, model);
         sceneMicManager.enterRoom(config, model);
-        sceneRoomPkManager.enterRoom(config, model);
     }
 
     /** 根据不同的场景类型，初始化相关的业务管理类 */
     private void initManager(RoomInfoModel model) {
-        switch (model.sceneType) {
-            case SceneType.DISCO:
-                sceneDiscoManager = new SceneDiscoManager(this);
-                sceneDiscoManager.onCreate();
-                break;
-        }
+
     }
 
     /** 打开房间的Activity页面 */
@@ -218,8 +194,6 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
         sceneChatManager.callbackPageData();
         sceneMicManager.callbackPageData();
         sceneStreamManager.callbackPageData();
-        sceneRoomPkManager.callbackPageData();
-        sceneOrderManager.callbackPageData();
         SceneRoomServiceCallback callback = getCallback();
         if (callback != null) {
             callback.onRecoverCompleted();
@@ -236,9 +210,6 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
             SceneRoomServiceCallback callback = sceneRoomServiceCallback;
             if (callback != null) {
                 callback.onEnterRoomSuccess();
-            }
-            if (sceneDiscoManager != null) {
-                sceneDiscoManager.onEnterRoomSuccess();
             }
         }
     }
@@ -272,9 +243,6 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
         // 发送信令通知房间内其他人
         String command = RoomCmdModelUtils.buildGameChangeCommand(gameId);
         sceneEngineManager.sendCommand(command, null);
-        if (sceneDiscoManager != null) {
-            sceneDiscoManager.switchGame(gameId);
-        }
     }
 
     /** 退出房间 */
@@ -300,29 +268,11 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
     /** 发送礼物 */
     public void sendGift(GiftModel giftModel, int giftCount, UserInfo toUser) {
         sceneGiftManager.sendGift(giftModel, giftCount, toUser);
-        if (sceneDiscoManager != null) {
-            sceneDiscoManager.onSendGift(giftModel, giftCount, toUser);
-        }
-    }
-
-    public List<ContributionModel> getDiscoContribution() {
-        if (sceneDiscoManager != null) {
-            return sceneDiscoManager.getDiscoContribution();
-        }
-        return null;
     }
 
     /** 进入房间完成的回调,用于childManager */
     public interface EnterRoomCompletedListener {
         void onEnterRoomCompleted();
-    }
-
-    /** 获取跳舞集合 */
-    public List<DanceModel> getDanceList() {
-        if (sceneDiscoManager != null) {
-            return sceneDiscoManager.getDanceList();
-        }
-        return null;
     }
 
 }

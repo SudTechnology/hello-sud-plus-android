@@ -29,8 +29,8 @@ import tech.sud.mgp.hello.ui.login.dialog.UserSecondaryDialog;
 import tech.sud.mgp.hello.ui.login.listener.DialogSecondaryListener;
 import tech.sud.mgp.hello.ui.login.listener.DialogSelectListener;
 import tech.sud.mgp.hello.ui.main.activity.MainActivity;
+import tech.sud.mgp.hello.ui.main.performance.PerformanceManager;
 import tech.sud.mgp.hello.ui.main.utils.RouterUtils;
-import tech.sud.mgp.hello.ui.performance.PerformanceManager;
 
 /**
  * 登录页

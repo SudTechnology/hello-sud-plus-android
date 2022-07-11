@@ -25,17 +25,9 @@ import tech.sud.mgp.hello.service.room.resp.EnterRoomResp;
 import tech.sud.mgp.hello.ui.common.utils.CompletedListener;
 import tech.sud.mgp.hello.ui.common.utils.LifecycleUtils;
 import tech.sud.mgp.hello.ui.main.constant.SceneType;
-import tech.sud.mgp.hello.ui.scenes.asr.ASRActivity;
-import tech.sud.mgp.hello.ui.scenes.audio.activity.AudioRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.base.model.EnterRoomParams;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
-import tech.sud.mgp.hello.ui.scenes.crossroom.activity.CrossRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.custom.CustomActivity;
-import tech.sud.mgp.hello.ui.scenes.danmaku.activity.DanmakuActivity;
-import tech.sud.mgp.hello.ui.scenes.disco.activity.DiscoActivity;
-import tech.sud.mgp.hello.ui.scenes.orderentertainment.OrderEntertainmentActivity;
-import tech.sud.mgp.hello.ui.scenes.quiz.activity.QuizActivity;
-import tech.sud.mgp.hello.ui.scenes.ticket.activity.TicketActivity;
 
 public class EnterRoomUtils {
 
@@ -153,31 +145,30 @@ public class EnterRoomUtils {
     private static Intent getSceneIntent(Context context, int sceneType) {
         // TODO: 2022/4/2 完善对应场景之后再放开
         switch (sceneType) {
-            case SceneType.ASR:
-                return new Intent(context, ASRActivity.class);
-            case SceneType.TICKET:
-                return new Intent(context, TicketActivity.class);
-            case SceneType.ORDER_ENTERTAINMENT:
-                return new Intent(context, OrderEntertainmentActivity.class);
-            case SceneType.CUSTOM_SCENE:
-                return new Intent(context, CustomActivity.class);
-            case SceneType.CROSS_ROOM:
-                return new Intent(context, CrossRoomActivity.class);
-            case SceneType.QUIZ:
-                return new Intent(context, QuizActivity.class);
-            case SceneType.DANMAKU:
-                return new Intent(context, DanmakuActivity.class);
-            case SceneType.DISCO:
-                return new Intent(context, DiscoActivity.class);
+//            case SceneType.ASR:
+//                return new Intent(context, ASRActivity.class);
+//            case SceneType.TICKET:
+//                return new Intent(context, TicketActivity.class);
+//            case SceneType.ORDER_ENTERTAINMENT:
+//                return new Intent(context, OrderEntertainmentActivity.class);
+//            case SceneType.CUSTOM_SCENE:
+//                return new Intent(context, CustomActivity.class);
+//            case SceneType.CROSS_ROOM:
+//                return new Intent(context, CrossRoomActivity.class);
+//            case SceneType.QUIZ:
+//                return new Intent(context, QuizActivity.class);
+//            case SceneType.DANMAKU:
+//                return new Intent(context, DanmakuActivity.class);
+//            case SceneType.DISCO:
+//                return new Intent(context, DiscoActivity.class);
 //            case SceneType.TALENT:
 //                return new Intent(context, TalentRoomActivity.class);
 //            case SceneType.ONE_ONE:
 //                return new Intent(context, OneOneActivity.class);
 //            case SceneType.SHOW:
 //                return new Intent(context, ShowActivity.class);
-            case SceneType.AUDIO:
             default:
-                return new Intent(context, AudioRoomActivity.class);
+                return new Intent(context, CustomActivity.class);
         }
     }
 

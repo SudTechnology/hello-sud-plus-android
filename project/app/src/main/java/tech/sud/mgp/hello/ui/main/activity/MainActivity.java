@@ -29,9 +29,9 @@ import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.main.resp.BaseConfigResp;
 import tech.sud.mgp.hello.ui.common.utils.channel.NotifyChannelHelper;
 import tech.sud.mgp.hello.ui.main.home.HomeFragment;
+import tech.sud.mgp.hello.ui.main.performance.PerformanceManager;
 import tech.sud.mgp.hello.ui.main.roomlist.RoomListFragment;
 import tech.sud.mgp.hello.ui.main.settings.fragment.SettingsFragment;
-import tech.sud.mgp.hello.ui.performance.PerformanceManager;
 
 /**
  * 首页

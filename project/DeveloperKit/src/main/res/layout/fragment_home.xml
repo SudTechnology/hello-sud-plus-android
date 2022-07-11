@@ -1,167 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F6FB"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintTop_toTopOf="parent">
+    android:background="@color/white"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/index_header"
+        android:id="@+id/top_bar"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:background="@color/white"
-        android:paddingHorizontal="24dp"
-        android:paddingTop="7dp"
-        android:paddingBottom="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="12dp"
+        android:layout_marginTop="10dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         app:layout_constraintTop_toTopOf="parent">
 
-        <tech.sud.mgp.hello.common.widget.view.round.RoundedImageView
-            android:id="@+id/header_iv"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:src="@color/black"
+        <View
+            android:id="@+id/view_logo"
+            android:layout_width="52dp"
+            android:layout_height="24dp"
+            android:background="@drawable/ic_default_avatar"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:riv_corner_radius="28dp" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/name_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:singleLine="true"
-            android:textColor="#1a1a1a"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@id/userid_tv"
-            app:layout_constraintStart_toEndOf="@id/header_iv"
-            app:layout_constraintTop_toTopOf="@id/header_iv" />
-
-        <TextView
-            android:id="@+id/userid_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="4dp"
-            android:singleLine="true"
+            android:text="@string/main_top_title"
             android:textColor="#13141a"
+            android:textSize="18sp"
+            android:layout_marginStart="6dp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="@id/view_logo"
+            app:layout_constraintBottom_toBottomOf="@id/view_logo"
+            app:layout_constraintStart_toEndOf="@id/view_logo" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="8dp"
             android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="@id/header_iv"
-            app:layout_constraintStart_toEndOf="@id/header_iv"
-            app:layout_constraintTop_toBottomOf="@id/name_tv" />
+            android:textColor="#666666"
+            android:text="@string/main_top_url"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/shape_round_66dbdeec"
+            app:layout_constraintTop_toTopOf="@id/view_logo"
+            app:layout_constraintBottom_toBottomOf="@id/view_logo"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <EditText
-            android:id="@+id/search_et"
+            android:id="@+id/et_room_id"
             android:layout_width="match_parent"
             android:layout_height="32dp"
-            android:layout_marginTop="15dp"
-            android:background="#F2F3F7"
-            android:hint="@string/search_hint"
-            android:imeOptions="actionSearch"
-            android:inputType="number"
-            android:paddingStart="8dp"
-            android:paddingEnd="47dp"
-            android:singleLine="true"
+            android:background="#f2f3f7"
+            android:paddingHorizontal="10dp"
+            android:gravity="center_vertical"
+            android:textSize="14sp"
             android:textColor="@color/black"
             android:textColorHint="#aaaaaa"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/header_iv" />
+            android:inputType="number"
+            android:singleLine="true"
+            android:maxLength="50"
+            android:imeOptions="actionGo"
+            android:layout_marginTop="14dp"
+            android:layout_marginHorizontal="16dp"
+            app:layout_constraintTop_toBottomOf="@id/view_logo" />
 
         <TextView
-            android:id="@+id/go_search"
+            android:id="@+id/tv_enter"
             android:layout_width="39dp"
             android:layout_height="32dp"
             android:background="@color/black"
             android:gravity="center"
-            android:text="@string/search_enter"
+            android:text="@string/enter"
             android:textColor="@color/c_ffffff"
             android:textSize="12sp"
             android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@id/search_et"
-            app:layout_constraintEnd_toEndOf="@id/search_et"
-            app:layout_constraintTop_toTopOf="@id/search_et" />
+            app:layout_constraintBottom_toBottomOf="@id/et_room_id"
+            app:layout_constraintEnd_toEndOf="@id/et_room_id"
+            app:layout_constraintTop_toTopOf="@id/et_room_id" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/indicator_container"
-        android:layout_width="match_parent"
-        android:layout_height="44dp"
-        android:background="@color/white"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingHorizontal="24dp"
-        app:layout_constraintBottom_toTopOf="@id/refresh_layout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/index_header">
-
-        <net.lucode.hackware.magicindicator.MagicIndicator
-            android:id="@+id/magic_indicator"
-            android:layout_width="0dp"
-            android:layout_height="44dp"
-            android:layout_weight="1"
-            android:background="@color/white"
-            android:overScrollMode="never"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/menu_iv"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/menu_iv"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/icon_scenes_menu"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/iv_shape_gradient"
-            android:layout_width="20dp"
-            android:layout_height="44dp"
-            android:background="@drawable/shape_gradient_ffffff_ang_180"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/magic_indicator"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <com.scwang.smart.refresh.layout.SmartRefreshLayout
-        android:id="@+id/refresh_layout"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginHorizontal="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/indicator_container">
-
-        <tech.sud.mgp.hello.ui.common.widget.refresh.CustomHeaderView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <tech.sud.mgp.hello.ui.main.home.view.NewNestedScrollView
-            android:id="@+id/scrollView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:overScrollMode="never">
-
-            <LinearLayout
-                android:id="@+id/scene_root"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_horizontal"
-                android:orientation="vertical"
-                android:paddingBottom="10dp" />
-
-        </tech.sud.mgp.hello.ui.main.home.view.NewNestedScrollView>
-
-    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
-
+        android:paddingHorizontal="11dp"
+        android:paddingBottom="16dp"
+        android:clipToPadding="false"
+        app:layout_constraintTop_toBottomOf="@id/top_bar"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

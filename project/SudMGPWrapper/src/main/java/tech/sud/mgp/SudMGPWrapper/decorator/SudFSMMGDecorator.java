@@ -494,17 +494,17 @@ public class SudFSMMGDecorator implements ISudFSMMG {
     }
 
     // 返回该玩家是否正在游戏中
-    public boolean playerIsPlaying(long userId) {
+    public boolean playerIsPlaying(String userId) {
         return sudFSMMGCache.playerIsPlaying(userId);
     }
 
     // 返回该玩家是否已准备
-    public boolean playerIsReady(long userId) {
+    public boolean playerIsReady(String userId) {
         return sudFSMMGCache.playerIsReady(userId);
     }
 
     // 返回该玩家是否已加入了游戏
-    public boolean playerIsIn(long userId) {
+    public boolean playerIsIn(String userId) {
         return sudFSMMGCache.playerIsIn(userId);
     }
 

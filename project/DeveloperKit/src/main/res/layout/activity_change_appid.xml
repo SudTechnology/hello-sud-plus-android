@@ -9,7 +9,7 @@
     <tech.sud.mgp.hello.ui.common.widget.HSTopBar
         android:layout_width="match_parent"
         android:layout_height="54dp"
-        app:topbar_titleText="@string/change_rtc_service"
+        app:topbar_titleText="@string/change_sud_appid"
         android:paddingTop="10dp"
         android:background="@color/white" />
 

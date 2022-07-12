@@ -12,6 +12,7 @@ import tech.sud.mgp.hello.app.HelloSudApplication;
 import tech.sud.mgp.hello.common.utils.GlobalCache;
 import tech.sud.mgp.hello.service.main.config.BaseRtcConfig;
 import tech.sud.mgp.hello.service.main.config.SudConfig;
+import tech.sud.mgp.hello.service.main.config.SudEnvConfig;
 import tech.sud.mgp.hello.service.main.resp.BaseConfigResp;
 
 /**
@@ -23,6 +24,7 @@ public class AppData {
 
     private BaseRtcConfig selectRtcConfig; // 当前所使用的rtc配置
     private SudConfig sudConfig; // sud配置
+    private SudEnvConfig sudEnvConfig; // sud环境
 
     private AppData() {
     }
@@ -39,6 +41,9 @@ public class AppData {
         if (sudConfig != null) {
             outState.putSerializable("SudConfig", sudConfig);
         }
+        if (sudEnvConfig != null) {
+            outState.putSerializable("SudEnvConfig", sudEnvConfig);
+        }
     }
 
     // 恢复数据
@@ -50,6 +55,10 @@ public class AppData {
         Serializable sudConfigSerializable = savedInstanceState.getSerializable("SudConfig");
         if (sudConfigSerializable instanceof SudConfig) {
             this.sudConfig = (SudConfig) sudConfigSerializable;
+        }
+        Serializable sudEnvConfigSerializable = savedInstanceState.getSerializable("SudEnvConfig");
+        if (sudEnvConfigSerializable instanceof SudEnvConfig) {
+            this.sudEnvConfig = (SudEnvConfig) sudEnvConfigSerializable;
         }
     }
 
@@ -133,5 +142,13 @@ public class AppData {
 
     public void setSudConfig(SudConfig sudConfig) {
         this.sudConfig = sudConfig;
+    }
+
+    public SudEnvConfig getSudEnvConfig() {
+        return sudEnvConfig;
+    }
+
+    public void setSudEnvConfig(SudEnvConfig sudEnvConfig) {
+        this.sudEnvConfig = sudEnvConfig;
     }
 }

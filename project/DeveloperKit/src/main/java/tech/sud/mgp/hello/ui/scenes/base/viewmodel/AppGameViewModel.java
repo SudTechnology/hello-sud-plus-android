@@ -23,12 +23,12 @@ import tech.sud.mgp.SudMGPWrapper.state.MGStateResponse;
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.SudMGPWrapper.utils.GameCommonStateUtils;
 import tech.sud.mgp.SudMGPWrapper.utils.ISudFSMStateHandleUtils;
+import tech.sud.mgp.core.ISudAPPD;
 import tech.sud.mgp.core.ISudFSMStateHandle;
 import tech.sud.mgp.core.ISudFSTAPP;
 import tech.sud.mgp.core.ISudListenerInitSDK;
 import tech.sud.mgp.core.ISudListenerNotifyStateChange;
 import tech.sud.mgp.core.SudMGP;
-import tech.sud.mgp.hello.app.APPConfig;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
@@ -40,6 +40,7 @@ import tech.sud.mgp.hello.common.utils.SystemUtils;
 import tech.sud.mgp.hello.service.game.repository.GameRepository;
 import tech.sud.mgp.hello.service.game.resp.GameLoginResp;
 import tech.sud.mgp.hello.service.main.config.SudConfig;
+import tech.sud.mgp.hello.service.main.config.SudEnvConfig;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.GameTextModel;
 import tech.sud.mgp.rtc.audio.core.AudioPCMData;
@@ -177,8 +178,11 @@ public class AppGameViewModel implements SudFSMMGListener {
             delayLoadGame(activity, gameId);
             return;
         }
+
+        initEnv();
+
         // 初始化sdk
-        SudMGP.initSDK(activity, appId, appKey, APPConfig.GAME_IS_TEST_ENV, new ISudListenerInitSDK() {
+        SudMGP.initSDK(activity, appId, appKey, isTestEnv(), new ISudListenerInitSDK() {
             @Override
             public void onSuccess() {
                 loadGame(activity, code, gameId);
@@ -190,6 +194,21 @@ public class AppGameViewModel implements SudFSMMGListener {
                 delayLoadGame(activity, gameId);
             }
         });
+    }
+
+    private void initEnv() {
+        SudEnvConfig config = AppData.getInstance().getSudEnvConfig();
+        if (config != null) {
+            ISudAPPD.e(config.env);
+        }
+    }
+
+    private boolean isTestEnv() {
+        SudEnvConfig config = AppData.getInstance().getSudEnvConfig();
+        if (config != null) {
+            return config.isTestEnv;
+        }
+        return false;
     }
 
     /**

@@ -31,4 +31,5 @@ public class SudConfig implements Serializable {
     public int hashCode() {
         return Objects.hash(appId, appKey);
     }
+    
 }

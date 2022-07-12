@@ -15,6 +15,7 @@ import tech.sud.mgp.hello.common.utils.GlobalCache;
 import tech.sud.mgp.hello.service.game.repository.GameRepository;
 import tech.sud.mgp.hello.service.main.config.BaseRtcConfig;
 import tech.sud.mgp.hello.service.main.config.SudConfig;
+import tech.sud.mgp.hello.service.main.config.SudEnvConfig;
 import tech.sud.mgp.hello.service.main.config.ZegoConfig;
 import tech.sud.mgp.hello.ui.login.DeveloperKitUtils;
 
@@ -55,6 +56,20 @@ public class SplashViewModel extends BaseViewModel {
                     }
                     AppData.getInstance().setSudConfig(sudConfig);
                 }
+
+                // sudEnv配置
+                SudEnvConfig sudEnvConfig = AppData.getInstance().getSudEnvConfig();
+                if (sudEnvConfig == null) {
+                    sudEnvConfig = (SudEnvConfig) GlobalCache.getInstance().getSerializable(GlobalCache.SUD_ENV_CONFIG);
+                    if (sudEnvConfig == null) {
+                        List<SudEnvConfig> list = DeveloperKitUtils.getSudEnvConfigs();
+                        if (list != null && list.size() > 0) {
+                            sudEnvConfig = list.get(0);
+                        }
+                    }
+                }
+                AppData.getInstance().setSudEnvConfig(sudEnvConfig);
+
                 initCompletedLiveData.postValue(true);
             }
         });

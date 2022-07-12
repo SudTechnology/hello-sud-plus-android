@@ -7,7 +7,9 @@ import com.blankj.utilcode.util.ToastUtils;
 import org.json.JSONObject;
 
 import java.util.List;
+import java.util.UUID;
 
+import tech.sud.mgp.hello.ui.login.DeveloperKitUtils;
 import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomServiceCallback;
 import tech.sud.mgp.rtc.audio.core.AudioEngineUpdateType;
 import tech.sud.mgp.rtc.audio.core.AudioStream;
@@ -32,6 +34,10 @@ public class SceneStreamManager extends BaseServiceManager {
     }
 
     public void openMic(String streamId) {
+        if (TextUtils.isEmpty(streamId)) {
+            streamId = DeveloperKitUtils.md5Hex8(UUID.randomUUID().toString());
+        }
+
         if (TextUtils.isEmpty(streamId)) {
             ToastUtils.showLong("streamId is empty");
             return;

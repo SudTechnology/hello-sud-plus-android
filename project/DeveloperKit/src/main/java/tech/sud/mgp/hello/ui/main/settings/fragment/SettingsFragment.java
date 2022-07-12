@@ -13,6 +13,7 @@ import tech.sud.mgp.hello.app.APPConfig;
 import tech.sud.mgp.hello.common.base.BaseFragment;
 import tech.sud.mgp.hello.common.utils.IntentUtils;
 import tech.sud.mgp.hello.ui.main.settings.activity.ChangeAppIdActivity;
+import tech.sud.mgp.hello.ui.main.settings.activity.ChangeSudEnvActivity;
 import tech.sud.mgp.hello.ui.main.settings.activity.LanguageActivity;
 import tech.sud.mgp.hello.ui.main.settings.activity.VersionInfoActivity;
 import tech.sud.mgp.hello.ui.main.utils.RouterUtils;
@@ -135,6 +136,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         } else if (v == btnChangeAppId) { // 切换appId
             startActivity(new Intent(requireContext(), ChangeAppIdActivity.class));
         } else if (v == btnChangeEnv) { // 切换环境
+            startActivity(new Intent(requireContext(), ChangeSudEnvActivity.class));
         }
     }
 

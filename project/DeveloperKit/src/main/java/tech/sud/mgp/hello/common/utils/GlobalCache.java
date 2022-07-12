@@ -11,6 +11,7 @@ public class GlobalCache {
     public static final String RTC_CONFIG_KEY = "rtc_config_key"; // 当前所用的rtc配置
     public static final String CUSTOM_CONFIG_KEY = "rtc_config_key"; // CUSTOM场景配置
     public static final String SUD_CONFIG = "sud_config"; // sud配置
+    public static final String SUD_ENV_CONFIG = "sud_env_config"; // sudEnv配置
 
     public static CacheDiskUtils getInstance() {
         return CacheDiskUtils.getInstance("global.cache");

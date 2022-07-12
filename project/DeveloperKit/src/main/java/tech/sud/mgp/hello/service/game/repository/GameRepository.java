@@ -2,6 +2,8 @@ package tech.sud.mgp.hello.service.game.repository;
 
 import androidx.lifecycle.LifecycleOwner;
 
+import java.util.List;
+
 import tech.sud.mgp.hello.common.http.param.BaseUrlManager;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.http.rx.RxUtils;
@@ -9,6 +11,7 @@ import tech.sud.mgp.hello.service.game.method.GameRequestMethodFactory;
 import tech.sud.mgp.hello.service.game.req.GameLoginReq;
 import tech.sud.mgp.hello.service.game.req.SwitchGameReq;
 import tech.sud.mgp.hello.service.game.resp.GameLoginResp;
+import tech.sud.mgp.hello.service.main.config.SudConfig;
 
 public class GameRepository {
 
@@ -24,6 +27,19 @@ public class GameRepository {
         req.app_id = appId;
         GameRequestMethodFactory.getMethod()
                 .gameLogin(BaseUrlManager.getGameBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /**
+     * sudAppId列表
+     *
+     * @param owner    生命周期对象
+     * @param callback 回调
+     */
+    public static void sudAppList(LifecycleOwner owner, RxCallback<List<SudConfig>> callback) {
+        GameRequestMethodFactory.getMethod()
+                .sudAppList(BaseUrlManager.getGameBaseUrl())
                 .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }

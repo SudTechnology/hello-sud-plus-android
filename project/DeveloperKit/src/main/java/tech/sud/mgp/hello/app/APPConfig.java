@@ -50,10 +50,4 @@ public class APPConfig {
     /** zegoAppId */
     public static String ZEGO_APP_ID = "581733944";
 
-    /** Sud平台申请的appId */
-    public static String SudMGP_APP_ID = "1461564080052506636";
-    
-    /** Sud平台申请的appKey */
-    public static String SudMGP_APP_KEY = "03pNxK2lEXsKiiwrBQ9GbH541Fk2Sfnc";
-
 }

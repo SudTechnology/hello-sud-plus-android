@@ -32,12 +32,14 @@ import tech.sud.mgp.hello.app.APPConfig;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
+import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.utils.HSTextUtils;
 import tech.sud.mgp.hello.common.utils.SystemUtils;
 import tech.sud.mgp.hello.service.game.repository.GameRepository;
 import tech.sud.mgp.hello.service.game.resp.GameLoginResp;
+import tech.sud.mgp.hello.service.main.config.SudConfig;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.GameTextModel;
 import tech.sud.mgp.rtc.audio.core.AudioPCMData;
@@ -126,8 +128,14 @@ public class AppGameViewModel implements SudFSMMGListener {
         if (activity.isDestroyed() || gameId <= 0) {
             return;
         }
+        String sudAppId = null;
+        SudConfig sudConfig = AppData.getInstance().getSudConfig();
+        if (sudConfig != null) {
+            sudAppId = sudConfig.appId;
+        }
+
         // 请求登录code
-        GameRepository.login(activity, HSUserInfo.userId + "", APPConfig.SudMGP_APP_ID, new RxCallback<GameLoginResp>() {
+        GameRepository.login(activity, HSUserInfo.userId + "", sudAppId, new RxCallback<GameLoginResp>() {
             @Override
             public void onNext(BaseResponse<GameLoginResp> t) {
                 super.onNext(t);
@@ -157,10 +165,16 @@ public class AppGameViewModel implements SudFSMMGListener {
      * @param code     令牌
      */
     private void initSdk(FragmentActivity activity, long gameId, String code) {
-        String appId = APPConfig.SudMGP_APP_ID;
-        String appKey = APPConfig.SudMGP_APP_KEY;
+        String appId = null;
+        String appKey = null;
+        SudConfig sudConfig = AppData.getInstance().getSudConfig();
+        if (sudConfig != null) {
+            appId = sudConfig.appId;
+            appKey = sudConfig.appKey;
+        }
         if (TextUtils.isEmpty(appId) || TextUtils.isEmpty(appKey)) {
             ToastUtils.showLong("SudConfig is empty");
+            delayLoadGame(activity, gameId);
             return;
         }
         // 初始化sdk
@@ -277,8 +291,13 @@ public class AppGameViewModel implements SudFSMMGListener {
      * 处理code过期
      */
     public void processOnExpireCode(SudFSTAPPDecorator sudFSTAPPDecorator, ISudFSMStateHandle handle) {
+        String sudAppId = null;
+        SudConfig sudConfig = AppData.getInstance().getSudConfig();
+        if (sudConfig != null) {
+            sudAppId = sudConfig.appId;
+        }
         // code过期，刷新code
-        GameRepository.login(null, HSUserInfo.userId + "", APPConfig.SudMGP_APP_ID, new RxCallback<GameLoginResp>() {
+        GameRepository.login(null, HSUserInfo.userId + "", sudAppId, new RxCallback<GameLoginResp>() {
             @Override
             public void onNext(BaseResponse<GameLoginResp> t) {
                 super.onNext(t);

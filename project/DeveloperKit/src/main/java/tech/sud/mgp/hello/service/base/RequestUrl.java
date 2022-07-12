@@ -36,8 +36,6 @@ public interface RequestUrl {
     /** 查询基础配置 */
     String GET_BASE_CONFIG = "base/config/v1";
 
-    /** 游戏登录 */
-    String GAME_LOGIN = "login/v3";
 
     /** 游戏切换 */
     String SWITCH_GAME = "room/switch-game/v1";
@@ -109,4 +107,11 @@ public interface RequestUrl {
     /** 礼物列表 */
     String GIFT_LIST = "gift/list/v1";
     // endregion 礼物
+
+
+    /** 游戏登录 */
+    String GAME_LOGIN = "login/v3";
+
+    /** sudAppId配置 */
+    String SUD_APP_ID_LIST = "extra/app_list";
 }

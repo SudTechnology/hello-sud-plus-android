@@ -504,13 +504,4 @@
     <string name="change_sud_appid">切换AppId</string>
     <string name="change_env">切换环境</string>
 
-    <string name="appid_sz">深圳</string>
-    <string name="appid_sz001">深圳001</string>
-    <string name="appid_sg">新加坡</string>
-    <string name="appid_jp001">日本001</string>
-    <string name="appid_me001">中东001</string>
-    <string name="appid_sa001">南美001</string>
-    <string name="appid_mumbai">印度孟买</string>>
-    <string name="appid_europe">欧洲</string>
-
 </resources>

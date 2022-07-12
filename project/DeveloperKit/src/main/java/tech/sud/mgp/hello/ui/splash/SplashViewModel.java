@@ -4,16 +4,19 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.blankj.utilcode.util.ThreadUtils;
 
+import java.util.List;
+
 import tech.sud.mgp.hello.app.APPConfig;
 import tech.sud.mgp.hello.common.base.BaseViewModel;
+import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.GlobalCache;
+import tech.sud.mgp.hello.service.game.repository.GameRepository;
 import tech.sud.mgp.hello.service.main.config.BaseRtcConfig;
 import tech.sud.mgp.hello.service.main.config.SudConfig;
 import tech.sud.mgp.hello.service.main.config.ZegoConfig;
 import tech.sud.mgp.hello.ui.login.DeveloperKitUtils;
-import tech.sud.mgp.hello.ui.main.settings.viewmodel.ChangeAppIdViewModel;
 
 public class SplashViewModel extends BaseViewModel {
 
@@ -40,7 +43,15 @@ public class SplashViewModel extends BaseViewModel {
                 if (sudConfig == null) {
                     sudConfig = (SudConfig) GlobalCache.getInstance().getSerializable(GlobalCache.SUD_CONFIG);
                     if (sudConfig == null) {
-                        sudConfig = ChangeAppIdViewModel.getSudConfigs().get(0);
+                        GameRepository.sudAppList(null, new RxCallback<List<SudConfig>>() {
+                            @Override
+                            public void onSuccess(List<SudConfig> sudConfigs) {
+                                super.onSuccess(sudConfigs);
+                                if (sudConfigs != null && sudConfigs.size() > 0) {
+                                    AppData.getInstance().setSudConfig(sudConfigs.get(0));
+                                }
+                            }
+                        });
                     }
                     AppData.getInstance().setSudConfig(sudConfig);
                 }

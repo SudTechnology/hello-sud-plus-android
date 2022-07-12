@@ -1,7 +1,10 @@
 package tech.sud.mgp.hello.service.game.method;
 
+import java.util.List;
+
 import io.reactivex.rxjava3.core.Observable;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
@@ -10,6 +13,7 @@ import tech.sud.mgp.hello.service.base.RequestUrl;
 import tech.sud.mgp.hello.service.game.req.GameLoginReq;
 import tech.sud.mgp.hello.service.game.req.SwitchGameReq;
 import tech.sud.mgp.hello.service.game.resp.GameLoginResp;
+import tech.sud.mgp.hello.service.main.config.SudConfig;
 
 /**
  * 网络请求方法和地址
@@ -21,6 +25,12 @@ public interface GameRequestMethod {
      */
     @POST(RequestUrl.GAME_LOGIN)
     Observable<BaseResponse<GameLoginResp>> gameLogin(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body GameLoginReq body);
+
+    /**
+     * sudAppId配置
+     */
+    @GET(RequestUrl.SUD_APP_ID_LIST)
+    Observable<BaseResponse<List<SudConfig>>> sudAppList(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl);
 
     /**
      * 游戏切换

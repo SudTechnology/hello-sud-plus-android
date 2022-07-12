@@ -36,6 +36,9 @@ public class AppData {
         if (selectRtcConfig != null) {
             outState.putSerializable("BaseRtcConfig", selectRtcConfig);
         }
+        if (sudConfig != null) {
+            outState.putSerializable("SudConfig", sudConfig);
+        }
     }
 
     // 恢复数据
@@ -43,6 +46,10 @@ public class AppData {
         Serializable baseRtcConfig = savedInstanceState.getSerializable("BaseRtcConfig");
         if (baseRtcConfig instanceof BaseRtcConfig) {
             this.selectRtcConfig = (BaseRtcConfig) baseRtcConfig;
+        }
+        Serializable sudConfigSerializable = savedInstanceState.getSerializable("SudConfig");
+        if (sudConfigSerializable instanceof SudConfig) {
+            this.sudConfig = (SudConfig) sudConfigSerializable;
         }
     }
 

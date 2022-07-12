@@ -39,6 +39,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:background="@color/white"
+                android:visibility="gone"
                 android:layout_marginTop="20dp"
                 android:layout_marginHorizontal="16dp">
 
@@ -151,6 +152,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:background="@color/white"
+                android:visibility="gone"
                 android:layout_marginTop="24dp"
                 android:layout_marginHorizontal="16dp">
 

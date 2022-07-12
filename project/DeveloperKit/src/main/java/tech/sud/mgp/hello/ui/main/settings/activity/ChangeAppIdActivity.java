@@ -3,6 +3,7 @@ package tech.sud.mgp.hello.ui.main.settings.activity;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,10 +16,11 @@ import java.util.List;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseActivity;
+import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.common.utils.GlobalCache;
+import tech.sud.mgp.hello.service.game.repository.GameRepository;
 import tech.sud.mgp.hello.service.main.config.SudConfig;
-import tech.sud.mgp.hello.ui.main.settings.viewmodel.ChangeAppIdViewModel;
 
 /**
  * 切换Appid页面
@@ -26,7 +28,9 @@ import tech.sud.mgp.hello.ui.main.settings.viewmodel.ChangeAppIdViewModel;
 public class ChangeAppIdActivity extends BaseActivity {
 
     private final MyAdapter adapter = new MyAdapter();
-    private final ChangeAppIdViewModel viewModel = new ChangeAppIdViewModel();
+
+    // 数据返回
+    public final MutableLiveData<List<SudConfig>> datasLiveData = new MutableLiveData<>();
 
     @Override
     protected int getLayoutId() {
@@ -45,13 +49,24 @@ public class ChangeAppIdActivity extends BaseActivity {
     @Override
     protected void initData() {
         super.initData();
-        viewModel.getDatas();
+        getDatas();
+    }
+
+    // 获取数据
+    public void getDatas() {
+        GameRepository.sudAppList(this, new RxCallback<List<SudConfig>>() {
+            @Override
+            public void onSuccess(List<SudConfig> sudConfigs) {
+                super.onSuccess(sudConfigs);
+                datasLiveData.postValue(sudConfigs);
+            }
+        });
     }
 
     @Override
     protected void setListeners() {
         super.setListeners();
-        viewModel.datasLiveData.observe(this, new Observer<List<SudConfig>>() {
+        datasLiveData.observe(this, new Observer<List<SudConfig>>() {
             @Override
             public void onChanged(List<SudConfig> baseRtcConfigs) {
                 adapter.setList(baseRtcConfigs);

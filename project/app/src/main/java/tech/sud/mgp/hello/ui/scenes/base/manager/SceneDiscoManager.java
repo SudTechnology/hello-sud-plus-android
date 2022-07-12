@@ -47,6 +47,8 @@ public class SceneDiscoManager extends BaseServiceManager {
     private int djCountdownCycle = 60;
     private UserInfo selfUserInfo = RoomCmdModelUtils.getSendUser();
 
+    public static final int ROBOT_UP_MIC_COUNT = 6; // 机器人上几个麦位
+
     public SceneDiscoManager(SceneRoomServiceManager sceneRoomServiceManager) {
         super();
         this.parentManager = sceneRoomServiceManager;
@@ -127,7 +129,7 @@ public class SceneDiscoManager extends BaseServiceManager {
     private void triggerGoToWork() {
         int selfMicIndex = parentManager.sceneMicManager.findSelfMicIndex();
         if (selfMicIndex >= 0) {
-            callbackAction(helper.joinAnchor(null));
+            callbackAction(helper.joinAnchor(null, null));
         }
     }
 
@@ -138,7 +140,9 @@ public class SceneDiscoManager extends BaseServiceManager {
 
     /** 触发【聚焦】 */
     private void triggerFocus() {
-        callbackAction(helper.roleFocus(4, false));
+        if (parentManager.sceneMicManager.findSelfMicIndex() >= 0) {
+            callbackAction(helper.roleFocus(4, false));
+        }
     }
 
     /** 回调页面让其通知游戏蹦迪动作 */
@@ -182,7 +186,8 @@ public class SceneDiscoManager extends BaseServiceManager {
         boolean isPermission = false;
         List<AudioRoomMicModel> micList = parentManager.sceneMicManager.getMicList();
         for (AudioRoomMicModel model : micList) {
-            if (model.userId > 0) {
+            // 前面六个是机器人，所以这里从第五位开始判断
+            if (model.micIndex >= ROBOT_UP_MIC_COUNT && model.userId > 0) {
                 if (model.userId == HSUserInfo.userId) {
                     isPermission = true;
                 }

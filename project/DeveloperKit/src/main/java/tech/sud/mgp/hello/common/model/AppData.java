@@ -21,8 +21,8 @@ public class AppData {
 
     private static final AppData instance = new AppData();
 
-    private BaseConfigResp baseConfigResp; // 基础配置
     private BaseRtcConfig selectRtcConfig; // 当前所使用的rtc配置
+    private SudConfig sudConfig; // sud配置
 
     private AppData() {
     }
@@ -31,22 +31,8 @@ public class AppData {
         return instance;
     }
 
-    public void setBaseConfigResp(BaseConfigResp resp) {
-        baseConfigResp = resp;
-    }
-
-    public SudConfig getSudConfig() {
-        if (baseConfigResp != null) {
-            return baseConfigResp.sudCfg;
-        }
-        return null;
-    }
-
     // 保存数据
     public void onSaveInstanceState(@NonNull Bundle outState) {
-        if (baseConfigResp != null) {
-            outState.putSerializable("BaseConfigResp", baseConfigResp);
-        }
         if (selectRtcConfig != null) {
             outState.putSerializable("BaseRtcConfig", selectRtcConfig);
         }
@@ -54,10 +40,6 @@ public class AppData {
 
     // 恢复数据
     public void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
-        Serializable baseConfigResp = savedInstanceState.getSerializable("BaseConfigResp");
-        if (baseConfigResp instanceof BaseConfigResp) {
-            this.baseConfigResp = (BaseConfigResp) baseConfigResp;
-        }
         Serializable baseRtcConfig = savedInstanceState.getSerializable("BaseRtcConfig");
         if (baseRtcConfig instanceof BaseRtcConfig) {
             this.selectRtcConfig = (BaseRtcConfig) baseRtcConfig;
@@ -109,7 +91,7 @@ public class AppData {
      * 根据rtcType获取名称
      */
     public String getRtcNameByRtcType(String rtcType) {
-        BaseConfigResp config = baseConfigResp;
+        BaseConfigResp config = null;
         if (config == null || rtcType == null) {
             return null;
         }
@@ -137,5 +119,12 @@ public class AppData {
         }
         return null;
     }
-    
+
+    public SudConfig getSudConfig() {
+        return sudConfig;
+    }
+
+    public void setSudConfig(SudConfig sudConfig) {
+        this.sudConfig = sudConfig;
+    }
 }

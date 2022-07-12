@@ -16,6 +16,6 @@ public class UrlImpl implements IBaseUrl {
 
     @Override
     public String getGameBaseUrl() {
-        return BuildConfig.gameBaseUrl;
+        return "https://mgp-hello.sudden.ltd/";
     }
 }

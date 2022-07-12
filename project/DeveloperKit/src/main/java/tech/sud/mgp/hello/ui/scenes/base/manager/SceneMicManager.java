@@ -193,12 +193,17 @@ public class SceneMicManager extends BaseServiceManager {
                     removeUser2MicList(selfMicIndex, HSUserInfo.userId);
                 }
 
+                String streamId = null;
+                if (roomMicSwitchResp != null) {
+                    streamId = roomMicSwitchResp.streamId;
+                }
+
                 // 发送信令
-                String command = RoomCmdModelUtils.buildUpMicCommand(micIndex, roomMicSwitchResp.streamId, parentManager.getRoleType());
+                String command = RoomCmdModelUtils.buildUpMicCommand(micIndex, streamId, parentManager.getRoleType());
                 parentManager.sceneEngineManager.sendCommand(command, null);
 
                 // 麦位列表
-                addUser2MicList(micIndex, HSUserInfo.userId, roomMicSwitchResp.streamId, parentManager.getRoleType());
+                addUser2MicList(micIndex, HSUserInfo.userId, streamId, parentManager.getRoleType());
 
                 // 回调给页面
                 SceneRoomServiceCallback callback = parentManager.getCallback();

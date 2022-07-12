@@ -119,6 +119,30 @@
                     android:layout_height="56dp"
                     app:sb_name="@string/more_settings" />
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/c_dddddd"
+                    android:layout_marginHorizontal="20dp" />
+
+                <tech.sud.mgp.hello.ui.main.settings.fragment.SettingButton
+                    android:id="@+id/button_change_app_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    app:sb_name="@string/change_sud_appid" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/c_dddddd"
+                    android:layout_marginHorizontal="20dp" />
+
+                <tech.sud.mgp.hello.ui.main.settings.fragment.SettingButton
+                    android:id="@+id/button_change_env"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    app:sb_name="@string/change_env" />
+
             </LinearLayout>
 
             <!-- 第三块 -->

@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.blankj.utilcode.util.ToastUtils;
@@ -27,7 +26,6 @@ import tech.sud.mgp.hello.common.utils.ImageLoader;
 import tech.sud.mgp.hello.service.main.manager.HomeManager;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.main.resp.RoomListResp;
-import tech.sud.mgp.hello.ui.main.home.view.CoinDialog;
 import tech.sud.mgp.hello.ui.scenes.base.utils.EnterRoomUtils;
 
 public class RoomListFragment extends BaseFragment {
@@ -117,13 +115,10 @@ public class RoomListFragment extends BaseFragment {
             return false;
         });
         adapter.setOnItemClickListener((adapter, view, position) -> {
-            EnterRoomUtils.enterRoom(requireContext(), this.adapter.getItem(position).getRoomId());
+            EnterRoomUtils.enterRoom(requireContext(), this.adapter.getItem(position).getRoomId(), 0);
         });
         goSearch.setOnClickListener(v -> enterRoom());
         refreshLayout.setOnRefreshListener(refreshLayout -> loadList());
-        headerIv.setOnClickListener(v -> {
-            new CoinDialog().show(getChildFragmentManager(), null);
-        });
     }
 
     private void enterRoom() {
@@ -131,7 +126,7 @@ public class RoomListFragment extends BaseFragment {
             String roomIdString = searchEt.getText().toString().trim();
             if (!TextUtils.isEmpty(roomIdString)) {
                 long roomId = Long.parseLong(roomIdString);
-                EnterRoomUtils.enterRoom(requireContext(), roomId);
+                EnterRoomUtils.enterRoom(requireContext(), roomId, 0);
             }
             KeyboardUtils.hideSoftInput(searchEt);
             searchEt.setText("");

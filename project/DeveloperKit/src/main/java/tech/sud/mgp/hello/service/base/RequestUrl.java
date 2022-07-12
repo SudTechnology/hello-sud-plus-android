@@ -37,7 +37,7 @@ public interface RequestUrl {
     String GET_BASE_CONFIG = "base/config/v1";
 
     /** 游戏登录 */
-    String GAME_LOGIN = "base/login/v1";
+    String GAME_LOGIN = "login/v3";
 
     /** 游戏切换 */
     String SWITCH_GAME = "room/switch-game/v1";

@@ -47,10 +47,13 @@ public class APPConfig {
     public static final String GIT_HUB_URL = "https://github.com/SudTechnology/hello-sud-android";
     // endregion url地址
 
-    /** 竞猜场景，单人竞猜数量 */
-    public static int QUIZ_SINGLE_BET_COUNT = 200;
+    /** zegoAppId */
+    public static String ZEGO_APP_ID = "581733944";
 
-    /** 竞猜场景，赢取的金币数量 */
-    public static int QUIZ_WIN_COUNT = 1000;
+    /** Sud平台申请的appId */
+    public static String SudMGP_APP_ID = "1461564080052506636";
+    
+    /** Sud平台申请的appKey */
+    public static String SudMGP_APP_KEY = "03pNxK2lEXsKiiwrBQ9GbH541Fk2Sfnc";
 
 }

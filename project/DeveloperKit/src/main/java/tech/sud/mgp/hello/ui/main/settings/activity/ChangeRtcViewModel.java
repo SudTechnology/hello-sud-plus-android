@@ -12,7 +12,6 @@ import java.util.concurrent.Executors;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.app.HelloSudApplication;
 import tech.sud.mgp.hello.common.base.BaseViewModel;
-import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.common.utils.GlobalCache;
 import tech.sud.mgp.hello.service.main.config.BaseRtcConfig;
 import tech.sud.mgp.hello.service.main.resp.BaseConfigResp;
@@ -93,25 +92,6 @@ public class ChangeRtcViewModel extends BaseViewModel {
 
             rtcDatasLiveData.postValue(list);
         });
-    }
-
-    // 设置所使用的rtc配置
-    public void setRtcConfig(BaseRtcConfig config) {
-        if (config == null) return;
-        // 保存配置
-        AppData.getInstance().setSelectRtcConfig(config);
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                GlobalCache.getInstance().put(GlobalCache.RTC_CONFIG_KEY, config);
-            }
-        });
-    }
-
-    // 判断当前所使用的rtc是否是该配置
-    public boolean isSelectRtcConfig(BaseRtcConfig config) {
-        BaseRtcConfig selectRtcConfig = AppData.getInstance().getSelectRtcConfig();
-        return selectRtcConfig != null && selectRtcConfig.rtcType != null && selectRtcConfig.rtcType.equals(config.rtcType);
     }
 
 }

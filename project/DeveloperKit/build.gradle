@@ -6,7 +6,7 @@ android {
     compileSdkVersion project.compileSdkVersion
 
     defaultConfig {
-        applicationId "tech.sud.mgp.hello"
+        applicationId "tech.sud.mgp.hellotest"
         minSdkVersion project.minSdkVersion
         targetSdkVersion project.targetSdkVersion
         versionCode Integer.parseInt(project.versionCode)
@@ -88,7 +88,7 @@ dependencies {
     implementation project(':SudMGPWrapper')
 
     // 引入 SudMGPRTC
-    implementation project(':SudMGPRTC')
+    implementation project(':SudMGPRTC:SudMGPRtcZego')
 
     // 屏幕适配：https://github.com/JessYanCoding/AndroidAutoSize
     implementation 'com.github.JessYanCoding:AndroidAutoSize:v1.2.1'
@@ -142,7 +142,7 @@ dependencies {
     implementation 'com.scwang.smart:refresh-header-classics:2.0.3'
 
     // debugImplementation because LeakCanary should only run in debug builds.
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.9.1'
+//    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.9.1'
 
     // 工具类库: https://github.com/Blankj/AndroidUtilCode
     implementation 'com.blankj:utilcodex:1.31.0'

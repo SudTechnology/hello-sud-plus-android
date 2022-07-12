@@ -14,8 +14,6 @@ import android.view.Gravity;
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
-import com.netease.nimlib.sdk.NIMClient;
-import com.netease.nimlib.sdk.SDKOptions;
 import com.tencent.bugly.crashreport.CrashReport;
 
 import java.io.BufferedReader;
@@ -46,7 +44,6 @@ public class HelloSudApplication extends Application {
             configLog();
             configToast();
             registerActivityLifecycleCallbacks(MyActivityManager.getInstance());
-            initMinClient();
             configAutoSize();
             initCrashHandler();
             LogUtils.file("onCreate");
@@ -84,14 +81,6 @@ public class HelloSudApplication extends Application {
         Point appScreenSize = DensityUtils.getAppScreenSize();
         AutoSizeConfig.getInstance().setScreenWidth(appScreenSize.x);
         AutoSizeConfig.getInstance().setScreenHeight(appScreenSize.y);
-    }
-
-    // 网易云信RTC初始化
-    private void initMinClient() {
-        SDKOptions options = new SDKOptions();
-        options.reducedIM = true;
-        options.disableAwake = true;
-        NIMClient.config(getApplicationContext(), null, options);
     }
 
     // Bugly config

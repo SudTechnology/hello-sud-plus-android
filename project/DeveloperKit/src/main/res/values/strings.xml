@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">HelloSud</string>
+    <string name="app_name">DeveloperKit</string>
 
     <string name="login_welcome">欢迎体验 \nHelloSud</string>
     <string name="login_your_name">你的昵称</string>
@@ -500,5 +500,17 @@
     <string name="main_top_title">SudMGP</string>
     <string name="main_top_url">www.sud.tech</string>
     <string name="enter">进入</string>
+    <string name="room_name">来一起玩游戏吧</string>
+    <string name="change_sud_appid">切换AppId</string>
+    <string name="change_env">切换环境</string>
+
+    <string name="appid_sz">深圳</string>
+    <string name="appid_sz001">深圳001</string>
+    <string name="appid_sg">新加坡</string>
+    <string name="appid_jp001">日本001</string>
+    <string name="appid_me001">中东001</string>
+    <string name="appid_sa001">南美001</string>
+    <string name="appid_mumbai">印度孟买</string>>
+    <string name="appid_europe">欧洲</string>
 
 </resources>

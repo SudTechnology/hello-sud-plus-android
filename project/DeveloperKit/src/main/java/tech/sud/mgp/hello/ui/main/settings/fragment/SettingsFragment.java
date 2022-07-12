@@ -5,8 +5,6 @@ import android.graphics.Color;
 import android.view.View;
 import android.widget.TextView;
 
-import com.blankj.utilcode.util.ToastUtils;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,8 +12,8 @@ import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.app.APPConfig;
 import tech.sud.mgp.hello.common.base.BaseFragment;
 import tech.sud.mgp.hello.common.utils.IntentUtils;
+import tech.sud.mgp.hello.ui.main.settings.activity.ChangeAppIdActivity;
 import tech.sud.mgp.hello.ui.main.settings.activity.LanguageActivity;
-import tech.sud.mgp.hello.ui.main.settings.activity.MoreSettingsActivity;
 import tech.sud.mgp.hello.ui.main.settings.activity.VersionInfoActivity;
 import tech.sud.mgp.hello.ui.main.utils.RouterUtils;
 import tech.sud.mgp.hello.ui.scenes.common.gift.utils.FileUtils;
@@ -36,9 +34,9 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
     private SettingButton btnOpenSource;
     private SettingButton btnUserAgreement;
     private SettingButton btnPrivacyPolicy;
+    private SettingButton btnChangeAppId;
+    private SettingButton btnChangeEnv;
 
-    private int clickCount = 0;
-    private long clickTimestamp = 0;
     private boolean isShowMoreSettings = false;
 
     public SettingsFragment() {
@@ -68,6 +66,8 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         tvTotalSize = findViewById(R.id.tv_total_size);
         viewLineMoreSettings = findViewById(R.id.view_line_more_settings);
         containerTopOccupySize = findViewById(R.id.container_top_occupy_size);
+        btnChangeAppId = findViewById(R.id.button_change_app_id);
+        btnChangeEnv = findViewById(R.id.button_change_env);
         initMoreSettings();
     }
 
@@ -114,16 +114,15 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         btnUserAgreement.setOnClickListener(this);
         btnPrivacyPolicy.setOnClickListener(this);
         containerTopOccupySize.setOnClickListener(this);
+        btnChangeAppId.setOnClickListener(this);
+        btnChangeEnv.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         if (v == btnVersionInfo) { // 版本信息
             startActivity(new Intent(requireContext(), VersionInfoActivity.class));
-        } else if (v == btnMoreSettings) { // 更多设置
-            startActivity(new Intent(requireContext(), MoreSettingsActivity.class));
         } else if (v == btnChangeLanguage) { // 切换语言
-//            ToastUtils.showShort(R.string.be_making);
             startActivity(new Intent(requireContext(), LanguageActivity.class));
         } else if (v == btnGitHub) { // github
             IntentUtils.openUrl(getContext(), APPConfig.GIT_HUB_URL);
@@ -133,24 +132,10 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
             RouterUtils.openUrl(getContext(), getString(R.string.user_agreement_title), APPConfig.USER_PROTOCAL_URL);
         } else if (v == btnPrivacyPolicy) { // 隐私政策
             RouterUtils.openUrl(getContext(), getString(R.string.user_privacy_title), APPConfig.USER_PRIVACY_URL);
-        } else if (v == containerTopOccupySize) { // 点击了顶部的占用大小
-            onClickTopOccupySize();
+        } else if (v == btnChangeAppId) { // 切换appId
+            startActivity(new Intent(requireContext(), ChangeAppIdActivity.class));
+        } else if (v == btnChangeEnv) { // 切换环境
         }
-    }
-
-    // 点击了顶部的"占用大小"区域
-    private void onClickTopOccupySize() {
-        long timestamp = System.currentTimeMillis();
-        if (Math.abs(timestamp - clickTimestamp) < 1000) {
-            clickCount++;
-            if (clickCount >= 3) {
-                isShowMoreSettings = true;
-                initMoreSettings();
-            }
-        } else {
-            clickCount = 1;
-        }
-        clickTimestamp = timestamp;
     }
 
 }

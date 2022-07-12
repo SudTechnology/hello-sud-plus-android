@@ -14,19 +14,12 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.blankj.utilcode.util.KeyboardUtils;
-import com.blankj.utilcode.util.ThreadUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseActivity;
-import tech.sud.mgp.hello.common.http.param.BaseResponse;
-import tech.sud.mgp.hello.common.http.param.RetCode;
-import tech.sud.mgp.hello.common.http.rx.RxCallback;
-import tech.sud.mgp.hello.common.model.AppData;
-import tech.sud.mgp.hello.service.main.repository.HomeRepository;
-import tech.sud.mgp.hello.service.main.resp.BaseConfigResp;
 import tech.sud.mgp.hello.ui.common.utils.channel.NotifyChannelHelper;
 import tech.sud.mgp.hello.ui.main.home.HomeFragment;
 import tech.sud.mgp.hello.ui.main.performance.PerformanceManager;
@@ -68,39 +61,6 @@ public class MainActivity extends BaseActivity implements MainTabView.TabClickLi
     protected void initData() {
         super.initData();
         new NotifyChannelHelper().initChannel(this);
-        getBaseConfig();
-    }
-
-    private void getBaseConfig() {
-        HomeRepository.getBaseConfig(this, new RxCallback<BaseConfigResp>() {
-            @Override
-            public void onNext(BaseResponse<BaseConfigResp> t) {
-                super.onNext(t);
-                if (t.getRetCode() == RetCode.SUCCESS) {
-                    AppData.getInstance().setBaseConfigResp(t.getData());
-                } else {
-                    delayGetBaseConfig();
-                }
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                super.onError(e);
-                delayGetBaseConfig();
-            }
-        });
-    }
-
-    private void delayGetBaseConfig() {
-        ThreadUtils.runOnUiThreadDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (isDestroyed()) {
-                    return;
-                }
-                getBaseConfig();
-            }
-        }, 3000);
     }
 
     @Override

@@ -1,11 +1,9 @@
 package tech.sud.mgp.hello.ui.main.home;
 
-import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -25,10 +23,9 @@ import tech.sud.mgp.hello.common.utils.ViewUtils;
 import tech.sud.mgp.hello.common.widget.view.SimpleTextWatcher;
 import tech.sud.mgp.hello.service.main.repository.MainRepository;
 import tech.sud.mgp.hello.service.main.resp.GameModel;
-import tech.sud.mgp.hello.service.room.resp.EnterRoomResp;
-import tech.sud.mgp.hello.ui.scenes.base.model.RoleType;
-import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
-import tech.sud.mgp.hello.ui.scenes.custom.CustomActivity;
+import tech.sud.mgp.hello.ui.main.home.view.HomeHeaderView;
+import tech.sud.mgp.hello.ui.scenes.base.utils.EnterRoomUtils;
+import tech.sud.mgp.hello.ui.scenes.custom.CustomConfigActivity;
 
 public class HomeFragment extends BaseFragment {
 
@@ -59,8 +56,14 @@ public class HomeFragment extends BaseFragment {
     }
 
     private View getHeaderView() {
-        LinearLayout container = new LinearLayout(requireContext());
-        return container;
+        HomeHeaderView view = new HomeHeaderView(requireContext());
+        view.setCustomConfigOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(requireContext(), CustomConfigActivity.class));
+            }
+        });
+        return view;
     }
 
     @Override
@@ -127,23 +130,7 @@ public class HomeFragment extends BaseFragment {
     /** 点击了游戏 */
     private void clickGame(int position) {
         GameModel gameModel = adapter.getItem(position);
-        // TODO: 2022/7/8 dd
-
-        RoomInfoModel model = new RoomInfoModel();
-        model.roomId = roomId;
-        model.roomNumber = roomId + "";
-        model.roomName = "roomName";
-        model.gameId = gameModel.gameId;
-        model.roleType = RoleType.OWNER;
-//        model.rtcToken = enterRoomResp.rtcToken;
-//        model.rtiToken = enterRoomResp.rtiToken;
-//        model.imToken = enterRoomResp.imToken;
-//        model.gameLevel = enterRoomResp.gameLevel;
-//        model.roomPkModel = enterRoomResp.pkResultVO;
-//        model.streamId = enterRoomResp.streamId;
-        Intent intent = getSceneIntent(requireContext(), 0);
-        intent.putExtra("RoomInfoModel", model);
-        requireContext().startActivity(intent);
+        EnterRoomUtils.enterRoom(requireContext(), roomId, gameModel.gameId);
     }
 
     private static class MyAdapter extends BaseQuickAdapter<GameModel, BaseViewHolder> {
@@ -155,41 +142,6 @@ public class HomeFragment extends BaseFragment {
         protected void convert(@NonNull BaseViewHolder holder, GameModel gameModel) {
             holder.setImageResource(R.id.iv_icon, gameModel.homeGamePicRes);
             holder.setText(R.id.tv_name, gameModel.gameName);
-        }
-    }
-
-    private static void startSceneRoomActivity(Context context, EnterRoomResp enterRoomResp) {
-
-    }
-
-    @NonNull
-    private static Intent getSceneIntent(Context context, int sceneType) {
-        // TODO: 2022/4/2 完善对应场景之后再放开
-        switch (sceneType) {
-//            case SceneType.ASR:
-//                return new Intent(context, ASRActivity.class);
-//            case SceneType.TICKET:
-//                return new Intent(context, TicketActivity.class);
-//            case SceneType.ORDER_ENTERTAINMENT:
-//                return new Intent(context, OrderEntertainmentActivity.class);
-//            case SceneType.CUSTOM_SCENE:
-//                return new Intent(context, CustomActivity.class);
-//            case SceneType.CROSS_ROOM:
-//                return new Intent(context, CrossRoomActivity.class);
-//            case SceneType.QUIZ:
-//                return new Intent(context, QuizActivity.class);
-//            case SceneType.DANMAKU:
-//                return new Intent(context, DanmakuActivity.class);
-//            case SceneType.DISCO:
-//                return new Intent(context, DiscoActivity.class);
-//            case SceneType.TALENT:
-//                return new Intent(context, TalentRoomActivity.class);
-//            case SceneType.ONE_ONE:
-//                return new Intent(context, OneOneActivity.class);
-//            case SceneType.SHOW:
-//                return new Intent(context, ShowActivity.class);
-            default:
-                return new Intent(context, CustomActivity.class);
         }
     }
 

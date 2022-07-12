@@ -6,6 +6,7 @@ import tech.sud.mgp.hello.common.http.param.BaseUrlManager;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.http.rx.RxUtils;
 import tech.sud.mgp.hello.service.game.method.GameRequestMethodFactory;
+import tech.sud.mgp.hello.service.game.req.GameLoginReq;
 import tech.sud.mgp.hello.service.game.req.SwitchGameReq;
 import tech.sud.mgp.hello.service.game.resp.GameLoginResp;
 
@@ -17,9 +18,12 @@ public class GameRepository {
      * @param owner    生命周期对象
      * @param callback 回调
      */
-    public static void login(LifecycleOwner owner, RxCallback<GameLoginResp> callback) {
+    public static void login(LifecycleOwner owner, String userId, String appId, RxCallback<GameLoginResp> callback) {
+        GameLoginReq req = new GameLoginReq();
+        req.user_id = userId;
+        req.app_id = appId;
         GameRequestMethodFactory.getMethod()
-                .gameLogin(BaseUrlManager.getGameBaseUrl())
+                .gameLogin(BaseUrlManager.getGameBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }

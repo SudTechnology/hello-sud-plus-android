@@ -32,14 +32,12 @@ import tech.sud.mgp.hello.app.APPConfig;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
-import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.utils.HSTextUtils;
 import tech.sud.mgp.hello.common.utils.SystemUtils;
 import tech.sud.mgp.hello.service.game.repository.GameRepository;
 import tech.sud.mgp.hello.service.game.resp.GameLoginResp;
-import tech.sud.mgp.hello.service.main.config.SudConfig;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.GameTextModel;
 import tech.sud.mgp.rtc.audio.core.AudioPCMData;
@@ -129,7 +127,7 @@ public class AppGameViewModel implements SudFSMMGListener {
             return;
         }
         // 请求登录code
-        GameRepository.login(activity, new RxCallback<GameLoginResp>() {
+        GameRepository.login(activity, HSUserInfo.userId + "", APPConfig.SudMGP_APP_ID, new RxCallback<GameLoginResp>() {
             @Override
             public void onNext(BaseResponse<GameLoginResp> t) {
                 super.onNext(t);
@@ -159,13 +157,14 @@ public class AppGameViewModel implements SudFSMMGListener {
      * @param code     令牌
      */
     private void initSdk(FragmentActivity activity, long gameId, String code) {
-        SudConfig sudConfig = AppData.getInstance().getSudConfig();
-        if (sudConfig == null || sudConfig.appId == null || sudConfig.appKey == null) {
+        String appId = APPConfig.SudMGP_APP_ID;
+        String appKey = APPConfig.SudMGP_APP_KEY;
+        if (TextUtils.isEmpty(appId) || TextUtils.isEmpty(appKey)) {
             ToastUtils.showLong("SudConfig is empty");
             return;
         }
         // 初始化sdk
-        SudMGP.initSDK(activity, sudConfig.appId, sudConfig.appKey, APPConfig.GAME_IS_TEST_ENV, new ISudListenerInitSDK() {
+        SudMGP.initSDK(activity, appId, appKey, APPConfig.GAME_IS_TEST_ENV, new ISudListenerInitSDK() {
             @Override
             public void onSuccess() {
                 loadGame(activity, code, gameId);
@@ -279,7 +278,7 @@ public class AppGameViewModel implements SudFSMMGListener {
      */
     public void processOnExpireCode(SudFSTAPPDecorator sudFSTAPPDecorator, ISudFSMStateHandle handle) {
         // code过期，刷新code
-        GameRepository.login(null, new RxCallback<GameLoginResp>() {
+        GameRepository.login(null, HSUserInfo.userId + "", APPConfig.SudMGP_APP_ID, new RxCallback<GameLoginResp>() {
             @Override
             public void onNext(BaseResponse<GameLoginResp> t) {
                 super.onNext(t);
@@ -377,9 +376,9 @@ public class AppGameViewModel implements SudFSMMGListener {
             model.isCaptain = false;
         }
 
-        boolean isPlayingGame = sudFSMMGDecorator.playerIsPlaying(model.userId); // 是否正在游戏中
-        boolean isReady = sudFSMMGDecorator.playerIsReady(model.userId); // 是否已准备
-        boolean isIn = sudFSMMGDecorator.playerIsIn(model.userId); // 是否已加入了游戏
+        boolean isPlayingGame = sudFSMMGDecorator.playerIsPlaying(model.userId + ""); // 是否正在游戏中
+        boolean isReady = sudFSMMGDecorator.playerIsReady(model.userId + ""); // 是否已准备
+        boolean isIn = sudFSMMGDecorator.playerIsIn(model.userId + ""); // 是否已加入了游戏
 
         // 处理麦位是否显示游戏中图标
         if (hasUser && isPlayingGame) {
@@ -443,7 +442,7 @@ public class AppGameViewModel implements SudFSMMGListener {
 
     // 返回该玩家是否已加入了游戏
     public boolean playerIsIn(long userId) {
-        return sudFSMMGDecorator.playerIsIn(userId);
+        return sudFSMMGDecorator.playerIsIn(userId + "");
     }
 
     /**
@@ -454,7 +453,7 @@ public class AppGameViewModel implements SudFSMMGListener {
             // 用户正在游戏中，先退出本局游戏，再退出游戏
             sudFSTAPPDecorator.notifyAPPCommonSelfPlaying(false, "");
             sudFSTAPPDecorator.notifyAPPCommonSelfIn(false, -1, true, 1);
-        } else if (sudFSMMGDecorator.playerIsReady(HSUserInfo.userId)) {
+        } else if (sudFSMMGDecorator.playerIsReady(HSUserInfo.userId + "")) {
             // 用户已加入并且已经准备，先取消准备，再退出游戏
             sudFSTAPPDecorator.notifyAPPCommonSelfReady(false);
             sudFSTAPPDecorator.notifyAPPCommonSelfIn(false, -1, true, 1);
@@ -515,7 +514,7 @@ public class AppGameViewModel implements SudFSMMGListener {
 
     // 该用户是否在游戏中
     public boolean playerIsPlaying(long userId) {
-        return sudFSMMGDecorator.playerIsPlaying(userId);
+        return sudFSMMGDecorator.playerIsPlaying(userId + "");
     }
 
     /**

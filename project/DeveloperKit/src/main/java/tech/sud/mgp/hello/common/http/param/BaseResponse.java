@@ -1,7 +1,10 @@
 package tech.sud.mgp.hello.common.http.param;
 
+import com.google.gson.annotations.SerializedName;
+
 public class BaseResponse<T> {
 
+    @SerializedName(value = "ret_code")
     private int retCode;
     private String retMsg;
     private T data;

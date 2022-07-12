@@ -27,7 +27,7 @@ import tech.sud.mgp.rtc.audio.core.AudioStream;
 import tech.sud.mgp.rtc.audio.core.ISudAudioEngine;
 import tech.sud.mgp.rtc.audio.core.ISudAudioEventListener;
 import tech.sud.mgp.rtc.audio.factory.AudioEngineFactory;
-import tech.sud.mgp.rtc.audio.impl.IMRoomManager;
+import tech.sud.mgp.rtc.audio.impl.zego.IMRoomManager;
 import tech.sud.mgp.rtc.audio.model.AudioJoinRoomModel;
 
 /**

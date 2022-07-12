@@ -12,6 +12,7 @@ import tech.sud.mgp.hello.service.room.req.EnterRoomReq;
 import tech.sud.mgp.hello.service.room.req.ExitRoomReq;
 import tech.sud.mgp.hello.service.room.req.GiftListReq;
 import tech.sud.mgp.hello.service.room.req.QuizGamePlayerReq;
+import tech.sud.mgp.hello.service.room.req.RobotListReq;
 import tech.sud.mgp.hello.service.room.req.RoomMicListReq;
 import tech.sud.mgp.hello.service.room.req.RoomMicSwitchReq;
 import tech.sud.mgp.hello.service.room.req.RoomOrderCreateReq;
@@ -28,6 +29,7 @@ import tech.sud.mgp.hello.service.room.resp.DanmakuListResp;
 import tech.sud.mgp.hello.service.room.resp.EnterRoomResp;
 import tech.sud.mgp.hello.service.room.resp.GiftListResp;
 import tech.sud.mgp.hello.service.room.resp.QuizGamePlayerResp;
+import tech.sud.mgp.hello.service.room.resp.RobotListResp;
 import tech.sud.mgp.hello.service.room.resp.RoomMicListResp;
 import tech.sud.mgp.hello.service.room.resp.RoomMicSwitchResp;
 import tech.sud.mgp.hello.service.room.resp.RoomOrderCreateResp;
@@ -137,9 +139,15 @@ public interface AudioRequestMethod {
     Observable<BaseResponse<Object>> sendGift(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body SendGiftReq req);
 
     /**
-     * 送礼
+     * 礼物列表
      */
     @POST(RequestUrl.GIFT_LIST)
     Observable<BaseResponse<GiftListResp>> giftList(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body GiftListReq req);
+
+    /**
+     * 机器人列表
+     */
+    @POST(RequestUrl.ROBOT_LIST)
+    Observable<BaseResponse<RobotListResp>> robotList(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body RobotListReq req);
 
 }

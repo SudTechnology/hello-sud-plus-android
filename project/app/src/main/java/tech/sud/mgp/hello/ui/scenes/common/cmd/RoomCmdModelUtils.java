@@ -76,6 +76,15 @@ public class RoomCmdModelUtils {
         return command.toJson();
     }
 
+    /** 构建上麦信令 */
+    public static String buildUpMicCommand(UserInfo userInfo, int micIndex, String streamId, int roleType) {
+        RoomCmdUpMicModel command = new RoomCmdUpMicModel(userInfo);
+        command.micIndex = micIndex;
+        command.streamID = streamId;
+        command.roleType = roleType;
+        return command.toJson();
+    }
+
     /** 构建下麦信令 */
     public static String buildDownMicCommand(int micIndex) {
         RoomCmdDownMicModel command = new RoomCmdDownMicModel(getSendUser());

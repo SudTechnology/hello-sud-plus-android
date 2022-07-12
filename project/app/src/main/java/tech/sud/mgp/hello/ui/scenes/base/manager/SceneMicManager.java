@@ -5,6 +5,7 @@ import com.blankj.utilcode.util.ToastUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
@@ -20,6 +21,7 @@ import tech.sud.mgp.hello.ui.scenes.base.activity.RoomConfig;
 import tech.sud.mgp.hello.ui.scenes.base.constant.OperateMicType;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModelConverter;
+import tech.sud.mgp.hello.ui.scenes.base.model.RoleType;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomServiceCallback;
@@ -208,6 +210,67 @@ public class SceneMicManager extends BaseServiceManager {
             }
         });
 
+    }
+
+    /**
+     * 让机器人上麦
+     *
+     * @param aiPlayers
+     * @param micIndex
+     */
+    public void robotUpMicLocation(SudMGPAPPState.AIPlayers aiPlayers, int micIndex) {
+        long userId;
+        try {
+            userId = Long.parseLong(aiPlayers.userId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+        // 已经在那个麦位上面了，不再继续执行
+        if (findMicIndex(userId) == micIndex) {
+            return;
+        }
+
+        // 发送http告知后端
+        RoomRepository.roomMicLocationSwitch(parentManager, parentManager.getRoomId(), micIndex, true, userId, new RxCallback<RoomMicSwitchResp>() {
+            @Override
+            public void onSuccess(RoomMicSwitchResp roomMicSwitchResp) {
+                super.onSuccess(roomMicSwitchResp);
+                int selfMicIndex = findMicIndex(userId);
+                if (selfMicIndex == micIndex) {
+                    return;
+                }
+
+                // 把旧的麦位给下掉
+                if (selfMicIndex >= 0) {
+                    removeUser2MicList(selfMicIndex, userId);
+                }
+
+                String streamId = null;
+                if (roomMicSwitchResp != null) {
+                    streamId = roomMicSwitchResp.streamId;
+                }
+
+                // 发送信令
+                UserInfo userInfo = new UserInfo();
+                userInfo.userID = aiPlayers.userId;
+                userInfo.name = aiPlayers.name;
+                userInfo.icon = aiPlayers.avatar;
+                userInfo.sex = "male".equals(aiPlayers.gender) ? 1 : 2;
+                userInfo.roomID = parentManager.getRoomId() + "";
+                String command = RoomCmdModelUtils.buildUpMicCommand(userInfo, micIndex, streamId, parentManager.getRoleType());
+                parentManager.sceneEngineManager.sendCommand(command, null);
+
+                // 麦位列表
+                addUser2MicList(micIndex, userId, streamId, RoleType.NORMAL);
+
+                // 回调给页面
+                SceneRoomServiceCallback callback = parentManager.getCallback();
+                if (callback != null) {
+                    callback.onMicLocationSwitchCompleted(micIndex, true, OperateMicType.USER);
+                }
+            }
+        });
     }
 
     /**

@@ -14,6 +14,7 @@ import tech.sud.mgp.hello.service.room.req.EnterRoomReq;
 import tech.sud.mgp.hello.service.room.req.ExitRoomReq;
 import tech.sud.mgp.hello.service.room.req.GiftListReq;
 import tech.sud.mgp.hello.service.room.req.QuizGamePlayerReq;
+import tech.sud.mgp.hello.service.room.req.RobotListReq;
 import tech.sud.mgp.hello.service.room.req.RoomMicListReq;
 import tech.sud.mgp.hello.service.room.req.RoomMicSwitchReq;
 import tech.sud.mgp.hello.service.room.req.RoomOrderCreateReq;
@@ -30,6 +31,7 @@ import tech.sud.mgp.hello.service.room.resp.DanmakuListResp;
 import tech.sud.mgp.hello.service.room.resp.EnterRoomResp;
 import tech.sud.mgp.hello.service.room.resp.GiftListResp;
 import tech.sud.mgp.hello.service.room.resp.QuizGamePlayerResp;
+import tech.sud.mgp.hello.service.room.resp.RobotListResp;
 import tech.sud.mgp.hello.service.room.resp.RoomMicListResp;
 import tech.sud.mgp.hello.service.room.resp.RoomMicSwitchResp;
 import tech.sud.mgp.hello.service.room.resp.RoomOrderCreateResp;
@@ -92,6 +94,18 @@ public class RoomRepository {
      * @param operate  true上麦 false下麦
      */
     public static void roomMicLocationSwitch(LifecycleOwner owner, long roomId, int micIndex, boolean operate, RxCallback<RoomMicSwitchResp> callback) {
+        roomMicLocationSwitch(owner, roomId, micIndex, operate, null, callback);
+    }
+
+    /**
+     * 房间上下麦接口
+     *
+     * @param roomId   房间id
+     * @param micIndex 麦位索引
+     * @param operate  true上麦 false下麦
+     * @param userId   上麦的用户id
+     */
+    public static void roomMicLocationSwitch(LifecycleOwner owner, long roomId, int micIndex, boolean operate, Long userId, RxCallback<RoomMicSwitchResp> callback) {
         RoomMicSwitchReq req = new RoomMicSwitchReq();
         req.roomId = roomId;
         req.micIndex = micIndex;
@@ -100,6 +114,7 @@ public class RoomRepository {
         } else {
             req.handleType = 1;
         }
+        req.userId = userId;
         AudioRequestMethodFactory.getMethod()
                 .roomMicSwitch(BaseUrlManager.getInteractBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
@@ -315,6 +330,20 @@ public class RoomRepository {
         req.gameId = gameId;
         AudioRequestMethodFactory.getMethod()
                 .giftList(BaseUrlManager.getInteractBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /**
+     * 机器人列表
+     *
+     * @param count 获取数量
+     */
+    public static void robotList(LifecycleOwner owner, int count, RxCallback<RobotListResp> callback) {
+        RobotListReq req = new RobotListReq();
+        req.count = count;
+        AudioRequestMethodFactory.getMethod()
+                .robotList(BaseUrlManager.getInteractBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }

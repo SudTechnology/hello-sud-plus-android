@@ -16,6 +16,7 @@ import com.jeremyliao.liveeventbus.LiveEventBus;
 
 import java.util.List;
 
+import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
 import tech.sud.mgp.hello.common.event.ChangeRTCEvent;
 import tech.sud.mgp.hello.common.event.EnterRoomEvent;
 import tech.sud.mgp.hello.common.event.LiveEventBusKey;
@@ -154,6 +155,16 @@ public class SceneRoomService extends Service {
          */
         public void micLocationSwitch(int micIndex, boolean operate, OperateMicType type) {
             serviceManager.sceneMicManager.micLocationSwitch(micIndex, operate, type);
+        }
+
+        /**
+         * 让机器人上麦
+         *
+         * @param aiPlayers 机器人数据
+         * @param micIndex  位置
+         */
+        public void robotUpMicLocation(SudMGPAPPState.AIPlayers aiPlayers, int micIndex) {
+            serviceManager.sceneMicManager.robotUpMicLocation(aiPlayers, micIndex);
         }
 
         /** 自动上麦 */

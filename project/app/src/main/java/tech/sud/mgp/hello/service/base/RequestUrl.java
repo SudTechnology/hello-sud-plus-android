@@ -108,5 +108,8 @@ public interface RequestUrl {
 
     /** 礼物列表 */
     String GIFT_LIST = "gift/list/v1";
+
+    /** 机器人列表 */
+    String ROBOT_LIST = "robot/list/v1";
     // endregion 礼物
 }

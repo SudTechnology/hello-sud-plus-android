@@ -76,12 +76,13 @@ public class DiscoActionHelper {
      * 12.加入主播位
      *
      * @param position field1:0-0号主播位；1-1号主播位；2-2号主播位；3-3号主播位；4-4号主播位；5-5号主播位；6-6号主播位；7-7号主播位；-1-随机，默认随机
+     * @param userId   加入主播位的userId，不填，默认是自己
      */
-    public String joinAnchor(String position) {
+    public String joinAnchor(String position, String userId) {
         Integer cooldown = null;
         Boolean isTop = null;
         String field1 = position;
-        String field2 = null;
+        String field2 = userId;
         return buidlJson(ACTION_JOIN_ANCHOR, cooldown, isTop, field1, field2);
     }
 

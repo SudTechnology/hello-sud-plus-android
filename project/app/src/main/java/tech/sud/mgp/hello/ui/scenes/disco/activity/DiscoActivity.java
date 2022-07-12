@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer;
 
 import java.util.List;
 
+import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
@@ -19,9 +20,12 @@ import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.main.resp.GameListResp;
 import tech.sud.mgp.hello.service.main.resp.GameModel;
+import tech.sud.mgp.hello.service.room.repository.RoomRepository;
+import tech.sud.mgp.hello.service.room.resp.RobotListResp;
 import tech.sud.mgp.hello.ui.main.constant.GameIdCons;
 import tech.sud.mgp.hello.ui.scenes.audio.activity.AbsAudioRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.base.constant.OperateMicType;
+import tech.sud.mgp.hello.ui.scenes.base.manager.SceneDiscoManager;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoleType;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.ContributionModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.DanceModel;
@@ -169,6 +173,7 @@ public class DiscoActivity extends AbsAudioRoomActivity<DiscoGameViewModel> {
                     @Override
                     public void run() {
                         gameViewModel.joinDancingFloor(null);
+                        checkSetAiPlayers();
                     }
                 }, 1000);
             }
@@ -178,6 +183,33 @@ public class DiscoActivity extends AbsAudioRoomActivity<DiscoGameViewModel> {
             @Override
             public void onClick(View v) {
                 showRanking();
+            }
+        });
+    }
+
+    // 添加机器人
+    private void checkSetAiPlayers() {
+        if (roomInfoModel.roleType != RoleType.OWNER) {
+            return;
+        }
+        RoomRepository.robotList(this, 30, new RxCallback<RobotListResp>() {
+            @Override
+            public void onSuccess(RobotListResp robotListResp) {
+                super.onSuccess(robotListResp);
+                if (robotListResp == null || robotListResp.robotList == null || robotListResp.robotList.size() == 0) {
+                    return;
+                }
+                // 设置机器人
+                gameViewModel.sudFSTAPPDecorator.notifyAPPCommonGameAddAIPlayers(robotListResp.robotList, 1);
+
+                // 前面六个机器人上舞台
+                for (int i = 0; i < robotListResp.robotList.size(); i++) {
+                    if (i < SceneDiscoManager.ROBOT_UP_MIC_COUNT) {
+                        gameViewModel.joinAnchor(null, robotListResp.robotList.get(i).userId);
+                    } else {
+                        break;
+                    }
+                }
             }
         });
     }
@@ -269,7 +301,7 @@ public class DiscoActivity extends AbsAudioRoomActivity<DiscoGameViewModel> {
     public void onMicLocationSwitchCompleted(int micIndex, boolean operate, OperateMicType type) {
         super.onMicLocationSwitchCompleted(micIndex, operate, type);
         if (operate) {
-            gameViewModel.joinAnchor(null);
+            gameViewModel.joinAnchor(null, null);
         }
     }
 
@@ -317,6 +349,38 @@ public class DiscoActivity extends AbsAudioRoomActivity<DiscoGameViewModel> {
     public void onDJCountdown(int countdown) {
         super.onDJCountdown(countdown);
         discoExplainView.setCountdown(countdown);
+    }
+
+    @Override
+    public void onEnterRoomSuccess() {
+        super.onEnterRoomSuccess();
+        robotUpMicLocation();
+    }
+
+    // 机器人上麦位
+    private void robotUpMicLocation() {
+        if (roomInfoModel.roleType != RoleType.OWNER) {
+            return;
+        }
+        RoomRepository.robotList(this, 30, new RxCallback<RobotListResp>() {
+            @Override
+            public void onSuccess(RobotListResp robotListResp) {
+                super.onSuccess(robotListResp);
+                if (robotListResp == null || robotListResp.robotList == null || robotListResp.robotList.size() == 0) {
+                    return;
+                }
+                if (binder != null) {
+                    for (int i = 0; i < robotListResp.robotList.size(); i++) {
+                        if (i < SceneDiscoManager.ROBOT_UP_MIC_COUNT) {
+                            SudMGPAPPState.AIPlayers aiPlayers = robotListResp.robotList.get(i);
+                            binder.robotUpMicLocation(aiPlayers, i);
+                        } else {
+                            break;
+                        }
+                    }
+                }
+            }
+        });
     }
 
 }

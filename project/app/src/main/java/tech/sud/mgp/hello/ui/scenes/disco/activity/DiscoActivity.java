@@ -202,14 +202,19 @@ public class DiscoActivity extends AbsAudioRoomActivity<DiscoGameViewModel> {
                 // 设置机器人
                 gameViewModel.sudFSTAPPDecorator.notifyAPPCommonGameAddAIPlayers(robotListResp.robotList, 1);
 
-                // 前面六个机器人上舞台
-                for (int i = 0; i < robotListResp.robotList.size(); i++) {
-                    if (i < SceneDiscoManager.ROBOT_UP_MIC_COUNT) {
-                        gameViewModel.joinAnchor(null, robotListResp.robotList.get(i).userId);
-                    } else {
-                        break;
+                tvDanceWait.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        // 前面六个机器人上舞台
+                        for (int i = 0; i < robotListResp.robotList.size(); i++) {
+                            if (i < SceneDiscoManager.ROBOT_UP_MIC_COUNT) {
+                                gameViewModel.joinAnchor(null, robotListResp.robotList.get(i).userId);
+                            } else {
+                                break;
+                            }
+                        }
                     }
-                }
+                }, 500);
             }
         });
     }

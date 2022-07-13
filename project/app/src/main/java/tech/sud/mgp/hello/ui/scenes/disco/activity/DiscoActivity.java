@@ -214,7 +214,7 @@ public class DiscoActivity extends AbsAudioRoomActivity<DiscoGameViewModel> {
                             }
                         }
                     }
-                }, 500);
+                }, 1000);
             }
         });
     }

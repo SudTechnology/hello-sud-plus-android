@@ -73,7 +73,13 @@ public class SceneRoomNotificationHelper {
         Bundle bundle = new Bundle();
         bundle.putBoolean(RequestKey.KEY_IS_PENDING_INTENT, true);
         intent.putExtras(bundle);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+            pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+        } else {
+            pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+        }
+//        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         String ticker = context.getString(R.string.app_name);
         String desc = roomName;
         return new NotificationCompat.Builder(context, NotifyChannelHelper.SCENEROOM_NOTIFICATION_CHANNEL_ID)

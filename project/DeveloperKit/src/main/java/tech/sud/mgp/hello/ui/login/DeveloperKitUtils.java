@@ -1,6 +1,6 @@
 package tech.sud.mgp.hello.ui.login;
 
-import androidx.annotation.NonNull;
+import com.blankj.utilcode.util.Utils;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.service.main.config.SudEnvConfig;
 
 public class DeveloperKitUtils {
@@ -33,7 +34,6 @@ public class DeveloperKitUtils {
         return md5code.substring(8, 16);
     }
 
-    @NonNull
     public static List<SudEnvConfig> getSudEnvConfigs() {
         List<SudEnvConfig> list = new ArrayList<>();
         list.add(buildSudEnvConfig("Dev", true, 4));
@@ -49,6 +49,16 @@ public class DeveloperKitUtils {
         config.isTestEnv = isTestEnv;
         config.env = env;
         return config;
+    }
+
+    /** 随机生成一个名称 */
+    public static String getUserName() {
+        String[] names = Utils.getApp().getResources().getStringArray(R.array.names_list);
+        if (names == null || names.length == 0) {
+            return "name";
+        }
+        int index = new Random().nextInt(names.length);
+        return names[index];
     }
 
 }

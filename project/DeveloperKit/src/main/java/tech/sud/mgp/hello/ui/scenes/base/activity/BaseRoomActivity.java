@@ -40,7 +40,6 @@ import tech.sud.mgp.hello.common.utils.permission.SudPermissionUtils;
 import tech.sud.mgp.hello.common.widget.dialog.BottomOptionDialog;
 import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
 import tech.sud.mgp.hello.service.game.repository.GameRepository;
-import tech.sud.mgp.hello.service.room.repository.RoomRepository;
 import tech.sud.mgp.hello.ui.common.constant.RequestKey;
 import tech.sud.mgp.hello.ui.main.constant.GameIdCons;
 import tech.sud.mgp.hello.ui.scenes.base.constant.OperateMicType;
@@ -808,20 +807,27 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
             } else {
                 giftConfigType = 2;
             }
-            RoomRepository.sendGift(context, roomInfoModel.roomId, giftModel.giftId, giftCount,
-                    giftConfigType, giftModel.giftPrice, new RxCallback<Object>() {
-                        @Override
-                        public void onSuccess(Object o) {
-                            super.onSuccess(o);
-                            if (binder != null) {
-                                binder.sendGift(giftModel, giftCount, user);
-                            }
-                            if (isShowGift.value) { // 只显示一次动效
-                                isShowGift.value = false;
-                                showGift(giftModel);
-                            }
-                        }
-                    });
+//            RoomRepository.sendGift(context, roomInfoModel.roomId, giftModel.giftId, giftCount,
+//                    giftConfigType, giftModel.giftPrice, new RxCallback<Object>() {
+//                        @Override
+//                        public void onSuccess(Object o) {
+//                            super.onSuccess(o);
+//                            if (binder != null) {
+//                                binder.sendGift(giftModel, giftCount, user);
+//                            }
+//                            if (isShowGift.value) { // 只显示一次动效
+//                                isShowGift.value = false;
+//                                showGift(giftModel);
+//                            }
+//                        }
+//                    });
+            if (binder != null) {
+                binder.sendGift(giftModel, giftCount, user);
+            }
+            if (isShowGift.value) { // 只显示一次动效
+                isShowGift.value = false;
+                showGift(giftModel);
+            }
         }
     }
 

@@ -19,8 +19,12 @@ import java.util.List;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseFragment;
+import tech.sud.mgp.hello.common.model.AppData;
+import tech.sud.mgp.hello.common.utils.SystemUtils;
 import tech.sud.mgp.hello.common.utils.ViewUtils;
 import tech.sud.mgp.hello.common.widget.view.SimpleTextWatcher;
+import tech.sud.mgp.hello.service.main.config.SudConfig;
+import tech.sud.mgp.hello.service.main.config.SudEnvConfig;
 import tech.sud.mgp.hello.service.main.repository.MainRepository;
 import tech.sud.mgp.hello.service.main.resp.GameModel;
 import tech.sud.mgp.hello.ui.main.home.view.HomeHeaderView;
@@ -34,6 +38,7 @@ public class HomeFragment extends BaseFragment {
 
     private EditText editText;
     private TextView tvEnter;
+    private HomeHeaderView headerView;
 
     @Override
     protected int getLayoutId() {
@@ -56,14 +61,14 @@ public class HomeFragment extends BaseFragment {
     }
 
     private View getHeaderView() {
-        HomeHeaderView view = new HomeHeaderView(requireContext());
-        view.setCustomConfigOnClickListener(new View.OnClickListener() {
+        headerView = new HomeHeaderView(requireContext());
+        headerView.setCustomConfigOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(requireContext(), CustomConfigActivity.class));
             }
         });
-        return view;
+        return headerView;
     }
 
     @Override
@@ -111,7 +116,7 @@ public class HomeFragment extends BaseFragment {
     private boolean enterRoom() {
         Long number = getInputNumber();
         if (number == null) return false;
-        // TODO: 2022/7/8 dd 
+        EnterRoomUtils.enterRoom(requireContext(), number, 0);
         return true;
     }
 
@@ -143,6 +148,29 @@ public class HomeFragment extends BaseFragment {
             holder.setImageResource(R.id.iv_icon, gameModel.homeGamePicRes);
             holder.setText(R.id.tv_name, gameModel.gameName);
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        StringBuilder sb = new StringBuilder();
+
+        SudConfig sudConfig = AppData.getInstance().getSudConfig();
+        if (sudConfig != null) {
+            sb.append(sudConfig.area).append(":").append(sudConfig.appId);
+        }
+        sb.append("\n");
+
+        sb.append("env:");
+        SudEnvConfig sudEnvConfig = AppData.getInstance().getSudEnvConfig();
+        if (sudEnvConfig != null) {
+            sb.append(sudEnvConfig.name);
+        }
+
+        sb.append("        ");
+        sb.append(SystemUtils.getLanguageCode(getContext()));
+
+        headerView.setInfo(sb.toString());
     }
 
 }

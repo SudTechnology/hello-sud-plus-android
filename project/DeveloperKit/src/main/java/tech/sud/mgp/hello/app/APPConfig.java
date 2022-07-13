@@ -44,4 +44,6 @@ public class APPConfig {
     /** zegoAppId */
     public static String ZEGO_APP_ID = "581733944";
 
+    public static String ZEGO_TOKEN = "04AAAAAGLNT2EAEAKErxXKjIeoevrv8UWpSBcAcDj0iuH92u7TsugfTzRiH35IpGUdpROZ4E6MqHK/30vGZ8yKtUHiFl44ZVL3aUVks+yM27pZemReAsU0svXzEfuOihgLhN7yaeZzmhFkRMgfKaL9bUfRjzyV9JahtYhQZfGxAlCmqf0YhGdKp9AIPOc=";
+
 }

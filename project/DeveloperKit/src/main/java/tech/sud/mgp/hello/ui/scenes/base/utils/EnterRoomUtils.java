@@ -6,6 +6,7 @@ import android.content.Intent;
 import androidx.annotation.NonNull;
 
 import tech.sud.mgp.hello.R;
+import tech.sud.mgp.hello.app.APPConfig;
 import tech.sud.mgp.hello.ui.main.constant.SceneType;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoleType;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
@@ -28,6 +29,7 @@ public class EnterRoomUtils {
         model.roomName = context.getString(R.string.room_name);
         model.gameId = gameId;
         model.roleType = RoleType.OWNER;
+        model.rtcToken = APPConfig.ZEGO_TOKEN;
         Intent intent = getSceneIntent(context, SceneType.CUSTOM_SCENE);
         intent.putExtra("RoomInfoModel", model);
         context.startActivity(intent);

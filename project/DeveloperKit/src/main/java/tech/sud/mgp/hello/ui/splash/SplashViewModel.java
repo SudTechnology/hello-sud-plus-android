@@ -29,6 +29,7 @@ public class SplashViewModel extends BaseViewModel {
             public void run() {
                 // 生成userId
                 HSUserInfo.userId = DeveloperKitUtils.genUserID();
+                HSUserInfo.nickName = DeveloperKitUtils.getUserName();
 
                 // rtc配置
                 BaseRtcConfig selectRtcConfig = AppData.getInstance().getSelectRtcConfig();
@@ -37,24 +38,6 @@ public class SplashViewModel extends BaseViewModel {
                     zegoConfig.appId = APPConfig.ZEGO_APP_ID;
                     GlobalCache.getInstance().put(GlobalCache.RTC_CONFIG_KEY, zegoConfig);
                     AppData.getInstance().setSelectRtcConfig(zegoConfig);
-                }
-
-                // sud配置
-                SudConfig sudConfig = AppData.getInstance().getSudConfig();
-                if (sudConfig == null) {
-                    sudConfig = (SudConfig) GlobalCache.getInstance().getSerializable(GlobalCache.SUD_CONFIG);
-                    if (sudConfig == null) {
-                        GameRepository.sudAppList(null, new RxCallback<List<SudConfig>>() {
-                            @Override
-                            public void onSuccess(List<SudConfig> sudConfigs) {
-                                super.onSuccess(sudConfigs);
-                                if (sudConfigs != null && sudConfigs.size() > 0) {
-                                    AppData.getInstance().setSudConfig(sudConfigs.get(0));
-                                }
-                            }
-                        });
-                    }
-                    AppData.getInstance().setSudConfig(sudConfig);
                 }
 
                 // sudEnv配置
@@ -67,10 +50,38 @@ public class SplashViewModel extends BaseViewModel {
                             sudEnvConfig = list.get(0);
                         }
                     }
+                    GlobalCache.getInstance().put(GlobalCache.SUD_ENV_CONFIG, sudEnvConfig);
                 }
                 AppData.getInstance().setSudEnvConfig(sudEnvConfig);
 
-                initCompletedLiveData.postValue(true);
+                // sud配置
+                SudConfig sudConfig = AppData.getInstance().getSudConfig();
+                if (sudConfig == null) {
+                    sudConfig = (SudConfig) GlobalCache.getInstance().getSerializable(GlobalCache.SUD_CONFIG);
+                    if (sudConfig == null) {
+                        GameRepository.sudAppList(null, new RxCallback<List<SudConfig>>() {
+                            @Override
+                            public void onSuccess(List<SudConfig> sudConfigs) {
+                                super.onSuccess(sudConfigs);
+                                if (sudConfigs != null && sudConfigs.size() > 0) {
+                                    SudConfig model = sudConfigs.get(0);
+                                    AppData.getInstance().setSudConfig(model);
+                                    GlobalCache.getInstance().put(GlobalCache.SUD_CONFIG, model);
+                                }
+                            }
+
+                            @Override
+                            public void onFinally() {
+                                super.onFinally();
+                                initCompletedLiveData.postValue(true);
+                            }
+                        });
+                    }
+                    AppData.getInstance().setSudConfig(sudConfig);
+                }
+                if (sudConfig != null) {
+                    initCompletedLiveData.postValue(true);
+                }
             }
         });
     }

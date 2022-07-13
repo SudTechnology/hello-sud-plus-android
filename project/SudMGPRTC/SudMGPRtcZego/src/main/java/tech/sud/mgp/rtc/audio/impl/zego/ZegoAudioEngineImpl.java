@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Context;
 import android.view.View;
 
+import com.blankj.utilcode.util.LogUtils;
+
 import org.json.JSONObject;
 
 import java.nio.ByteBuffer;
@@ -387,6 +389,12 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
                     mISudAudioEventListener.onPlayingStreamingDelete(streamID);
                 }
             }
+        }
+
+        @Override
+        public void onDebugError(int errorCode, String funcName, String info) {
+            super.onDebugError(errorCode, funcName, info);
+            LogUtils.d("onDebugError:" + errorCode + "  funcName:" + funcName + "   info:" + info);
         }
     };
 

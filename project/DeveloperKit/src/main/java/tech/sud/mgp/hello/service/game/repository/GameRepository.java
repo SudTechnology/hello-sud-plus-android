@@ -9,8 +9,10 @@ import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.http.rx.RxUtils;
 import tech.sud.mgp.hello.service.game.method.GameRequestMethodFactory;
 import tech.sud.mgp.hello.service.game.req.GameLoginReq;
+import tech.sud.mgp.hello.service.game.req.GetAuthRoomListReq;
 import tech.sud.mgp.hello.service.game.req.SwitchGameReq;
 import tech.sud.mgp.hello.service.game.resp.GameLoginResp;
+import tech.sud.mgp.hello.service.game.resp.GetAuthRoomListResp;
 import tech.sud.mgp.hello.service.main.config.SudConfig;
 
 public class GameRepository {
@@ -40,6 +42,22 @@ public class GameRepository {
     public static void sudAppList(LifecycleOwner owner, RxCallback<List<SudConfig>> callback) {
         GameRequestMethodFactory.getMethod()
                 .sudAppList(BaseUrlManager.getGameBaseUrl())
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /**
+     * 获取授权房间列表
+     *
+     * @param owner    生命周期对象
+     * @param callback 回调
+     */
+    public static void getAuthRoomList(LifecycleOwner owner, int pageNumber, int pageSize, RxCallback<GetAuthRoomListResp> callback) {
+        GetAuthRoomListReq req = new GetAuthRoomListReq();
+        req.page_number = pageNumber;
+        req.page_size = pageSize;
+        GameRequestMethodFactory.getMethod()
+                .getAuthRoomList(BaseUrlManager.getGameBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }

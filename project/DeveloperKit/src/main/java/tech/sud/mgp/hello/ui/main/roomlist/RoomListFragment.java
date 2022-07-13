@@ -18,14 +18,11 @@ import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseFragment;
-import tech.sud.mgp.hello.common.http.param.BaseResponse;
-import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
-import tech.sud.mgp.hello.service.main.manager.HomeManager;
-import tech.sud.mgp.hello.service.main.repository.HomeRepository;
-import tech.sud.mgp.hello.service.main.resp.RoomListResp;
+import tech.sud.mgp.hello.service.game.repository.GameRepository;
+import tech.sud.mgp.hello.service.game.resp.GetAuthRoomListResp;
 import tech.sud.mgp.hello.ui.scenes.base.utils.EnterRoomUtils;
 
 public class RoomListFragment extends BaseFragment {
@@ -137,24 +134,11 @@ public class RoomListFragment extends BaseFragment {
     }
 
     private void loadList() {
-        HomeRepository.roomList(this, null, new RxCallback<RoomListResp>() {
+        GameRepository.getAuthRoomList(this, 1, 20, new RxCallback<GetAuthRoomListResp>() {
             @Override
-            public void onNext(BaseResponse<RoomListResp> t) {
-                super.onNext(t);
-                if (t.getRetCode() == RetCode.SUCCESS) {
-                    HomeManager.getInstance().roomListResp = t.getData();
-                    RoomListResp data = t.getData();
-                    if (data == null) {
-                        adapter.setList(null);
-                    } else {
-                        adapter.setList(data.getRoomInfoList());
-                    }
-                    if (adapter.getData().size() == 0) {
-                        emptyTv.setVisibility(View.VISIBLE);
-                    } else {
-                        emptyTv.setVisibility(View.GONE);
-                    }
-                }
+            public void onSuccess(GetAuthRoomListResp getAuthRoomListResp) {
+                super.onSuccess(getAuthRoomListResp);
+
             }
 
             @Override
@@ -165,8 +149,38 @@ public class RoomListFragment extends BaseFragment {
                     refreshLayout.finishLoadMore();
                 }
             }
-
         });
+
+//        HomeRepository.roomList(this, null, new RxCallback<RoomListResp>() {
+//            @Override
+//            public void onNext(BaseResponse<RoomListResp> t) {
+//                super.onNext(t);
+//                if (t.getRetCode() == RetCode.SUCCESS) {
+//                    HomeManager.getInstance().roomListResp = t.getData();
+//                    RoomListResp data = t.getData();
+//                    if (data == null) {
+//                        adapter.setList(null);
+//                    } else {
+//                        adapter.setList(data.getRoomInfoList());
+//                    }
+//                    if (adapter.getData().size() == 0) {
+//                        emptyTv.setVisibility(View.VISIBLE);
+//                    } else {
+//                        emptyTv.setVisibility(View.GONE);
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onFinally() {
+//                super.onFinally();
+//                if (refreshLayout.isRefreshing()) {
+//                    refreshLayout.finishRefresh();
+//                    refreshLayout.finishLoadMore();
+//                }
+//            }
+//
+//        });
     }
 
     @Override

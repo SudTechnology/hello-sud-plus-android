@@ -11,8 +11,10 @@ import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.IBaseUrl;
 import tech.sud.mgp.hello.service.base.RequestUrl;
 import tech.sud.mgp.hello.service.game.req.GameLoginReq;
+import tech.sud.mgp.hello.service.game.req.GetAuthRoomListReq;
 import tech.sud.mgp.hello.service.game.req.SwitchGameReq;
 import tech.sud.mgp.hello.service.game.resp.GameLoginResp;
+import tech.sud.mgp.hello.service.game.resp.GetAuthRoomListResp;
 import tech.sud.mgp.hello.service.main.config.SudConfig;
 
 /**
@@ -31,6 +33,12 @@ public interface GameRequestMethod {
      */
     @GET(RequestUrl.SUD_APP_ID_LIST)
     Observable<BaseResponse<List<SudConfig>>> sudAppList(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl);
+
+    /**
+     * 获取授权房间列表
+     */
+    @POST(RequestUrl.GET_AUTH_ROOM_LIST)
+    Observable<BaseResponse<GetAuthRoomListResp>> getAuthRoomList(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body GetAuthRoomListReq body);
 
     /**
      * 游戏切换

@@ -114,4 +114,9 @@ public interface RequestUrl {
 
     /** sudAppId配置 */
     String SUD_APP_ID_LIST = "extra/app_list";
+
+    /** 获取授权房间列表 */
+    String GET_AUTH_ROOM_LIST = "get_auth_room_list";
+
+
 }

@@ -2,8 +2,8 @@ package tech.sud.mgp.hello.ui.scenes.custom;
 
 import android.widget.TextView;
 
-import tech.sud.mgp.hello.R;
 import tech.sud.mgp.SudMGPWrapper.model.GameConfigModel;
+import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.utils.GlobalCache;
 import tech.sud.mgp.hello.ui.scenes.audio.activity.AbsAudioRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.custom.dialog.CustomApiDialog;
@@ -32,6 +32,8 @@ public class CustomActivity extends AbsAudioRoomActivity<CustomGameViewModel> {
         Object configModel = GlobalCache.getInstance().getSerializable(GlobalCache.CUSTOM_CONFIG_KEY);
         if (configModel instanceof GameConfigModel) {
             gameViewModel.gameConfigModel = (GameConfigModel) configModel;
+        } else {
+            gameViewModel.gameConfigModel = new GameConfigModel();
         }
     }
 

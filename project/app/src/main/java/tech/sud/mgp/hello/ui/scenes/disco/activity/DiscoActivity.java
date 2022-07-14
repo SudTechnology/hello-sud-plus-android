@@ -214,7 +214,7 @@ public class DiscoActivity extends AbsAudioRoomActivity<DiscoGameViewModel> {
                             }
                         }
                     }
-                }, 500);
+                }, 1000);
             }
         });
     }
@@ -259,7 +259,7 @@ public class DiscoActivity extends AbsAudioRoomActivity<DiscoGameViewModel> {
             @Override
             public void onChoose(int index) {
                 if (index == 1) {
-                    gameViewModel.clearSite();
+//                    gameViewModel.clearSite();
                     tvCloseDisco.postDelayed(new Runnable() {
                         @Override
                         public void run() {

@@ -16,6 +16,8 @@ import tech.sud.mgp.core.ISudListenerNotifyStateChange;
 /**
  * ISudFSTAPP的装饰类，接近于业务
  * 参考文档：https://docs.sud.tech/zh-CN/app/Client/API/ISudFSTAPP.html
+ * 注意：
+ * 1，向游戏侧发送状态之后，不能立即调用destroyMG()方法，也不能立即finish Activity。例如：{@link SudFSTAPPDecorator#notifyAPPCommonSelfEnd()}
  */
 public class SudFSTAPPDecorator {
 
@@ -100,6 +102,8 @@ public class SudFSTAPPDecorator {
      * 发送
      * 4. 队长状态
      * 用户是否为队长，队长在游戏中会有开始游戏的权利。
+     * 发送此状态后，会把队长身份转移到另一名用户身上。
+     * 注意：必须是队长发送才有效果。可通过{@link SudFSMMGDecorator#getCaptainUserId()}拿到当前队长id
      *
      * @param curCaptainUID 必填，指定队长uid
      */
@@ -133,11 +137,16 @@ public class SudFSTAPPDecorator {
      * 发送
      * 6. 结束游戏
      * 用户（本人，队长）结束（本局）游戏
+     * 注意：必须是队长发送才有效果。可通过{@link SudFSMMGDecorator#getCaptainUserId()}拿到当前队长id
      */
     public void notifyAPPCommonSelfEnd() {
         ISudFSTAPP iSudFSTAPP = this.iSudFSTAPP;
         if (iSudFSTAPP != null) {
             SudMGPAPPState.APPCommonSelfEnd state = new SudMGPAPPState.APPCommonSelfEnd();
+            // 使用iSudFSTAPP.notifyStateChange方法向游戏侧发送状态，不能立即调用destroyMG()方法，也不能立即finish Activity
+            // notifyStateChange需要通过网络向游戏服务器发送状态指令，如果调用后立即销毁游戏或者销毁页面，指令将无法到达
+            // 如果有结束本局游戏之后就要关闭游戏或者销毁页面的需求时
+            // 可以先向游戏侧发送状态之后，delay 500ms再destroyMG()或者finish Activity
             iSudFSTAPP.notifyStateChange(SudMGPAPPState.APP_COMMON_SELF_END, SudJsonUtils.toJson(state), null);
         }
     }

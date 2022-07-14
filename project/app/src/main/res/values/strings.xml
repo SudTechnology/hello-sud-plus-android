@@ -494,4 +494,8 @@ Go to homepage to create one~</string>
 
     <!-- endregion 新增 -->
 
+    <!-- region 1.4.2 -->
+    <string name="discover">发现</string>
+    <!-- endregion 1.4.2 -->
+
 </resources>

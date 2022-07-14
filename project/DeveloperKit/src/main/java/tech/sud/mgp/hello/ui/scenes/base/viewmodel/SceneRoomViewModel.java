@@ -3,12 +3,7 @@ package tech.sud.mgp.hello.ui.scenes.base.viewmodel;
 import com.blankj.utilcode.util.ThreadUtils;
 
 import tech.sud.mgp.hello.common.base.BaseViewModel;
-import tech.sud.mgp.hello.common.http.param.BaseResponse;
-import tech.sud.mgp.hello.common.http.param.RetCode;
-import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.service.main.manager.HomeManager;
-import tech.sud.mgp.hello.service.main.repository.HomeRepository;
-import tech.sud.mgp.hello.service.main.resp.GameListResp;
 import tech.sud.mgp.hello.service.main.resp.GameModeModel;
 import tech.sud.mgp.hello.service.main.resp.GameModel;
 
@@ -26,23 +21,23 @@ public class SceneRoomViewModel extends BaseViewModel {
 
     /** 获取游戏列表 */
     private void getGameList() {
-        HomeRepository.gameList(null, new RxCallback<GameListResp>() {
-            @Override
-            public void onNext(BaseResponse<GameListResp> t) {
-                super.onNext(t);
-                if (t.getRetCode() == RetCode.SUCCESS) {
-                    HomeManager.getInstance().gameListResp = t.getData();
-                } else {
-                    delayGetGameList();
-                }
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                super.onError(e);
-                delayGetGameList();
-            }
-        });
+//        HomeRepository.gameList(null, new RxCallback<GameListResp>() {
+//            @Override
+//            public void onNext(BaseResponse<GameListResp> t) {
+//                super.onNext(t);
+//                if (t.getRetCode() == RetCode.SUCCESS) {
+//                    HomeManager.getInstance().gameListResp = t.getData();
+//                } else {
+//                    delayGetGameList();
+//                }
+//            }
+//
+//            @Override
+//            public void onError(Throwable e) {
+//                super.onError(e);
+//                delayGetGameList();
+//            }
+//        });
     }
 
     private void delayGetGameList() {

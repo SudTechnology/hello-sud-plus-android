@@ -16,13 +16,13 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
+import java.util.List;
+
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
-import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
-import tech.sud.mgp.hello.service.main.repository.HomeRepository;
-import tech.sud.mgp.hello.service.main.resp.GameListResp;
+import tech.sud.mgp.hello.service.main.repository.MainRepository;
 import tech.sud.mgp.hello.service.main.resp.GameModel;
 
 /**
@@ -113,16 +113,19 @@ public class GameModeDialog extends BaseDialogFragment {
     @Override
     protected void initData() {
         super.initData();
-        HomeRepository.gameList(this, new RxCallback<GameListResp>() {
-            @Override
-            public void onSuccess(GameListResp gameListResp) {
-                super.onSuccess(gameListResp);
-                if (gameListResp != null) {
-                    gameModeAdapter.setList(gameListResp.getGameList(sceneType));
-                }
-                gameModeAdapter.addData(0, new GameModel()); // 添加一个关闭游戏选项
-            }
-        });
+        List<GameModel> gameList = MainRepository.getGameList();
+        gameModeAdapter.setList(gameList);
+        gameModeAdapter.addData(0, new GameModel()); // 添加一个关闭游戏选项
+//        HomeRepository.gameList(this, new RxCallback<GameListResp>() {
+//            @Override
+//            public void onSuccess(GameListResp gameListResp) {
+//                super.onSuccess(gameListResp);
+//                if (gameListResp != null) {
+//                    gameModeAdapter.setList(gameListResp.getGameList(sceneType));
+//                }
+//                gameModeAdapter.addData(0, new GameModel()); // 添加一个关闭游戏选项
+//            }
+//        });
     }
 
     @Override
@@ -167,7 +170,7 @@ public class GameModeDialog extends BaseDialogFragment {
                 return;
             }
 
-            ImageLoader.loadImage(ivIcon, gameModel.gamePic);
+            ImageLoader.loadDrawable(ivIcon, gameModel.gamePicRes);
 
             if (playingGameId == gameId) {
                 baseViewHolder.setVisible(R.id.item_game_mode_tv_gameing, true);

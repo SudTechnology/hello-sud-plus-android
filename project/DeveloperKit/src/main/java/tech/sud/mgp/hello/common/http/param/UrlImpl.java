@@ -1,17 +1,15 @@
 package tech.sud.mgp.hello.common.http.param;
 
-import tech.sud.mgp.hello.BuildConfig;
-
 public class UrlImpl implements IBaseUrl {
 
     @Override
     public String getBaseUrl() {
-        return BuildConfig.baseUrl;
+        return "https://mgp-hello.sudden.ltd/";
     }
 
     @Override
     public String getInteractBaseUrl() {
-        return BuildConfig.interactBaseUrl;
+        return "https://mgp-hello.sudden.ltd/";
     }
 
     @Override

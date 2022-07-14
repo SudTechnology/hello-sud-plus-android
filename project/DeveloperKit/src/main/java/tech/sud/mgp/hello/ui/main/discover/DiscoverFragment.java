@@ -10,16 +10,20 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseFragment;
+import tech.sud.mgp.hello.common.http.param.BaseResponse;
+import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
@@ -102,7 +106,7 @@ public class DiscoverFragment extends BaseFragment {
                 Context context = getContext();
                 if (context == null) return null;
                 EmptyDataView view = new EmptyDataView(context);
-//                view.setText(getString(R.string.empty_room_match));
+                view.setText(getString(R.string.empty_room_match));
                 return view;
             }
         };
@@ -110,20 +114,26 @@ public class DiscoverFragment extends BaseFragment {
 
     /** 获取数据 */
     private void getRoomList(int pageNumber, int pageSize) {
-        // TODO: 2022/7/14 需要数据
+        ListModel<DiscoverRoomModel> listModel = new ListModel<>();
+        listModel.pageNumber = pageNumber;
+        listModel.pageSize = pageSize;
         GameRepository.getAuthRoomList(this, 1, 20, new RxCallback<GetAuthRoomListResp>() {
             @Override
-            public void onSuccess(GetAuthRoomListResp resp) {
-                super.onSuccess(resp);
-                
+            public void onNext(BaseResponse<GetAuthRoomListResp> t) {
+                super.onNext(t);
+                if (t.getRetCode() == RetCode.SUCCESS) {
+                    if (t.getData() != null) {
+                        listModel.datas = t.getData().room_infos;
+                    }
+                    refreshDataHelper.respDatasSuccess(listModel);
+                } else {
+                    refreshDataHelper.respDatasFailed(listModel);
+                }
             }
 
             @Override
-            public void onFinally() {
-                super.onFinally();
-                ListModel<DiscoverRoomModel> listModel = new ListModel<>();
-                listModel.pageNumber = pageNumber;
-                listModel.pageSize = pageSize;
+            public void onError(Throwable e) {
+                super.onError(e);
                 refreshDataHelper.respDatasFailed(listModel);
             }
         });
@@ -172,6 +182,18 @@ public class DiscoverFragment extends BaseFragment {
         goSearch.setOnClickListener(v -> enterRoom());
         headerIv.setOnClickListener(v -> {
         });
+
+        adapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
+                clickItem(position);
+            }
+        });
+    }
+
+    private void clickItem(int position) {
+        DiscoverRoomModel item = adapter.getItem(position);
+        EnterRoomUtils.enterRoom(requireContext(), 100001, item.mg_id, item);
     }
 
     private void enterRoom() {

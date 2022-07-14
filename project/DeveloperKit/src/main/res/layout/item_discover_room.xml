@@ -17,9 +17,10 @@
     <TextView
         android:id="@+id/tv_id"
         android:layout_width="wrap_content"
-        android:layout_height="24dp"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:paddingHorizontal="10dp"
+        android:paddingVertical="4dp"
         android:textSize="12sp"
         android:textColor="@color/white"
         android:background="@drawable/shape_discover_id_bg"
@@ -36,15 +37,6 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <TextView
-            android:id="@+id/tv_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <TextView
             android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -52,6 +44,15 @@
             android:textColor="@color/white"
             app:layout_constraintStart_toStartOf="@id/tv_count"
             app:layout_constraintBottom_toTopOf="@id/tv_count" />
+
+        <TextView
+            android:id="@+id/tv_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

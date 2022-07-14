@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.app.APPConfig;
 import tech.sud.mgp.hello.ui.main.constant.SceneType;
+import tech.sud.mgp.hello.ui.main.discover.DiscoverRoomModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoleType;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
 import tech.sud.mgp.hello.ui.scenes.custom.CustomActivity;
@@ -23,6 +24,16 @@ public class EnterRoomUtils {
      * @param roomId  房间id
      */
     public static void enterRoom(Context context, long roomId, long gameId) {
+        enterRoom(context, roomId, gameId, null);
+    }
+
+    /**
+     * 进入房间
+     *
+     * @param context 上下文
+     * @param roomId  房间id
+     */
+    public static void enterRoom(Context context, long roomId, long gameId, DiscoverRoomModel discoverRoomModel) {
         RoomInfoModel model = new RoomInfoModel();
         model.roomId = roomId;
         model.roomNumber = roomId + "";
@@ -30,6 +41,7 @@ public class EnterRoomUtils {
         model.gameId = gameId;
         model.roleType = RoleType.OWNER;
         model.rtcToken = APPConfig.ZEGO_TOKEN;
+        model.discoverRoomModel = discoverRoomModel;
         Intent intent = getSceneIntent(context, SceneType.CUSTOM_SCENE);
         intent.putExtra("RoomInfoModel", model);
         context.startActivity(intent);

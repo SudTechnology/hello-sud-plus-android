@@ -24,14 +24,15 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.core.ISudListenerNotifyStateChange;
+import tech.sud.mgp.core.SudLoadMGParamModel;
 import tech.sud.mgp.core.SudMGP;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseActivity;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
-import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.AnimUtils;
 import tech.sud.mgp.hello.common.utils.ViewUtils;
@@ -39,7 +40,6 @@ import tech.sud.mgp.hello.common.utils.permission.PermissionFragment;
 import tech.sud.mgp.hello.common.utils.permission.SudPermissionUtils;
 import tech.sud.mgp.hello.common.widget.dialog.BottomOptionDialog;
 import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
-import tech.sud.mgp.hello.service.game.repository.GameRepository;
 import tech.sud.mgp.hello.ui.common.constant.RequestKey;
 import tech.sud.mgp.hello.ui.main.constant.GameIdCons;
 import tech.sud.mgp.hello.ui.scenes.base.constant.OperateMicType;
@@ -52,7 +52,7 @@ import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomService;
 import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomServiceCallback;
-import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
+import tech.sud.mgp.hello.ui.scenes.base.viewmodel.DeveloperKitGameViewModel;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.SceneRoomViewModel;
 import tech.sud.mgp.hello.ui.scenes.base.widget.dialog.GameModeDialog;
 import tech.sud.mgp.hello.ui.scenes.base.widget.dialog.RoomMoreDialog;
@@ -75,7 +75,7 @@ import tech.sud.mgp.rtc.audio.core.AudioPCMData;
 /**
  * 场景房间的基类
  */
-public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseActivity implements SceneRoomServiceCallback {
+public abstract class BaseRoomActivity<T extends DeveloperKitGameViewModel> extends BaseActivity implements SceneRoomServiceCallback {
 
     protected RoomInfoModel roomInfoModel; // 房间信息
     protected long playingGameId; // 当前正在玩的游戏id
@@ -691,16 +691,19 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
      * @param gameId 游戏id
      */
     protected void intentSwitchGame(long gameId) {
-        // 发送http通知后台
-        GameRepository.switchGame(this, roomInfoModel.roomId, gameId, new RxCallback<Object>() {
-            @Override
-            public void onSuccess(Object o) {
-                super.onSuccess(o);
-                if (switchGame(gameId)) {
-                    onSelfSwitchGame(gameId);
-                }
-            }
-        });
+        if (switchGame(gameId)) {
+            onSelfSwitchGame(gameId);
+        }
+//        // 发送http通知后台
+//        GameRepository.switchGame(this, roomInfoModel.roomId, gameId, new RxCallback<Object>() {
+//            @Override
+//            public void onSuccess(Object o) {
+//                super.onSuccess(o);
+//                if (switchGame(gameId)) {
+//                    onSelfSwitchGame(gameId);
+//                }
+//            }
+//        });
     }
 
     /** 自己主动切换了游戏 */
@@ -851,14 +854,18 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
 
     private void initGame() {
         if (roomConfig.isSudGame) {
-            gameViewModel.switchGame(this, getGameRoomId(), roomInfoModel.gameId);
+            gameViewModel.switchGame(this, getGameRoomId(), roomInfoModel.gameId, getSudLoadMGParamModel());
         }
         updateGameNumber();
     }
 
+    protected SudLoadMGParamModel getSudLoadMGParamModel() {
+        return null;
+    }
+
     /** 获取游戏房间的id */
-    protected long getGameRoomId() {
-        return roomInfoModel.roomId;
+    protected String getGameRoomId() {
+        return roomInfoModel.roomId + "";
     }
 
     // 切换游戏之后，更新页面样式
@@ -992,12 +999,12 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         if (!roomConfig.isSudGame) {
             return false;
         }
-        if (playingGameId == gameId && getGameRoomId() == gameViewModel.getGameRoomId()) {
+        if (playingGameId == gameId && Objects.equals(getGameRoomId(), gameViewModel.getGameRoomId())) {
             return false;
         }
         playingGameId = gameId;
         roomInfoModel.gameId = gameId;
-        gameViewModel.switchGame(this, getGameRoomId(), gameId);
+        gameViewModel.switchGame(this, getGameRoomId(), gameId, getSudLoadMGParamModel());
         updatePageStyle();
         updateStatusBar();
         updateGameNumber();

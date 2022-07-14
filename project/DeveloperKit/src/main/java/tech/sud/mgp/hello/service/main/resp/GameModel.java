@@ -11,6 +11,7 @@ public class GameModel {
     public String gamePic; // 游戏图片
     public String homeGamePic; // 首页游戏图片
     public int homeGamePicRes; // 首页游戏图片
+    public int gamePicRes; // 游戏图片
     public List<Integer> suitScene; // 适用场景
     public List<GameModeModel> gameModeList; // 游戏模式
 

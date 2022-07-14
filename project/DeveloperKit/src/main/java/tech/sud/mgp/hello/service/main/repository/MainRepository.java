@@ -40,6 +40,7 @@ public class MainRepository {
         model.gameId = gameId;
         model.gameName = gameName;
         model.homeGamePicRes = homeGamePic;
+        model.gamePicRes = gamePic;
         return model;
     }
 

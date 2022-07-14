@@ -2,9 +2,12 @@ package tech.sud.mgp.hello.ui.scenes.custom;
 
 import android.widget.TextView;
 
-import tech.sud.mgp.hello.R;
 import tech.sud.mgp.SudMGPWrapper.model.GameConfigModel;
+import tech.sud.mgp.core.SudLoadMGMode;
+import tech.sud.mgp.core.SudLoadMGParamModel;
+import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.utils.GlobalCache;
+import tech.sud.mgp.hello.ui.main.discover.DiscoverRoomModel;
 import tech.sud.mgp.hello.ui.scenes.audio.activity.AbsAudioRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.custom.dialog.CustomApiDialog;
 import tech.sud.mgp.hello.ui.scenes.custom.viewmodel.CustomGameViewModel;
@@ -76,4 +79,26 @@ public class CustomActivity extends AbsAudioRoomActivity<CustomGameViewModel> {
             dialog.show(getSupportFragmentManager(), null);
         });
     }
+
+    @Override
+    protected String getGameRoomId() {
+        DiscoverRoomModel discoverRoomModel = roomInfoModel.discoverRoomModel;
+        if (discoverRoomModel != null) {
+            return discoverRoomModel.room_id;
+        }
+        return super.getGameRoomId();
+    }
+
+    @Override
+    protected SudLoadMGParamModel getSudLoadMGParamModel() {
+        SudLoadMGParamModel model = new SudLoadMGParamModel();
+        DiscoverRoomModel discoverRoomModel = roomInfoModel.discoverRoomModel;
+        if (discoverRoomModel != null) {
+            model.loadMGMode = SudLoadMGMode.kSudLoadMGModeAppCrossAuth;
+            model.authorizationSecret = discoverRoomModel.authSecret;
+            model.authorizationSecret = "d6089222f1db75211712efec6d87f9cf";
+        }
+        return model;
+    }
+
 }

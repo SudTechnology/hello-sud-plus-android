@@ -2,6 +2,8 @@ package tech.sud.mgp.hello.ui.scenes.base.model;
 
 import java.io.Serializable;
 
+import tech.sud.mgp.hello.ui.main.discover.DiscoverRoomModel;
+
 /**
  * 房间信息模型
  */
@@ -16,4 +18,5 @@ public class RoomInfoModel implements Serializable {
     public String rtiToken; // 信令 token
     public String imToken;  // IM token
     public String streamId; // 流id(弹幕游戏用)
+    public DiscoverRoomModel discoverRoomModel; // 跨域所用数据
 }

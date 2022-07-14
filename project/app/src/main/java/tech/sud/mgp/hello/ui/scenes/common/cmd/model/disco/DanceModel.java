@@ -36,7 +36,12 @@ public class DanceModel {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         DanceModel that = (DanceModel) o;
-        return isCompleted == that.isCompleted && Objects.equals(fromUser, that.fromUser) && Objects.equals(toUser, that.toUser);
+        if (isCompleted) { // 已完成的比较
+            return isCompleted == that.isCompleted && Objects.equals(fromUser, that.fromUser) && Objects.equals(toUser, that.toUser)
+                    && beginTime == that.beginTime;
+        } else {
+            return isCompleted == that.isCompleted && Objects.equals(fromUser, that.fromUser) && Objects.equals(toUser, that.toUser);
+        }
     }
 
     @Override

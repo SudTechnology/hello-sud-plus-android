@@ -29,7 +29,7 @@ platform :android do
         versionCode=options[:code]
         moduleName=options[:moduleName]
         puts versionCode
-        if [ ! $moduleName ]; then
+        if moduleName.nil? || moduleName.empty?
             puts "moduleName is empty"
             moduleName = "app"
         end

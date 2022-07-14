@@ -27,11 +27,16 @@ platform :android do
     lane :fat do |options|
         parentOutputDir = OUTPUT_DIR
         versionCode=options[:code]
+        moduleName=options[:moduleName]
         puts versionCode
+        if moduleName.nil? || moduleName.empty?
+            puts "moduleName is empty"
+            moduleName = "app"
+        end
         # outputDir = parentOutputDir + "/fat/" + versionCode
         # puts outputDir
         gradle(
-            task: ":app:assemble",
+            task: ":" + moduleName + ":assemble",
             build_type:"Release",
             flavor:"official",
             print_command: true,

@@ -27,6 +27,7 @@ import java.util.Map;
 
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.core.ISudListenerNotifyStateChange;
+import tech.sud.mgp.core.SudLoadMGMode;
 import tech.sud.mgp.core.SudMGP;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseActivity;
@@ -845,7 +846,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
 
     private void initGame() {
         if (roomConfig.isSudGame) {
-            gameViewModel.switchGame(this, getGameRoomId(), roomInfoModel.gameId);
+            gameViewModel.switchGame(this, getGameRoomId(), roomInfoModel.gameId, getLoadMGMode(), getAuthorizationSecret());
         }
         updateGameNumber();
     }
@@ -991,7 +992,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         }
         playingGameId = gameId;
         roomInfoModel.gameId = gameId;
-        gameViewModel.switchGame(this, getGameRoomId(), gameId);
+        gameViewModel.switchGame(this, getGameRoomId(), gameId, getLoadMGMode(), getAuthorizationSecret());
         updatePageStyle();
         updateStatusBar();
         updateGameNumber();
@@ -999,6 +1000,27 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
             binder.updateMicList();
         }
         return true;
+    }
+
+    /**
+     * 获取跨App域模式时的授权码
+     * 当加载游戏模式为{@link SudLoadMGMode#kSudLoadMGModeAppCrossAuth 为跨APP域模式}时
+     * 本字段才有效用
+     *
+     * @return
+     */
+    protected String getAuthorizationSecret() {
+        return null;
+    }
+
+    /**
+     * 获取加载游戏模式
+     * {@link SudLoadMGMode#kSudLoadMGModeNormal 为默认模式}； {@link SudLoadMGMode#kSudLoadMGModeAppCrossAuth 为跨APP域模式}
+     *
+     * @return 加载游戏模式
+     */
+    protected int getLoadMGMode() {
+        return SudLoadMGMode.kSudLoadMGModeNormal;
     }
 
     @Override

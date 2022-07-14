@@ -27,6 +27,8 @@ import tech.sud.mgp.core.ISudFSMStateHandle;
 import tech.sud.mgp.core.ISudFSTAPP;
 import tech.sud.mgp.core.ISudListenerInitSDK;
 import tech.sud.mgp.core.ISudListenerNotifyStateChange;
+import tech.sud.mgp.core.SudLoadMGMode;
+import tech.sud.mgp.core.SudLoadMGParamModel;
 import tech.sud.mgp.core.SudMGP;
 import tech.sud.mgp.hello.app.APPConfig;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
@@ -78,11 +80,13 @@ public class AppGameViewModel implements SudFSMMGListener {
      * 外部调用切换游戏
      * gameId传0 等同于关闭游戏
      *
-     * @param activity   游戏所在页面，用作于生命周期判断
-     * @param gameRoomId 游戏房间id，房间隔离，同一房间才能一起游戏
-     * @param gameId     游戏id，传入不同的游戏id，即可加载不同的游戏，传0等同于关闭游戏。
+     * @param activity            游戏所在页面，用作于生命周期判断
+     * @param gameRoomId          游戏房间id，房间隔离，同一房间才能一起游戏
+     * @param gameId              游戏id，传入不同的游戏id，即可加载不同的游戏，传0等同于关闭游戏。
+     * @param loadMGMode          {@link SudLoadMGMode#kSudLoadMGModeNormal 为默认模式}； {@link SudLoadMGMode#kSudLoadMGModeAppCrossAuth 为跨APP域模式}
+     * @param authorizationSecret loadMGMode为跨APP域模式时，所使用的授权密钥
      */
-    public void switchGame(FragmentActivity activity, long gameRoomId, long gameId) {
+    public void switchGame(FragmentActivity activity, long gameRoomId, long gameId, int loadMGMode, String authorizationSecret) {
         checkFinishGame(gameId);
         // 因为finishGame需要一定时间发送给游戏服务，所以这里带了delay
         // 如果没有finishGame的需求，那可以不需要delay
@@ -98,7 +102,7 @@ public class AppGameViewModel implements SudFSMMGListener {
                 destroyMG();
                 AppGameViewModel.this.gameRoomId = gameRoomId;
                 playingGameId = gameId;
-                login(activity, gameId);
+                login(activity, gameId, loadMGMode, authorizationSecret);
             }
         }, 100);
     }
@@ -124,7 +128,7 @@ public class AppGameViewModel implements SudFSMMGListener {
      * @param activity 游戏所在页面
      * @param gameId   游戏id
      */
-    private void login(FragmentActivity activity, long gameId) {
+    private void login(FragmentActivity activity, long gameId, int loadMGMode, String authorizationSecret) {
         if (activity.isDestroyed() || gameId <= 0) {
             return;
         }
@@ -137,16 +141,16 @@ public class AppGameViewModel implements SudFSMMGListener {
                     return;
                 }
                 if (t.getRetCode() == RetCode.SUCCESS && t.getData() != null) {
-                    initSdk(activity, gameId, t.getData().code);
+                    initSdk(activity, gameId, t.getData().code, loadMGMode, authorizationSecret);
                 } else {
-                    delayLoadGame(activity, gameId);
+                    delayLoadGame(activity, gameId, loadMGMode, authorizationSecret);
                 }
             }
 
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
-                delayLoadGame(activity, gameId);
+                delayLoadGame(activity, gameId, loadMGMode, authorizationSecret);
             }
         });
     }
@@ -158,7 +162,7 @@ public class AppGameViewModel implements SudFSMMGListener {
      * @param gameId   游戏id
      * @param code     令牌
      */
-    private void initSdk(FragmentActivity activity, long gameId, String code) {
+    private void initSdk(FragmentActivity activity, long gameId, String code, int loadMGMode, String authorizationSecret) {
         SudConfig sudConfig = AppData.getInstance().getSudConfig();
         if (sudConfig == null || sudConfig.appId == null || sudConfig.appKey == null) {
             ToastUtils.showLong("SudConfig is empty");
@@ -168,13 +172,13 @@ public class AppGameViewModel implements SudFSMMGListener {
         SudMGP.initSDK(activity, sudConfig.appId, sudConfig.appKey, APPConfig.GAME_IS_TEST_ENV, new ISudListenerInitSDK() {
             @Override
             public void onSuccess() {
-                loadGame(activity, code, gameId);
+                loadGame(activity, code, gameId, loadMGMode, authorizationSecret);
             }
 
             @Override
             public void onFailure(int errCode, String errMsg) {
                 ToastUtils.showShort("initSDK onFailure:" + errMsg + "(" + errCode + ")");
-                delayLoadGame(activity, gameId);
+                delayLoadGame(activity, gameId, loadMGMode, authorizationSecret);
             }
         });
     }
@@ -189,7 +193,7 @@ public class AppGameViewModel implements SudFSMMGListener {
      * @param code     登录令牌
      * @param gameId   游戏id
      */
-    private void loadGame(FragmentActivity activity, String code, long gameId) {
+    private void loadGame(FragmentActivity activity, String code, long gameId, int loadMGMode, String authorizationSecret) {
         if (activity.isDestroyed() || !isRunning || gameId != playingGameId) {
             return;
         }
@@ -198,7 +202,16 @@ public class AppGameViewModel implements SudFSMMGListener {
         sudFSMMGDecorator.setSudFSMMGListener(this);
 
         // 调用游戏sdk加载游戏
-        ISudFSTAPP iSudFSTAPP = SudMGP.loadMG(activity, HSUserInfo.userId + "", gameRoomId + "", code, gameId, SystemUtils.getLanguageCode(activity), sudFSMMGDecorator);
+        SudLoadMGParamModel sudLoadMGParamModel = new SudLoadMGParamModel();
+        sudLoadMGParamModel.loadMGMode = loadMGMode;
+        sudLoadMGParamModel.activity = activity;
+        sudLoadMGParamModel.userId = HSUserInfo.userId + "";
+        sudLoadMGParamModel.roomId = gameRoomId + "";
+        sudLoadMGParamModel.code = code;
+        sudLoadMGParamModel.mgId = gameId;
+        sudLoadMGParamModel.language = SystemUtils.getLanguageCode(activity);
+        sudLoadMGParamModel.authorizationSecret = authorizationSecret;
+        ISudFSTAPP iSudFSTAPP = SudMGP.loadMG(sudLoadMGParamModel, sudFSMMGDecorator);
 
         // APP调用游戏接口的装饰类设置
         sudFSTAPPDecorator.setISudFSTAPP(iSudFSTAPP);
@@ -215,11 +228,11 @@ public class AppGameViewModel implements SudFSMMGListener {
      * @param activity 游戏所在页面
      * @param gameId   游戏id
      */
-    private void delayLoadGame(FragmentActivity activity, long gameId) {
+    private void delayLoadGame(FragmentActivity activity, long gameId, int loadMGMode, String authorizationSecret) {
         ThreadUtils.runOnUiThreadDelayed(new Runnable() {
             @Override
             public void run() {
-                login(activity, gameId);
+                login(activity, gameId, loadMGMode, authorizationSecret);
             }
         }, 5000);
     }

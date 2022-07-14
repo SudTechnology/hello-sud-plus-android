@@ -503,5 +503,6 @@
     <string name="room_name">来一起玩游戏吧</string>
     <string name="change_sud_appid">切换AppId</string>
     <string name="change_env">切换环境</string>
+    <string name="discover">发现</string>
 
 </resources>

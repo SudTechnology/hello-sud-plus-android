@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F6FB"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/index_header"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:background="@color/white"
+        android:paddingHorizontal="24dp"
+        android:paddingTop="7dp"
+        android:paddingBottom="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <tech.sud.mgp.hello.common.widget.view.round.RoundedImageView
+            android:id="@+id/header_iv"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:src="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:riv_corner_radius="28dp" />
+
+        <TextView
+            android:id="@+id/name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:singleLine="true"
+            android:textColor="#1a1a1a"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@id/userid_tv"
+            app:layout_constraintStart_toEndOf="@id/header_iv"
+            app:layout_constraintTop_toTopOf="@id/header_iv" />
+
+        <TextView
+            android:id="@+id/userid_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:singleLine="true"
+            android:textColor="#13141a"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@id/header_iv"
+            app:layout_constraintStart_toEndOf="@id/header_iv"
+            app:layout_constraintTop_toBottomOf="@id/name_tv" />
+
+        <EditText
+            android:id="@+id/search_et"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:layout_marginTop="15dp"
+            android:background="#F2F3F7"
+            android:hint="@string/search_hint"
+            android:imeOptions="actionSearch"
+            android:inputType="number"
+            android:paddingStart="8dp"
+            android:paddingEnd="47dp"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textColorHint="#aaaaaa"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/header_iv" />
+
+        <TextView
+            android:id="@+id/go_search"
+            android:layout_width="39dp"
+            android:layout_height="32dp"
+            android:background="@color/black"
+            android:gravity="center"
+            android:text="@string/search_enter"
+            android:textColor="@color/c_ffffff"
+            android:textSize="12sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/search_et"
+            app:layout_constraintEnd_toEndOf="@id/search_et"
+            app:layout_constraintTop_toTopOf="@id/search_et" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <tech.sud.mgp.hello.ui.common.widget.refresh.RefreshView
+        android:id="@+id/refresh_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/index_header" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

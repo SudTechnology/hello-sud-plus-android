@@ -246,6 +246,12 @@ public class DeveloperKitGameViewModel implements SudFSMMGListener {
         model.language = SystemUtils.getLanguageCode(activity);
         ISudFSTAPP iSudFSTAPP = SudMGP.loadMG(model, sudFSMMGDecorator);
 
+        if (iSudFSTAPP == null) {
+            ToastUtils.showLong("loadMG params error");
+            delayLoadGame(activity, gameId, model);
+            return;
+        }
+
         // APP调用游戏接口的装饰类设置
         sudFSTAPPDecorator.setISudFSTAPP(iSudFSTAPP);
 

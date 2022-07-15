@@ -402,8 +402,8 @@ Vaya a la página de inicio para crear una!</string>
     <string name="game_playing_close_quiz_warn">El juego está en progreso, ahora no se puede desactivar la adivinación automática</string>
     <string name="auto_quiz">Adivinación automática</string>
     <string name="close_auto_guess_i_win_title">¿Quieres desactivar la adivinación automática para ganar cada ronda?</string>
-    <string name="quiz_bet_msg">%1$s apoyan a %2%s. ¡Adivina QUIÉN ganará!</string>
-    <string name="quiz_guess_i_win_msg">¡%1%s confía en sí mismo, y apuesta por su propia vicotria!</string>
+    <string name="quiz_bet_msg">%1$s apoyan a %2$s. ¡Adivina QUIÉN ganará!</string>
+    <string name="quiz_guess_i_win_msg">¡%1$s confía en sí mismo, y apuesta por su propia vicotria!</string>
     <string name="game_player_empty">No hay jugadores en el juego, vuelve más tarde</string>
     <string name="bet_completed">Apuesta hecha, esperando a los resultados</string>
     <string name="game_situation">Status del juego</string>
@@ -464,7 +464,7 @@ Vaya a la página de inicio para crear una!</string>
     <string name="contribution_ranking_info">El envío de regalos y comentarios flotantes te ayudarán a ascender en tu clasificación.</string>
     <string name="contribution_value">Valor de la contribución</string>
     <string name="disco_explain_top_5">Top 5</string>
-    <string name="disco_explain_1">1. clasificación de contribuciones de %1$s DJs al azar (se actualiza cada %2%s segundos)</string>
+    <string name="disco_explain_1">1. clasificación de contribuciones de %1$s DJs al azar (se actualiza cada %2$s segundos)</string>
     <string name="disco_explain_2">2. Los regalos pueden activar diferentes efectos o asignar un presentar a bailar.</string>
     <string name="disco_explain_3">3. Comando de pantalla compartida: [%1$s][%2$s][%3$s].</string>
     <string name="disco_explain_4">4. Los usuarios online pueden enviar [%1$s] para ser presentadores,\n&#160;&#160;&#160;&#160; enviar [%2$] para dejar de presentar.</string>

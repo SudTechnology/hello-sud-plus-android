@@ -356,7 +356,7 @@ Buat ruangan di Beranda</string>
     <string name="matching">Cocok</string>
     <string name="in_game">Dalam permainan</string>
     <string name="intercept_room_pk">Lomba berakhir lebih awal karena lawan keluar diri dari lomba</string>
-    <string name="send_order_chat_msg">%1$s memesan %2%s untuk bermain 【%3$s】</string>
+    <string name="send_order_chat_msg">%1$s memesan %2$s untuk bermain 【%3$s】</string>
     <string name="more_activity">Lebih lanjut</string>
     <string name="award">Hadiah</string>
     <string name="join_now">Gabung</string>

@@ -20,8 +20,6 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
-import tech.sud.mgp.hello.BuildConfig;
-
 /**
  * UncaughtException处理类,当程序发生Uncaught异常的时候,有该类来接管程序,并记录错误报告.
  * <p>
@@ -127,10 +125,8 @@ public class CrashHandler implements UncaughtExceptionHandler {
         String result = writer.toString();
         sb.append(result);
         sb.append("\n" + Log.getStackTraceString(ex));
-        if (BuildConfig.DEBUG) {
-            Log.e(TAG, "发生了异常:" + sb.toString());
-            LogUtils.file(sb.toString());
-        }
+        Log.e(TAG, "发生了异常:" + sb.toString());
+        LogUtils.file(sb.toString());
     }
 
     /**

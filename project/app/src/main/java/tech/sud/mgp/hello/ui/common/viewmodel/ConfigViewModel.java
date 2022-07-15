@@ -63,20 +63,20 @@ public class ConfigViewModel extends BaseViewModel {
             AppData.getInstance().setBaseConfigResp(baseConfigResp);
             GlobalCache.getInstance().put(GlobalCache.BASE_CONFIG_KEY, baseConfigResp);
 
+
+            // 2022-07-15 修改为重启app，就使用默认的配置
+            BaseRtcConfig baseRtcConfig = getDefaultRtcConfig(baseConfigResp);
+
+            // 下面注释的逻辑暂时不用
             // 应用rtc配置
-            Object rtcConfigSerializable = GlobalCache.getInstance().getSerializable(GlobalCache.RTC_CONFIG_KEY);
-            BaseRtcConfig baseRtcConfig = null;
-            if (rtcConfigSerializable instanceof BaseRtcConfig) { // 本地已经保存了rtc配置，直接使用
-                baseRtcConfig = refreshRtcConfig(rtcConfigSerializable, baseConfigResp);
-            } else { // 本地未保存rtc配置，从基础配置当中找一个，设为默认rtc配置
-                if (baseConfigResp != null) {
-                    if (baseConfigResp.zegoCfg != null) {
-                        baseRtcConfig = baseConfigResp.zegoCfg;
-                    } else if (baseConfigResp.agoraCfg != null) {
-                        baseRtcConfig = baseConfigResp.agoraCfg;
-                    }
-                }
-            }
+//            Object rtcConfigSerializable = GlobalCache.getInstance().getSerializable(GlobalCache.RTC_CONFIG_KEY);
+//            BaseRtcConfig baseRtcConfig = null;
+//            if (rtcConfigSerializable instanceof BaseRtcConfig) { // 本地已经保存了rtc配置，直接使用
+//                baseRtcConfig = refreshRtcConfig(rtcConfigSerializable, baseConfigResp);
+//            } else { // 本地未保存rtc配置，从基础配置当中找一个，设为默认rtc配置
+//              baseRtcConfig = getDefaultRtcConfig(baseConfigResp);
+//            }
+
             if (baseRtcConfig != null) {
                 GlobalCache.getInstance().put(GlobalCache.RTC_CONFIG_KEY, baseRtcConfig);
             }
@@ -85,6 +85,28 @@ public class ConfigViewModel extends BaseViewModel {
             // 通知页面
             initConfigSuccessLiveData.postValue(null);
         });
+    }
+
+    private BaseRtcConfig getDefaultRtcConfig(BaseConfigResp baseConfigResp) {
+        BaseRtcConfig baseRtcConfig = null;
+        if (baseConfigResp != null) {
+            if (baseConfigResp.zegoCfg != null) {
+                baseRtcConfig = baseConfigResp.zegoCfg;
+            } else if (baseConfigResp.agoraCfg != null) {
+                baseRtcConfig = baseConfigResp.agoraCfg;
+            } else if (baseConfigResp.rongCloudCfg != null) {
+                baseRtcConfig = baseConfigResp.rongCloudCfg;
+            } else if (baseConfigResp.commsEaseCfg != null) {
+                baseRtcConfig = baseConfigResp.commsEaseCfg;
+            } else if (baseConfigResp.volcEngineCfg != null) {
+                baseRtcConfig = baseConfigResp.volcEngineCfg;
+            } else if (baseConfigResp.alibabaCloudCfg != null) {
+                baseRtcConfig = baseConfigResp.alibabaCloudCfg;
+            } else if (baseConfigResp.tencentCloudCfg != null) {
+                baseRtcConfig = baseConfigResp.tencentCloudCfg;
+            }
+        }
+        return baseRtcConfig;
     }
 
     /** 使用后端返回的最新的RTC配置 */

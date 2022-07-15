@@ -209,10 +209,18 @@ public class HomeFragment extends BaseFragment implements CreatRoomClickListener
             case SceneType.TICKET: // 门票制场景
                 startTicketLevelActivity(sceneModel, gameModel);
                 break;
+            case SceneType.LEAGUE: // 联赛场景
+                clickLeagueGame(sceneModel, gameModel);
+                break;
             default:
                 matchGame(sceneModel.getSceneId(), gameModel.gameId);
                 break;
         }
+    }
+
+    // 点击了联赛场景的
+    private void clickLeagueGame(SceneModel sceneModel, GameModel gameModel) {
+        
     }
 
     // 打开场景等级选择页面

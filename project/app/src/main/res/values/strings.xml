@@ -490,7 +490,25 @@ Go to homepage to create one~</string>
     <string name="waiting">Waiting</string>
 
     <!-- region 新增 -->
-
+    <string name="example">示例</string>
+    <string name="league_entrace_title">勇敢去赢</string>
+    <string name="league_entrace_award_info">大赛奖金池，达一百万金币</string>
+    <string name="special_gift">特有礼物</string>
+    <string name="league_scehedule">比赛赛程</string>
+    <string name="first_session">第一局</string>
+    <string name="first_session_info_1">淘汰赛 生死逃杀进前三</string>
+    <string name="first_session_info_2">用户进行比赛，\n排名前三进入前三名</string>
+    <string name="second_session">第二局</string>
+    <string name="second_session_info_1">总决赛 勇夺第一名</string>
+    <string name="second_session_info_2">三强用户进行比赛，\n决出第一名</string>
+    <string name="immediate_entry">立即参赛</string>
+    <string name="continue_play">继续比赛</string>
+    <string name="be_promoted_info">你已进入三强</string>
+    <string name="example_step_1">比赛入口</string>
+    <string name="example_step_2">第一局淘汰赛</string>
+    <string name="example_step_3">进入前三</string>
+    <string name="example_step_4">总决赛</string>
+    <string name="example_step_5">获得第一名</string>
 
     <!-- endregion 新增 -->
 

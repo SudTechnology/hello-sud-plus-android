@@ -102,7 +102,7 @@ public class EnterRoomUtils {
             // TODO: 2022/6/16 弹幕游戏目前只支持即构RTC
             BaseRtcConfig rtcConfig = AppData.getInstance().getSelectRtcConfig();
             if (!(rtcConfig instanceof ZegoConfig)) {
-                ToastUtils.showLong(R.string.danmaku_enter_intercept);
+                ToastUtils.showLong(R.string.coming_soon);
                 return false;
             }
         }

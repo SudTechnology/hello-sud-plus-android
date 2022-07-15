@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/ic_league_entrance_bg"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <tech.sud.mgp.hello.ui.common.widget.HSTopBar
+        android:id="@+id/top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        app:topbar_backSrc="@drawable/icon_navi_back_white"
+        app:topbar_titleTextColor="@color/white"
+        android:paddingTop="14dp"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_example"
+        android:layout_width="wrap_content"
+        android:layout_height="44dp"
+        android:textSize="14sp"
+        android:textColor="@color/white"
+        android:text="@string/example"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:paddingHorizontal="10dp"
+        android:layout_marginEnd="18dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/top_bar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:scrollbars="none"
+        android:paddingBottom="32dp"
+        android:clipToPadding="false"
+        app:layout_constraintTop_toBottomOf="@id/top_bar"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- 标题 -->
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:gravity="center"
+                android:shadowColor="#d4003e"
+                android:shadowDx="5"
+                android:shadowDy="6"
+                android:shadowRadius="10"
+                android:text="@string/league_entrace_title"
+                android:textColor="#ffe3c2"
+                android:textSize="46sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <FrameLayout
+                android:id="@+id/fl_award"
+                android:layout_width="343dp"
+                android:layout_height="131dp"
+                android:background="@drawable/ic_league_award"
+                app:layout_constraintTop_toBottomOf="@id/tv_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <TextView
+                    android:id="@+id/tv_award_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:textColor="#e6c593"
+                    android:text="@string/league_entrace_award_info"
+                    android:gravity="center"
+                    android:paddingHorizontal="13dp"
+                    android:paddingVertical="1dp"
+                    android:layout_marginTop="27dp"
+                    android:layout_gravity="center_horizontal" />
+
+            </FrameLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_gift"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="16dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/fl_award">
+
+                <TextView
+                    android:layout_width="78dp"
+                    android:layout_height="65dp"
+                    android:gravity="bottom|center_horizontal"
+                    android:paddingBottom="1dp"
+                    android:textColor="#eabadc"
+                    android:textSize="12sp"
+                    android:text="@string/special_gift"
+                    android:background="@drawable/ic_league_gift_1" />
+
+                <TextView
+                    android:layout_width="78dp"
+                    android:layout_height="65dp"
+                    android:gravity="bottom|center_horizontal"
+                    android:paddingBottom="1dp"
+                    android:textColor="#eabadc"
+                    android:textSize="12sp"
+                    android:text="@string/special_gift"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/ic_league_gift_2" />
+
+                <TextView
+                    android:layout_width="78dp"
+                    android:layout_height="65dp"
+                    android:gravity="bottom|center_horizontal"
+                    android:paddingBottom="1dp"
+                    android:textColor="#eabadc"
+                    android:textSize="12sp"
+                    android:text="@string/special_gift"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/ic_league_gift_3" />
+
+                <TextView
+                    android:layout_width="78dp"
+                    android:layout_height="65dp"
+                    android:gravity="bottom|center_horizontal"
+                    android:paddingBottom="1dp"
+                    android:textColor="#eabadc"
+                    android:textSize="12sp"
+                    android:text="@string/special_gift"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/ic_league_gift_4" />
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:id="@+id/view_promoted"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ll_gift">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_round_000000"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="10dp"
+                    android:paddingVertical="1dp"
+                    android:text="@string/be_promoted_info"
+                    android:textSize="14sp"
+                    android:textColor="@color/white"
+                    android:layout_marginStart="9dp" />
+
+                <View
+                    android:layout_width="24dp"
+                    android:layout_height="23dp"
+                    android:background="@drawable/ic_league_trothy" />
+
+            </FrameLayout>
+
+            <!-- 按钮 -->
+            <TextView
+                android:id="@+id/tv_entrance"
+                android:layout_width="192dp"
+                android:layout_height="78dp"
+                android:background="@drawable/ic_league_entrance_btn"
+                android:gravity="center"
+                android:textSize="28sp"
+                android:textColor="@color/white"
+                android:layout_marginTop="22dp"
+                android:text="@string/immediate_entry"
+                app:layout_constraintTop_toBottomOf="@id/ll_gift"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="17dp"
+                android:layout_marginTop="48dp"
+                android:background="@drawable/shape_schedule_bg"
+                android:paddingBottom="23dp"
+                app:layout_constraintTop_toBottomOf="@id/tv_entrance">
+
+                <View
+                    android:id="@+id/view_first"
+                    android:layout_width="7dp"
+                    android:layout_height="10dp"
+                    android:background="@drawable/ic_schedule_flag_1"
+                    android:layout_marginStart="34dp"
+                    android:layout_marginTop="34dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_first"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@color/c_97a1ed"
+                    android:text="@string/first_session"
+                    android:layout_marginStart="7dp"
+                    app:layout_constraintStart_toEndOf="@id/view_first"
+                    app:layout_constraintBottom_toBottomOf="@id/view_first"
+                    app:layout_constraintTop_toTopOf="@id/view_first" />
+
+                <LinearLayout
+                    android:id="@+id/ll_first"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginStart="28dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tv_first"
+                    app:layout_constraintStart_toEndOf="@id/tv_first">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:textColor="@color/c_97a1ed"
+                        android:text="@string/first_session_info_1" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:textColor="@color/c_97a1ed"
+                        android:text="@string/first_session_info_2"
+                        android:layout_marginTop="8dp" />
+
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/view_second"
+                    android:layout_width="7dp"
+                    android:layout_height="10dp"
+                    android:background="@drawable/ic_schedule_flag_1"
+                    android:layout_marginStart="34dp"
+                    android:layout_marginTop="27dp"
+                    app:layout_constraintTop_toBottomOf="@id/ll_first"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_second"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@color/c_97a1ed"
+                    android:text="@string/second_session"
+                    android:layout_marginStart="7dp"
+                    app:layout_constraintStart_toEndOf="@id/view_second"
+                    app:layout_constraintBottom_toBottomOf="@id/view_second"
+                    app:layout_constraintTop_toTopOf="@id/view_second" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginStart="28dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tv_second"
+                    app:layout_constraintStart_toEndOf="@id/tv_second">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:textColor="@color/c_97a1ed"
+                        android:text="@string/second_session_info_1" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:textColor="@color/c_97a1ed"
+                        android:text="@string/second_session_info_2"
+                        android:layout_marginTop="8dp" />
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_marginTop="34dp"
+                app:layout_constraintTop_toBottomOf="@id/tv_entrance">
+
+                <View
+                    android:layout_width="16dp"
+                    android:layout_height="11dp"
+                    android:background="@drawable/ic_schedule_flag_3" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:textColor="#b2b7ff"
+                    android:textStyle="bold"
+                    android:text="@string/league_scehedule"
+                    android:layout_marginStart="4dp" />
+
+                <View
+                    android:layout_width="16dp"
+                    android:layout_height="11dp"
+                    android:background="@drawable/ic_schedule_flag_3"
+                    android:layout_marginStart="4dp" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

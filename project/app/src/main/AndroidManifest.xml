@@ -172,6 +172,24 @@
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
 
+        <!-- 联赛场景入口 -->
+        <activity
+            android:name=".ui.scenes.league.activity.LeagueEntranceActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+
+        <!-- 联赛示例 -->
+        <activity
+            android:name=".ui.scenes.league.activity.LeagueExampleActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+
         <!-- Custom配置场景 -->
         <activity
             android:name=".ui.scenes.custom.CustomConfigActivity"

@@ -7,8 +7,8 @@ import androidx.annotation.NonNull;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.app.APPConfig;
+import tech.sud.mgp.hello.service.main.resp.DiscoverRoomModel;
 import tech.sud.mgp.hello.ui.main.constant.SceneType;
-import tech.sud.mgp.hello.ui.main.discover.DiscoverRoomModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoleType;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
 import tech.sud.mgp.hello.ui.scenes.custom.CustomActivity;

@@ -30,6 +30,7 @@ import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
 import tech.sud.mgp.hello.service.game.repository.GameRepository;
 import tech.sud.mgp.hello.service.game.resp.GetAuthRoomListResp;
+import tech.sud.mgp.hello.service.main.resp.DiscoverRoomModel;
 import tech.sud.mgp.hello.ui.common.widget.EmptyDataView;
 import tech.sud.mgp.hello.ui.common.widget.refresh.ListModel;
 import tech.sud.mgp.hello.ui.common.widget.refresh.RefreshDataHelper;

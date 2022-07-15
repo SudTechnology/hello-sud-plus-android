@@ -7,7 +7,7 @@ import tech.sud.mgp.core.SudLoadMGMode;
 import tech.sud.mgp.core.SudLoadMGParamModel;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.utils.GlobalCache;
-import tech.sud.mgp.hello.ui.main.discover.DiscoverRoomModel;
+import tech.sud.mgp.hello.service.main.resp.DiscoverRoomModel;
 import tech.sud.mgp.hello.ui.scenes.audio.activity.AbsAudioRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.custom.dialog.CustomApiDialog;
 import tech.sud.mgp.hello.ui.scenes.custom.viewmodel.CustomGameViewModel;

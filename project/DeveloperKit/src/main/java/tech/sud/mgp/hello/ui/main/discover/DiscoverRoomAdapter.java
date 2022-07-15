@@ -11,6 +11,7 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
+import tech.sud.mgp.hello.service.main.resp.DiscoverRoomModel;
 
 /**
  * 发现页房间列表
@@ -36,5 +37,5 @@ public class DiscoverRoomAdapter extends BaseQuickAdapter<DiscoverRoomModel, Bas
     public BaseLoadMoreModule addLoadMoreModule(@NonNull BaseQuickAdapter<?, ?> baseQuickAdapter) {
         return new BaseLoadMoreModule(baseQuickAdapter);
     }
-    
+
 }

@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.main.discover;
+package tech.sud.mgp.hello.service.main.resp;
 
 import java.io.Serializable;
 

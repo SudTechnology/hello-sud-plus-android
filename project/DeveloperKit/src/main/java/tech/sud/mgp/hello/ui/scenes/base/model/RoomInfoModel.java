@@ -2,7 +2,7 @@ package tech.sud.mgp.hello.ui.scenes.base.model;
 
 import java.io.Serializable;
 
-import tech.sud.mgp.hello.ui.main.discover.DiscoverRoomModel;
+import tech.sud.mgp.hello.service.main.resp.DiscoverRoomModel;
 
 /**
  * 房间信息模型

@@ -1,0 +1,473 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">HelloSud</string>
+
+    <string name="login_welcome">\nHelloSud 체험을 환영합니다.</string>
+    <string name="login_your_name">닉네임</string>
+    <string name="title_hellosud">HelloSud</string>
+    <string name="login_edit_name">닉네임을 입력하세요.</string>
+    <string name="male">남</string>
+    <string name="female">여</string>
+    <string name="play_now">즉시 체험하기</string>
+    <string name="search_hint">방 번호를 입력하여 빠르게 들어가기</string>
+
+    <string name="tabs_index">홈</string>
+    <string name="tabs_room">방</string>
+    <string name="tabs_set">설정</string>
+    <string name="useragreement_title">HelloSud사용을 환영합니다.</string>
+    <string name="useragreement_content_part1">저희는개인 정보 보호에 각별히 주의하고 있습니다. 개인 정보 수집 및 사용에 관한 세부 정보는 </string>
+    <string name="useragreement_content_part2">&lt;사용자 약관&gt;</string>
+    <string name="useragreement_content_part3">및</string>
+    <string name="useragreement_content_part4">&lt;개인 정보 정책&gt;</string>
+    <string name="useragreement_content_part5">을 클릭하여 이해할 수 있습니다. 동의를 클릭하면 상기 모든 약관을 열람하고 동의함을 의미합니다.</string>
+    <string name="useragreement_reject">거절</string>
+    <string name="useragreement_agree">동의</string>
+    <string name="user_secondary_title">도움말</string>
+    <string name="user_secondary_content">HelloSud는 서비스 및 체험 개선 용도로만 개인 정보를 사용합니다. 개인 정보 보호에 최선을 다 할 예정이니 동의 후 사용하여주시기 바랍니다.
+\n 개인정보 정책을 거절하면 완벽한 제품 및 서비스를 제공 받을 수 없습니다.</string>
+    <string name="user_secondary_reject">앱 종료</string>
+    <string name="user_secondary_agree">동의 및 계속 사용</string>
+    <string name="setting_sdk_version">SDK버전 번호</string>
+    <string name="setting_app_version">App버전 번호</string>
+    <string name="setting_useragreement">사용자 협의</string>
+    <string name="setting_privacy">개인정보 정책</string>
+    <string name="setting_contact">연락방법</string>
+    <string name="setting_userid">사용자ID %1$s</string>
+    <string name="setting_userid1">사용자ID：%1$s</string>
+    <string name="coming_soon">기다려주세요.</string>
+    <string name="room_list_enter">들어가기</string>
+    <string name="room_list_roomid">방 ID：%1$s</string>
+    <string name="room_list_online">%1$s인</string>
+    <string name="setting_contact1_content">더 많은 자문이나 피드백이 필요하시면 이메일로 연락해주세요：help@sud.tech</string>
+    <string name="setting_contact1_but">예</string>
+    <string-array name="names_list" tools:ignore="ExtraTranslation">
+        <item>哈利</item>
+        <item>祺祥</item>
+        <item>沐辰</item>
+        <item>阿米莉亚</item>
+        <item>齐默尔曼</item>
+        <item>陌北</item>
+        <item>旺仔</item>
+        <item>半夏</item>
+        <item>朝雨</item>
+        <item>卫斯理</item>
+        <item>阿道夫</item>
+        <item>长青</item>
+        <item>安小六</item>
+        <item>小凡</item>
+        <item>炎月</item>
+        <item>醉风</item>
+        <item>斯科特</item>
+        <item>布卢默</item>
+        <item>宛岩</item>
+        <item>平萱</item>
+        <item>凝雁</item>
+        <item>怀亚特</item>
+        <item>格伦巴特</item>
+        <item>尔白</item>
+        <item>南露</item>
+        <item>爱丽丝</item>
+        <item>埃尔维斯</item>
+        <item>奥利维亚</item>
+        <item>妙竹</item>
+        <item>雲思衣</item>
+        <item>少女大佬</item>
+        <item>兔兔别跑</item>
+        <item>夏纱</item>
+        <item>嘉慕</item>
+        <item>阿拉贝拉</item>
+        <item>星剑</item>
+        <item>罗德斯</item>
+        <item>渡满归</item>
+        <item>星浅</item>
+        <item>问水</item>
+        <item>星奕晨</item>
+        <item>丹尼尔</item>
+        <item>白止扇</item>
+        <item>暖暖</item>
+        <item>埃迪</item>
+        <item>杰里米</item>
+        <item>玛德琳</item>
+        <item>波佩</item>
+        <item>卡诺</item>
+        <item>泡芙</item>
+        <item>帕特里克</item>
+        <item>梅雷迪斯</item>
+        <item>公孙昕</item>
+        <item>青弘</item>
+        <item>潘豆豆</item>
+        <item>小番秀二</item>
+        <item>大一宇</item>
+        <item>米奇</item>
+        <item>戴夫</item>
+        <item>伯特</item>
+        <item>米洛布雷</item>
+        <item>阿德莱德</item>
+        <item>吉宝</item>
+        <item>伊娃</item>
+        <item>路易斯</item>
+        <item>希拉姆</item>
+        <item>杰西</item>
+        <item>贝特西</item>
+        <item>利奥波德</item>
+        <item>丽塔</item>
+        <item>拉姆斯登</item>
+        <item>伯纳德</item>
+        <item>理查德</item>
+        <item>奥尔德里奇</item>
+        <item>劳里</item>
+        <item>奥兰多</item>
+        <item>埃尔罗伊</item>
+        <item>栗和顺</item>
+        <item>朱雀佳行</item>
+        <item>理德拉</item>
+        <item>凡勃伦</item>
+        <item>科波菲尔</item>
+        <item>玉谷大三</item>
+        <item>大木元司</item>
+        <item>钮阳冰</item>
+        <item>盖勤</item>
+        <item>紫心</item>
+        <item>弘慕慕</item>
+        <item>怀星驰</item>
+        <item>泉宏胜</item>
+        <item>闻人星海</item>
+        <item>Watt</item>
+        <item>Kevin</item>
+        <item>Toby</item>
+        <item>瓦利斯</item>
+        <item>苏珊娜</item>
+        <item>罗密欧</item>
+        <item>福克纳</item>
+        <item>多萝西</item>
+        <item>贝尔</item>
+        <item>卡门</item>
+        <item>安德烈</item>
+        <item>朱丽叶</item>
+        <item>吉姆</item>
+    </string-array>
+
+    <string-array name="language_list">
+        <item>추적 시스템</item>
+        <item>简体中文</item>
+        <item>繁體中文</item>
+        <item>English</item>
+        <item>لغة عربية</item>
+        <item>Bahasa Indonesia</item>
+        <item>Bahasa Melayu</item>
+        <item>ภาษาไทย</item>
+        <item>Tiếng Việt</item>
+        <item>한국어</item>
+        <item>Español</item>
+        <item>日本語</item>
+    </string-array>
+
+    <string name="search_room_error">정확한 방 번호를 입력하세요.</string>
+    <string name="user_agreement_title">사용자 약관</string>
+    <string name="user_privacy_title">개인정보 정책</string>
+    <string name="roomlist_empty">방송 중인 방이 없음 \n
+홈에서 생성하세요~</string>
+    <string name="search_enter">들어가기</string>
+    <string name="select_game">게임 선택</string>
+    <string name="audio_click_got_mic">마이크 켜기 클릭</string>
+    <string name="audio_has_ready">준비 완료</string>
+    <string name="audio_not_ready">준비 전</string>
+    <string name="audio_got_mic">마이크 켜기</string>
+    <string name="audio_chat_hint">채팅~</string>
+    <string name="audio_dialog_gift_present">증정</string>
+    <string name="audio_dialog_present">보내기</string>
+    <string name="audio_cancle">취소</string>
+    <string name="audio_all">모두</string>
+    <string name="audio_mic_index">%1$d 마이크</string>
+    <string name="audio_room_admin">방 주인</string>
+    <string name="audio_send">발송</string>
+    <string name="audio_send_msg_hint">메시지 발송…</string>
+    <string name="audio_send_gift_user_empty">받는 대상을 선택하세요.</string>
+    <string name="audio_send_gift_empty">선물 선택</string>
+    <string name="audio_recreation_chat">오락 채팅</string>
+    <string name="audio_chat_room">음성 채팅방</string>
+    <string name="audio_gameing">게임 중</string>
+    <string name="audio_room_number">방 ID</string>
+    <string name="audio_close_room_title">현재 방을 나가시겠습니까?</string>
+    <string name="audio_enter_the_room">방에 들어왔습니다</string>
+    <string name="audio_down_mic">마이크 끄기</string>
+    <string name="cancel">취소</string>
+    <string name="confirm">확인</string>
+    <string name="confirm_">도망가기 확인</string>
+    <string name="common_go_setting">설정하러 가기</string>
+    <string name="common_camera">카메라</string>
+    <string name="common_storage">메모리</string>
+    <string name="common_correlation">관련</string>
+    <string name="common_record_audio">녹음</string>
+    <string name="common_phone">전화</string>
+    <string name="common_setting_permission_info">%2$s APP기능을 정상 사용하려면 설정에서 %1$s권한을 켜세요</string>
+    <string name="close_game">게임 끄기</string>
+    <string name="finish_game">게임 종료</string>
+    <string name="index_creat_room">방 생성</string>
+    <string name="index_game_join">가입</string>
+    <string name="occupy_size">점용 크기</string>
+    <string name="version_info">버전 정보</string>
+    <string name="change_rtc_service">RTC서비스 제공자로 전환</string>
+    <string name="change_language">언어 전환</string>
+    <string name="github">GitHub</string>
+    <string name="open_source_licenses">오픈소스 약관</string>
+    <string name="change_rtc_confirm">RTC서비스 제공자를 【%1$s】로 전환하시겠습니까？</string>
+    <string name="be_making">제작 중이니 잠시 기다려주세요!</string>
+    <string name="total_value">총%1$s</string>
+    <string name="finish_game_confirm">게임 종료를 확인하시겠습니까?</string>
+    <string name="playing_down_mic">현재 게임 중입니다. 나가시겠습니까？</string>
+    <string name="game_number">게임 인원수</string>
+    <string name="rtc_name_zego">Zego</string>
+    <string name="rtc_name_agora">Agora</string>
+    <string name="rtc_name_rong_cloud">RongCloud</string>
+    <string name="rtc_name_comms_ease">CommsEase</string>
+    <string name="rtc_name_volc_engine">VoiceEngine</string>
+    <string name="rtc_name_alibaba_cloud">Alibaba Cloud</string>
+    <string name="rtc_name_tencent_cloud">Tencent Cloud</string>
+    <string name="asr_guide">본 게임은 음성 식별을 지원합니다. 마이크 켜고 매력을 어필해 보세요~</string>
+    <string name="asr_guide_number_boom">마이크 켜고 숫자 확인하기, 귀차니즘이 있는 분들을 위한 혜택!</string>
+    <string name="primary_field">초급장</string>
+    <string name="middle_field">중급장</string>
+    <string name="high_field">고급장</string>
+    <string name="win_multiple_award">%1$d배 보너스 취득</string>
+    <string name="count_people_play">%1$s인이 플레이중</string>
+    <string name="now_participation">즉시 참여</string>
+    <string name="join_game_confirm">게임 참여시 %1$d코인이 소모됩니다. 계속하시겠습니까?</string>
+    <string name="no_longer_remind">다시 보지 않음</string>
+    <string name="confirm_join">가입 확인</string>
+    <string name="asr_guide_draw">마이크를 켜고 문제에 대답해 보세요, 타자를 더 빨리 쳐 보십시오!</string>
+    <string name="app_version_low">App의 버전이 낮습니다, 우선 버전을 업그레이드 해주십시오!</string>
+    <string name="app_version_update_tip">새로운 버전이 있습니다. 갱신하시겠습니까?</string>
+    <string name="app_version_update_btn1">다음에 다시 보기</string>
+    <string name="app_version_update_btn2">즉시 갱신</string>
+    <string name="ticket_level_notice">축하합니다 %1$s의 중급장 %2$s코인 취득하셨습니다!</string>
+    <string name="unable_to_speak">현재 발언 못함</string>
+    <string name="no_empty_seat">공석없음</string>
+    <string name="more_settings">자세한 설정</string>
+    <string name="create_ticket_room_title">생선된 입장권 횟수 급별 선택</string>
+    <string name="take_first_place">1등을 취득</string>
+    <string name="high_gold_coin_award">최고 %1$d코인 보너스 취득 가능</string>
+    <string name="transfer_captain">대장 양도</string>
+    <string name="kick_game">게임에서 쫓겨나기</string>
+    <string name="net_error_hint">네트 오류, 네트 연결을 확인하십시오</string>
+    <string name="switched_language">언어 전환됨</string>
+    <string name="order_dialog_title">마이크 사용자를 선택</string>
+    <string name="order_dialog_sub_title">마이크 앵커를 지정하여 함께 플레이</string>
+    <string name="order_btn">시작하다</string>
+    <string name="order_selected_total">%1$d명을 선정</string>
+    <string name="dialog_scene_title">모든 장면</string>
+    <string name="hang_room">룸 중단</string>
+    <string name="exit_room">룸 퇴출</string>
+    <string name="floating_permission_info">현부창 권한이 꺼짐, 켜진후 작은 창구를 사용 가능</string>
+    <string name="go_setting">설정하기</string>
+    <string name="order_price_text">200/판/인</string>
+    <string name="close_game_warn">우선 게임을 완료해야 게임을 끄기 가능</string>
+    <string name="switch_game_warn">우선 게임을 완료해야 게임을 전환 가능</string>
+    <string name="order_invite_conent">%1$s \n【%2$s】함께 게임을 희망\n 가입 여부</string>
+    <string name="order_invite_right_btn">게임입장</string>
+    <string name="order_invite_left_btn">거절</string>
+    <string name="order_result_conent">%1$s 초청을 거절, 타인을 찾아 게임하기</string>
+    <string name="order_finish_conent">완료된 주문, 기타 앵카와 함께 계속 게임여부?</string>
+    <string name="order_finish_left_text">나가기</string>
+    <string name="order_finish_right_text">주문하기</string>
+    <string name="game_api_in_title">게임입장</string>
+    <string name="game_api_in_state">app_common_self_in，\"isIn\":true</string>
+    <string name="game_api_ready_title">준비</string>
+    <string name="game_api_ready_state">app_common_self_ready，\"isReady\":true</string>
+    <string name="game_api_ready_title_cancle">준비취소</string>
+    <string name="game_api_ready_state_cancle">app_common_self_ready，\"isReady\":false</string>
+    <string name="game_api_in_title_false">게임퇴장</string>
+    <string name="game_api_in_state_false">app_common_self_in，\"isIn\":false</string>
+    <string name="game_api_playing_title">게임시작</string>
+    <string name="game_api_playing_state">app_common_self_playing，\"isPlaying\":true</string>
+    <string name="game_api_playing_title_false">도주:</string>
+    <string name="game_api_playing_state_false">app_common_self_playing，\"isPlaying\":false</string>
+    <string name="game_api_end_title_false">게임 해산(팀장):</string>
+    <string name="game_api_end_state_false">app_common_self_end，{}</string>
+    <string name="game_config_title">게임 구성</string>
+    <string name="game_config_tip">배치를 수정한후 룸을 종료하고 다시 게임을 로딩</string>
+    <string name="dialog_game_stage">게임 단계</string>
+    <string name="dialog_game_api">API</string>
+    <string name="dialog_game_before">게임 가입전</string>
+    <string name="dialog_game_join_btn">①게임 가입</string>
+    <string name="dialog_game_ready">준비 단계</string>
+    <string name="dialog_game_ready_btn">②준비</string>
+    <string name="dialog_game_cancel_ready_btn">준비취소</string>
+    <string name="dialog_game_start_btn">③게임시작</string>
+    <string name="dialog_game_exit_btn">게임 종료</string>
+    <string name="dialog_game_playing">게임 중</string>
+    <string name="dialog_game_escape">도주</string>
+    <string name="dialog_game_release">게임 해산</string>
+    <string name="order_start_order">주문 필요</string>
+    <string name="order_hang_up_game">게임 중단</string>
+    <string name="order_enter_game">게임 진입</string>
+    <string name="order_game_playing">게임 중</string>
+    <string name="user_receive_invite_msg">%1$s 당신과 함께 플레이를 동의【%2$s】</string>
+    <string name="order_dialog_no_select_anchor">앵커를 선택하기</string>
+    <string name="order_dialog_no_select_game">게임을 선택하기</string>
+    <string name="wait_start">시작 대기</string>
+    <string name="finished">종료</string>
+    <string name="seat_empty" />
+    <string name="renew_pk">한번더</string>
+    <string name="open_room_pk">다른 서버룸 열기</string>
+    <string name="start_pk">경기 시작</string>
+    <string name="pk_settings">설정</string>
+    <string name="select_game_hint">한개 게임을 선택하여 경기</string>
+    <string name="loading">로딩중&#8230;</string>
+    <string name="load_failed">로딩 실패, 클릭  재 시도</string>
+    <string name="no_more">-이것은 태도가 있는 밑선-</string>
+    <string name="load_completed">로딩 완성</string>
+    <string name="live_room">방송중 룸 목록</string>
+    <string name="invite_pk">초청</string>
+    <string name="pk_rule">경기 규칙</string>
+    <string name="pk_rule_detail_1">1.레드 블루 진영으로 구분하며 동일한 룸내의 사용자는 한개 진영.</string>
+    <string name="pk_rule_detail_2">2.경기 시간내에 게임 득점 순위를 통하여 자기측 진영에 점수를 추가 가능.</string>
+    <string name="pk_rule_detail_3">3.매번 게임의 순위 가점수:</string>
+    <string name="pk_rule_detail_4">1등+100점</string>
+    <string name="pk_rule_detail_5">2등+50점</string>
+    <string name="pk_rule_detail_6">3등+20점</string>
+    <string name="pk_rule_detail_7">4. 공평을 위하여 양측은 같은 수량의 플레이어를 파견하여 게임에 참가 가능~</string>
+    <string name="order_inivte_complete">이미 주문</string>
+    <string name="pk_duration_settings">경기 시간 설정</string>
+    <string name="close_room_pk">다른 서버룸 닫기</string>
+    <string name="number_minute">%1$s분간</string>
+    <string name="confirm_modify">수정 확인</string>
+    <string name="empty_room_match">잠시동안 매칭 가능한 룸 없음</string>
+    <string name="invite_pk_hint">상대측을 초청하기</string>
+    <string name="invite_pk_answer_title">%1$s의 룸에서 발송한 다른룸 게임 초청, 접수 여부?</string>
+    <string name="refuse">거절</string>
+    <string name="accept">확인</string>
+    <string name="win_info_first">축하,%1$s는 1등 취득,%2$s에게%3$s점을 추가!</string>
+    <string name="win_info_second">%1$s는 2등 취득,%2$s에게%3$s점을 추가!</string>
+    <string name="win_info_thirdly">%1$s는 3등 취득,%2$s에게%3$s점을 추가!</string>
+    <string name="team_red">레드측</string>
+    <string name="team_blue">블루측</string>
+    <string name="enter_other_room_confirm">상대측 룸에 출발 여부?</string>
+    <string name="confirm_to">가다</string>
+    <string name="game_running_remove_warn">게임 완료 전, 삭제 못함</string>
+    <string name="pk_running_remove_warn">경기 완료 전, 삭제 못함</string>
+    <string name="remove_rival_confirm">본 상대자의 삭제 여부?</string>
+    <string name="confirm_remove">예</string>
+    <string name="room_invitation_send">초청 발송완료, 대기하기</string>
+    <string name="room_close_pk_advance_tip">다른룸 게임 끄기 확인?\n 끄면 앞당겨 결제 및 게임 종지.</string>
+    <string name="close">끄기</string>
+    <string name="room_pk_wait_onwer_select">방주인의 게임선택을 대기</string>
+    <string name="room_round_game_over">이번 게임 완료,\n 또한번 시도 여부?</string>
+    <string name="matching">어울리는</string>
+    <string name="in_game">게임 중</string>
+    <string name="intercept_room_pk">상대측 강제 종료로 경기가 사전 종료</string>
+    <string name="send_order_chat_msg">%1$s는%2$s에게 한주문은 약【%3$s】플레이 가능</string>
+    <string name="more_activity">더 보기</string>
+    <string name="award">보너스</string>
+    <string name="join_now">가입</string>
+    <string name="residue">잔여</string>
+    <string name="maximum_number_of_participants">참여 인원수 상한</string>
+    <string name="entrance">입장</string>
+    <string name="free">무료</string>
+    <string name="more_quiz_title">알찬 퀴즈 이벤트</string>
+    <string name="more_quiz_hint">다른 방과 게임,누가 최강자인가?</string>
+    <string name="add_cast">추가 투입</string>
+    <string name="guess_he_win">TA승리로 예측</string>
+    <string name="quiz_number">%1$s인이 퀴즈에 참여함</string>
+    <string name="quiz_win_result_detail">%1$s인이 예측 성공, 보너스 풀 배분</string>
+    <string name="quiz_win_result">예측 성공, 보너스 풀 배분</string>
+    <string name="have_support">이미 지원</string>
+    <string name="from_start">시작까지</string>
+    <string name="limited_quiz">한시 퀴즈 이벤트</string>
+    <string name="play_immediately">즉시 플레이</string>
+    <string name="quiz_bet_title">지원할 투입 수량</string>
+    <string name="quiz_bet_hint">투입을 많이 할 수록 많이 배분 받습니다</string>
+    <string name="support_now">즉시 지원</string>
+    <string name="gold_coin">코인</string>
+    <string name="ranking_of_quiz">퀴즈 왕</string>
+    <string name="ranking_of_big_god">대신방</string>
+    <string name="ranking_of_day">일간 </string>
+    <string name="ranking_of_week">주간 </string>
+    <string name="victory_count">승리(장)</string>
+    <string name="quiz_king">퀴즈의 왕자</string>
+    <string name="quiz_win">퀴즈 승리</string>
+    <string name="game_master">게임 고수</string>
+    <string name="win_victory">승리</string>
+    <string name="guess_win_or_lose">승패 예측하기</string>
+    <string name="select_support_player">지원할 플레이어 선택</string>
+    <string name="guess_hint">맞추면 5배 보너스!</string>
+    <string name="affirm_coin">확인(%1$s코인)</string>
+    <string name="support_count">이미%1$s인이 지원</string>
+    <string name="guess_i_win">자체 승리 예측</string>
+    <string name="guess_i_win_hint">1등은 5배 보너스</string>
+    <string name="guess_i_win_auto">매번 자체 승리 자동 예측을 켜기 여부？</string>
+    <string name="each_round_coin">（매번%1$s코인）</string>
+    <string name="cancel_start">켜지않음</string>
+    <string name="start_now">켜기</string>
+    <string name="game_playing_start_quiz_warn">게임중, 퀴즈를 켜지못함</string>
+    <string name="game_playing_close_quiz_warn">게임중, 퀴즈를 끄지못함</string>
+    <string name="auto_quiz">자동 퀴즈</string>
+    <string name="close_auto_guess_i_win_title">매번 자체 승리 자동 예측을 끄기 여부?</string>
+    <string name="quiz_bet_msg">%1$s 는 %2$s 를 위하여call, TA의 승리로 예측！</string>
+    <string name="quiz_guess_i_win_msg">%1$s는 마음속에 타산이 있고, 자체 승리로 예측！</string>
+    <string name="game_player_empty">게임중 플레이어가 없고 잠시 후 재시도하기.</string>
+    <string name="bet_completed">베팅 완료,결과 공시를 대기 중</string>
+    <string name="game_situation">게임 결과</string>
+    <string name="quiz_lose_title">낙심하지 말고 다음에 승리하기！</string>
+    <string name="they_join_quiz">퀴즈에 참여한 그들</string>
+    <string name="to_a_game">한번 더</string>
+    <string name="guess_correctly">맞춤</string>
+    <string name="the_next_refueling">다음에 노력하기</string>
+    <string name="not_quiz">맞추지 못함</string>
+    <string name="congratulation_win">승리의 축가</string>
+    <string name="quiz_player_win_hint">94.8%게이머를 초과</string>
+    <string name="not_quiz_player_hint">자체 승리를 베팅, 승리하면 5배 보너스!</string>
+    <string name="quiz_audience_win_hint">신통한 예측, 승승장구~</string>
+    <string name="not_quiz_audience_hint">맞추면 5배 보너스! 다음번에 함께 해봐요~</string>
+    <string name="auto_land_title">게임 진행중, 수평 스크린으로 더 좋은 체험</string>
+    <string name="auto_land_countdown">%1$s초후 풀스크린으로 자동 진입</string>
+    <string name="enter_now">즉시 진입</string>
+    <string name="danmaku_enter_intercept">즉시RTC체험을 사용하기</string>
+    <string name="join_team">팀원 가입</string>
+    <string name="gold_coin_count">%1$s코인</string>
+    <string name="is_end">이미 마감</string>
+    <string name="disco_ranking">댄싱 순위</string>
+    <string name="explain">설명</string>
+    <string name="focus_king">초점왕</string>
+    <string name="popular_anchors_list">인기 앵커 순위</string>
+    <string name="focus_king_title">클로즈업 취득(회)</string>
+    <string name="popular_anchors_list_title">초청 받음(~회)</string>
+    <string name="disco_ranking_explain">댄싱 순위 설명</string>
+    <string name="disco_ranking_explain_content_1">순위 주기：월요일0시 부터 일요일 24시, 각 자연주는 1개 순위 주기</string>
+    <string name="disco_ranking_explain_content_2">초점왕：\n 클라우드 댄싱장중 캐릭터 클로즈업된 횟수 순위</string>
+    <string name="disco_ranking_explain_content_3">인기 앵커순위：\n 클라우드 댄싱장중, 초청받은 댄싱 횟수 순위</string>
+    <string name="close_auto_guess_warn">잔액 부족, 자동 예측이 꺼짐, 충전하기~</string>
+    <string name="start_disco">댄싱 시작</string>
+    <string name="close_disco">댄싱 끄기</string>
+    <string name="close_disco_title">디스코를 닫으시겠습니까?</string>
+    <string name="move">이동</string>
+    <string name="god">상천</string>
+    <string name="change_role">캐릭터 교환</string>
+    <string name="go_to_work">무대 위에</string>
+    <string name="get_off_work">무대에서</string>
+    <string name="focus">초점</string>
+    <string name="feature">클로즈업</string>
+    <string name="effect">특효</string>
+    <string name="dancing_minute_count">%1$s분간 댄싱</string>
+    <string name="send_gift_title">내가 증정한것은 %1$s개【%2$s】</string>
+    <string name="stage_menu">무대 프로그램</string>
+    <string name="invite_dance_info">%1$s를 초청하여%2$s분간 댄싱</string>
+    <string name="residue_minute">%1$smins 잔여</string>
+    <string name="residue_second">%1$ss잔여</string>
+    <string name="empty_dancing_menu">프로그램 없음, 기념품 증정으로 앵커 댄싱을 초청 가능</string>
+    <string name="rule">규칙</string>
+    <string name="dance_rule_1">1、앵커가 대기 중, 앵커에게 【1분간 댄생】또는【3분간 댄싱】기념품을 증정하면, 그 즉시 본 앵커와 함께 중심 무대에서 1분 또는 3분간 댄싱 가능.</string>
+    <string name="dance_rule_2">2、앵커가 기타 사용자와 댄싱중, 상기 2개 기념품을 증정하여 줄서기.</string>
+    <string name="dance_rule_3">3、초청한 앵커는 리스트에서 대기중,【댄싱 끼어들기】를 발송하여 당신을 앵커 대열의 최상위로 설정 가능, 앵커와 현재 사용자 플레이 완료를 대기하며 당신은 다음 차례입니다.</string>
+    <string name="dance_invite_send_hint">발송된 댄싱 초청, 잠시만 기다려 주십시오.</string>
+    <string name="contribution_ranking">공헌 순위</string>
+    <string name="contribution_ranking_info">기념품 증정, 댓글자박 발송시 순위에 등장가능</string>
+    <string name="contribution_value">기여치</string>
+    <string name="disco_explain_top_5">탑 5</string>
+    <string name="disco_explain_1">1. 공헌 순위%1$s무작위DJ（%2$s초 새로고침）</string>
+    <string name="disco_explain_2">2. 기념품 증정으로 서로 다른 효과 활성화 또는 앵커 댄싱을 주문 가능.</string>
+    <string name="disco_explain_3">3. 공중 스크린 명령：【%1$s】【%2$s】【%3$s】。</string>
+    <string name="disco_explain_4">4. 마이크 사용자가【%1$s】발표로 앵커위치에 진입, \n&#160;&#160;&#160;&#160; 【%2$s】발표로 앵커위치를 이탈.</string>
+    <string name="disco_explain_5">5. 앵커가 발송한 문자【%1$s】로 클로즈업 활성화 가능.</string>
+    <string name="waiting">대기중</string>
+
+</resources>

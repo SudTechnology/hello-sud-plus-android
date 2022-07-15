@@ -1,0 +1,474 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">HelloSud</string>
+
+    <string name="login_welcome">歡迎體驗 \nHelloSud</string>
+    <string name="login_your_name">你的昵稱</string>
+    <string name="title_hellosud">HelloSud</string>
+    <string name="login_edit_name">請輸入你的昵稱</string>
+    <string name="male">男</string>
+    <string name="female">女</string>
+    <string name="play_now">立即體驗</string>
+    <string name="search_hint">輸入房間號快速進入</string>
+
+    <string name="tabs_index">首頁</string>
+    <string name="tabs_room">房間</string>
+    <string name="tabs_set">設置</string>
+    <string name="useragreement_title">歡迎使用HelloSud</string>
+    <string name="useragreement_content_part1">我們非常重視您的個人資訊保護。關於個人資訊收集和使用的詳細資訊，您可以點擊</string>
+    <string name="useragreement_content_part2">《用戶協議》</string>
+    <string name="useragreement_content_part3">和</string>
+    <string name="useragreement_content_part4">《隱私政策》</string>
+    <string name="useragreement_content_part5">進行瞭解。點擊同意及表示您已閱讀並同意全部上述協議</string>
+    <string name="useragreement_reject">不同意</string>
+    <string name="useragreement_agree">同意</string>
+    <string name="user_secondary_title">溫馨提示</string>
+    <string name="user_secondary_content">        HelloSud僅會將您的資訊用於提供服務和改善體驗，我們將全力保障您的資訊安全，請同意後使用。
+        \n若您不同意本隱私政策，很遺憾我們將無法為您提供完整的產品和服務</string>
+    <string name="user_secondary_reject">退出應用</string>
+    <string name="user_secondary_agree">同意並繼續使用</string>
+    <string name="setting_sdk_version">SDK版本號</string>
+    <string name="setting_app_version">App版本號</string>
+    <string name="setting_useragreement">用戶協議</string>
+    <string name="setting_privacy">隱私政策</string>
+    <string name="setting_contact">聯繫我們</string>
+    <string name="setting_userid">用戶ID %1$s</string>
+    <string name="setting_userid1">用戶ID：%1$s</string>
+    <string name="coming_soon">敬請期待</string>
+    <string name="room_list_enter">進入</string>
+    <string name="room_list_roomid">房間號：%1$s</string>
+    <string name="room_list_online">%1$s人</string>
+    <string name="setting_contact1_content">如需要瞭解更多資訊或回饋問題，可通過郵箱聯繫我們：help@sud.tech</string>
+    <string name="setting_contact1_but">好的</string>
+    <string-array name="names_list" tools:ignore="ExtraTranslation">
+        <item>哈利</item>
+        <item>祺祥</item>
+        <item>沐辰</item>
+        <item>阿米莉亚</item>
+        <item>齐默尔曼</item>
+        <item>陌北</item>
+        <item>旺仔</item>
+        <item>半夏</item>
+        <item>朝雨</item>
+        <item>卫斯理</item>
+        <item>阿道夫</item>
+        <item>长青</item>
+        <item>安小六</item>
+        <item>小凡</item>
+        <item>炎月</item>
+        <item>醉风</item>
+        <item>斯科特</item>
+        <item>布卢默</item>
+        <item>宛岩</item>
+        <item>平萱</item>
+        <item>凝雁</item>
+        <item>怀亚特</item>
+        <item>格伦巴特</item>
+        <item>尔白</item>
+        <item>南露</item>
+        <item>爱丽丝</item>
+        <item>埃尔维斯</item>
+        <item>奥利维亚</item>
+        <item>妙竹</item>
+        <item>雲思衣</item>
+        <item>少女大佬</item>
+        <item>兔兔别跑</item>
+        <item>夏纱</item>
+        <item>嘉慕</item>
+        <item>阿拉贝拉</item>
+        <item>星剑</item>
+        <item>罗德斯</item>
+        <item>渡满归</item>
+        <item>星浅</item>
+        <item>问水</item>
+        <item>星奕晨</item>
+        <item>丹尼尔</item>
+        <item>白止扇</item>
+        <item>暖暖</item>
+        <item>埃迪</item>
+        <item>杰里米</item>
+        <item>玛德琳</item>
+        <item>波佩</item>
+        <item>卡诺</item>
+        <item>泡芙</item>
+        <item>帕特里克</item>
+        <item>梅雷迪斯</item>
+        <item>公孙昕</item>
+        <item>青弘</item>
+        <item>潘豆豆</item>
+        <item>小番秀二</item>
+        <item>大一宇</item>
+        <item>米奇</item>
+        <item>戴夫</item>
+        <item>伯特</item>
+        <item>米洛布雷</item>
+        <item>阿德莱德</item>
+        <item>吉宝</item>
+        <item>伊娃</item>
+        <item>路易斯</item>
+        <item>希拉姆</item>
+        <item>杰西</item>
+        <item>贝特西</item>
+        <item>利奥波德</item>
+        <item>丽塔</item>
+        <item>拉姆斯登</item>
+        <item>伯纳德</item>
+        <item>理查德</item>
+        <item>奥尔德里奇</item>
+        <item>劳里</item>
+        <item>奥兰多</item>
+        <item>埃尔罗伊</item>
+        <item>栗和顺</item>
+        <item>朱雀佳行</item>
+        <item>理德拉</item>
+        <item>凡勃伦</item>
+        <item>科波菲尔</item>
+        <item>玉谷大三</item>
+        <item>大木元司</item>
+        <item>钮阳冰</item>
+        <item>盖勤</item>
+        <item>紫心</item>
+        <item>弘慕慕</item>
+        <item>怀星驰</item>
+        <item>泉宏胜</item>
+        <item>闻人星海</item>
+        <item>Watt</item>
+        <item>Kevin</item>
+        <item>Toby</item>
+        <item>瓦利斯</item>
+        <item>苏珊娜</item>
+        <item>罗密欧</item>
+        <item>福克纳</item>
+        <item>多萝西</item>
+        <item>贝尔</item>
+        <item>卡门</item>
+        <item>安德烈</item>
+        <item>朱丽叶</item>
+        <item>吉姆</item>
+    </string-array>
+
+    <string-array name="language_list">
+        <item>跟隨系統</item>
+        <item>简体中文</item>
+        <item>繁體中文</item>
+        <item>English</item>
+        <item>لغة عربية</item>
+        <item>Bahasa Indonesia</item>
+        <item>Bahasa Melayu</item>
+        <item>ภาษาไทย</item>
+        <item>Tiếng Việt</item>
+        <item>한국어</item>
+        <item>Español</item>
+        <item>日本語</item>
+    </string-array>
+
+    <string name="search_room_error">請輸入正確的房間號</string>
+    <string name="user_agreement_title">用戶協議</string>
+    <string name="user_privacy_title">隱私政策</string>
+    <string name="roomlist_empty">        暫無房間開播 \n
+        去首頁創建一個吧~</string>
+    <string name="search_enter">進入</string>
+    <string name="select_game">選擇遊戲</string>
+    <string name="audio_click_got_mic">點擊上麥</string>
+    <string name="audio_has_ready">已準備</string>
+    <string name="audio_not_ready">未準備</string>
+    <string name="audio_got_mic">上麥</string>
+    <string name="audio_chat_hint">聊一聊~</string>
+    <string name="audio_dialog_gift_present">贈送</string>
+    <string name="audio_dialog_present">送給</string>
+    <string name="audio_cancle">取消</string>
+    <string name="audio_all">全選</string>
+    <string name="audio_mic_index">%1$d麥</string>
+    <string name="audio_room_admin">房主</string>
+    <string name="audio_send">發送</string>
+    <string name="audio_send_msg_hint">發消息…</string>
+    <string name="audio_send_gift_user_empty">請選擇收禮對象</string>
+    <string name="audio_send_gift_empty">請選擇禮物</string>
+    <string name="audio_recreation_chat">娛樂聊天</string>
+    <string name="audio_chat_room">語聊房</string>
+    <string name="audio_gameing">遊戲中</string>
+    <string name="audio_room_number">房號</string>
+    <string name="audio_close_room_title">確認離開當前房間嗎</string>
+    <string name="audio_enter_the_room">進入了房間</string>
+    <string name="audio_down_mic">下麥</string>
+    <string name="cancel">取消</string>
+    <string name="confirm">確定</string>
+    <string name="confirm_">確認逃跑</string>
+    <string name="common_go_setting">去設置</string>
+    <string name="common_camera">相機</string>
+    <string name="common_storage">存儲</string>
+    <string name="common_correlation">相關</string>
+    <string name="common_record_audio">錄音</string>
+    <string name="common_phone">電話</string>
+    <string name="common_setting_permission_info">請在設置中開啟%1$s許可權，以正常使用 %2$s APP功能</string>
+    <string name="close_game">關閉遊戲</string>
+    <string name="finish_game">結束遊戲</string>
+    <string name="index_creat_room">創建房間</string>
+    <string name="index_game_join">加入</string>
+    <string name="occupy_size">佔用大小</string>
+    <string name="version_info">版本資訊</string>
+    <string name="change_rtc_service">切換RTC服務商</string>
+    <string name="change_language">切換語言</string>
+    <string name="github">GitHub</string>
+    <string name="open_source_licenses">開源協議</string>
+    <string name="change_rtc_confirm">確認將RTC服務商切換為【%1$s】？</string>
+    <string name="be_making">正在製作中，敬請期待！</string>
+    <string name="total_value">總%1$s</string>
+    <string name="finish_game_confirm">確定結束遊戲嗎</string>
+    <string name="playing_down_mic">當前正在遊戲中，是否逃跑？</string>
+    <string name="game_number">遊戲人數</string>
+    <string name="rtc_name_zego">Zego</string>
+    <string name="rtc_name_agora">Agora</string>
+    <string name="rtc_name_rong_cloud">RongCloud</string>
+    <string name="rtc_name_comms_ease">CommsEase</string>
+    <string name="rtc_name_volc_engine">VoiceEngine</string>
+    <string name="rtc_name_alibaba_cloud">Alibaba Cloud</string>
+    <string name="rtc_name_tencent_cloud">Tencent Cloud</string>
+    <string name="asr_guide">本遊戲支持語音識別，請開麥展現你的魅力~</string>
+    <string name="asr_guide_number_boom">試試打開麥克風報數，懶人福利！</string>
+    <string name="primary_field">初級場</string>
+    <string name="middle_field">中級場</string>
+    <string name="high_field">高級場</string>
+    <string name="win_multiple_award">贏%1$d倍獎勵</string>
+    <string name="count_people_play">%1$s人在玩</string>
+    <string name="now_participation">立即參與</string>
+    <string name="join_game_confirm">參與遊戲需消耗%1$d金幣，是否繼續？</string>
+    <string name="no_longer_remind">不再提醒</string>
+    <string name="confirm_join">確認加入</string>
+    <string name="asr_guide_draw">開麥搶答，比打字更快哦！</string>
+    <string name="app_version_low">您的App版本較低，請先升級版本</string>
+    <string name="app_version_update_tip">已有新版本可體驗，是否更新？</string>
+    <string name="app_version_update_btn1">下次再說</string>
+    <string name="app_version_update_btn2">立即更新</string>
+    <string name="ticket_level_notice">恭喜 %1$s 在中級場贏得%2$s金幣！</string>
+    <string name="unable_to_speak">當前不能發言</string>
+    <string name="no_empty_seat">沒有空位啦</string>
+    <string name="more_settings">更多設置</string>
+    <string name="create_ticket_room_title">選擇創建的門票場次級別</string>
+    <string name="take_first_place">奪得第一名</string>
+    <string name="high_gold_coin_award">最高可獲得%1$d金幣獎勵</string>
+    <string name="transfer_captain">轉讓隊長</string>
+    <string name="kick_game">踢出遊戲</string>
+    <string name="net_error_hint">網路錯誤，請檢查網路連接</string>
+    <string name="switched_language">已切換語言</string>
+    <string name="order_dialog_title">選擇麥上用戶</string>
+    <string name="order_dialog_sub_title">指定麥上主播和你一起玩</string>
+    <string name="order_btn">下單去玩</string>
+    <string name="order_selected_total">已選定%1$d人</string>
+    <string name="dialog_scene_title">所有場景</string>
+    <string name="hang_room">掛起房間</string>
+    <string name="exit_room">退出房間</string>
+    <string name="floating_permission_info">暫未開啟懸浮窗許可權，打開後才可使用小窗哦</string>
+    <string name="go_setting">去設置</string>
+    <string name="order_price_text">200/局/人</string>
+    <string name="close_game_warn">需先結束遊戲，才可關閉遊戲</string>
+    <string name="switch_game_warn">需先結束遊戲，才可切換遊戲</string>
+    <string name="order_invite_conent">%1$s \n希望和你一起玩【%2$s】\n是否加入</string>
+    <string name="order_invite_right_btn">加入</string>
+    <string name="order_invite_left_btn">拒絕</string>
+    <string name="order_result_conent">%1$s拒絕您的邀請，找其他人一起玩</string>
+    <string name="order_finish_conent">此單已結束，是否繼續和其他主播一起玩？</string>
+    <string name="order_finish_left_text">返回</string>
+    <string name="order_finish_right_text">去下單</string>
+    <string name="game_api_in_title">加入游戏</string>
+    <string name="game_api_in_state">app_common_self_in，\"isIn\":true</string>
+    <string name="game_api_ready_title">准备：</string>
+    <string name="game_api_ready_state">app_common_self_ready，\"isReady\":true</string>
+    <string name="game_api_ready_title_cancle">取消准备：</string>
+    <string name="game_api_ready_state_cancle">app_common_self_ready，\"isReady\":false</string>
+    <string name="game_api_in_title_false">退出游戏：</string>
+    <string name="game_api_in_state_false">app_common_self_in，\"isIn\":false</string>
+    <string name="game_api_playing_title">开始游戏：</string>
+    <string name="game_api_playing_state">app_common_self_playing，\"isPlaying\":true</string>
+    <string name="game_api_playing_title_false">逃跑：</string>
+    <string name="game_api_playing_state_false">app_common_self_playing，\"isPlaying\":false</string>
+    <string name="game_api_end_title_false">解散遊戲（隊長）：</string>
+    <string name="game_api_end_state_false">app_common_self_end，{}</string>
+    <string name="game_config_title">遊戲配置</string>
+    <string name="game_config_tip">修改配置後請退出房間，重新加載遊戲</string>
+    <string name="dialog_game_stage">遊戲階段</string>
+    <string name="dialog_game_api">API接口</string>
+    <string name="dialog_game_before">加入遊戲前</string>
+    <string name="dialog_game_join_btn">①加入遊戲</string>
+    <string name="dialog_game_ready">準備階段</string>
+    <string name="dialog_game_ready_btn">②準備</string>
+    <string name="dialog_game_cancel_ready_btn">取消準備</string>
+    <string name="dialog_game_start_btn">③開始遊戲</string>
+    <string name="dialog_game_exit_btn">退出遊戲</string>
+    <string name="dialog_game_playing">遊戲中</string>
+    <string name="dialog_game_escape">逃跑</string>
+    <string name="dialog_game_release">解散遊戲</string>
+    <string name="order_start_order">我要點單</string>
+    <string name="order_hang_up_game">掛起遊戲</string>
+    <string name="order_enter_game">進入遊戲</string>
+    <string name="order_game_playing">遊戲中</string>
+    <string name="user_receive_invite_msg">%1$s同意和你一起玩【%2$s】。</string>
+    <string name="order_dialog_no_select_anchor">請選擇主播</string>
+    <string name="order_dialog_no_select_game">請選擇遊戲</string>
+    <string name="wait_start">待開始</string>
+    <string name="finished">已結束</string>
+    <string name="seat_empty">虛位以待</string>
+    <string name="renew_pk">再來一次</string>
+    <string name="open_room_pk">開啟跨房玩遊戲</string>
+    <string name="start_pk">開始比賽</string>
+    <string name="pk_settings">設置</string>
+    <string name="select_game_hint">請選擇一個遊戲進行比拼</string>
+    <string name="loading">正在加載中&#8230;</string>
+    <string name="load_failed">加載失敗，請點我重試</string>
+    <string name="no_more">-這是一條有態度的底線-</string>
+    <string name="load_completed">加載完成</string>
+    <string name="live_room">在播房間列表</string>
+    <string name="invite_pk">邀請</string>
+    <string name="pk_rule">比賽規則</string>
+    <string name="pk_rule_detail_1">1.分為紅藍陣營，同個房間內的用戶為一個陣營。</string>
+    <string name="pk_rule_detail_2">2.比賽時間段內，通過玩遊戲獲得的排名得分，即可以為己方陣營加分。</string>
+    <string name="pk_rule_detail_3">3.每輪遊戲的排名加分數值如下：</string>
+    <string name="pk_rule_detail_4">第一名+100分</string>
+    <string name="pk_rule_detail_5">第二名+50分</string>
+    <string name="pk_rule_detail_6">第三名+20分</string>
+    <string name="pk_rule_detail_7">4.為公平起見，雙方可協商派出相同數量的玩家參與遊戲~</string>
+    <string name="order_inivte_complete">已下單</string>
+    <string name="pk_duration_settings">比賽時長設置</string>
+    <string name="close_room_pk">關閉跨房玩遊戲</string>
+    <string name="number_minute">%1$s分鐘</string>
+    <string name="confirm_modify">確認修改</string>
+    <string name="empty_room_match">暫時沒有其他房間可匹配</string>
+    <string name="invite_pk_hint">請先邀請對手</string>
+    <string name="invite_pk_answer_title">%1$s的房間發來跨房玩遊戲的邀請，是否接受？</string>
+    <string name="refuse">拒絕</string>
+    <string name="accept">接受</string>
+    <string name="win_info_first">恭喜%1$s奪得第一為%2$s加%3$s分！</string>
+    <string name="win_info_second">%1$s奪得第二為%2$s加%3$s分！</string>
+    <string name="win_info_thirdly">%1$s奪得第三為%2$s加%3$s分！</string>
+    <string name="team_red">紅方</string>
+    <string name="team_blue">藍方</string>
+    <string name="enter_other_room_confirm">是否前往對方的房間？</string>
+    <string name="confirm_to">確認前往</string>
+    <string name="game_running_remove_warn">遊戲未結束，暫不可移除</string>
+    <string name="pk_running_remove_warn">比賽未結束，暫不可移除</string>
+    <string name="remove_rival_confirm">是否要移除該對手？</string>
+    <string name="confirm_remove">確認移除</string>
+    <string name="room_invitation_send">已發送邀請,請等待</string>
+    <string name="room_close_pk_advance_tip">確認關閉跨房玩遊戲嗎？\n關閉將提前結算，遊戲終止</string>
+    <string name="close">關閉</string>
+    <string name="room_pk_wait_onwer_select">等待房主選擇遊戲</string>
+    <string name="room_round_game_over">本輪遊戲已結束，\n是否再來一單？</string>
+    <string name="matching">匹配中</string>
+    <string name="in_game">比賽中</string>
+    <string name="intercept_room_pk">由於對方強制退出比賽，比賽提前結束</string>
+    <string name="send_order_chat_msg">%1$s 給%2$s下了一單，約玩【%3$s】</string>
+    <string name="more_activity">更多活動</string>
+    <string name="award">獎勵</string>
+    <string name="join_now">立即加入</string>
+    <string name="residue">剩餘</string>
+    <string name="maximum_number_of_participants">參與人數上限</string>
+    <string name="entrance">入場</string>
+    <string name="free">免費</string>
+    <string name="more_quiz_title">精彩競猜活動</string>
+    <string name="more_quiz_hint">跨房玩遊戲，猜猜誰最強？</string>
+    <string name="add_cast">加投</string>
+    <string name="guess_he_win">猜TA贏</string>
+    <string name="quiz_number">%1$s人已參與競猜</string>
+    <string name="quiz_win_result_detail">%1$s人預測成功瓜分獎池</string>
+    <string name="quiz_win_result">預測成功瓜分獎池</string>
+    <string name="have_support">已支持</string>
+    <string name="from_start">距離開始</string>
+    <string name="limited_quiz">限時競猜活動</string>
+    <string name="play_immediately">立即玩</string>
+    <string name="quiz_bet_title">你要投入多少支持</string>
+    <string name="quiz_bet_hint">投的多分的多</string>
+    <string name="support_now">立即支持</string>
+    <string name="gold_coin">金幣</string>
+    <string name="ranking_of_quiz">競猜王</string>
+    <string name="ranking_of_big_god">大神榜</string>
+    <string name="ranking_of_day">日榜</string>
+    <string name="ranking_of_week">周榜</string>
+    <string name="victory_count">勝利(場)</string>
+    <string name="quiz_king">競猜王者</string>
+    <string name="quiz_win">競猜獲勝</string>
+    <string name="game_master">遊戲高手</string>
+    <string name="win_victory">獲勝</string>
+    <string name="guess_win_or_lose">猜輸贏</string>
+    <string name="select_support_player">選擇你支持的玩家</string>
+    <string name="guess_hint">猜對得5倍獎勵!</string>
+    <string name="affirm_coin">確認(%1$s金幣)</string>
+    <string name="support_count">已有%1$s人支持</string>
+    <string name="guess_i_win">猜自己贏</string>
+    <string name="guess_i_win_hint">奪第一名 得5倍獎勵</string>
+    <string name="guess_i_win_auto">是否開啟每輪自動猜自己贏？</string>
+    <string name="each_round_coin">（每輪%1$s金幣）</string>
+    <string name="cancel_start">暫不開啟</string>
+    <string name="start_now">立即開啟</string>
+    <string name="game_playing_start_quiz_warn">遊戲進行中，暫不可開啟競猜</string>
+    <string name="game_playing_close_quiz_warn">遊戲進行中，暫不可關閉競猜</string>
+    <string name="auto_quiz">自動競猜</string>
+    <string name="close_auto_guess_i_win_title">是否關閉每輪自動猜自己贏?</string>
+    <string name="quiz_bet_msg">%1$s 為 %2$s 打call，猜TA會贏！</string>
+    <string name="quiz_guess_i_win_msg">%1$s 胸有成竹，猜自己一定能贏！</string>
+    <string name="game_player_empty">暫無玩家遊戲中，請稍候再來</string>
+    <string name="bet_completed">已投注，等待遊戲結果公佈</string>
+    <string name="game_situation">遊戲戰況</string>
+    <string name="quiz_lose_title">不必氣餒，下把翻盤！</string>
+    <string name="they_join_quiz">他們已參與競猜</string>
+    <string name="to_a_game">再來一局</string>
+    <string name="guess_correctly">猜中了</string>
+    <string name="the_next_refueling">下次加油</string>
+    <string name="not_quiz">未競猜</string>
+    <string name="congratulation_win">恭喜獲勝</string>
+    <string name="quiz_player_win_hint">超過了94.8%的人</string>
+    <string name="not_quiz_player_hint">投自己贏，獲勝將贏得5倍獎勵！</string>
+    <string name="quiz_audience_win_hint">料事如神，乘勝追擊~</string>
+    <string name="not_quiz_audience_hint">猜中將獲得5倍獎勵！下輪一起來吧~</string>
+    <string name="auto_land_title">遊戲激戰中，橫屏體驗更佳</string>
+    <string name="auto_land_countdown">%1$s秒後會自動進入全屏</string>
+    <string name="enter_now">馬上進入</string>
+    <string name="danmaku_enter_intercept">請使用即構RTC體驗</string>
+    <string name="join_team">加入戰隊</string>
+    <string name="gold_coin_count">%1$s金幣</string>
+    <string name="is_end">已截止</string>
+    <string name="disco_ranking">蹦迪排行</string>
+    <string name="explain">說明</string>
+    <string name="focus_king">焦點王</string>
+    <string name="popular_anchors_list">人氣主播榜</string>
+    <string name="focus_king_title">獲得特寫(次)</string>
+    <string name="popular_anchors_list_title">被邀約(次)</string>
+    <string name="disco_ranking_explain">蹦迪排行說明</string>
+    <string name="disco_ranking_explain_content_1">榜單週期：週一0點至周日24點，每個自然周為一個榜單週期</string>
+    <string name="disco_ranking_explain_content_2">焦點王：\n雲蹦迪場中，角色獲得特寫的次數排行</string>
+    <string name="disco_ranking_explain_content_3">人氣主播榜：\n雲蹦迪場中，被邀請跳舞的次數排行</string>
+    <string name="close_auto_guess_warn">餘額不足，自動競猜已關閉，快去充值吧~</string>
+    <string name="start_disco">開啟蹦迪</string>
+    <string name="close_disco">關閉蹦迪</string>
+    <string name="close_disco_title">確定要關閉蹦迪嗎？</string>
+    <string name="move">移動</string>
+    <string name="god">上天</string>
+    <string name="change_role">換角色</string>
+    <string name="go_to_work">上班</string>
+    <string name="get_off_work">下班</string>
+    <string name="focus">聚焦</string>
+    <string name="feature">特寫</string>
+    <string name="effect">特效</string>
+    <string name="dancing_minute_count">跳舞%1$s分鐘</string>
+    <string name="dance_top">跳舞插隊</string>
+    <string name="send_gift_title">我送了%1$s個【%2$s】</string>
+    <string name="stage_menu">舞臺節目單</string>
+    <string name="invite_dance_info">邀請 %1$s 跳舞%2$s分鐘</string>
+    <string name="residue_minute">剩餘%1$smins</string>
+    <string name="residue_second">剩餘%1$ss</string>
+    <string name="empty_dancing_menu">暫無節目，送禮即可邀請主播跳舞哦</string>
+    <string name="rule">規則</string>
+    <string name="dance_rule_1">1、主播正在空閒中，送給主播【跳舞1分鐘】或【跳舞3分鐘】禮物後，可立即與該主播上到中心舞臺跳舞，跳1分鐘或3分鐘。</string>
+    <string name="dance_rule_2">2、主播正在與其他用戶跳舞，送出上述兩個禮物將進入排隊。</string>
+    <string name="dance_rule_3">3、你邀約的主播正在佇列中排隊，送出【跳舞插隊】可以將你從主播的佇列中置頂，等待主播與當前用戶跳完，下一個就輪到你。</string>
+    <string name="dance_invite_send_hint">跳舞邀請已發出，請稍等</string>
+    <string name="contribution_ranking">貢獻榜</string>
+    <string name="contribution_ranking_info">送禮、發彈幕均可上榜</string>
+    <string name="contribution_value">貢獻值</string>
+    <string name="disco_explain_top_5">前五</string>
+    <string name="disco_explain_1">1. 貢獻榜%1$s隨機DJ（%2$s秒刷新）。</string>
+    <string name="disco_explain_2">2. 送禮可觸發不同的效果或點主播跳舞。</string>
+    <string name="disco_explain_3">3. 公屏指令：【%1$s】【%2$s】【%3$s】。</string>
+    <string name="disco_explain_4">4. 麥上用戶發送【%1$s】可上到主播位，\n&#160;&#160;&#160;&#160;發送【%2$s】可下主播位。</string>
+    <string name="disco_explain_5">5. 主播發文字【%1$s】可觸發特寫。</string>
+    <string name="waiting">等待中</string>
+
+</resources>

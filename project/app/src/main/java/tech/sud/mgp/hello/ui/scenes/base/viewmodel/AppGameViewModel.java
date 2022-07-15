@@ -213,6 +213,13 @@ public class AppGameViewModel implements SudFSMMGListener {
         sudLoadMGParamModel.authorizationSecret = authorizationSecret;
         ISudFSTAPP iSudFSTAPP = SudMGP.loadMG(sudLoadMGParamModel, sudFSMMGDecorator);
 
+        // 如果返回空，则代表参数问题或者非主线程
+        if (iSudFSTAPP == null) {
+            ToastUtils.showLong("loadMG params error");
+            delayLoadGame(activity, gameId);
+            return;
+        }
+
         // APP调用游戏接口的装饰类设置
         sudFSTAPPDecorator.setISudFSTAPP(iSudFSTAPP);
 

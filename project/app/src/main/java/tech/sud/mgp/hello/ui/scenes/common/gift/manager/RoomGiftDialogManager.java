@@ -16,9 +16,9 @@ public class RoomGiftDialogManager extends GiftBaseManager {
      * 初始化 送礼面板麦位
      */
     public void setMicUsers(List<AudioRoomMicModel> mDatas, int selectedIndex) {
+        GiftHelper.getInstance().inMic = true;
+        GiftHelper.getInstance().inMics.clear();
         if (mDatas != null && mDatas.size() > 0) {
-            GiftHelper.getInstance().inMic = true;
-            GiftHelper.getInstance().inMics.clear();
             if (selectedIndex < 0 || selectedIndex >= mDatas.size()) {
                 //根据业务，设置默认选中指定的麦上用户
                 selectedIndex = 0;

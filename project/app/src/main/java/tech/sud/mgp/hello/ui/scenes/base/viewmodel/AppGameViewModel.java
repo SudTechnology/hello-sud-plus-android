@@ -216,7 +216,7 @@ public class AppGameViewModel implements SudFSMMGListener {
         // 如果返回空，则代表参数问题或者非主线程
         if (iSudFSTAPP == null) {
             ToastUtils.showLong("loadMG params error");
-            delayLoadGame(activity, gameId);
+            delayLoadGame(activity, gameId, loadMGMode, authorizationSecret);
             return;
         }
 

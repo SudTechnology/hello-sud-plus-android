@@ -11,12 +11,16 @@ import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.http.rx.RxUtils;
 import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.service.main.method.HomeRequestMethodFactory;
+import tech.sud.mgp.hello.service.main.req.AuthMatchRoomReq;
+import tech.sud.mgp.hello.service.main.req.AuthRoomListReq;
 import tech.sud.mgp.hello.service.main.req.CreatRoomReq;
 import tech.sud.mgp.hello.service.main.req.MatchBodyReq;
 import tech.sud.mgp.hello.service.main.req.QuizBetReq;
 import tech.sud.mgp.hello.service.main.req.RoomListReq;
 import tech.sud.mgp.hello.service.main.req.TicketConfirmJoinReq;
 import tech.sud.mgp.hello.service.main.req.UserInfoReq;
+import tech.sud.mgp.hello.service.main.resp.AuthMatchRoomResp;
+import tech.sud.mgp.hello.service.main.resp.AuthRoomListResp;
 import tech.sud.mgp.hello.service.main.resp.BaseConfigResp;
 import tech.sud.mgp.hello.service.main.resp.CheckUpgradeResp;
 import tech.sud.mgp.hello.service.main.resp.CreatRoomResp;
@@ -190,6 +194,38 @@ public class HomeRepository {
     public static void quizGameList(LifecycleOwner owner, RxCallback<QuizGameListResp> callback) {
         HomeRequestMethodFactory.getMethod()
                 .quizGameList(BaseUrlManager.getInteractBaseUrl())
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /**
+     * 查询授权房间列表
+     *
+     * @param pageNumber 页码
+     * @param pageSize   每页大小
+     */
+    public static void authRoomList(LifecycleOwner owner, int pageNumber, int pageSize, RxCallback<AuthRoomListResp> callback) {
+        AuthRoomListReq req = new AuthRoomListReq();
+        req.pageNumber = pageNumber;
+        req.pageSize = pageSize;
+        HomeRequestMethodFactory.getMethod()
+                .authRoomList(BaseUrlManager.getInteractBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /**
+     * 跨域匹配房间
+     *
+     * @param authSecret app授权码
+     * @param roomId     房间id，对方app房间id
+     */
+    public static void authMatchRoom(LifecycleOwner owner, String authSecret, String roomId, RxCallback<AuthMatchRoomResp> callback) {
+        AuthMatchRoomReq req = new AuthMatchRoomReq();
+        req.authSecret = authSecret;
+        req.roomId = roomId;
+        HomeRequestMethodFactory.getMethod()
+                .authMatchRoom(BaseUrlManager.getInteractBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }

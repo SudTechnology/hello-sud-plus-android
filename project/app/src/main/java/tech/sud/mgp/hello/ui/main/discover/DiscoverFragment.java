@@ -10,20 +10,32 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseFragment;
+import tech.sud.mgp.hello.common.http.param.BaseResponse;
+import tech.sud.mgp.hello.common.http.param.RetCode;
+import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
+import tech.sud.mgp.hello.service.main.repository.HomeRepository;
+import tech.sud.mgp.hello.service.main.resp.AuthMatchRoomResp;
+import tech.sud.mgp.hello.service.main.resp.AuthRoomListResp;
+import tech.sud.mgp.hello.service.main.resp.AuthRoomModel;
+import tech.sud.mgp.hello.ui.common.utils.CompletedListener;
+import tech.sud.mgp.hello.ui.common.utils.LifecycleUtils;
 import tech.sud.mgp.hello.ui.common.widget.EmptyDataView;
+import tech.sud.mgp.hello.ui.common.widget.refresh.ListModel;
 import tech.sud.mgp.hello.ui.common.widget.refresh.RefreshDataHelper;
 import tech.sud.mgp.hello.ui.common.widget.refresh.RefreshView;
 import tech.sud.mgp.hello.ui.main.home.view.CoinDialog;
@@ -36,8 +48,9 @@ public class DiscoverFragment extends BaseFragment {
     private TextView nameTv, useridTv;
     private ImageView headerIv;
     private RefreshView refreshView;
-    private RefreshDataHelper<DiscoverRoomModel> refreshDataHelper;
+    private RefreshDataHelper<AuthRoomModel> refreshDataHelper;
     private DiscoverRoomAdapter adapter;
+    private boolean isInMatchRoom; // 是否正在匹配房间
 
     @Override
     protected int getLayoutId() {
@@ -65,7 +78,7 @@ public class DiscoverFragment extends BaseFragment {
 
     private void initRefreshDataHelper() {
         adapter = new DiscoverRoomAdapter();
-        refreshDataHelper = new RefreshDataHelper<DiscoverRoomModel>() {
+        refreshDataHelper = new RefreshDataHelper<AuthRoomModel>() {
             @Override
             protected RefreshView getRefreshView() {
                 return refreshView;
@@ -77,7 +90,7 @@ public class DiscoverFragment extends BaseFragment {
             }
 
             @Override
-            protected BaseQuickAdapter<DiscoverRoomModel, BaseViewHolder> getAdapter() {
+            protected BaseQuickAdapter<AuthRoomModel, BaseViewHolder> getAdapter() {
                 return adapter;
             }
 
@@ -104,7 +117,29 @@ public class DiscoverFragment extends BaseFragment {
 
     /** 获取数据 */
     private void getRoomList(int pageNumber, int pageSize) {
-        // TODO: 2022/7/14 需要数据
+        ListModel<AuthRoomModel> listModel = new ListModel<>();
+        listModel.pageNumber = pageNumber;
+        listModel.pageSize = pageSize;
+        HomeRepository.authRoomList(this, pageNumber, pageSize, new RxCallback<AuthRoomListResp>() {
+            @Override
+            public void onNext(BaseResponse<AuthRoomListResp> t) {
+                super.onNext(t);
+                if (t.getRetCode() == RetCode.SUCCESS) {
+                    if (t.getData() != null) {
+                        listModel.datas = t.getData().roomInfos;
+                    }
+                    refreshDataHelper.respDatasSuccess(listModel);
+                } else {
+                    refreshDataHelper.respDatasFailed(listModel);
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                refreshDataHelper.respDatasFailed(listModel);
+            }
+        });
     }
 
     @Override
@@ -150,6 +185,45 @@ public class DiscoverFragment extends BaseFragment {
         goSearch.setOnClickListener(v -> enterRoom());
         headerIv.setOnClickListener(v -> {
             new CoinDialog().show(getChildFragmentManager(), null);
+        });
+        adapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
+                clickRoom(position);
+            }
+        });
+    }
+
+    private void clickRoom(int position) {
+        if (isInMatchRoom) {
+            return;
+        }
+        isInMatchRoom = true;
+        AuthRoomModel item = adapter.getItem(position);
+        HomeRepository.authMatchRoom(this, item.authSecret, item.roomId, new RxCallback<AuthMatchRoomResp>() {
+            @Override
+            public void onSuccess(AuthMatchRoomResp resp) {
+                super.onSuccess(resp);
+                matchRoomOnSuccess(resp);
+            }
+
+            @Override
+            public void onFinally() {
+                super.onFinally();
+                isInMatchRoom = false;
+            }
+        });
+    }
+
+    private void matchRoomOnSuccess(AuthMatchRoomResp resp) {
+        if (resp == null) {
+            return;
+        }
+        LifecycleUtils.safeLifecycle(this, new CompletedListener() {
+            @Override
+            public void onCompleted() {
+                EnterRoomUtils.enterRoom(requireContext(), resp.localRoomId);
+            }
         });
     }
 

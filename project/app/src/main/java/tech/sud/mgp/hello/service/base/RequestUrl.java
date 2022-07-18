@@ -112,4 +112,11 @@ public interface RequestUrl {
     /** 机器人列表 */
     String ROBOT_LIST = "robot/list/v1";
     // endregion 礼物
+
+    // region 跨域
+    /** 授权房间列表 */
+    String AUTH_ROOM_LIST = "extra/get-auth-room-list";
+    /** 跨域匹配房间 */
+    String AUTH_MATCH_ROOM = "extra/match-room/v1";
+    // endregion 跨域
 }

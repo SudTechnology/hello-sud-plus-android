@@ -163,6 +163,15 @@
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
 
+        <!-- 跨域房间页面 -->
+        <activity
+            android:name=".ui.scenes.crossdomain.CrossDomainActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+
         <!-- Custom配置场景 -->
         <activity
             android:name=".ui.scenes.custom.CustomConfigActivity"

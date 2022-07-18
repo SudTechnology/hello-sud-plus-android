@@ -29,6 +29,7 @@ import tech.sud.mgp.hello.ui.scenes.asr.ASRActivity;
 import tech.sud.mgp.hello.ui.scenes.audio.activity.AudioRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.base.model.EnterRoomParams;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
+import tech.sud.mgp.hello.ui.scenes.crossdomain.CrossDomainActivity;
 import tech.sud.mgp.hello.ui.scenes.crossroom.activity.CrossRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.custom.CustomActivity;
 import tech.sud.mgp.hello.ui.scenes.danmaku.activity.DanmakuActivity;
@@ -144,6 +145,7 @@ public class EnterRoomUtils {
         model.gameLevel = enterRoomResp.gameLevel;
         model.roomPkModel = enterRoomResp.pkResultVO;
         model.streamId = enterRoomResp.streamId;
+        model.authRoomInfo = enterRoomResp.extraRoomVO;
         Intent intent = getSceneIntent(context, enterRoomResp.sceneType);
         intent.putExtra("RoomInfoModel", model);
         context.startActivity(intent);
@@ -169,6 +171,8 @@ public class EnterRoomUtils {
                 return new Intent(context, DanmakuActivity.class);
             case SceneType.DISCO:
                 return new Intent(context, DiscoActivity.class);
+            case SceneType.CROSS_DOMAIN:
+                return new Intent(context, CrossDomainActivity.class);
 //            case SceneType.TALENT:
 //                return new Intent(context, TalentRoomActivity.class);
 //            case SceneType.ONE_ONE:

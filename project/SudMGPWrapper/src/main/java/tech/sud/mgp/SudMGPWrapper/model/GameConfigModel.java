@@ -44,6 +44,11 @@ public class GameConfigModel implements Serializable {
         public GameSettleAgainBtn game_settle_again_btn = new GameSettleAgainBtn(); // 游戏结算界面中的再来一局按钮
         public GameBg game_bg = new GameBg();// 是否隐藏背景图，包括大厅和战斗
         public BlockChangeSeat block_change_seat = new BlockChangeSeat(); // 自定义阻止换座位
+        public GameSettingSelectPnl game_setting_select_pnl = new GameSettingSelectPnl(); // 大厅中的玩法选择设置面板
+        public GameManagedImage game_managed_image = new GameManagedImage(); // 游戏中的托管图标
+        public GameTableImage game_table_image = new GameTableImage(); // 游戏中牌桌背景图 （注：只对某些带牌桌类游戏有作用）
+        public GameCountdownTime game_countdown_time = new GameCountdownTime(); // 游戏中游戏倒计时显示 （注：现在只针对umo生效）
+        public GameSelectedTips game_selected_tips = new GameSelectedTips(); // 游戏中所选择的玩法提示文字 （注：现在只针对ludo生效）
     }
 
     // 结算界面
@@ -171,6 +176,36 @@ public class GameConfigModel implements Serializable {
     public static class BlockChangeSeat implements Serializable {
         //（false: 可以换座位； true: 不可以换座位；默认为false）
         public boolean custom = false;
+    }
+
+    // 大厅中的玩法选择设置面板
+    public static class GameSettingSelectPnl implements Serializable {
+        // 是否隐藏大厅中的玩法选择设置面板（false: 显示； true: 隐藏，默认为false）
+        public boolean hide = false;
+    }
+
+    // 游戏中的托管图标
+    public static class GameManagedImage implements Serializable {
+        // 是否隐藏游戏中的托管图标（false: 显示； true: 隐藏，默认为false）
+        public boolean hide = false;
+    }
+
+    // 游戏中牌桌背景图 （注：只对某些带牌桌类游戏有作用）
+    public static class GameTableImage implements Serializable {
+        // 是否隐藏游戏牌桌背景图（false: 显示； true: 隐藏，默认为false）
+        public boolean hide = false;
+    }
+
+    // 游戏中游戏倒计时显示 （注：现在只针对umo生效）
+    public static class GameCountdownTime implements Serializable {
+        // 是否隐藏游戏中游戏倒计时显示（false: 显示； true: 隐藏，默认为false）
+        public boolean hide = false;
+    }
+
+    // 游戏中所选择的玩法提示文字 （注：现在只针对ludo生效）
+    public static class GameSelectedTips implements Serializable {
+        // 是否隐藏游戏中所选择的玩法提示文字显示（false: 显示； true: 隐藏，默认为false）
+        public boolean hide = false;
     }
 
 }

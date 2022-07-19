@@ -84,11 +84,6 @@
                     android:layout_marginHorizontal="20dp"
                     android:layout_marginTop="16dp" />
 
-                <tech.sud.mgp.hello.ui.main.settings.fragment.SettingButton
-                    android:id="@+id/button_version_info"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    app:sb_name="@string/version_info" />
 
             </LinearLayout>
 
@@ -100,6 +95,12 @@
                 android:background="@color/white"
                 android:layout_marginTop="24dp"
                 android:layout_marginHorizontal="16dp">
+
+                <tech.sud.mgp.hello.ui.main.settings.fragment.SettingButton
+                    android:id="@+id/button_version_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    app:sb_name="@string/version_info" />
 
                 <tech.sud.mgp.hello.ui.main.settings.fragment.SettingButton
                     android:id="@+id/button_change_language"

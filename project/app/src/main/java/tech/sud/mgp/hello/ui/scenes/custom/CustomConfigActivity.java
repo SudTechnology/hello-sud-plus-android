@@ -5,8 +5,8 @@ import android.widget.TextView;
 
 import com.blankj.utilcode.util.LogUtils;
 
-import tech.sud.mgp.hello.R;
 import tech.sud.mgp.SudMGPWrapper.model.GameConfigModel;
+import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseActivity;
 import tech.sud.mgp.hello.common.utils.GlobalCache;
 import tech.sud.mgp.hello.ui.scenes.custom.model.ConfigItemModel;
@@ -345,6 +345,66 @@ public class CustomConfigActivity extends BaseActivity {
         item1View34.setListener(itemModel -> viewModel.configModel.ui.game_bg.hide = itemModel.hide);
         item1View34.setData(itemModel34);
         configContainer.addView(item1View34);
+
+        // 大厅中的玩法选择设置面板
+        CustomPageItem1View item1View = new CustomPageItem1View(this);
+        ConfigItemModel configItemModel = addItem(
+                getString(R.string.custom_config_game_setting_select_pnl),
+                getString(R.string.custom_config_game_setting_select_pnl_subtitle),
+                1, 0, viewModel.configModel.ui.game_setting_select_pnl.hide, false,
+                getString(R.string.custom_config_game_hide_false),
+                getString(R.string.custom_config_game_hide_true));
+        item1View.setListener(itemModel -> viewModel.configModel.ui.game_setting_select_pnl.hide = itemModel.hide);
+        item1View.setData(configItemModel);
+        configContainer.addView(item1View);
+
+        // 游戏中的托管图标
+        item1View = new CustomPageItem1View(this);
+        configItemModel = addItem(
+                getString(R.string.custom_config_game_managed_image),
+                getString(R.string.custom_config_game_managed_image_subtitle),
+                1, 0, viewModel.configModel.ui.game_managed_image.hide, false,
+                getString(R.string.custom_config_game_hide_false),
+                getString(R.string.custom_config_game_hide_true));
+        item1View.setListener(itemModel -> viewModel.configModel.ui.game_managed_image.hide = itemModel.hide);
+        item1View.setData(configItemModel);
+        configContainer.addView(item1View);
+
+        // 游戏中牌桌背景图 （注：只对某些带牌桌类游戏有作用）
+        item1View = new CustomPageItem1View(this);
+        configItemModel = addItem(
+                getString(R.string.custom_config_game_table_image),
+                getString(R.string.custom_config_game_table_image_subtitle),
+                1, 0, viewModel.configModel.ui.game_table_image.hide, false,
+                getString(R.string.custom_config_game_hide_false),
+                getString(R.string.custom_config_game_hide_true));
+        item1View.setListener(itemModel -> viewModel.configModel.ui.game_table_image.hide = itemModel.hide);
+        item1View.setData(configItemModel);
+        configContainer.addView(item1View);
+
+        // 游戏中游戏倒计时显示 （注：现在只针对umo生效）
+        item1View = new CustomPageItem1View(this);
+        configItemModel = addItem(
+                getString(R.string.custom_config_game_countdown_time),
+                getString(R.string.custom_config_game_countdown_time_subtitle),
+                1, 0, viewModel.configModel.ui.game_countdown_time.hide, false,
+                getString(R.string.custom_config_game_hide_false),
+                getString(R.string.custom_config_game_hide_true));
+        item1View.setListener(itemModel -> viewModel.configModel.ui.game_countdown_time.hide = itemModel.hide);
+        item1View.setData(configItemModel);
+        configContainer.addView(item1View);
+
+        // 游戏中所选择的玩法提示文字 （注：现在只针对ludo生效）
+        item1View = new CustomPageItem1View(this);
+        configItemModel = addItem(
+                getString(R.string.custom_config_game_selected_tips),
+                getString(R.string.custom_config_game_selected_tips_subtitle),
+                1, 0, viewModel.configModel.ui.game_selected_tips.hide, false,
+                getString(R.string.custom_config_game_hide_false),
+                getString(R.string.custom_config_game_hide_true));
+        item1View.setListener(itemModel -> viewModel.configModel.ui.game_selected_tips.hide = itemModel.hide);
+        item1View.setData(configItemModel);
+        configContainer.addView(item1View);
 
         // region ------- Custom
 

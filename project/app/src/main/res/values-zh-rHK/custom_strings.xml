@@ -83,5 +83,15 @@
     <string name="custom_config_game_block_change_seat_custom_subtitle">(ui.block_change_seat.custom)</string>
     <string name="custom_config_game_block_change_seat_custom_false">false: 可以换座位</string>
     <string name="custom_config_game_block_change_seat_custom_true">true: 不可以换座位</string>
+    <string name="custom_config_game_setting_select_pnl">大厅中的玩法选择设置面板</string>
+    <string name="custom_config_game_setting_select_pnl_subtitle">(ui.game_setting_select_pnl.hide)</string>
+    <string name="custom_config_game_managed_image">游戏中的托管图标</string>
+    <string name="custom_config_game_managed_image_subtitle">(ui.game_managed_image.hide)</string>
+    <string name="custom_config_game_table_image">游戏中牌桌背景图 （注：只对某些带牌桌类游戏有作用）</string>
+    <string name="custom_config_game_table_image_subtitle">(ui.game_table_image.hide)</string>
+    <string name="custom_config_game_countdown_time">游戏中游戏倒计时显示 （注：现在只针对umo生效）</string>
+    <string name="custom_config_game_countdown_time_subtitle">(ui.game_countdown_time.hide)</string>
+    <string name="custom_config_game_selected_tips">游戏中所选择的玩法提示文字 （注：现在只针对ludo生效）</string>
+    <string name="custom_config_game_selected_tips_subtitle">(ui.game_selected_tips.hide)</string>
 
 </resources>

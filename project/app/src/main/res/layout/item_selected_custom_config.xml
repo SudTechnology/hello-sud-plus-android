@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="26dp"
+    android:minHeight="56dp"
     android:paddingHorizontal="20dp">
 
     <TextView
@@ -13,9 +13,9 @@
         android:textColor="#1a1a1a"
         android:textSize="16sp"
         android:layout_marginEnd="16dp"
-        android:paddingVertical="3dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/state_iv"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
@@ -31,6 +31,6 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#dddddd"
-        app:layout_constraintTop_toBottomOf="@id/title_tv" />
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,6 +13,8 @@ import tech.sud.mgp.hello.common.base.BaseDialogFragment;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.utils.IntentUtils;
 import tech.sud.mgp.hello.service.main.resp.CheckUpgradeResp;
+import tech.sud.mgp.hello.ui.common.utils.CompletedListener;
+import tech.sud.mgp.hello.ui.common.utils.LifecycleUtils;
 
 /**
  * 升级弹窗
@@ -148,10 +150,15 @@ public class VersionUpgradeDialog extends BaseDialogFragment {
         return false;
     }
 
-    private Runnable delayDismissTask = new Runnable() {
+    private final Runnable delayDismissTask = new Runnable() {
         @Override
         public void run() {
-            dismiss();
+            LifecycleUtils.safeLifecycle(VersionUpgradeDialog.this, new CompletedListener() {
+                @Override
+                public void onCompleted() {
+                    dismiss();
+                }
+            });
         }
     };
 

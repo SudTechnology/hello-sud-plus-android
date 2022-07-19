@@ -33,11 +33,6 @@ public class AutoLandDialog extends BaseDialogFragment {
     }
 
     @Override
-    protected int getHeight() {
-        return DensityUtils.dp2px(290);
-    }
-
-    @Override
     protected void initWidget() {
         super.initWidget();
         viewClose = findViewById(R.id.view_close);

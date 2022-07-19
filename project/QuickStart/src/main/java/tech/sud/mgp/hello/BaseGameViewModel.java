@@ -142,6 +142,13 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
         // 调用游戏sdk加载游戏
         ISudFSTAPP iSudFSTAPP = SudMGP.loadMG(activity, getUserId(), gameRoomId, code, gameId, getLanguageCode(), sudFSMMGDecorator);
 
+        // 如果返回空，则代表参数问题或者非主线程
+        if (iSudFSTAPP == null) {
+            Toast.makeText(activity, "loadMG params error", Toast.LENGTH_LONG).show();
+            delayLoadGame(activity, gameId);
+            return;
+        }
+
         // APP调用游戏接口的装饰类设置
         sudFSTAPPDecorator.setISudFSTAPP(iSudFSTAPP);
 

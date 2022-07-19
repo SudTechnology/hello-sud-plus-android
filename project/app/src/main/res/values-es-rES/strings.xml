@@ -467,7 +467,7 @@ Vaya a la página de inicio para crear una!</string>
     <string name="disco_explain_1">1. clasificación de contribuciones de %1$s DJs al azar (se actualiza cada %2$s segundos)</string>
     <string name="disco_explain_2">2. Los regalos pueden activar diferentes efectos o asignar un presentar a bailar.</string>
     <string name="disco_explain_3">3. Comando de pantalla compartida: [%1$s][%2$s][%3$s].</string>
-    <string name="disco_explain_4">4. Los usuarios online pueden enviar [%1$s] para ser presentadores,\n&#160;&#160;&#160;&#160; enviar [%2$] para dejar de presentar.</string>
+    <string name="disco_explain_4">4. Los usuarios online pueden enviar [%1$s] para ser presentadores,\n&#160;&#160;&#160;&#160; enviar [%2$s] para dejar de presentar.</string>
     <string name="disco_explain_5">5. Un presentador, enviando el texto [%1$s], puede activar un avatar.</string>
     <string name="waiting">Esperando</string>
 

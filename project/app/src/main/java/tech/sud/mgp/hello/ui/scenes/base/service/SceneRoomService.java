@@ -17,6 +17,7 @@ import com.jeremyliao.liveeventbus.LiveEventBus;
 import java.util.List;
 
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
+import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.hello.common.event.ChangeRTCEvent;
 import tech.sud.mgp.hello.common.event.EnterRoomEvent;
 import tech.sud.mgp.hello.common.event.LiveEventBusKey;
@@ -25,8 +26,10 @@ import tech.sud.mgp.hello.ui.common.utils.channel.NotifyId;
 import tech.sud.mgp.hello.ui.main.home.model.RoomItemModel;
 import tech.sud.mgp.hello.ui.scenes.base.activity.RoomConfig;
 import tech.sud.mgp.hello.ui.scenes.base.constant.OperateMicType;
+import tech.sud.mgp.hello.ui.scenes.base.manager.SceneLeagueManager;
 import tech.sud.mgp.hello.ui.scenes.base.manager.SceneRoomServiceManager;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
+import tech.sud.mgp.hello.ui.scenes.base.model.LeagueModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.SceneRoomData;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
@@ -321,6 +324,23 @@ public class SceneRoomService extends Service {
         /** 获取蹦迪贡献榜 */
         public List<ContributionModel> getDiscoContribution() {
             return serviceManager.getDiscoContribution();
+        }
+
+        /** 获取联赛数据 */
+        public LeagueModel getLeagueModel() {
+            SceneLeagueManager manager = serviceManager.sceneLeagueManager;
+            if (manager != null) {
+                return manager.getLeagueManager();
+            }
+            return null;
+        }
+
+        /** 游戏结算 */
+        public void onGameSettle(SudMGPMGState.MGCommonGameSettle gameSettle) {
+            SceneLeagueManager manager = serviceManager.sceneLeagueManager;
+            if (manager != null) {
+                manager.onGameSettle(gameSettle);
+            }
         }
     }
 

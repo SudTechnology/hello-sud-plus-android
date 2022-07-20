@@ -61,6 +61,7 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
     public final SceneQuizManager sceneQuizManager = new SceneQuizManager(this);
     public final SceneFloatingManager floatingManager = new SceneFloatingManager(this);
     private SceneDiscoManager sceneDiscoManager;
+    public SceneLeagueManager sceneLeagueManager;
 
     @Override
     public void onCreate() {
@@ -136,6 +137,9 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
         if (sceneDiscoManager != null) {
             sceneDiscoManager.onDestroy();
         }
+        if (sceneLeagueManager != null) {
+            sceneLeagueManager.onDestroy();
+        }
     }
 
     /** 设置回调 */
@@ -197,6 +201,10 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
             case SceneType.DISCO:
                 sceneDiscoManager = new SceneDiscoManager(this);
                 sceneDiscoManager.onCreate();
+                break;
+            case SceneType.LEAGUE:
+                sceneLeagueManager = new SceneLeagueManager(this);
+                sceneLeagueManager.onCreate();
                 break;
         }
     }

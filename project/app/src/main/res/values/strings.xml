@@ -509,6 +509,23 @@ Go to homepage to create one~</string>
     <string name="example_step_3">进入前三</string>
     <string name="example_step_4">总决赛</string>
     <string name="example_step_5">获得第一名</string>
+    <string name="cannot_join_game">您不是参赛者，不能加入游戏</string>
+    <string name="league_situation">比赛战况</string>
+    <string name="eliminate">淘汰</string>
+    <string name="league_award_title">·获得以下奖励·</string>
+    <string name="exit">退出</string>
+    <string name="continue_ob">继续观看(%1$ss)</string>
+    <string name="back_home_page">回到首页</string>
+    <string name="continue_game_countdown">继续比赛(%1$ss)</string>
+    <string name="enter_top_three">恭喜进入前三</string>
+    <string name="enter_top_three_failed">下次加油，进入总决赛</string>
+    <string name="win_the_first_failed">下次加油，夺得第一</string>
+    <string name="win_the_first">恭喜获得第一名</string>
+    <string name="game_over">比赛已结束</string>
+    <string name="enter_next_game">比赛进入下一局</string>
+    <string name="continue_watch">继续观看(%1$s)</string>
+    <string name="i_see">我知道了</string>
+    <string name="can_not_continue_game">当前有用户退出比赛，\n游戏不能继续进行</string>
 
     <!-- endregion 新增 -->
 

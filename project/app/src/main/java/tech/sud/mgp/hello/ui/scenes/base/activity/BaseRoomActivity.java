@@ -568,7 +568,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         HashMap<Integer, String> options = new HashMap<>();
 
         // 1,加载了游戏
-        // 2,自己是队长（当前app业务如此设计，你可以自由定义权限控制或没有权限控制）
+        // 2,自己是队长
         // 3,并且该用户也在游戏当中，可以转让队长
         int transferCaptainKey = 1;
         if (playingGameId > 0 && gameViewModel.isCaptain(selfUserId) && gameViewModel.playerIsIn(userId)) {
@@ -577,7 +577,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
 
         // 1,加载了游戏
         // 2,游戏未开始
-        // 3,自己是队长（当前app业务如此设计，你可以自由定义权限控制或没有权限控制）
+        // 3,自己是队长
         // 4,并且该用户加入了游戏，可以将他踢出游戏
         int kickGameKey = 2;
         if (playingGameId > 0

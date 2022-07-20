@@ -18,6 +18,7 @@ import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdUpMicModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdBecomeDJModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdDiscoInfoReqModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdDiscoInfoRespModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.league.RoomCmdLeagueInfoRespModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.order.RoomCmdOrderOperateModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.order.RoomCmdUserOrderModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKAnswerModel;
@@ -130,6 +131,9 @@ public class SceneCommandManager extends BaseServiceManager {
                 break;
             case RoomCmd.CMD_ROOM_DISCO_BECOME_DJ: // 上DJ台
                 dispatchCommand(commandCmd, RoomCmdBecomeDJModel.fromJson(command), userID);
+                break;
+            case RoomCmd.CMD_LEAGUE_INFO_RESP: // 响应联赛信息
+                dispatchCommand(commandCmd, RoomCmdLeagueInfoRespModel.fromJson(command), userID);
                 break;
         }
     }
@@ -255,6 +259,11 @@ public class SceneCommandManager extends BaseServiceManager {
                         ((DiscoBecomeDJCommandListener) listener).onRecvCommand((RoomCmdBecomeDJModel) model, fromUserID);
                     }
                     break;
+                case RoomCmd.CMD_LEAGUE_INFO_RESP: // 响应联赛信息
+                    if (listener instanceof LeagueInfoRespListener) {
+                        ((LeagueInfoRespListener) listener).onRecvCommand((RoomCmdLeagueInfoRespModel) model, fromUserID);
+                    }
+                    break;
             }
         }
     }
@@ -370,6 +379,11 @@ public class SceneCommandManager extends BaseServiceManager {
     }
     // endregion 蹦迪信令监听
 
+    // region 联赛信令监听
+    interface LeagueInfoRespListener extends ICommandListener {
+        void onRecvCommand(RoomCmdLeagueInfoRespModel model, String userID);
+    }
+    // endregion 联赛信令监听
 
     @Override
     public void onDestroy() {

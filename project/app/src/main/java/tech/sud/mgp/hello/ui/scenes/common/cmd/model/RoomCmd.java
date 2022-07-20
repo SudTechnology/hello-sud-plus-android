@@ -80,4 +80,9 @@ public class RoomCmd {
     public static final int CMD_ROOM_DISCO_BECOME_DJ = 10402;
     // endregion 蹦迪
 
+    // region 联赛
+    /** 响应联赛信息 */
+    public static final int CMD_LEAGUE_INFO_RESP = 10500;
+    // endregion 联赛
+
 }

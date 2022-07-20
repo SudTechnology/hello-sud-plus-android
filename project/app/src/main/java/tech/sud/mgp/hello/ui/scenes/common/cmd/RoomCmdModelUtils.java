@@ -18,6 +18,7 @@ import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.DanceModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdBecomeDJModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdDiscoInfoReqModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdDiscoInfoRespModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.league.RoomCmdLeagueInfoRespModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.order.RoomCmdOrderOperateModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.order.RoomCmdUserOrderModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKAnswerModel;
@@ -244,6 +245,17 @@ public class RoomCmdModelUtils {
         return command.toJson();
     }
     // endregion 竞猜
+
+    // region 联赛
+
+    /** 构建 响应联赛信息 信令 */
+    public static String buildCmdLeagueInfoResp(int schedule, List<String> winner) {
+        RoomCmdLeagueInfoRespModel command = new RoomCmdLeagueInfoRespModel(getSendUser());
+        command.schedule = schedule;
+        command.winner = winner;
+        return command.toJson();
+    }
+    // endregion 联赛
 
     public static UserInfo getSendUser() {
         UserInfo user = new UserInfo();

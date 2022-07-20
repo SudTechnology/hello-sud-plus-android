@@ -33,7 +33,7 @@ import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftModel;
 import tech.sud.mgp.hello.ui.scenes.disco.viewmodel.DiscoActionHelper;
 
 /**
- * 蹦迪场景 内的业务逻辑
+ * 蹦迪场景内的业务逻辑
  */
 public class SceneDiscoManager extends BaseServiceManager {
 

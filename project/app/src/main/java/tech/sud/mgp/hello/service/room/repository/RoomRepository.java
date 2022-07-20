@@ -10,6 +10,9 @@ import tech.sud.mgp.hello.common.http.rx.RxUtils;
 import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.service.room.method.AudioRequestMethodFactory;
 import tech.sud.mgp.hello.service.room.req.DanmakuListReq;
+import tech.sud.mgp.hello.service.room.req.DeductionCoinReq;
+import tech.sud.mgp.hello.service.room.req.DiscoAnchorListReq;
+import tech.sud.mgp.hello.service.room.req.DiscoSwitchAnchorReq;
 import tech.sud.mgp.hello.service.room.req.EnterRoomReq;
 import tech.sud.mgp.hello.service.room.req.ExitRoomReq;
 import tech.sud.mgp.hello.service.room.req.GiftListReq;
@@ -28,6 +31,7 @@ import tech.sud.mgp.hello.service.room.req.RoomPkSwitchReq;
 import tech.sud.mgp.hello.service.room.req.SendDanmakuReq;
 import tech.sud.mgp.hello.service.room.req.SendGiftReq;
 import tech.sud.mgp.hello.service.room.resp.DanmakuListResp;
+import tech.sud.mgp.hello.service.room.resp.DiscoAnchorListResp;
 import tech.sud.mgp.hello.service.room.resp.EnterRoomResp;
 import tech.sud.mgp.hello.service.room.resp.GiftListResp;
 import tech.sud.mgp.hello.service.room.resp.QuizGamePlayerResp;
@@ -344,6 +348,52 @@ public class RoomRepository {
         req.count = count;
         AudioRequestMethodFactory.getMethod()
                 .robotList(BaseUrlManager.getInteractBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /**
+     * 扣费
+     *
+     * @param price 数额
+     */
+    public static void deductionCoin(LifecycleOwner owner, int price, RxCallback<Object> callback) {
+        DeductionCoinReq req = new DeductionCoinReq();
+        req.price = price;
+        AudioRequestMethodFactory.getMethod()
+                .deductionCoin(BaseUrlManager.getInteractBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /**
+     * 蹦迪主播列表
+     *
+     * @param roomId 房间id
+     */
+    public static void discoAnchorList(LifecycleOwner owner, long roomId, RxCallback<DiscoAnchorListResp> callback) {
+        DiscoAnchorListReq req = new DiscoAnchorListReq();
+        req.roomId = roomId;
+        AudioRequestMethodFactory.getMethod()
+                .discoAnchorList(BaseUrlManager.getInteractBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /**
+     * 上/下主播位
+     *
+     * @param roomId     房间id
+     * @param handleType 1上，2下
+     * @param userId     用户id
+     */
+    public static void discoSwitchAnchor(LifecycleOwner owner, long roomId, int handleType, long userId, RxCallback<Object> callback) {
+        DiscoSwitchAnchorReq req = new DiscoSwitchAnchorReq();
+        req.roomId = roomId;
+        req.handleType = handleType;
+        req.userId = userId;
+        AudioRequestMethodFactory.getMethod()
+                .discoSwitchAnchor(BaseUrlManager.getInteractBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }

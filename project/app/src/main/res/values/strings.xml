@@ -490,7 +490,11 @@ Go to homepage to create one~</string>
     <string name="waiting">Waiting</string>
 
     <!-- region 新增 -->
-
+    <string name="invite_dance">约主播跳舞</string>
+    <string name="interaction">互动</string>
+    <string name="select_anchor_dance">选择主播跳舞</string>
+    <string name="dance_duration">跳舞时长</string>
+    <string name="invite_dance_him">约TA砂舞(%1$s金币)</string>
 
     <!-- endregion 新增 -->
 

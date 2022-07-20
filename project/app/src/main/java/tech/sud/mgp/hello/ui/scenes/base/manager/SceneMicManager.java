@@ -263,12 +263,6 @@ public class SceneMicManager extends BaseServiceManager {
 
                 // 麦位列表
                 addUser2MicList(micIndex, userId, streamId, RoleType.NORMAL);
-
-                // 回调给页面
-                SceneRoomServiceCallback callback = parentManager.getCallback();
-                if (callback != null) {
-                    callback.onMicLocationSwitchCompleted(micIndex, true, OperateMicType.USER);
-                }
             }
         });
     }

@@ -756,33 +756,25 @@ public class SceneDiscoManager extends BaseServiceManager {
                 callbackAction(helper.upDJ(null));
                 break;
             case MOVE:
-                String text = context.getString(R.string.move);
-                parentManager.sceneChatManager.sendPublicMsg(text);
-                showMsgTextPop(text);
+                actionMessage(context.getString(R.string.move));
                 callbackAction(helper.roleMove(null, null));
                 break;
             case GOD:
-                text = context.getString(R.string.god);
-                parentManager.sceneChatManager.sendPublicMsg(text);
-                showMsgTextPop(text);
+                actionMessage(context.getString(R.string.god));
                 callbackAction(helper.roleFly(null));
                 break;
             case BIG:
                 exeActionBig();
                 break;
             case CHANGE_ROLE:
-                text = context.getString(R.string.change_role);
-                parentManager.sceneChatManager.sendPublicMsg(text);
-                showMsgTextPop(text);
+                actionMessage(context.getString(R.string.change_role));
                 callbackAction(helper.changeRole(null));
                 break;
             case FOCUS:
                 exeActionFocus();
                 break;
             case TITLE:
-                text = context.getString(R.string.title);
-                parentManager.sceneChatManager.sendPublicMsg(text);
-                showMsgTextPop(text);
+                actionMessage(context.getString(R.string.title));
                 callbackAction(helper.roleTitle(60, null, null));
                 break;
             case EFFECTS:
@@ -802,24 +794,24 @@ public class SceneDiscoManager extends BaseServiceManager {
         }
     }
 
-    private void exeActionEffects() {
-        String text = context.getString(R.string.effect);
+    private void actionMessage(String text) {
         parentManager.sceneChatManager.sendPublicMsg(text);
         showMsgTextPop(text);
+        addPublicMsgContribution(selfUserInfo);
+    }
+
+    private void exeActionEffects() {
+        actionMessage(context.getString(R.string.effect));
         callbackAction(helper.roleEffects(null, null));
     }
 
     private void exeActionFocus() {
-        String text = context.getString(R.string.feature);
-        parentManager.sceneChatManager.sendPublicMsg(text);
-        showMsgTextPop(text);
+        actionMessage(context.getString(R.string.feature));
         callbackAction(helper.roleFocus(null, null));
     }
 
     private void exeActionBig() {
-        String text = context.getString(R.string.largen);
-        parentManager.sceneChatManager.sendPublicMsg(text);
-        showMsgTextPop(text);
+        actionMessage(context.getString(R.string.largen));
         callbackAction(helper.roleBig(null, 2));
     }
 

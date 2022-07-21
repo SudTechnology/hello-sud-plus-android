@@ -798,15 +798,15 @@ public class SceneDiscoManager extends BaseServiceManager {
                 exeActionEffects();
                 break;
             case POP_BIG_FOCUS:
-                callbackAction(helper.textPop(null, context.getString(R.string.disco_nick_name)));
                 exeActionBig();
                 exeActionFocus();
+                callbackAction(helper.textPop(null, context.getString(R.string.disco_nick_name)));
                 break;
             case POP_BIG_FOCUS_EFFECTS:
-                callbackAction(helper.textPop(null, context.getString(R.string.disco_nick_name)));
                 exeActionBig();
                 exeActionFocus();
                 exeActionEffects();
+                callbackAction(helper.textPop(null, context.getString(R.string.disco_nick_name)));
                 break;
         }
     }

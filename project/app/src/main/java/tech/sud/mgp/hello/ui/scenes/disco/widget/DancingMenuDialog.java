@@ -1,5 +1,6 @@
 package tech.sud.mgp.hello.ui.scenes.disco.widget;
 
+import android.annotation.SuppressLint;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -115,6 +116,7 @@ public class DancingMenuDialog extends BaseDialogFragment {
             super(R.layout.item_dancing_menu);
         }
 
+        @SuppressLint("SetTextI18n")
         @Override
         protected void convert(@NonNull BaseViewHolder holder, DanceModel model) {
             String iconUrl;
@@ -158,7 +160,7 @@ public class DancingMenuDialog extends BaseDialogFragment {
             } else { // 未结束
                 tvFinished.setVisibility(View.GONE);
                 tvRank.setVisibility(View.VISIBLE);
-                tvRank.setText(holder.getAdapterPosition() + 1 + "");
+                tvRank.setText(getItemPosition(model) + 1 + "");
                 if (model.beginTime > 0) { // 在执行中了
                     tvCountdown.setVisibility(View.VISIBLE);
                     tvWaiting.setVisibility(View.GONE);

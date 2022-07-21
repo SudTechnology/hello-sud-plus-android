@@ -220,7 +220,7 @@ public class InviteDanceDialog extends BaseDialogFragment {
             ImageView ivIcon = holder.getView(R.id.iv_icon);
             ImageLoader.loadAvatar(ivIcon, userInfo.avatar);
 
-            int position = holder.getAdapterPosition();
+            int position = getItemPosition(userInfo);
             boolean isSelected = selectedAnchorSet.contains(position);
             View viewSelectedStroke = holder.getView(R.id.view_selected_stroke);
             viewSelectedStroke.setBackground(ShapeUtils.createShape(DensityUtils.dp2px(2), (float) DensityUtils.dp2px(40),

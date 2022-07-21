@@ -78,7 +78,7 @@ public class ContributionRankingDialog extends BaseDialogFragment {
         @SuppressLint("SetTextI18n")
         @Override
         protected void convert(@NonNull BaseViewHolder holder, ContributionModel model) {
-            int ranking = holder.getAdapterPosition() + 1;
+            int ranking = getItemPosition(model) + 1;
             View viewRanking = holder.getView(R.id.view_ranking);
             TextView tvRanking = holder.getView(R.id.tv_ranking);
             switch (ranking) {

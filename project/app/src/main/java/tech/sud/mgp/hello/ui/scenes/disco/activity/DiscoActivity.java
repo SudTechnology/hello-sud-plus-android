@@ -28,6 +28,8 @@ import tech.sud.mgp.hello.service.main.resp.GameModel;
 import tech.sud.mgp.hello.service.main.resp.UserInfoResp;
 import tech.sud.mgp.hello.service.room.repository.RoomRepository;
 import tech.sud.mgp.hello.service.room.resp.RobotListResp;
+import tech.sud.mgp.hello.ui.common.utils.CompletedListener;
+import tech.sud.mgp.hello.ui.common.utils.LifecycleUtils;
 import tech.sud.mgp.hello.ui.main.constant.GameIdCons;
 import tech.sud.mgp.hello.ui.scenes.audio.activity.AbsAudioRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.base.constant.OperateMicType;
@@ -37,10 +39,12 @@ import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.ContributionModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.DanceModel;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftModel;
+import tech.sud.mgp.hello.ui.scenes.disco.model.DiscoInteractionModel;
 import tech.sud.mgp.hello.ui.scenes.disco.viewmodel.DiscoGameViewModel;
 import tech.sud.mgp.hello.ui.scenes.disco.widget.ContributionRankingDialog;
 import tech.sud.mgp.hello.ui.scenes.disco.widget.DancingMenuDialog;
 import tech.sud.mgp.hello.ui.scenes.disco.widget.DiscoExplainView;
+import tech.sud.mgp.hello.ui.scenes.disco.widget.DiscoInteractionDialog;
 import tech.sud.mgp.hello.ui.scenes.disco.widget.DiscoRankingView;
 import tech.sud.mgp.hello.ui.scenes.disco.widget.InviteDanceDialog;
 
@@ -61,6 +65,7 @@ public class DiscoActivity extends AbsAudioRoomActivity<DiscoGameViewModel> {
 
     private DancingMenuDialog dancingMenuDialog;
     private ContributionRankingDialog contributionRankingDialog;
+    private DiscoInteractionDialog discoInteractionDialog;
 
     @Override
     protected DiscoGameViewModel initGameViewModel() {
@@ -221,6 +226,43 @@ public class DiscoActivity extends AbsAudioRoomActivity<DiscoGameViewModel> {
                 showRanking();
             }
         });
+        viewInteraction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showInteractionDialog();
+            }
+        });
+    }
+
+    // 展示交互弹窗
+    private void showInteractionDialog() {
+        DiscoInteractionDialog dialog = DiscoInteractionDialog.newInstance(roomInfoModel.roomId);
+        dialog.setOnActionListener(new DiscoInteractionDialog.OnActionListener() {
+            @Override
+            public void onAction(DiscoInteractionModel model) {
+                gameViewModel.exeAction(context, roomInfoModel.roomId, model, new DiscoGameViewModel.ActionListener() {
+                    @Override
+                    public void onAnchorChange(boolean isAnchor) {
+                        LifecycleUtils.safeLifecycle(context, new CompletedListener() {
+                            @Override
+                            public void onCompleted() {
+                                if (discoInteractionDialog != null) {
+                                    discoInteractionDialog.setAnchor(isAnchor);
+                                }
+                            }
+                        });
+                    }
+                });
+            }
+        });
+        discoInteractionDialog = dialog;
+        dialog.setOnDestroyListener(new BaseDialogFragment.OnDestroyListener() {
+            @Override
+            public void onDestroy() {
+                discoInteractionDialog = null;
+            }
+        });
+        dialog.show(getSupportFragmentManager(), null);
     }
 
     // 展示邀请主播跳舞弹窗

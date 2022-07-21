@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
@@ -48,7 +49,7 @@ public class InviteDanceDialog extends BaseDialogFragment {
     private TextView tvDance;
     private AnchorAdapter anchorAdapter;
     private DurationAdapter durationAdapter;
-    private final TreeSet<Integer> selectedAnchorSet = new TreeSet<>();
+    private final TreeSet<Integer> selectedAnchorPositionSet = new TreeSet<>();
     private int selectedDuration = 1;
     private int singleGiftPrice; // 单个礼物价格
     private long roomId;
@@ -135,7 +136,11 @@ public class InviteDanceDialog extends BaseDialogFragment {
             public void onSuccess(DiscoAnchorListResp resp) {
                 super.onSuccess(resp);
                 if (resp != null) {
+                    if (resp.userInfoList != null && resp.userInfoList.size() > 0) {
+                        selectedAnchorPositionSet.add(0);
+                    }
                     anchorAdapter.setList(resp.userInfoList);
+                    updateDanceInfo();
                 }
             }
         });
@@ -167,10 +172,10 @@ public class InviteDanceDialog extends BaseDialogFragment {
         anchorAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
-                if (selectedAnchorSet.contains(position)) {
-                    selectedAnchorSet.remove(position);
+                if (selectedAnchorPositionSet.contains(position)) {
+                    selectedAnchorPositionSet.remove(position);
                 } else {
-                    selectedAnchorSet.add(position);
+                    selectedAnchorPositionSet.add(position);
                 }
                 anchorAdapter.notifyItemChanged(position);
                 updateDanceInfo();
@@ -187,17 +192,26 @@ public class InviteDanceDialog extends BaseDialogFragment {
         tvDance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (onDanceListener != null) {
-                    onDanceListener.onDance(giftModel, getSelectedUser(), selectedDuration);
-                }
-                dismiss();
+                onClickDance();
             }
         });
     }
 
+    private void onClickDance() {
+        List<UserInfoResp> selectedUser = getSelectedUser();
+        if (selectedUser.size() == 0) {
+            ToastUtils.showShort(R.string.please_select_anchor);
+            return;
+        }
+        if (onDanceListener != null) {
+            onDanceListener.onDance(giftModel, selectedUser, selectedDuration);
+        }
+        dismiss();
+    }
+
     private List<UserInfoResp> getSelectedUser() {
         List<UserInfoResp> list = new ArrayList<>();
-        for (Integer position : selectedAnchorSet) {
+        for (Integer position : selectedAnchorPositionSet) {
             list.add(anchorAdapter.getItem(position));
         }
         return list;
@@ -205,7 +219,7 @@ public class InviteDanceDialog extends BaseDialogFragment {
 
     // 更新约TA砂舞按钮信息
     private void updateDanceInfo() {
-        int price = selectedDuration * selectedAnchorSet.size() * singleGiftPrice;
+        int price = selectedDuration * selectedAnchorPositionSet.size() * singleGiftPrice;
         tvDance.setText(getString(R.string.invite_dance_him, price + ""));
     }
 
@@ -221,7 +235,7 @@ public class InviteDanceDialog extends BaseDialogFragment {
             ImageLoader.loadAvatar(ivIcon, userInfo.avatar);
 
             int position = getItemPosition(userInfo);
-            boolean isSelected = selectedAnchorSet.contains(position);
+            boolean isSelected = selectedAnchorPositionSet.contains(position);
             View viewSelectedStroke = holder.getView(R.id.view_selected_stroke);
             viewSelectedStroke.setBackground(ShapeUtils.createShape(DensityUtils.dp2px(2), (float) DensityUtils.dp2px(40),
                     null, GradientDrawable.RECTANGLE, Color.WHITE, null));

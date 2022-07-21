@@ -6,7 +6,8 @@
     android:layout_marginTop="10dp"
     android:orientation="vertical"
     android:gravity="center"
-    android:background="@drawable/shape_disco_interaction_bg">
+    android:foreground="?selectableItemBackground"
+    android:background="@drawable/shape_disco_interaction_bg_ripple">
 
     <tech.sud.mgp.hello.common.widget.view.MarqueeTextView
         android:id="@+id/tv_name"

@@ -465,10 +465,6 @@
     <string name="contribution_value">ค่าบริจาคของขวัญ</string>
     <string name="disco_explain_top_5">ห้าอันดับแรก</string>
     <string name="disco_explain_1">1. ลำดับการอุทิศของขวัญ %1$s สุ่ม DJ (รีเฟรชใน %2$s วินาที)</string>
-    <string name="disco_explain_2">2. การส่งของขวัญสามารถกระตุ้นเอฟเฟกต์ต่างๆได้หรือสั่งให้โฮสต์เต้นได้</string>
-    <string name="disco_explain_3">3. คำสั่งหน้าจอสาธารณะ [%1$s]  [%2$s]  [%3$s]</string>
-    <string name="disco_explain_4">4. หากไมค์ส่ง [%1$s] จะสามารถเข้าตำแหน่งโฮสต์ \n&#160;&#160;&#160;&#160; ส่ง [%2$s] จะสามารถออกจากตำแหน่งโฮสต์</string>
-    <string name="disco_explain_5">5. โฮสต์ส่งข้อความ [%1$s] จะเรียกใช้การชมใกล้ชิด</string>
     <string name="waiting">กำลังรออยู่</string>
 
 </resources>

@@ -119,6 +119,8 @@ public class DiscoInteractionDialog extends BaseDialogFragment {
                 simplePagerTitleView.setTextSize(16);
                 simplePagerTitleView.setNormalColor(Color.parseColor("#80ffffff"));
                 simplePagerTitleView.setSelectedColor(Color.parseColor("#ffffff"));
+                int paddingHorizontal = DensityUtils.dp2px(5);
+                simplePagerTitleView.setPadding(paddingHorizontal, 0, paddingHorizontal, 0);
                 simplePagerTitleView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

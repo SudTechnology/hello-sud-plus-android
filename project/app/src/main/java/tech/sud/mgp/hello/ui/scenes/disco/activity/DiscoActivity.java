@@ -240,19 +240,21 @@ public class DiscoActivity extends AbsAudioRoomActivity<DiscoGameViewModel> {
         dialog.setOnActionListener(new DiscoInteractionDialog.OnActionListener() {
             @Override
             public void onAction(DiscoInteractionModel model) {
-                gameViewModel.exeAction(context, roomInfoModel.roomId, model, new DiscoGameViewModel.ActionListener() {
-                    @Override
-                    public void onAnchorChange(boolean isAnchor) {
-                        LifecycleUtils.safeLifecycle(context, new CompletedListener() {
-                            @Override
-                            public void onCompleted() {
-                                if (discoInteractionDialog != null) {
-                                    discoInteractionDialog.setAnchor(isAnchor);
+                if (binder != null) {
+                    binder.exeDiscoAction(roomInfoModel.roomId, model, new SceneDiscoManager.ActionListener() {
+                        @Override
+                        public void onAnchorChange(boolean isAnchor) {
+                            LifecycleUtils.safeLifecycle(context, new CompletedListener() {
+                                @Override
+                                public void onCompleted() {
+                                    if (discoInteractionDialog != null) {
+                                        discoInteractionDialog.setAnchor(isAnchor);
+                                    }
                                 }
-                            }
-                        });
-                    }
-                });
+                            });
+                        }
+                    });
+                }
             }
         });
         discoInteractionDialog = dialog;

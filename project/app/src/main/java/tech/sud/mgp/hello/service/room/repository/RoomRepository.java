@@ -16,6 +16,8 @@ import tech.sud.mgp.hello.service.room.req.DiscoSwitchAnchorReq;
 import tech.sud.mgp.hello.service.room.req.EnterRoomReq;
 import tech.sud.mgp.hello.service.room.req.ExitRoomReq;
 import tech.sud.mgp.hello.service.room.req.GiftListReq;
+import tech.sud.mgp.hello.service.room.req.LeagueMatchRoomReq;
+import tech.sud.mgp.hello.service.room.req.LeaguePlayingReq;
 import tech.sud.mgp.hello.service.room.req.QuizGamePlayerReq;
 import tech.sud.mgp.hello.service.room.req.RobotListReq;
 import tech.sud.mgp.hello.service.room.req.RoomMicListReq;
@@ -34,6 +36,8 @@ import tech.sud.mgp.hello.service.room.resp.DanmakuListResp;
 import tech.sud.mgp.hello.service.room.resp.DiscoAnchorListResp;
 import tech.sud.mgp.hello.service.room.resp.EnterRoomResp;
 import tech.sud.mgp.hello.service.room.resp.GiftListResp;
+import tech.sud.mgp.hello.service.room.resp.LeagueMatchRoomResp;
+import tech.sud.mgp.hello.service.room.resp.LeaguePlayingResp;
 import tech.sud.mgp.hello.service.room.resp.QuizGamePlayerResp;
 import tech.sud.mgp.hello.service.room.resp.RobotListResp;
 import tech.sud.mgp.hello.service.room.resp.RoomMicListResp;
@@ -397,5 +401,36 @@ public class RoomRepository {
                 .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }
+
+    // region 联赛
+
+    /**
+     * 联赛匹配房间
+     *
+     * @param gameId 游戏id
+     */
+    public static void leagueMatchRoom(LifecycleOwner owner, long gameId, RxCallback<LeagueMatchRoomResp> callback) {
+        LeagueMatchRoomReq req = new LeagueMatchRoomReq();
+        req.gameId = gameId;
+        AudioRequestMethodFactory.getMethod()
+                .leagueMatchRoom(BaseUrlManager.getInteractBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /**
+     * 查询进入前三的房间
+     *
+     * @param gameId 游戏id
+     */
+    public static void leaguePlaying(LifecycleOwner owner, long gameId, RxCallback<LeaguePlayingResp> callback) {
+        LeaguePlayingReq req = new LeaguePlayingReq();
+        req.gameId = gameId;
+        AudioRequestMethodFactory.getMethod()
+                .leaguePlaying(BaseUrlManager.getInteractBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+    // endregion 联赛
 
 }

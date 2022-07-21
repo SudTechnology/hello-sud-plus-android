@@ -221,7 +221,9 @@ public class HomeFragment extends BaseFragment implements CreatRoomClickListener
 
     // 点击了联赛场景的
     private void clickLeagueGame(SceneModel sceneModel, GameModel gameModel) {
-        startActivity(new Intent(requireContext(), LeagueEntranceActivity.class));
+        Intent intent = new Intent(requireContext(), LeagueEntranceActivity.class);
+        intent.putExtra(RequestKey.KEY_GAME_MODEL, gameModel);
+        startActivity(intent);
     }
 
     // 打开场景等级选择页面

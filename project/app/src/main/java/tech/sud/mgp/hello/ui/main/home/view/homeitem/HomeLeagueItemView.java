@@ -98,8 +98,8 @@ public class HomeLeagueItemView extends ConstraintLayout implements IHomeChildIt
         @Override
         protected void convert(@NonNull BaseViewHolder holder, GameModel model) {
             ImageView ivIcon = holder.getView(R.id.iv_icon);
-            ImageLoader.loadAvatar(ivIcon, model.homeGamePic);
-            holder.setText(R.id.tv_name, model.gameName);
+            ImageLoader.loadAvatar(ivIcon, model.leagueScenePic);
+            holder.setText(R.id.tv_name, model.leagueSceneName);
         }
     }
 

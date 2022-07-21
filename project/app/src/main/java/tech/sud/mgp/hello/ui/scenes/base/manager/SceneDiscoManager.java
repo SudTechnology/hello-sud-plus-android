@@ -1,6 +1,9 @@
 package tech.sud.mgp.hello.ui.scenes.base.manager;
 
 import android.app.Application;
+import android.content.Context;
+
+import androidx.lifecycle.LifecycleOwner;
 
 import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.Utils;
@@ -17,6 +20,7 @@ import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.CustomCountdownTimer;
 import tech.sud.mgp.hello.service.room.repository.RoomRepository;
+import tech.sud.mgp.hello.ui.common.utils.CompletedListener;
 import tech.sud.mgp.hello.ui.common.utils.SceneUtils;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
@@ -32,6 +36,7 @@ import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdDiscoInfoReqMo
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdDiscoInfoRespModel;
 import tech.sud.mgp.hello.ui.scenes.common.gift.manager.GiftHelper;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftModel;
+import tech.sud.mgp.hello.ui.scenes.disco.model.DiscoInteractionModel;
 import tech.sud.mgp.hello.ui.scenes.disco.viewmodel.DiscoActionHelper;
 
 /**
@@ -48,6 +53,7 @@ public class SceneDiscoManager extends BaseServiceManager {
     private CustomCountdownTimer djCountdownTimer;
     private final int djCountdownCycle = 60; // 循环上dj台秒数
     private UserInfo selfUserInfo = RoomCmdModelUtils.getSendUser();
+    private Context context = Utils.getApp();
 
     public static final int ROBOT_UP_MIC_COUNT = 6; // 机器人上几个麦位
 
@@ -59,7 +65,6 @@ public class SceneDiscoManager extends BaseServiceManager {
     @Override
     public void onCreate() {
         super.onCreate();
-        parentManager.sceneChatManager.addSendMsgListener(sendMsgListener);
         parentManager.sceneEngineManager.setCommandListener(sendGiftCommandListener);
         parentManager.sceneEngineManager.setCommandListener(discoInfoReqListener);
         parentManager.sceneEngineManager.setCommandListener(discoInfoRespListener);
@@ -68,36 +73,13 @@ public class SceneDiscoManager extends BaseServiceManager {
         parentManager.sceneEngineManager.setCommandListener(gameChangeCommandListener);
     }
 
-    /** 自己发送了公屏消息监听 */
-    private final SceneChatManager.SendMsgListener sendMsgListener = new SceneChatManager.SendMsgListener() {
-        @Override
-        public void onSendMsgCompleted(String msg) {
-            checkChatMsgHit(msg);
-            addPublicMsgContribution(selfUserInfo);
-            callbackAction(helper.textPop(3, msg));
-        }
-    };
-
     /** 每发送一条公屏，加1贡献值 */
     private void addPublicMsgContribution(UserInfo userInfo) {
-        ContributionModel contributionModel = findContributionUser(userInfo);
-        if (contributionModel == null) {
-            contributionModel = new ContributionModel();
-            if (userInfo == null) {
-                contributionModel.fromUser = RoomCmdModelUtils.getSendUser();
-            } else {
-                contributionModel.fromUser = userInfo;
-            }
-            contributionList.add(contributionModel);
-        }
-        contributionModel.count += 1;
-        sortContributions();
-        callbackContribution();
+        addContribution(userInfo, 1);
     }
 
     /** 检查是否命中 */
     private void checkChatMsgHit(String msg) {
-        Application context = Utils.getApp();
         if (context.getString(R.string.move).equals(msg)) { // 移动
             triggerMove();
         } else if (context.getString(R.string.god).equals(msg)) { // 上天
@@ -248,13 +230,18 @@ public class SceneDiscoManager extends BaseServiceManager {
 
     /** 添加礼物贡献 */
     private void addGiftContribution(GiftModel giftModel, int giftCount, UserInfo userInfo) {
+        addContribution(userInfo, (long) giftModel.giftPrice * giftCount);
+    }
+
+    /** 添加贡献值 */
+    private void addContribution(UserInfo userInfo, long count) {
         ContributionModel contributionModel = findContributionUser(userInfo);
         if (contributionModel == null) {
             contributionModel = new ContributionModel();
             contributionModel.fromUser = userInfo;
             contributionList.add(contributionModel);
         }
-        contributionModel.count += (long) giftModel.giftPrice * giftCount;
+        contributionModel.count += count;
         sortContributions();
         callbackContribution();
     }
@@ -690,7 +677,6 @@ public class SceneDiscoManager extends BaseServiceManager {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        parentManager.sceneChatManager.removeSendMsgListener(sendMsgListener);
         parentManager.sceneEngineManager.removeCommandListener(sendGiftCommandListener);
         parentManager.sceneEngineManager.removeCommandListener(discoInfoReqListener);
         parentManager.sceneEngineManager.removeCommandListener(discoInfoRespListener);
@@ -725,6 +711,144 @@ public class SceneDiscoManager extends BaseServiceManager {
         // 清除舞台节目单
         releaseDanceList();
         callbackDanceList();
+    }
+
+    /**
+     * 执行动作
+     *
+     * @param model
+     */
+    public void exeDiscoAction(long roomId, DiscoInteractionModel model, ActionListener listener) {
+        actionDeduction(parentManager, roomId, model, new CompletedListener() {
+            @Override
+            public void onCompleted() {
+                deductionSuccess(model, parentManager, roomId, listener);
+            }
+        });
+    }
+
+    /** 执行动作之前，进行扣费 */
+    private void actionDeduction(LifecycleOwner owner, long roomId, DiscoInteractionModel model, CompletedListener listener) {
+        if (model.price == null || model.price == 0) {
+            listener.onCompleted();
+            return;
+        }
+        RoomRepository.deductionCoin(owner, model.price, new RxCallback<Object>() {
+            @Override
+            public void onSuccess(Object o) {
+                super.onSuccess(o);
+                listener.onCompleted();
+                addContribution(selfUserInfo, model.price);
+            }
+        });
+    }
+
+    /** 扣费成功之后，执行动作 */
+    private void deductionSuccess(DiscoInteractionModel model, LifecycleOwner owner, long roomId, ActionListener listener) {
+        switch (model.type) {
+            case JOIN_ANCHOR:
+                switchAnchor(owner, roomId, true, listener);
+                break;
+            case LEAVE_ANCHOR:
+                switchAnchor(owner, roomId, false, listener);
+                break;
+            case UP_DJ:
+                callbackAction(helper.upDJ(null));
+                break;
+            case MOVE:
+                actionMessage(context.getString(R.string.move));
+                callbackAction(helper.roleMove(null, null));
+                break;
+            case GOD:
+                actionMessage(context.getString(R.string.god));
+                callbackAction(helper.roleFly(null));
+                break;
+            case BIG:
+                exeActionBig();
+                break;
+            case CHANGE_ROLE:
+                actionMessage(context.getString(R.string.change_role));
+                callbackAction(helper.changeRole(null));
+                break;
+            case FOCUS:
+                exeActionFocus();
+                break;
+            case TITLE:
+                actionMessage(context.getString(R.string.title));
+                callbackAction(helper.roleTitle(60, null, null));
+                break;
+            case EFFECTS:
+                exeActionEffects();
+                break;
+            case POP_BIG_FOCUS:
+                callbackAction(helper.textPop(null, context.getString(R.string.disco_nick_name)));
+                exeActionBig();
+                exeActionFocus();
+                break;
+            case POP_BIG_FOCUS_EFFECTS:
+                callbackAction(helper.textPop(null, context.getString(R.string.disco_nick_name)));
+                exeActionBig();
+                exeActionFocus();
+                exeActionEffects();
+                break;
+        }
+    }
+
+    private void actionMessage(String text) {
+        parentManager.sceneChatManager.sendPublicMsg(text);
+        showMsgTextPop(text);
+        addPublicMsgContribution(selfUserInfo);
+    }
+
+    private void exeActionEffects() {
+        actionMessage(context.getString(R.string.effect));
+        callbackAction(helper.roleEffects(null, null));
+    }
+
+    private void exeActionFocus() {
+        actionMessage(context.getString(R.string.feature));
+        callbackAction(helper.roleFocus(null, null));
+    }
+
+    private void exeActionBig() {
+        actionMessage(context.getString(R.string.largen));
+        callbackAction(helper.roleBig(null, 2));
+    }
+
+    /**
+     * 上下主播位
+     *
+     * @param owner  生命周期对象
+     * @param isJoin true为上主播位 false为下主播位
+     */
+    private void switchAnchor(LifecycleOwner owner, long roomId, boolean isJoin, ActionListener listener) {
+        if (isJoin) {
+            callbackAction(helper.joinAnchor(null, HSUserInfo.userId + ""));
+        } else {
+            callbackAction(helper.leaveAnchor(HSUserInfo.userId + ""));
+        }
+        RoomRepository.discoSwitchAnchor(owner, roomId, isJoin ? 1 : 2, HSUserInfo.userId, new RxCallback<Object>() {
+            @Override
+            public void onSuccess(Object o) {
+                super.onSuccess(o);
+                listener.onAnchorChange(isJoin);
+            }
+        });
+    }
+
+    /** 发送了公屏消息 */
+    public void sendPublicMsg(String msg) {
+        checkChatMsgHit(msg);
+        addPublicMsgContribution(selfUserInfo);
+        showMsgTextPop(msg);
+    }
+
+    private void showMsgTextPop(String msg) {
+        callbackAction(helper.textPop(3, msg));
+    }
+
+    public interface ActionListener {
+        void onAnchorChange(boolean isAnchor);
     }
 
 }

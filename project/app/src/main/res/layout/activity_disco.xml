@@ -79,7 +79,7 @@
         android:background="@drawable/ic_dance_wait"
         android:paddingHorizontal="12dp"
         android:paddingVertical="2dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="36dp"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/room_bottom_view" />

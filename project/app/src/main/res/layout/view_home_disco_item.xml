@@ -9,15 +9,16 @@
     app:layout_constraintTop_toTopOf="parent">
 
     <!-- 场景名称 -->
-    <TextView
+    <tech.sud.mgp.hello.common.widget.view.MarqueeTextView
         android:id="@+id/scene_name"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:paddingHorizontal="15dp"
         android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="bold"
         android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toStartOf="@id/view_ranking"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

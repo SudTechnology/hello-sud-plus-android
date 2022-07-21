@@ -9,36 +9,56 @@
     <!-- 基础组件 -->
     <include layout="@layout/include_scene_content" />
 
-    <!-- 跳舞邀请发出时的提示 -->
-    <TextView
-        android:id="@+id/tv_dance_send_hint"
-        android:layout_width="wrap_content"
-        android:layout_height="25dp"
-        android:layout_marginEnd="17dp"
-        android:textSize="10sp"
-        android:textColor="@color/white"
-        android:text="@string/dance_invite_send_hint"
-        android:background="@drawable/ic_dance_wait"
-        android:paddingHorizontal="12dp"
-        android:paddingVertical="2dp"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/tv_dancing_menu" />
+    <!-- 互动按钮 -->
+    <LinearLayout
+        android:id="@+id/view_interaction"
+        android:layout_width="72dp"
+        android:layout_height="32dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@drawable/ic_interaction_bg"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@id/view_invite_dance"
+        app:layout_constraintEnd_toEndOf="@id/view_invite_dance">
 
-    <!-- 舞台节目单 -->
-    <TextView
-        android:id="@+id/tv_dancing_menu"
-        android:layout_width="122dp"
-        android:layout_height="45dp"
-        android:textSize="14sp"
-        android:textColor="@color/white"
-        android:text="@string/stage_menu"
-        android:gravity="center"
-        android:background="@drawable/ic_dancing_menu_btn"
-        android:layout_marginBottom="57dp"
-        android:layout_marginEnd="9dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/room_bottom_view" />
+        <View
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@drawable/ic_interaction"
+            android:layout_marginStart="7dp" />
+
+        <tech.sud.mgp.hello.common.widget.view.MarqueeTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="@color/white"
+            android:text="@string/interaction"
+            android:paddingHorizontal="2dp" />
+
+    </LinearLayout>
+
+    <!-- 约主播跳舞 -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/view_invite_dance"
+        android:layout_width="72dp"
+        android:layout_height="60dp"
+        android:background="@drawable/ic_invite_dance_bg"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@id/room_bottom_view"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <tech.sud.mgp.hello.common.widget.view.MarqueeTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="12sp"
+            android:textColor="#300099"
+            android:text="@string/invite_dance"
+            android:layout_marginBottom="3dp"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <tech.sud.mgp.hello.ui.scenes.disco.widget.DiscoExplainView
         android:id="@+id/disco_explain_view"
@@ -47,5 +67,21 @@
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="10dp"
         app:layout_constraintTop_toBottomOf="@id/room_mic_view" />
+
+    <!-- 跳舞邀请发出时的提示 -->
+    <TextView
+        android:id="@+id/tv_dance_send_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:textSize="10sp"
+        android:textColor="@color/white"
+        android:text="@string/dance_invite_send_hint"
+        android:background="@drawable/ic_dance_wait"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="2dp"
+        android:layout_marginEnd="16dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/room_bottom_view" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

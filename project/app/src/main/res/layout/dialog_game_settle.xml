@@ -12,7 +12,7 @@
         android:background="@drawable/ic_quiz_settle_top_bg"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <tech.sud.mgp.hello.common.widget.view.MarqueeTextView
         android:id="@+id/tv_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -82,7 +82,7 @@
         android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/tv_title">
 
-        <TextView
+        <tech.sud.mgp.hello.common.widget.view.MarqueeTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="12sp"
@@ -103,7 +103,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="24dp" />
 
-            <TextView
+            <tech.sud.mgp.hello.common.widget.view.MarqueeTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
@@ -123,7 +123,7 @@
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@id/tv_title">
 
-        <TextView
+        <tech.sud.mgp.hello.common.widget.view.MarqueeTextView
             android:id="@+id/tv_not_join_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -144,7 +144,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="24dp" />
 
-            <TextView
+            <tech.sud.mgp.hello.common.widget.view.MarqueeTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="12sp"

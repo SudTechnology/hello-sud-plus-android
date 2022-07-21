@@ -465,10 +465,6 @@
     <string name="contribution_value">Điểm cống hiến</string>
     <string name="disco_explain_top_5">Top 5</string>
     <string name="disco_explain_1">1. Bảng cống hiến %1$s  DJ ngẫu nhiên（%2$s s làm mới）.</string>
-    <string name="disco_explain_2">2. Tặng quà có thể kích hoạt hiệu quả khác nhau hoặc chọn streamer khiêu vũ.</string>
-    <string name="disco_explain_3">3. Chỉ lệnh màn hình chung：【%1$s】【%2$s】【%3$s】。</string>
-    <string name="disco_explain_4">4. Người dùng lên mic【%1$s】có thể lên vị trí streamer，\n&#160;&#160;&#160;&#160; gửi【%2$s】có thể xuống vị trí streamer.</string>
-    <string name="disco_explain_5">5. Streamer đăng bài viết【%1$s】có thể kích hoạt nổi bật.</string>
     <string name="waiting">Đang chờ</string>
 
 </resources>

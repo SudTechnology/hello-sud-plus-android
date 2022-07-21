@@ -465,10 +465,6 @@
     <string name="contribution_value">貢献値</string>
     <string name="disco_explain_top_5">トップ5</string>
     <string name="disco_explain_1">1.貢献ランキング%1$sでランダムDJ(%2$s秒更新)。</string>
-    <string name="disco_explain_2">2.ギフトは、さまざまな効果を引き起こしたり、キャスターをダンスに招待したりすることができます。</string>
-    <string name="disco_explain_3">3.公開画面コマンド：【%1$s】【%2$s】【%3$s】。</string>
-    <string name="disco_explain_4">4.マイク接続ユーザーは【%1$s】を送信してキャスターにオンラインできます。\n&#160;&#160;&#160;&#160;、【%2$s】を送信するとキャスターをオフラインにします。</string>
-    <string name="disco_explain_5">5.キャスターが【%1$s】というメッセージを送信すると、クローズアップがトリガーされます。</string>
     <string name="waiting">待機中</string>
 
 </resources>

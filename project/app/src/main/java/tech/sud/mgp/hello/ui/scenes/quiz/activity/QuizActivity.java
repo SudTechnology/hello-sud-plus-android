@@ -33,6 +33,7 @@ import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.utils.ShapeUtils;
 import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
+import tech.sud.mgp.hello.common.widget.view.MarqueeTextView;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.main.req.QuizBetReq;
 import tech.sud.mgp.hello.service.room.repository.RoomRepository;
@@ -51,10 +52,11 @@ import tech.sud.mgp.hello.ui.scenes.quiz.widget.QuizSettleDialog;
  */
 public class QuizActivity extends AbsAudioRoomActivity<QuizGameViewModel> {
 
-    private TextView tvGuess;
+    private MarqueeTextView tvGuess;
     private View viewFinger;
     private ConstraintLayout clGuessIWin;
     private ConstraintLayout viewAutoGuessIWin; // 已经开启了自动猜自己赢
+    private MarqueeTextView tvAutoGuessIWin;
     private List<QuizGamePlayerResp.Player> playerList; // 游戏玩家列表
     private QuizGuessDialog quizGuessDialog;
 
@@ -107,18 +109,19 @@ public class QuizActivity extends AbsAudioRoomActivity<QuizGameViewModel> {
         int paddingHorizontal = DensityUtils.dp2px(this, 1);
         viewAutoGuessIWin.setPadding(paddingHorizontal, 0, paddingHorizontal, 0);
 
-        TextView tv = new TextView(this);
-        tv.setId(View.generateViewId());
-        tv.setText(R.string.auto_quiz);
-        tv.setTextColor(Color.WHITE);
-        tv.setTextSize(12);
+        tvAutoGuessIWin = new MarqueeTextView(this);
+        tvAutoGuessIWin.setId(View.generateViewId());
+        tvAutoGuessIWin.setText(R.string.auto_quiz);
+        tvAutoGuessIWin.setTextColor(Color.WHITE);
+        tvAutoGuessIWin.setTextSize(12);
+        tvAutoGuessIWin.setMaxWidth(DensityUtils.dp2px(66));
         ConstraintLayout.LayoutParams tvParams = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT,
                 ConstraintLayout.LayoutParams.WRAP_CONTENT);
         tvParams.setMarginStart(DensityUtils.dp2px(6));
         tvParams.topToTop = ConstraintLayout.LayoutParams.PARENT_ID;
         tvParams.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID;
         tvParams.startToStart = ConstraintLayout.LayoutParams.PARENT_ID;
-        viewAutoGuessIWin.addView(tv, tvParams);
+        viewAutoGuessIWin.addView(tvAutoGuessIWin, tvParams);
 
         View viewIcon = new View(this);
         viewIcon.setBackgroundResource(R.drawable.ic_green_selected);
@@ -127,7 +130,7 @@ public class QuizActivity extends AbsAudioRoomActivity<QuizGameViewModel> {
         viewParams.setMarginStart(DensityUtils.dp2px(4));
         viewParams.topToTop = ConstraintLayout.LayoutParams.PARENT_ID;
         viewParams.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID;
-        viewParams.startToEnd = tv.getId();
+        viewParams.startToEnd = tvAutoGuessIWin.getId();
         viewAutoGuessIWin.addView(viewIcon, viewParams);
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -138,12 +141,13 @@ public class QuizActivity extends AbsAudioRoomActivity<QuizGameViewModel> {
         viewAutoGuessIWin.setVisibility(View.GONE);
     }
 
-    private TextView createTopTextView(int paddingHorizontal, int textColor, int marginEnd) {
-        TextView tv = new TextView(this);
+    private MarqueeTextView createTopTextView(int paddingHorizontal, int textColor, int marginEnd) {
+        MarqueeTextView tv = new MarqueeTextView(this);
         tv.setGravity(Gravity.CENTER);
         tv.setPadding(paddingHorizontal, 0, paddingHorizontal, 0);
         tv.setTextSize(12);
         tv.setTextColor(textColor);
+        tv.setMaxWidth(DensityUtils.dp2px(66));
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                 DensityUtils.dp2px(this, 20));
         params.setMarginEnd(marginEnd);
@@ -442,6 +446,7 @@ public class QuizActivity extends AbsAudioRoomActivity<QuizGameViewModel> {
             viewFinger.setVisibility(View.GONE);
             if (AppData.getInstance().isQuizAutoGuessIWin()) {
                 viewAutoGuessIWin.setVisibility(View.VISIBLE);
+                tvAutoGuessIWin.checkFocus();
                 clGuessIWin.setVisibility(View.GONE);
             } else {
                 viewAutoGuessIWin.setVisibility(View.GONE);
@@ -449,6 +454,7 @@ public class QuizActivity extends AbsAudioRoomActivity<QuizGameViewModel> {
             }
         } else {
             tvGuess.setVisibility(View.VISIBLE);
+            tvGuess.checkFocus();
             int gameState = gameViewModel.getGameState();
             if (gameState == SudMGPMGState.MGCommonGameState.LOADING || gameState == SudMGPMGState.MGCommonGameState.PLAYING) {
                 viewFinger.setVisibility(View.GONE);

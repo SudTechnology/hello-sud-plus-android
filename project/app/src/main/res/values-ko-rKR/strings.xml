@@ -464,10 +464,6 @@
     <string name="contribution_value">기여치</string>
     <string name="disco_explain_top_5">탑 5</string>
     <string name="disco_explain_1">1. 공헌 순위%1$s무작위DJ（%2$s초 새로고침）</string>
-    <string name="disco_explain_2">2. 기념품 증정으로 서로 다른 효과 활성화 또는 앵커 댄싱을 주문 가능.</string>
-    <string name="disco_explain_3">3. 공중 스크린 명령：【%1$s】【%2$s】【%3$s】。</string>
-    <string name="disco_explain_4">4. 마이크 사용자가【%1$s】발표로 앵커위치에 진입, \n&#160;&#160;&#160;&#160; 【%2$s】발표로 앵커위치를 이탈.</string>
-    <string name="disco_explain_5">5. 앵커가 발송한 문자【%1$s】로 클로즈업 활성화 가능.</string>
     <string name="waiting">대기중</string>
 
 </resources>

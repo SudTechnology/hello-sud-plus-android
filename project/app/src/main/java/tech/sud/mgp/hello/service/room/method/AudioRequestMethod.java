@@ -8,6 +8,9 @@ import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.IBaseUrl;
 import tech.sud.mgp.hello.service.base.RequestUrl;
 import tech.sud.mgp.hello.service.room.req.DanmakuListReq;
+import tech.sud.mgp.hello.service.room.req.DeductionCoinReq;
+import tech.sud.mgp.hello.service.room.req.DiscoAnchorListReq;
+import tech.sud.mgp.hello.service.room.req.DiscoSwitchAnchorReq;
 import tech.sud.mgp.hello.service.room.req.EnterRoomReq;
 import tech.sud.mgp.hello.service.room.req.ExitRoomReq;
 import tech.sud.mgp.hello.service.room.req.GiftListReq;
@@ -26,6 +29,7 @@ import tech.sud.mgp.hello.service.room.req.RoomPkSwitchReq;
 import tech.sud.mgp.hello.service.room.req.SendDanmakuReq;
 import tech.sud.mgp.hello.service.room.req.SendGiftReq;
 import tech.sud.mgp.hello.service.room.resp.DanmakuListResp;
+import tech.sud.mgp.hello.service.room.resp.DiscoAnchorListResp;
 import tech.sud.mgp.hello.service.room.resp.EnterRoomResp;
 import tech.sud.mgp.hello.service.room.resp.GiftListResp;
 import tech.sud.mgp.hello.service.room.resp.QuizGamePlayerResp;
@@ -149,5 +153,23 @@ public interface AudioRequestMethod {
      */
     @POST(RequestUrl.ROBOT_LIST)
     Observable<BaseResponse<RobotListResp>> robotList(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body RobotListReq req);
+
+    /**
+     * 扣费
+     */
+    @POST(RequestUrl.DEDUCTION_COIN)
+    Observable<BaseResponse<Object>> deductionCoin(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body DeductionCoinReq req);
+
+    /**
+     * 蹦迪主播列表
+     */
+    @POST(RequestUrl.DISCO_ANCHOR_LIST)
+    Observable<BaseResponse<DiscoAnchorListResp>> discoAnchorList(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body DiscoAnchorListReq req);
+
+    /**
+     * 上/下主播位
+     */
+    @POST(RequestUrl.DISCO_SWITCH_ANCHOR)
+    Observable<BaseResponse<Object>> discoSwitchAnchor(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body DiscoSwitchAnchorReq req);
 
 }

@@ -1,6 +1,5 @@
 package tech.sud.mgp.hello.ui.scenes.disco.viewmodel;
 
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 
 import com.blankj.utilcode.util.BarUtils;
@@ -8,15 +7,9 @@ import com.blankj.utilcode.util.Utils;
 
 import tech.sud.mgp.SudMGPWrapper.model.GameViewInfoModel;
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
-import tech.sud.mgp.hello.R;
-import tech.sud.mgp.hello.common.http.rx.RxCallback;
-import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
-import tech.sud.mgp.hello.service.room.repository.RoomRepository;
-import tech.sud.mgp.hello.ui.common.utils.CompletedListener;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
-import tech.sud.mgp.hello.ui.scenes.disco.model.DiscoInteractionModel;
 
 /**
  * 蹦迪场景的游戏业务
@@ -224,107 +217,6 @@ public class DiscoGameViewModel extends AppGameViewModel {
     protected void getGameRect(GameViewInfoModel gameViewInfoModel) {
         super.getGameRect(gameViewInfoModel);
         gameViewInfoModel.view_game_rect.top = DensityUtils.dp2px(Utils.getApp(), 145) + BarUtils.getStatusBarHeight();
-    }
-
-    /**
-     * 执行动作
-     *
-     * @param model
-     */
-    public void exeAction(LifecycleOwner owner, long roomId, DiscoInteractionModel model, ActionListener listener) {
-        actionDeduction(owner, roomId, model, new CompletedListener() {
-            @Override
-            public void onCompleted() {
-                deductionSuccess(model, owner, roomId, listener);
-            }
-        });
-    }
-
-    /** 执行动作之前，进行扣费 */
-    private void actionDeduction(LifecycleOwner owner, long roomId, DiscoInteractionModel model, CompletedListener listener) {
-        if (model.price == null || model.price == 0) {
-            listener.onCompleted();
-            return;
-        }
-        RoomRepository.deductionCoin(owner, model.price, new RxCallback<Object>() {
-            @Override
-            public void onSuccess(Object o) {
-                super.onSuccess(o);
-                listener.onCompleted();
-            }
-        });
-    }
-
-    /** 扣费成功之后，执行动作 */
-    private void deductionSuccess(DiscoInteractionModel model, LifecycleOwner owner, long roomId, ActionListener listener) {
-        switch (model.type) {
-            case JOIN_ANCHOR:
-                switchAnchor(owner, roomId, true, listener);
-                break;
-            case LEAVE_ANCHOR:
-                switchAnchor(owner, roomId, false, listener);
-                break;
-            case UP_DJ:
-                upDJ(null);
-                break;
-            case MOVE:
-                roleMove(null, null);
-                break;
-            case GOD:
-                roleFly(null);
-                break;
-            case BIG:
-                roleBig(null, 2);
-                break;
-            case CHANGE_ROLE:
-                changeRole(null);
-                break;
-            case FOCUS:
-                roleFocus(null, null);
-                break;
-            case TITLE:
-                roleTitle(60, null, null);
-                break;
-            case EFFECTS:
-                roleEffects(null, null);
-                break;
-            case POP_BIG_FOCUS:
-                textPop(null, Utils.getApp().getString(R.string.disco_nick_name));
-                roleBig(null, 2);
-                roleFocus(null, null);
-                break;
-            case POP_BIG_FOCUS_EFFECTS:
-                textPop(null, Utils.getApp().getString(R.string.disco_nick_name));
-                roleBig(null, 2);
-                roleFocus(null, null);
-                roleEffects(null, null);
-                break;
-        }
-    }
-
-    /**
-     * 上下主播位
-     *
-     * @param owner  生命周期对象
-     * @param isJoin true为上主播位 false为下主播位
-     */
-    private void switchAnchor(LifecycleOwner owner, long roomId, boolean isJoin, ActionListener listener) {
-        if (isJoin) {
-            joinAnchor(null, HSUserInfo.userId + "");
-        } else {
-            leaveAnchor(HSUserInfo.userId + "");
-        }
-        RoomRepository.discoSwitchAnchor(owner, roomId, isJoin ? 1 : 2, HSUserInfo.userId, new RxCallback<Object>() {
-            @Override
-            public void onSuccess(Object o) {
-                super.onSuccess(o);
-                listener.onAnchorChange(isJoin);
-            }
-        });
-    }
-
-    public interface ActionListener {
-        void onAnchorChange(boolean isAnchor);
     }
 
 }

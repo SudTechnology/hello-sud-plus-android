@@ -26,6 +26,7 @@ import tech.sud.mgp.hello.ui.common.utils.channel.NotifyId;
 import tech.sud.mgp.hello.ui.main.home.model.RoomItemModel;
 import tech.sud.mgp.hello.ui.scenes.base.activity.RoomConfig;
 import tech.sud.mgp.hello.ui.scenes.base.constant.OperateMicType;
+import tech.sud.mgp.hello.ui.scenes.base.manager.SceneDiscoManager;
 import tech.sud.mgp.hello.ui.scenes.base.manager.SceneLeagueManager;
 import tech.sud.mgp.hello.ui.scenes.base.manager.SceneRoomServiceManager;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
@@ -39,6 +40,7 @@ import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.ContributionModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.DanceModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.quiz.QuizBetModel;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftModel;
+import tech.sud.mgp.hello.ui.scenes.disco.model.DiscoInteractionModel;
 
 /**
  * 房间服务
@@ -182,6 +184,11 @@ public class SceneRoomService extends Service {
          */
         public void sendPublicMsg(CharSequence msg) {
             serviceManager.sceneChatManager.sendPublicMsg(msg);
+            if (serviceManager.sceneDiscoManager != null) {
+                if (msg != null) {
+                    serviceManager.sceneDiscoManager.sendPublicMsg(msg.toString());
+                }
+            }
         }
 
         /** 发送礼物 */
@@ -340,6 +347,13 @@ public class SceneRoomService extends Service {
             SceneLeagueManager manager = serviceManager.sceneLeagueManager;
             if (manager != null) {
                 manager.onGameSettle(gameSettle);
+            }
+        }
+
+        /** 执行蹦迪动作 */
+        public void exeDiscoAction(Long roomId, DiscoInteractionModel model, SceneDiscoManager.ActionListener actionListener) {
+            if (serviceManager.sceneDiscoManager != null) {
+                serviceManager.sceneDiscoManager.exeDiscoAction(roomId, model, actionListener);
             }
         }
     }

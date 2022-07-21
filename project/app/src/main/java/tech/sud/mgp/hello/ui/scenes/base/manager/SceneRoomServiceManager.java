@@ -60,7 +60,7 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
     public final SceneRoomPkManager sceneRoomPkManager = new SceneRoomPkManager(this);
     public final SceneQuizManager sceneQuizManager = new SceneQuizManager(this);
     public final SceneFloatingManager floatingManager = new SceneFloatingManager(this);
-    private SceneDiscoManager sceneDiscoManager;
+    public SceneDiscoManager sceneDiscoManager;
     public SceneLeagueManager sceneLeagueManager;
 
     @Override

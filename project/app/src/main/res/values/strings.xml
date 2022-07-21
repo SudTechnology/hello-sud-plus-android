@@ -483,15 +483,27 @@ Go to homepage to create one~</string>
     <string name="contribution_value">Contribution</string>
     <string name="disco_explain_top_5">Top five</string>
     <string name="disco_explain_1">1. Contribution rank %1$s random DJ (%2$s seconds refresh).</string>
-    <string name="disco_explain_2">2. Gifts can trigger different effects or choose the streamer to dance.</string>
-    <string name="disco_explain_3">3. Public screen command: [%1$s][%2$s][%3$s].</string>
-    <string name="disco_explain_4">4. Player who is using voice chat can send [%1$s] to be on the streamer position,\n&#160;&#160;&#160;&#160;send [%2$s] to leave the streamer position.</string>
-    <string name="disco_explain_5">5. The streamer texts [%1$s] can trigger a close-up.</string>
     <string name="waiting">Waiting</string>
 
     <!-- region 新增 -->
-
-
+    <string name="invite_dance">约主播跳舞</string>
+    <string name="interaction">互动</string>
+    <string name="select_anchor_dance">选择主播跳舞</string>
+    <string name="dance_duration">跳舞时长</string>
+    <string name="invite_dance_him">约TA砂舞(%1$s金币)</string>
+    <string name="disco_interaction_tab_1">功能付费点</string>
+    <string name="disco_interaction_tab_2">组合付费点</string>
+    <string name="join_anchor">上主播位</string>
+    <string name="leave_anchor">下主播位</string>
+    <string name="up_dj">上DJ台</string>
+    <string name="largen">变大</string>
+    <string name="title">称号</string>
+    <string name="pop_big_focus">气泡+变大+特写</string>
+    <string name="pop_big_focus_effect">气泡+变大+特写+特效</string>
+    <string name="disco_nick_name">元宇宙砂砂舞</string>
+    <string name="disco_explain_2">2. 送礼可与主播跳舞、或触发不同的效果。</string>
+    <string name="disco_explain_3">3. 麦上用户发送【%1$s】可触发特写。</string>
+    <string name="please_select_anchor">请选择主播</string>
     <!-- endregion 新增 -->
 
     <!-- region 1.4.2 -->

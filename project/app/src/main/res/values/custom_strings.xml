@@ -83,5 +83,17 @@
     <string name="custom_config_game_block_change_seat_custom_subtitle">(ui.block_change_seat.custom)</string>
     <string name="custom_config_game_block_change_seat_custom_false">false: player seats can be changed</string>
     <string name="custom_config_game_block_change_seat_custom_true">true: player seats cannot be changed</string>
+
+    <string name="custom_config_game_setting_select_pnl">The feature to disable the game mode setting panel</string>
+    <string name="custom_config_game_setting_select_pnl_subtitle">(ui.game_setting_select_pnl.hide)</string>
+    <string name="custom_config_game_managed_image">The feature to disable the auto managed icon show on player</string>
+    <string name="custom_config_game_managed_image_subtitle">(ui.game_managed_image.hide)</string>
+    <string name="custom_config_game_table_image">The feature to disable the game table image</string>
+    <string name="custom_config_game_table_image_subtitle">(ui.game_table_image.hide)</string>
+    <string name="custom_config_game_countdown_time">The feature to disable the game countdown</string>
+    <string name="custom_config_game_countdown_time_subtitle">(ui.game_countdown_time.hide)</string>
+    <string name="custom_config_game_selected_tips">The feature to disable th prompt text of play method selected in the game (Currently supported by Ludo only.)</string>
+    <string name="custom_config_game_selected_tips_subtitle">(ui.game_selected_tips.hide)</string>
+
     <!-- endregion custom场景，暂不用全部翻译 -->
 </resources>

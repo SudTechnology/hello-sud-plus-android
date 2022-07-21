@@ -72,7 +72,6 @@ public class DiscoRankingActivity extends BaseActivity {
 
     private void initMagicIndicator() {
         CommonNavigator commonNavigator = new CommonNavigator(this);
-        commonNavigator.setAdjustMode(true);
         commonNavigator.setAdapter(new CommonNavigatorAdapter() {
             @Override
             public int getCount() {

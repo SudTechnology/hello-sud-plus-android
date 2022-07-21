@@ -795,7 +795,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         });
     }
 
-    private void onSendGift(GiftModel giftModel, int giftCount, List<UserInfo> toUsers) {
+    protected void onSendGift(GiftModel giftModel, int giftCount, List<UserInfo> toUsers) {
         if (toUsers == null || toUsers.size() == 0) {
             return;
         }

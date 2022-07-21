@@ -13,8 +13,10 @@ import java.util.Random;
 
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
 import tech.sud.mgp.hello.R;
+import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.CustomCountdownTimer;
+import tech.sud.mgp.hello.service.room.repository.RoomRepository;
 import tech.sud.mgp.hello.ui.common.utils.SceneUtils;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
@@ -44,7 +46,7 @@ public class SceneDiscoManager extends BaseServiceManager {
     private boolean initDiscoInfoCompleted; // 是否已经初始化完成了蹦迪信息
     private UserInfo initRecUserInfo; // 初始化时，只接受该用户传递过来的数据
     private CustomCountdownTimer djCountdownTimer;
-    private int djCountdownCycle = 60;
+    private final int djCountdownCycle = 60; // 循环上dj台秒数
     private UserInfo selfUserInfo = RoomCmdModelUtils.getSendUser();
 
     public static final int ROBOT_UP_MIC_COUNT = 6; // 机器人上几个麦位
@@ -72,6 +74,7 @@ public class SceneDiscoManager extends BaseServiceManager {
         public void onSendMsgCompleted(String msg) {
             checkChatMsgHit(msg);
             addPublicMsgContribution(selfUserInfo);
+            callbackAction(helper.textPop(3, msg));
         }
     };
 
@@ -130,12 +133,14 @@ public class SceneDiscoManager extends BaseServiceManager {
         int selfMicIndex = parentManager.sceneMicManager.findSelfMicIndex();
         if (selfMicIndex >= 0) {
             callbackAction(helper.joinAnchor(null, null));
+            RoomRepository.discoSwitchAnchor(parentManager, parentManager.getRoomId(), 1, HSUserInfo.userId, new RxCallback<>());
         }
     }
 
     /** 触发【下班】 */
     private void triggerGetOffWork() {
         callbackAction(helper.leaveAnchor(HSUserInfo.userId + ""));
+        RoomRepository.discoSwitchAnchor(parentManager, parentManager.getRoomId(), 2, HSUserInfo.userId, new RxCallback<>());
     }
 
     /** 触发【聚焦】 */
@@ -287,15 +292,21 @@ public class SceneDiscoManager extends BaseServiceManager {
             callbackAction(helper.roleFocus(5, false));
             callbackAction(helper.roleEffects(60 * 60 * 2, null));
         } else if (giftID == 5) {
-            addDance(RoomCmdModelUtils.getSendUser(), toUser, 60);
+            addDance(RoomCmdModelUtils.getSendUser(), toUser, 60 * giftCount);
         } else if (giftID == 6) {
-            addDance(RoomCmdModelUtils.getSendUser(), toUser, 3 * 60);
+            addDance(RoomCmdModelUtils.getSendUser(), toUser, 3 * 60 * giftCount);
         } else if (giftID == 7) {
             danceTop(RoomCmdModelUtils.getSendUser(), toUser);
         }
     }
 
-    /** 增加一个跳舞请求 */
+    /**
+     * 增加一个跳舞请求
+     *
+     * @param fromUser 邀请方
+     * @param toUser   受邀方
+     * @param duration 时长（秒）
+     */
     private void addDance(UserInfo fromUser, UserInfo toUser, int duration) {
         if (fromUser == null || toUser == null || fromUser.equals(toUser)) {
             return;
@@ -352,7 +363,7 @@ public class SceneDiscoManager extends BaseServiceManager {
     /** 向游戏发送状态，与该主播跳舞 */
     private void callDanceWithAnchor(UserInfo toUser, int duration) {
         callbackAction(helper.danceWithAnchor(duration, false, toUser.userID));
-        callbackAction(helper.roleFocus(3, false));
+        callbackAction(helper.roleFocus(5, false));
     }
 
     /** 整理跳舞数据 */
@@ -557,18 +568,21 @@ public class SceneDiscoManager extends BaseServiceManager {
     private final SceneCommandManager.SendGiftCommandListener sendGiftCommandListener = new SceneCommandManager.SendGiftCommandListener() {
         @Override
         public void onRecvCommand(RoomCmdSendGiftModel model, String userID) {
-            if (model.type == 0) {
-                if (model.giftID == 5) {
-                    addDance(model.sendUser, model.toUser, 60);
-                } else if (model.giftID == 6) {
-                    addDance(model.sendUser, model.toUser, 3 * 60);
-                } else if (model.giftID == 7) {
-                    danceTop(model.sendUser, model.toUser);
-                }
-            }
             GiftModel giftModel = GiftHelper.getInstance().getGift(model.giftID);
             if (model.sendUser != null && giftModel != null) {
+                // 添加贡献榜
                 addGiftContribution(giftModel, model.giftCount, model.sendUser);
+
+                // 跳舞
+                if (model.type == 0) {
+                    if (model.giftID == 5) {
+                        addDance(model.sendUser, model.toUser, 60 * model.giftCount);
+                    } else if (model.giftID == 6) {
+                        addDance(model.sendUser, model.toUser, 3 * 60 * model.giftCount);
+                    } else if (model.giftID == 7) {
+                        danceTop(model.sendUser, model.toUser);
+                    }
+                }
             }
         }
     };

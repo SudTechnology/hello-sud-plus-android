@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="56dp"
+    android:layout_marginHorizontal="5dp"
+    android:layout_marginTop="10dp"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@drawable/shape_disco_interaction_bg">
+
+    <tech.sud.mgp.hello.common.widget.view.MarqueeTextView
+        android:id="@+id/tv_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="2dp"
+        android:gravity="center"
+        android:textSize="14sp"
+        android:textColor="#712600" />
+
+    <LinearLayout
+        android:id="@+id/view_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp"
+        android:gravity="center">
+
+        <View
+            android:id="@+id/view_coin"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_marginEnd="6dp"
+            android:background="@drawable/icon_coin" />
+
+        <TextView
+            android:id="@+id/tv_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#fff6e0" />
+
+    </LinearLayout>
+</LinearLayout>

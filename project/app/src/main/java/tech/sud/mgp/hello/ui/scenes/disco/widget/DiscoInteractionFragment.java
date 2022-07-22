@@ -21,6 +21,7 @@ import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseFragment;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
+import tech.sud.mgp.hello.common.utils.ViewUtils;
 import tech.sud.mgp.hello.service.main.resp.UserInfoResp;
 import tech.sud.mgp.hello.service.room.repository.RoomRepository;
 import tech.sud.mgp.hello.service.room.resp.DiscoAnchorListResp;
@@ -179,6 +180,9 @@ public class DiscoInteractionFragment extends BaseFragment {
         @SuppressLint("SetTextI18n")
         @Override
         protected void convert(@NonNull BaseViewHolder holder, DiscoInteractionModel model) {
+            View viewRoot = holder.getView(R.id.view_root);
+            ViewUtils.setViewClickAnim(viewRoot);
+            
             holder.setText(R.id.tv_name, model.name);
             View viewPrice = holder.getView(R.id.view_price);
             View viewCoin = holder.getView(R.id.view_coin);

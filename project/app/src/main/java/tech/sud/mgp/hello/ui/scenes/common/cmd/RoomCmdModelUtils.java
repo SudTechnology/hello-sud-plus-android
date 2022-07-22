@@ -16,6 +16,7 @@ import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdUpMicModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.ContributionModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.DanceModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdBecomeDJModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdDiscoActionPayModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdDiscoInfoReqModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdDiscoInfoRespModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.order.RoomCmdOrderOperateModel;
@@ -241,6 +242,13 @@ public class RoomCmdModelUtils {
     public static String buildCmdBecomeDJ(String userId) {
         RoomCmdBecomeDJModel command = new RoomCmdBecomeDJModel(getSendUser());
         command.userID = userId;
+        return command.toJson();
+    }
+
+    /** 构建 蹦迪动作付费 信令 */
+    public static String buildCmdDiscoActionPay(int price) {
+        RoomCmdDiscoActionPayModel command = new RoomCmdDiscoActionPayModel(getSendUser());
+        command.price = price;
         return command.toJson();
     }
     // endregion 竞猜

@@ -462,16 +462,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         gameViewModel.showFinishGameBtnLiveData.observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean isShow) {
-                boolean isOperateFinishGame = isShow != null && isShow;
-                // 是房主，则不显示结束游戏按钮，放到选择游戏弹窗当中
-                if (roomInfoModel.roleType == RoleType.OWNER) {
-                    topView.setFinishGameVisible(false);
-                } else {
-                    topView.setFinishGameVisible(isOperateFinishGame);
-                }
-                if (gameModeDialog != null) {
-                    gameModeDialog.setFinishGame(isOperateFinishGame);
-                }
+                onShowFinishGameChange(isShow);
             }
         });
         gameViewModel.playerInLiveData.observe(this, new Observer<Object>() {
@@ -494,6 +485,24 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
                 autoJoinGame();
             }
         });
+    }
+
+    /**
+     * 是否可以结束游戏变化
+     *
+     * @param isShow
+     */
+    protected void onShowFinishGameChange(Boolean isShow) {
+        boolean isOperateFinishGame = isShow != null && isShow;
+        // 是房主，则不显示结束游戏按钮，放到选择游戏弹窗当中
+        if (roomInfoModel.roleType == RoleType.OWNER) {
+            topView.setFinishGameVisible(false);
+        } else {
+            topView.setFinishGameVisible(isOperateFinishGame);
+        }
+        if (gameModeDialog != null) {
+            gameModeDialog.setFinishGame(isOperateFinishGame);
+        }
     }
 
     /** 触发自动加入游戏 */

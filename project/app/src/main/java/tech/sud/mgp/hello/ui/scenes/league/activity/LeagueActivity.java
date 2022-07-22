@@ -164,6 +164,16 @@ public class LeagueActivity extends AbsAudioRoomActivity<LeagueGameViewModel> {
         }
     }
 
+    /**
+     * 是否可以结束游戏变化，统一不显示结束游戏按钮
+     *
+     * @param isShow
+     */
+    @Override
+    protected void onShowFinishGameChange(Boolean isShow) {
+        super.onShowFinishGameChange(false);
+    }
+
     // 展示结算弹窗
     private void showGameSettleDialog(SudMGPMGState.MGCommonGameSettle gameSettle) {
         LeagueModel model = getLeagueModel();

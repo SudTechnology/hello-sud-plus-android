@@ -28,6 +28,7 @@ import tech.sud.mgp.hello.common.base.BaseActivity;
 import tech.sud.mgp.hello.common.base.BaseFragmentStateAdapter;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.utils.ViewUtils;
+import tech.sud.mgp.hello.ui.common.widget.HSTopBar;
 import tech.sud.mgp.hello.ui.common.widget.ViewPager2Helper;
 import tech.sud.mgp.hello.ui.scenes.disco.fragment.DiscoRankingFragment;
 
@@ -56,9 +57,12 @@ public class DiscoRankingActivity extends BaseActivity {
         magicIndicator = findViewById(R.id.magic_indicator);
         viewPager = findViewById(R.id.view_pager2);
 
-        View topBar = findViewById(R.id.top_bar);
+        HSTopBar topBar = findViewById(R.id.top_bar);
         int statusBarHeight = ImmersionBar.getStatusBarHeight(this);
         ViewUtils.addMarginTop(topBar, statusBarHeight);
+
+        int paddingHorizontal = DensityUtils.dp2px(40);
+        topBar.setTitlePadding(paddingHorizontal, 0, paddingHorizontal, 0);
     }
 
     @Override

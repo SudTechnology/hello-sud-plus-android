@@ -16,12 +16,14 @@ import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.utils.ShapeUtils;
 import tech.sud.mgp.hello.common.utils.ViewUtils;
+import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.main.resp.GameModel;
 import tech.sud.mgp.hello.service.room.repository.RoomRepository;
-import tech.sud.mgp.hello.service.room.resp.LeagueMatchRoomResp;
 import tech.sud.mgp.hello.service.room.resp.LeaguePlayingResp;
 import tech.sud.mgp.hello.ui.common.constant.RequestKey;
 import tech.sud.mgp.hello.ui.common.widget.HSTopBar;
+import tech.sud.mgp.hello.ui.main.constant.SceneType;
+import tech.sud.mgp.hello.ui.main.home.model.MatchRoomModel;
 import tech.sud.mgp.hello.ui.scenes.base.utils.EnterRoomUtils;
 
 /**
@@ -143,12 +145,12 @@ public class LeagueEntranceActivity extends BaseActivity {
     }
 
     private void matchRoom() {
-        RoomRepository.leagueMatchRoom(this, gameModel.gameId, new RxCallback<LeagueMatchRoomResp>() {
+        HomeRepository.matchGame(SceneType.LEAGUE, gameModel.gameId, null, this, new RxCallback<MatchRoomModel>() {
             @Override
-            public void onSuccess(LeagueMatchRoomResp resp) {
-                super.onSuccess(resp);
-                if (resp != null) {
-                    EnterRoomUtils.enterRoom(context, resp.roomId);
+            public void onSuccess(MatchRoomModel matchRoomModel) {
+                super.onSuccess(matchRoomModel);
+                if (matchRoomModel != null) {
+                    EnterRoomUtils.enterRoom(context, matchRoomModel.roomId);
                 }
             }
         });

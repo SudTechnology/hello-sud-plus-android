@@ -125,9 +125,6 @@ public interface RequestUrl {
     // endregion 蹦迪
 
     // region 联赛
-    /** 联赛匹配房间 */
-    String LEAGUE_MATCH_ROOM = "league/match-room/v1";
-
     /** 查询进入前三的房间 */
     String LEAGUE_PLAYING = "league/playing/v1";
     // endregion 联赛

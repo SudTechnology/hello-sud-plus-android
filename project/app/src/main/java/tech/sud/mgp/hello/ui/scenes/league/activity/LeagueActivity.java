@@ -116,8 +116,11 @@ public class LeagueActivity extends AbsAudioRoomActivity<LeagueGameViewModel> {
         }
         if (state != null && !state.isIn) { // 有玩家离开了
             int playerInNumber = gameViewModel.getPlayerInNumber();
-            // 只剩下自己时，进行弹窗提示
-            if (playerInNumber == 1 && gameViewModel.playerIsIn(HSUserInfo.userId)) {
+            // 不是第一局，并且自己是胜者，只剩下自己时，进行弹窗提示
+            if (model.schedule != 0
+                    && playerInNumber == 1
+                    && gameViewModel.playerIsIn(HSUserInfo.userId)
+                    && model.winner.contains(HSUserInfo.userId + "")) {
                 InfoDialog dialog = new InfoDialog(this, getString(R.string.can_not_continue_game));
                 DialogUtils.safeShowDialog(this, dialog);
             }

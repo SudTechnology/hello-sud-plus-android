@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/view_root"
     android:layout_width="match_parent"
     android:layout_height="56dp"
     android:layout_marginHorizontal="5dp"
     android:layout_marginTop="10dp"
     android:orientation="vertical"
     android:gravity="center"
-    android:foreground="?selectableItemBackground"
-    android:background="@drawable/shape_disco_interaction_bg_ripple">
+    android:background="@drawable/shape_disco_interaction_bg">
 
     <tech.sud.mgp.hello.common.widget.view.MarqueeTextView
         android:id="@+id/tv_name"

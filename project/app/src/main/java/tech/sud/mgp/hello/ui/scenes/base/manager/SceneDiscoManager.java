@@ -22,6 +22,7 @@ import tech.sud.mgp.hello.common.utils.CustomCountdownTimer;
 import tech.sud.mgp.hello.service.room.repository.RoomRepository;
 import tech.sud.mgp.hello.ui.common.utils.CompletedListener;
 import tech.sud.mgp.hello.ui.common.utils.SceneUtils;
+import tech.sud.mgp.hello.ui.scenes.base.manager.SceneCommandManager.DiscoActionPayCommandListener;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomServiceCallback;
@@ -32,6 +33,7 @@ import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdSendGiftModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.ContributionModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.DanceModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdBecomeDJModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdDiscoActionPayModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdDiscoInfoReqModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdDiscoInfoRespModel;
 import tech.sud.mgp.hello.ui.scenes.common.gift.manager.GiftHelper;
@@ -71,6 +73,7 @@ public class SceneDiscoManager extends BaseServiceManager {
         parentManager.sceneEngineManager.setCommandListener(publicMsgCommandListener);
         parentManager.sceneEngineManager.setCommandListener(becomeDJCommandListener);
         parentManager.sceneEngineManager.setCommandListener(gameChangeCommandListener);
+        parentManager.sceneEngineManager.setCommandListener(discoActionPayCommandListener);
     }
 
     /** 每发送一条公屏，加1贡献值 */
@@ -674,6 +677,16 @@ public class SceneDiscoManager extends BaseServiceManager {
         }
     };
 
+    /** 游戏切换信令 通知 */
+    private final DiscoActionPayCommandListener discoActionPayCommandListener = new DiscoActionPayCommandListener() {
+        @Override
+        public void onRecvCommand(RoomCmdDiscoActionPayModel model, String userID) {
+            if (model.sendUser != null) {
+                addContribution(model.sendUser, model.price);
+            }
+        }
+    };
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -683,6 +696,7 @@ public class SceneDiscoManager extends BaseServiceManager {
         parentManager.sceneEngineManager.removeCommandListener(publicMsgCommandListener);
         parentManager.sceneEngineManager.removeCommandListener(becomeDJCommandListener);
         parentManager.sceneEngineManager.removeCommandListener(gameChangeCommandListener);
+        parentManager.sceneEngineManager.removeCommandListener(discoActionPayCommandListener);
         releaseDanceList();
         cancelDJCountdown();
     }
@@ -739,6 +753,8 @@ public class SceneDiscoManager extends BaseServiceManager {
                 super.onSuccess(o);
                 listener.onCompleted();
                 addContribution(selfUserInfo, model.price);
+                String cmd = RoomCmdModelUtils.buildCmdDiscoActionPay(model.price);
+                parentManager.sceneEngineManager.sendCommand(cmd);
             }
         });
     }
@@ -753,6 +769,7 @@ public class SceneDiscoManager extends BaseServiceManager {
                 switchAnchor(owner, roomId, false, listener);
                 break;
             case UP_DJ:
+                actionMessage(context.getString(R.string.up_dj));
                 callbackAction(helper.upDJ(null));
                 break;
             case MOVE:
@@ -781,15 +798,15 @@ public class SceneDiscoManager extends BaseServiceManager {
                 exeActionEffects();
                 break;
             case POP_BIG_FOCUS:
-                callbackAction(helper.textPop(null, context.getString(R.string.disco_nick_name)));
                 exeActionBig();
                 exeActionFocus();
+                callbackAction(helper.textPop(null, context.getString(R.string.disco_nick_name)));
                 break;
             case POP_BIG_FOCUS_EFFECTS:
-                callbackAction(helper.textPop(null, context.getString(R.string.disco_nick_name)));
                 exeActionBig();
                 exeActionFocus();
                 exeActionEffects();
+                callbackAction(helper.textPop(null, context.getString(R.string.disco_nick_name)));
                 break;
         }
     }

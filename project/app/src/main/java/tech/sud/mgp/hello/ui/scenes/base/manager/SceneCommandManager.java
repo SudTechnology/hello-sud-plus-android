@@ -16,6 +16,7 @@ import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdEnterRoomModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdSendGiftModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdUpMicModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdBecomeDJModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdDiscoActionPayModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdDiscoInfoReqModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdDiscoInfoRespModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.league.RoomCmdLeagueInfoRespModel;
@@ -134,6 +135,9 @@ public class SceneCommandManager extends BaseServiceManager {
                 break;
             case RoomCmd.CMD_LEAGUE_INFO_RESP: // 响应联赛信息
                 dispatchCommand(commandCmd, RoomCmdLeagueInfoRespModel.fromJson(command), userID);
+                break;
+            case RoomCmd.CMD_ROOM_DISCO_ACTION_PAY: // 蹦迪动作付费
+                dispatchCommand(commandCmd, RoomCmdDiscoActionPayModel.fromJson(command), userID);
                 break;
         }
     }
@@ -264,6 +268,11 @@ public class SceneCommandManager extends BaseServiceManager {
                         ((LeagueInfoRespListener) listener).onRecvCommand((RoomCmdLeagueInfoRespModel) model, fromUserID);
                     }
                     break;
+                case RoomCmd.CMD_ROOM_DISCO_ACTION_PAY: // 蹦迪动作付费
+                    if (listener instanceof DiscoActionPayCommandListener) {
+                        ((DiscoActionPayCommandListener) listener).onRecvCommand((RoomCmdDiscoActionPayModel) model, fromUserID);
+                    }
+                    break;
             }
         }
     }
@@ -376,6 +385,10 @@ public class SceneCommandManager extends BaseServiceManager {
 
     interface DiscoBecomeDJCommandListener extends ICommandListener {
         void onRecvCommand(RoomCmdBecomeDJModel model, String userID);
+    }
+
+    interface DiscoActionPayCommandListener extends ICommandListener {
+        void onRecvCommand(RoomCmdDiscoActionPayModel model, String userID);
     }
     // endregion 蹦迪信令监听
 

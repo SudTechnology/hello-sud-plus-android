@@ -78,6 +78,8 @@ public class RoomCmd {
     public static final int CMD_ROOM_DISCO_INFO_RESP = 10401;
     /** 上DJ台 */
     public static final int CMD_ROOM_DISCO_BECOME_DJ = 10402;
+    /** 蹦迪动作付费 */
+    public static final int CMD_ROOM_DISCO_ACTION_PAY = 10403;
     // endregion 蹦迪
 
     // region 联赛

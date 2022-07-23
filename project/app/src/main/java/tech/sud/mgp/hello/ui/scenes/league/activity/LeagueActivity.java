@@ -11,6 +11,7 @@ import java.util.List;
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.hello.R;
+import tech.sud.mgp.hello.app.APPConfig;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.widget.dialog.InfoDialog;
@@ -45,7 +46,9 @@ public class LeagueActivity extends AbsAudioRoomActivity<LeagueGameViewModel> {
         gameViewModel.gameConfigModel.ui.ready_btn.custom = true; // 接管准备按钮事件
         gameViewModel.gameConfigModel.ui.start_btn.custom = true; // 接管开始按钮事件
 
-        topView.setSelectGameVisible(false); // 不显示选择游戏选项
+        if (!APPConfig.GAME_IS_TEST_ENV) {
+            topView.setSelectGameVisible(false); // 不显示选择游戏选项
+        }
     }
 
     @Override
@@ -173,7 +176,11 @@ public class LeagueActivity extends AbsAudioRoomActivity<LeagueGameViewModel> {
      */
     @Override
     protected void onShowFinishGameChange(Boolean isShow) {
-        super.onShowFinishGameChange(isShow);
+        if (APPConfig.GAME_IS_TEST_ENV) {
+            super.onShowFinishGameChange(isShow);
+        } else {
+            super.onShowFinishGameChange(false);
+        }
     }
 
     // 展示结算弹窗

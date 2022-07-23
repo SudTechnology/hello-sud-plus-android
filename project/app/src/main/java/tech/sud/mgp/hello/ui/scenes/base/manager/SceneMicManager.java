@@ -5,11 +5,11 @@ import com.blankj.utilcode.util.ToastUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
+import tech.sud.mgp.hello.common.model.Gender;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.service.main.repository.UserInfoRepository;
 import tech.sud.mgp.hello.service.main.resp.UserInfoResp;
@@ -25,6 +25,7 @@ import tech.sud.mgp.hello.ui.scenes.base.model.RoleType;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomServiceCallback;
+import tech.sud.mgp.hello.ui.scenes.base.utils.UserInfoConverter;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.RoomCmdModelUtils;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdDownMicModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdUpMicModel;
@@ -115,6 +116,8 @@ public class SceneMicManager extends BaseServiceManager {
                                     if (userId == audioRoomMicModel.userId) {
                                         audioRoomMicModel.nickName = userInfo.nickname;
                                         audioRoomMicModel.avatar = userInfo.avatar;
+                                        audioRoomMicModel.gender = userInfo.gender;
+                                        audioRoomMicModel.isAi = userInfo.isAi;
                                         break;
                                     }
                                 }
@@ -142,11 +145,7 @@ public class SceneMicManager extends BaseServiceManager {
         int micIndex = model.micIndex;
         if (micIndex >= 0 && micIndex < micList.size()) {
             AudioRoomMicModel audioRoomMicModel = micList.get(micIndex);
-            audioRoomMicModel.userId = model.userId;
-            audioRoomMicModel.nickName = model.nickName;
-            audioRoomMicModel.avatar = model.avatar;
-            audioRoomMicModel.roleType = model.roleType;
-            audioRoomMicModel.streamId = model.streamId;
+            audioRoomMicModel.updateMicUser(model);
         }
     }
 
@@ -215,17 +214,14 @@ public class SceneMicManager extends BaseServiceManager {
     /**
      * 让机器人上麦
      *
-     * @param aiPlayers
+     * @param userInfoResp
      * @param micIndex
      */
-    public void robotUpMicLocation(SudMGPAPPState.AIPlayers aiPlayers, int micIndex) {
-        long userId;
-        try {
-            userId = Long.parseLong(aiPlayers.userId);
-        } catch (Exception e) {
-            e.printStackTrace();
+    public void robotUpMicLocation(UserInfoResp userInfoResp, int micIndex) {
+        if (userInfoResp == null) {
             return;
         }
+        long userId = userInfoResp.userId;
         // 已经在那个麦位上面了，不再继续执行
         if (findMicIndex(userId) == micIndex) {
             return;
@@ -252,12 +248,9 @@ public class SceneMicManager extends BaseServiceManager {
                 }
 
                 // 发送信令
-                UserInfo userInfo = new UserInfo();
-                userInfo.userID = aiPlayers.userId;
-                userInfo.name = aiPlayers.name;
-                userInfo.icon = aiPlayers.avatar;
-                userInfo.sex = "male".equals(aiPlayers.gender) ? 1 : 2;
+                UserInfo userInfo = UserInfoConverter.conver(userInfoResp);
                 userInfo.roomID = parentManager.getRoomId() + "";
+                userInfo.isAi = true;
                 String command = RoomCmdModelUtils.buildUpMicCommand(userInfo, micIndex, streamId, parentManager.getRoleType());
                 parentManager.sceneEngineManager.sendCommand(command, null);
 
@@ -323,7 +316,9 @@ public class SceneMicManager extends BaseServiceManager {
                                 if (model.userId == userInfo.userId) {
                                     model.nickName = userInfo.nickname;
                                     model.avatar = userInfo.avatar;
+                                    model.gender = userInfo.gender;
                                     model.roleType = roleType;
+                                    model.isAi = userInfo.isAi;
                                     break;
                                 }
                             }
@@ -469,7 +464,7 @@ public class SceneMicManager extends BaseServiceManager {
                 return;
             }
             // 上麦前，先将该用户从麦位上移除
-            long userId = 0;
+            long userId;
             try {
                 userId = Long.parseLong(sendUser.userID);
             } catch (Exception e) {
@@ -486,6 +481,8 @@ public class SceneMicManager extends BaseServiceManager {
                 model.avatar = sendUser.icon;
                 model.roleType = command.roleType;
                 model.streamId = command.streamID;
+                model.gender = sendUser.sex == 1 ? Gender.MALE : Gender.FEMALE;
+                model.isAi = sendUser.isAi;
                 notifyItemChange(micIndex, model);
             }
         }
@@ -535,6 +532,16 @@ public class SceneMicManager extends BaseServiceManager {
     /** 回调页面数据 */
     public void callbackPageData() {
         notifyDataSetChange();
+    }
+
+    /** 将用户踢出房间 */
+    public void kickOutRoom(AudioRoomMicModel model) {
+        // 本地数据移除
+        removeUser2MicList(model.micIndex, model.userId);
+
+        // 发送下麦信令
+        String cmd = RoomCmdModelUtils.buildDownMicCommand(model.micIndex);
+        parentManager.sceneEngineManager.sendCommand(cmd);
     }
 
 }

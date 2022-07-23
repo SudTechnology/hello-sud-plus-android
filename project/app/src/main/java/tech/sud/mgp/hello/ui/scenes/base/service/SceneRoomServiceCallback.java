@@ -152,5 +152,8 @@ public interface SceneRoomServiceCallback {
 
     /** 倒计时刷新dj */
     void onDJCountdown(int countdown);
+
+    /** 踢出房间 */
+    void onKickOutRoom(String userId);
     // endregion 蹦迪
 }

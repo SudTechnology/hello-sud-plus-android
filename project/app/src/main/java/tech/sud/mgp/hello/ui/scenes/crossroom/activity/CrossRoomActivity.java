@@ -68,6 +68,7 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
         if (roomInfoModel != null && roomInfoModel.roomPkModel != null) {
             roomInfoModel.roomPkModel.initInfo(roomInfoModel.roomId);
         }
+        roomConfig.isSupportAddRobot = true;
         return isFinish;
     }
 

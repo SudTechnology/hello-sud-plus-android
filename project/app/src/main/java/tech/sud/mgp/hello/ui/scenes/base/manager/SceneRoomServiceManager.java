@@ -22,6 +22,7 @@ import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.lifecycle.CustomLifecycleEvent;
 import tech.sud.mgp.hello.common.utils.lifecycle.CustomLifecycleProvider;
 import tech.sud.mgp.hello.service.room.repository.RoomRepository;
+import tech.sud.mgp.hello.service.room.resp.RoomMicSwitchResp;
 import tech.sud.mgp.hello.ui.common.constant.RequestKey;
 import tech.sud.mgp.hello.ui.main.constant.SceneType;
 import tech.sud.mgp.hello.ui.scenes.base.activity.RoomConfig;
@@ -29,10 +30,12 @@ import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoleType;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
+import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomService;
 import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomServiceCallback;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.RoomCmdModelUtils;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdChangeGameModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdEnterRoomModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdKickOutRoomModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.ContributionModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.DanceModel;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftModel;
@@ -49,6 +52,11 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
     private RoomInfoModel roomInfoModel;
     private boolean enterRoomCompleted = false; // 标识是否进房成功
     private Class<? extends Activity> roomActivityClass; // 当前展示的Activity
+    private SceneRoomService sceneRoomService; // 服务
+
+    public SceneRoomServiceManager(SceneRoomService sceneRoomService) {
+        this.sceneRoomService = sceneRoomService;
+    }
 
     public final SceneEngineManager sceneEngineManager = new SceneEngineManager(this);
     public final SceneChatManager sceneChatManager = new SceneChatManager(this);
@@ -99,6 +107,19 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
                 sceneChatManager.addMsg(msg);
             }
         });
+        sceneEngineManager.setCommandListener(new SceneCommandManager.KickOutRoomCommandListener() {
+            @Override
+            public void onRecvCommand(RoomCmdKickOutRoomModel model, String userID) {
+                SceneRoomServiceCallback callback = getCallback();
+                if (callback == null) {
+                    if ((HSUserInfo.userId + "").equals(model.userID)) {
+                        exitRoom();
+                    }
+                } else {
+                    callback.onKickOutRoom(model.userID);
+                }
+            }
+        });
     }
 
     /** 回调页面，游戏切换了 */
@@ -121,6 +142,7 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
     @Override
     public void onDestroy() {
         super.onDestroy();
+        sceneRoomService = null;
         roomActivityClass = null;
         lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY);
         lifecycleSubject.onNext(CustomLifecycleEvent.DESTROY);
@@ -292,6 +314,10 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
             RoomRepository.exitRoom(null, roomId, new RxCallback<>());
         }
         sceneMicManager.exitRoom();
+        SceneRoomService service = sceneRoomService;
+        if (service != null) {
+            service.stopSelf();
+        }
     }
 
     @Override
@@ -318,6 +344,29 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
             return sceneDiscoManager.getDiscoContribution();
         }
         return null;
+    }
+
+    /** 将用户踢出房间 */
+    public void kickOutRoom(AudioRoomMicModel model) {
+        if (!model.hasUser()) {
+            return;
+        }
+        // 发送http告知后端
+        RoomRepository.roomMicLocationSwitch(this, getRoomId(), model.micIndex, false, new RxCallback<RoomMicSwitchResp>() {
+            @Override
+            public void onSuccess(RoomMicSwitchResp roomMicSwitchResp) {
+                super.onSuccess(roomMicSwitchResp);
+                if (!model.hasUser()) {
+                    return;
+                }
+                // 如果是真人，发送信令让其退出房间
+                String cmd = RoomCmdModelUtils.buildKickOutRoomCommand(model.userId + "");
+                sceneEngineManager.sendCommand(cmd);
+                
+                // 麦位上的处理
+                sceneMicManager.kickOutRoom(model);
+            }
+        });
     }
 
     /** 进入房间完成的回调,用于childManager */

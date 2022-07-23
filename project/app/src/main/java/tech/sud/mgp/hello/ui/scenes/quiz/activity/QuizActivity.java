@@ -70,6 +70,12 @@ public class QuizActivity extends AbsAudioRoomActivity<QuizGameViewModel> {
         return R.layout.activity_quiz;
     }
 
+    @Override
+    protected boolean beforeSetContentView() {
+        roomConfig.isSupportAddRobot = true;
+        return super.beforeSetContentView();
+    }
+
     @SuppressLint("SetTextI18n")
     @Override
     protected void initWidget() {

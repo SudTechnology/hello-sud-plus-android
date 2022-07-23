@@ -12,4 +12,9 @@ public class AudioRoomActivity extends AbsAudioRoomActivity<AppGameViewModel> {
         return new AppGameViewModel();
     }
 
+    @Override
+    protected boolean beforeSetContentView() {
+        roomConfig.isSupportAddRobot = true;
+        return super.beforeSetContentView();
+    }
 }

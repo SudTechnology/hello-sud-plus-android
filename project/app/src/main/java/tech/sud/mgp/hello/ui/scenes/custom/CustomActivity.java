@@ -16,6 +16,12 @@ public class CustomActivity extends AbsAudioRoomActivity<CustomGameViewModel> {
     private TextView apiTv;
 
     @Override
+    protected boolean beforeSetContentView() {
+        roomConfig.isSupportAddRobot = true;
+        return super.beforeSetContentView();
+    }
+    
+    @Override
     protected CustomGameViewModel initGameViewModel() {
         return new CustomGameViewModel();
     }

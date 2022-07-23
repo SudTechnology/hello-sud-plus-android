@@ -98,7 +98,7 @@ public class LeagueActivity extends AbsAudioRoomActivity<LeagueGameViewModel> {
         gameViewModel.gameStateLiveData.observe(this, new Observer<SudMGPMGState.MGCommonGameState>() {
             @Override
             public void onChanged(SudMGPMGState.MGCommonGameState state) {
-                onGameStateChange();
+                kickLose();
             }
         });
         gameViewModel.playerInLiveData.observe(this, new Observer<SudMGPMGState.MGCommonPlayerIn>() {
@@ -116,10 +116,11 @@ public class LeagueActivity extends AbsAudioRoomActivity<LeagueGameViewModel> {
         }
         if (state != null && !state.isIn) { // 有玩家离开了
             int playerInNumber = gameViewModel.getPlayerInNumber();
-            // 不是第一局，并且自己是胜者，只剩下自己时，进行弹窗提示
+            // 决赛，自己是胜者，只剩下自己时，进行弹窗提示
             if (model.schedule != 0
                     && playerInNumber == 1
                     && gameViewModel.playerIsIn(HSUserInfo.userId)
+                    && model.winner.size() > 1
                     && model.winner.contains(HSUserInfo.userId + "")) {
                 InfoDialog dialog = new InfoDialog(this, getString(R.string.can_not_continue_game));
                 DialogUtils.safeShowDialog(this, dialog);
@@ -127,7 +128,7 @@ public class LeagueActivity extends AbsAudioRoomActivity<LeagueGameViewModel> {
         }
     }
 
-    private void onGameStateChange() {
+    private void kickLose() {
         LeagueModel model = getLeagueModel();
         if (model == null) {
             return;
@@ -162,6 +163,7 @@ public class LeagueActivity extends AbsAudioRoomActivity<LeagueGameViewModel> {
         if (binder != null) {
             binder.onGameSettle(gameSettle);
         }
+        kickLose();
     }
 
     /**
@@ -171,7 +173,7 @@ public class LeagueActivity extends AbsAudioRoomActivity<LeagueGameViewModel> {
      */
     @Override
     protected void onShowFinishGameChange(Boolean isShow) {
-        super.onShowFinishGameChange(false);
+        super.onShowFinishGameChange(isShow);
     }
 
     // 展示结算弹窗
@@ -183,8 +185,13 @@ public class LeagueActivity extends AbsAudioRoomActivity<LeagueGameViewModel> {
         LeagueGameSettleDialog dialog = LeagueGameSettleDialog.newInstance(gameSettle, model.copy());
         dialog.setEventListener(new LeagueGameSettleDialog.LeagueGameSettleEventListener() {
             @Override
+            public void onFinish() {
+                finish();
+            }
+
+            @Override
             public void onBackHomePage() {
-                delayExitRoom();
+                delayExitRoom(true);
             }
         });
         DialogUtils.safeShowDialog(this, dialog, getSupportFragmentManager(), null);

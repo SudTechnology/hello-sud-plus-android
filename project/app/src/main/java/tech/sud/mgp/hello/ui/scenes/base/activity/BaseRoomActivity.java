@@ -42,6 +42,7 @@ import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
 import tech.sud.mgp.hello.service.game.repository.GameRepository;
 import tech.sud.mgp.hello.service.room.repository.RoomRepository;
 import tech.sud.mgp.hello.ui.common.constant.RequestKey;
+import tech.sud.mgp.hello.ui.main.activity.MainActivity;
 import tech.sud.mgp.hello.ui.main.constant.GameIdCons;
 import tech.sud.mgp.hello.ui.scenes.base.constant.OperateMicType;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
@@ -663,6 +664,11 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
 
     // 延迟退出房间
     public long delayExitRoom() {
+        return delayExitRoom(false);
+    }
+
+    // 延迟退出房间
+    public long delayExitRoom(boolean isStartMainPage) {
         if (closeing) return 0;
         closeing = true;
         if (playingGameId > 0) {
@@ -671,23 +677,37 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
             topView.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    exitRoom();
+                    exitRoom(isStartMainPage);
                 }
             }, delayExitDuration);
             return delayExitDuration;
         } else {
-            exitRoom();
+            exitRoom(isStartMainPage);
             return 0;
         }
     }
 
     // 退出房间
     private void exitRoom() {
+        exitRoom(false);
+    }
+
+    // 退出房间
+    private void exitRoom(boolean isStartMainPage) {
         if (binder != null) {
             binder.exitRoom();
         }
         releaseService();
+        if (isStartMainPage) {
+            startMainPage();
+        }
         finish();
+    }
+
+    private void startMainPage() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
     }
 
     @Override

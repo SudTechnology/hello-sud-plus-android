@@ -228,7 +228,9 @@ public class LeagueGameSettleDialog extends BaseDialogFragment {
                 @Override
                 public void onClick(View v) {
                     dismiss();
-                    callbackBackHomePage();
+                    if (eventListener != null) {
+                        eventListener.onFinish();
+                    }
                 }
             });
             startContinueGameCountdown();
@@ -409,6 +411,10 @@ public class LeagueGameSettleDialog extends BaseDialogFragment {
     }
 
     public interface LeagueGameSettleEventListener {
+
+        /** 退出 */
+        void onFinish();
+
         /** 点击回到首页 */
         void onBackHomePage();
     }

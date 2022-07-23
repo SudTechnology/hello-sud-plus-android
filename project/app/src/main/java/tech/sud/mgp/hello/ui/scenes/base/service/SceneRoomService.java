@@ -47,7 +47,7 @@ import tech.sud.mgp.hello.ui.scenes.disco.model.DiscoInteractionModel;
  */
 public class SceneRoomService extends Service {
 
-    private SceneRoomServiceManager serviceManager = new SceneRoomServiceManager();
+    private SceneRoomServiceManager serviceManager;
     private final MyBinder binder = new MyBinder();
     private SceneRoomNotificationHelper notificationHelper;
     private Context context = this;
@@ -60,6 +60,7 @@ public class SceneRoomService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        serviceManager = new SceneRoomServiceManager(this);
         sceneRoomData = new SceneRoomData();
 
         // 通知栏处理
@@ -138,7 +139,7 @@ public class SceneRoomService extends Service {
                     SceneRoomServiceCallback callback = serviceManager.getCallback();
                     serviceManager.exitRoom();
                     serviceManager.onDestroy();
-                    serviceManager = new SceneRoomServiceManager();
+                    serviceManager = new SceneRoomServiceManager(SceneRoomService.this);
                     serviceManager.onCreate();
                     serviceManager.setCallback(callback);
                 }
@@ -238,7 +239,6 @@ public class SceneRoomService extends Service {
         /** 退出房间 */
         public void exitRoom() {
             serviceManager.exitRoom();
-            stopSelf();
         }
 
         /** 当前是否是开麦的 */
@@ -356,6 +356,12 @@ public class SceneRoomService extends Service {
                 serviceManager.sceneDiscoManager.exeDiscoAction(roomId, model, actionListener);
             }
         }
+
+        /** 把用户踢出房间 */
+        public void kickOutRoom(AudioRoomMicModel model) {
+            serviceManager.kickOutRoom(model);
+        }
+
     }
 
     /** 获取当前使用的房间基本数据 */

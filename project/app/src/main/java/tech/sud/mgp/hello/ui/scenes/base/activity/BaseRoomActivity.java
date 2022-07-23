@@ -662,8 +662,8 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
     }
 
     // 点击了其他人的麦位
-    private void clickOtherMicLocation(int position, AudioRoomMicModel model) {
-        long userId = model.userId;
+    private void clickOtherMicLocation(int position, AudioRoomMicModel audioRoomMicModel) {
+        long userId = audioRoomMicModel.userId;
         long selfUserId = HSUserInfo.userId;
 
         BottomOptionDialog dialog = new BottomOptionDialog(this);
@@ -690,6 +690,12 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
             options.put(kickGameKey, getString(R.string.kick_game));
         }
 
+        // 自己是房主，可以把其他人给踢出
+        int kickOutRoomKey = 3;
+        if (roomInfoModel.roleType == RoleType.OWNER) {
+            options.put(kickOutRoomKey, getString(R.string.kick_out_room));
+        }
+
         if (options.size() > 0) {
             for (Map.Entry<Integer, String> next : options.entrySet()) {
                 dialog.addOption(next.getKey(), next.getValue()); // 增加下麦按钮
@@ -706,6 +712,13 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
                     gameViewModel.notifyAPPCommonSelfCaptain(userId + "");
                 } else if (model.key == kickGameKey) {
                     gameViewModel.notifyAPPCommonSelfKick(userId + "");
+                } else if (model.key == kickOutRoomKey) {
+                    if (binder != null) {
+                        binder.kickOutRoom(audioRoomMicModel);
+                    }
+                    if (audioRoomMicModel.hasUser()) {
+                        kickUserFromGame(audioRoomMicModel.userId + "");
+                    }
                 }
             }
         });
@@ -983,7 +996,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         } else {
             tvASRHint.setVisibility(View.GONE);
         }
-        if (playingGameId > 0 && roomInfoModel.roleType == RoleType.OWNER) {
+        if (roomConfig.isSupportAddRobot && playingGameId > 0 && roomInfoModel.roleType == RoleType.OWNER) {
             tvAddRobot.setVisibility(View.VISIBLE);
         } else {
             tvAddRobot.setVisibility(View.GONE);
@@ -1262,7 +1275,34 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
     @Override
     public void onDJCountdown(int countdown) {
     }
+
+    @Override
+    public void onKickOutRoom(String userId) {
+        processOnKickOutRoom(userId);
+    }
+
     // endregion service回调
+
+    /** 处理踢出房间的逻辑 */
+    private void processOnKickOutRoom(String userId) {
+        // 自己的话，执行退出房间
+        if ((HSUserInfo.userId + "").equals(userId)) {
+            delayExitRoom();
+            return;
+        }
+        // 如果是别人，判断自己是不是队长，是队长就把他踢出游戏
+        kickUserFromGame(userId);
+    }
+
+    /** 把该用户从游戏当中踢出 */
+    protected void kickUserFromGame(String userId) {
+        if (playingGameId > 0
+                && gameViewModel.isCaptain(HSUserInfo.userId)
+                && gameViewModel.getGameState() != SudMGPMGState.MGCommonGameState.PLAYING
+                && gameViewModel.getGameState() != SudMGPMGState.MGCommonGameState.LOADING) {
+            gameViewModel.notifyAPPCommonSelfKick(userId);
+        }
+    }
 
     @Override
     protected void onStart() {

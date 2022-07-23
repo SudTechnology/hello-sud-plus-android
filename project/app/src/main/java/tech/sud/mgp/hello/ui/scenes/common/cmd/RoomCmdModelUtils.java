@@ -11,6 +11,7 @@ import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdChangeGameModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdChatTextModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdDownMicModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdEnterRoomModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdKickOutRoomModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdSendGiftModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdUpMicModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.ContributionModel;
@@ -104,6 +105,13 @@ public class RoomCmdModelUtils {
     /** 构建进入房间信令 */
     public static String buildEnterRoomCommand() {
         RoomCmdEnterRoomModel command = new RoomCmdEnterRoomModel(getSendUser());
+        return command.toJson();
+    }
+
+    /** 构建踢出房间信令 */
+    public static String buildKickOutRoomCommand(String userID) {
+        RoomCmdKickOutRoomModel command = new RoomCmdKickOutRoomModel(getSendUser());
+        command.userID = userID;
         return command.toJson();
     }
     // endregion 基础

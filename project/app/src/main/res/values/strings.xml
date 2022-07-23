@@ -542,6 +542,7 @@ Go to homepage to create one~</string>
     <string name="disco_explain_3">3. 麦上用户发送【%1$s】可触发特写。</string>
     <string name="please_select_anchor">请选择主播</string>
     <string name="add_robot">添加机器人</string>
+    <string name="kick_out_room">踢出房间</string>
     <!-- endregion 新增 -->
 
 </resources>

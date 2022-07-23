@@ -23,6 +23,9 @@ public class RoomCmd {
 
     /** 用户进入房间通知 */
     public static final int CMD_ENTER_ROOM_NOTIFY = 10005;
+
+    /** 踢出房间 */
+    public static final int CMD_KICK_OUT_ROOM = 10006;
     // endregion 基础
 
 

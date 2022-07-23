@@ -534,4 +534,14 @@ public class SceneMicManager extends BaseServiceManager {
         notifyDataSetChange();
     }
 
+    /** 将用户踢出房间 */
+    public void kickOutRoom(AudioRoomMicModel model) {
+        // 本地数据移除
+        removeUser2MicList(model.micIndex, model.userId);
+
+        // 发送下麦信令
+        String cmd = RoomCmdModelUtils.buildDownMicCommand(model.micIndex);
+        parentManager.sceneEngineManager.sendCommand(cmd);
+    }
+
 }

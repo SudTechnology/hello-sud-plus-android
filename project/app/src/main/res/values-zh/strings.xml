@@ -440,7 +440,7 @@
     <string name="close_auto_guess_warn">余额不足，自动竞猜已关闭，快去充值吧~</string>
     <string name="start_disco">开启蹦迪</string>
     <string name="close_disco">关闭蹦迪</string>
-    <string name="close_disco_title">确定要关闭蹦迪吗？\n关闭后本场蹦迪将清空，包括正在进行中的跳舞、排队中的跳舞、角色特效等</string>
+    <string name="close_disco_title">确定要关闭蹦迪吗？</string>
 
     <string name="move">移动</string>
     <string name="god">上天</string>

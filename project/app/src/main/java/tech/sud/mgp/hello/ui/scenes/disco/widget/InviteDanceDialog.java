@@ -91,6 +91,7 @@ public class InviteDanceDialog extends BaseDialogFragment {
     @Override
     protected void customStyle(Window window) {
         super.customStyle(window);
+        window.setDimAmount(0f);
         window.setWindowAnimations(R.style.BottomToTopAnim);
     }
 

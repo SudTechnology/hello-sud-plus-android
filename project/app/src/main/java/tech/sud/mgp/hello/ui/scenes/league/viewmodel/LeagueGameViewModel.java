@@ -19,7 +19,6 @@ public class LeagueGameViewModel extends AppGameViewModel {
     public MutableLiveData<Object> clickReadyBtnLiveData = new MutableLiveData<>();
     public MutableLiveData<Object> clickStartBtnLiveData = new MutableLiveData<>();
     public MutableLiveData<Object> gameStartedLiveData = new MutableLiveData<>();
-    public MutableLiveData<Object> captainChangeLiveData = new MutableLiveData<>();
     public MutableLiveData<SudMGPMGState.MGCommonGameSettle> gameSettleLiveData = new MutableLiveData<>();
     public MutableLiveData<SudMGPMGState.MGCommonGameState> gameStateLiveData = new MutableLiveData<>();
     public MutableLiveData<SudMGPMGState.MGCommonPlayerIn> playerInLiveData = new MutableLiveData<>();
@@ -41,16 +40,6 @@ public class LeagueGameViewModel extends AppGameViewModel {
     public void onGameMGCommonGameSettle(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameSettle model) {
         super.onGameMGCommonGameSettle(handle, model);
         gameSettleLiveData.setValue(model);
-    }
-
-    /**
-     * 3.队长状态（已修改）
-     * mg_common_player_captain
-     */
-    @Override
-    public void onPlayerMGCommonPlayerCaptain(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGCommonPlayerCaptain model) {
-        super.onPlayerMGCommonPlayerCaptain(handle, userId, model);
-        captainChangeLiveData.setValue(model);
     }
 
     /**

@@ -16,12 +16,12 @@ import com.jeremyliao.liveeventbus.LiveEventBus;
 
 import java.util.List;
 
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.hello.common.event.ChangeRTCEvent;
 import tech.sud.mgp.hello.common.event.EnterRoomEvent;
 import tech.sud.mgp.hello.common.event.LiveEventBusKey;
 import tech.sud.mgp.hello.common.model.AppData;
+import tech.sud.mgp.hello.service.main.resp.UserInfoResp;
 import tech.sud.mgp.hello.ui.common.utils.channel.NotifyId;
 import tech.sud.mgp.hello.ui.main.home.model.RoomItemModel;
 import tech.sud.mgp.hello.ui.scenes.base.activity.RoomConfig;
@@ -165,11 +165,11 @@ public class SceneRoomService extends Service {
         /**
          * 让机器人上麦
          *
-         * @param aiPlayers 机器人数据
-         * @param micIndex  位置
+         * @param userInfoResp 机器人数据
+         * @param micIndex     位置
          */
-        public void robotUpMicLocation(SudMGPAPPState.AIPlayers aiPlayers, int micIndex) {
-            serviceManager.sceneMicManager.robotUpMicLocation(aiPlayers, micIndex);
+        public void robotUpMicLocation(UserInfoResp userInfoResp, int micIndex) {
+            serviceManager.sceneMicManager.robotUpMicLocation(userInfoResp, micIndex);
         }
 
         /** 自动上麦 */

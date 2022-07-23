@@ -21,10 +21,12 @@ import com.gyf.immersionbar.BarHide;
 import com.gyf.immersionbar.ImmersionBar;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.core.ISudListenerNotifyStateChange;
 import tech.sud.mgp.core.SudMGP;
@@ -41,6 +43,7 @@ import tech.sud.mgp.hello.common.widget.dialog.BottomOptionDialog;
 import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
 import tech.sud.mgp.hello.service.game.repository.GameRepository;
 import tech.sud.mgp.hello.service.room.repository.RoomRepository;
+import tech.sud.mgp.hello.service.room.resp.RobotListResp;
 import tech.sud.mgp.hello.ui.common.constant.RequestKey;
 import tech.sud.mgp.hello.ui.main.activity.MainActivity;
 import tech.sud.mgp.hello.ui.main.constant.GameIdCons;
@@ -54,6 +57,8 @@ import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomService;
 import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomServiceCallback;
+import tech.sud.mgp.hello.ui.scenes.base.utils.AIPlayersConverter;
+import tech.sud.mgp.hello.ui.scenes.base.utils.UserInfoRespConverter;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.SceneRoomViewModel;
 import tech.sud.mgp.hello.ui.scenes.base.widget.dialog.GameModeDialog;
@@ -94,6 +99,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
     protected View clOpenMic;
     private TextView tvOpenMic;
     private TextView tvASRHint;
+    private TextView tvAddRobot;
 
     protected boolean closeing; // 标识是否正在关闭房间
     protected SceneRoomService.MyBinder binder;
@@ -153,6 +159,8 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         clOpenMic = findViewById(R.id.cl_open_mic);
         tvOpenMic = findViewById(R.id.tv_open_mic);
         tvASRHint = findViewById(R.id.tv_asr_hint);
+        tvAddRobot = findViewById(R.id.tv_add_robot);
+
         clOpenMic.setVisibility(View.GONE);
 
         SudMGP.getCfg().setShowLoadingGameBg(true); // 默认需要显示加载游戏时的背景图
@@ -168,6 +176,10 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
 
         topView.setFinishGameVisible(false);
         topView.setSelectGameVisible(roomInfoModel.roleType == RoleType.OWNER);
+
+        if (roomConfig.isSupportAddRobot) {
+            tvAddRobot.setVisibility(View.VISIBLE);
+        }
     }
 
     protected void bringToFrontViews() {
@@ -285,6 +297,64 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
                 clickFinishGame();
             }
         });
+        tvAddRobot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickAddRobot();
+            }
+        });
+    }
+
+    /** 点击了添加机器人 */
+    protected void onClickAddRobot() {
+        RoomRepository.robotList(this, 30, new RxCallback<RobotListResp>() {
+            @Override
+            public void onSuccess(RobotListResp robotListResp) {
+                super.onSuccess(robotListResp);
+                if (robotListResp == null || robotListResp.robotList == null || robotListResp.robotList.size() == 0) {
+                    return;
+                }
+                if (binder == null) {
+                    return;
+                }
+                List<AudioRoomMicModel> micList = binder.getMicList();
+                // 找到一个可以用的机器人
+                SudMGPAPPState.AIPlayers aiPlayers = findAvailableAiPlayers(robotListResp.robotList, micList);
+
+                if (aiPlayers == null) {
+                    return;
+                }
+
+                // 上麦位
+                for (AudioRoomMicModel audioRoomMicModel : micList) {
+                    if (!audioRoomMicModel.hasUser()) {
+                        binder.robotUpMicLocation(UserInfoRespConverter.conver(aiPlayers), audioRoomMicModel.micIndex);
+                        break;
+                    }
+                }
+
+                // 添加到游戏中
+                List<SudMGPAPPState.AIPlayers> aiPlayersList = new ArrayList<>();
+                aiPlayersList.add(aiPlayers);
+                gameViewModel.sudFSTAPPDecorator.notifyAPPCommonGameAddAIPlayers(aiPlayersList, 1);
+            }
+        });
+    }
+
+    private SudMGPAPPState.AIPlayers findAvailableAiPlayers(List<SudMGPAPPState.AIPlayers> robotList, List<AudioRoomMicModel> micList) {
+        for (SudMGPAPPState.AIPlayers aiPlayers : robotList) {
+            boolean exists = false;
+            for (AudioRoomMicModel audioRoomMicModel : micList) {
+                if ((audioRoomMicModel.userId + "").equals(aiPlayers.userId)) {
+                    exists = true;
+                    break;
+                }
+            }
+            if (!exists) {
+                return aiPlayers;
+            }
+        }
+        return null;
     }
 
     /** 点击了选择游戏 */
@@ -486,6 +556,12 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
                 autoJoinGame();
             }
         });
+        gameViewModel.captainChangeLiveData.observe(this, new Observer<Object>() {
+            @Override
+            public void onChanged(Object o) {
+                checkGameAddAiPlayers();
+            }
+        });
     }
 
     /**
@@ -503,6 +579,22 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         }
         if (gameModeDialog != null) {
             gameModeDialog.setFinishGame(isOperateFinishGame);
+        }
+    }
+
+    private void checkGameAddAiPlayers() {
+        if (gameViewModel.isCaptain(HSUserInfo.userId) && roomConfig.isSupportAddRobot) {
+            if (binder != null) {
+                List<SudMGPAPPState.AIPlayers> aiPlayers = new ArrayList<>();
+                for (AudioRoomMicModel audioRoomMicModel : binder.getMicList()) {
+                    if (audioRoomMicModel.hasUser() && audioRoomMicModel.isAi) {
+                        aiPlayers.add(AIPlayersConverter.conver(audioRoomMicModel));
+                    }
+                }
+                if (aiPlayers.size() > 0) {
+                    gameViewModel.sudFSTAPPDecorator.notifyAPPCommonGameAddAIPlayers(aiPlayers, 1);
+                }
+            }
         }
     }
 
@@ -891,6 +983,11 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         } else {
             tvASRHint.setVisibility(View.GONE);
         }
+        if (playingGameId > 0 && roomInfoModel.roleType == RoleType.OWNER) {
+            tvAddRobot.setVisibility(View.VISIBLE);
+        } else {
+            tvAddRobot.setVisibility(View.GONE);
+        }
     }
 
     protected void updateStatusBar() {
@@ -933,7 +1030,46 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
     // region service回调
     @Override
     public void onEnterRoomSuccess() {
+        checkAddDefaultRobot();
         businessAutoUpMic();
+    }
+
+    /** 检查是否要添加默认的机器人 */
+    protected void checkAddDefaultRobot() {
+        if (!roomConfig.isSupportAddRobot) {
+            return;
+        }
+        boolean existsMicUser = false;
+        if (binder != null) {
+            for (AudioRoomMicModel audioRoomMicModel : binder.getMicList()) {
+                if (audioRoomMicModel.hasUser()) {
+                    existsMicUser = true;
+                    break;
+                }
+            }
+        }
+        // 麦位上有人了，不再添加默认机器人
+        if (existsMicUser) {
+            return;
+        }
+        // 不存在，默认添加三个机器人
+        RoomRepository.robotList(this, 30, new RxCallback<RobotListResp>() {
+            @Override
+            public void onSuccess(RobotListResp robotListResp) {
+                super.onSuccess(robotListResp);
+                if (robotListResp == null || robotListResp.robotList == null || robotListResp.robotList.size() == 0) {
+                    return;
+                }
+                if (binder != null) {
+                    int addRobotCount = 3;
+                    for (int i = 0; i < robotListResp.robotList.size(); i++) {
+                        if (i < addRobotCount) {
+                            binder.robotUpMicLocation(UserInfoRespConverter.conver(robotListResp.robotList.get(i)), i + 1);
+                        }
+                    }
+                }
+            }
+        });
     }
 
     /** 业务自动上麦 */

@@ -17,7 +17,6 @@ import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
-import tech.sud.mgp.hello.common.model.Gender;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.AnimUtils;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
@@ -36,6 +35,8 @@ import tech.sud.mgp.hello.ui.scenes.base.constant.OperateMicType;
 import tech.sud.mgp.hello.ui.scenes.base.manager.SceneDiscoManager;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoleType;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
+import tech.sud.mgp.hello.ui.scenes.base.utils.UserInfoConverter;
+import tech.sud.mgp.hello.ui.scenes.base.utils.UserInfoRespConverter;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.ContributionModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.DanceModel;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftModel;
@@ -206,9 +207,9 @@ public class DiscoActivity extends AbsAudioRoomActivity<DiscoGameViewModel> {
             }
         });
 
-        gameViewModel.gameStartedLiveData.observe(this, new Observer<Boolean>() {
+        gameViewModel.gameStartedLiveData.observe(this, new Observer<Object>() {
             @Override
-            public void onChanged(Boolean aBoolean) {
+            public void onChanged(Object aBoolean) {
                 // 游戏开始后，自动加入舞池，这里delay是为了让游戏状态能同步
                 tvCloseDisco.postDelayed(new Runnable() {
                     @Override
@@ -286,15 +287,7 @@ public class DiscoActivity extends AbsAudioRoomActivity<DiscoGameViewModel> {
         }
         List<UserInfo> userInfos = new ArrayList<>();
         for (UserInfoResp userInfoResp : list) {
-            UserInfo info = new UserInfo();
-            info.userID = userInfoResp.userId + "";
-            info.icon = userInfoResp.avatar;
-            info.name = userInfoResp.nickname;
-            if (Gender.MALE.equals(userInfoResp.gender)) {
-                info.sex = 1;
-            } else {
-                info.sex = 2;
-            }
+            UserInfo info = UserInfoConverter.conver(userInfoResp);
             userInfos.add(info);
         }
         onSendGift(giftModel, minute, userInfos);
@@ -502,7 +495,7 @@ public class DiscoActivity extends AbsAudioRoomActivity<DiscoGameViewModel> {
                     for (int i = 0; i < robotListResp.robotList.size(); i++) {
                         if (i < SceneDiscoManager.ROBOT_UP_MIC_COUNT) {
                             SudMGPAPPState.AIPlayers aiPlayers = robotListResp.robotList.get(i);
-                            binder.robotUpMicLocation(aiPlayers, i);
+                            binder.robotUpMicLocation(UserInfoRespConverter.conver(aiPlayers), i);
                         } else {
                             break;
                         }

@@ -19,7 +19,7 @@ import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
-import tech.sud.mgp.hello.common.model.UserInfoConverter;
+import tech.sud.mgp.hello.common.model.HSUserInfoConverter;
 import tech.sud.mgp.hello.common.utils.GlobalSP;
 import tech.sud.mgp.hello.service.login.repository.LoginRepository;
 import tech.sud.mgp.hello.service.login.resp.LoginResponse;
@@ -185,7 +185,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                             LoginRepository.saveUserInfo();
                         }
                     });
-                    UserInfoConverter.conver(t.getData());
+                    HSUserInfoConverter.conver(t.getData());
                     configViewModel.getBaseConfig(LoginActivity.this);
                 } else {
                     isLogin = false;

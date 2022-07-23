@@ -3,7 +3,7 @@ package tech.sud.mgp.hello.common.model;
 import tech.sud.mgp.hello.service.login.resp.LoginResponse;
 import tech.sud.mgp.hello.service.login.resp.RefreshTokenResponse;
 
-public class UserInfoConverter {
+public class HSUserInfoConverter {
 
     // 将登录返回的数据，写到内存当中
     public static void conver(LoginResponse resp) {

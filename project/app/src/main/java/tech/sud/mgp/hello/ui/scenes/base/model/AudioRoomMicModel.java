@@ -5,11 +5,13 @@ package tech.sud.mgp.hello.ui.scenes.base.model;
  */
 public class AudioRoomMicModel {
 
-    public int micIndex;
+    public int micIndex; // 麦位序号，0开始
 
     public long userId; // 0代表没有人
+    public boolean isAi; // 是否是机器人
     public String nickName;
     public String avatar;
+    public String gender;
     public int roleType; // 1:房主 0：普通用户
     public String streamId; // 流id
 
@@ -21,14 +23,33 @@ public class AudioRoomMicModel {
 
     public void clearUser() {
         userId = 0;
+        isAi = false;
         nickName = null;
         avatar = null;
+        gender = null;
         roleType = 0;
         isCaptain = false;
         readyStatus = 0;
         streamId = null;
         giftEnable = false;
         isIn = false;
+    }
+
+    /** 是否有用户 */
+    public boolean hasUser() {
+        return userId > 0;
+    }
+
+    public void updateMicUser(AudioRoomMicModel model) {
+        if (model == null) {
+            return;
+        }
+        userId = model.userId;
+        nickName = model.nickName;
+        avatar = model.avatar;
+        roleType = model.roleType;
+        streamId = model.streamId;
+        isAi = model.isAi;
     }
 
 }

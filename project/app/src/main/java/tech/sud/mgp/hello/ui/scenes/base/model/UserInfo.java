@@ -8,6 +8,7 @@ public class UserInfo {
     public String icon; // 	用户头像
     public int sex; // 用户性别[1男 2女]
     public String roomID; // 房间Id
+    public boolean isAi; // 是否是机器人
 
     public long getRoomId() {
         try {

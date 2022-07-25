@@ -464,10 +464,6 @@ Buat ruangan di Beranda</string>
     <string name="contribution_value">Nilai konstribusi</string>
     <string name="disco_explain_top_5">Lima teratas</string>
     <string name="disco_explain_1">1. Daftar kontribusi %1$s DJ acak (%2$s disegarkan dalam hitungan detik).</string>
-    <string name="disco_explain_2">2. Mengirim hadiah dapat memicu efek yang berbeda atau mengarahkan hos untuk menari.</string>
-    <string name="disco_explain_3">3. Perintah layar publik: [%1$s][%2$s][%3$s].</string>
-    <string name="disco_explain_4">4. Pengguna Maishang dapat mengirim [%1$s] untuk menuju posisi hos,\n&#160;&#160;&#160;&#160;kirim [%2$s] untuk menuju posisi hos.</string>
-    <string name="disco_explain_5">5. Hos mengirim teks [%1$s] dapat memicu fitur.</string>
     <string name="waiting">Menunggu</string>
 
 </resources>

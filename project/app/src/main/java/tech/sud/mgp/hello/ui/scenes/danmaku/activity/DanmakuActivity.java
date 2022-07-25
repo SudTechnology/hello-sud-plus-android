@@ -36,6 +36,7 @@ import tech.sud.mgp.hello.ui.scenes.base.activity.BaseRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoleType;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
+import tech.sud.mgp.hello.ui.scenes.base.utils.UserInfoConverter;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.SceneRoomTopView;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftModel;
@@ -326,26 +327,29 @@ public class DanmakuActivity extends BaseRoomActivity<AppGameViewModel> implemen
 
     /** 快捷指令送出礼物 */
     private void fastSendGift(DanmakuListResp.Prop model) {
+        // 送给房主
+        UserInfo toUser = null;
+        if (binder != null) {
+            List<AudioRoomMicModel> micList = binder.getMicList();
+            if (micList != null) {
+                for (AudioRoomMicModel audioRoomMicModel : micList) {
+                    if (audioRoomMicModel.roleType == RoleType.OWNER) {
+                        toUser = UserInfoConverter.conver(audioRoomMicModel);
+                    }
+                }
+            }
+        }
+
+        if (toUser == null) {
+            return;
+        }
+
         // 发送http到后端
+        UserInfo finalToUser = toUser;
         RoomRepository.sendGift(this, roomInfoModel.roomId, model.giftId, 1, 2, model.giftPrice, new RxCallback<Object>() {
             @Override
             public void onSuccess(Object o) {
                 super.onSuccess(o);
-
-                // 送给房主
-                UserInfo toUser = new UserInfo();
-                if (binder != null) {
-                    List<AudioRoomMicModel> micList = binder.getMicList();
-                    if (micList != null) {
-                        for (AudioRoomMicModel audioRoomMicModel : micList) {
-                            if (audioRoomMicModel.roleType == RoleType.OWNER) {
-                                toUser.userID = audioRoomMicModel.userId + "";
-                                toUser.name = audioRoomMicModel.nickName;
-                                toUser.icon = audioRoomMicModel.avatar;
-                            }
-                        }
-                    }
-                }
 
                 // 展示礼物
                 GiftModel giftModel = new GiftModel();
@@ -359,7 +363,7 @@ public class DanmakuActivity extends BaseRoomActivity<AppGameViewModel> implemen
 
                 // 发送"送礼消息"
                 if (binder != null) {
-                    binder.sendGift(giftModel, 1, toUser);
+                    binder.sendGift(giftModel, 1, finalToUser);
                 }
             }
         });

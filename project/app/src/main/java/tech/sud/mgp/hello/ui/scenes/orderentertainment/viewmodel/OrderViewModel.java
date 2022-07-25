@@ -10,10 +10,10 @@ import com.blankj.utilcode.util.LogUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import tech.sud.mgp.core.ISudFSMStateHandle;
-import tech.sud.mgp.hello.R;
 import tech.sud.mgp.SudMGPWrapper.model.GameViewInfoModel;
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
+import tech.sud.mgp.core.ISudFSMStateHandle;
+import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
@@ -80,19 +80,6 @@ public class OrderViewModel extends AppGameViewModel {
                 finishDialog = null;
             });
             DialogUtils.safeShowDialog(activity, finishDialog);
-        }
-    }
-
-    @Override
-    public void onGameMGCommonGameState(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameState model) {
-        super.onGameMGCommonGameState(handle, model);
-        LogUtils.i("onGameMGCommonGameState" + model.gameState);
-        if (model.gameState == SudMGPMGState.MGCommonGameState.IDLE) {
-            LogUtils.i("onGameMGCommonGameState游戏闲置");
-        } else if (model.gameState == SudMGPMGState.MGCommonGameState.LOADING) {
-            LogUtils.i("onGameMGCommonGameState游戏加载");
-        } else if (model.gameState == SudMGPMGState.MGCommonGameState.PLAYING) {
-            LogUtils.i("onGameMGCommonGameState游戏中");
         }
     }
 

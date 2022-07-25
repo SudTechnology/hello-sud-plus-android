@@ -1,9 +1,13 @@
 package tech.sud.mgp.hello.common.utils;
 
+import android.animation.Animator;
+import android.animation.ValueAnimator;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -194,6 +198,39 @@ public class ViewUtils {
             }
         }
         return builder;
+    }
+
+    /**
+     * 通过{@link View#setOnTouchListener(View.OnTouchListener)}
+     * 监听触摸事件来做动画
+     *
+     * @param view
+     */
+    public static void setViewClickAnim(View view) {
+        view.setOnTouchListener(new View.OnTouchListener() {
+            @SuppressLint("ClickableViewAccessibility")
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        Animator animator = AnimUtils.createScaleAnimation(v, 200, 0, ValueAnimator.REVERSE, 1, 0.9f, 1);
+                        animator.start();
+//                        setScale(v, 0.9f);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL:
+//                        setScale(v, 1);
+                        break;
+                }
+                return false;
+            }
+        });
+    }
+
+    /** 设置Scale */
+    public static void setScale(View view, float ratio) {
+        view.setScaleX(ratio);
+        view.setScaleY(ratio);
     }
 
 }

@@ -28,6 +28,12 @@ public class TicketActivity extends AbsAudioRoomActivity<TicketGameViewModel> {
     }
 
     @Override
+    protected boolean beforeSetContentView() {
+        roomConfig.isSupportAddRobot = true;
+        return super.beforeSetContentView();
+    }
+
+    @Override
     protected void initWidget() {
         super.initWidget();
         gameViewModel.gameConfigModel.ui.start_btn.custom = true; // 接管游戏的开始按钮事件

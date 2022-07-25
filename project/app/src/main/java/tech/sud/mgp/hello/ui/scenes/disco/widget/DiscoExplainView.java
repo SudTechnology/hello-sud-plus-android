@@ -25,7 +25,7 @@ public class DiscoExplainView extends ConstraintLayout {
 
     private LinearLayout llSpread;
     private MarqueeView marqueeView;
-    private List<TextView> textViews = new ArrayList<>();
+    private final List<TextView> textViews = new ArrayList<>();
     private TextView tvFirst; // 第一个TextView，用于动态更新倒计时
     private boolean isSpread; // 是否是展开的
 
@@ -114,26 +114,11 @@ public class DiscoExplainView extends ConstraintLayout {
 
         createTextView(getContext().getString(R.string.disco_explain_2));
 
-        String text3Keyword1 = getContext().getString(R.string.move);
-        String text3Keyword2 = getContext().getString(R.string.god);
-        String text3Keyword3 = getContext().getString(R.string.change_role);
-        CharSequence text3 = ViewUtils.getTextKeywordColor(getContext(),
-                getContext().getString(R.string.disco_explain_3, text3Keyword1, text3Keyword2, text3Keyword3),
-                R.color.c_ffd731, text3Keyword1, text3Keyword2, text3Keyword3);
-        createTextView(text3);
-
-        String text4Keyword1 = getContext().getString(R.string.go_to_work);
-        String text4Keyword2 = getContext().getString(R.string.get_off_work);
-        CharSequence text4 = ViewUtils.getTextKeywordColor(getContext(),
-                getContext().getString(R.string.disco_explain_4, text4Keyword1, text4Keyword2),
-                R.color.c_ffd731, text4Keyword1, text4Keyword2);
-        createTextView(text4);
-
         String text5Keyword1 = getContext().getString(R.string.focus);
-        CharSequence text5 = ViewUtils.getTextKeywordColor(getContext(),
-                getContext().getString(R.string.disco_explain_5, text5Keyword1),
+        CharSequence text3 = ViewUtils.getTextKeywordColor(getContext(),
+                getContext().getString(R.string.disco_explain_3, text5Keyword1),
                 R.color.c_ffd731, text5Keyword1);
-        createTextView(text5);
+        createTextView(text3);
     }
 
     private CharSequence getCountdownText(String text1Keyword2) {

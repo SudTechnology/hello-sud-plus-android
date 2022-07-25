@@ -14,10 +14,10 @@
         android:text="@string/stage_menu"
         android:gravity="center"
         android:textStyle="bold"
-        android:shadowRadius="3"
+        android:shadowRadius="10"
         android:shadowColor="#fb01e3"
-        android:shadowDx="1"
-        android:shadowDy="2"
+        android:shadowDx="5"
+        android:shadowDy="6"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="31dp"
         app:layout_constraintTop_toTopOf="parent" />

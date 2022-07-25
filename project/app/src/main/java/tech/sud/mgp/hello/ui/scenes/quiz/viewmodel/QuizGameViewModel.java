@@ -19,43 +19,13 @@ public class QuizGameViewModel extends AppGameViewModel {
     public MutableLiveData<Object> clickStartBtnLiveData = new MutableLiveData<>(); // 开始按钮点击事件
     public MutableLiveData<Object> clickJoinBtnLiveData = new MutableLiveData<>(); // 加入游戏按钮点击事件
     public MutableLiveData<Boolean> selfIsInLiveData = new MutableLiveData<>(); // 自己是否已经加入了游戏
-    public MutableLiveData<Boolean> gameLoadingCompletedLiveData = new MutableLiveData<>(); // 游戏是否已加载完成
-    public MutableLiveData<Integer> gameStateChangedLiveData = new MutableLiveData<>(); // 游戏状态变化
     public MutableLiveData<SudMGPMGState.MGCommonGameSettle> gameSettleLiveData = new MutableLiveData<>(); // 游戏结算
-
-    // 游戏加载完成
-    @Override
-    public void onGameStarted() {
-        super.onGameStarted();
-        gameLoadingCompletedLiveData.setValue(true);
-    }
-
-    @Override
-    protected void destroyMG() {
-        super.destroyMG();
-        if (getPlayingGameId() > 0) {
-            gameLoadingCompletedLiveData.setValue(false);
-        }
-    }
 
     // 玩家加入状态
     @Override
     public void onPlayerMGCommonPlayerIn(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGCommonPlayerIn model) {
         super.onPlayerMGCommonPlayerIn(handle, userId, model);
         selfIsInLiveData.setValue(isSelfInGame());
-    }
-
-    // 游戏状态
-    @Override
-    public void onGameMGCommonGameState(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameState model) {
-        super.onGameMGCommonGameState(handle, model);
-        gameStateChangedLiveData.setValue(model.gameState);
-    }
-
-    /** 游戏是否已加载完成 */
-    public boolean gameLoadingCompleted() {
-        Boolean loadingCompleted = gameLoadingCompletedLiveData.getValue();
-        return loadingCompleted != null && loadingCompleted;
     }
 
     /** 获取已经加入了游戏的用户id列表 */

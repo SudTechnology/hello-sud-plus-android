@@ -39,6 +39,11 @@ public class GuessIWinDialog extends BaseDialogFragment {
     }
 
     @Override
+    protected int getHeight() {
+        return ViewGroup.LayoutParams.MATCH_PARENT;
+    }
+
+    @Override
     protected void initWidget() {
         super.initWidget();
         TextView tvHint = findViewById(R.id.tv_hint_auto_hint);
@@ -55,11 +60,16 @@ public class GuessIWinDialog extends BaseDialogFragment {
             }
         });
         findViewById(R.id.tv_confirm).setOnClickListener(startNowOnClickListener);
+        findViewById(R.id.view_empty).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
     }
 
     public void setStartNowOnClickListener(View.OnClickListener listener) {
         startNowOnClickListener = listener;
     }
-
 
 }

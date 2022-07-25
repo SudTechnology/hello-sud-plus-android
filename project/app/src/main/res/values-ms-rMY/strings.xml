@@ -465,10 +465,6 @@ Kunjungi laman utama untuk mencipta satu~</string>
     <string name="contribution_value">Nilai Sumbangan</string>
     <string name="disco_explain_top_5">lima terkemuka</string>
     <string name="disco_explain_1">1. Senarai sumbangan %1$s DJ rawak (%2$s dimuat semula dalam beberapa saat).</string>
-    <string name="disco_explain_2">2. Hadiah boleh mencetuskan kesan yang berbeza atau mengarahkan hos untuk menari.</string>
-    <string name="disco_explain_3">3. Perintah skrin awam: [%1$s][%2$s][%3$s].</string>
-    <string name="disco_explain_4">4. Pengguna Maishang boleh menghantar [%1$s] untuk pergi ke kedudukan hos,\n&#160;&#160;&#160;&#160;hantar [%2$s] untuk pergi ke kedudukan hos.</string>
-    <string name="disco_explain_5">5. Teks hos [%1$s] boleh mencetuskan ciri.</string>
     <string name="waiting">sedang menunggu</string>
 
 </resources>

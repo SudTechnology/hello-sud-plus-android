@@ -4,36 +4,50 @@ import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.lifecycle.Observer;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
+import tech.sud.mgp.hello.common.model.HSUserInfo;
+import tech.sud.mgp.hello.common.utils.AnimUtils;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.main.resp.GameListResp;
 import tech.sud.mgp.hello.service.main.resp.GameModel;
+import tech.sud.mgp.hello.service.main.resp.UserInfoResp;
 import tech.sud.mgp.hello.service.room.repository.RoomRepository;
 import tech.sud.mgp.hello.service.room.resp.RobotListResp;
+import tech.sud.mgp.hello.ui.common.utils.CompletedListener;
+import tech.sud.mgp.hello.ui.common.utils.LifecycleUtils;
 import tech.sud.mgp.hello.ui.main.constant.GameIdCons;
 import tech.sud.mgp.hello.ui.scenes.audio.activity.AbsAudioRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.base.constant.OperateMicType;
 import tech.sud.mgp.hello.ui.scenes.base.manager.SceneDiscoManager;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoleType;
+import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
+import tech.sud.mgp.hello.ui.scenes.base.utils.UserInfoConverter;
+import tech.sud.mgp.hello.ui.scenes.base.utils.UserInfoRespConverter;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.ContributionModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.DanceModel;
+import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftModel;
+import tech.sud.mgp.hello.ui.scenes.disco.model.DiscoInteractionModel;
 import tech.sud.mgp.hello.ui.scenes.disco.viewmodel.DiscoGameViewModel;
 import tech.sud.mgp.hello.ui.scenes.disco.widget.ContributionRankingDialog;
 import tech.sud.mgp.hello.ui.scenes.disco.widget.DancingMenuDialog;
 import tech.sud.mgp.hello.ui.scenes.disco.widget.DiscoExplainView;
+import tech.sud.mgp.hello.ui.scenes.disco.widget.DiscoInteractionDialog;
 import tech.sud.mgp.hello.ui.scenes.disco.widget.DiscoRankingView;
+import tech.sud.mgp.hello.ui.scenes.disco.widget.InviteDanceDialog;
 
 /**
  * 蹦迪 场景
@@ -42,14 +56,17 @@ public class DiscoActivity extends AbsAudioRoomActivity<DiscoGameViewModel> {
 
     private TextView tvStartDisco;
     private TextView tvCloseDisco;
-    private TextView tvDencingMenu;
+    private ImageView ivDancingMenu;
     private TextView tvDanceWait;
+    private View viewInteraction;
+    private View viewInviteDance;
 
     private DiscoRankingView discoRankingView;
     private DiscoExplainView discoExplainView;
 
     private DancingMenuDialog dancingMenuDialog;
     private ContributionRankingDialog contributionRankingDialog;
+    private DiscoInteractionDialog discoInteractionDialog;
 
     @Override
     protected DiscoGameViewModel initGameViewModel() {
@@ -66,9 +83,10 @@ public class DiscoActivity extends AbsAudioRoomActivity<DiscoGameViewModel> {
         super.initWidget();
         roomConfig.isShowGameNumber = false; // 不显示游戏人数
 
-        tvDencingMenu = findViewById(R.id.tv_dancing_menu);
         tvDanceWait = findViewById(R.id.tv_dance_send_hint);
         discoExplainView = findViewById(R.id.disco_explain_view);
+        viewInteraction = findViewById(R.id.view_interaction);
+        viewInviteDance = findViewById(R.id.view_invite_dance);
 
         int paddingHorizontal = DensityUtils.dp2px(this, 8);
         int textColor = Color.parseColor("#ffffff");
@@ -97,10 +115,23 @@ public class DiscoActivity extends AbsAudioRoomActivity<DiscoGameViewModel> {
         topView.addCustomView(tvCloseDisco, (LinearLayout.LayoutParams) tvCloseDisco.getLayoutParams());
         tvCloseDisco.setVisibility(View.GONE);
 
+        // 添加舞台节目单按钮
+        initDanceMenuView();
+
         // 不展示选择游戏
         topView.setSelectGameVisible(false);
 
         bringToFrontViews();
+
+        AnimUtils.breathe(viewInviteDance);
+    }
+
+    private void initDanceMenuView() {
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(DensityUtils.dp2px(36), DensityUtils.dp2px(32));
+        params.setMarginEnd(DensityUtils.dp2px(9));
+        ivDancingMenu = new ImageView(this);
+        ivDancingMenu.setBackgroundResource(R.drawable.ic_dancing_menu_btn);
+        bottomView.addViewToRight(ivDancingMenu, 0, params);
     }
 
     private TextView createTopTextView(int paddingHorizontal, int textColor, int marginEnd) {
@@ -128,12 +159,17 @@ public class DiscoActivity extends AbsAudioRoomActivity<DiscoGameViewModel> {
                 tvCloseDisco.setVisibility(View.GONE);
             }
         }
+        // 蹦迪相关的按钮
         if (playingGameId > 0) {
             discoExplainView.setVisibility(View.VISIBLE);
-            tvDencingMenu.setVisibility(View.VISIBLE);
+            ivDancingMenu.setVisibility(View.VISIBLE);
+            viewInteraction.setVisibility(View.VISIBLE);
+            viewInviteDance.setVisibility(View.VISIBLE);
         } else {
             discoExplainView.setVisibility(View.GONE);
-            tvDencingMenu.setVisibility(View.GONE);
+            ivDancingMenu.setVisibility(View.GONE);
+            viewInteraction.setVisibility(View.GONE);
+            viewInviteDance.setVisibility(View.GONE);
         }
     }
 
@@ -158,16 +194,22 @@ public class DiscoActivity extends AbsAudioRoomActivity<DiscoGameViewModel> {
                 closeDisco();
             }
         });
-        tvDencingMenu.setOnClickListener(new View.OnClickListener() {
+        ivDancingMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showDancingMenu();
             }
         });
-
-        gameViewModel.gameStartedLiveData.observe(this, new Observer<Boolean>() {
+        viewInviteDance.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onChanged(Boolean aBoolean) {
+            public void onClick(View v) {
+                showAboutDanceDialog();
+            }
+        });
+
+        gameViewModel.gameStartedLiveData.observe(this, new Observer<Object>() {
+            @Override
+            public void onChanged(Object aBoolean) {
                 // 游戏开始后，自动加入舞池，这里delay是为了让游戏状态能同步
                 tvCloseDisco.postDelayed(new Runnable() {
                     @Override
@@ -185,6 +227,70 @@ public class DiscoActivity extends AbsAudioRoomActivity<DiscoGameViewModel> {
                 showRanking();
             }
         });
+        viewInteraction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showInteractionDialog();
+            }
+        });
+    }
+
+    // 展示交互弹窗
+    private void showInteractionDialog() {
+        DiscoInteractionDialog dialog = DiscoInteractionDialog.newInstance(roomInfoModel.roomId);
+        dialog.setOnActionListener(new DiscoInteractionDialog.OnActionListener() {
+            @Override
+            public void onAction(DiscoInteractionModel model) {
+                if (binder != null) {
+                    binder.exeDiscoAction(roomInfoModel.roomId, model, new SceneDiscoManager.ActionListener() {
+                        @Override
+                        public void onAnchorChange(boolean isAnchor) {
+                            LifecycleUtils.safeLifecycle(context, new CompletedListener() {
+                                @Override
+                                public void onCompleted() {
+                                    if (discoInteractionDialog != null) {
+                                        discoInteractionDialog.setAnchor(isAnchor);
+                                    }
+                                }
+                            });
+                        }
+                    });
+                }
+            }
+        });
+        discoInteractionDialog = dialog;
+        dialog.setOnDestroyListener(new BaseDialogFragment.OnDestroyListener() {
+            @Override
+            public void onDestroy() {
+                discoInteractionDialog = null;
+            }
+        });
+        dialog.show(getSupportFragmentManager(), null);
+    }
+
+    // 展示邀请主播跳舞弹窗
+    private void showAboutDanceDialog() {
+        InviteDanceDialog dialog = InviteDanceDialog.newInstance(roomInfoModel.roomId);
+        dialog.setOnDanceListener(new InviteDanceDialog.OnDanceListener() {
+            @Override
+            public void onDance(GiftModel giftModel, List<UserInfoResp> list, int minute) {
+                onInviteDance(giftModel, list, minute);
+            }
+        });
+        dialog.show(getSupportFragmentManager(), null);
+    }
+
+    // 选择了主播跳舞
+    private void onInviteDance(GiftModel giftModel, List<UserInfoResp> list, int minute) {
+        if (list == null || list.size() == 0 || giftModel == null) {
+            return;
+        }
+        List<UserInfo> userInfos = new ArrayList<>();
+        for (UserInfoResp userInfoResp : list) {
+            UserInfo info = UserInfoConverter.conver(userInfoResp);
+            userInfos.add(info);
+        }
+        onSendGift(giftModel, minute, userInfos);
     }
 
     // 添加机器人
@@ -205,18 +311,28 @@ public class DiscoActivity extends AbsAudioRoomActivity<DiscoGameViewModel> {
                 tvDanceWait.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        // 前面六个机器人上舞台
-                        for (int i = 0; i < robotListResp.robotList.size(); i++) {
-                            if (i < SceneDiscoManager.ROBOT_UP_MIC_COUNT) {
-                                gameViewModel.joinAnchor(null, robotListResp.robotList.get(i).userId);
-                            } else {
-                                break;
-                            }
-                        }
+                        robotJoinAnchor(robotListResp);
                     }
                 }, 1000);
             }
         });
+    }
+
+    private void robotJoinAnchor(RobotListResp robotListResp) {
+        // 前面六个机器人上舞台
+        for (int i = 0; i < robotListResp.robotList.size(); i++) {
+            if (i < SceneDiscoManager.ROBOT_UP_MIC_COUNT) {
+                String userId = robotListResp.robotList.get(i).userId;
+                gameViewModel.joinAnchor(null, userId);
+                try {
+                    RoomRepository.discoSwitchAnchor(this, roomInfoModel.roomId, 1, Long.parseLong(userId), new RxCallback<>());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                break;
+            }
+        }
     }
 
     private void showRanking() {
@@ -307,6 +423,7 @@ public class DiscoActivity extends AbsAudioRoomActivity<DiscoGameViewModel> {
         super.onMicLocationSwitchCompleted(micIndex, operate, type);
         if (operate) {
             gameViewModel.joinAnchor(null, null);
+            RoomRepository.discoSwitchAnchor(this, roomInfoModel.roomId, 1, HSUserInfo.userId, new RxCallback<>());
         }
     }
 
@@ -378,7 +495,7 @@ public class DiscoActivity extends AbsAudioRoomActivity<DiscoGameViewModel> {
                     for (int i = 0; i < robotListResp.robotList.size(); i++) {
                         if (i < SceneDiscoManager.ROBOT_UP_MIC_COUNT) {
                             SudMGPAPPState.AIPlayers aiPlayers = robotListResp.robotList.get(i);
-                            binder.robotUpMicLocation(aiPlayers, i);
+                            binder.robotUpMicLocation(UserInfoRespConverter.conver(aiPlayers), i);
                         } else {
                             break;
                         }

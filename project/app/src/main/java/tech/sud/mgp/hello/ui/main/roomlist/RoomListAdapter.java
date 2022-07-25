@@ -52,10 +52,10 @@ public class RoomListAdapter extends BaseQuickAdapter<RoomItemModel, BaseViewHol
         }
 
         // 房间名称
-        if (item.getSceneType() == SceneType.TICKET) {
-            helper.setText(R.id.room_name, item.getRoomName() + "·" + item.getGameLevelDesc());
-        } else {
+        if (TextUtils.isEmpty(item.getGameLevelDesc())) {
             helper.setText(R.id.room_name, item.getRoomName());
+        } else {
+            helper.setText(R.id.room_name, item.getRoomName() + "·" + item.getGameLevelDesc());
         }
 
         helper.setText(R.id.room_id, getContext().getString(R.string.room_list_roomid, item.getRoomNumber()));
@@ -153,6 +153,10 @@ public class RoomListAdapter extends BaseQuickAdapter<RoomItemModel, BaseViewHol
                 break;
             case SceneType.DISCO:
                 color.colorBg = Color.parseColor("#dd01cb");
+                color.colorText = Color.parseColor("#FFFFFF");
+                break;
+            case SceneType.LEAGUE:
+                color.colorBg = Color.parseColor("#cb1530");
                 color.colorText = Color.parseColor("#FFFFFF");
                 break;
             default:

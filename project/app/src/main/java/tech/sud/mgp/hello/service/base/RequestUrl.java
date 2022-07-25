@@ -112,4 +112,21 @@ public interface RequestUrl {
     /** 机器人列表 */
     String ROBOT_LIST = "robot/list/v1";
     // endregion 礼物
+
+    // region 蹦迪
+    /** 扣费 */
+    String DEDUCTION_COIN = "disco/operation/v1";
+
+    /** 蹦迪主播列表 */
+    String DISCO_ANCHOR_LIST = "disco/anchor-list/v1";
+
+    /** 上/下主播位 */
+    String DISCO_SWITCH_ANCHOR = "disco/switch-anchors/v1";
+    // endregion 蹦迪
+
+    // region 联赛
+    /** 查询进入前三的房间 */
+    String LEAGUE_PLAYING = "league/playing/v1";
+    // endregion 联赛
+
 }

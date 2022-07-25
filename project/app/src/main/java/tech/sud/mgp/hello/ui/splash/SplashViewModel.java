@@ -14,7 +14,7 @@ import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
-import tech.sud.mgp.hello.common.model.UserInfoConverter;
+import tech.sud.mgp.hello.common.model.HSUserInfoConverter;
 import tech.sud.mgp.hello.common.utils.GlobalSP;
 import tech.sud.mgp.hello.service.login.repository.LoginRepository;
 import tech.sud.mgp.hello.service.login.resp.RefreshTokenResponse;
@@ -114,7 +114,7 @@ public class SplashViewModel extends BaseViewModel {
                                 public void onNext(BaseResponse<RefreshTokenResponse> t) {
                                     super.onNext(t);
                                     if (t.getRetCode() == RetCode.SUCCESS) { // 刷新Token成功
-                                        UserInfoConverter.conver(t.getData());
+                                        HSUserInfoConverter.conver(t.getData());
                                         ThreadUtils.getIoPool().execute(new Runnable() {
                                             @Override
                                             public void run() {

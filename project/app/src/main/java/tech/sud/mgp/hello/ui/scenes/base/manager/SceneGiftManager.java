@@ -60,38 +60,6 @@ public class SceneGiftManager extends BaseServiceManager {
         parentManager.sceneEngineManager.sendCommand(command, null);
     }
 
-    /** 发送礼物 */
-    public void sendGift(long giftID, int giftCount, UserInfo toUser, int type, String giftName, String giftUrl, String animationUrl) {
-        String command = RoomCmdModelUtils.buildSendGiftCommand(giftID, giftCount, toUser, type, giftName, giftUrl, animationUrl);
-
-        GiftModel giftModel;
-        if (type == 0) {
-            giftModel = GiftHelper.getInstance().getGift(giftID);
-        } else {
-            giftModel = new GiftModel();
-            giftModel.type = type;
-            giftModel.giftName = giftName;
-            giftModel.giftUrl = giftUrl;
-            giftModel.animationUrl = animationUrl;
-        }
-        GiftNotifyDetailModel notify = new GiftNotifyDetailModel();
-        notify.gift = giftModel;
-
-        UserInfo user = new UserInfo();
-        user.userID = HSUserInfo.userId + "";
-        user.name = HSUserInfo.nickName;
-        user.icon = HSUserInfo.avatar;
-
-        notify.sendUser = user;
-        notify.toUser = toUser;
-        notify.giftCount = giftCount;
-        notify.giftID = giftID;
-
-        parentManager.sceneChatManager.addMsg(notify);
-
-        parentManager.sceneEngineManager.sendCommand(command, null);
-    }
-
     private final SceneCommandManager.SendGiftCommandListener sendGiftCommandListener = new SceneCommandManager.SendGiftCommandListener() {
         @Override
         public void onRecvCommand(RoomCmdSendGiftModel command, String userID) {

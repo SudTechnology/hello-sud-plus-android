@@ -16,17 +16,21 @@ import com.jeremyliao.liveeventbus.LiveEventBus;
 
 import java.util.List;
 
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
+import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.hello.common.event.ChangeRTCEvent;
 import tech.sud.mgp.hello.common.event.EnterRoomEvent;
 import tech.sud.mgp.hello.common.event.LiveEventBusKey;
 import tech.sud.mgp.hello.common.model.AppData;
+import tech.sud.mgp.hello.service.main.resp.UserInfoResp;
 import tech.sud.mgp.hello.ui.common.utils.channel.NotifyId;
 import tech.sud.mgp.hello.ui.main.home.model.RoomItemModel;
 import tech.sud.mgp.hello.ui.scenes.base.activity.RoomConfig;
 import tech.sud.mgp.hello.ui.scenes.base.constant.OperateMicType;
+import tech.sud.mgp.hello.ui.scenes.base.manager.SceneDiscoManager;
+import tech.sud.mgp.hello.ui.scenes.base.manager.SceneLeagueManager;
 import tech.sud.mgp.hello.ui.scenes.base.manager.SceneRoomServiceManager;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
+import tech.sud.mgp.hello.ui.scenes.base.model.LeagueModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.SceneRoomData;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
@@ -36,13 +40,14 @@ import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.ContributionModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.DanceModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.quiz.QuizBetModel;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftModel;
+import tech.sud.mgp.hello.ui.scenes.disco.model.DiscoInteractionModel;
 
 /**
  * 房间服务
  */
 public class SceneRoomService extends Service {
 
-    private SceneRoomServiceManager serviceManager = new SceneRoomServiceManager();
+    private SceneRoomServiceManager serviceManager;
     private final MyBinder binder = new MyBinder();
     private SceneRoomNotificationHelper notificationHelper;
     private Context context = this;
@@ -55,6 +60,7 @@ public class SceneRoomService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        serviceManager = new SceneRoomServiceManager(this);
         sceneRoomData = new SceneRoomData();
 
         // 通知栏处理
@@ -133,7 +139,7 @@ public class SceneRoomService extends Service {
                     SceneRoomServiceCallback callback = serviceManager.getCallback();
                     serviceManager.exitRoom();
                     serviceManager.onDestroy();
-                    serviceManager = new SceneRoomServiceManager();
+                    serviceManager = new SceneRoomServiceManager(SceneRoomService.this);
                     serviceManager.onCreate();
                     serviceManager.setCallback(callback);
                 }
@@ -160,11 +166,11 @@ public class SceneRoomService extends Service {
         /**
          * 让机器人上麦
          *
-         * @param aiPlayers 机器人数据
-         * @param micIndex  位置
+         * @param userInfoResp 机器人数据
+         * @param micIndex     位置
          */
-        public void robotUpMicLocation(SudMGPAPPState.AIPlayers aiPlayers, int micIndex) {
-            serviceManager.sceneMicManager.robotUpMicLocation(aiPlayers, micIndex);
+        public void robotUpMicLocation(UserInfoResp userInfoResp, int micIndex) {
+            serviceManager.sceneMicManager.robotUpMicLocation(userInfoResp, micIndex);
         }
 
         /** 自动上麦 */
@@ -179,6 +185,11 @@ public class SceneRoomService extends Service {
          */
         public void sendPublicMsg(CharSequence msg) {
             serviceManager.sceneChatManager.sendPublicMsg(msg);
+            if (serviceManager.sceneDiscoManager != null) {
+                if (msg != null) {
+                    serviceManager.sceneDiscoManager.sendPublicMsg(msg.toString());
+                }
+            }
         }
 
         /** 发送礼物 */
@@ -228,7 +239,6 @@ public class SceneRoomService extends Service {
         /** 退出房间 */
         public void exitRoom() {
             serviceManager.exitRoom();
-            stopSelf();
         }
 
         /** 当前是否是开麦的 */
@@ -322,6 +332,36 @@ public class SceneRoomService extends Service {
         public List<ContributionModel> getDiscoContribution() {
             return serviceManager.getDiscoContribution();
         }
+
+        /** 获取联赛数据 */
+        public LeagueModel getLeagueModel() {
+            SceneLeagueManager manager = serviceManager.sceneLeagueManager;
+            if (manager != null) {
+                return manager.getLeagueManager();
+            }
+            return null;
+        }
+
+        /** 游戏结算 */
+        public void onGameSettle(SudMGPMGState.MGCommonGameSettle gameSettle) {
+            SceneLeagueManager manager = serviceManager.sceneLeagueManager;
+            if (manager != null) {
+                manager.onGameSettle(gameSettle);
+            }
+        }
+
+        /** 执行蹦迪动作 */
+        public void exeDiscoAction(Long roomId, DiscoInteractionModel model, SceneDiscoManager.ActionListener actionListener) {
+            if (serviceManager.sceneDiscoManager != null) {
+                serviceManager.sceneDiscoManager.exeDiscoAction(roomId, model, actionListener);
+            }
+        }
+
+        /** 把用户踢出房间 */
+        public void kickOutRoom(AudioRoomMicModel model) {
+            serviceManager.kickOutRoom(model);
+        }
+
     }
 
     /** 获取当前使用的房间基本数据 */

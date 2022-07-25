@@ -13,4 +13,10 @@ public class ASRActivity extends AudioRoomActivity {
         return R.layout.activity_asr;
     }
 
+    @Override
+    protected boolean beforeSetContentView() {
+        roomConfig.isSupportAddRobot = true;
+        return super.beforeSetContentView();
+    }
+    
 }

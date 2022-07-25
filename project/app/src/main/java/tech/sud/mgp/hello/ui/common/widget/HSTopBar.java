@@ -5,11 +5,9 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,13 +18,14 @@ import com.blankj.utilcode.util.ActivityUtils;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
+import tech.sud.mgp.hello.common.widget.view.MarqueeTextView;
 
 /**
  * 页面顶部标题
  */
 public class HSTopBar extends ConstraintLayout {
 
-    private TextView tvTitle = new TextView(getContext());
+    private MarqueeTextView tvTitle = new MarqueeTextView(getContext());
     private ImageView ivBack = new ImageView(getContext());
 
     public HSTopBar(@NonNull Context context) {
@@ -68,8 +67,6 @@ public class HSTopBar extends ConstraintLayout {
         addView(ivBack, ivParams);
 
         // 标题
-        tvTitle.setMaxLines(1);
-        tvTitle.setEllipsize(TextUtils.TruncateAt.END);
         tvTitle.setTextSize(18);
         tvTitle.setTextColor(titleTextColor);
         tvTitle.setText(titleText);
@@ -91,6 +88,11 @@ public class HSTopBar extends ConstraintLayout {
                 topActivity.finish();
             }
         });
+    }
+
+    /** 设置标题栏padding */
+    public void setTitlePadding(int left, int top, int right, int bottom) {
+        tvTitle.setPadding(left, top, right, bottom);
     }
 
     /**

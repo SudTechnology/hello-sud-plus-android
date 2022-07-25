@@ -20,6 +20,7 @@ public class SceneRoomBottomView extends ConstraintLayout {
     private TextView mTvInput;
     private View mViewGift;
     private View leftContainer;
+    private LinearLayout rightContainer;
 
     private boolean micOpened = false;
 
@@ -43,6 +44,7 @@ public class SceneRoomBottomView extends ConstraintLayout {
         mTvInput = findViewById(R.id.tv_input);
         mViewGift = findViewById(R.id.view_gift);
         leftContainer = findViewById(R.id.left_container);
+        rightContainer = findViewById(R.id.right_container);
     }
 
     public void showMicState() {
@@ -96,6 +98,11 @@ public class SceneRoomBottomView extends ConstraintLayout {
 
     public void setGiftClickListener(OnClickListener listener) {
         mViewGift.setOnClickListener(listener);
+    }
+
+    /** 在右侧添加一个View */
+    public void addViewToRight(View view, int index, LinearLayout.LayoutParams params) {
+        rightContainer.addView(view, index, params);
     }
 
 }

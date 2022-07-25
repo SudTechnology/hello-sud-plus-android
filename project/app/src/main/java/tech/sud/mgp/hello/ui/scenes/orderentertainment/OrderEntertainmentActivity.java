@@ -36,6 +36,12 @@ public class OrderEntertainmentActivity extends AbsOrderRoomActivity<OrderViewMo
     private OrderDialog orderDialog;
 
     @Override
+    protected boolean beforeSetContentView() {
+        roomConfig.isSupportAddRobot = true;
+        return super.beforeSetContentView();
+    }
+    
+    @Override
     protected OrderViewModel initGameViewModel() {
         return new OrderViewModel();
     }

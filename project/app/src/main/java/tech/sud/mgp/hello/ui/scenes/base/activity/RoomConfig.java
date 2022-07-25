@@ -8,4 +8,5 @@ public class RoomConfig {
     public boolean isSudGame = true; // 是否要加载sud游戏
     public boolean isShowGameNumber = true; // 是否展示游戏人数
     public boolean isShowASRTopHint = true; // 右上角是否展示支持ASR的提示
+    public boolean isSupportAddRobot = false; // 是否具备添加机器人的能力
 }

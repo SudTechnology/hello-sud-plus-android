@@ -465,10 +465,6 @@
     <string name="contribution_value">قيمة المساهمة</string>
     <string name="disco_explain_top_5">الخمسة الأوائل</string>
     <string name="disco_explain_1">1. DJ قائمة المساهمات %1$s عشوائيًا (%2$s ثانية للتحديث).</string>
-    <string name="disco_explain_2">2. يمكن أن يؤدي تقديم الهدايا إلى تأثيرات مختلفة أو النقر على المضيف للرقص.</string>
-    <string name="disco_explain_3">3. أوامر الشاشة العامة: [%1$s]، [%2$s]، [%3$s].</string>
-    <string name="disco_explain_4">4. يرسل المستخدم على ميكروفون [%1$s] ليصعد إلى موضع المضيف، \n    ؛ يرسل [%2$s] للنزول إلى موضع المضيف.</string>
-    <string name="disco_explain_5">5. يرسل المضيف نصًا [%1$s] لتشغيل صورة مقربة.</string>
     <string name="waiting">جاري الانتظار</string>
 
 </resources>

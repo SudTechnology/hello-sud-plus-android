@@ -11,13 +11,16 @@ import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdChangeGameModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdChatTextModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdDownMicModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdEnterRoomModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdKickOutRoomModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdSendGiftModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdUpMicModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.ContributionModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.DanceModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdBecomeDJModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdDiscoActionPayModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdDiscoInfoReqModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdDiscoInfoRespModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.league.RoomCmdLeagueInfoRespModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.order.RoomCmdOrderOperateModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.order.RoomCmdUserOrderModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKAnswerModel;
@@ -102,6 +105,13 @@ public class RoomCmdModelUtils {
     /** 构建进入房间信令 */
     public static String buildEnterRoomCommand() {
         RoomCmdEnterRoomModel command = new RoomCmdEnterRoomModel(getSendUser());
+        return command.toJson();
+    }
+
+    /** 构建踢出房间信令 */
+    public static String buildKickOutRoomCommand(String userID) {
+        RoomCmdKickOutRoomModel command = new RoomCmdKickOutRoomModel(getSendUser());
+        command.userID = userID;
         return command.toJson();
     }
     // endregion 基础
@@ -243,7 +253,25 @@ public class RoomCmdModelUtils {
         command.userID = userId;
         return command.toJson();
     }
+
+    /** 构建 蹦迪动作付费 信令 */
+    public static String buildCmdDiscoActionPay(int price) {
+        RoomCmdDiscoActionPayModel command = new RoomCmdDiscoActionPayModel(getSendUser());
+        command.price = price;
+        return command.toJson();
+    }
     // endregion 竞猜
+
+    // region 联赛
+
+    /** 构建 响应联赛信息 信令 */
+    public static String buildCmdLeagueInfoResp(int schedule, List<String> winner) {
+        RoomCmdLeagueInfoRespModel command = new RoomCmdLeagueInfoRespModel(getSendUser());
+        command.schedule = schedule;
+        command.winner = winner;
+        return command.toJson();
+    }
+    // endregion 联赛
 
     public static UserInfo getSendUser() {
         UserInfo user = new UserInfo();

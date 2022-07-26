@@ -12,6 +12,7 @@ import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.app.APPConfig;
 import tech.sud.mgp.hello.common.base.BaseFragment;
 import tech.sud.mgp.hello.common.utils.IntentUtils;
+import tech.sud.mgp.hello.ui.main.preload.PreloadActivity;
 import tech.sud.mgp.hello.ui.main.settings.activity.ChangeAppIdActivity;
 import tech.sud.mgp.hello.ui.main.settings.activity.ChangeSudEnvActivity;
 import tech.sud.mgp.hello.ui.main.settings.activity.LanguageActivity;
@@ -37,6 +38,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
     private SettingButton btnPrivacyPolicy;
     private SettingButton btnChangeAppId;
     private SettingButton btnChangeEnv;
+    private SettingButton btnPreload;
 
     private boolean isShowMoreSettings = false;
 
@@ -69,6 +71,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         containerTopOccupySize = findViewById(R.id.container_top_occupy_size);
         btnChangeAppId = findViewById(R.id.button_change_app_id);
         btnChangeEnv = findViewById(R.id.button_change_env);
+        btnPreload = findViewById(R.id.button_preload);
         initMoreSettings();
     }
 
@@ -117,6 +120,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         containerTopOccupySize.setOnClickListener(this);
         btnChangeAppId.setOnClickListener(this);
         btnChangeEnv.setOnClickListener(this);
+        btnPreload.setOnClickListener(this);
     }
 
     @Override
@@ -137,6 +141,8 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
             startActivity(new Intent(requireContext(), ChangeAppIdActivity.class));
         } else if (v == btnChangeEnv) { // 切换环境
             startActivity(new Intent(requireContext(), ChangeSudEnvActivity.class));
+        } else if (v == btnPreload) { // 预加载
+            startActivity(new Intent(requireContext(), PreloadActivity.class));
         }
     }
 

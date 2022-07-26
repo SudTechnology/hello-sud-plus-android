@@ -75,6 +75,14 @@
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
 
+        <!-- 预加载页面 -->
+        <activity
+            android:name=".ui.main.preload.PreloadActivity"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+
         <!-- Custom配置场景 -->
         <activity
             android:name=".ui.scenes.custom.CustomConfigActivity"

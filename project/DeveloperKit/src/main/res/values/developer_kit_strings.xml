@@ -6,4 +6,15 @@
     <string name="room_name">来一起玩游戏吧</string>
     <string name="change_sud_appid">切换AppId</string>
     <string name="change_env">切换环境</string>
+    <string name="preload">预加载</string>
+    <string name="load_game">加载游戏</string>
+    <string name="downloading">下载中</string>
+    <string name="paused">已暂停</string>
+    <string name="completed">已完成</string>
+    <string name="canceled">已取消</string>
+    <string name="start">开始</string>
+    <string name="pause">暂停</string>
+    <string name="show_list">显示列表</string>
+    <string name="hide_list">隐藏列表</string>
+    <string name="clear_cache">清理缓存</string>
 </resources>

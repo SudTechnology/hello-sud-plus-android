@@ -12,13 +12,13 @@
         android:id="@+id/api_btn"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="64dp"
         android:background="@drawable/shape_r12_gradient_bcffd2_38ffb5"
         android:text="API"
         android:gravity="center"
         android:textColor="#003C25"
         android:textSize="22sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@id/tv_add_robot"
         app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

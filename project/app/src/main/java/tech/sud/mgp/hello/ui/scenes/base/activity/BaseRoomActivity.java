@@ -23,6 +23,7 @@ import com.gyf.immersionbar.ImmersionBar;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -319,7 +320,8 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
                 }
                 List<AudioRoomMicModel> micList = binder.getMicList();
                 // 找到一个可以用的机器人
-                SudMGPAPPState.AIPlayers aiPlayers = findAvailableAiPlayers(robotListResp.robotList, micList);
+                HashSet<String> playerInSet = gameViewModel.sudFSMMGDecorator.getSudFSMMGCache().getPlayerInSet();
+                SudMGPAPPState.AIPlayers aiPlayers = findAvailableAiPlayers(robotListResp.robotList, playerInSet, micList);
 
                 if (aiPlayers == null) {
                     return;
@@ -341,11 +343,29 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         });
     }
 
-    private SudMGPAPPState.AIPlayers findAvailableAiPlayers(List<SudMGPAPPState.AIPlayers> robotList, List<AudioRoomMicModel> micList) {
+    /**
+     * 不在麦位上，并且不在游戏位上面的机器人就可以使用
+     *
+     * @param robotList   机器人列表
+     * @param playerInSet 在游戏当中的用户列表
+     * @param micList     麦位列表
+     * @return
+     */
+    private SudMGPAPPState.AIPlayers findAvailableAiPlayers(List<SudMGPAPPState.AIPlayers> robotList, HashSet<String> playerInSet, List<AudioRoomMicModel> micList) {
         for (SudMGPAPPState.AIPlayers aiPlayers : robotList) {
             boolean exists = false;
+
+            // 判断该机器人是否已经在麦位上了
             for (AudioRoomMicModel audioRoomMicModel : micList) {
                 if ((audioRoomMicModel.userId + "").equals(aiPlayers.userId)) {
+                    exists = true;
+                    break;
+                }
+            }
+
+            // 判断该机器人是否已经在游戏当中了
+            for (String userId : playerInSet) {
+                if (userId != null && userId.equals(aiPlayers.userId)) {
                     exists = true;
                     break;
                 }

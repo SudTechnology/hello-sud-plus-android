@@ -18,6 +18,7 @@ import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.gyf.immersionbar.BarHide;
 import com.gyf.immersionbar.ImmersionBar;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import tech.sud.mgp.core.ISudAPPD;
@@ -49,6 +50,7 @@ public class PreloadActivity extends BaseActivity {
     private Button btnOperateList;
     private Button btnCloseGame;
     private Button btnClearCache;
+    private Button btnDownloadAll;
     private RecyclerView recyclerView;
 
     private String gameRoomId = "999";
@@ -98,6 +100,7 @@ public class PreloadActivity extends BaseActivity {
         recyclerView = findViewById(R.id.recycler_view);
         btnCloseGame = findViewById(R.id.btn_close_game);
         btnClearCache = findViewById(R.id.btn_clear_cache);
+        btnDownloadAll = findViewById(R.id.btn_download_all);
         View viewTopBtn = findViewById(R.id.view_top_btn);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
@@ -194,7 +197,13 @@ public class PreloadActivity extends BaseActivity {
                 AppUtils.launchAppDetailsSettings();
             }
         });
-        adapter.addChildClickViewIds(R.id.tv_load_game, R.id.tv_start, R.id.tv_cancel, R.id.tv_pause);
+        btnDownloadAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                preloadAll();
+            }
+        });
+        adapter.addChildClickViewIds(R.id.tv_load_game, R.id.tv_start, R.id.tv_cancel, R.id.tv_pause, R.id.tv_resume);
         adapter.setOnItemChildClickListener(new OnItemChildClickListener() {
             @Override
             public void onItemChildClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
@@ -215,6 +224,15 @@ public class PreloadActivity extends BaseActivity {
         });
     }
 
+    // 预加载全部
+    private void preloadAll() {
+        List<Long> mgIdList = new ArrayList<>();
+        for (PreloadModel item : adapter.getData()) {
+            mgIdList.add(item.gameId);
+        }
+        SudMGP.preloadGamePkgList(this, mgIdList, iSudListenerGamePkgPreload);
+    }
+
     private void itemChildClick(View view, int position) {
         int id = view.getId();
         PreloadModel item = adapter.getItem(position);
@@ -227,12 +245,16 @@ public class PreloadActivity extends BaseActivity {
             onPreload(gameId);
             return;
         }
-        if (id == R.id.tv_cancel) {
-            SudMGP.cancelPreloadGamePkg(gameId);
-            return;
-        }
         if (id == R.id.tv_pause) {
             SudMGP.pausePreloadGamePkg(gameId);
+            return;
+        }
+        if (id == R.id.tv_resume) {
+            SudMGP.resumePreloadGamePkg(gameId);
+            return;
+        }
+        if (id == R.id.tv_cancel) {
+            SudMGP.cancelPreloadGamePkg(gameId);
             return;
         }
     }
@@ -389,6 +411,12 @@ public class PreloadActivity extends BaseActivity {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        gameViewModel.onDestroy();
     }
 
 }

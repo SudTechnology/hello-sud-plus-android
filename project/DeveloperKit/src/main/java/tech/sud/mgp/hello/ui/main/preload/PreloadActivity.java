@@ -250,11 +250,11 @@ public class PreloadActivity extends BaseActivity {
             return;
         }
         if (id == R.id.tv_pause) {
-            SudMGP.pausePreloadMGPkgList(getMGIdList(gameId));
+//            SudMGP.pausePreloadMGPkgList(getMGIdList(gameId));
             return;
         }
         if (id == R.id.tv_resume) {
-            SudMGP.resumePreloadMGPkgList(getMGIdList(gameId));
+//            SudMGP.resumePreloadMGPkgList(getMGIdList(gameId));
             return;
         }
         if (id == R.id.tv_cancel) {

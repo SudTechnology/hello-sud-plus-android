@@ -204,6 +204,9 @@ public class DeveloperKitGameViewModel implements SudFSMMGListener {
         SudEnvConfig config = AppData.getInstance().getSudEnvConfig();
         if (config != null) {
             ISudAPPD.e(config.env);
+            if (config.env == 4) {
+                ISudAPPD.d();
+            }
         }
     }
 

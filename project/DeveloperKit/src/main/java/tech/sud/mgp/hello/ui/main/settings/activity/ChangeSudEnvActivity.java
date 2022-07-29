@@ -90,7 +90,7 @@ public class ChangeSudEnvActivity extends BaseActivity {
         @Override
         protected void convert(@NonNull BaseViewHolder holder, SudEnvConfig model) {
             // 分割线
-            int index = holder.getAdapterPosition();
+            int index = getData().indexOf(model);
             holder.setVisible(R.id.view_line, index > 0);
 
             // 名称

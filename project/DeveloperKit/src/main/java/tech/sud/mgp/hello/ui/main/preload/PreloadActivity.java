@@ -19,12 +19,13 @@ import com.gyf.immersionbar.BarHide;
 import com.gyf.immersionbar.ImmersionBar;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import tech.sud.mgp.core.ISudAPPD;
-import tech.sud.mgp.core.ISudListenerGamePkgPreload;
 import tech.sud.mgp.core.ISudListenerInitSDK;
-import tech.sud.mgp.core.PkgPreloadStatus;
+import tech.sud.mgp.core.ISudListenerPreloadMGPkg;
+import tech.sud.mgp.core.PkgDownloadStatus;
 import tech.sud.mgp.core.SudMGP;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseActivity;
@@ -154,6 +155,9 @@ public class PreloadActivity extends BaseActivity {
         SudEnvConfig config = AppData.getInstance().getSudEnvConfig();
         if (config != null) {
             ISudAPPD.e(config.env);
+            if (config.env == 4) {
+                ISudAPPD.d();
+            }
         }
     }
 
@@ -230,7 +234,7 @@ public class PreloadActivity extends BaseActivity {
         for (PreloadModel item : adapter.getData()) {
             mgIdList.add(item.gameId);
         }
-        SudMGP.preloadGamePkgList(this, mgIdList, iSudListenerGamePkgPreload);
+        SudMGP.preloadMGPkgList(this, mgIdList, iSudListenerGamePkgPreload);
     }
 
     private void itemChildClick(View view, int position) {
@@ -246,17 +250,21 @@ public class PreloadActivity extends BaseActivity {
             return;
         }
         if (id == R.id.tv_pause) {
-            SudMGP.pausePreloadGamePkg(gameId);
+            SudMGP.pausePreloadMGPkgList(getMGIdList(gameId));
             return;
         }
         if (id == R.id.tv_resume) {
-            SudMGP.resumePreloadGamePkg(gameId);
+            SudMGP.resumePreloadMGPkgList(getMGIdList(gameId));
             return;
         }
         if (id == R.id.tv_cancel) {
-            SudMGP.cancelPreloadGamePkg(gameId);
+            SudMGP.cancelPreloadMGPkgList(getMGIdList(gameId));
             return;
         }
+    }
+
+    private List<Long> getMGIdList(Long... mgId) {
+        return Arrays.asList(mgId);
     }
 
     private void setGameListener() {
@@ -303,7 +311,7 @@ public class PreloadActivity extends BaseActivity {
         if (preloadModel == null) {
             preloadModel = addPreloadModel(gameId);
         }
-        SudMGP.preloadGamePkg(this, gameId, iSudListenerGamePkgPreload);
+        SudMGP.preloadMGPkgList(this, getMGIdList(gameId), iSudListenerGamePkgPreload);
     }
 
     private PreloadModel addPreloadModel(long gameId) {
@@ -345,14 +353,14 @@ public class PreloadActivity extends BaseActivity {
     }
 
     // 预加载进度
-    private final ISudListenerGamePkgPreload iSudListenerGamePkgPreload = new ISudListenerGamePkgPreload() {
+    private final ISudListenerPreloadMGPkg iSudListenerGamePkgPreload = new ISudListenerPreloadMGPkg() {
         @Override
         public void onPreloadSuccess(long mgId) {
             PreloadModel preloadModel = getPreloadModel(mgId);
             if (preloadModel == null) {
                 preloadModel = addPreloadModel(mgId);
             }
-            preloadModel.status = PkgPreloadStatus.PKG_PRELOAD_COMPLETED;
+            preloadModel.status = PkgDownloadStatus.PKG_DOWNLOAD_COMPLETED;
             preloadModel.progress = 100;
             updateItem(preloadModel);
         }
@@ -369,7 +377,7 @@ public class PreloadActivity extends BaseActivity {
         }
 
         @Override
-        public void onPreloadStatus(long mgId, long downloadedSize, long totalSize, PkgPreloadStatus status) {
+        public void onPreloadStatus(long mgId, long downloadedSize, long totalSize, PkgDownloadStatus status) {
             LogUtils.d("onPreloadStatus:" + mgId + "  status:" + status + "  downloadedSize:" + downloadedSize + "  totalSize:" + totalSize);
             PreloadModel preloadModel = getPreloadModel(mgId);
             if (preloadModel == null) {

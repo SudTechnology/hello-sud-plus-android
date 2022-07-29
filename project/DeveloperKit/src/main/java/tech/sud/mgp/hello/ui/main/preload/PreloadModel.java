@@ -1,6 +1,6 @@
 package tech.sud.mgp.hello.ui.main.preload;
 
-import tech.sud.mgp.core.PkgPreloadStatus;
+import tech.sud.mgp.core.PkgDownloadStatus;
 
 /**
  * 预加载进度
@@ -9,7 +9,7 @@ public class PreloadModel {
     public long gameId;
     public int iconResId;
     public String gameName;
-    public PkgPreloadStatus status;
+    public PkgDownloadStatus status;
     public long downloadedSize;
     public long totalSize;
     public int errorCode;

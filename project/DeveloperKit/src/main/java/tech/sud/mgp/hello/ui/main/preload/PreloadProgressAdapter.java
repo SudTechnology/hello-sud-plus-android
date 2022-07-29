@@ -51,13 +51,17 @@ public class PreloadProgressAdapter extends BaseQuickAdapter<PreloadModel, BaseV
             return null;
         }
         switch (model.status) {
-            case PKG_PRELOAD_DOWNLOADING:
+            case PKG_DOWNLOAD_WAITING:
+                return getContext().getString(R.string.waiting);
+            case PKG_DOWNLOAD_STARTED:
+                return getContext().getString(R.string.started);
+            case PKG_DOWNLOAD_DOWNLOADING:
                 return getContext().getString(R.string.downloading);
-            case PKG_PRELOAD_PAUSE:
+            case PKG_DOWNLOAD_PAUSE:
                 return getContext().getString(R.string.paused);
-            case PKG_PRELOAD_COMPLETED:
+            case PKG_DOWNLOAD_COMPLETED:
                 return getContext().getString(R.string.completed);
-            case PKG_PRELOAD_CANCELED:
+            case PKG_DOWNLOAD_CANCELED:
                 return getContext().getString(R.string.canceled);
         }
         return null;

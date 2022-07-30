@@ -21,4 +21,5 @@
     <string name="started">已开始</string>
     <string name="load">加载</string>
     <string name="download_all">下载全部</string>
+    <string name="download_all_reverse">下载全部reverse</string>
 </resources>

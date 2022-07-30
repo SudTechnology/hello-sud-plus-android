@@ -20,6 +20,7 @@ import com.gyf.immersionbar.ImmersionBar;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import tech.sud.mgp.core.ISudAPPD;
@@ -52,6 +53,7 @@ public class PreloadActivity extends BaseActivity {
     private Button btnCloseGame;
     private Button btnClearCache;
     private Button btnDownloadAll;
+    private Button BtnDownloadAllReverse;
     private RecyclerView recyclerView;
 
     private String gameRoomId = "999";
@@ -102,6 +104,7 @@ public class PreloadActivity extends BaseActivity {
         btnCloseGame = findViewById(R.id.btn_close_game);
         btnClearCache = findViewById(R.id.btn_clear_cache);
         btnDownloadAll = findViewById(R.id.btn_download_all);
+        BtnDownloadAllReverse = findViewById(R.id.btn_download_all_reverse);
         View viewTopBtn = findViewById(R.id.view_top_btn);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
@@ -207,6 +210,12 @@ public class PreloadActivity extends BaseActivity {
                 preloadAll();
             }
         });
+        BtnDownloadAllReverse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                preloadAllReverse();
+            }
+        });
         adapter.addChildClickViewIds(R.id.tv_load_game, R.id.tv_start, R.id.tv_cancel, R.id.tv_pause, R.id.tv_resume);
         adapter.setOnItemChildClickListener(new OnItemChildClickListener() {
             @Override
@@ -234,6 +243,16 @@ public class PreloadActivity extends BaseActivity {
         for (PreloadModel item : adapter.getData()) {
             mgIdList.add(item.gameId);
         }
+        SudMGP.preloadMGPkgList(this, mgIdList, iSudListenerGamePkgPreload);
+    }
+
+    // 预加载全部，倒序
+    private void preloadAllReverse() {
+        List<Long> mgIdList = new ArrayList<>();
+        for (PreloadModel item : adapter.getData()) {
+            mgIdList.add(item.gameId);
+        }
+        Collections.reverse(mgIdList);
         SudMGP.preloadMGPkgList(this, mgIdList, iSudListenerGamePkgPreload);
     }
 
@@ -356,6 +375,7 @@ public class PreloadActivity extends BaseActivity {
     private final ISudListenerPreloadMGPkg iSudListenerGamePkgPreload = new ISudListenerPreloadMGPkg() {
         @Override
         public void onPreloadSuccess(long mgId) {
+            LogUtils.d("onPreloadSuccess:" + mgId);
             PreloadModel preloadModel = getPreloadModel(mgId);
             if (preloadModel == null) {
                 preloadModel = addPreloadModel(mgId);
@@ -367,6 +387,7 @@ public class PreloadActivity extends BaseActivity {
 
         @Override
         public void onPreloadFailure(long mgId, int errorCode, String errorMsg) {
+            LogUtils.d("onPreloadFailure:" + mgId + "  errorCode:" + errorCode + "  errorMsg:" + errorMsg);
             PreloadModel preloadModel = getPreloadModel(mgId);
             if (preloadModel == null) {
                 preloadModel = addPreloadModel(mgId);

@@ -1,5 +1,7 @@
 package tech.sud.mgp.hello.ui.scenes.league.widget;
 
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -25,6 +27,7 @@ import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.CustomCountdownTimer;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
+import tech.sud.mgp.hello.common.utils.ShapeUtils;
 import tech.sud.mgp.hello.service.main.repository.UserInfoRepository;
 import tech.sud.mgp.hello.service.main.resp.UserInfoResp;
 import tech.sud.mgp.hello.ui.common.utils.CompletedListener;
@@ -220,7 +223,11 @@ public class LeagueGameSettleDialog extends BaseDialogFragment {
     // ob视角展示的样式
     private void initOBStyle() {
         viewTop.setBackgroundResource(R.drawable.ic_league_settle_top_end);
-        if (leagueModel.schedule == 0) {
+        // 如果前三都是机器人，那么观察者提示比赛已结束
+        if (leagueModel.schedule > 0 || top3IsRobot()) {
+            tvTitle.setText(R.string.game_over);
+            btnSetBackHomePage();
+        } else {
             tvTitle.setText(R.string.enter_next_game);
             viewOb.setVisibility(View.VISIBLE);
             tvBtn.setVisibility(View.GONE);
@@ -234,10 +241,36 @@ public class LeagueGameSettleDialog extends BaseDialogFragment {
                 }
             });
             startContinueGameCountdown();
-        } else {
-            tvTitle.setText(R.string.game_over);
-            btnSetBackHomePage();
         }
+    }
+
+    private boolean top3IsRobot() {
+        if (gameSettle.results == null || gameSettle.results.size() == 0) {
+            return true;
+        }
+        boolean isRobot1 = true;
+        boolean isRobot2 = true;
+        boolean isRobot3 = true;
+        for (MGCommonGameSettle.PlayerResult result : gameSettle.results) {
+            switch (result.rank) {
+                case 1:
+                    if (result.isAI != 1) {
+                        isRobot1 = false;
+                    }
+                    break;
+                case 2:
+                    if (result.isAI != 1) {
+                        isRobot2 = false;
+                    }
+                    break;
+                case 3:
+                    if (result.isAI != 1) {
+                        isRobot3 = false;
+                    }
+                    break;
+            }
+        }
+        return isRobot1 && isRobot2 && isRobot3;
     }
 
     // 判断是否赢了比赛
@@ -370,7 +403,8 @@ public class LeagueGameSettleDialog extends BaseDialogFragment {
 
             View viewMain = holder.getView(R.id.cl_main);
             if (model.isSelf) {
-                viewMain.setBackgroundResource(R.drawable.shape_r4_ebd095);
+                viewMain.setBackground(ShapeUtils.createShape(null, (float) DensityUtils.dp2px(4),
+                        null, GradientDrawable.RECTANGLE, null, Color.parseColor("#26ebd095")));
             } else {
                 viewMain.setBackground(null);
             }

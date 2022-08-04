@@ -352,7 +352,7 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
             return;
         }
         // 发送http告知后端
-        RoomRepository.roomMicLocationSwitch(this, getRoomId(), model.micIndex, false, new RxCallback<RoomMicSwitchResp>() {
+        RoomRepository.roomMicLocationSwitch(this, getRoomId(), model.micIndex, false, model.userId, new RxCallback<RoomMicSwitchResp>() {
             @Override
             public void onSuccess(RoomMicSwitchResp roomMicSwitchResp) {
                 super.onSuccess(roomMicSwitchResp);
@@ -362,7 +362,7 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
                 // 如果是真人，发送信令让其退出房间
                 String cmd = RoomCmdModelUtils.buildKickOutRoomCommand(model.userId + "");
                 sceneEngineManager.sendCommand(cmd);
-                
+
                 // 麦位上的处理
                 sceneMicManager.kickOutRoom(model);
             }

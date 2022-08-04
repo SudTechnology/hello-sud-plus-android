@@ -42,6 +42,7 @@ public class LeagueActivity extends AbsAudioRoomActivity<LeagueGameViewModel> {
         gameViewModel.gameConfigModel.ui.gameSettle.hide = true; // 隐藏结算界面
         gameViewModel.gameConfigModel.ui.lobby_game_setting.hide = true; // 隐藏玩法设置
         gameViewModel.gameConfigModel.ui.lobby_players.hide = false; // 展示玩家游戏位
+        gameViewModel.gameConfigModel.ui.lobby_players.custom = true; // 点击大厅游戏位加入游戏
         gameViewModel.gameConfigModel.ui.join_btn.custom = true; // 接管加入按钮事件
         gameViewModel.gameConfigModel.ui.ready_btn.custom = true; // 接管准备按钮事件
         gameViewModel.gameConfigModel.ui.start_btn.custom = true; // 接管开始按钮事件

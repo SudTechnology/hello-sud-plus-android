@@ -327,13 +327,15 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
                     return;
                 }
 
-                // 上麦位
-                for (AudioRoomMicModel audioRoomMicModel : micList) {
-                    if (!audioRoomMicModel.hasUser()) {
-                        binder.robotUpMicLocation(UserInfoRespConverter.conver(aiPlayers), audioRoomMicModel.micIndex);
-                        break;
-                    }
+                // 找到一个空位置
+                AudioRoomMicModel newRobotMic = findNewRobotMic(micList);
+                if (newRobotMic == null) {
+                    ToastUtils.showShort(R.string.no_empty_seat);
+                    return;
                 }
+
+                // 上麦位
+                binder.robotUpMicLocation(UserInfoRespConverter.conver(aiPlayers), newRobotMic.micIndex);
 
                 // 添加到游戏中
                 List<SudMGPAPPState.AIPlayers> aiPlayersList = new ArrayList<>();
@@ -341,6 +343,23 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
                 gameViewModel.sudFSTAPPDecorator.notifyAPPCommonGameAddAIPlayers(aiPlayersList, 1);
             }
         });
+    }
+
+    private AudioRoomMicModel findNewRobotMic(List<AudioRoomMicModel> micList) {
+        int totalRobotCount = 0;
+        AudioRoomMicModel emptyMicModel = null;
+        for (AudioRoomMicModel model : micList) {
+            if (model.isAi) {
+                totalRobotCount++;
+            }
+            if (emptyMicModel == null && !model.hasUser()) {
+                emptyMicModel = model;
+            }
+        }
+        if (totalRobotCount >= 8) {
+            return null;
+        }
+        return emptyMicModel;
     }
 
     /**
@@ -1016,11 +1035,11 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         } else {
             tvASRHint.setVisibility(View.GONE);
         }
-        if (roomConfig.isSupportAddRobot && playingGameId > 0 && roomInfoModel.roleType == RoleType.OWNER) {
-            tvAddRobot.setVisibility(View.VISIBLE);
-        } else {
-            tvAddRobot.setVisibility(View.GONE);
-        }
+//        if (roomConfig.isSupportAddRobot && playingGameId > 0 && roomInfoModel.roleType == RoleType.OWNER) {
+//            tvAddRobot.setVisibility(View.VISIBLE);
+//        } else {
+//            tvAddRobot.setVisibility(View.GONE);
+//        }
     }
 
     protected void updateStatusBar() {

@@ -9,8 +9,7 @@
     <tech.sud.mgp.hello.ui.common.widget.HSTopBar
         android:id="@+id/top_bar"
         android:layout_width="match_parent"
-        android:layout_height="54dp"
-        android:paddingTop="10dp"
+        android:layout_height="44dp"
         android:background="@color/white"
         app:topbar_titleText="@string/change_language"
         app:layout_constraintTop_toTopOf="parent" />

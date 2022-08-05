@@ -9,7 +9,7 @@
     <tech.sud.mgp.hello.ui.common.widget.HSTopBar
         android:id="@+id/top_bar"
         android:layout_width="match_parent"
-        android:layout_height="54dp"
+        android:layout_height="44dp"
         app:topbar_backSrc="@drawable/icon_navi_back_white"
         app:topbar_titleTextColor="@color/white"
         app:layout_constraintTop_toTopOf="parent" />

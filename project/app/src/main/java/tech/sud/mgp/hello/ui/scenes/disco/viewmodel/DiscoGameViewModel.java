@@ -212,7 +212,7 @@ public class DiscoGameViewModel extends AppGameViewModel {
     @Override
     protected void getGameRect(GameViewInfoModel gameViewInfoModel) {
         super.getGameRect(gameViewInfoModel);
-        gameViewInfoModel.view_game_rect.top = DensityUtils.dp2px(Utils.getApp(), 145) + BarUtils.getStatusBarHeight();
+        gameViewInfoModel.view_game_rect.top = DensityUtils.dp2px(Utils.getApp(), 135) + BarUtils.getStatusBarHeight();
     }
 
 }

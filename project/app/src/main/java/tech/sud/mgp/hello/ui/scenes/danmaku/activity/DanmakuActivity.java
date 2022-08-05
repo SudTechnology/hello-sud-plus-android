@@ -466,7 +466,10 @@ public class DanmakuActivity extends BaseRoomActivity<AppGameViewModel> implemen
     private final Runnable delayShowGuide = new Runnable() {
         @Override
         public void run() {
-            viewGuide.setVisibility(View.VISIBLE);
+            isShowGuide = false;
+            if (isFullscreen && danmakuListViewLand.getVisibility() == View.VISIBLE) {
+                viewGuide.setVisibility(View.VISIBLE);
+            }
         }
     };
 

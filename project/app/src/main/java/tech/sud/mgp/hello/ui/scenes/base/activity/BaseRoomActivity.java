@@ -621,6 +621,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         }
     }
 
+    /** 把麦位上的机器人都添加到游戏上去 */
     private void checkGameAddAiPlayers() {
         if (gameViewModel.isCaptain(HSUserInfo.userId) && roomConfig.isSupportAddRobot) {
             if (binder != null) {
@@ -1137,12 +1138,14 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         if (roomGiftDialog != null) {
             roomGiftDialog.updateMicUsers(getGiftDialogMicList());
         }
+        checkGameAddAiPlayers();
     }
 
     @Override
     public void notifyMicItemChange(int micIndex, AudioRoomMicModel model) {
         micView.notifyItemChange(micIndex, model);
         updateGiftDialogMicUsers(model);
+        checkGameAddAiPlayers();
     }
 
     /** 更新礼物弹窗上面的麦位数据 */

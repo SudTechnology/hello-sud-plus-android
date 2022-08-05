@@ -255,6 +255,9 @@ public class DanmakuActivity extends BaseRoomActivity<AppGameViewModel> implemen
                 viewShrinkLand.setVisibility(View.GONE);
                 viewSpreadLand.setVisibility(View.VISIBLE);
                 AnimUtils.shakeVertical(viewTopArrowLand, 500, DensityUtils.dp2px(2));
+                // 让引导View消失
+                isShowGuide = false;
+                viewGuide.setVisibility(View.GONE);
             }
         });
         viewSpreadLand.setOnClickListener(new View.OnClickListener() {

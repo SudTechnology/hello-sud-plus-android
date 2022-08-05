@@ -1138,14 +1138,27 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         if (roomGiftDialog != null) {
             roomGiftDialog.updateMicUsers(getGiftDialogMicList());
         }
-        checkGameAddAiPlayers();
+    }
+
+    @Override
+    public void onMicChange(int micIndex, UserInfo userInfo, boolean isUp) {
+        if (isUp) {
+            if (userInfo.isAi) {
+                List<SudMGPAPPState.AIPlayers> aiPlayers = new ArrayList<>();
+                aiPlayers.add(AIPlayersConverter.conver(userInfo));
+                gameViewModel.sudFSTAPPDecorator.notifyAPPCommonGameAddAIPlayers(aiPlayers, 1);
+            }
+        } else {
+            if (userInfo.isAi) {
+                kickUserFromGame(userInfo.userID);
+            }
+        }
     }
 
     @Override
     public void notifyMicItemChange(int micIndex, AudioRoomMicModel model) {
         micView.notifyItemChange(micIndex, model);
         updateGiftDialogMicUsers(model);
-        checkGameAddAiPlayers();
     }
 
     /** 更新礼物弹窗上面的麦位数据 */

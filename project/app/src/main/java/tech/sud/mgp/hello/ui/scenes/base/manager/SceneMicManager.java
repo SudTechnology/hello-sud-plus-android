@@ -373,15 +373,18 @@ public class SceneMicManager extends BaseServiceManager {
      * 从麦位列表当中删除一个用户
      *
      * @param micIndex 麦位索引
+     * @return true为移除了该用户
      */
-    private void removeUser2MicList(int micIndex, long userId) {
+    private boolean removeUser2MicList(int micIndex, long userId) {
         if (micIndex >= 0 && micIndex < micList.size()) {
             AudioRoomMicModel model = micList.get(micIndex);
             if (userId == model.userId) {
                 model.clearUser();
                 notifyItemChange(micIndex, model);
+                return true;
             }
         }
+        return false;
     }
 
     public void callbackSelfMicIndex() {
@@ -485,6 +488,7 @@ public class SceneMicManager extends BaseServiceManager {
                 model.isAi = sendUser.isAi;
                 notifyItemChange(micIndex, model);
             }
+            callbackMicChange(command.micIndex, command.sendUser, true);
         }
     };
 
@@ -500,10 +504,20 @@ public class SceneMicManager extends BaseServiceManager {
                     e.printStackTrace();
                     return;
                 }
-                removeUser2MicList(command.micIndex, userId);
+                boolean isSuccess = removeUser2MicList(command.micIndex, userId);
+                if (isSuccess) {
+                    callbackMicChange(command.micIndex, command.sendUser, false);
+                }
             }
         }
     };
+
+    private void callbackMicChange(int micIndex, UserInfo userInfo, boolean isUp) {
+        SceneRoomServiceCallback callback = parentManager.getCallback();
+        if (callback != null) {
+            callback.onMicChange(micIndex, userInfo, isUp);
+        }
+    }
 
     /** 退出房间 */
     public void exitRoom() {
@@ -536,12 +550,12 @@ public class SceneMicManager extends BaseServiceManager {
 
     /** 将用户踢出房间 */
     public void kickOutRoom(AudioRoomMicModel model) {
+        // 发送下麦信令
+        String cmd = RoomCmdModelUtils.buildDownMicCommand(model.micIndex, UserInfoConverter.conver(model));
+        parentManager.sceneEngineManager.sendCommand(cmd);
+
         // 本地数据移除
         removeUser2MicList(model.micIndex, model.userId);
-
-        // 发送下麦信令
-        String cmd = RoomCmdModelUtils.buildDownMicCommand(model.micIndex);
-        parentManager.sceneEngineManager.sendCommand(cmd);
     }
 
 }

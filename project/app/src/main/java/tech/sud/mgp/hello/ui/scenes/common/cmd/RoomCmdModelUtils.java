@@ -90,7 +90,12 @@ public class RoomCmdModelUtils {
 
     /** 构建下麦信令 */
     public static String buildDownMicCommand(int micIndex) {
-        RoomCmdDownMicModel command = new RoomCmdDownMicModel(getSendUser());
+        return buildDownMicCommand(micIndex, getSendUser());
+    }
+
+    /** 构建下麦信令 */
+    public static String buildDownMicCommand(int micIndex, UserInfo userInfo) {
+        RoomCmdDownMicModel command = new RoomCmdDownMicModel(userInfo);
         command.micIndex = micIndex;
         return command.toJson();
     }

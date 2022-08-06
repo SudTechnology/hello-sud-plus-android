@@ -272,6 +272,7 @@ public class AppGameViewModel implements SudFSMMGListener {
             gameRTCPublishLiveData.setValue(null);
             notifyUpdateMic();
             gameLoadingCompletedLiveData.setValue(false);
+            notifyShowFinishGameBtn();
         }
     }
 

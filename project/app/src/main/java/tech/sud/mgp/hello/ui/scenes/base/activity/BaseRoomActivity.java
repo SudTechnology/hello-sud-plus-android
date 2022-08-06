@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
@@ -1108,17 +1109,34 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         // 不存在，默认添加三个机器人
         RoomRepository.robotList(this, 30, new RxCallback<RobotListResp>() {
             @Override
-            public void onSuccess(RobotListResp robotListResp) {
-                super.onSuccess(robotListResp);
-                if (robotListResp == null || robotListResp.robotList == null || robotListResp.robotList.size() == 0) {
+            public void onSuccess(RobotListResp resp) {
+                super.onSuccess(resp);
+                if (resp == null || resp.robotList == null || resp.robotList.size() == 0) {
                     return;
                 }
-                if (binder != null) {
-                    int addRobotCount = 3;
-                    for (int i = 0; i < robotListResp.robotList.size(); i++) {
+                if (binder == null) {
+                    return;
+                }
+                // 修改逻辑为，随机选三个机器人上麦位
+                int addRobotCount = 3;
+                if (resp.robotList.size() <= addRobotCount) {
+                    for (int i = 0; i < resp.robotList.size(); i++) {
                         if (i < addRobotCount) {
-                            binder.robotUpMicLocation(UserInfoRespConverter.conver(robotListResp.robotList.get(i)), i + 1);
+                            binder.robotUpMicLocation(UserInfoRespConverter.conver(resp.robotList.get(i)), i + 1);
                         }
+                    }
+                } else {
+                    List<SudMGPAPPState.AIPlayers> list = new ArrayList<>();
+                    Random random = new Random();
+                    while (list.size() < addRobotCount) {
+                        int position = random.nextInt(resp.robotList.size());
+                        SudMGPAPPState.AIPlayers aiPlayers = resp.robotList.get(position);
+                        if (!list.contains(aiPlayers)) {
+                            list.add(aiPlayers);
+                        }
+                    }
+                    for (int i = 0; i < list.size(); i++) {
+                        binder.robotUpMicLocation(UserInfoRespConverter.conver(list.get(i)), i + 1);
                     }
                 }
             }

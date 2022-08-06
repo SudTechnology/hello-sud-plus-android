@@ -23,12 +23,11 @@ import com.gyf.immersionbar.ImmersionBar;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
+import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState.AIPlayers;
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.core.ISudListenerNotifyStateChange;
 import tech.sud.mgp.core.SudMGP;
@@ -321,8 +320,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
                 }
                 List<AudioRoomMicModel> micList = binder.getMicList();
                 // 找到一个可以用的机器人
-                HashSet<String> playerInSet = gameViewModel.sudFSMMGDecorator.getSudFSMMGCache().getPlayerInSet();
-                SudMGPAPPState.AIPlayers aiPlayers = findAvailableAiPlayers(robotListResp.robotList, playerInSet, micList);
+                AIPlayers aiPlayers = findAvailableAiPlayers(robotListResp.robotList, micList);
 
                 if (aiPlayers == null) {
                     return;
@@ -339,7 +337,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
                 binder.robotUpMicLocation(UserInfoRespConverter.conver(aiPlayers), newRobotMic.micIndex);
 
                 // 添加到游戏中
-                List<SudMGPAPPState.AIPlayers> aiPlayersList = new ArrayList<>();
+                List<AIPlayers> aiPlayersList = new ArrayList<>();
                 aiPlayersList.add(aiPlayers);
                 gameViewModel.sudFSTAPPDecorator.notifyAPPCommonGameAddAIPlayers(aiPlayersList, 1);
             }
@@ -364,28 +362,21 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
     }
 
     /**
-     * 不在麦位上，并且不在游戏位上面的机器人就可以使用
+     * 不在麦位上就可以使用
+     * 修改为随机获取机器人
      *
-     * @param robotList   机器人列表
-     * @param playerInSet 在游戏当中的用户列表
-     * @param micList     麦位列表
-     * @return
+     * @param robotList 机器人列表
+     * @param micList   麦位列表
      */
-    private SudMGPAPPState.AIPlayers findAvailableAiPlayers(List<SudMGPAPPState.AIPlayers> robotList, HashSet<String> playerInSet, List<AudioRoomMicModel> micList) {
-        for (SudMGPAPPState.AIPlayers aiPlayers : robotList) {
+    private AIPlayers findAvailableAiPlayers(List<AIPlayers> robotList, List<AudioRoomMicModel> micList) {
+        Random random = new Random();
+        for (int i = 0; i < 1000; i++) {
+            int position = random.nextInt(robotList.size());
+            AIPlayers aiPlayers = robotList.get(position);
             boolean exists = false;
-
             // 判断该机器人是否已经在麦位上了
             for (AudioRoomMicModel audioRoomMicModel : micList) {
                 if ((audioRoomMicModel.userId + "").equals(aiPlayers.userId)) {
-                    exists = true;
-                    break;
-                }
-            }
-
-            // 判断该机器人是否已经在游戏当中了
-            for (String userId : playerInSet) {
-                if (userId != null && userId.equals(aiPlayers.userId)) {
                     exists = true;
                     break;
                 }
@@ -626,7 +617,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
     private void checkGameAddAiPlayers() {
         if (gameViewModel.isCaptain(HSUserInfo.userId) && roomConfig.isSupportAddRobot) {
             if (binder != null) {
-                List<SudMGPAPPState.AIPlayers> aiPlayers = new ArrayList<>();
+                List<AIPlayers> aiPlayers = new ArrayList<>();
                 for (AudioRoomMicModel audioRoomMicModel : binder.getMicList()) {
                     if (audioRoomMicModel.hasUser() && audioRoomMicModel.isAi) {
                         aiPlayers.add(AIPlayersConverter.conver(audioRoomMicModel));
@@ -1126,11 +1117,11 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
                         }
                     }
                 } else {
-                    List<SudMGPAPPState.AIPlayers> list = new ArrayList<>();
+                    List<AIPlayers> list = new ArrayList<>();
                     Random random = new Random();
                     while (list.size() < addRobotCount) {
                         int position = random.nextInt(resp.robotList.size());
-                        SudMGPAPPState.AIPlayers aiPlayers = resp.robotList.get(position);
+                        AIPlayers aiPlayers = resp.robotList.get(position);
                         if (!list.contains(aiPlayers)) {
                             list.add(aiPlayers);
                         }
@@ -1162,7 +1153,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
     public void onMicChange(int micIndex, UserInfo userInfo, boolean isUp) {
         if (isUp) {
             if (userInfo.isAi) {
-                List<SudMGPAPPState.AIPlayers> aiPlayers = new ArrayList<>();
+                List<AIPlayers> aiPlayers = new ArrayList<>();
                 aiPlayers.add(AIPlayersConverter.conver(userInfo));
                 gameViewModel.sudFSTAPPDecorator.notifyAPPCommonGameAddAIPlayers(aiPlayers, 1);
             }

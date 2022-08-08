@@ -543,6 +543,8 @@ Go to homepage to create one~</string>
     <string name="please_select_anchor">请选择主播</string>
     <string name="add_robot">添加机器人</string>
     <string name="kick_out_room">踢出房间</string>
+    <string name="connect_your_wallet">连接你的钱包</string>
+    <string name="about_us">关于我们</string>
     <!-- endregion 新增 -->
 
 </resources>

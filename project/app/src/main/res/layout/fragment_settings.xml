@@ -3,176 +3,55 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F6FB">
+    android:background="@color/c_f5f6fb">
 
-    <!-- 标题 -->
-    <TextView
-        android:id="@+id/title_tv"
+    <tech.sud.mgp.hello.ui.main.widget.MainUserInfoView
+        android:id="@+id/user_info_view"
         android:layout_width="match_parent"
-        android:layout_height="44dp"
-        android:background="@color/white"
-        android:gravity="center"
-        android:text="@string/tabs_set"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="20dp"
+        android:layout_marginTop="7dp"
         app:layout_constraintTop_toTopOf="parent" />
 
     <!-- 主要内容 -->
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/title_tv"
+        android:paddingBottom="10dp"
+        android:clipToPadding="false"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/user_info_view"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="12dp">
+            android:orientation="vertical">
 
-            <!-- 第一块 -->
-            <LinearLayout
+            <tech.sud.mgp.hello.ui.main.settings.widget.WalletListView
+                android:id="@+id/wallet_list_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:layout_marginTop="19dp"
+                android:layout_marginHorizontal="16dp" />
+
+            <tech.sud.mgp.hello.ui.main.settings.fragment.SettingButton
+                android:id="@+id/button_settings"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
                 android:background="@color/white"
                 android:layout_marginTop="20dp"
-                android:layout_marginHorizontal="16dp">
+                android:layout_marginHorizontal="16dp"
+                app:sb_name="@string/pk_settings" />
 
-                <FrameLayout
-                    android:id="@+id/container_top_occupy_size"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:paddingHorizontal="20dp"
-                    android:layout_marginTop="16dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="16sp"
-                        android:textColor="@color/c_1a1a1a"
-                        android:text="@string/occupy_size"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/tv_total_size"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end"
-                        android:textSize="16sp"
-                        android:textColor="@color/c_1a1a1a" />
-
-                </FrameLayout>
-
-                <tech.sud.mgp.hello.ui.main.settings.fragment.AppSizeView
-                    android:id="@+id/app_size_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginHorizontal="20dp" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="@color/c_dddddd"
-                    android:layout_marginHorizontal="20dp"
-                    android:layout_marginTop="16dp" />
-
-                <tech.sud.mgp.hello.ui.main.settings.fragment.SettingButton
-                    android:id="@+id/button_version_info"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    app:sb_name="@string/version_info" />
-
-            </LinearLayout>
-
-            <!-- 第二块 -->
-            <LinearLayout
+            <tech.sud.mgp.hello.ui.main.settings.fragment.SettingButton
+                android:id="@+id/button_about"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:layout_height="56dp"
                 android:background="@color/white"
-                android:layout_marginTop="24dp"
-                android:layout_marginHorizontal="16dp">
-
-                <tech.sud.mgp.hello.ui.main.settings.fragment.SettingButton
-                    android:id="@+id/button_change_language"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    app:sb_name="@string/change_language" />
-
-                <View
-                    android:id="@+id/view_line_more_settings"
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="@color/c_dddddd"
-                    android:layout_marginHorizontal="20dp" />
-
-                <tech.sud.mgp.hello.ui.main.settings.fragment.SettingButton
-                    android:id="@+id/button_more_settings"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    app:sb_name="@string/more_settings" />
-
-            </LinearLayout>
-
-            <!-- 第三块 -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@color/white"
-                android:layout_marginTop="24dp"
-                android:layout_marginHorizontal="16dp">
-
-                <tech.sud.mgp.hello.ui.main.settings.fragment.SettingButton
-                    android:id="@+id/button_github"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    app:sb_name="@string/github" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="@color/c_dddddd"
-                    android:layout_marginHorizontal="20dp" />
-
-                <tech.sud.mgp.hello.ui.main.settings.fragment.SettingButton
-                    android:id="@+id/button_open_source_licenses"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    app:sb_name="@string/open_source_licenses" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="@color/c_dddddd"
-                    android:layout_marginHorizontal="20dp" />
-
-                <tech.sud.mgp.hello.ui.main.settings.fragment.SettingButton
-                    android:id="@+id/button_user_agreement"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    app:sb_name="@string/user_agreement_title" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="@color/c_dddddd"
-                    android:layout_marginHorizontal="20dp" />
-
-                <tech.sud.mgp.hello.ui.main.settings.fragment.SettingButton
-                    android:id="@+id/button_privacy_policy"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    app:sb_name="@string/user_privacy_title" />
-
-            </LinearLayout>
+                android:layout_marginTop="20dp"
+                android:layout_marginHorizontal="16dp"
+                app:sb_name="@string/about_us" />
 
             <!-- 底部提示 -->
             <TextView
@@ -187,7 +66,6 @@
 
         </LinearLayout>
 
-    </ScrollView>
-
+    </androidx.core.widget.NestedScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,12 +6,10 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.blankj.utilcode.util.ToastUtils;
@@ -22,23 +20,21 @@ import tech.sud.mgp.hello.common.base.BaseFragment;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
-import tech.sud.mgp.hello.common.model.HSUserInfo;
-import tech.sud.mgp.hello.common.utils.ImageLoader;
 import tech.sud.mgp.hello.service.main.manager.HomeManager;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.main.resp.RoomListResp;
 import tech.sud.mgp.hello.ui.main.home.view.CoinDialog;
+import tech.sud.mgp.hello.ui.main.widget.MainUserInfoView;
 import tech.sud.mgp.hello.ui.scenes.base.utils.EnterRoomUtils;
 
 public class RoomListFragment extends BaseFragment {
 
     private EditText searchEt;
     private TextView goSearch, emptyTv;
-    private TextView nameTv, useridTv;
-    private ImageView headerIv;
     private RecyclerView roomRecyclerView;
     private RoomListAdapter adapter;
     private SmartRefreshLayout refreshLayout;
+    private MainUserInfoView userInfoView;
 
     public RoomListFragment() {
     }
@@ -58,12 +54,10 @@ public class RoomListFragment extends BaseFragment {
         super.initWidget();
         searchEt = mRootView.findViewById(R.id.search_et);
         goSearch = mRootView.findViewById(R.id.go_search);
-        nameTv = mRootView.findViewById(R.id.name_tv);
-        useridTv = mRootView.findViewById(R.id.userid_tv);
-        headerIv = mRootView.findViewById(R.id.header_iv);
         roomRecyclerView = mRootView.findViewById(R.id.room_rv);
         refreshLayout = mRootView.findViewById(R.id.room_refresh_layout);
         emptyTv = mRootView.findViewById(R.id.empty_tv);
+        userInfoView = mRootView.findViewById(R.id.user_info_view);
         refreshLayout.setEnableRefresh(true);
         refreshLayout.setEnableLoadMore(false);
     }
@@ -79,9 +73,6 @@ public class RoomListFragment extends BaseFragment {
     @Override
     protected void setListeners() {
         super.setListeners();
-        nameTv.setText(HSUserInfo.nickName);
-        useridTv.setText(getString(R.string.setting_userid, HSUserInfo.userId + ""));
-        ImageLoader.loadImage(headerIv, HSUserInfo.avatar);
         searchEt.setOnFocusChangeListener((v, hasFocus) -> {
             String keyword = searchEt.getText().toString();
             if (keyword.length() > 0) {
@@ -121,7 +112,7 @@ public class RoomListFragment extends BaseFragment {
         });
         goSearch.setOnClickListener(v -> enterRoom());
         refreshLayout.setOnRefreshListener(refreshLayout -> loadList());
-        headerIv.setOnClickListener(v -> {
+        userInfoView.setAvatarOnClickListener(v -> {
             new CoinDialog().show(getChildFragmentManager(), null);
         });
     }

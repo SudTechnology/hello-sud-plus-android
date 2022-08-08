@@ -473,6 +473,7 @@ public class AppGameViewModel implements SudFSMMGListener {
         if (playerIsPlaying(HSUserInfo.userId)) {
             // 用户正在游戏中，先退出本局游戏，再退出游戏
             sudFSTAPPDecorator.notifyAPPCommonSelfPlaying(false, "");
+            sudFSTAPPDecorator.notifyAPPCommonSelfReady(false);
             sudFSTAPPDecorator.notifyAPPCommonSelfIn(false, -1, true, 1);
         } else if (sudFSMMGDecorator.playerIsReady(HSUserInfo.userId + "")) {
             // 用户已加入并且已经准备，先取消准备，再退出游戏

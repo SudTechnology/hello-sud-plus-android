@@ -29,7 +29,7 @@ import tech.sud.mgp.core.ISudFSMStateHandle;
 
 /**
  * 游戏业务逻辑
- * 1.定自义ViewModel继承此类，实现对应方法。(注意：onAddGameView()与onRemoveGameView()与页面有交互)
+ * 1.自定义ViewModel继承此类，实现对应方法。(注意：onAddGameView()与onRemoveGameView()与页面有交互)
  * 2.外部调用switchGame(activity,gameRoomId,gameId)方法启动游戏，参数定义可查看方法注释。
  * 3.页面销毁时调用onDestroy()
  */

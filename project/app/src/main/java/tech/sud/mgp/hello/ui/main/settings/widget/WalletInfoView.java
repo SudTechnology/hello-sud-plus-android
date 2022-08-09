@@ -114,13 +114,11 @@ public class WalletInfoView extends ConstraintLayout {
     }
 
     private void loadNftImage(ImageView imageView, NftModel nftModel) {
-        String url;
-        if (nftModel == null || nftModel.metadataModel == null) {
-            url = null;
+        if (nftModel == null) {
+            ImageLoader.loadNftImage(imageView, null);
         } else {
-            url = nftModel.metadataModel.image;
+            ImageLoader.loadNftImage(imageView, nftModel.getImageUrl());
         }
-        ImageLoader.loadNftImage(imageView, url);
     }
 
 }

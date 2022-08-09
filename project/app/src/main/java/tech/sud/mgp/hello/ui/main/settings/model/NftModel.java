@@ -14,4 +14,28 @@ public class NftModel implements Serializable {
 
     public SudNFTGetMetadataModel metadataModel; // 元数据
 
+    public String getImageUrl() {
+        if (metadataModel == null) {
+            return null;
+        } else {
+            return metadataModel.image;
+        }
+    }
+
+    public String getName() {
+        if (metadataModel == null) {
+            return null;
+        } else {
+            return metadataModel.name;
+        }
+    }
+
+    public String getTokenType() {
+        if (metadataModel == null) {
+            return null;
+        } else {
+            return metadataModel.tokenType;
+        }
+    }
+
 }

@@ -14,4 +14,12 @@ public class BindWalletInfoModel implements Serializable {
     public SudNFTGetWalletListModel.ChainInfo chainInfo; // 选中的链信息
     public List<SudNFTGetWalletListModel.ChainInfo> chainInfoList; // 该钱包的所有链信息
     public String walletAddress; // 钱包地址
+    public NftModel wearNft; // 穿戴的nft
+
+    public int getChainType() {
+        if (chainInfo != null) {
+            return chainInfo.type;
+        }
+        return 0;
+    }
 }

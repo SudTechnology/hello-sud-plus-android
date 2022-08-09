@@ -22,6 +22,8 @@ public class GlobalSP {
     public final static String KEY_LANG_CELL_TYPE = "key_lang_cell_type"; // 记录当前设置的语言类型
     public final static String KEY_SHOW_GUIDE_UPGRADE_TIMESTAMP = "key_show_guide_upgrade_timestamp"; // 记录上一次显示引导更新的时间戳
 
+    public static final String NFT_BIND_WALLET_KEY = "nft_bind_wallet_key"; // 已绑定的钱包信息
+
     public static SPUtils getSP() {
         return SPUtils.getInstance(SP_NAME);
     }

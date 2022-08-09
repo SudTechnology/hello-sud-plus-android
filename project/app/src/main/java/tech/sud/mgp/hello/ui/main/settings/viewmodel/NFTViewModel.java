@@ -6,28 +6,30 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.LogUtils;
-import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.ExecutorService;
 
+import tech.sud.mgp.SudMGPWrapper.utils.SudJsonUtils;
 import tech.sud.mgp.hello.app.APPConfig;
 import tech.sud.mgp.hello.common.base.BaseViewModel;
 import tech.sud.mgp.hello.common.http.param.RetCode;
+import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
-import tech.sud.mgp.hello.common.utils.GlobalCache;
+import tech.sud.mgp.hello.common.utils.GlobalSP;
 import tech.sud.mgp.hello.service.login.repository.LoginRepository;
 import tech.sud.mgp.hello.service.main.config.SudConfig;
+import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.ui.main.settings.model.BindWalletInfoModel;
 import tech.sud.mgp.hello.ui.main.settings.model.NftListResultModel;
 import tech.sud.mgp.hello.ui.main.settings.model.NftModel;
 import tech.sud.nft.core.SudNFT;
 import tech.sud.nft.core.listener.ISudNFTListenerBindWallet;
+import tech.sud.nft.core.listener.ISudNFTListenerGenNFTCredentialsToken;
 import tech.sud.nft.core.listener.ISudNFTListenerGetMetadata;
 import tech.sud.nft.core.listener.ISudNFTListenerGetNFTList;
 import tech.sud.nft.core.listener.ISudNFTListenerGetWalletList;
@@ -35,6 +37,8 @@ import tech.sud.nft.core.listener.ISudNFTListenerInitNFT;
 import tech.sud.nft.core.model.SudInitNFTParamModel;
 import tech.sud.nft.core.model.SudNFTBindWalletModel;
 import tech.sud.nft.core.model.SudNFTBindWalletParamModel;
+import tech.sud.nft.core.model.SudNFTCredentialsTokenParamModel;
+import tech.sud.nft.core.model.SudNFTGenNFTCredentialsTokenModel;
 import tech.sud.nft.core.model.SudNFTGetMetadataModel;
 import tech.sud.nft.core.model.SudNFTGetNFTListModel;
 import tech.sud.nft.core.model.SudNFTGetNFTListParamModel;
@@ -57,11 +61,12 @@ public class NFTViewModel extends BaseViewModel {
     /** 返回绑定的钱包信息 */
     public MutableLiveData<BindWalletInfoModel> bindWalletInfoMutableLiveData = new MutableLiveData<>();
 
+    /** 穿戴nft有变化 */
+    public MutableLiveData<Object> wearNftChangeLiveData = new MutableLiveData<>();
+
     private SudNFTGetWalletListModel walletListModel; // 钱包列表
     private static BindWalletInfoModel mBindWalletInfo; // 已绑定的钱包数据
     private static boolean isInitCompleted; // 是否初始化完成
-
-    private final ExecutorService executor = ThreadUtils.getSinglePool();
 
     /**
      * 初始化数据
@@ -90,19 +95,15 @@ public class NFTViewModel extends BaseViewModel {
 
     // 判断是否绑定了钱包
     private void initDataGetBindWallet() {
-        executor.execute(() -> {
-            mBindWalletInfo = getBindWalletInfoByCache();
-            ThreadUtils.runOnUiThread(() -> {
-                if (mBindWalletInfo == null) {
-                    // 未绑定钱包，显示钱包列表
-                    showWalletList();
-                } else {
-                    // 绑定了钱包，显示NFT列表
-                    initNftList(mBindWalletInfo);
-                }
-                bindWalletInfoMutableLiveData.setValue(mBindWalletInfo);
-            });
-        });
+        mBindWalletInfo = getBindWalletInfoByCache();
+        if (mBindWalletInfo == null) {
+            // 未绑定钱包，显示钱包列表
+            showWalletList();
+        } else {
+            // 绑定了钱包，显示NFT列表
+            initNftList(mBindWalletInfo);
+        }
+        bindWalletInfoMutableLiveData.setValue(mBindWalletInfo);
     }
 
     // 展示钱包列表
@@ -196,16 +197,17 @@ public class NFTViewModel extends BaseViewModel {
         SudNFT.getNFTList(model, new ISudNFTListenerGetNFTList() {
             @Override
             public void onSuccess(SudNFTGetNFTListModel sudNFTGetNFTListModel) {
+                NftListResultModel nftListResultModel = new NftListResultModel();
+                if (sudNFTGetNFTListModel != null) {
+                    nftListResultModel.totalCount = sudNFTGetNFTListModel.totalCount;
+                    nftListResultModel.pageKey = sudNFTGetNFTListModel.pageKey;
+                }
                 if (sudNFTGetNFTListModel == null || sudNFTGetNFTListModel.ownedNfts == null || sudNFTGetNFTListModel.ownedNfts.size() == 0) {
                     if (listener != null) {
-                        NftListResultModel nftListResultModel = new NftListResultModel();
-                        if (sudNFTGetNFTListModel != null) {
-                            nftListResultModel.totalCount = sudNFTGetNFTListModel.totalCount;
-                        }
                         listener.onSuccess(nftListResultModel);
                     }
                 } else {
-                    getMetadataList(sudNFTGetNFTListModel, listener);
+                    getMetadataList(nftListResultModel, sudNFTGetNFTListModel, listener);
                 }
             }
 
@@ -220,7 +222,7 @@ public class NFTViewModel extends BaseViewModel {
     }
 
     // 获取nft列表元数据
-    private void getMetadataList(SudNFTGetNFTListModel sudNFTGetNFTListModel, GetNftListListener listener) {
+    private void getMetadataList(NftListResultModel nftListResultModel, SudNFTGetNFTListModel sudNFTGetNFTListModel, GetNftListListener listener) {
         HashMap<Integer, Boolean> resultMap = new HashMap<>();
         List<NftModel> nftList = new ArrayList<>();
         for (int i = 0; i < sudNFTGetNFTListModel.ownedNfts.size(); i++) {
@@ -246,7 +248,7 @@ public class NFTViewModel extends BaseViewModel {
                     LogUtils.d("nft: getNFTMetadata onSuccess:" + GsonUtils.toJson(sudNFTGetMetadataModel));
                     nftModel.metadataModel = sudNFTGetMetadataModel;
                     resultMap.put(finalI, true);
-                    checkGetMetadataListIsCompleted(resultMap, listener, sudNFTGetNFTListModel, nftList);
+                    checkGetMetadataListIsCompleted(nftListResultModel, resultMap, listener, sudNFTGetNFTListModel, nftList);
                 }
 
                 @Override
@@ -254,14 +256,14 @@ public class NFTViewModel extends BaseViewModel {
                     LogUtils.e("nft: getNFTMetadata onFailure:" + retCode + "  retMsg:" + retMsg);
                     ToastUtils.showLong("getNFTMetadata onFailure:" + retCode + "  retMsg:" + retMsg);
                     resultMap.put(finalI, true);
-                    checkGetMetadataListIsCompleted(resultMap, listener, sudNFTGetNFTListModel, nftList);
+                    checkGetMetadataListIsCompleted(nftListResultModel, resultMap, listener, sudNFTGetNFTListModel, nftList);
                 }
             });
         }
     }
 
     // 检查元数据列表是否已全部返回
-    private void checkGetMetadataListIsCompleted(HashMap<Integer, Boolean> resultMap, GetNftListListener listener,
+    private void checkGetMetadataListIsCompleted(NftListResultModel nftListResultModel, HashMap<Integer, Boolean> resultMap, GetNftListListener listener,
                                                  SudNFTGetNFTListModel sudNFTGetNFTListModel, List<NftModel> nftList) {
         boolean isCompleted = true;
         Set<Integer> keySet = resultMap.keySet();
@@ -273,8 +275,6 @@ public class NFTViewModel extends BaseViewModel {
         }
 
         if (isCompleted && listener != null) {
-            NftListResultModel nftListResultModel = new NftListResultModel();
-            nftListResultModel.totalCount = sudNFTGetNFTListModel.totalCount;
             nftListResultModel.list = nftList;
             listener.onSuccess(nftListResultModel);
         }
@@ -288,7 +288,7 @@ public class NFTViewModel extends BaseViewModel {
         return null;
     }
 
-    private void initNFT(Context context, ISudNFTListenerInitNFT listener) {
+    public void initNFT(Context context, ISudNFTListenerInitNFT listener) {
         SudConfig sudConfig = AppData.getInstance().getSudConfig();
         if (sudConfig == null || sudConfig.appId == null || sudConfig.appKey == null) {
             if (listener != null) {
@@ -338,16 +338,18 @@ public class NFTViewModel extends BaseViewModel {
 
     // 本地缓存当中获取已绑定钱包信息
     private BindWalletInfoModel getBindWalletInfoByCache() {
-        Object obj = GlobalCache.getInstance().getSerializable(GlobalCache.NFT_BIND_WALLET_KEY);
-        if (obj instanceof BindWalletInfoModel) {
-            return (BindWalletInfoModel) obj;
+        String json = GlobalSP.getSP().getString(GlobalSP.NFT_BIND_WALLET_KEY);
+        if (json != null) {
+            return SudJsonUtils.fromJson(json, BindWalletInfoModel.class);
         }
         return null;
     }
 
     // 写入已绑定钱包信息
     private void putBindWalletInfo(BindWalletInfoModel model) {
-        GlobalCache.getInstance().put(GlobalCache.NFT_BIND_WALLET_KEY, model);
+        if (model != null) {
+            GlobalSP.getSP().put(GlobalSP.NFT_BIND_WALLET_KEY, SudJsonUtils.toJson(model));
+        }
     }
 
     /** 修改链 */
@@ -357,9 +359,7 @@ public class NFTViewModel extends BaseViewModel {
         }
         mBindWalletInfo.chainInfo = chainInfo;
         bindWalletInfoMutableLiveData.setValue(mBindWalletInfo);
-        executor.execute(() -> {
-            putBindWalletInfo(mBindWalletInfo);
-        });
+        putBindWalletInfo(mBindWalletInfo);
         initNftList(mBindWalletInfo);
     }
 
@@ -369,11 +369,79 @@ public class NFTViewModel extends BaseViewModel {
         LoginRepository.saveUserInfo();
         mBindWalletInfo = null;
         bindWalletInfoMutableLiveData.setValue(null);
-        executor.execute(() -> {
-            GlobalCache.getInstance().remove(GlobalCache.NFT_BIND_WALLET_KEY);
-            initDataGetBindWallet();
-        });
+        GlobalSP.getSP().remove(GlobalSP.NFT_BIND_WALLET_KEY);
+        initDataGetBindWallet();
         // TODO: 2022/8/9  如果有穿戴的数据，解绑之后，还需要解除穿戴
+    }
+
+    /** 穿戴nft */
+    public void wearNft(NftModel wearNft) {
+        if (mBindWalletInfo == null) {
+            return;
+        }
+        SudNFTCredentialsTokenParamModel model = new SudNFTCredentialsTokenParamModel();
+        model.walletToken = mBindWalletInfo.walletToken;
+        model.chainType = mBindWalletInfo.getChainType();
+        model.contractAddress = wearNft.contractAddress;
+        model.tokenId = wearNft.tokenId;
+        SudNFT.genNFTCredentialsToken(model, new ISudNFTListenerGenNFTCredentialsToken() {
+            @Override
+            public void onSuccess(SudNFTGenNFTCredentialsTokenModel sudNFTGenNFTCredentialsTokenModel) {
+                if (mBindWalletInfo == null || sudNFTGenNFTCredentialsTokenModel == null) {
+                    return;
+                }
+                String nftToken = sudNFTGenNFTCredentialsTokenModel.nftDetailsToken;
+                HomeRepository.wearNft(null, nftToken, 1, new RxCallback<Object>() {
+                    @Override
+                    public void onSuccess(Object o) {
+                        super.onSuccess(o);
+                        if (mBindWalletInfo == null) {
+                            return;
+                        }
+                        mBindWalletInfo.wearNft = wearNft;
+                        putBindWalletInfo(mBindWalletInfo);
+                        wearNftChangeLiveData.setValue(null);
+                        updateUserInfo(nftToken);
+                    }
+                });
+            }
+
+            @Override
+            public void onFailure(int retCode, String retMsg) {
+                ToastUtils.showLong("genNFTCredentialsToken onFailure:" + retCode + "  retMsg:" + retMsg);
+            }
+        });
+    }
+
+    /** 取消穿戴nft */
+    public void cancelWearNft() {
+        HomeRepository.wearNft(null, null, 2, new RxCallback<>());
+        mBindWalletInfo.wearNft = null;
+        putBindWalletInfo(mBindWalletInfo);
+        wearNftChangeLiveData.setValue(null);
+        updateUserInfo(null);
+    }
+
+    /** 获取穿戴的nft */
+    public NftModel getWearNft() {
+        if (mBindWalletInfo != null) {
+            return mBindWalletInfo.wearNft;
+        }
+        return null;
+    }
+
+    private void updateUserInfo(String nftToken) {
+        NftModel wearNft = getWearNft();
+        if (wearNft == null) {
+            HSUserInfo.headerType = 0;
+            HSUserInfo.headerNftToken = null;
+            HSUserInfo.headerNftUrl = null;
+        } else {
+            HSUserInfo.headerType = 1;
+            HSUserInfo.headerNftToken = nftToken;
+            HSUserInfo.headerNftUrl = wearNft.getImageUrl();
+        }
+        LoginRepository.saveUserInfo();
     }
 
     public interface GetNftListListener {

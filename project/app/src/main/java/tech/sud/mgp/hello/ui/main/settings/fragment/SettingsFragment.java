@@ -9,6 +9,7 @@ import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseFragment;
 import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
 import tech.sud.mgp.hello.ui.main.settings.activity.AboutActivity;
+import tech.sud.mgp.hello.ui.main.settings.activity.NftListActivity;
 import tech.sud.mgp.hello.ui.main.settings.activity.SettingsActivity;
 import tech.sud.mgp.hello.ui.main.settings.model.BindWalletInfoModel;
 import tech.sud.mgp.hello.ui.main.settings.viewmodel.NFTViewModel;
@@ -73,6 +74,12 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         userInfoView.setUnbindOnClickListener(v -> {
             onClickUnbindWallet();
         });
+        walletInfoView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startNftList();
+            }
+        });
 
         viewModel.initDataShowWalletListLiveData.observe(this, model -> {
             LogUtils.d("nft:showWallet");
@@ -98,6 +105,11 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
             userInfoView.updateUserInfo();
             userInfoView.setShowUnbind(model != null);
         });
+    }
+
+    // 打开nft列表页面
+    private void startNftList() {
+        startActivity(new Intent(requireContext(), NftListActivity.class));
     }
 
     private void onClickUnbindWallet() {

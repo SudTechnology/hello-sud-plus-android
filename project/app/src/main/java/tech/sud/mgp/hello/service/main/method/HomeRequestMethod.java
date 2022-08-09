@@ -22,6 +22,7 @@ import tech.sud.mgp.hello.service.main.resp.QuizGameListResp;
 import tech.sud.mgp.hello.service.main.resp.RoomListResp;
 import tech.sud.mgp.hello.service.main.resp.TicketConfirmJoinResp;
 import tech.sud.mgp.hello.service.main.resp.UserInfoListResp;
+import tech.sud.mgp.hello.service.room.req.WearNftReq;
 import tech.sud.mgp.hello.ui.main.home.model.MatchRoomModel;
 
 /**
@@ -94,4 +95,10 @@ public interface HomeRequestMethod {
      */
     @POST(RequestUrl.QUIZ_GAME_LIST)
     Observable<BaseResponse<QuizGameListResp>> quizGameList(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl);
+
+    /**
+     * 穿戴NFT
+     */
+    @POST(RequestUrl.WEAR_NFT)
+    Observable<BaseResponse<Object>> wearNFT(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body WearNftReq req);
 }

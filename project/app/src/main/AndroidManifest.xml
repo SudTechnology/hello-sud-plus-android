@@ -293,6 +293,22 @@
             android:theme="@style/MyTranslucentTheme"
             android:exported="false" />
 
+        <!-- nft列表页面 -->
+        <activity
+            android:name=".ui.main.settings.activity.NftListActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop"
+            tools:ignore="LockedOrientationActivity" />
+
+        <!-- nft详情页面 -->
+        <activity
+            android:name=".ui.main.settings.activity.NftDetailActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop"
+            tools:ignore="LockedOrientationActivity" />
+
         <!-- 屏幕适配配置 -->
         <meta-data
             android:name="design_width_in_dp"

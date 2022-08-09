@@ -26,6 +26,7 @@ import tech.sud.mgp.hello.service.main.resp.QuizGameListResp;
 import tech.sud.mgp.hello.service.main.resp.RoomListResp;
 import tech.sud.mgp.hello.service.main.resp.TicketConfirmJoinResp;
 import tech.sud.mgp.hello.service.main.resp.UserInfoListResp;
+import tech.sud.mgp.hello.service.room.req.WearNftReq;
 import tech.sud.mgp.hello.ui.main.home.model.MatchRoomModel;
 
 public class HomeRepository {
@@ -194,4 +195,19 @@ public class HomeRepository {
                 .subscribe(callback);
     }
 
+    /**
+     * 穿戴nft
+     *
+     * @param nftToken token
+     * @param type     1穿 2脱
+     */
+    public static void wearNft(LifecycleOwner owner, String nftToken, int type, RxCallback<Object> callback) {
+        WearNftReq req = new WearNftReq();
+        req.nftToken = nftToken;
+        req.type = type;
+        HomeRequestMethodFactory.getMethod()
+                .wearNFT(BaseUrlManager.getBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
 }

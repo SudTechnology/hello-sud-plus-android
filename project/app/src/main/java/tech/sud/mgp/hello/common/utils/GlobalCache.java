@@ -11,8 +11,6 @@ public class GlobalCache {
     public static final String RTC_CONFIG_KEY = "rtc_config_key"; // 当前所用的rtc配置
     public static final String CUSTOM_CONFIG_KEY = "rtc_config_key"; // CUSTOM场景配置
 
-    public static final String NFT_BIND_WALLET_KEY = "nft_bind_wallet_key"; // 已绑定的钱包信息
-
     public static CacheDiskUtils getInstance() {
         return CacheDiskUtils.getInstance("global.cache");
     }

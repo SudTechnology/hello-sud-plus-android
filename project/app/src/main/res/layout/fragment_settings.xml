@@ -28,10 +28,21 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <!-- 钱包列表 -->
             <tech.sud.mgp.hello.ui.main.settings.widget.WalletListView
                 android:id="@+id/wallet_list_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_marginTop="19dp"
+                android:layout_marginHorizontal="16dp" />
+
+            <!-- 钱包信息View -->
+            <tech.sud.mgp.hello.ui.main.settings.widget.WalletInfoView
+                android:id="@+id/wallet_info_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:layout_marginTop="19dp"
                 android:layout_marginHorizontal="16dp" />
 

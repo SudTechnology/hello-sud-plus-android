@@ -169,5 +169,6 @@ public class RoomListFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         loadList();
+        userInfoView.updateUserInfo();
     }
 }

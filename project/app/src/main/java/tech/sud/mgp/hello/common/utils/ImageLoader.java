@@ -29,6 +29,12 @@ public class ImageLoader {
         Glide.with(view).load(url).into(view);
     }
 
+    // 加载nft图片
+    public static void loadNftImage(ImageView view, String url) {
+        if (isDestroy(view)) return;
+        Glide.with(view).load(url).error(R.drawable.ic_nft_error).into(view);
+    }
+
     // 加载头像
     public static void loadAvatar(ImageView view, String url) {
         if (isDestroy(view)) return;

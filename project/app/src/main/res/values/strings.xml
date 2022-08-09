@@ -545,6 +545,13 @@ Go to homepage to create one~</string>
     <string name="kick_out_room">踢出房间</string>
     <string name="connect_your_wallet">连接你的钱包</string>
     <string name="about_us">关于我们</string>
+    <string name="more">更多</string>
+    <string name="pack_up">收起</string>
+    <string name="owned_nft">已拥有的NFT</string>
+    <string name="network">网络</string>
+    <string name="address_copied">地址已复制</string>
+    <string name="unbind_wallet_title">确定要解除连接钱包吗？</string>
+    <string name="nft_empty">尚无NFT</string>
     <!-- endregion 新增 -->
 
 </resources>

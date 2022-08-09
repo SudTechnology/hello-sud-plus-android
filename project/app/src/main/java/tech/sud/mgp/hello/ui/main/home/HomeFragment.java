@@ -98,6 +98,12 @@ public class HomeFragment extends BaseFragment implements CreatRoomClickListener
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        userInfoView.updateUserInfo();
+    }
+
+    @Override
     protected void setListeners() {
         super.setListeners();
         searchEt.setOnFocusChangeListener((v, hasFocus) -> {

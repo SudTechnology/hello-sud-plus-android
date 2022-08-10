@@ -177,7 +177,7 @@ public class SudMGPMGState implements Serializable {
             public int score; // 积分
             public int isEscaped; // 是否逃跑 1：逃跑 0：非逃跑
             public String killerId; // 杀自己的玩家的id
-            public int isAI; // 是否是AI玩家
+            public int isAI; // 是否是AI玩家，1为AI
         }
     }
 

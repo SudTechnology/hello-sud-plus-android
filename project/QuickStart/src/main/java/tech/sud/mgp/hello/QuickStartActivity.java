@@ -72,7 +72,7 @@ public class QuickStartActivity extends BaseActivity {
         // 设置游戏安全操作区域
         GameViewInfoModel.GameViewRectModel gameViewRectModel = new GameViewInfoModel.GameViewRectModel();
         gameViewRectModel.left = 0;
-        gameViewRectModel.top = DensityUtils.dp2px(Utils.getApp(), 54) + BarUtils.getStatusBarHeight();
+        gameViewRectModel.top = DensityUtils.dp2px(Utils.getApp(), 44) + BarUtils.getStatusBarHeight();
         gameViewRectModel.right = 0;
         gameViewRectModel.bottom = DensityUtils.dp2px(Utils.getApp(), 54);
         gameViewModel.gameViewRectModel = gameViewRectModel;

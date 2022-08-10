@@ -70,6 +70,10 @@ public class AppGameViewModel implements SudFSMMGListener {
     public final MutableLiveData<Boolean> showFinishGameBtnLiveData = new MutableLiveData<>(); // 是否具备结束游戏的权力
     public final MutableLiveData<Boolean> micSpaceMaxLiveData = new MutableLiveData<>(); // 是否收缩麦位
     public final MutableLiveData<Object> autoJoinGameLiveData = new MutableLiveData<>(); // 触发自动加入游戏
+    public final MutableLiveData<Integer> gameStateChangedLiveData = new MutableLiveData<>(); // 游戏状态变化
+    public final MutableLiveData<Boolean> gameLoadingCompletedLiveData = new MutableLiveData<>(); // 游戏是否已加载完成
+    public final MutableLiveData<Object> gameStartedLiveData = new MutableLiveData<>(); // onGameStarted回调
+    public final MutableLiveData<Object> captainChangeLiveData = new MutableLiveData<>(); // 队长变化了
 
     private boolean isRunning = true; // 业务是否还在运行
     public View gameView; // 游戏View
@@ -268,7 +272,7 @@ public class AppGameViewModel implements SudFSMMGListener {
 
     public void onDestroy() {
         isRunning = false;
-        destroyMG();
+//        destroyMG();
     }
 
     protected void destroyMG() {
@@ -280,8 +284,17 @@ public class AppGameViewModel implements SudFSMMGListener {
             gameViewLiveData.setValue(null);
             gameRTCPublishLiveData.setValue(null);
             notifyUpdateMic();
+            gameLoadingCompletedLiveData.setValue(false);
+            notifyShowFinishGameBtn();
         }
     }
+
+    /** 游戏是否已加载完成 */
+    public boolean gameLoadingCompleted() {
+        Boolean loadingCompleted = gameLoadingCompletedLiveData.getValue();
+        return loadingCompleted != null && loadingCompleted;
+    }
+
     // endregion 生命周期相关
 
     /** 获取当前玩着的游戏id */
@@ -370,7 +383,7 @@ public class AppGameViewModel implements SudFSMMGListener {
     /** 获取游戏的安全操作区域 */
     protected void getGameRect(GameViewInfoModel gameViewInfoModel) {
         gameViewInfoModel.view_game_rect.left = 0;
-        gameViewInfoModel.view_game_rect.top = DensityUtils.dp2px(Utils.getApp(), 131) + BarUtils.getStatusBarHeight();
+        gameViewInfoModel.view_game_rect.top = DensityUtils.dp2px(Utils.getApp(), 121) + BarUtils.getStatusBarHeight();
         gameViewInfoModel.view_game_rect.right = 0;
         gameViewInfoModel.view_game_rect.bottom = DensityUtils.dp2px(Utils.getApp(), 160);
     }
@@ -472,7 +485,8 @@ public class AppGameViewModel implements SudFSMMGListener {
     public void exitGame() {
         if (playerIsPlaying(HSUserInfo.userId)) {
             // 用户正在游戏中，先退出本局游戏，再退出游戏
-            sudFSTAPPDecorator.notifyAPPCommonSelfPlaying(false, "");
+            sudFSTAPPDecorator.notifyAPPCommonSelfPlaying(false, null, null);
+            sudFSTAPPDecorator.notifyAPPCommonSelfReady(false);
             sudFSTAPPDecorator.notifyAPPCommonSelfIn(false, -1, true, 1);
         } else if (sudFSMMGDecorator.playerIsReady(HSUserInfo.userId + "")) {
             // 用户已加入并且已经准备，先取消准备，再退出游戏
@@ -577,8 +591,8 @@ public class AppGameViewModel implements SudFSMMGListener {
      *
      * @param isPlaying true时为队长开始游戏 false时为本人退出本局游戏
      */
-    public void notifyAPPCommonSelfPlaying(boolean isPlaying, String reportGameInfoExtras) {
-        sudFSTAPPDecorator.notifyAPPCommonSelfPlaying(isPlaying, reportGameInfoExtras);
+    public void notifyAPPCommonSelfPlaying(boolean isPlaying, String reportGameInfoExtras, String reportGameInfoKey) {
+        sudFSTAPPDecorator.notifyAPPCommonSelfPlaying(isPlaying, reportGameInfoExtras, reportGameInfoKey);
     }
 
     /**
@@ -646,6 +660,8 @@ public class AppGameViewModel implements SudFSMMGListener {
         if (selfMicIndex >= 0) {
             autoJoinGame();
         }
+        gameLoadingCompletedLiveData.setValue(true);
+        gameStartedLiveData.setValue(true);
     }
 
     @Override
@@ -682,6 +698,7 @@ public class AppGameViewModel implements SudFSMMGListener {
     // 游戏状态
     @Override
     public void onGameMGCommonGameState(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameState model) {
+        gameStateChangedLiveData.setValue(model.gameState);
         notifyShowFinishGameBtn();
         if (model.gameState == SudMGPMGState.MGCommonGameState.LOADING) { // 游戏开始，收缩麦位
             micSpaceMaxLiveData.setValue(true);
@@ -725,6 +742,7 @@ public class AppGameViewModel implements SudFSMMGListener {
     // 队长状态
     @Override
     public void onPlayerMGCommonPlayerCaptain(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGCommonPlayerCaptain model) {
+        captainChangeLiveData.setValue(model);
         if (model != null) {
             notifyUpdateMic();
             notifyShowFinishGameBtn();

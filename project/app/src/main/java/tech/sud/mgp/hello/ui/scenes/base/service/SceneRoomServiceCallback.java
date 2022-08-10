@@ -6,6 +6,7 @@ import tech.sud.mgp.core.ISudListenerNotifyStateChange;
 import tech.sud.mgp.hello.ui.scenes.base.constant.OperateMicType;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.OrderInviteModel;
+import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.ContributionModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.DanceModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.order.RoomCmdUserOrderModel;
@@ -23,6 +24,15 @@ public interface SceneRoomServiceCallback {
      * @param list 麦位列表
      */
     void onMicList(List<AudioRoomMicModel> list);
+
+    /**
+     * 麦位变动
+     *
+     * @param micIndex 麦位
+     * @param userInfo 用户信息
+     * @param isUp     true为上麦 false为下麦
+     */
+    void onMicChange(int micIndex, UserInfo userInfo, boolean isUp);
 
     /**
      * 更新某个麦位
@@ -152,5 +162,8 @@ public interface SceneRoomServiceCallback {
 
     /** 倒计时刷新dj */
     void onDJCountdown(int countdown);
+
+    /** 踢出房间 */
+    void onKickOutRoom(String userId);
     // endregion 蹦迪
 }

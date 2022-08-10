@@ -21,10 +21,13 @@ import com.gyf.immersionbar.BarHide;
 import com.gyf.immersionbar.ImmersionBar;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
+import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState.AIPlayers;
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.core.ISudListenerNotifyStateChange;
 import tech.sud.mgp.core.SudLoadMGMode;
@@ -42,7 +45,9 @@ import tech.sud.mgp.hello.common.widget.dialog.BottomOptionDialog;
 import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
 import tech.sud.mgp.hello.service.game.repository.GameRepository;
 import tech.sud.mgp.hello.service.room.repository.RoomRepository;
+import tech.sud.mgp.hello.service.room.resp.RobotListResp;
 import tech.sud.mgp.hello.ui.common.constant.RequestKey;
+import tech.sud.mgp.hello.ui.main.activity.MainActivity;
 import tech.sud.mgp.hello.ui.main.constant.GameIdCons;
 import tech.sud.mgp.hello.ui.scenes.base.constant.OperateMicType;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
@@ -54,6 +59,8 @@ import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomService;
 import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomServiceCallback;
+import tech.sud.mgp.hello.ui.scenes.base.utils.AIPlayersConverter;
+import tech.sud.mgp.hello.ui.scenes.base.utils.UserInfoRespConverter;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.SceneRoomViewModel;
 import tech.sud.mgp.hello.ui.scenes.base.widget.dialog.GameModeDialog;
@@ -94,6 +101,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
     protected View clOpenMic;
     private TextView tvOpenMic;
     private TextView tvASRHint;
+    private TextView tvAddRobot;
 
     protected boolean closeing; // 标识是否正在关闭房间
     protected SceneRoomService.MyBinder binder;
@@ -153,6 +161,8 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         clOpenMic = findViewById(R.id.cl_open_mic);
         tvOpenMic = findViewById(R.id.tv_open_mic);
         tvASRHint = findViewById(R.id.tv_asr_hint);
+        tvAddRobot = findViewById(R.id.tv_add_robot);
+
         clOpenMic.setVisibility(View.GONE);
 
         SudMGP.getCfg().setShowLoadingGameBg(true); // 默认需要显示加载游戏时的背景图
@@ -168,6 +178,10 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
 
         topView.setFinishGameVisible(false);
         topView.setSelectGameVisible(roomInfoModel.roleType == RoleType.OWNER);
+
+        if (roomConfig.isSupportAddRobot) {
+            tvAddRobot.setVisibility(View.VISIBLE);
+        }
     }
 
     protected void bringToFrontViews() {
@@ -285,6 +299,94 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
                 clickFinishGame();
             }
         });
+        tvAddRobot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickAddRobot();
+            }
+        });
+    }
+
+    /** 点击了添加机器人 */
+    protected void onClickAddRobot() {
+        RoomRepository.robotList(this, 30, new RxCallback<RobotListResp>() {
+            @Override
+            public void onSuccess(RobotListResp robotListResp) {
+                super.onSuccess(robotListResp);
+                if (robotListResp == null || robotListResp.robotList == null || robotListResp.robotList.size() == 0) {
+                    return;
+                }
+                if (binder == null) {
+                    return;
+                }
+                List<AudioRoomMicModel> micList = binder.getMicList();
+                // 找到一个可以用的机器人
+                AIPlayers aiPlayers = findAvailableAiPlayers(robotListResp.robotList, micList);
+
+                if (aiPlayers == null) {
+                    return;
+                }
+
+                // 找到一个空位置
+                AudioRoomMicModel newRobotMic = findNewRobotMic(micList);
+                if (newRobotMic == null) {
+                    ToastUtils.showShort(R.string.no_empty_seat);
+                    return;
+                }
+
+                // 上麦位
+                binder.robotUpMicLocation(UserInfoRespConverter.conver(aiPlayers), newRobotMic.micIndex);
+
+                // 添加到游戏中
+                List<AIPlayers> aiPlayersList = new ArrayList<>();
+                aiPlayersList.add(aiPlayers);
+                gameViewModel.sudFSTAPPDecorator.notifyAPPCommonGameAddAIPlayers(aiPlayersList, 1);
+            }
+        });
+    }
+
+    private AudioRoomMicModel findNewRobotMic(List<AudioRoomMicModel> micList) {
+        int totalRobotCount = 0;
+        AudioRoomMicModel emptyMicModel = null;
+        for (AudioRoomMicModel model : micList) {
+            if (model.isAi) {
+                totalRobotCount++;
+            }
+            if (emptyMicModel == null && !model.hasUser()) {
+                emptyMicModel = model;
+            }
+        }
+        if (totalRobotCount >= 8) {
+            return null;
+        }
+        return emptyMicModel;
+    }
+
+    /**
+     * 不在麦位上就可以使用
+     * 修改为随机获取机器人
+     *
+     * @param robotList 机器人列表
+     * @param micList   麦位列表
+     */
+    private AIPlayers findAvailableAiPlayers(List<AIPlayers> robotList, List<AudioRoomMicModel> micList) {
+        Random random = new Random();
+        for (int i = 0; i < 1000; i++) {
+            int position = random.nextInt(robotList.size());
+            AIPlayers aiPlayers = robotList.get(position);
+            boolean exists = false;
+            // 判断该机器人是否已经在麦位上了
+            for (AudioRoomMicModel audioRoomMicModel : micList) {
+                if ((audioRoomMicModel.userId + "").equals(aiPlayers.userId)) {
+                    exists = true;
+                    break;
+                }
+            }
+            if (!exists) {
+                return aiPlayers;
+            }
+        }
+        return null;
     }
 
     /** 点击了选择游戏 */
@@ -463,16 +565,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         gameViewModel.showFinishGameBtnLiveData.observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean isShow) {
-                boolean isOperateFinishGame = isShow != null && isShow;
-                // 是房主，则不显示结束游戏按钮，放到选择游戏弹窗当中
-                if (roomInfoModel.roleType == RoleType.OWNER) {
-                    topView.setFinishGameVisible(false);
-                } else {
-                    topView.setFinishGameVisible(isOperateFinishGame);
-                }
-                if (gameModeDialog != null) {
-                    gameModeDialog.setFinishGame(isOperateFinishGame);
-                }
+                onShowFinishGameChange(isShow);
             }
         });
         gameViewModel.playerInLiveData.observe(this, new Observer<Object>() {
@@ -495,6 +588,47 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
                 autoJoinGame();
             }
         });
+        gameViewModel.captainChangeLiveData.observe(this, new Observer<Object>() {
+            @Override
+            public void onChanged(Object o) {
+                checkGameAddAiPlayers();
+            }
+        });
+    }
+
+    /**
+     * 是否可以结束游戏变化
+     *
+     * @param isShow
+     */
+    protected void onShowFinishGameChange(Boolean isShow) {
+        boolean isOperateFinishGame = isShow != null && isShow;
+        // 是房主，则不显示结束游戏按钮，放到选择游戏弹窗当中
+        if (roomInfoModel.roleType == RoleType.OWNER) {
+            topView.setFinishGameVisible(false);
+        } else {
+            topView.setFinishGameVisible(isOperateFinishGame);
+        }
+        if (gameModeDialog != null) {
+            gameModeDialog.setFinishGame(isOperateFinishGame);
+        }
+    }
+
+    /** 把麦位上的机器人都添加到游戏上去 */
+    private void checkGameAddAiPlayers() {
+        if (gameViewModel.isCaptain(HSUserInfo.userId) && roomConfig.isSupportAddRobot) {
+            if (binder != null) {
+                List<AIPlayers> aiPlayers = new ArrayList<>();
+                for (AudioRoomMicModel audioRoomMicModel : binder.getMicList()) {
+                    if (audioRoomMicModel.hasUser() && audioRoomMicModel.isAi) {
+                        aiPlayers.add(AIPlayersConverter.conver(audioRoomMicModel));
+                    }
+                }
+                if (aiPlayers.size() > 0) {
+                    gameViewModel.sudFSTAPPDecorator.notifyAPPCommonGameAddAIPlayers(aiPlayers, 1);
+                }
+            }
+        }
     }
 
     /** 触发自动加入游戏 */
@@ -561,15 +695,15 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
     }
 
     // 点击了其他人的麦位
-    private void clickOtherMicLocation(int position, AudioRoomMicModel model) {
-        long userId = model.userId;
+    private void clickOtherMicLocation(int position, AudioRoomMicModel audioRoomMicModel) {
+        long userId = audioRoomMicModel.userId;
         long selfUserId = HSUserInfo.userId;
 
         BottomOptionDialog dialog = new BottomOptionDialog(this);
         HashMap<Integer, String> options = new HashMap<>();
 
         // 1,加载了游戏
-        // 2,自己是队长（当前app业务如此设计，你可以自由定义权限控制或没有权限控制）
+        // 2,自己是队长
         // 3,并且该用户也在游戏当中，可以转让队长
         int transferCaptainKey = 1;
         if (playingGameId > 0 && gameViewModel.isCaptain(selfUserId) && gameViewModel.playerIsIn(userId)) {
@@ -578,7 +712,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
 
         // 1,加载了游戏
         // 2,游戏未开始
-        // 3,自己是队长（当前app业务如此设计，你可以自由定义权限控制或没有权限控制）
+        // 3,自己是队长
         // 4,并且该用户加入了游戏，可以将他踢出游戏
         int kickGameKey = 2;
         if (playingGameId > 0
@@ -587,6 +721,12 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
                 && gameViewModel.isCaptain(selfUserId)
                 && gameViewModel.playerIsIn(userId)) {
             options.put(kickGameKey, getString(R.string.kick_game));
+        }
+
+        // 自己是房主，可以把其他人给踢出
+        int kickOutRoomKey = 3;
+        if (roomInfoModel.roleType == RoleType.OWNER) {
+            options.put(kickOutRoomKey, getString(R.string.kick_out_room));
         }
 
         if (options.size() > 0) {
@@ -605,6 +745,13 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
                     gameViewModel.notifyAPPCommonSelfCaptain(userId + "");
                 } else if (model.key == kickGameKey) {
                     gameViewModel.notifyAPPCommonSelfKick(userId + "");
+                } else if (model.key == kickOutRoomKey) {
+                    if (binder != null) {
+                        binder.kickOutRoom(audioRoomMicModel);
+                    }
+                    if (audioRoomMicModel.hasUser()) {
+                        kickUserFromGame(audioRoomMicModel.userId + "");
+                    }
                 }
             }
         });
@@ -655,6 +802,11 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
 
     // 延迟退出房间
     public long delayExitRoom() {
+        return delayExitRoom(false);
+    }
+
+    // 延迟退出房间
+    public long delayExitRoom(boolean isStartMainPage) {
         if (closeing) return 0;
         closeing = true;
         if (playingGameId > 0) {
@@ -663,23 +815,37 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
             topView.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    exitRoom();
+                    exitRoom(isStartMainPage);
                 }
             }, delayExitDuration);
             return delayExitDuration;
         } else {
-            exitRoom();
+            exitRoom(isStartMainPage);
             return 0;
         }
     }
 
     // 退出房间
     private void exitRoom() {
+        exitRoom(false);
+    }
+
+    // 退出房间
+    private void exitRoom(boolean isStartMainPage) {
         if (binder != null) {
             binder.exitRoom();
         }
         releaseService();
+        if (isStartMainPage) {
+            startMainPage();
+        }
         finish();
+    }
+
+    private void startMainPage() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
     }
 
     @Override
@@ -863,6 +1029,11 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         } else {
             tvASRHint.setVisibility(View.GONE);
         }
+//        if (roomConfig.isSupportAddRobot && playingGameId > 0 && roomInfoModel.roleType == RoleType.OWNER) {
+//            tvAddRobot.setVisibility(View.VISIBLE);
+//        } else {
+//            tvAddRobot.setVisibility(View.GONE);
+//        }
     }
 
     protected void updateStatusBar() {
@@ -905,7 +1076,63 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
     // region service回调
     @Override
     public void onEnterRoomSuccess() {
+        checkAddDefaultRobot();
         businessAutoUpMic();
+    }
+
+    /** 检查是否要添加默认的机器人 */
+    protected void checkAddDefaultRobot() {
+        if (!roomConfig.isSupportAddRobot) {
+            return;
+        }
+        boolean existsMicUser = false;
+        if (binder != null) {
+            for (AudioRoomMicModel audioRoomMicModel : binder.getMicList()) {
+                if (audioRoomMicModel.hasUser()) {
+                    existsMicUser = true;
+                    break;
+                }
+            }
+        }
+        // 麦位上有人了，不再添加默认机器人
+        if (existsMicUser) {
+            return;
+        }
+        // 不存在，默认添加三个机器人
+        RoomRepository.robotList(this, 30, new RxCallback<RobotListResp>() {
+            @Override
+            public void onSuccess(RobotListResp resp) {
+                super.onSuccess(resp);
+                if (resp == null || resp.robotList == null || resp.robotList.size() == 0) {
+                    return;
+                }
+                if (binder == null) {
+                    return;
+                }
+                // 修改逻辑为，随机选三个机器人上麦位
+                int addRobotCount = 3;
+                if (resp.robotList.size() <= addRobotCount) {
+                    for (int i = 0; i < resp.robotList.size(); i++) {
+                        if (i < addRobotCount) {
+                            binder.robotUpMicLocation(UserInfoRespConverter.conver(resp.robotList.get(i)), i + 1);
+                        }
+                    }
+                } else {
+                    List<AIPlayers> list = new ArrayList<>();
+                    Random random = new Random();
+                    while (list.size() < addRobotCount) {
+                        int position = random.nextInt(resp.robotList.size());
+                        AIPlayers aiPlayers = resp.robotList.get(position);
+                        if (!list.contains(aiPlayers)) {
+                            list.add(aiPlayers);
+                        }
+                    }
+                    for (int i = 0; i < list.size(); i++) {
+                        binder.robotUpMicLocation(UserInfoRespConverter.conver(list.get(i)), i + 1);
+                    }
+                }
+            }
+        });
     }
 
     /** 业务自动上麦 */
@@ -920,6 +1147,21 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         micView.setList(list);
         if (roomGiftDialog != null) {
             roomGiftDialog.updateMicUsers(getGiftDialogMicList());
+        }
+    }
+
+    @Override
+    public void onMicChange(int micIndex, UserInfo userInfo, boolean isUp) {
+        if (isUp) {
+            if (userInfo.isAi) {
+                List<AIPlayers> aiPlayers = new ArrayList<>();
+                aiPlayers.add(AIPlayersConverter.conver(userInfo));
+                gameViewModel.sudFSTAPPDecorator.notifyAPPCommonGameAddAIPlayers(aiPlayers, 1);
+            }
+        } else {
+            if (userInfo.isAi) {
+                kickUserFromGame(userInfo.userID);
+            }
         }
     }
 
@@ -1119,7 +1361,34 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
     @Override
     public void onDJCountdown(int countdown) {
     }
+
+    @Override
+    public void onKickOutRoom(String userId) {
+        processOnKickOutRoom(userId);
+    }
+
     // endregion service回调
+
+    /** 处理踢出房间的逻辑 */
+    private void processOnKickOutRoom(String userId) {
+        // 自己的话，执行退出房间
+        if ((HSUserInfo.userId + "").equals(userId)) {
+            delayExitRoom();
+            return;
+        }
+        // 如果是别人，判断自己是不是队长，是队长就把他踢出游戏
+        kickUserFromGame(userId);
+    }
+
+    /** 把该用户从游戏当中踢出 */
+    protected void kickUserFromGame(String userId) {
+        if (playingGameId > 0
+                && gameViewModel.isCaptain(HSUserInfo.userId)
+                && gameViewModel.getGameState() != SudMGPMGState.MGCommonGameState.PLAYING
+                && gameViewModel.getGameState() != SudMGPMGState.MGCommonGameState.LOADING) {
+            gameViewModel.notifyAPPCommonSelfKick(userId);
+        }
+    }
 
     @Override
     protected void onStart() {

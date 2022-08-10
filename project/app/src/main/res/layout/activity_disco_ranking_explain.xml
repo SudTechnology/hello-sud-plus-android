@@ -9,9 +9,8 @@
     <tech.sud.mgp.hello.ui.common.widget.HSTopBar
         android:id="@+id/top_bar"
         android:layout_width="match_parent"
-        android:layout_height="54dp"
+        android:layout_height="44dp"
         app:topbar_titleText="@string/disco_ranking_explain"
-        android:paddingTop="10dp"
         android:background="@color/white" />
 
     <TextView

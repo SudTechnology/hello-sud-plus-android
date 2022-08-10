@@ -13,12 +13,14 @@ import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdChangeGameModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdChatTextModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdDownMicModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdEnterRoomModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdKickOutRoomModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdSendGiftModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdUpMicModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdBecomeDJModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdDiscoActionPayModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdDiscoInfoReqModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdDiscoInfoRespModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.league.RoomCmdLeagueInfoRespModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.order.RoomCmdOrderOperateModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.order.RoomCmdUserOrderModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKAnswerModel;
@@ -84,6 +86,9 @@ public class SceneCommandManager extends BaseServiceManager {
             case RoomCmd.CMD_ENTER_ROOM_NOTIFY: // 进入房间通知
                 dispatchCommand(commandCmd, RoomCmdEnterRoomModel.fromJson(command), userID);
                 break;
+            case RoomCmd.CMD_KICK_OUT_ROOM: // 踢出房间
+                dispatchCommand(commandCmd, RoomCmdKickOutRoomModel.fromJson(command), userID);
+                break;
             case RoomCmd.CMD_ROOM_PK_SEND_INVITE: // 发送跨房PK邀请
                 dispatchCommand(commandCmd, RoomCmdPKSendInviteModel.fromJson(command), userID);
                 break;
@@ -132,6 +137,9 @@ public class SceneCommandManager extends BaseServiceManager {
             case RoomCmd.CMD_ROOM_DISCO_BECOME_DJ: // 上DJ台
                 dispatchCommand(commandCmd, RoomCmdBecomeDJModel.fromJson(command), userID);
                 break;
+            case RoomCmd.CMD_LEAGUE_INFO_RESP: // 响应联赛信息
+                dispatchCommand(commandCmd, RoomCmdLeagueInfoRespModel.fromJson(command), userID);
+                break;
             case RoomCmd.CMD_ROOM_DISCO_ACTION_PAY: // 蹦迪动作付费
                 dispatchCommand(commandCmd, RoomCmdDiscoActionPayModel.fromJson(command), userID);
                 break;
@@ -177,6 +185,11 @@ public class SceneCommandManager extends BaseServiceManager {
                 case RoomCmd.CMD_ENTER_ROOM_NOTIFY: // 进入房间通知
                     if (listener instanceof EnterRoomCommandListener) {
                         ((EnterRoomCommandListener) listener).onRecvCommand((RoomCmdEnterRoomModel) model, fromUserID);
+                    }
+                    break;
+                case RoomCmd.CMD_KICK_OUT_ROOM: // 踢出房间
+                    if (listener instanceof KickOutRoomCommandListener) {
+                        ((KickOutRoomCommandListener) listener).onRecvCommand((RoomCmdKickOutRoomModel) model, fromUserID);
                     }
                     break;
                 case RoomCmd.CMD_ROOM_PK_SEND_INVITE: // 发送跨房PK邀请
@@ -259,6 +272,11 @@ public class SceneCommandManager extends BaseServiceManager {
                         ((DiscoBecomeDJCommandListener) listener).onRecvCommand((RoomCmdBecomeDJModel) model, fromUserID);
                     }
                     break;
+                case RoomCmd.CMD_LEAGUE_INFO_RESP: // 响应联赛信息
+                    if (listener instanceof LeagueInfoRespListener) {
+                        ((LeagueInfoRespListener) listener).onRecvCommand((RoomCmdLeagueInfoRespModel) model, fromUserID);
+                    }
+                    break;
                 case RoomCmd.CMD_ROOM_DISCO_ACTION_PAY: // 蹦迪动作付费
                     if (listener instanceof DiscoActionPayCommandListener) {
                         ((DiscoActionPayCommandListener) listener).onRecvCommand((RoomCmdDiscoActionPayModel) model, fromUserID);
@@ -304,6 +322,10 @@ public class SceneCommandManager extends BaseServiceManager {
 
     interface EnterRoomCommandListener extends ICommandListener {
         void onRecvCommand(RoomCmdEnterRoomModel model, String userID);
+    }
+
+    interface KickOutRoomCommandListener extends ICommandListener {
+        void onRecvCommand(RoomCmdKickOutRoomModel model, String userID);
     }
     // endregion 基础信令监听
 
@@ -383,6 +405,11 @@ public class SceneCommandManager extends BaseServiceManager {
     }
     // endregion 蹦迪信令监听
 
+    // region 联赛信令监听
+    interface LeagueInfoRespListener extends ICommandListener {
+        void onRecvCommand(RoomCmdLeagueInfoRespModel model, String userID);
+    }
+    // endregion 联赛信令监听
 
     @Override
     public void onDestroy() {

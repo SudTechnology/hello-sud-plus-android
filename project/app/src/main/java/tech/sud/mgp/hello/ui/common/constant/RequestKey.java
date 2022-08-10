@@ -11,4 +11,7 @@ public class RequestKey {
     // 进入场景房间页面，是否是重新唤醒的动作
     public static final String KEY_IS_PENDING_INTENT = "key_is_pending_intent";
 
+    // 游戏描述
+    public static final String KEY_GAME_MODEL = "key_game_model";
+
 }

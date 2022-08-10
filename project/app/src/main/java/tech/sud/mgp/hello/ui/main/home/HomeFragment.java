@@ -47,6 +47,7 @@ import tech.sud.mgp.hello.ui.main.home.view.homeitem.HomeItemView;
 import tech.sud.mgp.hello.ui.main.widget.CreateTicketRoomDialog;
 import tech.sud.mgp.hello.ui.scenes.base.utils.EnterRoomUtils;
 import tech.sud.mgp.hello.ui.scenes.disco.activity.DiscoRankingActivity;
+import tech.sud.mgp.hello.ui.scenes.league.activity.LeagueEntranceActivity;
 import tech.sud.mgp.hello.ui.scenes.quiz.activity.MoreQuizActivity;
 import tech.sud.mgp.hello.ui.scenes.ticket.activity.TicketLevelActivity;
 import tech.sud.mgp.hello.ui.scenes.ticket.model.TicketLevelParams;
@@ -209,10 +210,20 @@ public class HomeFragment extends BaseFragment implements CreatRoomClickListener
             case SceneType.TICKET: // 门票制场景
                 startTicketLevelActivity(sceneModel, gameModel);
                 break;
+            case SceneType.LEAGUE: // 联赛场景
+                clickLeagueGame(sceneModel, gameModel);
+                break;
             default:
                 matchGame(sceneModel.getSceneId(), gameModel.gameId);
                 break;
         }
+    }
+
+    // 点击了联赛场景的
+    private void clickLeagueGame(SceneModel sceneModel, GameModel gameModel) {
+        Intent intent = new Intent(requireContext(), LeagueEntranceActivity.class);
+        intent.putExtra(RequestKey.KEY_GAME_MODEL, gameModel);
+        startActivity(intent);
     }
 
     // 打开场景等级选择页面

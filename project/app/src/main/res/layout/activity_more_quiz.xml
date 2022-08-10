@@ -7,9 +7,8 @@
 
     <tech.sud.mgp.hello.ui.common.widget.HSTopBar
         android:layout_width="match_parent"
-        android:layout_height="54dp"
+        android:layout_height="44dp"
         app:topbar_titleText="@string/more_quiz_title"
-        android:paddingTop="10dp"
         android:background="@color/white" />
 
     <tech.sud.mgp.hello.ui.common.widget.refresh.RefreshView

@@ -23,6 +23,9 @@ public class RoomCmd {
 
     /** 用户进入房间通知 */
     public static final int CMD_ENTER_ROOM_NOTIFY = 10005;
+
+    /** 踢出房间 */
+    public static final int CMD_KICK_OUT_ROOM = 10006;
     // endregion 基础
 
 
@@ -81,5 +84,10 @@ public class RoomCmd {
     /** 蹦迪动作付费 */
     public static final int CMD_ROOM_DISCO_ACTION_PAY = 10403;
     // endregion 蹦迪
+
+    // region 联赛
+    /** 响应联赛信息 */
+    public static final int CMD_LEAGUE_INFO_RESP = 10500;
+    // endregion 联赛
 
 }

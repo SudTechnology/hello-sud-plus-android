@@ -145,9 +145,9 @@ public class QuizSettleDialog extends BaseDialogFragment {
         List<SettleRankingModel> list = new ArrayList<>();
         for (int i = 0; i < gameSettle.results.size(); i++) {
             SudMGPMGState.MGCommonGameSettle.PlayerResult result = gameSettle.results.get(i);
-            if (result.isAI == 1) {
-                continue;
-            }
+//            if (result.isAI == 1) {
+//                continue;
+//            }
             QuizGamePlayerResp.Player player = getPlayer(result.uid);
 
             SettleRankingModel model = new SettleRankingModel();

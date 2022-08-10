@@ -1,7 +1,5 @@
 package tech.sud.mgp.hello.ui.scenes.disco.viewmodel;
 
-import androidx.lifecycle.MutableLiveData;
-
 import com.blankj.utilcode.util.BarUtils;
 import com.blankj.utilcode.util.Utils;
 
@@ -17,7 +15,6 @@ import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
 public class DiscoGameViewModel extends AppGameViewModel {
 
     private final DiscoActionHelper helper = new DiscoActionHelper();
-    public final MutableLiveData<Boolean> gameStartedLiveData = new MutableLiveData<>();
 
     /**
      * 切歌
@@ -205,7 +202,6 @@ public class DiscoGameViewModel extends AppGameViewModel {
     public void onGameStarted() {
         super.onGameStarted();
         danceMode(1);
-        gameStartedLiveData.setValue(true);
     }
 
     @Override
@@ -216,7 +212,7 @@ public class DiscoGameViewModel extends AppGameViewModel {
     @Override
     protected void getGameRect(GameViewInfoModel gameViewInfoModel) {
         super.getGameRect(gameViewInfoModel);
-        gameViewInfoModel.view_game_rect.top = DensityUtils.dp2px(Utils.getApp(), 145) + BarUtils.getStatusBarHeight();
+        gameViewInfoModel.view_game_rect.top = DensityUtils.dp2px(Utils.getApp(), 135) + BarUtils.getStatusBarHeight();
     }
 
 }

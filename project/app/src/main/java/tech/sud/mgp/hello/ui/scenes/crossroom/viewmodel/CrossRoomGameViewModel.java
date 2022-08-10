@@ -5,9 +5,9 @@ import androidx.lifecycle.MutableLiveData;
 import com.blankj.utilcode.util.BarUtils;
 import com.blankj.utilcode.util.Utils;
 
-import tech.sud.mgp.core.ISudFSMStateHandle;
 import tech.sud.mgp.SudMGPWrapper.model.GameViewInfoModel;
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
+import tech.sud.mgp.core.ISudFSMStateHandle;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
 
@@ -21,7 +21,7 @@ public class CrossRoomGameViewModel extends AppGameViewModel {
     @Override
     protected void getGameRect(GameViewInfoModel gameViewInfoModel) {
         super.getGameRect(gameViewInfoModel);
-        gameViewInfoModel.view_game_rect.top = DensityUtils.dp2px(Utils.getApp(), 167) + BarUtils.getStatusBarHeight();
+        gameViewInfoModel.view_game_rect.top = DensityUtils.dp2px(Utils.getApp(), 157) + BarUtils.getStatusBarHeight();
     }
 
     // 开始按钮点击事件

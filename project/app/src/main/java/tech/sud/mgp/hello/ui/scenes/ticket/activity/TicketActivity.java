@@ -28,6 +28,12 @@ public class TicketActivity extends AbsAudioRoomActivity<TicketGameViewModel> {
     }
 
     @Override
+    protected boolean beforeSetContentView() {
+        roomConfig.isSupportAddRobot = true;
+        return super.beforeSetContentView();
+    }
+
+    @Override
     protected void initWidget() {
         super.initWidget();
         gameViewModel.gameConfigModel.ui.start_btn.custom = true; // 接管游戏的开始按钮事件
@@ -68,7 +74,7 @@ public class TicketActivity extends AbsAudioRoomActivity<TicketGameViewModel> {
             reportGameInfoModel.gameSessionId = ticketConfirmJoinResp.gameSessionId;
         }
         reportGameInfoModel.sceneId = roomInfoModel.sceneType;
-        gameViewModel.notifyAPPCommonSelfPlaying(true, SudJsonUtils.toJson(reportGameInfoModel));
+        gameViewModel.notifyAPPCommonSelfPlaying(true, SudJsonUtils.toJson(reportGameInfoModel), null);
     }
 
     // 点击了准备游戏

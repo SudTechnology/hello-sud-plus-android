@@ -14,6 +14,7 @@ import tech.sud.mgp.hello.service.room.req.DiscoSwitchAnchorReq;
 import tech.sud.mgp.hello.service.room.req.EnterRoomReq;
 import tech.sud.mgp.hello.service.room.req.ExitRoomReq;
 import tech.sud.mgp.hello.service.room.req.GiftListReq;
+import tech.sud.mgp.hello.service.room.req.LeaguePlayingReq;
 import tech.sud.mgp.hello.service.room.req.QuizGamePlayerReq;
 import tech.sud.mgp.hello.service.room.req.RobotListReq;
 import tech.sud.mgp.hello.service.room.req.RoomMicListReq;
@@ -32,6 +33,7 @@ import tech.sud.mgp.hello.service.room.resp.DanmakuListResp;
 import tech.sud.mgp.hello.service.room.resp.DiscoAnchorListResp;
 import tech.sud.mgp.hello.service.room.resp.EnterRoomResp;
 import tech.sud.mgp.hello.service.room.resp.GiftListResp;
+import tech.sud.mgp.hello.service.room.resp.LeaguePlayingResp;
 import tech.sud.mgp.hello.service.room.resp.QuizGamePlayerResp;
 import tech.sud.mgp.hello.service.room.resp.RobotListResp;
 import tech.sud.mgp.hello.service.room.resp.RoomMicListResp;
@@ -172,4 +174,12 @@ public interface AudioRequestMethod {
     @POST(RequestUrl.DISCO_SWITCH_ANCHOR)
     Observable<BaseResponse<Object>> discoSwitchAnchor(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body DiscoSwitchAnchorReq req);
 
+    // region 联赛
+
+    /**
+     * 查询进入前三的房间
+     */
+    @POST(RequestUrl.LEAGUE_PLAYING)
+    Observable<BaseResponse<LeaguePlayingResp>> leaguePlaying(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body LeaguePlayingReq req);
+    // endregion 联赛
 }

@@ -16,6 +16,12 @@ public class CustomActivity extends AbsAudioRoomActivity<CustomGameViewModel> {
     private TextView apiTv;
 
     @Override
+    protected boolean beforeSetContentView() {
+        roomConfig.isSupportAddRobot = true;
+        return super.beforeSetContentView();
+    }
+
+    @Override
     protected CustomGameViewModel initGameViewModel() {
         return new CustomGameViewModel();
     }
@@ -45,27 +51,27 @@ public class CustomActivity extends AbsAudioRoomActivity<CustomGameViewModel> {
             dialog.setListener(i -> {
                 switch (i) {
                     case 0: {
-                        gameViewModel.joinGame();
+                        gameViewModel.actionJoinGame();
                         break;
                     }
                     case 1: {
-                        gameViewModel.readyGame();
+                        gameViewModel.actionReadyGame();
                         break;
                     }
                     case 2: {
-                        gameViewModel.startGame();
+                        gameViewModel.actionStartGame();
                         break;
                     }
                     case 3: {
-                        gameViewModel.exitGame();
+                        gameViewModel.actionExitGame();
                         break;
                     }
                     case 4: {
-                        gameViewModel.cancelReadyGame();
+                        gameViewModel.actionCancelReadyGame();
                         break;
                     }
                     case 5: {
-                        gameViewModel.escapeGame();
+                        gameViewModel.actionEscapeGame();
                         break;
                     }
                     case 6: {

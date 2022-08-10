@@ -70,6 +70,12 @@ public class QuizActivity extends AbsAudioRoomActivity<QuizGameViewModel> {
         return R.layout.activity_quiz;
     }
 
+    @Override
+    protected boolean beforeSetContentView() {
+        roomConfig.isSupportAddRobot = true;
+        return super.beforeSetContentView();
+    }
+
     @SuppressLint("SetTextI18n")
     @Override
     protected void initWidget() {
@@ -276,7 +282,7 @@ public class QuizActivity extends AbsAudioRoomActivity<QuizGameViewModel> {
     private void clickStartGame() {
         ReportGameInfoModel reportGameInfoModel = new ReportGameInfoModel();
         reportGameInfoModel.sceneId = roomInfoModel.sceneType;
-        gameViewModel.notifyAPPCommonSelfPlaying(true, SudJsonUtils.toJson(reportGameInfoModel));
+        gameViewModel.notifyAPPCommonSelfPlaying(true, SudJsonUtils.toJson(reportGameInfoModel), null);
     }
 
     /**

@@ -74,7 +74,7 @@ public class TicketActivity extends AbsAudioRoomActivity<TicketGameViewModel> {
             reportGameInfoModel.gameSessionId = ticketConfirmJoinResp.gameSessionId;
         }
         reportGameInfoModel.sceneId = roomInfoModel.sceneType;
-        gameViewModel.notifyAPPCommonSelfPlaying(true, SudJsonUtils.toJson(reportGameInfoModel));
+        gameViewModel.notifyAPPCommonSelfPlaying(true, SudJsonUtils.toJson(reportGameInfoModel), null);
     }
 
     // 点击了准备游戏

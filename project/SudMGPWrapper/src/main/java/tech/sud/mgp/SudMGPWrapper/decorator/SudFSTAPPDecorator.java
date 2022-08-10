@@ -88,12 +88,13 @@ public class SudFSTAPPDecorator {
      * @param isPlaying            true 开始游戏，false 结束游戏
      * @param reportGameInfoExtras string类型，Https服务回调report_game_info参数，最大长度1024字节，超过则截断（2022-01-21）
      */
-    public void notifyAPPCommonSelfPlaying(boolean isPlaying, String reportGameInfoExtras) {
+    public void notifyAPPCommonSelfPlaying(boolean isPlaying, String reportGameInfoExtras, String reportGameInfoKey) {
         ISudFSTAPP iSudFSTAPP = this.iSudFSTAPP;
         if (iSudFSTAPP != null) {
             SudMGPAPPState.APPCommonSelfPlaying state = new SudMGPAPPState.APPCommonSelfPlaying();
             state.isPlaying = isPlaying;
             state.reportGameInfoExtras = reportGameInfoExtras;
+            state.reportGameInfoKey = reportGameInfoKey;
             iSudFSTAPP.notifyStateChange(SudMGPAPPState.APP_COMMON_SELF_PLAYING, SudJsonUtils.toJson(state), null);
         }
     }

@@ -282,7 +282,7 @@ public class QuizActivity extends AbsAudioRoomActivity<QuizGameViewModel> {
     private void clickStartGame() {
         ReportGameInfoModel reportGameInfoModel = new ReportGameInfoModel();
         reportGameInfoModel.sceneId = roomInfoModel.sceneType;
-        gameViewModel.notifyAPPCommonSelfPlaying(true, SudJsonUtils.toJson(reportGameInfoModel));
+        gameViewModel.notifyAPPCommonSelfPlaying(true, SudJsonUtils.toJson(reportGameInfoModel), null);
     }
 
     /**

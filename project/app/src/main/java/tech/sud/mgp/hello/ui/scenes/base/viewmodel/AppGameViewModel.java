@@ -472,7 +472,7 @@ public class AppGameViewModel implements SudFSMMGListener {
     public void exitGame() {
         if (playerIsPlaying(HSUserInfo.userId)) {
             // 用户正在游戏中，先退出本局游戏，再退出游戏
-            sudFSTAPPDecorator.notifyAPPCommonSelfPlaying(false, "");
+            sudFSTAPPDecorator.notifyAPPCommonSelfPlaying(false, null, null);
             sudFSTAPPDecorator.notifyAPPCommonSelfReady(false);
             sudFSTAPPDecorator.notifyAPPCommonSelfIn(false, -1, true, 1);
         } else if (sudFSMMGDecorator.playerIsReady(HSUserInfo.userId + "")) {
@@ -578,8 +578,8 @@ public class AppGameViewModel implements SudFSMMGListener {
      *
      * @param isPlaying true时为队长开始游戏 false时为本人退出本局游戏
      */
-    public void notifyAPPCommonSelfPlaying(boolean isPlaying, String reportGameInfoExtras) {
-        sudFSTAPPDecorator.notifyAPPCommonSelfPlaying(isPlaying, reportGameInfoExtras);
+    public void notifyAPPCommonSelfPlaying(boolean isPlaying, String reportGameInfoExtras, String reportGameInfoKey) {
+        sudFSTAPPDecorator.notifyAPPCommonSelfPlaying(isPlaying, reportGameInfoExtras, reportGameInfoKey);
     }
 
     /**

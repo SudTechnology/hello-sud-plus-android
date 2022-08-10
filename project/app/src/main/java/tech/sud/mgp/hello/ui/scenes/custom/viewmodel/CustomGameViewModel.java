@@ -26,12 +26,12 @@ public class CustomGameViewModel extends AppGameViewModel {
 
     // 开始游戏
     public void actionStartGame() {
-        sudFSTAPPDecorator.notifyAPPCommonSelfPlaying(true, "");
+        sudFSTAPPDecorator.notifyAPPCommonSelfPlaying(true, null, null);
     }
 
     // 逃跑
     public void actionEscapeGame() {
-        sudFSTAPPDecorator.notifyAPPCommonSelfPlaying(false, "");
+        sudFSTAPPDecorator.notifyAPPCommonSelfPlaying(false, null, null);
     }
 
 }

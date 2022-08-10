@@ -79,6 +79,9 @@ public class SudMGPAPPState implements Serializable {
 
         // string类型，Https服务回调report_game_info参数，最大长度1024字节，超过则截断（2022-01-21）
         public String reportGameInfoExtras;
+
+        // string类型，最大长度64字节，接入方服务端，可以根据这个字段来查询一局游戏的数据
+        public String reportGameInfoKey;
     }
 
     /**

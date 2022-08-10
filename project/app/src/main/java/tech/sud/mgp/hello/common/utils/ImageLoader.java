@@ -3,6 +3,7 @@ package tech.sud.mgp.hello.common.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.ImageView;
@@ -19,6 +20,7 @@ import com.bumptech.glide.request.transition.Transition;
 import java.io.File;
 
 import tech.sud.mgp.hello.R;
+import tech.sud.mgp.hello.common.widget.view.CustomColorDrawable;
 import tech.sud.mgp.hello.common.widget.view.XStretchDrawable;
 
 public class ImageLoader {
@@ -30,9 +32,13 @@ public class ImageLoader {
     }
 
     // 加载nft图片
-    public static void loadNftImage(ImageView view, String url) {
+    public static void loadNftImage(ImageView view, String url, int radius) {
         if (isDestroy(view)) return;
-        Glide.with(view).load(url).error(R.drawable.ic_nft_error).into(view);
+        CustomColorDrawable drawable = new CustomColorDrawable();
+        drawable.setRadius(radius);
+        drawable.setStartColor(Color.parseColor("#1affffff"));
+        drawable.setEndColor(Color.parseColor("#29ffffff"));
+        Glide.with(view).load(url).placeholder(drawable).error(R.drawable.ic_nft_error).into(view);
     }
 
     // 加载头像

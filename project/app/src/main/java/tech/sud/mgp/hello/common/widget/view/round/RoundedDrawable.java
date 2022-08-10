@@ -38,6 +38,8 @@ import android.widget.ImageView.ScaleType;
 import java.util.HashSet;
 import java.util.Set;
 
+import tech.sud.mgp.hello.common.widget.view.CustomColorDrawable;
+
 @SuppressWarnings("UnusedDeclaration")
 public class RoundedDrawable extends Drawable {
 
@@ -111,6 +113,8 @@ public class RoundedDrawable extends Drawable {
                     ld.setDrawableByLayerId(ld.getId(i), fromDrawable(d));
                 }
                 return ld;
+            } else if (drawable instanceof CustomColorDrawable) {
+                return drawable;
             }
 
             // try to get a bitmap from the drawable and

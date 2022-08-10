@@ -10,6 +10,7 @@ import com.chad.library.adapter.base.module.LoadMoreModule;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
 import tech.sud.mgp.hello.R;
+import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
 import tech.sud.mgp.hello.ui.main.settings.model.NftModel;
 
@@ -25,7 +26,7 @@ public class NftListAdapter extends BaseQuickAdapter<NftModel, BaseViewHolder> i
     @Override
     protected void convert(@NonNull BaseViewHolder holder, NftModel nftModel) {
         ImageView ivIcon = holder.getView(R.id.iv_icon);
-        ImageLoader.loadNftImage(ivIcon, nftModel.metadataModel.image);
+        ImageLoader.loadNftImage(ivIcon, nftModel.metadataModel.image, DensityUtils.dp2px(6));
 
         holder.setText(R.id.tv_name, nftModel.getName());
     }

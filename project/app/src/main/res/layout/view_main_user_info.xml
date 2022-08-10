@@ -63,7 +63,7 @@
         android:layout_height="18dp"
         android:layout_marginBottom="2dp"
         android:background="@drawable/ic_unbind"
-        android:layout_marginEnd="28dp"
+        android:layout_marginEnd="4dp"
         app:layout_goneMarginBottom="1dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -1,6 +1,7 @@
 package tech.sud.mgp.hello.ui.main.settings.model;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import tech.sud.nft.core.model.SudNFTGetMetadataModel;
 
@@ -38,4 +39,16 @@ public class NftModel implements Serializable {
         }
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        NftModel nftModel = (NftModel) o;
+        return Objects.equals(contractAddress, nftModel.contractAddress) && Objects.equals(tokenId, nftModel.tokenId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(contractAddress, tokenId);
+    }
 }

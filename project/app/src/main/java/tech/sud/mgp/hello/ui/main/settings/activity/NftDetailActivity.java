@@ -88,7 +88,7 @@ public class NftDetailActivity extends BaseActivity {
     protected void initData() {
         super.initData();
         viewModel.initData(this);
-        ImageLoader.loadNftImage(ivIcon, nftModel.getImageUrl());
+        ImageLoader.loadNftImage(ivIcon, nftModel.getImageUrl(), 0);
         tvName.setText(nftModel.getName());
         tvAddress.setText(nftModel.contractAddress);
         tvTokenId.setText(nftModel.tokenId);
@@ -115,7 +115,7 @@ public class NftDetailActivity extends BaseActivity {
 
     private void clickWear() {
         NftModel wearNft = viewModel.getWearNft();
-        if (wearNft == null) {
+        if (wearNft == null || !wearNft.equals(nftModel)) {
             viewModel.wearNft(nftModel);
         } else {
             viewModel.cancelWearNft();
@@ -130,7 +130,7 @@ public class NftDetailActivity extends BaseActivity {
         viewOperate.setVisibility(View.VISIBLE);
 
         NftModel wearNft = viewModel.getWearNft();
-        if (wearNft == null) {
+        if (wearNft == null || !wearNft.equals(nftModel)) {
             tvOperate.setBackground(ShapeUtils.createShape(null, null, null,
                     GradientDrawable.RECTANGLE, null, Color.BLACK));
             tvOperate.setTextColor(Color.WHITE);

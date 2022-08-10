@@ -57,20 +57,12 @@ public class MainUserInfoView extends ConstraintLayout {
     public void updateUserInfo() {
         tvName.setText(HSUserInfo.nickName);
         tvUserId.setText(getContext().getString(R.string.setting_userid, HSUserInfo.userId + ""));
-        updateAvatar();
+        ImageLoader.loadAvatar(ivIcon, HSUserInfo.getUseAvatar());
         String walletAddress = HSUserInfo.walletAddress;
         if (TextUtils.isEmpty(walletAddress)) {
             showUserId();
         } else {
             showWalletAddress(walletAddress);
-        }
-    }
-
-    private void updateAvatar() {
-        if (HSUserInfo.headerType == 1) {
-            ImageLoader.loadAvatar(ivIcon, HSUserInfo.headerNftUrl);
-        } else {
-            ImageLoader.loadAvatar(ivIcon, HSUserInfo.avatar);
         }
     }
 

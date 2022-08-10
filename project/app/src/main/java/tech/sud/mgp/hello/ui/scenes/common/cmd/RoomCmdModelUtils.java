@@ -282,7 +282,7 @@ public class RoomCmdModelUtils {
         UserInfo user = new UserInfo();
         user.userID = HSUserInfo.userId + "";
         user.name = HSUserInfo.nickName;
-        user.icon = HSUserInfo.avatar;
+        user.icon = HSUserInfo.getUseAvatar();
         if (Gender.MALE.equals(HSUserInfo.gender)) {
             user.sex = 1;
         } else if (Gender.FEMALE.equals(HSUserInfo.gender)) {

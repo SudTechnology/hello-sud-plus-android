@@ -20,6 +20,14 @@ public class HSUserInfo {
     public static String headerNftUrl; // 头像nft图片
     public static String walletAddress; // 钱包地址
 
+    public static String getUseAvatar() {
+        if (HSUserInfo.headerType == 1) {
+            return headerNftUrl;
+        } else {
+            return avatar;
+        }
+    }
+
     // 保存静态数据
     public static void onSaveInstanceState(@NonNull Bundle outState) {
         outState.putLong("userId", HSUserInfo.userId);

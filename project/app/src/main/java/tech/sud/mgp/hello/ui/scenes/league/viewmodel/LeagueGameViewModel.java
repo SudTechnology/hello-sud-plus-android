@@ -98,7 +98,7 @@ public class LeagueGameViewModel extends AppGameViewModel {
 
     /** 开始游戏 */
     public void startGame() {
-        sudFSTAPPDecorator.notifyAPPCommonSelfPlaying(true, "");
+        sudFSTAPPDecorator.notifyAPPCommonSelfPlaying(true, null, null);
     }
 
     /**

@@ -266,7 +266,7 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
             reportGameInfoModel.pkId = roomInfoModel.roomPkModel.pkId;
         }
         reportGameInfoModel.sceneId = roomInfoModel.sceneType;
-        gameViewModel.notifyAPPCommonSelfPlaying(true, SudJsonUtils.toJson(reportGameInfoModel));
+        gameViewModel.notifyAPPCommonSelfPlaying(true, SudJsonUtils.toJson(reportGameInfoModel), null);
     }
 
     private void updatePkInfo() {

@@ -37,7 +37,7 @@ public class CoinDialog extends BaseDialogFragment {
 
         nameView.setText(HSUserInfo.nickName);
         idView.setText(getString(R.string.setting_userid, HSUserInfo.userId + ""));
-        ImageLoader.loadImage(headerView, HSUserInfo.avatar);
+        ImageLoader.loadImage(headerView, HSUserInfo.getUseAvatar());
     }
 
     @Override

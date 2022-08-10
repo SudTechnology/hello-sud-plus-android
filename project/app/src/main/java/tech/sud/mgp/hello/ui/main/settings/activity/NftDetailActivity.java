@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -36,6 +37,7 @@ public class NftDetailActivity extends BaseActivity {
     private TextView tvTokenId;
     private TextView tvStandard;
     private TextView tvOperate;
+    private View viewOperate;
 
     private final NFTViewModel viewModel = new NFTViewModel();
 
@@ -76,6 +78,7 @@ public class NftDetailActivity extends BaseActivity {
         tvTokenId = findViewById(R.id.tv_token_id);
         tvStandard = findViewById(R.id.tv_standard);
         tvOperate = findViewById(R.id.tv_operate);
+        viewOperate = findViewById(R.id.view_operate);
 
         View topBar = findViewById(R.id.top_bar);
         ViewUtils.addMarginTop(topBar, ImmersionBar.getStatusBarHeight(this));
@@ -120,6 +123,12 @@ public class NftDetailActivity extends BaseActivity {
     }
 
     private void updateWearInfo() {
+        if (TextUtils.isEmpty(nftModel.getImageUrl())) {
+            viewOperate.setVisibility(View.GONE);
+            return;
+        }
+        viewOperate.setVisibility(View.VISIBLE);
+
         NftModel wearNft = viewModel.getWearNft();
         if (wearNft == null) {
             tvOperate.setBackground(ShapeUtils.createShape(null, null, null,

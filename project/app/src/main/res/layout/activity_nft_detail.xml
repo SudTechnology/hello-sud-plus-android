@@ -23,7 +23,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="345dp"
         android:background="@drawable/shape_r20_top_ffffff"
-        app:layout_constraintBottom_toTopOf="@id/view_bottom"
+        app:layout_constraintBottom_toTopOf="@id/view_operate"
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
@@ -114,12 +114,13 @@
     </ScrollView>
 
     <LinearLayout
-        android:id="@+id/view_bottom"
+        android:id="@+id/view_operate"
         android:layout_width="match_parent"
         android:layout_height="68dp"
         android:gravity="center"
         android:orientation="horizontal"
-        android:elevation="10dp"
+        android:elevation="30dp"
+        android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <TextView

@@ -8,6 +8,7 @@ import com.blankj.utilcode.util.LogUtils;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseFragment;
 import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
+import tech.sud.mgp.hello.ui.main.home.view.CoinDialog;
 import tech.sud.mgp.hello.ui.main.settings.activity.AboutActivity;
 import tech.sud.mgp.hello.ui.main.settings.activity.NftListActivity;
 import tech.sud.mgp.hello.ui.main.settings.activity.SettingsActivity;
@@ -73,6 +74,9 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         walletInfoView.setChainOnClickListener(v -> onClickChain());
         userInfoView.setUnbindOnClickListener(v -> {
             onClickUnbindWallet();
+        });
+        userInfoView.setAvatarOnClickListener(v -> {
+            new CoinDialog().show(getChildFragmentManager(), null);
         });
         walletInfoView.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -116,7 +116,7 @@ public class SceneRoomPkManager extends BaseServiceManager {
         roomPkRoomInfo.roomId = parentManager.getRoomId();
         roomPkRoomInfo.score = 0;
         if (parentManager.getRoleType() == RoleType.OWNER) {
-            roomPkRoomInfo.roomOwnerHeader = HSUserInfo.avatar;
+            roomPkRoomInfo.roomOwnerHeader = HSUserInfo.getUseAvatar();
             roomPkRoomInfo.roomOwnerNickname = HSUserInfo.nickName;
         }
         roomPkRoomInfo.isInitiator = true;

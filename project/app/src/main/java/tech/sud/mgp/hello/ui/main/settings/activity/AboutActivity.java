@@ -58,8 +58,7 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener 
         } else if (v == btnUserAgreement) { // 用户协议
             RouterUtils.openUrl(this, getString(R.string.user_agreement_title), APPConfig.USER_PROTOCAL_URL);
         } else if (v == btnPrivacyPolicy) { // 隐私政策
-//            RouterUtils.openUrl(this, getString(R.string.user_privacy_title), APPConfig.USER_PRIVACY_URL);
-            RouterUtils.openUrl(this, "", "https://example.walletconnect.org/");
+            RouterUtils.openUrl(this, getString(R.string.user_privacy_title), APPConfig.USER_PRIVACY_URL);
         }
     }
 

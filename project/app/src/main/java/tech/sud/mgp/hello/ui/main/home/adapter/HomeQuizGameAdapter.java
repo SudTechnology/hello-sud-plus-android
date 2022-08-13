@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 import tech.sud.mgp.hello.R;
@@ -62,19 +63,43 @@ public class HomeQuizGameAdapter extends BaseQuickAdapter<GameModel, BaseViewHol
         if (oldTimer != null) {
             oldTimer.cancel();
         }
-        CustomCountdownTimer timer = new CustomCountdownTimer(totalCount) {
-            @Override
-            protected void onTick(int count) {
-                tvResidueDuration.setText(FormatUtils.formatTimeDay(count));
-            }
-
-            @Override
-            protected void onFinish() {
-                startCountdown(item, tvResidueDuration);
-            }
-        };
+        CustomCountdownTimer timer = new MyCustomCountdownTimer(this, item, tvResidueDuration, totalCount);
         timer.start();
         tvResidueDuration.setTag(R.id.obj, timer);
+    }
+
+    private static class MyCustomCountdownTimer extends CustomCountdownTimer {
+
+        private final WeakReference<HomeQuizGameAdapter> adapterReference;
+        private final WeakReference<GameModel> itemReference;
+        private final WeakReference<TextView> tvReference;
+
+        public MyCustomCountdownTimer(HomeQuizGameAdapter adapter, GameModel item, TextView tvResidueDuration, int totalCount) {
+            super(totalCount);
+            adapterReference = new WeakReference<>(adapter);
+            itemReference = new WeakReference<>(item);
+            tvReference = new WeakReference<>(tvResidueDuration);
+        }
+
+        @Override
+        protected void onTick(int count) {
+            TextView textView = tvReference.get();
+            if (textView == null) {
+                return;
+            }
+            textView.setText(FormatUtils.formatTimeDay(count));
+        }
+
+        @Override
+        protected void onFinish() {
+            HomeQuizGameAdapter adapter = adapterReference.get();
+            GameModel item = itemReference.get();
+            TextView textView = tvReference.get();
+            if (adapter == null || item == null || textView == null) {
+                return;
+            }
+            adapter.startCountdown(item, textView);
+        }
     }
 
 }

@@ -272,7 +272,7 @@ public class AppGameViewModel implements SudFSMMGListener {
 
     public void onDestroy() {
         isRunning = false;
-//        destroyMG();
+        destroyMG();
     }
 
     protected void destroyMG() {

@@ -49,7 +49,8 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
      */
     public void switchGame(FragmentActivity activity, String gameRoomId, long gameId) {
         if (TextUtils.isEmpty(gameRoomId)) {
-            throw new IllegalArgumentException();
+            Toast.makeText(activity, "gameRoomId can not be empty", Toast.LENGTH_LONG).show();
+            return;
         }
         if (!isRunning) {
             return;

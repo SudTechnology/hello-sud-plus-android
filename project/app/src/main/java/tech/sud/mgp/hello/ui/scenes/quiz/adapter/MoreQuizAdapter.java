@@ -1,6 +1,5 @@
 package tech.sud.mgp.hello.ui.scenes.quiz.adapter;
 
-import android.annotation.SuppressLint;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,6 +11,8 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.module.BaseLoadMoreModule;
 import com.chad.library.adapter.base.module.LoadMoreModule;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
+
+import java.lang.ref.WeakReference;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.utils.CustomCountdownTimer;
@@ -67,18 +68,7 @@ public class MoreQuizAdapter extends BaseQuickAdapter<GameModel, BaseViewHolder>
     private void startCountdown(int cycle, TextView tv) {
         cancelCountdown(tv);
         int totalCount = SceneUtils.getTotalCount(cycle);
-        CustomCountdownTimer timer = new CustomCountdownTimer(totalCount) {
-            @SuppressLint("SetTextI18n")
-            @Override
-            protected void onTick(int count) {
-                tv.setText(FormatUtils.formatTimeDay(count));
-            }
-
-            @Override
-            protected void onFinish() {
-                startCountdown(cycle, tv);
-            }
-        };
+        CustomCountdownTimer timer = new MyCustomCountdownTimer(this, cycle, tv, totalCount);
         timer.start();
         tv.setTag(R.id.obj, timer);
     }
@@ -95,4 +85,38 @@ public class MoreQuizAdapter extends BaseQuickAdapter<GameModel, BaseViewHolder>
     public BaseLoadMoreModule addLoadMoreModule(@NonNull BaseQuickAdapter<?, ?> baseQuickAdapter) {
         return new BaseLoadMoreModule(baseQuickAdapter);
     }
+
+    private static class MyCustomCountdownTimer extends CustomCountdownTimer {
+
+        private final WeakReference<MoreQuizAdapter> adapterReference;
+        private final WeakReference<TextView> tvReference;
+        private final int cycle;
+
+        public MyCustomCountdownTimer(MoreQuizAdapter adapter, int cycle, TextView tv, int totalCount) {
+            super(totalCount);
+            this.cycle = cycle;
+            adapterReference = new WeakReference<>(adapter);
+            tvReference = new WeakReference<>(tv);
+        }
+
+        @Override
+        protected void onTick(int count) {
+            TextView textView = tvReference.get();
+            if (textView == null) {
+                return;
+            }
+            textView.setText(FormatUtils.formatTimeDay(count));
+        }
+
+        @Override
+        protected void onFinish() {
+            MoreQuizAdapter adapter = adapterReference.get();
+            TextView textView = tvReference.get();
+            if (adapter == null || textView == null) {
+                return;
+            }
+            adapter.startCountdown(cycle, textView);
+        }
+    }
+
 }

@@ -19,6 +19,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 import tech.sud.mgp.hello.R;
@@ -200,19 +201,7 @@ public class MoreQuizHeadView extends ConstraintLayout {
         private void startCountdown(int cycle, TextView tv) {
             cancelCountdown(tv);
             int totalCount = SceneUtils.getTotalCount(cycle);
-            CustomCountdownTimer timer = new CustomCountdownTimer(totalCount) {
-                @SuppressLint("SetTextI18n")
-                @Override
-                protected void onTick(int count) {
-                    String info = getContext().getString(R.string.from_start) + " " + FormatUtils.formatTimeDay(count);
-                    tv.setText(info);
-                }
-
-                @Override
-                protected void onFinish() {
-                    startCountdown(cycle, tv);
-                }
-            };
+            CustomCountdownTimer timer = new MyCustomCountdownTimer(this, cycle, tv, totalCount);
             timer.start();
             tv.setTag(R.id.obj, timer);
         }
@@ -263,6 +252,40 @@ public class MoreQuizHeadView extends ConstraintLayout {
             }
         }
 
+    }
+
+    private static class MyCustomCountdownTimer extends CustomCountdownTimer {
+
+        private final WeakReference<MyAdapter> adapterReference;
+        private final WeakReference<TextView> tvReference;
+        private final int cycle;
+
+        public MyCustomCountdownTimer(MyAdapter adapter, int cycle, TextView tv, int totalCount) {
+            super(totalCount);
+            this.cycle = cycle;
+            adapterReference = new WeakReference<>(adapter);
+            tvReference = new WeakReference<>(tv);
+        }
+
+        @Override
+        protected void onTick(int count) {
+            TextView textView = tvReference.get();
+            if (textView == null) {
+                return;
+            }
+            String info = textView.getContext().getString(R.string.from_start) + " " + FormatUtils.formatTimeDay(count);
+            textView.setText(info);
+        }
+
+        @Override
+        protected void onFinish() {
+            MyAdapter adapter = adapterReference.get();
+            TextView textView = tvReference.get();
+            if (adapter == null || textView == null) {
+                return;
+            }
+            adapter.startCountdown(cycle, textView);
+        }
     }
 
 }

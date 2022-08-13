@@ -75,14 +75,14 @@ public class MarqueeTextView extends androidx.appcompat.widget.AppCompatTextView
         }
     }
 
-    /**
-     * Window与Window间焦点发生改变时的回调
-     */
-    @Override
-    public void onWindowFocusChanged(boolean hasWindowFocus) {
-        if (hasWindowFocus) {
-            super.onWindowFocusChanged(hasWindowFocus);
-        }
-    }
+//    /**
+//     * Window与Window间焦点发生改变时的回调
+//     */
+//    @Override
+//    public void onWindowFocusChanged(boolean hasWindowFocus) {
+//        if (hasWindowFocus) {
+//            super.onWindowFocusChanged(hasWindowFocus);
+//        }
+//    }
 
 }

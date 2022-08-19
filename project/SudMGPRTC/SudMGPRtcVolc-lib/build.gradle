@@ -1,0 +1,4 @@
+configurations.maybeCreate("default")
+artifacts.add("default", file('VolcEngineRTC_Android_3.36.102.aar'))
+dependencies {
+}

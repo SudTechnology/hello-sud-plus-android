@@ -41,8 +41,7 @@ public class CustomColorDrawable extends ColorDrawable {
                 if (isVisible()) {
                     setColor(color);
                 } else {
-                    valueAnimator.cancel();
-                    valueAnimator = null;
+                    stop();
                 }
             }
         });
@@ -50,6 +49,13 @@ public class CustomColorDrawable extends ColorDrawable {
         valueAnimator.setRepeatCount(ValueAnimator.INFINITE);
         valueAnimator.setRepeatMode(ValueAnimator.REVERSE);
         valueAnimator.start();
+    }
+
+    public void stop() {
+        if (valueAnimator != null) {
+            valueAnimator.cancel();
+            valueAnimator = null;
+        }
     }
 
     public void setStartColor(int startColor) {

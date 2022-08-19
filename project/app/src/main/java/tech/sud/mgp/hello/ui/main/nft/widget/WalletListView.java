@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.main.settings.widget;
+package tech.sud.mgp.hello.ui.main.nft.widget;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -24,7 +24,7 @@ import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
 import tech.sud.mgp.hello.common.utils.ImageUtils;
 import tech.sud.mgp.hello.common.widget.view.YStretchDrawable;
-import tech.sud.nft.core.model.SudNFTGetWalletListModel.WalletInfo;
+import tech.sud.nft.core.model.resp.SudNFTGetWalletListModel.WalletInfo;
 
 /**
  * nft列表View

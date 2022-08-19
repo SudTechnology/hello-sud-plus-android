@@ -7,15 +7,29 @@
     android:layout_marginHorizontal="4dp"
     android:layout_marginTop="10dp">
 
-    <tech.sud.mgp.hello.common.widget.view.round.RoundedImageView
+    <tech.sud.mgp.hello.common.widget.view.CornersImageView
         android:id="@+id/iv_icon"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginHorizontal="5dp"
         android:layout_marginTop="5dp"
         android:scaleType="centerCrop"
-        app:riv_corner_radius="6dp"
+        app:civ_cornerRadius="6dp"
         app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_dressed_in"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingVertical="3dp"
+        android:paddingHorizontal="10dp"
+        android:textSize="12sp"
+        android:textColor="@color/white"
+        android:text="@string/dressed_in"
+        android:gravity="center"
+        android:background="@drawable/ic_dressed_in_bg"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <tech.sud.mgp.hello.common.widget.view.MarqueeTextView

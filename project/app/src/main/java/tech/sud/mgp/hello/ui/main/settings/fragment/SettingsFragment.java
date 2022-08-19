@@ -3,22 +3,25 @@ package tech.sud.mgp.hello.ui.main.settings.fragment;
 import android.content.Intent;
 import android.view.View;
 
+import androidx.lifecycle.Observer;
+
 import com.blankj.utilcode.util.LogUtils;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseFragment;
 import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
+import tech.sud.mgp.hello.common.widget.dialog.TitleInfoDialog;
 import tech.sud.mgp.hello.ui.main.home.view.CoinDialog;
+import tech.sud.mgp.hello.ui.main.nft.activity.NftListActivity;
+import tech.sud.mgp.hello.ui.main.nft.model.BindWalletInfoModel;
+import tech.sud.mgp.hello.ui.main.nft.viewmodel.NFTViewModel;
+import tech.sud.mgp.hello.ui.main.nft.widget.NftChainDialog;
+import tech.sud.mgp.hello.ui.main.nft.widget.WalletInfoView;
+import tech.sud.mgp.hello.ui.main.nft.widget.WalletListView;
 import tech.sud.mgp.hello.ui.main.settings.activity.AboutActivity;
-import tech.sud.mgp.hello.ui.main.settings.activity.NftListActivity;
 import tech.sud.mgp.hello.ui.main.settings.activity.SettingsActivity;
-import tech.sud.mgp.hello.ui.main.settings.model.BindWalletInfoModel;
-import tech.sud.mgp.hello.ui.main.settings.viewmodel.NFTViewModel;
-import tech.sud.mgp.hello.ui.main.settings.widget.NftChainDialog;
-import tech.sud.mgp.hello.ui.main.settings.widget.WalletInfoView;
-import tech.sud.mgp.hello.ui.main.settings.widget.WalletListView;
 import tech.sud.mgp.hello.ui.main.widget.MainUserInfoView;
-import tech.sud.nft.core.model.SudNFTGetWalletListModel;
+import tech.sud.nft.core.model.resp.SudNFTGetWalletListModel;
 
 /**
  * 首页当中的设置页
@@ -87,7 +90,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
 
         viewModel.initDataShowWalletListLiveData.observe(this, model -> {
             LogUtils.d("nft:showWallet");
-            walletListView.setDatas(model.wallets);
+            walletListView.setDatas(model.walletList);
         });
         viewModel.initDataShowNftListLiveData.observe(this, model -> {
             LogUtils.d("nft:showNftList");
@@ -101,6 +104,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
             if (model == null) {
                 walletListView.setVisibility(View.VISIBLE);
                 walletInfoView.setVisibility(View.GONE);
+                walletInfoView.setDatas(null);
             } else {
                 walletListView.setVisibility(View.GONE);
                 walletInfoView.setVisibility(View.VISIBLE);
@@ -109,6 +113,17 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
             userInfoView.updateUserInfo();
             userInfoView.setShowUnbind(model != null);
         });
+        viewModel.bindWalletFailedLiveData.observe(this, new Observer<Object>() {
+            @Override
+            public void onChanged(Object o) {
+                showBindWalletFailedDialog();
+            }
+        });
+    }
+
+    private void showBindWalletFailedDialog() {
+        TitleInfoDialog dialog = new TitleInfoDialog(requireContext(), getString(R.string.connect_failed), getString(R.string.refuse_wallet_operate));
+        dialog.show();
     }
 
     // 打开nft列表页面
@@ -140,7 +155,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
 
     // 点击了钱包
     private void walletOnClick(SudNFTGetWalletListModel.WalletInfo walletInfo) {
-        viewModel.bindWallet(walletInfo);
+        viewModel.bindWallet(requireContext(), walletInfo);
     }
 
     @Override

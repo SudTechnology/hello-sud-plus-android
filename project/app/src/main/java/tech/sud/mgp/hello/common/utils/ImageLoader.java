@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -13,8 +15,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.CustomViewTarget;
+import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 
 import java.io.File;
@@ -32,13 +37,41 @@ public class ImageLoader {
     }
 
     // 加载nft图片
-    public static void loadNftImage(ImageView view, String url, int radius) {
+    public static void loadNftImage(ImageView view, String url, CustomColorDrawable backgroundDrawable) {
         if (isDestroy(view)) return;
-        CustomColorDrawable drawable = new CustomColorDrawable();
-        drawable.setRadius(radius);
-        drawable.setStartColor(Color.parseColor("#1affffff"));
-        drawable.setEndColor(Color.parseColor("#29ffffff"));
-        Glide.with(view).load(url).placeholder(drawable).error(R.drawable.ic_nft_error).into(view);
+        Drawable background = view.getBackground();
+        if (background instanceof CustomColorDrawable) {
+            CustomColorDrawable customColorDrawable = (CustomColorDrawable) background;
+            customColorDrawable.stop();
+        }
+
+        if (TextUtils.isEmpty(url)) {
+            ImageLoader.loadDrawable(view, R.drawable.ic_nft_nonsupport);
+            return;
+        }
+
+        view.setBackground(backgroundDrawable);
+        ColorDrawable placeholderDrawable = new ColorDrawable(Color.parseColor("#00000000"));
+
+        Glide.with(view).load(url).placeholder(placeholderDrawable)
+                .error(placeholderDrawable)
+                .addListener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        if (backgroundDrawable != null) {
+                            backgroundDrawable.stop();
+                        }
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        if (backgroundDrawable != null) {
+                            backgroundDrawable.stop();
+                        }
+                        return false;
+                    }
+                }).into(view);
     }
 
     // 加载头像

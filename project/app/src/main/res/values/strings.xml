@@ -558,6 +558,10 @@ Go to homepage to create one~</string>
     <string name="copy">复制</string>
     <string name="wear">穿戴</string>
     <string name="cancel_wear">取消穿戴</string>
+    <string name="mine">我的</string>
+    <string name="connect_failed">连接失败</string>
+    <string name="refuse_wallet_operate">你拒绝了钱包中的操作</string>
+    <string name="dressed_in">穿戴中</string>
     <!-- endregion 新增 -->
 
 </resources>

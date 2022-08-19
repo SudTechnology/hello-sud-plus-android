@@ -29,7 +29,7 @@
             android:orientation="vertical">
 
             <!-- 钱包列表 -->
-            <tech.sud.mgp.hello.ui.main.settings.widget.WalletListView
+            <tech.sud.mgp.hello.ui.main.nft.widget.WalletListView
                 android:id="@+id/wallet_list_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -38,7 +38,7 @@
                 android:layout_marginHorizontal="16dp" />
 
             <!-- 钱包信息View -->
-            <tech.sud.mgp.hello.ui.main.settings.widget.WalletInfoView
+            <tech.sud.mgp.hello.ui.main.nft.widget.WalletInfoView
                 android:id="@+id/wallet_info_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

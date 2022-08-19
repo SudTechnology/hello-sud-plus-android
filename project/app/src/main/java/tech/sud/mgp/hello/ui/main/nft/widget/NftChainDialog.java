@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.main.settings.widget;
+package tech.sud.mgp.hello.ui.main.nft.widget;
 
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
@@ -22,7 +22,7 @@ import tech.sud.mgp.hello.common.base.BaseDialogFragment;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
 import tech.sud.mgp.hello.common.utils.ShapeUtils;
-import tech.sud.nft.core.model.SudNFTGetWalletListModel;
+import tech.sud.nft.core.model.resp.SudNFTGetWalletListModel;
 
 /**
  * nft链选择弹窗

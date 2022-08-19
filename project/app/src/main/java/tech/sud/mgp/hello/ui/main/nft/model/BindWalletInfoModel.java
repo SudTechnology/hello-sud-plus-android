@@ -1,9 +1,9 @@
-package tech.sud.mgp.hello.ui.main.settings.model;
+package tech.sud.mgp.hello.ui.main.nft.model;
 
 import java.io.Serializable;
 import java.util.List;
 
-import tech.sud.nft.core.model.SudNFTGetWalletListModel;
+import tech.sud.nft.core.model.resp.SudNFTGetWalletListModel;
 
 /**
  * 已绑定钱包信息

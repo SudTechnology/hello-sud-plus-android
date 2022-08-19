@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.main.settings.model;
+package tech.sud.mgp.hello.ui.main.nft.model;
 
 import java.util.List;
 

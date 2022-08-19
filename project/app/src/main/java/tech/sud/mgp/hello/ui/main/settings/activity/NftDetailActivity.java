@@ -21,8 +21,9 @@ import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
 import tech.sud.mgp.hello.common.utils.ShapeUtils;
 import tech.sud.mgp.hello.common.utils.ViewUtils;
-import tech.sud.mgp.hello.ui.main.settings.model.NftModel;
-import tech.sud.mgp.hello.ui.main.settings.viewmodel.NFTViewModel;
+import tech.sud.mgp.hello.common.widget.view.CustomColorDrawable;
+import tech.sud.mgp.hello.ui.main.nft.model.NftModel;
+import tech.sud.mgp.hello.ui.main.nft.viewmodel.NFTViewModel;
 
 /**
  * nft详情页
@@ -88,11 +89,16 @@ public class NftDetailActivity extends BaseActivity {
     protected void initData() {
         super.initData();
         viewModel.initData(this);
-        ImageLoader.loadNftImage(ivIcon, nftModel.getImageUrl(), 0);
-        tvName.setText(nftModel.getName());
+
+        CustomColorDrawable drawable = new CustomColorDrawable();
+        drawable.setStartColor(Color.parseColor("#1affffff"));
+        drawable.setEndColor(Color.parseColor("#29ffffff"));
+        ImageLoader.loadNftImage(ivIcon, nftModel.coverUrl, drawable);
+
+        tvName.setText(nftModel.name);
         tvAddress.setText(nftModel.contractAddress);
         tvTokenId.setText(nftModel.tokenId);
-        tvStandard.setText(nftModel.getTokenType());
+        tvStandard.setText(nftModel.tokenType);
     }
 
     @Override
@@ -123,7 +129,7 @@ public class NftDetailActivity extends BaseActivity {
     }
 
     private void updateWearInfo() {
-        if (TextUtils.isEmpty(nftModel.getImageUrl())) {
+        if (TextUtils.isEmpty(nftModel.coverUrl) || nftModel.fileType != NftModel.FILE_TYPE_IMAGE) {
             viewOperate.setVisibility(View.GONE);
             return;
         }

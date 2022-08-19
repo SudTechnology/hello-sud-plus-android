@@ -295,7 +295,7 @@
 
         <!-- nft列表页面 -->
         <activity
-            android:name=".ui.main.settings.activity.NftListActivity"
+            android:name=".ui.main.nft.activity.NftListActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:launchMode="singleTop"

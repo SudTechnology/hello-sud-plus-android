@@ -1,8 +1,9 @@
-package tech.sud.mgp.hello.ui.main.settings.widget;
+package tech.sud.mgp.hello.ui.main.nft.widget;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
@@ -16,10 +17,11 @@ import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
 import tech.sud.mgp.hello.common.utils.ImageUtils;
+import tech.sud.mgp.hello.common.widget.view.CustomColorDrawable;
 import tech.sud.mgp.hello.common.widget.view.YStretchDrawable;
-import tech.sud.mgp.hello.ui.main.settings.model.NftListResultModel;
-import tech.sud.mgp.hello.ui.main.settings.model.NftModel;
-import tech.sud.nft.core.model.SudNFTGetWalletListModel;
+import tech.sud.mgp.hello.ui.main.nft.model.NftListResultModel;
+import tech.sud.mgp.hello.ui.main.nft.model.NftModel;
+import tech.sud.nft.core.model.resp.SudNFTGetWalletListModel;
 
 /**
  * 绑定nft信息View
@@ -114,11 +116,18 @@ public class WalletInfoView extends ConstraintLayout {
     }
 
     private void loadNftImage(ImageView imageView, NftModel nftModel) {
+        String url;
         if (nftModel == null) {
-            ImageLoader.loadNftImage(imageView, null, 0);
+            url = null;
         } else {
-            ImageLoader.loadNftImage(imageView, nftModel.getImageUrl(), DensityUtils.dp2px(8));
+            url = nftModel.coverUrl;
         }
+        CustomColorDrawable drawable = new CustomColorDrawable();
+        drawable.setRadius(DensityUtils.dp2px(8));
+        drawable.setStartColor(Color.parseColor("#1affffff"));
+        drawable.setEndColor(Color.parseColor("#29ffffff"));
+
+        ImageLoader.loadNftImage(imageView, url, drawable);
     }
 
 }

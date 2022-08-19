@@ -1,0 +1,4 @@
+configurations.maybeCreate("default")
+artifacts.add("default", file('LiteAVSDK_TRTC_9.8.0.11553.aar'))
+dependencies {
+}

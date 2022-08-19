@@ -37,4 +37,8 @@ dependencies {
 
     // 引入 SudMGPRtcCore
     api project(':SudMGPRTC:SudMGPRtcCore')
+
+    // 引入 SudMGPRtcCore
+    api project(':SudMGPRTC:SudMGPRtcVolc-lib')
+
 }

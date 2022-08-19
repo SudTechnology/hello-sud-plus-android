@@ -3,14 +3,22 @@ package tech.sud.mgp.hello.ui.main.settings.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+
 import com.blankj.utilcode.util.ClipboardUtils;
+import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.ToastUtils;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.gyf.immersionbar.ImmersionBar;
 
 import java.io.Serializable;
@@ -41,6 +49,8 @@ public class NftDetailActivity extends BaseActivity {
     private View viewOperate;
 
     private final NFTViewModel viewModel = new NFTViewModel();
+
+    private boolean nftLoadSuccess; // 标识NFT图片是否加载成功了
 
     public static void start(Context context, NftModel nftModel) {
         Intent intent = new Intent(context, NftDetailActivity.class);
@@ -91,9 +101,23 @@ public class NftDetailActivity extends BaseActivity {
         viewModel.initData(this);
 
         CustomColorDrawable drawable = new CustomColorDrawable();
-        drawable.setStartColor(Color.parseColor("#1affffff"));
-        drawable.setEndColor(Color.parseColor("#29ffffff"));
-        ImageLoader.loadNftImage(ivIcon, nftModel.coverUrl, drawable);
+        drawable.setStartColor(Color.parseColor("#0d000000"));
+        drawable.setEndColor(Color.parseColor("#1a000000"));
+        ImageLoader.loadNftImage(ivIcon, nftModel.coverUrl, drawable, new RequestListener<Drawable>() {
+            @Override
+            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                return false;
+            }
+
+            @Override
+            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                nftLoadSuccess = true;
+                ThreadUtils.runOnUiThread(() -> {
+                    updateWearInfo();
+                });
+                return false;
+            }
+        });
 
         tvName.setText(nftModel.name);
         tvAddress.setText(nftModel.contractAddress);
@@ -129,23 +153,29 @@ public class NftDetailActivity extends BaseActivity {
     }
 
     private void updateWearInfo() {
-        if (TextUtils.isEmpty(nftModel.coverUrl) || nftModel.fileType != NftModel.FILE_TYPE_IMAGE) {
-            viewOperate.setVisibility(View.GONE);
-            return;
-        }
-        viewOperate.setVisibility(View.VISIBLE);
-
+        // 已经穿戴了该NFT，提供取消穿戴按钮
         NftModel wearNft = viewModel.getWearNft();
-        if (wearNft == null || !wearNft.equals(nftModel)) {
-            tvOperate.setBackground(ShapeUtils.createShape(null, null, null,
-                    GradientDrawable.RECTANGLE, null, Color.BLACK));
-            tvOperate.setTextColor(Color.WHITE);
-            tvOperate.setText(R.string.wear);
-        } else {
+        if (wearNft != null && wearNft.equals(nftModel)) {
+            viewOperate.setVisibility(View.VISIBLE);
             tvOperate.setBackground(ShapeUtils.createShape(DensityUtils.dp2px(1), null, null,
                     GradientDrawable.RECTANGLE, Color.BLACK, null));
             tvOperate.setTextColor(Color.BLACK);
             tvOperate.setText(R.string.cancel_wear);
+            return;
+        }
+
+        // 判断是否可以穿戴该NFT
+        if (TextUtils.isEmpty(nftModel.coverUrl) || nftModel.fileType != NftModel.FILE_TYPE_IMAGE || !nftLoadSuccess) {
+            viewOperate.setVisibility(View.GONE);
+            return;
+        }
+
+        if (wearNft == null || !wearNft.equals(nftModel)) {
+            viewOperate.setVisibility(View.VISIBLE);
+            tvOperate.setBackground(ShapeUtils.createShape(null, null, null,
+                    GradientDrawable.RECTANGLE, null, Color.BLACK));
+            tvOperate.setTextColor(Color.WHITE);
+            tvOperate.setText(R.string.wear);
         }
     }
 

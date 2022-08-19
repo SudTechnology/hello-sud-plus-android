@@ -38,6 +38,11 @@ public class ImageLoader {
 
     // 加载nft图片
     public static void loadNftImage(ImageView view, String url, CustomColorDrawable backgroundDrawable) {
+        loadNftImage(view, url, backgroundDrawable, null);
+    }
+
+    // 加载nft图片
+    public static void loadNftImage(ImageView view, String url, CustomColorDrawable backgroundDrawable, RequestListener<Drawable> listener) {
         if (isDestroy(view)) return;
         Drawable background = view.getBackground();
         if (background instanceof CustomColorDrawable) {
@@ -58,8 +63,8 @@ public class ImageLoader {
                 .addListener(new RequestListener<Drawable>() {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                        if (backgroundDrawable != null) {
-                            backgroundDrawable.stop();
+                        if (listener != null) {
+                            listener.onLoadFailed(e, model, target, isFirstResource);
                         }
                         return false;
                     }
@@ -68,6 +73,9 @@ public class ImageLoader {
                     public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
                         if (backgroundDrawable != null) {
                             backgroundDrawable.stop();
+                        }
+                        if (listener != null) {
+                            listener.onResourceReady(resource, model, target, dataSource, isFirstResource);
                         }
                         return false;
                     }

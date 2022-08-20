@@ -1,5 +1,7 @@
 package tech.sud.mgp.hello.ui.scenes.base.widget.view.chat;
 
+import android.widget.ImageView;
+
 import androidx.annotation.NonNull;
 
 import com.chad.library.adapter.base.provider.BaseItemProvider;
@@ -7,7 +9,6 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
-import tech.sud.mgp.hello.common.widget.view.round.RoundedImageView;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoomTextModel;
 
 /**
@@ -27,7 +28,7 @@ public class RoomTextProvider extends BaseItemProvider<Object> {
     @Override
     public void convert(@NonNull BaseViewHolder baseViewHolder, Object o) {
         RoomTextModel item = (RoomTextModel) o;
-        RoundedImageView ivIcon = baseViewHolder.getView(R.id.riv_avatar);
+        ImageView ivIcon = baseViewHolder.getView(R.id.riv_avatar);
         ImageLoader.loadAvatar(ivIcon, item.avatar);
         String nickName = item.nickName.isEmpty() ? "" : item.nickName;
         baseViewHolder.setText(R.id.tv_name, nickName + "：");

@@ -6,10 +6,12 @@
     android:background="@drawable/shape_r8_f2f2f2"
     android:paddingVertical="32dp">
 
-    <tech.sud.mgp.hello.common.widget.view.round.RoundedImageView
+    <tech.sud.mgp.hello.common.widget.view.CornersImageView
         android:id="@+id/header_view"
         android:layout_width="56dp"
         android:layout_height="56dp"
+        app:civ_cornerRadius="56dp"
+        android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

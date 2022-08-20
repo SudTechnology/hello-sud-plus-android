@@ -549,7 +549,6 @@ Go to homepage to create one~</string>
     <string name="pack_up">收起</string>
     <string name="owned_nft">已拥有的NFT</string>
     <string name="network">网络</string>
-    <string name="address_copied">地址已复制</string>
     <string name="unbind_wallet_title">确定要解除连接钱包吗？</string>
     <string name="nft_empty">尚无NFT</string>
     <string name="contract_address">Contract Address</string>
@@ -562,6 +561,7 @@ Go to homepage to create one~</string>
     <string name="connect_failed">连接失败</string>
     <string name="refuse_wallet_operate">你拒绝了钱包中的操作</string>
     <string name="dressed_in">穿戴中</string>
+    <string name="copy_success">复制成功</string>
     <!-- endregion 新增 -->
 
 </resources>

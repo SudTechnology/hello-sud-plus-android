@@ -42,6 +42,7 @@ public class NftDetailActivity extends BaseActivity {
     private ImageView ivIcon;
     private TextView tvName;
     private View viewAddress;
+    private View viewTokenId;
     private TextView tvAddress;
     private TextView tvTokenId;
     private TextView tvStandard;
@@ -86,6 +87,7 @@ public class NftDetailActivity extends BaseActivity {
         tvName = findViewById(R.id.tv_name);
         viewAddress = findViewById(R.id.view_address);
         tvAddress = findViewById(R.id.tv_address);
+        viewTokenId = findViewById(R.id.view_token_id);
         tvTokenId = findViewById(R.id.tv_token_id);
         tvStandard = findViewById(R.id.tv_standard);
         tvOperate = findViewById(R.id.tv_operate);
@@ -129,12 +131,20 @@ public class NftDetailActivity extends BaseActivity {
     protected void setListeners() {
         super.setListeners();
         viewAddress.setOnClickListener(v -> {
-            CharSequence address = tvAddress.getText();
-            if (address == null) {
+            CharSequence text = tvAddress.getText();
+            if (text == null) {
                 return;
             }
-            ClipboardUtils.copyText(address);
-            ToastUtils.showShort(R.string.address_copied);
+            ClipboardUtils.copyText(text);
+            ToastUtils.showShort(R.string.copy_success);
+        });
+        viewTokenId.setOnClickListener(v -> {
+            CharSequence text = tvTokenId.getText();
+            if (text == null) {
+                return;
+            }
+            ClipboardUtils.copyText(text);
+            ToastUtils.showShort(R.string.copy_success);
         });
         viewModel.bindWalletInfoMutableLiveData.observe(this, bindWalletInfoModel -> updateWearInfo());
         tvOperate.setOnClickListener(v -> {

@@ -4,11 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <tech.sud.mgp.hello.common.widget.view.round.RoundedImageView
+    <tech.sud.mgp.hello.common.widget.view.CornersImageView
         android:id="@+id/user_info_iv_icon"
         android:layout_width="56dp"
         android:layout_height="56dp"
-        app:riv_oval="true"
+        app:civ_cornerRadius="56dp"
         android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

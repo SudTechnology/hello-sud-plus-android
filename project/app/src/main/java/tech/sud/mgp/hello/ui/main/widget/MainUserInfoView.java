@@ -79,7 +79,7 @@ public class MainUserInfoView extends ConstraintLayout {
                     return;
                 }
                 ClipboardUtils.copyText(address);
-                ToastUtils.showShort(R.string.address_copied);
+                ToastUtils.showShort(R.string.copy_success);
             }
         });
     }

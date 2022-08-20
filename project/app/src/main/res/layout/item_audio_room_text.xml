@@ -11,11 +11,11 @@
     android:layout_marginTop="4dp"
     android:background="@drawable/shape_room_text_bg">
 
-    <tech.sud.mgp.hello.common.widget.view.round.RoundedImageView
+    <tech.sud.mgp.hello.common.widget.view.CornersImageView
         android:id="@+id/riv_avatar"
         android:layout_width="16dp"
         android:layout_height="16dp"
-        app:riv_oval="true"
+        app:civ_cornerRadius="16dp"
         android:scaleType="centerCrop" />
 
     <TextView

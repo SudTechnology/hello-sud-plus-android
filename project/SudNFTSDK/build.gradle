@@ -1,4 +1,4 @@
 configurations.maybeCreate("default")
-artifacts.add("default", file('SudNFT-0.0.0-SNAPSHOT.aar'))
+artifacts.add("default", file('SudNFT-1.2.5-836.aar'))
 dependencies {
 }

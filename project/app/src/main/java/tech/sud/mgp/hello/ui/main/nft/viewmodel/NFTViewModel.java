@@ -11,7 +11,6 @@ import com.blankj.utilcode.util.ToastUtils;
 import java.util.List;
 
 import tech.sud.mgp.SudMGPWrapper.utils.SudJsonUtils;
-import tech.sud.mgp.hello.BuildConfig;
 import tech.sud.mgp.hello.app.APPConfig;
 import tech.sud.mgp.hello.common.base.BaseViewModel;
 import tech.sud.mgp.hello.common.http.param.RetCode;
@@ -26,7 +25,6 @@ import tech.sud.mgp.hello.ui.main.nft.model.BindWalletInfoModel;
 import tech.sud.mgp.hello.ui.main.nft.model.NftListResultModel;
 import tech.sud.mgp.hello.ui.main.nft.model.NftListResultModelConvertor;
 import tech.sud.mgp.hello.ui.main.nft.model.NftModel;
-import tech.sud.nft.core.ISudNFTD;
 import tech.sud.nft.core.SudNFT;
 import tech.sud.nft.core.listener.ISudNFTListenerBindWallet;
 import tech.sud.nft.core.listener.ISudNFTListenerGenNFTCredentialsToken;
@@ -231,9 +229,6 @@ public class NFTViewModel extends BaseViewModel {
                 listener.onFailure(RetCode.FAIL, "SudConfig is empty");
             }
             return;
-        }
-        if (BuildConfig.DEBUG || BuildConfig.gameIsTestEnv) {
-            ISudNFTD.e(3);
         }
         SudInitNFTParamModel model = new SudInitNFTParamModel();
         model.context = context;

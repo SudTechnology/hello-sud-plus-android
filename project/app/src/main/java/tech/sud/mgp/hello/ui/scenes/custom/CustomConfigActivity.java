@@ -406,6 +406,42 @@ public class CustomConfigActivity extends BaseActivity {
         item1View.setData(configItemModel);
         configContainer.addView(item1View);
 
+        // 控制NFT头像的开关
+        item1View = new CustomPageItem1View(this);
+        configItemModel = addItem(
+                getString(R.string.custom_config_nft_avatar),
+                getString(R.string.custom_config_nft_avatar_subtitle),
+                1, 0, viewModel.configModel.ui.nft_avatar.hide, false,
+                getString(R.string.custom_config_game_hide_false),
+                getString(R.string.custom_config_game_hide_true));
+        item1View.setListener(itemModel -> viewModel.configModel.ui.nft_avatar.hide = itemModel.hide);
+        item1View.setData(configItemModel);
+        configContainer.addView(item1View);
+
+        // 控制开场动画的开关
+        item1View = new CustomPageItem1View(this);
+        configItemModel = addItem(
+                getString(R.string.custom_config_game_opening),
+                getString(R.string.custom_config_game_opening_subtitle),
+                1, 0, viewModel.configModel.ui.game_opening.hide, false,
+                getString(R.string.custom_config_game_hide_false),
+                getString(R.string.custom_config_game_hide_true));
+        item1View.setListener(itemModel -> viewModel.configModel.ui.game_opening.hide = itemModel.hide);
+        item1View.setData(configItemModel);
+        configContainer.addView(item1View);
+
+        // 控制MVP动画的开关
+        item1View = new CustomPageItem1View(this);
+        configItemModel = addItem(
+                getString(R.string.custom_config_game_mvp),
+                getString(R.string.custom_config_game_mvp_subtitle),
+                1, 0, viewModel.configModel.ui.game_mvp.hide, false,
+                getString(R.string.custom_config_game_hide_false),
+                getString(R.string.custom_config_game_hide_true));
+        item1View.setListener(itemModel -> viewModel.configModel.ui.game_mvp.hide = itemModel.hide);
+        item1View.setData(configItemModel);
+        configContainer.addView(item1View);
+
         // region ------- Custom
 
         // Custom分类

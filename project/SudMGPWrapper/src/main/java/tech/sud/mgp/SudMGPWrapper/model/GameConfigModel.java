@@ -49,6 +49,9 @@ public class GameConfigModel implements Serializable {
         public GameTableImage game_table_image = new GameTableImage(); // 游戏中牌桌背景图 （注：只对某些带牌桌类游戏有作用）
         public GameCountdownTime game_countdown_time = new GameCountdownTime(); // 游戏中游戏倒计时显示 （注：现在只针对umo生效）
         public GameSelectedTips game_selected_tips = new GameSelectedTips(); // 游戏中所选择的玩法提示文字 （注：现在只针对ludo生效）
+        public NFTAvatar nft_avatar = new NFTAvatar(); // 控制NFT头像的开关
+        public GameOpening game_opening = new GameOpening(); // 控制开场动画的开关
+        public GameMvp game_mvp = new GameMvp(); // 控制MVP动画的开关
     }
 
     // 结算界面
@@ -205,6 +208,24 @@ public class GameConfigModel implements Serializable {
     // 游戏中所选择的玩法提示文字 （注：现在只针对ludo生效）
     public static class GameSelectedTips implements Serializable {
         // 是否隐藏游戏中所选择的玩法提示文字显示（false: 显示； true: 隐藏，默认为false）
+        public boolean hide = false;
+    }
+
+    // 控制NFT头像的开关
+    public static class NFTAvatar implements Serializable {
+        // true隐藏 false显示
+        public boolean hide = false;
+    }
+
+    // 控制开场动画的开关
+    public static class GameOpening implements Serializable {
+        // true隐藏 false显示
+        public boolean hide = false;
+    }
+
+    // 控制MVP动画的开关
+    public static class GameMvp implements Serializable {
+        // true隐藏 false显示
         public boolean hide = false;
     }
 

@@ -94,6 +94,12 @@
     <string name="custom_config_game_countdown_time_subtitle">(ui.game_countdown_time.hide)</string>
     <string name="custom_config_game_selected_tips">The feature to disable th prompt text of play method selected in the game (Currently supported by Ludo only.)</string>
     <string name="custom_config_game_selected_tips_subtitle">(ui.game_selected_tips.hide)</string>
+    <string name="custom_config_nft_avatar">控制NFT头像的开关</string>
+    <string name="custom_config_nft_avatar_subtitle">(ui.nft_avatar.hide)</string>
+    <string name="custom_config_game_opening">控制开场动画的开关</string>
+    <string name="custom_config_game_opening_subtitle">(ui.game_opening.hide)</string>
+    <string name="custom_config_game_mvp">控制MVP动画的开关</string>
+    <string name="custom_config_game_mvp_subtitle">(ui.game_mvp.hide)</string>
 
     <!-- endregion custom场景，暂不用全部翻译 -->
 </resources>

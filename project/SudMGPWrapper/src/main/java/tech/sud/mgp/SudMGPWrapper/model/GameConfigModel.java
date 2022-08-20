@@ -214,19 +214,19 @@ public class GameConfigModel implements Serializable {
     // 控制NFT头像的开关
     public static class NFTAvatar implements Serializable {
         // true隐藏 false显示
-        public boolean hide = false;
+        public boolean hide = true;
     }
 
     // 控制开场动画的开关
     public static class GameOpening implements Serializable {
         // true隐藏 false显示
-        public boolean hide = false;
+        public boolean hide = true;
     }
 
     // 控制MVP动画的开关
     public static class GameMvp implements Serializable {
         // true隐藏 false显示
-        public boolean hide = false;
+        public boolean hide = true;
     }
 
 }

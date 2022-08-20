@@ -166,6 +166,9 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
 
         SudMGP.getCfg().setShowLoadingGameBg(true); // 默认需要显示加载游戏时的背景图
         gameViewModel.gameConfigModel.ui.lobby_players.hide = true; // 配置不展示大厅玩家展示位
+        gameViewModel.gameConfigModel.ui.nft_avatar.hide = false; // 显示NFT图像
+        gameViewModel.gameConfigModel.ui.game_opening.hide = false; // 显示开场动画
+        gameViewModel.gameConfigModel.ui.game_mvp.hide = false; // 显示MVP动画
 
         // 设置沉浸式状态栏时，顶部view的间距
         ViewGroup.LayoutParams topViewParams = topView.getLayoutParams();

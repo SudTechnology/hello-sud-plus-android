@@ -95,6 +95,10 @@ public class WalletInfoView extends ConstraintLayout {
             tvEmpty.setVisibility(View.VISIBLE);
             return;
         }
+        ivNft1.setVisibility(View.GONE);
+        ivNft2.setVisibility(View.GONE);
+        ivNft3.setVisibility(View.GONE);
+        
         tvEmpty.setVisibility(View.GONE);
         for (int i = 0; i < model.list.size(); i++) {
             NftModel nftModel = model.list.get(i);

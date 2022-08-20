@@ -21,11 +21,11 @@
         app:layout_constraintEnd_toEndOf="@id/riv_avatar"
         app:layout_constraintStart_toStartOf="@id/riv_avatar" />
 
-    <tech.sud.mgp.hello.common.widget.view.round.RoundedImageView
+    <tech.sud.mgp.hello.common.widget.view.CornersImageView
         android:id="@+id/riv_avatar"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        app:riv_oval="true"
+        app:civ_cornerRadius="32dp"
         android:scaleType="centerCrop"
         android:layout_marginTop="10dp"
         app:layout_constraintTop_toTopOf="parent"

@@ -15,7 +15,6 @@ import androidx.annotation.Nullable;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
 import tech.sud.mgp.hello.common.widget.view.SoundLevelView;
-import tech.sud.mgp.hello.common.widget.view.round.RoundedImageView;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoleType;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.mic.BaseMicItemView;
@@ -26,7 +25,7 @@ import tech.sud.mgp.hello.ui.scenes.base.widget.view.mic.BaseMicItemView;
 public class AudioRoomMicItemView extends BaseMicItemView {
 
     private SoundLevelView mSoundLevelView;
-    private RoundedImageView mRivIcon;
+    private ImageView mIvIcon;
     private TextView mTvName;
     private ImageView giftIcon;
     private TextView tvGameState;
@@ -47,7 +46,7 @@ public class AudioRoomMicItemView extends BaseMicItemView {
     private void initView() {
         inflate(getContext(), R.layout.view_room_mic_item, this);
         mSoundLevelView = findViewById(R.id.sound_level_view);
-        mRivIcon = findViewById(R.id.riv_avatar);
+        mIvIcon = findViewById(R.id.riv_avatar);
         mTvName = findViewById(R.id.tv_name);
         giftIcon = findViewById(R.id.gift_icon_iv);
         tvGameState = findViewById(R.id.tv_game_state);
@@ -58,9 +57,9 @@ public class AudioRoomMicItemView extends BaseMicItemView {
         boolean hasUser = item.userId > 0;
         mSoundLevelView.setCurUserId(item.userId);
         if (hasUser) {
-            ImageLoader.loadAvatar(mRivIcon, item.avatar);
+            ImageLoader.loadAvatar(mIvIcon, item.avatar);
         } else {
-            ImageLoader.loadDrawable(mRivIcon, R.drawable.ic_seat);
+            ImageLoader.loadDrawable(mIvIcon, R.drawable.ic_seat);
         }
 
         // 设置名称

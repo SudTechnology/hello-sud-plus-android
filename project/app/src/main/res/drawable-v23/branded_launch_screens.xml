@@ -5,10 +5,10 @@
     <item android:drawable="@color/c_ffffff" />
     <!-- 产品logo -->
     <item
-        android:width="176dp"
-        android:height="72dp"
+        android:width="192dp"
+        android:height="192dp"
         android:gravity="center_horizontal|top"
-        android:top="200dp">
+        android:top="80dp">
         <bitmap android:src="@drawable/ic_splash_logo" />
     </item>
 </layer-list>

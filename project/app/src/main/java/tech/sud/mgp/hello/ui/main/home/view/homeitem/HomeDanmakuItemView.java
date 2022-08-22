@@ -25,7 +25,7 @@ import tech.sud.mgp.hello.service.main.resp.QuizGameListResp;
 import tech.sud.mgp.hello.service.main.resp.SceneModel;
 
 /**
- * 首页竞猜场景itemView
+ * 首页弹幕场景itemView
  */
 public class HomeDanmakuItemView extends ConstraintLayout implements IHomeChildItemView {
 

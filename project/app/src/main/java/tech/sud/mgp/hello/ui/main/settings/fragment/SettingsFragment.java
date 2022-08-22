@@ -9,6 +9,7 @@ import com.blankj.utilcode.util.LogUtils;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseFragment;
+import tech.sud.mgp.hello.common.model.ErrorModel;
 import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
 import tech.sud.mgp.hello.common.widget.dialog.TitleInfoDialog;
 import tech.sud.mgp.hello.ui.main.home.view.CoinDialog;
@@ -113,16 +114,20 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
             userInfoView.updateUserInfo();
             userInfoView.setShowUnbind(model != null);
         });
-        viewModel.bindWalletFailedLiveData.observe(this, new Observer<Object>() {
+        viewModel.bindWalletFailedLiveData.observe(this, new Observer<ErrorModel>() {
             @Override
-            public void onChanged(Object o) {
-                showBindWalletFailedDialog();
+            public void onChanged(ErrorModel model) {
+                showBindWalletFailedDialog(model);
             }
         });
     }
 
-    private void showBindWalletFailedDialog() {
-        TitleInfoDialog dialog = new TitleInfoDialog(requireContext(), getString(R.string.connect_failed), getString(R.string.refuse_wallet_operate));
+    private void showBindWalletFailedDialog(ErrorModel model) {
+        if (model == null) {
+            return;
+        }
+        String info = model.msg + "(" + model.code + ")";
+        TitleInfoDialog dialog = new TitleInfoDialog(requireContext(), getString(R.string.connect_failed), info);
         dialog.show();
     }
 

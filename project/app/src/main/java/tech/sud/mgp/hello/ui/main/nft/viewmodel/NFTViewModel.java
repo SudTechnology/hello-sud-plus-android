@@ -16,6 +16,7 @@ import tech.sud.mgp.hello.common.base.BaseViewModel;
 import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.AppData;
+import tech.sud.mgp.hello.common.model.ErrorModel;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.GlobalSP;
 import tech.sud.mgp.hello.service.login.repository.LoginRepository;
@@ -60,7 +61,7 @@ public class NFTViewModel extends BaseViewModel {
     public MutableLiveData<Object> wearNftChangeLiveData = new MutableLiveData<>();
 
     /** 绑定钱包失败 */
-    public MutableLiveData<Object> bindWalletFailedLiveData = new MutableLiveData<>();
+    public MutableLiveData<ErrorModel> bindWalletFailedLiveData = new MutableLiveData<>();
 
     private SudNFTGetWalletListModel walletListModel; // 钱包列表
     private static BindWalletInfoModel mBindWalletInfo; // 已绑定的钱包数据
@@ -141,7 +142,10 @@ public class NFTViewModel extends BaseViewModel {
             public void onFailure(int retCode, String retMsg) {
                 LogUtils.e("nft: bindWallet onFailure:" + retCode + "  retMsg:" + retMsg);
 //                ToastUtils.showLong("bindWallet onFailure:" + retCode + "  retMsg:" + retMsg);
-                bindWalletFailedLiveData.setValue(null);
+                ErrorModel model = new ErrorModel();
+                model.code = retCode;
+                model.msg = retMsg;
+                bindWalletFailedLiveData.setValue(model);
             }
         });
     }

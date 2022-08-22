@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.blankj.utilcode.util.ToastUtils;
+import com.gyf.immersionbar.ImmersionBar;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
@@ -23,6 +24,7 @@ import tech.sud.mgp.hello.common.base.BaseFragment;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
+import tech.sud.mgp.hello.common.utils.ViewUtils;
 import tech.sud.mgp.hello.service.main.manager.HomeManager;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.main.resp.CreatRoomResp;
@@ -89,6 +91,9 @@ public class HomeFragment extends BaseFragment implements CreatRoomClickListener
         userInfoView = mRootView.findViewById(R.id.user_info_view);
         refreshLayout.setEnableRefresh(true);
         refreshLayout.setEnableLoadMore(false);
+
+        View viewStatusBar = findViewById(R.id.view_statusbar);
+        ViewUtils.setHeight(viewStatusBar, ImmersionBar.getStatusBarHeight(requireContext()));
     }
 
     @Override

@@ -110,6 +110,7 @@ dependencies {
 
     // 图片加载库
     implementation 'com.github.bumptech.glide:glide:4.13.2'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.13.2'
 
     // 网络请求库
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
@@ -155,5 +156,8 @@ dependencies {
 
     // 指示器：https://github.com/hackware1993/MagicIndicator
     implementation "com.github.hackware1993:MagicIndicator:1.7.0"
+
+    // glide svg解析：https://github.com/qoqa/glide-svg
+    implementation 'com.github.qoqa:glide-svg:4.0.2'
 
 }

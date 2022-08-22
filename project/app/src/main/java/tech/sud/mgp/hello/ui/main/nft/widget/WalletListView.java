@@ -65,7 +65,7 @@ public class WalletListView extends ConstraintLayout {
         tvOperate = findViewById(R.id.tv_operate);
         viewArrow = findViewById(R.id.view_arrow);
 
-        Bitmap bitmap = ImageUtils.getBitmap(R.drawable.ic_wallet_bg, DensityUtils.getScreenWidth(), DensityUtils.getScreenHeight());
+        Bitmap bitmap = ImageUtils.getBitmap(R.drawable.ic_wallet_bg, DensityUtils.getScreenWidth(getContext()), DensityUtils.getScreenHeight(getContext()));
         rootView.setBackground(new YStretchDrawable(bitmap));
 
         recyclerView.setNestedScrollingEnabled(false);

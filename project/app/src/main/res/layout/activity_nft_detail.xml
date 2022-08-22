@@ -131,7 +131,7 @@
                 android:id="@+id/tv_standard"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textColor="@color/c_8a8a8e" />
 
         </LinearLayout>

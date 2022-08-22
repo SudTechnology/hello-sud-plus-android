@@ -57,7 +57,11 @@ public class MainUserInfoView extends ConstraintLayout {
     public void updateUserInfo() {
         tvName.setText(HSUserInfo.nickName);
         tvUserId.setText(getContext().getString(R.string.setting_userid, HSUserInfo.userId + ""));
-        ImageLoader.loadAvatar(ivIcon, HSUserInfo.getUseAvatar());
+        try {
+            ImageLoader.loadAvatar(ivIcon, HSUserInfo.getUseAvatar());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         String walletAddress = HSUserInfo.walletAddress;
         if (TextUtils.isEmpty(walletAddress)) {
             showUserId();

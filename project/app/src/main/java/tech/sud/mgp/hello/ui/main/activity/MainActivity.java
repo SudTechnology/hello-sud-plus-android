@@ -15,6 +15,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.blankj.utilcode.util.ThreadUtils;
+import com.gyf.immersionbar.ImmersionBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +47,11 @@ public class MainActivity extends BaseActivity implements MainTabView.TabClickLi
     @Override
     protected int getLayoutId() {
         return R.layout.activity_main;
+    }
+
+    @Override
+    protected void setStatusBar() {
+        ImmersionBar.with(this).statusBarColor(R.color.transparent).statusBarDarkFont(true).init();
     }
 
     @Override

@@ -7,6 +7,13 @@
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintTop_toTopOf="parent">
 
+    <View
+        android:id="@+id/view_statusbar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/white"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/index_header"
         android:layout_width="match_parent"
@@ -17,7 +24,7 @@
         android:paddingBottom="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/view_statusbar">
 
         <tech.sud.mgp.hello.ui.main.widget.MainUserInfoView
             android:id="@+id/user_info_view"

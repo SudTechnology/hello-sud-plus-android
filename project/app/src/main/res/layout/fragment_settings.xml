@@ -5,13 +5,19 @@
     android:layout_height="match_parent"
     android:background="@color/c_f5f6fb">
 
+    <View
+        android:id="@+id/view_statusbar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <tech.sud.mgp.hello.ui.main.widget.MainUserInfoView
         android:id="@+id/user_info_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="20dp"
         android:layout_marginTop="7dp"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/view_statusbar" />
 
     <!-- 主要内容 -->
     <androidx.core.widget.NestedScrollView

@@ -6,10 +6,12 @@ import android.view.View;
 import androidx.lifecycle.Observer;
 
 import com.blankj.utilcode.util.LogUtils;
+import com.gyf.immersionbar.ImmersionBar;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseFragment;
 import tech.sud.mgp.hello.common.model.ErrorModel;
+import tech.sud.mgp.hello.common.utils.ViewUtils;
 import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
 import tech.sud.mgp.hello.common.widget.dialog.TitleInfoDialog;
 import tech.sud.mgp.hello.ui.main.home.view.CoinDialog;
@@ -54,6 +56,9 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         btnSettings = findViewById(R.id.button_settings);
         btnAbout = findViewById(R.id.button_about);
         userInfoView.setShowUnbind(true);
+        
+        View viewStatusBar = findViewById(R.id.view_statusbar);
+        ViewUtils.setHeight(viewStatusBar, ImmersionBar.getStatusBarHeight(requireContext()));
     }
 
     @Override

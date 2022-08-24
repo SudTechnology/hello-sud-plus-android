@@ -3,21 +3,18 @@ package tech.sud.mgp.hello.ui.main.settings.fragment;
 import android.content.Intent;
 import android.view.View;
 
-import androidx.lifecycle.Observer;
-
 import com.blankj.utilcode.util.LogUtils;
 import com.gyf.immersionbar.ImmersionBar;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseFragment;
-import tech.sud.mgp.hello.common.model.ErrorModel;
 import tech.sud.mgp.hello.common.utils.ViewUtils;
 import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
-import tech.sud.mgp.hello.common.widget.dialog.TitleInfoDialog;
 import tech.sud.mgp.hello.ui.main.home.view.CoinDialog;
 import tech.sud.mgp.hello.ui.main.nft.activity.NftListActivity;
 import tech.sud.mgp.hello.ui.main.nft.model.BindWalletInfoModel;
 import tech.sud.mgp.hello.ui.main.nft.viewmodel.NFTViewModel;
+import tech.sud.mgp.hello.ui.main.nft.widget.NftBindingDialog;
 import tech.sud.mgp.hello.ui.main.nft.widget.NftChainDialog;
 import tech.sud.mgp.hello.ui.main.nft.widget.WalletInfoView;
 import tech.sud.mgp.hello.ui.main.nft.widget.WalletListView;
@@ -56,7 +53,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         btnSettings = findViewById(R.id.button_settings);
         btnAbout = findViewById(R.id.button_about);
         userInfoView.setShowUnbind(true);
-        
+
         View viewStatusBar = findViewById(R.id.view_statusbar);
         ViewUtils.setHeight(viewStatusBar, ImmersionBar.getStatusBarHeight(requireContext()));
     }
@@ -119,21 +116,6 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
             userInfoView.updateUserInfo();
             userInfoView.setShowUnbind(model != null);
         });
-        viewModel.bindWalletFailedLiveData.observe(this, new Observer<ErrorModel>() {
-            @Override
-            public void onChanged(ErrorModel model) {
-                showBindWalletFailedDialog(model);
-            }
-        });
-    }
-
-    private void showBindWalletFailedDialog(ErrorModel model) {
-        if (model == null) {
-            return;
-        }
-        String info = model.msg + "(" + model.code + ")";
-        TitleInfoDialog dialog = new TitleInfoDialog(requireContext(), getString(R.string.connect_failed), info);
-        dialog.show();
     }
 
     // 打开nft列表页面
@@ -165,7 +147,10 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
 
     // 点击了钱包
     private void walletOnClick(SudNFTGetWalletListModel.WalletInfo walletInfo) {
-        viewModel.bindWallet(requireContext(), walletInfo);
+        NftBindingDialog dialog = new NftBindingDialog();
+        dialog.viewModel = viewModel;
+        dialog.walletInfo = walletInfo;
+        dialog.show(getChildFragmentManager(), null);
     }
 
     @Override

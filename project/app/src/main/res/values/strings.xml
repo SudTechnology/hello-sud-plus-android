@@ -562,6 +562,9 @@ Go to homepage to create one~</string>
     <string name="refuse_wallet_operate">你拒绝了钱包中的操作</string>
     <string name="dressed_in">穿戴中</string>
     <string name="copy_success">复制成功</string>
+    <string name="sign_success">签名成功</string>
+    <string name="waiting_sign">连接成功，等待签名…</string>
+    <string name="wallet_connecting">钱包连接中…</string>
     <!-- endregion 新增 -->
 
 </resources>

@@ -17,7 +17,6 @@ import tech.sud.mgp.hello.common.base.BaseViewModel;
 import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.AppData;
-import tech.sud.mgp.hello.common.model.ErrorModel;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.GlobalSP;
 import tech.sud.mgp.hello.service.login.repository.LoginRepository;
@@ -38,7 +37,9 @@ import tech.sud.nft.core.model.param.SudInitNFTParamModel;
 import tech.sud.nft.core.model.param.SudNFTBindWalletParamModel;
 import tech.sud.nft.core.model.param.SudNFTCredentialsTokenParamModel;
 import tech.sud.nft.core.model.param.SudNFTGetNFTListParamModel;
+import tech.sud.nft.core.model.resp.SudNFTBindWalletEvent;
 import tech.sud.nft.core.model.resp.SudNFTBindWalletModel;
+import tech.sud.nft.core.model.resp.SudNFTBindWalletStage;
 import tech.sud.nft.core.model.resp.SudNFTGenNFTCredentialsTokenModel;
 import tech.sud.nft.core.model.resp.SudNFTGetNFTListModel;
 import tech.sud.nft.core.model.resp.SudNFTGetWalletListModel;
@@ -61,9 +62,6 @@ public class NFTViewModel extends BaseViewModel {
 
     /** 穿戴nft有变化 */
     public MutableLiveData<Object> wearNftChangeLiveData = new MutableLiveData<>();
-
-    /** 绑定钱包失败 */
-    public MutableLiveData<ErrorModel> bindWalletFailedLiveData = new MutableLiveData<>();
 
     private SudNFTGetWalletListModel walletListModel; // 钱包列表
     private static BindWalletInfoModel mBindWalletInfo; // 已绑定的钱包数据
@@ -126,7 +124,7 @@ public class NFTViewModel extends BaseViewModel {
     }
 
     /** 绑定钱包 */
-    public void bindWallet(Context context, WalletInfo walletInfo) {
+    public void bindWallet(Context context, WalletInfo walletInfo, ISudNFTListenerBindWallet listener) {
         if (walletInfo == null) {
             return;
         }
@@ -138,16 +136,31 @@ public class NFTViewModel extends BaseViewModel {
             public void onSuccess(SudNFTBindWalletModel model) {
                 onBindWalletSuccess(walletInfo, model);
                 LogUtils.d("nft: bindWallet onSuccess:" + GsonUtils.toJson(model));
+                if (listener != null) {
+                    listener.onSuccess(model);
+                }
             }
 
             @Override
             public void onFailure(int retCode, String retMsg) {
                 LogUtils.e("nft: bindWallet onFailure:" + retCode + "  retMsg:" + retMsg);
-//                ToastUtils.showLong("bindWallet onFailure:" + retCode + "  retMsg:" + retMsg);
-                ErrorModel model = new ErrorModel();
-                model.code = retCode;
-                model.msg = retMsg;
-                bindWalletFailedLiveData.setValue(model);
+                if (listener != null) {
+                    listener.onFailure(retCode, retMsg);
+                }
+            }
+
+            @Override
+            public void onBindStageList(List<SudNFTBindWalletStage> list) {
+                if (listener != null) {
+                    listener.onBindStageList(list);
+                }
+            }
+
+            @Override
+            public void onBindStageEvent(SudNFTBindWalletStage stage, SudNFTBindWalletEvent event) {
+                if (listener != null) {
+                    listener.onBindStageEvent(stage, event);
+                }
             }
         });
     }

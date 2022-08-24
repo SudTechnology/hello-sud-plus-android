@@ -64,6 +64,7 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
         ZegoEngineConfig engineConfig = new ZegoEngineConfig();
         engineConfig.advancedConfig.put("init_domain_name", "ze-config.divtoss.com");
         engineConfig.advancedConfig.put("audio_capture_dummy", "true");
+        engineConfig.advancedConfig.put("video_check_poc", "false");
         ZegoExpressEngine.setEngineConfig(engineConfig);
         long appID = 0;
         try {

@@ -153,4 +153,14 @@ public class NftBindingDialog extends BaseDialogFragment {
         });
     }
 
+    @Override
+    protected boolean canceledOnTouchOutside() {
+        return false;
+    }
+
+    @Override
+    protected boolean cancelable() {
+        return false;
+    }
+    
 }

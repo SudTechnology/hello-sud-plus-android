@@ -107,248 +107,260 @@ public class CustomConfigActivity extends BaseActivity {
         configContainer.addView(titleView5);
 
         //是否隐藏结算页面
-        CustomPageItem1View item1View6 = new CustomPageItem1View(this);
-        ConfigItemModel itemModel6 = addItem(
+        CustomPageItem1View item1View = new CustomPageItem1View(this);
+        ConfigItemModel configItemModel = addItem(
                 getString(R.string.custom_config_game_settle),
                 getString(R.string.custom_config_game_settle_subtitle),
                 1, 0, viewModel.configModel.ui.gameSettle.hide, false,
                 getString(R.string.custom_config_game_hide_false),
                 getString(R.string.custom_config_game_hide_true));
-        item1View6.setListener(itemModel -> viewModel.configModel.ui.gameSettle.hide = itemModel.hide);
-        item1View6.setData(itemModel6);
-        configContainer.addView(item1View6);
+        item1View.setListener(itemModel -> viewModel.configModel.ui.gameSettle.hide = itemModel.hide);
+        item1View.setData(configItemModel);
+        configContainer.addView(item1View);
 
         //是否隐藏ping值
-        CustomPageItem1View item1View7 = new CustomPageItem1View(this);
-        ConfigItemModel itemModel7 = addItem(
+        item1View = new CustomPageItem1View(this);
+        configItemModel = addItem(
                 getString(R.string.custom_config_game_ping),
                 getString(R.string.custom_config_game_ping_subtitle),
                 1, 0, viewModel.configModel.ui.ping.hide, false,
                 getString(R.string.custom_config_game_hide_false),
                 getString(R.string.custom_config_game_hide_true));
-        item1View7.setListener(itemModel -> viewModel.configModel.ui.ping.hide = itemModel.hide);
-        item1View7.setData(itemModel7);
-        configContainer.addView(item1View7);
+        item1View.setListener(itemModel -> viewModel.configModel.ui.ping.hide = itemModel.hide);
+        item1View.setData(configItemModel);
+        configContainer.addView(item1View);
 
         //是否隐藏版本信息
-        CustomPageItem1View item1View8 = new CustomPageItem1View(this);
-        ConfigItemModel itemModel8 = addItem(
+        item1View = new CustomPageItem1View(this);
+        configItemModel = addItem(
                 getString(R.string.custom_config_game_version),
                 getString(R.string.custom_config_game_version_subtitle),
                 1, 0, viewModel.configModel.ui.version.hide, false,
                 getString(R.string.custom_config_game_hide_false),
                 getString(R.string.custom_config_game_hide_true));
-        item1View8.setListener(itemModel -> viewModel.configModel.ui.version.hide = itemModel.hide);
-        item1View8.setData(itemModel8);
-        configContainer.addView(item1View8);
+        item1View.setListener(itemModel -> viewModel.configModel.ui.version.hide = itemModel.hide);
+        item1View.setData(configItemModel);
+        configContainer.addView(item1View);
 
         //是否隐藏段位信息
-        CustomPageItem1View item1View9 = new CustomPageItem1View(this);
-        ConfigItemModel itemModel9 = addItem(
+        item1View = new CustomPageItem1View(this);
+        configItemModel = addItem(
                 getString(R.string.custom_config_game_level),
                 getString(R.string.custom_config_game_level_subtitle),
                 1, 0, viewModel.configModel.ui.level.hide, false,
                 getString(R.string.custom_config_game_hide_false),
                 getString(R.string.custom_config_game_hide_true));
-        item1View9.setListener(itemModel -> viewModel.configModel.ui.level.hide = itemModel.hide);
-        item1View9.setData(itemModel9);
-        configContainer.addView(item1View9);
+        item1View.setListener(itemModel -> viewModel.configModel.ui.level.hide = itemModel.hide);
+        item1View.setData(configItemModel);
+        configContainer.addView(item1View);
 
         //是否隐藏大厅的『设置/音效』按钮
-        CustomPageItem1View item1View10 = new CustomPageItem1View(this);
-        ConfigItemModel itemModel10 = addItem(
+        item1View = new CustomPageItem1View(this);
+        configItemModel = addItem(
                 getString(R.string.custom_config_game_lobby_setting_btn),
                 getString(R.string.custom_config_game_lobby_setting_btn_subtitle),
                 1, 0, viewModel.configModel.ui.lobby_setting_btn.hide, false,
                 getString(R.string.custom_config_game_hide_false),
                 getString(R.string.custom_config_game_hide_true));
-        item1View10.setListener(itemModel -> viewModel.configModel.ui.lobby_setting_btn.hide = itemModel.hide);
-        item1View10.setData(itemModel10);
-        configContainer.addView(item1View10);
+        item1View.setListener(itemModel -> viewModel.configModel.ui.lobby_setting_btn.hide = itemModel.hide);
+        item1View.setData(configItemModel);
+        configContainer.addView(item1View);
 
         //是否隐藏大厅的『帮助』按钮
-        CustomPageItem1View item1View11 = new CustomPageItem1View(this);
-        ConfigItemModel itemModel11 = addItem(
+        item1View = new CustomPageItem1View(this);
+        configItemModel = addItem(
                 getString(R.string.custom_config_game_lobby_help_btn),
                 getString(R.string.custom_config_game_lobby_help_btn_subtitle),
                 1, 0, viewModel.configModel.ui.lobby_help_btn.hide, false,
                 getString(R.string.custom_config_game_hide_false),
                 getString(R.string.custom_config_game_hide_true));
-        item1View11.setListener(itemModel -> viewModel.configModel.ui.lobby_help_btn.hide = itemModel.hide);
-        item1View11.setData(itemModel11);
-        configContainer.addView(item1View11);
+        item1View.setListener(itemModel -> viewModel.configModel.ui.lobby_help_btn.hide = itemModel.hide);
+        item1View.setData(configItemModel);
+        configContainer.addView(item1View);
 
         //是否隐藏大厅游戏位
-        CustomPageItem1View item1View13 = new CustomPageItem1View(this);
-        ConfigItemModel itemModel13 = addItem(
+        item1View = new CustomPageItem1View(this);
+        configItemModel = addItem(
                 getString(R.string.custom_config_game_lobby_players_hide),
                 getString(R.string.custom_config_game_lobby_players_hide_subtitle),
                 1, 0, viewModel.configModel.ui.lobby_players.hide, false,
                 getString(R.string.custom_config_game_hide_false),
                 getString(R.string.custom_config_game_hide_true));
-        item1View13.setListener(itemModel -> viewModel.configModel.ui.lobby_players.hide = itemModel.hide);
-        item1View13.setData(itemModel13);
-        configContainer.addView(item1View13);
+        item1View.setListener(itemModel -> viewModel.configModel.ui.lobby_players.hide = itemModel.hide);
+        item1View.setData(configItemModel);
+        configContainer.addView(item1View);
 
         //是否隐藏大厅游戏位上队长标识
-        CustomPageItem1View item1View14 = new CustomPageItem1View(this);
-        ConfigItemModel itemModel14 = addItem(
+        item1View = new CustomPageItem1View(this);
+        configItemModel = addItem(
                 getString(R.string.custom_config_game_lobby_player_captain_icon),
                 getString(R.string.custom_config_game_lobby_player_captain_icon_subtitle),
                 1, 0, viewModel.configModel.ui.lobby_player_captain_icon.hide, false,
                 getString(R.string.custom_config_game_hide_false),
                 getString(R.string.custom_config_game_hide_true));
-        item1View14.setListener(itemModel -> viewModel.configModel.ui.lobby_player_captain_icon.hide = itemModel.hide);
-        item1View14.setData(itemModel14);
-        configContainer.addView(item1View14);
+        item1View.setListener(itemModel -> viewModel.configModel.ui.lobby_player_captain_icon.hide = itemModel.hide);
+        item1View.setData(configItemModel);
+        configContainer.addView(item1View);
 
         //是否隐藏大厅游戏位上『踢人』按钮
-        CustomPageItem1View item1View15 = new CustomPageItem1View(this);
-        ConfigItemModel itemModel15 = addItem(
+        item1View = new CustomPageItem1View(this);
+        configItemModel = addItem(
                 getString(R.string.custom_config_game_lobby_player_kickout_icon),
                 getString(R.string.custom_config_game_lobby_player_kickout_icon_subtitle),
                 1, 0, viewModel.configModel.ui.lobby_player_kickout_icon.hide, false,
                 getString(R.string.custom_config_game_hide_false),
                 getString(R.string.custom_config_game_hide_true));
-        item1View15.setListener(itemModel -> viewModel.configModel.ui.lobby_player_kickout_icon.hide = itemModel.hide);
-        item1View15.setData(itemModel15);
-        configContainer.addView(item1View15);
+        item1View.setListener(itemModel -> viewModel.configModel.ui.lobby_player_kickout_icon.hide = itemModel.hide);
+        item1View.setData(configItemModel);
+        configContainer.addView(item1View);
 
         //是否隐藏大厅的玩法规则描述文字
-        CustomPageItem1View item1View16 = new CustomPageItem1View(this);
-        ConfigItemModel itemModel16 = addItem(
+        item1View = new CustomPageItem1View(this);
+        configItemModel = addItem(
                 getString(R.string.custom_config_game_lobby_rule),
                 getString(R.string.custom_config_game_lobby_rule_subtitle),
                 1, 0, viewModel.configModel.ui.lobby_rule.hide, false,
                 getString(R.string.custom_config_game_hide_false),
                 getString(R.string.custom_config_game_hide_true));
-        item1View16.setListener(itemModel -> viewModel.configModel.ui.lobby_rule.hide = itemModel.hide);
-        item1View16.setData(itemModel16);
-        configContainer.addView(item1View16);
+        item1View.setListener(itemModel -> viewModel.configModel.ui.lobby_rule.hide = itemModel.hide);
+        item1View.setData(configItemModel);
+        configContainer.addView(item1View);
 
         //是否隐藏大厅的玩法设置
-        CustomPageItem1View item1View17 = new CustomPageItem1View(this);
-        ConfigItemModel itemModel17 = addItem(
+        item1View = new CustomPageItem1View(this);
+        configItemModel = addItem(
                 getString(R.string.custom_config_game_lobby_game_setting),
                 getString(R.string.custom_config_game_lobby_game_setting_subtitle),
                 1, 0, viewModel.configModel.ui.lobby_game_setting.hide, false,
                 getString(R.string.custom_config_game_hide_false),
                 getString(R.string.custom_config_game_hide_true));
-        item1View17.setListener(itemModel -> viewModel.configModel.ui.lobby_game_setting.hide = itemModel.hide);
-        item1View17.setData(itemModel17);
-        configContainer.addView(item1View17);
+        item1View.setListener(itemModel -> viewModel.configModel.ui.lobby_game_setting.hide = itemModel.hide);
+        item1View.setData(configItemModel);
+        configContainer.addView(item1View);
 
         //是否隐藏『加入游戏』按钮
-        CustomPageItem1View item1View19 = new CustomPageItem1View(this);
-        ConfigItemModel itemModel19 = addItem(
+        item1View = new CustomPageItem1View(this);
+        configItemModel = addItem(
                 getString(R.string.custom_config_game_join_btn_hide),
                 getString(R.string.custom_config_game_join_btn_hide_subtitle),
                 1, 0, viewModel.configModel.ui.join_btn.hide, false,
                 getString(R.string.custom_config_game_hide_false),
                 getString(R.string.custom_config_game_hide_true));
-        item1View19.setListener(itemModel -> viewModel.configModel.ui.join_btn.hide = itemModel.hide);
-        item1View19.setData(itemModel19);
-        configContainer.addView(item1View19);
+        item1View.setListener(itemModel -> viewModel.configModel.ui.join_btn.hide = itemModel.hide);
+        item1View.setData(configItemModel);
+        configContainer.addView(item1View);
 
         //是否隐藏『退出游戏』按钮
-        CustomPageItem1View item1View21 = new CustomPageItem1View(this);
-        ConfigItemModel itemModel21 = addItem(
+        item1View = new CustomPageItem1View(this);
+        configItemModel = addItem(
                 getString(R.string.custom_config_game_cancel_join_btn_hide),
                 getString(R.string.custom_config_game_cancel_join_btn_hide_subtitle),
                 1, 0, viewModel.configModel.ui.cancel_join_btn.hide, false,
                 getString(R.string.custom_config_game_hide_false),
                 getString(R.string.custom_config_game_hide_true));
-        item1View21.setListener(itemModel -> viewModel.configModel.ui.cancel_join_btn.hide = itemModel.hide);
-        item1View21.setData(itemModel21);
-        configContainer.addView(item1View21);
+        item1View.setListener(itemModel -> viewModel.configModel.ui.cancel_join_btn.hide = itemModel.hide);
+        item1View.setData(configItemModel);
+        configContainer.addView(item1View);
 
         //是否隐藏『准备』按钮
-        CustomPageItem1View item1View23 = new CustomPageItem1View(this);
-        ConfigItemModel itemModel23 = addItem(
+        item1View = new CustomPageItem1View(this);
+        configItemModel = addItem(
                 getString(R.string.custom_config_game_ready_btn_hide),
                 getString(R.string.custom_config_game_ready_btn_hide_subtitle),
                 1, 0, viewModel.configModel.ui.ready_btn.hide, false,
                 getString(R.string.custom_config_game_hide_false),
                 getString(R.string.custom_config_game_hide_true));
-        item1View23.setListener(itemModel -> viewModel.configModel.ui.ready_btn.hide = itemModel.hide);
-        item1View23.setData(itemModel23);
-        configContainer.addView(item1View23);
+        item1View.setListener(itemModel -> viewModel.configModel.ui.ready_btn.hide = itemModel.hide);
+        item1View.setData(configItemModel);
+        configContainer.addView(item1View);
 
         // 是否隐藏『取消准备』按钮
-        CustomPageItem1View item1View25 = new CustomPageItem1View(this);
-        ConfigItemModel itemModel25 = addItem(
+        item1View = new CustomPageItem1View(this);
+        configItemModel = addItem(
                 getString(R.string.custom_config_game_cancel_ready_btn_hide),
                 getString(R.string.custom_config_game_cancel_ready_btn_hide_subtitle),
                 1, 0, viewModel.configModel.ui.cancel_ready_btn.hide, false,
                 getString(R.string.custom_config_game_hide_false),
                 getString(R.string.custom_config_game_hide_true));
-        item1View25.setListener(itemModel -> viewModel.configModel.ui.cancel_ready_btn.hide = itemModel.hide);
-        item1View25.setData(itemModel25);
-        configContainer.addView(item1View25);
+        item1View.setListener(itemModel -> viewModel.configModel.ui.cancel_ready_btn.hide = itemModel.hide);
+        item1View.setData(configItemModel);
+        configContainer.addView(item1View);
 
         // 是否隐藏『开始游戏』按钮
-        CustomPageItem1View item1View27 = new CustomPageItem1View(this);
-        ConfigItemModel itemModel27 = addItem(
+        item1View = new CustomPageItem1View(this);
+        configItemModel = addItem(
                 getString(R.string.custom_config_game_start_btn_hide),
                 getString(R.string.custom_config_game_start_btn_hide_subtitle),
                 1, 0, viewModel.configModel.ui.start_btn.hide, false,
                 getString(R.string.custom_config_game_hide_false),
                 getString(R.string.custom_config_game_hide_true));
-        item1View27.setListener(itemModel -> viewModel.configModel.ui.start_btn.hide = itemModel.hide);
-        item1View27.setData(itemModel27);
-        configContainer.addView(item1View27);
+        item1View.setListener(itemModel -> viewModel.configModel.ui.start_btn.hide = itemModel.hide);
+        item1View.setData(configItemModel);
+        configContainer.addView(item1View);
 
         // 是否隐藏『分享』按钮
-        CustomPageItem1View item1View29 = new CustomPageItem1View(this);
-        ConfigItemModel itemModel29 = addItem(
+        item1View = new CustomPageItem1View(this);
+        configItemModel = addItem(
                 getString(R.string.custom_config_game_share_btn_hide),
                 getString(R.string.custom_config_game_share_btn_hide_subtitle),
                 1, 0, viewModel.configModel.ui.share_btn.hide, false,
                 getString(R.string.custom_config_game_hide_false),
                 getString(R.string.custom_config_game_hide_true));
-        item1View29.setListener(itemModel -> viewModel.configModel.ui.share_btn.hide = itemModel.hide);
-        item1View29.setData(itemModel29);
-        configContainer.addView(item1View29);
+        item1View.setListener(itemModel -> viewModel.configModel.ui.share_btn.hide = itemModel.hide);
+        item1View.setData(configItemModel);
+        configContainer.addView(item1View);
 
         // 是否隐藏战斗场景中的『设置/音效』按钮
-        CustomPageItem1View item1View30 = new CustomPageItem1View(this);
-        ConfigItemModel itemModel30 = addItem(
+        item1View = new CustomPageItem1View(this);
+        configItemModel = addItem(
                 getString(R.string.custom_config_game_setting_btn_hide),
                 getString(R.string.custom_config_game_setting_btn_hide_subtitle),
                 1, 0, viewModel.configModel.ui.game_setting_btn.hide, false,
                 getString(R.string.custom_config_game_hide_false),
                 getString(R.string.custom_config_game_hide_true));
-        item1View30.setListener(itemModel -> viewModel.configModel.ui.game_setting_btn.hide = itemModel.hide);
-        item1View30.setData(itemModel30);
-        configContainer.addView(item1View30);
+        item1View.setListener(itemModel -> viewModel.configModel.ui.game_setting_btn.hide = itemModel.hide);
+        item1View.setData(configItemModel);
+        configContainer.addView(item1View);
 
-        // 是否隐藏战斗场景中的『设置/音效』按钮
-        CustomPageItem1View item1View31 = new CustomPageItem1View(this);
-        ConfigItemModel itemModel31 = addItem(
+        // 游戏场景中的帮助按钮
+        item1View = new CustomPageItem1View(this);
+        configItemModel = addItem(
                 getString(R.string.custom_config_game_help_btn_hide),
                 getString(R.string.custom_config_game_help_btn_hide_subtitle),
                 1, 0, viewModel.configModel.ui.game_help_btn.hide, false,
                 getString(R.string.custom_config_game_hide_false),
                 getString(R.string.custom_config_game_hide_true));
-        item1View31.setListener(itemModel -> viewModel.configModel.ui.game_help_btn.hide = itemModel.hide);
-        item1View31.setData(itemModel31);
-        configContainer.addView(item1View31);
+        item1View.setListener(itemModel -> viewModel.configModel.ui.game_help_btn.hide = itemModel.hide);
+        item1View.setData(configItemModel);
+        configContainer.addView(item1View);
+
+        // 游戏场景中的帮助按钮
+        item1View = new CustomPageItem1View(this);
+        configItemModel = addItem(
+                getString(R.string.custom_config_game_settle_again_btn_hide),
+                getString(R.string.custom_config_game_settle_again_btn_hide_subtitle),
+                1, 0, viewModel.configModel.ui.game_settle_again_btn.hide, false,
+                getString(R.string.custom_config_game_hide_false),
+                getString(R.string.custom_config_game_hide_true));
+        item1View.setListener(itemModel -> viewModel.configModel.ui.game_settle_again_btn.hide = itemModel.hide);
+        item1View.setData(configItemModel);
+        configContainer.addView(item1View);
 
         // 是否隐藏背景图，包括大厅和战斗
-        CustomPageItem1View item1View34 = new CustomPageItem1View(this);
-        ConfigItemModel itemModel34 = addItem(
+        item1View = new CustomPageItem1View(this);
+        configItemModel = addItem(
                 getString(R.string.custom_config_game_bg_hide),
                 getString(R.string.custom_config_game_bg_hide_subtitle),
                 1, 0, viewModel.configModel.ui.game_bg.hide, false,
                 getString(R.string.custom_config_game_hide_false),
                 getString(R.string.custom_config_game_hide_true));
-        item1View34.setListener(itemModel -> viewModel.configModel.ui.game_bg.hide = itemModel.hide);
-        item1View34.setData(itemModel34);
-        configContainer.addView(item1View34);
+        item1View.setListener(itemModel -> viewModel.configModel.ui.game_bg.hide = itemModel.hide);
+        item1View.setData(configItemModel);
+        configContainer.addView(item1View);
 
         // 大厅中的玩法选择设置面板
-        CustomPageItem1View item1View = new CustomPageItem1View(this);
-        ConfigItemModel configItemModel = addItem(
+        item1View = new CustomPageItem1View(this);
+        configItemModel = addItem(
                 getString(R.string.custom_config_game_setting_select_pnl),
                 getString(R.string.custom_config_game_setting_select_pnl_subtitle),
                 1, 0, viewModel.configModel.ui.game_setting_select_pnl.hide, false,

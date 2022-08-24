@@ -69,6 +69,8 @@
     <string name="custom_config_game_setting_btn_hide_subtitle">(ui.game_setting_btn.hide)</string>
     <string name="custom_config_game_help_btn_hide">是否隐藏战斗场景中的『帮助』按钮</string>
     <string name="custom_config_game_help_btn_hide_subtitle">(ui.game_help_btn.hide)</string>
+    <string name="custom_config_game_settle_again_btn_hide">结算界面中的『再来一局』按钮</string>
+    <string name="custom_config_game_settle_again_btn_hide_subtitle">(ui.game_settle_again_btn.hide)</string>
     <string name="custom_config_game_settle_close_btn_custom">结算界面中的『关闭』按钮抛事件</string>
     <string name="custom_config_game_settle_close_btn_custom_subtitle">(ui.game_settle_close_btn.custom)</string>
     <string name="custom_config_game_settle_close_btn_custom_false">false: 关闭结算界面返回大厅</string>

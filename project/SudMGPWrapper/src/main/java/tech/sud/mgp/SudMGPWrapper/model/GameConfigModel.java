@@ -166,6 +166,9 @@ public class GameConfigModel implements Serializable {
         // 游戏结算界面中的再来一局按钮
         // （false: 关闭结算界面返回大厅并将玩家设置为准备状态； true: 游戏通知按钮点击事件，并关闭结算界面返回大厅（不将玩家设置为准备状态）；默认为false）
         public boolean custom = false;
+
+        // 是否隐藏结算界面中的『再来一局』按钮（false: 显示； true: 隐藏，默认为false）
+        public boolean hide = false;
     }
 
     // 是否隐藏背景图，包括大厅和战斗

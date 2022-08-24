@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.scenes.disco.widget;
+package tech.sud.mgp.hello.ui.scenes.disco.widget.dialog;
 
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
@@ -233,7 +233,7 @@ public class InviteDanceDialog extends BaseDialogFragment {
         @Override
         protected void convert(@NonNull BaseViewHolder holder, UserInfoResp userInfo) {
             ImageView ivIcon = holder.getView(R.id.iv_icon);
-            ImageLoader.loadAvatar(ivIcon, userInfo.avatar);
+            ImageLoader.loadAvatar(ivIcon, userInfo.getUseAvatar());
 
             int position = getItemPosition(userInfo);
             boolean isSelected = selectedAnchorPositionSet.contains(position);

@@ -126,6 +126,7 @@ public class NftBindingDialog extends BaseDialogFragment {
                 tvStatus.setText(R.string.wallet_connecting);
                 break;
             case SIGN_END:
+                viewClose.setVisibility(View.GONE);
                 viewStatus.setBackgroundResource(R.drawable.ic_sign_success);
                 tvStatus.setText(R.string.sign_success);
                 break;
@@ -162,5 +163,5 @@ public class NftBindingDialog extends BaseDialogFragment {
     protected boolean cancelable() {
         return false;
     }
-    
+
 }

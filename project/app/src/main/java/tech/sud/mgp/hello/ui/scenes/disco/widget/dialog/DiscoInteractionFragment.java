@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.scenes.disco.widget;
+package tech.sud.mgp.hello.ui.scenes.disco.widget.dialog;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -182,7 +182,7 @@ public class DiscoInteractionFragment extends BaseFragment {
         protected void convert(@NonNull BaseViewHolder holder, DiscoInteractionModel model) {
             View viewRoot = holder.getView(R.id.view_root);
             ViewUtils.setViewClickAnim(viewRoot);
-            
+
             holder.setText(R.id.tv_name, model.name);
             View viewPrice = holder.getView(R.id.view_price);
             View viewCoin = holder.getView(R.id.view_coin);

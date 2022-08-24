@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.scenes.disco.widget;
+package tech.sud.mgp.hello.ui.scenes.disco.widget.dialog;
 
 import android.view.Gravity;
 import android.view.View;

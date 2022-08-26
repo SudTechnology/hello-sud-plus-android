@@ -24,11 +24,13 @@ import im.zego.zegoexpress.constants.ZegoAudioSampleRate;
 import im.zego.zegoexpress.constants.ZegoPlayerState;
 import im.zego.zegoexpress.constants.ZegoRoomState;
 import im.zego.zegoexpress.constants.ZegoScenario;
+import im.zego.zegoexpress.constants.ZegoStreamResourceMode;
 import im.zego.zegoexpress.constants.ZegoUpdateType;
 import im.zego.zegoexpress.entity.ZegoAudioFrameParam;
 import im.zego.zegoexpress.entity.ZegoCanvas;
 import im.zego.zegoexpress.entity.ZegoEngineConfig;
 import im.zego.zegoexpress.entity.ZegoEngineProfile;
+import im.zego.zegoexpress.entity.ZegoPlayerConfig;
 import im.zego.zegoexpress.entity.ZegoRoomConfig;
 import im.zego.zegoexpress.entity.ZegoStream;
 import im.zego.zegoexpress.entity.ZegoUser;
@@ -220,7 +222,9 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
         ZegoExpressEngine engine = getEngine();
         if (engine != null) {
             ZegoCanvas canvas = new ZegoCanvas(view);
-            engine.startPlayingStream(streamID, canvas);
+            ZegoPlayerConfig zegoPlayerConfig = new ZegoPlayerConfig();
+            zegoPlayerConfig.resourceMode = ZegoStreamResourceMode.ONLY_RTC;
+            engine.startPlayingStream(streamID, canvas, zegoPlayerConfig);
         }
     }
 

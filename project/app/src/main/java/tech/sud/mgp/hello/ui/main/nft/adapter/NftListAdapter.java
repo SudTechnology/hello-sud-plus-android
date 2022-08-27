@@ -33,7 +33,7 @@ public class NftListAdapter extends BaseQuickAdapter<NftModel, BaseViewHolder> i
         drawable.setStartColor(Color.parseColor("#0d000000"));
         drawable.setEndColor(Color.parseColor("#1a000000"));
 
-        ImageLoader.loadNftImage(ivIcon, nftModel.coverUrl, drawable);
+        ImageLoader.loadNftImage(ivIcon, nftModel.getShowUrl(), drawable);
 
         holder.setText(R.id.tv_name, nftModel.name);
 

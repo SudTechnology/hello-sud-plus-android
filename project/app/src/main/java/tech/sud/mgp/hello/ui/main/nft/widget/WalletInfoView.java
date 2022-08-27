@@ -13,15 +13,20 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import java.util.List;
+
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
 import tech.sud.mgp.hello.common.utils.ImageUtils;
 import tech.sud.mgp.hello.common.widget.view.CustomColorDrawable;
 import tech.sud.mgp.hello.common.widget.view.YStretchDrawable;
+import tech.sud.mgp.hello.ui.main.nft.model.BindWalletInfoModel;
 import tech.sud.mgp.hello.ui.main.nft.model.NftListResultModel;
 import tech.sud.mgp.hello.ui.main.nft.model.NftModel;
-import tech.sud.nft.core.model.resp.SudNFTGetWalletListModel;
+import tech.sud.mgp.hello.ui.main.nft.model.WalletChainInfo;
+import tech.sud.mgp.hello.ui.main.nft.model.ZoneType;
+import tech.sud.nft.core.model.resp.SudNFTGetWalletListModel.WalletInfo;
 
 /**
  * 绑定nft信息View
@@ -67,7 +72,43 @@ public class WalletInfoView extends ConstraintLayout {
     }
 
     /** 设置当前链信息 */
-    public void setChainInfo(SudNFTGetWalletListModel.ChainInfo chainInfo) {
+    public void setChainInfo(BindWalletInfoModel model, List<WalletInfo> walletList) {
+        if (model == null) {
+            viewChain.setVisibility(View.GONE);
+            return;
+        }
+        int zoneType = model.zoneType;
+        WalletChainInfo chainInfo = model.chainInfo;
+        if (zoneType == ZoneType.OVERSEAS) { // 国外
+            setOverseasChainInfo(chainInfo);
+        } else if (zoneType == ZoneType.INTERNAL) { // 国内
+            viewChain.setVisibility(View.VISIBLE);
+
+            WalletInfo bindWallet = getBindWallet(model.walletType, walletList);
+            if (bindWallet == null) {
+                ImageLoader.loadImage(ivChainIcon, null);
+                tvChainName.setText("");
+            } else {
+                ImageLoader.loadImage(ivChainIcon, bindWallet.icon);
+                tvChainName.setText(bindWallet.name);
+            }
+        } else {
+            viewChain.setVisibility(View.GONE);
+        }
+    }
+
+    private WalletInfo getBindWallet(int walletType, List<WalletInfo> walletList) {
+        if (walletList != null) {
+            for (WalletInfo walletInfo : walletList) {
+                if (walletInfo.type == walletType) {
+                    return walletInfo;
+                }
+            }
+        }
+        return null;
+    }
+
+    private void setOverseasChainInfo(WalletChainInfo chainInfo) {
         if (chainInfo == null) {
             viewChain.setVisibility(View.GONE);
         } else {
@@ -98,7 +139,7 @@ public class WalletInfoView extends ConstraintLayout {
         ivNft1.setVisibility(View.INVISIBLE);
         ivNft2.setVisibility(View.INVISIBLE);
         ivNft3.setVisibility(View.INVISIBLE);
-        
+
         tvEmpty.setVisibility(View.GONE);
         for (int i = 0; i < model.list.size(); i++) {
             NftModel nftModel = model.list.get(i);
@@ -124,7 +165,7 @@ public class WalletInfoView extends ConstraintLayout {
         if (nftModel == null) {
             url = null;
         } else {
-            url = nftModel.coverUrl;
+            url = nftModel.getShowUrl();
         }
         CustomColorDrawable drawable = new CustomColorDrawable();
         drawable.setRadius(DensityUtils.dp2px(8));

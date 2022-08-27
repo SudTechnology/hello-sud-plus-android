@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.main.nft.widget;
+package tech.sud.mgp.hello.ui.main.nft.widget.dialog;
 
 import android.view.View;
 import android.widget.TextView;

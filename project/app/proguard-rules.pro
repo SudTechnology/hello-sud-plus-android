@@ -40,6 +40,7 @@
 -keep class tech.sud.mgp.hello.ui.scenes.custom.model.** {*;}
 -keep class tech.sud.mgp.hello.ui.scenes.orderentertainment.model.** {*;}
 -keep class tech.sud.mgp.hello.ui.main.settings.model.** {*;}
+-keep class tech.sud.mgp.hello.ui.main.nft.model.** {*;}
 
 # 腾讯bugly的混淆
 -dontwarn com.tencent.bugly.**

@@ -1,5 +1,7 @@
 package tech.sud.mgp.hello.ui.main.nft.model;
 
+import android.text.TextUtils;
+
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -35,9 +37,25 @@ public class NftModel implements Serializable {
     /** 封面地址 */
     public String coverUrl;
 
+    // region 国内钱包
+    /** 藏品id */
+    public String cardId;
+    // endregion 国内钱包
+
     // region 自定义参数
     public boolean isDressedIn; // 是否是穿戴中
     // endregion 自定义参数
+
+    /** 获取显示的URL */
+    public String getShowUrl() {
+        if (!TextUtils.isEmpty(coverUrl)) {
+            return coverUrl;
+        }
+        if (fileType == FILE_TYPE_IMAGE) {
+            return fileUrl;
+        }
+        return null;
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.main.nft.widget;
+package tech.sud.mgp.hello.ui.main.nft.widget.dialog;
 
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
@@ -22,20 +22,20 @@ import tech.sud.mgp.hello.common.base.BaseDialogFragment;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
 import tech.sud.mgp.hello.common.utils.ShapeUtils;
-import tech.sud.nft.core.model.resp.SudNFTGetWalletListModel;
+import tech.sud.mgp.hello.ui.main.nft.model.WalletChainInfo;
 
 /**
  * nft链选择弹窗
  */
 public class NftChainDialog extends BaseDialogFragment {
 
-    private SudNFTGetWalletListModel.ChainInfo selectedChainInfo;
-    private List<SudNFTGetWalletListModel.ChainInfo> chainList;
+    private WalletChainInfo selectedChainInfo;
+    private List<WalletChainInfo> chainList;
     private MyAdapter adapter;
     private RecyclerView recyclerView;
     private OnSelectedListener onSelectedListener;
 
-    public static NftChainDialog newInstance(SudNFTGetWalletListModel.ChainInfo selectedChainInfo, List<SudNFTGetWalletListModel.ChainInfo> list) {
+    public static NftChainDialog newInstance(WalletChainInfo selectedChainInfo, List<WalletChainInfo> list) {
         Bundle args = new Bundle();
         NftChainDialog fragment = new NftChainDialog();
         fragment.setArguments(args);
@@ -84,7 +84,7 @@ public class NftChainDialog extends BaseDialogFragment {
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
-                SudNFTGetWalletListModel.ChainInfo item = NftChainDialog.this.adapter.getItem(position);
+                WalletChainInfo item = NftChainDialog.this.adapter.getItem(position);
                 dismiss();
                 if (onSelectedListener != null) {
                     onSelectedListener.onSelected(item);
@@ -98,17 +98,17 @@ public class NftChainDialog extends BaseDialogFragment {
     }
 
     public interface OnSelectedListener {
-        void onSelected(SudNFTGetWalletListModel.ChainInfo chainInfo);
+        void onSelected(WalletChainInfo chainInfo);
     }
 
-    private class MyAdapter extends BaseQuickAdapter<SudNFTGetWalletListModel.ChainInfo, BaseViewHolder> {
+    private class MyAdapter extends BaseQuickAdapter<WalletChainInfo, BaseViewHolder> {
 
         public MyAdapter() {
             super(R.layout.item_nft_chain);
         }
 
         @Override
-        protected void convert(@NonNull BaseViewHolder holder, SudNFTGetWalletListModel.ChainInfo model) {
+        protected void convert(@NonNull BaseViewHolder holder, WalletChainInfo model) {
             ImageView ivIcon = holder.getView(R.id.iv_icon);
             ImageLoader.loadAvatar(ivIcon, model.icon);
 

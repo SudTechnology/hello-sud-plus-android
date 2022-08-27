@@ -5,10 +5,11 @@
     android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <tech.sud.mgp.hello.common.widget.view.CornersImageView
+    <ImageView
         android:id="@+id/iv_icon"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:scaleType="centerCrop"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -19,124 +20,14 @@
         app:topbar_backSrc="@drawable/ic_mask_white_back"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ScrollView
+    <FrameLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="345dp"
-        android:overScrollMode="never"
         android:background="@drawable/shape_r20_top_ffffff"
         app:layout_constraintBottom_toTopOf="@id/view_operate"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="20dp">
-
-            <TextView
-                android:id="@+id/tv_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:textColor="@color/c_1a1a1a"
-                android:layout_marginTop="10dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:textColor="@color/black"
-                android:text="@string/contract_address"
-                android:layout_marginTop="28dp" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/view_address"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp">
-
-                <TextView
-                    android:id="@+id/tv_address"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:textColor="@color/c_8a8a8e"
-                    android:maxWidth="223dp"
-                    android:ellipsize="middle"
-                    android:singleLine="true"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-                <View
-                    android:layout_width="16dp"
-                    android:layout_height="17dp"
-                    android:background="@drawable/ic_copy"
-                    android:layout_marginStart="2dp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toRightOf="@id/tv_address" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:textColor="@color/black"
-                android:text="@string/token_id"
-                android:layout_marginTop="14dp" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/view_token_id"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp">
-
-                <TextView
-                    android:id="@+id/tv_token_id"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:textColor="@color/c_8a8a8e"
-                    android:maxWidth="223dp"
-                    android:ellipsize="middle"
-                    android:singleLine="true"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-                <View
-                    android:layout_width="16dp"
-                    android:layout_height="17dp"
-                    android:background="@drawable/ic_copy"
-                    android:layout_marginStart="2dp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toRightOf="@id/tv_token_id" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:textColor="@color/black"
-                android:text="@string/token_standard"
-                android:layout_marginTop="18dp" />
-
-            <TextView
-                android:id="@+id/tv_standard"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:textColor="@color/c_8a8a8e" />
-
-        </LinearLayout>
-
-    </ScrollView>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/view_operate"

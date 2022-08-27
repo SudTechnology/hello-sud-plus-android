@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -17,6 +18,7 @@ import com.blankj.utilcode.util.ToastUtils;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
+import tech.sud.mgp.hello.ui.main.nft.model.ZoneType;
 
 /**
  * 首页顶部的个人信息弹窗
@@ -63,7 +65,7 @@ public class MainUserInfoView extends ConstraintLayout {
             e.printStackTrace();
         }
         String walletAddress = HSUserInfo.walletAddress;
-        if (TextUtils.isEmpty(walletAddress)) {
+        if (HSUserInfo.zoneType == ZoneType.INTERNAL || TextUtils.isEmpty(walletAddress)) {
             showUserId();
         } else {
             showWalletAddress(walletAddress);
@@ -111,7 +113,15 @@ public class MainUserInfoView extends ConstraintLayout {
     }
 
     public void setShowUnbind(boolean showUnbind) {
-        viewUnbind.setVisibility(showUnbind ? View.VISIBLE : View.GONE);
+        if (showUnbind) {
+            viewUnbind.setVisibility(View.VISIBLE);
+        } else {
+            viewUnbind.setVisibility(View.GONE);
+        }
+    }
+
+    public void setUnbindDrawable(@DrawableRes int resId) {
+        viewUnbind.setBackgroundResource(resId);
     }
 
 }

@@ -24,7 +24,7 @@ import tech.sud.mgp.hello.common.utils.lifecycle.CustomLifecycleProvider;
 import tech.sud.mgp.hello.service.room.repository.RoomRepository;
 import tech.sud.mgp.hello.service.room.resp.RoomMicSwitchResp;
 import tech.sud.mgp.hello.ui.common.constant.RequestKey;
-import tech.sud.mgp.hello.ui.main.constant.SceneType;
+import tech.sud.mgp.hello.ui.main.base.constant.SceneType;
 import tech.sud.mgp.hello.ui.scenes.base.activity.RoomConfig;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoleType;

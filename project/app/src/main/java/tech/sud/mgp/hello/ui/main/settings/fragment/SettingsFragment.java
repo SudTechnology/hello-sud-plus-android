@@ -1,52 +1,55 @@
 package tech.sud.mgp.hello.ui.main.settings.fragment;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.view.View;
-import android.widget.TextView;
 
+import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
+import com.gyf.immersionbar.ImmersionBar;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import tech.sud.mgp.hello.R;
-import tech.sud.mgp.hello.app.APPConfig;
 import tech.sud.mgp.hello.common.base.BaseFragment;
-import tech.sud.mgp.hello.common.utils.IntentUtils;
-import tech.sud.mgp.hello.ui.main.settings.activity.LanguageActivity;
-import tech.sud.mgp.hello.ui.main.settings.activity.MoreSettingsActivity;
-import tech.sud.mgp.hello.ui.main.settings.activity.VersionInfoActivity;
-import tech.sud.mgp.hello.ui.main.utils.RouterUtils;
-import tech.sud.mgp.hello.ui.scenes.common.gift.utils.FileUtils;
+import tech.sud.mgp.hello.common.utils.ResponseUtils;
+import tech.sud.mgp.hello.common.utils.ViewUtils;
+import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
+import tech.sud.mgp.hello.ui.common.utils.LifecycleUtils;
+import tech.sud.mgp.hello.ui.main.base.widget.MainUserInfoView;
+import tech.sud.mgp.hello.ui.main.home.view.CoinDialog;
+import tech.sud.mgp.hello.ui.main.nft.activity.InternalWalletBindActivity;
+import tech.sud.mgp.hello.ui.main.nft.activity.NftListActivity;
+import tech.sud.mgp.hello.ui.main.nft.listener.OnSelectedWalletListener;
+import tech.sud.mgp.hello.ui.main.nft.model.BindWalletInfoModel;
+import tech.sud.mgp.hello.ui.main.nft.model.WalletInfoModel;
+import tech.sud.mgp.hello.ui.main.nft.model.ZoneType;
+import tech.sud.mgp.hello.ui.main.nft.viewmodel.NFTViewModel;
+import tech.sud.mgp.hello.ui.main.nft.widget.WalletInfoView;
+import tech.sud.mgp.hello.ui.main.nft.widget.WalletListView;
+import tech.sud.mgp.hello.ui.main.nft.widget.dialog.ChangeInternalAccountDialog;
+import tech.sud.mgp.hello.ui.main.nft.widget.dialog.InternalWalletListDialog;
+import tech.sud.mgp.hello.ui.main.nft.widget.dialog.NftBindingDialog;
+import tech.sud.mgp.hello.ui.main.nft.widget.dialog.NftChainDialog;
+import tech.sud.mgp.hello.ui.main.nft.widget.dialog.OverseasWalletListDialog;
+import tech.sud.mgp.hello.ui.main.settings.activity.AboutActivity;
+import tech.sud.mgp.hello.ui.main.settings.activity.SettingsActivity;
+import tech.sud.nft.core.listener.ISudNFTListenerGetWalletList;
+import tech.sud.nft.core.model.resp.SudNFTGetWalletListModel;
 
 /**
  * 首页当中的设置页
  */
 public class SettingsFragment extends BaseFragment implements View.OnClickListener {
 
-    private AppSizeView appSizeView;
-    private TextView tvTotalSize;
-    private View viewLineMoreSettings;
-    private View containerTopOccupySize;
-    private SettingButton btnVersionInfo;
-    private SettingButton btnMoreSettings;
-    private SettingButton btnChangeLanguage;
-    private SettingButton btnGitHub;
-    private SettingButton btnOpenSource;
-    private SettingButton btnUserAgreement;
-    private SettingButton btnPrivacyPolicy;
-
-    private int clickCount = 0;
-    private long clickTimestamp = 0;
-    private boolean isShowMoreSettings = false;
-
-    public SettingsFragment() {
-    }
+    private WalletListView walletListView;
+    private WalletInfoView walletInfoView;
+    private SettingButton btnSettings;
+    private SettingButton btnAbout;
+    private final NFTViewModel viewModel = new NFTViewModel();
+    private MainUserInfoView userInfoView;
 
     public static SettingsFragment newInstance() {
-        SettingsFragment fragment = new SettingsFragment();
-        return fragment;
+        return new SettingsFragment();
     }
 
     @Override
@@ -57,100 +60,212 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
     @Override
     protected void initWidget() {
         super.initWidget();
-        appSizeView = findViewById(R.id.app_size_view);
-        btnVersionInfo = findViewById(R.id.button_version_info);
-        btnMoreSettings = findViewById(R.id.button_more_settings);
-        btnChangeLanguage = findViewById(R.id.button_change_language);
-        btnGitHub = findViewById(R.id.button_github);
-        btnOpenSource = findViewById(R.id.button_open_source_licenses);
-        btnUserAgreement = findViewById(R.id.button_user_agreement);
-        btnPrivacyPolicy = findViewById(R.id.button_privacy_policy);
-        tvTotalSize = findViewById(R.id.tv_total_size);
-        viewLineMoreSettings = findViewById(R.id.view_line_more_settings);
-        containerTopOccupySize = findViewById(R.id.container_top_occupy_size);
-        initMoreSettings();
-    }
+        userInfoView = findViewById(R.id.user_info_view);
+        walletListView = findViewById(R.id.wallet_list_view);
+        walletInfoView = findViewById(R.id.wallet_info_view);
+        btnSettings = findViewById(R.id.button_settings);
+        btnAbout = findViewById(R.id.button_about);
 
-    private void initMoreSettings() {
-        if (isShowMoreSettings) {
-            btnMoreSettings.setVisibility(View.VISIBLE);
-            viewLineMoreSettings.setVisibility(View.VISIBLE);
-        } else {
-            btnMoreSettings.setVisibility(View.GONE);
-            viewLineMoreSettings.setVisibility(View.GONE);
-        }
+        View viewStatusBar = findViewById(R.id.view_statusbar);
+        ViewUtils.setHeight(viewStatusBar, ImmersionBar.getStatusBarHeight(requireContext()));
     }
 
     @Override
     protected void initData() {
-        initAppSize();
-        btnGitHub.setHint("hello-sud");
+        super.initData();
+        viewModel.initData(requireContext());
     }
 
-    private void initAppSize() {
-        List<AppSizeView.AppSizeModel> list = new ArrayList<>();
-        list.add(new AppSizeView.AppSizeModel(Color.parseColor("#fc955b"), "SudMGP Core", APPConfig.SudMGPCoreSize));
-        list.add(new AppSizeView.AppSizeModel(Color.parseColor("#fc5bca"), "SudMGP ASR", APPConfig.SudMGPASRSize));
-        list.add(new AppSizeView.AppSizeModel(Color.parseColor("#614bff"), "HelloSud", APPConfig.HelloSudSize));
-//        list.add(new AppSizeView.AppSizeModel(Color.parseColor("#33000000"), "Zego RTC SDK", APPConfig.ZegoRTCSDKSize));
-//        list.add(new AppSizeView.AppSizeModel(Color.parseColor("#1a000000"), "Agora RTC SDK", APPConfig.AgoraRTCSDKSize));
-        list.add(new AppSizeView.AppSizeModel(Color.parseColor("#1a000000"), "RTC SDK", APPConfig.RTCSDKSize));
-        appSizeView.setDatas(list);
-        long totalSize = 0;
-        for (AppSizeView.AppSizeModel appSizeModel : list) {
-            totalSize += appSizeModel.size;
-        }
-        tvTotalSize.setText(getString(R.string.total_value, FileUtils.formatFileSize(totalSize)));
+    @Override
+    public void onResume() {
+        super.onResume();
+        viewModel.initData(requireContext());
+        userInfoView.updateUserInfo();
     }
 
     @Override
     protected void setListeners() {
         super.setListeners();
-        btnVersionInfo.setOnClickListener(this);
-        btnMoreSettings.setOnClickListener(this);
-        btnChangeLanguage.setOnClickListener(this);
-        btnGitHub.setOnClickListener(this);
-        btnOpenSource.setOnClickListener(this);
-        btnUserAgreement.setOnClickListener(this);
-        btnPrivacyPolicy.setOnClickListener(this);
-        containerTopOccupySize.setOnClickListener(this);
+        setClickListeners();
+        setNftListeners();
+    }
+
+    private void setNftListeners() {
+        viewModel.initDataShowWalletListLiveData.observe(this, model -> {
+            LogUtils.d("nft:showWallet");
+            // TODO: 2022/8/25 钱包列表
+        });
+        viewModel.initDataShowNftListLiveData.observe(this, model -> {
+            walletInfoView.setDatas(model);
+            BindWalletInfoModel bindWalletInfo = viewModel.getBindWalletInfo();
+            if (bindWalletInfo != null) {
+                setChainInfo(bindWalletInfo);
+            }
+        });
+        viewModel.bindWalletInfoMutableLiveData.observe(this, this::showWalletInfo);
+    }
+
+    private void showWalletInfo(BindWalletInfoModel model) {
+        if (model == null) {
+            walletListView.setVisibility(View.VISIBLE);
+            walletInfoView.setVisibility(View.GONE);
+            walletInfoView.setDatas(null);
+        } else {
+            walletListView.setVisibility(View.GONE);
+            walletInfoView.setVisibility(View.VISIBLE);
+            setChainInfo(model);
+        }
+        userInfoView.updateUserInfo();
+
+        if (model == null) {
+            userInfoView.setShowUnbind(false);
+        } else {
+            userInfoView.setShowUnbind(true);
+            if (model.zoneType == ZoneType.INTERNAL) {
+                userInfoView.setUnbindDrawable(R.drawable.ic_cn_nft_unbind);
+            } else {
+                userInfoView.setUnbindDrawable(R.drawable.ic_unbind);
+            }
+        }
+    }
+
+    private void setChainInfo(BindWalletInfoModel model) {
+        viewModel.getWalletList(new ISudNFTListenerGetWalletList() {
+            @Override
+            public void onSuccess(SudNFTGetWalletListModel resp) {
+                List<SudNFTGetWalletListModel.WalletInfo> walletList;
+                if (resp == null) {
+                    walletList = null;
+                } else {
+                    walletList = resp.walletList;
+                }
+                walletInfoView.setChainInfo(model, walletList);
+            }
+
+            @Override
+            public void onFailure(int retCode, String retMsg) {
+                ToastUtils.showLong(ResponseUtils.conver(retCode, retMsg));
+            }
+        });
+    }
+
+    private void setClickListeners() {
+        btnSettings.setOnClickListener(this);
+        btnAbout.setOnClickListener(this);
+        walletInfoView.setChainOnClickListener(v -> onClickChain());
+        userInfoView.setUnbindOnClickListener(v -> {
+            onClickUnbindWallet();
+        });
+        userInfoView.setAvatarOnClickListener(v -> {
+            new CoinDialog().show(getChildFragmentManager(), null);
+        });
+        walletInfoView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startNftList();
+            }
+        });
+        walletListView.setOverseasOnClickListener(v -> {
+            showOverseasWalletListDialog();
+        });
+        walletListView.setInternalOnClickListener(v -> {
+            showInternalWalletListDialog();
+        });
+    }
+
+    private void showOverseasWalletListDialog() {
+        OverseasWalletListDialog dialog = new OverseasWalletListDialog();
+        dialog.setOnSelectedWalletListener(new OnSelectedWalletListener() {
+            @Override
+            public void onSelected(SudNFTGetWalletListModel.WalletInfo walletInfo) {
+                walletOnClick(walletInfo);
+                dialog.dismiss();
+            }
+        });
+        dialog.show(getChildFragmentManager(), null);
+    }
+
+    // 展示国内钱包列表弹窗
+    private void showInternalWalletListDialog() {
+        InternalWalletListDialog dialog = new InternalWalletListDialog();
+        dialog.setOperateListener(new InternalWalletListDialog.OperateListener() {
+            @Override
+            public void onBind(SudNFTGetWalletListModel.WalletInfo walletInfo) {
+                dialog.dismiss();
+                InternalWalletBindActivity.start(requireContext(), walletInfo);
+            }
+
+            @Override
+            public void onUnbindCompleted(SudNFTGetWalletListModel.WalletInfo walletInfo) {
+                LifecycleUtils.safeLifecycle(SettingsFragment.this, () -> {
+                    viewModel.initData(requireContext());
+                });
+            }
+        });
+        dialog.show(getChildFragmentManager(), null);
+    }
+
+    // 打开nft列表页面
+    private void startNftList() {
+        startActivity(new Intent(requireContext(), NftListActivity.class));
+    }
+
+    private void onClickUnbindWallet() {
+        BindWalletInfoModel bindWalletInfo = viewModel.getBindWalletInfo();
+        if (bindWalletInfo == null) {
+            return;
+        }
+        if (bindWalletInfo.zoneType == ZoneType.OVERSEAS) {
+            SimpleChooseDialog dialog = new SimpleChooseDialog(requireContext(), getString(R.string.unbind_wallet_title));
+            dialog.setOnChooseListener(index -> {
+                if (index == 1) {
+                    viewModel.unbindWallet();
+                }
+                dialog.dismiss();
+            });
+            dialog.show();
+        } else if (bindWalletInfo.zoneType == ZoneType.INTERNAL) {
+            showInternalWalletListDialog();
+        }
+    }
+
+    // 点击了nft链
+    private void onClickChain() {
+        BindWalletInfoModel bindWalletInfo = viewModel.getBindWalletInfo();
+        if (bindWalletInfo == null) {
+            return;
+        }
+        if (bindWalletInfo.zoneType == ZoneType.OVERSEAS) {
+            NftChainDialog dialog = NftChainDialog.newInstance(bindWalletInfo.chainInfo, bindWalletInfo.chainInfoList);
+            dialog.setOnSelectedListener(viewModel::changeChain);
+            dialog.show(getChildFragmentManager(), null);
+        } else if (bindWalletInfo.zoneType == ZoneType.INTERNAL) {
+            ChangeInternalAccountDialog dialog = new ChangeInternalAccountDialog();
+            dialog.setChangeAccountListener(new ChangeInternalAccountDialog.ChangeAccountListener() {
+                @Override
+                public void onChange(WalletInfoModel model) {
+                    viewModel.initData(requireContext());
+                }
+            });
+            dialog.show(getChildFragmentManager(), null);
+        }
+    }
+
+    // 点击了钱包
+    private void walletOnClick(SudNFTGetWalletListModel.WalletInfo walletInfo) {
+        NftBindingDialog dialog = new NftBindingDialog();
+        dialog.viewModel = viewModel;
+        dialog.walletInfo = walletInfo;
+        dialog.show(getChildFragmentManager(), null);
     }
 
     @Override
     public void onClick(View v) {
-        if (v == btnVersionInfo) { // 版本信息
-            startActivity(new Intent(requireContext(), VersionInfoActivity.class));
-        } else if (v == btnMoreSettings) { // 更多设置
-            startActivity(new Intent(requireContext(), MoreSettingsActivity.class));
-        } else if (v == btnChangeLanguage) { // 切换语言
-//            ToastUtils.showShort(R.string.be_making);
-            startActivity(new Intent(requireContext(), LanguageActivity.class));
-        } else if (v == btnGitHub) { // github
-            IntentUtils.openUrl(getContext(), APPConfig.GIT_HUB_URL);
-        } else if (v == btnOpenSource) { // 开源协议
-            RouterUtils.openUrl(getContext(), getString(R.string.user_agreement_title), APPConfig.APP_LICENSE_URL);
-        } else if (v == btnUserAgreement) { // 用户协议
-            RouterUtils.openUrl(getContext(), getString(R.string.user_agreement_title), APPConfig.USER_PROTOCAL_URL);
-        } else if (v == btnPrivacyPolicy) { // 隐私政策
-            RouterUtils.openUrl(getContext(), getString(R.string.user_privacy_title), APPConfig.USER_PRIVACY_URL);
-        } else if (v == containerTopOccupySize) { // 点击了顶部的占用大小
-            onClickTopOccupySize();
+        if (v == btnSettings) {
+            startActivity(new Intent(getContext(), SettingsActivity.class));
+        } else if (v == btnAbout) {
+            startActivity(new Intent(getContext(), AboutActivity.class));
         }
-    }
-
-    // 点击了顶部的"占用大小"区域
-    private void onClickTopOccupySize() {
-        long timestamp = System.currentTimeMillis();
-        if (Math.abs(timestamp - clickTimestamp) < 1000) {
-            clickCount++;
-            if (clickCount >= 3) {
-                isShowMoreSettings = true;
-                initMoreSettings();
-            }
-        } else {
-            clickCount = 1;
-        }
-        clickTimestamp = timestamp;
     }
 
 }

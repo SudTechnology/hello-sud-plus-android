@@ -69,6 +69,8 @@
     <string name="custom_config_game_setting_btn_hide_subtitle">(ui.game_setting_btn.hide)</string>
     <string name="custom_config_game_help_btn_hide">Indicates whether to hide the Help button in the game</string>
     <string name="custom_config_game_help_btn_hide_subtitle">(ui.game_help_btn.hide)</string>
+    <string name="custom_config_game_settle_again_btn_hide">The Play Again button on the post-game screen.</string>
+    <string name="custom_config_game_settle_again_btn_hide_subtitle">(ui.game_settle_again_btn.hide)</string>
     <string name="custom_config_game_settle_close_btn_custom">Indicates whether players can close the post-game screen and go back to the lobby by tapping the Close button on the post-game screen</string>
     <string name="custom_config_game_settle_close_btn_custom_subtitle">(ui.game_settle_close_btn.custom)</string>
     <string name="custom_config_game_settle_close_btn_custom_false">false: players are allowed to close the post-game screen and go back to the lobby by tapping the Close button based on the game processing logic</string>
@@ -94,6 +96,12 @@
     <string name="custom_config_game_countdown_time_subtitle">(ui.game_countdown_time.hide)</string>
     <string name="custom_config_game_selected_tips">The feature to disable th prompt text of play method selected in the game (Currently supported by Ludo only.)</string>
     <string name="custom_config_game_selected_tips_subtitle">(ui.game_selected_tips.hide)</string>
+    <string name="custom_config_nft_avatar">控制NFT头像的开关</string>
+    <string name="custom_config_nft_avatar_subtitle">(ui.nft_avatar.hide)</string>
+    <string name="custom_config_game_opening">控制开场动画的开关</string>
+    <string name="custom_config_game_opening_subtitle">(ui.game_opening.hide)</string>
+    <string name="custom_config_game_mvp">控制MVP动画的开关</string>
+    <string name="custom_config_game_mvp_subtitle">(ui.game_mvp.hide)</string>
 
     <!-- endregion custom场景，暂不用全部翻译 -->
 </resources>

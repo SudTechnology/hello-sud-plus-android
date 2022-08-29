@@ -67,6 +67,8 @@ public class HSWebView extends WebView {
         webViewSettings.setDomStorageEnabled(true);
         //开启 数据库 存储功能
         webViewSettings.setDatabaseEnabled(true);
+        // 启用JavaScript
+        webViewSettings.setJavaScriptEnabled(true);
         //缓存策略
         if (BuildConfig.DEBUG) {
             webViewSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);

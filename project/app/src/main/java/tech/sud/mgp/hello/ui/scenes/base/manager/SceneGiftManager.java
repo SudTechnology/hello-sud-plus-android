@@ -48,7 +48,7 @@ public class SceneGiftManager extends BaseServiceManager {
         UserInfo user = new UserInfo();
         user.userID = HSUserInfo.userId + "";
         user.name = HSUserInfo.nickName;
-        user.icon = HSUserInfo.avatar;
+        user.icon = HSUserInfo.getUseAvatar();
 
         notify.sendUser = user;
         notify.toUser = toUser;

@@ -12,6 +12,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.viewpager2.widget.ViewPager2;
 
+/**
+ * Layout to wrap a scrollable component inside a ViewPager2. Provided as a solution to the problem
+ * where pages of ViewPager2 have nested scrollable elements that scroll in the same direction as
+ * ViewPager2. The scrollable element needs to be the immediate and only child of this host layout.
+ * <p>
+ * This solution has limitations when using multiple levels of nested scrollable elements
+ * (e.g. a horizontal RecyclerView in a vertical RecyclerView in a horizontal ViewPager2).
+ * 此类用于解决ViewPager2嵌套ViewPager2或RecyclerView造成同方向，子view不能滑动的问题。
+ * 用法是用这个layout包裹住子view即可
+ */
 public class NestedScrollableHost extends FrameLayout {
 
     public NestedScrollableHost(@NonNull Context context) {

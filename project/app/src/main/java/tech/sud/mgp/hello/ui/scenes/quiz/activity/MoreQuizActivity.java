@@ -28,7 +28,7 @@ import tech.sud.mgp.hello.service.main.resp.GameModel;
 import tech.sud.mgp.hello.service.main.resp.QuizGameListResp;
 import tech.sud.mgp.hello.ui.common.widget.refresh.RefreshDataHelper;
 import tech.sud.mgp.hello.ui.common.widget.refresh.RefreshView;
-import tech.sud.mgp.hello.ui.main.constant.SceneType;
+import tech.sud.mgp.hello.ui.main.base.constant.SceneType;
 import tech.sud.mgp.hello.ui.main.home.model.MatchRoomModel;
 import tech.sud.mgp.hello.ui.scenes.base.utils.EnterRoomUtils;
 import tech.sud.mgp.hello.ui.scenes.quiz.adapter.MoreQuizAdapter;

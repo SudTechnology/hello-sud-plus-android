@@ -13,7 +13,7 @@ import java.util.List;
 import tech.sud.mgp.hello.service.main.resp.GameModel;
 import tech.sud.mgp.hello.service.main.resp.QuizGameListResp;
 import tech.sud.mgp.hello.service.main.resp.SceneModel;
-import tech.sud.mgp.hello.ui.main.constant.SceneType;
+import tech.sud.mgp.hello.ui.main.base.constant.SceneType;
 
 /**
  * 首页不同场景下的view

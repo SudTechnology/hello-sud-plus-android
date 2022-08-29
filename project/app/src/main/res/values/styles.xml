@@ -27,4 +27,13 @@
     <style name="LightStatusBarDialogTheme" parent="Theme.MaterialComponents.Dialog">
         <item name="android:backgroundDimEnabled">false</item>
     </style>
+
+    <style name="CustomBottomSheetDialogFragmentTheme" parent="Theme.Design.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/CustomBottomSheetStyle</item>
+    </style>
+
+    <style name="CustomBottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@color/transparent</item>
+    </style>
+
 </resources>

@@ -14,7 +14,7 @@ import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseActivity;
 import tech.sud.mgp.hello.ui.common.constant.RequestKey;
 import tech.sud.mgp.hello.ui.common.widget.HSTopBar;
-import tech.sud.mgp.hello.ui.main.constant.GameLevel;
+import tech.sud.mgp.hello.ui.main.base.constant.GameLevel;
 import tech.sud.mgp.hello.ui.main.home.model.MatchRoomModel;
 import tech.sud.mgp.hello.ui.scenes.base.utils.EnterRoomUtils;
 import tech.sud.mgp.hello.ui.scenes.ticket.model.TicketLevelParams;

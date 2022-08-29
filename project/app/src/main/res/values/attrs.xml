@@ -73,4 +73,14 @@
         <attr name="ccl_cornerRadius" format="dimension" />
     </declare-styleable>
 
+    <!--圆角约束布局-->
+    <declare-styleable name="CornersImageView">
+        <attr name="civ_leftTopCorner" format="boolean" />
+        <attr name="civ_rightTopCorner" format="boolean" />
+        <attr name="civ_leftBottomCorner" format="boolean" />
+        <attr name="civ_rightBottomCorner" format="boolean" />
+        <!--圆角半径-->
+        <attr name="civ_cornerRadius" format="dimension" />
+    </declare-styleable>
+
 </resources>

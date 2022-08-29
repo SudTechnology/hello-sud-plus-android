@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.blankj.utilcode.util.LogUtils;
 import com.chad.library.adapter.base.BaseProviderMultiAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
@@ -197,7 +196,6 @@ public class DanmakuListView extends ConstraintLayout {
             try {
                 tvTitle.setTextColor(Color.parseColor(model.titleColor));
             } catch (Exception e) {
-                e.printStackTrace();
             }
             tvTitle.setText(model.title);
 

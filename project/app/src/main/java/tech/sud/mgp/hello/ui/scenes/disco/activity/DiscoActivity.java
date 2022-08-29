@@ -29,7 +29,7 @@ import tech.sud.mgp.hello.service.room.repository.RoomRepository;
 import tech.sud.mgp.hello.service.room.resp.RobotListResp;
 import tech.sud.mgp.hello.ui.common.utils.CompletedListener;
 import tech.sud.mgp.hello.ui.common.utils.LifecycleUtils;
-import tech.sud.mgp.hello.ui.main.constant.GameIdCons;
+import tech.sud.mgp.hello.ui.main.base.constant.GameIdCons;
 import tech.sud.mgp.hello.ui.scenes.audio.activity.AbsAudioRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.base.constant.OperateMicType;
 import tech.sud.mgp.hello.ui.scenes.base.manager.SceneDiscoManager;
@@ -42,12 +42,12 @@ import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.DanceModel;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftModel;
 import tech.sud.mgp.hello.ui.scenes.disco.model.DiscoInteractionModel;
 import tech.sud.mgp.hello.ui.scenes.disco.viewmodel.DiscoGameViewModel;
-import tech.sud.mgp.hello.ui.scenes.disco.widget.ContributionRankingDialog;
-import tech.sud.mgp.hello.ui.scenes.disco.widget.DancingMenuDialog;
 import tech.sud.mgp.hello.ui.scenes.disco.widget.DiscoExplainView;
-import tech.sud.mgp.hello.ui.scenes.disco.widget.DiscoInteractionDialog;
 import tech.sud.mgp.hello.ui.scenes.disco.widget.DiscoRankingView;
-import tech.sud.mgp.hello.ui.scenes.disco.widget.InviteDanceDialog;
+import tech.sud.mgp.hello.ui.scenes.disco.widget.dialog.ContributionRankingDialog;
+import tech.sud.mgp.hello.ui.scenes.disco.widget.dialog.DancingMenuDialog;
+import tech.sud.mgp.hello.ui.scenes.disco.widget.dialog.DiscoInteractionDialog;
+import tech.sud.mgp.hello.ui.scenes.disco.widget.dialog.InviteDanceDialog;
 
 /**
  * 蹦迪 场景

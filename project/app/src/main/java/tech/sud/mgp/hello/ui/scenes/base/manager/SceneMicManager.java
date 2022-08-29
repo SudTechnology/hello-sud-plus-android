@@ -301,7 +301,7 @@ public class SceneMicManager extends BaseServiceManager {
             model.userId = userId;
             if (userId == HSUserInfo.userId) { // 如果是自己
                 model.nickName = HSUserInfo.nickName;
-                model.avatar = HSUserInfo.avatar;
+                model.avatar = HSUserInfo.getUseAvatar();
                 model.streamId = streamId;
                 model.roleType = roleType;
                 notifyItemChange(micIndex, model);

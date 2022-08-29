@@ -36,7 +36,7 @@ public class SceneChatManager extends BaseServiceManager {
         // 往公屏列表当中插入一条数据
         RoomTextModel model = new RoomTextModel();
         model.userId = HSUserInfo.userId;
-        model.avatar = HSUserInfo.avatar;
+        model.avatar = HSUserInfo.getUseAvatar();
         model.nickName = HSUserInfo.nickName;
         model.text = msg.toString();
         addMsg(model);

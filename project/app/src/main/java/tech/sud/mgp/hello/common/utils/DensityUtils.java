@@ -66,6 +66,16 @@ public class DensityUtils {
         return getScreenSize().y;
     }
 
+    /** 获取屏幕真实宽度 */
+    public static int getScreenWidth(Context context) {
+        return getScreenSize(context).x;
+    }
+
+    /** 获取屏幕真实高度 */
+    public static int getScreenHeight(Context context) {
+        return getScreenSize(context).y;
+    }
+
     /** 获取应用展示宽度 */
     public static int getAppScreenWidth() {
         return getAppScreenSize().x;
@@ -86,7 +96,12 @@ public class DensityUtils {
 
     /** 获取屏幕真实宽高 */
     public static Point getScreenSize() {
-        WindowManager wm = (WindowManager) Utils.getApp().getSystemService(Context.WINDOW_SERVICE);
+        return getScreenSize(Utils.getApp());
+    }
+
+    /** 获取屏幕真实宽高 */
+    public static Point getScreenSize(Context context) {
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         Point point = new Point();
         wm.getDefaultDisplay().getRealSize(point);
         return point;

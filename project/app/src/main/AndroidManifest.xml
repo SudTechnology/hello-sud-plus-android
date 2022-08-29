@@ -60,11 +60,25 @@
 
         <!-- 首页 -->
         <activity
-            android:name=".ui.main.activity.MainActivity"
+            android:name=".ui.main.base.activity.MainActivity"
             android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"
+            tools:ignore="LockedOrientationActivity" />
+
+        <!-- 设置页 -->
+        <activity
+            android:name=".ui.main.settings.activity.SettingsActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+
+        <!-- 关于页 -->
+        <activity
+            android:name=".ui.main.settings.activity.AboutActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
 
         <!-- 语聊房页面 -->
@@ -233,7 +247,7 @@
 
         <!-- 加载WebView的页面 -->
         <activity
-            android:name=".ui.main.activity.WebViewActivity"
+            android:name=".ui.main.base.activity.WebViewActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
@@ -287,6 +301,30 @@
             android:name=".ui.common.activity.MyTranslucentActivity"
             android:theme="@style/MyTranslucentTheme"
             android:exported="false" />
+
+        <!-- nft列表页面 -->
+        <activity
+            android:name=".ui.main.nft.activity.NftListActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop"
+            tools:ignore="LockedOrientationActivity" />
+
+        <!-- nft详情页面 -->
+        <activity
+            android:name=".ui.main.nft.activity.NftDetailActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop"
+            tools:ignore="LockedOrientationActivity" />
+
+        <!-- 国内钱包绑定页面 -->
+        <activity
+            android:name=".ui.main.nft.activity.InternalWalletBindActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop"
+            tools:ignore="LockedOrientationActivity" />
 
         <!-- 屏幕适配配置 -->
         <meta-data

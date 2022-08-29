@@ -14,7 +14,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.utils.AnimUtils;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
-import tech.sud.mgp.hello.ui.main.constant.GameLevel;
+import tech.sud.mgp.hello.ui.main.base.constant.GameLevel;
 
 /**
  * 选择等级的View

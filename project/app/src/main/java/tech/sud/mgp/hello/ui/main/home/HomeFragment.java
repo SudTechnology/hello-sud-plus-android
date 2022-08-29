@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.blankj.utilcode.util.ToastUtils;
+import com.gyf.immersionbar.ImmersionBar;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
@@ -23,8 +24,7 @@ import tech.sud.mgp.hello.common.base.BaseFragment;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
-import tech.sud.mgp.hello.common.model.HSUserInfo;
-import tech.sud.mgp.hello.common.utils.ImageLoader;
+import tech.sud.mgp.hello.common.utils.ViewUtils;
 import tech.sud.mgp.hello.service.main.manager.HomeManager;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.main.resp.CreatRoomResp;
@@ -35,7 +35,9 @@ import tech.sud.mgp.hello.service.main.resp.SceneModel;
 import tech.sud.mgp.hello.ui.common.constant.RequestKey;
 import tech.sud.mgp.hello.ui.common.utils.CompletedListener;
 import tech.sud.mgp.hello.ui.common.utils.LifecycleUtils;
-import tech.sud.mgp.hello.ui.main.constant.SceneType;
+import tech.sud.mgp.hello.ui.main.base.constant.SceneType;
+import tech.sud.mgp.hello.ui.main.base.widget.CreateTicketRoomDialog;
+import tech.sud.mgp.hello.ui.main.base.widget.MainUserInfoView;
 import tech.sud.mgp.hello.ui.main.home.manager.IndicatorHelper;
 import tech.sud.mgp.hello.ui.main.home.model.MatchRoomModel;
 import tech.sud.mgp.hello.ui.main.home.view.CoinDialog;
@@ -44,7 +46,6 @@ import tech.sud.mgp.hello.ui.main.home.view.SceneTypeDialog;
 import tech.sud.mgp.hello.ui.main.home.view.homeitem.CreatRoomClickListener;
 import tech.sud.mgp.hello.ui.main.home.view.homeitem.GameItemListener;
 import tech.sud.mgp.hello.ui.main.home.view.homeitem.HomeItemView;
-import tech.sud.mgp.hello.ui.main.widget.CreateTicketRoomDialog;
 import tech.sud.mgp.hello.ui.scenes.base.utils.EnterRoomUtils;
 import tech.sud.mgp.hello.ui.scenes.disco.activity.DiscoRankingActivity;
 import tech.sud.mgp.hello.ui.scenes.league.activity.LeagueEntranceActivity;
@@ -60,13 +61,12 @@ public class HomeFragment extends BaseFragment implements CreatRoomClickListener
     private EditText searchEt;
     private TextView goSearch;
     private LinearLayout sceneLayout;
-    private TextView nameTv, useridTv;
-    private ImageView headerIv;
     private SmartRefreshLayout refreshLayout;
     private MagicIndicator magicIndicator;
     private IndicatorHelper helper;
     private NewNestedScrollView scrollView;
     private ImageView menuIv;
+    private MainUserInfoView userInfoView;
 
     public static HomeFragment newInstance() {
         HomeFragment fragment = new HomeFragment();
@@ -84,24 +84,28 @@ public class HomeFragment extends BaseFragment implements CreatRoomClickListener
         searchEt = mRootView.findViewById(R.id.search_et);
         goSearch = mRootView.findViewById(R.id.go_search);
         sceneLayout = mRootView.findViewById(R.id.scene_root);
-        nameTv = mRootView.findViewById(R.id.name_tv);
-        useridTv = mRootView.findViewById(R.id.userid_tv);
-        headerIv = mRootView.findViewById(R.id.header_iv);
         refreshLayout = mRootView.findViewById(R.id.refresh_layout);
         magicIndicator = mRootView.findViewById(R.id.magic_indicator);
         scrollView = mRootView.findViewById(R.id.scrollView);
         menuIv = mRootView.findViewById(R.id.menu_iv);
+        userInfoView = mRootView.findViewById(R.id.user_info_view);
         refreshLayout.setEnableRefresh(true);
         refreshLayout.setEnableLoadMore(false);
+
+        View viewStatusBar = findViewById(R.id.view_statusbar);
+        ViewUtils.setHeight(viewStatusBar, ImmersionBar.getStatusBarHeight(requireContext()));
     }
 
     @Override
     protected void initData() {
         super.initData();
-        nameTv.setText(HSUserInfo.nickName);
-        useridTv.setText(getString(R.string.setting_userid, HSUserInfo.userId + ""));
-        ImageLoader.loadImage(headerIv, HSUserInfo.avatar);
         loadList();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        userInfoView.updateUserInfo();
     }
 
     @Override
@@ -143,7 +147,7 @@ public class HomeFragment extends BaseFragment implements CreatRoomClickListener
         });
         goSearch.setOnClickListener(v -> enterRoom());
         refreshLayout.setOnRefreshListener(refreshLayout -> loadList());
-        headerIv.setOnClickListener(v -> {
+        userInfoView.setAvatarOnClickListener(v -> {
             new CoinDialog().show(getChildFragmentManager(), null);
         });
         menuIv.setOnClickListener(v -> {

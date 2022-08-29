@@ -28,8 +28,8 @@ import tech.sud.mgp.hello.ui.login.dialog.UserAgreementDialog;
 import tech.sud.mgp.hello.ui.login.dialog.UserSecondaryDialog;
 import tech.sud.mgp.hello.ui.login.listener.DialogSecondaryListener;
 import tech.sud.mgp.hello.ui.login.listener.DialogSelectListener;
-import tech.sud.mgp.hello.ui.main.activity.MainActivity;
-import tech.sud.mgp.hello.ui.main.utils.RouterUtils;
+import tech.sud.mgp.hello.ui.main.base.activity.MainActivity;
+import tech.sud.mgp.hello.ui.main.base.utils.RouterUtils;
 
 /**
  * 登录页

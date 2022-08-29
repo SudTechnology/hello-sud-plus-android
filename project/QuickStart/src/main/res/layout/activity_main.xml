@@ -15,11 +15,12 @@
         android:focusableInTouchMode="true"
         app:layout_constraintTop_toTopOf="parent">
 
-        <View
+        <ImageView
             android:id="@+id/view_logo"
             android:layout_width="52dp"
             android:layout_height="24dp"
-            android:background="@drawable/ic_default_avatar"
+            android:src="@drawable/ic_default_avatar"
+            android:scaleType="centerCrop"
             android:layout_marginStart="16dp"
             android:layout_marginTop="10dp"
             app:layout_constraintStart_toStartOf="parent"

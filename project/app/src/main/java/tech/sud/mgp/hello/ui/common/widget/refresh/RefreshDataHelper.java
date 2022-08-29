@@ -47,6 +47,11 @@ public abstract class RefreshDataHelper<T> {
         }
     }
 
+    /** 设置第一页的页码 */
+    public void setFirstPageNumber(int firstPageNumber) {
+        this.firstPageNumber = firstPageNumber;
+    }
+
     /**
      * 设置分页时，每页的大小。
      * 可以通过设置pageSize = Integer.MAX_VALUE 。这样将不会触发加载更多，达到一次性拉取所有数据的目的
@@ -129,7 +134,6 @@ public abstract class RefreshDataHelper<T> {
             }
         } else {
             if (pageNumber != getLoadMorePageNumber()) return;
-            if (datas == null) return;
             if (recyclerView.isComputingLayout()) {
                 recyclerView.post(() -> {
                     loadMoreAddData(adapter, recyclerView, pageNumber, backSize, pageSize, datas);
@@ -153,10 +157,14 @@ public abstract class RefreshDataHelper<T> {
                 }
                 if (freeSize > 0) { // 处理非完整页数据的加载，比如每页加载30条数据，当前已持有29条数据的加载更多
                     if (backSize > freeSize) {
-                        adapter.addData(backDatas.subList(freeSize, backSize));
+                        if (backDatas != null) {
+                            adapter.addData(backDatas.subList(freeSize, backSize));
+                        }
                     }
                 } else {
-                    adapter.addData(backDatas);
+                    if (backDatas != null) {
+                        adapter.addData(backDatas);
+                    }
                 }
                 if (backSize < pageSize) {
                     adapter.getLoadMoreModule().loadMoreEnd();
@@ -165,7 +173,9 @@ public abstract class RefreshDataHelper<T> {
                 }
                 break;
             case IGNORE_PAGE_SIZE:
-                adapter.addData(backDatas);
+                if (backDatas != null) {
+                    adapter.addData(backDatas);
+                }
                 if (mCurPageNumber != null) {
                     mCurPageNumber = mCurPageNumber + 1;
                 }
@@ -310,6 +320,10 @@ public abstract class RefreshDataHelper<T> {
         getDataListener().onGetData(firstPageNumber, mPageSize);
     }
 
+    public void autoRefresh() {
+        mRefreshView.autoRefresh();
+    }
+
     /** 是否正在刷新，也可以相当于说是否是用户手机刷新中 */
     public boolean isRefreshing() {
         if (mRefreshView == null) {
@@ -344,6 +358,11 @@ public abstract class RefreshDataHelper<T> {
                 }
         }
         return 0;
+    }
+
+    /** 获取起始页码 */
+    public int getFirstPageNumber() {
+        return firstPageNumber;
     }
 
     /** 通过Adapter里面的数据，计算当前的页码，可覆写 */

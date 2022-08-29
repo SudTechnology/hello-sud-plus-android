@@ -3,6 +3,10 @@ package tech.sud.mgp.hello.common.utils;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import androidx.annotation.DrawableRes;
+
+import com.blankj.utilcode.util.Utils;
+
 import java.io.File;
 
 public class ImageUtils {
@@ -18,6 +22,18 @@ public class ImageUtils {
         options.inSampleSize = calculateInSampleSize(options, maxWidth, maxHeight);
         options.inJustDecodeBounds = false;
         return BitmapFactory.decodeFile(file.getAbsolutePath(), options);
+    }
+
+    /**
+     * 获取文件当中的bitmap，设置最大宽高，防止内存溢出
+     */
+    public static Bitmap getBitmap(@DrawableRes int resId, int maxWidth, int maxHeight) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeResource(Utils.getApp().getResources(), resId, options);
+        options.inSampleSize = calculateInSampleSize(options, maxWidth, maxHeight);
+        options.inJustDecodeBounds = false;
+        return BitmapFactory.decodeResource(Utils.getApp().getResources(), resId, options);
     }
 
     private static int calculateInSampleSize(BitmapFactory.Options options, int maxWidth, int maxHeight) {

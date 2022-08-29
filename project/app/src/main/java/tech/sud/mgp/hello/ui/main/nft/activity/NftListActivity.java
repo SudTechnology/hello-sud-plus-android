@@ -20,6 +20,7 @@ import java.util.Objects;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseActivity;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
+import tech.sud.mgp.hello.ui.common.utils.LifecycleUtils;
 import tech.sud.mgp.hello.ui.common.widget.refresh.ListModel;
 import tech.sud.mgp.hello.ui.common.widget.refresh.RefreshDataHelper;
 import tech.sud.mgp.hello.ui.common.widget.refresh.RefreshView;
@@ -27,8 +28,9 @@ import tech.sud.mgp.hello.ui.main.nft.adapter.NftListAdapter;
 import tech.sud.mgp.hello.ui.main.nft.model.BindWalletInfoModel;
 import tech.sud.mgp.hello.ui.main.nft.model.NftListResultModel;
 import tech.sud.mgp.hello.ui.main.nft.model.NftModel;
+import tech.sud.mgp.hello.ui.main.nft.model.ZoneType;
 import tech.sud.mgp.hello.ui.main.nft.viewmodel.NFTViewModel;
-import tech.sud.mgp.hello.ui.main.settings.activity.NftDetailActivity;
+import tech.sud.nft.core.model.param.SudNFTGetCNNFTListParamModel;
 import tech.sud.nft.core.model.param.SudNFTGetNFTListParamModel;
 
 /**
@@ -58,6 +60,7 @@ public class NftListActivity extends BaseActivity {
     }
 
     private void initRefreshDataHelper() {
+        BindWalletInfoModel bindWalletInfo = viewModel.getBindWalletInfo();
         refreshDataHelper = new RefreshDataHelper<NftModel>() {
             @Override
             protected RefreshView getRefreshView() {
@@ -84,7 +87,11 @@ public class NftListActivity extends BaseActivity {
                 };
             }
         };
-        refreshDataHelper.setRefreshDataModel(RefreshDataHelper.RefreshDataModel.IGNORE_PAGE_SIZE);
+        if (bindWalletInfo != null && bindWalletInfo.zoneType == ZoneType.OVERSEAS) {
+            refreshDataHelper.setRefreshDataModel(RefreshDataHelper.RefreshDataModel.IGNORE_PAGE_SIZE);
+        } else {
+            refreshDataHelper.setFirstPageNumber(0);
+        }
     }
 
     private void getData(int pageNumber, int pageSize) {
@@ -92,6 +99,47 @@ public class NftListActivity extends BaseActivity {
         if (bindWalletInfo == null) {
             return;
         }
+        if (bindWalletInfo.zoneType == ZoneType.OVERSEAS) {
+            getOverseasData(pageNumber, pageSize, bindWalletInfo);
+        } else {
+            getInternalData(pageNumber, pageSize, bindWalletInfo);
+        }
+    }
+
+    private void getInternalData(int pageNumber, int pageSize, BindWalletInfoModel bindWalletInfo) {
+        SudNFTGetCNNFTListParamModel model = new SudNFTGetCNNFTListParamModel();
+        model.walletType = bindWalletInfo.walletType;
+        model.walletToken = bindWalletInfo.walletToken;
+        model.pageNumber = pageNumber;
+        model.pageSize = pageSize;
+        viewModel.getCNNftList(model, new NFTViewModel.GetNftListListener() {
+            @Override
+            public void onSuccess(NftListResultModel model) {
+                LifecycleUtils.safeLifecycle(context, () -> {
+                    List<NftModel> datas;
+                    if (model == null) {
+                        datas = null;
+                    } else {
+                        datas = model.list;
+                    }
+                    moveDressedInToFirst(datas);
+                    refreshDataHelper.respDatasSuccess(new ListModel<>(pageNumber, pageSize, datas));
+                    refreshView.getRecyclerView().post(() -> {
+                        checkDressedIn();
+                    });
+                });
+            }
+
+            @Override
+            public void onFailure(int retCode, String retMsg) {
+                LifecycleUtils.safeLifecycle(context, () -> {
+                    refreshDataHelper.respDatasFailed(new ListModel<>(pageNumber, pageSize));
+                });
+            }
+        });
+    }
+
+    private void getOverseasData(int pageNumber, int pageSize, BindWalletInfoModel bindWalletInfo) {
         if (pageNumber == refreshDataHelper.getFirstPageNumber()) {
             pageKeyMaps.clear();
         }
@@ -104,29 +152,33 @@ public class NftListActivity extends BaseActivity {
 
         SudNFTGetNFTListParamModel model = new SudNFTGetNFTListParamModel();
         model.walletToken = bindWalletInfo.walletToken;
-        model.chainType = bindWalletInfo.chainInfo.type;
+        model.chainType = bindWalletInfo.getChainType();
         model.walletAddress = bindWalletInfo.walletAddress;
         model.pageKey = pageKey;
         viewModel.getNftList(model, new NFTViewModel.GetNftListListener() {
             @Override
             public void onSuccess(NftListResultModel model) {
-                List<NftModel> datas;
-                if (model == null) {
-                    datas = null;
-                } else {
-                    datas = model.list;
-                    pageKeyMaps.put(pageNumber + 1, model.pageKey);
-                }
-                moveDressedInToFirst(datas);
-                refreshDataHelper.respDatasSuccess(new ListModel<>(pageNumber, pageSize, datas));
-                refreshView.getRecyclerView().post(() -> {
-                    checkDressedIn();
+                LifecycleUtils.safeLifecycle(context, () -> {
+                    List<NftModel> datas;
+                    if (model == null) {
+                        datas = null;
+                    } else {
+                        datas = model.list;
+                        pageKeyMaps.put(pageNumber + 1, model.pageKey);
+                    }
+                    moveDressedInToFirst(datas);
+                    refreshDataHelper.respDatasSuccess(new ListModel<>(pageNumber, pageSize, datas));
+                    refreshView.getRecyclerView().post(() -> {
+                        checkDressedIn();
+                    });
                 });
             }
 
             @Override
             public void onFailure(int retCode, String retMsg) {
-                refreshDataHelper.respDatasFailed(new ListModel<>(pageNumber, pageSize));
+                LifecycleUtils.safeLifecycle(context, () -> {
+                    refreshDataHelper.respDatasFailed(new ListModel<>(pageNumber, pageSize));
+                });
             }
         });
     }

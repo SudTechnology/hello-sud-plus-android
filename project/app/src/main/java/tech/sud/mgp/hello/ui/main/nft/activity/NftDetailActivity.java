@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.main.settings.activity;
+package tech.sud.mgp.hello.ui.main.nft.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,10 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentTransaction;
 
-import com.blankj.utilcode.util.ClipboardUtils;
 import com.blankj.utilcode.util.ThreadUtils;
-import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
@@ -30,7 +29,11 @@ import tech.sud.mgp.hello.common.utils.ImageLoader;
 import tech.sud.mgp.hello.common.utils.ShapeUtils;
 import tech.sud.mgp.hello.common.utils.ViewUtils;
 import tech.sud.mgp.hello.common.widget.view.CustomColorDrawable;
+import tech.sud.mgp.hello.ui.main.nft.fragment.InternalNftContentFragment;
+import tech.sud.mgp.hello.ui.main.nft.fragment.OverseasNftContentFragment;
+import tech.sud.mgp.hello.ui.main.nft.model.BindWalletInfoModel;
 import tech.sud.mgp.hello.ui.main.nft.model.NftModel;
+import tech.sud.mgp.hello.ui.main.nft.model.ZoneType;
 import tech.sud.mgp.hello.ui.main.nft.viewmodel.NFTViewModel;
 
 /**
@@ -39,13 +42,8 @@ import tech.sud.mgp.hello.ui.main.nft.viewmodel.NFTViewModel;
 public class NftDetailActivity extends BaseActivity {
 
     private NftModel nftModel;
+
     private ImageView ivIcon;
-    private TextView tvName;
-    private View viewAddress;
-    private View viewTokenId;
-    private TextView tvAddress;
-    private TextView tvTokenId;
-    private TextView tvStandard;
     private TextView tvOperate;
     private View viewOperate;
 
@@ -84,12 +82,7 @@ public class NftDetailActivity extends BaseActivity {
     protected void initWidget() {
         super.initWidget();
         ivIcon = findViewById(R.id.iv_icon);
-        tvName = findViewById(R.id.tv_name);
-        viewAddress = findViewById(R.id.view_address);
-        tvAddress = findViewById(R.id.tv_address);
-        viewTokenId = findViewById(R.id.view_token_id);
-        tvTokenId = findViewById(R.id.tv_token_id);
-        tvStandard = findViewById(R.id.tv_standard);
+
         tvOperate = findViewById(R.id.tv_operate);
         viewOperate = findViewById(R.id.view_operate);
 
@@ -102,10 +95,22 @@ public class NftDetailActivity extends BaseActivity {
         super.initData();
         viewModel.initData(this);
 
+        // 国外国内钱包展示不同的信息
+        BindWalletInfoModel bindWalletInfo = viewModel.getBindWalletInfo();
+        if (bindWalletInfo != null && bindWalletInfo.zoneType == ZoneType.OVERSEAS) {
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.container, OverseasNftContentFragment.newInstance(nftModel), null);
+            fragmentTransaction.commit();
+        } else if (bindWalletInfo != null && bindWalletInfo.zoneType == ZoneType.INTERNAL) {
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.container, InternalNftContentFragment.newInstance(nftModel), null);
+            fragmentTransaction.commit();
+        }
+
         CustomColorDrawable drawable = new CustomColorDrawable();
         drawable.setStartColor(Color.parseColor("#0d000000"));
         drawable.setEndColor(Color.parseColor("#1a000000"));
-        ImageLoader.loadNftImage(ivIcon, nftModel.coverUrl, drawable, new RequestListener<Drawable>() {
+        ImageLoader.loadNftImage(ivIcon, nftModel.getShowUrl(), drawable, new RequestListener<Drawable>() {
             @Override
             public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                 return false;
@@ -120,32 +125,11 @@ public class NftDetailActivity extends BaseActivity {
                 return false;
             }
         });
-
-        tvName.setText(nftModel.name);
-        tvAddress.setText(nftModel.contractAddress);
-        tvTokenId.setText(nftModel.tokenId);
-        tvStandard.setText(nftModel.tokenType);
     }
 
     @Override
     protected void setListeners() {
         super.setListeners();
-        viewAddress.setOnClickListener(v -> {
-            CharSequence text = tvAddress.getText();
-            if (text == null) {
-                return;
-            }
-            ClipboardUtils.copyText(text);
-            ToastUtils.showShort(R.string.copy_success);
-        });
-        viewTokenId.setOnClickListener(v -> {
-            CharSequence text = tvTokenId.getText();
-            if (text == null) {
-                return;
-            }
-            ClipboardUtils.copyText(text);
-            ToastUtils.showShort(R.string.copy_success);
-        });
         viewModel.bindWalletInfoMutableLiveData.observe(this, bindWalletInfoModel -> updateWearInfo());
         tvOperate.setOnClickListener(v -> {
             clickWear();
@@ -153,6 +137,7 @@ public class NftDetailActivity extends BaseActivity {
         viewModel.wearNftChangeLiveData.observe(this, o -> updateWearInfo());
     }
 
+    /** 点击了穿戴/取消穿戴 */
     private void clickWear() {
         NftModel wearNft = viewModel.getWearNft();
         if (wearNft == null || !wearNft.equals(nftModel)) {
@@ -175,7 +160,7 @@ public class NftDetailActivity extends BaseActivity {
         }
 
         // 判断是否可以穿戴该NFT
-        if (TextUtils.isEmpty(nftModel.coverUrl) || nftModel.fileType != NftModel.FILE_TYPE_IMAGE || !nftLoadSuccess) {
+        if (TextUtils.isEmpty(nftModel.getShowUrl()) || nftModel.fileType != NftModel.FILE_TYPE_IMAGE || !nftLoadSuccess) {
             viewOperate.setVisibility(View.GONE);
             return;
         }

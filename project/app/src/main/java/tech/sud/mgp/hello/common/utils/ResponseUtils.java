@@ -14,7 +14,11 @@ public class ResponseUtils {
         if (response == null) {
             return null;
         }
-        return response.getRetMsg() + "(" + response.getRetCode() + ")";
+        return conver(response.getRetCode(), response.getRetMsg());
+    }
+
+    public static String conver(int code, String msg) {
+        return msg + "(" + code + ")";
     }
 
 }

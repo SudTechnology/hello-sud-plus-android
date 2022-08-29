@@ -32,7 +32,7 @@ public abstract class RefreshDataHelper<T> {
     private StatusView mErrorView; // 发生错误时，展示的View
     private Integer mCurPageNumber; // IGNORE_PAGE_SIZE时，记录当前页码
     private boolean loadMoreEnable = true; // 设置是否可以加载更多
-    private final int firstPageNumber = 1; // 第一页的页码
+    private int firstPageNumber = 1; // 第一页的页码
     private RefreshDataModel refreshModel = RefreshDataModel.DEFAULT; // 数据刷新模式
 
     public RefreshDataHelper() {
@@ -45,6 +45,11 @@ public abstract class RefreshDataHelper<T> {
         if (refreshModel == RefreshDataModel.IGNORE_PAGE_SIZE) {
             mCurPageNumber = firstPageNumber;
         }
+    }
+
+    /** 设置第一页的页码 */
+    public void setFirstPageNumber(int firstPageNumber) {
+        this.firstPageNumber = firstPageNumber;
     }
 
     /**

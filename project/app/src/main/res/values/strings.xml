@@ -543,7 +543,7 @@ Go to homepage to create one~</string>
     <string name="please_select_anchor">请选择主播</string>
     <string name="add_robot">添加机器人</string>
     <string name="kick_out_room">踢出房间</string>
-    <string name="connect_your_wallet">连接你的钱包</string>
+    <string name="connect_your_wallet">连接账户，同步你的NFT或数字藏品</string>
     <string name="about_us">关于我们</string>
     <string name="more">更多</string>
     <string name="pack_up">收起</string>
@@ -565,6 +565,31 @@ Go to homepage to create one~</string>
     <string name="sign_success">签名成功</string>
     <string name="waiting_sign">连接成功，等待签名…</string>
     <string name="wallet_connecting">钱包连接中…</string>
+    <string name="overseas_wallet">海外钱包</string>
+    <string name="internal_wallet">国内钱包</string>
+    <string name="bind_your_overseas_wallet">绑定你的海外钱包</string>
+    <string name="bind_your_internal_wallet">绑定你的数字账户</string>
+    <string name="bind_phone_title">%1$s账号授权</string>
+    <string name="bind">绑定</string>
+    <string name="unbind">解绑</string>
+    <string name="binded_info">已绑定：%1$s</string>
+    <string name="auth_wallet_account">授权%1$s账号</string>
+    <string name="get_auth_code">获取验证码</string>
+    <string name="auth_code_hint">请输入验证码</string>
+    <string name="bind_phone_info">未注册%1$s的手机号，授权后将自动注册</string>
+    <string name="bind_phone_info_1">授权后应用将获取以下权限</string>
+    <string name="bind_phone_info_2">基础信息</string>
+    <string name="bind_phone_info_3">获得您的公开信息，以授权绑定第三方应用</string>
+    <string name="bind_phone_info_4">数字藏品信息</string>
+    <string name="bind_phone_info_5">获得您的数字藏品信息，以展示在第三方应用</string>
+    <string name="confirm_auth">确认授权</string>
+    <string name="agreement_prefix">授权即代表您同意</string>
+    <string name="user_agreement_info">%1$s用户协议</string>
+    <string name="privacy_policy_info">%1$s隐私政策</string>
+    <string name="unbind_internal_wallet_title">解绑后，HelloSud将不再展示当前账号在“%1$s”上的藏品</string>
+    <string name="address">地址</string>
+    <string name="cn_token_id">令牌ID</string>
+    <string name="change_account">切换账户</string>
     <!-- endregion 新增 -->
 
 </resources>

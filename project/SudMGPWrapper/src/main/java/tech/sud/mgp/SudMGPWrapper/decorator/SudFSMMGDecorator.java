@@ -53,7 +53,10 @@ public class SudFSMMGDecorator implements ISudFSMMG {
      */
     @Override
     public void onGameLoadingProgress(int stage, int retCode, int progress) {
-
+        SudFSMMGListener listener = sudFSMMGListener;
+        if (listener != null) {
+            listener.onGameLoadingProgress(stage, retCode, progress);
+        }
     }
 
     /**

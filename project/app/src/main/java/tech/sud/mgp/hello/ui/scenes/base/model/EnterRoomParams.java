@@ -1,6 +1,6 @@
 package tech.sud.mgp.hello.ui.scenes.base.model;
 
-import tech.sud.mgp.hello.ui.main.constant.SceneType;
+import tech.sud.mgp.hello.ui.main.base.constant.SceneType;
 
 /**
  * 进房请求时的参数

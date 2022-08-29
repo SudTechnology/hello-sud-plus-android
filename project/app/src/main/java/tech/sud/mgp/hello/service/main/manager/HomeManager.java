@@ -1,7 +1,6 @@
 package tech.sud.mgp.hello.service.main.manager;
 
 import android.content.Context;
-import android.graphics.Color;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,8 +9,6 @@ import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.service.main.resp.GameListResp;
 import tech.sud.mgp.hello.service.main.resp.GameModel;
 import tech.sud.mgp.hello.service.main.resp.RoomListResp;
-import tech.sud.mgp.hello.service.main.resp.SceneModel;
-import tech.sud.mgp.hello.ui.main.constant.SceneType;
 
 public class HomeManager {
 

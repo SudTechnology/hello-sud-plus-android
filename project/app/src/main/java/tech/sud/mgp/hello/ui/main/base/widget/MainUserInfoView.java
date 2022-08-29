@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.main.widget;
+package tech.sud.mgp.hello.ui.main.base.widget;
 
 import android.content.Context;
 import android.text.TextUtils;

@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.main.widget;
+package tech.sud.mgp.hello.ui.main.base.widget;
 
 import android.view.Gravity;
 import android.view.View;
@@ -17,8 +17,8 @@ import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.main.resp.CreatRoomResp;
-import tech.sud.mgp.hello.ui.main.constant.GameLevel;
-import tech.sud.mgp.hello.ui.main.constant.SceneType;
+import tech.sud.mgp.hello.ui.main.base.constant.GameLevel;
+import tech.sud.mgp.hello.ui.main.base.constant.SceneType;
 import tech.sud.mgp.hello.ui.scenes.base.utils.EnterRoomUtils;
 
 /**

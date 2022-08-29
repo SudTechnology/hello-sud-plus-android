@@ -6,8 +6,8 @@ import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.app.APPConfig;
 import tech.sud.mgp.hello.common.base.BaseActivity;
 import tech.sud.mgp.hello.common.utils.IntentUtils;
+import tech.sud.mgp.hello.ui.main.base.utils.RouterUtils;
 import tech.sud.mgp.hello.ui.main.settings.fragment.SettingButton;
-import tech.sud.mgp.hello.ui.main.utils.RouterUtils;
 
 /**
  * 关于页面

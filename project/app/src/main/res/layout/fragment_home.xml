@@ -26,7 +26,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/view_statusbar">
 
-        <tech.sud.mgp.hello.ui.main.widget.MainUserInfoView
+        <tech.sud.mgp.hello.ui.main.base.widget.MainUserInfoView
             android:id="@+id/user_info_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

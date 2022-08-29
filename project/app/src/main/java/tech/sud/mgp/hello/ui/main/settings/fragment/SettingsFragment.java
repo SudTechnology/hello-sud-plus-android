@@ -15,6 +15,7 @@ import tech.sud.mgp.hello.common.utils.ResponseUtils;
 import tech.sud.mgp.hello.common.utils.ViewUtils;
 import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
 import tech.sud.mgp.hello.ui.common.utils.LifecycleUtils;
+import tech.sud.mgp.hello.ui.main.base.widget.MainUserInfoView;
 import tech.sud.mgp.hello.ui.main.home.view.CoinDialog;
 import tech.sud.mgp.hello.ui.main.nft.activity.InternalWalletBindActivity;
 import tech.sud.mgp.hello.ui.main.nft.activity.NftListActivity;
@@ -32,7 +33,6 @@ import tech.sud.mgp.hello.ui.main.nft.widget.dialog.NftChainDialog;
 import tech.sud.mgp.hello.ui.main.nft.widget.dialog.OverseasWalletListDialog;
 import tech.sud.mgp.hello.ui.main.settings.activity.AboutActivity;
 import tech.sud.mgp.hello.ui.main.settings.activity.SettingsActivity;
-import tech.sud.mgp.hello.ui.main.widget.MainUserInfoView;
 import tech.sud.nft.core.listener.ISudNFTListenerGetWalletList;
 import tech.sud.nft.core.model.resp.SudNFTGetWalletListModel;
 

@@ -10,7 +10,7 @@ import tech.sud.mgp.hello.common.base.BaseDialogFragment;
 import tech.sud.mgp.hello.service.main.resp.CheckUpgradeResp;
 import tech.sud.mgp.hello.ui.login.LoginActivity;
 import tech.sud.mgp.hello.ui.login.dialog.VersionUpgradeDialog;
-import tech.sud.mgp.hello.ui.main.activity.MainActivity;
+import tech.sud.mgp.hello.ui.main.base.activity.MainActivity;
 
 /**
  * 闪屏页

@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.main.constant;
+package tech.sud.mgp.hello.ui.main.base.constant;
 
 /**
  * 游戏id常量

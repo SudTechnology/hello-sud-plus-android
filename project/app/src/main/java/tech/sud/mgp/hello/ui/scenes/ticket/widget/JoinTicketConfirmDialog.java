@@ -23,7 +23,7 @@ import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.utils.ShapeUtils;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.main.resp.GetAccountResp;
-import tech.sud.mgp.hello.ui.main.constant.GameLevel;
+import tech.sud.mgp.hello.ui.main.base.constant.GameLevel;
 
 /**
  * 门票房间加入游戏确认弹窗

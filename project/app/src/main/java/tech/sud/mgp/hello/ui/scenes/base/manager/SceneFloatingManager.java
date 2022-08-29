@@ -7,7 +7,7 @@ import android.text.TextUtils;
 import android.view.View;
 
 import tech.sud.mgp.hello.ui.common.constant.RequestKey;
-import tech.sud.mgp.hello.ui.main.constant.SceneType;
+import tech.sud.mgp.hello.ui.main.base.constant.SceneType;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.floating.DanmakuRoomFloatingView;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.floating.IRoomFloating;

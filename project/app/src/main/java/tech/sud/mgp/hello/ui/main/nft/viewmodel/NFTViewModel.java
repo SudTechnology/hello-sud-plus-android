@@ -29,6 +29,7 @@ import tech.sud.mgp.hello.ui.main.nft.model.WalletChainInfo;
 import tech.sud.mgp.hello.ui.main.nft.model.WalletChainInfoConvertor;
 import tech.sud.mgp.hello.ui.main.nft.model.WalletInfoModel;
 import tech.sud.mgp.hello.ui.main.nft.model.ZoneType;
+import tech.sud.nft.core.ISudNFTD;
 import tech.sud.nft.core.SudNFT;
 import tech.sud.nft.core.listener.ISudNFTListenerBindWallet;
 import tech.sud.nft.core.listener.ISudNFTListenerGenCNNFTCredentialsToken;
@@ -411,6 +412,8 @@ public class NFTViewModel extends BaseViewModel {
             return;
         }
 
+        ISudNFTD.e(3);
+        
         SudInitNFTParamModel model = new SudInitNFTParamModel();
         model.context = context;
         model.appId = sudConfig.appId;

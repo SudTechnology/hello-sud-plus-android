@@ -144,10 +144,19 @@ public class InternalWalletListDialog extends BaseBottomSheetDialogFragment {
                 if (operateListener != null) {
                     operateListener.onUnbindCompleted(item);
                 }
-                refreshData();
+                if (existsBindWallet()) {
+                    refreshData();
+                } else {
+                    dismiss();
+                }
             }
         });
         dialog.show(getChildFragmentManager(), null);
+    }
+
+    /** 检查是否存在绑定了的钱包 */
+    private boolean existsBindWallet() {
+        return viewModel.getBindWalletInfo() != null;
     }
 
     public void setOperateListener(OperateListener operateListener) {
@@ -200,10 +209,7 @@ public class InternalWalletListDialog extends BaseBottomSheetDialogFragment {
     public boolean isBinding(int walletType) {
         BindWalletInfoModel bindWalletInfo = viewModel.getBindWalletInfo();
         if (bindWalletInfo != null) {
-            WalletInfoModel walletInfoModel = bindWalletInfo.getWalletInfoModel(walletType);
-            if (walletInfoModel != null) {
-                return true;
-            }
+            return bindWalletInfo.isContainer(walletType);
         }
         return false;
     }

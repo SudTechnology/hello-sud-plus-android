@@ -21,6 +21,7 @@ import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseActivity;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.ui.common.utils.LifecycleUtils;
+import tech.sud.mgp.hello.ui.common.widget.HSTopBar;
 import tech.sud.mgp.hello.ui.common.widget.refresh.ListModel;
 import tech.sud.mgp.hello.ui.common.widget.refresh.RefreshDataHelper;
 import tech.sud.mgp.hello.ui.common.widget.refresh.RefreshView;
@@ -41,6 +42,7 @@ public class NftListActivity extends BaseActivity {
     private NftListAdapter adapter;
     private final NFTViewModel viewModel = new NFTViewModel();
     private RefreshView refreshView;
+    private HSTopBar topBar;
     private RefreshDataHelper<NftModel> refreshDataHelper;
     private final Map<Integer, String> pageKeyMaps = new HashMap<>();
 
@@ -54,6 +56,7 @@ public class NftListActivity extends BaseActivity {
         super.initWidget();
         adapter = new NftListAdapter();
         refreshView = findViewById(R.id.refresh_view);
+        topBar = findViewById(R.id.top_bar);
 
         initRecyclerView();
         initRefreshDataHelper();
@@ -198,6 +201,10 @@ public class NftListActivity extends BaseActivity {
     protected void initData() {
         super.initData();
         viewModel.initData(this);
+        BindWalletInfoModel bindWalletInfo = viewModel.getBindWalletInfo();
+        if (bindWalletInfo != null && bindWalletInfo.zoneType == ZoneType.INTERNAL) {
+            topBar.setTitle(getString(R.string.my_digital_collection));
+        }
     }
 
     @Override

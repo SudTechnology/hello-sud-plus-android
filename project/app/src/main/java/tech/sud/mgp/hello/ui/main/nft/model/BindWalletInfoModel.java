@@ -33,6 +33,7 @@ public class BindWalletInfoModel implements Serializable {
         return 0;
     }
 
+    /** 添加一个绑定了的钱包 */
     public void addBindWallet(WalletInfoModel model) {
         if (model == null) {
             return;
@@ -44,6 +45,7 @@ public class BindWalletInfoModel implements Serializable {
         walletList.add(model);
     }
 
+    /** 删除一个绑定了的钱包 */
     public void removeBindWallet(WalletInfoModel model) {
         if (model == null) {
             return;
@@ -53,6 +55,7 @@ public class BindWalletInfoModel implements Serializable {
         }
     }
 
+    /** 删除一个绑定了的钱包 */
     public void removeBindWallet(int walletType) {
         if (walletList != null) {
             ListIterator<WalletInfoModel> iterator = walletList.listIterator();
@@ -64,6 +67,7 @@ public class BindWalletInfoModel implements Serializable {
         }
     }
 
+    /** 绑定的包名是否包含该钱包类型 */
     public boolean isContainer(int walletType) {
         if (walletList != null) {
             for (WalletInfoModel model : walletList) {
@@ -75,6 +79,7 @@ public class BindWalletInfoModel implements Serializable {
         return false;
     }
 
+    /** 如果有，则获取第一个绑定了的钱包 */
     public WalletInfoModel getWalletInfoModel() {
         if (walletList != null && walletList.size() > 0) {
             return walletList.get(0);
@@ -82,6 +87,7 @@ public class BindWalletInfoModel implements Serializable {
         return null;
     }
 
+    /** 根据钱包类型获取钱包 */
     public WalletInfoModel getWalletInfoModel(int walletType) {
         if (walletList != null && walletList.size() > 0) {
             for (WalletInfoModel walletInfoModel : walletList) {
@@ -93,6 +99,7 @@ public class BindWalletInfoModel implements Serializable {
         return null;
     }
 
+    /** 获取默认的链 */
     public WalletChainInfo getDefaultChainInfo() {
         if (chainInfoList != null && chainInfoList.size() > 0) {
             return chainInfoList.get(0);

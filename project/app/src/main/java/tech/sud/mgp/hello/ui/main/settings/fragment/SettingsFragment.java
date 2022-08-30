@@ -115,6 +115,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
             walletInfoView.setVisibility(View.VISIBLE);
             setChainInfo(model);
         }
+        walletInfoView.setBindWallet(model);
         userInfoView.updateUserInfo();
 
         if (model == null) {

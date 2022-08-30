@@ -576,6 +576,7 @@ Go to homepage to create one~</string>
     <string name="auth_wallet_account">授权%1$s账号</string>
     <string name="get_auth_code">获取验证码</string>
     <string name="auth_code_hint">请输入验证码</string>
+    <string name="phone_number_hint">请输入手机号</string>
     <string name="bind_phone_info">未注册%1$s的手机号，授权后将自动注册</string>
     <string name="bind_phone_info_1">授权后应用将获取以下权限</string>
     <string name="bind_phone_info_2">基础信息</string>
@@ -590,6 +591,8 @@ Go to homepage to create one~</string>
     <string name="address">地址</string>
     <string name="cn_token_id">令牌ID</string>
     <string name="change_account">切换账户</string>
+    <string name="my_digital_collection">我的数字藏品</string>
+    <string name="no_digital_collection">尚无数字藏品</string>
     <!-- endregion 新增 -->
 
 </resources>

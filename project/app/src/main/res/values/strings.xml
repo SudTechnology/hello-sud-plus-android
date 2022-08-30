@@ -566,7 +566,7 @@ Go to homepage to create one~</string>
     <string name="waiting_sign">连接成功，等待签名…</string>
     <string name="wallet_connecting">钱包连接中…</string>
     <string name="overseas_wallet">海外钱包</string>
-    <string name="internal_wallet">国内钱包</string>
+    <string name="internal_wallet">国内账户</string>
     <string name="bind_your_overseas_wallet">绑定你的海外钱包</string>
     <string name="bind_your_internal_wallet">绑定你的数字账户</string>
     <string name="bind_phone_title">%1$s账号授权</string>

@@ -51,6 +51,7 @@ import tech.sud.mgp.hello.ui.main.base.constant.GameIdCons;
 import tech.sud.mgp.hello.ui.scenes.base.constant.OperateMicType;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.BooleanModel;
+import tech.sud.mgp.hello.ui.scenes.base.model.GameLoadingProgressModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.GameTextModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.OrderInviteModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoleType;
@@ -594,6 +595,17 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
             @Override
             public void onChanged(Object o) {
                 checkGameAddAiPlayers();
+            }
+        });
+        gameViewModel.gameLoadingProgressLiveData.observe(this, new Observer<GameLoadingProgressModel>() {
+            @Override
+            public void onChanged(GameLoadingProgressModel model) {
+                if (model != null && model.progress == 99) {
+                    gameContainer.postDelayed(() -> {
+                        // 兼容小米手机全屏处理
+                        updateStatusBar();
+                    }, 100);
+                }
             }
         });
     }

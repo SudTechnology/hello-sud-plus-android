@@ -547,7 +547,7 @@ Go to homepage to create one~</string>
     <string name="about_us">关于我们</string>
     <string name="more">更多</string>
     <string name="pack_up">收起</string>
-    <string name="owned_nft">已拥有的NFT</string>
+    <string name="owned_nft">我的NFT</string>
     <string name="network">网络</string>
     <string name="unbind_wallet_title">确定要解除连接钱包吗？</string>
     <string name="nft_empty">尚无NFT</string>

@@ -11,4 +11,7 @@ public class LiveEventBusKey {
     /** 进入房间通知 */
     public final static String KEY_ENTER_ROOM = "key_enter_room";
 
+    /** NFT Token过期 */
+    public final static String KEY_NFT_TOKEN_INVALID = "key_nft_token_invalid";
+
 }

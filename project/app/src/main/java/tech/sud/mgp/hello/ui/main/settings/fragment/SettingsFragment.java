@@ -3,14 +3,19 @@ package tech.sud.mgp.hello.ui.main.settings.fragment;
 import android.content.Intent;
 import android.view.View;
 
+import androidx.lifecycle.Observer;
+
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.gyf.immersionbar.ImmersionBar;
+import com.jeremyliao.liveeventbus.LiveEventBus;
 
 import java.util.List;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseFragment;
+import tech.sud.mgp.hello.common.event.LiveEventBusKey;
+import tech.sud.mgp.hello.common.event.NftTokenInvalidEvent;
 import tech.sud.mgp.hello.common.utils.ResponseUtils;
 import tech.sud.mgp.hello.common.utils.ViewUtils;
 import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
@@ -103,6 +108,12 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
             }
         });
         viewModel.bindWalletInfoMutableLiveData.observe(this, this::showWalletInfo);
+        LiveEventBus.<NftTokenInvalidEvent>get(LiveEventBusKey.KEY_NFT_TOKEN_INVALID).observe(this, new Observer<NftTokenInvalidEvent>() {
+            @Override
+            public void onChanged(NftTokenInvalidEvent nftTokenInvalidEvent) {
+                viewModel.initData(requireContext());
+            }
+        });
     }
 
     private void showWalletInfo(BindWalletInfoModel model) {

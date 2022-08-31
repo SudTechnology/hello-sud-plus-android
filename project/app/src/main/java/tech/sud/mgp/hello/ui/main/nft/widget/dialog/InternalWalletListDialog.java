@@ -30,6 +30,7 @@ import tech.sud.mgp.hello.ui.main.nft.model.WalletInfoModel;
 import tech.sud.mgp.hello.ui.main.nft.model.ZoneType;
 import tech.sud.mgp.hello.ui.main.nft.viewmodel.NFTViewModel;
 import tech.sud.nft.core.listener.ISudNFTListenerGetWalletList;
+import tech.sud.nft.core.listener.ISudNFTListenerUnbindCNWallet;
 import tech.sud.nft.core.model.resp.SudNFTGetWalletListModel;
 
 /**
@@ -121,9 +122,9 @@ public class InternalWalletListDialog extends BaseBottomSheetDialogFragment {
             public void onItemChildClick(@NonNull BaseQuickAdapter<?, ?> baseQuickAdapter, @NonNull View view, int position) {
                 SudNFTGetWalletListModel.WalletInfo item = adapter.getItem(position);
                 if (view.getId() == R.id.tv_btn) {
-                    if (isBinding(item.type)) {
-                        unbindWallet(item);
-                    } else {
+                    if (isBinding(item.type)) { // 解绑
+                        onClickUnbindWallet(item);
+                    } else { // 绑定
                         if (operateListener == null) {
                             dismiss();
                         } else {
@@ -135,23 +136,43 @@ public class InternalWalletListDialog extends BaseBottomSheetDialogFragment {
         });
     }
 
-    private void unbindWallet(SudNFTGetWalletListModel.WalletInfo item) {
+    private void onClickUnbindWallet(SudNFTGetWalletListModel.WalletInfo item) {
         UnbindInternalWalletDialog dialog = UnbindInternalWalletDialog.newInstance(item);
         dialog.setOnUnbindListener(new UnbindInternalWalletDialog.OnUnbindListener() {
             @Override
             public void onUnbind() {
-                viewModel.unbindCNWallet(item.type);
-                if (operateListener != null) {
-                    operateListener.onUnbindCompleted(item);
-                }
-                if (existsBindWallet()) {
-                    refreshData();
-                } else {
-                    dismiss();
-                }
+                unbindWallet(item);
             }
         });
         dialog.show(getChildFragmentManager(), null);
+    }
+
+    /** 执行解绑 */
+    private void unbindWallet(SudNFTGetWalletListModel.WalletInfo item) {
+        viewModel.unbindCNWallet(item.type, new ISudNFTListenerUnbindCNWallet() {
+            @Override
+            public void onSuccess() {
+                LifecycleUtils.safeLifecycle(getViewLifecycleOwner(), () -> {
+                    unbindWalletSuccess(item);
+                });
+            }
+
+            @Override
+            public void onFailure(int code, String msg) {
+                ToastUtils.showLong(ResponseUtils.conver(code, msg));
+            }
+        });
+    }
+
+    private void unbindWalletSuccess(SudNFTGetWalletListModel.WalletInfo item) {
+        if (operateListener != null) {
+            operateListener.onUnbindCompleted(item);
+        }
+        if (existsBindWallet()) {
+            refreshData();
+        } else {
+            dismiss();
+        }
     }
 
     /** 检查是否存在绑定了的钱包 */

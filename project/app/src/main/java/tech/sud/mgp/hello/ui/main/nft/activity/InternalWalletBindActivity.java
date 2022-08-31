@@ -206,6 +206,7 @@ public class InternalWalletBindActivity extends BaseActivity {
             @Override
             public void onSuccess(SudNFTSmsCodeBindWalletModel sudNFTSmsCodeBindWalletModel) {
                 LifecycleUtils.safeLifecycle(context, () -> {
+                    ToastUtils.showLong(R.string.auth_success);
                     tvConfirm.setEnabled(true);
                     finish();
                 });
@@ -215,7 +216,11 @@ public class InternalWalletBindActivity extends BaseActivity {
             public void onFailure(int code, String msg) {
                 LifecycleUtils.safeLifecycle(context, () -> {
                     tvConfirm.setEnabled(true);
-                    ToastUtils.showLong(ResponseUtils.conver(code, msg));
+                    if (code == 1030) {
+                        ToastUtils.showLong(R.string.auth_code_fail);
+                    } else {
+                        ToastUtils.showLong(ResponseUtils.conver(code, msg));
+                    }
                 });
             }
         });

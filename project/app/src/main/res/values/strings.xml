@@ -593,6 +593,8 @@ Go to homepage to create one~</string>
     <string name="change_account">切换账户</string>
     <string name="my_digital_collection">我的数字藏品</string>
     <string name="no_digital_collection">尚无数字藏品</string>
+    <string name="auth_success">授权成功</string>
+    <string name="auth_code_fail">验证码错误</string>
     <!-- endregion 新增 -->
 
 </resources>

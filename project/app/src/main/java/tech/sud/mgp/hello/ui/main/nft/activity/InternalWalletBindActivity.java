@@ -58,9 +58,9 @@ public class InternalWalletBindActivity extends BaseActivity {
 
     private SudNFTGetWalletListModel.WalletInfo walletInfo;
     private static long sendSmsCodeTimestamp;
-    private int countdownTotalCount = 60;
+    private final int countdownTotalCount = 60;
     private CustomCountdownTimer sendSmsCodeCountdownTimer;
-    private NFTViewModel viewModel = new NFTViewModel();
+    private final NFTViewModel viewModel = new NFTViewModel();
 
     public static void start(Context context, SudNFTGetWalletListModel.WalletInfo walletInfo) {
         Intent intent = new Intent(context, InternalWalletBindActivity.class);

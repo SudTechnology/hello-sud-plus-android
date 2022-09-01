@@ -31,7 +31,7 @@ import tech.sud.mgp.hello.ui.main.nft.model.NftListResultModel;
 import tech.sud.mgp.hello.ui.main.nft.model.NftModel;
 import tech.sud.mgp.hello.ui.main.nft.model.ZoneType;
 import tech.sud.mgp.hello.ui.main.nft.viewmodel.NFTViewModel;
-import tech.sud.nft.core.model.param.SudNFTGetCNNFTListParamModel;
+import tech.sud.nft.core.model.param.SudNFTGetCnNFTListParamModel;
 import tech.sud.nft.core.model.param.SudNFTGetNFTListParamModel;
 
 /**
@@ -110,7 +110,7 @@ public class NftListActivity extends BaseActivity {
     }
 
     private void getInternalData(int pageNumber, int pageSize, BindWalletInfoModel bindWalletInfo) {
-        SudNFTGetCNNFTListParamModel model = new SudNFTGetCNNFTListParamModel();
+        SudNFTGetCnNFTListParamModel model = new SudNFTGetCnNFTListParamModel();
         model.walletType = bindWalletInfo.walletType;
         model.walletToken = bindWalletInfo.walletToken;
         model.pageNumber = pageNumber;

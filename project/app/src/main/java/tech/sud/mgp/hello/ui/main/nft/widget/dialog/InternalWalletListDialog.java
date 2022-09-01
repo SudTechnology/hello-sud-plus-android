@@ -30,7 +30,7 @@ import tech.sud.mgp.hello.ui.main.nft.model.WalletInfoModel;
 import tech.sud.mgp.hello.ui.main.nft.model.ZoneType;
 import tech.sud.mgp.hello.ui.main.nft.viewmodel.NFTViewModel;
 import tech.sud.nft.core.listener.ISudNFTListenerGetWalletList;
-import tech.sud.nft.core.listener.ISudNFTListenerUnbindCNWallet;
+import tech.sud.nft.core.listener.ISudNFTListenerUnbindCnWallet;
 import tech.sud.nft.core.model.resp.SudNFTGetWalletListModel;
 
 /**
@@ -149,7 +149,7 @@ public class InternalWalletListDialog extends BaseBottomSheetDialogFragment {
 
     /** 执行解绑 */
     private void unbindWallet(SudNFTGetWalletListModel.WalletInfo item) {
-        viewModel.unbindCNWallet(item.type, new ISudNFTListenerUnbindCNWallet() {
+        viewModel.unbindCNWallet(item.type, new ISudNFTListenerUnbindCnWallet() {
             @Override
             public void onSuccess() {
                 LifecycleUtils.safeLifecycle(getViewLifecycleOwner(), () -> {

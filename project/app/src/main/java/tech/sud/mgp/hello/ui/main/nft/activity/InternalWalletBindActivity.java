@@ -34,10 +34,10 @@ import tech.sud.mgp.hello.ui.common.utils.LifecycleUtils;
 import tech.sud.mgp.hello.ui.common.widget.HSTopBar;
 import tech.sud.mgp.hello.ui.main.base.utils.RouterUtils;
 import tech.sud.mgp.hello.ui.main.nft.viewmodel.NFTViewModel;
+import tech.sud.nft.core.listener.ISudNFTListenerBindCnWallet;
 import tech.sud.nft.core.listener.ISudNFTListenerSendSmsCode;
-import tech.sud.nft.core.listener.ISudNFTListenerSmsCodeBindWallet;
+import tech.sud.nft.core.model.resp.SudNFTBindCnWalletModel;
 import tech.sud.nft.core.model.resp.SudNFTGetWalletListModel;
-import tech.sud.nft.core.model.resp.SudNFTSmsCodeBindWalletModel;
 
 /**
  * 国内钱包绑定页面
@@ -202,9 +202,9 @@ public class InternalWalletBindActivity extends BaseActivity {
             return;
         }
         tvConfirm.setEnabled(false);
-        viewModel.bindCNWallet(walletInfo, HSUserInfo.userId + "", phone, smsCode, new ISudNFTListenerSmsCodeBindWallet() {
+        viewModel.bindCnWallet(walletInfo, HSUserInfo.userId + "", phone, smsCode, new ISudNFTListenerBindCnWallet() {
             @Override
-            public void onSuccess(SudNFTSmsCodeBindWalletModel sudNFTSmsCodeBindWalletModel) {
+            public void onSuccess(SudNFTBindCnWalletModel resp) {
                 LifecycleUtils.safeLifecycle(context, () -> {
                     ToastUtils.showLong(R.string.auth_success);
                     tvConfirm.setEnabled(true);

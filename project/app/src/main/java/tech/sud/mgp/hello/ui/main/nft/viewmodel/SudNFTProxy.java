@@ -13,34 +13,34 @@ import tech.sud.mgp.hello.common.event.NftTokenInvalidEvent;
 import tech.sud.mgp.hello.ui.main.base.activity.MainActivity;
 import tech.sud.mgp.hello.ui.main.nft.model.BindWalletInfoModel;
 import tech.sud.nft.core.SudNFT;
+import tech.sud.nft.core.listener.ISudNFTListenerBindCnWallet;
 import tech.sud.nft.core.listener.ISudNFTListenerBindWallet;
-import tech.sud.nft.core.listener.ISudNFTListenerGenCNNFTCredentialsToken;
+import tech.sud.nft.core.listener.ISudNFTListenerGenCnNFTCredentialsToken;
 import tech.sud.nft.core.listener.ISudNFTListenerGenNFTCredentialsToken;
-import tech.sud.nft.core.listener.ISudNFTListenerGetCNNFTList;
+import tech.sud.nft.core.listener.ISudNFTListenerGetCnNFTList;
 import tech.sud.nft.core.listener.ISudNFTListenerGetNFTList;
 import tech.sud.nft.core.listener.ISudNFTListenerGetWalletList;
 import tech.sud.nft.core.listener.ISudNFTListenerInitNFT;
 import tech.sud.nft.core.listener.ISudNFTListenerSendSmsCode;
-import tech.sud.nft.core.listener.ISudNFTListenerSmsCodeBindWallet;
-import tech.sud.nft.core.listener.ISudNFTListenerUnbindCNWallet;
+import tech.sud.nft.core.listener.ISudNFTListenerUnbindCnWallet;
 import tech.sud.nft.core.model.param.SudInitNFTParamModel;
+import tech.sud.nft.core.model.param.SudNFTBindCnWalletParamModel;
 import tech.sud.nft.core.model.param.SudNFTBindWalletParamModel;
-import tech.sud.nft.core.model.param.SudNFTCNCredentialsTokenParamModel;
+import tech.sud.nft.core.model.param.SudNFTCnCredentialsTokenParamModel;
 import tech.sud.nft.core.model.param.SudNFTCredentialsTokenParamModel;
-import tech.sud.nft.core.model.param.SudNFTGetCNNFTListParamModel;
+import tech.sud.nft.core.model.param.SudNFTGetCnNFTListParamModel;
 import tech.sud.nft.core.model.param.SudNFTGetNFTListParamModel;
 import tech.sud.nft.core.model.param.SudNFTSendSmsCodeParamModel;
-import tech.sud.nft.core.model.param.SudNFTSmsCodeBindWalletParamModel;
-import tech.sud.nft.core.model.param.SudNFTUnbindCNWalletParamModel;
+import tech.sud.nft.core.model.param.SudNFTUnbindCnWalletParamModel;
+import tech.sud.nft.core.model.resp.SudNFTBindCnWalletModel;
 import tech.sud.nft.core.model.resp.SudNFTBindWalletEvent;
 import tech.sud.nft.core.model.resp.SudNFTBindWalletModel;
 import tech.sud.nft.core.model.resp.SudNFTBindWalletStage;
-import tech.sud.nft.core.model.resp.SudNFTGenCNNFTCredentialsTokenModel;
+import tech.sud.nft.core.model.resp.SudNFTGenCnNFTCredentialsTokenModel;
 import tech.sud.nft.core.model.resp.SudNFTGenNFTCredentialsTokenModel;
-import tech.sud.nft.core.model.resp.SudNFTGetCNNFTListModel;
+import tech.sud.nft.core.model.resp.SudNFTGetCnNFTListModel;
 import tech.sud.nft.core.model.resp.SudNFTGetNFTListModel;
 import tech.sud.nft.core.model.resp.SudNFTGetWalletListModel;
-import tech.sud.nft.core.model.resp.SudNFTSmsCodeBindWalletModel;
 
 /**
  * SudNFT代理类
@@ -229,11 +229,11 @@ public class SudNFTProxy {
      * @param model    参数
      * @param listener 回调
      */
-    public static void smsCodeBindWallet(SudNFTSmsCodeBindWalletParamModel model, ISudNFTListenerSmsCodeBindWallet listener) {
+    public static void smsCodeBindWallet(SudNFTBindCnWalletParamModel model, ISudNFTListenerBindCnWallet listener) {
         Integer walletType = getWalletType();
-        SudNFT.smsCodeBindWallet(model, new ISudNFTListenerSmsCodeBindWallet() {
+        SudNFT.bindCnWallet(model, new ISudNFTListenerBindCnWallet() {
             @Override
-            public void onSuccess(SudNFTSmsCodeBindWalletModel resp) {
+            public void onSuccess(SudNFTBindCnWalletModel resp) {
                 if (listener != null) {
                     listener.onSuccess(resp);
                 }
@@ -255,11 +255,11 @@ public class SudNFTProxy {
      * @param model    参数
      * @param listener 回调
      */
-    public static void getCNNFTList(SudNFTGetCNNFTListParamModel model, ISudNFTListenerGetCNNFTList listener) {
+    public static void getCNNFTList(SudNFTGetCnNFTListParamModel model, ISudNFTListenerGetCnNFTList listener) {
         Integer walletType = getWalletType();
-        SudNFT.getCNNFTList(model, new ISudNFTListenerGetCNNFTList() {
+        SudNFT.getCnNFTList(model, new ISudNFTListenerGetCnNFTList() {
             @Override
-            public void onSuccess(SudNFTGetCNNFTListModel resp) {
+            public void onSuccess(SudNFTGetCnNFTListModel resp) {
                 if (listener != null) {
                     listener.onSuccess(resp);
                 }
@@ -281,11 +281,11 @@ public class SudNFTProxy {
      * @param model    参数
      * @param listener 回调
      */
-    public static void genCNNFTCredentialsToken(SudNFTCNCredentialsTokenParamModel model, ISudNFTListenerGenCNNFTCredentialsToken listener) {
+    public static void genCnNFTCredentialsToken(SudNFTCnCredentialsTokenParamModel model, ISudNFTListenerGenCnNFTCredentialsToken listener) {
         Integer walletType = getWalletType();
-        SudNFT.genCNNFTCredentialsToken(model, new ISudNFTListenerGenCNNFTCredentialsToken() {
+        SudNFT.genCnNFTCredentialsToken(model, new ISudNFTListenerGenCnNFTCredentialsToken() {
             @Override
-            public void onSuccess(SudNFTGenCNNFTCredentialsTokenModel resp) {
+            public void onSuccess(SudNFTGenCnNFTCredentialsTokenModel resp) {
                 if (listener != null) {
                     listener.onSuccess(resp);
                 }
@@ -307,9 +307,9 @@ public class SudNFTProxy {
      * @param model    参数
      * @param listener 回调
      */
-    public static void unbindCNWallet(SudNFTUnbindCNWalletParamModel model, ISudNFTListenerUnbindCNWallet listener) {
+    public static void unbindCnWallet(SudNFTUnbindCnWalletParamModel model, ISudNFTListenerUnbindCnWallet listener) {
         Integer walletType = getWalletType();
-        SudNFT.unbindCNWallet(model, new ISudNFTListenerUnbindCNWallet() {
+        SudNFT.unbindCnWallet(model, new ISudNFTListenerUnbindCnWallet() {
             @Override
             public void onSuccess() {
                 if (listener != null) {

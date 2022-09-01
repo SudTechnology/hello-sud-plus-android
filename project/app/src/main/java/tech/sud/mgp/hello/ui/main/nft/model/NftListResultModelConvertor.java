@@ -2,7 +2,7 @@ package tech.sud.mgp.hello.ui.main.nft.model;
 
 import java.util.ArrayList;
 
-import tech.sud.nft.core.model.resp.SudNFTGetCNNFTListModel;
+import tech.sud.nft.core.model.resp.SudNFTGetCnNFTListModel;
 import tech.sud.nft.core.model.resp.SudNFTGetNFTListModel;
 
 public class NftListResultModelConvertor {
@@ -36,7 +36,7 @@ public class NftListResultModelConvertor {
         return destNftInfo;
     }
 
-    public static NftListResultModel conver(SudNFTGetCNNFTListModel src) {
+    public static NftListResultModel conver(SudNFTGetCnNFTListModel src) {
         if (src == null) {
             return null;
         }
@@ -44,21 +44,21 @@ public class NftListResultModelConvertor {
         dest.totalCount = src.totalCount;
         if (src.list != null) {
             dest.list = new ArrayList<>();
-            for (SudNFTGetCNNFTListModel.CNNFTInfo srcNFTInfo : src.list) {
+            for (SudNFTGetCnNFTListModel.CnNFTInfo srcNFTInfo : src.list) {
                 dest.list.add(conver(srcNFTInfo));
             }
         }
         return dest;
     }
 
-    public static NftModel conver(SudNFTGetCNNFTListModel.CNNFTInfo srcNftInfo) {
+    public static NftModel conver(SudNFTGetCnNFTListModel.CnNFTInfo srcNftInfo) {
         NftModel destNftInfo = new NftModel();
         destNftInfo.name = srcNftInfo.name;
-        destNftInfo.description = srcNftInfo.description;
+        destNftInfo.description = srcNftInfo.desc;
         destNftInfo.fileUrl = srcNftInfo.fileUrl;
         destNftInfo.fileType = srcNftInfo.fileType;
         destNftInfo.coverUrl = srcNftInfo.coverUrl;
-        destNftInfo.contractAddress = srcNftInfo.hash;
+        destNftInfo.contractAddress = srcNftInfo.cardHash;
         destNftInfo.tokenId = srcNftInfo.chainAddr;
         destNftInfo.cardId = srcNftInfo.cardId;
 //        destNftInfo.tokenType = srcNftInfo.tokenType;

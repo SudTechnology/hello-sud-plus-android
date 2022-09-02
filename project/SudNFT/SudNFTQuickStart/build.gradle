@@ -1,0 +1,110 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    compileSdkVersion project.compileSdkVersion
+
+    defaultConfig {
+        applicationId "tech.sud.mgp.hello"
+        minSdkVersion project.minSdkVersion
+        targetSdkVersion project.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+    }
+
+    signingConfigs {
+        release {
+            if (project.hasProperty("jksPropertyPath") && project.jksPropertyPath != "") {
+                // release设置发布签名路径
+                Properties properties = new Properties()
+                properties.load(new FileInputStream(file(project.jksPropertyPath)))
+                storeFile file(properties['STORE_FILE'])
+                storePassword properties['STORE_PWD']
+                keyAlias properties['KEY_ALIAS']
+                keyPassword properties['KEY_PWD']
+            } else {
+                storeFile file(RELEASE_STORE_FILE_DEEP)
+                storePassword RELEASE_STORE_PASSWORD
+                keyAlias RELEASE_KEY_ALIAS
+                keyPassword RELEASE_KEY_PASSWORD
+            }
+        }
+        debug {
+            storeFile file(RELEASE_STORE_FILE_DEEP)
+            storePassword RELEASE_STORE_PASSWORD
+            keyAlias RELEASE_KEY_ALIAS
+            keyPassword RELEASE_KEY_PASSWORD
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    flavorDimensions 'channel'
+    productFlavors {
+        official {
+            String channel = "official"
+            buildConfigField("String", "CHANNEL", "\"" + channel + "\"")
+        }
+    }
+}
+
+dependencies {
+
+    implementation "androidx.appcompat:appcompat:${appcompatVersion}"
+    implementation "com.google.android.material:material:${materialVersion}"
+    implementation "androidx.constraintlayout:constraintlayout:${constraintlayoutVersion}"
+
+    // 引入 SudNFT
+    implementation project(':SudNFT:SudNFTSDK')
+
+    // --- region QuickStart使用
+
+    // 屏幕适配：https://github.com/JessYanCoding/AndroidAutoSize
+    implementation 'com.github.JessYanCoding:AndroidAutoSize:v1.2.1'
+
+    // 网络请求库
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava3:2.9.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.1'
+    implementation 'com.trello.rxlifecycle4:rxlifecycle:4.0.2'
+    implementation 'com.trello.rxlifecycle4:rxlifecycle-components:4.0.2'
+
+    // RecyclerView的Adapter: https://github.com/CymChad/BaseRecyclerViewAdapterHelper
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.7'
+
+    // recyclerview
+    api 'androidx.recyclerview:recyclerview:1.2.1'
+
+    // 沉浸式状态栏
+    implementation 'com.geyifeng.immersionbar:immersionbar:3.2.2'
+
+    // 工具类库: https://github.com/Blankj/AndroidUtilCode
+    implementation 'com.blankj:utilcodex:1.31.0'
+
+    // 下拉刷新，核心库
+    implementation 'com.scwang.smart:refresh-layout-kernel:2.0.3'
+
+    // 下拉刷新，经典刷新头
+    implementation 'com.scwang.smart:refresh-header-classics:2.0.3'
+
+    // 图片加载库
+    implementation 'com.github.bumptech.glide:glide:4.13.2'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.13.2'
+    
+    // 事件通知
+    implementation 'io.github.jeremyliao:live-event-bus:1.8.0'
+
+    // --- endregion QuickStart使用
+
+}

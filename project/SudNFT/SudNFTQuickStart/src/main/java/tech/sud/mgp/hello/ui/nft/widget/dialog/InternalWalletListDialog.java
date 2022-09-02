@@ -1,0 +1,249 @@
+package tech.sud.mgp.hello.ui.nft.widget.dialog;
+
+import android.graphics.Color;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.blankj.utilcode.util.ToastUtils;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemChildClickListener;
+import com.chad.library.adapter.base.viewholder.BaseViewHolder;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import tech.sud.mgp.hello.R;
+import tech.sud.mgp.hello.common.base.BaseBottomSheetDialogFragment;
+import tech.sud.mgp.hello.common.listener.CompletedListener;
+import tech.sud.mgp.hello.common.utils.DensityUtils;
+import tech.sud.mgp.hello.common.utils.ImageLoader;
+import tech.sud.mgp.hello.common.utils.LifecycleUtils;
+import tech.sud.mgp.hello.common.utils.ResponseUtils;
+import tech.sud.mgp.hello.ui.nft.model.BindWalletInfoModel;
+import tech.sud.mgp.hello.ui.nft.model.WalletInfoModel;
+import tech.sud.mgp.hello.ui.nft.model.ZoneType;
+import tech.sud.mgp.hello.ui.nft.viewmodel.NFTViewModel;
+import tech.sud.nft.core.listener.ISudNFTListenerGetWalletList;
+import tech.sud.nft.core.listener.ISudNFTListenerUnbindCnWallet;
+import tech.sud.nft.core.model.resp.SudNFTGetWalletListModel;
+
+/**
+ * 国内钱包列表弹窗
+ */
+public class InternalWalletListDialog extends BaseBottomSheetDialogFragment {
+
+    private MyAdapter adapter;
+    private OperateListener operateListener;
+    public NFTViewModel viewModel = new NFTViewModel();
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.dialog_internal_wallet_list;
+    }
+
+    @Override
+    protected void initWidget() {
+        super.initWidget();
+        RecyclerView recyclerView = findViewById(R.id.recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
+        adapter = new MyAdapter();
+        recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    protected int getHeight() {
+        return (int) (DensityUtils.getScreenHeight() * 0.645);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        refreshData();
+    }
+
+    private void refreshData() {
+        viewModel.getWalletList(new ISudNFTListenerGetWalletList() {
+            @Override
+            public void onSuccess(SudNFTGetWalletListModel sudNFTGetWalletListModel) {
+                getDataSuccess(sudNFTGetWalletListModel);
+            }
+
+            @Override
+            public void onFailure(int code, String msg) {
+                ToastUtils.showLong(ResponseUtils.conver(code, msg));
+            }
+        });
+    }
+
+    private void getDataSuccess(SudNFTGetWalletListModel resp) {
+        if (resp == null) {
+            return;
+        }
+        LifecycleUtils.safeLifecycle(this, new CompletedListener() {
+            @Override
+            public void onCompleted() {
+                adapter.setList(filterData(resp.walletList));
+            }
+        });
+    }
+
+    private List<SudNFTGetWalletListModel.WalletInfo> filterData(List<SudNFTGetWalletListModel.WalletInfo> walletList) {
+        if (walletList == null) {
+            return null;
+        }
+        List<SudNFTGetWalletListModel.WalletInfo> list = new ArrayList<>();
+        for (SudNFTGetWalletListModel.WalletInfo walletInfo : walletList) {
+            if (walletInfo.zoneType == ZoneType.INTERNAL) {
+                list.add(walletInfo);
+            }
+        }
+        return list;
+    }
+
+    @Override
+    protected void setBehavior(BottomSheetBehavior<View> behavior) {
+        super.setBehavior(behavior);
+        behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        behavior.setSkipCollapsed(true);
+    }
+
+    @Override
+    protected void setListeners() {
+        super.setListeners();
+        adapter.addChildClickViewIds(R.id.tv_btn);
+        adapter.setOnItemChildClickListener(new OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(@NonNull BaseQuickAdapter<?, ?> baseQuickAdapter, @NonNull View view, int position) {
+                SudNFTGetWalletListModel.WalletInfo item = adapter.getItem(position);
+                if (view.getId() == R.id.tv_btn) {
+                    if (isBinding(item.type)) { // 解绑
+                        onClickUnbindWallet(item);
+                    } else { // 绑定
+                        if (operateListener == null) {
+                            dismiss();
+                        } else {
+                            operateListener.onBind(item);
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    private void onClickUnbindWallet(SudNFTGetWalletListModel.WalletInfo item) {
+        UnbindInternalWalletDialog dialog = UnbindInternalWalletDialog.newInstance(item);
+        dialog.setOnUnbindListener(new UnbindInternalWalletDialog.OnUnbindListener() {
+            @Override
+            public void onUnbind() {
+                unbindWallet(item);
+            }
+        });
+        dialog.show(getChildFragmentManager(), null);
+    }
+
+    /** 执行解绑 */
+    private void unbindWallet(SudNFTGetWalletListModel.WalletInfo item) {
+        viewModel.unbindCNWallet(item.type, new ISudNFTListenerUnbindCnWallet() {
+            @Override
+            public void onSuccess() {
+                LifecycleUtils.safeLifecycle(getViewLifecycleOwner(), () -> {
+                    unbindWalletSuccess(item);
+                });
+            }
+
+            @Override
+            public void onFailure(int code, String msg) {
+                ToastUtils.showLong(ResponseUtils.conver(code, msg));
+            }
+        });
+    }
+
+    private void unbindWalletSuccess(SudNFTGetWalletListModel.WalletInfo item) {
+        if (operateListener != null) {
+            operateListener.onUnbindCompleted(item);
+        }
+        if (existsBindWallet()) {
+            refreshData();
+        } else {
+            dismiss();
+        }
+    }
+
+    /** 检查是否存在绑定了的钱包 */
+    private boolean existsBindWallet() {
+        return viewModel.getBindWalletInfo() != null;
+    }
+
+    public void setOperateListener(OperateListener operateListener) {
+        this.operateListener = operateListener;
+    }
+
+    public interface OperateListener {
+        void onBind(SudNFTGetWalletListModel.WalletInfo walletInfo);
+
+        void onUnbindCompleted(SudNFTGetWalletListModel.WalletInfo walletInfo);
+    }
+
+    private class MyAdapter extends BaseQuickAdapter<SudNFTGetWalletListModel.WalletInfo, BaseViewHolder> {
+
+        public MyAdapter() {
+            super(R.layout.item_internal_wallet);
+        }
+
+        @Override
+        protected void convert(@NonNull BaseViewHolder holder, SudNFTGetWalletListModel.WalletInfo walletInfo) {
+            ImageView ivIcon = holder.getView(R.id.iv_icon);
+            ImageLoader.loadAvatar(ivIcon, walletInfo.icon);
+
+            holder.setText(R.id.tv_name, walletInfo.name);
+
+            boolean isBinding = isBinding(walletInfo.type);
+            TextView tvBtn = holder.getView(R.id.tv_btn);
+            if (isBinding) {
+                tvBtn.setText(R.string.unbind);
+                tvBtn.setTextColor(Color.BLACK);
+                tvBtn.setBackgroundResource(R.drawable.shape_stroke_black);
+            } else {
+                tvBtn.setText(R.string.bind);
+                tvBtn.setTextColor(Color.WHITE);
+                tvBtn.setBackgroundColor(Color.BLACK);
+            }
+
+            if (isBinding) {
+                String phone = getBindPhone(walletInfo.type);
+                if (phone == null) {
+                    phone = "";
+                }
+                holder.setText(R.id.tv_bind_info, getString(R.string.binded_info, phone));
+            } else {
+                holder.setText(R.id.tv_bind_info, "");
+            }
+        }
+    }
+
+    public boolean isBinding(int walletType) {
+        BindWalletInfoModel bindWalletInfo = viewModel.getBindWalletInfo();
+        if (bindWalletInfo != null) {
+            return bindWalletInfo.isContainer(walletType);
+        }
+        return false;
+    }
+
+    public String getBindPhone(int walletType) {
+        BindWalletInfoModel bindWalletInfo = viewModel.getBindWalletInfo();
+        if (bindWalletInfo != null) {
+            WalletInfoModel walletInfoModel = bindWalletInfo.getWalletInfoModel(walletType);
+            if (walletInfoModel != null) {
+                return walletInfoModel.phone;
+            }
+        }
+        return null;
+    }
+
+}

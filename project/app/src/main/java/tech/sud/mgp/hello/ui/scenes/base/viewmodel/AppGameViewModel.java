@@ -23,7 +23,6 @@ import tech.sud.mgp.SudMGPWrapper.state.MGStateResponse;
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.SudMGPWrapper.utils.GameCommonStateUtils;
 import tech.sud.mgp.SudMGPWrapper.utils.ISudFSMStateHandleUtils;
-import tech.sud.mgp.core.ISudAPPD;
 import tech.sud.mgp.core.ISudFSMStateHandle;
 import tech.sud.mgp.core.ISudFSTAPP;
 import tech.sud.mgp.core.ISudListenerInitSDK;
@@ -93,7 +92,6 @@ public class AppGameViewModel implements SudFSMMGListener {
      * @param gameId     游戏id，传入不同的游戏id，即可加载不同的游戏，传0等同于关闭游戏。
      */
     public void switchGame(FragmentActivity activity, long gameRoomId, long gameId) {
-        ISudAPPD.e(3);
         checkFinishGame(gameId);
         // 因为finishGame需要一定时间发送给游戏服务，所以这里带了delay
         // 如果没有finishGame的需求，那可以不需要delay

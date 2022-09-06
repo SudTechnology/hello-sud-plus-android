@@ -98,7 +98,6 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
     private void setNftListeners() {
         viewModel.initDataShowWalletListLiveData.observe(this, model -> {
             LogUtils.d("nft:showWallet");
-            // TODO: 2022/8/25 钱包列表
         });
         viewModel.initDataShowNftListLiveData.observe(this, model -> {
             walletInfoView.setDatas(model);

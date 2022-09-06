@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <tech.sud.mgp.hello.common.widget.view.CornersImageView
+        android:id="@+id/user_info_iv_icon"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        app:civ_cornerRadius="56dp"
+        android:scaleType="centerCrop"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_vertical"
+        android:layout_marginHorizontal="10dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/view_unbind"
+        app:layout_constraintStart_toEndOf="@id/user_info_iv_icon">
+
+        <TextView
+            android:id="@+id/user_info_tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:textColor="#1a1a1a"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tv_user_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:singleLine="true"
+            android:textColor="#13141a"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_wallet_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="159dp"
+            android:layout_marginTop="4dp"
+            android:singleLine="true"
+            android:ellipsize="middle"
+            android:textColor="#333333"
+            android:textSize="12sp"
+            android:visibility="gone"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="2dp"
+            android:background="@drawable/shape_round_b3dbdeec" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view_unbind"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_marginBottom="2dp"
+        android:background="@drawable/ic_unbind"
+        android:layout_marginEnd="4dp"
+        app:layout_goneMarginBottom="1dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

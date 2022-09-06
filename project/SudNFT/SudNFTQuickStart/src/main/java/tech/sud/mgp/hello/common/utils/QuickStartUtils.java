@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello;
+package tech.sud.mgp.hello.common.utils;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;

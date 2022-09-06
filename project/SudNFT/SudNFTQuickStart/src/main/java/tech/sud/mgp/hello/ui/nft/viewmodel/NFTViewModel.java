@@ -594,7 +594,8 @@ public class NFTViewModel extends BaseViewModel {
                     return;
                 }
                 String nftToken = resp.nftDetailsToken;
-                // TODO: 2022/9/2 从SudNFT拿到穿戴的token之后，把token发送给业务后台进行穿戴
+                // TODO: 2022/9/2 从SudNFT拿到穿戴的token之后，把token发送给业务后台进行穿戴，这里只是弹一下Toast
+                ToastUtils.showLong(nftToken);
 //                HomeRepository.wearNft(null, nftToken, 1, new RxCallback<Object>() {
 //                    @Override
 //                    public void onSuccess(Object o) {
@@ -630,7 +631,8 @@ public class NFTViewModel extends BaseViewModel {
                     return;
                 }
                 String nftToken = resp.detailsToken;
-                // TODO: 2022/9/2 从SudNFT拿到穿戴的token之后，把token发送给业务后台进行穿戴
+                // TODO: 2022/9/2 从SudNFT拿到穿戴的token之后，把token发送给业务后台进行穿戴，这里只是弹一下Toast
+                ToastUtils.showLong(nftToken);
 //                HomeRepository.wearNft(null, nftToken, 1, new RxCallback<Object>() {
 //                    @Override
 //                    public void onSuccess(Object o) {

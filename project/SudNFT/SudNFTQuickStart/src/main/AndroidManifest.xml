@@ -38,6 +38,37 @@
             android:windowSoftInputMode="adjustPan"
             tools:ignore="LockedOrientationActivity" />
 
+        <!-- NFT列表页面 -->
+        <activity
+            android:name=".ui.nft.activity.NftListActivity"
+            android:exported="false"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+
+        <!-- NFT详情页面 -->
+        <activity
+            android:name=".ui.nft.activity.NftDetailActivity"
+            android:exported="false"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+
+        <!-- 国内钱包绑定页面 -->
+        <activity
+            android:name=".ui.nft.activity.InternalWalletBindActivity"
+            android:exported="false"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+
+        <!-- WebView -->
+        <activity
+            android:name=".ui.main.WebViewActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+
         <!-- 屏幕适配配置 -->
         <meta-data
             android:name="design_width_in_dp"

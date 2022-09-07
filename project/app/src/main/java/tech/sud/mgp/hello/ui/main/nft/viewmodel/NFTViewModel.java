@@ -18,6 +18,7 @@ import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.GlobalSP;
+import tech.sud.mgp.hello.common.utils.ResponseUtils;
 import tech.sud.mgp.hello.service.login.repository.LoginRepository;
 import tech.sud.mgp.hello.service.main.config.SudConfig;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
@@ -102,7 +103,7 @@ public class NFTViewModel extends BaseViewModel {
                 @Override
                 public void onFailure(int retCode, String retMsg) {
                     sIsInitCompleted = false;
-                    ToastUtils.showLong("initNFT onFailure:" + retCode + "  retMsg:" + retMsg);
+                    ToastUtils.showLong(ResponseUtils.nftConver(retCode, retMsg));
                 }
             });
         }
@@ -134,7 +135,7 @@ public class NFTViewModel extends BaseViewModel {
 
             @Override
             public void onFailure(int retCode, String retMsg) {
-                ToastUtils.showLong("getWalletList onFailure:" + retCode + "  retMsg:" + retMsg);
+                ToastUtils.showLong(ResponseUtils.nftConver(retCode, retMsg));
             }
         });
     }
@@ -270,7 +271,7 @@ public class NFTViewModel extends BaseViewModel {
 
             @Override
             public void onFailure(int retCode, String retMsg) {
-                ToastUtils.showLong("getCNNftList onFailure:" + retCode + "  retMsg:" + retMsg);
+                ToastUtils.showLong(ResponseUtils.nftConver(retCode, retMsg));
                 if (listener != null) {
                     listener.onFailure(retCode, retMsg);
                 }
@@ -353,7 +354,7 @@ public class NFTViewModel extends BaseViewModel {
 
             @Override
             public void onFailure(int retCode, String retMsg) {
-                ToastUtils.showLong("getCNNftList onFailure:" + retCode + "  retMsg:" + retMsg);
+                ToastUtils.showLong(ResponseUtils.nftConver(retCode, retMsg));
                 LogUtils.e("nft: getCNNftList onFailure:" + retCode + "  retMsg:" + retMsg);
             }
         });
@@ -379,7 +380,7 @@ public class NFTViewModel extends BaseViewModel {
 
             @Override
             public void onFailure(int retCode, String retMsg) {
-                ToastUtils.showLong("initNftList onFailure:" + retCode + "  retMsg:" + retMsg);
+                ToastUtils.showLong(ResponseUtils.nftConver(retCode, retMsg));
                 LogUtils.e("nft: initNftList onFailure:" + retCode + "  retMsg:" + retMsg);
             }
         });
@@ -397,7 +398,7 @@ public class NFTViewModel extends BaseViewModel {
 
             @Override
             public void onFailure(int retCode, String retMsg) {
-                ToastUtils.showLong("getNftList onFailure:" + retCode + "  retMsg:" + retMsg);
+                ToastUtils.showLong(ResponseUtils.nftConver(retCode, retMsg));
                 if (listener != null) {
                     listener.onFailure(retCode, retMsg);
                 }
@@ -413,6 +414,11 @@ public class NFTViewModel extends BaseViewModel {
             }
             return;
         }
+
+        if (APPConfig.GAME_IS_TEST_ENV) {
+            ISudNFTD.e(3);
+        }
+
         SudInitNFTParamModel model = new SudInitNFTParamModel();
         model.context = context;
         model.appId = sudConfig.appId;
@@ -613,7 +619,7 @@ public class NFTViewModel extends BaseViewModel {
 
             @Override
             public void onFailure(int retCode, String retMsg) {
-                ToastUtils.showLong("genNFTCredentialsToken onFailure:" + retCode + "  retMsg:" + retMsg);
+                ToastUtils.showLong(ResponseUtils.nftConver(retCode, retMsg));
             }
         });
     }
@@ -648,7 +654,7 @@ public class NFTViewModel extends BaseViewModel {
 
             @Override
             public void onFailure(int retCode, String retMsg) {
-                ToastUtils.showLong("genNFTCredentialsToken onFailure:" + retCode + "  retMsg:" + retMsg);
+                ToastUtils.showLong(ResponseUtils.nftConver(retCode, retMsg));
             }
         });
     }

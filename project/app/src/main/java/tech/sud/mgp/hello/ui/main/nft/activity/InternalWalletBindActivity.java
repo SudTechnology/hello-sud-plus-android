@@ -216,11 +216,7 @@ public class InternalWalletBindActivity extends BaseActivity {
             public void onFailure(int code, String msg) {
                 LifecycleUtils.safeLifecycle(context, () -> {
                     tvConfirm.setEnabled(true);
-                    if (code == 1030) {
-                        ToastUtils.showLong(R.string.auth_code_fail);
-                    } else {
-                        ToastUtils.showLong(ResponseUtils.conver(code, msg));
-                    }
+                    ToastUtils.showLong(ResponseUtils.nftConver(code, msg));
                 });
             }
         });
@@ -243,7 +239,7 @@ public class InternalWalletBindActivity extends BaseActivity {
             public void onFailure(int code, String msg) {
                 LifecycleUtils.safeLifecycle(context, () -> {
                     tvSmsCode.setEnabled(true);
-                    ToastUtils.showLong(ResponseUtils.conver(code, msg));
+                    ToastUtils.showLong(ResponseUtils.nftConver(code, msg));
                 });
             }
         });

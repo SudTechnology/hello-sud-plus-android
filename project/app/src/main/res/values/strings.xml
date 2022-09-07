@@ -594,7 +594,18 @@ Go to homepage to create one~</string>
     <string name="my_digital_collection">我的数字藏品</string>
     <string name="no_digital_collection">尚无数字藏品</string>
     <string name="auth_success">授权成功</string>
-    <string name="auth_code_fail">验证码错误</string>
+    <string name="nft_code_1019">NFT详情令牌过期</string>
+    <string name="nft_code_1020">钱包类型不支持</string>
+    <string name="nft_code_1021">发送验证码失败</string>
+    <string name="nft_code_1022">绑定用户失败</string>
+    <string name="nft_code_1023">藏品列表获取失败</string>
+    <string name="nft_code_1024">藏品信息获取失败</string>
+    <string name="nft_code_1025">藏品不属于用户</string>
+    <string name="nft_code_1026">短信验证码发送太频繁</string>
+    <string name="nft_code_1027">手机号已被绑定</string>
+    <string name="nft_code_1028">该手机号已被其他用户绑定</string>
+    <string name="nft_code_1029">用户解绑失败</string>
+    <string name="nft_code_1030">验证码错误</string>
     <!-- endregion 新增 -->
 
 </resources>

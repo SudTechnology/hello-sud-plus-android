@@ -17,7 +17,7 @@ import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
 import tech.sud.mgp.hello.ui.nft.model.BindWalletInfoModel;
 import tech.sud.mgp.hello.ui.nft.model.WalletInfoModel;
-import tech.sud.mgp.hello.ui.nft.viewmodel.NFTViewModel;
+import tech.sud.mgp.hello.ui.nft.viewmodel.QuickStartNFTViewModel;
 
 /**
  * 切换国内nft账号
@@ -25,7 +25,7 @@ import tech.sud.mgp.hello.ui.nft.viewmodel.NFTViewModel;
 public class ChangeInternalAccountDialog extends BaseDialogFragment {
 
     private MyAdapter adapter;
-    private final NFTViewModel viewModel = new NFTViewModel();
+    private final QuickStartNFTViewModel viewModel = new QuickStartNFTViewModel();
     private ChangeAccountListener changeAccountListener;
 
     @Override

@@ -58,7 +58,7 @@ import tech.sud.nft.core.model.resp.SudNFTGetWalletListModel.WalletInfo;
 /**
  * nft 业务
  */
-public class NFTViewModel extends BaseViewModel {
+public class QuickStartNFTViewModel extends BaseViewModel {
 
     /** Sud平台申请的appId */
     public static String SudMGP_APP_ID = "1461564080052506636";

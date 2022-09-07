@@ -33,7 +33,7 @@ import tech.sud.mgp.hello.common.utils.ResponseUtils;
 import tech.sud.mgp.hello.common.utils.RouterUtils;
 import tech.sud.mgp.hello.common.widget.view.HSTopBar;
 import tech.sud.mgp.hello.common.widget.view.SimpleTextWatcher;
-import tech.sud.mgp.hello.ui.nft.viewmodel.NFTViewModel;
+import tech.sud.mgp.hello.ui.nft.viewmodel.QuickStartNFTViewModel;
 import tech.sud.nft.core.listener.ISudNFTListenerBindCnWallet;
 import tech.sud.nft.core.listener.ISudNFTListenerSendSmsCode;
 import tech.sud.nft.core.model.resp.SudNFTBindCnWalletModel;
@@ -60,7 +60,7 @@ public class InternalWalletBindActivity extends BaseActivity {
     private static long sendSmsCodeTimestamp;
     private final int countdownTotalCount = 60;
     private CustomCountdownTimer sendSmsCodeCountdownTimer;
-    private final NFTViewModel viewModel = new NFTViewModel();
+    private final QuickStartNFTViewModel viewModel = new QuickStartNFTViewModel();
 
     public static void start(Context context, SudNFTGetWalletListModel.WalletInfo walletInfo) {
         Intent intent = new Intent(context, InternalWalletBindActivity.class);

@@ -26,7 +26,7 @@ import tech.sud.mgp.hello.ui.nft.listener.OnSelectedWalletListener;
 import tech.sud.mgp.hello.ui.nft.model.BindWalletInfoModel;
 import tech.sud.mgp.hello.ui.nft.model.WalletInfoModel;
 import tech.sud.mgp.hello.ui.nft.model.ZoneType;
-import tech.sud.mgp.hello.ui.nft.viewmodel.NFTViewModel;
+import tech.sud.mgp.hello.ui.nft.viewmodel.QuickStartNFTViewModel;
 import tech.sud.mgp.hello.ui.nft.widget.WalletInfoView;
 import tech.sud.mgp.hello.ui.nft.widget.WalletListView;
 import tech.sud.mgp.hello.ui.nft.widget.dialog.ChangeInternalAccountDialog;
@@ -44,7 +44,7 @@ public class MainActivity extends BaseActivity {
 
     private WalletListView walletListView;
     private WalletInfoView walletInfoView;
-    private final NFTViewModel viewModel = new NFTViewModel();
+    private final QuickStartNFTViewModel viewModel = new QuickStartNFTViewModel();
     private MainUserInfoView userInfoView;
 
     @Override

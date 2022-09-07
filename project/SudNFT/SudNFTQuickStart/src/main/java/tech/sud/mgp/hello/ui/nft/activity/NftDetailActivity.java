@@ -34,7 +34,7 @@ import tech.sud.mgp.hello.ui.nft.fragment.OverseasNftContentFragment;
 import tech.sud.mgp.hello.ui.nft.model.BindWalletInfoModel;
 import tech.sud.mgp.hello.ui.nft.model.NftModel;
 import tech.sud.mgp.hello.ui.nft.model.ZoneType;
-import tech.sud.mgp.hello.ui.nft.viewmodel.NFTViewModel;
+import tech.sud.mgp.hello.ui.nft.viewmodel.QuickStartNFTViewModel;
 
 /**
  * nft详情页
@@ -47,7 +47,7 @@ public class NftDetailActivity extends BaseActivity {
     private TextView tvOperate;
     private View viewOperate;
 
-    private final NFTViewModel viewModel = new NFTViewModel();
+    private final QuickStartNFTViewModel viewModel = new QuickStartNFTViewModel();
 
     private boolean nftLoadSuccess; // 标识NFT图片是否加载成功了
 

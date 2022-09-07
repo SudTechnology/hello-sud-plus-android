@@ -25,7 +25,7 @@ import tech.sud.mgp.hello.common.utils.LifecycleUtils;
 import tech.sud.mgp.hello.common.utils.ResponseUtils;
 import tech.sud.mgp.hello.ui.nft.listener.OnSelectedWalletListener;
 import tech.sud.mgp.hello.ui.nft.model.ZoneType;
-import tech.sud.mgp.hello.ui.nft.viewmodel.NFTViewModel;
+import tech.sud.mgp.hello.ui.nft.viewmodel.QuickStartNFTViewModel;
 import tech.sud.nft.core.listener.ISudNFTListenerGetWalletList;
 import tech.sud.nft.core.model.resp.SudNFTGetWalletListModel;
 
@@ -36,7 +36,7 @@ public class OverseasWalletListDialog extends BaseBottomSheetDialogFragment {
 
     private MyAdapter adapter;
     private OnSelectedWalletListener onSelectedWalletListener;
-    public NFTViewModel viewModel = new NFTViewModel();
+    public QuickStartNFTViewModel viewModel = new QuickStartNFTViewModel();
 
     @Override
     protected int getLayoutId() {

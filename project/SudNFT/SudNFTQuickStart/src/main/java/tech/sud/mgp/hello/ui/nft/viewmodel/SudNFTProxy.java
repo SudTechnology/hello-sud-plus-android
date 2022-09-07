@@ -47,9 +47,9 @@ import tech.sud.nft.core.model.resp.SudNFTGetWalletListModel;
  */
 public class SudNFTProxy {
 
-    public NFTViewModel mViewModel;
+    public QuickStartNFTViewModel mViewModel;
 
-    public SudNFTProxy(NFTViewModel viewModel) {
+    public SudNFTProxy(QuickStartNFTViewModel viewModel) {
         this.mViewModel = viewModel;
     }
 

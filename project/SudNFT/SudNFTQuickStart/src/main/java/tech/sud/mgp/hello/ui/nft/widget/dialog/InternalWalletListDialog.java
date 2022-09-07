@@ -28,7 +28,7 @@ import tech.sud.mgp.hello.common.utils.ResponseUtils;
 import tech.sud.mgp.hello.ui.nft.model.BindWalletInfoModel;
 import tech.sud.mgp.hello.ui.nft.model.WalletInfoModel;
 import tech.sud.mgp.hello.ui.nft.model.ZoneType;
-import tech.sud.mgp.hello.ui.nft.viewmodel.NFTViewModel;
+import tech.sud.mgp.hello.ui.nft.viewmodel.QuickStartNFTViewModel;
 import tech.sud.nft.core.listener.ISudNFTListenerGetWalletList;
 import tech.sud.nft.core.listener.ISudNFTListenerUnbindCnWallet;
 import tech.sud.nft.core.model.resp.SudNFTGetWalletListModel;
@@ -40,7 +40,7 @@ public class InternalWalletListDialog extends BaseBottomSheetDialogFragment {
 
     private MyAdapter adapter;
     private OperateListener operateListener;
-    public NFTViewModel viewModel = new NFTViewModel();
+    public QuickStartNFTViewModel viewModel = new QuickStartNFTViewModel();
 
     @Override
     protected int getLayoutId() {

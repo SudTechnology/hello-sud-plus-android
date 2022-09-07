@@ -30,7 +30,7 @@ import tech.sud.mgp.hello.ui.nft.model.BindWalletInfoModel;
 import tech.sud.mgp.hello.ui.nft.model.NftListResultModel;
 import tech.sud.mgp.hello.ui.nft.model.NftModel;
 import tech.sud.mgp.hello.ui.nft.model.ZoneType;
-import tech.sud.mgp.hello.ui.nft.viewmodel.NFTViewModel;
+import tech.sud.mgp.hello.ui.nft.viewmodel.QuickStartNFTViewModel;
 import tech.sud.nft.core.model.param.SudNFTGetCnNFTListParamModel;
 import tech.sud.nft.core.model.param.SudNFTGetNFTListParamModel;
 
@@ -40,7 +40,7 @@ import tech.sud.nft.core.model.param.SudNFTGetNFTListParamModel;
 public class NftListActivity extends BaseActivity {
 
     private NftListAdapter adapter;
-    private final NFTViewModel viewModel = new NFTViewModel();
+    private final QuickStartNFTViewModel viewModel = new QuickStartNFTViewModel();
     private RefreshView refreshView;
     private HSTopBar topBar;
     private RefreshDataHelper<NftModel> refreshDataHelper;
@@ -115,7 +115,7 @@ public class NftListActivity extends BaseActivity {
         model.walletToken = bindWalletInfo.walletToken;
         model.pageNumber = pageNumber;
         model.pageSize = pageSize;
-        viewModel.getCNNftList(model, new NFTViewModel.GetNftListListener() {
+        viewModel.getCNNftList(model, new QuickStartNFTViewModel.GetNftListListener() {
             @Override
             public void onSuccess(NftListResultModel model) {
                 LifecycleUtils.safeLifecycle(context, () -> {
@@ -158,7 +158,7 @@ public class NftListActivity extends BaseActivity {
         model.chainType = bindWalletInfo.getChainType();
         model.walletAddress = bindWalletInfo.walletAddress;
         model.pageKey = pageKey;
-        viewModel.getNftList(model, new NFTViewModel.GetNftListListener() {
+        viewModel.getNftList(model, new QuickStartNFTViewModel.GetNftListListener() {
             @Override
             public void onSuccess(NftListResultModel model) {
                 LifecycleUtils.safeLifecycle(context, () -> {

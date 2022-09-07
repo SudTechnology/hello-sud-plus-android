@@ -11,7 +11,7 @@ import tech.sud.mgp.hello.common.listener.CompletedListener;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.utils.LifecycleUtils;
 import tech.sud.mgp.hello.common.widget.dialog.TitleInfoDialog;
-import tech.sud.mgp.hello.ui.nft.viewmodel.NFTViewModel;
+import tech.sud.mgp.hello.ui.nft.viewmodel.QuickStartNFTViewModel;
 import tech.sud.nft.core.listener.ISudNFTListenerBindWallet;
 import tech.sud.nft.core.model.resp.SudNFTBindWalletEvent;
 import tech.sud.nft.core.model.resp.SudNFTBindWalletModel;
@@ -26,7 +26,7 @@ public class NftBindingDialog extends BaseDialogFragment {
     private View viewClose;
     private View viewStatus;
     private TextView tvStatus;
-    public NFTViewModel viewModel;
+    public QuickStartNFTViewModel viewModel;
     public SudNFTGetWalletListModel.WalletInfo walletInfo;
 
     @Override

@@ -23,6 +23,7 @@ import tech.sud.mgp.SudMGPWrapper.state.MGStateResponse;
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.SudMGPWrapper.utils.GameCommonStateUtils;
 import tech.sud.mgp.SudMGPWrapper.utils.ISudFSMStateHandleUtils;
+import tech.sud.mgp.core.ISudAPPD;
 import tech.sud.mgp.core.ISudFSMStateHandle;
 import tech.sud.mgp.core.ISudFSTAPP;
 import tech.sud.mgp.core.ISudListenerInitSDK;
@@ -168,6 +169,10 @@ public class AppGameViewModel implements SudFSMMGListener {
      * @param code     令牌
      */
     private void initSdk(FragmentActivity activity, long gameId, String code) {
+        if (APPConfig.GAME_IS_TEST_ENV) {
+            ISudAPPD.e(3);
+        }
+
         SudConfig sudConfig = AppData.getInstance().getSudConfig();
         if (sudConfig == null || sudConfig.appId == null || sudConfig.appKey == null) {
             ToastUtils.showLong("SudConfig is empty");

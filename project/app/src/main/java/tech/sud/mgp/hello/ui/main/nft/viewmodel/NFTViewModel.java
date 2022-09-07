@@ -413,9 +413,6 @@ public class NFTViewModel extends BaseViewModel {
             }
             return;
         }
-
-        ISudNFTD.e(3);
-
         SudInitNFTParamModel model = new SudInitNFTParamModel();
         model.context = context;
         model.appId = sudConfig.appId;

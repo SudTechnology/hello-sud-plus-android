@@ -408,9 +408,6 @@ public class NFTViewModel extends BaseViewModel {
     }
 
     public void initNFT(Context context, ISudNFTListenerInitNFT listener) {
-
-        ISudNFTD.e(3);
-
         SudInitNFTParamModel model = new SudInitNFTParamModel();
         model.context = context;
         model.appId = SudMGP_APP_ID;

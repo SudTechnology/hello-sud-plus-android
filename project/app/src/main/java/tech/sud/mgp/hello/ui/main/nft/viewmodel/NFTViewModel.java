@@ -628,6 +628,7 @@ public class NFTViewModel extends BaseViewModel {
                             return;
                         }
                         wearNft.detailsToken = nftToken;
+                        sBindWalletInfo.clearWearNft();
                         sBindWalletInfo.addWearNft(wearNft);
                         saveBindWalletInfo(sBindWalletInfo);
                         wearNftChangeLiveData.setValue(null);
@@ -664,6 +665,7 @@ public class NFTViewModel extends BaseViewModel {
                             return;
                         }
                         wearNft.detailsToken = nftToken;
+                        sBindWalletInfo.clearWearNft();
                         sBindWalletInfo.addWearNft(wearNft);
                         saveBindWalletInfo(sBindWalletInfo);
                         wearNftChangeLiveData.setValue(null);

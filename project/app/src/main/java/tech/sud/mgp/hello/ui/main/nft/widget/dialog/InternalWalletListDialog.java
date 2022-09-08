@@ -227,7 +227,7 @@ public class InternalWalletListDialog extends BaseBottomSheetDialogFragment {
         }
     }
 
-    public boolean isBinding(int walletType) {
+    public boolean isBinding(long walletType) {
         BindWalletInfoModel bindWalletInfo = viewModel.getBindWalletInfo();
         if (bindWalletInfo != null) {
             return bindWalletInfo.isContainer(walletType);
@@ -235,7 +235,7 @@ public class InternalWalletListDialog extends BaseBottomSheetDialogFragment {
         return false;
     }
 
-    public String getBindPhone(int walletType) {
+    public String getBindPhone(long walletType) {
         BindWalletInfoModel bindWalletInfo = viewModel.getBindWalletInfo();
         if (bindWalletInfo != null) {
             WalletInfoModel walletInfoModel = bindWalletInfo.getWalletInfoModel(walletType);

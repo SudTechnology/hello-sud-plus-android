@@ -90,7 +90,7 @@ public class NftListActivity extends BaseActivity {
                 };
             }
         };
-        if (bindWalletInfo != null && bindWalletInfo.zoneType == ZoneType.OVERSEAS) {
+        if (bindWalletInfo != null && bindWalletInfo.getZoneType() == ZoneType.OVERSEAS) {
             refreshDataHelper.setRefreshDataModel(RefreshDataHelper.RefreshDataModel.IGNORE_PAGE_SIZE);
         } else {
             refreshDataHelper.setFirstPageNumber(0);
@@ -102,7 +102,7 @@ public class NftListActivity extends BaseActivity {
         if (bindWalletInfo == null) {
             return;
         }
-        if (bindWalletInfo.zoneType == ZoneType.OVERSEAS) {
+        if (bindWalletInfo.getZoneType() == ZoneType.OVERSEAS) {
             getOverseasData(pageNumber, pageSize, bindWalletInfo);
         } else {
             getInternalData(pageNumber, pageSize, bindWalletInfo);
@@ -112,7 +112,7 @@ public class NftListActivity extends BaseActivity {
     private void getInternalData(int pageNumber, int pageSize, BindWalletInfoModel bindWalletInfo) {
         SudNFTGetCnNFTListParamModel model = new SudNFTGetCnNFTListParamModel();
         model.walletType = bindWalletInfo.walletType;
-        model.walletToken = bindWalletInfo.walletToken;
+        model.walletToken = bindWalletInfo.getWalletToken();
         model.pageNumber = pageNumber;
         model.pageSize = pageSize;
         viewModel.getCNNftList(model, new NFTViewModel.GetNftListListener() {
@@ -154,9 +154,9 @@ public class NftListActivity extends BaseActivity {
         }
 
         SudNFTGetNFTListParamModel model = new SudNFTGetNFTListParamModel();
-        model.walletToken = bindWalletInfo.walletToken;
+        model.walletToken = bindWalletInfo.getWalletToken();
         model.chainType = bindWalletInfo.getChainType();
-        model.walletAddress = bindWalletInfo.walletAddress;
+        model.walletAddress = bindWalletInfo.getWalletAddress();
         model.pageKey = pageKey;
         viewModel.getNftList(model, new NFTViewModel.GetNftListListener() {
             @Override
@@ -202,7 +202,7 @@ public class NftListActivity extends BaseActivity {
         super.initData();
         viewModel.initData(this);
         BindWalletInfoModel bindWalletInfo = viewModel.getBindWalletInfo();
-        if (bindWalletInfo != null && bindWalletInfo.zoneType == ZoneType.INTERNAL) {
+        if (bindWalletInfo != null && bindWalletInfo.getZoneType() == ZoneType.INTERNAL) {
             topBar.setTitle(getString(R.string.my_digital_collection));
         }
     }

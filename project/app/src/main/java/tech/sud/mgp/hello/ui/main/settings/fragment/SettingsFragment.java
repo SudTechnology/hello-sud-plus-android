@@ -132,7 +132,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
             userInfoView.setShowUnbind(false);
         } else {
             userInfoView.setShowUnbind(true);
-            if (model.zoneType == ZoneType.INTERNAL) {
+            if (model.getZoneType() == ZoneType.INTERNAL) {
                 userInfoView.setUnbindDrawable(R.drawable.ic_cn_nft_unbind);
             } else {
                 userInfoView.setUnbindDrawable(R.drawable.ic_unbind);
@@ -226,7 +226,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         if (bindWalletInfo == null) {
             return;
         }
-        if (bindWalletInfo.zoneType == ZoneType.OVERSEAS) {
+        if (bindWalletInfo.getZoneType() == ZoneType.OVERSEAS) {
             SimpleChooseDialog dialog = new SimpleChooseDialog(requireContext(), getString(R.string.unbind_wallet_title));
             dialog.setOnChooseListener(index -> {
                 if (index == 1) {
@@ -235,7 +235,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
                 dialog.dismiss();
             });
             dialog.show();
-        } else if (bindWalletInfo.zoneType == ZoneType.INTERNAL) {
+        } else if (bindWalletInfo.getZoneType() == ZoneType.INTERNAL) {
             showInternalWalletListDialog();
         }
     }
@@ -246,11 +246,11 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         if (bindWalletInfo == null) {
             return;
         }
-        if (bindWalletInfo.zoneType == ZoneType.OVERSEAS) {
-            NftChainDialog dialog = NftChainDialog.newInstance(bindWalletInfo.chainInfo, bindWalletInfo.chainInfoList);
+        if (bindWalletInfo.getZoneType() == ZoneType.OVERSEAS) {
+            NftChainDialog dialog = NftChainDialog.newInstance(bindWalletInfo.getChainInfo(), bindWalletInfo.getChainInfoList());
             dialog.setOnSelectedListener(viewModel::changeChain);
             dialog.show(getChildFragmentManager(), null);
-        } else if (bindWalletInfo.zoneType == ZoneType.INTERNAL) {
+        } else if (bindWalletInfo.getZoneType() == ZoneType.INTERNAL) {
             ChangeInternalAccountDialog dialog = new ChangeInternalAccountDialog();
             dialog.setChangeAccountListener(new ChangeInternalAccountDialog.ChangeAccountListener() {
                 @Override

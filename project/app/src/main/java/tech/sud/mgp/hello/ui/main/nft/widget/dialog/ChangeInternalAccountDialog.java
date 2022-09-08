@@ -102,7 +102,7 @@ public class ChangeInternalAccountDialog extends BaseDialogFragment {
         }
     }
 
-    private boolean isUseWallet(int walletType) {
+    private boolean isUseWallet(long walletType) {
         BindWalletInfoModel bindWalletInfo = viewModel.getBindWalletInfo();
         if (bindWalletInfo != null) {
             return bindWalletInfo.walletType == walletType;

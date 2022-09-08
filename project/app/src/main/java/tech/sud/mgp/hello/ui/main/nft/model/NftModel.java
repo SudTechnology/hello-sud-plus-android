@@ -44,6 +44,8 @@ public class NftModel implements Serializable {
 
     // region 自定义参数
     public boolean isDressedIn; // 是否是穿戴中
+
+    public String detailsToken; // 穿戴token
     // endregion 自定义参数
 
     /** 获取显示的URL */

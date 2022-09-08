@@ -14,7 +14,6 @@ public class HSUserInfoConverter {
         HSUserInfo.token = resp.token;
         HSUserInfo.refreshToken = resp.refreshToken;
         HSUserInfo.headerType = resp.headerType;
-        HSUserInfo.headerNftToken = resp.headerNftToken;
         HSUserInfo.headerNftUrl = resp.headerNftUrl;
     }
 

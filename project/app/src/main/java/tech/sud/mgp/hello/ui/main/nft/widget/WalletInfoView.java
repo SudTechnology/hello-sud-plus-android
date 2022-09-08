@@ -79,8 +79,8 @@ public class WalletInfoView extends ConstraintLayout {
             viewChain.setVisibility(View.GONE);
             return;
         }
-        int zoneType = model.zoneType;
-        WalletChainInfo chainInfo = model.chainInfo;
+        int zoneType = model.getZoneType();
+        WalletChainInfo chainInfo = model.getChainInfo();
         if (zoneType == ZoneType.OVERSEAS) { // 国外
             setOverseasChainInfo(chainInfo);
         } else if (zoneType == ZoneType.INTERNAL) { // 国内
@@ -99,7 +99,7 @@ public class WalletInfoView extends ConstraintLayout {
         }
     }
 
-    private WalletInfo getBindWallet(int walletType, List<WalletInfo> walletList) {
+    private WalletInfo getBindWallet(long walletType, List<WalletInfo> walletList) {
         if (walletList != null) {
             for (WalletInfo walletInfo : walletList) {
                 if (walletInfo.type == walletType) {
@@ -164,7 +164,7 @@ public class WalletInfoView extends ConstraintLayout {
 
     /** 设置绑定钱包信息 */
     public void setBindWallet(BindWalletInfoModel model) {
-        if (model != null && model.zoneType == ZoneType.INTERNAL) {
+        if (model != null && model.getZoneType() == ZoneType.INTERNAL) {
             tvEmpty.setText(R.string.no_digital_collection);
             tvTitle.setText(R.string.my_digital_collection);
         } else {

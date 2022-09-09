@@ -24,7 +24,6 @@ import tech.sud.mgp.hello.ui.nft.model.WalletChainInfo;
 import tech.sud.mgp.hello.ui.nft.model.WalletChainInfoConvertor;
 import tech.sud.mgp.hello.ui.nft.model.WalletInfoModel;
 import tech.sud.mgp.hello.ui.nft.model.ZoneType;
-import tech.sud.nft.core.ISudNFTD;
 import tech.sud.nft.core.listener.ISudNFTListenerBindCnWallet;
 import tech.sud.nft.core.listener.ISudNFTListenerBindWallet;
 import tech.sud.nft.core.listener.ISudNFTListenerGenCnNFTCredentialsToken;
@@ -184,7 +183,7 @@ public class QuickStartNFTViewModel extends BaseViewModel {
     }
 
     /** 发送短信验证码 */
-    public void sendSmsCode(int walletType, String phone, ISudNFTListenerSendSmsCode listener) {
+    public void sendSmsCode(long walletType, String phone, ISudNFTListenerSendSmsCode listener) {
         SudNFTSendSmsCodeParamModel model = new SudNFTSendSmsCodeParamModel();
         model.walletType = walletType;
         model.phone = phone;
@@ -490,7 +489,7 @@ public class QuickStartNFTViewModel extends BaseViewModel {
     }
 
     /** 解绑国内钱包的处理 */
-    public void unbindCNWallet(int walletType, ISudNFTListenerUnbindCnWallet listener) {
+    public void unbindCNWallet(long walletType, ISudNFTListenerUnbindCnWallet listener) {
         WalletInfoModel walletInfo = getWalletInfo(walletType);
         if (walletInfo == null) {
             unbindCNWalletSuccess(walletType);
@@ -521,7 +520,7 @@ public class QuickStartNFTViewModel extends BaseViewModel {
         }
     }
 
-    private WalletInfoModel getWalletInfo(int walletType) {
+    private WalletInfoModel getWalletInfo(long walletType) {
         BindWalletInfoModel bindWalletInfoModel = sBindWalletInfo;
         if (bindWalletInfoModel != null) {
             return bindWalletInfoModel.getWalletInfoModel(walletType);
@@ -530,7 +529,7 @@ public class QuickStartNFTViewModel extends BaseViewModel {
     }
 
     /** 钱包国内钱包成功，清除本地数据 */
-    private void unbindCNWalletSuccess(int walletType) {
+    private void unbindCNWalletSuccess(long walletType) {
         BindWalletInfoModel bindWalletInfoModel = sBindWalletInfo;
         if (bindWalletInfoModel == null) {
             unbindWallet();
@@ -552,7 +551,7 @@ public class QuickStartNFTViewModel extends BaseViewModel {
     }
 
     /** 钱包令牌失效，解绑当前钱包 */
-    public void tokenFailed(int walletType) {
+    public void tokenFailed(long walletType) {
         BindWalletInfoModel bindWalletInfoModel = sBindWalletInfo;
         if (bindWalletInfoModel == null || bindWalletInfoModel.walletType != walletType) {
             return;
@@ -590,7 +589,7 @@ public class QuickStartNFTViewModel extends BaseViewModel {
                 if (sBindWalletInfo == null || resp == null) {
                     return;
                 }
-                String nftToken = resp.nftDetailsToken;
+                String nftToken = resp.detailsToken;
                 // TODO: 2022/9/2 从SudNFT拿到穿戴的token之后，把token发送给业务后台进行穿戴，这里只是弹一下Toast
                 ToastUtils.showLong(nftToken);
 //                HomeRepository.wearNft(null, nftToken, 1, new RxCallback<Object>() {
@@ -689,7 +688,7 @@ public class QuickStartNFTViewModel extends BaseViewModel {
     /**
      * 切换当前所使用的钱包
      */
-    public void changeAccount(int walletType) {
+    public void changeAccount(long walletType) {
         BindWalletInfoModel bindWalletInfoModel = sBindWalletInfo;
         if (bindWalletInfoModel == null) {
             return;

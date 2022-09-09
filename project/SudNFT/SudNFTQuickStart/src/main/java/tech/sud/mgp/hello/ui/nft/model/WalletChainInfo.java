@@ -6,7 +6,7 @@ package tech.sud.mgp.hello.ui.nft.model;
 public class WalletChainInfo {
 
     /** 链网类型 */
-    public int type;
+    public long type;
 
     /** 名称 */
     public String name;

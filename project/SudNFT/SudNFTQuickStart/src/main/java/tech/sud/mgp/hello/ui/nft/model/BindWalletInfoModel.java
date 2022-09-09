@@ -13,7 +13,7 @@ public class BindWalletInfoModel implements Serializable {
     public NftModel wearNft; // 穿戴的nft
 
     // region 当前使用的钱包
-    public int walletType; // 钱包类型
+    public long walletType; // 钱包类型
     public String walletToken; // 钱包token
     public String phone; // 绑定的手机号码
     public int zoneType; // 区域类型 0国外 1国内
@@ -26,7 +26,7 @@ public class BindWalletInfoModel implements Serializable {
     /** 绑定的钱包列表 */
     public List<WalletInfoModel> walletList;
 
-    public int getChainType() {
+    public long getChainType() {
         if (chainInfo != null) {
             return chainInfo.type;
         }
@@ -56,7 +56,7 @@ public class BindWalletInfoModel implements Serializable {
     }
 
     /** 删除一个绑定了的钱包 */
-    public void removeBindWallet(int walletType) {
+    public void removeBindWallet(long walletType) {
         if (walletList != null) {
             ListIterator<WalletInfoModel> iterator = walletList.listIterator();
             while (iterator.hasNext()) {
@@ -68,7 +68,7 @@ public class BindWalletInfoModel implements Serializable {
     }
 
     /** 绑定的包名是否包含该钱包类型 */
-    public boolean isContainer(int walletType) {
+    public boolean isContainer(long walletType) {
         if (walletList != null) {
             for (WalletInfoModel model : walletList) {
                 if (model.type == walletType) {
@@ -88,7 +88,7 @@ public class BindWalletInfoModel implements Serializable {
     }
 
     /** 根据钱包类型获取钱包 */
-    public WalletInfoModel getWalletInfoModel(int walletType) {
+    public WalletInfoModel getWalletInfoModel(long walletType) {
         if (walletList != null && walletList.size() > 0) {
             for (WalletInfoModel walletInfoModel : walletList) {
                 if (walletInfoModel.type == walletType) {

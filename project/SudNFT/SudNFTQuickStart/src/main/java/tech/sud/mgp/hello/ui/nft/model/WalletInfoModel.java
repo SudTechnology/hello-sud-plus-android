@@ -9,7 +9,7 @@ import java.util.Objects;
  */
 public class WalletInfoModel implements Serializable {
 
-    public int type;
+    public long type;
     public String name;
     public String icon;
     public int zoneType;

@@ -60,7 +60,7 @@ public class SudNFTProxy {
      * @param listener 回调
      */
     public void initNFT(SudInitNFTParamModel model, ISudNFTListenerInitNFT listener) {
-        Integer walletType = getWalletType();
+        Long walletType = getWalletType();
         SudNFT.initNFT(model, new ISudNFTListenerInitNFT() {
             @Override
             public void onSuccess() {
@@ -85,7 +85,7 @@ public class SudNFTProxy {
      * @param listener 回调
      */
     public void getWalletList(ISudNFTListenerGetWalletList listener) {
-        Integer walletType = getWalletType();
+        Long walletType = getWalletType();
         SudNFT.getWalletList(new ISudNFTListenerGetWalletList() {
             @Override
             public void onSuccess(SudNFTGetWalletListModel resp) {
@@ -113,7 +113,7 @@ public class SudNFTProxy {
      * @param listener 回调
      */
     public void bindWallet(SudNFTBindWalletParamModel model, ISudNFTListenerBindWallet listener) {
-        Integer walletType = getWalletType();
+        Long walletType = getWalletType();
         SudNFT.bindWallet(model, new ISudNFTListenerBindWallet() {
             @Override
             public void onSuccess(SudNFTBindWalletModel resp) {
@@ -153,7 +153,7 @@ public class SudNFTProxy {
      * @param listener 回调
      */
     public void getNFTList(SudNFTGetNFTListParamModel model, ISudNFTListenerGetNFTList listener) {
-        Integer walletType = getWalletType();
+        Long walletType = getWalletType();
         SudNFT.getNFTList(model, new ISudNFTListenerGetNFTList() {
             @Override
             public void onSuccess(SudNFTGetNFTListModel resp) {
@@ -179,7 +179,7 @@ public class SudNFTProxy {
      * @param listener 回调
      */
     public void genNFTCredentialsToken(SudNFTCredentialsTokenParamModel model, ISudNFTListenerGenNFTCredentialsToken listener) {
-        Integer walletType = getWalletType();
+        Long walletType = getWalletType();
         SudNFT.genNFTCredentialsToken(model, new ISudNFTListenerGenNFTCredentialsToken() {
             @Override
             public void onSuccess(SudNFTGenNFTCredentialsTokenModel resp) {
@@ -208,7 +208,7 @@ public class SudNFTProxy {
      * @param listener 回调
      */
     public void sendSmsCode(SudNFTSendSmsCodeParamModel model, ISudNFTListenerSendSmsCode listener) {
-        Integer walletType = getWalletType();
+        Long walletType = getWalletType();
         SudNFT.sendSmsCode(model, new ISudNFTListenerSendSmsCode() {
             @Override
             public void onSuccess() {
@@ -234,7 +234,7 @@ public class SudNFTProxy {
      * @param listener 回调
      */
     public void smsCodeBindWallet(SudNFTBindCnWalletParamModel model, ISudNFTListenerBindCnWallet listener) {
-        Integer walletType = getWalletType();
+        Long walletType = getWalletType();
         SudNFT.bindCnWallet(model, new ISudNFTListenerBindCnWallet() {
             @Override
             public void onSuccess(SudNFTBindCnWalletModel resp) {
@@ -260,7 +260,7 @@ public class SudNFTProxy {
      * @param listener 回调
      */
     public void getCNNFTList(SudNFTGetCnNFTListParamModel model, ISudNFTListenerGetCnNFTList listener) {
-        Integer walletType = getWalletType();
+        Long walletType = getWalletType();
         SudNFT.getCnNFTList(model, new ISudNFTListenerGetCnNFTList() {
             @Override
             public void onSuccess(SudNFTGetCnNFTListModel resp) {
@@ -286,7 +286,7 @@ public class SudNFTProxy {
      * @param listener 回调
      */
     public void genCnNFTCredentialsToken(SudNFTCnCredentialsTokenParamModel model, ISudNFTListenerGenCnNFTCredentialsToken listener) {
-        Integer walletType = getWalletType();
+        Long walletType = getWalletType();
         SudNFT.genCnNFTCredentialsToken(model, new ISudNFTListenerGenCnNFTCredentialsToken() {
             @Override
             public void onSuccess(SudNFTGenCnNFTCredentialsTokenModel resp) {
@@ -312,7 +312,7 @@ public class SudNFTProxy {
      * @param listener 回调
      */
     public void unbindCnWallet(SudNFTUnbindCnWalletParamModel model, ISudNFTListenerUnbindCnWallet listener) {
-        Integer walletType = getWalletType();
+        Long walletType = getWalletType();
         SudNFT.unbindCnWallet(model, new ISudNFTListenerUnbindCnWallet() {
             @Override
             public void onSuccess() {
@@ -332,7 +332,7 @@ public class SudNFTProxy {
     }
     // endregion 国内钱包接口
 
-    private Integer getWalletType() {
+    private Long getWalletType() {
         BindWalletInfoModel bindWalletInfo = mViewModel.getBindWalletInfo();
         if (bindWalletInfo != null) {
             return bindWalletInfo.walletType;
@@ -341,7 +341,7 @@ public class SudNFTProxy {
     }
 
     /** 抽取错误码共性，统一处理 */
-    private void processonFailure(Integer walletType, int code, String msg) {
+    private void processonFailure(Long walletType, int code, String msg) {
         if (code == 1008) { // 钱包令牌无效，执行解绑
             if (walletType != null) {
                 // 清除本地信息

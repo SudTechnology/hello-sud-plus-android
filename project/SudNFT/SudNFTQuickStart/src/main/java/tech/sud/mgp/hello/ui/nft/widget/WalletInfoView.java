@@ -99,7 +99,7 @@ public class WalletInfoView extends ConstraintLayout {
         }
     }
 
-    private WalletInfo getBindWallet(int walletType, List<WalletInfo> walletList) {
+    private WalletInfo getBindWallet(long walletType, List<WalletInfo> walletList) {
         if (walletList != null) {
             for (WalletInfo walletInfo : walletList) {
                 if (walletInfo.type == walletType) {

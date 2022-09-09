@@ -18,7 +18,7 @@ android {
             if (project.hasProperty("jksPropertyPath") && project.jksPropertyPath != "") {
                 // release设置发布签名路径
                 Properties properties = new Properties()
-                properties.load(new FileInputStream(file(project.jksPropertyPath)))
+                properties.load(new FileInputStream(file("../" + project.jksPropertyPath)))
                 storeFile file(properties['STORE_FILE'])
                 storePassword properties['STORE_PWD']
                 keyAlias properties['KEY_ALIAS']

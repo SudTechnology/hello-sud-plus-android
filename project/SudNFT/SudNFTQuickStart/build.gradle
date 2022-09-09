@@ -15,20 +15,10 @@ android {
 
     signingConfigs {
         release {
-            if (project.hasProperty("jksPropertyPath") && project.jksPropertyPath != "") {
-                // release设置发布签名路径
-                Properties properties = new Properties()
-                properties.load(new FileInputStream(file(project.jksPropertyPath)))
-                storeFile file(properties['STORE_FILE'])
-                storePassword properties['STORE_PWD']
-                keyAlias properties['KEY_ALIAS']
-                keyPassword properties['KEY_PWD']
-            } else {
-                storeFile file(RELEASE_STORE_FILE_DEEP)
-                storePassword RELEASE_STORE_PASSWORD
-                keyAlias RELEASE_KEY_ALIAS
-                keyPassword RELEASE_KEY_PASSWORD
-            }
+            storeFile file(RELEASE_STORE_FILE_DEEP)
+            storePassword RELEASE_STORE_PASSWORD
+            keyAlias RELEASE_KEY_ALIAS
+            keyPassword RELEASE_KEY_PASSWORD
         }
         debug {
             storeFile file(RELEASE_STORE_FILE_DEEP)
@@ -101,7 +91,7 @@ dependencies {
     // 图片加载库
     implementation 'com.github.bumptech.glide:glide:4.13.2'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.13.2'
-    
+
     // 事件通知
     implementation 'io.github.jeremyliao:live-event-bus:1.8.0'
 

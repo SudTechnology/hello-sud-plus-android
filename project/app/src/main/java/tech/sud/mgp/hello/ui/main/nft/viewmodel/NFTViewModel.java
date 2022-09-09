@@ -30,7 +30,6 @@ import tech.sud.mgp.hello.ui.main.nft.model.WalletChainInfo;
 import tech.sud.mgp.hello.ui.main.nft.model.WalletChainInfoConvertor;
 import tech.sud.mgp.hello.ui.main.nft.model.WalletInfoModel;
 import tech.sud.mgp.hello.ui.main.nft.model.ZoneType;
-import tech.sud.nft.core.ISudNFTD;
 import tech.sud.nft.core.listener.ISudNFTListenerBindCnWallet;
 import tech.sud.nft.core.listener.ISudNFTListenerBindWallet;
 import tech.sud.nft.core.listener.ISudNFTListenerGenCnNFTCredentialsToken;
@@ -411,10 +410,6 @@ public class NFTViewModel extends BaseViewModel {
                 listener.onFailure(RetCode.FAIL, "SudConfig is empty");
             }
             return;
-        }
-
-        if (APPConfig.GAME_IS_TEST_ENV) {
-            ISudNFTD.e(3);
         }
 
         SudInitNFTParamModel model = new SudInitNFTParamModel();

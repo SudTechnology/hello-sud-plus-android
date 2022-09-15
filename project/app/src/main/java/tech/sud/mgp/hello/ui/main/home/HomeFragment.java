@@ -40,7 +40,6 @@ import tech.sud.mgp.hello.ui.main.base.widget.CreateTicketRoomDialog;
 import tech.sud.mgp.hello.ui.main.base.widget.MainUserInfoView;
 import tech.sud.mgp.hello.ui.main.home.manager.IndicatorHelper;
 import tech.sud.mgp.hello.ui.main.home.model.MatchRoomModel;
-import tech.sud.mgp.hello.ui.main.home.view.CoinDialog;
 import tech.sud.mgp.hello.ui.main.home.view.NewNestedScrollView;
 import tech.sud.mgp.hello.ui.main.home.view.SceneTypeDialog;
 import tech.sud.mgp.hello.ui.main.home.view.homeitem.CreatRoomClickListener;
@@ -147,9 +146,6 @@ public class HomeFragment extends BaseFragment implements CreatRoomClickListener
         });
         goSearch.setOnClickListener(v -> enterRoom());
         refreshLayout.setOnRefreshListener(refreshLayout -> loadList());
-        userInfoView.setAvatarOnClickListener(v -> {
-            new CoinDialog().show(getChildFragmentManager(), null);
-        });
         menuIv.setOnClickListener(v -> {
             if (helper != null) {
                 SceneTypeDialog dialog = SceneTypeDialog.getInstance(helper.getSelectedIndex());

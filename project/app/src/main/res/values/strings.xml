@@ -606,6 +606,12 @@ Go to homepage to create one~</string>
     <string name="nft_code_1028">该手机号已被其他用户绑定</string>
     <string name="nft_code_1029">用户解绑失败</string>
     <string name="nft_code_1030">验证码错误</string>
+    <string name="nft_detail">NFT详情</string>
+    <string name="description">Description</string>
+    <string name="see_more">see more</string>
+    <string name="see_less">see less</string>
+    <string name="user_id_content">用户ID %1$s</string>
+    <string name="spread">展开</string>
     <!-- endregion 新增 -->
 
 </resources>

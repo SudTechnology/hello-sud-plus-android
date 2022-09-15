@@ -1,8 +1,13 @@
-package tech.sud.mgp.hello.ui.main.nft.fragment;
+package tech.sud.mgp.hello.ui.main.nft.widget.dialog;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.Window;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -10,38 +15,50 @@ import androidx.annotation.Nullable;
 import com.blankj.utilcode.util.ClipboardUtils;
 import com.blankj.utilcode.util.ToastUtils;
 
-import java.io.Serializable;
-
 import tech.sud.mgp.hello.R;
-import tech.sud.mgp.hello.common.base.BaseFragment;
+import tech.sud.mgp.hello.common.base.BaseDialogFragment;
+import tech.sud.mgp.hello.common.http.param.BaseResponse;
+import tech.sud.mgp.hello.common.http.param.RetCode;
+import tech.sud.mgp.hello.common.http.rx.RxCallback;
+import tech.sud.mgp.hello.common.model.HSUserInfo;
+import tech.sud.mgp.hello.common.utils.DensityUtils;
+import tech.sud.mgp.hello.common.utils.ImageLoader;
+import tech.sud.mgp.hello.common.widget.view.CustomColorDrawable;
+import tech.sud.mgp.hello.service.main.repository.HomeRepository;
+import tech.sud.mgp.hello.service.main.resp.GetAccountResp;
+import tech.sud.mgp.hello.ui.common.utils.LifecycleUtils;
 import tech.sud.mgp.hello.ui.main.nft.model.NftModel;
 import tech.sud.mgp.hello.ui.main.nft.model.ZoneType;
 
 /**
- * 详情页中，展示国外钱包内容
+ * NFT详情弹窗
  */
-public class OverseasNftContentFragment extends BaseFragment {
+public class NftDetailDialog extends BaseDialogFragment {
 
-    private TextView tvName;
+    private TextView tvUserName;
+    private TextView tvUserId;
+    private TextView tvCoin;
+    private ImageView ivIcon;
+    private TextView tvNftName;
+    private TextView tvDesc;
+    private TextView tvShowMore;
+    private View viewShowMore;
+    private View viewMoreArrow;
     private View viewAddress;
     private View viewTokenId;
     private TextView tvAddress;
     private TextView tvTokenId;
     private TextView tvStandard;
-    private TextView tvDesc;
-    private TextView tvShowMore;
-    private View viewShowMore;
-    private View viewMoreArrow;
-    private NftModel nftModel;
 
+    private NftModel nftModel;
     private boolean showFullDesc;
     private int descMaxLine;
     private int descScaleLine = 3;
 
-    public static OverseasNftContentFragment newInstance(NftModel nftModel) {
+    public static NftDetailDialog newInstance(NftModel nftModel) {
         Bundle args = new Bundle();
         args.putSerializable("NftModel", nftModel);
-        OverseasNftContentFragment fragment = new OverseasNftContentFragment();
+        NftDetailDialog fragment = new NftDetailDialog();
         fragment.setArguments(args);
         return fragment;
     }
@@ -51,45 +68,83 @@ public class OverseasNftContentFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
         Bundle arguments = getArguments();
         if (arguments != null) {
-            Serializable nftModelSeri = arguments.getSerializable("NftModel");
-            if (nftModelSeri instanceof NftModel) {
-                nftModel = (NftModel) nftModelSeri;
-            }
+            nftModel = (NftModel) arguments.getSerializable("NftModel");
         }
     }
 
     @Override
+    protected boolean beforeSetContentView() {
+        if (nftModel == null) {
+            return true;
+        }
+        return super.beforeSetContentView();
+    }
+
+    @Override
     protected int getLayoutId() {
-        return R.layout.fragment_overseas_nft_content;
+        return R.layout.dialog_nft_detail;
+    }
+
+    @Override
+    protected int getWidth() {
+        return ViewGroup.LayoutParams.MATCH_PARENT;
+    }
+
+    @Override
+    protected int getHeight() {
+        return (int) (DensityUtils.getScreenHeight() * 0.75);
+    }
+
+    @Override
+    protected int getGravity() {
+        return Gravity.BOTTOM;
+    }
+
+    @Override
+    protected void customStyle(Window window) {
+        super.customStyle(window);
+        window.setWindowAnimations(R.style.BottomToTopAnim);
     }
 
     @Override
     protected void initWidget() {
         super.initWidget();
-        tvName = findViewById(R.id.tv_name);
+        tvUserName = findViewById(R.id.tv_user_name);
+        tvUserId = findViewById(R.id.tv_user_id);
+        tvCoin = findViewById(R.id.tv_coin);
+        ivIcon = findViewById(R.id.iv_icon);
+        tvNftName = findViewById(R.id.tv_name);
+        tvDesc = findViewById(R.id.tv_desc);
+        tvShowMore = findViewById(R.id.tv_show_more);
+        viewShowMore = findViewById(R.id.view_show_more);
+        viewMoreArrow = findViewById(R.id.view_more_arrow);
         viewAddress = findViewById(R.id.view_address);
         tvAddress = findViewById(R.id.tv_address);
         viewTokenId = findViewById(R.id.view_token_id);
         tvTokenId = findViewById(R.id.tv_token_id);
         tvStandard = findViewById(R.id.tv_standard);
-        tvDesc = findViewById(R.id.tv_desc);
-        tvShowMore = findViewById(R.id.tv_show_more);
-        viewShowMore = findViewById(R.id.view_show_more);
-        viewMoreArrow = findViewById(R.id.view_more_arrow);
     }
 
     @Override
     protected void initData() {
         super.initData();
-        if (nftModel == null) {
-            return;
-        }
-        tvName.setText(nftModel.name);
+        tvUserName.setText(HSUserInfo.nickName);
+        tvUserId.setText(getString(R.string.user_id_content, HSUserInfo.userId + ""));
+        setCoin();
+        tvNftName.setText(nftModel.name);
+
+        CustomColorDrawable drawable = new CustomColorDrawable();
+        drawable.setRadius(DensityUtils.dp2px(6));
+        drawable.setStartColor(Color.parseColor("#0d000000"));
+        drawable.setEndColor(Color.parseColor("#1a000000"));
+        ImageLoader.loadNftImage(ivIcon, nftModel.getShowUrl(), drawable);
+
+        tvDesc.setText(nftModel.description);
+        viewShowMore.setVisibility(View.GONE);
+
         tvAddress.setText(nftModel.contractAddress);
         tvTokenId.setText(nftModel.tokenId);
         tvStandard.setText(nftModel.tokenType);
-        tvDesc.setText(nftModel.description);
-        viewShowMore.setVisibility(View.GONE);
     }
 
     @Override
@@ -156,4 +211,20 @@ public class OverseasNftContentFragment extends BaseFragment {
             viewShowMore.setVisibility(View.GONE);
         }
     }
+
+    private void setCoin() {
+        HomeRepository.getAccount(this, new RxCallback<GetAccountResp>() {
+            @Override
+            public void onNext(BaseResponse<GetAccountResp> t) {
+                super.onNext(t);
+                LifecycleUtils.safeLifecycle(fragment, () -> {
+                    if (t.getRetCode() == RetCode.SUCCESS && t.getData() != null) {
+                        String coin = t.getData().coin + "";
+                        tvCoin.setText(coin);
+                    }
+                });
+            }
+        });
+    }
+
 }

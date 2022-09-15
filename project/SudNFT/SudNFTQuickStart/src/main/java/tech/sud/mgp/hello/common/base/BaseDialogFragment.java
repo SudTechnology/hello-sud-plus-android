@@ -18,7 +18,7 @@ import androidx.fragment.app.DialogFragment;
 
 public abstract class BaseDialogFragment extends DialogFragment {
 
-    protected BaseDialogFragment fragment;
+    protected BaseDialogFragment fragment = this;
     protected View mRootView;
     private OnDestroyListener mOnDestroyListener;
     private Boolean customCanceledOnTouchOutside;

@@ -85,7 +85,7 @@ public class NFTViewModel extends BaseViewModel {
 
     private final SudNFTProxy mSudNFTProxy = new SudNFTProxy(this);
     private SudNFTGetWalletListModel mWalletListModel; // 钱包列表
-    private static BindWalletInfoModel sBindWalletInfo; // 已绑定的钱包数据
+    public static BindWalletInfoModel sBindWalletInfo; // 已绑定的钱包数据
     private static boolean sIsInitCompleted; // 是否初始化完成
 
     /**
@@ -604,6 +604,8 @@ public class NFTViewModel extends BaseViewModel {
     /** 穿戴国外钱包NFT */
     private void wearOverseasNft(NftModel wearNft, BindWalletInfoModel bindWalletInfoModel) {
         SudNFTCredentialsTokenParamModel model = new SudNFTCredentialsTokenParamModel();
+        int zoneType = bindWalletInfoModel.getZoneType();
+        long walletType = bindWalletInfoModel.walletType;
         model.walletToken = bindWalletInfoModel.getWalletToken();
         model.chainType = bindWalletInfoModel.getChainType();
         model.contractAddress = wearNft.contractAddress;
@@ -623,6 +625,8 @@ public class NFTViewModel extends BaseViewModel {
                             return;
                         }
                         wearNft.detailsToken = nftToken;
+                        wearNft.zoneType = zoneType;
+                        wearNft.walletType = walletType;
                         sBindWalletInfo.clearWearNft();
                         sBindWalletInfo.addWearNft(wearNft);
                         saveBindWalletInfo(sBindWalletInfo);
@@ -642,6 +646,8 @@ public class NFTViewModel extends BaseViewModel {
     /** 穿戴国内钱包NFT */
     private void wearInternalNft(NftModel wearNft, BindWalletInfoModel bindWalletInfoModel) {
         SudNFTCnCredentialsTokenParamModel model = new SudNFTCnCredentialsTokenParamModel();
+        int zoneType = bindWalletInfoModel.getZoneType();
+        long walletType = bindWalletInfoModel.walletType;
         model.walletType = bindWalletInfoModel.walletType;
         model.walletToken = bindWalletInfoModel.getWalletToken();
         model.cardId = wearNft.cardId;
@@ -660,6 +666,8 @@ public class NFTViewModel extends BaseViewModel {
                             return;
                         }
                         wearNft.detailsToken = nftToken;
+                        wearNft.zoneType = zoneType;
+                        wearNft.walletType = walletType;
                         sBindWalletInfo.clearWearNft();
                         sBindWalletInfo.addWearNft(wearNft);
                         saveBindWalletInfo(sBindWalletInfo);

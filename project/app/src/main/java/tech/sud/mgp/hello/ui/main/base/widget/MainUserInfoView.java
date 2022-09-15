@@ -1,5 +1,6 @@
 package tech.sud.mgp.hello.ui.main.base.widget;
 
+import android.app.Activity;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -11,14 +12,22 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 
+import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ClipboardUtils;
 import com.blankj.utilcode.util.ToastUtils;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
+import tech.sud.mgp.hello.ui.main.home.view.CoinDialog;
+import tech.sud.mgp.hello.ui.main.nft.model.BindWalletInfoModel;
+import tech.sud.mgp.hello.ui.main.nft.model.NftModel;
 import tech.sud.mgp.hello.ui.main.nft.model.ZoneType;
+import tech.sud.mgp.hello.ui.main.nft.viewmodel.NFTViewModel;
+import tech.sud.mgp.hello.ui.main.nft.widget.dialog.NftDetailDialog;
 
 /**
  * 首页顶部的个人信息弹窗
@@ -26,6 +35,7 @@ import tech.sud.mgp.hello.ui.main.nft.model.ZoneType;
 public class MainUserInfoView extends ConstraintLayout {
 
     private ImageView ivIcon;
+    private ImageView ivNftIcon;
     private TextView tvName;
     private TextView tvUserId;
     private TextView tvWalletAddress;
@@ -50,6 +60,7 @@ public class MainUserInfoView extends ConstraintLayout {
     private void initView(Context context, AttributeSet attrs, int defStyleAttr) {
         inflate(context, R.layout.view_main_user_info, this);
         ivIcon = findViewById(R.id.user_info_iv_icon);
+        ivNftIcon = findViewById(R.id.iv_nft_icon);
         tvName = findViewById(R.id.user_info_tv_name);
         tvUserId = findViewById(R.id.tv_user_id);
         tvWalletAddress = findViewById(R.id.tv_wallet_address);
@@ -60,7 +71,7 @@ public class MainUserInfoView extends ConstraintLayout {
         tvName.setText(HSUserInfo.nickName);
         tvUserId.setText(getContext().getString(R.string.setting_userid, HSUserInfo.userId + ""));
         try {
-            ImageLoader.loadAvatar(ivIcon, HSUserInfo.getUseAvatar());
+            ImageLoader.loadAvatar(getShowIvIcon(), HSUserInfo.getUseAvatar());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -72,8 +83,16 @@ public class MainUserInfoView extends ConstraintLayout {
         }
     }
 
-    public void setAvatarOnClickListener(OnClickListener listener) {
-        ivIcon.setOnClickListener(listener);
+    private ImageView getShowIvIcon() {
+        if (HSUserInfo.headerType == 1) {
+            ivNftIcon.setVisibility(View.VISIBLE);
+            ivIcon.setVisibility(View.INVISIBLE);
+            return ivNftIcon;
+        } else {
+            ivNftIcon.setVisibility(View.INVISIBLE);
+            ivIcon.setVisibility(View.VISIBLE);
+            return ivIcon;
+        }
     }
 
     private void setListeners() {
@@ -88,6 +107,37 @@ public class MainUserInfoView extends ConstraintLayout {
                 ToastUtils.showShort(R.string.copy_success);
             }
         });
+        ivIcon.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fragmentManager = getFragmentManager();
+                if (fragmentManager != null) {
+                    new CoinDialog().show(fragmentManager, null);
+                }
+            }
+        });
+        ivNftIcon.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fragmentManager = getFragmentManager();
+                BindWalletInfoModel bindWalletInfoModel = NFTViewModel.sBindWalletInfo;
+                if (fragmentManager != null && bindWalletInfoModel != null) {
+                    NftModel wearNft = bindWalletInfoModel.getWearNft();
+                    if (wearNft != null) {
+                        NftDetailDialog dialog = NftDetailDialog.newInstance(wearNft);
+                        dialog.show(fragmentManager, null);
+                    }
+                }
+            }
+        });
+    }
+
+    private FragmentManager getFragmentManager() {
+        Activity topActivity = ActivityUtils.getTopActivity();
+        if (topActivity instanceof FragmentActivity) {
+            return ((FragmentActivity) topActivity).getSupportFragmentManager();
+        }
+        return null;
     }
 
     public void setUnbindOnClickListener(OnClickListener listener) {

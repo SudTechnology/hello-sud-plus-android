@@ -46,6 +46,10 @@ public class NftModel implements Serializable {
     public boolean isDressedIn; // 是否是穿戴中
 
     public String detailsToken; // 穿戴token
+
+    public long walletType; // 当前使用的钱包类型
+
+    public int zoneType; // 区域类型 0国外 1国内
     // endregion 自定义参数
 
     /** 获取显示的URL */

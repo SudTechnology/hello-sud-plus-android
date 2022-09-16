@@ -256,11 +256,17 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
                         @Override
                         public void onSuccess(Void unused) {
                             Log.d(kTag, "sendMessage onSuccess:");
+                            if (null != listener) {
+                                listener.onResult(0);
+                            }
                         }
 
                         @Override
                         public void onFailure(ErrorInfo errorInfo) {
                             Log.d(kTag, "sendMessage onFailure:" + errorInfo);
+                            if (null != listener) {
+                                listener.onResult(errorInfo.getErrorCode());
+                            }
                         }
                     });
                 }

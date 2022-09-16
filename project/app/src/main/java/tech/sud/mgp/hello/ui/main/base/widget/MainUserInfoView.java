@@ -42,6 +42,9 @@ public class MainUserInfoView extends ConstraintLayout {
     private View viewWalletAddress;
     private TextView tvWalletAddress;
     private View viewUnbind;
+    private View viewWalletAddressArrow;
+
+    private OnShowContentListener onShowContentListener;
 
     public MainUserInfoView(@NonNull Context context) {
         this(context, null);
@@ -67,6 +70,7 @@ public class MainUserInfoView extends ConstraintLayout {
         viewWalletAddress = findViewById(R.id.container_wallet_address);
         tvWalletAddress = findViewById(R.id.tv_wallet_address);
         viewUnbind = findViewById(R.id.view_unbind);
+        viewWalletAddressArrow = findViewById(R.id.view_wallet_address_arrow);
     }
 
     public void updateUserInfo() {
@@ -161,12 +165,18 @@ public class MainUserInfoView extends ConstraintLayout {
         viewWalletAddress.setVisibility(View.VISIBLE);
         tvUserId.setVisibility(View.GONE);
         tvWalletAddress.setText(address);
+        if (onShowContentListener != null) {
+            onShowContentListener.onShowWalletAddress();
+        }
     }
 
     /** 展示用户id */
     private void showUserId() {
         viewWalletAddress.setVisibility(View.GONE);
         tvUserId.setVisibility(View.VISIBLE);
+        if (onShowContentListener != null) {
+            onShowContentListener.onShowUserId();
+        }
     }
 
     public void setShowUnbind(boolean showUnbind) {
@@ -177,8 +187,22 @@ public class MainUserInfoView extends ConstraintLayout {
         }
     }
 
+    public View getViewWalletAddressArrow() {
+        return viewWalletAddressArrow;
+    }
+
     public void setUnbindDrawable(@DrawableRes int resId) {
         viewUnbind.setBackgroundResource(resId);
+    }
+
+    public void setOnShowContentListener(OnShowContentListener onShowContentListener) {
+        this.onShowContentListener = onShowContentListener;
+    }
+
+    public interface OnShowContentListener {
+        void onShowUserId();
+
+        void onShowWalletAddress();
     }
 
 }

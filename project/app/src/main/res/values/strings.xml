@@ -614,6 +614,8 @@ Go to homepage to create one~</string>
     <string name="spread">展开</string>
     <string name="unbind_overseas_wallet_title">解绑后，HelloSud将不再展示\n当前钱包地址上拥有的NFT</string>
     <string name="is_binding_wallet_address">已绑定的钱包地址</string>
+    <string name="click_change_address">点击切换地址</string>
+    <string name="click_change_network">点击切换网络</string>
     <!-- endregion 新增 -->
 
 </resources>

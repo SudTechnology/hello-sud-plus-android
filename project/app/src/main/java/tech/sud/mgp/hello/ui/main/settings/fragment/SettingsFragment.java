@@ -2,6 +2,7 @@ package tech.sud.mgp.hello.ui.main.settings.fragment;
 
 import android.content.Intent;
 import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.lifecycle.Observer;
 
@@ -16,6 +17,7 @@ import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseFragment;
 import tech.sud.mgp.hello.common.event.LiveEventBusKey;
 import tech.sud.mgp.hello.common.event.NftTokenInvalidEvent;
+import tech.sud.mgp.hello.common.utils.GlobalSP;
 import tech.sud.mgp.hello.common.utils.ResponseUtils;
 import tech.sud.mgp.hello.common.utils.ViewUtils;
 import tech.sud.mgp.hello.ui.common.utils.CompletedListener;
@@ -27,6 +29,7 @@ import tech.sud.mgp.hello.ui.main.nft.model.BindWalletInfoModel;
 import tech.sud.mgp.hello.ui.main.nft.model.WalletInfoModel;
 import tech.sud.mgp.hello.ui.main.nft.model.ZoneType;
 import tech.sud.mgp.hello.ui.main.nft.viewmodel.NFTViewModel;
+import tech.sud.mgp.hello.ui.main.nft.widget.NftGuideView;
 import tech.sud.mgp.hello.ui.main.nft.widget.WalletInfoView;
 import tech.sud.mgp.hello.ui.main.nft.widget.WalletListView;
 import tech.sud.mgp.hello.ui.main.nft.widget.dialog.ChangeInternalAccountDialog;
@@ -49,6 +52,8 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
     private WalletInfoView walletInfoView;
     private SettingButton btnSettings;
     private SettingButton btnAbout;
+    private NftGuideView guideViewChangeAddress;
+    private NftGuideView guideViewChangeNetwork;
     private final NFTViewModel viewModel = new NFTViewModel();
     private MainUserInfoView userInfoView;
 
@@ -69,6 +74,8 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         walletInfoView = findViewById(R.id.wallet_info_view);
         btnSettings = findViewById(R.id.button_settings);
         btnAbout = findViewById(R.id.button_about);
+        guideViewChangeAddress = findViewById(R.id.guide_view_change_address);
+        guideViewChangeNetwork = findViewById(R.id.guide_view_change_network);
 
         View viewStatusBar = findViewById(R.id.view_statusbar);
         ViewUtils.setHeight(viewStatusBar, ImmersionBar.getStatusBarHeight(requireContext()));
@@ -112,12 +119,6 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
                 viewModel.initData(requireContext());
             }
         });
-        userInfoView.setWalletAddressOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showChangeOverseasWalletDialog();
-            }
-        });
     }
 
     private void showChangeOverseasWalletDialog() {
@@ -136,9 +137,14 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
             walletListView.setVisibility(View.VISIBLE);
             walletInfoView.setVisibility(View.GONE);
             walletInfoView.setDatas(null);
+            hideChangeNetworkGuide();
         } else {
             walletListView.setVisibility(View.GONE);
             walletInfoView.setVisibility(View.VISIBLE);
+            WalletInfoModel firstWalletInfoModel = model.getFirstWalletInfoModel();
+            if (firstWalletInfoModel != null && firstWalletInfoModel.zoneType == ZoneType.OVERSEAS) {
+                showChangeNetworkGuide();
+            }
             setChainInfo(model);
         }
         walletInfoView.setBindWallet(model);
@@ -176,12 +182,66 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         });
     }
 
+    private void showChangeAddressGuide() {
+        boolean shown = GlobalSP.getSP().getBoolean(GlobalSP.KEY_SHOWN_CHANGE_ADDRESS_GUIDE);
+        if (shown) {
+            return;
+        }
+        guideViewChangeAddress.setVisibility(View.VISIBLE);
+        View viewWalletAddressArrow = userInfoView.getViewWalletAddressArrow();
+        guideViewChangeAddress.post(new Runnable() {
+            @Override
+            public void run() {
+                int[] location = new int[2];
+                viewWalletAddressArrow.getLocationInWindow(location);
+                ViewGroup.LayoutParams params = guideViewChangeAddress.getLayoutParams();
+                if (params instanceof ViewGroup.MarginLayoutParams) {
+                    ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) params;
+                    marginLayoutParams.leftMargin = location[0] + viewWalletAddressArrow.getMeasuredWidth() / 2 - guideViewChangeAddress.getMeasuredWidth() / 2;
+                    marginLayoutParams.topMargin = location[1] - guideViewChangeAddress.getMeasuredHeight();
+                    guideViewChangeAddress.setLayoutParams(params);
+                }
+            }
+        });
+    }
+
+    private void showChangeNetworkGuide() {
+        boolean shown = GlobalSP.getSP().getBoolean(GlobalSP.KEY_SHOWN_CHANGE_NETWORK_GUIDE);
+        if (shown) {
+            return;
+        }
+        guideViewChangeNetwork.setVisibility(View.VISIBLE);
+    }
+
+    private void hideChangeNetworkGuide() {
+        guideViewChangeNetwork.setVisibility(View.INVISIBLE);
+    }
+
     private void setClickListeners() {
         btnSettings.setOnClickListener(this);
         btnAbout.setOnClickListener(this);
         walletInfoView.setChainOnClickListener(v -> onClickChain());
         userInfoView.setUnbindOnClickListener(v -> {
             onClickUnbindWallet();
+        });
+        userInfoView.setOnShowContentListener(new MainUserInfoView.OnShowContentListener() {
+            @Override
+            public void onShowUserId() {
+                hideChangeAddressGuide();
+            }
+
+            @Override
+            public void onShowWalletAddress() {
+                showChangeAddressGuide();
+            }
+        });
+        userInfoView.setWalletAddressOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideChangeAddressGuide();
+                GlobalSP.getSP().put(GlobalSP.KEY_SHOWN_CHANGE_ADDRESS_GUIDE, true);
+                showChangeOverseasWalletDialog();
+            }
         });
         walletInfoView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -195,6 +255,10 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         walletListView.setInternalOnClickListener(v -> {
             showInternalWalletListDialog();
         });
+    }
+
+    private void hideChangeAddressGuide() {
+        guideViewChangeAddress.setVisibility(View.INVISIBLE);
     }
 
     private void showOverseasWalletListDialog() {
@@ -260,6 +324,9 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
             return;
         }
         if (bindWalletInfo.getZoneType() == ZoneType.OVERSEAS) {
+            hideChangeNetworkGuide();
+            GlobalSP.getSP().put(GlobalSP.KEY_SHOWN_CHANGE_NETWORK_GUIDE, true);
+
             NftChainDialog dialog = NftChainDialog.newInstance(bindWalletInfo.getChainInfo(), bindWalletInfo.getChainInfoList());
             dialog.setOnSelectedListener(viewModel::changeChain);
             dialog.show(getChildFragmentManager(), null);

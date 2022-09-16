@@ -23,6 +23,9 @@ public class GlobalSP {
 
     public static final String KEY_NFT_BIND_WALLET = "key_nft_bind_wallet"; // 已绑定的钱包信息
 
+    public final static String KEY_SHOWN_CHANGE_ADDRESS_GUIDE = "key_shown_change_address_guide"; // 是否已经展示过切换地址的引导
+    public final static String KEY_SHOWN_CHANGE_NETWORK_GUIDE = "key_shown_change_network_guide"; // 是否已经展示过切换网络的引导
+
     public static SPUtils getSP() {
         return SPUtils.getInstance(SP_NAME);
     }

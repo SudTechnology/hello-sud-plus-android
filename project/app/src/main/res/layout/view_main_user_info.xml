@@ -72,9 +72,11 @@
                 android:textSize="12sp" />
 
             <View
+                android:id="@+id/view_wallet_address_arrow"
                 android:layout_width="12dp"
                 android:layout_height="12dp"
-                android:background="@drawable/ic_address_arrow" />
+                android:background="@drawable/ic_address_arrow"
+                android:layout_marginStart="7dp" />
 
         </LinearLayout>
 

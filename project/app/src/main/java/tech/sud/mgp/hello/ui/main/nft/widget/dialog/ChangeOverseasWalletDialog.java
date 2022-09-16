@@ -69,6 +69,7 @@ public class ChangeOverseasWalletDialog extends BaseDialogFragment {
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
                 WalletInfoModel item = mAdapter.getItem(position);
                 if (isSelected(item.type)) {
+                    dismiss();
                     return;
                 }
                 viewModel.changeWallet(item.type);

@@ -1,7 +1,8 @@
 package tech.sud.mgp.hello.ui.main.nft.widget.dialog;
 
+import android.annotation.SuppressLint;
+import android.view.Gravity;
 import android.view.View;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,23 +15,22 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
-import tech.sud.mgp.hello.common.utils.ImageLoader;
 import tech.sud.mgp.hello.ui.main.nft.model.BindWalletInfoModel;
 import tech.sud.mgp.hello.ui.main.nft.model.WalletInfoModel;
 import tech.sud.mgp.hello.ui.main.nft.viewmodel.NFTViewModel;
 
 /**
- * 切换国内nft账号
+ * 切换国外钱包弹窗
  */
-public class ChangeInternalAccountDialog extends BaseDialogFragment {
+public class ChangeOverseasWalletDialog extends BaseDialogFragment {
 
-    private MyAdapter adapter;
     private final NFTViewModel viewModel = new NFTViewModel();
-    private ChangeAccountListener changeAccountListener;
+    private final MyAdapter mAdapter = new MyAdapter();
+    private ChangeWalletListener changeWalletListener;
 
     @Override
     protected int getLayoutId() {
-        return R.layout.dialog_change_internal_account;
+        return R.layout.dialog_change_overseas_wallet;
     }
 
     @Override
@@ -39,70 +39,71 @@ public class ChangeInternalAccountDialog extends BaseDialogFragment {
     }
 
     @Override
+    protected int getGravity() {
+        return Gravity.CENTER;
+    }
+
+    @Override
     protected void initWidget() {
         super.initWidget();
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
-        adapter = new MyAdapter();
-        recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(mAdapter);
     }
 
     @Override
     protected void initData() {
         super.initData();
-        viewModel.initData(getContext());
-
         BindWalletInfoModel bindWalletInfo = viewModel.getBindWalletInfo();
         if (bindWalletInfo != null) {
-            adapter.setList(bindWalletInfo.walletList);
+            mAdapter.setList(bindWalletInfo.walletList);
         }
     }
 
     @Override
     protected void setListeners() {
         super.setListeners();
-        adapter.setOnItemClickListener(new OnItemClickListener() {
+        mAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @SuppressLint("NotifyDataSetChanged")
             @Override
-            public void onItemClick(@NonNull BaseQuickAdapter<?, ?> baseQuickAdapter, @NonNull View view, int position) {
-                WalletInfoModel item = adapter.getItem(position);
-                if (isUseWallet(item.type)) {
+            public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
+                WalletInfoModel item = mAdapter.getItem(position);
+                if (isSelected(item.type)) {
                     return;
                 }
-                dismiss();
                 viewModel.changeWallet(item.type);
-                if (changeAccountListener != null) {
-                    changeAccountListener.onChange(item);
+                mAdapter.notifyDataSetChanged();
+                dismiss();
+                if (changeWalletListener != null) {
+                    changeWalletListener.onChange(item);
                 }
             }
         });
     }
 
-    public void setChangeAccountListener(ChangeAccountListener changeAccountListener) {
-        this.changeAccountListener = changeAccountListener;
+    public void setChangeWalletListener(ChangeWalletListener changeWalletListener) {
+        this.changeWalletListener = changeWalletListener;
     }
 
-    public interface ChangeAccountListener {
+    public interface ChangeWalletListener {
         void onChange(WalletInfoModel model);
     }
 
     private class MyAdapter extends BaseQuickAdapter<WalletInfoModel, BaseViewHolder> {
 
         public MyAdapter() {
-            super(R.layout.item_internal_account);
+            super(R.layout.item_change_overseas_wallet);
         }
 
         @Override
         protected void convert(@NonNull BaseViewHolder holder, WalletInfoModel model) {
-            ImageView ivIcon = holder.getView(R.id.iv_icon);
-            ImageLoader.loadImage(ivIcon, model.icon);
-
+            holder.setText(R.id.tv_address, model.walletAddress);
             holder.setText(R.id.tv_name, model.name);
-
-            holder.setVisible(R.id.view_selected, isUseWallet(model.type));
+            holder.setVisible(R.id.view_selected, isSelected(model.type));
         }
     }
 
-    private boolean isUseWallet(long walletType) {
+    private boolean isSelected(long walletType) {
         BindWalletInfoModel bindWalletInfo = viewModel.getBindWalletInfo();
         if (bindWalletInfo != null) {
             return bindWalletInfo.walletType == walletType;

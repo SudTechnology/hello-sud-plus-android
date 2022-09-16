@@ -143,7 +143,7 @@ public class NftDetailActivity extends BaseActivity {
         if (wearNft == null || !wearNft.equals(nftModel)) {
             viewModel.wearNft(nftModel);
         } else {
-            viewModel.cancelWearNft();
+            viewModel.cancelWearNft(null);
         }
     }
 

@@ -50,20 +50,33 @@
             android:textColor="#13141a"
             android:textSize="12sp" />
 
-        <TextView
-            android:id="@+id/tv_wallet_address"
+        <LinearLayout
+            android:id="@+id/container_wallet_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxWidth="159dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
             android:layout_marginTop="4dp"
-            android:singleLine="true"
-            android:ellipsize="middle"
-            android:textColor="#333333"
-            android:textSize="12sp"
-            android:visibility="gone"
             android:paddingHorizontal="8dp"
             android:paddingVertical="2dp"
-            android:background="@drawable/shape_round_b3dbdeec" />
+            android:background="@drawable/shape_round_b3dbdeec">
+
+            <TextView
+                android:id="@+id/tv_wallet_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxWidth="159dp"
+                android:singleLine="true"
+                android:ellipsize="middle"
+                android:textColor="#333333"
+                android:textSize="12sp" />
+
+            <View
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:background="@drawable/ic_address_arrow" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

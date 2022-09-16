@@ -28,6 +28,7 @@ public class NftBindingDialog extends BaseDialogFragment {
     private TextView tvStatus;
     public NFTViewModel viewModel;
     public SudNFTGetWalletListModel.WalletInfo walletInfo;
+    private onBindSuccessListener onBindSuccessListener;
 
     @Override
     protected int getLayoutId() {
@@ -103,9 +104,18 @@ public class NftBindingDialog extends BaseDialogFragment {
     }
 
     private void processOnSuccess(SudNFTBindWalletModel model) {
-        tvStatus.postDelayed(() -> {
-            dismiss();
-        }, 3000);
+        if (onBindSuccessListener != null) {
+            onBindSuccessListener.onBindSuccess();
+        }
+        tvStatus.postDelayed(this::dismissAllowingStateLoss, 3000);
+    }
+
+    public void setOnBindSuccessListener(NftBindingDialog.onBindSuccessListener onBindSuccessListener) {
+        this.onBindSuccessListener = onBindSuccessListener;
+    }
+
+    public interface onBindSuccessListener {
+        void onBindSuccess();
     }
 
     private void processOnBindStageList(List<SudNFTBindWalletStage> list) {

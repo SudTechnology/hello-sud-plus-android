@@ -17,8 +17,6 @@ public class HSUserInfo {
 
     public static int headerType; // 头像类型（0图片，1nft）
     public static String headerNftUrl; // 头像nft图片
-    public static String walletAddress; // 钱包地址
-    public static int zoneType; // 绑定的钱包区域 0国外 1国内
 
     public static String getUseAvatar() {
         if (HSUserInfo.headerType == 1) {
@@ -38,8 +36,6 @@ public class HSUserInfo {
         outState.putString("refreshToken", HSUserInfo.refreshToken);
         outState.putInt("headerType", HSUserInfo.headerType);
         outState.putString("headerNftUrl", HSUserInfo.headerNftUrl);
-        outState.putString("walletAddress", HSUserInfo.walletAddress);
-        outState.putInt("zoneType", HSUserInfo.zoneType);
     }
 
     // 恢复静态数据
@@ -52,8 +48,6 @@ public class HSUserInfo {
         HSUserInfo.refreshToken = savedInstanceState.getString("refreshToken");
         HSUserInfo.headerType = savedInstanceState.getInt("headerType");
         HSUserInfo.headerNftUrl = savedInstanceState.getString("headerNftUrl");
-        HSUserInfo.walletAddress = savedInstanceState.getString("walletAddress");
-        HSUserInfo.zoneType = savedInstanceState.getInt("zoneType");
     }
 
     // 返回是否已登录

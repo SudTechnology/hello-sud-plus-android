@@ -572,7 +572,7 @@ Go to homepage to create one~</string>
     <string name="bind_phone_title">%1$s账号授权</string>
     <string name="bind">绑定</string>
     <string name="unbind">解绑</string>
-    <string name="binded_info">已绑定：%1$s</string>
+    <string name="binded_info">已绑定：</string>
     <string name="auth_wallet_account">授权%1$s账号</string>
     <string name="get_auth_code">获取验证码</string>
     <string name="auth_code_hint">请输入验证码</string>
@@ -612,6 +612,8 @@ Go to homepage to create one~</string>
     <string name="see_less">see less</string>
     <string name="user_id_content">用户ID %1$s</string>
     <string name="spread">展开</string>
+    <string name="unbind_overseas_wallet_title">解绑后，HelloSud将不再展示\n当前钱包地址上拥有的NFT</string>
+    <string name="is_binding_wallet_address">已绑定的钱包地址</string>
     <!-- endregion 新增 -->
 
 </resources>

@@ -100,7 +100,7 @@ public class BindWalletInfoModel implements Serializable {
     }
 
     /** 如果有，则获取第一个绑定了的钱包 */
-    public WalletInfoModel getWalletInfoModel() {
+    public WalletInfoModel getFirstWalletInfoModel() {
         if (walletList != null && walletList.size() > 0) {
             return walletList.get(0);
         }

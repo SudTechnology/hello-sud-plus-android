@@ -63,6 +63,8 @@ public class ResponseUtils {
             case 1030:
                 msg = Utils.getApp().getString(R.string.nft_code_1030);
                 break;
+            case 1035:
+                return msg;
         }
         return conver(code, msg);
     }

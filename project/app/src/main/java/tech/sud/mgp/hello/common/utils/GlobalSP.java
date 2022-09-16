@@ -14,18 +14,16 @@ public class GlobalSP {
     public final static String USER_TOKEN_KEY = "user_token_key"; // 登录用户Token
     public final static String USER_REFRESHTOKEN_KEY = "user_refreshtoken_key"; // 登录刷新Token
     public final static String USER_HEAD_PORTRAIT_KEY = "user_head_portrait_key"; // 登录的用户头像
+    public final static String USER_HEADER_TYPE_KEY = "user_header_type_key"; // 登录的头像类型
+
+    public final static String KEY_USER_HEADER_NFT_URL = "key_user_header_nft_url"; // 登录的头像nft图片
 
     public final static String KEY_LANG_CELL_TYPE = "key_lang_cell_type"; // 记录当前设置的语言类型
     public final static String KEY_SHOW_GUIDE_UPGRADE_TIMESTAMP = "key_show_guide_upgrade_timestamp"; // 记录上一次显示引导更新的时间戳
 
-    public final static String USER_HEADER_TYPE_KEY = "user_header_type_key_v2"; // 登录的头像类型
-    public final static String KEY_USER_HEADER_NFT_URL = "key_user_header_nft_url_v2"; // 登录的头像nft图片
-    public final static String KEY_USER_WALLET_ADDRESS = "key_user_wallet_address_v2"; // 登录的钱包地址
-    public final static String KEY_USER_WALLET_ZONE_TYPE = "key_user_wallet_zone_type_v2"; // 绑定的钱包区域
-    public static final String KEY_NFT_BIND_WALLET = "key_nft_bind_wallet_v2"; // 已绑定的钱包信息
+    public static final String KEY_NFT_BIND_WALLET = "key_nft_bind_wallet"; // 已绑定的钱包信息
 
     public static SPUtils getSP() {
         return SPUtils.getInstance(SP_NAME);
     }
-    
 }

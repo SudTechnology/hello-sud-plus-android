@@ -25,6 +25,7 @@ import tech.sud.mgp.hello.common.utils.ImageLoader;
 import tech.sud.mgp.hello.ui.main.home.view.CoinDialog;
 import tech.sud.mgp.hello.ui.main.nft.model.BindWalletInfoModel;
 import tech.sud.mgp.hello.ui.main.nft.model.NftModel;
+import tech.sud.mgp.hello.ui.main.nft.model.WalletInfoModel;
 import tech.sud.mgp.hello.ui.main.nft.model.ZoneType;
 import tech.sud.mgp.hello.ui.main.nft.viewmodel.NFTViewModel;
 import tech.sud.mgp.hello.ui.main.nft.widget.dialog.NftDetailDialog;
@@ -38,9 +39,9 @@ public class MainUserInfoView extends ConstraintLayout {
     private ImageView ivNftIcon;
     private TextView tvName;
     private TextView tvUserId;
+    private View viewWalletAddress;
     private TextView tvWalletAddress;
     private View viewUnbind;
-    private String walletAddress;
 
     public MainUserInfoView(@NonNull Context context) {
         this(context, null);
@@ -63,6 +64,7 @@ public class MainUserInfoView extends ConstraintLayout {
         ivNftIcon = findViewById(R.id.iv_nft_icon);
         tvName = findViewById(R.id.user_info_tv_name);
         tvUserId = findViewById(R.id.tv_user_id);
+        viewWalletAddress = findViewById(R.id.container_wallet_address);
         tvWalletAddress = findViewById(R.id.tv_wallet_address);
         viewUnbind = findViewById(R.id.view_unbind);
     }
@@ -75,11 +77,17 @@ public class MainUserInfoView extends ConstraintLayout {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        String walletAddress = HSUserInfo.walletAddress;
-        if (HSUserInfo.zoneType == ZoneType.INTERNAL || TextUtils.isEmpty(walletAddress)) {
+        BindWalletInfoModel bindWalletInfoModel = NFTViewModel.sBindWalletInfo;
+        if (bindWalletInfoModel == null) {
             showUserId();
         } else {
-            showWalletAddress(walletAddress);
+            WalletInfoModel walletInfoModel = bindWalletInfoModel.getWalletInfoModel(bindWalletInfoModel.walletType);
+            if (walletInfoModel == null || walletInfoModel.zoneType == ZoneType.INTERNAL
+                    || TextUtils.isEmpty(walletInfoModel.walletAddress)) {
+                showUserId();
+            } else {
+                showWalletAddress(walletInfoModel.walletAddress);
+            }
         }
     }
 
@@ -96,7 +104,7 @@ public class MainUserInfoView extends ConstraintLayout {
     }
 
     private void setListeners() {
-        tvWalletAddress.setOnClickListener(new OnClickListener() {
+        viewWalletAddress.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 CharSequence address = tvWalletAddress.getText();
@@ -140,25 +148,24 @@ public class MainUserInfoView extends ConstraintLayout {
         return null;
     }
 
+    public void setWalletAddressOnClickListener(OnClickListener listener) {
+        viewWalletAddress.setOnClickListener(listener);
+    }
+
     public void setUnbindOnClickListener(OnClickListener listener) {
         viewUnbind.setOnClickListener(listener);
     }
 
-    public String getWalletAddress() {
-        return walletAddress;
-    }
-
     /** 展示钱包信息 */
     private void showWalletAddress(String address) {
-        this.walletAddress = address;
-        tvWalletAddress.setVisibility(View.VISIBLE);
+        viewWalletAddress.setVisibility(View.VISIBLE);
         tvUserId.setVisibility(View.GONE);
         tvWalletAddress.setText(address);
     }
 
     /** 展示用户id */
     private void showUserId() {
-        tvWalletAddress.setVisibility(View.GONE);
+        viewWalletAddress.setVisibility(View.GONE);
         tvUserId.setVisibility(View.VISIBLE);
     }
 

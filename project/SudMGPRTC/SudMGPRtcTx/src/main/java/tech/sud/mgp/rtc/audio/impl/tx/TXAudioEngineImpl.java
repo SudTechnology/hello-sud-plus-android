@@ -204,9 +204,9 @@ public class TXAudioEngineImpl implements ISudAudioEngine {
 
     // 更新房间内用户总人数
     private void updateRoomUserCount() {
-        ISudAudioEventListener handler = mISudAudioEventListener;
-        if (handler != null) {
-            handler.onRoomOnlineUserCountUpdate(roomUserList.size() + 1);
+        ISudAudioEventListener listener = mISudAudioEventListener;
+        if (listener != null) {
+            listener.onRoomOnlineUserCountUpdate(roomUserList.size() + 1);
         }
     }
 

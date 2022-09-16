@@ -287,9 +287,9 @@ public class VolcAudioEngineImpl implements ISudAudioEngine {
                 ThreadUtils.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        ISudAudioEventListener handler = mISudAudioEventListener;
-                        if (handler != null) {
-                            handler.onRoomStateUpdate(audioRoomState, 0, null);
+                        ISudAudioEventListener listener = mISudAudioEventListener;
+                        if (listener != null) {
+                            listener.onRoomStateUpdate(audioRoomState, 0, null);
                         }
                     }
                 });

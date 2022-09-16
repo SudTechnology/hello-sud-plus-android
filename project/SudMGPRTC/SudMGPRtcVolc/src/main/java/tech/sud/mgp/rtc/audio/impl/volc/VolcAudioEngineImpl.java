@@ -169,6 +169,13 @@ public class VolcAudioEngineImpl implements ISudAudioEngine {
         RTCEngine engine = getEngine();
         if (engine != null) {
             engine.sendRoomMessage(command);
+            if (null != listener) {
+                listener.onResult(0);
+            }
+        } else {
+            if (null != listener) {
+                listener.onResult(-1);
+            }
         }
     }
 

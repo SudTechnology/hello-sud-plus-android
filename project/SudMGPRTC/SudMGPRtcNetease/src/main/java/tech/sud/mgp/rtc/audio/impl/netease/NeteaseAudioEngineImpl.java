@@ -255,12 +255,16 @@ public class NeteaseAudioEngineImpl implements ISudAudioEngine {
             NIMClient.getService(ChatRoomService.class).sendMessage(message, false).setCallback(new RequestCallback<Void>() {
                 @Override
                 public void onSuccess(Void unused) {
-
+                    if (null != listener) {
+                        listener.onResult(0);
+                    }
                 }
 
                 @Override
                 public void onFailed(int i) {
-
+                    if (null != listener) {
+                        listener.onResult(i);
+                    }
                 }
 
                 @Override

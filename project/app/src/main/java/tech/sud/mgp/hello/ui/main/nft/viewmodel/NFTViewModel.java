@@ -411,8 +411,10 @@ public class NFTViewModel extends BaseViewModel {
         if ("dev".equalsIgnoreCase(BuildConfig.nftEnv)) {
             ISudNFTD.e(4);
             ISudNFTD.d();
+            ToastUtils.showLong("当前是dev环境");
         } else if ("fat".equalsIgnoreCase(BuildConfig.nftEnv)) {
             ISudNFTD.e(3);
+            ToastUtils.showLong("当前是fat环境");
         }
         // endregion 为demo代码，直接忽略
 

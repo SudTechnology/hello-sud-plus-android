@@ -28,6 +28,7 @@ platform :android do
         parentOutputDir = OUTPUT_DIR
         versionCode=options[:code]
         moduleName=options[:moduleName]
+        nftEnv=options[:nftEnv]
         puts versionCode
         if moduleName.nil? || moduleName.empty?
             puts "moduleName is empty"
@@ -42,6 +43,7 @@ platform :android do
             print_command: true,
             properties: {
                 "versionCode" => versionCode,
+                "nftEnv" => nftEnv,
                 "baseUrlConfig" => "fat"
             }
         )

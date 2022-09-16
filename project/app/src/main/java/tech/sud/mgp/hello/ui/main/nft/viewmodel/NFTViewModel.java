@@ -11,6 +11,7 @@ import com.blankj.utilcode.util.ToastUtils;
 import java.util.List;
 
 import tech.sud.mgp.SudMGPWrapper.utils.SudJsonUtils;
+import tech.sud.mgp.hello.BuildConfig;
 import tech.sud.mgp.hello.app.APPConfig;
 import tech.sud.mgp.hello.common.base.BaseViewModel;
 import tech.sud.mgp.hello.common.http.param.RetCode;
@@ -30,6 +31,7 @@ import tech.sud.mgp.hello.ui.main.nft.model.WalletChainInfo;
 import tech.sud.mgp.hello.ui.main.nft.model.WalletChainInfoConvertor;
 import tech.sud.mgp.hello.ui.main.nft.model.WalletInfoModel;
 import tech.sud.mgp.hello.ui.main.nft.model.ZoneType;
+import tech.sud.nft.core.ISudNFTD;
 import tech.sud.nft.core.listener.ISudNFTListenerBindCnWallet;
 import tech.sud.nft.core.listener.ISudNFTListenerBindWallet;
 import tech.sud.nft.core.listener.ISudNFTListenerGenCnNFTCredentialsToken;
@@ -405,6 +407,14 @@ public class NFTViewModel extends BaseViewModel {
             }
             return;
         }
+        // region 为demo代码，直接忽略
+        if ("dev".equalsIgnoreCase(BuildConfig.nftEnv)) {
+            ISudNFTD.e(4);
+            ISudNFTD.d();
+        } else if ("fat".equalsIgnoreCase(BuildConfig.nftEnv)) {
+            ISudNFTD.e(3);
+        }
+        // endregion 为demo代码，直接忽略
 
         SudInitNFTParamModel model = new SudInitNFTParamModel();
         model.context = context;

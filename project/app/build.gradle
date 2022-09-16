@@ -73,6 +73,7 @@ android {
             buildConfigField("String", "gameBaseUrl", "\"" + project.gameBaseUrl + "\"")
             buildConfigField("String", "buglyAppId", "\"" + project.buglyAppId + "\"")
             buildConfigField("boolean", "gameIsTestEnv", project.gameIsTestEnv)
+            buildConfigField("String", "nftEnv", "\"" + project.nftEnv + "\"")
         }
     }
 }

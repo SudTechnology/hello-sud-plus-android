@@ -30,6 +30,7 @@ ext {
     materialVersion = "1.5.0"
     constraintlayoutVersion = "2.1.4"
 
+    nftEnv = "pro"
 }
 
 allprojects {

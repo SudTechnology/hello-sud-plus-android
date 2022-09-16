@@ -50,6 +50,15 @@ public static void getWalletList(ISudNFTListenerGetWalletList listener);
  */
 public static void bindWallet(SudNFTBindWalletParamModel model, ISudNFTListenerBindWallet listener);
 ```
+- 解绑钱包
+```
+/**
+ * 解绑钱包
+ * @param model    参数
+ * @param listener 回调
+ */
+public static void unbindWallet(SudNFTUnbindWalletParamModel model, ISudNFTListenerUnbindWallet listener);
+```
 - 获取NFT列表
 ```
 /**
@@ -67,6 +76,15 @@ public static void getNFTList(SudNFTGetNFTListParamModel model, ISudNFTListenerG
  * @param listener 回调
  */
 public static void genNFTCredentialsToken(SudNFTCredentialsTokenParamModel model, ISudNFTListenerGenNFTCredentialsToken listener);
+```
+- 移除元数据使用唯一认证token
+```
+/**
+ * 移除元数据使用唯一认证token
+ * @param model    参数
+ * @param listener 回调
+ */
+public static void removeNFTCredentialsToken(SudNFTRemoveCredentialsTokenParamModel model, ISudNFTListenerRemoveNFTCredentialsToken listener);
 ```
 
 
@@ -106,6 +124,15 @@ public static void getCnNFTList(SudNFTGetCnNFTListParamModel model, ISudNFTListe
  * @param listener 回调
  */
 public static void genCnNFTCredentialsToken(SudNFTCnCredentialsTokenParamModel model, ISudNFTListenerGenCnNFTCredentialsToken listener);
+```
+- 移除国内NFT使用唯一认证token
+```
+/**
+ * 移除国内NFT使用唯一认证token
+ * @param model    参数
+ * @param listener 回调
+ */
+public static void removeCnNFTCredentialsToken(SudNFTRemoveCnCredentialsTokenParamModel model, ISudNFTListenerRemoveCnNFTCredentialsToken listener);
 ```
 - 解绑国内钱包
 ```

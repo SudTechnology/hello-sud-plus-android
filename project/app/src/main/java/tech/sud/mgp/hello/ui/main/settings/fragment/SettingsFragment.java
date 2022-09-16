@@ -93,16 +93,6 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         super.onResume();
         viewModel.initData(requireContext());
         userInfoView.updateUserInfo();
-        // region 为demo代码，直接忽略
-        if ("dev".equalsIgnoreCase(BuildConfig.nftEnv)) {
-            ToastUtils.showLong("当前是dev环境");
-        } else if ("fat".equalsIgnoreCase(BuildConfig.nftEnv)) {
-            ToastUtils.showLong("当前是fat环境");
-        } else if (BuildConfig.gameIsTestEnv) {
-            ToastUtils.showLong("当前是sim环境");
-        } else {
-            ToastUtils.showLong("当前是pro环境");
-        }
     }
 
     @Override

@@ -8,8 +8,6 @@ public class AudioJoinRoomModel {
 
     public String roomID;
 
-    public String roomName;
-
     public String token;
 
     public long timestamp;

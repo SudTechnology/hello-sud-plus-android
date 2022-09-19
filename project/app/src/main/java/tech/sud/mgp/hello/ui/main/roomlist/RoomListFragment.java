@@ -206,7 +206,7 @@ public class RoomListFragment extends BaseFragment {
                     return;
                 }
                 UserInfoResp userInfoResp = userInfos.get(0);
-                if (userInfoResp.headerType == 1 && !Objects.equals(userInfoResp.headerNftToken, wearNft.detailsToken)) {
+                if (userInfoResp.headerType != 1 || !Objects.equals(userInfoResp.headerNftToken, wearNft.detailsToken)) {
                     nftViewModel.cancelWearNft(new CancelWearNftListener() {
                         @Override
                         public void onSuccess() {

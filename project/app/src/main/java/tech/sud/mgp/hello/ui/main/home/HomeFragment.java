@@ -91,6 +91,8 @@ public class HomeFragment extends BaseFragment implements CreatRoomClickListener
         refreshLayout.setEnableRefresh(true);
         refreshLayout.setEnableLoadMore(false);
 
+        userInfoView.setNftMask(R.drawable.ic_nft_mask_white);
+        userInfoView.setViewWalletAddressArrowVisible(false);
         View viewStatusBar = findViewById(R.id.view_statusbar);
         ViewUtils.setHeight(viewStatusBar, ImmersionBar.getStatusBarHeight(requireContext()));
     }

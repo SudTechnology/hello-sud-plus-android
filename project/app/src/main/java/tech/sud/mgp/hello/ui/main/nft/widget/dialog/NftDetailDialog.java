@@ -49,6 +49,10 @@ public class NftDetailDialog extends BaseDialogFragment {
     private TextView tvAddress;
     private TextView tvTokenId;
     private TextView tvStandard;
+    private TextView tvDescTitle;
+    private TextView tvAddressTitle;
+    private TextView tvTokenIdTitle;
+    private TextView tvStandardTitle;
 
     private NftModel nftModel;
     private boolean showFullDesc;
@@ -123,6 +127,10 @@ public class NftDetailDialog extends BaseDialogFragment {
         viewTokenId = findViewById(R.id.view_token_id);
         tvTokenId = findViewById(R.id.tv_token_id);
         tvStandard = findViewById(R.id.tv_standard);
+        tvDescTitle = findViewById(R.id.tv_desc_title);
+        tvAddressTitle = findViewById(R.id.tv_address_title);
+        tvTokenIdTitle = findViewById(R.id.tv_token_id_title);
+        tvStandardTitle = findViewById(R.id.tv_standard_title);
     }
 
     @Override
@@ -145,6 +153,14 @@ public class NftDetailDialog extends BaseDialogFragment {
         tvAddress.setText(nftModel.contractAddress);
         tvTokenId.setText(nftModel.tokenId);
         tvStandard.setText(nftModel.tokenType);
+
+        if (nftModel.zoneType == ZoneType.INTERNAL) {
+            tvDescTitle.setText(R.string.works_desc);
+            tvAddressTitle.setText(R.string.address);
+            tvTokenIdTitle.setText(R.string.cn_token_id);
+            tvStandardTitle.setVisibility(View.GONE);
+            tvStandard.setVisibility(View.GONE);
+        }
     }
 
     @Override

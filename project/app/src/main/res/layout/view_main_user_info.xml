@@ -14,13 +14,22 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <!-- NFT图像，六边形 -->
-    <tech.sud.mgp.hello.ui.common.widget.HexagonImageView
+    <ImageView
         android:id="@+id/iv_nft_icon"
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/view_nft_mask"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="@id/iv_nft_icon"
+        app:layout_constraintEnd_toEndOf="@id/iv_nft_icon"
+        app:layout_constraintTop_toTopOf="@id/iv_nft_icon"
+        app:layout_constraintBottom_toBottomOf="@id/iv_nft_icon" />
 
     <LinearLayout
         android:layout_width="0dp"

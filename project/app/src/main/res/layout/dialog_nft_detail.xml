@@ -111,6 +111,7 @@
                 android:layout_marginTop="24dp" />
 
             <TextView
+                android:id="@+id/tv_desc_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -154,6 +155,7 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/tv_address_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -192,6 +194,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
+                android:id="@+id/tv_token_id_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -230,6 +233,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
+                android:id="@+id/tv_standard_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"

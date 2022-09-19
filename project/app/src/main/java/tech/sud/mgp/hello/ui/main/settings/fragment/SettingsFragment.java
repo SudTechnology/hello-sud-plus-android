@@ -1,6 +1,7 @@
 package tech.sud.mgp.hello.ui.main.settings.fragment;
 
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -13,7 +14,6 @@ import com.jeremyliao.liveeventbus.LiveEventBus;
 
 import java.util.List;
 
-import tech.sud.mgp.hello.BuildConfig;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseFragment;
 import tech.sud.mgp.hello.common.event.LiveEventBusKey;
@@ -78,6 +78,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         guideViewChangeAddress = findViewById(R.id.guide_view_change_address);
         guideViewChangeNetwork = findViewById(R.id.guide_view_change_network);
 
+        userInfoView.setNftMask(R.drawable.ic_nft_mask_gray);
         View viewStatusBar = findViewById(R.id.view_statusbar);
         ViewUtils.setHeight(viewStatusBar, ImmersionBar.getStatusBarHeight(requireContext()));
     }
@@ -93,6 +94,35 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         super.onResume();
         viewModel.initData(requireContext());
         userInfoView.updateUserInfo();
+        checkShowGuide();
+    }
+
+    private void checkShowGuide() {
+        BindWalletInfoModel bindWalletInfoModel = NFTViewModel.sBindWalletInfo;
+        // 先展示切换地址引导
+        if (bindWalletInfoModel == null) {
+            hideChangeNetworkGuide();
+            hideChangeAddressGuide();
+            return;
+        }
+        WalletInfoModel walletInfoModel = bindWalletInfoModel.getWalletInfoModel(bindWalletInfoModel.walletType);
+        if (walletInfoModel == null || walletInfoModel.zoneType != ZoneType.OVERSEAS
+                || TextUtils.isEmpty(walletInfoModel.walletAddress)) {
+            hideChangeNetworkGuide();
+            hideChangeAddressGuide();
+            return;
+        }
+        showChangeAddressGuide();
+
+        if (guideViewChangeAddress.getVisibility() == View.VISIBLE) {
+            return;
+        }
+
+        // 切换地址引导不展示再判断是否要展示切换网络引导
+        WalletInfoModel firstWalletInfoModel = bindWalletInfoModel.getFirstWalletInfoModel();
+        if (firstWalletInfoModel != null && firstWalletInfoModel.zoneType == ZoneType.OVERSEAS) {
+            showChangeNetworkGuide();
+        }
     }
 
     @Override
@@ -138,18 +168,14 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
             walletListView.setVisibility(View.VISIBLE);
             walletInfoView.setVisibility(View.GONE);
             walletInfoView.setDatas(null);
-            hideChangeNetworkGuide();
         } else {
             walletListView.setVisibility(View.GONE);
             walletInfoView.setVisibility(View.VISIBLE);
-            WalletInfoModel firstWalletInfoModel = model.getFirstWalletInfoModel();
-            if (firstWalletInfoModel != null && firstWalletInfoModel.zoneType == ZoneType.OVERSEAS) {
-                showChangeNetworkGuide();
-            }
             setChainInfo(model);
         }
         walletInfoView.setBindWallet(model);
         userInfoView.updateUserInfo();
+        checkShowGuide();
 
         if (model == null) {
             userInfoView.setShowUnbind(false);
@@ -183,6 +209,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         });
     }
 
+    /** 显示切换地址的引导 */
     private void showChangeAddressGuide() {
         boolean shown = GlobalSP.getSP().getBoolean(GlobalSP.KEY_SHOWN_CHANGE_ADDRESS_GUIDE);
         if (shown) {
@@ -225,23 +252,13 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         userInfoView.setUnbindOnClickListener(v -> {
             onClickUnbindWallet();
         });
-        userInfoView.setOnShowContentListener(new MainUserInfoView.OnShowContentListener() {
-            @Override
-            public void onShowUserId() {
-                hideChangeAddressGuide();
-            }
-
-            @Override
-            public void onShowWalletAddress() {
-                showChangeAddressGuide();
-            }
-        });
         userInfoView.setWalletAddressOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 hideChangeAddressGuide();
                 GlobalSP.getSP().put(GlobalSP.KEY_SHOWN_CHANGE_ADDRESS_GUIDE, true);
                 showChangeOverseasWalletDialog();
+                checkShowGuide();
             }
         });
         walletInfoView.setOnClickListener(new View.OnClickListener() {

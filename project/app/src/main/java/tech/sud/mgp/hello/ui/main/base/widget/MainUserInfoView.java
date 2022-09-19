@@ -43,8 +43,7 @@ public class MainUserInfoView extends ConstraintLayout {
     private TextView tvWalletAddress;
     private View viewUnbind;
     private View viewWalletAddressArrow;
-
-    private OnShowContentListener onShowContentListener;
+    private View viewNftMask;
 
     public MainUserInfoView(@NonNull Context context) {
         this(context, null);
@@ -71,6 +70,7 @@ public class MainUserInfoView extends ConstraintLayout {
         tvWalletAddress = findViewById(R.id.tv_wallet_address);
         viewUnbind = findViewById(R.id.view_unbind);
         viewWalletAddressArrow = findViewById(R.id.view_wallet_address_arrow);
+        viewNftMask = findViewById(R.id.view_nft_mask);
     }
 
     public void updateUserInfo() {
@@ -98,10 +98,12 @@ public class MainUserInfoView extends ConstraintLayout {
     private ImageView getShowIvIcon() {
         if (HSUserInfo.headerType == 1) {
             ivNftIcon.setVisibility(View.VISIBLE);
+            viewNftMask.setVisibility(View.VISIBLE);
             ivIcon.setVisibility(View.INVISIBLE);
             return ivNftIcon;
         } else {
             ivNftIcon.setVisibility(View.INVISIBLE);
+            viewNftMask.setVisibility(View.INVISIBLE);
             ivIcon.setVisibility(View.VISIBLE);
             return ivIcon;
         }
@@ -165,18 +167,12 @@ public class MainUserInfoView extends ConstraintLayout {
         viewWalletAddress.setVisibility(View.VISIBLE);
         tvUserId.setVisibility(View.GONE);
         tvWalletAddress.setText(address);
-        if (onShowContentListener != null) {
-            onShowContentListener.onShowWalletAddress();
-        }
     }
 
     /** 展示用户id */
     private void showUserId() {
         viewWalletAddress.setVisibility(View.GONE);
         tvUserId.setVisibility(View.VISIBLE);
-        if (onShowContentListener != null) {
-            onShowContentListener.onShowUserId();
-        }
     }
 
     public void setShowUnbind(boolean showUnbind) {
@@ -187,6 +183,10 @@ public class MainUserInfoView extends ConstraintLayout {
         }
     }
 
+    public void setViewWalletAddressArrowVisible(boolean visible) {
+        viewWalletAddressArrow.setVisibility(visible ? View.VISIBLE : View.GONE);
+    }
+
     public View getViewWalletAddressArrow() {
         return viewWalletAddressArrow;
     }
@@ -195,14 +195,8 @@ public class MainUserInfoView extends ConstraintLayout {
         viewUnbind.setBackgroundResource(resId);
     }
 
-    public void setOnShowContentListener(OnShowContentListener onShowContentListener) {
-        this.onShowContentListener = onShowContentListener;
-    }
-
-    public interface OnShowContentListener {
-        void onShowUserId();
-
-        void onShowWalletAddress();
+    public void setNftMask(@DrawableRes int resId) {
+        viewNftMask.setBackgroundResource(resId);
     }
 
 }

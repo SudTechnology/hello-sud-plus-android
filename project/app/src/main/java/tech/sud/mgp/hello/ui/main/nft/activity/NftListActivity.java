@@ -125,6 +125,7 @@ public class NftListActivity extends BaseActivity {
                     } else {
                         datas = model.list;
                     }
+                    setNftDetail(datas, bindWalletInfo.walletType, bindWalletInfo.getZoneType());
                     moveDressedInToFirst(datas);
                     refreshDataHelper.respDatasSuccess(new ListModel<>(pageNumber, pageSize, datas));
                     refreshView.getRecyclerView().post(() -> {
@@ -169,6 +170,7 @@ public class NftListActivity extends BaseActivity {
                         datas = model.list;
                         pageKeyMaps.put(pageNumber + 1, model.pageKey);
                     }
+                    setNftDetail(datas, bindWalletInfo.walletType, bindWalletInfo.getZoneType());
                     moveDressedInToFirst(datas);
                     refreshDataHelper.respDatasSuccess(new ListModel<>(pageNumber, pageSize, datas));
                     refreshView.getRecyclerView().post(() -> {
@@ -184,6 +186,16 @@ public class NftListActivity extends BaseActivity {
                 });
             }
         });
+    }
+
+    private void setNftDetail(List<NftModel> list, long walletType, int zoneType) {
+        if (list == null || list.size() == 0) {
+            return;
+        }
+        for (NftModel nftModel : list) {
+            nftModel.walletType = walletType;
+            nftModel.zoneType = zoneType;
+        }
     }
 
     private String getPageKey(int pageNumber) {

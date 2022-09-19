@@ -126,10 +126,15 @@ public class OverseasWalletListDialog extends BaseBottomSheetDialogFragment {
                 if (o2 == null) {
                     return 1;
                 }
-                if (isBinding(o1.type)) {
+                boolean o1IsBinding = isBinding(o1.type);
+                boolean o2IsBinding = isBinding(o2.type);
+                if (o1IsBinding && o2IsBinding) {
+                    return Integer.compare(list.indexOf(o1), list.indexOf(o2));
+                }
+                if (o1IsBinding) {
                     return -1;
                 }
-                if (isBinding(o2.type)) {
+                if (o2IsBinding) {
                     return 1;
                 }
                 return Integer.compare(list.indexOf(o1), list.indexOf(o2));

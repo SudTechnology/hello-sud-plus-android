@@ -616,6 +616,7 @@ Go to homepage to create one~</string>
     <string name="is_binding_wallet_address">已绑定的钱包地址</string>
     <string name="click_change_address">点击切换地址</string>
     <string name="click_change_network">点击切换网络</string>
+    <string name="works_desc">作品描述</string>
     <!-- endregion 新增 -->
 
 </resources>

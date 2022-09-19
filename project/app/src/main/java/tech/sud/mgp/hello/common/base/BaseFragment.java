@@ -15,6 +15,7 @@ import com.trello.rxlifecycle4.components.support.RxFragment;
 public abstract class BaseFragment extends RxFragment {
 
     protected View mRootView;
+    protected BaseFragment mFragment = this;
 
     @Nullable
     @Override

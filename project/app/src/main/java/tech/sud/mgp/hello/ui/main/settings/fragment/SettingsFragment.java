@@ -12,23 +12,30 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.gyf.immersionbar.ImmersionBar;
 import com.jeremyliao.liveeventbus.LiveEventBus;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseFragment;
 import tech.sud.mgp.hello.common.event.LiveEventBusKey;
 import tech.sud.mgp.hello.common.event.NftTokenInvalidEvent;
+import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.GlobalSP;
 import tech.sud.mgp.hello.common.utils.ResponseUtils;
 import tech.sud.mgp.hello.common.utils.ViewUtils;
+import tech.sud.mgp.hello.service.main.repository.UserInfoRepository;
+import tech.sud.mgp.hello.service.main.resp.UserInfoResp;
 import tech.sud.mgp.hello.ui.common.utils.CompletedListener;
 import tech.sud.mgp.hello.ui.common.utils.LifecycleUtils;
 import tech.sud.mgp.hello.ui.main.base.widget.MainUserInfoView;
 import tech.sud.mgp.hello.ui.main.nft.activity.InternalWalletBindActivity;
 import tech.sud.mgp.hello.ui.main.nft.activity.NftListActivity;
 import tech.sud.mgp.hello.ui.main.nft.model.BindWalletInfoModel;
+import tech.sud.mgp.hello.ui.main.nft.model.NftModel;
 import tech.sud.mgp.hello.ui.main.nft.model.WalletInfoModel;
 import tech.sud.mgp.hello.ui.main.nft.model.ZoneType;
+import tech.sud.mgp.hello.ui.main.nft.viewmodel.CancelWearNftListener;
 import tech.sud.mgp.hello.ui.main.nft.viewmodel.NFTViewModel;
 import tech.sud.mgp.hello.ui.main.nft.widget.NftGuideView;
 import tech.sud.mgp.hello.ui.main.nft.widget.WalletInfoView;
@@ -55,7 +62,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
     private SettingButton btnAbout;
     private NftGuideView guideViewChangeAddress;
     private NftGuideView guideViewChangeNetwork;
-    private final NFTViewModel viewModel = new NFTViewModel();
+    private final NFTViewModel nftViewModel = new NFTViewModel();
     private MainUserInfoView userInfoView;
 
     public static SettingsFragment newInstance() {
@@ -86,15 +93,54 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
     @Override
     protected void initData() {
         super.initData();
-        viewModel.initData(requireContext());
+        nftViewModel.initData(requireContext());
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        viewModel.initData(requireContext());
+        nftViewModel.initData(requireContext());
         userInfoView.updateUserInfo();
         checkShowGuide();
+        updateNftHeader();
+    }
+
+    /** 更新nft头像 */
+    private void updateNftHeader() {
+        List<Long> userIdList = new ArrayList<>();
+        userIdList.add(HSUserInfo.userId);
+        UserInfoRepository.getUserInfoList(this, userIdList, new UserInfoRepository.UserInfoResultListener() {
+            @Override
+            public void userInfoList(List<UserInfoResp> userInfos) {
+                BindWalletInfoModel bindWalletInfoModel = NFTViewModel.sBindWalletInfo;
+                if (userInfos == null || userInfos.size() == 0 || bindWalletInfoModel == null) {
+                    return;
+                }
+                NftModel wearNft = bindWalletInfoModel.getWearNft();
+                if (wearNft == null) {
+                    return;
+                }
+                UserInfoResp userInfoResp = userInfos.get(0);
+                if (userInfoResp.headerType == 1 && !Objects.equals(userInfoResp.headerNftToken, wearNft.detailsToken)) {
+                    nftViewModel.cancelWearNft(new CancelWearNftListener() {
+                        @Override
+                        public void onSuccess() {
+                            LifecycleUtils.safeLifecycle(mFragment, () -> {
+                                userInfoView.updateUserInfo();
+                            });
+                        }
+
+                        @Override
+                        public void onFailure(int retCode, String retMsg) {
+                            LifecycleUtils.safeLifecycle(mFragment, () -> {
+                                nftViewModel.clearWearNft();
+                                userInfoView.updateUserInfo();
+                            });
+                        }
+                    });
+                }
+            }
+        });
     }
 
     private void checkShowGuide() {
@@ -133,21 +179,21 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
     }
 
     private void setNftListeners() {
-        viewModel.initDataShowWalletListLiveData.observe(this, model -> {
+        nftViewModel.initDataShowWalletListLiveData.observe(this, model -> {
             LogUtils.d("nft:showWallet");
         });
-        viewModel.initDataShowNftListLiveData.observe(this, model -> {
+        nftViewModel.initDataShowNftListLiveData.observe(this, model -> {
             walletInfoView.setDatas(model);
-            BindWalletInfoModel bindWalletInfo = viewModel.getBindWalletInfo();
+            BindWalletInfoModel bindWalletInfo = nftViewModel.getBindWalletInfo();
             if (bindWalletInfo != null) {
                 setChainInfo(bindWalletInfo);
             }
         });
-        viewModel.bindWalletInfoMutableLiveData.observe(this, this::showWalletInfo);
+        nftViewModel.bindWalletInfoMutableLiveData.observe(this, this::showWalletInfo);
         LiveEventBus.<NftTokenInvalidEvent>get(LiveEventBusKey.KEY_NFT_TOKEN_INVALID).observe(this, new Observer<NftTokenInvalidEvent>() {
             @Override
             public void onChanged(NftTokenInvalidEvent nftTokenInvalidEvent) {
-                viewModel.initData(requireContext());
+                nftViewModel.initData(requireContext());
             }
         });
     }
@@ -157,7 +203,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         dialog.setChangeWalletListener(new ChangeOverseasWalletDialog.ChangeWalletListener() {
             @Override
             public void onChange(WalletInfoModel model) {
-                viewModel.initData(requireContext());
+                nftViewModel.initData(requireContext());
             }
         });
         dialog.show(getChildFragmentManager(), null);
@@ -190,7 +236,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
     }
 
     private void setChainInfo(BindWalletInfoModel model) {
-        viewModel.getWalletList(new ISudNFTListenerGetWalletList() {
+        nftViewModel.getWalletList(new ISudNFTListenerGetWalletList() {
             @Override
             public void onSuccess(SudNFTGetWalletListModel resp) {
                 List<SudNFTGetWalletListModel.WalletInfo> walletList;
@@ -291,7 +337,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
             @Override
             public void onUnbindCompleted(SudNFTGetWalletListModel.WalletInfo walletInfo) {
                 LifecycleUtils.safeLifecycle(SettingsFragment.this, () -> {
-                    viewModel.initData(requireContext());
+                    nftViewModel.initData(requireContext());
                 });
             }
         });
@@ -311,7 +357,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
             @Override
             public void onUnbindCompleted(SudNFTGetWalletListModel.WalletInfo walletInfo) {
                 LifecycleUtils.safeLifecycle(SettingsFragment.this, () -> {
-                    viewModel.initData(requireContext());
+                    nftViewModel.initData(requireContext());
                 });
             }
         });
@@ -324,7 +370,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
     }
 
     private void onClickUnbindWallet() {
-        BindWalletInfoModel bindWalletInfo = viewModel.getBindWalletInfo();
+        BindWalletInfoModel bindWalletInfo = nftViewModel.getBindWalletInfo();
         if (bindWalletInfo == null) {
             return;
         }
@@ -337,7 +383,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
 
     // 点击了nft链
     private void onClickChain() {
-        BindWalletInfoModel bindWalletInfo = viewModel.getBindWalletInfo();
+        BindWalletInfoModel bindWalletInfo = nftViewModel.getBindWalletInfo();
         if (bindWalletInfo == null) {
             return;
         }
@@ -346,14 +392,14 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
             GlobalSP.getSP().put(GlobalSP.KEY_SHOWN_CHANGE_NETWORK_GUIDE, true);
 
             NftChainDialog dialog = NftChainDialog.newInstance(bindWalletInfo.getChainInfo(), bindWalletInfo.getChainInfoList());
-            dialog.setOnSelectedListener(viewModel::changeChain);
+            dialog.setOnSelectedListener(nftViewModel::changeChain);
             dialog.show(getChildFragmentManager(), null);
         } else if (bindWalletInfo.getZoneType() == ZoneType.INTERNAL) {
             ChangeInternalAccountDialog dialog = new ChangeInternalAccountDialog();
             dialog.setChangeAccountListener(new ChangeInternalAccountDialog.ChangeAccountListener() {
                 @Override
                 public void onChange(WalletInfoModel model) {
-                    viewModel.initData(requireContext());
+                    nftViewModel.initData(requireContext());
                 }
             });
             dialog.show(getChildFragmentManager(), null);
@@ -363,7 +409,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
     // 点击了钱包
     private void walletOnClick(SudNFTGetWalletListModel.WalletInfo walletInfo) {
         NftBindingDialog dialog = new NftBindingDialog();
-        dialog.viewModel = viewModel;
+        dialog.viewModel = nftViewModel;
         dialog.walletInfo = walletInfo;
         dialog.setOnBindSuccessListener(new NftBindingDialog.onBindSuccessListener() {
             @Override
@@ -371,7 +417,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
                 LifecycleUtils.safeLifecycle(SettingsFragment.this, new CompletedListener() {
                     @Override
                     public void onCompleted() {
-                        viewModel.initData(requireContext());
+                        nftViewModel.initData(requireContext());
                     }
                 });
             }

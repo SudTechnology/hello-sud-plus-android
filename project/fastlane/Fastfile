@@ -30,6 +30,7 @@ platform :android do
         moduleName=options[:moduleName]
         nftEnv=options[:nftEnv]
         mgpEnv=options[:mgpEnv]
+        baseUrlConfig=options[:baseUrlConfig]
         puts versionCode
         if moduleName.nil? || moduleName.empty?
             puts "moduleName is empty"
@@ -54,7 +55,7 @@ platform :android do
                 "versionCode" => versionCode,
                 "nftEnv" => nftEnv,
                 "mgpEnv" => mgpEnv,
-                "baseUrlConfig" => "fat"
+                "baseUrlConfig" => baseUrlConfig
             }
         )
     end

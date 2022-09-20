@@ -85,7 +85,7 @@ public class NFTViewModel extends BaseViewModel {
     public MutableLiveData<Object> wearNftChangeLiveData = new MutableLiveData<>();
 
     private final SudNFTProxy mSudNFTProxy = new SudNFTProxy(this);
-    private SudNFTGetWalletListModel mWalletListModel; // 钱包列表
+    private static SudNFTGetWalletListModel mWalletListModel; // 钱包列表
     public static BindWalletInfoModel sBindWalletInfo; // 已绑定的钱包数据
     private static boolean sIsInitCompleted; // 是否初始化完成
 

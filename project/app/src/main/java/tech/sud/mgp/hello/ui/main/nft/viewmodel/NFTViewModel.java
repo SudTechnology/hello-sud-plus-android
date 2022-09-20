@@ -407,14 +407,7 @@ public class NFTViewModel extends BaseViewModel {
             }
             return;
         }
-        // region 为demo代码，直接忽略
-        if ("dev".equalsIgnoreCase(BuildConfig.nftEnv)) {
-            ISudNFTD.e(4);
-            ISudNFTD.d();
-        } else if ("fat".equalsIgnoreCase(BuildConfig.nftEnv)) {
-            ISudNFTD.e(3);
-        }
-        // endregion 为demo代码，直接忽略
+        initEnv();
 
         SudInitNFTParamModel model = new SudInitNFTParamModel();
         model.context = context;
@@ -423,6 +416,17 @@ public class NFTViewModel extends BaseViewModel {
         model.userId = HSUserInfo.userId + "";
         model.isTestEnv = APPConfig.GAME_IS_TEST_ENV;
         mSudNFTProxy.initNFT(model, listener);
+    }
+
+    private void initEnv() {
+        // region 为demo代码，直接忽略
+        if ("dev".equalsIgnoreCase(BuildConfig.nftEnv)) {
+            ISudNFTD.e(4);
+            ISudNFTD.d();
+        } else if ("fat".equalsIgnoreCase(BuildConfig.nftEnv)) {
+            ISudNFTD.e(3);
+        }
+        // endregion 为demo代码，直接忽略
     }
 
     /** 获取钱包列表 */

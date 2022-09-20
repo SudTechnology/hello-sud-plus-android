@@ -23,11 +23,13 @@ import tech.sud.mgp.SudMGPWrapper.state.MGStateResponse;
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.SudMGPWrapper.utils.GameCommonStateUtils;
 import tech.sud.mgp.SudMGPWrapper.utils.ISudFSMStateHandleUtils;
+import tech.sud.mgp.core.ISudAPPD;
 import tech.sud.mgp.core.ISudFSMStateHandle;
 import tech.sud.mgp.core.ISudFSTAPP;
 import tech.sud.mgp.core.ISudListenerInitSDK;
 import tech.sud.mgp.core.ISudListenerNotifyStateChange;
 import tech.sud.mgp.core.SudMGP;
+import tech.sud.mgp.hello.BuildConfig;
 import tech.sud.mgp.hello.app.APPConfig;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
@@ -173,6 +175,7 @@ public class AppGameViewModel implements SudFSMMGListener {
             ToastUtils.showLong("SudConfig is empty");
             return;
         }
+        initEnv();
         // 初始化sdk
         SudMGP.initSDK(activity, sudConfig.appId, sudConfig.appKey, APPConfig.GAME_IS_TEST_ENV, new ISudListenerInitSDK() {
             @Override
@@ -186,6 +189,17 @@ public class AppGameViewModel implements SudFSMMGListener {
                 delayLoadGame(activity, gameId);
             }
         });
+    }
+
+    private void initEnv() {
+        // region 为demo代码，直接忽略
+        if ("dev".equalsIgnoreCase(BuildConfig.mgpEnv)) {
+            ISudAPPD.e(4);
+            ISudAPPD.d();
+        } else if ("fat".equalsIgnoreCase(BuildConfig.mgpEnv)) {
+            ISudAPPD.e(3);
+        }
+        // endregion 为demo代码，直接忽略
     }
 
     /**

@@ -29,10 +29,19 @@ platform :android do
         versionCode=options[:code]
         moduleName=options[:moduleName]
         nftEnv=options[:nftEnv]
+        mgpEnv=options[:mgpEnv]
         puts versionCode
         if moduleName.nil? || moduleName.empty?
             puts "moduleName is empty"
             moduleName = "app"
+        end
+        if nftEnv.nil? || nftEnv.empty?
+            puts "nftEnv is empty"
+            nftEnv = "pro"
+        end
+        if mgpEnv.nil? || mgpEnv.empty?
+            puts "mgpEnv is empty"
+            mgpEnv = "pro"
         end
         # outputDir = parentOutputDir + "/fat/" + versionCode
         # puts outputDir
@@ -44,6 +53,7 @@ platform :android do
             properties: {
                 "versionCode" => versionCode,
                 "nftEnv" => nftEnv,
+                "mgpEnv" => mgpEnv,
                 "baseUrlConfig" => "fat"
             }
         )
@@ -70,6 +80,8 @@ platform :android do
                 "versionCode" => versionCode,
                 "jksPropertyPath" => "../../../../../../../certs/hellosud/hellosud_jks_release.properties",
                 "baseUrlConfig" => "pro",
+                "nftEnv" => "pro",
+                "mgpEnv" => "pro",
                 "baseUrl" => baseUrl,
                 "interactBaseUrl" => interactBaseUrl,
                 "gameBaseUrl" => gameBaseUrl,

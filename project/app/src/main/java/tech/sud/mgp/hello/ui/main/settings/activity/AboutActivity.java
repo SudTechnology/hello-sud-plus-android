@@ -54,7 +54,7 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener 
         if (v == btnGitHub) { // github
             IntentUtils.openUrl(this, APPConfig.GIT_HUB_URL);
         } else if (v == btnOpenSource) { // 开源协议
-            RouterUtils.openUrl(this, getString(R.string.user_agreement_title), APPConfig.APP_LICENSE_URL);
+            RouterUtils.openUrl(this, getString(R.string.open_source_licenses), APPConfig.APP_LICENSE_URL);
         } else if (v == btnUserAgreement) { // 用户协议
             RouterUtils.openUrl(this, getString(R.string.user_agreement_title), APPConfig.USER_PROTOCAL_URL);
         } else if (v == btnPrivacyPolicy) { // 隐私政策

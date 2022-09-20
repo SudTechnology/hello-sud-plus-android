@@ -16,11 +16,13 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
 import com.blankj.utilcode.util.ActivityUtils;
+import com.blankj.utilcode.util.ClickUtils;
 import com.blankj.utilcode.util.ClipboardUtils;
 import com.blankj.utilcode.util.ToastUtils;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
+import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
 import tech.sud.mgp.hello.ui.main.home.view.CoinDialog;
 import tech.sud.mgp.hello.ui.main.nft.model.BindWalletInfoModel;
@@ -41,7 +43,7 @@ public class MainUserInfoView extends ConstraintLayout {
     private TextView tvUserId;
     private View viewWalletAddress;
     private TextView tvWalletAddress;
-    private View viewUnbind;
+    private ImageView ivUnbind;
     private View viewWalletAddressArrow;
     private View viewNftMask;
 
@@ -68,9 +70,10 @@ public class MainUserInfoView extends ConstraintLayout {
         tvUserId = findViewById(R.id.tv_user_id);
         viewWalletAddress = findViewById(R.id.container_wallet_address);
         tvWalletAddress = findViewById(R.id.tv_wallet_address);
-        viewUnbind = findViewById(R.id.view_unbind);
+        ivUnbind = findViewById(R.id.view_unbind);
         viewWalletAddressArrow = findViewById(R.id.view_wallet_address_arrow);
         viewNftMask = findViewById(R.id.view_nft_mask);
+        ClickUtils.expandClickArea(ivUnbind, DensityUtils.dp2px(20));
     }
 
     public void updateUserInfo() {
@@ -159,7 +162,7 @@ public class MainUserInfoView extends ConstraintLayout {
     }
 
     public void setUnbindOnClickListener(OnClickListener listener) {
-        viewUnbind.setOnClickListener(listener);
+        ivUnbind.setOnClickListener(listener);
     }
 
     /** 展示钱包信息 */
@@ -177,9 +180,9 @@ public class MainUserInfoView extends ConstraintLayout {
 
     public void setShowUnbind(boolean showUnbind) {
         if (showUnbind) {
-            viewUnbind.setVisibility(View.VISIBLE);
+            ivUnbind.setVisibility(View.VISIBLE);
         } else {
-            viewUnbind.setVisibility(View.GONE);
+            ivUnbind.setVisibility(View.GONE);
         }
     }
 
@@ -192,7 +195,7 @@ public class MainUserInfoView extends ConstraintLayout {
     }
 
     public void setUnbindDrawable(@DrawableRes int resId) {
-        viewUnbind.setBackgroundResource(resId);
+        ivUnbind.setImageResource(resId);
     }
 
     public void setNftMask(@DrawableRes int resId) {

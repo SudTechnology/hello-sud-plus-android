@@ -181,6 +181,9 @@ public class InternalWalletBindActivity extends BaseActivity {
                 }
             }
         });
+        viewClearPhone.setOnClickListener((v) -> {
+            etPhone.setText("");
+        });
         tvSmsCode.setOnClickListener(v -> {
             sendSmsCode();
         });

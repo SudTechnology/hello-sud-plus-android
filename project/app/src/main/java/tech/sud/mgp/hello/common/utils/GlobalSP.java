@@ -29,4 +29,5 @@ public class GlobalSP {
     public static SPUtils getSP() {
         return SPUtils.getInstance(SP_NAME);
     }
+
 }

@@ -18,6 +18,18 @@ public class HSUserInfo {
     public static int headerType; // 头像类型（0图片，1nft）
     public static String headerNftUrl; // 头像nft图片
 
+    // 清除数据
+    public static void clear() {
+        HSUserInfo.userId = -1;
+        HSUserInfo.nickName = null;
+        HSUserInfo.gender = null;
+        HSUserInfo.token = null;
+        HSUserInfo.avatar = null;
+        HSUserInfo.refreshToken = null;
+        HSUserInfo.headerType = 0;
+        HSUserInfo.headerNftUrl = null;
+    }
+
     public static String getUseAvatar() {
         if (HSUserInfo.headerType == 1) {
             return headerNftUrl;

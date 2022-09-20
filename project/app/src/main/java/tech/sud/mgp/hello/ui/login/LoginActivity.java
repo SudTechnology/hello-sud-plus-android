@@ -188,6 +188,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     HSUserInfoConverter.conver(t.getData());
                     configViewModel.getBaseConfig(LoginActivity.this);
                 } else {
+                    if (t.getRetCode() == RetCode.USER_NONENTITY) { // 用户不存在
+                        HSUserInfo.clear();
+                        GlobalSP.getSP().clear();
+                        nameTv.setText(randomName());
+                    }
                     isLogin = false;
                 }
             }

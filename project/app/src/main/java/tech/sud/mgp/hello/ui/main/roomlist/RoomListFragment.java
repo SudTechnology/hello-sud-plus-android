@@ -87,7 +87,6 @@ public class RoomListFragment extends BaseFragment {
         adapter = new RoomListAdapter();
         roomRecyclerView.setAdapter(adapter);
         roomRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        nftViewModel.initData(requireContext());
     }
 
     @Override

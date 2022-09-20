@@ -113,7 +113,6 @@ public class HomeFragment extends BaseFragment implements CreatRoomClickListener
     protected void initData() {
         super.initData();
         loadList();
-        nftViewModel.initData(requireContext());
     }
 
     @Override

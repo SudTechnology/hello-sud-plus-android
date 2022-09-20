@@ -11,7 +11,6 @@ import com.blankj.utilcode.util.ToastUtils;
 import java.util.List;
 
 import tech.sud.mgp.SudMGPWrapper.utils.SudJsonUtils;
-import tech.sud.mgp.hello.BuildConfig;
 import tech.sud.mgp.hello.app.APPConfig;
 import tech.sud.mgp.hello.common.base.BaseViewModel;
 import tech.sud.mgp.hello.common.http.param.RetCode;
@@ -31,7 +30,7 @@ import tech.sud.mgp.hello.ui.main.nft.model.WalletChainInfo;
 import tech.sud.mgp.hello.ui.main.nft.model.WalletChainInfoConvertor;
 import tech.sud.mgp.hello.ui.main.nft.model.WalletInfoModel;
 import tech.sud.mgp.hello.ui.main.nft.model.ZoneType;
-import tech.sud.nft.core.ISudNFTD;
+import tech.sud.mgp.hello.ui.scenes.base.utils.EnvUtils;
 import tech.sud.nft.core.listener.ISudNFTListenerBindCnWallet;
 import tech.sud.nft.core.listener.ISudNFTListenerBindWallet;
 import tech.sud.nft.core.listener.ISudNFTListenerGenCnNFTCredentialsToken;
@@ -407,8 +406,7 @@ public class NFTViewModel extends BaseViewModel {
             }
             return;
         }
-        initEnv();
-
+        EnvUtils.initNftEnv();
         SudInitNFTParamModel model = new SudInitNFTParamModel();
         model.context = context;
         model.appId = sudConfig.appId;
@@ -416,17 +414,6 @@ public class NFTViewModel extends BaseViewModel {
         model.userId = HSUserInfo.userId + "";
         model.isTestEnv = APPConfig.GAME_IS_TEST_ENV;
         mSudNFTProxy.initNFT(model, listener);
-    }
-
-    private void initEnv() {
-        // region 为demo代码，直接忽略
-        if ("dev".equalsIgnoreCase(BuildConfig.nftEnv)) {
-            ISudNFTD.e(4);
-            ISudNFTD.d();
-        } else if ("fat".equalsIgnoreCase(BuildConfig.nftEnv)) {
-            ISudNFTD.e(3);
-        }
-        // endregion 为demo代码，直接忽略
     }
 
     /** 获取钱包列表 */

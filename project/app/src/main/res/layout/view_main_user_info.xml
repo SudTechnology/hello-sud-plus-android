@@ -97,6 +97,7 @@
         android:layout_height="26dp"
         android:padding="4dp"
         android:src="@drawable/ic_unbind"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

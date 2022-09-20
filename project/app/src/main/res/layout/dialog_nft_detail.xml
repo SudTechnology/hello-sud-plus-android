@@ -151,6 +151,7 @@
                     android:layout_width="12dp"
                     android:layout_height="12dp"
                     android:layout_marginStart="2dp"
+                    android:translationY="2dp"
                     android:background="@drawable/ic_arrow_down" />
 
             </LinearLayout>

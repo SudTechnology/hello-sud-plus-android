@@ -635,6 +635,7 @@ public class NFTViewModel extends BaseViewModel {
         model.chainType = bindWalletInfoModel.getChainType();
         model.contractAddress = wearNft.contractAddress;
         model.tokenId = wearNft.tokenId;
+        model.extension = wearNft.extension;
         mSudNFTProxy.genNFTCredentialsToken(model, new ISudNFTListenerGenNFTCredentialsToken() {
             @Override
             public void onSuccess(SudNFTGenNFTCredentialsTokenModel resp) {

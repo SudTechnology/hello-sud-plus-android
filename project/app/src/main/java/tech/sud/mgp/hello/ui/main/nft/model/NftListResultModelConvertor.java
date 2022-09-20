@@ -33,6 +33,7 @@ public class NftListResultModelConvertor {
         destNftInfo.fileUrl = srcNftInfo.fileUrl;
         destNftInfo.fileType = srcNftInfo.fileType;
         destNftInfo.coverUrl = srcNftInfo.coverUrl;
+        destNftInfo.extension = srcNftInfo.extension;
         return destNftInfo;
     }
 

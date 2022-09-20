@@ -2,6 +2,8 @@ package tech.sud.mgp.hello.ui.main.nft.model;
 
 import android.text.TextUtils;
 
+import org.json.JSONObject;
+
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -36,6 +38,9 @@ public class NftModel implements Serializable {
 
     /** 封面地址 */
     public String coverUrl;
+
+    /** 扩展字段 */
+    public JSONObject extension;
 
     // region 国内钱包
     /** 藏品id */

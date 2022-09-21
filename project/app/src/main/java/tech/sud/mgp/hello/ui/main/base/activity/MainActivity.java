@@ -75,6 +75,7 @@ public class MainActivity extends BaseActivity implements MainTabView.TabClickLi
         super.initData();
         new NotifyChannelHelper().initChannel(this);
         getBaseConfig();
+        nftViewModel.initData(this);
     }
 
     private void getBaseConfig() {
@@ -221,12 +222,6 @@ public class MainActivity extends BaseActivity implements MainTabView.TabClickLi
             }
         }
         return false;
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        nftViewModel.initData(this);
     }
 
 }

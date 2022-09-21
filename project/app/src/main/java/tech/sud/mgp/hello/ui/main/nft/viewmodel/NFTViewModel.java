@@ -264,7 +264,7 @@ public class NFTViewModel extends BaseViewModel {
             @Override
             public void onSuccess(SudNFTGetCnNFTListModel resp) {
                 if (listener != null) {
-                    listener.onSuccess(NftListResultModelConvertor.conver(resp));
+                    listener.onSuccess(NftListResultModelConvertor.conver(0, resp));
                 }
             }
 
@@ -384,7 +384,7 @@ public class NFTViewModel extends BaseViewModel {
             @Override
             public void onSuccess(SudNFTGetNFTListModel resp) {
                 if (listener != null) {
-                    listener.onSuccess(NftListResultModelConvertor.conver(resp));
+                    listener.onSuccess(NftListResultModelConvertor.conver(model.chainType, resp));
                 }
             }
 

@@ -55,6 +55,8 @@ public class NftModel implements Serializable {
     public long walletType; // 当前使用的钱包类型
 
     public int zoneType; // 区域类型 0国外 1国内
+
+    public long chainType; // 链类型
     // endregion 自定义参数
 
     /** 获取显示的URL */
@@ -73,11 +75,12 @@ public class NftModel implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         NftModel nftModel = (NftModel) o;
-        return Objects.equals(contractAddress, nftModel.contractAddress) && Objects.equals(tokenId, nftModel.tokenId);
+        return Objects.equals(contractAddress, nftModel.contractAddress) && Objects.equals(tokenId, nftModel.tokenId)
+                && Objects.equals(chainType, nftModel.chainType);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(contractAddress, tokenId);
+        return Objects.hash(contractAddress, tokenId, chainType);
     }
 }

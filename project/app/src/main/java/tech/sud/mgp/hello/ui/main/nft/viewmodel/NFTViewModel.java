@@ -802,6 +802,7 @@ public class NFTViewModel extends BaseViewModel {
         if (model == null) {
             return;
         }
+        model.chainInfo = model.getDefaultChainInfo(); // 切换钱包之后，把使用的链设置为第一个
         bindWalletInfoModel.walletType = model.type;
 
         saveBindWalletInfo(bindWalletInfoModel);

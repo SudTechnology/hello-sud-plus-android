@@ -427,7 +427,7 @@ public class SudNFTProxy {
 
     /** 抽取错误码共性，统一处理 */
     private void processonFailure(Long walletType, int code, String msg) {
-        if (code == 1008) { // 钱包令牌无效，执行解绑
+        if (code == 1008 || code == 1020) { // 钱包令牌无效，执行解绑
             if (walletType != null) {
                 // 清除本地信息
                 mViewModel.tokenFailed(walletType);

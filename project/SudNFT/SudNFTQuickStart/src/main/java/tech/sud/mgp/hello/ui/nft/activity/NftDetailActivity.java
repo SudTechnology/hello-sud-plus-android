@@ -34,7 +34,7 @@ import tech.sud.mgp.hello.ui.nft.fragment.OverseasNftContentFragment;
 import tech.sud.mgp.hello.ui.nft.model.BindWalletInfoModel;
 import tech.sud.mgp.hello.ui.nft.model.NftModel;
 import tech.sud.mgp.hello.ui.nft.model.ZoneType;
-import tech.sud.mgp.hello.ui.nft.viewmodel.QuickStartNFTViewModel;
+import tech.sud.mgp.hello.ui.nft.viewmodel.NFTViewModel;
 
 /**
  * nft详情页
@@ -47,7 +47,7 @@ public class NftDetailActivity extends BaseActivity {
     private TextView tvOperate;
     private View viewOperate;
 
-    private final QuickStartNFTViewModel viewModel = new QuickStartNFTViewModel();
+    private final NFTViewModel viewModel = new NFTViewModel();
 
     private boolean nftLoadSuccess; // 标识NFT图片是否加载成功了
 
@@ -97,11 +97,11 @@ public class NftDetailActivity extends BaseActivity {
 
         // 国外国内钱包展示不同的信息
         BindWalletInfoModel bindWalletInfo = viewModel.getBindWalletInfo();
-        if (bindWalletInfo != null && bindWalletInfo.zoneType == ZoneType.OVERSEAS) {
+        if (bindWalletInfo != null && bindWalletInfo.getZoneType() == ZoneType.OVERSEAS) {
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.container, OverseasNftContentFragment.newInstance(nftModel), null);
             fragmentTransaction.commit();
-        } else if (bindWalletInfo != null && bindWalletInfo.zoneType == ZoneType.INTERNAL) {
+        } else if (bindWalletInfo != null && bindWalletInfo.getZoneType() == ZoneType.INTERNAL) {
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.container, InternalNftContentFragment.newInstance(nftModel), null);
             fragmentTransaction.commit();
@@ -143,7 +143,7 @@ public class NftDetailActivity extends BaseActivity {
         if (wearNft == null || !wearNft.equals(nftModel)) {
             viewModel.wearNft(nftModel);
         } else {
-            viewModel.cancelWearNft();
+            viewModel.cancelWearNft(null);
         }
     }
 

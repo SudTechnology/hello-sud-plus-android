@@ -10,9 +10,26 @@
         android:layout_height="56dp"
         app:civ_cornerRadius="56dp"
         android:scaleType="centerCrop"
-        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- NFT图像，六边形 -->
+    <ImageView
+        android:id="@+id/iv_nft_icon"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/view_nft_mask"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="@id/iv_nft_icon"
+        app:layout_constraintEnd_toEndOf="@id/iv_nft_icon"
+        app:layout_constraintTop_toTopOf="@id/iv_nft_icon"
+        app:layout_constraintBottom_toBottomOf="@id/iv_nft_icon" />
 
     <LinearLayout
         android:layout_width="0dp"
@@ -20,7 +37,6 @@
         android:orientation="vertical"
         android:gravity="center_vertical"
         android:layout_marginHorizontal="10dp"
-        android:visibility="gone"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/view_unbind"
@@ -43,31 +59,44 @@
             android:textColor="#13141a"
             android:textSize="12sp" />
 
-        <TextView
-            android:id="@+id/tv_wallet_address"
+        <LinearLayout
+            android:id="@+id/container_wallet_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxWidth="159dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
             android:layout_marginTop="4dp"
-            android:singleLine="true"
-            android:ellipsize="middle"
-            android:textColor="#333333"
-            android:textSize="12sp"
-            android:visibility="gone"
             android:paddingHorizontal="8dp"
             android:paddingVertical="2dp"
-            android:background="@drawable/shape_round_b3dbdeec" />
+            android:background="@drawable/shape_round_b3dbdeec">
+
+            <TextView
+                android:id="@+id/tv_wallet_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxWidth="159dp"
+                android:singleLine="true"
+                android:ellipsize="middle"
+                android:textColor="#333333"
+                android:textSize="12sp" />
+
+            <View
+                android:id="@+id/view_wallet_address_arrow"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:background="@drawable/ic_address_arrow"
+                android:layout_marginStart="7dp" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
-    <View
+    <ImageView
         android:id="@+id/view_unbind"
-        android:layout_width="18dp"
-        android:layout_height="18dp"
-        android:layout_marginBottom="2dp"
-        android:background="@drawable/ic_unbind"
-        android:layout_marginEnd="4dp"
-        app:layout_goneMarginBottom="1dp"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:padding="4dp"
+        android:src="@drawable/ic_unbind"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

@@ -11,7 +11,7 @@ import tech.sud.mgp.hello.common.listener.CompletedListener;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.utils.LifecycleUtils;
 import tech.sud.mgp.hello.common.widget.dialog.TitleInfoDialog;
-import tech.sud.mgp.hello.ui.nft.viewmodel.QuickStartNFTViewModel;
+import tech.sud.mgp.hello.ui.nft.viewmodel.NFTViewModel;
 import tech.sud.nft.core.listener.ISudNFTListenerBindWallet;
 import tech.sud.nft.core.model.resp.SudNFTBindWalletEvent;
 import tech.sud.nft.core.model.resp.SudNFTBindWalletModel;
@@ -26,8 +26,9 @@ public class NftBindingDialog extends BaseDialogFragment {
     private View viewClose;
     private View viewStatus;
     private TextView tvStatus;
-    public QuickStartNFTViewModel viewModel;
+    public NFTViewModel viewModel;
     public SudNFTGetWalletListModel.WalletInfo walletInfo;
+    private onBindSuccessListener onBindSuccessListener;
 
     @Override
     protected int getLayoutId() {
@@ -103,9 +104,18 @@ public class NftBindingDialog extends BaseDialogFragment {
     }
 
     private void processOnSuccess(SudNFTBindWalletModel model) {
-        tvStatus.postDelayed(() -> {
-            dismiss();
-        }, 3000);
+        if (onBindSuccessListener != null) {
+            onBindSuccessListener.onBindSuccess();
+        }
+        tvStatus.postDelayed(this::dismissAllowingStateLoss, 3000);
+    }
+
+    public void setOnBindSuccessListener(NftBindingDialog.onBindSuccessListener onBindSuccessListener) {
+        this.onBindSuccessListener = onBindSuccessListener;
+    }
+
+    public interface onBindSuccessListener {
+        void onBindSuccess();
     }
 
     private void processOnBindStageList(List<SudNFTBindWalletStage> list) {

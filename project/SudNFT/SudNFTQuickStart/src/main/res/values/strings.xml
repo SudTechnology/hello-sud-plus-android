@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">QuickStart</string>
 
+    <string name="setting_userid">用户ID %1$s</string>
+    <string name="loading">正在加载中&#8230;</string>
+    <string name="load_failed">加载失败，请点我重试</string>
+    <string name="no_more">-这是一条有态度的底线-</string>
+    <string name="load_completed">加载完成</string>
+    <string name="connect_your_wallet">连接账户，同步你的NFT或数字藏品</string>
     <string name="cancel">取消</string>
     <string name="confirm">确定</string>
     <string name="net_error_hint">网络错误，请检查网络连接</string>
@@ -46,7 +52,7 @@
     <string name="bind_phone_title">%1$s账号授权</string>
     <string name="bind">绑定</string>
     <string name="unbind">解绑</string>
-    <string name="binded_info">已绑定：%1$s</string>
+    <string name="binded_info">已绑定：</string>
     <string name="auth_wallet_account">授权%1$s账号</string>
     <string name="get_auth_code">获取验证码</string>
     <string name="auth_code_hint">请输入验证码</string>
@@ -68,12 +74,31 @@
     <string name="my_digital_collection">我的数字藏品</string>
     <string name="no_digital_collection">尚无数字藏品</string>
     <string name="auth_success">授权成功</string>
-    <string name="auth_code_fail">验证码错误</string>
-    <string name="connect_your_wallet">连接账户，同步你的NFT或数字藏品</string>
-    <string name="loading">正在加载中&#8230;</string>
-    <string name="load_failed">加载失败，请点我重试</string>
-    <string name="no_more">-这是一条有态度的底线-</string>
-    <string name="load_completed">加载完成</string>
-    <string name="setting_userid">用户ID %1$s</string>
+    <string name="nft_code_1019">NFT详情令牌过期</string>
+    <string name="nft_code_1020">钱包类型不支持</string>
+    <string name="nft_code_1021">发送验证码失败</string>
+    <string name="nft_code_1022">绑定用户失败</string>
+    <string name="nft_code_1023">藏品列表获取失败</string>
+    <string name="nft_code_1024">藏品信息获取失败</string>
+    <string name="nft_code_1025">藏品不属于用户</string>
+    <string name="nft_code_1026">短信验证码发送太频繁</string>
+    <string name="nft_code_1027">手机号已被绑定</string>
+    <string name="nft_code_1028">该手机号已被其他用户绑定</string>
+    <string name="nft_code_1029">用户解绑失败</string>
+    <string name="nft_code_1030">验证码错误</string>
+    <string name="nft_detail">NFT详情</string>
+    <string name="description">Description</string>
+    <string name="see_more">see more</string>
+    <string name="see_less">see less</string>
+    <string name="user_id_content">用户ID %1$s</string>
+    <string name="spread">展开</string>
+    <string name="unbind_overseas_wallet_title">解绑后，HelloSud将不再展示\n当前钱包地址上拥有的NFT</string>
+    <string name="is_binding_wallet_address">已绑定的钱包地址</string>
+    <string name="click_change_address">点击切换地址</string>
+    <string name="click_change_network">点击切换网络</string>
+    <string name="works_desc">作品描述</string>
+    <string name="internal_nft_title">数字藏品详情</string>
+    <string name="pack_up">收起</string>
+
 
 </resources>

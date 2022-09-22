@@ -25,7 +25,6 @@
         android:layout_height="0dp"
         android:paddingBottom="10dp"
         android:clipToPadding="false"
-        android:layout_marginTop="10dp"
         app:layout_constraintTop_toBottomOf="@id/user_info_view"
         app:layout_constraintBottom_toBottomOf="parent">
 
@@ -34,26 +33,54 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- 钱包列表 -->
-            <tech.sud.mgp.hello.ui.nft.widget.WalletListView
-                android:id="@+id/wallet_list_view"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:layout_marginTop="19dp"
-                android:layout_marginHorizontal="16dp" />
+                android:layout_height="wrap_content">
 
-            <!-- 钱包信息View -->
-            <tech.sud.mgp.hello.ui.nft.widget.WalletInfoView
-                android:id="@+id/wallet_info_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:layout_marginTop="19dp"
-                android:layout_marginHorizontal="16dp" />
+                <!-- 钱包列表 -->
+                <tech.sud.mgp.hello.ui.nft.widget.WalletListView
+                    android:id="@+id/wallet_list_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:layout_marginTop="29dp"
+                    android:layout_marginHorizontal="16dp"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <!-- 点击切换网络的引导 -->
+                <tech.sud.mgp.hello.ui.nft.widget.NftGuideView
+                    android:id="@+id/guide_view_change_network"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:ngv_text="@string/click_change_network"
+                    android:visibility="invisible"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <!-- 钱包信息View -->
+                <tech.sud.mgp.hello.ui.nft.widget.WalletInfoView
+                    android:id="@+id/wallet_info_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:layout_marginHorizontal="16dp"
+                    app:layout_constraintTop_toBottomOf="@id/guide_view_change_network" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
+
+    <!-- 点击切换地址的引导 -->
+    <tech.sud.mgp.hello.ui.nft.widget.NftGuideView
+        android:id="@+id/guide_view_change_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:ngv_text="@string/click_change_address"
+        android:visibility="invisible"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

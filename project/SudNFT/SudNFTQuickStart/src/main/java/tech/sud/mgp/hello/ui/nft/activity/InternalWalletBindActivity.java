@@ -33,7 +33,7 @@ import tech.sud.mgp.hello.common.utils.ResponseUtils;
 import tech.sud.mgp.hello.common.utils.RouterUtils;
 import tech.sud.mgp.hello.common.widget.view.HSTopBar;
 import tech.sud.mgp.hello.common.widget.view.SimpleTextWatcher;
-import tech.sud.mgp.hello.ui.nft.viewmodel.QuickStartNFTViewModel;
+import tech.sud.mgp.hello.ui.nft.viewmodel.NFTViewModel;
 import tech.sud.nft.core.listener.ISudNFTListenerBindCnWallet;
 import tech.sud.nft.core.listener.ISudNFTListenerSendSmsCode;
 import tech.sud.nft.core.model.resp.SudNFTBindCnWalletModel;
@@ -60,7 +60,7 @@ public class InternalWalletBindActivity extends BaseActivity {
     private static long sendSmsCodeTimestamp;
     private final int countdownTotalCount = 60;
     private CustomCountdownTimer sendSmsCodeCountdownTimer;
-    private final QuickStartNFTViewModel viewModel = new QuickStartNFTViewModel();
+    private final NFTViewModel viewModel = new NFTViewModel();
 
     public static void start(Context context, SudNFTGetWalletListModel.WalletInfo walletInfo) {
         Intent intent = new Intent(context, InternalWalletBindActivity.class);
@@ -181,6 +181,9 @@ public class InternalWalletBindActivity extends BaseActivity {
                 }
             }
         });
+        viewClearPhone.setOnClickListener((v) -> {
+            etPhone.setText("");
+        });
         tvSmsCode.setOnClickListener(v -> {
             sendSmsCode();
         });
@@ -216,11 +219,7 @@ public class InternalWalletBindActivity extends BaseActivity {
             public void onFailure(int code, String msg) {
                 LifecycleUtils.safeLifecycle(context, () -> {
                     tvConfirm.setEnabled(true);
-                    if (code == 1030) {
-                        ToastUtils.showLong(R.string.auth_code_fail);
-                    } else {
-                        ToastUtils.showLong(ResponseUtils.conver(code, msg));
-                    }
+                    ToastUtils.showLong(ResponseUtils.nftConver(code, msg));
                 });
             }
         });
@@ -243,7 +242,7 @@ public class InternalWalletBindActivity extends BaseActivity {
             public void onFailure(int code, String msg) {
                 LifecycleUtils.safeLifecycle(context, () -> {
                     tvSmsCode.setEnabled(true);
-                    ToastUtils.showLong(ResponseUtils.conver(code, msg));
+                    ToastUtils.showLong(ResponseUtils.nftConver(code, msg));
                 });
             }
         });

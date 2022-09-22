@@ -7,7 +7,7 @@ import tech.sud.nft.core.model.resp.SudNFTGetNFTListModel;
 
 public class NftListResultModelConvertor {
 
-    public static NftListResultModel conver(SudNFTGetNFTListModel src) {
+    public static NftListResultModel conver(long chainType, SudNFTGetNFTListModel src) {
         if (src == null) {
             return null;
         }
@@ -17,13 +17,13 @@ public class NftListResultModelConvertor {
         if (src.nftList != null) {
             dest.list = new ArrayList<>();
             for (SudNFTGetNFTListModel.NFTInfo srcNFTInfo : src.nftList) {
-                dest.list.add(conver(srcNFTInfo));
+                dest.list.add(conver(chainType, srcNFTInfo));
             }
         }
         return dest;
     }
 
-    public static NftModel conver(SudNFTGetNFTListModel.NFTInfo srcNftInfo) {
+    private static NftModel conver(long chainType, SudNFTGetNFTListModel.NFTInfo srcNftInfo) {
         NftModel destNftInfo = new NftModel();
         destNftInfo.contractAddress = srcNftInfo.contractAddress;
         destNftInfo.tokenId = srcNftInfo.tokenId;
@@ -33,10 +33,12 @@ public class NftListResultModelConvertor {
         destNftInfo.fileUrl = srcNftInfo.fileUrl;
         destNftInfo.fileType = srcNftInfo.fileType;
         destNftInfo.coverUrl = srcNftInfo.coverUrl;
+        destNftInfo.extension = srcNftInfo.extension;
+        destNftInfo.chainType = chainType;
         return destNftInfo;
     }
 
-    public static NftListResultModel conver(SudNFTGetCnNFTListModel src) {
+    public static NftListResultModel conver(long chainType, SudNFTGetCnNFTListModel src) {
         if (src == null) {
             return null;
         }
@@ -45,13 +47,13 @@ public class NftListResultModelConvertor {
         if (src.list != null) {
             dest.list = new ArrayList<>();
             for (SudNFTGetCnNFTListModel.CnNFTInfo srcNFTInfo : src.list) {
-                dest.list.add(conver(srcNFTInfo));
+                dest.list.add(conver(chainType, srcNFTInfo));
             }
         }
         return dest;
     }
 
-    public static NftModel conver(SudNFTGetCnNFTListModel.CnNFTInfo srcNftInfo) {
+    private static NftModel conver(long chainType, SudNFTGetCnNFTListModel.CnNFTInfo srcNftInfo) {
         NftModel destNftInfo = new NftModel();
         destNftInfo.name = srcNftInfo.name;
         destNftInfo.description = srcNftInfo.desc;
@@ -61,6 +63,7 @@ public class NftListResultModelConvertor {
         destNftInfo.contractAddress = srcNftInfo.cardHash;
         destNftInfo.tokenId = srcNftInfo.chainAddr;
         destNftInfo.cardId = srcNftInfo.cardId;
+        destNftInfo.chainType = chainType;
 //        destNftInfo.tokenType = srcNftInfo.tokenType;
         return destNftInfo;
     }

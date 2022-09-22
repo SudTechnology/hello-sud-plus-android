@@ -1,7 +1,9 @@
 package tech.sud.mgp.hello.ui.main;
 
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.lifecycle.Observer;
 
@@ -16,20 +18,22 @@ import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseActivity;
 import tech.sud.mgp.hello.common.event.LiveEventBusKey;
 import tech.sud.mgp.hello.common.event.NftTokenInvalidEvent;
+import tech.sud.mgp.hello.common.listener.CompletedListener;
+import tech.sud.mgp.hello.common.utils.GlobalSP;
 import tech.sud.mgp.hello.common.utils.LifecycleUtils;
 import tech.sud.mgp.hello.common.utils.ResponseUtils;
 import tech.sud.mgp.hello.common.utils.ViewUtils;
-import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
 import tech.sud.mgp.hello.ui.nft.activity.InternalWalletBindActivity;
 import tech.sud.mgp.hello.ui.nft.activity.NftListActivity;
-import tech.sud.mgp.hello.ui.nft.listener.OnSelectedWalletListener;
 import tech.sud.mgp.hello.ui.nft.model.BindWalletInfoModel;
 import tech.sud.mgp.hello.ui.nft.model.WalletInfoModel;
 import tech.sud.mgp.hello.ui.nft.model.ZoneType;
-import tech.sud.mgp.hello.ui.nft.viewmodel.QuickStartNFTViewModel;
+import tech.sud.mgp.hello.ui.nft.viewmodel.NFTViewModel;
+import tech.sud.mgp.hello.ui.nft.widget.NftGuideView;
 import tech.sud.mgp.hello.ui.nft.widget.WalletInfoView;
 import tech.sud.mgp.hello.ui.nft.widget.WalletListView;
 import tech.sud.mgp.hello.ui.nft.widget.dialog.ChangeInternalAccountDialog;
+import tech.sud.mgp.hello.ui.nft.widget.dialog.ChangeOverseasWalletDialog;
 import tech.sud.mgp.hello.ui.nft.widget.dialog.InternalWalletListDialog;
 import tech.sud.mgp.hello.ui.nft.widget.dialog.NftBindingDialog;
 import tech.sud.mgp.hello.ui.nft.widget.dialog.NftChainDialog;
@@ -42,14 +46,21 @@ import tech.sud.nft.core.model.resp.SudNFTGetWalletListModel;
  */
 public class MainActivity extends BaseActivity {
 
-    private WalletListView walletListView;
-    private WalletInfoView walletInfoView;
-    private final QuickStartNFTViewModel viewModel = new QuickStartNFTViewModel();
-    private MainUserInfoView userInfoView;
-
     @Override
     protected int getLayoutId() {
         return R.layout.activity_main;
+    }
+
+    private WalletListView walletListView;
+    private WalletInfoView walletInfoView;
+    private NftGuideView guideViewChangeAddress;
+    private NftGuideView guideViewChangeNetwork;
+    private final NFTViewModel nftViewModel = new NFTViewModel();
+    private MainUserInfoView userInfoView;
+
+    @Override
+    protected void setStatusBar() {
+        ImmersionBar.with(this).statusBarColor(R.color.transparent).statusBarDarkFont(true).init();
     }
 
     @Override
@@ -58,22 +69,54 @@ public class MainActivity extends BaseActivity {
         userInfoView = findViewById(R.id.user_info_view);
         walletListView = findViewById(R.id.wallet_list_view);
         walletInfoView = findViewById(R.id.wallet_info_view);
+        guideViewChangeAddress = findViewById(R.id.guide_view_change_address);
+        guideViewChangeNetwork = findViewById(R.id.guide_view_change_network);
 
+        userInfoView.setNftMask(R.drawable.ic_nft_mask_gray);
         View viewStatusBar = findViewById(R.id.view_statusbar);
-        ViewUtils.setHeight(viewStatusBar, ImmersionBar.getStatusBarHeight(this));
+        ViewUtils.setHeight(viewStatusBar, ImmersionBar.getStatusBarHeight(context));
     }
 
     @Override
     protected void initData() {
         super.initData();
-        viewModel.initData(context);
+        nftViewModel.initData(context);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        viewModel.initData(context);
+        nftViewModel.initData(context);
         userInfoView.updateUserInfo();
+        checkShowGuide();
+    }
+
+    private void checkShowGuide() {
+        BindWalletInfoModel bindWalletInfoModel = NFTViewModel.sBindWalletInfo;
+        // 先展示切换地址引导
+        if (bindWalletInfoModel == null) {
+            hideChangeNetworkGuide();
+            hideChangeAddressGuide();
+            return;
+        }
+        WalletInfoModel walletInfoModel = bindWalletInfoModel.getWalletInfoModel(bindWalletInfoModel.walletType);
+        if (walletInfoModel == null || walletInfoModel.zoneType != ZoneType.OVERSEAS
+                || TextUtils.isEmpty(walletInfoModel.walletAddress)) {
+            hideChangeNetworkGuide();
+            hideChangeAddressGuide();
+            return;
+        }
+        showChangeAddressGuide();
+
+        if (guideViewChangeAddress.getVisibility() == View.VISIBLE) {
+            return;
+        }
+
+        // 切换地址引导不展示再判断是否要展示切换网络引导
+        WalletInfoModel firstWalletInfoModel = bindWalletInfoModel.getFirstWalletInfoModel();
+        if (firstWalletInfoModel != null && firstWalletInfoModel.zoneType == ZoneType.OVERSEAS) {
+            showChangeNetworkGuide();
+        }
     }
 
     @Override
@@ -84,24 +127,34 @@ public class MainActivity extends BaseActivity {
     }
 
     private void setNftListeners() {
-        viewModel.initDataShowWalletListLiveData.observe(this, model -> {
+        nftViewModel.initDataShowWalletListLiveData.observe(this, model -> {
             LogUtils.d("nft:showWallet");
-            // TODO: 2022/8/25 钱包列表
         });
-        viewModel.initDataShowNftListLiveData.observe(this, model -> {
+        nftViewModel.initDataShowNftListLiveData.observe(this, model -> {
             walletInfoView.setDatas(model);
-            BindWalletInfoModel bindWalletInfo = viewModel.getBindWalletInfo();
+            BindWalletInfoModel bindWalletInfo = nftViewModel.getBindWalletInfo();
             if (bindWalletInfo != null) {
                 setChainInfo(bindWalletInfo);
             }
         });
-        viewModel.bindWalletInfoMutableLiveData.observe(this, this::showWalletInfo);
+        nftViewModel.bindWalletInfoMutableLiveData.observe(this, this::showWalletInfo);
         LiveEventBus.<NftTokenInvalidEvent>get(LiveEventBusKey.KEY_NFT_TOKEN_INVALID).observe(this, new Observer<NftTokenInvalidEvent>() {
             @Override
             public void onChanged(NftTokenInvalidEvent nftTokenInvalidEvent) {
-                viewModel.initData(context);
+                nftViewModel.initData(context);
             }
         });
+    }
+
+    private void showChangeOverseasWalletDialog() {
+        ChangeOverseasWalletDialog dialog = new ChangeOverseasWalletDialog();
+        dialog.setChangeWalletListener(new ChangeOverseasWalletDialog.ChangeWalletListener() {
+            @Override
+            public void onChange(WalletInfoModel model) {
+                nftViewModel.initData(context);
+            }
+        });
+        dialog.show(getSupportFragmentManager(), null);
     }
 
     private void showWalletInfo(BindWalletInfoModel model) {
@@ -116,21 +169,22 @@ public class MainActivity extends BaseActivity {
         }
         walletInfoView.setBindWallet(model);
         userInfoView.updateUserInfo();
+        checkShowGuide();
 
         if (model == null) {
             userInfoView.setShowUnbind(false);
         } else {
             userInfoView.setShowUnbind(true);
-            if (model.zoneType == ZoneType.INTERNAL) {
+            if (model.getZoneType() == ZoneType.INTERNAL) {
                 userInfoView.setUnbindDrawable(R.drawable.ic_cn_nft_unbind);
             } else {
-                userInfoView.setUnbindDrawable(R.drawable.ic_unbind);
+                userInfoView.setUnbindDrawable(R.drawable.ic_change_overseas_wallet);
             }
         }
     }
 
     private void setChainInfo(BindWalletInfoModel model) {
-        viewModel.getWalletList(new ISudNFTListenerGetWalletList() {
+        nftViewModel.getWalletList(new ISudNFTListenerGetWalletList() {
             @Override
             public void onSuccess(SudNFTGetWalletListModel resp) {
                 List<SudNFTGetWalletListModel.WalletInfo> walletList;
@@ -149,8 +203,56 @@ public class MainActivity extends BaseActivity {
         });
     }
 
+    /** 显示切换地址的引导 */
+    private void showChangeAddressGuide() {
+        boolean shown = GlobalSP.getSP().getBoolean(GlobalSP.KEY_SHOWN_CHANGE_ADDRESS_GUIDE);
+        if (shown) {
+            return;
+        }
+        guideViewChangeAddress.setVisibility(View.VISIBLE);
+        View viewWalletAddressArrow = userInfoView.getViewWalletAddressArrow();
+        guideViewChangeAddress.post(new Runnable() {
+            @Override
+            public void run() {
+                int[] location = new int[2];
+                viewWalletAddressArrow.getLocationInWindow(location);
+                ViewGroup.LayoutParams params = guideViewChangeAddress.getLayoutParams();
+                if (params instanceof ViewGroup.MarginLayoutParams) {
+                    ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) params;
+                    marginLayoutParams.leftMargin = location[0] + viewWalletAddressArrow.getMeasuredWidth() / 2 - guideViewChangeAddress.getMeasuredWidth() / 2;
+                    marginLayoutParams.topMargin = location[1] - guideViewChangeAddress.getMeasuredHeight();
+                    guideViewChangeAddress.setLayoutParams(params);
+                }
+            }
+        });
+    }
+
+    private void showChangeNetworkGuide() {
+        boolean shown = GlobalSP.getSP().getBoolean(GlobalSP.KEY_SHOWN_CHANGE_NETWORK_GUIDE);
+        if (shown) {
+            return;
+        }
+        guideViewChangeNetwork.setVisibility(View.VISIBLE);
+    }
+
+    private void hideChangeNetworkGuide() {
+        guideViewChangeNetwork.setVisibility(View.INVISIBLE);
+    }
+
     private void setClickListeners() {
         walletInfoView.setChainOnClickListener(v -> onClickChain());
+        userInfoView.setUnbindOnClickListener(v -> {
+            onClickUnbindWallet();
+        });
+        userInfoView.setWalletAddressOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideChangeAddressGuide();
+                GlobalSP.getSP().put(GlobalSP.KEY_SHOWN_CHANGE_ADDRESS_GUIDE, true);
+                showChangeOverseasWalletDialog();
+                checkShowGuide();
+            }
+        });
         walletInfoView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -163,18 +265,26 @@ public class MainActivity extends BaseActivity {
         walletListView.setInternalOnClickListener(v -> {
             showInternalWalletListDialog();
         });
-        userInfoView.setUnbindOnClickListener(v -> {
-            onClickUnbindWallet();
-        });
+    }
+
+    private void hideChangeAddressGuide() {
+        guideViewChangeAddress.setVisibility(View.INVISIBLE);
     }
 
     private void showOverseasWalletListDialog() {
         OverseasWalletListDialog dialog = new OverseasWalletListDialog();
-        dialog.setOnSelectedWalletListener(new OnSelectedWalletListener() {
+        dialog.setOperateListener(new OverseasWalletListDialog.OperateListener() {
             @Override
-            public void onSelected(SudNFTGetWalletListModel.WalletInfo walletInfo) {
-                walletOnClick(walletInfo);
+            public void onBind(SudNFTGetWalletListModel.WalletInfo walletInfo) {
                 dialog.dismiss();
+                walletOnClick(walletInfo);
+            }
+
+            @Override
+            public void onUnbindCompleted(SudNFTGetWalletListModel.WalletInfo walletInfo) {
+                LifecycleUtils.safeLifecycle(MainActivity.this, () -> {
+                    nftViewModel.initData(context);
+                });
             }
         });
         dialog.show(getSupportFragmentManager(), null);
@@ -192,8 +302,8 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onUnbindCompleted(SudNFTGetWalletListModel.WalletInfo walletInfo) {
-                LifecycleUtils.safeLifecycle(context, () -> {
-                    viewModel.initData(context);
+                LifecycleUtils.safeLifecycle(MainActivity.this, () -> {
+                    nftViewModel.initData(context);
                 });
             }
         });
@@ -206,40 +316,36 @@ public class MainActivity extends BaseActivity {
     }
 
     private void onClickUnbindWallet() {
-        BindWalletInfoModel bindWalletInfo = viewModel.getBindWalletInfo();
+        BindWalletInfoModel bindWalletInfo = nftViewModel.getBindWalletInfo();
         if (bindWalletInfo == null) {
             return;
         }
-        if (bindWalletInfo.zoneType == ZoneType.OVERSEAS) {
-            SimpleChooseDialog dialog = new SimpleChooseDialog(context, getString(R.string.unbind_wallet_title));
-            dialog.setOnChooseListener(index -> {
-                if (index == 1) {
-                    viewModel.unbindWallet();
-                }
-                dialog.dismiss();
-            });
-            dialog.show();
-        } else if (bindWalletInfo.zoneType == ZoneType.INTERNAL) {
+        if (bindWalletInfo.getZoneType() == ZoneType.OVERSEAS) {
+            showOverseasWalletListDialog();
+        } else if (bindWalletInfo.getZoneType() == ZoneType.INTERNAL) {
             showInternalWalletListDialog();
         }
     }
 
     // 点击了nft链
     private void onClickChain() {
-        BindWalletInfoModel bindWalletInfo = viewModel.getBindWalletInfo();
+        BindWalletInfoModel bindWalletInfo = nftViewModel.getBindWalletInfo();
         if (bindWalletInfo == null) {
             return;
         }
-        if (bindWalletInfo.zoneType == ZoneType.OVERSEAS) {
-            NftChainDialog dialog = NftChainDialog.newInstance(bindWalletInfo.chainInfo, bindWalletInfo.chainInfoList);
-            dialog.setOnSelectedListener(viewModel::changeChain);
+        if (bindWalletInfo.getZoneType() == ZoneType.OVERSEAS) {
+            hideChangeNetworkGuide();
+            GlobalSP.getSP().put(GlobalSP.KEY_SHOWN_CHANGE_NETWORK_GUIDE, true);
+
+            NftChainDialog dialog = NftChainDialog.newInstance(bindWalletInfo.getChainInfo(), bindWalletInfo.getChainInfoList());
+            dialog.setOnSelectedListener(nftViewModel::changeChain);
             dialog.show(getSupportFragmentManager(), null);
-        } else if (bindWalletInfo.zoneType == ZoneType.INTERNAL) {
+        } else if (bindWalletInfo.getZoneType() == ZoneType.INTERNAL) {
             ChangeInternalAccountDialog dialog = new ChangeInternalAccountDialog();
             dialog.setChangeAccountListener(new ChangeInternalAccountDialog.ChangeAccountListener() {
                 @Override
                 public void onChange(WalletInfoModel model) {
-                    viewModel.initData(context);
+                    nftViewModel.initData(context);
                 }
             });
             dialog.show(getSupportFragmentManager(), null);
@@ -249,8 +355,19 @@ public class MainActivity extends BaseActivity {
     // 点击了钱包
     private void walletOnClick(SudNFTGetWalletListModel.WalletInfo walletInfo) {
         NftBindingDialog dialog = new NftBindingDialog();
-        dialog.viewModel = viewModel;
+        dialog.viewModel = nftViewModel;
         dialog.walletInfo = walletInfo;
+        dialog.setOnBindSuccessListener(new NftBindingDialog.onBindSuccessListener() {
+            @Override
+            public void onBindSuccess() {
+                LifecycleUtils.safeLifecycle(MainActivity.this, new CompletedListener() {
+                    @Override
+                    public void onCompleted() {
+                        nftViewModel.initData(context);
+                    }
+                });
+            }
+        });
         dialog.show(getSupportFragmentManager(), null);
     }
 

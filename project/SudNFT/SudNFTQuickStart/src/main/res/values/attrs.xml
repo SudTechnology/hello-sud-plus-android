@@ -50,4 +50,8 @@
         <attr name="civ_cornerRadius" format="dimension" />
     </declare-styleable>
 
+    <declare-styleable name="NftGuideView">
+        <attr name="ngv_text" format="string|reference" /> <!-- 文字 -->
+    </declare-styleable>
+
 </resources>

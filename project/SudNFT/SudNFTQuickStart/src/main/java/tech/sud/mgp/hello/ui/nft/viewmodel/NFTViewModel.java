@@ -14,6 +14,7 @@ import tech.sud.mgp.hello.app.APPConfig;
 import tech.sud.mgp.hello.common.base.BaseViewModel;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.GlobalSP;
+import tech.sud.mgp.hello.common.utils.ResponseUtils;
 import tech.sud.mgp.hello.common.utils.SudJsonUtils;
 import tech.sud.mgp.hello.service.login.repository.LoginRepository;
 import tech.sud.mgp.hello.ui.nft.model.BindWalletInfoModel;
@@ -32,8 +33,11 @@ import tech.sud.nft.core.listener.ISudNFTListenerGetCnNFTList;
 import tech.sud.nft.core.listener.ISudNFTListenerGetNFTList;
 import tech.sud.nft.core.listener.ISudNFTListenerGetWalletList;
 import tech.sud.nft.core.listener.ISudNFTListenerInitNFT;
+import tech.sud.nft.core.listener.ISudNFTListenerRemoveCnNFTCredentialsToken;
+import tech.sud.nft.core.listener.ISudNFTListenerRemoveNFTCredentialsToken;
 import tech.sud.nft.core.listener.ISudNFTListenerSendSmsCode;
 import tech.sud.nft.core.listener.ISudNFTListenerUnbindCnWallet;
+import tech.sud.nft.core.listener.ISudNFTListenerUnbindWallet;
 import tech.sud.nft.core.model.param.SudInitNFTParamModel;
 import tech.sud.nft.core.model.param.SudNFTBindCnWalletParamModel;
 import tech.sud.nft.core.model.param.SudNFTBindWalletParamModel;
@@ -41,8 +45,11 @@ import tech.sud.nft.core.model.param.SudNFTCnCredentialsTokenParamModel;
 import tech.sud.nft.core.model.param.SudNFTCredentialsTokenParamModel;
 import tech.sud.nft.core.model.param.SudNFTGetCnNFTListParamModel;
 import tech.sud.nft.core.model.param.SudNFTGetNFTListParamModel;
+import tech.sud.nft.core.model.param.SudNFTRemoveCnCredentialsTokenParamModel;
+import tech.sud.nft.core.model.param.SudNFTRemoveCredentialsTokenParamModel;
 import tech.sud.nft.core.model.param.SudNFTSendSmsCodeParamModel;
 import tech.sud.nft.core.model.param.SudNFTUnbindCnWalletParamModel;
+import tech.sud.nft.core.model.param.SudNFTUnbindWalletParamModel;
 import tech.sud.nft.core.model.resp.SudNFTBindCnWalletModel;
 import tech.sud.nft.core.model.resp.SudNFTBindWalletEvent;
 import tech.sud.nft.core.model.resp.SudNFTBindWalletModel;
@@ -57,7 +64,7 @@ import tech.sud.nft.core.model.resp.SudNFTGetWalletListModel.WalletInfo;
 /**
  * nft 业务
  */
-public class QuickStartNFTViewModel extends BaseViewModel {
+public class NFTViewModel extends BaseViewModel {
 
     /** Sud平台申请的appId */
     public static String SudMGP_APP_ID = "1461564080052506636";
@@ -79,8 +86,8 @@ public class QuickStartNFTViewModel extends BaseViewModel {
     public MutableLiveData<Object> wearNftChangeLiveData = new MutableLiveData<>();
 
     private final SudNFTProxy mSudNFTProxy = new SudNFTProxy(this);
-    private SudNFTGetWalletListModel mWalletListModel; // 钱包列表
-    private static BindWalletInfoModel sBindWalletInfo; // 已绑定的钱包数据
+    private static SudNFTGetWalletListModel mWalletListModel; // 钱包列表
+    public static BindWalletInfoModel sBindWalletInfo; // 已绑定的钱包数据
     private static boolean sIsInitCompleted; // 是否初始化完成
 
     /**
@@ -103,7 +110,7 @@ public class QuickStartNFTViewModel extends BaseViewModel {
                 @Override
                 public void onFailure(int retCode, String retMsg) {
                     sIsInitCompleted = false;
-                    ToastUtils.showLong("initNFT onFailure:" + retCode + "  retMsg:" + retMsg);
+                    ToastUtils.showLong(ResponseUtils.nftConver(retCode, retMsg));
                 }
             });
         }
@@ -135,7 +142,7 @@ public class QuickStartNFTViewModel extends BaseViewModel {
 
             @Override
             public void onFailure(int retCode, String retMsg) {
-                ToastUtils.showLong("getWalletList onFailure:" + retCode + "  retMsg:" + retMsg);
+                ToastUtils.showLong(ResponseUtils.nftConver(retCode, retMsg));
             }
         });
     }
@@ -234,25 +241,18 @@ public class QuickStartNFTViewModel extends BaseViewModel {
         walletInfoModel.name = walletInfo.name;
         walletInfoModel.icon = walletInfo.icon;
         walletInfoModel.zoneType = walletInfo.zoneType;
-        walletInfoModel.chainList = WalletChainInfoConvertor.conver(walletInfo.chainList);
+        walletInfoModel.chainInfoList = WalletChainInfoConvertor.conver(walletInfo.chainList);
+        walletInfoModel.chainInfo = walletInfoModel.getDefaultChainInfo();
         walletInfoModel.walletToken = resp.walletToken;
         walletInfoModel.phone = paramModel.phone;
         bindWalletInfoModel.addBindWallet(walletInfoModel);
 
         // 记录当前使用的钱包信息
         bindWalletInfoModel.walletType = walletInfoModel.type;
-        bindWalletInfoModel.walletToken = walletInfoModel.walletToken;
-        bindWalletInfoModel.chainInfoList = walletInfoModel.chainList;
-        bindWalletInfoModel.chainInfo = bindWalletInfoModel.getDefaultChainInfo();
-        bindWalletInfoModel.zoneType = walletInfoModel.zoneType;
-        bindWalletInfoModel.phone = walletInfoModel.phone;
         saveBindWalletInfo(bindWalletInfoModel);
         sBindWalletInfo = bindWalletInfoModel;
 
         // 全局用户信息里显示
-        HSUserInfo.walletAddress = bindWalletInfoModel.walletAddress;
-        HSUserInfo.zoneType = bindWalletInfoModel.zoneType;
-        LoginRepository.saveUserInfo();
         bindWalletInfoMutableLiveData.setValue(bindWalletInfoModel);
 
         // 获取NFT列表
@@ -265,13 +265,13 @@ public class QuickStartNFTViewModel extends BaseViewModel {
             @Override
             public void onSuccess(SudNFTGetCnNFTListModel resp) {
                 if (listener != null) {
-                    listener.onSuccess(NftListResultModelConvertor.conver(resp));
+                    listener.onSuccess(NftListResultModelConvertor.conver(0, resp));
                 }
             }
 
             @Override
             public void onFailure(int retCode, String retMsg) {
-                ToastUtils.showLong("getCNNftList onFailure:" + retCode + "  retMsg:" + retMsg);
+                ToastUtils.showLong(ResponseUtils.nftConver(retCode, retMsg));
                 if (listener != null) {
                     listener.onFailure(retCode, retMsg);
                 }
@@ -299,25 +299,18 @@ public class QuickStartNFTViewModel extends BaseViewModel {
         walletInfoModel.name = walletInfo.name;
         walletInfoModel.icon = walletInfo.icon;
         walletInfoModel.zoneType = walletInfo.zoneType;
-        walletInfoModel.chainList = WalletChainInfoConvertor.conver(walletInfo.chainList);
+        walletInfoModel.chainInfoList = WalletChainInfoConvertor.conver(walletInfo.chainList);
+        walletInfoModel.chainInfo = walletInfoModel.getDefaultChainInfo();
         walletInfoModel.walletToken = model.walletToken;
         walletInfoModel.walletAddress = model.walletAddress;
         bindWalletInfoModel.addBindWallet(walletInfoModel);
 
         // 记录当前使用的钱包信息
         bindWalletInfoModel.walletType = walletInfoModel.type;
-        bindWalletInfoModel.walletToken = walletInfoModel.walletToken;
-        bindWalletInfoModel.walletAddress = walletInfoModel.walletAddress;
-        bindWalletInfoModel.chainInfoList = walletInfoModel.chainList;
-        bindWalletInfoModel.chainInfo = bindWalletInfoModel.getDefaultChainInfo();
-        bindWalletInfoModel.zoneType = walletInfoModel.zoneType;
         saveBindWalletInfo(bindWalletInfoModel);
         sBindWalletInfo = bindWalletInfoModel;
 
         // 全局用户信息里显示
-        HSUserInfo.walletAddress = bindWalletInfoModel.walletAddress;
-        HSUserInfo.zoneType = bindWalletInfoModel.zoneType;
-        LoginRepository.saveUserInfo();
         bindWalletInfoMutableLiveData.setValue(bindWalletInfoModel);
 
         // 获取NFT列表
@@ -326,9 +319,9 @@ public class QuickStartNFTViewModel extends BaseViewModel {
 
     // 初始化数据获取nft列表
     private void initNftList(BindWalletInfoModel bindWalletInfoModel) {
-        if (bindWalletInfoModel.zoneType == ZoneType.OVERSEAS) {
+        if (bindWalletInfoModel.getZoneType() == ZoneType.OVERSEAS) {
             getNftList(bindWalletInfoModel);
-        } else if (bindWalletInfoModel.zoneType == ZoneType.INTERNAL) {
+        } else if (bindWalletInfoModel.getZoneType() == ZoneType.INTERNAL) {
             getCNNftList(bindWalletInfoModel);
         }
     }
@@ -336,7 +329,7 @@ public class QuickStartNFTViewModel extends BaseViewModel {
     private void getCNNftList(BindWalletInfoModel bindWalletInfoModel) {
         SudNFTGetCnNFTListParamModel paramModel = new SudNFTGetCnNFTListParamModel();
         paramModel.walletType = bindWalletInfoModel.walletType;
-        paramModel.walletToken = bindWalletInfoModel.walletToken;
+        paramModel.walletToken = bindWalletInfoModel.getWalletToken();
         paramModel.pageNumber = 0;
         paramModel.pageSize = APPConfig.GLOBAL_PAGE_SIZE;
         getCNNftList(paramModel, new GetNftListListener() {
@@ -354,7 +347,7 @@ public class QuickStartNFTViewModel extends BaseViewModel {
 
             @Override
             public void onFailure(int retCode, String retMsg) {
-                ToastUtils.showLong("getCNNftList onFailure:" + retCode + "  retMsg:" + retMsg);
+                ToastUtils.showLong(ResponseUtils.nftConver(retCode, retMsg));
                 LogUtils.e("nft: getCNNftList onFailure:" + retCode + "  retMsg:" + retMsg);
             }
         });
@@ -362,9 +355,9 @@ public class QuickStartNFTViewModel extends BaseViewModel {
 
     private void getNftList(BindWalletInfoModel bindWalletInfoModel) {
         SudNFTGetNFTListParamModel paramModel = new SudNFTGetNFTListParamModel();
-        paramModel.walletToken = bindWalletInfoModel.walletToken;
+        paramModel.walletToken = bindWalletInfoModel.getWalletToken();
         paramModel.chainType = bindWalletInfoModel.getChainType();
-        paramModel.walletAddress = bindWalletInfoModel.walletAddress;
+        paramModel.walletAddress = bindWalletInfoModel.getWalletAddress();
         getNftList(paramModel, new GetNftListListener() {
             @Override
             public void onSuccess(NftListResultModel model) {
@@ -380,7 +373,7 @@ public class QuickStartNFTViewModel extends BaseViewModel {
 
             @Override
             public void onFailure(int retCode, String retMsg) {
-                ToastUtils.showLong("initNftList onFailure:" + retCode + "  retMsg:" + retMsg);
+                ToastUtils.showLong(ResponseUtils.nftConver(retCode, retMsg));
                 LogUtils.e("nft: initNftList onFailure:" + retCode + "  retMsg:" + retMsg);
             }
         });
@@ -392,13 +385,13 @@ public class QuickStartNFTViewModel extends BaseViewModel {
             @Override
             public void onSuccess(SudNFTGetNFTListModel resp) {
                 if (listener != null) {
-                    listener.onSuccess(NftListResultModelConvertor.conver(resp));
+                    listener.onSuccess(NftListResultModelConvertor.conver(model.chainType, resp));
                 }
             }
 
             @Override
             public void onFailure(int retCode, String retMsg) {
-                ToastUtils.showLong("getNftList onFailure:" + retCode + "  retMsg:" + retMsg);
+                ToastUtils.showLong(ResponseUtils.nftConver(retCode, retMsg));
                 if (listener != null) {
                     listener.onFailure(retCode, retMsg);
                 }
@@ -449,7 +442,7 @@ public class QuickStartNFTViewModel extends BaseViewModel {
 
     // 本地缓存当中获取已绑定钱包信息
     private BindWalletInfoModel getBindWalletInfoByCache() {
-        String json = GlobalSP.getSP().getString(GlobalSP.NFT_BIND_WALLET_KEY);
+        String json = GlobalSP.getSP().getString(GlobalSP.KEY_NFT_BIND_WALLET);
         if (json != null) {
             return SudJsonUtils.fromJson(json, BindWalletInfoModel.class);
         }
@@ -459,7 +452,7 @@ public class QuickStartNFTViewModel extends BaseViewModel {
     // 写入已绑定钱包信息
     private void saveBindWalletInfo(BindWalletInfoModel model) {
         if (model != null) {
-            GlobalSP.getSP().put(GlobalSP.NFT_BIND_WALLET_KEY, SudJsonUtils.toJson(model));
+            GlobalSP.getSP().put(GlobalSP.KEY_NFT_BIND_WALLET, SudJsonUtils.toJson(model));
         }
     }
 
@@ -468,22 +461,73 @@ public class QuickStartNFTViewModel extends BaseViewModel {
         if (sBindWalletInfo == null) {
             return;
         }
-        sBindWalletInfo.chainInfo = chainInfo;
+        sBindWalletInfo.setChainInfo(chainInfo);
         bindWalletInfoMutableLiveData.setValue(sBindWalletInfo);
         saveBindWalletInfo(sBindWalletInfo);
         initNftList(sBindWalletInfo);
     }
 
+    /** 解绑国外钱包的处理 */
+    public void unbindWallet(long walletType, ISudNFTListenerUnbindWallet listener) {
+        WalletInfoModel walletInfo = getWalletInfo(walletType);
+        if (walletInfo == null) {
+            unbindWalletSuccess(walletType);
+            if (listener != null) {
+                listener.onSuccess();
+            }
+        } else {
+            SudNFTUnbindWalletParamModel model = new SudNFTUnbindWalletParamModel();
+            model.userId = HSUserInfo.userId + "";
+            model.walletType = walletInfo.type;
+            model.walletAddress = walletInfo.walletAddress;
+            mSudNFTProxy.unbindWallet(model, new ISudNFTListenerUnbindWallet() {
+                @Override
+                public void onSuccess() {
+                    unbindWalletSuccess(walletType);
+                    if (listener != null) {
+                        listener.onSuccess();
+                    }
+                }
+
+                @Override
+                public void onFailure(int code, String msg) {
+                    if (listener != null) {
+                        listener.onFailure(code, msg);
+                    }
+                }
+            });
+        }
+    }
+
     /** 解绑国外钱包，因为只能绑定一个钱包，所以这里是清除所有的逻辑处理 */
     public void unbindWallet() {
-        HSUserInfo.walletAddress = null;
-        LoginRepository.saveUserInfo();
+        BindWalletInfoModel bindWalletInfoModel = sBindWalletInfo;
+        if (bindWalletInfoModel == null) {
+            return;
+        }
+        SudNFTUnbindWalletParamModel model = new SudNFTUnbindWalletParamModel();
+        model.userId = HSUserInfo.userId + "";
+        model.walletType = bindWalletInfoModel.walletType;
+        model.walletAddress = bindWalletInfoModel.getWalletAddress();
+        mSudNFTProxy.unbindWallet(model, new ISudNFTListenerUnbindWallet() {
+            @Override
+            public void onSuccess() {
+                clearBindWallet();
+            }
 
+            @Override
+            public void onFailure(int retCode, String retMsg) {
+                ToastUtils.showLong(ResponseUtils.nftConver(retCode, retMsg));
+            }
+        });
+    }
+
+    private void clearBindWallet() {
         sBindWalletInfo = null;
         bindWalletInfoMutableLiveData.setValue(null);
-        GlobalSP.getSP().remove(GlobalSP.NFT_BIND_WALLET_KEY);
+        GlobalSP.getSP().remove(GlobalSP.KEY_NFT_BIND_WALLET);
 
-        cancelWearNft();
+        clearWearNft();
 
         initDataGetBindWallet();
     }
@@ -492,7 +536,7 @@ public class QuickStartNFTViewModel extends BaseViewModel {
     public void unbindCNWallet(long walletType, ISudNFTListenerUnbindCnWallet listener) {
         WalletInfoModel walletInfo = getWalletInfo(walletType);
         if (walletInfo == null) {
-            unbindCNWalletSuccess(walletType);
+            unbindWalletSuccess(walletType);
             if (listener != null) {
                 listener.onSuccess();
             }
@@ -504,7 +548,7 @@ public class QuickStartNFTViewModel extends BaseViewModel {
             mSudNFTProxy.unbindCnWallet(model, new ISudNFTListenerUnbindCnWallet() {
                 @Override
                 public void onSuccess() {
-                    unbindCNWalletSuccess(walletType);
+                    unbindWalletSuccess(walletType);
                     if (listener != null) {
                         listener.onSuccess();
                     }
@@ -528,23 +572,21 @@ public class QuickStartNFTViewModel extends BaseViewModel {
         return null;
     }
 
-    /** 钱包国内钱包成功，清除本地数据 */
-    private void unbindCNWalletSuccess(long walletType) {
+    /** 解绑钱包成功，清除本地数据 */
+    private void unbindWalletSuccess(long walletType) {
         BindWalletInfoModel bindWalletInfoModel = sBindWalletInfo;
         if (bindWalletInfoModel == null) {
-            unbindWallet();
+            clearBindWallet();
         } else {
             bindWalletInfoModel.removeBindWallet(walletType);
-            WalletInfoModel walletInfoModel = bindWalletInfoModel.getWalletInfoModel();
+            WalletInfoModel walletInfoModel = bindWalletInfoModel.getFirstWalletInfoModel();
             if (walletInfoModel == null) {
-                unbindWallet();
+                clearBindWallet();
                 return;
             }
 
-            // 还有其它的钱包，切换到其它的国内钱包
+            // 还有其它的钱包，切换到其它的钱包
             bindWalletInfoModel.walletType = walletInfoModel.type;
-            bindWalletInfoModel.walletToken = walletInfoModel.walletToken;
-            bindWalletInfoModel.phone = walletInfoModel.phone;
             saveBindWalletInfo(bindWalletInfoModel);
             bindWalletInfoMutableLiveData.setValue(bindWalletInfoModel);
         }
@@ -552,15 +594,7 @@ public class QuickStartNFTViewModel extends BaseViewModel {
 
     /** 钱包令牌失效，解绑当前钱包 */
     public void tokenFailed(long walletType) {
-        BindWalletInfoModel bindWalletInfoModel = sBindWalletInfo;
-        if (bindWalletInfoModel == null || bindWalletInfoModel.walletType != walletType) {
-            return;
-        }
-        if (bindWalletInfoModel.zoneType == ZoneType.OVERSEAS) {
-            unbindWallet();
-        } else if (bindWalletInfoModel.zoneType == ZoneType.INTERNAL) {
-            unbindCNWalletSuccess(walletType);
-        }
+        unbindWalletSuccess(walletType);
     }
 
     /** 穿戴nft */
@@ -569,9 +603,9 @@ public class QuickStartNFTViewModel extends BaseViewModel {
         if (bindWalletInfoModel == null) {
             return;
         }
-        if (bindWalletInfoModel.zoneType == ZoneType.OVERSEAS) {
+        if (bindWalletInfoModel.getZoneType() == ZoneType.OVERSEAS) {
             wearOverseasNft(wearNft, bindWalletInfoModel);
-        } else if (bindWalletInfoModel.zoneType == ZoneType.INTERNAL) {
+        } else if (bindWalletInfoModel.getZoneType() == ZoneType.INTERNAL) {
             wearInternalNft(wearNft, bindWalletInfoModel);
         }
     }
@@ -579,10 +613,13 @@ public class QuickStartNFTViewModel extends BaseViewModel {
     /** 穿戴国外钱包NFT */
     private void wearOverseasNft(NftModel wearNft, BindWalletInfoModel bindWalletInfoModel) {
         SudNFTCredentialsTokenParamModel model = new SudNFTCredentialsTokenParamModel();
-        model.walletToken = bindWalletInfoModel.walletToken;
+        int zoneType = bindWalletInfoModel.getZoneType();
+        long walletType = bindWalletInfoModel.walletType;
+        model.walletToken = bindWalletInfoModel.getWalletToken();
         model.chainType = bindWalletInfoModel.getChainType();
         model.contractAddress = wearNft.contractAddress;
         model.tokenId = wearNft.tokenId;
+        model.extension = wearNft.extension;
         mSudNFTProxy.genNFTCredentialsToken(model, new ISudNFTListenerGenNFTCredentialsToken() {
             @Override
             public void onSuccess(SudNFTGenNFTCredentialsTokenModel resp) {
@@ -590,26 +627,20 @@ public class QuickStartNFTViewModel extends BaseViewModel {
                     return;
                 }
                 String nftToken = resp.detailsToken;
-                // TODO: 2022/9/2 从SudNFT拿到穿戴的token之后，把token发送给业务后台进行穿戴，这里只是弹一下Toast
-                ToastUtils.showLong(nftToken);
-//                HomeRepository.wearNft(null, nftToken, 1, new RxCallback<Object>() {
-//                    @Override
-//                    public void onSuccess(Object o) {
-//                        super.onSuccess(o);
-//                        if (sBindWalletInfo == null) {
-//                            return;
-//                        }
-//                        sBindWalletInfo.wearNft = wearNft;
-//                        saveBindWalletInfo(sBindWalletInfo);
-//                        wearNftChangeLiveData.setValue(null);
-//                        updateUserInfo(nftToken);
-//                    }
-//                });
+
+                wearNft.detailsToken = nftToken;
+                wearNft.zoneType = zoneType;
+                wearNft.walletType = walletType;
+                sBindWalletInfo.clearWearNft();
+                sBindWalletInfo.addWearNft(wearNft);
+                saveBindWalletInfo(sBindWalletInfo);
+                wearNftChangeLiveData.setValue(null);
+                updateUserInfo(nftToken);
             }
 
             @Override
             public void onFailure(int retCode, String retMsg) {
-                ToastUtils.showLong("genNFTCredentialsToken onFailure:" + retCode + "  retMsg:" + retMsg);
+                ToastUtils.showLong(ResponseUtils.nftConver(retCode, retMsg));
             }
         });
     }
@@ -617,8 +648,10 @@ public class QuickStartNFTViewModel extends BaseViewModel {
     /** 穿戴国内钱包NFT */
     private void wearInternalNft(NftModel wearNft, BindWalletInfoModel bindWalletInfoModel) {
         SudNFTCnCredentialsTokenParamModel model = new SudNFTCnCredentialsTokenParamModel();
+        int zoneType = bindWalletInfoModel.getZoneType();
+        long walletType = bindWalletInfoModel.walletType;
         model.walletType = bindWalletInfoModel.walletType;
-        model.walletToken = bindWalletInfoModel.walletToken;
+        model.walletToken = bindWalletInfoModel.getWalletToken();
         model.cardId = wearNft.cardId;
         mSudNFTProxy.genCnNFTCredentialsToken(model, new ISudNFTListenerGenCnNFTCredentialsToken() {
             @Override
@@ -627,36 +660,86 @@ public class QuickStartNFTViewModel extends BaseViewModel {
                     return;
                 }
                 String nftToken = resp.detailsToken;
-                // TODO: 2022/9/2 从SudNFT拿到穿戴的token之后，把token发送给业务后台进行穿戴，这里只是弹一下Toast
-                ToastUtils.showLong(nftToken);
-//                HomeRepository.wearNft(null, nftToken, 1, new RxCallback<Object>() {
-//                    @Override
-//                    public void onSuccess(Object o) {
-//                        super.onSuccess(o);
-//                        if (sBindWalletInfo == null) {
-//                            return;
-//                        }
-//                        sBindWalletInfo.wearNft = wearNft;
-//                        saveBindWalletInfo(sBindWalletInfo);
-//                        wearNftChangeLiveData.setValue(null);
-//                        updateUserInfo(nftToken);
-//                    }
-//                });
+                wearNft.detailsToken = nftToken;
+                wearNft.zoneType = zoneType;
+                wearNft.walletType = walletType;
+                sBindWalletInfo.clearWearNft();
+                sBindWalletInfo.addWearNft(wearNft);
+                saveBindWalletInfo(sBindWalletInfo);
+                wearNftChangeLiveData.setValue(null);
+                updateUserInfo(nftToken);
             }
 
             @Override
             public void onFailure(int retCode, String retMsg) {
-                ToastUtils.showLong("genNFTCredentialsToken onFailure:" + retCode + "  retMsg:" + retMsg);
+                ToastUtils.showLong(ResponseUtils.nftConver(retCode, retMsg));
             }
         });
     }
 
     /** 取消穿戴nft */
-    public void cancelWearNft() {
-        // TODO: 2022/9/2 这里向业务后台发送请求，取消穿戴
+    public void cancelWearNft(CancelWearNftListener listener) {
+        BindWalletInfoModel bindWalletInfoModel = sBindWalletInfo;
+        if (bindWalletInfoModel == null) {
+            return;
+        }
+        NftModel wearNft = bindWalletInfoModel.getWearNft();
+        if (wearNft == null) {
+            return;
+        }
+        int zoneType = bindWalletInfoModel.getZoneType();
+        if (zoneType == ZoneType.OVERSEAS) {
+            SudNFTRemoveCredentialsTokenParamModel model = new SudNFTRemoveCredentialsTokenParamModel();
+            model.walletToken = bindWalletInfoModel.getWalletToken();
+            model.detailsToken = wearNft.detailsToken;
+            mSudNFTProxy.removeNFTCredentialsToken(model, new ISudNFTListenerRemoveNFTCredentialsToken() {
+                @Override
+                public void onSuccess() {
+                    clearWearNft();
+                    if (listener != null) {
+                        listener.onSuccess();
+                    }
+                }
+
+                @Override
+                public void onFailure(int retCode, String retMsg) {
+                    ToastUtils.showLong(ResponseUtils.nftConver(retCode, retMsg));
+                    if (listener != null) {
+                        listener.onFailure(retCode, retMsg);
+                    }
+                }
+            });
+        } else if (zoneType == ZoneType.INTERNAL) {
+            SudNFTRemoveCnCredentialsTokenParamModel model = new SudNFTRemoveCnCredentialsTokenParamModel();
+            model.walletToken = bindWalletInfoModel.getWalletToken();
+            model.detailsToken = wearNft.detailsToken;
+            mSudNFTProxy.removeCnNFTCredentialsToken(model, new ISudNFTListenerRemoveCnNFTCredentialsToken() {
+                @Override
+                public void onSuccess() {
+                    clearWearNft();
+                    if (listener != null) {
+                        listener.onSuccess();
+                    }
+                }
+
+                @Override
+                public void onFailure(int retCode, String retMsg) {
+                    ToastUtils.showLong(ResponseUtils.nftConver(retCode, retMsg));
+                    if (listener != null) {
+                        listener.onFailure(retCode, retMsg);
+                    }
+                }
+            });
+        }
+    }
+
+    /** 清除穿戴信息 */
+    public void clearWearNft() {
+        // 发送后端接口进行取消穿戴
 //        HomeRepository.wearNft(null, null, 2, new RxCallback<>());
+
         if (sBindWalletInfo != null) {
-            sBindWalletInfo.wearNft = null;
+            sBindWalletInfo.clearWearNft();
             saveBindWalletInfo(sBindWalletInfo);
         }
         wearNftChangeLiveData.setValue(null);
@@ -666,7 +749,7 @@ public class QuickStartNFTViewModel extends BaseViewModel {
     /** 获取穿戴的nft */
     public NftModel getWearNft() {
         if (sBindWalletInfo != null) {
-            return sBindWalletInfo.wearNft;
+            return sBindWalletInfo.getWearNft();
         }
         return null;
     }
@@ -675,11 +758,9 @@ public class QuickStartNFTViewModel extends BaseViewModel {
         NftModel wearNft = getWearNft();
         if (wearNft == null) {
             HSUserInfo.headerType = 0;
-            HSUserInfo.headerNftToken = null;
             HSUserInfo.headerNftUrl = null;
         } else {
             HSUserInfo.headerType = 1;
-            HSUserInfo.headerNftToken = nftToken;
             HSUserInfo.headerNftUrl = wearNft.getShowUrl();
         }
         LoginRepository.saveUserInfo();
@@ -688,7 +769,7 @@ public class QuickStartNFTViewModel extends BaseViewModel {
     /**
      * 切换当前所使用的钱包
      */
-    public void changeAccount(long walletType) {
+    public void changeWallet(long walletType) {
         BindWalletInfoModel bindWalletInfoModel = sBindWalletInfo;
         if (bindWalletInfoModel == null) {
             return;
@@ -697,13 +778,8 @@ public class QuickStartNFTViewModel extends BaseViewModel {
         if (model == null) {
             return;
         }
+        model.chainInfo = model.getDefaultChainInfo(); // 切换钱包之后，把使用的链设置为第一个
         bindWalletInfoModel.walletType = model.type;
-        bindWalletInfoModel.walletToken = model.walletToken;
-        bindWalletInfoModel.phone = model.phone;
-        bindWalletInfoModel.chainInfoList = model.chainList;
-        bindWalletInfoModel.chainInfo = bindWalletInfoModel.getDefaultChainInfo();
-        bindWalletInfoModel.walletAddress = model.walletAddress;
-        bindWalletInfoModel.zoneType = model.zoneType;
 
         saveBindWalletInfo(bindWalletInfoModel);
     }

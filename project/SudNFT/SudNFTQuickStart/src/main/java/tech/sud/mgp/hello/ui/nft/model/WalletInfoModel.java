@@ -9,16 +9,17 @@ import java.util.Objects;
  */
 public class WalletInfoModel implements Serializable {
 
-    public long type;
-    public String name;
-    public String icon;
-    public int zoneType;
-    public List<WalletChainInfo> chainList;
+    public long type; // 钱包类型
+    public String name; // 钱包名称
+    public String icon; // 钱包图标
+    public int zoneType; // 区域类型 0国外 1国内
+    public List<WalletChainInfo> chainInfoList; // 该钱包的所有链信息
 
     // region 自定义参数
     public String walletToken;
     public String phone;
     public String walletAddress;
+    public WalletChainInfo chainInfo; // 选中的链信息
     // endregion 自定义参数
 
     @Override
@@ -34,5 +35,12 @@ public class WalletInfoModel implements Serializable {
         return Objects.hash(type);
     }
 
+    /** 获取默认的链 */
+    public WalletChainInfo getDefaultChainInfo() {
+        if (chainInfoList != null && chainInfoList.size() > 0) {
+            return chainInfoList.get(0);
+        }
+        return null;
+    }
 
 }

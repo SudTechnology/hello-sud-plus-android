@@ -5,6 +5,15 @@
     android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#1a000000"
+        app:layout_constraintTop_toTopOf="@id/iv_icon"
+        app:layout_constraintBottom_toBottomOf="@id/iv_icon"
+        app:layout_constraintStart_toStartOf="@id/iv_icon"
+        app:layout_constraintEnd_toEndOf="@id/iv_icon" />
+
     <ImageView
         android:id="@+id/iv_icon"
         android:layout_width="match_parent"

@@ -242,10 +242,26 @@ public interface SudFSMMGListener {
     }
 
     /**
-     * 22. 游戏通知app层添当前网络连接状态（2022-06-21新增） 模型
+     * 22. 游戏通知app层添当前网络连接状态（2022-06-21新增）
      * mg_common_game_network_state
      */
     default void onGameMGCommonGameNetworkState(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameNetworkState model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 23. 游戏通知app获取积分
+     * mg_common_game_score
+     */
+    default void onGameMGCommonGameScore(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameScore model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 24. 游戏通知app带入积分
+     * mg_common_game_set_score
+     */
+    default void onGameMGCommonGameSetScore(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameSetScore model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
     // endregion 游戏回调APP 通用状态

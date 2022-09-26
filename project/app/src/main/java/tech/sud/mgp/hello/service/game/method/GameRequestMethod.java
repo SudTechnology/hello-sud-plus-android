@@ -7,6 +7,7 @@ import retrofit2.http.POST;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.IBaseUrl;
 import tech.sud.mgp.hello.service.base.RequestUrl;
+import tech.sud.mgp.hello.service.game.req.BringChipReq;
 import tech.sud.mgp.hello.service.game.req.SwitchGameReq;
 import tech.sud.mgp.hello.service.game.resp.GameLoginResp;
 
@@ -26,5 +27,11 @@ public interface GameRequestMethod {
      */
     @POST(RequestUrl.SWITCH_GAME)
     Observable<BaseResponse<Object>> switchGame(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body SwitchGameReq body);
+
+    /**
+     * 带入筹码到游戏
+     */
+    @POST(RequestUrl.GAME_BRING_CHIP)
+    Observable<BaseResponse<Object>> bringChip(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body BringChipReq body);
 
 }

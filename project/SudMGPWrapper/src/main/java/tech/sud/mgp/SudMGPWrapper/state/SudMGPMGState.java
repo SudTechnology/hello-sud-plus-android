@@ -464,6 +464,32 @@ public class SudMGPMGState implements Serializable {
     public static class MGCommonGameNetworkState implements Serializable {
         public int state; // 0:closed, 1: connected
     }
+
+    /**
+     * 23. 游戏通知app获取积分
+     */
+    public static final String MG_COMMON_GAME_SCORE = "mg_common_game_score";
+
+    /**
+     * 23. 游戏通知app获取积分 模型
+     */
+    public static class MGCommonGameScore implements Serializable {
+    }
+
+    /**
+     * 24. 游戏通知app带入积分
+     */
+    public static final String MG_COMMON_GAME_SET_SCORE = "mg_common_game_set_score";
+
+    /**
+     * 24. 游戏通知app带入积分 模型
+     */
+    public static class MGCommonGameSetScore implements Serializable {
+        public String roundId; // 局id
+        public long lastRoundScore; // 本人当前积分
+        public long incrementalScore; // 充值积分
+        public long totalScore; // 充值后总积分
+    }
     // endregion 通用状态-游戏
 
 

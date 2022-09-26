@@ -290,6 +290,18 @@ public class SudMGPAPPState implements Serializable {
      */
     public static class APPCommonGameReconnect implements Serializable {
     }
+
+    /**
+     * 18. app返回玩家当前积分
+     */
+    public static final String APP_COMMON_GAME_SCORE = "app_common_game_score";
+
+    /**
+     * 18. app返回玩家当前积分
+     */
+    public static class APPCommonGameScore implements Serializable {
+        public long score; // 玩家当前积分
+    }
     // endregion 通用状态
 
     // region 元宇宙砂砂舞

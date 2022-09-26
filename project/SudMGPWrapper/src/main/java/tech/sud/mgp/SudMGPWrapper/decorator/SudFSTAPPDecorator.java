@@ -306,6 +306,19 @@ public class SudFSTAPPDecorator {
             iSudFSTAPP.notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_RECONNECT, SudJsonUtils.toJson(state), null);
         }
     }
+
+    /**
+     * 发送
+     * 18. app返回玩家当前积分
+     */
+    public void notifyAPPCommonGameScore(long score) {
+        ISudFSTAPP iSudFSTAPP = this.iSudFSTAPP;
+        if (iSudFSTAPP != null) {
+            SudMGPAPPState.APPCommonGameScore state = new SudMGPAPPState.APPCommonGameScore();
+            state.score = score;
+            iSudFSTAPP.notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_SCORE, SudJsonUtils.toJson(state), null);
+        }
+    }
     // endregion 状态通知，ISudFSTAPP.notifyStateChange
 
     // region 生命周期

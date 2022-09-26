@@ -318,6 +318,22 @@ public class SudFSMMGDecorator implements ISudFSMMG {
                     listener.onGameMGCommonGameNetworkState(handle, mgCommonGameNetworkState);
                 }
                 break;
+            case SudMGPMGState.MG_COMMON_GAME_SCORE: // 23. 游戏通知app获取积分
+                SudMGPMGState.MGCommonGameScore mgCommonGameScore = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonGameScore.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGCommonGameScore(handle, mgCommonGameScore);
+                }
+                break;
+            case SudMGPMGState.MG_COMMON_GAME_SET_SCORE: // 24. 游戏通知app带入积分
+                SudMGPMGState.MGCommonGameSetScore mgCommonGameSetScore = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonGameSetScore.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGCommonGameSetScore(handle, mgCommonGameSetScore);
+                }
+                break;
             case SudMGPMGState.MG_COMMON_GAME_DISCO_ACTION: // 1. 元宇宙砂砂舞指令回调
                 SudMGPMGState.MGCommonGameDiscoAction mgCommonGameDiscoAction = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonGameDiscoAction.class);
                 if (listener == null) {

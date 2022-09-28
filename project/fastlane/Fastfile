@@ -31,6 +31,9 @@ platform :android do
         nftEnv=options[:nftEnv]
         mgpEnv=options[:mgpEnv]
         baseUrlConfig=options[:baseUrlConfig]
+        baseUrl=options[:baseUrl]
+        interactBaseUrl=options[:interactBaseUrl]
+        gameBaseUrl=options[:gameBaseUrl]
         puts versionCode
         if moduleName.nil? || moduleName.empty?
             puts "moduleName is empty"
@@ -55,6 +58,9 @@ platform :android do
                 "versionCode" => versionCode,
                 "nftEnv" => nftEnv,
                 "mgpEnv" => mgpEnv,
+                "baseUrl" => baseUrl,
+                "interactBaseUrl" => interactBaseUrl,
+                "gameBaseUrl" => gameBaseUrl,
                 "baseUrlConfig" => baseUrlConfig
             }
         )

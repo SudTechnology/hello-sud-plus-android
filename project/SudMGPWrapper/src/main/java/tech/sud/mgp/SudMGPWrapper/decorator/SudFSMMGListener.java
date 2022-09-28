@@ -253,7 +253,7 @@ public interface SudFSMMGListener {
      * 23. 游戏通知app获取积分
      * mg_common_game_score
      */
-    default void onGameMGCommonGameScore(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameScore model) {
+    default void onGameMGCommonGameGetScore(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameGetScore model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 

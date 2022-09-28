@@ -611,13 +611,13 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
                 }
             }
         });
-        gameViewModel.onGameScoreLiveData.observe(this, (o) -> {
-            onGameScore();
+        gameViewModel.onGameGetScoreLiveData.observe(this, (o) -> {
+            onGameGetScore();
         });
         gameViewModel.onGameSetScoreLiveData.observe(this, this::onGameSetScore);
     }
 
-    private void onGameScore() {
+    private void onGameGetScore() {
         HomeRepository.getAccount(this, new RxCallback<GetAccountResp>() {
             @Override
             public void onSuccess(GetAccountResp resp) {

@@ -468,12 +468,12 @@ public class SudMGPMGState implements Serializable {
     /**
      * 23. 游戏通知app获取积分
      */
-    public static final String MG_COMMON_GAME_SCORE = "mg_common_game_score";
+    public static final String MG_COMMON_GAME_GET_SCORE = "mg_common_game_get_score";
 
     /**
      * 23. 游戏通知app获取积分 模型
      */
-    public static class MGCommonGameScore implements Serializable {
+    public static class MGCommonGameGetScore implements Serializable {
     }
 
     /**

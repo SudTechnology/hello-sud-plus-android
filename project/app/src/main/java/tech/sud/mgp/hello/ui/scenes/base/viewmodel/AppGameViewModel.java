@@ -76,7 +76,7 @@ public class AppGameViewModel implements SudFSMMGListener {
     public final MutableLiveData<Object> gameStartedLiveData = new MutableLiveData<>(); // onGameStarted回调
     public final MutableLiveData<Object> captainChangeLiveData = new MutableLiveData<>(); // 队长变化了
     public final MutableLiveData<GameLoadingProgressModel> gameLoadingProgressLiveData = new MutableLiveData<>(); // 游戏加载进度回调
-    public final MutableLiveData<Object> onGameScoreLiveData = new MutableLiveData<>(); // 游戏通知app获取积分
+    public final MutableLiveData<Object> onGameGetScoreLiveData = new MutableLiveData<>(); // 游戏通知app获取积分
     public final MutableLiveData<SudMGPMGState.MGCommonGameSetScore> onGameSetScoreLiveData = new MutableLiveData<>(); // 24. 游戏通知app带入积分
 
     private boolean isRunning = true; // 业务是否还在运行
@@ -790,9 +790,9 @@ public class AppGameViewModel implements SudFSMMGListener {
      * mg_common_game_score
      */
     @Override
-    public void onGameMGCommonGameScore(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameScore model) {
-        SudFSMMGListener.super.onGameMGCommonGameScore(handle, model);
-        onGameScoreLiveData.setValue(null);
+    public void onGameMGCommonGameGetScore(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameGetScore model) {
+        SudFSMMGListener.super.onGameMGCommonGameGetScore(handle, model);
+        onGameGetScoreLiveData.setValue(null);
     }
 
     /**

@@ -20,9 +20,9 @@ ext {
     versionCode = "1"
     versionName = "1.5.6"
     baseUrlConfig = "fat"
-    baseUrl = "https://sim-base-hello-sud.sud.tech/"
-    interactBaseUrl = "https://sim-interact-hello-sud.sud.tech/"
-    gameBaseUrl = "https://sim-game-hello-sud.sud.tech/"
+    baseUrl = "https://fat-base-hello-sud.sud.tech/"
+    interactBaseUrl = "https://fat-interact-hello-sud.sud.tech/"
+    gameBaseUrl = "https://fat-game-hello-sud.sud.tech/"
     buglyAppId = "f471ed313c"
     gameIsTestEnv = "true"
 
@@ -30,8 +30,8 @@ ext {
     materialVersion = "1.5.0"
     constraintlayoutVersion = "2.1.4"
 
-    nftEnv = "pro"
-    mgpEnv = "pro"
+    nftEnv = "fat"
+    mgpEnv = "fat"
 }
 
 allprojects {

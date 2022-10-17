@@ -16,6 +16,7 @@ import android.widget.TextView;
 import androidx.lifecycle.Observer;
 
 import com.blankj.utilcode.util.KeyboardUtils;
+import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.gyf.immersionbar.BarHide;
 import com.gyf.immersionbar.ImmersionBar;
@@ -43,6 +44,8 @@ import tech.sud.mgp.hello.common.utils.permission.SudPermissionUtils;
 import tech.sud.mgp.hello.common.widget.dialog.BottomOptionDialog;
 import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
 import tech.sud.mgp.hello.service.game.repository.GameRepository;
+import tech.sud.mgp.hello.service.main.repository.HomeRepository;
+import tech.sud.mgp.hello.service.main.resp.GetAccountResp;
 import tech.sud.mgp.hello.service.room.repository.RoomRepository;
 import tech.sud.mgp.hello.service.room.resp.RobotListResp;
 import tech.sud.mgp.hello.ui.common.constant.RequestKey;
@@ -608,6 +611,36 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
                 }
             }
         });
+        gameViewModel.onGameGetScoreLiveData.observe(this, (o) -> {
+            onGameGetScore();
+        });
+        gameViewModel.onGameSetScoreLiveData.observe(this, this::onGameSetScore);
+    }
+
+    private void onGameGetScore() {
+        HomeRepository.getAccount(this, new RxCallback<GetAccountResp>() {
+            @Override
+            public void onSuccess(GetAccountResp resp) {
+                super.onSuccess(resp);
+                if (resp != null) {
+                    gameViewModel.sudFSTAPPDecorator.notifyAPPCommonGameScore(resp.coin);
+                }
+            }
+        });
+    }
+
+    private void onGameSetScore(SudMGPMGState.MGCommonGameSetScore model) {
+        if (model == null) {
+            return;
+        }
+        GameRepository.bringChip(this, gameViewModel.getPlayingGameId(), gameViewModel.getGameRoomId(),
+                model.roundId, model.lastRoundScore, model.incrementalScore, model.totalScore, new RxCallback<Object>() {
+                    @Override
+                    public void onSuccess(Object o) {
+                        super.onSuccess(o);
+                        LogUtils.d("bringChip onSuccess");
+                    }
+                });
     }
 
     /**

@@ -76,6 +76,8 @@ public class AppGameViewModel implements SudFSMMGListener {
     public final MutableLiveData<Object> gameStartedLiveData = new MutableLiveData<>(); // onGameStarted回调
     public final MutableLiveData<Object> captainChangeLiveData = new MutableLiveData<>(); // 队长变化了
     public final MutableLiveData<GameLoadingProgressModel> gameLoadingProgressLiveData = new MutableLiveData<>(); // 游戏加载进度回调
+    public final MutableLiveData<Object> onGameGetScoreLiveData = new MutableLiveData<>(); // 游戏通知app获取积分
+    public final MutableLiveData<SudMGPMGState.MGCommonGameSetScore> onGameSetScoreLiveData = new MutableLiveData<>(); // 24. 游戏通知app带入积分
 
     private boolean isRunning = true; // 业务是否还在运行
     public View gameView; // 游戏View
@@ -781,6 +783,26 @@ public class AppGameViewModel implements SudFSMMGListener {
             notifyUpdateMic();
         }
         ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 23. 游戏通知app获取积分
+     * mg_common_game_score
+     */
+    @Override
+    public void onGameMGCommonGameGetScore(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameGetScore model) {
+        SudFSMMGListener.super.onGameMGCommonGameGetScore(handle, model);
+        onGameGetScoreLiveData.setValue(null);
+    }
+
+    /**
+     * 24. 游戏通知app带入积分
+     * mg_common_game_set_score
+     */
+    @Override
+    public void onGameMGCommonGameSetScore(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameSetScore model) {
+        SudFSMMGListener.super.onGameMGCommonGameSetScore(handle, model);
+        onGameSetScoreLiveData.setValue(model);
     }
     // endregion 游戏侧回调
 

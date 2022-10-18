@@ -16,17 +16,28 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.gyf.immersionbar.ImmersionBar;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseFragment;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
+import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.ViewUtils;
 import tech.sud.mgp.hello.service.main.manager.HomeManager;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
+import tech.sud.mgp.hello.service.main.repository.UserInfoRepository;
 import tech.sud.mgp.hello.service.main.resp.RoomListResp;
+import tech.sud.mgp.hello.service.main.resp.UserInfoResp;
+import tech.sud.mgp.hello.ui.common.utils.LifecycleUtils;
 import tech.sud.mgp.hello.ui.main.base.widget.MainUserInfoView;
-import tech.sud.mgp.hello.ui.main.home.view.CoinDialog;
+import tech.sud.mgp.hello.ui.main.nft.model.BindWalletInfoModel;
+import tech.sud.mgp.hello.ui.main.nft.model.NftModel;
+import tech.sud.mgp.hello.ui.main.nft.viewmodel.CancelWearNftListener;
+import tech.sud.mgp.hello.ui.main.nft.viewmodel.NFTViewModel;
 import tech.sud.mgp.hello.ui.scenes.base.utils.EnterRoomUtils;
 
 public class RoomListFragment extends BaseFragment {
@@ -37,6 +48,7 @@ public class RoomListFragment extends BaseFragment {
     private RoomListAdapter adapter;
     private SmartRefreshLayout refreshLayout;
     private MainUserInfoView userInfoView;
+    private final NFTViewModel nftViewModel = new NFTViewModel();
 
     public RoomListFragment() {
     }
@@ -63,6 +75,8 @@ public class RoomListFragment extends BaseFragment {
         refreshLayout.setEnableRefresh(true);
         refreshLayout.setEnableLoadMore(false);
 
+        userInfoView.setNftMask(R.drawable.ic_nft_mask_white);
+        userInfoView.setViewWalletAddressArrowVisible(false);
         View viewStatusBar = findViewById(R.id.view_statusbar);
         ViewUtils.setHeight(viewStatusBar, ImmersionBar.getStatusBarHeight(requireContext()));
     }
@@ -117,9 +131,6 @@ public class RoomListFragment extends BaseFragment {
         });
         goSearch.setOnClickListener(v -> enterRoom());
         refreshLayout.setOnRefreshListener(refreshLayout -> loadList());
-        userInfoView.setAvatarOnClickListener(v -> {
-            new CoinDialog().show(getChildFragmentManager(), null);
-        });
     }
 
     private void enterRoom() {
@@ -175,5 +186,45 @@ public class RoomListFragment extends BaseFragment {
         super.onResume();
         loadList();
         userInfoView.updateUserInfo();
+        updateNftHeader();
     }
+
+    /** 更新nft头像 */
+    private void updateNftHeader() {
+        List<Long> userIdList = new ArrayList<>();
+        userIdList.add(HSUserInfo.userId);
+        UserInfoRepository.getUserInfoList(this, userIdList, new UserInfoRepository.UserInfoResultListener() {
+            @Override
+            public void userInfoList(List<UserInfoResp> userInfos) {
+                BindWalletInfoModel bindWalletInfoModel = NFTViewModel.sBindWalletInfo;
+                if (userInfos == null || userInfos.size() == 0 || bindWalletInfoModel == null) {
+                    return;
+                }
+                NftModel wearNft = bindWalletInfoModel.getWearNft();
+                if (wearNft == null) {
+                    return;
+                }
+                UserInfoResp userInfoResp = userInfos.get(0);
+                if (userInfoResp.headerType != 1 || !Objects.equals(userInfoResp.headerNftToken, wearNft.detailsToken)) {
+                    nftViewModel.cancelWearNft(new CancelWearNftListener() {
+                        @Override
+                        public void onSuccess() {
+                            LifecycleUtils.safeLifecycle(mFragment, () -> {
+                                userInfoView.updateUserInfo();
+                            });
+                        }
+
+                        @Override
+                        public void onFailure(int retCode, String retMsg) {
+                            LifecycleUtils.safeLifecycle(mFragment, () -> {
+                                nftViewModel.clearWearNft();
+                                userInfoView.updateUserInfo();
+                            });
+                        }
+                    });
+                }
+            }
+        });
+    }
+
 }

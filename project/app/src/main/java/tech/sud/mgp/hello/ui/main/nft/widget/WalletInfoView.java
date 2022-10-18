@@ -41,6 +41,7 @@ public class WalletInfoView extends ConstraintLayout {
     private ImageView ivNft2;
     private ImageView ivNft3;
     private TextView tvEmpty;
+    private TextView tvTitle;
 
     public WalletInfoView(@NonNull Context context) {
         this(context, null);
@@ -69,6 +70,7 @@ public class WalletInfoView extends ConstraintLayout {
         ivNft2 = findViewById(R.id.iv_nft_2);
         ivNft3 = findViewById(R.id.iv_nft_3);
         tvEmpty = findViewById(R.id.tv_empty);
+        tvTitle = findViewById(R.id.tv_title);
     }
 
     /** 设置当前链信息 */
@@ -77,8 +79,8 @@ public class WalletInfoView extends ConstraintLayout {
             viewChain.setVisibility(View.GONE);
             return;
         }
-        int zoneType = model.zoneType;
-        WalletChainInfo chainInfo = model.chainInfo;
+        int zoneType = model.getZoneType();
+        WalletChainInfo chainInfo = model.getChainInfo();
         if (zoneType == ZoneType.OVERSEAS) { // 国外
             setOverseasChainInfo(chainInfo);
         } else if (zoneType == ZoneType.INTERNAL) { // 国内
@@ -97,7 +99,7 @@ public class WalletInfoView extends ConstraintLayout {
         }
     }
 
-    private WalletInfo getBindWallet(int walletType, List<WalletInfo> walletList) {
+    private WalletInfo getBindWallet(long walletType, List<WalletInfo> walletList) {
         if (walletList != null) {
             for (WalletInfo walletInfo : walletList) {
                 if (walletInfo.type == walletType) {
@@ -157,6 +159,17 @@ public class WalletInfoView extends ConstraintLayout {
                     loadNftImage(ivNft3, nftModel);
                     break;
             }
+        }
+    }
+
+    /** 设置绑定钱包信息 */
+    public void setBindWallet(BindWalletInfoModel model) {
+        if (model != null && model.getZoneType() == ZoneType.INTERNAL) {
+            tvEmpty.setText(R.string.no_digital_collection);
+            tvTitle.setText(R.string.my_digital_collection);
+        } else {
+            tvEmpty.setText(R.string.nft_empty);
+            tvTitle.setText(R.string.owned_nft);
         }
     }
 

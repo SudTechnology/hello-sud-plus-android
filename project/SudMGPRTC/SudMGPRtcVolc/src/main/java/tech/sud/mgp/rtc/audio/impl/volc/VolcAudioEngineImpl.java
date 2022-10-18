@@ -169,6 +169,13 @@ public class VolcAudioEngineImpl implements ISudAudioEngine {
         RTCEngine engine = getEngine();
         if (engine != null) {
             engine.sendRoomMessage(command);
+            if (null != listener) {
+                listener.onResult(0);
+            }
+        } else {
+            if (null != listener) {
+                listener.onResult(-1);
+            }
         }
     }
 
@@ -280,9 +287,9 @@ public class VolcAudioEngineImpl implements ISudAudioEngine {
                 ThreadUtils.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        ISudAudioEventListener handler = mISudAudioEventListener;
-                        if (handler != null) {
-                            handler.onRoomStateUpdate(audioRoomState, 0, null);
+                        ISudAudioEventListener listener = mISudAudioEventListener;
+                        if (listener != null) {
+                            listener.onRoomStateUpdate(audioRoomState, 0, null);
                         }
                     }
                 });

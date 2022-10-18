@@ -87,7 +87,6 @@ public class SceneEngineManager extends BaseServiceManager {
         audioJoinRoomModel.userID = HSUserInfo.userId + "";
         audioJoinRoomModel.userName = HSUserInfo.nickName;
         audioJoinRoomModel.roomID = model.roomId + "";
-        audioJoinRoomModel.roomName = model.roomName;
         audioJoinRoomModel.timestamp = System.currentTimeMillis();
         audioJoinRoomModel.token = model.rtcToken;
         audioJoinRoomModel.appId = AppData.getInstance().getSelectRtcConfig().appId;

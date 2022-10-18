@@ -16,6 +16,7 @@ import android.widget.TextView;
 import androidx.lifecycle.Observer;
 
 import com.blankj.utilcode.util.KeyboardUtils;
+import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.gyf.immersionbar.BarHide;
 import com.gyf.immersionbar.ImmersionBar;
@@ -44,6 +45,8 @@ import tech.sud.mgp.hello.common.utils.permission.SudPermissionUtils;
 import tech.sud.mgp.hello.common.widget.dialog.BottomOptionDialog;
 import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
 import tech.sud.mgp.hello.service.game.repository.GameRepository;
+import tech.sud.mgp.hello.service.main.repository.HomeRepository;
+import tech.sud.mgp.hello.service.main.resp.GetAccountResp;
 import tech.sud.mgp.hello.service.room.repository.RoomRepository;
 import tech.sud.mgp.hello.service.room.resp.RobotListResp;
 import tech.sud.mgp.hello.ui.common.constant.RequestKey;
@@ -52,6 +55,7 @@ import tech.sud.mgp.hello.ui.main.base.constant.GameIdCons;
 import tech.sud.mgp.hello.ui.scenes.base.constant.OperateMicType;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.BooleanModel;
+import tech.sud.mgp.hello.ui.scenes.base.model.GameLoadingProgressModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.GameTextModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.OrderInviteModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoleType;
@@ -597,6 +601,47 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
                 checkGameAddAiPlayers();
             }
         });
+        gameViewModel.gameLoadingProgressLiveData.observe(this, new Observer<GameLoadingProgressModel>() {
+            @Override
+            public void onChanged(GameLoadingProgressModel model) {
+                if (model != null && model.progress == 99) {
+                    gameContainer.postDelayed(() -> {
+                        // 兼容小米手机全屏处理
+                        updateStatusBar();
+                    }, 100);
+                }
+            }
+        });
+        gameViewModel.onGameGetScoreLiveData.observe(this, (o) -> {
+            onGameGetScore();
+        });
+        gameViewModel.onGameSetScoreLiveData.observe(this, this::onGameSetScore);
+    }
+
+    private void onGameGetScore() {
+        HomeRepository.getAccount(this, new RxCallback<GetAccountResp>() {
+            @Override
+            public void onSuccess(GetAccountResp resp) {
+                super.onSuccess(resp);
+                if (resp != null) {
+                    gameViewModel.sudFSTAPPDecorator.notifyAPPCommonGameScore(resp.coin);
+                }
+            }
+        });
+    }
+
+    private void onGameSetScore(SudMGPMGState.MGCommonGameSetScore model) {
+        if (model == null) {
+            return;
+        }
+        GameRepository.bringChip(this, gameViewModel.getPlayingGameId(), gameViewModel.getGameRoomId(),
+                model.roundId, model.lastRoundScore, model.incrementalScore, model.totalScore, new RxCallback<Object>() {
+                    @Override
+                    public void onSuccess(Object o) {
+                        super.onSuccess(o);
+                        LogUtils.d("bringChip onSuccess");
+                    }
+                });
     }
 
     /**

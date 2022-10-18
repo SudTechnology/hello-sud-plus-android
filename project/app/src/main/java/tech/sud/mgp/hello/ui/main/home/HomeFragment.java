@@ -19,19 +19,26 @@ import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseFragment;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
+import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.ViewUtils;
 import tech.sud.mgp.hello.service.main.manager.HomeManager;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
+import tech.sud.mgp.hello.service.main.repository.UserInfoRepository;
 import tech.sud.mgp.hello.service.main.resp.CreatRoomResp;
 import tech.sud.mgp.hello.service.main.resp.GameListResp;
 import tech.sud.mgp.hello.service.main.resp.GameModel;
 import tech.sud.mgp.hello.service.main.resp.QuizGameListResp;
 import tech.sud.mgp.hello.service.main.resp.SceneModel;
+import tech.sud.mgp.hello.service.main.resp.UserInfoResp;
 import tech.sud.mgp.hello.ui.common.constant.RequestKey;
 import tech.sud.mgp.hello.ui.common.utils.CompletedListener;
 import tech.sud.mgp.hello.ui.common.utils.LifecycleUtils;
@@ -40,12 +47,15 @@ import tech.sud.mgp.hello.ui.main.base.widget.CreateTicketRoomDialog;
 import tech.sud.mgp.hello.ui.main.base.widget.MainUserInfoView;
 import tech.sud.mgp.hello.ui.main.home.manager.IndicatorHelper;
 import tech.sud.mgp.hello.ui.main.home.model.MatchRoomModel;
-import tech.sud.mgp.hello.ui.main.home.view.CoinDialog;
 import tech.sud.mgp.hello.ui.main.home.view.NewNestedScrollView;
 import tech.sud.mgp.hello.ui.main.home.view.SceneTypeDialog;
 import tech.sud.mgp.hello.ui.main.home.view.homeitem.CreatRoomClickListener;
 import tech.sud.mgp.hello.ui.main.home.view.homeitem.GameItemListener;
 import tech.sud.mgp.hello.ui.main.home.view.homeitem.HomeItemView;
+import tech.sud.mgp.hello.ui.main.nft.model.BindWalletInfoModel;
+import tech.sud.mgp.hello.ui.main.nft.model.NftModel;
+import tech.sud.mgp.hello.ui.main.nft.viewmodel.CancelWearNftListener;
+import tech.sud.mgp.hello.ui.main.nft.viewmodel.NFTViewModel;
 import tech.sud.mgp.hello.ui.scenes.base.utils.EnterRoomUtils;
 import tech.sud.mgp.hello.ui.scenes.disco.activity.DiscoRankingActivity;
 import tech.sud.mgp.hello.ui.scenes.league.activity.LeagueEntranceActivity;
@@ -67,6 +77,7 @@ public class HomeFragment extends BaseFragment implements CreatRoomClickListener
     private NewNestedScrollView scrollView;
     private ImageView menuIv;
     private MainUserInfoView userInfoView;
+    private final NFTViewModel nftViewModel = new NFTViewModel();
 
     public static HomeFragment newInstance() {
         HomeFragment fragment = new HomeFragment();
@@ -92,6 +103,8 @@ public class HomeFragment extends BaseFragment implements CreatRoomClickListener
         refreshLayout.setEnableRefresh(true);
         refreshLayout.setEnableLoadMore(false);
 
+        userInfoView.setNftMask(R.drawable.ic_nft_mask_white);
+        userInfoView.setViewWalletAddressArrowVisible(false);
         View viewStatusBar = findViewById(R.id.view_statusbar);
         ViewUtils.setHeight(viewStatusBar, ImmersionBar.getStatusBarHeight(requireContext()));
     }
@@ -106,6 +119,45 @@ public class HomeFragment extends BaseFragment implements CreatRoomClickListener
     public void onResume() {
         super.onResume();
         userInfoView.updateUserInfo();
+        updateNftHeader();
+    }
+
+    /** 更新nft头像 */
+    private void updateNftHeader() {
+        List<Long> userIdList = new ArrayList<>();
+        userIdList.add(HSUserInfo.userId);
+        UserInfoRepository.getUserInfoList(this, userIdList, new UserInfoRepository.UserInfoResultListener() {
+            @Override
+            public void userInfoList(List<UserInfoResp> userInfos) {
+                BindWalletInfoModel bindWalletInfoModel = NFTViewModel.sBindWalletInfo;
+                if (userInfos == null || userInfos.size() == 0 || bindWalletInfoModel == null) {
+                    return;
+                }
+                NftModel wearNft = bindWalletInfoModel.getWearNft();
+                if (wearNft == null) {
+                    return;
+                }
+                UserInfoResp userInfoResp = userInfos.get(0);
+                if (userInfoResp.headerType != 1 || !Objects.equals(userInfoResp.headerNftToken, wearNft.detailsToken)) {
+                    nftViewModel.cancelWearNft(new CancelWearNftListener() {
+                        @Override
+                        public void onSuccess() {
+                            LifecycleUtils.safeLifecycle(mFragment, () -> {
+                                userInfoView.updateUserInfo();
+                            });
+                        }
+
+                        @Override
+                        public void onFailure(int retCode, String retMsg) {
+                            LifecycleUtils.safeLifecycle(mFragment, () -> {
+                                nftViewModel.clearWearNft();
+                                userInfoView.updateUserInfo();
+                            });
+                        }
+                    });
+                }
+            }
+        });
     }
 
     @Override
@@ -147,9 +199,6 @@ public class HomeFragment extends BaseFragment implements CreatRoomClickListener
         });
         goSearch.setOnClickListener(v -> enterRoom());
         refreshLayout.setOnRefreshListener(refreshLayout -> loadList());
-        userInfoView.setAvatarOnClickListener(v -> {
-            new CoinDialog().show(getChildFragmentManager(), null);
-        });
         menuIv.setOnClickListener(v -> {
             if (helper != null) {
                 SceneTypeDialog dialog = SceneTypeDialog.getInstance(helper.getSelectedIndex());

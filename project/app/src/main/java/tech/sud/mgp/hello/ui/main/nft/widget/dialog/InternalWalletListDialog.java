@@ -26,10 +26,13 @@ import tech.sud.mgp.hello.common.utils.ResponseUtils;
 import tech.sud.mgp.hello.ui.common.utils.CompletedListener;
 import tech.sud.mgp.hello.ui.common.utils.LifecycleUtils;
 import tech.sud.mgp.hello.ui.main.nft.model.BindWalletInfoModel;
+import tech.sud.mgp.hello.ui.main.nft.model.NftModel;
 import tech.sud.mgp.hello.ui.main.nft.model.WalletInfoModel;
 import tech.sud.mgp.hello.ui.main.nft.model.ZoneType;
+import tech.sud.mgp.hello.ui.main.nft.viewmodel.CancelWearNftListener;
 import tech.sud.mgp.hello.ui.main.nft.viewmodel.NFTViewModel;
 import tech.sud.nft.core.listener.ISudNFTListenerGetWalletList;
+import tech.sud.nft.core.listener.ISudNFTListenerUnbindCnWallet;
 import tech.sud.nft.core.model.resp.SudNFTGetWalletListModel;
 
 /**
@@ -121,9 +124,9 @@ public class InternalWalletListDialog extends BaseBottomSheetDialogFragment {
             public void onItemChildClick(@NonNull BaseQuickAdapter<?, ?> baseQuickAdapter, @NonNull View view, int position) {
                 SudNFTGetWalletListModel.WalletInfo item = adapter.getItem(position);
                 if (view.getId() == R.id.tv_btn) {
-                    if (isBinding(item.type)) {
-                        unbindWallet(item);
-                    } else {
+                    if (isBinding(item.type)) { // 解绑
+                        onClickUnbindWallet(item);
+                    } else { // 绑定
                         if (operateListener == null) {
                             dismiss();
                         } else {
@@ -135,19 +138,68 @@ public class InternalWalletListDialog extends BaseBottomSheetDialogFragment {
         });
     }
 
-    private void unbindWallet(SudNFTGetWalletListModel.WalletInfo item) {
+    private void onClickUnbindWallet(SudNFTGetWalletListModel.WalletInfo item) {
         UnbindInternalWalletDialog dialog = UnbindInternalWalletDialog.newInstance(item);
         dialog.setOnUnbindListener(new UnbindInternalWalletDialog.OnUnbindListener() {
             @Override
             public void onUnbind() {
-                viewModel.unbindCNWallet(item.type);
-                if (operateListener != null) {
-                    operateListener.onUnbindCompleted(item);
-                }
-                refreshData();
+                unbindWalletPre(item);
             }
         });
         dialog.show(getChildFragmentManager(), null);
+    }
+
+    /** 执行解绑预处理 */
+    private void unbindWalletPre(SudNFTGetWalletListModel.WalletInfo item) {
+        // 如果当前穿戴所属为该钱包，则先进行解除穿戴
+        NftModel wearNft = viewModel.getWearNft();
+        if (wearNft != null && wearNft.walletType == item.type) {
+            viewModel.cancelWearNft(new CancelWearNftListener() {
+                @Override
+                public void onSuccess() {
+                    unbindWallet(item);
+                }
+
+                @Override
+                public void onFailure(int retCode, String retMsg) {
+                }
+            });
+        } else {
+            unbindWallet(item);
+        }
+    }
+
+    /** 执行解绑 */
+    private void unbindWallet(SudNFTGetWalletListModel.WalletInfo item) {
+        viewModel.unbindCNWallet(item.type, new ISudNFTListenerUnbindCnWallet() {
+            @Override
+            public void onSuccess() {
+                LifecycleUtils.safeLifecycle(getViewLifecycleOwner(), () -> {
+                    unbindWalletSuccess(item);
+                });
+            }
+
+            @Override
+            public void onFailure(int code, String msg) {
+                ToastUtils.showLong(ResponseUtils.nftConver(code, msg));
+            }
+        });
+    }
+
+    private void unbindWalletSuccess(SudNFTGetWalletListModel.WalletInfo item) {
+        if (operateListener != null) {
+            operateListener.onUnbindCompleted(item);
+        }
+        if (existsBindWallet()) {
+            refreshData();
+        } else {
+            dismiss();
+        }
+    }
+
+    /** 检查是否存在绑定了的钱包 */
+    private boolean existsBindWallet() {
+        return viewModel.getBindWalletInfo() != null;
     }
 
     public void setOperateListener(OperateListener operateListener) {
@@ -185,30 +237,30 @@ public class InternalWalletListDialog extends BaseBottomSheetDialogFragment {
                 tvBtn.setBackgroundColor(Color.BLACK);
             }
 
+            TextView tvBindInfo = holder.getView(R.id.tv_bind_info);
+
             if (isBinding) {
                 String phone = getBindPhone(walletInfo.type);
                 if (phone == null) {
                     phone = "";
                 }
-                holder.setText(R.id.tv_bind_info, getString(R.string.binded_info, phone));
+                tvBindInfo.setText(getString(R.string.binded_info) + phone);
+                tvBindInfo.setVisibility(View.VISIBLE);
             } else {
-                holder.setText(R.id.tv_bind_info, "");
+                tvBindInfo.setVisibility(View.GONE);
             }
         }
     }
 
-    public boolean isBinding(int walletType) {
+    public boolean isBinding(long walletType) {
         BindWalletInfoModel bindWalletInfo = viewModel.getBindWalletInfo();
         if (bindWalletInfo != null) {
-            WalletInfoModel walletInfoModel = bindWalletInfo.getWalletInfoModel(walletType);
-            if (walletInfoModel != null) {
-                return true;
-            }
+            return bindWalletInfo.isContainer(walletType);
         }
         return false;
     }
 
-    public String getBindPhone(int walletType) {
+    public String getBindPhone(long walletType) {
         BindWalletInfoModel bindWalletInfo = viewModel.getBindWalletInfo();
         if (bindWalletInfo != null) {
             WalletInfoModel walletInfoModel = bindWalletInfo.getWalletInfoModel(walletType);

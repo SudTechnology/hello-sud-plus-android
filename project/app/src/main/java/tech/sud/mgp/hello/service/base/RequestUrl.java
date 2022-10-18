@@ -139,4 +139,7 @@ public interface RequestUrl {
     String LEAGUE_PLAYING = "league/playing/v1";
     // endregion 联赛
 
+    /** 带入筹码到游戏 */
+    String GAME_BRING_CHIP = "app/bring-chip/v1";
+
 }

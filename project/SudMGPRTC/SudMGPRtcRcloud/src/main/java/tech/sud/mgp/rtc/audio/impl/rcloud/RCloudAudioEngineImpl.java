@@ -270,8 +270,12 @@ public class RCloudAudioEngineImpl implements ISudAudioEngine {
     @Override
     public void sendCommand(String command, SendCommandListener listener) {
         RCRTCRoom rcrtcRoom = RCRTCEngine.getInstance().getRoom();
-        if (rcrtcRoom == null)
+        if (rcrtcRoom == null) {
+            if (null != listener) {
+                listener.onResult(-1);
+            }
             return;
+        }
 
         IRCVoiceRoomEngine engine = getEngine();
         if (engine != null) {
@@ -279,13 +283,22 @@ public class RCloudAudioEngineImpl implements ISudAudioEngine {
             engine.sendRoomMessage(messageContent, new RCVoiceRoomCallback() {
                 @Override
                 public void onSuccess() {
+                    if (null != listener) {
+                        listener.onResult(0);
+                    }
                 }
 
                 @Override
                 public void onError(int i, String s) {
-
+                    if (null != listener) {
+                        listener.onResult(i);
+                    }
                 }
             });
+        } else {
+            if (null != listener) {
+                listener.onResult(-1);
+            }
         }
     }
 

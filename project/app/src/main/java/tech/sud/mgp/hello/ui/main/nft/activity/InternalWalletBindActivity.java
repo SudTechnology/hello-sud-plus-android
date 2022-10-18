@@ -34,10 +34,10 @@ import tech.sud.mgp.hello.ui.common.utils.LifecycleUtils;
 import tech.sud.mgp.hello.ui.common.widget.HSTopBar;
 import tech.sud.mgp.hello.ui.main.base.utils.RouterUtils;
 import tech.sud.mgp.hello.ui.main.nft.viewmodel.NFTViewModel;
+import tech.sud.nft.core.listener.ISudNFTListenerBindCnWallet;
 import tech.sud.nft.core.listener.ISudNFTListenerSendSmsCode;
-import tech.sud.nft.core.listener.ISudNFTListenerSmsCodeBindWallet;
+import tech.sud.nft.core.model.resp.SudNFTBindCnWalletModel;
 import tech.sud.nft.core.model.resp.SudNFTGetWalletListModel;
-import tech.sud.nft.core.model.resp.SudNFTSmsCodeBindWalletModel;
 
 /**
  * 国内钱包绑定页面
@@ -58,9 +58,9 @@ public class InternalWalletBindActivity extends BaseActivity {
 
     private SudNFTGetWalletListModel.WalletInfo walletInfo;
     private static long sendSmsCodeTimestamp;
-    private int countdownTotalCount = 60;
+    private final int countdownTotalCount = 60;
     private CustomCountdownTimer sendSmsCodeCountdownTimer;
-    private NFTViewModel viewModel = new NFTViewModel();
+    private final NFTViewModel viewModel = new NFTViewModel();
 
     public static void start(Context context, SudNFTGetWalletListModel.WalletInfo walletInfo) {
         Intent intent = new Intent(context, InternalWalletBindActivity.class);
@@ -181,6 +181,9 @@ public class InternalWalletBindActivity extends BaseActivity {
                 }
             }
         });
+        viewClearPhone.setOnClickListener((v) -> {
+            etPhone.setText("");
+        });
         tvSmsCode.setOnClickListener(v -> {
             sendSmsCode();
         });
@@ -202,10 +205,11 @@ public class InternalWalletBindActivity extends BaseActivity {
             return;
         }
         tvConfirm.setEnabled(false);
-        viewModel.bindCNWallet(walletInfo, HSUserInfo.userId + "", phone, smsCode, new ISudNFTListenerSmsCodeBindWallet() {
+        viewModel.bindCnWallet(walletInfo, HSUserInfo.userId + "", phone, smsCode, new ISudNFTListenerBindCnWallet() {
             @Override
-            public void onSuccess(SudNFTSmsCodeBindWalletModel sudNFTSmsCodeBindWalletModel) {
+            public void onSuccess(SudNFTBindCnWalletModel resp) {
                 LifecycleUtils.safeLifecycle(context, () -> {
+                    ToastUtils.showLong(R.string.auth_success);
                     tvConfirm.setEnabled(true);
                     finish();
                 });
@@ -215,7 +219,7 @@ public class InternalWalletBindActivity extends BaseActivity {
             public void onFailure(int code, String msg) {
                 LifecycleUtils.safeLifecycle(context, () -> {
                     tvConfirm.setEnabled(true);
-                    ToastUtils.showLong(ResponseUtils.conver(code, msg));
+                    ToastUtils.showLong(ResponseUtils.nftConver(code, msg));
                 });
             }
         });
@@ -238,7 +242,7 @@ public class InternalWalletBindActivity extends BaseActivity {
             public void onFailure(int code, String msg) {
                 LifecycleUtils.safeLifecycle(context, () -> {
                     tvSmsCode.setEnabled(true);
-                    ToastUtils.showLong(ResponseUtils.conver(code, msg));
+                    ToastUtils.showLong(ResponseUtils.nftConver(code, msg));
                 });
             }
         });

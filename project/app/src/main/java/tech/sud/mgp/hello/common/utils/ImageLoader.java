@@ -74,6 +74,7 @@ public class ImageLoader {
                         if (backgroundDrawable != null) {
                             backgroundDrawable.stop();
                         }
+                        view.setBackground(null);
                         if (listener != null) {
                             listener.onResourceReady(resource, model, target, dataSource, isFirstResource);
                         }

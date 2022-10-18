@@ -31,6 +31,7 @@ import tech.sud.mgp.hello.service.main.resp.BaseConfigResp;
 import tech.sud.mgp.hello.ui.common.utils.channel.NotifyChannelHelper;
 import tech.sud.mgp.hello.ui.main.discover.DiscoverFragment;
 import tech.sud.mgp.hello.ui.main.home.HomeFragment;
+import tech.sud.mgp.hello.ui.main.nft.viewmodel.NFTViewModel;
 import tech.sud.mgp.hello.ui.main.roomlist.RoomListFragment;
 import tech.sud.mgp.hello.ui.main.settings.fragment.SettingsFragment;
 
@@ -44,6 +45,7 @@ public class MainActivity extends BaseActivity implements MainTabView.TabClickLi
     private MainTabView currentTabView;
     private final List<TabModel> tabs = new ArrayList<>();
     private final List<MainTabView> tabViews = new ArrayList<>();
+    private NFTViewModel nftViewModel = new NFTViewModel();
 
     @Override
     protected int getLayoutId() {
@@ -74,6 +76,7 @@ public class MainActivity extends BaseActivity implements MainTabView.TabClickLi
         super.initData();
         new NotifyChannelHelper().initChannel(this);
         getBaseConfig();
+        nftViewModel.initData(this);
     }
 
     private void getBaseConfig() {
@@ -226,4 +229,5 @@ public class MainActivity extends BaseActivity implements MainTabView.TabClickLi
         }
         return false;
     }
+
 }

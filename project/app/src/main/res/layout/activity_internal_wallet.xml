@@ -83,6 +83,7 @@
                     android:maxLength="30"
                     android:textSize="16sp"
                     android:textColor="@color/c_1a1a1a"
+                    android:hint="@string/phone_number_hint"
                     android:gravity="center_vertical"
                     android:textColorHint="@color/c_aaaaaa"
                     android:background="@color/transparent"

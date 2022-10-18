@@ -173,12 +173,22 @@ public class TXAudioEngineImpl implements ISudAudioEngine {
     @Override
     public void sendCommand(String command, SendCommandListener listener) {
         if (command == null) {
+            if (null != listener) {
+                listener.onResult(-1);
+            }
             return;
         }
 
         TRTCCloud engine = getEngine();
         if (engine != null) {
             engine.sendCustomCmdMsg(0, command.getBytes(), true, true);
+            if (null != listener) {
+                listener.onResult(0);
+            }
+        } else {
+            if (null != listener) {
+                listener.onResult(-1);
+            }
         }
     }
 
@@ -194,9 +204,9 @@ public class TXAudioEngineImpl implements ISudAudioEngine {
 
     // 更新房间内用户总人数
     private void updateRoomUserCount() {
-        ISudAudioEventListener handler = mISudAudioEventListener;
-        if (handler != null) {
-            handler.onRoomOnlineUserCountUpdate(roomUserList.size() + 1);
+        ISudAudioEventListener listener = mISudAudioEventListener;
+        if (listener != null) {
+            listener.onRoomOnlineUserCountUpdate(roomUserList.size() + 1);
         }
     }
 

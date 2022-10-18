@@ -21,6 +21,7 @@ import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseActivity;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.ui.common.utils.LifecycleUtils;
+import tech.sud.mgp.hello.ui.common.widget.HSTopBar;
 import tech.sud.mgp.hello.ui.common.widget.refresh.ListModel;
 import tech.sud.mgp.hello.ui.common.widget.refresh.RefreshDataHelper;
 import tech.sud.mgp.hello.ui.common.widget.refresh.RefreshView;
@@ -30,7 +31,7 @@ import tech.sud.mgp.hello.ui.main.nft.model.NftListResultModel;
 import tech.sud.mgp.hello.ui.main.nft.model.NftModel;
 import tech.sud.mgp.hello.ui.main.nft.model.ZoneType;
 import tech.sud.mgp.hello.ui.main.nft.viewmodel.NFTViewModel;
-import tech.sud.nft.core.model.param.SudNFTGetCNNFTListParamModel;
+import tech.sud.nft.core.model.param.SudNFTGetCnNFTListParamModel;
 import tech.sud.nft.core.model.param.SudNFTGetNFTListParamModel;
 
 /**
@@ -41,6 +42,7 @@ public class NftListActivity extends BaseActivity {
     private NftListAdapter adapter;
     private final NFTViewModel viewModel = new NFTViewModel();
     private RefreshView refreshView;
+    private HSTopBar topBar;
     private RefreshDataHelper<NftModel> refreshDataHelper;
     private final Map<Integer, String> pageKeyMaps = new HashMap<>();
 
@@ -54,6 +56,7 @@ public class NftListActivity extends BaseActivity {
         super.initWidget();
         adapter = new NftListAdapter();
         refreshView = findViewById(R.id.refresh_view);
+        topBar = findViewById(R.id.top_bar);
 
         initRecyclerView();
         initRefreshDataHelper();
@@ -87,7 +90,7 @@ public class NftListActivity extends BaseActivity {
                 };
             }
         };
-        if (bindWalletInfo != null && bindWalletInfo.zoneType == ZoneType.OVERSEAS) {
+        if (bindWalletInfo != null && bindWalletInfo.getZoneType() == ZoneType.OVERSEAS) {
             refreshDataHelper.setRefreshDataModel(RefreshDataHelper.RefreshDataModel.IGNORE_PAGE_SIZE);
         } else {
             refreshDataHelper.setFirstPageNumber(0);
@@ -99,7 +102,7 @@ public class NftListActivity extends BaseActivity {
         if (bindWalletInfo == null) {
             return;
         }
-        if (bindWalletInfo.zoneType == ZoneType.OVERSEAS) {
+        if (bindWalletInfo.getZoneType() == ZoneType.OVERSEAS) {
             getOverseasData(pageNumber, pageSize, bindWalletInfo);
         } else {
             getInternalData(pageNumber, pageSize, bindWalletInfo);
@@ -107,9 +110,9 @@ public class NftListActivity extends BaseActivity {
     }
 
     private void getInternalData(int pageNumber, int pageSize, BindWalletInfoModel bindWalletInfo) {
-        SudNFTGetCNNFTListParamModel model = new SudNFTGetCNNFTListParamModel();
+        SudNFTGetCnNFTListParamModel model = new SudNFTGetCnNFTListParamModel();
         model.walletType = bindWalletInfo.walletType;
-        model.walletToken = bindWalletInfo.walletToken;
+        model.walletToken = bindWalletInfo.getWalletToken();
         model.pageNumber = pageNumber;
         model.pageSize = pageSize;
         viewModel.getCNNftList(model, new NFTViewModel.GetNftListListener() {
@@ -122,6 +125,7 @@ public class NftListActivity extends BaseActivity {
                     } else {
                         datas = model.list;
                     }
+                    setNftDetail(datas, bindWalletInfo.walletType, bindWalletInfo.getZoneType());
                     moveDressedInToFirst(datas);
                     refreshDataHelper.respDatasSuccess(new ListModel<>(pageNumber, pageSize, datas));
                     refreshView.getRecyclerView().post(() -> {
@@ -151,9 +155,9 @@ public class NftListActivity extends BaseActivity {
         }
 
         SudNFTGetNFTListParamModel model = new SudNFTGetNFTListParamModel();
-        model.walletToken = bindWalletInfo.walletToken;
+        model.walletToken = bindWalletInfo.getWalletToken();
         model.chainType = bindWalletInfo.getChainType();
-        model.walletAddress = bindWalletInfo.walletAddress;
+        model.walletAddress = bindWalletInfo.getWalletAddress();
         model.pageKey = pageKey;
         viewModel.getNftList(model, new NFTViewModel.GetNftListListener() {
             @Override
@@ -166,6 +170,7 @@ public class NftListActivity extends BaseActivity {
                         datas = model.list;
                         pageKeyMaps.put(pageNumber + 1, model.pageKey);
                     }
+                    setNftDetail(datas, bindWalletInfo.walletType, bindWalletInfo.getZoneType());
                     moveDressedInToFirst(datas);
                     refreshDataHelper.respDatasSuccess(new ListModel<>(pageNumber, pageSize, datas));
                     refreshView.getRecyclerView().post(() -> {
@@ -183,6 +188,16 @@ public class NftListActivity extends BaseActivity {
         });
     }
 
+    private void setNftDetail(List<NftModel> list, long walletType, int zoneType) {
+        if (list == null || list.size() == 0) {
+            return;
+        }
+        for (NftModel nftModel : list) {
+            nftModel.walletType = walletType;
+            nftModel.zoneType = zoneType;
+        }
+    }
+
     private String getPageKey(int pageNumber) {
         return pageKeyMaps.get(pageNumber);
     }
@@ -198,6 +213,10 @@ public class NftListActivity extends BaseActivity {
     protected void initData() {
         super.initData();
         viewModel.initData(this);
+        BindWalletInfoModel bindWalletInfo = viewModel.getBindWalletInfo();
+        if (bindWalletInfo != null && bindWalletInfo.getZoneType() == ZoneType.INTERNAL) {
+            topBar.setTitle(getString(R.string.my_digital_collection));
+        }
     }
 
     @Override

@@ -73,6 +73,8 @@ android {
             buildConfigField("String", "gameBaseUrl", "\"" + project.gameBaseUrl + "\"")
             buildConfigField("String", "buglyAppId", "\"" + project.buglyAppId + "\"")
             buildConfigField("boolean", "gameIsTestEnv", project.gameIsTestEnv)
+            buildConfigField("String", "nftEnv", "\"" + project.nftEnv + "\"")
+            buildConfigField("String", "mgpEnv", "\"" + project.mgpEnv + "\"")
         }
     }
 }
@@ -88,7 +90,7 @@ dependencies {
     implementation project(':SudMGPWrapper')
 
     // 引入 SudNFT
-    implementation project(':SudNFTSDK')
+    implementation project(':SudNFT:SudNFTSDK')
 
     // 引入 SudMGPRTC
     implementation project(':SudMGPRTC:SudMGPRtcAgora')

@@ -2,12 +2,12 @@ package tech.sud.mgp.hello.ui.main.nft.model;
 
 import java.util.ArrayList;
 
-import tech.sud.nft.core.model.resp.SudNFTGetCNNFTListModel;
+import tech.sud.nft.core.model.resp.SudNFTGetCnNFTListModel;
 import tech.sud.nft.core.model.resp.SudNFTGetNFTListModel;
 
 public class NftListResultModelConvertor {
 
-    public static NftListResultModel conver(SudNFTGetNFTListModel src) {
+    public static NftListResultModel conver(long chainType, SudNFTGetNFTListModel src) {
         if (src == null) {
             return null;
         }
@@ -17,13 +17,13 @@ public class NftListResultModelConvertor {
         if (src.nftList != null) {
             dest.list = new ArrayList<>();
             for (SudNFTGetNFTListModel.NFTInfo srcNFTInfo : src.nftList) {
-                dest.list.add(conver(srcNFTInfo));
+                dest.list.add(conver(chainType, srcNFTInfo));
             }
         }
         return dest;
     }
 
-    public static NftModel conver(SudNFTGetNFTListModel.NFTInfo srcNftInfo) {
+    private static NftModel conver(long chainType, SudNFTGetNFTListModel.NFTInfo srcNftInfo) {
         NftModel destNftInfo = new NftModel();
         destNftInfo.contractAddress = srcNftInfo.contractAddress;
         destNftInfo.tokenId = srcNftInfo.tokenId;
@@ -33,10 +33,12 @@ public class NftListResultModelConvertor {
         destNftInfo.fileUrl = srcNftInfo.fileUrl;
         destNftInfo.fileType = srcNftInfo.fileType;
         destNftInfo.coverUrl = srcNftInfo.coverUrl;
+        destNftInfo.extension = srcNftInfo.extension;
+        destNftInfo.chainType = chainType;
         return destNftInfo;
     }
 
-    public static NftListResultModel conver(SudNFTGetCNNFTListModel src) {
+    public static NftListResultModel conver(long chainType, SudNFTGetCnNFTListModel src) {
         if (src == null) {
             return null;
         }
@@ -44,23 +46,24 @@ public class NftListResultModelConvertor {
         dest.totalCount = src.totalCount;
         if (src.list != null) {
             dest.list = new ArrayList<>();
-            for (SudNFTGetCNNFTListModel.CNNFTInfo srcNFTInfo : src.list) {
-                dest.list.add(conver(srcNFTInfo));
+            for (SudNFTGetCnNFTListModel.CnNFTInfo srcNFTInfo : src.list) {
+                dest.list.add(conver(chainType, srcNFTInfo));
             }
         }
         return dest;
     }
 
-    public static NftModel conver(SudNFTGetCNNFTListModel.CNNFTInfo srcNftInfo) {
+    private static NftModel conver(long chainType, SudNFTGetCnNFTListModel.CnNFTInfo srcNftInfo) {
         NftModel destNftInfo = new NftModel();
         destNftInfo.name = srcNftInfo.name;
-        destNftInfo.description = srcNftInfo.description;
+        destNftInfo.description = srcNftInfo.desc;
         destNftInfo.fileUrl = srcNftInfo.fileUrl;
         destNftInfo.fileType = srcNftInfo.fileType;
         destNftInfo.coverUrl = srcNftInfo.coverUrl;
-        destNftInfo.contractAddress = srcNftInfo.hash;
+        destNftInfo.contractAddress = srcNftInfo.cardHash;
         destNftInfo.tokenId = srcNftInfo.chainAddr;
         destNftInfo.cardId = srcNftInfo.cardId;
+        destNftInfo.chainType = chainType;
 //        destNftInfo.tokenType = srcNftInfo.tokenType;
         return destNftInfo;
     }

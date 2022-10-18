@@ -43,7 +43,9 @@ import tech.sud.mgp.hello.service.game.repository.GameRepository;
 import tech.sud.mgp.hello.service.game.resp.GameLoginResp;
 import tech.sud.mgp.hello.service.main.config.SudConfig;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
+import tech.sud.mgp.hello.ui.scenes.base.model.GameLoadingProgressModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.GameTextModel;
+import tech.sud.mgp.hello.ui.scenes.base.utils.EnvUtils;
 import tech.sud.mgp.rtc.audio.core.AudioPCMData;
 
 /**
@@ -51,6 +53,7 @@ import tech.sud.mgp.rtc.audio.core.AudioPCMData;
  */
 public class AppGameViewModel implements SudFSMMGListener {
 
+    // region field
     public static long GAME_ID_NONE = 0; // 没有游戏
 
     private long gameRoomId; // 游戏房间id
@@ -74,11 +77,16 @@ public class AppGameViewModel implements SudFSMMGListener {
     public final MutableLiveData<Boolean> gameLoadingCompletedLiveData = new MutableLiveData<>(); // 游戏是否已加载完成
     public final MutableLiveData<Object> gameStartedLiveData = new MutableLiveData<>(); // onGameStarted回调
     public final MutableLiveData<Object> captainChangeLiveData = new MutableLiveData<>(); // 队长变化了
+    public final MutableLiveData<GameLoadingProgressModel> gameLoadingProgressLiveData = new MutableLiveData<>(); // 游戏加载进度回调
+    public final MutableLiveData<Object> onGameGetScoreLiveData = new MutableLiveData<>(); // 游戏通知app获取积分
+    public final MutableLiveData<SudMGPMGState.MGCommonGameSetScore> onGameSetScoreLiveData = new MutableLiveData<>(); // 24. 游戏通知app带入积分
 
     private boolean isRunning = true; // 业务是否还在运行
     public View gameView; // 游戏View
     private int selfMicIndex = -1; // 记录自己所在麦位
     public GameConfigModel gameConfigModel = new GameConfigModel(); // 游戏配置
+
+    // endregion field
 
     /**
      * 外部调用切换游戏
@@ -172,6 +180,7 @@ public class AppGameViewModel implements SudFSMMGListener {
             ToastUtils.showLong("SudConfig is empty");
             return;
         }
+        EnvUtils.initMgpEnv();
         // 初始化sdk
         SudMGP.initSDK(activity, sudConfig.appId, sudConfig.appKey, APPConfig.GAME_IS_TEST_ENV, new ISudListenerInitSDK() {
             @Override
@@ -656,6 +665,12 @@ public class AppGameViewModel implements SudFSMMGListener {
     }
 
     @Override
+    public void onGameLoadingProgress(int stage, int retCode, int progress) {
+        SudFSMMGListener.super.onGameLoadingProgress(stage, retCode, progress);
+        gameLoadingProgressLiveData.setValue(new GameLoadingProgressModel(stage, retCode, progress));
+    }
+
+    @Override
     public void onGameStarted() {
         if (selfMicIndex >= 0) {
             autoJoinGame();
@@ -781,6 +796,26 @@ public class AppGameViewModel implements SudFSMMGListener {
             notifyUpdateMic();
         }
         ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 23. 游戏通知app获取积分
+     * mg_common_game_score
+     */
+    @Override
+    public void onGameMGCommonGameGetScore(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameGetScore model) {
+        SudFSMMGListener.super.onGameMGCommonGameGetScore(handle, model);
+        onGameGetScoreLiveData.setValue(null);
+    }
+
+    /**
+     * 24. 游戏通知app带入积分
+     * mg_common_game_set_score
+     */
+    @Override
+    public void onGameMGCommonGameSetScore(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameSetScore model) {
+        SudFSMMGListener.super.onGameMGCommonGameSetScore(handle, model);
+        onGameSetScoreLiveData.setValue(model);
     }
     // endregion 游戏侧回调
 

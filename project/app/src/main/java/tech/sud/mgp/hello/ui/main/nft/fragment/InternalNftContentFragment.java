@@ -2,6 +2,7 @@ package tech.sud.mgp.hello.ui.main.nft.fragment;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -14,6 +15,7 @@ import java.io.Serializable;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseFragment;
 import tech.sud.mgp.hello.ui.main.nft.model.NftModel;
+import tech.sud.mgp.hello.ui.main.nft.model.ZoneType;
 
 /**
  * 详情页中，展示国内钱包内容
@@ -25,8 +27,15 @@ public class InternalNftContentFragment extends BaseFragment {
     private View viewTokenId;
     private TextView tvAddress;
     private TextView tvTokenId;
-
+    private TextView tvDesc;
+    private TextView tvShowMore;
+    private View viewShowMore;
+    private View viewMoreArrow;
     private NftModel nftModel;
+
+    private boolean showFullDesc;
+    private int descMaxLine;
+    private int descScaleLine = 3;
 
     public static InternalNftContentFragment newInstance(NftModel nftModel) {
         Bundle args = new Bundle();
@@ -61,6 +70,10 @@ public class InternalNftContentFragment extends BaseFragment {
         tvAddress = findViewById(R.id.tv_address);
         viewTokenId = findViewById(R.id.view_token_id);
         tvTokenId = findViewById(R.id.tv_token_id);
+        tvDesc = findViewById(R.id.tv_desc);
+        tvShowMore = findViewById(R.id.tv_show_more);
+        viewShowMore = findViewById(R.id.view_show_more);
+        viewMoreArrow = findViewById(R.id.view_more_arrow);
     }
 
     @Override
@@ -72,6 +85,8 @@ public class InternalNftContentFragment extends BaseFragment {
         tvName.setText(nftModel.name);
         tvAddress.setText(nftModel.contractAddress);
         tvTokenId.setText(nftModel.tokenId);
+        tvDesc.setText(nftModel.description);
+        viewShowMore.setVisibility(View.GONE);
     }
 
     @Override
@@ -93,6 +108,50 @@ public class InternalNftContentFragment extends BaseFragment {
             ClipboardUtils.copyText(text);
             ToastUtils.showShort(R.string.copy_success);
         });
+        viewShowMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showFullDesc = !showFullDesc;
+                updateShowMore();
+            }
+        });
+
+        tvDesc.setMaxLines(Integer.MAX_VALUE); // 因为一开始我们不知道内容又多少，所以要设置足够的行数
+        tvDesc.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                // 这个监听的回调是异步的，在监听完以后一定要把绘制监听移除，不然这个会一直回调，导致界面错乱
+                tvDesc.getViewTreeObserver().removeOnPreDrawListener(this);
+                descMaxLine = tvDesc.getLineCount();
+                updateShowMore();
+                return true;
+            }
+        });
+    }
+
+    private void updateShowMore() {
+        if (showFullDesc) { // 当前是全部展示
+            tvDesc.setMaxLines(Integer.MAX_VALUE);
+            viewMoreArrow.setRotation(180);
+            if (nftModel.zoneType == ZoneType.OVERSEAS) {
+                tvShowMore.setText(R.string.see_less);
+            } else {
+                tvShowMore.setText(R.string.pack_up);
+            }
+        } else {
+            tvDesc.setMaxLines(descScaleLine);
+            viewMoreArrow.setRotation(0);
+            if (nftModel.zoneType == ZoneType.OVERSEAS) {
+                tvShowMore.setText(R.string.see_more);
+            } else {
+                tvShowMore.setText(R.string.spread);
+            }
+        }
+        if (descMaxLine > descScaleLine) {
+            viewShowMore.setVisibility(View.VISIBLE);
+        } else {
+            viewShowMore.setVisibility(View.GONE);
+        }
     }
 
 }

@@ -58,10 +58,7 @@ public class LoginRepository {
         GlobalSP.getSP().put(GlobalSP.USER_TOKEN_KEY, HSUserInfo.token);
         GlobalSP.getSP().put(GlobalSP.USER_REFRESHTOKEN_KEY, HSUserInfo.refreshToken);
         GlobalSP.getSP().put(GlobalSP.USER_HEADER_TYPE_KEY, HSUserInfo.headerType);
-        GlobalSP.getSP().put(GlobalSP.USER_HEADER_NFT_TOKEN_KEY, HSUserInfo.headerNftToken);
-        GlobalSP.getSP().put(GlobalSP.USER_HEADER_NFT_URL_KEY, HSUserInfo.headerNftUrl);
-        GlobalSP.getSP().put(GlobalSP.USER_WALLET_ADDRESS_KEY, HSUserInfo.walletAddress);
-        GlobalSP.getSP().put(GlobalSP.USER_WALLET_ZONE_TYPE_KEY, HSUserInfo.zoneType);
+        GlobalSP.getSP().put(GlobalSP.KEY_USER_HEADER_NFT_URL, HSUserInfo.headerNftUrl);
     }
 
     /**
@@ -74,10 +71,7 @@ public class LoginRepository {
         HSUserInfo.token = GlobalSP.getSP().getString(GlobalSP.USER_TOKEN_KEY);
         HSUserInfo.refreshToken = GlobalSP.getSP().getString(GlobalSP.USER_REFRESHTOKEN_KEY);
         HSUserInfo.headerType = GlobalSP.getSP().getInt(GlobalSP.USER_HEADER_TYPE_KEY);
-        HSUserInfo.headerNftToken = GlobalSP.getSP().getString(GlobalSP.USER_HEADER_NFT_TOKEN_KEY);
-        HSUserInfo.headerNftUrl = GlobalSP.getSP().getString(GlobalSP.USER_HEADER_NFT_URL_KEY);
-        HSUserInfo.walletAddress = GlobalSP.getSP().getString(GlobalSP.USER_WALLET_ADDRESS_KEY);
-        HSUserInfo.zoneType = GlobalSP.getSP().getInt(GlobalSP.USER_WALLET_ZONE_TYPE_KEY);
+        HSUserInfo.headerNftUrl = GlobalSP.getSP().getString(GlobalSP.KEY_USER_HEADER_NFT_URL);
     }
 
 }

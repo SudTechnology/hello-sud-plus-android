@@ -53,7 +53,10 @@ public class SudFSMMGDecorator implements ISudFSMMG {
      */
     @Override
     public void onGameLoadingProgress(int stage, int retCode, int progress) {
-
+        SudFSMMGListener listener = sudFSMMGListener;
+        if (listener != null) {
+            listener.onGameLoadingProgress(stage, retCode, progress);
+        }
     }
 
     /**
@@ -313,6 +316,22 @@ public class SudFSMMGDecorator implements ISudFSMMG {
                     ISudFSMStateHandleUtils.handleSuccess(handle);
                 } else {
                     listener.onGameMGCommonGameNetworkState(handle, mgCommonGameNetworkState);
+                }
+                break;
+            case SudMGPMGState.MG_COMMON_GAME_GET_SCORE: // 23. 游戏通知app获取积分
+                SudMGPMGState.MGCommonGameGetScore mgCommonGameScore = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonGameGetScore.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGCommonGameGetScore(handle, mgCommonGameScore);
+                }
+                break;
+            case SudMGPMGState.MG_COMMON_GAME_SET_SCORE: // 24. 游戏通知app带入积分
+                SudMGPMGState.MGCommonGameSetScore mgCommonGameSetScore = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonGameSetScore.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGCommonGameSetScore(handle, mgCommonGameSetScore);
                 }
                 break;
             case SudMGPMGState.MG_COMMON_GAME_DISCO_ACTION: // 1. 元宇宙砂砂舞指令回调

@@ -2,6 +2,8 @@ package tech.sud.mgp.hello.ui.main.nft.model;
 
 import android.text.TextUtils;
 
+import org.json.JSONObject;
+
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -37,6 +39,9 @@ public class NftModel implements Serializable {
     /** 封面地址 */
     public String coverUrl;
 
+    /** 扩展字段 */
+    public JSONObject extension;
+
     // region 国内钱包
     /** 藏品id */
     public String cardId;
@@ -44,6 +49,14 @@ public class NftModel implements Serializable {
 
     // region 自定义参数
     public boolean isDressedIn; // 是否是穿戴中
+
+    public String detailsToken; // 穿戴token
+
+    public long walletType; // 当前使用的钱包类型
+
+    public int zoneType; // 区域类型 0国外 1国内
+
+    public long chainType; // 链类型
     // endregion 自定义参数
 
     /** 获取显示的URL */
@@ -62,11 +75,12 @@ public class NftModel implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         NftModel nftModel = (NftModel) o;
-        return Objects.equals(contractAddress, nftModel.contractAddress) && Objects.equals(tokenId, nftModel.tokenId);
+        return Objects.equals(contractAddress, nftModel.contractAddress) && Objects.equals(tokenId, nftModel.tokenId)
+                && Objects.equals(chainType, nftModel.chainType);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(contractAddress, tokenId);
+        return Objects.hash(contractAddress, tokenId, chainType);
     }
 }

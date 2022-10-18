@@ -69,7 +69,7 @@ public class ChangeInternalAccountDialog extends BaseDialogFragment {
                     return;
                 }
                 dismiss();
-                viewModel.changeAccount(item.type);
+                viewModel.changeWallet(item.type);
                 if (changeAccountListener != null) {
                     changeAccountListener.onChange(item);
                 }
@@ -102,7 +102,7 @@ public class ChangeInternalAccountDialog extends BaseDialogFragment {
         }
     }
 
-    private boolean isUseWallet(int walletType) {
+    private boolean isUseWallet(long walletType) {
         BindWalletInfoModel bindWalletInfo = viewModel.getBindWalletInfo();
         if (bindWalletInfo != null) {
             return bindWalletInfo.walletType == walletType;

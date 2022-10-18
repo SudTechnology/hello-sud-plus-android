@@ -89,9 +89,9 @@
   </details>
 
 
-- 第三步：布局文件中定义一个游戏View容器，例如：app_audio_room_activity.xml
+- 第三步：布局文件中定义一个游戏View容器，例如：activity_game.xml
     <details>
-    <summary>详细描述 app_audio_room_activity.xml</summary>
+    <summary>详细描述 activity_game.xml</summary>
 
     ``` xml
     <!-- 游戏View容器，android:visibility属性不能设置为gone -->
@@ -103,9 +103,9 @@
     </details>
 
 
-- 第四步：创建QuickStartGameViewModel实例，例如：AppAudioRoomActivity
+- 第四步：创建QuickStartGameViewModel实例，例如：QuickStartActivity
     <details>
-    <summary>详细描述 AppAudioRoomActivity.java</summary>
+    <summary>详细描述 QuickStartActivity.java</summary>
 
       1.实现游戏View的添加与移除；
       2.代码；
@@ -133,10 +133,10 @@
 
 - 第五步：加载游戏
     <details>
-    <summary>详细描述 AppAudioRoomActivity.java</summary>
+    <summary>详细描述 QuickStartActivity.java</summary>
 
     ``` java
-    // 加载游戏，参数定义可查看方法注释
+    // 加载游戏，参数定义可查看BaseGameViewModel.switchGame()方法注释
   
     // App的房间ID
     String appRoomId = "10000";       
@@ -149,7 +149,7 @@
 
 - 第六步：销毁游戏
     <details>
-    <summary>详细描述 AppAudioRoomActivity.java</summary>
+    <summary>详细描述 QuickStartActivity.java</summary>
 
     ``` java
     @Override
@@ -194,7 +194,7 @@
 
     ``` java
     public class SudFSTAPPDecorator {
-        // iSudFSTAPP = SudMGP.loadMG(AppAudioRoomActivity, userId, roomId, code, gameId, language, sudFSMMGDecorator);
+        // iSudFSTAPP = SudMGP.loadMG(QuickStartActivity, userId, roomId, code, gameId, language, sudFSMMGDecorator);
         public void setISudFSTAPP(ISudFSTAPP iSudFSTAPP);
         // 1. 加入状态
         public void notifyAPPCommonSelfIn(boolean isIn, int seatIndex, boolean isSeatRandom, int teamId);

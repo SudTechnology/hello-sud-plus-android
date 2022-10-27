@@ -96,12 +96,16 @@
     <string name="custom_config_game_countdown_time_subtitle">(ui.game_countdown_time.hide)</string>
     <string name="custom_config_game_selected_tips">The feature to disable th prompt text of play method selected in the game (Currently supported by Ludo only.)</string>
     <string name="custom_config_game_selected_tips_subtitle">(ui.game_selected_tips.hide)</string>
-    <string name="custom_config_nft_avatar">控制NFT头像的开关</string>
+    <string name="custom_config_nft_avatar">NFT avatar in the game</string>
     <string name="custom_config_nft_avatar_subtitle">(ui.nft_avatar.hide)</string>
-    <string name="custom_config_game_opening">控制开场动画的开关</string>
+    <string name="custom_config_game_opening">Game opening animation</string>
     <string name="custom_config_game_opening_subtitle">(ui.game_opening.hide)</string>
-    <string name="custom_config_game_mvp">控制MVP动画的开关</string>
+    <string name="custom_config_game_mvp">Mvp animation before game settlement</string>
     <string name="custom_config_game_mvp_subtitle">(ui.game_mvp.hide)</string>
+    <string name="custom_config_umo_icon">UMO icon in the upper right corner of animation and avatar in the game</string>
+    <string name="custom_config_umo_icon_subtitle">(ui.umo_icon.hide)</string>
+    <string name="custom_config_logo">the logo in lobby</string>
+    <string name="custom_config_logo_subtitle">(ui.logo.hide)</string>
 
     <!-- endregion custom场景，暂不用全部翻译 -->
 </resources>

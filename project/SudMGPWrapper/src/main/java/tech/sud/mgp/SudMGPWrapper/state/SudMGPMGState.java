@@ -607,12 +607,12 @@ public class SudMGPMGState implements Serializable {
     }
 
     /**
-     * 7. 游戏通知app点击玩家头像（2022-02-09新增，现在只支持飞行棋ludo，仅用于游戏场景中的玩家头像）
+     * 7. 游戏通知app点击玩家头像
      */
     public static final String MG_COMMON_SELF_CLICK_GAME_PLAYER_ICON = "mg_common_self_click_game_player_icon";
 
     /**
-     * 7. 游戏通知app点击玩家头像（2022-02-09新增，现在只支持飞行棋ludo，仅用于游戏场景中的玩家头像）模型
+     * 7. 游戏通知app点击玩家头像 模型
      */
     public static class MGCommonSelfClickGamePlayerIcon implements Serializable {
         // 被点击头像的用户id
@@ -668,6 +668,18 @@ public class SudMGPMGState implements Serializable {
      */
     public static class MGCommonGameCountdownTime implements Serializable {
         public int countdown;// 剩余时间，单位为秒
+    }
+
+    /**
+     * 12. 游戏通知app层当前玩家死亡后变成ob视角（2022-08-23新增，目前狼人杀生效）
+     */
+    public static final String MG_COMMON_SELF_OB_STATUS = "mg_common_self_ob_status";
+
+    /**
+     * 12. 游戏通知app层当前玩家死亡后变成ob视角（2022-08-23新增，目前狼人杀生效）模型
+     */
+    public static class MGCommonSelfObStatus implements Serializable {
+        public boolean isOb;// 是否成为ob视角
     }
 
     // endregion 通用状态-玩家

@@ -99,7 +99,11 @@
     <string name="custom_config_nft_avatar_subtitle">(ui.nft_avatar.hide)</string>
     <string name="custom_config_game_opening">控制开场动画的开关</string>
     <string name="custom_config_game_opening_subtitle">(ui.game_opening.hide)</string>
-    <string name="custom_config_game_mvp">控制MVP动画的开关</string>
+    <string name="custom_config_game_mvp">游戏结算前的mvp动画</string>
     <string name="custom_config_game_mvp_subtitle">(ui.game_mvp.hide)</string>
+    <string name="custom_config_umo_icon">游戏中动画和头像右上角的UMO图标</string>
+    <string name="custom_config_umo_icon_subtitle">(ui.umo_icon.hide)</string>
+    <string name="custom_config_logo">大厅中的logo</string>
+    <string name="custom_config_logo_subtitle">(ui.logo.hide)</string>
 
 </resources>

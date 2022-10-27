@@ -317,7 +317,7 @@ public interface SudFSMMGListener {
     }
 
     /**
-     * 7. 游戏通知app点击玩家头像（2022-02-09新增，现在只支持飞行棋ludo，仅用于游戏场景中的玩家头像）
+     * 7. 游戏通知app点击玩家头像
      * mg_common_self_click_game_player_icon
      */
     default void onPlayerMGCommonSelfClickGamePlayerIcon(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGCommonSelfClickGamePlayerIcon model) {
@@ -353,6 +353,14 @@ public interface SudFSMMGListener {
      * mg_common_game_countdown_time
      */
     default void onPlayerMGCommonGameCountdownTime(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGCommonGameCountdownTime model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 12. 游戏通知app层当前玩家死亡后变成ob视角（2022-08-23新增，目前狼人杀生效）
+     * mg_common_self_ob_status
+     */
+    default void onPlayerMGCommonSelfObStatus(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGCommonSelfObStatus model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 

@@ -421,7 +421,7 @@ public class SudFSMMGDecorator implements ISudFSMMG {
                     listener.onPlayerMGCommonPlayerChangeSeat(handle, userId, mgCommonPlayerChangeSeat);
                 }
                 break;
-            case SudMGPMGState.MG_COMMON_SELF_CLICK_GAME_PLAYER_ICON: // 7. 游戏通知app点击玩家头像（2022-02-09新增，现在只支持飞行棋ludo，仅用于游戏场景中的玩家头像）
+            case SudMGPMGState.MG_COMMON_SELF_CLICK_GAME_PLAYER_ICON: // 7. 游戏通知app点击玩家头像
                 SudMGPMGState.MGCommonSelfClickGamePlayerIcon mgCommonSelfClickGamePlayerIcon = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonSelfClickGamePlayerIcon.class);
                 if (listener == null) {
                     ISudFSMStateHandleUtils.handleSuccess(handle);
@@ -459,6 +459,14 @@ public class SudFSMMGDecorator implements ISudFSMMG {
                     ISudFSMStateHandleUtils.handleSuccess(handle);
                 } else {
                     listener.onPlayerMGCommonGameCountdownTime(handle, userId, mgCommonGameCountdownTime);
+                }
+                break;
+            case SudMGPMGState.MG_COMMON_SELF_OB_STATUS: // 12. 游戏通知app层当前玩家死亡后变成ob视角（2022-08-23新增，目前狼人杀生效）
+                SudMGPMGState.MGCommonSelfObStatus mgCommonSelfObStatus = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonSelfObStatus.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onPlayerMGCommonSelfObStatus(handle, userId, mgCommonSelfObStatus);
                 }
                 break;
             case SudMGPMGState.MG_DG_SELECTING: // 1. 选词中状态（已修改）

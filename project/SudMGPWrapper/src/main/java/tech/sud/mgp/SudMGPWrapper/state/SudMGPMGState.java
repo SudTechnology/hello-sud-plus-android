@@ -877,7 +877,7 @@ public class SudMGPMGState implements Serializable {
      * 8. 展馆内玩家送出记录(火箭) 模型
      */
     public static final class MGCustomRocketUserRecordList implements Serializable {
-        public String userID; // 用户id
+        public String userId; // 用户id
         public int pageIndex; // 第几页
         public int pageSize; // 每页多少条数据
     }
@@ -1015,12 +1015,12 @@ public class SudMGPMGState implements Serializable {
     }
 
     /**
-     * 23. 隐藏火箭主界面(火箭)
+     * 23. 隐藏了火箭主界面(火箭)
      */
     public static final String MG_CUSTOM_ROCKET_HIDE_GAME_SCENE = "mg_custom_rocket_hide_game_scene";
 
     /**
-     * 23. 隐藏火箭主界面(火箭) 模型
+     * 23. 隐藏了火箭主界面(火箭) 模型
      */
     public static final class MGCustomRocketHideGameScene implements Serializable {
     }

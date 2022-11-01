@@ -5,6 +5,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,6 +24,7 @@ import java.util.Map;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
+import tech.sud.mgp.hello.common.utils.ImageLoader;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.main.resp.GetAccountResp;
 import tech.sud.mgp.hello.service.room.repository.RoomRepository;
@@ -36,6 +38,7 @@ import tech.sud.mgp.hello.ui.scenes.common.gift.listener.GiftSendClickListener;
 import tech.sud.mgp.hello.ui.scenes.common.gift.listener.PresentClickListener;
 import tech.sud.mgp.hello.ui.scenes.common.gift.listener.SendGiftToUserListener;
 import tech.sud.mgp.hello.ui.scenes.common.gift.manager.GiftHelper;
+import tech.sud.mgp.hello.ui.scenes.common.gift.manager.GiftId;
 import tech.sud.mgp.hello.ui.scenes.common.gift.manager.RoomGiftDialogManager;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftModel;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.MicUserInfoModel;
@@ -54,6 +57,10 @@ public class RoomGiftDialog extends BaseDialogFragment implements SendGiftToUser
     private int sceneType; // 场景类型
     private long gameId; // 游戏id
     private GridLayoutManager layoutManager;
+
+    private View containerCustomRocket;
+    private ImageView ivRocketIcon;
+    private View containerGoCustom;
 
     private static long oldSelectedGiftId;
     private static int oldSelectedGiftType;
@@ -96,6 +103,9 @@ public class RoomGiftDialog extends BaseDialogFragment implements SendGiftToUser
         topView = findViewById(R.id.gift_top_view);
         bottomView = findViewById(R.id.gift_bottom_view);
         giftRv = findViewById(R.id.gift_data_rv);
+        containerCustomRocket = findViewById(R.id.container_custom_rocket);
+        ivRocketIcon = findViewById(R.id.iv_rocket_icon);
+        containerGoCustom = findViewById(R.id.container_go_custom);
 
         layoutManager = new GridLayoutManager(requireContext(), 4);
         giftRv.setLayoutManager(layoutManager);
@@ -138,6 +148,8 @@ public class RoomGiftDialog extends BaseDialogFragment implements SendGiftToUser
         addServerGifts();
         initBalance();
         checkSelectedItem();
+
+        updateCustomRocketShow();
     }
 
     private void addDiscoData() {
@@ -174,6 +186,9 @@ public class RoomGiftDialog extends BaseDialogFragment implements SendGiftToUser
                 onClickGift(position);
             }
         });
+        containerGoCustom.setOnClickListener((v) -> {
+            // TODO: 2022/11/1 点击要处理
+        });
     }
 
     private void onClickGift(int position) {
@@ -193,6 +208,19 @@ public class RoomGiftDialog extends BaseDialogFragment implements SendGiftToUser
 
         oldSelectedGiftId = item.giftId;
         oldSelectedGiftType = item.type;
+
+        updateCustomRocketShow();
+    }
+
+    private void updateCustomRocketShow() {
+        GiftModel checkedGift = getCheckedGift();
+        if (checkedGift != null && checkedGift.giftId == GiftId.ROCKET) {
+            containerCustomRocket.setVisibility(View.VISIBLE);
+            // TODO: 2022/11/1 显示火箭缩略图
+            ImageLoader.loadImage(ivRocketIcon, "ddd");
+        } else {
+            containerCustomRocket.setVisibility(View.GONE);
+        }
     }
 
     private void onClickPresent() {

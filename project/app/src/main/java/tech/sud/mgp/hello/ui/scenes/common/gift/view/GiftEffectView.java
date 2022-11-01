@@ -107,26 +107,23 @@ public class GiftEffectView extends ConstraintLayout implements LifecycleObserve
     /** 展示本地的资源 */
     private void showLocalEffect(GiftModel giftModel) {
         switch (giftModel.animationType) {
-            case SVGA: {
+            case SVGA:
                 playSVGA(giftModel);
                 break;
-            }
-            case MP4: {
+            case MP4:
                 playMp4(giftModel);
                 break;
-            }
-            case JSON: {
+            case JSON:
                 playJson(giftModel);
                 break;
-            }
-            case WEBP: {
+            case WEBP:
                 playWebp(giftModel);
                 break;
-            }
-            default: {
+            case ROCKET: // 火箭不处理
+                break;
+            default:
                 showImage(giftModel);
                 break;
-            }
         }
     }
 

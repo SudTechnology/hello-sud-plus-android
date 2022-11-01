@@ -618,6 +618,9 @@ Go to homepage to create one~</string>
     <string name="click_change_network">点击切换网络</string>
     <string name="works_desc">作品描述</string>
     <string name="internal_nft_title">数字藏品详情</string>
+    <string name="custom_rocket">定制火箭</string>
+    <string name="custom_made">定制</string>
+    <string name="go_custom">去定制</string>
     <!-- endregion 新增 -->
 
 </resources>

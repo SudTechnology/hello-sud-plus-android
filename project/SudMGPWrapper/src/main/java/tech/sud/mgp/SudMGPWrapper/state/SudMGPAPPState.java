@@ -414,10 +414,11 @@ public class SudMGPAPPState implements Serializable {
      * 3. 拥有组件列表回调(火箭) 模型
      */
     public static class AppCustomRocketComponentList implements Serializable {
+        public List<ComponentModel> defaultList; // 默认组件列表
         public List<ComponentModel> list; // 组件列表
 
         public static class ComponentModel {
-            public String uniqueId; // 唯一标识
+            public String itemId; // 唯一标识
             public int type; // 类型
             public String value; // 值
             public int isForever; // 永久：0非永久 1永久
@@ -641,7 +642,7 @@ public class SudMGPAPPState implements Serializable {
             public List<ComponentModel> componentList;
 
             public static class ComponentModel {
-                public String uniqueId; // 唯一标识
+                public String itemId; // 唯一标识
                 public int type; // 类型
                 public String value; // 值
                 public int isForever; // 永久：0非永久 1永久

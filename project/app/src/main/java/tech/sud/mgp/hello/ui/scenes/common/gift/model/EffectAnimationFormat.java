@@ -5,6 +5,7 @@ public enum EffectAnimationFormat {
     MP4(2),
     JSON(3),
     WEBP(4),
+    ROCKET(5),
     UNDEFINE(100);
 
     private int mState = 100;

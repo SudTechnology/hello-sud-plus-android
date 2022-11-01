@@ -43,17 +43,6 @@ public class GiftHelper {
     public List<GiftModel> creatGifts(Context context) {
         if (this.gifts.size() == 0) {
             List<GiftModel> gifts = new ArrayList<>();
-            GiftModel model1 = new GiftModel();
-            model1.giftId = 1;
-            model1.giftName = "svga";
-            model1.animationType = EffectAnimationFormat.SVGA;
-            model1.path = context.getCacheDir().getAbsolutePath() + File.separator + "sud_svga_600.svga";
-            model1.resId = R.raw.sud_svga_600;
-            model1.giftImage = R.drawable.icon_gift_600;
-            model1.giftSmallImage = R.drawable.icon_gift_128;
-            model1.checkState = true;
-            model1.giftPrice = 1;
-            gifts.add(model1);
 
             GiftModel model2 = new GiftModel();
             model2.giftId = 2;
@@ -90,6 +79,27 @@ public class GiftHelper {
             model4.isFeature = true;
             model4.isEffect = true;
             gifts.add(model4);
+
+            GiftModel model9 = new GiftModel();
+            model9.giftId = GiftId.ROCKET;
+            model9.giftName = Utils.getApp().getString(R.string.custom_rocket);
+            model9.animationType = EffectAnimationFormat.ROCKET;
+            model9.giftImage = R.drawable.ic_rocket;
+            model9.giftSmallImage = R.drawable.ic_rocket;
+            model9.giftPrice = 1980;
+            gifts.add(model9);
+
+            GiftModel model1 = new GiftModel();
+            model1.giftId = 1;
+            model1.giftName = "svga";
+            model1.animationType = EffectAnimationFormat.SVGA;
+            model1.path = context.getCacheDir().getAbsolutePath() + File.separator + "sud_svga_600.svga";
+            model1.resId = R.raw.sud_svga_600;
+            model1.giftImage = R.drawable.icon_gift_600;
+            model1.giftSmallImage = R.drawable.icon_gift_128;
+            model1.checkState = true;
+            model1.giftPrice = 1;
+            gifts.add(model1);
 
             this.gifts.clear();
             this.gifts.addAll(gifts);

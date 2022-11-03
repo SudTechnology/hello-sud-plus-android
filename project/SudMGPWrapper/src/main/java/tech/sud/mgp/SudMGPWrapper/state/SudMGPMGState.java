@@ -903,7 +903,11 @@ public class SudMGPMGState implements Serializable {
      * 10. 动态计算一键发送价格(火箭) 模型
      */
     public static final class MGCustomRocketDynamicFirePrice implements Serializable {
-        public List<MGCustomRocketComponent> componentList; // 组件列表
+        public List<ComponentModel> componentList; // 组件列表
+
+        public static class ComponentModel {
+            public String itemId; // 已购买的唯一标识
+        }
     }
 
     /**
@@ -915,7 +919,12 @@ public class SudMGPMGState implements Serializable {
      * 11. 一键发送(火箭) 模型
      */
     public static final class MGCustomRocketFireModel implements Serializable {
-        public List<MGCustomRocketComponent> componentList; // 组件列表
+        public List<ComponentModel> componentList; // 组件列表
+
+        public static class ComponentModel {
+            public int type; // 类型
+            public String itemId; // 已购买的唯一标识
+        }
     }
 
     /**
@@ -928,7 +937,12 @@ public class SudMGPMGState implements Serializable {
      */
     public static final class MGCustomRocketCreateModel implements Serializable {
         public int seat; // 座位
-        public List<MGCustomRocketComponent> componentList; // 组件列表
+        public List<ComponentModel> componentList; // 组件列表
+
+        public static class ComponentModel {
+            public int type; // 类型
+            public String itemId; // 已购买的唯一标识
+        }
     }
 
     /**
@@ -941,7 +955,12 @@ public class SudMGPMGState implements Serializable {
      */
     public static final class MGCustomRocketReplaceComponent implements Serializable {
         public int seat; // 座位
-        public List<MGCustomRocketComponent> componentList; // 组件列表
+        public List<ComponentModel> componentList; // 组件列表
+
+        public static class ComponentModel {
+            public int type; // 类型
+            public String itemId; // 已购买的唯一标识
+        }
     }
 
     /**
@@ -953,7 +972,12 @@ public class SudMGPMGState implements Serializable {
      * 14. 购买组件(火箭) 模型
      */
     public static final class MGCustomRocketBuyComponent implements Serializable {
-        public List<MGCustomRocketComponent> componentList; // 组件列表
+        public List<ComponentModel> componentList; // 组件列表
+
+        public static class ComponentModel {
+            public String componentId; // 已购买的唯一标识
+            public String value; // 值
+        }
     }
 
     /**
@@ -1038,13 +1062,6 @@ public class SudMGPMGState implements Serializable {
         public String componentId; // 组件ID
     }
 
-    /**
-     * 火箭组件描述
-     */
-    public static final class MGCustomRocketComponent {
-        public int type; // 1套装，2主仓，3尾翼，4头像，5签名，6颜色
-        public String value; // 值
-    }
     // endregion 定制火箭
 
 

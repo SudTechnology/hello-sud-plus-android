@@ -9,14 +9,19 @@ import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.http.rx.RxUtils;
 import tech.sud.mgp.hello.service.game.method.GameRequestMethodFactory;
 import tech.sud.mgp.hello.service.game.req.BringChipReq;
+import tech.sud.mgp.hello.service.game.req.RocketFirePriceReq;
 import tech.sud.mgp.hello.service.game.req.RocketFireRecordReq;
 import tech.sud.mgp.hello.service.game.req.RocketFireRecordSummeryReq;
 import tech.sud.mgp.hello.service.game.req.RocketFireReq;
 import tech.sud.mgp.hello.service.game.req.RocketPageReq;
+import tech.sud.mgp.hello.service.game.req.RocketSetDefaultSeatReq;
 import tech.sud.mgp.hello.service.game.req.RocketUnlockComponentReq;
+import tech.sud.mgp.hello.service.game.req.RocketVerifySignReq;
 import tech.sud.mgp.hello.service.game.req.SwitchGameReq;
 import tech.sud.mgp.hello.service.game.resp.GameLoginResp;
+import tech.sud.mgp.hello.service.game.resp.RocketFirePriceResp;
 import tech.sud.mgp.hello.service.game.resp.RocketFireResp;
+import tech.sud.mgp.hello.service.game.resp.RocketVerifySignResp;
 
 public class GameRepository {
 
@@ -218,6 +223,48 @@ public class GameRepository {
     public static void rocketFireRecord(LifecycleOwner owner, RocketFireRecordReq req, RxCallback<SudMGPAPPState.AppCustomRocketUserRecordList> callback) {
         GameRequestMethodFactory.getMethod()
                 .rocketFireRecord(BaseUrlManager.getInteractBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /**
+     * 火箭 获取发射价格
+     *
+     * @param owner    生命周期对象
+     * @param req      请求参数
+     * @param callback 回调
+     */
+    public static void rocketFirePrice(LifecycleOwner owner, RocketFirePriceReq req, RxCallback<RocketFirePriceResp> callback) {
+        GameRequestMethodFactory.getMethod()
+                .rocketFirePrice(BaseUrlManager.getInteractBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /**
+     * 火箭 设置火箭默认位置
+     *
+     * @param owner    生命周期对象
+     * @param req      请求参数
+     * @param callback 回调
+     */
+    public static void rocketSetDefaultSeat(LifecycleOwner owner, RocketSetDefaultSeatReq req, RxCallback<Object> callback) {
+        GameRequestMethodFactory.getMethod()
+                .rocketSetDefaultSeat(BaseUrlManager.getInteractBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /**
+     * 火箭 校验签名合规性
+     *
+     * @param owner    生命周期对象
+     * @param req      请求参数
+     * @param callback 回调
+     */
+    public static void rocketVerifySign(LifecycleOwner owner, RocketVerifySignReq req, RxCallback<RocketVerifySignResp> callback) {
+        GameRequestMethodFactory.getMethod()
+                .rocketVerifySign(BaseUrlManager.getInteractBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }

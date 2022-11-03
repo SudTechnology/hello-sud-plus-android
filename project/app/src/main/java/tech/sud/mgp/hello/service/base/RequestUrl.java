@@ -166,6 +166,15 @@ public interface RequestUrl {
 
     /** 发射火箭记录 */
     String ROCKET_FIRE_RECORD = "rocket/fire-record/v1";
+
+    /** 获取发射价格 */
+    String ROCKET_FIRE_PRICE = "rocket/fire-price/v1";
+
+    /** 设置火箭默认位置 */
+    String ROCKET_SET_DEFAULT_SEAT = "rocket/set-default-seat/v1";
+
+    /** 校验签名合规性 */
+    String ROCKET_VERIFY_SIGN = "rocket/verify-sign/v1";
     // endregion 定制火箭
 
 }

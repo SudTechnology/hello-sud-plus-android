@@ -10,14 +10,19 @@ import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.IBaseUrl;
 import tech.sud.mgp.hello.service.base.RequestUrl;
 import tech.sud.mgp.hello.service.game.req.BringChipReq;
+import tech.sud.mgp.hello.service.game.req.RocketFirePriceReq;
 import tech.sud.mgp.hello.service.game.req.RocketFireRecordReq;
 import tech.sud.mgp.hello.service.game.req.RocketFireRecordSummeryReq;
 import tech.sud.mgp.hello.service.game.req.RocketFireReq;
 import tech.sud.mgp.hello.service.game.req.RocketPageReq;
+import tech.sud.mgp.hello.service.game.req.RocketSetDefaultSeatReq;
 import tech.sud.mgp.hello.service.game.req.RocketUnlockComponentReq;
+import tech.sud.mgp.hello.service.game.req.RocketVerifySignReq;
 import tech.sud.mgp.hello.service.game.req.SwitchGameReq;
 import tech.sud.mgp.hello.service.game.resp.GameLoginResp;
+import tech.sud.mgp.hello.service.game.resp.RocketFirePriceResp;
 import tech.sud.mgp.hello.service.game.resp.RocketFireResp;
+import tech.sud.mgp.hello.service.game.resp.RocketVerifySignResp;
 
 /**
  * 网络请求方法和地址
@@ -101,5 +106,23 @@ public interface GameRequestMethod {
      */
     @POST(RequestUrl.ROCKET_FIRE_RECORD)
     Observable<BaseResponse<SudMGPAPPState.AppCustomRocketUserRecordList>> rocketFireRecord(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body RocketFireRecordReq body);
+
+    /**
+     * 获取发射价格
+     */
+    @POST(RequestUrl.ROCKET_FIRE_PRICE)
+    Observable<BaseResponse<RocketFirePriceResp>> rocketFirePrice(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body RocketFirePriceReq body);
+
+    /**
+     * 设置火箭默认位置
+     */
+    @POST(RequestUrl.ROCKET_SET_DEFAULT_SEAT)
+    Observable<BaseResponse<Object>> rocketSetDefaultSeat(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body RocketSetDefaultSeatReq body);
+
+    /**
+     * 校验签名合规性
+     */
+    @POST(RequestUrl.ROCKET_VERIFY_SIGN)
+    Observable<BaseResponse<RocketVerifySignResp>> rocketVerifySign(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body RocketVerifySignReq body);
 
 }

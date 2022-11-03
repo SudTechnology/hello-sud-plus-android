@@ -11,5 +11,5 @@ public class RocketFireReq {
     public long roomId; // 房间Id
     public long receiver; // 收礼人id
     public long number; // 个数
-    public List<SudMGPMGState.MGCustomRocketComponent> componentList; // 组件列表
+    public List<SudMGPMGState.MGCustomRocketFireModel.ComponentModel> componentList; // 组件列表
 }

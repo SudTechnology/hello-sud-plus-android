@@ -4,12 +4,12 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import tech.sud.mgp.hello.R;
-import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppRocketGameViewModel;
+import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
 
 /**
  * 带火箭动效的房间
  */
-public abstract class BaseRocketRoomActivity<T extends AppRocketGameViewModel> extends BaseRoomActivity<T> {
+public abstract class BaseRocketRoomActivity<T extends AppGameViewModel> extends BaseRoomActivity<T> {
 
     private View viewRocketEntrance;
     protected FrameLayout rocketContainer;

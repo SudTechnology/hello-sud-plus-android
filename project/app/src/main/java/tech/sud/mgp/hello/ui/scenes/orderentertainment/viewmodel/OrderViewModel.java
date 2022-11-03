@@ -22,7 +22,7 @@ import tech.sud.mgp.hello.service.room.resp.RoomOrderCreateResp;
 import tech.sud.mgp.hello.ui.common.utils.DialogUtils;
 import tech.sud.mgp.hello.ui.scenes.base.model.OrderInviteModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
-import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppRocketGameViewModel;
+import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
 import tech.sud.mgp.hello.ui.scenes.orderentertainment.OrderEntertainmentActivity;
 import tech.sud.mgp.hello.ui.scenes.orderentertainment.model.OrderDataModel;
 import tech.sud.mgp.hello.ui.scenes.orderentertainment.model.OrderGameModel;
@@ -30,7 +30,7 @@ import tech.sud.mgp.hello.ui.scenes.orderentertainment.model.OrderGameModel;
 /**
  * 点单场景vm
  */
-public class OrderViewModel extends AppRocketGameViewModel {
+public class OrderViewModel extends AppGameViewModel {
 
     private SimpleChooseDialog finishDialog;//结束弹窗
     // 5结束弹窗确定 6取消

@@ -37,7 +37,7 @@ import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoleType;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.base.utils.UserInfoConverter;
-import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppRocketGameViewModel;
+import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.SceneRoomTopView;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftModel;
 import tech.sud.mgp.hello.ui.scenes.danmaku.widget.AutoLandDialog;
@@ -46,7 +46,7 @@ import tech.sud.mgp.hello.ui.scenes.danmaku.widget.DanmakuListView;
 /**
  * 弹幕场景房间
  */
-public class DanmakuActivity extends BaseRocketRoomActivity<AppRocketGameViewModel> implements CustomAdapt {
+public class DanmakuActivity extends BaseRocketRoomActivity<AppGameViewModel> implements CustomAdapt {
 
     public static boolean isShowGuide = true; // 是否要显示引导
 
@@ -76,8 +76,8 @@ public class DanmakuActivity extends BaseRocketRoomActivity<AppRocketGameViewMod
     private DanmakuListResp danmakuListResp;
 
     @Override
-    protected AppRocketGameViewModel initGameViewModel() {
-        return new AppRocketGameViewModel();
+    protected AppGameViewModel initGameViewModel() {
+        return new AppGameViewModel();
     }
 
     @Override

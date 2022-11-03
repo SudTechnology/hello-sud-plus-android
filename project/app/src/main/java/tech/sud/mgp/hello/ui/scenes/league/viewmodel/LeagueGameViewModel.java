@@ -8,12 +8,12 @@ import java.util.List;
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.core.ISudFSMStateHandle;
-import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppRocketGameViewModel;
+import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
 
 /**
  * 联赛场景游戏业务
  */
-public class LeagueGameViewModel extends AppRocketGameViewModel {
+public class LeagueGameViewModel extends AppGameViewModel {
 
     public MutableLiveData<Object> clickJoinBtnLiveData = new MutableLiveData<>();
     public MutableLiveData<Object> clickReadyBtnLiveData = new MutableLiveData<>();

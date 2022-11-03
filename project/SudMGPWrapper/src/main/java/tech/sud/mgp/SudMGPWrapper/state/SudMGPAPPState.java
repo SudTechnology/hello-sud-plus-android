@@ -711,6 +711,19 @@ public class SudMGPAPPState implements Serializable {
     }
 
     /**
+     * 25. app推送解锁组件(火箭)
+     */
+    public static final String APP_CUSTOM_ROCKET_UNLOCK_COMPONENT = "app_custom_rocket_unlock_component";
+
+    /**
+     * 25. app推送解锁组件(火箭)  模型
+     */
+    public static class AppCustomRocketUnlockComponent implements Serializable {
+        public int type; // 组件类型
+        public String componentId; // 组件ID
+    }
+
+    /**
      * 定制火箭，用户信息 模型
      */
     public static class CustomRocketUserInfo {

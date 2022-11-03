@@ -9,12 +9,12 @@ import java.util.List;
 import tech.sud.mgp.SudMGPWrapper.decorator.SudFSMMGCache;
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.core.ISudFSMStateHandle;
-import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
+import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppRocketGameViewModel;
 
 /**
  * 竞猜场景内的游戏业务逻辑
  */
-public class QuizGameViewModel extends AppGameViewModel {
+public class QuizGameViewModel extends AppRocketGameViewModel {
 
     public MutableLiveData<Object> clickStartBtnLiveData = new MutableLiveData<>(); // 开始按钮点击事件
     public MutableLiveData<Object> clickJoinBtnLiveData = new MutableLiveData<>(); // 加入游戏按钮点击事件

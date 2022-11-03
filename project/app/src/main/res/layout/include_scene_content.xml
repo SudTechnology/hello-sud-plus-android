@@ -111,6 +111,18 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <!-- 定制火箭入口 -->
+    <View
+        android:id="@+id/view_custom_rocket"
+        android:layout_width="81dp"
+        android:layout_height="110dp"
+        android:background="@drawable/ic_rocket_entrance"
+        android:visibility="gone"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toTopOf="@id/tv_add_robot"
+        app:layout_constraintEnd_toEndOf="@id/tv_add_robot" />
+
     <!-- 添加机器人按钮 -->
     <TextView
         android:id="@+id/tv_add_robot"
@@ -142,5 +154,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone" />
+
+    <!-- 火箭容器 -->
+    <FrameLayout
+        android:id="@+id/rocket_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </merge>

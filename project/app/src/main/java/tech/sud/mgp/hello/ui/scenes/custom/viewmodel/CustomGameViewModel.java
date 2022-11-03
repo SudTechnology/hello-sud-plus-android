@@ -1,8 +1,8 @@
 package tech.sud.mgp.hello.ui.scenes.custom.viewmodel;
 
-import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
+import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppRocketGameViewModel;
 
-public class CustomGameViewModel extends AppGameViewModel {
+public class CustomGameViewModel extends AppRocketGameViewModel {
 
     // 加入游戏
     public void actionJoinGame() {

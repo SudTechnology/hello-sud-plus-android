@@ -1,15 +1,15 @@
 package tech.sud.mgp.hello.ui.scenes.audio.activity;
 
-import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
+import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppRocketGameViewModel;
 
 /**
  * 语聊房页面
  */
-public class AudioRoomActivity extends AbsAudioRoomActivity<AppGameViewModel> {
+public class AudioRoomActivity extends AbsAudioRoomActivity<AppRocketGameViewModel> {
 
     @Override
-    protected AppGameViewModel initGameViewModel() {
-        return new AppGameViewModel();
+    protected AppRocketGameViewModel initGameViewModel() {
+        return new AppRocketGameViewModel();
     }
 
     @Override

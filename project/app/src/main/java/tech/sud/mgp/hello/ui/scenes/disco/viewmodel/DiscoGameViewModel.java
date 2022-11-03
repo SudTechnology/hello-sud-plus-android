@@ -7,12 +7,12 @@ import tech.sud.mgp.SudMGPWrapper.model.GameViewInfoModel;
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
-import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
+import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppRocketGameViewModel;
 
 /**
  * 蹦迪场景的游戏业务
  */
-public class DiscoGameViewModel extends AppGameViewModel {
+public class DiscoGameViewModel extends AppRocketGameViewModel {
 
     private final DiscoActionHelper helper = new DiscoActionHelper();
 

@@ -9,19 +9,16 @@ import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.http.rx.RxUtils;
 import tech.sud.mgp.hello.service.game.method.GameRequestMethodFactory;
 import tech.sud.mgp.hello.service.game.req.BringChipReq;
-import tech.sud.mgp.hello.service.game.req.RocketFirePriceReq;
 import tech.sud.mgp.hello.service.game.req.RocketFireRecordReq;
 import tech.sud.mgp.hello.service.game.req.RocketFireRecordSummeryReq;
 import tech.sud.mgp.hello.service.game.req.RocketFireReq;
 import tech.sud.mgp.hello.service.game.req.RocketPageReq;
 import tech.sud.mgp.hello.service.game.req.RocketSetDefaultSeatReq;
 import tech.sud.mgp.hello.service.game.req.RocketUnlockComponentReq;
-import tech.sud.mgp.hello.service.game.req.RocketVerifySignReq;
 import tech.sud.mgp.hello.service.game.req.SwitchGameReq;
 import tech.sud.mgp.hello.service.game.resp.GameLoginResp;
 import tech.sud.mgp.hello.service.game.resp.RocketFirePriceResp;
 import tech.sud.mgp.hello.service.game.resp.RocketFireResp;
-import tech.sud.mgp.hello.service.game.resp.RocketVerifySignResp;
 
 public class GameRepository {
 
@@ -121,7 +118,7 @@ public class GameRepository {
      * @param req      购买的组件列表
      * @param callback 回调
      */
-    public static void rocketBuyComponent(LifecycleOwner owner, SudMGPMGState.MGCustomRocketBuyComponent req, RxCallback<Object> callback) {
+    public static void rocketBuyComponent(LifecycleOwner owner, SudMGPMGState.MGCustomRocketBuyComponent req, RxCallback<SudMGPAPPState.AppCustomRocketBuyComponent.Data> callback) {
         GameRequestMethodFactory.getMethod()
                 .rocketBuyComponent(BaseUrlManager.getInteractBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
@@ -160,14 +157,27 @@ public class GameRepository {
     }
 
     /**
-     * 火箭 查询装配间组件列表
+     * 火箭 保存火箭模型
      *
      * @param owner    生命周期对象
      * @param callback 回调
      */
-    public static void rocketSaveModel(LifecycleOwner owner, SudMGPMGState.MGCustomRocketReplaceComponent req, RxCallback<Object> callback) {
+    public static void rocketCreateModel(LifecycleOwner owner, SudMGPMGState.MGCustomRocketCreateModel req, RxCallback<SudMGPAPPState.AppCustomRocketCreateModel.Data> callback) {
         GameRequestMethodFactory.getMethod()
-                .rocketSaveModel(BaseUrlManager.getInteractBaseUrl(), req)
+                .rocketCreateModel(BaseUrlManager.getInteractBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /**
+     * 火箭 保存火箭模型
+     *
+     * @param owner    生命周期对象
+     * @param callback 回调
+     */
+    public static void rocketReplaceComponent(LifecycleOwner owner, SudMGPMGState.MGCustomRocketReplaceComponent req, RxCallback<SudMGPAPPState.AppCustomRocketReplaceComponent.Data> callback) {
+        GameRequestMethodFactory.getMethod()
+                .rocketReplaceComponent(BaseUrlManager.getInteractBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }
@@ -234,7 +244,7 @@ public class GameRepository {
      * @param req      请求参数
      * @param callback 回调
      */
-    public static void rocketFirePrice(LifecycleOwner owner, RocketFirePriceReq req, RxCallback<RocketFirePriceResp> callback) {
+    public static void rocketFirePrice(LifecycleOwner owner, SudMGPMGState.MGCustomRocketDynamicFirePrice req, RxCallback<RocketFirePriceResp> callback) {
         GameRequestMethodFactory.getMethod()
                 .rocketFirePrice(BaseUrlManager.getInteractBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
@@ -262,7 +272,7 @@ public class GameRepository {
      * @param req      请求参数
      * @param callback 回调
      */
-    public static void rocketVerifySign(LifecycleOwner owner, RocketVerifySignReq req, RxCallback<RocketVerifySignResp> callback) {
+    public static void rocketVerifySign(LifecycleOwner owner, SudMGPMGState.MGCustomRocketVerifySign req, RxCallback<SudMGPAPPState.AppCustomRocketVerifySign.Data> callback) {
         GameRequestMethodFactory.getMethod()
                 .rocketVerifySign(BaseUrlManager.getInteractBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))

@@ -6,5 +6,5 @@ package tech.sud.mgp.hello.service.game.req;
 public class RocketFireRecordReq {
     public int pageIndex; // 页码
     public int pageSize; // 每页多少条数据
-    public long roomId; // 房间id
+    public String userId; // 房间id
 }

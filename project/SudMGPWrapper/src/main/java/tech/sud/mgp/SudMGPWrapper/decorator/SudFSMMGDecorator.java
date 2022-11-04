@@ -385,7 +385,7 @@ public class SudFSMMGDecorator implements ISudFSMMG {
                     listener.onGameMGCustomRocketUserInfo(handle, mgCustomRocketUserInfo);
                 }
                 break;
-            case SudMGPMGState.MG_CUSTOM_ROCKET_ORDER_RECORD_LIST: // 6. 订单记录列表(火箭)
+            case SudMGPMGState.MG_CUSTOM_ROCKET_ORDER_RECORD_LIST: // 5. 订单记录列表(火箭)
                 SudMGPMGState.MGCustomRocketOrderRecordList mgCustomRocketOrderRecordList = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCustomRocketOrderRecordList.class);
                 if (listener == null) {
                     ISudFSMStateHandleUtils.handleSuccess(handle);
@@ -393,7 +393,7 @@ public class SudFSMMGDecorator implements ISudFSMMG {
                     listener.onGameMGCustomRocketOrderRecordList(handle, mgCustomRocketOrderRecordList);
                 }
                 break;
-            case SudMGPMGState.MG_CUSTOM_ROCKET_ROOM_RECORD_LIST: // 7. 展馆内列表(火箭)
+            case SudMGPMGState.MG_CUSTOM_ROCKET_ROOM_RECORD_LIST: // 6. 展馆内列表(火箭)
                 SudMGPMGState.MGCustomRocketRoomRecordList mgCustomRocketRoomRecordList = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCustomRocketRoomRecordList.class);
                 if (listener == null) {
                     ISudFSMStateHandleUtils.handleSuccess(handle);
@@ -401,7 +401,7 @@ public class SudFSMMGDecorator implements ISudFSMMG {
                     listener.onGameMGCustomRocketRoomRecordList(handle, mgCustomRocketRoomRecordList);
                 }
                 break;
-            case SudMGPMGState.MG_CUSTOM_ROCKET_USER_RECORD_LIST: // 8. 展馆内玩家送出记录(火箭)
+            case SudMGPMGState.MG_CUSTOM_ROCKET_USER_RECORD_LIST: // 7. 展馆内玩家送出记录(火箭)
                 SudMGPMGState.MGCustomRocketUserRecordList mgCustomRocketUserRecordList = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCustomRocketUserRecordList.class);
                 if (listener == null) {
                     ISudFSMStateHandleUtils.handleSuccess(handle);
@@ -409,15 +409,15 @@ public class SudFSMMGDecorator implements ISudFSMMG {
                     listener.onGameMGCustomRocketUserRecordList(handle, mgCustomRocketUserRecordList);
                 }
                 break;
-            case SudMGPMGState.MG_CUSTOM_ROCKET_SET_DEFAULT_SEAT: // 9. 设置默认位置(火箭)
-                SudMGPMGState.MGCustomRocketSetDefaultSeat mgCustomRocketSetDefaultSeat = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCustomRocketSetDefaultSeat.class);
+            case SudMGPMGState.MG_CUSTOM_ROCKET_SET_DEFAULT_MODEL: // 8. 设置默认模型(火箭)
+                SudMGPMGState.MGCustomRocketSetDefaultModel mgCustomRocketSetDefaultSeat = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCustomRocketSetDefaultModel.class);
                 if (listener == null) {
                     ISudFSMStateHandleUtils.handleSuccess(handle);
                 } else {
-                    listener.onGameMGCustomRocketSetDefaultSeat(handle, mgCustomRocketSetDefaultSeat);
+                    listener.onGameMGCustomRocketSetDefaultModel(handle, mgCustomRocketSetDefaultSeat);
                 }
                 break;
-            case SudMGPMGState.MG_CUSTOM_ROCKET_DYNAMIC_FIRE_PRICE: // 10. 动态计算一键发送价格(火箭)
+            case SudMGPMGState.MG_CUSTOM_ROCKET_DYNAMIC_FIRE_PRICE: // 9. 动态计算一键发送价格(火箭)
                 SudMGPMGState.MGCustomRocketDynamicFirePrice mgCustomRocketDynamicFirePrice = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCustomRocketDynamicFirePrice.class);
                 if (listener == null) {
                     ISudFSMStateHandleUtils.handleSuccess(handle);
@@ -425,7 +425,7 @@ public class SudFSMMGDecorator implements ISudFSMMG {
                     listener.onGameMGCustomRocketDynamicFirePrice(handle, mgCustomRocketDynamicFirePrice);
                 }
                 break;
-            case SudMGPMGState.MG_CUSTOM_ROCKET_FIRE_MODEL: // 11. 一键发送(火箭)
+            case SudMGPMGState.MG_CUSTOM_ROCKET_FIRE_MODEL: // 10. 一键发送(火箭)
                 SudMGPMGState.MGCustomRocketFireModel mGCustomRocketFireModel = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCustomRocketFireModel.class);
                 if (listener == null) {
                     ISudFSMStateHandleUtils.handleSuccess(handle);
@@ -433,7 +433,7 @@ public class SudFSMMGDecorator implements ISudFSMMG {
                     listener.onGameMGCustomRocketFireModel(handle, mGCustomRocketFireModel);
                 }
                 break;
-            case SudMGPMGState.MG_CUSTOM_ROCKET_CREATE_MODEL: // 12. 新组装模型(火箭)
+            case SudMGPMGState.MG_CUSTOM_ROCKET_CREATE_MODEL: // 11. 新组装模型(火箭)
                 SudMGPMGState.MGCustomRocketCreateModel mgCustomRocketCreateModel = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCustomRocketCreateModel.class);
                 if (listener == null) {
                     ISudFSMStateHandleUtils.handleSuccess(handle);
@@ -441,7 +441,7 @@ public class SudFSMMGDecorator implements ISudFSMMG {
                     listener.onGameMGCustomRocketCreateModel(handle, mgCustomRocketCreateModel);
                 }
                 break;
-            case SudMGPMGState.MG_CUSTOM_ROCKET_REPLACE_COMPONENT: // 13. 更换组件(火箭)
+            case SudMGPMGState.MG_CUSTOM_ROCKET_REPLACE_COMPONENT: // 12. 模型更换组件(火箭)
                 SudMGPMGState.MGCustomRocketReplaceComponent mgCustomRocketReplaceComponent = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCustomRocketReplaceComponent.class);
                 if (listener == null) {
                     ISudFSMStateHandleUtils.handleSuccess(handle);
@@ -449,7 +449,7 @@ public class SudFSMMGDecorator implements ISudFSMMG {
                     listener.onGameMGCustomRocketReplaceComponent(handle, mgCustomRocketReplaceComponent);
                 }
                 break;
-            case SudMGPMGState.MG_CUSTOM_ROCKET_BUY_COMPONENT: // 14. 购买组件(火箭)
+            case SudMGPMGState.MG_CUSTOM_ROCKET_BUY_COMPONENT: // 13. 购买组件(火箭)
                 SudMGPMGState.MGCustomRocketBuyComponent mgCustomRocketBuyComponent = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCustomRocketBuyComponent.class);
                 if (listener == null) {
                     ISudFSMStateHandleUtils.handleSuccess(handle);
@@ -457,7 +457,7 @@ public class SudFSMMGDecorator implements ISudFSMMG {
                     listener.onGameMGCustomRocketBuyComponent(handle, mgCustomRocketBuyComponent);
                 }
                 break;
-            case SudMGPMGState.MG_CUSTOM_ROCKET_PLAY_EFFECT_START: // 16. 播放效果开始(火箭)
+            case SudMGPMGState.MG_CUSTOM_ROCKET_PLAY_EFFECT_START: // 14. 播放效果开始(火箭)
                 SudMGPMGState.MGCustomRocketPlayEffectStart mgCustomRocketPlayEffectStart = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCustomRocketPlayEffectStart.class);
                 if (listener == null) {
                     ISudFSMStateHandleUtils.handleSuccess(handle);
@@ -465,7 +465,7 @@ public class SudFSMMGDecorator implements ISudFSMMG {
                     listener.onGameMGCustomRocketPlayEffectStart(handle, mgCustomRocketPlayEffectStart);
                 }
                 break;
-            case SudMGPMGState.MG_CUSTOM_ROCKET_PLAY_EFFECT_FINISH: // 17. 播放效果完成(火箭)
+            case SudMGPMGState.MG_CUSTOM_ROCKET_PLAY_EFFECT_FINISH: // 15. 播放效果完成(火箭)
                 SudMGPMGState.MGCustomRocketPlayEffectFinish mgCustomRocketPlayEffectFinish = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCustomRocketPlayEffectFinish.class);
                 if (listener == null) {
                     ISudFSMStateHandleUtils.handleSuccess(handle);
@@ -473,7 +473,7 @@ public class SudFSMMGDecorator implements ISudFSMMG {
                     listener.onGameMGCustomRocketPlayEffectFinish(handle, mgCustomRocketPlayEffectFinish);
                 }
                 break;
-            case SudMGPMGState.MG_CUSTOM_ROCKET_VERIFY_SIGN: // 18. 验证签名合规(火箭)
+            case SudMGPMGState.MG_CUSTOM_ROCKET_VERIFY_SIGN: // 16. 验证签名合规(火箭)
                 SudMGPMGState.MGCustomRocketVerifySign mgCustomRocketVerifySign = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCustomRocketVerifySign.class);
                 if (listener == null) {
                     ISudFSMStateHandleUtils.handleSuccess(handle);
@@ -481,7 +481,7 @@ public class SudFSMMGDecorator implements ISudFSMMG {
                     listener.onGameMGCustomRocketVerifySign(handle, mgCustomRocketVerifySign);
                 }
                 break;
-            case SudMGPMGState.MG_CUSTOM_ROCKET_UPLOAD_MODEL_ICON: // 19. 上传icon(火箭)
+            case SudMGPMGState.MG_CUSTOM_ROCKET_UPLOAD_MODEL_ICON: // 17. 上传icon(火箭)
                 SudMGPMGState.MGCustomRocketUploadModelIcon mgCustomRocketUploadModelIcon = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCustomRocketUploadModelIcon.class);
                 if (listener == null) {
                     ISudFSMStateHandleUtils.handleSuccess(handle);
@@ -489,7 +489,7 @@ public class SudFSMMGDecorator implements ISudFSMMG {
                     listener.onGameMGCustomRocketUploadModelIcon(handle, mgCustomRocketUploadModelIcon);
                 }
                 break;
-            case SudMGPMGState.MG_CUSTOM_ROCKET_PREPARE_FINISH: // 22 前期准备完成(火箭)
+            case SudMGPMGState.MG_CUSTOM_ROCKET_PREPARE_FINISH: // 18. 前期准备完成(火箭)
                 SudMGPMGState.MGCustomRocketPrepareFinish mgCustomRocketPrepareFinish = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCustomRocketPrepareFinish.class);
                 if (listener == null) {
                     ISudFSMStateHandleUtils.handleSuccess(handle);

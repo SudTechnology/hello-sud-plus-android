@@ -12,6 +12,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
+import tech.sud.mgp.hello.ui.common.utils.FilePath;
 import tech.sud.mgp.hello.ui.scenes.common.gift.manager.GiftId;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftModel;
 
@@ -53,11 +54,14 @@ public class GiftItemView extends ConstraintLayout {
     }
 
     public void setModel(GiftModel model) {
-        if (model.type == 0) {
+        if (model.giftId == GiftId.ROCKET) {
+            ImageLoader.loadRocketImage(itemGiftImgIv, FilePath.getRocketThumbFilePath(getContext()).getAbsolutePath());
+        } else if (model.type == 0) {
             ImageLoader.loadDrawable(itemGiftImgIv, model.giftImage);
         } else {
             ImageLoader.loadImage(itemGiftImgIv, model.giftUrl);
         }
+
         itemGiftNameTv.setText(model.giftName);
         itemGiftBg.setSelected(model.checkState);
         tvPrice.setText(model.giftPrice + "");
@@ -77,6 +81,7 @@ public class GiftItemView extends ConstraintLayout {
             tvFeature.setVisibility(View.GONE);
             tvEffect.setVisibility(View.GONE);
         }
+
         if (model.giftId == GiftId.ROCKET) {
             tvCustom.setVisibility(View.VISIBLE);
         } else {

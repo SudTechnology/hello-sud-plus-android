@@ -169,6 +169,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         clOpenMic.setVisibility(View.GONE);
 
         SudMGP.getCfg().setShowLoadingGameBg(true); // 默认需要显示加载游戏时的背景图
+        SudMGP.getCfg().setShowCustomLoading(false); // 是否要显示自定义的加载进度条
         gameViewModel.gameConfigModel.ui.lobby_players.hide = true; // 配置不展示大厅玩家展示位
         gameViewModel.gameConfigModel.ui.nft_avatar.hide = false; // 显示NFT图像
         gameViewModel.gameConfigModel.ui.game_opening.hide = false; // 显示开场动画
@@ -1006,6 +1007,13 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
                 }
             }
         });
+        roomGiftDialog.setOnShowCustomRocketClickListener((v) -> {
+            onGiftDialogShowCustomRocket();
+        });
+    }
+
+    /** 礼物弹窗，点击显示定制火箭 */
+    protected void onGiftDialogShowCustomRocket() {
     }
 
     protected void onSendGift(GiftModel giftModel, int giftCount, List<UserInfo> toUsers) {

@@ -465,7 +465,7 @@ public interface SudFSMMGListener {
     }
 
     /**
-     * 6. 订单记录列表(火箭)
+     * 5. 订单记录列表(火箭)
      * mg_custom_rocket_order_record_list
      */
     default void onGameMGCustomRocketOrderRecordList(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketOrderRecordList model) {
@@ -473,7 +473,7 @@ public interface SudFSMMGListener {
     }
 
     /**
-     * 7. 展馆内列表(火箭)
+     * 6. 展馆内列表(火箭)
      * mg_custom_rocket_room_record_list
      */
     default void onGameMGCustomRocketRoomRecordList(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketRoomRecordList model) {
@@ -481,7 +481,7 @@ public interface SudFSMMGListener {
     }
 
     /**
-     * 8. 展馆内玩家送出记录(火箭)
+     * 7. 展馆内玩家送出记录(火箭)
      * mg_custom_rocket_user_record_list
      */
     default void onGameMGCustomRocketUserRecordList(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketUserRecordList model) {
@@ -489,15 +489,15 @@ public interface SudFSMMGListener {
     }
 
     /**
-     * 9. 设置默认位置(火箭)
-     * mg_custom_rocket_set_default_seat
+     * 8. 设置默认模型(火箭)
+     * mg_custom_rocket_set_default_model
      */
-    default void onGameMGCustomRocketSetDefaultSeat(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketSetDefaultSeat model) {
+    default void onGameMGCustomRocketSetDefaultModel(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketSetDefaultModel model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
     /**
-     * 10. 动态计算一键发送价格(火箭)
+     * 9. 动态计算一键发送价格(火箭)
      * mg_custom_rocket_dynamic_fire_price
      */
     default void onGameMGCustomRocketDynamicFirePrice(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketDynamicFirePrice model) {
@@ -505,7 +505,7 @@ public interface SudFSMMGListener {
     }
 
     /**
-     * 11. 一键发送(火箭)
+     * 10. 一键发送(火箭)
      * mg_custom_rocket_fire_model
      */
     default void onGameMGCustomRocketFireModel(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketFireModel model) {
@@ -513,7 +513,7 @@ public interface SudFSMMGListener {
     }
 
     /**
-     * 12. 新组装模型(火箭)
+     * 11. 新组装模型(火箭)
      * mg_custom_rocket_create_model
      */
     default void onGameMGCustomRocketCreateModel(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketCreateModel model) {
@@ -521,7 +521,7 @@ public interface SudFSMMGListener {
     }
 
     /**
-     * 13. 更换组件(火箭)
+     * 12. 模型更换组件(火箭)
      * mg_custom_rocket_replace_component
      */
     default void onGameMGCustomRocketReplaceComponent(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketReplaceComponent model) {
@@ -529,7 +529,7 @@ public interface SudFSMMGListener {
     }
 
     /**
-     * 14. 购买组件(火箭)
+     * 13. 购买组件(火箭)
      * mg_custom_rocket_buy_component
      */
     default void onGameMGCustomRocketBuyComponent(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketBuyComponent model) {
@@ -537,7 +537,7 @@ public interface SudFSMMGListener {
     }
 
     /**
-     * 16. 播放效果开始(火箭)
+     * 14. 播放效果开始(火箭)
      * mg_custom_rocket_play_effect_start
      */
     default void onGameMGCustomRocketPlayEffectStart(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketPlayEffectStart model) {
@@ -545,7 +545,7 @@ public interface SudFSMMGListener {
     }
 
     /**
-     * 17. 播放效果完成(火箭)
+     * 15. 播放效果完成(火箭)
      * mg_custom_rocket_play_effect_finish
      */
     default void onGameMGCustomRocketPlayEffectFinish(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketPlayEffectFinish model) {
@@ -553,7 +553,7 @@ public interface SudFSMMGListener {
     }
 
     /**
-     * 18. 验证签名合规(火箭)
+     * 16. 验证签名合规(火箭)
      * mg_custom_rocket_verify_sign
      */
     default void onGameMGCustomRocketVerifySign(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketVerifySign model) {
@@ -561,7 +561,7 @@ public interface SudFSMMGListener {
     }
 
     /**
-     * 19. 上传icon(火箭)
+     * 17. 上传icon(火箭)
      * mg_custom_rocket_upload_model_icon
      */
     default void onGameMGCustomRocketUploadModelIcon(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketUploadModelIcon model) {
@@ -597,6 +597,7 @@ public interface SudFSMMGListener {
     /**
      * 游戏状态变化
      * 透传游戏向App发送的游戏通用状态消息
+     * **********使用此方法可先看下此方法的使用逻辑*************
      *
      * @param handle   回调操作
      * @param state    状态命令
@@ -610,6 +611,7 @@ public interface SudFSMMGListener {
     /**
      * 游戏玩家状态变化
      * 透传游戏向App发送的玩家状态变化
+     * **********使用此方法可先看下此方法的使用逻辑*************
      *
      * @param handle   回调操作
      * @param userId   用户Id

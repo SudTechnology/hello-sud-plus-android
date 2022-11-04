@@ -10,19 +10,16 @@ import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.IBaseUrl;
 import tech.sud.mgp.hello.service.base.RequestUrl;
 import tech.sud.mgp.hello.service.game.req.BringChipReq;
-import tech.sud.mgp.hello.service.game.req.RocketFirePriceReq;
 import tech.sud.mgp.hello.service.game.req.RocketFireRecordReq;
 import tech.sud.mgp.hello.service.game.req.RocketFireRecordSummeryReq;
 import tech.sud.mgp.hello.service.game.req.RocketFireReq;
 import tech.sud.mgp.hello.service.game.req.RocketPageReq;
 import tech.sud.mgp.hello.service.game.req.RocketSetDefaultSeatReq;
 import tech.sud.mgp.hello.service.game.req.RocketUnlockComponentReq;
-import tech.sud.mgp.hello.service.game.req.RocketVerifySignReq;
 import tech.sud.mgp.hello.service.game.req.SwitchGameReq;
 import tech.sud.mgp.hello.service.game.resp.GameLoginResp;
 import tech.sud.mgp.hello.service.game.resp.RocketFirePriceResp;
 import tech.sud.mgp.hello.service.game.resp.RocketFireResp;
-import tech.sud.mgp.hello.service.game.resp.RocketVerifySignResp;
 
 /**
  * 网络请求方法和地址
@@ -63,7 +60,7 @@ public interface GameRequestMethod {
      * 购买组件
      */
     @POST(RequestUrl.ROCKET_BUY_COMPONENT)
-    Observable<BaseResponse<Object>> rocketBuyComponent(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body SudMGPMGState.MGCustomRocketBuyComponent body);
+    Observable<BaseResponse<SudMGPAPPState.AppCustomRocketBuyComponent.Data>> rocketBuyComponent(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body SudMGPMGState.MGCustomRocketBuyComponent body);
 
     /**
      * 购买组件记录
@@ -81,7 +78,13 @@ public interface GameRequestMethod {
      * 保存火箭模型
      */
     @POST(RequestUrl.ROCKET_SAVE_MODEL)
-    Observable<BaseResponse<Object>> rocketSaveModel(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body SudMGPMGState.MGCustomRocketReplaceComponent body);
+    Observable<BaseResponse<SudMGPAPPState.AppCustomRocketCreateModel.Data>> rocketCreateModel(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body SudMGPMGState.MGCustomRocketCreateModel body);
+
+    /**
+     * 保存火箭模型
+     */
+    @POST(RequestUrl.ROCKET_SAVE_MODEL)
+    Observable<BaseResponse<SudMGPAPPState.AppCustomRocketReplaceComponent.Data>> rocketReplaceComponent(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body SudMGPMGState.MGCustomRocketReplaceComponent body);
 
     /**
      * 查询火箭模型列表
@@ -111,7 +114,7 @@ public interface GameRequestMethod {
      * 获取发射价格
      */
     @POST(RequestUrl.ROCKET_FIRE_PRICE)
-    Observable<BaseResponse<RocketFirePriceResp>> rocketFirePrice(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body RocketFirePriceReq body);
+    Observable<BaseResponse<RocketFirePriceResp>> rocketFirePrice(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body SudMGPMGState.MGCustomRocketDynamicFirePrice body);
 
     /**
      * 设置火箭默认位置
@@ -123,6 +126,6 @@ public interface GameRequestMethod {
      * 校验签名合规性
      */
     @POST(RequestUrl.ROCKET_VERIFY_SIGN)
-    Observable<BaseResponse<RocketVerifySignResp>> rocketVerifySign(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body RocketVerifySignReq body);
+    Observable<BaseResponse<SudMGPAPPState.AppCustomRocketVerifySign.Data>> rocketVerifySign(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body SudMGPMGState.MGCustomRocketVerifySign body);
 
 }

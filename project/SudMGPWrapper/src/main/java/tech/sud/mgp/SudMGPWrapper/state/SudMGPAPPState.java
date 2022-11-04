@@ -438,7 +438,7 @@ public class SudMGPAPPState implements Serializable {
     public static class AppCustomRocketUserInfo implements Serializable {
         public int resultCode; // 0: 请求成功，1：请求失败
         public String error; // 错误描述
-        public List<CustomRocketUserInfo> userList; // 用户信息列表
+        public List<CustomRocketUserInfoModel> userList; // 用户信息列表
     }
 
     /**
@@ -450,7 +450,7 @@ public class SudMGPAPPState implements Serializable {
      * 5. app推送主播信息(火箭) 模型
      */
     public static class AppCustomRocketNewUserInfo implements Serializable {
-        public List<CustomRocketUserInfo> userList; // 用户信息列表
+        public List<CustomRocketUserInfoModel> userList; // 用户信息列表
     }
 
     /**
@@ -490,7 +490,7 @@ public class SudMGPAPPState implements Serializable {
         public List<RoomRecordModel> list; // 列表
 
         public static class RoomRecordModel {
-            public CustomRocketUserInfo fromUser; // 送礼人
+            public CustomRocketUserInfoModel fromUser; // 送礼人
             public int number; // 火箭数量
         }
     }
@@ -505,13 +505,13 @@ public class SudMGPAPPState implements Serializable {
      */
     public static class AppCustomRocketUserRecordList implements Serializable {
         public int pageCount; // 总页数
-        public CustomRocketUserInfo fromUser; // 送礼人
+        public CustomRocketUserInfoModel fromUser; // 送礼人
         public UserRecordModel list; // 列表
 
         public static class UserRecordModel {
             public int date; // 订单时间戳: 单位是秒
             public int number; // 个数
-            public CustomRocketUserInfo toUser; // 收礼人
+            public CustomRocketUserInfoModel toUser; // 收礼人
             public List<ComponentModel> componentList; // 列表
 
             public static class ComponentModel {
@@ -537,7 +537,7 @@ public class SudMGPAPPState implements Serializable {
         public Data data; // 数据
 
         public static class Data {
-            public int seat; // 座位
+            public String itemId; // 默认模型
         }
     }
 
@@ -586,15 +586,12 @@ public class SudMGPAPPState implements Serializable {
         public Data data;
 
         public static class Data {
-            public int seat; // 座位ID
-            public int avater; // 可以换装：0不可以 1可以
+            public String modelId; // 模型Id
+            public int isAvatar; // 可以换装：0不可以 1可以
             public List<ComponentModel> componentList;
 
             public static class ComponentModel {
-                public int type; // 类型
-                public String value; // 值
-                public int isForever; // 永久：0非永久 1永久
-                public int validTime; // 有效期时间戳：单位是秒
+                public String itemId; // 模型Id
             }
         }
     }
@@ -613,14 +610,11 @@ public class SudMGPAPPState implements Serializable {
         public Data data;
 
         public static class Data {
-            public int seat; // 座位
+            public String modelId; // 模型Id
             public List<ComponentModel> componentList;
 
             public static class ComponentModel {
-                public int type; // 类型
-                public String value; // 值
-                public int isForever; // 永久：0非永久 1永久
-                public int validTime; // 有效期时间戳：单位是秒
+                public String itemId;
             }
         }
     }
@@ -681,7 +675,7 @@ public class SudMGPAPPState implements Serializable {
     public static class AppCustomRocketVerifySign implements Serializable {
         public int resultCode; // 0: 请求成功，1：请求失败
         public String error; // 错误描述
-        public AppCustomRocketReplaceComponent.Data data;
+        public Data data;
 
         public static class Data {
             public String sign; // 验证的签名
@@ -691,23 +685,23 @@ public class SudMGPAPPState implements Serializable {
     /**
      * 20. app主动调起火箭主界面(火箭)
      */
-    public static final String APP_CUSTOM_ROCKET_SHOW_GAME = "app_custom_rocket_show_game";
+    public static final String APP_CUSTOM_ROCKET_SHOW_GAME_SCENE = "app_custom_rocket_show_game_scene";
 
     /**
      * 20. app主动调起火箭主界面(火箭) 模型
      */
-    public static class AppCustomRocketShowGame implements Serializable {
+    public static class AppCustomRocketShowGameScene implements Serializable {
     }
 
     /**
      * 21. app主动隐藏火箭主界面(火箭)
      */
-    public static final String APP_CUSTOM_ROCKET_HIDE_GAME = "app_custom_rocket_hide_game";
+    public static final String APP_CUSTOM_ROCKET_HIDE_GAME_SCENE = "app_custom_rocket_hide_game_scene";
 
     /**
      * 21. app主动隐藏火箭主界面(火箭)  模型
      */
-    public static class AppCustomRocketHideGame implements Serializable {
+    public static class AppCustomRocketHideGameScene implements Serializable {
     }
 
     /**
@@ -726,7 +720,7 @@ public class SudMGPAPPState implements Serializable {
     /**
      * 定制火箭，用户信息 模型
      */
-    public static class CustomRocketUserInfo {
+    public static class CustomRocketUserInfoModel {
         public String userId;   // 用户的userId
         public String nickName; // 昵称
         public int sex; // 性别 0:男 1:女

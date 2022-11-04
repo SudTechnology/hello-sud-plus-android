@@ -29,6 +29,7 @@ import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.main.resp.GetAccountResp;
 import tech.sud.mgp.hello.service.room.repository.RoomRepository;
 import tech.sud.mgp.hello.service.room.resp.GiftListResp;
+import tech.sud.mgp.hello.ui.common.utils.FilePath;
 import tech.sud.mgp.hello.ui.common.utils.FormatUtils;
 import tech.sud.mgp.hello.ui.main.base.constant.SceneType;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
@@ -64,6 +65,8 @@ public class RoomGiftDialog extends BaseDialogFragment implements SendGiftToUser
 
     private static long oldSelectedGiftId;
     private static int oldSelectedGiftType;
+
+    private OnShowCustomRocketClickListener onShowCustomRocketClickListener;
 
     public static RoomGiftDialog newInstance(int sceneType, long gameId) {
         Bundle args = new Bundle();
@@ -187,8 +190,18 @@ public class RoomGiftDialog extends BaseDialogFragment implements SendGiftToUser
             }
         });
         containerGoCustom.setOnClickListener((v) -> {
-            // TODO: 2022/11/1 点击要处理
+            if (onShowCustomRocketClickListener != null) {
+                onShowCustomRocketClickListener.onClick(v);
+            }
         });
+    }
+
+    public void setOnShowCustomRocketClickListener(OnShowCustomRocketClickListener onShowCustomRocketClickListener) {
+        this.onShowCustomRocketClickListener = onShowCustomRocketClickListener;
+    }
+
+    public interface OnShowCustomRocketClickListener {
+        void onClick(View view);
     }
 
     private void onClickGift(int position) {
@@ -216,8 +229,7 @@ public class RoomGiftDialog extends BaseDialogFragment implements SendGiftToUser
         GiftModel checkedGift = getCheckedGift();
         if (checkedGift != null && checkedGift.giftId == GiftId.ROCKET) {
             containerCustomRocket.setVisibility(View.VISIBLE);
-            // TODO: 2022/11/1 显示火箭缩略图
-            ImageLoader.loadImage(ivRocketIcon, "ddd");
+            ImageLoader.loadRocketImage(ivRocketIcon, FilePath.getRocketThumbFilePath(getContext()).getAbsolutePath());
         } else {
             containerCustomRocket.setVisibility(View.GONE);
         }

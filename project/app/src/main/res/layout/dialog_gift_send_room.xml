@@ -22,13 +22,6 @@
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/content_cl">
 
-        <ImageView
-            android:id="@+id/iv_rocket_icon"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="60dp"
@@ -60,11 +53,18 @@
                 <View
                     android:layout_width="12dp"
                     android:layout_height="12dp"
-                    android:background="@drawable/ic_arrow_down" />
+                    android:background="@drawable/ic_arrow_white_right" />
 
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageView
+            android:id="@+id/iv_rocket_icon"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

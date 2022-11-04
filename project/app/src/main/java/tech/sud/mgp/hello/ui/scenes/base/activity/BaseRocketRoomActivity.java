@@ -5,6 +5,7 @@ import android.widget.FrameLayout;
 
 import androidx.lifecycle.Observer;
 
+import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.core.SudMGP;
 import tech.sud.mgp.hello.BuildConfig;
 import tech.sud.mgp.hello.R;
@@ -26,16 +27,23 @@ public abstract class BaseRocketRoomActivity<T extends AppGameViewModel> extends
         super.initWidget();
         viewRocketEntrance = findViewById(R.id.view_custom_rocket);
         rocketContainer = findViewById(R.id.rocket_container);
+
+        SudMGP.getCfg().setShowLoadingGameBg(false);
+        SudMGP.getCfg().setShowCustomLoading(true);
+
         if (BuildConfig.DEBUG) {
-            SudMGP.getCfg().addEmbeddedMGPkg(GameIdCons.CUSTOM_ROCKET, "HelloWorld.rpk");
+            SudMGP.getCfg().addEmbeddedMGPkg(GameIdCons.CUSTOM_ROCKET, "assets.rpk");
         }
+
+        rocketGameViewModel.fragmentActivity = this;
+        rocketGameViewModel.roomId = roomInfoModel.roomId;
     }
 
     @Override
     protected void setListeners() {
         super.setListeners();
         viewRocketEntrance.setOnClickListener((v) -> {
-            showCustomRocket();
+            showRocketGameScene();
         });
         rocketGameViewModel.gameViewLiveData.observe(this, new Observer<View>() {
             @Override
@@ -47,11 +55,28 @@ public abstract class BaseRocketRoomActivity<T extends AppGameViewModel> extends
                 }
             }
         });
+        rocketGameViewModel.gameFireRocketLiveData.observe(this, new Observer<SudMGPMGState.MGCustomRocketFireModel>() {
+            @Override
+            public void onChanged(SudMGPMGState.MGCustomRocketFireModel model) {
+                onGameFireRocket(model);
+            }
+        });
     }
 
-    /** 展示火箭 */
-    protected void showCustomRocket() {
-        rocketGameViewModel.switchGame(this, getGameRoomId(), GameIdCons.CUSTOM_ROCKET);
+    /** 游戏要发射火箭 */
+    private void onGameFireRocket(SudMGPMGState.MGCustomRocketFireModel model) {
+        // TODO: 2022/11/3  
+    }
+
+    /** 打开火箭主页面 */
+    protected void showRocketGameScene() {
+        rocketGameViewModel.showRocketGameScene();
+    }
+
+    @Override
+    protected void onGiftDialogShowCustomRocket() {
+        super.onGiftDialogShowCustomRocket();
+        showRocketGameScene();
     }
 
     @Override
@@ -72,4 +97,9 @@ public abstract class BaseRocketRoomActivity<T extends AppGameViewModel> extends
         clOpenMic.bringToFront();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        rocketGameViewModel.onDestroy();
+    }
 }

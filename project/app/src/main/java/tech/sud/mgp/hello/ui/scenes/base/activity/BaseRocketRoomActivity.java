@@ -5,13 +5,22 @@ import android.widget.FrameLayout;
 
 import androidx.lifecycle.Observer;
 
+import java.util.List;
+
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.core.SudMGP;
 import tech.sud.mgp.hello.BuildConfig;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.ui.main.base.constant.GameIdCons;
+import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
+import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
+import tech.sud.mgp.hello.ui.scenes.base.utils.UserInfoConverter;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppRocketGameViewModel;
+import tech.sud.mgp.hello.ui.scenes.base.widget.dialog.RocketFireSelectDialog;
+import tech.sud.mgp.hello.ui.scenes.common.gift.manager.GiftHelper;
+import tech.sud.mgp.hello.ui.scenes.common.gift.manager.GiftId;
+import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftModel;
 
 /**
  * 带火箭动效的房间
@@ -65,7 +74,24 @@ public abstract class BaseRocketRoomActivity<T extends AppGameViewModel> extends
 
     /** 游戏要发射火箭 */
     private void onGameFireRocket(SudMGPMGState.MGCustomRocketFireModel model) {
-        // TODO: 2022/11/3  
+        showRocketFireSelectDialog(model);
+    }
+
+    private void showRocketFireSelectDialog(SudMGPMGState.MGCustomRocketFireModel model) {
+        if (binder == null) {
+            return;
+        }
+        RocketFireSelectDialog dialog = new RocketFireSelectDialog();
+        dialog.setMicList(binder.getMicList());
+        dialog.setOnConfirmListener(new RocketFireSelectDialog.OnConfirmListener() {
+            @Override
+            public void onConfirm(List<AudioRoomMicModel> list) {
+                List<UserInfo> userInfoList = UserInfoConverter.conver(list);
+                GiftModel giftModel = GiftHelper.getInstance().getGift(GiftId.ROCKET);
+                onSendGift(giftModel, 1, userInfoList);
+            }
+        });
+        dialog.show(getSupportFragmentManager(), null);
     }
 
     /** 打开火箭主页面 */

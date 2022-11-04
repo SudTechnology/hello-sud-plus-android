@@ -621,6 +621,8 @@ Go to homepage to create one~</string>
     <string name="custom_rocket">定制火箭</string>
     <string name="custom_made">定制</string>
     <string name="go_custom">去定制</string>
+    <string name="choose_the_recipient">选择收礼人</string>
+    <string name="confirm_fire_price">确认发射(%1$s金币)</string>
     <!-- endregion 新增 -->
 
 </resources>

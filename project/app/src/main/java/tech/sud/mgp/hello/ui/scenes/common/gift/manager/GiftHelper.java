@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tech.sud.mgp.hello.R;
+import tech.sud.mgp.hello.app.APPConfig;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.EffectAnimationFormat;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftModel;
@@ -86,7 +87,7 @@ public class GiftHelper {
             model9.animationType = EffectAnimationFormat.ROCKET;
             model9.giftImage = R.drawable.ic_rocket;
             model9.giftSmallImage = R.drawable.ic_rocket;
-            model9.giftPrice = 1980;
+            model9.giftPrice = APPConfig.ROCKET_FIRE_PRICE;
             gifts.add(model9);
 
             GiftModel model1 = new GiftModel();

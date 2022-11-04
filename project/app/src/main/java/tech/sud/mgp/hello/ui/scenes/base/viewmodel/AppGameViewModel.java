@@ -655,6 +655,7 @@ public class AppGameViewModel implements SudFSMMGListener {
     public void onGameLoadingProgress(int stage, int retCode, int progress) {
         SudFSMMGListener.super.onGameLoadingProgress(stage, retCode, progress);
         gameLoadingProgressLiveData.setValue(new GameLoadingProgressModel(stage, retCode, progress));
+        LogUtils.d("onGameLoadingProgress:" + stage + " :" + retCode + " :" + progress);
     }
 
     @Override

@@ -43,6 +43,8 @@ public class AppRocketGameViewModel extends AppGameViewModel {
 
     public MutableLiveData<SudMGPMGState.MGCustomRocketFireModel> gameFireRocketLiveData = new MutableLiveData<>();
 
+    private boolean isShowScene; // 是否要显示火箭主页面
+
     // region 火箭返回状态
 
     /**
@@ -435,6 +437,9 @@ public class AppRocketGameViewModel extends AppGameViewModel {
     public void onGameMGCustomRocketPrepareFinish(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketPrepareFinish model) {
         super.onGameMGCustomRocketPrepareFinish(handle, model);
         // TODO: 2022/11/3 要处理
+        if (isShowScene) {
+            showRocketGameScene();
+        }
     }
 
     /**

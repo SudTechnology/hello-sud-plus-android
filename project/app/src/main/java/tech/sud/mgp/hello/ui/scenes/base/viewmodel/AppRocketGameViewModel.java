@@ -41,9 +41,9 @@ public class AppRocketGameViewModel extends AppGameViewModel {
     public FragmentActivity fragmentActivity;
     public long roomId;
 
-    public MutableLiveData<SudMGPMGState.MGCustomRocketFireModel> gameFireRocketLiveData = new MutableLiveData<>();
-
-    private boolean isShowScene; // 是否要显示火箭主页面
+    public MutableLiveData<SudMGPMGState.MGCustomRocketFireModel> gameFireRocketLiveData = new MutableLiveData<>(); // 发射火箭
+    public MutableLiveData<SudMGPMGState.MGCustomRocketClickLockComponent> clickLockComponentLiveData = new MutableLiveData<>(); // 点击了锁住的组件
+    public MutableLiveData<Object> rocketPrepareCompletedLiveData = new MutableLiveData<>(); // 火箭准备完成
 
     // region 火箭返回状态
 
@@ -436,10 +436,7 @@ public class AppRocketGameViewModel extends AppGameViewModel {
     @Override
     public void onGameMGCustomRocketPrepareFinish(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketPrepareFinish model) {
         super.onGameMGCustomRocketPrepareFinish(handle, model);
-        // TODO: 2022/11/3 要处理
-        if (isShowScene) {
-            showRocketGameScene();
-        }
+        rocketPrepareCompletedLiveData.setValue(null);
     }
 
     /**
@@ -458,7 +455,7 @@ public class AppRocketGameViewModel extends AppGameViewModel {
     @Override
     public void onGameMGCustomRocketClickLockComponent(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketClickLockComponent model) {
         super.onGameMGCustomRocketClickLockComponent(handle, model);
-        // TODO: 2022/11/3  要处理 
+        clickLockComponentLiveData.setValue(model);
     }
 
     // endregion 火箭返回状态
@@ -468,14 +465,14 @@ public class AppRocketGameViewModel extends AppGameViewModel {
     /**
      * 15. app播放火箭发射动效
      */
-    private void notifyAppCustomRocketPlayModelList(SudMGPAPPState.AppCustomRocketPlayModelList model) {
+    public void notifyAppCustomRocketPlayModelList(SudMGPAPPState.AppCustomRocketPlayModelList model) {
         sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_CUSTOM_ROCKET_PLAY_MODEL_LIST, model);
     }
 
     /**
      * 20. app主动调起火箭主界面(火箭)
      */
-    private void notifyAppCustomRocketShowGameScene() {
+    public void notifyAppCustomRocketShowGameScene() {
         SudMGPAPPState.AppCustomRocketShowGameScene model = new SudMGPAPPState.AppCustomRocketShowGameScene();
         sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_CUSTOM_ROCKET_SHOW_GAME_SCENE, model);
     }
@@ -483,15 +480,15 @@ public class AppRocketGameViewModel extends AppGameViewModel {
     /**
      * 21. app主动隐藏火箭主界面(火箭)
      */
-    private void notifyAppCustomRocketHideGameScene() {
+    public void notifyAppCustomRocketHideGameScene() {
         SudMGPAPPState.AppCustomRocketHideGameScene model = new SudMGPAPPState.AppCustomRocketHideGameScene();
         sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_CUSTOM_ROCKET_HIDE_GAME_SCENE, model);
     }
 
     /**
-     * 21. app主动隐藏火箭主界面(火箭)
+     * 25. app推送解锁组件(火箭)
      */
-    private void notifyAppCustomRocketUnlockComponent(SudMGPAPPState.AppCustomRocketUnlockComponent model) {
+    public void notifyAppCustomRocketUnlockComponent(SudMGPAPPState.AppCustomRocketUnlockComponent model) {
         sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_CUSTOM_ROCKET_UNLOCK_COMPONENT, model);
     }
     // endregion 向火箭发送状态
@@ -525,9 +522,23 @@ public class AppRocketGameViewModel extends AppGameViewModel {
         return userInfo;
     }
 
-    /** 显示火箭主页面 */
-    public void showRocketGameScene() {
+    /** 启动火箭 */
+    public void startRocket() {
         switchGame(fragmentActivity, getGameRoomId(), GameIdCons.CUSTOM_ROCKET);
+    }
+
+    @Override
+    public void switchGame(FragmentActivity activity, long gameRoomId, long gameId) {
+        if (!isRunning) {
+            return;
+        }
+        if (playingGameId == gameId && this.gameRoomId == gameRoomId) {
+            return;
+        }
+        destroyMG();
+        this.gameRoomId = gameRoomId;
+        playingGameId = gameId;
+        login(activity, gameId);
     }
 
 }

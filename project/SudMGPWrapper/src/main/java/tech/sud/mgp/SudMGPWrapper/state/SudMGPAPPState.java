@@ -344,23 +344,24 @@ public class SudMGPAPPState implements Serializable {
         public List<ExtraModel> extraList; // 专属配置
 
         public static class ComponentModel {
+            public String componentId; // 组件的ID
             public int type; // 1套装，2主仓，3尾翼
             public String name; // 显示名称(商城+装配间+购买记录+...)
             public double price; // 价格
             public int isForever; // 永久：0非永久 1永久
-            public int validTime; // 有效期：单位是秒
-            public String componentId; // 组件的ID
+            public long validTime; // 有效期：单位是秒
             public String imageId; // 图片ID
             public int isLock; // 锁：0不锁 1锁
             public int isShow; // 展示：0不展示 1展示
         }
 
         public static class HeadModel {
+            public String componentId; // 组件的ID
             public int type; // 4头像(商城+装配间+购买记录+...)
             public String name; // 显示名称
             public double price; // 价格 暂时不考虑小数
             public int isForever; // 永久：0非永久 1永久
-            public int validTime; // 有效期：单位是秒
+            public long validTime; // 有效期：单位是秒
             public String userId; // 用户的userId
             public String nickName; // 昵称
             public int sex; // 性别 0:男 1:女
@@ -368,11 +369,12 @@ public class SudMGPAPPState implements Serializable {
         }
 
         public static class ExtraModel {
+            public String componentId; // 组件的ID
             public int type; // 5签名，6颜色
-            public int name; // 显示名称(商城+装配间+购买记录+...)
+            public String name; // 显示名称(商城+装配间+购买记录+...)
             public double price; // 价格
             public int isForever; // 永久：0非永久 1永久
-            public int validTime; // 有效期：单位是秒
+            public long validTime; // 有效期：单位是秒
             public String desc; // 描述
         }
     }
@@ -386,12 +388,12 @@ public class SudMGPAPPState implements Serializable {
      * 2. 拥有模型列表回调(火箭) 模型
      */
     public static class AppCustomRocketModelList implements Serializable {
-        public int defaultSeat; // 默认座位
+        public String defaultModelId; // 默认模型
         public int isScreenshot; // 截图：0不截图 1截图(app上传失败或者过期时,被动截图)
         public List<Model> list;
 
         public static class Model {
-            public int seat; // 座位ID
+            public String modelId; // 模型Id
             public int isAvatar; // 可以换装：0不可以 1可以
             public List<ComponentModel> componentList; // 列表
 
@@ -400,7 +402,7 @@ public class SudMGPAPPState implements Serializable {
                 public int type; // 类型
                 public String value; // 值
                 public int isForever; // 永久：0非永久 1永久
-                public int validTime; // 有效期时间戳：单位是秒
+                public long validTime; // 有效期时间戳：单位是秒
             }
         }
     }
@@ -422,8 +424,8 @@ public class SudMGPAPPState implements Serializable {
             public int type; // 类型
             public String value; // 值
             public int isForever; // 永久：0非永久 1永久
-            public int validTime; // 有效期时间戳：单位是秒
-            public int date; // 购买时间：1970年1月1日开始。时间戳：单位是秒
+            public long validTime; // 有效期时间戳：单位是秒
+            public long date; // 购买时间：1970年1月1日开始。时间戳：单位是秒
         }
     }
 
@@ -472,8 +474,8 @@ public class SudMGPAPPState implements Serializable {
             public int type; // 类型
             public String value; // 值
             public int isForever; // 永久：0非永久 1永久
-            public int validTime; // 有效期时间戳：单位是秒
-            public int date; // 有效期时间戳：单位是秒
+            public long validTime; // 有效期时间戳：单位是秒
+            public long date; // 有效期时间戳：单位是秒
         }
     }
 
@@ -509,7 +511,7 @@ public class SudMGPAPPState implements Serializable {
         public UserRecordModel list; // 列表
 
         public static class UserRecordModel {
-            public int date; // 订单时间戳: 单位是秒
+            public long date; // 订单时间戳: 单位是秒
             public int number; // 个数
             public CustomRocketUserInfoModel toUser; // 收礼人
             public List<ComponentModel> componentList; // 列表
@@ -518,7 +520,7 @@ public class SudMGPAPPState implements Serializable {
                 public int type; // 类型
                 public String value; // 值
                 public int isForever; // 永久：0非永久 1永久
-                public int validTime; // 有效期时间戳：单位是秒
+                public long validTime; // 有效期时间戳：单位是秒
             }
         }
     }
@@ -640,8 +642,8 @@ public class SudMGPAPPState implements Serializable {
                 public int type; // 类型
                 public String value; // 值
                 public int isForever; // 永久：0非永久 1永久
-                public int validTime; // 有效期时间戳：单位是秒
-                public int date; // 有效期时间戳：单位是秒
+                public long validTime; // 有效期时间戳：单位是秒
+                public long date; // 有效期时间戳：单位是秒
             }
         }
     }

@@ -54,8 +54,8 @@ public class AppGameViewModel implements SudFSMMGListener {
     // region field
     public static long GAME_ID_NONE = 0; // 没有游戏
 
-    private long gameRoomId; // 游戏房间id
-    private long playingGameId; // 当前使用的游戏id
+    protected long gameRoomId; // 游戏房间id
+    protected long playingGameId; // 当前使用的游戏id
     public final SudFSTAPPDecorator sudFSTAPPDecorator = new SudFSTAPPDecorator(); // app调用sdk的封装类
     public final SudFSMMGDecorator sudFSMMGDecorator = new SudFSMMGDecorator(); // 用于处理游戏SDK部分回调业务
 
@@ -79,10 +79,13 @@ public class AppGameViewModel implements SudFSMMGListener {
     public final MutableLiveData<Object> onGameGetScoreLiveData = new MutableLiveData<>(); // 游戏通知app获取积分
     public final MutableLiveData<SudMGPMGState.MGCommonGameSetScore> onGameSetScoreLiveData = new MutableLiveData<>(); // 24. 游戏通知app带入积分
 
-    private boolean isRunning = true; // 业务是否还在运行
+    protected boolean isRunning = true; // 业务是否还在运行
     public View gameView; // 游戏View
     private int selfMicIndex = -1; // 记录自己所在麦位
     public GameConfigModel gameConfigModel = new GameConfigModel(); // 游戏配置
+
+    public boolean isShowLoadingGameBg = true; // 是否要显示加载时的背景图
+    public boolean isShowCustomLoading = false; // 是否要显示自定义的加载进度
 
     // endregion field
 
@@ -136,7 +139,7 @@ public class AppGameViewModel implements SudFSMMGListener {
      * @param activity 游戏所在页面
      * @param gameId   游戏id
      */
-    private void login(FragmentActivity activity, long gameId) {
+    protected void login(FragmentActivity activity, long gameId) {
         if (activity.isDestroyed() || gameId <= 0) {
             return;
         }
@@ -209,6 +212,9 @@ public class AppGameViewModel implements SudFSMMGListener {
 
         // 给装饰类设置回调
         sudFSMMGDecorator.setSudFSMMGListener(this);
+
+        SudMGP.getCfg().setShowLoadingGameBg(isShowLoadingGameBg);
+        SudMGP.getCfg().setShowCustomLoading(isShowCustomLoading);
 
         // 调用游戏sdk加载游戏
         ISudFSTAPP iSudFSTAPP = SudMGP.loadMG(activity, HSUserInfo.userId + "", gameRoomId + "", code, gameId, SystemUtils.getLanguageCode(activity), sudFSMMGDecorator);

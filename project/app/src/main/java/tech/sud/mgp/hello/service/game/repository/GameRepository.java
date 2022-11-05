@@ -88,7 +88,7 @@ public class GameRepository {
      */
     public static void rocketMallComponentList(LifecycleOwner owner, RxCallback<SudMGPAPPState.AppCustomRocketConfig> callback) {
         GameRequestMethodFactory.getMethod()
-                .rocketMallComponentList(BaseUrlManager.getInteractBaseUrl())
+                .rocketMallComponentList(BaseUrlManager.getGameBaseUrl())
                 .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }
@@ -101,12 +101,12 @@ public class GameRepository {
      * @param isLock      是否锁住
      * @param callback    回调
      */
-    public static void rocketUnlockComponent(LifecycleOwner owner, String componentId, boolean isLock, RxCallback<Object> callback) {
+    public static void rocketUnlockComponent(LifecycleOwner owner, String componentId, int isLock, RxCallback<Object> callback) {
         RocketUnlockComponentReq req = new RocketUnlockComponentReq();
         req.componentId = componentId;
         req.isLock = isLock;
         GameRequestMethodFactory.getMethod()
-                .rocketUnlockComponent(BaseUrlManager.getInteractBaseUrl(), req)
+                .rocketUnlockComponent(BaseUrlManager.getGameBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }
@@ -120,7 +120,7 @@ public class GameRepository {
      */
     public static void rocketBuyComponent(LifecycleOwner owner, SudMGPMGState.MGCustomRocketBuyComponent req, RxCallback<SudMGPAPPState.AppCustomRocketBuyComponent.Data> callback) {
         GameRequestMethodFactory.getMethod()
-                .rocketBuyComponent(BaseUrlManager.getInteractBaseUrl(), req)
+                .rocketBuyComponent(BaseUrlManager.getGameBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }
@@ -138,7 +138,7 @@ public class GameRepository {
         req.pageIndex = pageIndex;
         req.pageSize = pageSize;
         GameRequestMethodFactory.getMethod()
-                .rocketBuyComponentRecord(BaseUrlManager.getInteractBaseUrl(), req)
+                .rocketBuyComponentRecord(BaseUrlManager.getGameBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }
@@ -151,7 +151,7 @@ public class GameRepository {
      */
     public static void rocketComponentList(LifecycleOwner owner, RxCallback<SudMGPAPPState.AppCustomRocketComponentList> callback) {
         GameRequestMethodFactory.getMethod()
-                .rocketComponentList(BaseUrlManager.getInteractBaseUrl())
+                .rocketComponentList(BaseUrlManager.getGameBaseUrl())
                 .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }
@@ -164,7 +164,7 @@ public class GameRepository {
      */
     public static void rocketCreateModel(LifecycleOwner owner, SudMGPMGState.MGCustomRocketCreateModel req, RxCallback<SudMGPAPPState.AppCustomRocketCreateModel.Data> callback) {
         GameRequestMethodFactory.getMethod()
-                .rocketCreateModel(BaseUrlManager.getInteractBaseUrl(), req)
+                .rocketCreateModel(BaseUrlManager.getGameBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }
@@ -177,7 +177,7 @@ public class GameRepository {
      */
     public static void rocketReplaceComponent(LifecycleOwner owner, SudMGPMGState.MGCustomRocketReplaceComponent req, RxCallback<SudMGPAPPState.AppCustomRocketReplaceComponent.Data> callback) {
         GameRequestMethodFactory.getMethod()
-                .rocketReplaceComponent(BaseUrlManager.getInteractBaseUrl(), req)
+                .rocketReplaceComponent(BaseUrlManager.getGameBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }
@@ -190,7 +190,7 @@ public class GameRepository {
      */
     public static void rocketModelList(LifecycleOwner owner, RxCallback<SudMGPAPPState.AppCustomRocketModelList> callback) {
         GameRequestMethodFactory.getMethod()
-                .rocketModelList(BaseUrlManager.getInteractBaseUrl())
+                .rocketModelList(BaseUrlManager.getGameBaseUrl())
                 .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }
@@ -204,7 +204,7 @@ public class GameRepository {
      */
     public static void rocketFire(LifecycleOwner owner, RocketFireReq req, RxCallback<RocketFireResp> callback) {
         GameRequestMethodFactory.getMethod()
-                .rocketFire(BaseUrlManager.getInteractBaseUrl(), req)
+                .rocketFire(BaseUrlManager.getGameBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }
@@ -218,7 +218,7 @@ public class GameRepository {
      */
     public static void rocketFireRecordSummery(LifecycleOwner owner, RocketFireRecordSummeryReq req, RxCallback<SudMGPAPPState.AppCustomRocketRoomRecordList> callback) {
         GameRequestMethodFactory.getMethod()
-                .rocketFireRecordSummery(BaseUrlManager.getInteractBaseUrl(), req)
+                .rocketFireRecordSummery(BaseUrlManager.getGameBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }
@@ -232,7 +232,7 @@ public class GameRepository {
      */
     public static void rocketFireRecord(LifecycleOwner owner, RocketFireRecordReq req, RxCallback<SudMGPAPPState.AppCustomRocketUserRecordList> callback) {
         GameRequestMethodFactory.getMethod()
-                .rocketFireRecord(BaseUrlManager.getInteractBaseUrl(), req)
+                .rocketFireRecord(BaseUrlManager.getGameBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }
@@ -246,7 +246,7 @@ public class GameRepository {
      */
     public static void rocketFirePrice(LifecycleOwner owner, SudMGPMGState.MGCustomRocketDynamicFirePrice req, RxCallback<RocketFirePriceResp> callback) {
         GameRequestMethodFactory.getMethod()
-                .rocketFirePrice(BaseUrlManager.getInteractBaseUrl(), req)
+                .rocketFirePrice(BaseUrlManager.getGameBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }
@@ -260,7 +260,7 @@ public class GameRepository {
      */
     public static void rocketSetDefaultSeat(LifecycleOwner owner, RocketSetDefaultSeatReq req, RxCallback<Object> callback) {
         GameRequestMethodFactory.getMethod()
-                .rocketSetDefaultSeat(BaseUrlManager.getInteractBaseUrl(), req)
+                .rocketSetDefaultSeat(BaseUrlManager.getGameBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }
@@ -274,7 +274,7 @@ public class GameRepository {
      */
     public static void rocketVerifySign(LifecycleOwner owner, SudMGPMGState.MGCustomRocketVerifySign req, RxCallback<SudMGPAPPState.AppCustomRocketVerifySign.Data> callback) {
         GameRequestMethodFactory.getMethod()
-                .rocketVerifySign(BaseUrlManager.getInteractBaseUrl(), req)
+                .rocketVerifySign(BaseUrlManager.getGameBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }

@@ -39,8 +39,9 @@ public class SceneGiftManager extends BaseServiceManager {
         String giftName = giftModel.giftName;
         String giftUrl = giftModel.giftUrl;
         String animationUrl = giftModel.animationUrl;
+        String extData = giftModel.extData;
 
-        String command = RoomCmdModelUtils.buildSendGiftCommand(giftID, giftCount, toUser, type, giftName, giftUrl, animationUrl);
+        String command = RoomCmdModelUtils.buildSendGiftCommand(giftID, giftCount, toUser, type, giftName, giftUrl, animationUrl, extData);
 
         GiftNotifyDetailModel notify = new GiftNotifyDetailModel();
         notify.gift = giftModel;
@@ -60,6 +61,7 @@ public class SceneGiftManager extends BaseServiceManager {
         parentManager.sceneEngineManager.sendCommand(command, null);
     }
 
+    /** 收到送礼消息 */
     private final SceneCommandManager.SendGiftCommandListener sendGiftCommandListener = new SceneCommandManager.SendGiftCommandListener() {
         @Override
         public void onRecvCommand(RoomCmdSendGiftModel command, String userID) {
@@ -73,6 +75,7 @@ public class SceneGiftManager extends BaseServiceManager {
                 giftModel.giftUrl = command.giftUrl;
                 giftModel.animationUrl = command.animationUrl;
             }
+            giftModel.extData = command.extData;
             GiftNotifyDetailModel notify = new GiftNotifyDetailModel();
             notify.gift = giftModel;
             notify.sendUser = command.sendUser;

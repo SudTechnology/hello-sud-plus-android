@@ -134,8 +134,17 @@ public class RoomGiftDialog extends BaseDialogFragment implements SendGiftToUser
             giftListAdapter.isShowFlag = true;
         }
 
+        List<GiftModel> list = new ArrayList<>();
         List<GiftModel> gifts = GiftHelper.getInstance().creatGifts(requireContext());
-        giftListAdapter.setList(gifts);
+        if (gifts != null) {
+            for (GiftModel gift : gifts) {
+                if (gift.giftId == GiftId.ROCKET && gameId > 0) {
+                    continue;
+                }
+                list.add(gift);
+            }
+        }
+        giftListAdapter.setList(list);
 
         // 添加不同场景不同的数据
         if (sceneType == SceneType.DISCO) {
@@ -193,6 +202,7 @@ public class RoomGiftDialog extends BaseDialogFragment implements SendGiftToUser
             if (onShowCustomRocketClickListener != null) {
                 onShowCustomRocketClickListener.onClick(v);
             }
+            dismiss();
         });
     }
 

@@ -5,5 +5,5 @@ package tech.sud.mgp.hello.service.game.req;
  */
 public class RocketUnlockComponentReq {
     public String componentId; // 组件id
-    public boolean isLock; // 是否锁住
+    public int isLock; // 是否锁住,1锁，0不锁
 }

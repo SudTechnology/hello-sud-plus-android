@@ -9,7 +9,7 @@ import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
  */
 public class RocketFireReq {
     public long roomId; // 房间Id
-    public List<String> receiver; // 收礼人id
+    public List<String> receiverList; // 收礼人id
     public long number; // 个数
     public List<SudMGPMGState.MGCustomRocketFireModel.ComponentModel> componentList; // 组件列表
 }

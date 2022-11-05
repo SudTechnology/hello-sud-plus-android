@@ -160,15 +160,37 @@ public abstract class BaseRocketRoomActivity<T extends AppGameViewModel> extends
             @Override
             public void onConfirm(List<AudioRoomMicModel> list) {
                 List<UserInfo> userInfoList = UserInfoConverter.conver(list);
-                onSendRocket(model, userInfoList);
+                onSendRocket(model, 1, userInfoList);
             }
         });
         dialog.show(getSupportFragmentManager(), null);
     }
 
+    @Override
+    protected void onSendGift(GiftModel giftModel, int giftCount, List<UserInfo> toUsers) {
+        if (giftModel.giftId == GiftId.ROCKET) {
+            onSendRocket(null, giftCount, toUsers);
+        } else {
+            super.onSendGift(giftModel, giftCount, toUsers);
+        }
+    }
+
     /** 发射火箭 */
-    private void onSendRocket(SudMGPMGState.MGCustomRocketFireModel model, List<UserInfo> userInfoList) {
+    private void onSendRocket(SudMGPMGState.MGCustomRocketFireModel model, int number, List<UserInfo> userInfoList) {
+        if (userInfoList == null || userInfoList.size() == 0) {
+            return;
+        }
         RocketFireReq req = new RocketFireReq();
+        req.roomId = roomInfoModel.roomId;
+        req.number = number;
+        List<String> receiverList = new ArrayList<>();
+        for (UserInfo userInfo : userInfoList) {
+            receiverList.add(userInfo.userID);
+        }
+        req.receiverList = receiverList;
+        if (model != null) {
+            req.componentList = model.componentList;
+        }
         GameRepository.rocketFire(this, req, new RxCallback<RocketFireResp>() {
             @Override
             public void onSuccess(RocketFireResp rocketFireResp) {
@@ -176,6 +198,11 @@ public abstract class BaseRocketRoomActivity<T extends AppGameViewModel> extends
                 String extData = SudJsonUtils.toJson(rocketFireResp);
                 GiftModel giftModel = GiftHelper.getInstance().getGift(GiftId.ROCKET);
                 giftModel.extData = extData;
+                for (UserInfo userInfo : userInfoList) {
+                    if (binder != null) {
+                        binder.sendGift(giftModel, number, userInfo);
+                    }
+                }
                 onSendGift(giftModel, 1, userInfoList);
                 onShowRocketFire(rocketFireResp);
             }

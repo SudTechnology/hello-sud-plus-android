@@ -34,7 +34,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:maxHeight="400dp"
-        android:layout_marginTop="30dp"
         android:overScrollMode="never"
         android:paddingHorizontal="10dp"
         app:layout_constraintTop_toBottomOf="@id/tv_title" />

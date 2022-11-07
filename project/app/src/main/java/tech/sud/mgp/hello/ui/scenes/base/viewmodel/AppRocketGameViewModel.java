@@ -54,6 +54,7 @@ public class AppRocketGameViewModel extends AppGameViewModel {
     @Override
     public void onGameMGCustomRocketConfig(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketConfig model) {
         super.onGameMGCustomRocketConfig(handle, model);
+        // TODO: 2022/11/7 ok
         GameRepository.rocketMallComponentList(fragmentActivity, new RxCallback<SudMGPAPPState.AppCustomRocketConfig>() {
             @Override
             public void onSuccess(SudMGPAPPState.AppCustomRocketConfig appCustomRocketConfig) {

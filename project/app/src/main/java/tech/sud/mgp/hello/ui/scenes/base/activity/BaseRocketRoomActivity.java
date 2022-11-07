@@ -61,8 +61,8 @@ public abstract class BaseRocketRoomActivity<T extends AppGameViewModel> extends
         // TODO: 2022/11/7 下面的代码需要去掉的
         File dir = Environment.getExternalStorageDirectory();
         File file = new File(dir.getAbsolutePath() + File.separator + "Pictures", "rocket.rpk");
-//        SudMGP.getCfg().addEmbeddedMGPkg(GameIdCons.CUSTOM_ROCKET, file.getAbsolutePath());
-        SudMGP.getCfg().addEmbeddedMGPkg(GameIdCons.CUSTOM_ROCKET, "rocket.rpk");
+        SudMGP.getCfg().addEmbeddedMGPkg(GameIdCons.CUSTOM_ROCKET, file.getAbsolutePath());
+//        SudMGP.getCfg().addEmbeddedMGPkg(GameIdCons.CUSTOM_ROCKET, "rocket.rpk");
 
         rocketGameViewModel.fragmentActivity = this;
         rocketGameViewModel.roomId = roomInfoModel.roomId;

@@ -119,8 +119,8 @@ public interface GameRequestMethod {
     /**
      * 设置火箭默认位置
      */
-    @POST(RequestUrl.ROCKET_SET_DEFAULT_SEAT)
-    Observable<BaseResponse<Object>> rocketSetDefaultSeat(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body RocketSetDefaultSeatReq body);
+    @POST(RequestUrl.ROCKET_SET_DEFAULT_MODEL)
+    Observable<BaseResponse<Object>> rocketSetDefaultModel(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body RocketSetDefaultSeatReq body);
 
     /**
      * 校验签名合规性

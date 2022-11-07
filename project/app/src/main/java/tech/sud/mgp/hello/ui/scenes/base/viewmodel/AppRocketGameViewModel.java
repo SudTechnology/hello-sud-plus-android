@@ -212,17 +212,17 @@ public class AppRocketGameViewModel extends AppGameViewModel {
             return;
         }
         RocketSetDefaultSeatReq req = new RocketSetDefaultSeatReq();
-        req.itemId = model.modelId;
-        SudMGPAPPState.AppCustomRocketSetDefaultSeat resp = new SudMGPAPPState.AppCustomRocketSetDefaultSeat();
-        resp.data = new SudMGPAPPState.AppCustomRocketSetDefaultSeat.Data();
-        resp.data.itemId = req.itemId;
-        GameRepository.rocketSetDefaultSeat(fragmentActivity, req, new RxCallback<Object>() {
+        req.modelId = model.modelId;
+        SudMGPAPPState.AppCustomRocketSetDefaultModel resp = new SudMGPAPPState.AppCustomRocketSetDefaultModel();
+        resp.data = new SudMGPAPPState.AppCustomRocketSetDefaultModel.Data();
+        resp.data.modelId = req.modelId;
+        GameRepository.rocketSetDefaultModel(fragmentActivity, req, new RxCallback<Object>() {
             @Override
             public void onNext(BaseResponse<Object> t) {
                 super.onNext(t);
                 resp.resultCode = t.getRetCode();
                 resp.error = t.getRetMsg();
-                sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_CUSTOM_ROCKET_SET_DEFAULT_SEAT, resp);
+                sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_CUSTOM_ROCKET_SET_DEFAULT_MODEL, resp);
             }
 
             @Override
@@ -230,7 +230,7 @@ public class AppRocketGameViewModel extends AppGameViewModel {
                 super.onError(e);
                 resp.resultCode = RetCode.FAIL;
                 resp.error = e.toString();
-                sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_CUSTOM_ROCKET_SET_DEFAULT_SEAT, resp);
+                sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_CUSTOM_ROCKET_SET_DEFAULT_MODEL, resp);
             }
         });
     }

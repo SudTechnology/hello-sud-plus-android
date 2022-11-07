@@ -21,6 +21,7 @@ import tech.sud.mgp.hello.BuildConfig;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
+import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.permission.PermissionFragment;
 import tech.sud.mgp.hello.common.utils.permission.SudPermissionUtils;
 import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
@@ -60,8 +61,9 @@ public abstract class BaseRocketRoomActivity<T extends AppGameViewModel> extends
 
         if (BuildConfig.DEBUG) {
             File dir = Environment.getExternalStorageDirectory();
-            File file = new File(dir, "rocket.rpk");
+            File file = new File(dir.getAbsolutePath() + File.separator + "Pictures", "rocket.rpk");
             SudMGP.getCfg().addEmbeddedMGPkg(GameIdCons.CUSTOM_ROCKET, file.getAbsolutePath());
+//            SudMGP.getCfg().addEmbeddedMGPkg(GameIdCons.CUSTOM_ROCKET, "rocket.rpk");
         }
 
         rocketGameViewModel.fragmentActivity = this;
@@ -162,7 +164,7 @@ public abstract class BaseRocketRoomActivity<T extends AppGameViewModel> extends
             return;
         }
         RocketFireSelectDialog dialog = new RocketFireSelectDialog();
-        dialog.setMicList(binder.getMicList());
+        dialog.setMicList(filterRocketMicList(binder.getMicList()));
         dialog.setOnConfirmListener(new RocketFireSelectDialog.OnConfirmListener() {
             @Override
             public void onConfirm(List<AudioRoomMicModel> list) {
@@ -171,6 +173,19 @@ public abstract class BaseRocketRoomActivity<T extends AppGameViewModel> extends
             }
         });
         dialog.show(getSupportFragmentManager(), null);
+    }
+
+    private List<AudioRoomMicModel> filterRocketMicList(List<AudioRoomMicModel> micList) {
+        if (micList == null) {
+            return null;
+        }
+        List<AudioRoomMicModel> list = new ArrayList<>();
+        for (AudioRoomMicModel model : micList) {
+            if (model.hasUser() && HSUserInfo.userId != model.userId) {
+                list.add(model);
+            }
+        }
+        return list;
     }
 
     @Override
@@ -210,7 +225,6 @@ public abstract class BaseRocketRoomActivity<T extends AppGameViewModel> extends
                         binder.sendGift(giftModel, number, userInfo);
                     }
                 }
-                onSendGift(giftModel, 1, userInfoList);
                 onShowRocketFire(rocketFireResp);
             }
         });

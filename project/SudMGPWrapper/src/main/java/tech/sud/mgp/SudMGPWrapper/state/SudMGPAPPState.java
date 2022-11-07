@@ -508,7 +508,7 @@ public class SudMGPAPPState implements Serializable {
     public static class AppCustomRocketUserRecordList implements Serializable {
         public int pageCount; // 总页数
         public CustomRocketUserInfoModel fromUser; // 送礼人
-        public UserRecordModel list; // 列表
+        public List<UserRecordModel> list; // 列表
 
         public static class UserRecordModel {
             public long date; // 订单时间戳: 单位是秒
@@ -528,18 +528,18 @@ public class SudMGPAPPState implements Serializable {
     /**
      * 9. 设置默认位置回调
      */
-    public static final String APP_CUSTOM_ROCKET_SET_DEFAULT_SEAT = "app_custom_rocket_set_default_seat";
+    public static final String APP_CUSTOM_ROCKET_SET_DEFAULT_MODEL = "app_custom_rocket_set_default_model";
 
     /**
      * 9. 设置默认位置回调 模型
      */
-    public static class AppCustomRocketSetDefaultSeat implements Serializable {
+    public static class AppCustomRocketSetDefaultModel implements Serializable {
         public int resultCode; // 0: 请求成功，1：请求失败
         public String error; // 错误描述
         public Data data; // 数据
 
         public static class Data {
-            public String itemId; // 默认模型
+            public String modelId; // 默认模型
         }
     }
 

@@ -258,9 +258,9 @@ public class GameRepository {
      * @param req      请求参数
      * @param callback 回调
      */
-    public static void rocketSetDefaultSeat(LifecycleOwner owner, RocketSetDefaultSeatReq req, RxCallback<Object> callback) {
+    public static void rocketSetDefaultModel(LifecycleOwner owner, RocketSetDefaultSeatReq req, RxCallback<Object> callback) {
         GameRequestMethodFactory.getMethod()
-                .rocketSetDefaultSeat(BaseUrlManager.getGameBaseUrl(), req)
+                .rocketSetDefaultModel(BaseUrlManager.getGameBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }

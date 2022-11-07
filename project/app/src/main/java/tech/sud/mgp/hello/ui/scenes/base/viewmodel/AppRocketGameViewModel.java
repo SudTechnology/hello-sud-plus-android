@@ -40,6 +40,7 @@ public class AppRocketGameViewModel extends AppGameViewModel {
 
     public FragmentActivity fragmentActivity;
     public long roomId;
+    private boolean rocketIsReady;
 
     public MutableLiveData<SudMGPMGState.MGCustomRocketFireModel> gameFireRocketLiveData = new MutableLiveData<>(); // 发射火箭
     public MutableLiveData<SudMGPMGState.MGCustomRocketClickLockComponent> clickLockComponentLiveData = new MutableLiveData<>(); // 点击了锁住的组件
@@ -54,7 +55,6 @@ public class AppRocketGameViewModel extends AppGameViewModel {
     @Override
     public void onGameMGCustomRocketConfig(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketConfig model) {
         super.onGameMGCustomRocketConfig(handle, model);
-        // TODO: 2022/11/7 ok
         GameRepository.rocketMallComponentList(fragmentActivity, new RxCallback<SudMGPAPPState.AppCustomRocketConfig>() {
             @Override
             public void onSuccess(SudMGPAPPState.AppCustomRocketConfig appCustomRocketConfig) {
@@ -437,11 +437,12 @@ public class AppRocketGameViewModel extends AppGameViewModel {
     @Override
     public void onGameMGCustomRocketPrepareFinish(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketPrepareFinish model) {
         super.onGameMGCustomRocketPrepareFinish(handle, model);
+        rocketIsReady = true;
         rocketPrepareCompletedLiveData.setValue(null);
     }
 
     /**
-     * 23. 隐藏了火箭主界面(火箭)
+     * 19. 隐藏了火箭主界面(火箭)
      * mg_custom_rocket_hide_game_scene
      */
     @Override
@@ -450,7 +451,7 @@ public class AppRocketGameViewModel extends AppGameViewModel {
     }
 
     /**
-     * 24. 点击锁住组件(火箭)
+     * 20. 点击锁住组件(火箭)
      * mg_custom_rocket_click_lock_component
      */
     @Override
@@ -540,6 +541,20 @@ public class AppRocketGameViewModel extends AppGameViewModel {
         this.gameRoomId = gameRoomId;
         playingGameId = gameId;
         login(activity, gameId);
+    }
+
+    @Override
+    protected void destroyMG() {
+        super.destroyMG();
+        rocketIsReady = false;
+    }
+
+    /** 火箭是否已准备就绪 */
+    public boolean rocketIsReady() {
+        if (playingGameId == GameIdCons.CUSTOM_ROCKET && rocketIsReady) {
+            return true;
+        }
+        return false;
     }
 
 }

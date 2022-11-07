@@ -17,7 +17,6 @@ import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState.AppCustomRocketPlayModelL
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.SudMGPWrapper.utils.SudJsonUtils;
 import tech.sud.mgp.core.SudMGP;
-import tech.sud.mgp.hello.BuildConfig;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
@@ -51,7 +50,7 @@ public abstract class BaseRocketRoomActivity<T extends AppGameViewModel> extends
 
     private boolean isShowRocketScene; // 是否要展示火箭主页面
     private LoadingDialog loadingDialog; // 加载火箭loading弹窗
-    private List<AppCustomRocketPlayModelList> fireRocketList = new ArrayList<>(); // 火箭待发射列表
+    private final List<AppCustomRocketPlayModelList> fireRocketList = new ArrayList<>(); // 火箭待发射列表
 
     @Override
     protected void initWidget() {
@@ -59,12 +58,10 @@ public abstract class BaseRocketRoomActivity<T extends AppGameViewModel> extends
         viewRocketEntrance = findViewById(R.id.view_custom_rocket);
         rocketContainer = findViewById(R.id.rocket_container);
 
-        if (BuildConfig.DEBUG) {
-            File dir = Environment.getExternalStorageDirectory();
-            File file = new File(dir.getAbsolutePath() + File.separator + "Pictures", "rocket.rpk");
-            SudMGP.getCfg().addEmbeddedMGPkg(GameIdCons.CUSTOM_ROCKET, file.getAbsolutePath());
-//            SudMGP.getCfg().addEmbeddedMGPkg(GameIdCons.CUSTOM_ROCKET, "rocket.rpk");
-        }
+        File dir = Environment.getExternalStorageDirectory();
+        File file = new File(dir.getAbsolutePath() + File.separator + "Pictures", "rocket.rpk");
+        SudMGP.getCfg().addEmbeddedMGPkg(GameIdCons.CUSTOM_ROCKET, file.getAbsolutePath());
+//        SudMGP.getCfg().addEmbeddedMGPkg(GameIdCons.CUSTOM_ROCKET, "rocket.rpk");
 
         rocketGameViewModel.fragmentActivity = this;
         rocketGameViewModel.roomId = roomInfoModel.roomId;
@@ -117,9 +114,18 @@ public abstract class BaseRocketRoomActivity<T extends AppGameViewModel> extends
             rocketGameViewModel.notifyAppCustomRocketShowGameScene();
         }
         hideLoadingDialog();
+        rocketFirePlay();
+    }
+
+    private void rocketFirePlay() {
+        boolean rocketIsReady = rocketGameViewModel.rocketIsReady();
+        if (!rocketIsReady) {
+            return;
+        }
         for (AppCustomRocketPlayModelList model : fireRocketList) {
             rocketGameViewModel.notifyAppCustomRocketPlayModelList(model);
         }
+        fireRocketList.clear();
     }
 
     /** 点击了锁住的组件 */
@@ -261,6 +267,7 @@ public abstract class BaseRocketRoomActivity<T extends AppGameViewModel> extends
                 }
             }
         }
+        rocketFirePlay();
     }
 
     /** 打开火箭主页面 */
@@ -269,26 +276,23 @@ public abstract class BaseRocketRoomActivity<T extends AppGameViewModel> extends
         startRocket();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SudPermissionUtils.requirePermission(this, getSupportFragmentManager(),
+                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                new PermissionFragment.OnPermissionListener() {
+                    @Override
+                    public void onPermission(boolean success) {
+                        if (success) {
+                        }
+                    }
+                });
+    }
+
     /** 打开火箭 */
     protected void startRocket() {
         if (playingGameId > 0) { // 有加载游戏时，不加载火箭
-            return;
-        }
-        if (BuildConfig.DEBUG) {
-            SudPermissionUtils.requirePermission(this, getSupportFragmentManager(),
-                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                    new PermissionFragment.OnPermissionListener() {
-                        @Override
-                        public void onPermission(boolean success) {
-                            if (success) {
-                                long playingGameId = rocketGameViewModel.getPlayingGameId();
-                                if (playingGameId <= 0) {
-                                    showLoadingDialog();
-                                }
-                                rocketGameViewModel.startRocket();
-                            }
-                        }
-                    });
             return;
         }
         long playingGameId = rocketGameViewModel.getPlayingGameId();

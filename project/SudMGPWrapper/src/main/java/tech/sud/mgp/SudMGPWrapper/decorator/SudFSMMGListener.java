@@ -577,7 +577,7 @@ public interface SudFSMMGListener {
     }
 
     /**
-     * 23. 隐藏了火箭主界面(火箭)
+     * 19. 隐藏了火箭主界面(火箭)
      * mg_custom_rocket_hide_game_scene
      */
     default void onGameMGCustomRocketHideGameScene(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketHideGameScene model) {
@@ -585,7 +585,7 @@ public interface SudFSMMGListener {
     }
 
     /**
-     * 24. 点击锁住组件(火箭)
+     * 20. 点击锁住组件(火箭)
      * mg_custom_rocket_click_lock_component
      */
     default void onGameMGCustomRocketClickLockComponent(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketClickLockComponent model) {

@@ -939,7 +939,7 @@ public class SudMGPMGState implements Serializable {
         public List<ComponentModel> componentList; // 组件列表
 
         public static class ComponentModel {
-            public String modelId; // 模型Id
+            public String itemId; // 模型Id
         }
     }
 
@@ -1036,23 +1036,23 @@ public class SudMGPMGState implements Serializable {
     }
 
     /**
-     * 23. 隐藏了火箭主界面(火箭)
+     * 19. 隐藏了火箭主界面(火箭)
      */
     public static final String MG_CUSTOM_ROCKET_HIDE_GAME_SCENE = "mg_custom_rocket_hide_game_scene";
 
     /**
-     * 23. 隐藏了火箭主界面(火箭) 模型
+     * 19. 隐藏了火箭主界面(火箭) 模型
      */
     public static final class MGCustomRocketHideGameScene implements Serializable {
     }
 
     /**
-     * 24. 点击锁住组件(火箭)
+     * 20. 点击锁住组件(火箭)
      */
     public static final String MG_CUSTOM_ROCKET_CLICK_LOCK_COMPONENT = "mg_custom_rocket_click_lock_component";
 
     /**
-     * 24. 点击锁住组件(火箭) 模型
+     * 20. 点击锁住组件(火箭) 模型
      */
     public static final class MGCustomRocketClickLockComponent implements Serializable {
         public int type; // 组件类型

@@ -497,7 +497,7 @@ public class SudFSMMGDecorator implements ISudFSMMG {
                     listener.onGameMGCustomRocketPrepareFinish(handle, mgCustomRocketPrepareFinish);
                 }
                 break;
-            case SudMGPMGState.MG_CUSTOM_ROCKET_HIDE_GAME_SCENE: // 23. 隐藏了火箭主界面(火箭)
+            case SudMGPMGState.MG_CUSTOM_ROCKET_HIDE_GAME_SCENE: // 19. 隐藏了火箭主界面(火箭)
                 SudMGPMGState.MGCustomRocketHideGameScene mgCustomRocketHideGameScene = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCustomRocketHideGameScene.class);
                 if (listener == null) {
                     ISudFSMStateHandleUtils.handleSuccess(handle);
@@ -505,7 +505,7 @@ public class SudFSMMGDecorator implements ISudFSMMG {
                     listener.onGameMGCustomRocketHideGameScene(handle, mgCustomRocketHideGameScene);
                 }
                 break;
-            case SudMGPMGState.MG_CUSTOM_ROCKET_CLICK_LOCK_COMPONENT: // 24. 点击锁住组件(火箭)
+            case SudMGPMGState.MG_CUSTOM_ROCKET_CLICK_LOCK_COMPONENT: // 20. 点击锁住组件(火箭)
                 SudMGPMGState.MGCustomRocketClickLockComponent mgCustomRocketClickLockComponent = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCustomRocketClickLockComponent.class);
                 if (listener == null) {
                     ISudFSMStateHandleUtils.handleSuccess(handle);

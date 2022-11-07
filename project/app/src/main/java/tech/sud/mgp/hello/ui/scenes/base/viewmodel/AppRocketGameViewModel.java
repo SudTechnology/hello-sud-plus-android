@@ -22,6 +22,7 @@ import tech.sud.mgp.core.ISudFSMStateHandle;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
+import tech.sud.mgp.hello.common.utils.GlobalSP;
 import tech.sud.mgp.hello.service.game.repository.GameRepository;
 import tech.sud.mgp.hello.service.game.req.RocketFireRecordReq;
 import tech.sud.mgp.hello.service.game.req.RocketFireRecordSummeryReq;
@@ -322,7 +323,7 @@ public class AppRocketGameViewModel extends AppGameViewModel {
                 resp.resultCode = t.getRetCode();
                 resp.error = t.getRetMsg();
                 resp.data = t.getData();
-                sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_CUSTOM_ROCKET_CREATE_MODEL, resp);
+                sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_CUSTOM_ROCKET_REPLACE_COMPONENT, resp);
             }
 
             @Override
@@ -330,7 +331,7 @@ public class AppRocketGameViewModel extends AppGameViewModel {
                 super.onError(e);
                 resp.resultCode = RetCode.FAIL;
                 resp.error = e.toString();
-                sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_CUSTOM_ROCKET_CREATE_MODEL, resp);
+                sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_CUSTOM_ROCKET_REPLACE_COMPONENT, resp);
             }
         });
     }
@@ -422,10 +423,14 @@ public class AppRocketGameViewModel extends AppGameViewModel {
         ThreadUtils.getIoPool().execute(() -> {
             byte[] buf = Base64.decode(model.data, Base64.DEFAULT);
             if (buf != null && buf.length > 0) {
-                File file = FilePath.getRocketThumbFilePath(Utils.getApp());
+                File file = FilePath.getRocketThumbFileDir(Utils.getApp());
                 FileUtils.delete(file);
-                boolean isSuccess = FileIOUtils.writeFileFromBytesByChannel(file, buf, true);
+                String anewRocketThumbPath = createRocketThumbPath();
+                boolean isSuccess = FileIOUtils.writeFileFromBytesByChannel(anewRocketThumbPath, buf, true);
                 LogUtils.d("uploadModelIcon:" + isSuccess);
+                if (isSuccess) {
+                    GlobalSP.getSP().put(GlobalSP.KEY_ROCKET_THUMB_PATH, anewRocketThumbPath);
+                }
             }
         });
     }
@@ -465,14 +470,14 @@ public class AppRocketGameViewModel extends AppGameViewModel {
     // region 向火箭发送状态
 
     /**
-     * 15. app播放火箭发射动效
+     * 14. app播放火箭发射动效(火箭)
      */
     public void notifyAppCustomRocketPlayModelList(SudMGPAPPState.AppCustomRocketPlayModelList model) {
         sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_CUSTOM_ROCKET_PLAY_MODEL_LIST, model);
     }
 
     /**
-     * 20. app主动调起火箭主界面(火箭)
+     * 17. app主动调起火箭主界面(火箭)
      */
     public void notifyAppCustomRocketShowGameScene() {
         SudMGPAPPState.AppCustomRocketShowGameScene model = new SudMGPAPPState.AppCustomRocketShowGameScene();
@@ -480,7 +485,7 @@ public class AppRocketGameViewModel extends AppGameViewModel {
     }
 
     /**
-     * 21. app主动隐藏火箭主界面(火箭)
+     * 18. app主动隐藏火箭主界面(火箭)
      */
     public void notifyAppCustomRocketHideGameScene() {
         SudMGPAPPState.AppCustomRocketHideGameScene model = new SudMGPAPPState.AppCustomRocketHideGameScene();
@@ -488,7 +493,7 @@ public class AppRocketGameViewModel extends AppGameViewModel {
     }
 
     /**
-     * 25. app推送解锁组件(火箭)
+     * 19. app推送解锁组件(火箭)
      */
     public void notifyAppCustomRocketUnlockComponent(SudMGPAPPState.AppCustomRocketUnlockComponent model) {
         sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_CUSTOM_ROCKET_UNLOCK_COMPONENT, model);
@@ -518,7 +523,7 @@ public class AppRocketGameViewModel extends AppGameViewModel {
         }
         SudMGPAPPState.CustomRocketUserInfoModel userInfo = new SudMGPAPPState.CustomRocketUserInfoModel();
         userInfo.userId = userInfoResp.userId + "";
-        userInfo.nickName = userInfoResp.nickname;
+        userInfo.nickname = userInfoResp.nickname;
         userInfo.sex = -1;
         userInfo.url = userInfoResp.getUseAvatar();
         return userInfo;
@@ -555,6 +560,17 @@ public class AppRocketGameViewModel extends AppGameViewModel {
             return true;
         }
         return false;
+    }
+
+    /** 获取本地保存的火箭缩略图路径 */
+    public static String getExistsRocketThumbPath() {
+        return GlobalSP.getSP().getString(GlobalSP.KEY_ROCKET_THUMB_PATH);
+    }
+
+    /** 新建一个火箭缩略图路径 */
+    private String createRocketThumbPath() {
+        File dir = FilePath.getRocketThumbFileDir(Utils.getApp());
+        return new File(dir, "rocket_thumb_" + System.currentTimeMillis() + ".png").getAbsolutePath();
     }
 
 }

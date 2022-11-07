@@ -61,8 +61,8 @@ public abstract class BaseRocketRoomActivity<T extends AppGameViewModel> extends
         // TODO: 2022/11/7 下面的代码需要去掉的
         File dir = Environment.getExternalStorageDirectory();
         File file = new File(dir.getAbsolutePath() + File.separator + "Pictures", "rocket.rpk");
-        SudMGP.getCfg().addEmbeddedMGPkg(GameIdCons.CUSTOM_ROCKET, file.getAbsolutePath());
-//            SudMGP.getCfg().addEmbeddedMGPkg(GameIdCons.CUSTOM_ROCKET, "rocket.rpk");
+//        SudMGP.getCfg().addEmbeddedMGPkg(GameIdCons.CUSTOM_ROCKET, file.getAbsolutePath());
+        SudMGP.getCfg().addEmbeddedMGPkg(GameIdCons.CUSTOM_ROCKET, "rocket.rpk");
 
         rocketGameViewModel.fragmentActivity = this;
         rocketGameViewModel.roomId = roomInfoModel.roomId;
@@ -212,9 +212,13 @@ public abstract class BaseRocketRoomActivity<T extends AppGameViewModel> extends
         RocketFireReq req = new RocketFireReq();
         req.roomId = roomInfoModel.roomId;
         req.number = number;
-        List<String> receiverList = new ArrayList<>();
+        List<Long> receiverList = new ArrayList<>();
         for (UserInfo userInfo : userInfoList) {
-            receiverList.add(userInfo.userID);
+            try {
+                receiverList.add(Long.parseLong(userInfo.userID));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         req.receiverList = receiverList;
         if (model != null) {
@@ -314,6 +318,7 @@ public abstract class BaseRocketRoomActivity<T extends AppGameViewModel> extends
     /** 隐藏火箭 */
     private void stopRocket() {
         rocketGameViewModel.switchGame(this, getGameRoomId(), 0);
+        hideLoadingDialog();
     }
 
     protected void showLoadingDialog() {

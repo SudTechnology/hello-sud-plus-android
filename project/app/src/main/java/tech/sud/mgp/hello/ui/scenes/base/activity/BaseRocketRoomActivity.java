@@ -272,6 +272,7 @@ public abstract class BaseRocketRoomActivity<T extends AppGameViewModel> extends
     protected void showRocketGameScene() {
         isShowRocketScene = true;
         startRocket();
+        rocketGameViewModel.notifyAppCustomRocketShowGameScene();
     }
 
     @Override

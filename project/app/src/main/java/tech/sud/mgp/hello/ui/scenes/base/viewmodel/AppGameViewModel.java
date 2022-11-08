@@ -14,6 +14,9 @@ import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.Utils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import tech.sud.mgp.SudMGPWrapper.decorator.SudFSMMGDecorator;
 import tech.sud.mgp.SudMGPWrapper.decorator.SudFSMMGListener;
 import tech.sud.mgp.SudMGPWrapper.decorator.SudFSTAPPDecorator;
@@ -27,6 +30,8 @@ import tech.sud.mgp.core.ISudFSMStateHandle;
 import tech.sud.mgp.core.ISudFSTAPP;
 import tech.sud.mgp.core.ISudListenerInitSDK;
 import tech.sud.mgp.core.ISudListenerNotifyStateChange;
+import tech.sud.mgp.core.ISudListenerPreloadMGPkg;
+import tech.sud.mgp.core.PkgDownloadStatus;
 import tech.sud.mgp.core.SudMGP;
 import tech.sud.mgp.hello.app.APPConfig;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
@@ -813,6 +818,55 @@ public class AppGameViewModel implements SudFSMMGListener {
     }
     // endregion 游戏侧回调
 
+    public void preloadMG(FragmentActivity activity, long gameId) {
+        if (activity.isDestroyed() || gameId <= 0) {
+            return;
+        }
+        // 请求登录code
+        GameRepository.login(activity, new RxCallback<GameLoginResp>() {
+            @Override
+            public void onSuccess(GameLoginResp gameLoginResp) {
+                super.onSuccess(gameLoginResp);
+                if (gameLoginResp == null) {
+                    return;
+                }
+                SudConfig sudConfig = AppData.getInstance().getSudConfig();
+                if (sudConfig == null || sudConfig.appId == null || sudConfig.appKey == null) {
+                    ToastUtils.showLong("SudConfig is empty");
+                    return;
+                }
+                EnvUtils.initMgpEnv();
+                // 初始化sdk
+                SudMGP.initSDK(activity, sudConfig.appId, sudConfig.appKey, APPConfig.GAME_IS_TEST_ENV, new ISudListenerInitSDK() {
+                    @Override
+                    public void onSuccess() {
+                        List<Long> mgIdList = new ArrayList<>();
+                        mgIdList.add(gameId);
+                        SudMGP.preloadMGPkgList(activity, mgIdList, new ISudListenerPreloadMGPkg() {
+                            @Override
+                            public void onPreloadSuccess(long mgId) {
+                                LogUtils.d("onPreloadSuccess:" + mgId);
+                            }
+
+                            @Override
+                            public void onPreloadFailure(long mgId, int errorCode, String errorMsg) {
+                                LogUtils.d("onPreloadFailure:" + mgId + " :" + errorCode + " :" + errorMsg);
+                            }
+
+                            @Override
+                            public void onPreloadStatus(long mgId, long downloadedSize, long totalSize, PkgDownloadStatus status) {
+                                LogUtils.d("onPreloadStatus:" + mgId + " :" + downloadedSize + " :" + totalSize + " :" + status);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onFailure(int errCode, String errMsg) {
+                    }
+                });
+            }
+        });
+    }
 
     @Override
     public boolean onGameStateChange(ISudFSMStateHandle handle, String state, String dataJson) {
@@ -825,4 +879,5 @@ public class AppGameViewModel implements SudFSMMGListener {
         LogUtils.d("onPlayerStateChange: " + userId + " :" + state + " :" + dataJson);
         return SudFSMMGListener.super.onPlayerStateChange(handle, userId, state, dataJson);
     }
+
 }

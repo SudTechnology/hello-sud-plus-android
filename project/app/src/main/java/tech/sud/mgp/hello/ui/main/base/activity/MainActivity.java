@@ -29,10 +29,12 @@ import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.main.resp.BaseConfigResp;
 import tech.sud.mgp.hello.ui.common.utils.channel.NotifyChannelHelper;
+import tech.sud.mgp.hello.ui.main.base.constant.GameIdCons;
 import tech.sud.mgp.hello.ui.main.home.HomeFragment;
 import tech.sud.mgp.hello.ui.main.nft.viewmodel.NFTViewModel;
 import tech.sud.mgp.hello.ui.main.roomlist.RoomListFragment;
 import tech.sud.mgp.hello.ui.main.settings.fragment.SettingsFragment;
+import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
 
 /**
  * 首页
@@ -45,6 +47,7 @@ public class MainActivity extends BaseActivity implements MainTabView.TabClickLi
     private final List<TabModel> tabs = new ArrayList<>();
     private final List<MainTabView> tabViews = new ArrayList<>();
     private NFTViewModel nftViewModel = new NFTViewModel();
+    private AppGameViewModel gameViewModel = new AppGameViewModel();
 
     @Override
     protected int getLayoutId() {
@@ -76,6 +79,7 @@ public class MainActivity extends BaseActivity implements MainTabView.TabClickLi
         new NotifyChannelHelper().initChannel(this);
         getBaseConfig();
         nftViewModel.initData(this);
+        gameViewModel.preloadMG(this, GameIdCons.CUSTOM_ROCKET);
     }
 
     private void getBaseConfig() {

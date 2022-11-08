@@ -1059,6 +1059,29 @@ public class SudMGPMGState implements Serializable {
         public String componentId; // 组件ID
     }
 
+    /**
+     * 21. 火箭效果飞行点击(火箭)
+     */
+    public static final String MG_CUSTOM_ROCKET_FLY_CLICK = "mg_custom_rocket_fly_click";
+
+    /**
+     * 21. 火箭效果飞行点击(火箭) 模型
+     */
+    public static final class MGCustomRocketFlyClick implements Serializable {
+    }
+
+    /**
+     * 22. 火箭效果飞行结束(火箭)
+     */
+    public static final String MG_CUSTOM_ROCKET_FLY_END = "mg_custom_rocket_fly_end";
+
+    /**
+     * 22. 火箭效果飞行结束(火箭) 模型
+     */
+    public static final class MGCustomRocketFlyEnd implements Serializable {
+        public long clickNumber; // 点击多少次
+        public long flyNumber; // 飞行多远
+    }
     // endregion 定制火箭
 
 

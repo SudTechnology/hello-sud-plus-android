@@ -720,6 +720,17 @@ public class SudMGPAPPState implements Serializable {
     }
 
     /**
+     * 20. app推送火箭效果飞行点击(火箭)
+     */
+    public static final String APP_CUSTOM_ROCKET_FLY_CLICK = "app_custom_rocket_fly_click";
+
+    /**
+     * 20. app推送火箭效果飞行点击(火箭)  模型
+     */
+    public static class AppCustomRocketFlyClick implements Serializable {
+    }
+
+    /**
      * 定制火箭，用户信息 模型
      */
     public static class CustomRocketUserInfoModel {

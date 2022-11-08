@@ -193,6 +193,7 @@ public class AppRocketGameViewModel extends AppGameViewModel {
         req.pageIndex = model.pageIndex;
         req.pageSize = model.pageSize;
         req.userId = model.userId;
+        req.roomId = roomId;
         GameRepository.rocketFireRecord(fragmentActivity, req, new RxCallback<SudMGPAPPState.AppCustomRocketUserRecordList>() {
             @Override
             public void onSuccess(SudMGPAPPState.AppCustomRocketUserRecordList appCustomRocketUserRecordList) {

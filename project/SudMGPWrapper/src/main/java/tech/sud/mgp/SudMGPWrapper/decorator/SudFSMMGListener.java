@@ -592,6 +592,30 @@ public interface SudFSMMGListener {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
+    /**
+     * 21. 火箭效果飞行点击(火箭)
+     * mg_custom_rocket_fly_click
+     */
+    default void onGameMGCustomRocketFlyClick(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketFlyClick model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 22. 火箭效果飞行结束(火箭)
+     * mg_custom_rocket_fly_end
+     */
+    default void onGameMGCustomRocketFlyEnd(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketFlyEnd model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 23. 设置点击区域(火箭)
+     * mg_custom_rocket_set_click_rect
+     */
+    default void onGameMGCustomRocketSetClickRect(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketSetClickRect model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
     // endregion 游戏回调APP 通用状态 定制火箭
 
     /**

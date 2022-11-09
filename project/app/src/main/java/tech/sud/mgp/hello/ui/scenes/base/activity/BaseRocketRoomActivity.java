@@ -1,10 +1,12 @@
 package tech.sud.mgp.hello.ui.scenes.base.activity;
 
+import android.os.Environment;
 import android.view.View;
 import android.widget.FrameLayout;
 
 import androidx.lifecycle.Observer;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -13,6 +15,7 @@ import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState.AppCustomRocketPlayModelList;
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.SudMGPWrapper.utils.SudJsonUtils;
+import tech.sud.mgp.core.SudMGP;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
@@ -22,12 +25,14 @@ import tech.sud.mgp.hello.service.game.repository.GameRepository;
 import tech.sud.mgp.hello.service.game.req.RocketFireReq;
 import tech.sud.mgp.hello.service.game.resp.RocketFireResp;
 import tech.sud.mgp.hello.ui.common.dialog.LoadingDialog;
+import tech.sud.mgp.hello.ui.main.base.constant.GameIdCons;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.base.utils.UserInfoConverter;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppRocketGameViewModel;
 import tech.sud.mgp.hello.ui.scenes.base.widget.dialog.RocketFireSelectDialog;
+import tech.sud.mgp.hello.ui.scenes.base.widget.view.RocketContainer;
 import tech.sud.mgp.hello.ui.scenes.common.gift.manager.GiftHelper;
 import tech.sud.mgp.hello.ui.scenes.common.gift.manager.GiftId;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftModel;
@@ -38,7 +43,7 @@ import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftModel;
 public abstract class BaseRocketRoomActivity<T extends AppGameViewModel> extends BaseRoomActivity<T> {
 
     private View viewRocketEntrance;
-    protected FrameLayout rocketContainer;
+    protected RocketContainer rocketContainer;
     protected AppRocketGameViewModel rocketGameViewModel = new AppRocketGameViewModel();
 
     private boolean isShowRocketScene; // 是否要展示火箭主页面
@@ -52,9 +57,9 @@ public abstract class BaseRocketRoomActivity<T extends AppGameViewModel> extends
         rocketContainer = findViewById(R.id.rocket_container);
 
         // TODO: 2022/11/7 下面的代码需要去掉的
-//        File dir = Environment.getExternalStorageDirectory();
-//        File file = new File(dir.getAbsolutePath() + File.separator + "Pictures", "rocket.rpk");
-//        SudMGP.getCfg().addEmbeddedMGPkg(GameIdCons.CUSTOM_ROCKET, file.getAbsolutePath());
+        File dir = Environment.getExternalStorageDirectory();
+        File file = new File(dir.getAbsolutePath() + File.separator + "Pictures", "rocket.rpk");
+        SudMGP.getCfg().addEmbeddedMGPkg(GameIdCons.CUSTOM_ROCKET, file.getAbsolutePath());
 //        SudMGP.getCfg().addEmbeddedMGPkg(GameIdCons.CUSTOM_ROCKET, "rocket.rpk");
 
         rocketGameViewModel.fragmentActivity = this;
@@ -96,6 +101,16 @@ public abstract class BaseRocketRoomActivity<T extends AppGameViewModel> extends
             @Override
             public void onChanged(Object o) {
                 onRocketPrepareCompleted();
+            }
+        });
+        rocketGameViewModel.rocketClickRectLiveData.observe(this, new Observer<SudMGPMGState.MGCustomRocketSetClickRect>() {
+            @Override
+            public void onChanged(SudMGPMGState.MGCustomRocketSetClickRect model) {
+                List<SudMGPMGState.MGCustomRocketSetClickRect.RocketClickRect> list = null;
+                if (model != null) {
+                    list = model.list;
+                }
+                rocketContainer.setClickRectList(list);
             }
         });
     }

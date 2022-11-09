@@ -1082,6 +1082,25 @@ public class SudMGPMGState implements Serializable {
         public long clickNumber; // 点击多少次
         public long flyNumber; // 飞行多远
     }
+
+    /**
+     * 23. 设置点击区域(火箭)
+     */
+    public static final String MG_CUSTOM_ROCKET_SET_CLICK_RECT = "mg_custom_rocket_set_click_rect";
+
+    /**
+     * 23. 设置点击区域(火箭) 模型
+     */
+    public static final class MGCustomRocketSetClickRect implements Serializable {
+        public List<RocketClickRect> list; // 游戏的点击区域
+
+        public static class RocketClickRect {
+            public float x; // 区域的x
+            public float y; // 区域的y
+            public float width; // 区域的width
+            public float height; // 区域的height
+        }
+    }
     // endregion 定制火箭
 
 

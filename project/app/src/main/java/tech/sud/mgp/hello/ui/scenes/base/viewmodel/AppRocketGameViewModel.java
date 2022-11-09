@@ -46,6 +46,7 @@ public class AppRocketGameViewModel extends AppGameViewModel {
     public MutableLiveData<SudMGPMGState.MGCustomRocketFireModel> gameFireRocketLiveData = new MutableLiveData<>(); // 发射火箭
     public MutableLiveData<SudMGPMGState.MGCustomRocketClickLockComponent> clickLockComponentLiveData = new MutableLiveData<>(); // 点击了锁住的组件
     public MutableLiveData<Object> rocketPrepareCompletedLiveData = new MutableLiveData<>(); // 火箭准备完成
+    public MutableLiveData<SudMGPMGState.MGCustomRocketSetClickRect> rocketClickRectLiveData = new MutableLiveData<>(); // 火箭点击区域
 
     // region 火箭返回状态
 
@@ -464,6 +465,34 @@ public class AppRocketGameViewModel extends AppGameViewModel {
     public void onGameMGCustomRocketClickLockComponent(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketClickLockComponent model) {
         super.onGameMGCustomRocketClickLockComponent(handle, model);
         clickLockComponentLiveData.setValue(model);
+    }
+
+    /**
+     * 21. 火箭效果飞行点击(火箭)
+     * mg_custom_rocket_fly_click
+     */
+    @Override
+    public void onGameMGCustomRocketFlyClick(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketFlyClick model) {
+        super.onGameMGCustomRocketFlyClick(handle, model);
+    }
+
+    /**
+     * 22. 火箭效果飞行结束(火箭)
+     * mg_custom_rocket_fly_end
+     */
+    @Override
+    public void onGameMGCustomRocketFlyEnd(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketFlyEnd model) {
+        super.onGameMGCustomRocketFlyEnd(handle, model);
+    }
+
+    /**
+     * 23. 设置点击区域(火箭)
+     * mg_custom_rocket_set_click_rect
+     */
+    @Override
+    public void onGameMGCustomRocketSetClickRect(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketSetClickRect model) {
+        super.onGameMGCustomRocketSetClickRect(handle, model);
+        rocketClickRectLiveData.setValue(model);
     }
 
     // endregion 火箭返回状态

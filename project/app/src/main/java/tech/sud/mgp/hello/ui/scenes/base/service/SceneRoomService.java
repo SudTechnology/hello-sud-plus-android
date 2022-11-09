@@ -17,9 +17,9 @@ import com.jeremyliao.liveeventbus.LiveEventBus;
 import java.util.List;
 
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
-import tech.sud.mgp.hello.common.event.ChangeRTCEvent;
-import tech.sud.mgp.hello.common.event.EnterRoomEvent;
 import tech.sud.mgp.hello.common.event.LiveEventBusKey;
+import tech.sud.mgp.hello.common.event.model.ChangeRTCEvent;
+import tech.sud.mgp.hello.common.event.model.EnterRoomEvent;
 import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.service.main.resp.UserInfoResp;
 import tech.sud.mgp.hello.ui.common.utils.channel.NotifyId;

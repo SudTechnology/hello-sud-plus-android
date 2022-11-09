@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.common.event;
+package tech.sud.mgp.hello.common.event.model;
 
 /**
  * 意图进入此房间的事件

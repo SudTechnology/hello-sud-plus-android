@@ -14,4 +14,7 @@ public class LiveEventBusKey {
     /** NFT Token过期 */
     public final static String KEY_NFT_TOKEN_INVALID = "key_nft_token_invalid";
 
+    /** 打开火箭 */
+    public final static String KEY_JUMP_ROCKET = "key_jump_rocket";
+
 }

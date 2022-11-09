@@ -18,8 +18,8 @@ import java.util.List;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseActivity;
-import tech.sud.mgp.hello.common.event.ChangeRTCEvent;
 import tech.sud.mgp.hello.common.event.LiveEventBusKey;
+import tech.sud.mgp.hello.common.event.model.ChangeRTCEvent;
 import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
 import tech.sud.mgp.hello.service.main.config.BaseRtcConfig;
 

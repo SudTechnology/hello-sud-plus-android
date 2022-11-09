@@ -66,6 +66,9 @@ public interface RequestUrl {
     /** 穿戴NFT */
     String WEAR_NFT = "wear-nft-header/v1";
 
+    /** 获取首页banner信息 */
+    String GET_BANNER = "get-banner/v1";
+
     // region 房间pk
     /** 设置PK时长 */
     String ROOM_PK_DURATION = "room/pk/duration/v1";

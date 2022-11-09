@@ -7,6 +7,8 @@ import android.widget.FrameLayout;
 
 import androidx.lifecycle.Observer;
 
+import com.jeremyliao.liveeventbus.LiveEventBus;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +21,8 @@ import tech.sud.mgp.SudMGPWrapper.utils.SudJsonUtils;
 import tech.sud.mgp.core.SudMGP;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
+import tech.sud.mgp.hello.common.event.LiveEventBusKey;
+import tech.sud.mgp.hello.common.event.model.JumpRocketEvent;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.permission.PermissionFragment;
@@ -71,9 +75,9 @@ public abstract class BaseRocketRoomActivity<T extends AppGameViewModel> extends
                 });
         File dir = Environment.getExternalStorageDirectory();
         File file = new File(dir.getAbsolutePath() + File.separator + "Pictures", "rocket.rpk");
-        SudMGP.getCfg().addEmbeddedMGPkg(GameIdCons.CUSTOM_ROCKET, file.getAbsolutePath());
+//        SudMGP.getCfg().addEmbeddedMGPkg(GameIdCons.CUSTOM_ROCKET, file.getAbsolutePath());
 
-//        SudMGP.getCfg().addEmbeddedMGPkg(GameIdCons.CUSTOM_ROCKET, "rocket.rpk");
+        SudMGP.getCfg().addEmbeddedMGPkg(GameIdCons.CUSTOM_ROCKET, "rocket.rpk");
 
         rocketGameViewModel.fragmentActivity = this;
         rocketGameViewModel.roomId = roomInfoModel.roomId;
@@ -126,7 +130,18 @@ public abstract class BaseRocketRoomActivity<T extends AppGameViewModel> extends
                 rocketContainer.setClickRectList(list);
             }
         });
+        LiveEventBus.<JumpRocketEvent>get(LiveEventBusKey.KEY_JUMP_ROCKET).observeSticky(this, jumpRocketObserver);
     }
+
+    private final Observer<JumpRocketEvent> jumpRocketObserver = new Observer<JumpRocketEvent>() {
+        @Override
+        public void onChanged(JumpRocketEvent jumpRocketEvent) {
+            if (jumpRocketEvent.isConsume) {
+                return;
+            }
+            showRocketGameScene();
+        }
+    };
 
     /** 火箭准备完成了 */
     private void onRocketPrepareCompleted() {
@@ -377,5 +392,6 @@ public abstract class BaseRocketRoomActivity<T extends AppGameViewModel> extends
     protected void onDestroy() {
         super.onDestroy();
         rocketGameViewModel.onDestroy();
+        LiveEventBus.<JumpRocketEvent>get(LiveEventBusKey.KEY_JUMP_ROCKET).removeObserver(jumpRocketObserver);
     }
 }

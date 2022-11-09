@@ -449,7 +449,7 @@ public class AppRocketGameViewModel extends AppGameViewModel {
     }
 
     /**
-     * 19. 隐藏了火箭主界面(火箭)
+     * 20. 火箭主界面已隐藏(火箭)
      * mg_custom_rocket_hide_game_scene
      */
     @Override
@@ -458,7 +458,7 @@ public class AppRocketGameViewModel extends AppGameViewModel {
     }
 
     /**
-     * 20. 点击锁住组件(火箭)
+     * 21. 点击锁住组件(火箭)
      * mg_custom_rocket_click_lock_component
      */
     @Override
@@ -468,7 +468,7 @@ public class AppRocketGameViewModel extends AppGameViewModel {
     }
 
     /**
-     * 21. 火箭效果飞行点击(火箭)
+     * 22. 火箭效果飞行点击(火箭)
      * mg_custom_rocket_fly_click
      */
     @Override
@@ -477,7 +477,7 @@ public class AppRocketGameViewModel extends AppGameViewModel {
     }
 
     /**
-     * 22. 火箭效果飞行结束(火箭)
+     * 23. 火箭效果飞行结束(火箭)
      * mg_custom_rocket_fly_end
      */
     @Override
@@ -486,7 +486,7 @@ public class AppRocketGameViewModel extends AppGameViewModel {
     }
 
     /**
-     * 23. 设置点击区域(火箭)
+     * 24. 设置点击区域(火箭)
      * mg_custom_rocket_set_click_rect
      */
     @Override

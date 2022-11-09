@@ -577,7 +577,15 @@ public interface SudFSMMGListener {
     }
 
     /**
-     * 19. 隐藏了火箭主界面(火箭)
+     * 19. 火箭主界面已显示(火箭)
+     * mg_custom_rocket_show_game_scene
+     */
+    default void onGameMGCustomRocketShowGameScene(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketShowGameScene model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 20. 火箭主界面已隐藏(火箭)
      * mg_custom_rocket_hide_game_scene
      */
     default void onGameMGCustomRocketHideGameScene(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketHideGameScene model) {
@@ -585,7 +593,7 @@ public interface SudFSMMGListener {
     }
 
     /**
-     * 20. 点击锁住组件(火箭)
+     * 21. 点击锁住组件(火箭)
      * mg_custom_rocket_click_lock_component
      */
     default void onGameMGCustomRocketClickLockComponent(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketClickLockComponent model) {
@@ -593,7 +601,7 @@ public interface SudFSMMGListener {
     }
 
     /**
-     * 21. 火箭效果飞行点击(火箭)
+     * 22. 火箭效果飞行点击(火箭)
      * mg_custom_rocket_fly_click
      */
     default void onGameMGCustomRocketFlyClick(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketFlyClick model) {
@@ -601,7 +609,7 @@ public interface SudFSMMGListener {
     }
 
     /**
-     * 22. 火箭效果飞行结束(火箭)
+     * 23. 火箭效果飞行结束(火箭)
      * mg_custom_rocket_fly_end
      */
     default void onGameMGCustomRocketFlyEnd(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketFlyEnd model) {
@@ -609,7 +617,7 @@ public interface SudFSMMGListener {
     }
 
     /**
-     * 23. 设置点击区域(火箭)
+     * 24. 设置点击区域(火箭)
      * mg_custom_rocket_set_click_rect
      */
     default void onGameMGCustomRocketSetClickRect(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketSetClickRect model) {

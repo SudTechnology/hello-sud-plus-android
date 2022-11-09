@@ -1036,23 +1036,34 @@ public class SudMGPMGState implements Serializable {
     }
 
     /**
-     * 19. 隐藏了火箭主界面(火箭)
+     * 19. 火箭主界面已显示(火箭)
+     */
+    public static final String MG_CUSTOM_ROCKET_SHOW_GAME_SCENE = "mg_custom_rocket_show_game_scene";
+
+    /**
+     * 19. 火箭主界面已显示(火箭) 模型
+     */
+    public static final class MGCustomRocketShowGameScene implements Serializable {
+    }
+
+    /**
+     * 20. 火箭主界面已隐藏(火箭)
      */
     public static final String MG_CUSTOM_ROCKET_HIDE_GAME_SCENE = "mg_custom_rocket_hide_game_scene";
 
     /**
-     * 19. 隐藏了火箭主界面(火箭) 模型
+     * 20. 火箭主界面已隐藏(火箭) 模型
      */
     public static final class MGCustomRocketHideGameScene implements Serializable {
     }
 
     /**
-     * 20. 点击锁住组件(火箭)
+     * 21. 点击锁住组件(火箭)
      */
     public static final String MG_CUSTOM_ROCKET_CLICK_LOCK_COMPONENT = "mg_custom_rocket_click_lock_component";
 
     /**
-     * 20. 点击锁住组件(火箭) 模型
+     * 21. 点击锁住组件(火箭) 模型
      */
     public static final class MGCustomRocketClickLockComponent implements Serializable {
         public int type; // 组件类型
@@ -1060,23 +1071,23 @@ public class SudMGPMGState implements Serializable {
     }
 
     /**
-     * 21. 火箭效果飞行点击(火箭)
+     * 22. 火箭效果飞行点击(火箭)
      */
     public static final String MG_CUSTOM_ROCKET_FLY_CLICK = "mg_custom_rocket_fly_click";
 
     /**
-     * 21. 火箭效果飞行点击(火箭) 模型
+     * 22. 火箭效果飞行点击(火箭) 模型
      */
     public static final class MGCustomRocketFlyClick implements Serializable {
     }
 
     /**
-     * 22. 火箭效果飞行结束(火箭)
+     * 23. 火箭效果飞行结束(火箭)
      */
     public static final String MG_CUSTOM_ROCKET_FLY_END = "mg_custom_rocket_fly_end";
 
     /**
-     * 22. 火箭效果飞行结束(火箭) 模型
+     * 23. 火箭效果飞行结束(火箭) 模型
      */
     public static final class MGCustomRocketFlyEnd implements Serializable {
         public long clickNumber; // 点击多少次
@@ -1084,12 +1095,12 @@ public class SudMGPMGState implements Serializable {
     }
 
     /**
-     * 23. 设置点击区域(火箭)
+     * 24. 设置点击区域(火箭)
      */
     public static final String MG_CUSTOM_ROCKET_SET_CLICK_RECT = "mg_custom_rocket_set_click_rect";
 
     /**
-     * 23. 设置点击区域(火箭) 模型
+     * 24. 设置点击区域(火箭) 模型
      */
     public static final class MGCustomRocketSetClickRect implements Serializable {
         public List<RocketClickRect> list; // 游戏的点击区域

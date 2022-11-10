@@ -1,7 +1,5 @@
 package tech.sud.mgp.hello.ui.scenes.base.activity;
 
-import android.Manifest;
-import android.os.Environment;
 import android.view.View;
 import android.widget.FrameLayout;
 
@@ -9,7 +7,6 @@ import androidx.lifecycle.Observer;
 
 import com.jeremyliao.liveeventbus.LiveEventBus;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -18,21 +15,17 @@ import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState.AppCustomRocketPlayModelList;
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.SudMGPWrapper.utils.SudJsonUtils;
-import tech.sud.mgp.core.SudMGP;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
 import tech.sud.mgp.hello.common.event.LiveEventBusKey;
 import tech.sud.mgp.hello.common.event.model.JumpRocketEvent;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
-import tech.sud.mgp.hello.common.utils.permission.PermissionFragment;
-import tech.sud.mgp.hello.common.utils.permission.SudPermissionUtils;
 import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
 import tech.sud.mgp.hello.service.game.repository.GameRepository;
 import tech.sud.mgp.hello.service.game.req.RocketFireReq;
 import tech.sud.mgp.hello.service.game.resp.RocketFireResp;
 import tech.sud.mgp.hello.ui.common.dialog.LoadingDialog;
-import tech.sud.mgp.hello.ui.main.base.constant.GameIdCons;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.base.utils.UserInfoConverter;
@@ -64,20 +57,20 @@ public abstract class BaseRocketRoomActivity<T extends AppGameViewModel> extends
         rocketContainer = findViewById(R.id.rocket_container);
 
         // TODO: 2022/11/7 下面的代码需要去掉的
-        SudPermissionUtils.requirePermission(this, getSupportFragmentManager(),
-                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                new PermissionFragment.OnPermissionListener() {
-                    @Override
-                    public void onPermission(boolean success) {
-                        if (success) {
-                        }
-                    }
-                });
-        File dir = Environment.getExternalStorageDirectory();
-        File file = new File(dir.getAbsolutePath() + File.separator + "Pictures", "rocket.rpk");
+//        SudPermissionUtils.requirePermission(this, getSupportFragmentManager(),
+//                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+//                new PermissionFragment.OnPermissionListener() {
+//                    @Override
+//                    public void onPermission(boolean success) {
+//                        if (success) {
+//                        }
+//                    }
+//                });
+//        File dir = Environment.getExternalStorageDirectory();
+//        File file = new File(dir.getAbsolutePath() + File.separator + "Pictures", "rocket.rpk");
 //        SudMGP.getCfg().addEmbeddedMGPkg(GameIdCons.CUSTOM_ROCKET, file.getAbsolutePath());
 
-        SudMGP.getCfg().addEmbeddedMGPkg(GameIdCons.CUSTOM_ROCKET, "rocket.rpk");
+//        SudMGP.getCfg().addEmbeddedMGPkg(GameIdCons.CUSTOM_ROCKET, "rocket.rpk");
 
         rocketGameViewModel.fragmentActivity = this;
         rocketGameViewModel.roomId = roomInfoModel.roomId;

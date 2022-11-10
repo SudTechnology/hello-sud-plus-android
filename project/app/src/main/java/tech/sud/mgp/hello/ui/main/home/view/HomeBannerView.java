@@ -2,15 +2,15 @@ package tech.sud.mgp.hello.ui.main.home.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.View;
+import android.view.MotionEvent;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
 
 import java.util.List;
 
@@ -25,9 +25,9 @@ import tech.sud.mgp.hello.service.main.resp.GetBannerResp;
 public class HomeBannerView extends ConstraintLayout {
 
     private MyPagerAdapter pagerAdapter = new MyPagerAdapter();
-    private ViewPager viewPager;
+    private ViewPager2 viewPager;
     private List<GetBannerResp.BannerModel> datas;
-    private int position;
+    private int mPosition;
     private OnPagerClickListener onPagerClickListener;
 
     public HomeBannerView(@NonNull Context context) {
@@ -48,7 +48,8 @@ public class HomeBannerView extends ConstraintLayout {
     }
 
     private void initView() {
-        viewPager = new ViewPager(getContext());
+        viewPager = new ViewPager2(getContext());
+        viewPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
         addView(viewPager, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         viewPager.setAdapter(pagerAdapter);
     }
@@ -76,56 +77,72 @@ public class HomeBannerView extends ConstraintLayout {
     private final Runnable changeTask = new Runnable() {
         @Override
         public void run() {
-            position++;
-            viewPager.setCurrentItem(position);
+            mPosition++;
+            viewPager.setCurrentItem(mPosition);
             startChangeTask();
         }
     };
 
-    private class MyPagerAdapter extends PagerAdapter {
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        boolean dispatch = super.dispatchTouchEvent(ev);
+        switch (ev.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                if (dispatch) {
+                    stopChangeTask();
+                }
+                break;
+            case MotionEvent.ACTION_CANCEL:
+            case MotionEvent.ACTION_UP:
+                startChangeTask();
+                break;
+        }
+        return dispatch;
+    }
+
+    private class MyPagerAdapter extends RecyclerView.Adapter<MyPagerAdapter.MyViewHolder> {
+
+        @NonNull
+        @Override
+        public MyPagerAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            RoundImageView roundImageView = new RoundImageView(getContext());
+            roundImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            roundImageView.setRadius(DensityUtils.dp2px(8));
+            ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            roundImageView.setLayoutParams(layoutParams);
+            return new MyViewHolder(roundImageView);
+        }
 
         @Override
-        public int getCount() {
+        public void onBindViewHolder(@NonNull MyPagerAdapter.MyViewHolder holder, int position) {
+            position %= datas.size();
+            GetBannerResp.BannerModel bannerModel = datas.get(position);
+            ImageLoader.loadImage(holder.imageView, bannerModel.image);
+            holder.bannerModel = bannerModel;
+        }
+
+        @Override
+        public int getItemCount() {
             if (datas != null && datas.size() > 0) {
                 return Integer.MAX_VALUE;
             }
             return 0;
         }
 
-        @Override
-        public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
-            return view == object;
-        }
+        private class MyViewHolder extends RecyclerView.ViewHolder {
+            public ImageView imageView;
+            public GetBannerResp.BannerModel bannerModel;
 
-        @Override
-        public int getItemPosition(@NonNull Object object) {
-            return PagerAdapter.POSITION_NONE;
-        }
-
-        @NonNull
-        @Override
-        public Object instantiateItem(@NonNull ViewGroup container, int position) {
-            int size = datas.size();
-            if (position >= size) {
-                position = position % size;
+            public MyViewHolder(@NonNull RoundImageView itemView) {
+                super(itemView);
+                imageView = itemView;
+                imageView.setOnClickListener((v) -> {
+                    if (onPagerClickListener != null) {
+                        onPagerClickListener.onPagerClick(bannerModel);
+                    }
+                });
             }
-            RoundImageView roundImageView = new RoundImageView(getContext());
-            roundImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            roundImageView.setRadius(DensityUtils.dp2px(8));
-            GetBannerResp.BannerModel bannerModel = datas.get(position);
-            ImageLoader.loadImage(roundImageView, bannerModel.image);
-            container.addView(roundImageView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            roundImageView.setOnClickListener((v) -> {
-                if (onPagerClickListener != null) {
-                    onPagerClickListener.onPagerClick(bannerModel);
-                }
-            });
-            return roundImageView;
-        }
 
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            container.removeView((View) object);
         }
     }
 

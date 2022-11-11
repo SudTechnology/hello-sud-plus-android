@@ -148,6 +148,7 @@ public class SudFSTAPPDecorator {
             // notifyStateChange需要通过网络向游戏服务器发送状态指令，如果调用后立即销毁游戏或者销毁页面，指令将无法到达
             // 如果有结束本局游戏之后就要关闭游戏或者销毁页面的需求时
             // 可以先向游戏侧发送状态之后，delay 500ms再destroyMG()或者finish Activity
+            // *** 如果不要求指令是否能成功执行，可忽略delay
             iSudFSTAPP.notifyStateChange(SudMGPAPPState.APP_COMMON_SELF_END, SudJsonUtils.toJson(state), null);
         }
     }

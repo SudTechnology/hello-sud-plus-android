@@ -198,7 +198,7 @@ public class RoomGiftDialog extends BaseDialogFragment implements SendGiftToUser
                 onClickGift(position);
             }
         });
-        containerGoCustom.setOnClickListener((v) -> {
+        containerCustomRocket.setOnClickListener((v) -> {
             if (onShowCustomRocketClickListener != null) {
                 onShowCustomRocketClickListener.onClick(v);
             }

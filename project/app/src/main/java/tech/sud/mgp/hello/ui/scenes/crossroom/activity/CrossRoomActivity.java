@@ -116,6 +116,7 @@ public class CrossRoomActivity extends BaseRocketRoomActivity<CrossRoomGameViewM
         tvPkSettings.setBackgroundResource(R.drawable.shape_room_top_btn_bg);
         topView.addCustomView(tvPkSettings, (LinearLayout.LayoutParams) tvPkSettings.getLayoutParams());
 
+        viewRocketEntrance.bringToFront();
         bringToFrontViews();
     }
 

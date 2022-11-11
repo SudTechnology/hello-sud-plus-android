@@ -42,7 +42,7 @@ import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftModel;
  */
 public abstract class BaseRocketRoomActivity<T extends AppGameViewModel> extends BaseRoomActivity<T> {
 
-    private View viewRocketEntrance;
+    protected View viewRocketEntrance;
     protected RocketContainer rocketContainer;
     protected AppRocketGameViewModel rocketGameViewModel = new AppRocketGameViewModel();
 

@@ -144,11 +144,10 @@ public class SudFSTAPPDecorator {
         ISudFSTAPP iSudFSTAPP = this.iSudFSTAPP;
         if (iSudFSTAPP != null) {
             SudMGPAPPState.APPCommonSelfEnd state = new SudMGPAPPState.APPCommonSelfEnd();
-            // 使用iSudFSTAPP.notifyStateChange方法向游戏侧发送状态，不能立即调用destroyMG()方法，也不能立即finish Activity
-            // notifyStateChange需要通过网络向游戏服务器发送状态指令，如果调用后立即销毁游戏或者销毁页面，指令将无法到达
-            // 如果有结束本局游戏之后就要关闭游戏或者销毁页面的需求时
-            // 可以先向游戏侧发送状态之后，delay 500ms再destroyMG()或者finish Activity
-            // *** 如果不要求指令是否能成功执行，可忽略delay
+            // 使用iSudFSTAPP.notifyStateChange方法向游戏侧发送状态时，因为大部分状态都需要通过网络向后端发送状态指令
+            // 所以如果发送状态后，马上就销毁游戏或者Activity，那么状态指令大概率会不生效
+            // *** 如果要确保指令能到达后端，那么发送指令后不要立即destroyMG()或finish Activity，可在发送后delay一定时间(如300 or 500 ms)再销毁
+            // *** 如果不在乎指令是否能成功到达，可忽略delay
             iSudFSTAPP.notifyStateChange(SudMGPAPPState.APP_COMMON_SELF_END, SudJsonUtils.toJson(state), null);
         }
     }

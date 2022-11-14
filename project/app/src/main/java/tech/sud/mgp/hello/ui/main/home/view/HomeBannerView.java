@@ -64,7 +64,7 @@ public class HomeBannerView extends ConstraintLayout {
 
     public void startChangeTask() {
         stopChangeTask();
-        if (datas == null || datas.size() == 0) {
+        if (datas == null || datas.size() < 2) {
             return;
         }
         postDelayed(changeTask, 3000);
@@ -123,8 +123,12 @@ public class HomeBannerView extends ConstraintLayout {
 
         @Override
         public int getItemCount() {
-            if (datas != null && datas.size() > 0) {
-                return Integer.MAX_VALUE;
+            if (datas != null) {
+                if (datas.size() > 1) {
+                    return Integer.MAX_VALUE;
+                } else {
+                    return datas.size();
+                }
             }
             return 0;
         }

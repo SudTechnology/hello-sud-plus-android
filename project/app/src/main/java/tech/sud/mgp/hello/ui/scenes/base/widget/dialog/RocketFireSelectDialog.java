@@ -18,9 +18,12 @@ import java.util.List;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.app.APPConfig;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
+import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
+import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
+import tech.sud.mgp.hello.ui.scenes.base.utils.UserInfoConverter;
 
 /**
  * 火箭发射时，选择接收人的弹窗
@@ -30,8 +33,8 @@ public class RocketFireSelectDialog extends BaseDialogFragment {
     private ImageView ivClose;
     private RecyclerView recyclerView;
     private TextView tvConfirm;
-    private List<AudioRoomMicModel> micList;
-    private final List<AudioRoomMicModel> selectedList = new ArrayList<>();
+    private List<UserInfo> micList;
+    private final List<UserInfo> selectedList = new ArrayList<>();
     private final MyAdapter adapter = new MyAdapter();
     private OnConfirmListener onConfirmListener;
 
@@ -64,7 +67,20 @@ public class RocketFireSelectDialog extends BaseDialogFragment {
     }
 
     private void updateConfirmText() {
-        tvConfirm.setText(getString(R.string.confirm_fire_price, (selectedList.size() * APPConfig.ROCKET_FIRE_PRICE) + ""));
+        if (tvConfirm == null) {
+            return;
+        }
+        tvConfirm.setText(getString(R.string.confirm_fire_price, (getRealSelectedList().size() * APPConfig.ROCKET_FIRE_PRICE) + ""));
+    }
+
+    private List<UserInfo> getRealSelectedList() {
+        List<UserInfo> list = new ArrayList<>();
+        for (UserInfo userInfo : selectedList) {
+            if (micList != null && micList.contains(userInfo)) {
+                list.add(userInfo);
+            }
+        }
+        return list;
     }
 
     @Override
@@ -76,7 +92,7 @@ public class RocketFireSelectDialog extends BaseDialogFragment {
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> quickAdapter, @NonNull View view, int position) {
-                AudioRoomMicModel item = adapter.getItem(position);
+                UserInfo item = adapter.getItem(position);
                 if (isSelected(item)) {
                     selectedList.remove(item);
                 } else {
@@ -88,10 +104,11 @@ public class RocketFireSelectDialog extends BaseDialogFragment {
             }
         });
         tvConfirm.setOnClickListener((v) -> {
-            if (selectedList.size() == 0) {
+            List<UserInfo> realSelectedList = getRealSelectedList();
+            if (realSelectedList.size() == 0) {
                 return;
             }
-            onConfirmListener.onConfirm(selectedList);
+            onConfirmListener.onConfirm(realSelectedList);
             dismiss();
         });
     }
@@ -103,23 +120,40 @@ public class RocketFireSelectDialog extends BaseDialogFragment {
 
     /** 设置麦位列表数据 */
     public void setMicList(List<AudioRoomMicModel> micList) {
-        this.micList = micList;
+        List<UserInfo> list = filterRocketMicList(micList);
+        this.micList = list;
+        adapter.setList(list);
+        updateConfirmText();
+    }
+
+    private List<UserInfo> filterRocketMicList(List<AudioRoomMicModel> micList) {
+        if (micList == null) {
+            return null;
+        }
+        List<UserInfo> list = new ArrayList<>();
+        for (AudioRoomMicModel model : micList) {
+            if (model.hasUser() && HSUserInfo.userId != model.userId) {
+                UserInfo userInfo = UserInfoConverter.conver(model);
+                list.add(userInfo);
+            }
+        }
+        return list;
     }
 
     public interface OnConfirmListener {
-        void onConfirm(List<AudioRoomMicModel> list);
+        void onConfirm(List<UserInfo> list);
     }
 
-    private class MyAdapter extends BaseQuickAdapter<AudioRoomMicModel, BaseViewHolder> {
+    private class MyAdapter extends BaseQuickAdapter<UserInfo, BaseViewHolder> {
         public MyAdapter() {
             super(R.layout.item_rocket_fire_select);
         }
 
         @Override
-        protected void convert(@NonNull BaseViewHolder holder, AudioRoomMicModel model) {
+        protected void convert(@NonNull BaseViewHolder holder, UserInfo model) {
             ImageView ivIcon = holder.getView(R.id.iv_icon);
-            ImageLoader.loadAvatar(ivIcon, model.avatar);
-            holder.setText(R.id.tv_name, model.nickName);
+            ImageLoader.loadAvatar(ivIcon, model.icon);
+            holder.setText(R.id.tv_name, model.name);
             holder.setVisible(R.id.container_selected, isSelected(model));
         }
     }
@@ -127,7 +161,7 @@ public class RocketFireSelectDialog extends BaseDialogFragment {
     /**
      * 是否已选择
      */
-    private boolean isSelected(AudioRoomMicModel model) {
+    private boolean isSelected(UserInfo model) {
         return selectedList.contains(model);
     }
 

@@ -20,7 +20,6 @@ import tech.sud.mgp.hello.common.base.BaseDialogFragment;
 import tech.sud.mgp.hello.common.event.LiveEventBusKey;
 import tech.sud.mgp.hello.common.event.model.JumpRocketEvent;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
-import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
 import tech.sud.mgp.hello.service.game.repository.GameRepository;
 import tech.sud.mgp.hello.service.game.req.RocketFireReq;
@@ -49,6 +48,7 @@ public abstract class BaseRocketRoomActivity<T extends AppGameViewModel> extends
     private boolean isShowRocketScene; // 是否要展示火箭主页面
     private LoadingDialog loadingDialog; // 加载火箭loading弹窗
     private final List<AppCustomRocketPlayModelList> fireRocketList = new ArrayList<>(); // 火箭待发射列表
+    private RocketFireSelectDialog rocketFireSelectDialog;
 
     @Override
     protected void initWidget() {
@@ -195,33 +195,27 @@ public abstract class BaseRocketRoomActivity<T extends AppGameViewModel> extends
         showRocketFireSelectDialog(model);
     }
 
+    /** 显示火箭发射选择用户的弹窗 */
     private void showRocketFireSelectDialog(SudMGPMGState.MGCustomRocketFireModel model) {
         if (binder == null) {
             return;
         }
         RocketFireSelectDialog dialog = new RocketFireSelectDialog();
-        dialog.setMicList(filterRocketMicList(binder.getMicList()));
+        dialog.setMicList(binder.getMicList());
         dialog.setOnConfirmListener(new RocketFireSelectDialog.OnConfirmListener() {
             @Override
-            public void onConfirm(List<AudioRoomMicModel> list) {
-                List<UserInfo> userInfoList = UserInfoConverter.conver(list);
-                onSendRocket(model, 1, userInfoList);
+            public void onConfirm(List<UserInfo> list) {
+                onSendRocket(model, 1, list);
             }
         });
         dialog.show(getSupportFragmentManager(), null);
-    }
-
-    private List<AudioRoomMicModel> filterRocketMicList(List<AudioRoomMicModel> micList) {
-        if (micList == null) {
-            return null;
-        }
-        List<AudioRoomMicModel> list = new ArrayList<>();
-        for (AudioRoomMicModel model : micList) {
-            if (model.hasUser() && HSUserInfo.userId != model.userId) {
-                list.add(model);
+        dialog.setOnDestroyListener(new BaseDialogFragment.OnDestroyListener() {
+            @Override
+            public void onDestroy() {
+                rocketFireSelectDialog = null;
             }
-        }
-        return list;
+        });
+        rocketFireSelectDialog = dialog;
     }
 
     @Override
@@ -379,6 +373,22 @@ public abstract class BaseRocketRoomActivity<T extends AppGameViewModel> extends
         rocketContainer.bringToFront();
         inputMsgView.bringToFront();
         clOpenMic.bringToFront();
+    }
+
+    @Override
+    public void onMicList(List<AudioRoomMicModel> list) {
+        super.onMicList(list);
+        if (rocketFireSelectDialog != null) {
+            rocketFireSelectDialog.setMicList(list);
+        }
+    }
+
+    @Override
+    public void notifyMicItemChange(int micIndex, AudioRoomMicModel model) {
+        super.notifyMicItemChange(micIndex, model);
+        if (rocketFireSelectDialog != null && binder != null) {
+            rocketFireSelectDialog.setMicList(binder.getMicList());
+        }
     }
 
     @Override

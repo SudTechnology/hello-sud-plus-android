@@ -6,6 +6,7 @@ import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomServiceCallback;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.RoomCmdModelUtils;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdSendGiftModel;
 import tech.sud.mgp.hello.ui.scenes.common.gift.manager.GiftHelper;
+import tech.sud.mgp.hello.ui.scenes.common.gift.manager.GiftId;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftModel;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftNotifyDetailModel;
 
@@ -58,7 +59,11 @@ public class SceneGiftManager extends BaseServiceManager {
 
         parentManager.sceneChatManager.addMsg(notify);
 
-        parentManager.sceneEngineManager.sendCommand(command, null);
+        if (giftID == GiftId.ROCKET) {
+            parentManager.sceneEngineManager.sendXRoomCommand(parentManager.getRoomId() + "", command, null);
+        } else {
+            parentManager.sceneEngineManager.sendCommand(command, null);
+        }
     }
 
     /** 收到送礼消息 */

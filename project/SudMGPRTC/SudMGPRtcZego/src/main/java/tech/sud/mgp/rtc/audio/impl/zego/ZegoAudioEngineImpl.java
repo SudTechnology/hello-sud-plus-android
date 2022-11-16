@@ -343,7 +343,10 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
                     switch (updateType) {
                         case ADD:
                             for (ZegoStream zegoStream : streamList) {
-                                engine.startPlayingStream(zegoStream.streamID, null);
+                                ZegoPlayerConfig zegoPlayerConfig = new ZegoPlayerConfig();
+                                zegoPlayerConfig.resourceMode = ZegoStreamResourceMode.ONLY_RTC;
+                                engine.startPlayingStream(zegoStream.streamID, null, zegoPlayerConfig);
+//                                engine.startPlayingStream(zegoStream.streamID, null);
                             }
                             break;
                         case DELETE:

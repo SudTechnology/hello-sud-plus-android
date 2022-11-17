@@ -2,6 +2,7 @@ package tech.sud.mgp.hello.ui.scenes.base.activity;
 
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import androidx.lifecycle.Observer;
 
@@ -27,7 +28,6 @@ import tech.sud.mgp.hello.service.game.resp.RocketFireResp;
 import tech.sud.mgp.hello.ui.common.dialog.LoadingDialog;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
-import tech.sud.mgp.hello.ui.scenes.base.utils.UserInfoConverter;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppRocketGameViewModel;
 import tech.sud.mgp.hello.ui.scenes.base.widget.dialog.RocketFireSelectDialog;
@@ -44,6 +44,8 @@ public abstract class BaseRocketRoomActivity<T extends AppGameViewModel> extends
     protected View viewRocketEntrance;
     protected RocketContainer rocketContainer;
     protected AppRocketGameViewModel rocketGameViewModel = new AppRocketGameViewModel();
+    private View rocketOperateContainer;
+    private TextView tvCloseRocketEffect;
 
     private boolean isShowRocketScene; // 是否要展示火箭主页面
     private LoadingDialog loadingDialog; // 加载火箭loading弹窗
@@ -55,6 +57,8 @@ public abstract class BaseRocketRoomActivity<T extends AppGameViewModel> extends
         super.initWidget();
         viewRocketEntrance = findViewById(R.id.view_custom_rocket);
         rocketContainer = findViewById(R.id.rocket_container);
+        rocketOperateContainer = findViewById(R.id.rocket_operate_container);
+        tvCloseRocketEffect = findViewById(R.id.tv_close_rocket_effect);
 
         // TODO: 2022/11/7 下面的代码需要去掉的
 //        SudPermissionUtils.requirePermission(this, getSupportFragmentManager(),
@@ -123,7 +127,24 @@ public abstract class BaseRocketRoomActivity<T extends AppGameViewModel> extends
                 rocketContainer.setClickRectList(list);
             }
         });
+        rocketGameViewModel.rocketPlayEffectStart.observe(this, o -> {
+            onRocketPlayEffectStart();
+        });
+        rocketGameViewModel.rocketPlayEffectFinish.observe(this, o -> {
+            onRocketPlayEffectFinish();
+        });
         LiveEventBus.<JumpRocketEvent>get(LiveEventBusKey.KEY_JUMP_ROCKET).observeSticky(this, jumpRocketObserver);
+        tvCloseRocketEffect.setOnClickListener((v) -> {
+            rocketGameViewModel.notifyAppCustomRocketClosePlayEffect();
+        });
+    }
+
+    private void onRocketPlayEffectFinish() {
+        tvCloseRocketEffect.setVisibility(View.GONE);
+    }
+
+    private void onRocketPlayEffectStart() {
+        tvCloseRocketEffect.setVisibility(View.VISIBLE);
     }
 
     private final Observer<JumpRocketEvent> jumpRocketObserver = new Observer<JumpRocketEvent>() {
@@ -327,6 +348,7 @@ public abstract class BaseRocketRoomActivity<T extends AppGameViewModel> extends
 
     /** 隐藏火箭 */
     private void stopRocket() {
+        tvCloseRocketEffect.setVisibility(View.GONE);
         rocketGameViewModel.switchGame(this, getGameRoomId(), 0);
         hideLoadingDialog();
     }
@@ -371,6 +393,7 @@ public abstract class BaseRocketRoomActivity<T extends AppGameViewModel> extends
     protected void bringToFrontViews() {
         giftContainer.bringToFront();
         rocketContainer.bringToFront();
+        rocketOperateContainer.bringToFront();
         inputMsgView.bringToFront();
         clOpenMic.bringToFront();
     }

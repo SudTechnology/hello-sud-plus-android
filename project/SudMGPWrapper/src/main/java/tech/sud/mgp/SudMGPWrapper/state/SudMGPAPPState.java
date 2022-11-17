@@ -731,6 +731,17 @@ public class SudMGPAPPState implements Serializable {
     }
 
     /**
+     * 21. app推送关闭火箭播放效果(火箭)
+     */
+    public static final String APP_CUSTOM_ROCKET_CLOSE_PLAY_EFFECT = "app_custom_rocket_close_play_effect";
+
+    /**
+     * 21. app推送关闭火箭播放效果(火箭)  模型
+     */
+    public static class AppCustomRocketClosePlayEffect implements Serializable {
+    }
+
+    /**
      * 定制火箭，用户信息 模型
      */
     public static class CustomRocketUserInfoModel {

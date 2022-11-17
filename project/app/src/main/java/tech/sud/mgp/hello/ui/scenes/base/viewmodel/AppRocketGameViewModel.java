@@ -47,6 +47,8 @@ public class AppRocketGameViewModel extends AppGameViewModel {
     public MutableLiveData<SudMGPMGState.MGCustomRocketClickLockComponent> clickLockComponentLiveData = new MutableLiveData<>(); // 点击了锁住的组件
     public MutableLiveData<Object> rocketPrepareCompletedLiveData = new MutableLiveData<>(); // 火箭准备完成
     public MutableLiveData<SudMGPMGState.MGCustomRocketSetClickRect> rocketClickRectLiveData = new MutableLiveData<>(); // 火箭点击区域
+    public MutableLiveData<Object> rocketPlayEffectStart = new MutableLiveData<>(); // 火箭飞行开始
+    public MutableLiveData<Object> rocketPlayEffectFinish = new MutableLiveData<>(); // 火箭飞行结束
 
     // region 火箭返回状态
 
@@ -373,6 +375,7 @@ public class AppRocketGameViewModel extends AppGameViewModel {
     @Override
     public void onGameMGCustomRocketPlayEffectStart(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketPlayEffectStart model) {
         super.onGameMGCustomRocketPlayEffectStart(handle, model);
+        rocketPlayEffectStart.setValue(null);
     }
 
     /**
@@ -382,6 +385,7 @@ public class AppRocketGameViewModel extends AppGameViewModel {
     @Override
     public void onGameMGCustomRocketPlayEffectFinish(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketPlayEffectFinish model) {
         super.onGameMGCustomRocketPlayEffectFinish(handle, model);
+        rocketPlayEffectFinish.setValue(null);
     }
 
     /**
@@ -527,6 +531,13 @@ public class AppRocketGameViewModel extends AppGameViewModel {
      */
     public void notifyAppCustomRocketUnlockComponent(SudMGPAPPState.AppCustomRocketUnlockComponent model) {
         sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_CUSTOM_ROCKET_UNLOCK_COMPONENT, model);
+    }
+
+    /**
+     * 21. app推送关闭火箭播放效果(火箭)
+     */
+    public void notifyAppCustomRocketClosePlayEffect() {
+        sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_CUSTOM_ROCKET_CLOSE_PLAY_EFFECT, new SudMGPAPPState.AppCustomRocketClosePlayEffect());
     }
     // endregion 向火箭发送状态
 

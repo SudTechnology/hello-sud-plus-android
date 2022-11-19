@@ -320,12 +320,6 @@ public class NFTViewModel extends BaseViewModel {
         bindWalletInfoModel.walletType = walletInfoModel.type;
         saveBindWalletInfo(bindWalletInfoModel);
         sBindWalletInfo = bindWalletInfoModel;
-
-        // 全局用户信息里显示
-        bindWalletInfoMutableLiveData.setValue(bindWalletInfoModel);
-
-        // 获取NFT列表
-        initNftList(bindWalletInfoModel);
     }
 
     /** 获取国内钱包nft列表 */
@@ -378,12 +372,6 @@ public class NFTViewModel extends BaseViewModel {
         bindWalletInfoModel.walletType = walletInfoModel.type;
         saveBindWalletInfo(bindWalletInfoModel);
         sBindWalletInfo = bindWalletInfoModel;
-
-        // 全局用户信息里显示
-        bindWalletInfoMutableLiveData.setValue(bindWalletInfoModel);
-
-        // 获取NFT列表
-        initNftList(bindWalletInfoModel);
     }
 
     // 初始化数据获取nft列表

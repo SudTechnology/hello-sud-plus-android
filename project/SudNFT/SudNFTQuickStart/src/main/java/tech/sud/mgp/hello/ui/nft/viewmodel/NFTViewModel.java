@@ -121,6 +121,8 @@ public class NFTViewModel extends BaseViewModel {
                 public void onSuccess() {
                     sIsInitCompleted = true;
                     initDataGetBindWallet();
+                    // 刷新token
+                    refreshWalletTokenList(sBindWalletInfo);
                 }
 
                 @Override
@@ -139,8 +141,6 @@ public class NFTViewModel extends BaseViewModel {
             // 未绑定钱包，显示钱包列表
             showWalletList();
         } else {
-            // 刷新token
-            refreshWalletTokenList(sBindWalletInfo);
             // 绑定了钱包，显示NFT列表
             initNftList(sBindWalletInfo);
         }

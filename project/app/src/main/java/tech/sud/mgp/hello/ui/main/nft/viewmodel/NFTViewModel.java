@@ -505,7 +505,7 @@ public class NFTViewModel extends BaseViewModel {
     }
 
     // 本地缓存当中获取已绑定钱包信息
-    private BindWalletInfoModel getBindWalletInfoByCache() {
+    public BindWalletInfoModel getBindWalletInfoByCache() {
         String json = GlobalSP.getSP().getString(GlobalSP.KEY_NFT_BIND_WALLET);
         if (json != null) {
             return SudJsonUtils.fromJson(json, BindWalletInfoModel.class);

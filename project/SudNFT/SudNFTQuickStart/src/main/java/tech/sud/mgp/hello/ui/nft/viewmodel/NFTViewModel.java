@@ -96,6 +96,17 @@ public class NFTViewModel extends BaseViewModel {
     private static boolean sIsInitCompleted; // 是否初始化完成
 
     /**
+     * 已经初始化时，直接使用NFT相关操作
+     * 未初始化，再请求数据
+     */
+    public void initNFT(Context context) {
+        if (sIsInitCompleted) {
+            return;
+        }
+        initData(context);
+    }
+
+    /**
      * 初始化数据
      * 1，未绑定时显示钱包列表
      * 2，已绑定时显示nft列表

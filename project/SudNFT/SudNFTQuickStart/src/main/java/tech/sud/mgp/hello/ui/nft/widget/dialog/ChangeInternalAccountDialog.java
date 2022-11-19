@@ -50,7 +50,7 @@ public class ChangeInternalAccountDialog extends BaseDialogFragment {
     @Override
     protected void initData() {
         super.initData();
-        viewModel.initData(getContext());
+        viewModel.initNFT(getContext());
 
         BindWalletInfoModel bindWalletInfo = viewModel.getBindWalletInfo();
         if (bindWalletInfo != null) {

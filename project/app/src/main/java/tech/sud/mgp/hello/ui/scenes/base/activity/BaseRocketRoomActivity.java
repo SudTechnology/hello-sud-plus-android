@@ -46,6 +46,8 @@ public abstract class BaseRocketRoomActivity<T extends AppGameViewModel> extends
     protected AppRocketGameViewModel rocketGameViewModel = new AppRocketGameViewModel();
     private View rocketOperateContainer;
     private TextView tvCloseRocketEffect;
+    private View rocketEffectOperateContainer;
+    private TextView tvRocketQuicken;
 
     private boolean isShowRocketScene; // 是否要展示火箭主页面
     private LoadingDialog loadingDialog; // 加载火箭loading弹窗
@@ -59,6 +61,8 @@ public abstract class BaseRocketRoomActivity<T extends AppGameViewModel> extends
         rocketContainer = findViewById(R.id.rocket_container);
         rocketOperateContainer = findViewById(R.id.rocket_operate_container);
         tvCloseRocketEffect = findViewById(R.id.tv_close_rocket_effect);
+        rocketEffectOperateContainer = findViewById(R.id.rocket_effect_operate_container);
+        tvRocketQuicken = findViewById(R.id.tv_rocket_quicken);
 
         // TODO: 2022/11/7 下面的代码需要去掉的
 //        SudPermissionUtils.requirePermission(this, getSupportFragmentManager(),
@@ -137,14 +141,17 @@ public abstract class BaseRocketRoomActivity<T extends AppGameViewModel> extends
         tvCloseRocketEffect.setOnClickListener((v) -> {
             rocketGameViewModel.notifyAppCustomRocketClosePlayEffect();
         });
+        tvRocketQuicken.setOnClickListener((v) -> {
+            rocketGameViewModel.notifyAppCustomRocketFlyClick();
+        });
     }
 
     private void onRocketPlayEffectFinish() {
-        tvCloseRocketEffect.setVisibility(View.GONE);
+        rocketEffectOperateContainer.setVisibility(View.GONE);
     }
 
     private void onRocketPlayEffectStart() {
-        tvCloseRocketEffect.setVisibility(View.VISIBLE);
+        rocketEffectOperateContainer.setVisibility(View.VISIBLE);
     }
 
     private final Observer<JumpRocketEvent> jumpRocketObserver = new Observer<JumpRocketEvent>() {
@@ -348,7 +355,7 @@ public abstract class BaseRocketRoomActivity<T extends AppGameViewModel> extends
 
     /** 隐藏火箭 */
     private void stopRocket() {
-        tvCloseRocketEffect.setVisibility(View.GONE);
+        rocketEffectOperateContainer.setVisibility(View.GONE);
         rocketGameViewModel.switchGame(this, getGameRoomId(), 0);
         hideLoadingDialog();
     }

@@ -167,19 +167,38 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/room_bottom_view">
 
-        <TextView
-            android:id="@+id/tv_close_rocket_effect"
+        <LinearLayout
+            android:id="@+id/rocket_effect_operate_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/close"
-            android:textSize="20sp"
-            android:textColor="@color/black"
+            android:orientation="vertical"
             android:visibility="gone"
-            android:padding="15dp"
-            android:background="@drawable/shape_add_robot_bg"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <TextView
+                android:id="@+id/tv_close_rocket_effect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/close"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:padding="15dp"
+                android:background="@drawable/shape_add_robot_bg" />
+
+            <TextView
+                android:id="@+id/tv_rocket_quicken"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/quicken"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:layout_marginTop="8dp"
+                android:padding="15dp"
+                android:background="@drawable/shape_add_robot_bg" />
+
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -534,6 +534,13 @@ public class AppRocketGameViewModel extends AppGameViewModel {
     }
 
     /**
+     * 20. app推送火箭效果飞行点击(火箭)
+     */
+    public void notifyAppCustomRocketFlyClick() {
+        sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_CUSTOM_ROCKET_FLY_CLICK, new SudMGPAPPState.AppCustomRocketFlyClick());
+    }
+
+    /**
      * 21. app推送关闭火箭播放效果(火箭)
      */
     public void notifyAppCustomRocketClosePlayEffect() {

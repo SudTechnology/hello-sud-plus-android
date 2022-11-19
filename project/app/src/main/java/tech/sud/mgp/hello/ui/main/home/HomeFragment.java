@@ -174,7 +174,7 @@ public class HomeFragment extends BaseFragment implements CreatRoomClickListener
         UserInfoRepository.getUserInfoList(this, userIdList, new UserInfoRepository.UserInfoResultListener() {
             @Override
             public void userInfoList(List<UserInfoResp> userInfos) {
-                BindWalletInfoModel bindWalletInfoModel = NFTViewModel.sBindWalletInfo;
+                BindWalletInfoModel bindWalletInfoModel = nftViewModel.getBindWalletInfoByCache();
                 if (userInfos == null || userInfos.size() == 0 || bindWalletInfoModel == null) {
                     return;
                 }

@@ -31,7 +31,6 @@ import tech.sud.mgp.hello.service.main.resp.BaseConfigResp;
 import tech.sud.mgp.hello.ui.common.utils.channel.NotifyChannelHelper;
 import tech.sud.mgp.hello.ui.main.base.constant.GameIdCons;
 import tech.sud.mgp.hello.ui.main.home.HomeFragment;
-import tech.sud.mgp.hello.ui.main.nft.viewmodel.NFTViewModel;
 import tech.sud.mgp.hello.ui.main.roomlist.RoomListFragment;
 import tech.sud.mgp.hello.ui.main.settings.fragment.SettingsFragment;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
@@ -46,7 +45,6 @@ public class MainActivity extends BaseActivity implements MainTabView.TabClickLi
     private MainTabView currentTabView;
     private final List<TabModel> tabs = new ArrayList<>();
     private final List<MainTabView> tabViews = new ArrayList<>();
-    private NFTViewModel nftViewModel = new NFTViewModel();
     private AppGameViewModel gameViewModel = new AppGameViewModel();
 
     @Override
@@ -78,7 +76,6 @@ public class MainActivity extends BaseActivity implements MainTabView.TabClickLi
         super.initData();
         new NotifyChannelHelper().initChannel(this);
         getBaseConfig();
-        nftViewModel.initData(this);
         gameViewModel.preloadMG(this, GameIdCons.CUSTOM_ROCKET);
     }
 

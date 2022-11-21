@@ -106,6 +106,8 @@
     <string name="custom_config_umo_icon_subtitle">(ui.umo_icon.hide)</string>
     <string name="custom_config_logo">the logo in lobby</string>
     <string name="custom_config_logo_subtitle">(ui.logo.hide)</string>
+    <string name="custom_config_game_players">Players seat in game</string>
+    <string name="custom_config_game_players_subtitle">(ui.game_players.hide)</string>
 
     <!-- endregion custom场景，暂不用全部翻译 -->
 </resources>

@@ -264,6 +264,22 @@ public interface SudFSMMGListener {
     default void onGameMGCommonGameSetScore(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameSetScore model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
+
+    /**
+     * 25. 创建订单
+     * mg_common_game_create_order
+     */
+    default void onGameMGCommonGameCreateOrder(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameCreateOrder model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 26. 游戏通知app玩家角色(仅对狼人杀有效)
+     * mg_common_player_role_id
+     */
+    default void onGameMGCommonPlayerRoleId(ISudFSMStateHandle handle, SudMGPMGState.MGCommonPlayerRoleId model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
     // endregion 游戏回调APP 通用状态
 
     // region 游戏回调APP 玩家状态

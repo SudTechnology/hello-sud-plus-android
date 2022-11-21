@@ -334,6 +334,22 @@ public class SudFSMMGDecorator implements ISudFSMMG {
                     listener.onGameMGCommonGameSetScore(handle, mgCommonGameSetScore);
                 }
                 break;
+            case SudMGPMGState.MG_COMMON_GAME_CREATE_ORDER: // 25. 创建订单
+                SudMGPMGState.MGCommonGameCreateOrder mgCommonGameCreateOrder = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonGameCreateOrder.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGCommonGameCreateOrder(handle, mgCommonGameCreateOrder);
+                }
+                break;
+            case SudMGPMGState.MG_COMMON_PLAYER_ROLE_ID: // 26. 游戏通知app玩家角色(仅对狼人杀有效)
+                SudMGPMGState.MGCommonPlayerRoleId mgCommonPlayerRoleId = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonPlayerRoleId.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGCommonPlayerRoleId(handle, mgCommonPlayerRoleId);
+                }
+                break;
             case SudMGPMGState.MG_COMMON_GAME_DISCO_ACTION: // 1. 元宇宙砂砂舞指令回调
                 SudMGPMGState.MGCommonGameDiscoAction mgCommonGameDiscoAction = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonGameDiscoAction.class);
                 if (listener == null) {

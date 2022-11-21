@@ -139,10 +139,13 @@ public class SudMGPMGState implements Serializable {
         // 必填字段；text:文本包含匹配; number:数字等于匹配(必填字段)；默认:text（你画我猜、你说我猜）；数字炸弹填number；
         public String wordType;
 
-        // 单个关键词，兼容老版本
+        // 单个关键词，兼容老版本。轮到自己猜词时才有值，否则为null
         public String word;
 
-        // 必填字段；关键词列表，可以传送多个关键词
+        // 关键词，每一轮都会下发，不区分角色
+        public String realWord;
+
+        // 必填字段；关键词列表，可以传送多个关键词。轮到自己猜词时才有值，否则为null
         public List<String> wordList;
 
         // 必填字段；关键词语言，默认:zh-CN；
@@ -382,6 +385,8 @@ public class SudMGPMGState implements Serializable {
         public boolean isOpen;
         // 必填字段；关键词列表，可以传送多个关键词
         public List<String> wordList;
+        // 关键词，每一轮都会下发，不区分角色
+        public String realWord;
         // 必填字段；关键词语言，默认:zh-CN(老版本游戏可能没有)；透传
         public String wordLanguage;
         // 必填字段；text:文本包含匹配; number:数字等于匹配(必填字段)；默认:text(老版本游戏可能没有)；数字炸弹填number；透传
@@ -490,8 +495,40 @@ public class SudMGPMGState implements Serializable {
         public long incrementalScore; // 充值积分
         public long totalScore; // 充值后总积分
     }
-    // endregion 通用状态-游戏
 
+    /**
+     * 25. 创建订单
+     */
+    public static final String MG_COMMON_GAME_CREATE_ORDER = "mg_common_game_create_order";
+
+    /**
+     * 25. 创建订单 模型
+     */
+    public static class MGCommonGameCreateOrder implements Serializable {
+        public String cmd; // 触发的行为动作，比如打赏，购买等
+        public String fromUid; // 付费用户uid
+        public String toUid; // 目标用户uid
+        public long value; // 所属的游戏价值
+        public String payload; // 扩展数据 json 字符串, 特殊可选
+    }
+
+    /**
+     * 26. 游戏通知app玩家角色(仅对狼人杀有效)
+     */
+    public static final String MG_COMMON_PLAYER_ROLE_ID = "mg_common_player_role_id";
+
+    /**
+     * 26. 游戏通知app玩家角色(仅对狼人杀有效) 模型
+     */
+    public static class MGCommonPlayerRoleId implements Serializable {
+        public List<MGCommonPlayerModel> playersRoleId; // 列表
+
+        public static class MGCommonPlayerModel implements Serializable {
+            public String uid; // 玩家id
+            public int roleId; // 角色id
+        }
+    }
+    // endregion 通用状态-游戏
 
     // region MG状态机-通用状态-玩家
     // 参考：https://docs.sud.tech/zh-CN/app/Client/MGFSM/CommonStatePlayer.html

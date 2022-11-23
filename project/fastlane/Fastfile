@@ -34,6 +34,7 @@ platform :android do
         baseUrl=options[:baseUrl]
         interactBaseUrl=options[:interactBaseUrl]
         gameBaseUrl=options[:gameBaseUrl]
+        buildType=options[:buildType]
         puts versionCode
         if moduleName.nil? || moduleName.empty?
             puts "moduleName is empty"
@@ -51,7 +52,7 @@ platform :android do
         # puts outputDir
         gradle(
             task: ":" + moduleName + ":assemble",
-            build_type:"Release",
+            build_type:buildType,
             flavor:"official",
             print_command: true,
             properties: {

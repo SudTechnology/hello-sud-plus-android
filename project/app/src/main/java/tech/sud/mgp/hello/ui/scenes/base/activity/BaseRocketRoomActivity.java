@@ -100,6 +100,7 @@ public abstract class BaseRocketRoomActivity<T extends AppGameViewModel> extends
                     rocketContainer.removeAllViews();
                 } else {
                     rocketContainer.addView(view, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+                    rocketContainer.bringToFrondClickRectView();
                 }
             }
         });

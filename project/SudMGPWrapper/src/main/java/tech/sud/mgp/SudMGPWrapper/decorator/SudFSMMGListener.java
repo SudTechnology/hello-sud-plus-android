@@ -569,7 +569,7 @@ public interface SudFSMMGListener {
     }
 
     /**
-     * 22. 前期准备完成(火箭)
+     * 18. 前期准备完成(火箭)
      * mg_custom_rocket_prepare_finish
      */
     default void onGameMGCustomRocketPrepareFinish(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketPrepareFinish model) {

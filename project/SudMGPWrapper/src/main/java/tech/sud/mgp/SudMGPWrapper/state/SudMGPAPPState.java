@@ -337,6 +337,7 @@ public class SudMGPAPPState implements Serializable {
         public double firePrice; // 发射的静态价格
         public int isDynamicPrice; // 发射价格是否动态开关 0:静态 1动态
         public String gameIntroduce; // 玩法介绍
+        public String monetaryUnit; // 货币的单位
         public List<String> filterModel; // 过滤不显示的模块(默认是为空)
         public List<String> filterLayer; // 过滤不显示的页面(默认是为空)
         public List<ComponentModel> componentList; // 组件列表 1套装，2主仓，3尾翼，4头像，5签名，6颜色
@@ -395,6 +396,7 @@ public class SudMGPAPPState implements Serializable {
         public static class Model {
             public String modelId; // 模型Id
             public int isAvatar; // 可以换装：0不可以 1可以
+            public String serviceFlag; // 服务标识
             public List<ComponentModel> componentList; // 列表
 
             public static class ComponentModel {

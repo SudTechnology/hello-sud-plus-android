@@ -41,14 +41,17 @@ public class AppRocketGameViewModel extends AppGameViewModel {
 
     public FragmentActivity fragmentActivity;
     public long roomId;
-    private boolean rocketIsReady;
+    private boolean rocketIsReady; // 火箭游戏是否已加载
+    private boolean isPlayingRocketEffect; // 火箭动效是否播放中
+    private boolean isShowingRocketScene; // 火箭的主界面是否已显示
 
     public MutableLiveData<SudMGPMGState.MGCustomRocketFireModel> gameFireRocketLiveData = new MutableLiveData<>(); // 发射火箭
     public MutableLiveData<SudMGPMGState.MGCustomRocketClickLockComponent> clickLockComponentLiveData = new MutableLiveData<>(); // 点击了锁住的组件
     public MutableLiveData<Object> rocketPrepareCompletedLiveData = new MutableLiveData<>(); // 火箭准备完成
     public MutableLiveData<SudMGPMGState.MGCustomRocketSetClickRect> rocketClickRectLiveData = new MutableLiveData<>(); // 火箭点击区域
-    public MutableLiveData<Object> rocketPlayEffectStart = new MutableLiveData<>(); // 火箭飞行开始
-    public MutableLiveData<Object> rocketPlayEffectFinish = new MutableLiveData<>(); // 火箭飞行结束
+    public MutableLiveData<Object> rocketPlayEffectStartLiveData = new MutableLiveData<>(); // 火箭飞行开始
+    public MutableLiveData<Object> rocketPlayEffectFinishLiveData = new MutableLiveData<>(); // 火箭飞行结束
+    public MutableLiveData<Object> destroyRocketLiveData = new MutableLiveData<>(); // 销毁火箭通知
 
     // region 火箭返回状态
 
@@ -375,7 +378,8 @@ public class AppRocketGameViewModel extends AppGameViewModel {
     @Override
     public void onGameMGCustomRocketPlayEffectStart(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketPlayEffectStart model) {
         super.onGameMGCustomRocketPlayEffectStart(handle, model);
-        rocketPlayEffectStart.setValue(null);
+        rocketPlayEffectStartLiveData.setValue(null);
+        isPlayingRocketEffect = true;
     }
 
     /**
@@ -385,7 +389,9 @@ public class AppRocketGameViewModel extends AppGameViewModel {
     @Override
     public void onGameMGCustomRocketPlayEffectFinish(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketPlayEffectFinish model) {
         super.onGameMGCustomRocketPlayEffectFinish(handle, model);
-        rocketPlayEffectFinish.setValue(null);
+        rocketPlayEffectFinishLiveData.setValue(null);
+        isPlayingRocketEffect = false;
+        checkDestroyRocket();
     }
 
     /**
@@ -453,12 +459,24 @@ public class AppRocketGameViewModel extends AppGameViewModel {
     }
 
     /**
+     * 19. 火箭主界面已显示(火箭)
+     * mg_custom_rocket_show_game_scene
+     */
+    @Override
+    public void onGameMGCustomRocketShowGameScene(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketShowGameScene model) {
+        super.onGameMGCustomRocketShowGameScene(handle, model);
+        isShowingRocketScene = true;
+    }
+
+    /**
      * 20. 火箭主界面已隐藏(火箭)
      * mg_custom_rocket_hide_game_scene
      */
     @Override
     public void onGameMGCustomRocketHideGameScene(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketHideGameScene model) {
         super.onGameMGCustomRocketHideGameScene(handle, model);
+        isShowingRocketScene = false;
+        checkDestroyRocket();
     }
 
     /**
@@ -600,6 +618,8 @@ public class AppRocketGameViewModel extends AppGameViewModel {
     protected void destroyMG() {
         super.destroyMG();
         rocketIsReady = false;
+        isPlayingRocketEffect = false;
+        isShowingRocketScene = false;
     }
 
     /** 火箭是否已准备就绪 */
@@ -619,6 +639,14 @@ public class AppRocketGameViewModel extends AppGameViewModel {
     private String createRocketThumbPath() {
         File dir = FilePath.getRocketThumbFileDir(Utils.getApp());
         return new File(dir, "rocket_thumb_" + System.currentTimeMillis() + ".png").getAbsolutePath();
+    }
+
+    /** 判断是否要销毁火箭 */
+    private void checkDestroyRocket() {
+        if (isPlayingRocketEffect || isShowingRocketScene) {
+            return;
+        }
+        destroyRocketLiveData.setValue(null);
     }
 
 }

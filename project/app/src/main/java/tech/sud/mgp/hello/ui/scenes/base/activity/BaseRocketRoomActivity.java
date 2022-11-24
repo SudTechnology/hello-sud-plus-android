@@ -131,11 +131,14 @@ public abstract class BaseRocketRoomActivity<T extends AppGameViewModel> extends
                 rocketContainer.setClickRectList(list);
             }
         });
-        rocketGameViewModel.rocketPlayEffectStart.observe(this, o -> {
+        rocketGameViewModel.rocketPlayEffectStartLiveData.observe(this, o -> {
             onRocketPlayEffectStart();
         });
-        rocketGameViewModel.rocketPlayEffectFinish.observe(this, o -> {
+        rocketGameViewModel.rocketPlayEffectFinishLiveData.observe(this, o -> {
             onRocketPlayEffectFinish();
+        });
+        rocketGameViewModel.destroyRocketLiveData.observe(this, o -> {
+            stopRocket();
         });
         LiveEventBus.<JumpRocketEvent>get(LiveEventBusKey.KEY_JUMP_ROCKET).observeSticky(this, jumpRocketObserver);
         tvCloseRocketEffect.setOnClickListener((v) -> {
@@ -328,21 +331,24 @@ public abstract class BaseRocketRoomActivity<T extends AppGameViewModel> extends
 
     /** 打开火箭主页面 */
     protected void showRocketGameScene() {
-        isShowRocketScene = true;
-        startRocket();
-        rocketGameViewModel.notifyAppCustomRocketShowGameScene();
+        boolean success = startRocket();
+        if (success) {
+            isShowRocketScene = true;
+            rocketGameViewModel.notifyAppCustomRocketShowGameScene();
+        }
     }
 
     /** 打开火箭 */
-    protected void startRocket() {
+    private boolean startRocket() {
         if (playingGameId > 0) { // 有加载游戏时，不加载火箭
-            return;
+            return false;
         }
         long playingGameId = rocketGameViewModel.getPlayingGameId();
         if (playingGameId <= 0) {
             showLoadingDialog();
         }
         rocketGameViewModel.startRocket();
+        return true;
     }
 
     @Override

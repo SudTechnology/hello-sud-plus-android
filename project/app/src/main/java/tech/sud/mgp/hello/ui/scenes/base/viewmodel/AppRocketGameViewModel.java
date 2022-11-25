@@ -285,7 +285,6 @@ public class AppRocketGameViewModel extends AppGameViewModel {
     public void onGameMGCustomRocketFireModel(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketFireModel model) {
         super.onGameMGCustomRocketFireModel(handle, model);
         gameFireRocketLiveData.setValue(model);
-        notifyAppCustomRocketFireModel(new SudMGPAPPState.AppCustomRocketFireModel());
     }
 
     /**

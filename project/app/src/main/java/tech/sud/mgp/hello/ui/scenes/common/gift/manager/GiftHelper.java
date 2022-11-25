@@ -81,14 +81,7 @@ public class GiftHelper {
             model4.isEffect = true;
             gifts.add(model4);
 
-            GiftModel model9 = new GiftModel();
-            model9.giftId = GiftId.ROCKET;
-            model9.giftName = Utils.getApp().getString(R.string.custom_rocket);
-            model9.animationType = EffectAnimationFormat.ROCKET;
-            model9.giftImage = R.drawable.ic_rocket;
-            model9.giftSmallImage = R.drawable.ic_rocket;
-            model9.giftPrice = APPConfig.ROCKET_FIRE_PRICE;
-            gifts.add(model9);
+            gifts.add(createGiftModel(GiftId.ROCKET));
 
             GiftModel model1 = new GiftModel();
             model1.giftId = 1;
@@ -163,6 +156,16 @@ public class GiftHelper {
             model.giftSmallImage = R.drawable.icon_gift_128;
             model.giftPrice = 1500;
             return model;
+        }
+        if (giftId == GiftId.ROCKET) {
+            GiftModel model9 = new GiftModel();
+            model9.giftId = GiftId.ROCKET;
+            model9.giftName = Utils.getApp().getString(R.string.custom_rocket);
+            model9.animationType = EffectAnimationFormat.ROCKET;
+            model9.giftImage = R.drawable.ic_rocket;
+            model9.giftSmallImage = R.drawable.ic_rocket;
+            model9.giftPrice = APPConfig.ROCKET_FIRE_PRICE;
+            return model9;
         }
         return null;
     }

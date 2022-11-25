@@ -12,6 +12,7 @@ import com.jeremyliao.liveeventbus.LiveEventBus;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -244,7 +245,7 @@ public abstract class BaseRocketRoomActivity<T extends AppGameViewModel> extends
         dialog.setOnConfirmListener(new RocketFireSelectDialog.OnConfirmListener() {
             @Override
             public void onConfirm(List<UserInfo> list) {
-                onSendRocket(model, 1, list);
+                onSendRocket(true, model, 1, list);
             }
         });
         dialog.show(getSupportFragmentManager(), null);
@@ -260,14 +261,18 @@ public abstract class BaseRocketRoomActivity<T extends AppGameViewModel> extends
     @Override
     protected void onSendGift(GiftModel giftModel, int giftCount, List<UserInfo> toUsers) {
         if (giftModel.giftId == GiftId.ROCKET) {
-            onSendRocket(null, giftCount, toUsers);
+            onSendRocket(false, null, giftCount, toUsers);
         } else {
             super.onSendGift(giftModel, giftCount, toUsers);
         }
     }
 
-    /** 发射火箭 */
-    private void onSendRocket(SudMGPMGState.MGCustomRocketFireModel model, int number, List<UserInfo> userInfoList) {
+    /**
+     * 发射火箭
+     *
+     * @param isFromGame 是否是游戏触发
+     */
+    private void onSendRocket(boolean isFromGame, SudMGPMGState.MGCustomRocketFireModel model, int number, List<UserInfo> userInfoList) {
         if (userInfoList == null || userInfoList.size() == 0) {
             return;
         }
@@ -290,13 +295,27 @@ public abstract class BaseRocketRoomActivity<T extends AppGameViewModel> extends
             @Override
             public void onSuccess(RocketFireResp rocketFireResp) {
                 super.onSuccess(rocketFireResp);
-                String extData = SudJsonUtils.toJson(rocketFireResp);
-                GiftModel giftModel = GiftHelper.getInstance().getGift(GiftId.ROCKET);
-                giftModel.extData = extData;
+                if (rocketFireResp == null || rocketFireResp.userOrderIdsMap == null) {
+                    return;
+                }
+                if (binder == null) {
+                    return;
+                }
+                rocketGameViewModel.notifyAppCustomRocketFireModel(new SudMGPAPPState.AppCustomRocketFireModel());
                 for (UserInfo userInfo : userInfoList) {
-                    if (binder != null) {
-                        binder.sendGift(giftModel, number, userInfo);
+                    List<String> orderList = rocketFireResp.userOrderIdsMap.get(userInfo.userID);
+                    if (orderList == null || orderList.size() == 0) {
+                        continue;
                     }
+                    // 因为后台返回的是多个用户的订单列表，所以这里将其拆成每个用户的订单通过信令发送出去
+                    RocketFireResp useRocketFireResp = new RocketFireResp();
+                    useRocketFireResp.userOrderIdsMap = new HashMap<>();
+                    useRocketFireResp.userOrderIdsMap.put(userInfo.userID, orderList);
+                    useRocketFireResp.componentList = rocketFireResp.componentList;
+
+                    GiftModel giftModel = GiftHelper.getInstance().createGiftModel(GiftId.ROCKET);
+                    giftModel.extData = SudJsonUtils.toJson(useRocketFireResp);
+                    binder.sendGift(giftModel, number, userInfo);
                 }
                 onShowRocketFire(rocketFireResp);
             }

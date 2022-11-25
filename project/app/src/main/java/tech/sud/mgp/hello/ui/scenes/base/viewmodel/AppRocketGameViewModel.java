@@ -285,6 +285,7 @@ public class AppRocketGameViewModel extends AppGameViewModel {
     public void onGameMGCustomRocketFireModel(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketFireModel model) {
         super.onGameMGCustomRocketFireModel(handle, model);
         gameFireRocketLiveData.setValue(model);
+        notifyAppCustomRocketFireModel(new SudMGPAPPState.AppCustomRocketFireModel());
     }
 
     /**
@@ -520,6 +521,13 @@ public class AppRocketGameViewModel extends AppGameViewModel {
     // endregion 火箭返回状态
 
     // region 向火箭发送状态
+
+    /**
+     * 10. 一键发送回调
+     */
+    public void notifyAppCustomRocketFireModel(SudMGPAPPState.AppCustomRocketFireModel model) {
+        sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_CUSTOM_ROCKET_FIRE_MODEL, model);
+    }
 
     /**
      * 14. app播放火箭发射动效(火箭)

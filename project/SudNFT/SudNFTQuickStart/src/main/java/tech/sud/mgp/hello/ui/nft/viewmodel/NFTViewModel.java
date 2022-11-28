@@ -96,6 +96,17 @@ public class NFTViewModel extends BaseViewModel {
     private static boolean sIsInitCompleted; // 是否初始化完成
 
     /**
+     * 已经初始化时，直接使用NFT相关操作
+     * 未初始化，再请求数据
+     */
+    public void initNFT(Context context) {
+        if (sIsInitCompleted) {
+            return;
+        }
+        initData(context);
+    }
+
+    /**
      * 初始化数据
      * 1，未绑定时显示钱包列表
      * 2，已绑定时显示nft列表
@@ -110,6 +121,8 @@ public class NFTViewModel extends BaseViewModel {
                 public void onSuccess() {
                     sIsInitCompleted = true;
                     initDataGetBindWallet();
+                    // 刷新token
+                    refreshWalletTokenList(sBindWalletInfo);
                 }
 
                 @Override
@@ -128,8 +141,6 @@ public class NFTViewModel extends BaseViewModel {
             // 未绑定钱包，显示钱包列表
             showWalletList();
         } else {
-            // 刷新token
-            refreshWalletTokenList(sBindWalletInfo);
             // 绑定了钱包，显示NFT列表
             initNftList(sBindWalletInfo);
         }
@@ -309,12 +320,6 @@ public class NFTViewModel extends BaseViewModel {
         bindWalletInfoModel.walletType = walletInfoModel.type;
         saveBindWalletInfo(bindWalletInfoModel);
         sBindWalletInfo = bindWalletInfoModel;
-
-        // 全局用户信息里显示
-        bindWalletInfoMutableLiveData.setValue(bindWalletInfoModel);
-
-        // 获取NFT列表
-        initNftList(bindWalletInfoModel);
     }
 
     /** 获取国内钱包nft列表 */
@@ -367,12 +372,6 @@ public class NFTViewModel extends BaseViewModel {
         bindWalletInfoModel.walletType = walletInfoModel.type;
         saveBindWalletInfo(bindWalletInfoModel);
         sBindWalletInfo = bindWalletInfoModel;
-
-        // 全局用户信息里显示
-        bindWalletInfoMutableLiveData.setValue(bindWalletInfoModel);
-
-        // 获取NFT列表
-        initNftList(bindWalletInfoModel);
     }
 
     // 初始化数据获取nft列表

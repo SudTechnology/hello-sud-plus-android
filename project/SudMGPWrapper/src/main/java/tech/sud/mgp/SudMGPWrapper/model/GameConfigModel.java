@@ -54,6 +54,7 @@ public class GameConfigModel implements Serializable {
         public GameMvp game_mvp = new GameMvp(); // 游戏结算前的mvp动画
         public UmoIcon umo_icon = new UmoIcon(); // 游戏中动画和头像右上角的UMO图标
         public Logo logo = new Logo(); // 大厅中的logo
+        public GamePlayers game_players = new GamePlayers(); // 游戏中的游戏位
     }
 
     // 结算界面
@@ -243,6 +244,12 @@ public class GameConfigModel implements Serializable {
     // 大厅中的logo
     public static class Logo implements Serializable {
         // 是否隐藏大厅中的logo（false: 不隐藏； true: 隐藏，默认为false）
+        public boolean hide = false;
+    }
+
+    // 游戏中的游戏位
+    public static class GamePlayers implements Serializable {
+        // 是否隐藏游戏中的游戏位（false: 不隐藏； true: 隐藏，默认为false，暂时只支持你画我猜）
         public boolean hide = false;
     }
 

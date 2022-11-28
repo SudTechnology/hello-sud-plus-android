@@ -91,7 +91,7 @@ public class NftListActivity extends BaseActivity {
             }
         };
         if (bindWalletInfo != null && bindWalletInfo.getZoneType() == ZoneType.OVERSEAS) {
-            refreshDataHelper.setRefreshDataModel(RefreshDataHelper.RefreshDataModel.IGNORE_PAGE_SIZE);
+//            refreshDataHelper.setRefreshDataModel(RefreshDataHelper.RefreshDataModel.IGNORE_PAGE_SIZE);
         } else {
             refreshDataHelper.setFirstPageNumber(0);
         }
@@ -212,10 +212,13 @@ public class NftListActivity extends BaseActivity {
     @Override
     protected void initData() {
         super.initData();
-        viewModel.initData(this);
+        viewModel.initNFT(this);
         BindWalletInfoModel bindWalletInfo = viewModel.getBindWalletInfo();
         if (bindWalletInfo != null && bindWalletInfo.getZoneType() == ZoneType.INTERNAL) {
             topBar.setTitle(getString(R.string.my_digital_collection));
+        }
+        if (viewModel.getBindWalletInfo() != null) {
+            refreshDataHelper.autoRefresh();
         }
     }
 

@@ -454,6 +454,7 @@ public class SudMGPAPPState implements Serializable {
      * 5. 订单记录列表回调 模型
      */
     public static class AppCustomRocketOrderRecordList implements Serializable {
+        public int pageIndex; // 第几页
         public int pageCount; // 总页数
         public List<ComponentModel> list; // 列表
 
@@ -478,6 +479,7 @@ public class SudMGPAPPState implements Serializable {
      * 6. 展馆内列表回调 模型
      */
     public static class AppCustomRocketRoomRecordList implements Serializable {
+        public int pageIndex; // 第几页
         public int pageCount; // 总页数
         public List<RoomRecordModel> list; // 列表
 
@@ -496,6 +498,7 @@ public class SudMGPAPPState implements Serializable {
      * 7. 展馆内玩家送出记录回调 模型
      */
     public static class AppCustomRocketUserRecordList implements Serializable {
+        public int pageIndex; // 第几页
         public int pageCount; // 总页数
         public CustomRocketUserInfoModel fromUser; // 送礼人
         public List<UserRecordModel> list; // 列表

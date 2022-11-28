@@ -57,6 +57,7 @@ import tech.sud.mgp.hello.ui.main.nft.model.NftModel;
 import tech.sud.mgp.hello.ui.main.nft.viewmodel.CancelWearNftListener;
 import tech.sud.mgp.hello.ui.main.nft.viewmodel.NFTViewModel;
 import tech.sud.mgp.hello.ui.scenes.base.utils.EnterRoomUtils;
+import tech.sud.mgp.hello.ui.scenes.crossapp.widget.dialog.SelectMatchGameDialog;
 import tech.sud.mgp.hello.ui.scenes.disco.activity.DiscoRankingActivity;
 import tech.sud.mgp.hello.ui.scenes.league.activity.LeagueEntranceActivity;
 import tech.sud.mgp.hello.ui.scenes.quiz.activity.MoreQuizActivity;
@@ -381,11 +382,26 @@ public class HomeFragment extends BaseFragment implements CreatRoomClickListener
                 case SceneType.TICKET:
                     new CreateTicketRoomDialog().show(getChildFragmentManager(), null);
                     break;
+                case SceneType.CROSS_APP:
+                    showCrossAppMatchGameDialog();
+
+                    break;
                 default:
                     createRoom(sceneModel.getSceneId(), gameModel);
                     break;
             }
         }
+    }
+
+    private void showCrossAppMatchGameDialog() {
+        SelectMatchGameDialog dialog = SelectMatchGameDialog.newInstance(0);
+        dialog.setOnSingleMatchListener((model) -> {
+
+        });
+        dialog.setOnTeamMatchListener((model) -> {
+
+        });
+        dialog.show(getChildFragmentManager(), null);
     }
 
 }

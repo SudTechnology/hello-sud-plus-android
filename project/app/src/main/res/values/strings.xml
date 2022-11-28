@@ -618,6 +618,9 @@ Go to homepage to create one~</string>
     <string name="click_change_network">点击切换网络</string>
     <string name="works_desc">作品描述</string>
     <string name="internal_nft_title">数字藏品详情</string>
+    <string name="single_fast_match">单人一键速配</string>
+    <string name="team_match">组队匹配</string>
+    <string name="hot">热门推荐</string>
     <!-- endregion 新增 -->
 
 </resources>

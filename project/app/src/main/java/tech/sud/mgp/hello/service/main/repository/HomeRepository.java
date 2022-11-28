@@ -20,6 +20,7 @@ import tech.sud.mgp.hello.service.main.req.UserInfoReq;
 import tech.sud.mgp.hello.service.main.resp.BaseConfigResp;
 import tech.sud.mgp.hello.service.main.resp.CheckUpgradeResp;
 import tech.sud.mgp.hello.service.main.resp.CreatRoomResp;
+import tech.sud.mgp.hello.service.main.resp.CrossAppGameListResp;
 import tech.sud.mgp.hello.service.main.resp.GameListResp;
 import tech.sud.mgp.hello.service.main.resp.GetAccountResp;
 import tech.sud.mgp.hello.service.main.resp.QuizGameListResp;
@@ -210,4 +211,16 @@ public class HomeRepository {
                 .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }
+
+    /**
+     * 跨域游戏列表
+     */
+    public static void crossAppGameList(LifecycleOwner owner, RxCallback<CrossAppGameListResp> callback) {
+        HomeRequestMethodFactory.getMethod()
+                .crossAppGameList(BaseUrlManager.getInteractBaseUrl())
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+
 }

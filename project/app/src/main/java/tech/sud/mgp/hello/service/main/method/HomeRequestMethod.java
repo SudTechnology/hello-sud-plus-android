@@ -16,6 +16,7 @@ import tech.sud.mgp.hello.service.main.req.UserInfoReq;
 import tech.sud.mgp.hello.service.main.resp.BaseConfigResp;
 import tech.sud.mgp.hello.service.main.resp.CheckUpgradeResp;
 import tech.sud.mgp.hello.service.main.resp.CreatRoomResp;
+import tech.sud.mgp.hello.service.main.resp.CrossAppGameListResp;
 import tech.sud.mgp.hello.service.main.resp.GameListResp;
 import tech.sud.mgp.hello.service.main.resp.GetAccountResp;
 import tech.sud.mgp.hello.service.main.resp.QuizGameListResp;
@@ -101,4 +102,10 @@ public interface HomeRequestMethod {
      */
     @POST(RequestUrl.WEAR_NFT)
     Observable<BaseResponse<Object>> wearNFT(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body WearNftReq req);
+
+    /**
+     * 跨域游戏列表
+     */
+    @POST(RequestUrl.CROSS_APP_GAME_LIST)
+    Observable<BaseResponse<CrossAppGameListResp>> crossAppGameList(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl);
 }

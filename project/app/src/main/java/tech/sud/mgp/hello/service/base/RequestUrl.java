@@ -135,4 +135,9 @@ public interface RequestUrl {
     /** 带入筹码到游戏 */
     String GAME_BRING_CHIP = "app/bring-chip/v1";
 
+    // region 跨域
+    /** 跨域游戏列表 */
+    String CROSS_APP_GAME_LIST = "/extra/game-list/v1";
+    // region 跨域
+
 }

@@ -584,6 +584,7 @@ public class SudMGPAPPState implements Serializable {
         public static class Data {
             public String modelId; // 模型Id
             public int isAvatar; // 可以换装：0不可以 1可以
+            public String serviceFlag; // 服务标识
             public List<ComponentModel> componentList;
 
             public static class ComponentModel {

@@ -384,7 +384,6 @@ public class HomeFragment extends BaseFragment implements CreatRoomClickListener
                     break;
                 case SceneType.CROSS_APP:
                     showCrossAppMatchGameDialog();
-
                     break;
                 default:
                     createRoom(sceneModel.getSceneId(), gameModel);

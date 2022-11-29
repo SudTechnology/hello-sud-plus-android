@@ -287,6 +287,14 @@
             android:launchMode="singleTask"
             tools:ignore="LockedOrientationActivity" />
 
+        <!-- 跨域 页面 -->
+        <activity
+            android:name=".ui.scenes.crossapp.activity.CrossAppActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"
+            tools:ignore="LockedOrientationActivity" />
+
         <!-- 透明Activity -->
         <activity
             android:name=".ui.common.activity.MyTranslucentActivity"

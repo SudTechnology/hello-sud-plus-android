@@ -1,6 +1,7 @@
 package tech.sud.mgp.hello.ui.scenes.base.activity;
 
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -28,6 +29,7 @@ import tech.sud.mgp.hello.service.game.req.RocketFireReq;
 import tech.sud.mgp.hello.service.game.resp.RocketFireResp;
 import tech.sud.mgp.hello.ui.common.dialog.LoadingDialog;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
+import tech.sud.mgp.hello.ui.scenes.base.model.GameLoadingProgressModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppRocketGameViewModel;
@@ -142,6 +144,17 @@ public abstract class BaseRocketRoomActivity<T extends AppGameViewModel> extends
         rocketGameViewModel.destroyRocketLiveData.observe(this, o -> {
             stopRocket();
         });
+        rocketGameViewModel.gameLoadingProgressLiveData.observe(this, new Observer<GameLoadingProgressModel>() {
+            @Override
+            public void onChanged(GameLoadingProgressModel model) {
+                if (model != null && model.progress == 100) {
+                    gameContainer.postDelayed(() -> {
+                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE | WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+                    }, 100);
+                }
+            }
+        });
+
         LiveEventBus.<JumpRocketEvent>get(LiveEventBusKey.KEY_JUMP_ROCKET).observeSticky(this, jumpRocketObserver);
         tvCloseRocketEffect.setOnClickListener((v) -> {
             rocketGameViewModel.notifyAppCustomRocketClosePlayEffect();

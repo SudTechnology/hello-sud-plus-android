@@ -338,6 +338,7 @@ public class SudMGPAPPState implements Serializable {
         public int isDynamicPrice; // 发射价格是否动态开关 0:静态 1动态
         public String gameIntroduce; // 玩法介绍
         public String monetaryUnit; // 货币的单位
+        public long serverTime; // 服务器时间戳，单位秒
         public List<String> filterModel; // 过滤不显示的模块(默认是为空)
         public List<String> filterLayer; // 过滤不显示的页面(默认是为空)
         public List<ComponentModel> componentList; // 组件列表 1套装，2主仓，3尾翼，4头像，5签名，6颜色

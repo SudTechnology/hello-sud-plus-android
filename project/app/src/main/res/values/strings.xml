@@ -621,6 +621,13 @@ Go to homepage to create one~</string>
     <string name="single_fast_match">单人一键速配</string>
     <string name="team_match">组队匹配</string>
     <string name="hot">热门推荐</string>
+    <string name="exit_team">退出组队</string>
+    <string name="one_key_matching_of_playmates">一键匹配玩伴</string>
+    <string name="i_am_gonna_join">我要加入</string>
+    <string name="waiting_captain_start_match">等待队长开始匹配</string>
+    <string name="game_team">游戏组队</string>
+    <string name="captain">队长</string>
+    <string name="click_join">点击加入</string>
     <!-- endregion 新增 -->
 
 </resources>

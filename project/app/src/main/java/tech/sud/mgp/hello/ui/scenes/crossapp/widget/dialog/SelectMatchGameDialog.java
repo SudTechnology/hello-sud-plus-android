@@ -38,12 +38,16 @@ import tech.sud.mgp.hello.service.main.resp.GameModel;
  */
 public class SelectMatchGameDialog extends BaseDialogFragment {
 
+    public static final int MODE_MATCH = 0; // 匹配模式
+    public static final int MODE_CHANGE = 1; // 修改游戏模式
+
     private int mode;
     private List<GameModel> selectedList = new ArrayList<>();
     private MyAdapter adapter = new MyAdapter();
 
     private OnSingleMatchListener onSingleMatchListener;
     private OnTeamMatchListener onTeamMatchListener;
+    private OnSelectedListener onSelectedListener;
 
     private TextView tvSingleMatch;
     private TextView tvTeamMatch;
@@ -113,6 +117,14 @@ public class SelectMatchGameDialog extends BaseDialogFragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
         recyclerView.setItemAnimator(null);
+
+        if (mode == MODE_MATCH) {
+            tvSingleMatch.setVisibility(View.VISIBLE);
+            tvTeamMatch.setVisibility(View.VISIBLE);
+        } else {
+            tvSingleMatch.setVisibility(View.GONE);
+            tvTeamMatch.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -130,9 +142,15 @@ public class SelectMatchGameDialog extends BaseDialogFragment {
                 Object item = adapter.getItem(position);
                 if (item instanceof GameModel) {
                     GameModel gameModel = (GameModel) item;
-                    selectedList.clear();
-                    selectedList.add(gameModel);
-                    adapter.notifyDataSetChanged();
+                    if (mode == MODE_MATCH) {
+                        selectedList.clear();
+                        selectedList.add(gameModel);
+                        adapter.notifyDataSetChanged();
+                    } else {
+                        if (onSelectedListener != null) {
+                            onSelectedListener.onSelected(gameModel);
+                        }
+                    }
                 }
             }
         });
@@ -192,12 +210,32 @@ public class SelectMatchGameDialog extends BaseDialogFragment {
         this.onTeamMatchListener = onTeamMatchListener;
     }
 
+    public void setOnSelectedListener(OnSelectedListener onSelectedListener) {
+        this.onSelectedListener = onSelectedListener;
+    }
+
+    /**
+     * {@link SelectMatchGameDialog#MODE_MATCH}
+     * 此模式下才有此监听
+     */
     public interface OnSingleMatchListener {
         void onSingleMatch(GameModel gameModel);
     }
 
+    /**
+     * {@link SelectMatchGameDialog#MODE_MATCH}
+     * 此模式下才有此监听
+     */
     public interface OnTeamMatchListener {
         void onTeamMatch(GameModel gameModel);
+    }
+
+    /**
+     * {@link SelectMatchGameDialog#MODE_CHANGE}
+     * 此模式下才有此监听
+     */
+    public interface OnSelectedListener {
+        void onSelected(GameModel gameModel);
     }
 
     private class MyAdapter extends BaseProviderMultiAdapter<Object> {
@@ -272,7 +310,11 @@ public class SelectMatchGameDialog extends BaseDialogFragment {
 
             holder.setText(R.id.tv_name, item.gameName);
 
-            holder.setVisible(R.id.view_selected, isSelected(item));
+            if (mode == MODE_MATCH) {
+                holder.setVisible(R.id.view_selected, isSelected(item));
+            } else {
+                holder.setVisible(R.id.view_selected, false);
+            }
         }
     }
 

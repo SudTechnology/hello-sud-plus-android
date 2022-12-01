@@ -376,14 +376,14 @@ public class HomeFragment extends BaseFragment implements CreatRoomClickListener
 
     @Override
     public void onCreateRoomClick(SceneModel sceneModel, GameModel gameModel) {
-        //创建房间
+        // 创建房间
         if (sceneModel != null) {
             switch (sceneModel.getSceneId()) {
                 case SceneType.TICKET:
                     new CreateTicketRoomDialog().show(getChildFragmentManager(), null);
                     break;
                 case SceneType.CROSS_APP:
-                    showCrossAppMatchGameDialog();
+                    showCrossAppMatchGameDialog(sceneModel, gameModel);
                     break;
                 default:
                     createRoom(sceneModel.getSceneId(), gameModel);
@@ -392,13 +392,15 @@ public class HomeFragment extends BaseFragment implements CreatRoomClickListener
         }
     }
 
-    private void showCrossAppMatchGameDialog() {
-        SelectMatchGameDialog dialog = SelectMatchGameDialog.newInstance(0);
+    private void showCrossAppMatchGameDialog(SceneModel sceneModel, GameModel gameModel) {
+        SelectMatchGameDialog dialog = SelectMatchGameDialog.newInstance(SelectMatchGameDialog.MODE_MATCH);
         dialog.setOnSingleMatchListener((model) -> {
-
+            // TODO: 2022/11/30
+            createRoom(sceneModel.getSceneId(), gameModel);
         });
         dialog.setOnTeamMatchListener((model) -> {
-
+            // TODO: 2022/11/30
+            createRoom(sceneModel.getSceneId(), gameModel);
         });
         dialog.show(getChildFragmentManager(), null);
     }

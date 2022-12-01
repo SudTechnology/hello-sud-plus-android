@@ -3,7 +3,7 @@ package tech.sud.mgp.hello.service.main.resp;
 import com.google.gson.annotations.SerializedName;
 
 public class UserInfoResp {
-    public long userId;
+    public long userId; // 用户id
     public String avatar; // 头像
     public String nickname; // 昵称
     public String gender; // 性别
@@ -13,6 +13,9 @@ public class UserInfoResp {
     public int headerType; // 头像类型（0图片，1nft）
     public String headerNftToken; // 头像nft穿戴token
     public String headerNftUrl; // 头像nft图片
+
+    public int index; // 位置
+    public boolean isCaptain; // 是否是队长
 
     public String getUseAvatar() {
         if (headerType == 1) {

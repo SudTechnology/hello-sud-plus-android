@@ -2,15 +2,27 @@ package tech.sud.mgp.hello.ui.scenes.crossapp.widget.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import tech.sud.mgp.hello.R;
+
 /**
  * 跨域 匹配状态View
  */
 public class CrossAppMatchView extends ConstraintLayout {
+
+    private TextView tvTitle;
+    private TextView tvNumber;
+    private TextView tvStatus;
+    private TextView tvCancelMatch;
+    private TextView tvChangeGame;
+    private TextView tvAnewMatch;
+    private View viewOb;
 
     public CrossAppMatchView(@NonNull Context context) {
         this(context, null);
@@ -26,6 +38,19 @@ public class CrossAppMatchView extends ConstraintLayout {
 
     public CrossAppMatchView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
+        initView();
+    }
+
+    private void initView() {
+        setClipChildren(false);
+        inflate(getContext(), R.layout.view_cross_app_match, this);
+        tvTitle = findViewById(R.id.match_tv_title);
+        tvNumber = findViewById(R.id.match_tv_number);
+        tvStatus = findViewById(R.id.match_tv_status);
+        tvCancelMatch = findViewById(R.id.match_tv_cancel_match);
+        tvChangeGame = findViewById(R.id.match_tv_change_game);
+        tvAnewMatch = findViewById(R.id.match_tv_anew_match);
+        viewOb = findViewById(R.id.match_container_ob);
     }
 
 }

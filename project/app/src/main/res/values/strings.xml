@@ -628,6 +628,11 @@ Go to homepage to create one~</string>
     <string name="game_team">游戏组队</string>
     <string name="captain">队长</string>
     <string name="click_join">点击加入</string>
+    <string name="looking_for_a_playmate">正在寻找玩伴…</string>
+    <string name="cancel_match">取消匹配</string>
+    <string name="change_game">更换游戏</string>
+    <string name="anew_match">重新匹配</string>
+    <string name="match_ob_hint">未加入队伍，围观中</string>
     <!-- endregion 新增 -->
 
 </resources>

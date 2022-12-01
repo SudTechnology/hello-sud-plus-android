@@ -388,6 +388,8 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
 
         // 给游戏侧进行返回
         String json = SudJsonUtils.toJson(gameViewInfoModel);
+        // 如果设置安全区有疑问，可将下面的日志打印出来，分析json数据
+        // Log.d("SudBaseGameViewModel", "notifyGameViewInfo:" + json);
         handle.success(json);
     }
 

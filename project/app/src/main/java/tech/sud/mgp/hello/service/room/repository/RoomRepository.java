@@ -9,6 +9,11 @@ import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.http.rx.RxUtils;
 import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.service.room.method.AudioRequestMethodFactory;
+import tech.sud.mgp.hello.service.room.req.CrossAppCancelMatchReq;
+import tech.sud.mgp.hello.service.room.req.CrossAppJoinTeamReq;
+import tech.sud.mgp.hello.service.room.req.CrossAppQuitTeamReq;
+import tech.sud.mgp.hello.service.room.req.CrossAppStartMatchReq;
+import tech.sud.mgp.hello.service.room.req.CrossAppSwitchGameReq;
 import tech.sud.mgp.hello.service.room.req.DanmakuListReq;
 import tech.sud.mgp.hello.service.room.req.DeductionCoinReq;
 import tech.sud.mgp.hello.service.room.req.DiscoAnchorListReq;
@@ -31,6 +36,7 @@ import tech.sud.mgp.hello.service.room.req.RoomPkStartReq;
 import tech.sud.mgp.hello.service.room.req.RoomPkSwitchReq;
 import tech.sud.mgp.hello.service.room.req.SendDanmakuReq;
 import tech.sud.mgp.hello.service.room.req.SendGiftReq;
+import tech.sud.mgp.hello.service.room.resp.CrossAppStartMatchResp;
 import tech.sud.mgp.hello.service.room.resp.DanmakuListResp;
 import tech.sud.mgp.hello.service.room.resp.DiscoAnchorListResp;
 import tech.sud.mgp.hello.service.room.resp.EnterRoomResp;
@@ -416,5 +422,64 @@ public class RoomRepository {
                 .subscribe(callback);
     }
     // endregion 联赛
+
+    // region 跨域
+
+    /** 加入组队 */
+    public static void crossAppJoinTeam(LifecycleOwner owner, long roomId, long gameId, int index, RxCallback<Object> callback) {
+        CrossAppJoinTeamReq req = new CrossAppJoinTeamReq();
+        req.roomId = roomId;
+        req.gameId = gameId;
+        req.index = index;
+        AudioRequestMethodFactory.getMethod()
+                .crossAppJoinTeam(BaseUrlManager.getInteractBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /** 开启匹配 */
+    public static void crossAppStartMatch(LifecycleOwner owner, long roomId, long gameId, RxCallback<CrossAppStartMatchResp> callback) {
+        CrossAppStartMatchReq req = new CrossAppStartMatchReq();
+        req.roomId = roomId;
+        req.gameId = gameId;
+        AudioRequestMethodFactory.getMethod()
+                .crossAppStartMatch(BaseUrlManager.getInteractBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /** 取消匹配 */
+    public static void crossAppCancelMatch(LifecycleOwner owner, String groupId, long roomId, long gameId, RxCallback<Object> callback) {
+        CrossAppCancelMatchReq req = new CrossAppCancelMatchReq();
+        req.groupId = groupId;
+        req.roomId = roomId;
+        req.gameId = gameId;
+        AudioRequestMethodFactory.getMethod()
+                .crossAppCancelMatch(BaseUrlManager.getInteractBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /** 退出组队 */
+    public static void crossAppQuitTeam(LifecycleOwner owner, long roomId, RxCallback<Object> callback) {
+        CrossAppQuitTeamReq req = new CrossAppQuitTeamReq();
+        req.roomId = roomId;
+        AudioRequestMethodFactory.getMethod()
+                .crossAppQuitTeam(BaseUrlManager.getInteractBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /** 切换游戏 */
+    public static void crossAppSwitchGame(LifecycleOwner owner, long roomId, long gameId, RxCallback<Object> callback) {
+        CrossAppSwitchGameReq req = new CrossAppSwitchGameReq();
+        req.roomId = roomId;
+        req.gameId = gameId;
+        AudioRequestMethodFactory.getMethod()
+                .crossAppSwitchGame(BaseUrlManager.getInteractBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+    // endregion 跨域
 
 }

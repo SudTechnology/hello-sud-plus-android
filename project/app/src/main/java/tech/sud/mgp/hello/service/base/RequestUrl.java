@@ -137,7 +137,22 @@ public interface RequestUrl {
 
     // region 跨域
     /** 跨域游戏列表 */
-    String CROSS_APP_GAME_LIST = "/extra/game-list/v1";
+    String CROSS_APP_GAME_LIST = "extra/game-list/v1";
+
+    /** 加入组队 */
+    String CROSS_APP_JOIN_TEAM = "extra/join-team/v1";
+
+    /** 开启匹配 */
+    String CROSS_APP_START_MATCH = "extra/start-match-team/v1";
+
+    /** 取消匹配 */
+    String CROSS_APP_CANCEL_MATCH = "extra/cancel-match-team/v1";
+
+    /** 退出组队 */
+    String CROSS_APP_QUIT_TEAM = "extra/quit-team/v1";
+
+    /** 切换游戏 */
+    String CROSS_APP_SWITCH_GAME = "extra/switch-game/v1";
     // region 跨域
 
 }

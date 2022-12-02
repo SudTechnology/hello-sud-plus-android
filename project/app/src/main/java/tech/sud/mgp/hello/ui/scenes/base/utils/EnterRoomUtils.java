@@ -83,7 +83,7 @@ public class EnterRoomUtils {
                 if (t.getRetCode() == RetCode.SUCCESS) {
                     if (resp != null) {
                         if (canEnterRoom(resp)) {
-                            safeStartSceneRoomActivity(context, resp);
+                            safeStartSceneRoomActivity(context, params, resp);
                         }
                     }
                 }
@@ -111,19 +111,19 @@ public class EnterRoomUtils {
     }
 
     /** 安全地打开场景房间 */
-    private static void safeStartSceneRoomActivity(Context context, EnterRoomResp resp) {
+    private static void safeStartSceneRoomActivity(Context context, EnterRoomParams enterRoomParams, EnterRoomResp resp) {
         if (context == null) {
             Activity topActivity = ActivityUtils.getTopActivity();
             if (topActivity instanceof LifecycleOwner) {
                 LifecycleUtils.safeLifecycle((LifecycleOwner) topActivity, new CompletedListener() {
                     @Override
                     public void onCompleted() {
-                        startSceneRoomActivity(topActivity, resp);
+                        startSceneRoomActivity(topActivity, enterRoomParams, resp);
                     }
                 });
             }
         } else {
-            startSceneRoomActivity(context, resp);
+            startSceneRoomActivity(context, enterRoomParams, resp);
         }
     }
 
@@ -132,7 +132,7 @@ public class EnterRoomUtils {
      *
      * @param context 上下文
      */
-    private static void startSceneRoomActivity(Context context, EnterRoomResp enterRoomResp) {
+    private static void startSceneRoomActivity(Context context, EnterRoomParams enterRoomParams, EnterRoomResp enterRoomResp) {
         RoomInfoModel model = new RoomInfoModel();
         model.sceneType = enterRoomResp.sceneType;
         model.roomId = enterRoomResp.roomId;
@@ -146,6 +146,11 @@ public class EnterRoomUtils {
         model.gameLevel = enterRoomResp.gameLevel;
         model.roomPkModel = enterRoomResp.pkResultVO;
         model.streamId = enterRoomResp.streamId;
+        if (enterRoomResp.extraMatchVO == null) {
+            model.crossAppModel = enterRoomParams.crossAppModel;
+        } else {
+            model.crossAppModel = enterRoomResp.extraMatchVO;
+        }
         Intent intent = getSceneIntent(context, enterRoomResp.sceneType);
         intent.putExtra("RoomInfoModel", model);
         context.startActivity(intent);

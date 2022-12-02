@@ -2,6 +2,7 @@ package tech.sud.mgp.hello.ui.scenes.base.model;
 
 import java.io.Serializable;
 
+import tech.sud.mgp.hello.service.room.resp.CrossAppModel;
 import tech.sud.mgp.hello.service.room.resp.RoomPkModel;
 
 /**
@@ -22,4 +23,6 @@ public class RoomInfoModel implements Serializable {
     public String streamId; // 流id(弹幕游戏用)
 
     public long initGameId; // 用于记录初始的游戏id
+
+    public CrossAppModel crossAppModel; // 跨域匹配信息
 }

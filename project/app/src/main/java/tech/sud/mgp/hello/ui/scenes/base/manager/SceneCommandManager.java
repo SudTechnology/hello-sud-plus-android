@@ -16,6 +16,10 @@ import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdEnterRoomModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdKickOutRoomModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdSendGiftModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdUpMicModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.crossapp.CrossAppCmdGameSwitchModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.crossapp.CrossAppCmdStatusChangeModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.crossapp.CrossAppCmdTeamChangeModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.crossapp.CrossAppCmdUsersChangeModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdBecomeDJModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdDiscoActionPayModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdDiscoInfoReqModel;
@@ -142,6 +146,18 @@ public class SceneCommandManager extends BaseServiceManager {
                 break;
             case RoomCmd.CMD_ROOM_DISCO_ACTION_PAY: // 蹦迪动作付费
                 dispatchCommand(commandCmd, RoomCmdDiscoActionPayModel.fromJson(command), userID);
+                break;
+            case RoomCmd.CMD_GAME_EXTRA_MATCH_USERS_CHANGED_NOTIFY: // 跨域匹配人数变更通知
+                dispatchCommand(commandCmd, CrossAppCmdUsersChangeModel.fromJson(command), userID);
+                break;
+            case RoomCmd.CMD_GAME_EXTRA_MATCH_STATUS_CHANGED_NOTIFY: // 跨域匹配状态变更通知
+                dispatchCommand(commandCmd, CrossAppCmdStatusChangeModel.fromJson(command), userID);
+                break;
+            case RoomCmd.CMD_GAME_EXTRA_TEAM_CHANGED_NOTIFY: // 跨域匹配队伍变更通知
+                dispatchCommand(commandCmd, CrossAppCmdTeamChangeModel.fromJson(command), userID);
+                break;
+            case RoomCmd.CMD_GAME_EXTRA_GAME_SWITCH_NOTIFY: // 跨域匹配游戏切换通知
+                dispatchCommand(commandCmd, CrossAppCmdGameSwitchModel.fromJson(command), userID);
                 break;
         }
     }
@@ -282,6 +298,26 @@ public class SceneCommandManager extends BaseServiceManager {
                         ((DiscoActionPayCommandListener) listener).onRecvCommand((RoomCmdDiscoActionPayModel) model, fromUserID);
                     }
                     break;
+                case RoomCmd.CMD_GAME_EXTRA_MATCH_USERS_CHANGED_NOTIFY: // 跨域匹配人数变更通知
+                    if (listener instanceof CrossAppCmdUsersChangeListener) {
+                        ((CrossAppCmdUsersChangeListener) listener).onRecvCommand((CrossAppCmdUsersChangeModel) model, fromUserID);
+                    }
+                    break;
+                case RoomCmd.CMD_GAME_EXTRA_MATCH_STATUS_CHANGED_NOTIFY: // 跨域匹配状态变更通知
+                    if (listener instanceof CrossAppCmdStatusChangeListener) {
+                        ((CrossAppCmdStatusChangeListener) listener).onRecvCommand((CrossAppCmdStatusChangeModel) model, fromUserID);
+                    }
+                    break;
+                case RoomCmd.CMD_GAME_EXTRA_TEAM_CHANGED_NOTIFY: // 跨域匹配队伍变更通知
+                    if (listener instanceof CrossAppCmdTeamChangeListener) {
+                        ((CrossAppCmdTeamChangeListener) listener).onRecvCommand((CrossAppCmdTeamChangeModel) model, fromUserID);
+                    }
+                    break;
+                case RoomCmd.CMD_GAME_EXTRA_GAME_SWITCH_NOTIFY: // 跨域匹配游戏切换通知
+                    if (listener instanceof CrossAppCmdGameSwitchListener) {
+                        ((CrossAppCmdGameSwitchListener) listener).onRecvCommand((CrossAppCmdGameSwitchModel) model, fromUserID);
+                    }
+                    break;
             }
         }
     }
@@ -410,6 +446,24 @@ public class SceneCommandManager extends BaseServiceManager {
         void onRecvCommand(RoomCmdLeagueInfoRespModel model, String userID);
     }
     // endregion 联赛信令监听
+
+    // region 跨域信令监听
+    interface CrossAppCmdUsersChangeListener extends ICommandListener {
+        void onRecvCommand(CrossAppCmdUsersChangeModel model, String userID);
+    }
+
+    interface CrossAppCmdStatusChangeListener extends ICommandListener {
+        void onRecvCommand(CrossAppCmdStatusChangeModel model, String userID);
+    }
+
+    interface CrossAppCmdTeamChangeListener extends ICommandListener {
+        void onRecvCommand(CrossAppCmdTeamChangeModel model, String userID);
+    }
+
+    interface CrossAppCmdGameSwitchListener extends ICommandListener {
+        void onRecvCommand(CrossAppCmdGameSwitchModel model, String userID);
+    }
+    // endregion 跨域信令监听
 
     @Override
     public void onDestroy() {

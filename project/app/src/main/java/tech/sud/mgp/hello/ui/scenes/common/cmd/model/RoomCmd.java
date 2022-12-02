@@ -90,4 +90,15 @@ public class RoomCmd {
     public static final int CMD_LEAGUE_INFO_RESP = 10500;
     // endregion 联赛
 
+    // region 跨域
+    /** 跨域匹配人数变更通知 */
+    public static final int CMD_GAME_EXTRA_MATCH_USERS_CHANGED_NOTIFY = 21001;
+    /** 跨域匹配状态变更通知 */
+    public static final int CMD_GAME_EXTRA_MATCH_STATUS_CHANGED_NOTIFY = 21002;
+    /** 跨域匹配队伍变更通知 */
+    public static final int CMD_GAME_EXTRA_TEAM_CHANGED_NOTIFY = 21003;
+    /** 跨域匹配游戏切换通知 */
+    public static final int CMD_GAME_EXTRA_GAME_SWITCH_NOTIFY = 21004;
+    // endregion 跨域
+
 }

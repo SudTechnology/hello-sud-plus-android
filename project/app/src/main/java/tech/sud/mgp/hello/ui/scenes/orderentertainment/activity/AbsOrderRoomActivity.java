@@ -1,7 +1,7 @@
 package tech.sud.mgp.hello.ui.scenes.orderentertainment.activity;
 
 import tech.sud.mgp.hello.ui.scenes.audio.widget.view.mic.AudioRoomMicView;
-import tech.sud.mgp.hello.ui.scenes.base.interaction.BaseInteractionRoomActivity;
+import tech.sud.mgp.hello.ui.scenes.base.interaction.base.activity.BaseInteractionRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.chat.SceneRoomChatView;
 

@@ -27,7 +27,7 @@ import tech.sud.mgp.hello.ui.main.home.model.RoomItemModel;
 import tech.sud.mgp.hello.ui.scenes.audio.activity.AbsAudioRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.audio.widget.view.mic.AudioRoomGameMicView;
 import tech.sud.mgp.hello.ui.scenes.audio.widget.view.mic.AudioRoomMicView;
-import tech.sud.mgp.hello.ui.scenes.base.interaction.BaseInteractionRoomActivity;
+import tech.sud.mgp.hello.ui.scenes.base.interaction.base.activity.BaseInteractionRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.base.model.ReportGameInfoModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoleType;
 import tech.sud.mgp.hello.ui.scenes.base.utils.EnterRoomUtils;
@@ -116,7 +116,7 @@ public class CrossRoomActivity extends BaseInteractionRoomActivity<CrossRoomGame
         tvPkSettings.setBackgroundResource(R.drawable.shape_room_top_btn_bg);
         topView.addCustomView(tvPkSettings, (LinearLayout.LayoutParams) tvPkSettings.getLayoutParams());
 
-        viewRocketEntrance.bringToFront();
+        interactionBannerView.bringToFront();
         bringToFrontViews();
     }
 
@@ -347,7 +347,7 @@ public class CrossRoomActivity extends BaseInteractionRoomActivity<CrossRoomGame
     }
 
     @Override
-    protected long getGameRoomId() {
+    public long getGameRoomId() {
         return viewModel.getGameRoomId(roomInfoModel);
     }
 

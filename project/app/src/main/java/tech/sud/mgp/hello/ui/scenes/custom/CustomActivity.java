@@ -45,7 +45,7 @@ public class CustomActivity extends AbsAudioRoomActivity<CustomGameViewModel> {
         }
 
         // 解决火箭入口显示位置的问题
-        ViewUtils.addMarginEnd(viewRocketEntrance, DensityUtils.dp2px(64));
+        ViewUtils.addMarginEnd(interactionBannerView, DensityUtils.dp2px(64));
         ViewUtils.addMarginEnd(chatView, DensityUtils.dp2px(100));
     }
 

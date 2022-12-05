@@ -1,14 +1,14 @@
-package tech.sud.mgp.hello.ui.main.home.view;
+package tech.sud.mgp.hello.ui.scenes.base.interaction.base.widget.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -17,48 +17,93 @@ import java.util.List;
 import tech.sud.mgp.core.view.RoundImageView;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
-import tech.sud.mgp.hello.service.main.resp.GetBannerResp;
+import tech.sud.mgp.hello.ui.scenes.base.interaction.base.model.InteractionGameModel;
 
 /**
- * 首页轮播图的View
+ * 互动游戏 轮播图
  */
-public class HomeBannerView extends ConstraintLayout {
+public class InteractionBannerView extends LinearLayout {
 
-    private MyPagerAdapter pagerAdapter = new MyPagerAdapter();
-    private ViewPager2 viewPager;
-    private List<GetBannerResp.BannerModel> datas;
+    private final MyPagerAdapter pagerAdapter = new MyPagerAdapter();
+    private final ViewPager2 viewPager = new ViewPager2(getContext());
+    private final InteractionBannerIndicatorView indicatorView = new InteractionBannerIndicatorView(getContext());
+    private List<InteractionGameModel> datas;
     private OnPagerClickListener onPagerClickListener;
 
-    public HomeBannerView(@NonNull Context context) {
+    public InteractionBannerView(@NonNull Context context) {
         this(context, null);
     }
 
-    public HomeBannerView(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public InteractionBannerView(@NonNull Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public HomeBannerView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public InteractionBannerView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         this(context, attrs, defStyleAttr, 0);
     }
 
-    public HomeBannerView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public InteractionBannerView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         initView();
+        setListeners();
     }
 
     private void initView() {
-        viewPager = new ViewPager2(getContext());
+        setOrientation(VERTICAL);
         viewPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
-        addView(viewPager, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+        int width = DensityUtils.dp2px(getContext(), 80);
+        addView(viewPager, width, DensityUtils.dp2px(getContext(), 110));
         viewPager.setAdapter(pagerAdapter);
+
+        LayoutParams indicatorParams = new LayoutParams(width, DensityUtils.dp2px(getContext(), 6));
+        indicatorParams.topMargin = DensityUtils.dp2px(getContext(), 3);
+        addView(indicatorView, indicatorParams);
     }
 
-    public void setBannerInfo(GetBannerResp resp) {
-        if (resp != null) {
-            datas = resp.bannerInfoList;
+    private void setListeners() {
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels);
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                int size = datas.size();
+                if (size > 0) {
+                    indicatorView.updatePosition(position % size);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                super.onPageScrollStateChanged(state);
+            }
+        });
+    }
+
+    /** 设置数据 */
+    public void setDatas(List<InteractionGameModel> list) {
+        if (list != null) {
+            datas = list;
         }
         pagerAdapter.notifyDataSetChanged();
         startChangeTask();
+
+        indicatorView.initIndicator(getIndicatorCount());
+
+        int size = datas.size();
+        if (size > 0) {
+            indicatorView.updatePosition(viewPager.getCurrentItem() % size);
+        }
+    }
+
+    public int getIndicatorCount() {
+        if (datas != null) {
+            return datas.size();
+        }
+        return 0;
     }
 
     public void startChangeTask() {
@@ -102,7 +147,7 @@ public class HomeBannerView extends ConstraintLayout {
 
         @NonNull
         @Override
-        public MyPagerAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             RoundImageView roundImageView = new RoundImageView(getContext());
             roundImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             roundImageView.setRadius(DensityUtils.dp2px(8));
@@ -112,10 +157,10 @@ public class HomeBannerView extends ConstraintLayout {
         }
 
         @Override
-        public void onBindViewHolder(@NonNull MyPagerAdapter.MyViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
             position %= datas.size();
-            GetBannerResp.BannerModel bannerModel = datas.get(position);
-            ImageLoader.loadImage(holder.imageView, bannerModel.image);
+            InteractionGameModel bannerModel = datas.get(position);
+            ImageLoader.loadDrawable(holder.imageView, bannerModel.iconResId);
             holder.bannerModel = bannerModel;
         }
 
@@ -133,7 +178,7 @@ public class HomeBannerView extends ConstraintLayout {
 
         private class MyViewHolder extends RecyclerView.ViewHolder {
             public ImageView imageView;
-            public GetBannerResp.BannerModel bannerModel;
+            public InteractionGameModel bannerModel;
 
             public MyViewHolder(@NonNull RoundImageView itemView) {
                 super(itemView);
@@ -153,7 +198,7 @@ public class HomeBannerView extends ConstraintLayout {
     }
 
     public interface OnPagerClickListener {
-        void onPagerClick(GetBannerResp.BannerModel model);
+        void onPagerClick(InteractionGameModel model);
     }
 
 }

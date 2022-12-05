@@ -1070,7 +1070,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
     }
 
     /** 获取游戏房间的id */
-    protected long getGameRoomId() {
+    public long getGameRoomId() {
         return roomInfoModel.roomId;
     }
 
@@ -1484,4 +1484,15 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         }
     };
 
+    public SceneRoomService.MyBinder getBinder() {
+        return binder;
+    }
+
+    public RoomInfoModel getRoomInfoModel() {
+        return roomInfoModel;
+    }
+
+    public long getPlayingGameId() {
+        return playingGameId;
+    }
 }

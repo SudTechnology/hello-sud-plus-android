@@ -32,7 +32,7 @@ import tech.sud.mgp.hello.service.room.repository.RoomRepository;
 import tech.sud.mgp.hello.service.room.resp.DanmakuListResp;
 import tech.sud.mgp.hello.ui.common.utils.CompletedListener;
 import tech.sud.mgp.hello.ui.common.utils.LifecycleUtils;
-import tech.sud.mgp.hello.ui.scenes.base.interaction.BaseInteractionRoomActivity;
+import tech.sud.mgp.hello.ui.scenes.base.interaction.base.activity.BaseInteractionRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoleType;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;

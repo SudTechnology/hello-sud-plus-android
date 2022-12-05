@@ -1151,5 +1151,45 @@ public class SudMGPMGState implements Serializable {
     }
     // endregion 定制火箭
 
+    // region 棒球
+    /**
+     * 1. 查询排行榜数据(棒球)
+     * 游戏客户端通知APP查询排行榜数据
+     */
+    public static final String MG_BASEBALL_RANKING = "mg_baseball_ranking";
+
+    /**
+     * 1. 查询排行榜数据(棒球) 模型
+     */
+    public static final class MGBaseballRanking implements Serializable {
+        public int page; // 页数
+        public int size; // 每页显示的数量
+    }
+
+    /**
+     * 2. 查询我的排名(棒球)
+     * 游戏客户端通知APP查询我的排名
+     */
+    public static final String MG_BASEBALL_MY_RANKING = "mg_baseball_my_ranking";
+
+    /**
+     * 2. 查询我的排名(棒球) 模型
+     */
+    public static final class MGBaseballMyRanking implements Serializable {
+    }
+
+    /**
+     * 3. 查询当前距离我的前后玩家数据(棒球)
+     * 游戏客户端通知APP查询当前距离我的前后玩家数据（需要排除自己）
+     */
+    public static final String MG_BASEBALL_RANGE_INFO = "mg_baseball_range_info";
+
+    /**
+     * 3. 查询当前距离我的前后玩家数据(棒球) 模型
+     */
+    public static final class MGBaseballRangeInfo implements Serializable {
+        public long distance; // 自己当前的距离
+    }
+    // endregion 棒球
 
 }

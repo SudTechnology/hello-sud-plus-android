@@ -561,6 +561,30 @@ public class SudFSMMGDecorator implements ISudFSMMG {
                     listener.onGameMGCustomRocketSetClickRect(handle, mgCustomRocketSetClickRect);
                 }
                 break;
+            case SudMGPMGState.MG_BASEBALL_RANKING: // 1. 查询排行榜数据(棒球)
+                SudMGPMGState.MGBaseballRanking mgBaseballRanking = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGBaseballRanking.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGBaseballRanking(handle, mgBaseballRanking);
+                }
+                break;
+            case SudMGPMGState.MG_BASEBALL_MY_RANKING: // 2. 查询我的排名(棒球)
+                SudMGPMGState.MGBaseballMyRanking mgBaseballMyRanking = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGBaseballMyRanking.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGBaseballMyRanking(handle, mgBaseballMyRanking);
+                }
+                break;
+            case SudMGPMGState.MG_BASEBALL_RANGE_INFO: // 3. 查询当前距离我的前后玩家数据(棒球)
+                SudMGPMGState.MGBaseballRangeInfo mgBaseballRangeInfo = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGBaseballRangeInfo.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGBaseballRangeInfo(handle, mgBaseballRangeInfo);
+                }
+                break;
             default:
                 ISudFSMStateHandleUtils.handleSuccess(handle);
                 break;

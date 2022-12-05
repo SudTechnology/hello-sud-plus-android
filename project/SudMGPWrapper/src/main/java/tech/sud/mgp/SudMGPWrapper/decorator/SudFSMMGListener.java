@@ -639,8 +639,34 @@ public interface SudFSMMGListener {
     default void onGameMGCustomRocketSetClickRect(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketSetClickRect model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
-
     // endregion 游戏回调APP 通用状态 定制火箭
+
+    // region 游戏回调APP 通用状态 棒球
+
+    /**
+     * 1. 查询排行榜数据(棒球)
+     * mg_baseball_ranking
+     */
+    default void onGameMGBaseballRanking(ISudFSMStateHandle handle, SudMGPMGState.MGBaseballRanking model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 2. 查询我的排名(棒球)
+     * mg_baseball_my_ranking
+     */
+    default void onGameMGBaseballMyRanking(ISudFSMStateHandle handle, SudMGPMGState.MGBaseballMyRanking model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 3. 查询当前距离我的前后玩家数据(棒球)
+     * mg_baseball_range_info
+     */
+    default void onGameMGBaseballRangeInfo(ISudFSMStateHandle handle, SudMGPMGState.MGBaseballRangeInfo model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+    // endregion 游戏回调APP 通用状态 棒球
 
     /**
      * 游戏状态变化

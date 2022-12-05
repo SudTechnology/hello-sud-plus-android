@@ -55,7 +55,7 @@ public class InteractionBannerView extends LinearLayout {
         addView(viewPager, width, DensityUtils.dp2px(getContext(), 110));
         viewPager.setAdapter(pagerAdapter);
 
-        LayoutParams indicatorParams = new LayoutParams(width, DensityUtils.dp2px(getContext(), 6));
+        LayoutParams indicatorParams = new LayoutParams(width, ViewGroup.LayoutParams.WRAP_CONTENT);
         indicatorParams.topMargin = DensityUtils.dp2px(getContext(), 3);
         addView(indicatorView, indicatorParams);
     }

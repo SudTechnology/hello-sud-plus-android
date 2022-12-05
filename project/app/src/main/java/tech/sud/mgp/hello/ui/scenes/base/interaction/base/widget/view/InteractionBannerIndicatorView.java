@@ -41,7 +41,7 @@ public class InteractionBannerIndicatorView extends LinearLayout {
 
     public void initIndicator(int count) {
         removeAllViews();
-        if (count < 1) {
+        if (count < 2) {
             return;
         }
         int marginStart = DensityUtils.dp2px(getContext(), 4);

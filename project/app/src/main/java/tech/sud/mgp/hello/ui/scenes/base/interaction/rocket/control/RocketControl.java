@@ -32,9 +32,9 @@ import tech.sud.mgp.hello.ui.common.dialog.LoadingDialog;
 import tech.sud.mgp.hello.ui.main.base.constant.GameIdCons;
 import tech.sud.mgp.hello.ui.scenes.base.interaction.base.activity.BaseInteractionRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.base.interaction.base.control.BaseInteractionControl;
+import tech.sud.mgp.hello.ui.scenes.base.interaction.base.widget.view.InteractorGameContainer;
 import tech.sud.mgp.hello.ui.scenes.base.interaction.rocket.viewmodel.RocketGameViewModel;
 import tech.sud.mgp.hello.ui.scenes.base.interaction.rocket.widget.dialog.RocketFireSelectDialog;
-import tech.sud.mgp.hello.ui.scenes.base.interaction.rocket.widget.view.RocketContainer;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.common.gift.manager.GiftHelper;
@@ -46,7 +46,7 @@ import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftModel;
  */
 public class RocketControl extends BaseInteractionControl {
 
-    protected RocketContainer rocketContainer;
+    protected InteractorGameContainer rocketContainer;
     protected RocketGameViewModel rocketGameViewModel = new RocketGameViewModel();
     private TextView tvCloseRocketEffect;
     private View rocketEffectOperateContainer;

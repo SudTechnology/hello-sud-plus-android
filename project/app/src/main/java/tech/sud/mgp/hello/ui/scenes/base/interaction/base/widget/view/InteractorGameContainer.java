@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.scenes.base.interaction.rocket.widget.view;
+package tech.sud.mgp.hello.ui.scenes.base.interaction.base.widget.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -15,26 +15,27 @@ import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.hello.R;
 
 /**
- * 火箭容器
+ * 互动礼物容器
+ * 1，处理点击事件穿透
  */
-public class RocketContainer extends FrameLayout {
+public class InteractorGameContainer extends FrameLayout {
 
     private List<SudMGPMGState.MGCustomRocketSetClickRect.RocketClickRect> clickRectList;
     private FrameLayout clickRectContainer;
 
-    public RocketContainer(@NonNull Context context) {
+    public InteractorGameContainer(@NonNull Context context) {
         this(context, null);
     }
 
-    public RocketContainer(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public InteractorGameContainer(@NonNull Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public RocketContainer(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public InteractorGameContainer(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         this(context, attrs, defStyleAttr, 0);
     }
 
-    public RocketContainer(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public InteractorGameContainer(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         initView();
     }

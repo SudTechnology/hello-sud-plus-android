@@ -12,7 +12,7 @@
         android:layout_height="280dp"
         android:background="@drawable/shape_cross_app_team_bg"
         android:layout_marginHorizontal="16dp"
-        app:layout_constraintVertical_bias="0.123"
+        app:layout_constraintVertical_bias="0.241"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -59,7 +59,7 @@
         android:layout_height="36dp"
         android:orientation="horizontal"
         android:gravity="center"
-        app:layout_constraintVertical_bias="0.163"
+        app:layout_constraintVertical_bias="0.216"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/team_main_view">
 

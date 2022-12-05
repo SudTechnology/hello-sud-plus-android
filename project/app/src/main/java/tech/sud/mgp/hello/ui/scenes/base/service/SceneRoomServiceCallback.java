@@ -3,6 +3,7 @@ package tech.sud.mgp.hello.ui.scenes.base.service;
 import java.util.List;
 
 import tech.sud.mgp.core.ISudListenerNotifyStateChange;
+import tech.sud.mgp.hello.service.room.resp.CrossAppModel;
 import tech.sud.mgp.hello.ui.scenes.base.constant.OperateMicType;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.OrderInviteModel;
@@ -166,4 +167,11 @@ public interface SceneRoomServiceCallback {
     /** 踢出房间 */
     void onKickOutRoom(String userId);
     // endregion 蹦迪
+
+    // region 跨域
+
+    /** 更新跨域信息 */
+    void onUpdateCrossApp(CrossAppModel model);
+    // endregion 跨域
+
 }

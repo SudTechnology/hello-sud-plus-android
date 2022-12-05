@@ -395,7 +395,7 @@ public class HomeFragment extends BaseFragment implements CreatRoomClickListener
                     new CreateTicketRoomDialog().show(getChildFragmentManager(), null);
                     break;
                 case SceneType.CROSS_APP:
-                    showCrossAppMatchGameDialog(sceneModel, gameModel);
+                    showCrossAppMatchGameDialog(sceneModel);
                     break;
                 default:
                     createRoom(sceneModel.getSceneId(), gameModel);
@@ -404,18 +404,17 @@ public class HomeFragment extends BaseFragment implements CreatRoomClickListener
         }
     }
 
-    private void showCrossAppMatchGameDialog(SceneModel sceneModel, GameModel gameModel) {
+    private void showCrossAppMatchGameDialog(SceneModel sceneModel) {
         SelectMatchGameDialog dialog = SelectMatchGameDialog.newInstance(SelectMatchGameDialog.MODE_MATCH);
         EnterRoomParams enterRoomParams = new EnterRoomParams();
         enterRoomParams.crossAppModel = new CrossAppModel();
-        if (gameModel != null) {
-            enterRoomParams.crossAppModel.matchGameId = gameModel.gameId;
-        }
         dialog.setOnSingleMatchListener((model) -> {
+            enterRoomParams.crossAppModel.matchGameId = model.gameId;
             enterRoomParams.crossAppModel.isFastMatch = true;
             createRoom(sceneModel.getSceneId(), null, enterRoomParams);
         });
         dialog.setOnTeamMatchListener((model) -> {
+            enterRoomParams.crossAppModel.matchGameId = model.gameId;
             createRoom(sceneModel.getSceneId(), null, enterRoomParams);
         });
         dialog.show(getChildFragmentManager(), null);

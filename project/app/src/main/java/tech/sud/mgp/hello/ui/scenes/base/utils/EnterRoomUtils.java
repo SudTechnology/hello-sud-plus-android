@@ -146,10 +146,10 @@ public class EnterRoomUtils {
         model.gameLevel = enterRoomResp.gameLevel;
         model.roomPkModel = enterRoomResp.pkResultVO;
         model.streamId = enterRoomResp.streamId;
-        if (enterRoomResp.extraMatchVO == null) {
-            model.crossAppModel = enterRoomParams.crossAppModel;
-        } else {
+        if (enterRoomParams.crossAppModel == null) {
             model.crossAppModel = enterRoomResp.extraMatchVO;
+        } else {
+            model.crossAppModel = enterRoomParams.crossAppModel;
         }
         Intent intent = getSceneIntent(context, enterRoomResp.sceneType);
         intent.putExtra("RoomInfoModel", model);

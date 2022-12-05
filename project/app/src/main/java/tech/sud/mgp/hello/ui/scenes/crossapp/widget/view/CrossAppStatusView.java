@@ -2,10 +2,15 @@ package tech.sud.mgp.hello.ui.scenes.crossapp.widget.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+
+import tech.sud.mgp.hello.service.main.resp.GameModel;
+import tech.sud.mgp.hello.service.room.model.CrossAppMatchStatus;
+import tech.sud.mgp.hello.service.room.resp.CrossAppModel;
 
 /**
  * 跨域 显示当前状态的View
@@ -35,6 +40,28 @@ public class CrossAppStatusView extends ConstraintLayout {
     private void initView() {
         addView(crossAppTeamView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         addView(crossAppMatchView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+    }
+
+    /** 设置数据 */
+    public void setCrossAppModel(CrossAppModel model) {
+        switch (model.matchStatus) {
+            case CrossAppMatchStatus.TEAM:
+                crossAppTeamView.setVisibility(View.VISIBLE);
+                crossAppMatchView.setVisibility(View.GONE);
+                crossAppTeamView.setCrossAppModel(model);
+                break;
+            case CrossAppMatchStatus.MATCHING:
+            case CrossAppMatchStatus.MATCH_SUCCESS:
+            case CrossAppMatchStatus.MATCH_FAILED:
+                crossAppTeamView.setVisibility(View.GONE);
+                crossAppMatchView.setVisibility(View.VISIBLE);
+                crossAppMatchView.setCrossAppModel(model);
+                break;
+        }
+    }
+
+    public void setGameModel(GameModel gameModel) {
+        crossAppTeamView.setGameModel(gameModel);
     }
 
 }

@@ -47,6 +47,7 @@ import tech.sud.mgp.hello.service.game.repository.GameRepository;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.main.resp.GetAccountResp;
 import tech.sud.mgp.hello.service.room.repository.RoomRepository;
+import tech.sud.mgp.hello.service.room.resp.CrossAppModel;
 import tech.sud.mgp.hello.service.room.resp.RobotListResp;
 import tech.sud.mgp.hello.ui.common.constant.RequestKey;
 import tech.sud.mgp.hello.ui.main.base.activity.MainActivity;
@@ -1393,6 +1394,9 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         processOnKickOutRoom(userId);
     }
 
+    @Override
+    public void onUpdateCrossApp(CrossAppModel model) {
+    }
     // endregion service回调
 
     /** 处理踢出房间的逻辑 */

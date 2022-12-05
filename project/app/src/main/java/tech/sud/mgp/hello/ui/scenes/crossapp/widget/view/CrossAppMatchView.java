@@ -10,6 +10,8 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import tech.sud.mgp.hello.R;
+import tech.sud.mgp.hello.service.room.model.CrossAppMatchStatus;
+import tech.sud.mgp.hello.service.room.resp.CrossAppModel;
 
 /**
  * 跨域 匹配状态View
@@ -51,6 +53,17 @@ public class CrossAppMatchView extends ConstraintLayout {
         tvChangeGame = findViewById(R.id.match_tv_change_game);
         tvAnewMatch = findViewById(R.id.match_tv_anew_match);
         viewOb = findViewById(R.id.match_container_ob);
+    }
+
+    public void setCrossAppModel(CrossAppModel model) {
+        switch (model.matchStatus) {
+            case CrossAppMatchStatus.MATCHING:
+                break;
+            case CrossAppMatchStatus.MATCH_SUCCESS:
+                break;
+            case CrossAppMatchStatus.MATCH_FAILED:
+                break;
+        }
     }
 
 }

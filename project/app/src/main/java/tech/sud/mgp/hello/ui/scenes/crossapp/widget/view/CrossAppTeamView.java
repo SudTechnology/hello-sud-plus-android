@@ -21,6 +21,7 @@ import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
 import tech.sud.mgp.hello.service.main.resp.GameModel;
 import tech.sud.mgp.hello.service.main.resp.UserInfoResp;
+import tech.sud.mgp.hello.service.room.resp.CrossAppModel;
 
 /**
  * 跨域 组队状态View
@@ -74,10 +75,15 @@ public class CrossAppTeamView extends ConstraintLayout {
         }, 5000);
     }
 
+    /** 设置跨域 数据 */
+    public void setCrossAppModel(CrossAppModel model) {
+        setStallDatas(model.userList);
+    }
+
     /** 设置当前匹配的游戏 */
     public void setGameModel(GameModel model) {
         if (model != null) {
-            setIcon(model.gamePic);
+            setGameIcon(model.gamePic);
             setGameName(model.gameName);
         }
     }
@@ -87,7 +93,7 @@ public class CrossAppTeamView extends ConstraintLayout {
         crossAppStallView.setDatas(list);
     }
 
-    private void setIcon(String url) {
+    private void setGameIcon(String url) {
         ImageLoader.loadImage(ivIcon, url);
     }
 

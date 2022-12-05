@@ -149,6 +149,7 @@ public class SelectMatchGameDialog extends BaseDialogFragment {
                     } else {
                         if (onSelectedListener != null) {
                             onSelectedListener.onSelected(gameModel);
+                            dismiss();
                         }
                     }
                 }
@@ -160,6 +161,7 @@ public class SelectMatchGameDialog extends BaseDialogFragment {
             }
             GameModel gameModel = selectedList.get(0);
             onSingleMatchListener.onSingleMatch(gameModel);
+            dismiss();
         });
         tvTeamMatch.setOnClickListener((v) -> {
             if (selectedList.size() == 0 || onTeamMatchListener == null) {
@@ -167,6 +169,7 @@ public class SelectMatchGameDialog extends BaseDialogFragment {
             }
             GameModel gameModel = selectedList.get(0);
             onTeamMatchListener.onTeamMatch(gameModel);
+            dismiss();
         });
     }
 

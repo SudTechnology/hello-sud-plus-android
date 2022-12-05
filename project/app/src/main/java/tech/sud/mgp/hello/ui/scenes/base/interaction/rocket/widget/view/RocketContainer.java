@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.scenes.base.widget.view;
+package tech.sud.mgp.hello.ui.scenes.base.interaction.rocket.widget.view;
 
 import android.content.Context;
 import android.util.AttributeSet;

@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.scenes.base.viewmodel;
+package tech.sud.mgp.hello.ui.scenes.base.interaction.rocket.viewmodel;
 
 import android.text.TextUtils;
 import android.util.Base64;
@@ -33,11 +33,12 @@ import tech.sud.mgp.hello.service.main.resp.UserInfoListResp;
 import tech.sud.mgp.hello.service.main.resp.UserInfoResp;
 import tech.sud.mgp.hello.ui.common.utils.FilePath;
 import tech.sud.mgp.hello.ui.main.base.constant.GameIdCons;
+import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
 
 /**
  * 带火箭动效房间的游戏逻辑
  */
-public class AppRocketGameViewModel extends AppGameViewModel {
+public class RocketGameViewModel extends AppGameViewModel {
 
     public FragmentActivity fragmentActivity;
     public long roomId;

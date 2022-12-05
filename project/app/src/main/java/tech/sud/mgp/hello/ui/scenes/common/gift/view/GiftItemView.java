@@ -12,7 +12,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
-import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppRocketGameViewModel;
+import tech.sud.mgp.hello.ui.scenes.base.interaction.rocket.viewmodel.RocketGameViewModel;
 import tech.sud.mgp.hello.ui.scenes.common.gift.manager.GiftId;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftModel;
 
@@ -55,7 +55,7 @@ public class GiftItemView extends ConstraintLayout {
 
     public void setModel(GiftModel model) {
         if (model.giftId == GiftId.ROCKET) {
-            ImageLoader.loadRocketImage(itemGiftImgIv, AppRocketGameViewModel.getExistsRocketThumbPath());
+            ImageLoader.loadRocketImage(itemGiftImgIv, RocketGameViewModel.getExistsRocketThumbPath());
         } else if (model.type == 0) {
             ImageLoader.loadDrawable(itemGiftImgIv, model.giftImage);
         } else {

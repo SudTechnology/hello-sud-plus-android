@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.scenes.base.widget.dialog;
+package tech.sud.mgp.hello.ui.scenes.base.interaction.rocket.widget.dialog;
 
 import android.view.View;
 import android.widget.ImageView;

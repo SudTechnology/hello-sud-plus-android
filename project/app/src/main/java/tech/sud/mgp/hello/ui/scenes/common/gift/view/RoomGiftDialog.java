@@ -31,9 +31,9 @@ import tech.sud.mgp.hello.service.room.repository.RoomRepository;
 import tech.sud.mgp.hello.service.room.resp.GiftListResp;
 import tech.sud.mgp.hello.ui.common.utils.FormatUtils;
 import tech.sud.mgp.hello.ui.main.base.constant.SceneType;
+import tech.sud.mgp.hello.ui.scenes.base.interaction.rocket.viewmodel.RocketGameViewModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
-import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppRocketGameViewModel;
 import tech.sud.mgp.hello.ui.scenes.common.gift.adapter.GiftListAdapter;
 import tech.sud.mgp.hello.ui.scenes.common.gift.listener.GiftSendClickListener;
 import tech.sud.mgp.hello.ui.scenes.common.gift.listener.PresentClickListener;
@@ -239,7 +239,7 @@ public class RoomGiftDialog extends BaseDialogFragment implements SendGiftToUser
         GiftModel checkedGift = getCheckedGift();
         if (checkedGift != null && checkedGift.giftId == GiftId.ROCKET) {
             containerCustomRocket.setVisibility(View.VISIBLE);
-            ImageLoader.loadRocketImage(ivRocketIcon, AppRocketGameViewModel.getExistsRocketThumbPath());
+            ImageLoader.loadRocketImage(ivRocketIcon, RocketGameViewModel.getExistsRocketThumbPath());
         } else {
             containerCustomRocket.setVisibility(View.GONE);
         }

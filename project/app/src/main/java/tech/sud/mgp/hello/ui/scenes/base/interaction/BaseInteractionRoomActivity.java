@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.scenes.base.activity;
+package tech.sud.mgp.hello.ui.scenes.base.interaction;
 
 import android.view.View;
 import android.view.WindowManager;
@@ -28,25 +28,26 @@ import tech.sud.mgp.hello.service.game.repository.GameRepository;
 import tech.sud.mgp.hello.service.game.req.RocketFireReq;
 import tech.sud.mgp.hello.service.game.resp.RocketFireResp;
 import tech.sud.mgp.hello.ui.common.dialog.LoadingDialog;
+import tech.sud.mgp.hello.ui.scenes.base.activity.BaseRoomActivity;
+import tech.sud.mgp.hello.ui.scenes.base.interaction.rocket.viewmodel.RocketGameViewModel;
+import tech.sud.mgp.hello.ui.scenes.base.interaction.rocket.widget.dialog.RocketFireSelectDialog;
+import tech.sud.mgp.hello.ui.scenes.base.interaction.rocket.widget.view.RocketContainer;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.GameLoadingProgressModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
-import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppRocketGameViewModel;
-import tech.sud.mgp.hello.ui.scenes.base.widget.dialog.RocketFireSelectDialog;
-import tech.sud.mgp.hello.ui.scenes.base.widget.view.RocketContainer;
 import tech.sud.mgp.hello.ui.scenes.common.gift.manager.GiftHelper;
 import tech.sud.mgp.hello.ui.scenes.common.gift.manager.GiftId;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftModel;
 
 /**
- * 带火箭动效的房间
+ * 互动礼物 房间
  */
-public abstract class BaseRocketRoomActivity<T extends AppGameViewModel> extends BaseRoomActivity<T> {
+public abstract class BaseInteractionRoomActivity<T extends AppGameViewModel> extends BaseRoomActivity<T> {
 
     protected View viewRocketEntrance;
     protected RocketContainer rocketContainer;
-    protected AppRocketGameViewModel rocketGameViewModel = new AppRocketGameViewModel();
+    protected RocketGameViewModel rocketGameViewModel = new RocketGameViewModel();
     private View rocketOperateContainer;
     private TextView tvCloseRocketEffect;
     private View rocketEffectOperateContainer;

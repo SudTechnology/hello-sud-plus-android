@@ -155,7 +155,7 @@
         android:visibility="gone" />
 
     <!-- 火箭容器 -->
-    <tech.sud.mgp.hello.ui.scenes.base.widget.view.RocketContainer
+    <tech.sud.mgp.hello.ui.scenes.base.interaction.rocket.widget.view.RocketContainer
         android:id="@+id/rocket_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

@@ -8,6 +8,7 @@ import tech.sud.mgp.hello.common.http.param.BaseUrlManager;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.http.rx.RxUtils;
 import tech.sud.mgp.hello.service.game.method.GameRequestMethodFactory;
+import tech.sud.mgp.hello.service.game.req.BaseballPlayReq;
 import tech.sud.mgp.hello.service.game.req.BringChipReq;
 import tech.sud.mgp.hello.service.game.req.RocketFireRecordReq;
 import tech.sud.mgp.hello.service.game.req.RocketFireRecordSummeryReq;
@@ -79,6 +80,8 @@ public class GameRepository {
                 .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }
+
+    // region 火箭
 
     /**
      * 查询商城组件列表
@@ -278,5 +281,65 @@ public class GameRepository {
                 .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }
+    // endregion 火箭
+
+    // region 棒球
+
+    /**
+     * 查询我的排行榜
+     *
+     * @param owner    生命周期对象
+     * @param req      请求参数
+     * @param callback 回调
+     */
+    public static void baseballMyRanking(LifecycleOwner owner, SudMGPMGState.MGBaseballRanking req, RxCallback<SudMGPAPPState.AppBaseballPlayerInfo> callback) {
+        GameRequestMethodFactory.getMethod()
+                .baseballMyRanking(BaseUrlManager.getGameBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /**
+     * 查询排在自己前后的玩家数据
+     *
+     * @param owner    生命周期对象
+     * @param req      请求参数
+     * @param callback 回调
+     */
+    public static void baseballRangeInfo(LifecycleOwner owner, SudMGPMGState.MGBaseballRangeInfo req, RxCallback<SudMGPAPPState.AppBaseballRangeInfo> callback) {
+        GameRequestMethodFactory.getMethod()
+                .baseballRangeInfo(BaseUrlManager.getGameBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /**
+     * 查询排行榜
+     *
+     * @param owner    生命周期对象
+     * @param req      请求参数
+     * @param callback 回调
+     */
+    public static void baseballRanking(LifecycleOwner owner, SudMGPMGState.MGBaseballRanking req, RxCallback<SudMGPAPPState.AppBaseballRanking> callback) {
+        GameRequestMethodFactory.getMethod()
+                .baseballRanking(BaseUrlManager.getGameBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /**
+     * 打棒球
+     *
+     * @param owner    生命周期对象
+     * @param req      请求参数
+     * @param callback 回调
+     */
+    public static void baseballPlay(LifecycleOwner owner, BaseballPlayReq req, RxCallback<Object> callback) {
+        GameRequestMethodFactory.getMethod()
+                .baseballPlay(BaseUrlManager.getGameBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+    // endregion 棒球
 
 }

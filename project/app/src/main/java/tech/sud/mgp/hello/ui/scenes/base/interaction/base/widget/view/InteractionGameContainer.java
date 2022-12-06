@@ -18,24 +18,24 @@ import tech.sud.mgp.hello.R;
  * 互动礼物容器
  * 1，处理点击事件穿透
  */
-public class InteractorGameContainer extends FrameLayout {
+public class InteractionGameContainer extends FrameLayout {
 
-    private List<SudMGPMGState.MGCustomRocketSetClickRect.RocketClickRect> clickRectList;
+    private List<SudMGPMGState.InteractionClickRect> clickRectList;
     private FrameLayout clickRectContainer;
 
-    public InteractorGameContainer(@NonNull Context context) {
+    public InteractionGameContainer(@NonNull Context context) {
         this(context, null);
     }
 
-    public InteractorGameContainer(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public InteractionGameContainer(@NonNull Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public InteractorGameContainer(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public InteractionGameContainer(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         this(context, attrs, defStyleAttr, 0);
     }
 
-    public InteractorGameContainer(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public InteractionGameContainer(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         initView();
     }
@@ -61,7 +61,7 @@ public class InteractorGameContainer extends FrameLayout {
         }
         float x = ev.getX();
         float y = ev.getY();
-        for (SudMGPMGState.MGCustomRocketSetClickRect.RocketClickRect rect : clickRectList) {
+        for (SudMGPMGState.InteractionClickRect rect : clickRectList) {
             if (x >= rect.x && x <= (rect.x + rect.width)) {
                 if (y >= rect.y && y <= (rect.y + rect.height)) {
                     return true;
@@ -71,7 +71,7 @@ public class InteractorGameContainer extends FrameLayout {
         return false;
     }
 
-    public void setClickRectList(List<SudMGPMGState.MGCustomRocketSetClickRect.RocketClickRect> clickRectList) {
+    public void setClickRectList(List<SudMGPMGState.InteractionClickRect> clickRectList) {
         this.clickRectList = clickRectList;
         drawRectViewList();
     }
@@ -79,13 +79,13 @@ public class InteractorGameContainer extends FrameLayout {
     private void drawRectViewList() {
         clickRectContainer.removeAllViews();
         if (clickRectList != null) {
-            for (SudMGPMGState.MGCustomRocketSetClickRect.RocketClickRect rocketClickRect : clickRectList) {
+            for (SudMGPMGState.InteractionClickRect rocketClickRect : clickRectList) {
                 drawRectView(rocketClickRect);
             }
         }
     }
 
-    private void drawRectView(SudMGPMGState.MGCustomRocketSetClickRect.RocketClickRect rocketClickRect) {
+    private void drawRectView(SudMGPMGState.InteractionClickRect rocketClickRect) {
         View view = new View(getContext());
         LayoutParams layoutParams = new LayoutParams((int) rocketClickRect.width, (int) rocketClickRect.height);
         layoutParams.leftMargin = (int) rocketClickRect.x;

@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
 
     <!-- 容器 -->
-    <tech.sud.mgp.hello.ui.scenes.base.interaction.base.widget.view.InteractorGameContainer
+    <tech.sud.mgp.hello.ui.scenes.base.interaction.base.widget.view.InteractionGameContainer
         android:id="@+id/baseball_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

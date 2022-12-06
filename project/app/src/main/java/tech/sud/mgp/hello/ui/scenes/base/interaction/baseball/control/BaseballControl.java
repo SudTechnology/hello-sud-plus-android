@@ -13,7 +13,7 @@ import tech.sud.mgp.hello.ui.common.dialog.LoadingDialog;
 import tech.sud.mgp.hello.ui.main.base.constant.GameIdCons;
 import tech.sud.mgp.hello.ui.scenes.base.interaction.base.activity.BaseInteractionRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.base.interaction.base.control.BaseInteractionControl;
-import tech.sud.mgp.hello.ui.scenes.base.interaction.base.widget.view.InteractorGameContainer;
+import tech.sud.mgp.hello.ui.scenes.base.interaction.base.widget.view.InteractionGameContainer;
 import tech.sud.mgp.hello.ui.scenes.base.interaction.baseball.viewmodel.BaseballGameViewModel;
 
 /**
@@ -21,7 +21,7 @@ import tech.sud.mgp.hello.ui.scenes.base.interaction.baseball.viewmodel.Baseball
  */
 public class BaseballControl extends BaseInteractionControl {
 
-    private InteractorGameContainer gameContainer;
+    private InteractionGameContainer gameContainer;
     private final BaseballGameViewModel gameViewModel = new BaseballGameViewModel();
 
     private LoadingDialog loadingDialog; // 加载loading弹窗

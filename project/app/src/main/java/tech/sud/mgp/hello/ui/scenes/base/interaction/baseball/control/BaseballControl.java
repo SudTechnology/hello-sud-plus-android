@@ -1,5 +1,7 @@
 package tech.sud.mgp.hello.ui.scenes.base.interaction.baseball.control;
 
+import android.Manifest;
+import android.os.Environment;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -7,12 +9,16 @@ import android.widget.FrameLayout;
 
 import androidx.lifecycle.Observer;
 
+import java.io.File;
 import java.util.List;
 
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
+import tech.sud.mgp.core.SudMGP;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
+import tech.sud.mgp.hello.common.utils.permission.PermissionFragment;
+import tech.sud.mgp.hello.common.utils.permission.SudPermissionUtils;
 import tech.sud.mgp.hello.ui.common.dialog.LoadingDialog;
 import tech.sud.mgp.hello.ui.main.base.constant.GameIdCons;
 import tech.sud.mgp.hello.ui.scenes.base.interaction.base.activity.BaseInteractionRoomActivity;
@@ -49,6 +55,25 @@ public class BaseballControl extends BaseInteractionControl {
 
         baseballGameViewModel.isShowLoadingGameBg = false;
         baseballGameViewModel.isShowCustomLoading = true;
+
+        // TODO: 2022/11/7 下面的代码需要去掉的
+        baseballGameViewModel.isShowLoadingGameBg = true;
+        baseballGameViewModel.isShowCustomLoading = false;
+
+        SudPermissionUtils.requirePermission(activity, getSupportFragmentManager(),
+                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                new PermissionFragment.OnPermissionListener() {
+                    @Override
+                    public void onPermission(boolean success) {
+                        if (success) {
+                        }
+                    }
+                });
+        File dir = Environment.getExternalStorageDirectory();
+        File file = new File(dir.getAbsolutePath() + File.separator + "Pictures", "baseball.rpk");
+        SudMGP.getCfg().addEmbeddedMGPkg(GameIdCons.BASEBALL, file.getAbsolutePath());
+
+//        SudMGP.getCfg().addEmbeddedMGPkg(GameIdCons.BASEBALL, "baseball.rpk");
     }
 
     @Override

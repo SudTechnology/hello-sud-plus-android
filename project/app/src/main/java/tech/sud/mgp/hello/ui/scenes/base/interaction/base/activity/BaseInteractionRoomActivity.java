@@ -13,7 +13,6 @@ import tech.sud.mgp.hello.ui.scenes.base.interaction.base.control.BaseInteractio
 import tech.sud.mgp.hello.ui.scenes.base.interaction.base.model.InteractionGameModel;
 import tech.sud.mgp.hello.ui.scenes.base.interaction.base.widget.view.InteractionBannerView;
 import tech.sud.mgp.hello.ui.scenes.base.interaction.baseball.control.BaseballControl;
-import tech.sud.mgp.hello.ui.scenes.base.interaction.rocket.control.RocketControl;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
@@ -42,12 +41,12 @@ public abstract class BaseInteractionRoomActivity<T extends AppGameViewModel> ex
 
     private void initInteractionGame() {
         // 控制器
-        controlList.add(new RocketControl(this));
+//        controlList.add(new RocketControl(this));
         controlList.add(new BaseballControl(this));
 
         // banner
         List<InteractionGameModel> bannerList = new ArrayList<>();
-        bannerList.add(new InteractionGameModel(GameIdCons.CUSTOM_ROCKET, R.drawable.ic_rocket_entrance));
+//        bannerList.add(new InteractionGameModel(GameIdCons.CUSTOM_ROCKET, R.drawable.ic_rocket_entrance));
         bannerList.add(new InteractionGameModel(GameIdCons.BASEBALL, R.drawable.ic_baseball_entrance));
         interactionBannerView.setDatas(bannerList);
     }

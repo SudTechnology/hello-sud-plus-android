@@ -3,11 +3,14 @@ package tech.sud.mgp.hello.ui.scenes.base.interaction.baseball.viewmodel;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.MutableLiveData;
 
+import com.blankj.utilcode.util.ToastUtils;
+
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.core.ISudFSMStateHandle;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.service.game.repository.GameRepository;
+import tech.sud.mgp.hello.service.game.req.BaseballPlayReq;
 import tech.sud.mgp.hello.ui.main.base.constant.GameIdCons;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
 
@@ -135,6 +138,31 @@ public class BaseballGameViewModel extends AppGameViewModel {
         super.onGameMGBaseballHideGameScene(handle, model);
         isShowingBaseballScene = false;
 //        checkDestroyBaseball();
+    }
+
+    /**
+     * 25. 创建订单
+     * mg_common_game_create_order
+     */
+    @Override
+    public void onGameMGCommonGameCreateOrder(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameCreateOrder model) {
+        super.onGameMGCommonGameCreateOrder(handle, model);
+        if (model == null) {
+            return;
+        }
+        if (!"buy_baseball".equalsIgnoreCase(model.cmd)) {
+            return;
+        }
+        BaseballPlayReq req = new BaseballPlayReq();
+        req.number = model.value;
+        req.roomId = roomId;
+        GameRepository.baseballPlay(fragmentActivity, req, new RxCallback<Object>() {
+            @Override
+            public void onSuccess(Object o) {
+                super.onSuccess(o);
+                ToastUtils.showShort("打棒球成功");
+            }
+        });
     }
     // endregion 棒球回调
 

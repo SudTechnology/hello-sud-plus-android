@@ -12,6 +12,7 @@ import tech.sud.mgp.hello.ui.scenes.base.activity.BaseRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.base.interaction.base.control.BaseInteractionControl;
 import tech.sud.mgp.hello.ui.scenes.base.interaction.base.model.InteractionGameModel;
 import tech.sud.mgp.hello.ui.scenes.base.interaction.base.widget.view.InteractionBannerView;
+import tech.sud.mgp.hello.ui.scenes.base.interaction.baseball.control.BaseballControl;
 import tech.sud.mgp.hello.ui.scenes.base.interaction.rocket.control.RocketControl;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
@@ -41,6 +42,7 @@ public abstract class BaseInteractionRoomActivity<T extends AppGameViewModel> ex
 
     private void initControlList() {
         controlList.add(new RocketControl(this));
+        controlList.add(new BaseballControl(this));
     }
 
     @Override
@@ -48,6 +50,7 @@ public abstract class BaseInteractionRoomActivity<T extends AppGameViewModel> ex
         super.initData();
         List<InteractionGameModel> list = new ArrayList<>();
         list.add(new InteractionGameModel(GameIdCons.CUSTOM_ROCKET, R.drawable.ic_rocket_entrance));
+        list.add(new InteractionGameModel(GameIdCons.BASEBALL, R.drawable.ic_baseball_entrance));
         interactionBannerView.setDatas(list);
 
         for (BaseInteractionControl control : controlList) {
@@ -158,4 +161,5 @@ public abstract class BaseInteractionRoomActivity<T extends AppGameViewModel> ex
     public FrameLayout getInteractionContainer() {
         return interactionContainer;
     }
+
 }

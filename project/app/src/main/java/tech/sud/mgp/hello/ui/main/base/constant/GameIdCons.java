@@ -10,4 +10,5 @@ public class GameIdCons {
     public static final long YOU_DRAW_AND_I_GUESS = 1461228410184400899L; // 你画我猜
     //    public static final long CUSTOM_ROCKET = 1461228410184400899L; // 定制火箭
     public static final long CUSTOM_ROCKET = 1583284410804244481L; // 定制火箭
+    public static final long BASEBALL = 1583284410804244482L; // 棒球
 }

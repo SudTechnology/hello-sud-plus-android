@@ -286,13 +286,27 @@ public class GameRepository {
     // region 棒球
 
     /**
+     * 查询排行榜
+     *
+     * @param owner    生命周期对象
+     * @param req      请求参数
+     * @param callback 回调
+     */
+    public static void baseballRanking(LifecycleOwner owner, SudMGPMGState.MGBaseballRanking req, RxCallback<SudMGPAPPState.AppBaseballRanking> callback) {
+        GameRequestMethodFactory.getMethod()
+                .baseballRanking(BaseUrlManager.getGameBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /**
      * 查询我的排行榜
      *
      * @param owner    生命周期对象
      * @param req      请求参数
      * @param callback 回调
      */
-    public static void baseballMyRanking(LifecycleOwner owner, SudMGPMGState.MGBaseballRanking req, RxCallback<SudMGPAPPState.AppBaseballPlayerInfo> callback) {
+    public static void baseballMyRanking(LifecycleOwner owner, SudMGPMGState.MGBaseballMyRanking req, RxCallback<SudMGPAPPState.AppBaseballMyRanking> callback) {
         GameRequestMethodFactory.getMethod()
                 .baseballMyRanking(BaseUrlManager.getGameBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
@@ -309,20 +323,6 @@ public class GameRepository {
     public static void baseballRangeInfo(LifecycleOwner owner, SudMGPMGState.MGBaseballRangeInfo req, RxCallback<SudMGPAPPState.AppBaseballRangeInfo> callback) {
         GameRequestMethodFactory.getMethod()
                 .baseballRangeInfo(BaseUrlManager.getGameBaseUrl(), req)
-                .compose(RxUtils.schedulers(owner))
-                .subscribe(callback);
-    }
-
-    /**
-     * 查询排行榜
-     *
-     * @param owner    生命周期对象
-     * @param req      请求参数
-     * @param callback 回调
-     */
-    public static void baseballRanking(LifecycleOwner owner, SudMGPMGState.MGBaseballRanking req, RxCallback<SudMGPAPPState.AppBaseballRanking> callback) {
-        GameRequestMethodFactory.getMethod()
-                .baseballRanking(BaseUrlManager.getGameBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }

@@ -134,17 +134,17 @@ public interface GameRequestMethod {
 
     // region 棒球
 
+    /** 查询排行榜 */
+    @POST(RequestUrl.BASEBALL_RANKING)
+    Observable<BaseResponse<SudMGPAPPState.AppBaseballRanking>> baseballRanking(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body SudMGPMGState.MGBaseballRanking body);
+
     /** 查询我的排行榜 */
     @POST(RequestUrl.BASEBALL_MY_RANKING)
-    Observable<BaseResponse<SudMGPAPPState.AppBaseballPlayerInfo>> baseballMyRanking(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body SudMGPMGState.MGBaseballRanking body);
+    Observable<BaseResponse<SudMGPAPPState.AppBaseballMyRanking>> baseballMyRanking(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body SudMGPMGState.MGBaseballMyRanking body);
 
     /** 查询排在自己前后的玩家数据 */
     @POST(RequestUrl.BASEBALL_RANGE_INFO)
     Observable<BaseResponse<SudMGPAPPState.AppBaseballRangeInfo>> baseballRangeInfo(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body SudMGPMGState.MGBaseballRangeInfo body);
-
-    /** 查询排行榜 */
-    @POST(RequestUrl.BASEBALL_RANKING)
-    Observable<BaseResponse<SudMGPAPPState.AppBaseballRanking>> baseballRanking(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body SudMGPMGState.MGBaseballRanking body);
 
     /** 打棒球 */
     @POST(RequestUrl.BASEBALL_PLAY)

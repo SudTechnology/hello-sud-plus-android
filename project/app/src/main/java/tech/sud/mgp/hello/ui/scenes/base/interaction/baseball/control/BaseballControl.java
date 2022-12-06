@@ -7,6 +7,10 @@ import android.widget.FrameLayout;
 
 import androidx.lifecycle.Observer;
 
+import java.util.List;
+
+import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
+import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
 import tech.sud.mgp.hello.ui.common.dialog.LoadingDialog;
@@ -22,8 +26,9 @@ import tech.sud.mgp.hello.ui.scenes.base.interaction.baseball.viewmodel.Baseball
 public class BaseballControl extends BaseInteractionControl {
 
     private InteractionGameContainer gameContainer;
-    private final BaseballGameViewModel gameViewModel = new BaseballGameViewModel();
+    private final BaseballGameViewModel baseballGameViewModel = new BaseballGameViewModel();
 
+    private boolean isShowBaseballScene; // 是否要展示棒球主页面
     private LoadingDialog loadingDialog; // 加载loading弹窗
 
     public BaseballControl(BaseInteractionRoomActivity<?> activity) {
@@ -33,23 +38,23 @@ public class BaseballControl extends BaseInteractionControl {
     @Override
     public void initWidget() {
         super.initWidget();
-        View includeRocket = View.inflate(getContext(), R.layout.include_baseball, null);
+        View includeBaseball = View.inflate(getContext(), R.layout.include_baseball, null);
         FrameLayout interactionContainer = getInteractionContainer();
-        interactionContainer.addView(includeRocket, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        interactionContainer.addView(includeBaseball, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
-        gameContainer = includeRocket.findViewById(R.id.baseball_container);
+        gameContainer = includeBaseball.findViewById(R.id.baseball_container);
 
-        gameViewModel.fragmentActivity = activity;
-        gameViewModel.roomId = activity.getRoomInfoModel().roomId;
+        baseballGameViewModel.fragmentActivity = activity;
+        baseballGameViewModel.roomId = activity.getRoomInfoModel().roomId;
 
-        gameViewModel.isShowLoadingGameBg = false;
-        gameViewModel.isShowCustomLoading = true;
+        baseballGameViewModel.isShowLoadingGameBg = false;
+        baseballGameViewModel.isShowCustomLoading = true;
     }
 
     @Override
     public void setListeners() {
         super.setListeners();
-        gameViewModel.gameViewLiveData.observe(activity, new Observer<View>() {
+        baseballGameViewModel.gameViewLiveData.observe(activity, new Observer<View>() {
             @Override
             public void onChanged(View view) {
                 if (view == null) {
@@ -60,21 +65,39 @@ public class BaseballControl extends BaseInteractionControl {
                 }
             }
         });
-        gameViewModel.gameLoadingProgressLiveData.observe(activity, model -> {
+        baseballGameViewModel.gameLoadingProgressLiveData.observe(activity, model -> {
             if (model != null && model.progress == 100) {
                 gameContainer.postDelayed(() -> {
                     activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE | WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
                 }, 100);
             }
         });
+        baseballGameViewModel.baseballPrepareCompletedLiveData.observe(activity, o -> onBaseballPrepareCompleted());
+        baseballGameViewModel.destroyBaseballLiveData.observe(activity, o -> stopBaseball());
+        baseballGameViewModel.baseballClickRectLiveData.observe(activity, model -> {
+            List<SudMGPMGState.InteractionClickRect> list = null;
+            if (model != null) {
+                list = model.list;
+            }
+            gameContainer.setClickRectList(list);
+        });
+    }
+
+    private void onBaseballPrepareCompleted() {
+        // 打开棒球主页面
+        if (isShowBaseballScene) {
+            isShowBaseballScene = false;
+            baseballGameViewModel.notifyAppBaseballShowGameScene(new SudMGPAPPState.AppBaseballShowGameScene());
+        }
+        hideLoadingDialog();
     }
 
     /** 打开棒球主页面 */
     private void showBaseballScene() {
         boolean success = startBaseball();
         if (success) {
-//            isShowGameScene = true;
-//            gameViewModel.notifyAppCustomRocketShowGameScene();
+            isShowBaseballScene = true;
+            baseballGameViewModel.notifyAppBaseballShowGameScene(new SudMGPAPPState.AppBaseballShowGameScene());
         }
     }
 
@@ -83,17 +106,17 @@ public class BaseballControl extends BaseInteractionControl {
         if (getPlayingGameId() > 0) { // 有加载其他游戏时，不加载棒球
             return false;
         }
-        long playingGameId = gameViewModel.getPlayingGameId();
+        long playingGameId = baseballGameViewModel.getPlayingGameId();
         if (playingGameId <= 0) {
             showLoadingDialog();
         }
-        gameViewModel.startBaseball();
+        baseballGameViewModel.startBaseball();
         return true;
     }
 
     /** 隐藏棒球 */
-    private void stopRocket() {
-        gameViewModel.switchGame(activity, getGameRoomId(), 0);
+    private void stopBaseball() {
+        baseballGameViewModel.switchGame(activity, getGameRoomId(), 0);
         hideLoadingDialog();
     }
 
@@ -101,7 +124,7 @@ public class BaseballControl extends BaseInteractionControl {
         if (loadingDialog != null) {
             return;
         }
-        loadingDialog = new LoadingDialog(getString(R.string.go_rocket_stage));
+        loadingDialog = new LoadingDialog(getString(R.string.go_baseball_stage));
         loadingDialog.show(getSupportFragmentManager(), null);
         loadingDialog.setOnDestroyListener(new BaseDialogFragment.OnDestroyListener() {
             @Override
@@ -121,14 +144,14 @@ public class BaseballControl extends BaseInteractionControl {
     public void switchGame(long gameId) {
         super.switchGame(gameId);
         if (gameId > 0) {
-            stopRocket();
+            stopBaseball();
         }
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        gameViewModel.onDestroy();
+        baseballGameViewModel.onDestroy();
     }
 
     @Override

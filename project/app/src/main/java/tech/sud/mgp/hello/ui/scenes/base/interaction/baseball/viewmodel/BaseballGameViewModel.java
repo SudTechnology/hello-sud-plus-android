@@ -1,6 +1,7 @@
 package tech.sud.mgp.hello.ui.scenes.base.interaction.baseball.viewmodel;
 
 import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.MutableLiveData;
 
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
@@ -17,6 +18,13 @@ public class BaseballGameViewModel extends AppGameViewModel {
 
     public FragmentActivity fragmentActivity;
     public long roomId;
+
+    private boolean baseballIsReady; // 棒球游戏是否已加载
+    private boolean isShowingBaseballScene; // 棒球的主界面是否已显示
+
+    public MutableLiveData<Object> baseballPrepareCompletedLiveData = new MutableLiveData<>(); // 棒球准备完成
+    public MutableLiveData<Object> destroyBaseballLiveData = new MutableLiveData<>(); // 销毁通知
+    public MutableLiveData<SudMGPMGState.MGBaseballSetClickRect> baseballClickRectLiveData = new MutableLiveData<>(); // 棒球点击区域
 
     /** 启动棒球 */
     public void startBaseball() {
@@ -86,6 +94,48 @@ public class BaseballGameViewModel extends AppGameViewModel {
             }
         });
     }
+
+    /**
+     * 4. 设置app提供给游戏可点击区域(棒球)
+     * mg_baseball_set_click_rect
+     */
+    @Override
+    public void onGameMGBaseballSetClickRect(ISudFSMStateHandle handle, SudMGPMGState.MGBaseballSetClickRect model) {
+        super.onGameMGBaseballSetClickRect(handle, model);
+        baseballClickRectLiveData.setValue(model);
+    }
+
+    /**
+     * 5. 前期准备完成(棒球)
+     * mg_baseball_prepare_finish
+     */
+    @Override
+    public void onGameMGBaseballPrepareFinish(ISudFSMStateHandle handle, SudMGPMGState.MGBaseballPrepareFinish model) {
+        super.onGameMGBaseballPrepareFinish(handle, model);
+        baseballIsReady = true;
+        baseballPrepareCompletedLiveData.setValue(null);
+    }
+
+    /**
+     * 6. 主界面已显示(棒球)
+     * mg_baseball_show_game_scene
+     */
+    @Override
+    public void onGameMGBaseballShowGameScene(ISudFSMStateHandle handle, SudMGPMGState.MGBaseballShowGameScene model) {
+        super.onGameMGBaseballShowGameScene(handle, model);
+        isShowingBaseballScene = true;
+    }
+
+    /**
+     * 7. 主界面已隐藏(棒球)
+     * mg_baseball_hide_game_scene
+     */
+    @Override
+    public void onGameMGBaseballHideGameScene(ISudFSMStateHandle handle, SudMGPMGState.MGBaseballHideGameScene model) {
+        super.onGameMGBaseballHideGameScene(handle, model);
+        isShowingBaseballScene = false;
+//        checkDestroyBaseball();
+    }
     // endregion 棒球回调
 
     // region 调用棒球
@@ -113,6 +163,45 @@ public class BaseballGameViewModel extends AppGameViewModel {
     public void notifyAppBaseballRangeInfo(SudMGPAPPState.AppBaseballRangeInfo model) {
         sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_BASEBALL_RANGE_INFO, model);
     }
+
+    /**
+     * 4. app主动调起主界面(棒球)
+     * app_baseball_show_game_scene
+     */
+    public void notifyAppBaseballShowGameScene(SudMGPAPPState.AppBaseballShowGameScene model) {
+        sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_BASEBALL_SHOW_GAME_SCENE, model);
+    }
+
+    /**
+     * 5. app主动隐藏主界面(棒球)
+     * app_baseball_hide_game_scene
+     */
+    public void notifyAppBaseballHideGameScene(SudMGPAPPState.AppBaseballHideGameScene model) {
+        sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_BASEBALL_HIDE_GAME_SCENE, model);
+    }
     // endregion 调用棒球
+
+    /** 是否已准备就绪 */
+    public boolean baseballIsReady() {
+        if (playingGameId == GameIdCons.BASEBALL && baseballIsReady) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    protected void destroyMG() {
+        super.destroyMG();
+        baseballIsReady = false;
+        isShowingBaseballScene = false;
+    }
+
+    /** 判断是否要销毁棒球 */
+    private void checkDestroyBaseball() {
+        if (isShowingBaseballScene) {
+            return;
+        }
+        destroyBaseballLiveData.setValue(null);
+    }
 
 }

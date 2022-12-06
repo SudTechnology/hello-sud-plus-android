@@ -797,6 +797,28 @@ public class SudMGPAPPState implements Serializable {
         public AppBaseballPlayerInfo after; // 后一名
     }
 
+    /**
+     * 4. app主动调起主界面(棒球)
+     */
+    public static final String APP_BASEBALL_SHOW_GAME_SCENE = "app_baseball_show_game_scene";
+
+    /**
+     * 4. app主动调起主界面(棒球) 模型
+     */
+    public static class AppBaseballShowGameScene implements Serializable {
+    }
+
+    /**
+     * 5. app主动隐藏主界面(棒球)
+     */
+    public static final String APP_BASEBALL_HIDE_GAME_SCENE = "app_baseball_hide_game_scene";
+
+    /**
+     * 5. app主动隐藏主界面(棒球) 模型
+     */
+    public static class AppBaseballHideGameScene implements Serializable {
+    }
+
     public static class AppBaseballPlayerInfo implements Serializable {
         public String playerId; // 玩家Id
         public String name; // 玩家昵称

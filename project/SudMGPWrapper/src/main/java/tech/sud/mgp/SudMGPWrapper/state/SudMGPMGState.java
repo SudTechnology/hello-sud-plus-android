@@ -1183,8 +1183,57 @@ public class SudMGPMGState implements Serializable {
     public static final class MGBaseballRangeInfo implements Serializable {
         public long distance; // 自己当前的距离
     }
+
+    /**
+     * 4. 设置app提供给游戏可点击区域(棒球)
+     * 游戏客户端通知APP指令动作设置点击区域
+     */
+    public static final String MG_BASEBALL_SET_CLICK_RECT = "mg_baseball_set_click_rect";
+
+    /**
+     * 4. 设置app提供给游戏可点击区域(棒球) 模型
+     */
+    public static final class MGBaseballSetClickRect implements Serializable {
+        public List<InteractionClickRect> list;
+    }
+
+    /**
+     * 5. 前期准备完成(棒球)
+     * 游戏客户端通知APP指令动作前期准备完成
+     */
+    public static final String MG_BASEBALL_PREPARE_FINISH = "mg_baseball_prepare_finish";
+
+    /**
+     * 5. 前期准备完成(棒球) 模型
+     */
+    public static final class MGBaseballPrepareFinish implements Serializable {
+    }
+
+    /**
+     * 6. 主界面已显示(棒球)
+     * 游戏客户端通知APP指令动作主界面已显示
+     */
+    public static final String MG_BASEBALL_SHOW_GAME_SCENE = "mg_baseball_show_game_scene";
+
+    /**
+     * 6. 主界面已显示(棒球) 模型
+     */
+    public static final class MGBaseballShowGameScene implements Serializable {
+    }
+
+    /**
+     * 7. 主界面已隐藏(棒球)
+     * 游戏客户端通知APP指令动作主界面已隐藏
+     */
+    public static final String MG_BASEBALL_HIDE_GAME_SCENE = "mg_baseball_hide_game_scene";
+
+    /**
+     * 7. 主界面已隐藏(棒球) 模型
+     */
+    public static final class MGBaseballHideGameScene implements Serializable {
+    }
     // endregion 棒球
-    
+
     /** 点击区域定义 */
     public static class InteractionClickRect {
         public float x; // 区域的x

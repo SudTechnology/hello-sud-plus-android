@@ -33,23 +33,25 @@ public abstract class BaseInteractionRoomActivity<T extends AppGameViewModel> ex
         interactionBannerView = findViewById(R.id.interaction_banner_view);
         interactionContainer = findViewById(R.id.interaction_container);
 
-        initControlList();
+        initInteractionGame();
         for (BaseInteractionControl control : controlList) {
             control.initWidget();
         }
     }
 
-    private void initControlList() {
+    private void initInteractionGame() {
+        // 控制器
         controlList.add(new RocketControl(this));
+
+        // banner
+        List<InteractionGameModel> bannerList = new ArrayList<>();
+        bannerList.add(new InteractionGameModel(GameIdCons.CUSTOM_ROCKET, R.drawable.ic_rocket_entrance));
+        interactionBannerView.setDatas(bannerList);
     }
 
     @Override
     protected void initData() {
         super.initData();
-        List<InteractionGameModel> list = new ArrayList<>();
-        list.add(new InteractionGameModel(GameIdCons.CUSTOM_ROCKET, R.drawable.ic_rocket_entrance));
-        interactionBannerView.setDatas(list);
-
         for (BaseInteractionControl control : controlList) {
             control.initData();
         }

@@ -1140,16 +1140,16 @@ public class SudMGPMGState implements Serializable {
      * 24. 设置点击区域(火箭) 模型
      */
     public static final class MGCustomRocketSetClickRect implements Serializable {
-        public List<RocketClickRect> list; // 游戏的点击区域
-
-        public static class RocketClickRect {
-            public float x; // 区域的x
-            public float y; // 区域的y
-            public float width; // 区域的width
-            public float height; // 区域的height
-        }
+        public List<InteractionClickRect> list; // 游戏的点击区域
     }
     // endregion 定制火箭
 
+    /** 点击区域定义 */
+    public static class InteractionClickRect {
+        public float x; // 区域的x
+        public float y; // 区域的y
+        public float width; // 区域的width
+        public float height; // 区域的height
+    }
 
 }

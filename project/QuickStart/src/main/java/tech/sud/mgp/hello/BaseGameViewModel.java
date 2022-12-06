@@ -1,13 +1,12 @@
 package tech.sud.mgp.hello;
 
+import android.app.Activity;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Toast;
-
-import androidx.fragment.app.FragmentActivity;
 
 import tech.sud.mgp.SudMGPWrapper.decorator.SudFSMMGDecorator;
 import tech.sud.mgp.SudMGPWrapper.decorator.SudFSMMGListener;
@@ -47,7 +46,7 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
      * @param gameRoomId 游戏房间id，房间隔离，同一房间才能一起游戏
      * @param gameId     游戏id，传入不同的游戏id，即可加载不同的游戏，传0等同于关闭游戏
      */
-    public void switchGame(FragmentActivity activity, String gameRoomId, long gameId) {
+    public void switchGame(Activity activity, String gameRoomId, long gameId) {
         if (TextUtils.isEmpty(gameRoomId)) {
             Toast.makeText(activity, "gameRoomId can not be empty", Toast.LENGTH_LONG).show();
             return;
@@ -72,7 +71,7 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
      * @param activity 游戏所在页面
      * @param gameId   游戏id
      */
-    private void login(FragmentActivity activity, long gameId) {
+    private void login(Activity activity, long gameId) {
         if (activity.isDestroyed() || gameId <= 0) {
             return;
         }
@@ -100,7 +99,7 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
      * @param gameId   游戏id
      * @param code     令牌
      */
-    private void initSdk(FragmentActivity activity, long gameId, String code) {
+    private void initSdk(Activity activity, long gameId, String code) {
         String appId = getAppId();
         String appKey = getAppKey();
         // 初始化sdk
@@ -132,7 +131,7 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
      * @param code     登录令牌
      * @param gameId   游戏id
      */
-    private void loadGame(FragmentActivity activity, String code, long gameId) {
+    private void loadGame(Activity activity, String code, long gameId) {
         if (activity.isDestroyed() || !isRunning || gameId != playingGameId) {
             return;
         }
@@ -165,7 +164,7 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
      * @param activity 游戏所在页面
      * @param gameId   游戏id
      */
-    private void delayLoadGame(FragmentActivity activity, long gameId) {
+    private void delayLoadGame(Activity activity, long gameId) {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -205,7 +204,7 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
     /**
      * 向接入方服务器获取code
      */
-    protected abstract void getCode(FragmentActivity activity, String userId, String appId, GameGetCodeListener listener);
+    protected abstract void getCode(Activity activity, String userId, String appId, GameGetCodeListener listener);
 
     /**
      * 设置当前用户id(接入方定义)

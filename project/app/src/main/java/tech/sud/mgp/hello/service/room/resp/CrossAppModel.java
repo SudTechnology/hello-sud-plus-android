@@ -12,6 +12,9 @@ import tech.sud.mgp.hello.service.room.model.CrossAppMatchStatus;
  */
 public class CrossAppModel implements Serializable {
 
+    public static final int SINGLE_MATCH = 1;
+    public static final int TEAM_MATCH = 2;
+
     public int matchStatus = CrossAppMatchStatus.TEAM; // 匹配状态(1未开启，2组队中，3匹配中)
     public String groupId; // 匹配组id
     public long captain; // 队长id
@@ -19,7 +22,7 @@ public class CrossAppModel implements Serializable {
     public List<UserInfoResp> userList; // 组队或匹配中用户列表
 
     // region 自定义参数
-    public boolean isFastMatch; // 是否是单人快速匹配
+    public int enterType; // 0不做动作；1单人快速匹配；2组队匹配
     public GameModel gameModel; // 当前匹配的游戏模型
     // endregion 自定义参数
 

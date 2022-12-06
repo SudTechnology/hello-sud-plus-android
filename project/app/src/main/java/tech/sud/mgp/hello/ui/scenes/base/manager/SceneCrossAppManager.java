@@ -56,8 +56,13 @@ public class SceneCrossAppManager extends BaseServiceManager {
         getMatchGameModel(crossAppModel.matchGameId, () -> {
             initStallList();
             callbackUpdateCrossApp();
-            if (crossAppModel.isFastMatch) {
-                fastMatch();
+            switch (crossAppModel.enterType) {
+                case CrossAppModel.SINGLE_MATCH:
+                    fastMatch();
+                    break;
+                case CrossAppModel.TEAM_MATCH:
+                    joinTeam(null, null);
+                    break;
             }
         });
     }
@@ -213,7 +218,11 @@ public class SceneCrossAppManager extends BaseServiceManager {
     public SceneCommandManager.CrossAppCmdTeamChangeListener crossAppCmdTeamChangeListener = new SceneCommandManager.CrossAppCmdTeamChangeListener() {
         @Override
         public void onRecvCommand(CrossAppCmdTeamChangeModel model, String userID) {
-
+            List<UserInfoResp> list = crossAppModel.userList;
+            List<UserInfoResp> anewList = model.userList;
+            if (list == null || anewList == null) {
+                
+            }
         }
     };
 

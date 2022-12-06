@@ -432,7 +432,7 @@ public class RoomRepository {
         req.gameId = gameId;
         req.index = index;
         AudioRequestMethodFactory.getMethod()
-                .crossAppJoinTeam(BaseUrlManager.getInteractBaseUrl(), req)
+                .crossAppJoinTeam(BaseUrlManager.getGameBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }
@@ -443,7 +443,7 @@ public class RoomRepository {
         req.roomId = roomId;
         req.gameId = gameId;
         AudioRequestMethodFactory.getMethod()
-                .crossAppStartMatch(BaseUrlManager.getInteractBaseUrl(), req)
+                .crossAppStartMatch(BaseUrlManager.getGameBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }
@@ -455,7 +455,7 @@ public class RoomRepository {
         req.roomId = roomId;
         req.gameId = gameId;
         AudioRequestMethodFactory.getMethod()
-                .crossAppCancelMatch(BaseUrlManager.getInteractBaseUrl(), req)
+                .crossAppCancelMatch(BaseUrlManager.getGameBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }
@@ -465,7 +465,7 @@ public class RoomRepository {
         CrossAppQuitTeamReq req = new CrossAppQuitTeamReq();
         req.roomId = roomId;
         AudioRequestMethodFactory.getMethod()
-                .crossAppQuitTeam(BaseUrlManager.getInteractBaseUrl(), req)
+                .crossAppQuitTeam(BaseUrlManager.getGameBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }
@@ -476,7 +476,7 @@ public class RoomRepository {
         req.roomId = roomId;
         req.gameId = gameId;
         AudioRequestMethodFactory.getMethod()
-                .crossAppSwitchGame(BaseUrlManager.getInteractBaseUrl(), req)
+                .crossAppSwitchGame(BaseUrlManager.getGameBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }

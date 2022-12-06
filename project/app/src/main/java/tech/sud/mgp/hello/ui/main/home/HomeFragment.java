@@ -410,11 +410,12 @@ public class HomeFragment extends BaseFragment implements CreatRoomClickListener
         enterRoomParams.crossAppModel = new CrossAppModel();
         dialog.setOnSingleMatchListener((model) -> {
             enterRoomParams.crossAppModel.matchGameId = model.gameId;
-            enterRoomParams.crossAppModel.isFastMatch = true;
+            enterRoomParams.crossAppModel.enterType = CrossAppModel.SINGLE_MATCH;
             createRoom(sceneModel.getSceneId(), null, enterRoomParams);
         });
         dialog.setOnTeamMatchListener((model) -> {
             enterRoomParams.crossAppModel.matchGameId = model.gameId;
+            enterRoomParams.crossAppModel.enterType = CrossAppModel.TEAM_MATCH;
             createRoom(sceneModel.getSceneId(), null, enterRoomParams);
         });
         dialog.show(getChildFragmentManager(), null);

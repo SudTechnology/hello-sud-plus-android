@@ -1,9 +1,8 @@
 package tech.sud.mgp.hello;
 
+import android.app.Activity;
 import android.view.View;
 
-import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.MutableLiveData;
 
 import org.json.JSONObject;
@@ -55,7 +54,7 @@ public class QuickStartGameViewModel extends BaseGameViewModel {
 
     /** 向接入方服务器获取code */
     @Override
-    protected void getCode(FragmentActivity activity, String userId, String appId, GameGetCodeListener listener) {
+    protected void getCode(Activity activity, String userId, String appId, GameGetCodeListener listener) {
         // TODO: 2022/6/10 注意，这里是演示使用OkHttpClient请求hello-sud服务
         // TODO: 2022/6/10 开发者在与后端联调时需将其改成自己的网络请求方式向自己的服务器获取code
         OkHttpClient client = new OkHttpClient();
@@ -77,7 +76,7 @@ public class QuickStartGameViewModel extends BaseGameViewModel {
                 .build();
         client.newCall(request).enqueue(new Callback() {
             @Override
-            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+            public void onFailure(Call call, IOException e) {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
@@ -87,7 +86,7 @@ public class QuickStartGameViewModel extends BaseGameViewModel {
             }
 
             @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) {
+            public void onResponse(Call call, Response response) {
                 try {
                     String dataJson = Objects.requireNonNull(response.body()).string();
                     JSONObject jsonObject = new JSONObject(dataJson);

@@ -102,7 +102,7 @@ public class ZIMManager {
         mRoomID = null;
     }
 
-    public void joinRoom(String roomID, String userID, String userName, String token) {
+    public void joinRoom(String roomID, String userID, String userName, String token, JoinRoomListener joinRoomListener) {
         if (zim == null) {
             return;
         }
@@ -130,9 +130,20 @@ public class ZIMManager {
                             Log.i(kTag, "enterRoom: " + errorInfo.code);
                             if (errorInfo.code == ZIMErrorCode.SUCCESS) {
                                 mRoomID = roomID;
+                                if (joinRoomListener != null) {
+                                    joinRoomListener.onSuccess();
+                                }
+                            } else {
+                                if (joinRoomListener != null) {
+                                    joinRoomListener.onFailed(errorInfo.code.value());
+                                }
                             }
                         }
                     });
+                } else {
+                    if (joinRoomListener != null) {
+                        joinRoomListener.onFailed(errorInfo.code.value());
+                    }
                 }
             }
         });
@@ -211,4 +222,11 @@ public class ZIMManager {
             });
         }
     }
+
+    public interface JoinRoomListener {
+        void onSuccess();
+
+        void onFailed(int code);
+    }
+
 }

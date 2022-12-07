@@ -3,6 +3,7 @@ package tech.sud.mgp.hello.ui.scenes.base.manager;
 import android.view.View;
 
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.ToastUtils;
 
 import org.json.JSONObject;
 
@@ -28,6 +29,7 @@ import tech.sud.mgp.rtc.audio.core.ISudAudioEngine;
 import tech.sud.mgp.rtc.audio.core.ISudAudioEventListener;
 import tech.sud.mgp.rtc.audio.factory.AudioEngineFactory;
 import tech.sud.mgp.rtc.audio.impl.zego.IMRoomManager;
+import tech.sud.mgp.rtc.audio.impl.zego.ZIMManager;
 import tech.sud.mgp.rtc.audio.model.AudioJoinRoomModel;
 
 /**
@@ -41,6 +43,7 @@ public class SceneEngineManager extends BaseServiceManager {
     private final int soundLevelThreshold = 1; // 触发声浪显示的阀值
     private boolean isOpenListen = false; // 标识音频监听开关状态
     private boolean enterRoomCompleted = false; // 标识是否进房成功
+    private boolean imJoinRoomCompleted = false; // 标识im进房是否成功
     private boolean isInitEngine = false; // 标识是否已初始化engine
     public SceneRoomServiceManager.EnterRoomCompletedListener enterRoomCompletedListener;
     private View videoView;
@@ -68,14 +71,29 @@ public class SceneEngineManager extends BaseServiceManager {
             BaseConfigResp baseConfigResp = (BaseConfigResp) GlobalCache.getInstance().getSerializable(GlobalCache.BASE_CONFIG_KEY);
             if (baseConfigResp != null && baseConfigResp.zegoCfg != null) {
                 IMRoomManager.sharedInstance().init(baseConfigResp.zegoCfg.appId, eventHandler);
-                IMRoomManager.sharedInstance().joinRoom(model.roomId + "", HSUserInfo.userId + "", HSUserInfo.nickName, model.imToken);
+                imJoinRoom(model);
             }
             return;
         }
 
         joinRoom(model);
 
-        IMRoomManager.sharedInstance().joinRoom(model.roomId + "", HSUserInfo.userId + "", HSUserInfo.nickName, model.imToken);
+        imJoinRoom(model);
+    }
+
+    private void imJoinRoom(RoomInfoModel model) {
+        IMRoomManager.sharedInstance().joinRoom(model.roomId + "", HSUserInfo.userId + "",
+                HSUserInfo.nickName, model.imToken, new ZIMManager.JoinRoomListener() {
+                    @Override
+                    public void onSuccess() {
+                        imJoinRoomCompleted();
+                    }
+
+                    @Override
+                    public void onFailed(int code) {
+                        ToastUtils.showLong("imJoinRoom:" + code);
+                    }
+                });
     }
 
     private void joinRoom(RoomInfoModel model) {
@@ -377,16 +395,29 @@ public class SceneEngineManager extends BaseServiceManager {
     }
 
     public boolean isEnterRoomCompleted() {
-        return enterRoomCompleted;
+        return enterRoomCompleted && imJoinRoomCompleted;
     }
 
     private void enterRoomCompleted() {
         if (enterRoomCompleted) return;
         enterRoomCompleted = true;
+        checkInitCompleted();
+    }
+
+    private void checkInitCompleted() {
+        if (!isEnterRoomCompleted()) {
+            return;
+        }
         SceneRoomServiceManager.EnterRoomCompletedListener listener = enterRoomCompletedListener;
         if (listener != null) {
             listener.onEnterRoomCompleted();
         }
+    }
+
+    private void imJoinRoomCompleted() {
+        if (imJoinRoomCompleted) return;
+        imJoinRoomCompleted = true;
+        checkInitCompleted();
     }
 
 }

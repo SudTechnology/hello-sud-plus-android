@@ -43,7 +43,7 @@
         android:paddingEnd="5dp"
         android:textSize="10sp"
         android:textColor="@color/c_ffffff"
-        android:background="@drawable/shape_room_cross_app_team_bg"
+        android:background="@drawable/ic_room_cross_app_team"
         app:layout_constraintTop_toTopOf="@id/room_cover"
         app:layout_constraintStart_toStartOf="@id/room_cover" />
 

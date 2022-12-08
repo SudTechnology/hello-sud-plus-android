@@ -55,7 +55,7 @@ public class GameRepository {
      * @param totalScore       充值后总积分
      * @param callback         回调
      */
-    public static void bringChip(LifecycleOwner owner, long mgId, long roomId, String roundId, long lastRoundScore,
+    public static void bringChip(LifecycleOwner owner, long mgId, String roomId, String roundId, long lastRoundScore,
                                  long incrementalScore, long totalScore, RxCallback<Object> callback) {
         BringChipReq req = new BringChipReq();
         req.mgId = mgId;

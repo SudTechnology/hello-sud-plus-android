@@ -23,6 +23,7 @@ import tech.sud.mgp.hello.common.event.LiveEventBusKey;
 import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.service.main.resp.GameModel;
 import tech.sud.mgp.hello.service.main.resp.UserInfoResp;
+import tech.sud.mgp.hello.service.room.resp.CrossAppModel;
 import tech.sud.mgp.hello.ui.common.utils.ResultListener;
 import tech.sud.mgp.hello.ui.common.utils.channel.NotifyId;
 import tech.sud.mgp.hello.ui.main.home.model.RoomItemModel;
@@ -392,6 +393,19 @@ public class SceneRoomService extends Service {
         public void crossAppChangeGame(GameModel gameModel) {
             if (serviceManager.sceneCrossAppManager != null) {
                 serviceManager.sceneCrossAppManager.changeGame(gameModel);
+            }
+        }
+
+        public CrossAppModel getCrossAppModel() {
+            if (serviceManager.sceneCrossAppManager != null) {
+                return serviceManager.sceneCrossAppManager.getCrossAppModel();
+            }
+            return null;
+        }
+
+        public void crossAppGameSettle(SudMGPMGState.MGCommonGameSettle model) {
+            if (serviceManager.sceneCrossAppManager != null) {
+                serviceManager.sceneCrossAppManager.crossAppGameSettle(model);
             }
         }
         // endregion 跨域

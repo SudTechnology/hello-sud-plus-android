@@ -4,21 +4,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
+import tech.sud.mgp.hello.common.model.HSUserInfo;
+import tech.sud.mgp.hello.service.game.repository.GameRepository;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.main.repository.UserInfoRepository;
 import tech.sud.mgp.hello.service.main.resp.CrossAppGameListResp;
 import tech.sud.mgp.hello.service.main.resp.GameModel;
 import tech.sud.mgp.hello.service.main.resp.UserInfoResp;
+import tech.sud.mgp.hello.service.room.model.CrossAppMatchStatus;
 import tech.sud.mgp.hello.service.room.repository.RoomRepository;
 import tech.sud.mgp.hello.service.room.resp.CrossAppModel;
 import tech.sud.mgp.hello.service.room.resp.CrossAppStartMatchResp;
 import tech.sud.mgp.hello.ui.common.utils.CompletedListener;
 import tech.sud.mgp.hello.ui.common.utils.ResultListener;
+import tech.sud.mgp.hello.ui.main.base.constant.GameIdCons;
 import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomServiceCallback;
-import tech.sud.mgp.hello.ui.scenes.base.utils.GameUtils;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.crossapp.CrossAppCmdGameSwitchModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.crossapp.CrossAppCmdStatusChangeModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.crossapp.CrossAppCmdTeamChangeModel;
@@ -54,6 +58,7 @@ public class SceneCrossAppManager extends BaseServiceManager {
         crossAppModel = parentManager.getRoomInfoModel().crossAppModel;
         if (crossAppModel == null) {
             crossAppModel = new CrossAppModel();
+            parentManager.getRoomInfoModel().crossAppModel = crossAppModel;
         }
         initData();
     }
@@ -80,7 +85,7 @@ public class SceneCrossAppManager extends BaseServiceManager {
             oldList.addAll(crossAppModel.userList);
         }
         crossAppModel.userList = new ArrayList<>();
-        int gameMaxNumber = GameUtils.getGameMaxNumber(crossAppModel.gameModel);
+        int gameMaxNumber = crossAppModel.gameModel.getGameMaxNumber();
         for (int i = 0; i < gameMaxNumber; i++) {
             UserInfoResp model = findUserInfo(oldList, i);
             if (model == null) {
@@ -196,6 +201,16 @@ public class SceneCrossAppManager extends BaseServiceManager {
         });
     }
 
+    public CrossAppModel getCrossAppModel() {
+        return crossAppModel;
+    }
+
+    public void crossAppGameSettle(SudMGPMGState.MGCommonGameSettle model) {
+        if (crossAppModel != null && crossAppModel.captain == HSUserInfo.userId) {
+            switchGame(GameIdCons.NONE);
+        }
+    }
+
     private String getGroupId() {
         if (crossAppModel != null) {
             return crossAppModel.groupId;
@@ -264,10 +279,15 @@ public class SceneCrossAppManager extends BaseServiceManager {
             if (model == null || model.content == null || crossAppModel == null) {
                 return;
             }
-//            crossAppModel.groupId = model.content.groupId;
+            crossAppModel.groupId = model.content.groupId;
             crossAppModel.matchRoomId = model.content.matchRoomId;
             crossAppModel.matchStatus = model.content.matchStatus;
+            checkInitMatchNumber();
             callbackUpdateCrossApp();
+            // 匹配成功时，队长触发游戏
+            if (crossAppModel.matchStatus == CrossAppMatchStatus.MATCH_SUCCESS && crossAppModel.captain == HSUserInfo.userId) {
+                switchGame(crossAppModel.matchGameId);
+            }
         }
     };
 
@@ -305,6 +325,20 @@ public class SceneCrossAppManager extends BaseServiceManager {
             updateUserinfo();
         }
     };
+
+    /** 切换游戏 */
+    private void switchGame(long gameId) {
+        // 发送http协议，通知后端
+        GameRepository.switchGame(parentManager, parentManager.getRoomId(), gameId, new RxCallback<Object>() {
+            @Override
+            public void onSuccess(Object o) {
+                super.onSuccess(o);
+                // 发送切换游戏信令
+                parentManager.switchGame(gameId);
+                parentManager.callbackOnGameChange(gameId);
+            }
+        });
+    }
 
     /** 跨域匹配游戏切换通知 */
     public SceneCommandManager.CrossAppCmdGameSwitchListener crossAppCmdGameSwitchListener = new SceneCommandManager.CrossAppCmdGameSwitchListener() {
@@ -355,6 +389,28 @@ public class SceneCrossAppManager extends BaseServiceManager {
                 callbackUpdateCrossApp();
             }
         });
+    }
+
+    private void checkInitMatchNumber() {
+        // 开启匹配的时候，这里判断一下要不要为匹配人数赋值
+        if (crossAppModel != null && crossAppModel.matchStatus == CrossAppMatchStatus.MATCHING) {
+            crossAppModel.curNum = getStallUserSize();
+            if (crossAppModel.gameModel != null) {
+                crossAppModel.totalNum = crossAppModel.gameModel.getGameMaxNumber();
+            }
+        }
+    }
+
+    private int getStallUserSize() {
+        int count = 0;
+        if (crossAppModel.userList != null) {
+            for (UserInfoResp userInfoResp : crossAppModel.userList) {
+                if (userInfoResp.existsUser()) {
+                    count++;
+                }
+            }
+        }
+        return count;
     }
 
     @Override

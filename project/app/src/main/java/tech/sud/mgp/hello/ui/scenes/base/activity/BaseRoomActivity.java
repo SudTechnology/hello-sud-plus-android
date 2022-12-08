@@ -1066,8 +1066,8 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
     }
 
     /** 获取游戏房间的id */
-    protected long getGameRoomId() {
-        return roomInfoModel.roomId;
+    protected String getGameRoomId() {
+        return roomInfoModel.roomId + "";
     }
 
     // 切换游戏之后，更新页面样式

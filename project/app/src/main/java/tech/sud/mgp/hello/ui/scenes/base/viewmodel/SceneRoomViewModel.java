@@ -10,7 +10,6 @@ import tech.sud.mgp.hello.service.main.manager.HomeManager;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.main.resp.GameListResp;
 import tech.sud.mgp.hello.service.main.resp.GameModel;
-import tech.sud.mgp.hello.ui.scenes.base.utils.GameUtils;
 
 /**
  * 房间业务
@@ -66,7 +65,10 @@ public class SceneRoomViewModel extends BaseViewModel {
      */
     public int getGameMaxNumber(long gameId) {
         GameModel gameModel = HomeManager.getInstance().getGameModel(gameId);
-        return GameUtils.getGameMaxNumber(gameModel);
+        if (gameModel != null) {
+            return gameModel.getGameMaxNumber();
+        }
+        return 0;
     }
 
 }

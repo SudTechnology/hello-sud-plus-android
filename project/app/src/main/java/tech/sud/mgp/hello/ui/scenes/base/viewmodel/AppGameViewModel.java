@@ -56,7 +56,7 @@ public class AppGameViewModel implements SudFSMMGListener {
     // region field
     public static long GAME_ID_NONE = 0; // 没有游戏
 
-    private long gameRoomId; // 游戏房间id
+    private String gameRoomId; // 游戏房间id
     private long playingGameId; // 当前使用的游戏id
     public final SudFSTAPPDecorator sudFSTAPPDecorator = new SudFSTAPPDecorator(); // app调用sdk的封装类
     public final SudFSMMGDecorator sudFSMMGDecorator = new SudFSMMGDecorator(); // 用于处理游戏SDK部分回调业务
@@ -80,6 +80,7 @@ public class AppGameViewModel implements SudFSMMGListener {
     public final MutableLiveData<GameLoadingProgressModel> gameLoadingProgressLiveData = new MutableLiveData<>(); // 游戏加载进度回调
     public final MutableLiveData<Object> onGameGetScoreLiveData = new MutableLiveData<>(); // 游戏通知app获取积分
     public final MutableLiveData<SudMGPMGState.MGCommonGameSetScore> onGameSetScoreLiveData = new MutableLiveData<>(); // 24. 游戏通知app带入积分
+    public final MutableLiveData<SudMGPMGState.MGCommonGameSettle> gameSettleLiveData = new MutableLiveData<>();
 
     private boolean isRunning = true; // 业务是否还在运行
     public View gameView; // 游戏View
@@ -96,7 +97,7 @@ public class AppGameViewModel implements SudFSMMGListener {
      * @param gameRoomId 游戏房间id，房间隔离，同一房间才能一起游戏
      * @param gameId     游戏id，传入不同的游戏id，即可加载不同的游戏，传0等同于关闭游戏。
      */
-    public void switchGame(FragmentActivity activity, long gameRoomId, long gameId) {
+    public void switchGame(FragmentActivity activity, String gameRoomId, long gameId) {
         switchGame(activity, gameRoomId, gameId, SudLoadMGMode.kSudLoadMGModeNormal, null);
     }
 
@@ -110,7 +111,7 @@ public class AppGameViewModel implements SudFSMMGListener {
      * @param loadMGMode          {@link SudLoadMGMode#kSudLoadMGModeNormal 为默认模式}； {@link SudLoadMGMode#kSudLoadMGModeAppCrossAuth 为跨APP域模式}
      * @param authorizationSecret loadMGMode为跨APP域模式时，所使用的授权密钥
      */
-    public void switchGame(FragmentActivity activity, long gameRoomId, long gameId, int loadMGMode, String authorizationSecret) {
+    public void switchGame(FragmentActivity activity, String gameRoomId, long gameId, int loadMGMode, String authorizationSecret) {
         checkFinishGame(gameId);
         // 因为finishGame需要一定时间发送给游戏服务，所以这里带了delay
         // 如果没有finishGame的需求，那可以不需要delay
@@ -324,7 +325,7 @@ public class AppGameViewModel implements SudFSMMGListener {
     }
 
     /** 获取当前游戏房id */
-    public long getGameRoomId() {
+    public String getGameRoomId() {
         return gameRoomId;
     }
 
@@ -566,6 +567,12 @@ public class AppGameViewModel implements SudFSMMGListener {
     // 游戏是否在进行中
     private boolean isGamePlaying() {
         return sudFSMMGDecorator.getGameState() == SudMGPMGState.MGCommonGameState.PLAYING;
+    }
+
+    @Override
+    public void onGameMGCommonGameSettle(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameSettle model) {
+        SudFSMMGListener.super.onGameMGCommonGameSettle(handle, model);
+        gameSettleLiveData.setValue(model);
     }
 
     // 该用户是否在游戏中

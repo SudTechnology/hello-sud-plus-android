@@ -5,7 +5,7 @@ package tech.sud.mgp.hello.service.game.req;
  */
 public class BringChipReq {
     public long mgId; // 游戏id
-    public long roomId; // 房间id
+    public String roomId; // 房间id
     public String roundId; // 订单关联的游戏局id
     public long lastRoundScore; // 本人当前积分
     public long incrementalScore; // 充值积分

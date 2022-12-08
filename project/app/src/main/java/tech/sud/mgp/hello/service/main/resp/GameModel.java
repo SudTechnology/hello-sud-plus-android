@@ -23,4 +23,20 @@ public class GameModel implements Serializable {
     public String leagueSceneName; // 联赛场景名称
     public String leagueScenePic; // 联赛场景图片
 
+    public int getGameMaxNumber() {
+        if (gameModeList != null && gameModeList.size() > 0) {
+            GameModeModel gameModeModel = gameModeList.get(0);
+            if (gameModeModel.mode != 1) {
+                for (GameModeModel model : gameModeList) {
+                    if (model.mode == 1) {
+                        gameModeModel = model;
+                    }
+                }
+            }
+            if (gameModeModel.count.length >= 2) {
+                return gameModeModel.count[1];
+            }
+        }
+        return 0;
+    }
 }

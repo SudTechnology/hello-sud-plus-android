@@ -1,10 +1,12 @@
 package tech.sud.mgp.hello.ui.scenes.crossapp.activity;
 
+import android.text.TextUtils;
 import android.view.View;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import tech.sud.mgp.hello.R;
+import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.service.room.model.CrossAppMatchStatus;
 import tech.sud.mgp.hello.service.room.resp.CrossAppModel;
@@ -12,7 +14,6 @@ import tech.sud.mgp.hello.ui.scenes.audio.widget.view.mic.AudioRoomGameMicView;
 import tech.sud.mgp.hello.ui.scenes.base.activity.BaseRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.chat.SceneRoomChatView;
-import tech.sud.mgp.hello.ui.scenes.crossapp.viewmodel.CrossAppViewModel;
 import tech.sud.mgp.hello.ui.scenes.crossapp.widget.dialog.SelectMatchGameDialog;
 import tech.sud.mgp.hello.ui.scenes.crossapp.widget.view.CrossAppStatusView;
 
@@ -22,12 +23,16 @@ import tech.sud.mgp.hello.ui.scenes.crossapp.widget.view.CrossAppStatusView;
 public class CrossAppActivity extends BaseRoomActivity<AppGameViewModel> {
 
     private CrossAppStatusView crossAppStatusView;
-    private CrossAppModel crossAppModel;
-    private CrossAppViewModel crossAppViewModel = new CrossAppViewModel();
 
     @Override
     protected AppGameViewModel initGameViewModel() {
         return new AppGameViewModel();
+    }
+
+    @Override
+    protected boolean beforeSetContentView() {
+        roomConfig.isSupportAddRobot = true;
+        return super.beforeSetContentView();
     }
 
     @Override
@@ -48,10 +53,14 @@ public class CrossAppActivity extends BaseRoomActivity<AppGameViewModel> {
         chatParams.bottomToTop = R.id.room_bottom_view;
         chatView.setLayoutParams(chatParams);
 
-        topView.setSelectGameVisible(false);
-
         micView.setMicView(new AudioRoomGameMicView(this));
         chatView.setChatStyle(SceneRoomChatView.AudioRoomChatStyle.GAME);
+    }
+
+    @Override
+    protected void initData() {
+        super.initData();
+        crossAppStatusView.setCrossAppModel(getCrossAppModel());
     }
 
     @Override
@@ -91,6 +100,12 @@ public class CrossAppActivity extends BaseRoomActivity<AppGameViewModel> {
         crossAppStatusView.setAnewMatchOnClickListener(v -> {
             startMatch();
         });
+
+        gameViewModel.gameSettleLiveData.observe(this, model -> {
+            if (binder != null) {
+                binder.crossAppGameSettle(model);
+            }
+        });
     }
 
     private void cancelMatch() {
@@ -122,10 +137,20 @@ public class CrossAppActivity extends BaseRoomActivity<AppGameViewModel> {
     @Override
     protected void updatePageStyle() {
         super.updatePageStyle();
-        updateStatusViewVisiable();
+        CrossAppModel crossAppModel = getCrossAppModel();
+        updateStatusViewVisiable(crossAppModel);
+        updateSelectGameVisiable(crossAppModel);
     }
 
-    private void updateStatusViewVisiable() {
+    private void updateSelectGameVisiable(CrossAppModel model) {
+        if (model != null && model.matchStatus == CrossAppMatchStatus.TEAM) {
+            topView.setSelectGameVisible(model.captain == HSUserInfo.userId);
+        } else {
+            topView.setSelectGameVisible(false);
+        }
+    }
+
+    private void updateStatusViewVisiable(CrossAppModel crossAppModel) {
         if (playingGameId > 0 || crossAppModel == null) {
             crossAppStatusView.setVisibility(View.GONE);
         } else {
@@ -145,9 +170,34 @@ public class CrossAppActivity extends BaseRoomActivity<AppGameViewModel> {
     @Override
     public void onUpdateCrossApp(CrossAppModel model) {
         super.onUpdateCrossApp(model);
-        crossAppModel = model;
         crossAppStatusView.setCrossAppModel(model);
-        updateStatusViewVisiable();
+        updateStatusViewVisiable(model);
+        updateSelectGameVisiable(model);
+    }
+
+    @Override
+    protected String getGameRoomId() {
+        String matchRoomId = getMatchRoomId();
+        if (TextUtils.isEmpty(matchRoomId)) {
+            return super.getGameRoomId();
+        } else {
+            return matchRoomId;
+        }
+    }
+
+    private String getMatchRoomId() {
+        CrossAppModel crossAppModel = getCrossAppModel();
+        if (crossAppModel != null) {
+            return crossAppModel.matchRoomId;
+        }
+        return null;
+    }
+
+    private CrossAppModel getCrossAppModel() {
+        if (binder != null) {
+            return binder.getCrossAppModel();
+        }
+        return roomInfoModel.crossAppModel;
     }
 
 }

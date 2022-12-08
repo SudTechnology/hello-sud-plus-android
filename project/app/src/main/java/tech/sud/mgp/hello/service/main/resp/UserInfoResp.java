@@ -50,4 +50,8 @@ public class UserInfoResp implements Serializable {
         headerNftUrl = userInfoResp.headerNftUrl;
     }
 
+    public boolean existsUser() {
+        return userId > 0;
+    }
+
 }

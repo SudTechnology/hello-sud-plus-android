@@ -69,7 +69,7 @@ public class MainActivity extends BaseActivity implements MainTabView.TabClickLi
         }
         viewPager.setSaveEnabled(false);
         viewPager.setUserInputEnabled(false);
-        
+
     }
 
     @Override
@@ -77,7 +77,11 @@ public class MainActivity extends BaseActivity implements MainTabView.TabClickLi
         super.initData();
         new NotifyChannelHelper().initChannel(this);
         getBaseConfig();
-        gameViewModel.preloadMG(this, GameIdCons.CUSTOM_ROCKET);
+        // 预加载游戏包
+        List<Long> mgIdList = new ArrayList<>();
+        mgIdList.add(GameIdCons.CUSTOM_ROCKET);
+        mgIdList.add(GameIdCons.BASEBALL);
+        gameViewModel.preloadMG(this, mgIdList);
     }
 
     private void getBaseConfig() {

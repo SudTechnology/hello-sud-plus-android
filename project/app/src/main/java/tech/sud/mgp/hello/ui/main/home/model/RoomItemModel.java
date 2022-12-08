@@ -14,6 +14,7 @@ public class RoomItemModel {
     private String sceneTag; // 场景标签名称
     private String gameLevelDesc; // 游戏级别描述
     public int pkStatus; // pk状态
+    public int teamStatus; // 跨域组队状态
 
     public long getRoomId() {
         return roomId;

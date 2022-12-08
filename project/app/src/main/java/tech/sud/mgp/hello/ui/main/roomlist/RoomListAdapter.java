@@ -20,6 +20,7 @@ import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
 import tech.sud.mgp.hello.common.utils.ShapeUtils;
+import tech.sud.mgp.hello.service.room.model.CrossAppMatchStatus;
 import tech.sud.mgp.hello.service.room.model.PkStatus;
 import tech.sud.mgp.hello.ui.main.base.constant.SceneType;
 import tech.sud.mgp.hello.ui.main.home.model.RoomItemModel;
@@ -98,6 +99,20 @@ public class RoomListAdapter extends BaseQuickAdapter<RoomItemModel, BaseViewHol
         } else {
             tvStatus.setVisibility(View.GONE);
         }
+
+        // 跨域状态显示
+        TextView tvCrossAppStatus = helper.getView(R.id.tv_cross_app_status);
+        if (item.getSceneType() == SceneType.CROSS_APP) {
+            if (item.teamStatus == CrossAppMatchStatus.TEAM) {
+                tvCrossAppStatus.setText(R.string.in_a_team);
+                tvCrossAppStatus.setVisibility(View.VISIBLE);
+            } else {
+                tvCrossAppStatus.setVisibility(View.GONE);
+            }
+        } else {
+            tvCrossAppStatus.setVisibility(View.GONE);
+        }
+
     }
 
     /**
@@ -157,6 +172,10 @@ public class RoomListAdapter extends BaseQuickAdapter<RoomItemModel, BaseViewHol
                 break;
             case SceneType.LEAGUE:
                 color.colorBg = Color.parseColor("#cb1530");
+                color.colorText = Color.parseColor("#FFFFFF");
+                break;
+            case SceneType.CROSS_APP:
+                color.colorBg = Color.parseColor("#0d0deb");
                 color.colorText = Color.parseColor("#FFFFFF");
                 break;
             default:

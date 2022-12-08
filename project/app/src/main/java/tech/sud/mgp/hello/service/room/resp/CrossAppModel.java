@@ -17,6 +17,7 @@ public class CrossAppModel implements Serializable {
 
     public int matchStatus = CrossAppMatchStatus.TEAM; // 匹配状态(1未开启，2组队中，3匹配中)
     public String groupId; // 匹配组id
+    public String matchRoomId; // 匹配房间id(用于后续加载游戏)，匹配状态为成功时该字段才有值
     public long captain; // 队长id
     public long matchGameId; // 当前匹配游戏id
     public List<UserInfoResp> userList; // 组队或匹配中用户列表

@@ -13,8 +13,7 @@ import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdBaseModel;
  */
 public class CrossAppCmdTeamChangeModel extends RoomCmdBaseModel {
 
-    public long captain; // 队长id
-    public List<UserInfoResp> userList; // 组队用户列表
+    public Content content;
 
     public CrossAppCmdTeamChangeModel(UserInfo sendUser) {
         super(RoomCmd.CMD_GAME_EXTRA_TEAM_CHANGED_NOTIFY, sendUser);
@@ -22,6 +21,11 @@ public class CrossAppCmdTeamChangeModel extends RoomCmdBaseModel {
 
     public static CrossAppCmdTeamChangeModel fromJson(String json) {
         return SudJsonUtils.fromJson(json, CrossAppCmdTeamChangeModel.class);
+    }
+
+    public static class Content {
+        public long captain; // 队长id
+        public List<UserInfoResp> userList; // 组队用户列表
     }
 
 }

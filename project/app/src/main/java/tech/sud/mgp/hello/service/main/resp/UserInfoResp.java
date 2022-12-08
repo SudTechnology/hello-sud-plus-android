@@ -2,7 +2,9 @@ package tech.sud.mgp.hello.service.main.resp;
 
 import com.google.gson.annotations.SerializedName;
 
-public class UserInfoResp {
+import java.io.Serializable;
+
+public class UserInfoResp implements Serializable {
     public long userId; // 用户id
     public String avatar; // 头像
     public String nickname; // 昵称
@@ -23,6 +25,29 @@ public class UserInfoResp {
         } else {
             return avatar;
         }
+    }
+
+    public void clearUser() {
+        userId = -1;
+        avatar = null;
+        nickname = null;
+        gender = null;
+        isAi = false;
+        headerType = 0;
+        headerNftToken = null;
+        headerNftUrl = null;
+        isCaptain = false;
+    }
+
+    public void setUserInfo(UserInfoResp userInfoResp) {
+        userId = userInfoResp.userId;
+        avatar = userInfoResp.avatar;
+        nickname = userInfoResp.nickname;
+        gender = userInfoResp.gender;
+        isAi = userInfoResp.isAi;
+        headerType = userInfoResp.headerType;
+        headerNftToken = userInfoResp.headerNftToken;
+        headerNftUrl = userInfoResp.headerNftUrl;
     }
 
 }

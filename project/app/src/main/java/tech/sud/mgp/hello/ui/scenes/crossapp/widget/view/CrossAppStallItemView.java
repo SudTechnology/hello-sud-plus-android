@@ -26,6 +26,7 @@ public class CrossAppStallItemView extends ConstraintLayout {
     private ImageView ivIcon;
     private TextView tvName;
     private TextView tvCaptain;
+    private UserInfoResp userInfoResp;
 
     public CrossAppStallItemView(@NonNull Context context) {
         this(context, null);
@@ -77,7 +78,8 @@ public class CrossAppStallItemView extends ConstraintLayout {
     }
 
     /** 设置数据 */
-    public void setData(UserInfoResp model) {
+    public void setUserInfoResp(UserInfoResp model) {
+        userInfoResp = model;
         boolean hasUser = model.userId > 0;
 
         if (hasUser) {
@@ -101,4 +103,7 @@ public class CrossAppStallItemView extends ConstraintLayout {
         }
     }
 
+    public UserInfoResp getUserInfoResp() {
+        return userInfoResp;
+    }
 }

@@ -362,6 +362,26 @@ public class SceneRoomService extends Service {
             serviceManager.kickOutRoom(model);
         }
 
+        // region 跨域
+        public void crossAppJoinTeam(UserInfoResp userInfoResp) {
+            if (serviceManager.sceneCrossAppManager != null) {
+                serviceManager.sceneCrossAppManager.joinTeam(userInfoResp);
+            }
+        }
+
+        public void crossAppExitTeam() {
+            if (serviceManager.sceneCrossAppManager != null) {
+                serviceManager.sceneCrossAppManager.crossAppExitTeam();
+            }
+        }
+
+        public void crossAppTeamFastMatch() {
+            if (serviceManager.sceneCrossAppManager != null) {
+                serviceManager.sceneCrossAppManager.crossAppTeamFastMatch();
+            }
+        }
+        // endregion 跨域
+
     }
 
     /** 获取当前使用的房间基本数据 */

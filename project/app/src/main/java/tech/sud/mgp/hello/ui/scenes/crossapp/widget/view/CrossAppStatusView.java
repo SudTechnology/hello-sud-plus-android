@@ -8,7 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import tech.sud.mgp.hello.service.main.resp.GameModel;
 import tech.sud.mgp.hello.service.room.model.CrossAppMatchStatus;
 import tech.sud.mgp.hello.service.room.resp.CrossAppModel;
 
@@ -44,6 +43,9 @@ public class CrossAppStatusView extends ConstraintLayout {
 
     /** 设置数据 */
     public void setCrossAppModel(CrossAppModel model) {
+        if (model == null) {
+            return;
+        }
         switch (model.matchStatus) {
             case CrossAppMatchStatus.TEAM:
                 crossAppTeamView.setVisibility(View.VISIBLE);
@@ -60,8 +62,21 @@ public class CrossAppStatusView extends ConstraintLayout {
         }
     }
 
-    public void setGameModel(GameModel gameModel) {
-        crossAppTeamView.setGameModel(gameModel);
+    /** 点击车位监听 */
+    public void setOnClickStallListener(CrossAppStallView.OnClickStallListener onClickStallListener) {
+        crossAppTeamView.setOnClickStallListener(onClickStallListener);
+    }
+
+    public void setExitTeamOnClickListener(OnClickListener listener) {
+        crossAppTeamView.setExitTeamOnClickListener(listener);
+    }
+
+    public void setTeamFastMatchOnClickListener(OnClickListener listener) {
+        crossAppTeamView.setTeamFastMatchOnClickListener(listener);
+    }
+
+    public void setJoinTeamOnClickListener(OnClickListener listener) {
+        crossAppTeamView.setJoinTeamOnClickListener(listener);
     }
 
 }

@@ -25,6 +25,7 @@ public class CrossAppStallView extends ConstraintLayout {
     private final List<CrossAppStallItemView> itemViewList = new ArrayList<>();
     private final LinearLayout container1 = new LinearLayout(getContext());
     private final LinearLayout container2 = new LinearLayout(getContext());
+    private OnClickStallListener onClickStallListener;
 
     public CrossAppStallView(@NonNull Context context) {
         this(context, null);
@@ -81,7 +82,7 @@ public class CrossAppStallView extends ConstraintLayout {
             UserInfoResp model = datas.get(i);
             CrossAppStallItemView itemView = getItemView(i);
             if (itemView != null) {
-                itemView.setData(model);
+                itemView.setUserInfoResp(model);
             }
         }
     }
@@ -127,6 +128,12 @@ public class CrossAppStallView extends ConstraintLayout {
         for (int i = 0; i < list.size(); i++) {
             CrossAppStallItemView itemView = new CrossAppStallItemView(getContext());
             itemViewList.add(itemView);
+            itemView.setOnClickListener(v -> {
+                UserInfoResp userInfoResp = itemView.getUserInfoResp();
+                if (onClickStallListener != null) {
+                    onClickStallListener.onClick(userInfoResp);
+                }
+            });
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT);
             if (i > 0) {
@@ -141,5 +148,12 @@ public class CrossAppStallView extends ConstraintLayout {
         }
     }
 
+    public void setOnClickStallListener(OnClickStallListener onClickStallListener) {
+        this.onClickStallListener = onClickStallListener;
+    }
+
+    public interface OnClickStallListener {
+        void onClick(UserInfoResp userInfoResp);
+    }
 
 }

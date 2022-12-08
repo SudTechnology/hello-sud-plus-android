@@ -7,6 +7,7 @@ import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
+import tech.sud.mgp.hello.service.main.repository.UserInfoRepository;
 import tech.sud.mgp.hello.service.main.resp.CrossAppGameListResp;
 import tech.sud.mgp.hello.service.main.resp.GameModel;
 import tech.sud.mgp.hello.service.main.resp.UserInfoResp;
@@ -44,6 +45,22 @@ public class SceneCrossAppManager extends BaseServiceManager {
         parentManager.sceneEngineManager.setCommandListener(crossAppCmdGameSwitchListener);
     }
 
+    public void joinTeam(UserInfoResp userInfoResp) {
+        Integer intentIndex = null;
+        if (userInfoResp != null) {
+            intentIndex = userInfoResp.index;
+        }
+        joinTeam(intentIndex, null);
+    }
+
+    public void crossAppExitTeam() {
+        RoomRepository.crossAppQuitTeam(parentManager, parentManager.getRoomId(), new RxCallback<>());
+    }
+
+    public void crossAppTeamFastMatch() {
+        startMatch();
+    }
+
     public void onEnterRoomSuccess() {
         crossAppModel = parentManager.getRoomInfoModel().crossAppModel;
         if (crossAppModel == null) {
@@ -56,6 +73,7 @@ public class SceneCrossAppManager extends BaseServiceManager {
         getMatchGameModel(crossAppModel.matchGameId, () -> {
             initStallList();
             callbackUpdateCrossApp();
+            updateUserinfo();
             switch (crossAppModel.enterType) {
                 case CrossAppModel.SINGLE_MATCH:
                     fastMatch();
@@ -210,7 +228,12 @@ public class SceneCrossAppManager extends BaseServiceManager {
     public SceneCommandManager.CrossAppCmdStatusChangeListener crossAppCmdStatusChangeListener = new SceneCommandManager.CrossAppCmdStatusChangeListener() {
         @Override
         public void onRecvCommand(CrossAppCmdStatusChangeModel model, String userID) {
-
+            if (model == null || model.content == null || crossAppModel == null) {
+                return;
+            }
+            crossAppModel.groupId = model.content.groupId;
+            crossAppModel.matchRoomId = model.content.matchRoomId;
+            crossAppModel.matchStatus = model.content.matchStatus;
         }
     };
 
@@ -218,11 +241,34 @@ public class SceneCrossAppManager extends BaseServiceManager {
     public SceneCommandManager.CrossAppCmdTeamChangeListener crossAppCmdTeamChangeListener = new SceneCommandManager.CrossAppCmdTeamChangeListener() {
         @Override
         public void onRecvCommand(CrossAppCmdTeamChangeModel model, String userID) {
-            List<UserInfoResp> list = crossAppModel.userList;
-            List<UserInfoResp> anewList = model.userList;
-            if (list == null || anewList == null) {
-                
+            if (crossAppModel == null) {
+                return;
             }
+            long captainUserId = 0;
+            List<UserInfoResp> curList = crossAppModel.userList;
+            List<UserInfoResp> anewList = null;
+            if (model.content != null) {
+                anewList = model.content.userList;
+                captainUserId = model.content.captain;
+                crossAppModel.captain = captainUserId;
+            }
+            if (curList == null) {
+                return;
+            }
+            for (UserInfoResp userInfoResp : curList) {
+                int index = userInfoResp.index;
+                UserInfoResp anewUserInfo = findUserInfo(anewList, index);
+                if (anewUserInfo == null) {
+                    userInfoResp.clearUser();
+                } else {
+                    if (userInfoResp.userId != anewUserInfo.userId) {
+                        userInfoResp.clearUser();
+                        userInfoResp.userId = anewUserInfo.userId;
+                    }
+                }
+                userInfoResp.isCaptain = userInfoResp.userId > 0 && userInfoResp.userId == captainUserId;
+            }
+            updateUserinfo();
         }
     };
 
@@ -233,6 +279,42 @@ public class SceneCrossAppManager extends BaseServiceManager {
 
         }
     };
+
+    private void updateUserinfo() {
+        if (crossAppModel == null) {
+            return;
+        }
+        List<UserInfoResp> curList = crossAppModel.userList;
+        if (curList == null) {
+            return;
+        }
+        List<Long> userIdList = new ArrayList<>();
+        for (UserInfoResp userInfoResp : curList) {
+            if (userInfoResp.userId > 0) {
+                userIdList.add(userInfoResp.userId);
+            }
+        }
+        if (userIdList.size() == 0) {
+            return;
+        }
+        UserInfoRepository.getUserInfoList(parentManager, userIdList, new UserInfoRepository.UserInfoResultListener() {
+            @Override
+            public void userInfoList(List<UserInfoResp> userInfos) {
+                if (userInfos == null) {
+                    return;
+                }
+                for (UserInfoResp userInfo : userInfos) {
+                    for (UserInfoResp curUserInfo : curList) {
+                        if (userInfo.userId == curUserInfo.userId) {
+                            curUserInfo.setUserInfo(userInfo);
+                            break;
+                        }
+                    }
+                }
+                callbackUpdateCrossApp();
+            }
+        });
+    }
 
     @Override
     public void onDestroy() {

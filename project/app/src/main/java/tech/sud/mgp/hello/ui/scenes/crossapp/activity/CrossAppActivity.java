@@ -59,8 +59,25 @@ public class CrossAppActivity extends BaseRoomActivity<AppGameViewModel> {
         topView.setSelectGameClickListener(v -> {
             // TODO: 2022/12/2  
         });
-        crossAppViewModel.matchGameModelLiveData.observe(this, gameModel -> {
-            crossAppStatusView.setGameModel(gameModel);
+        crossAppStatusView.setOnClickStallListener(userInfoResp -> {
+            if (binder != null) {
+                binder.crossAppJoinTeam(userInfoResp);
+            }
+        });
+        crossAppStatusView.setExitTeamOnClickListener(v -> {
+            if (binder != null) {
+                binder.crossAppExitTeam();
+            }
+        });
+        crossAppStatusView.setTeamFastMatchOnClickListener(v -> {
+            if (binder != null) {
+                binder.crossAppTeamFastMatch();
+            }
+        });
+        crossAppStatusView.setJoinTeamOnClickListener(v -> {
+            if (binder != null) {
+                binder.crossAppJoinTeam(null);
+            }
         });
     }
 
@@ -93,7 +110,6 @@ public class CrossAppActivity extends BaseRoomActivity<AppGameViewModel> {
         super.onUpdateCrossApp(model);
         crossAppModel = model;
         crossAppStatusView.setCrossAppModel(model);
-        crossAppViewModel.getMatchGameModel(model.matchGameId);
         updateStatusViewVisiable();
     }
 

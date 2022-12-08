@@ -12,10 +12,7 @@ import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdBaseModel;
  */
 public class CrossAppCmdUsersChangeModel extends RoomCmdBaseModel {
 
-    public String groupId; // 匹配组id
-    public int curNum; // 已匹配人数
-    public int totalNum; // 需匹配总人数
-    public List<String> userIds; // 已匹配的用户id（其他App内用户id不在此列表中）
+    public Content content;
 
     public CrossAppCmdUsersChangeModel(UserInfo sendUser) {
         super(RoomCmd.CMD_GAME_EXTRA_MATCH_USERS_CHANGED_NOTIFY, sendUser);
@@ -23,6 +20,13 @@ public class CrossAppCmdUsersChangeModel extends RoomCmdBaseModel {
 
     public static CrossAppCmdUsersChangeModel fromJson(String json) {
         return SudJsonUtils.fromJson(json, CrossAppCmdUsersChangeModel.class);
+    }
+
+    public static class Content {
+        public String groupId; // 匹配组id
+        public int curNum; // 已匹配人数
+        public int totalNum; // 需匹配总人数
+        public List<String> userIds; // 已匹配的用户id（其他App内用户id不在此列表中）
     }
 
 }

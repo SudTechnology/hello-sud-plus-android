@@ -13,6 +13,7 @@ import tech.sud.mgp.hello.ui.scenes.base.activity.BaseRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.chat.SceneRoomChatView;
 import tech.sud.mgp.hello.ui.scenes.crossapp.viewmodel.CrossAppViewModel;
+import tech.sud.mgp.hello.ui.scenes.crossapp.widget.dialog.SelectMatchGameDialog;
 import tech.sud.mgp.hello.ui.scenes.crossapp.widget.view.CrossAppStatusView;
 
 /**
@@ -57,11 +58,15 @@ public class CrossAppActivity extends BaseRoomActivity<AppGameViewModel> {
     protected void setListeners() {
         super.setListeners();
         topView.setSelectGameClickListener(v -> {
-            // TODO: 2022/12/2  
+            onClickChangeMatchGame();
         });
         crossAppStatusView.setOnClickStallListener(userInfoResp -> {
             if (binder != null) {
-                binder.crossAppJoinTeam(userInfoResp);
+                Integer intentIndex = null;
+                if (userInfoResp != null) {
+                    intentIndex = userInfoResp.index;
+                }
+                binder.crossAppJoinTeam(intentIndex, null);
             }
         });
         crossAppStatusView.setExitTeamOnClickListener(v -> {
@@ -70,15 +75,48 @@ public class CrossAppActivity extends BaseRoomActivity<AppGameViewModel> {
             }
         });
         crossAppStatusView.setTeamFastMatchOnClickListener(v -> {
-            if (binder != null) {
-                binder.crossAppTeamFastMatch();
-            }
+            startMatch();
         });
         crossAppStatusView.setJoinTeamOnClickListener(v -> {
             if (binder != null) {
-                binder.crossAppJoinTeam(null);
+                binder.crossAppJoinTeam(null, null);
             }
         });
+        crossAppStatusView.setCancelMatchOnClickListener(v -> {
+            cancelMatch();
+        });
+        crossAppStatusView.setChangeGameOnClickListener(v -> {
+            onClickChangeMatchGame();
+        });
+        crossAppStatusView.setAnewMatchOnClickListener(v -> {
+            startMatch();
+        });
+    }
+
+    private void cancelMatch() {
+        if (binder != null) {
+            binder.crossAppCancelMatch();
+        }
+    }
+
+    private void startMatch() {
+        if (binder != null) {
+            binder.crossAppStartMatch();
+        }
+    }
+
+    private void onClickChangeMatchGame() {
+        showCrossAppMatchGameDialog();
+    }
+
+    private void showCrossAppMatchGameDialog() {
+        SelectMatchGameDialog dialog = SelectMatchGameDialog.newInstance(SelectMatchGameDialog.MODE_CHANGE);
+        dialog.setOnSelectedListener(gameModel -> {
+            if (binder != null) {
+                binder.crossAppChangeGame(gameModel);
+            }
+        });
+        dialog.show(getSupportFragmentManager(), null);
     }
 
     @Override
@@ -94,7 +132,6 @@ public class CrossAppActivity extends BaseRoomActivity<AppGameViewModel> {
             switch (crossAppModel.matchStatus) {
                 case CrossAppMatchStatus.TEAM:
                 case CrossAppMatchStatus.MATCHING:
-                case CrossAppMatchStatus.MATCH_SUCCESS:
                 case CrossAppMatchStatus.MATCH_FAILED:
                     crossAppStatusView.setVisibility(View.VISIBLE);
                     break;

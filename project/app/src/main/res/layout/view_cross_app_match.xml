@@ -26,8 +26,10 @@
 
         <TextView
             android:id="@+id/match_tv_title"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingHorizontal="16dp"
+            android:gravity="center"
             android:textColor="@color/white"
             android:textSize="18sp" />
 

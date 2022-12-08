@@ -633,6 +633,11 @@ Go to homepage to create one~</string>
     <string name="change_game">更换游戏</string>
     <string name="anew_match">重新匹配</string>
     <string name="match_ob_hint">未加入队伍，围观中</string>
+    <string name="matching_title">正在匹配【%1$s】的玩伴</string>
+    <string name="person">人</string>
+    <string name="match_failed_captain_title">暂匹配不到\n可重新匹配或者更换游戏</string>
+    <string name="match_failed_member_title">暂匹配不到\n可重新匹配</string>
+    <string name="match_failed_hint">啊哦，系统繁忙</string>
     <!-- endregion 新增 -->
 
 </resources>

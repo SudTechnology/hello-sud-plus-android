@@ -22,6 +22,9 @@ public class CrossAppModel implements Serializable {
     public long matchGameId; // 当前匹配游戏id
     public List<UserInfoResp> userList; // 组队或匹配中用户列表
 
+    public int curNum; // 已匹配人数
+    public int totalNum; // 需匹配总人数
+
     // region 自定义参数
     public int enterType; // 0不做动作；1单人快速匹配；2组队匹配
     public GameModel gameModel; // 当前匹配的游戏模型

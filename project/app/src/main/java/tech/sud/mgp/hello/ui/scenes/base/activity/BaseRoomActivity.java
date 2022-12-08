@@ -352,7 +352,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         });
     }
 
-    private AudioRoomMicModel findNewRobotMic(List<AudioRoomMicModel> micList) {
+    protected AudioRoomMicModel findNewRobotMic(List<AudioRoomMicModel> micList) {
         int totalRobotCount = 0;
         AudioRoomMicModel emptyMicModel = null;
         for (AudioRoomMicModel model : micList) {
@@ -376,7 +376,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
      * @param robotList 机器人列表
      * @param micList   麦位列表
      */
-    private AIPlayers findAvailableAiPlayers(List<AIPlayers> robotList, List<AudioRoomMicModel> micList) {
+    protected AIPlayers findAvailableAiPlayers(List<AIPlayers> robotList, List<AudioRoomMicModel> micList) {
         Random random = new Random();
         for (int i = 0; i < 1000; i++) {
             int position = random.nextInt(robotList.size());

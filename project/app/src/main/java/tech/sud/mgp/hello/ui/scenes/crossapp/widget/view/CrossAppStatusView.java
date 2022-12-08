@@ -79,4 +79,16 @@ public class CrossAppStatusView extends ConstraintLayout {
         crossAppTeamView.setJoinTeamOnClickListener(listener);
     }
 
+    public void setCancelMatchOnClickListener(OnClickListener listener) {
+        crossAppMatchView.setCancelMatchOnClickListener(listener);
+    }
+
+    public void setChangeGameOnClickListener(OnClickListener listener) {
+        crossAppMatchView.setChangeGameOnClickListener(listener);
+    }
+
+    public void setAnewMatchOnClickListener(OnClickListener listener) {
+        crossAppMatchView.setAnewMatchOnClickListener(listener);
+    }
+
 }

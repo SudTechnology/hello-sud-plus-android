@@ -21,7 +21,9 @@ import tech.sud.mgp.hello.common.event.ChangeRTCEvent;
 import tech.sud.mgp.hello.common.event.EnterRoomEvent;
 import tech.sud.mgp.hello.common.event.LiveEventBusKey;
 import tech.sud.mgp.hello.common.model.AppData;
+import tech.sud.mgp.hello.service.main.resp.GameModel;
 import tech.sud.mgp.hello.service.main.resp.UserInfoResp;
+import tech.sud.mgp.hello.ui.common.utils.ResultListener;
 import tech.sud.mgp.hello.ui.common.utils.channel.NotifyId;
 import tech.sud.mgp.hello.ui.main.home.model.RoomItemModel;
 import tech.sud.mgp.hello.ui.scenes.base.activity.RoomConfig;
@@ -363,9 +365,9 @@ public class SceneRoomService extends Service {
         }
 
         // region 跨域
-        public void crossAppJoinTeam(UserInfoResp userInfoResp) {
+        public void crossAppJoinTeam(Integer intentIndex, ResultListener listener) {
             if (serviceManager.sceneCrossAppManager != null) {
-                serviceManager.sceneCrossAppManager.joinTeam(userInfoResp);
+                serviceManager.sceneCrossAppManager.joinTeam(intentIndex, listener);
             }
         }
 
@@ -375,9 +377,21 @@ public class SceneRoomService extends Service {
             }
         }
 
-        public void crossAppTeamFastMatch() {
+        public void crossAppStartMatch() {
             if (serviceManager.sceneCrossAppManager != null) {
-                serviceManager.sceneCrossAppManager.crossAppTeamFastMatch();
+                serviceManager.sceneCrossAppManager.startMatch();
+            }
+        }
+
+        public void crossAppCancelMatch() {
+            if (serviceManager.sceneCrossAppManager != null) {
+                serviceManager.sceneCrossAppManager.cancelMatch();
+            }
+        }
+
+        public void crossAppChangeGame(GameModel gameModel) {
+            if (serviceManager.sceneCrossAppManager != null) {
+                serviceManager.sceneCrossAppManager.changeGame(gameModel);
             }
         }
         // endregion 跨域

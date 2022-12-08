@@ -2,6 +2,7 @@ package tech.sud.mgp.hello.ui.scenes.base.manager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
@@ -45,20 +46,8 @@ public class SceneCrossAppManager extends BaseServiceManager {
         parentManager.sceneEngineManager.setCommandListener(crossAppCmdGameSwitchListener);
     }
 
-    public void joinTeam(UserInfoResp userInfoResp) {
-        Integer intentIndex = null;
-        if (userInfoResp != null) {
-            intentIndex = userInfoResp.index;
-        }
-        joinTeam(intentIndex, null);
-    }
-
     public void crossAppExitTeam() {
         RoomRepository.crossAppQuitTeam(parentManager, parentManager.getRoomId(), new RxCallback<>());
-    }
-
-    public void crossAppTeamFastMatch() {
-        startMatch();
     }
 
     public void onEnterRoomSuccess() {
@@ -70,7 +59,7 @@ public class SceneCrossAppManager extends BaseServiceManager {
     }
 
     private void initData() {
-        getMatchGameModel(crossAppModel.matchGameId, () -> {
+        updateMatchGameModel(crossAppModel.matchGameId, () -> {
             initStallList();
             callbackUpdateCrossApp();
             updateUserinfo();
@@ -128,7 +117,7 @@ public class SceneCrossAppManager extends BaseServiceManager {
     }
 
     /** 加入组队 */
-    private void joinTeam(Integer intentIndex, ResultListener listener) {
+    public void joinTeam(Integer intentIndex, ResultListener listener) {
         int availableIndex;
         if (intentIndex == null) {
             availableIndex = findAvailableIndex();
@@ -166,7 +155,7 @@ public class SceneCrossAppManager extends BaseServiceManager {
     }
 
     /** 开启匹配 */
-    private void startMatch() {
+    public void startMatch() {
         RoomRepository.crossAppStartMatch(parentManager, parentManager.getRoomId(), crossAppModel.matchGameId, new RxCallback<CrossAppStartMatchResp>() {
             @Override
             public void onSuccess(CrossAppStartMatchResp resp) {
@@ -178,8 +167,44 @@ public class SceneCrossAppManager extends BaseServiceManager {
         });
     }
 
+    /** 取消匹配 */
+    public void cancelMatch() {
+        RoomRepository.crossAppCancelMatch(parentManager, getGroupId(), parentManager.getRoomId(), crossAppModel.matchGameId, new RxCallback<Object>() {
+            @Override
+            public void onSuccess(Object o) {
+                super.onSuccess(o);
+            }
+        });
+    }
+
+    /** 更换游戏 */
+    public void changeGame(GameModel gameModel) {
+        if (gameModel == null || crossAppModel == null) {
+            return;
+        }
+//        if (crossAppModel.matchGameId == gameModel.gameId) {
+//            return;
+//        }
+        RoomRepository.crossAppSwitchGame(parentManager, parentManager.getRoomId(), gameModel.gameId, new RxCallback<Object>() {
+            @Override
+            public void onSuccess(Object o) {
+                super.onSuccess(o);
+                crossAppModel.matchGameId = gameModel.gameId;
+                crossAppModel.gameModel = gameModel;
+                callbackUpdateCrossApp();
+            }
+        });
+    }
+
+    private String getGroupId() {
+        if (crossAppModel != null) {
+            return crossAppModel.groupId;
+        }
+        return null;
+    }
+
     /** 获取匹配的游戏model */
-    private void getMatchGameModel(long matchGameId, CompletedListener completedListener) {
+    private void updateMatchGameModel(long matchGameId, CompletedListener completedListener) {
         HomeRepository.crossAppGameList(parentManager, new RxCallback<CrossAppGameListResp>() {
             @Override
             public void onSuccess(CrossAppGameListResp resp) {
@@ -220,7 +245,15 @@ public class SceneCrossAppManager extends BaseServiceManager {
     public SceneCommandManager.CrossAppCmdUsersChangeListener crossAppCmdUsersChangeListener = new SceneCommandManager.CrossAppCmdUsersChangeListener() {
         @Override
         public void onRecvCommand(CrossAppCmdUsersChangeModel model, String userID) {
-
+            if (model == null || model.content == null || crossAppModel == null) {
+                return;
+            }
+            if (!Objects.equals(crossAppModel.groupId, model.content.groupId)) {
+                return;
+            }
+            crossAppModel.curNum = model.content.curNum;
+            crossAppModel.totalNum = model.content.totalNum;
+            callbackUpdateCrossApp();
         }
     };
 
@@ -231,9 +264,10 @@ public class SceneCrossAppManager extends BaseServiceManager {
             if (model == null || model.content == null || crossAppModel == null) {
                 return;
             }
-            crossAppModel.groupId = model.content.groupId;
+//            crossAppModel.groupId = model.content.groupId;
             crossAppModel.matchRoomId = model.content.matchRoomId;
             crossAppModel.matchStatus = model.content.matchStatus;
+            callbackUpdateCrossApp();
         }
     };
 
@@ -276,7 +310,13 @@ public class SceneCrossAppManager extends BaseServiceManager {
     public SceneCommandManager.CrossAppCmdGameSwitchListener crossAppCmdGameSwitchListener = new SceneCommandManager.CrossAppCmdGameSwitchListener() {
         @Override
         public void onRecvCommand(CrossAppCmdGameSwitchModel model, String userID) {
-
+            if (model == null || model.content == null || crossAppModel == null) {
+                return;
+            }
+            crossAppModel.matchGameId = model.content.gameId;
+            updateMatchGameModel(crossAppModel.matchGameId, () -> {
+                callbackUpdateCrossApp();
+            });
         }
     };
 
@@ -295,6 +335,7 @@ public class SceneCrossAppManager extends BaseServiceManager {
             }
         }
         if (userIdList.size() == 0) {
+            callbackUpdateCrossApp();
             return;
         }
         UserInfoRepository.getUserInfoList(parentManager, userIdList, new UserInfoRepository.UserInfoResultListener() {

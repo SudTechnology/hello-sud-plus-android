@@ -100,6 +100,7 @@ public class SceneCrossAppManager extends BaseServiceManager {
                 model = new UserInfoResp();
             }
             model.index = i;
+            model.isCaptain = model.userId > 0 && crossAppModel.captain == model.userId;
             crossAppModel.userList.add(model);
         }
     }

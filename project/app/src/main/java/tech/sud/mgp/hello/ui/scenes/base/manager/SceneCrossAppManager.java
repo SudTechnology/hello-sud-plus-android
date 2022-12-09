@@ -299,9 +299,14 @@ public class SceneCrossAppManager extends BaseServiceManager {
             crossAppModel.matchStatus = model.content.matchStatus;
             checkInitMatchNumber();
             callbackUpdateCrossApp();
-            // 匹配成功时，队长触发游戏
-            if (crossAppModel.matchStatus == CrossAppMatchStatus.MATCH_SUCCESS && crossAppModel.captain == HSUserInfo.userId) {
-                switchGame(crossAppModel.matchGameId);
+
+            if (crossAppModel.matchStatus == CrossAppMatchStatus.MATCH_SUCCESS) {
+                if (crossAppModel.captain == HSUserInfo.userId) { // 匹配成功时，队长触发游戏
+                    switchGame(crossAppModel.matchGameId);
+                }
+                if (parentManager.getCallback() == null) { // 唤醒界面
+                    parentManager.startRoomActivity();
+                }
             }
         }
     };
@@ -439,7 +444,7 @@ public class SceneCrossAppManager extends BaseServiceManager {
     }
 
     private void checkExitCrossApp() {
-        if (crossAppModel == null) {
+        if (crossAppModel == null || !isInTeam()) {
             return;
         }
         switch (crossAppModel.matchStatus) {
@@ -451,6 +456,17 @@ public class SceneCrossAppManager extends BaseServiceManager {
                 cancelMatch(false);
                 break;
         }
+    }
+
+    private boolean isInTeam() {
+        if (crossAppModel != null && crossAppModel.userList != null) {
+            for (UserInfoResp userInfoResp : crossAppModel.userList) {
+                if (userInfoResp.userId == HSUserInfo.userId) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
 }

@@ -109,7 +109,7 @@ public class HelloSudApplication extends Application {
     private void configLog() {
         LogUtils.Config config = LogUtils.getConfig();
         if (config != null) {
-            config.setConsoleSwitch(BuildConfig.DEBUG);
+            config.setConsoleSwitch(BuildConfig.DEBUG || BuildConfig.gameIsTestEnv);
             config.setSaveDays(2);
             config.setLogHeadSwitch(false);
             config.setSingleTagSwitch(true);

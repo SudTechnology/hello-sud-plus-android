@@ -183,7 +183,7 @@ public class SceneCrossAppManager extends BaseServiceManager {
     }
 
     /** 更换游戏 */
-    public void changeGame(GameModel gameModel) {
+    public void changeMatchGame(GameModel gameModel) {
         if (gameModel == null || crossAppModel == null) {
             return;
         }
@@ -208,6 +208,7 @@ public class SceneCrossAppManager extends BaseServiceManager {
     public void crossAppGameSettle(SudMGPMGState.MGCommonGameSettle model) {
         if (crossAppModel != null && crossAppModel.captain == HSUserInfo.userId) {
             switchGame(GameIdCons.NONE);
+            changeMatchGame(crossAppModel.gameModel);
         }
     }
 

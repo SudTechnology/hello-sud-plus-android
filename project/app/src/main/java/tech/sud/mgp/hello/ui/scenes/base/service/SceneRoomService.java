@@ -392,7 +392,7 @@ public class SceneRoomService extends Service {
 
         public void crossAppChangeGame(GameModel gameModel) {
             if (serviceManager.sceneCrossAppManager != null) {
-                serviceManager.sceneCrossAppManager.changeGame(gameModel);
+                serviceManager.sceneCrossAppManager.changeMatchGame(gameModel);
             }
         }
 

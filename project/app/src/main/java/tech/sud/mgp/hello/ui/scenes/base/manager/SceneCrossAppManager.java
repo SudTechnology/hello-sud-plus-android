@@ -181,7 +181,7 @@ public class SceneCrossAppManager extends BaseServiceManager {
     }
 
     /** 取消匹配 */
-    public void cancelMatch(boolean inLifecycle) {
+    public void cancelMatch(boolean inLifecycle, CompletedListener listener) {
         LifecycleOwner lifecycleOwner;
         if (inLifecycle) {
             lifecycleOwner = parentManager;
@@ -192,6 +192,9 @@ public class SceneCrossAppManager extends BaseServiceManager {
             @Override
             public void onSuccess(Object o) {
                 super.onSuccess(o);
+                if (listener != null) {
+                    listener.onCompleted();
+                }
             }
         });
     }
@@ -449,11 +452,14 @@ public class SceneCrossAppManager extends BaseServiceManager {
         }
         switch (crossAppModel.matchStatus) {
             case CrossAppMatchStatus.TEAM:
+            case CrossAppMatchStatus.MATCH_SUCCESS:
                 crossAppExitTeam(false);
                 break;
             case CrossAppMatchStatus.MATCHING:
             case CrossAppMatchStatus.MATCH_FAILED:
-                cancelMatch(false);
+                cancelMatch(false, () -> {
+                    crossAppExitTeam(false);
+                });
                 break;
         }
     }

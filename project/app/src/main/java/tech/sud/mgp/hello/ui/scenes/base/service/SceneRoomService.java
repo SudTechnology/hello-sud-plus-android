@@ -386,7 +386,7 @@ public class SceneRoomService extends Service {
 
         public void crossAppCancelMatch() {
             if (serviceManager.sceneCrossAppManager != null) {
-                serviceManager.sceneCrossAppManager.cancelMatch(true);
+                serviceManager.sceneCrossAppManager.cancelMatch(true, null);
             }
         }
 

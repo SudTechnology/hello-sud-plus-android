@@ -374,7 +374,7 @@ public class SceneRoomService extends Service {
 
         public void crossAppExitTeam() {
             if (serviceManager.sceneCrossAppManager != null) {
-                serviceManager.sceneCrossAppManager.crossAppExitTeam();
+                serviceManager.sceneCrossAppManager.crossAppExitTeam(true);
             }
         }
 
@@ -386,7 +386,7 @@ public class SceneRoomService extends Service {
 
         public void crossAppCancelMatch() {
             if (serviceManager.sceneCrossAppManager != null) {
-                serviceManager.sceneCrossAppManager.cancelMatch();
+                serviceManager.sceneCrossAppManager.cancelMatch(true);
             }
         }
 

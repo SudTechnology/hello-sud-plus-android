@@ -1,5 +1,7 @@
 package tech.sud.mgp.hello.ui.scenes.base.manager;
 
+import androidx.lifecycle.LifecycleOwner;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -50,8 +52,14 @@ public class SceneCrossAppManager extends BaseServiceManager {
         parentManager.sceneEngineManager.setCommandListener(crossAppCmdGameSwitchListener);
     }
 
-    public void crossAppExitTeam() {
-        RoomRepository.crossAppQuitTeam(parentManager, parentManager.getRoomId(), new RxCallback<>());
+    public void crossAppExitTeam(boolean inLifecycle) {
+        LifecycleOwner lifecycleOwner;
+        if (inLifecycle) {
+            lifecycleOwner = parentManager;
+        } else {
+            lifecycleOwner = null;
+        }
+        RoomRepository.crossAppQuitTeam(lifecycleOwner, parentManager.getRoomId(), new RxCallback<>());
     }
 
     public void onEnterRoomSuccess() {
@@ -173,8 +181,14 @@ public class SceneCrossAppManager extends BaseServiceManager {
     }
 
     /** 取消匹配 */
-    public void cancelMatch() {
-        RoomRepository.crossAppCancelMatch(parentManager, getGroupId(), parentManager.getRoomId(), crossAppModel.matchGameId, new RxCallback<Object>() {
+    public void cancelMatch(boolean inLifecycle) {
+        LifecycleOwner lifecycleOwner;
+        if (inLifecycle) {
+            lifecycleOwner = parentManager;
+        } else {
+            lifecycleOwner = null;
+        }
+        RoomRepository.crossAppCancelMatch(lifecycleOwner, getGroupId(), parentManager.getRoomId(), crossAppModel.matchGameId, new RxCallback<Object>() {
             @Override
             public void onSuccess(Object o) {
                 super.onSuccess(o);
@@ -421,6 +435,22 @@ public class SceneCrossAppManager extends BaseServiceManager {
         parentManager.sceneEngineManager.removeCommandListener(crossAppCmdStatusChangeListener);
         parentManager.sceneEngineManager.removeCommandListener(crossAppCmdTeamChangeListener);
         parentManager.sceneEngineManager.removeCommandListener(crossAppCmdGameSwitchListener);
+        checkExitCrossApp();
+    }
+
+    private void checkExitCrossApp() {
+        if (crossAppModel == null) {
+            return;
+        }
+        switch (crossAppModel.matchStatus) {
+            case CrossAppMatchStatus.TEAM:
+                crossAppExitTeam(false);
+                break;
+            case CrossAppMatchStatus.MATCHING:
+            case CrossAppMatchStatus.MATCH_FAILED:
+                cancelMatch(false);
+                break;
+        }
     }
 
 }

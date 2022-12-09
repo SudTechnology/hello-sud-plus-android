@@ -203,7 +203,6 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         topView.setName(roomInfoModel.roomName);
         topView.setId(getString(R.string.audio_room_number) + " " + roomInfoModel.roomNumber);
         viewModel.initData();
-        initGame();
         bindService();
     }
 
@@ -1111,6 +1110,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
             binder = (SceneRoomService.MyBinder) service;
             binder.dismissFloating();
             enterRoom();
+            initGame();
         }
 
         @Override

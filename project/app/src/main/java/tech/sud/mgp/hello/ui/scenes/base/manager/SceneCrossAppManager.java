@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
@@ -223,7 +222,7 @@ public class SceneCrossAppManager extends BaseServiceManager {
         return crossAppModel;
     }
 
-    public void crossAppGameSettle(SudMGPMGState.MGCommonGameSettle model) {
+    public void crossAppGameSettle() {
         if (crossAppModel != null && crossAppModel.captain == HSUserInfo.userId) {
             switchGame(GameIdCons.NONE);
             changeMatchGame(crossAppModel.gameModel);

@@ -403,9 +403,9 @@ public class SceneRoomService extends Service {
             return null;
         }
 
-        public void crossAppGameSettle(SudMGPMGState.MGCommonGameSettle model) {
+        public void crossAppGameSettle() {
             if (serviceManager.sceneCrossAppManager != null) {
-                serviceManager.sceneCrossAppManager.crossAppGameSettle(model);
+                serviceManager.sceneCrossAppManager.crossAppGameSettle();
             }
         }
         // endregion 跨域

@@ -13,21 +13,21 @@ import tech.sud.mgp.hello.service.room.model.CrossAppMatchStatus;
 import tech.sud.mgp.hello.service.room.resp.CrossAppModel;
 import tech.sud.mgp.hello.ui.scenes.audio.widget.view.mic.AudioRoomGameMicView;
 import tech.sud.mgp.hello.ui.scenes.base.activity.BaseRoomActivity;
-import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.chat.SceneRoomChatView;
+import tech.sud.mgp.hello.ui.scenes.crossapp.viewmodel.CrossAppGameViewModel;
 import tech.sud.mgp.hello.ui.scenes.crossapp.widget.dialog.SelectMatchGameDialog;
 import tech.sud.mgp.hello.ui.scenes.crossapp.widget.view.CrossAppStatusView;
 
 /**
  * 跨APP对战 场景
  */
-public class CrossAppActivity extends BaseRoomActivity<AppGameViewModel> {
+public class CrossAppActivity extends BaseRoomActivity<CrossAppGameViewModel> {
 
     private CrossAppStatusView crossAppStatusView;
 
     @Override
-    protected AppGameViewModel initGameViewModel() {
-        return new AppGameViewModel();
+    protected CrossAppGameViewModel initGameViewModel() {
+        return new CrossAppGameViewModel();
     }
 
     @Override
@@ -44,6 +44,9 @@ public class CrossAppActivity extends BaseRoomActivity<AppGameViewModel> {
     @Override
     protected void initWidget() {
         super.initWidget();
+        gameViewModel.gameConfigModel.ui.game_settle_close_btn.custom = true;
+        gameViewModel.gameConfigModel.ui.game_settle_again_btn.hide = true;
+
         crossAppStatusView = findViewById(R.id.cross_app_status_view);
 
         crossAppStatusView.setVisibility(View.GONE);
@@ -102,9 +105,9 @@ public class CrossAppActivity extends BaseRoomActivity<AppGameViewModel> {
             startMatch();
         });
 
-        gameViewModel.gameSettleLiveData.observe(this, model -> {
+        gameViewModel.clickGameSettleCloseBtnLiveData.observe(this, model -> {
             if (binder != null) {
-                binder.crossAppGameSettle(model);
+                binder.crossAppGameSettle();
             }
         });
     }

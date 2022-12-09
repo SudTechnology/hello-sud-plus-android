@@ -6,6 +6,9 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -32,6 +35,7 @@ public class CrossAppMatchView extends ConstraintLayout {
     private TextView tvChangeGame;
     private TextView tvAnewMatch;
     private View viewOb;
+    private View progressBar;
 
     public CrossAppMatchView(@NonNull Context context) {
         this(context, null);
@@ -60,6 +64,7 @@ public class CrossAppMatchView extends ConstraintLayout {
         tvChangeGame = findViewById(R.id.match_tv_change_game);
         tvAnewMatch = findViewById(R.id.match_tv_anew_match);
         viewOb = findViewById(R.id.match_container_ob);
+        progressBar = findViewById(R.id.match_progress_bar);
     }
 
     public void setCrossAppModel(CrossAppModel model) {
@@ -106,6 +111,7 @@ public class CrossAppMatchView extends ConstraintLayout {
 
         tvChangeGame.setVisibility(View.GONE);
         tvAnewMatch.setVisibility(View.GONE);
+        startProgressBar();
     }
 
     private void setMatchFailedData(boolean isJoined, boolean isCaptain, CrossAppModel model) {
@@ -131,6 +137,23 @@ public class CrossAppMatchView extends ConstraintLayout {
             tvChangeGame.setVisibility(View.GONE);
             tvAnewMatch.setVisibility(View.GONE);
             viewOb.setVisibility(View.VISIBLE);
+        }
+        stopProgressBar();
+    }
+
+    private void startProgressBar() {
+        RotateAnimation animation = new RotateAnimation(0, 360,
+                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        animation.setInterpolator(new LinearInterpolator());
+        animation.setRepeatCount(Animation.INFINITE);
+        animation.setDuration(1000);
+        progressBar.startAnimation(animation);
+    }
+
+    private void stopProgressBar() {
+        Animation animation = progressBar.getAnimation();
+        if (animation != null) {
+            animation.cancel();
         }
     }
 

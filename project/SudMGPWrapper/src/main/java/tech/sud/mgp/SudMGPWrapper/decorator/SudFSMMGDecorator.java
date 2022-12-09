@@ -139,6 +139,9 @@ public class SudFSMMGDecorator implements ISudFSMMG {
     @Override
     public void onGameStateChange(ISudFSMStateHandle handle, String state, String dataJson) {
         SudFSMMGListener listener = sudFSMMGListener;
+        if (listener != null && listener.onGameStateChange(handle, state, dataJson)) {
+            return;
+        }
         switch (state) {
             case SudMGPMGState.MG_COMMON_PUBLIC_MESSAGE: // 1. 公屏消息
                 SudMGPMGState.MGCommonPublicMessage mgCommonPublicMessage = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonPublicMessage.class);
@@ -384,6 +387,9 @@ public class SudFSMMGDecorator implements ISudFSMMG {
     @Override
     public void onPlayerStateChange(ISudFSMStateHandle handle, String userId, String state, String dataJson) {
         SudFSMMGListener listener = sudFSMMGListener;
+        if (listener != null && listener.onPlayerStateChange(handle, userId, state, dataJson)) {
+            return;
+        }
         switch (state) {
             case SudMGPMGState.MG_COMMON_PLAYER_IN: // 1.加入状态（已修改）
                 SudMGPMGState.MGCommonPlayerIn mgCommonPlayerIn = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonPlayerIn.class);

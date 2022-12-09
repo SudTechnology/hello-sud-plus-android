@@ -51,15 +51,11 @@
         app:layout_constraintBottom_toTopOf="@id/match_container_bottom"
         app:layout_constraintTop_toBottomOf="@id/match_container_top">
 
-        <ProgressBar
+        <View
             android:id="@+id/match_progress_bar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:indeterminate="false"
-            android:indeterminateDuration="1000"
-            android:indeterminateBehavior="repeat"
-            android:indeterminateDrawable="@drawable/layerlist_matching" />
+            android:background="@drawable/ic_match_rotate_circle" />
 
         <LinearLayout
             android:layout_width="match_parent"

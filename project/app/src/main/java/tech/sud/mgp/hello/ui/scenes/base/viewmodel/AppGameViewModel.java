@@ -838,4 +838,16 @@ public class AppGameViewModel implements SudFSMMGListener {
     }
     // endregion 游戏侧回调
 
+    @Override
+    public boolean onGameStateChange(ISudFSMStateHandle handle, String state, String dataJson) {
+        LogUtils.d("onGameStateChange: " + state + " :" + dataJson);
+        return SudFSMMGListener.super.onGameStateChange(handle, state, dataJson);
+    }
+
+    @Override
+    public boolean onPlayerStateChange(ISudFSMStateHandle handle, String userId, String state, String dataJson) {
+        LogUtils.d("onPlayerStateChange: " + userId + " :" + state + " :" + dataJson);
+        return SudFSMMGListener.super.onPlayerStateChange(handle, userId, state, dataJson);
+    }
+    
 }

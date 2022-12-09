@@ -446,4 +446,33 @@ public interface SudFSMMGListener {
     }
     // endregion 游戏回调APP 玩家状态 元宇宙砂砂舞
 
+    /**
+     * 游戏状态变化
+     * 透传游戏向App发送的游戏通用状态消息
+     * **********使用此方法可先看下此方法的使用逻辑*************
+     *
+     * @param handle   回调操作
+     * @param state    状态命令
+     * @param dataJson 状态值
+     * @return 返回true，表示由此方法接管该状态处理，此时需注意调用：ISudFSMStateHandleUtils.handleSuccess(handle);
+     */
+    default boolean onGameStateChange(ISudFSMStateHandle handle, String state, String dataJson) {
+        return false;
+    }
+
+    /**
+     * 游戏玩家状态变化
+     * 透传游戏向App发送的玩家状态变化
+     * **********使用此方法可先看下此方法的使用逻辑*************
+     *
+     * @param handle   回调操作
+     * @param userId   用户Id
+     * @param state    状态命令
+     * @param dataJson 状态值
+     * @return 返回true，表示由此方法接管该状态处理，此时需注意调用：ISudFSMStateHandleUtils.handleSuccess(handle);
+     */
+    default boolean onPlayerStateChange(ISudFSMStateHandle handle, String userId, String state, String dataJson) {
+        return false;
+    }
+    
 }

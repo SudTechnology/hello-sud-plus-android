@@ -1277,12 +1277,13 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         if (!roomConfig.isSudGame) {
             return false;
         }
-        if (playingGameId == gameId && getGameRoomId() == gameViewModel.getGameRoomId()) {
+        String gameRoomId = getGameRoomId();
+        if (playingGameId == gameId && gameRoomId.equals(gameViewModel.getGameRoomId())) {
             return false;
         }
         playingGameId = gameId;
         roomInfoModel.gameId = gameId;
-        gameViewModel.switchGame(this, getGameRoomId(), gameId);
+        gameViewModel.switchGame(this, gameRoomId, gameId);
         updatePageStyle();
         updateStatusBar();
         updateGameNumber();

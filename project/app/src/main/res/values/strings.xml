@@ -639,6 +639,8 @@ Go to homepage to create one~</string>
     <string name="match_failed_member_title">暂匹配不到\n可重新匹配</string>
     <string name="match_failed_hint">啊哦，系统繁忙</string>
     <string name="in_a_team">组队中</string>
+    <string name="cancel_match_title">正在为您寻找玩伴中，\n确定要取消匹配吗？</string>
+    <string name="do_wait">再等等</string>
     <!-- endregion 新增 -->
 
 </resources>

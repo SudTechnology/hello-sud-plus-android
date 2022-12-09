@@ -8,6 +8,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
+import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
 import tech.sud.mgp.hello.service.room.model.CrossAppMatchStatus;
 import tech.sud.mgp.hello.service.room.resp.CrossAppModel;
 import tech.sud.mgp.hello.ui.scenes.audio.widget.view.mic.AudioRoomGameMicView;
@@ -92,7 +93,7 @@ public class CrossAppActivity extends BaseRoomActivity<AppGameViewModel> {
             }
         });
         crossAppStatusView.setCancelMatchOnClickListener(v -> {
-            cancelMatch();
+            onClickCancelMatch();
         });
         crossAppStatusView.setChangeGameOnClickListener(v -> {
             onClickChangeMatchGame();
@@ -106,6 +107,21 @@ public class CrossAppActivity extends BaseRoomActivity<AppGameViewModel> {
                 binder.crossAppGameSettle(model);
             }
         });
+    }
+
+    private void onClickCancelMatch() {
+        SimpleChooseDialog dialog = new SimpleChooseDialog(this, getString(R.string.cancel_match_title),
+                getString(R.string.do_wait), getString(R.string.confirm));
+        dialog.setOnChooseListener(new SimpleChooseDialog.OnChooseListener() {
+            @Override
+            public void onChoose(int index) {
+                if (index == 1) {
+                    cancelMatch();
+                }
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 
     private void cancelMatch() {

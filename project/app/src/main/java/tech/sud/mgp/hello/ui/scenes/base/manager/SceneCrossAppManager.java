@@ -300,7 +300,7 @@ public class SceneCrossAppManager extends BaseServiceManager {
             crossAppModel.groupId = model.content.groupId;
             crossAppModel.matchRoomId = model.content.matchRoomId;
             crossAppModel.matchStatus = model.content.matchStatus;
-            checkInitMatchNumber();
+//            checkInitMatchNumber();
             callbackUpdateCrossApp();
 
             if (crossAppModel.matchStatus == CrossAppMatchStatus.MATCH_SUCCESS) {

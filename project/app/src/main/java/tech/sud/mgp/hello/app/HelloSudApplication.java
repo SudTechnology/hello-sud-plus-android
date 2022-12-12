@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import android.view.Gravity;
 
 import com.blankj.utilcode.util.AppUtils;
+import com.blankj.utilcode.util.DeviceUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.netease.nimlib.sdk.NIMClient;
@@ -41,7 +42,6 @@ public class HelloSudApplication extends Application {
         LogUtils.d("processName:" + processName);
         if (getPackageName().equals(processName)) {//只有是当前进程下才需要初始化如下参数
             instance = this;
-            configBugly();
             configGift();
             configLog();
             configToast();
@@ -49,6 +49,7 @@ public class HelloSudApplication extends Application {
             initMinClient();
             configAutoSize();
             initCrashHandler();
+            configBugly();
             LogUtils.file("onCreate");
         }
     }
@@ -99,6 +100,8 @@ public class HelloSudApplication extends Application {
         CrashReport.UserStrategy strategy = new CrashReport.UserStrategy(getApplicationContext());
         String versionAndCode = AppUtils.getAppVersionName() + "." + AppUtils.getAppVersionCode();
         strategy.setAppVersion(versionAndCode);
+        strategy.setAppChannel(BuildConfig.CHANNEL);
+        strategy.setDeviceID(DeviceUtils.getUniqueDeviceId());
         CrashReport.initCrashReport(getApplicationContext(), APPConfig.BUGLY_APP_ID, BuildConfig.DEBUG, strategy);
     }
 

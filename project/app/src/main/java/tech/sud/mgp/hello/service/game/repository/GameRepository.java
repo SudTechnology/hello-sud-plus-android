@@ -340,6 +340,19 @@ public class GameRepository {
                 .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }
+
+    /**
+     * 棒球文本配置
+     *
+     * @param owner    生命周期对象
+     * @param callback 回调
+     */
+    public static void baseballTextConfig(LifecycleOwner owner, SudMGPMGState.MGBaseballTextConfig req, RxCallback<SudMGPAPPState.AppBaseballTextConfig> callback) {
+        GameRequestMethodFactory.getMethod()
+                .baseballTextConfig(BaseUrlManager.getGameBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
     // endregion 棒球
 
 }

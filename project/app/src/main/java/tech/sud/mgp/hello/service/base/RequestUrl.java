@@ -192,6 +192,9 @@ public interface RequestUrl {
 
     /** 打棒球 */
     String BASEBALL_PLAY = "baseball/play/v1";
+
+    /** 棒球文本配置 */
+    String BASEBALL_TEXT_CONFIG = "baseball/text-config/v1";
     // endregion 棒球
 
 }

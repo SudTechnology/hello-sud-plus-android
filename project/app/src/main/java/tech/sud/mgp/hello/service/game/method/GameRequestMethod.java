@@ -149,6 +149,10 @@ public interface GameRequestMethod {
     /** 打棒球 */
     @POST(RequestUrl.BASEBALL_PLAY)
     Observable<BaseResponse<Object>> baseballPlay(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body BaseballPlayReq body);
+
+    /** 棒球文本配置 */
+    @POST(RequestUrl.BASEBALL_TEXT_CONFIG)
+    Observable<BaseResponse<SudMGPAPPState.AppBaseballTextConfig>> baseballTextConfig(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body SudMGPMGState.MGBaseballTextConfig body);
     // endregion 棒球
 
 }

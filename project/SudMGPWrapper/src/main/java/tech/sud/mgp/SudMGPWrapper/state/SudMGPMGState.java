@@ -1232,6 +1232,17 @@ public class SudMGPMGState implements Serializable {
      */
     public static final class MGBaseballHideGameScene implements Serializable {
     }
+
+    /**
+     * 8. 获取文本配置数据(棒球)
+     */
+    public static final String MG_BASEBALL_TEXT_CONFIG = "mg_baseball_text_config";
+
+    /**
+     * 8. 获取文本配置数据(棒球) 模型
+     */
+    public static final class MGBaseballTextConfig implements Serializable {
+    }
     // endregion 棒球
 
     /** 点击区域定义 */

@@ -698,6 +698,14 @@ public interface SudFSMMGListener {
     default void onGameMGBaseballHideGameScene(ISudFSMStateHandle handle, SudMGPMGState.MGBaseballHideGameScene model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
+
+    /**
+     * 8. 获取文本配置数据(棒球)
+     * mg_baseball_text_config
+     */
+    default void onGameMGBaseballTextConfig(ISudFSMStateHandle handle, SudMGPMGState.MGBaseballTextConfig model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
     // endregion 游戏回调APP 通用状态 棒球
 
     /**

@@ -819,6 +819,19 @@ public class SudMGPAPPState implements Serializable {
     public static class AppBaseballHideGameScene implements Serializable {
     }
 
+    /**
+     * 6. app推送需要的文本数据(棒球)
+     */
+    public static final String APP_BASEBALL_TEXT_CONFIG = "app_baseball_text_config";
+
+    /**
+     * 6. app推送需要的文本数据(棒球) 模型
+     */
+    public static class AppBaseballTextConfig implements Serializable {
+        public String mode1;
+        public String mode2;
+    }
+
     public static class AppBaseballPlayerInfo implements Serializable {
         public String playerId; // 玩家Id
         public String name; // 玩家昵称

@@ -141,6 +141,22 @@ public class BaseballGameViewModel extends AppGameViewModel {
     }
 
     /**
+     * 8. 获取文本配置数据(棒球)
+     * mg_baseball_text_config
+     */
+    @Override
+    public void onGameMGBaseballTextConfig(ISudFSMStateHandle handle, SudMGPMGState.MGBaseballTextConfig model) {
+        super.onGameMGBaseballTextConfig(handle, model);
+        GameRepository.baseballTextConfig(fragmentActivity, model, new RxCallback<SudMGPAPPState.AppBaseballTextConfig>() {
+            @Override
+            public void onSuccess(SudMGPAPPState.AppBaseballTextConfig resp) {
+                super.onSuccess(resp);
+                notifyAppBaseballTextConfig(resp);
+            }
+        });
+    }
+
+    /**
      * 25. 创建订单
      * mg_common_game_create_order
      */
@@ -206,6 +222,14 @@ public class BaseballGameViewModel extends AppGameViewModel {
      */
     public void notifyAppBaseballHideGameScene(SudMGPAPPState.AppBaseballHideGameScene model) {
         sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_BASEBALL_HIDE_GAME_SCENE, model);
+    }
+
+    /**
+     * 6. app推送需要的文本数据(棒球)
+     * app_baseball_text_config
+     */
+    public void notifyAppBaseballTextConfig(SudMGPAPPState.AppBaseballTextConfig model) {
+        sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_BASEBALL_TEXT_CONFIG, model);
     }
     // endregion 调用棒球
 

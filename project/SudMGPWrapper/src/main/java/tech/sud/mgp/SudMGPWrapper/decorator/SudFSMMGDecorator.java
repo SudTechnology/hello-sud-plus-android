@@ -617,6 +617,14 @@ public class SudFSMMGDecorator implements ISudFSMMG {
                     listener.onGameMGBaseballHideGameScene(handle, mgBaseballHideGameScene);
                 }
                 break;
+            case SudMGPMGState.MG_BASEBALL_TEXT_CONFIG: // 8. 获取文本配置数据(棒球)
+                SudMGPMGState.MGBaseballTextConfig mgBaseballTextConfig = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGBaseballTextConfig.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGBaseballTextConfig(handle, mgBaseballTextConfig);
+                }
+                break;
             default:
                 ISudFSMStateHandleUtils.handleSuccess(handle);
                 break;

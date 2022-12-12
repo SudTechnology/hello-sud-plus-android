@@ -4,7 +4,6 @@ import androidx.lifecycle.LifecycleOwner;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
@@ -281,9 +280,9 @@ public class SceneCrossAppManager extends BaseServiceManager {
             if (model == null || model.content == null || crossAppModel == null) {
                 return;
             }
-            if (!Objects.equals(crossAppModel.groupId, model.content.groupId)) {
-                return;
-            }
+//            if (!Objects.equals(crossAppModel.groupId, model.content.groupId)) {
+//                return;
+//            }
             crossAppModel.curNum = model.content.curNum;
             crossAppModel.totalNum = model.content.totalNum;
             callbackUpdateCrossApp();

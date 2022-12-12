@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import java.util.List;
 
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
+import tech.sud.mgp.hello.BuildConfig;
 import tech.sud.mgp.hello.R;
 
 /**
@@ -78,7 +79,7 @@ public class InteractionGameContainer extends FrameLayout {
 
     private void drawRectViewList() {
         clickRectContainer.removeAllViews();
-        if (clickRectList != null) {
+        if (clickRectList != null && BuildConfig.gameIsTestEnv) {
             for (SudMGPMGState.InteractionClickRect rocketClickRect : clickRectList) {
                 drawRectView(rocketClickRect);
             }

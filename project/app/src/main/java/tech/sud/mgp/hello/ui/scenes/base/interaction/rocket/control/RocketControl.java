@@ -19,6 +19,7 @@ import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState.AppCustomRocketPlayModelList;
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.SudMGPWrapper.utils.SudJsonUtils;
+import tech.sud.mgp.hello.BuildConfig;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
 import tech.sud.mgp.hello.common.event.LiveEventBusKey;
@@ -143,7 +144,9 @@ public class RocketControl extends BaseInteractionControl {
     }
 
     private void onRocketPlayEffectStart() {
-        rocketEffectOperateContainer.setVisibility(View.VISIBLE);
+        if (BuildConfig.gameIsTestEnv) {
+            rocketEffectOperateContainer.setVisibility(View.VISIBLE);
+        }
     }
 
     private final Observer<JumpRocketEvent> jumpRocketObserver = new Observer<JumpRocketEvent>() {

@@ -32,6 +32,7 @@ import tech.sud.mgp.hello.common.widget.adapter.EmptyProvider;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.main.resp.CrossAppGameListResp;
 import tech.sud.mgp.hello.service.main.resp.GameModel;
+import tech.sud.mgp.hello.ui.common.utils.LifecycleUtils;
 
 /**
  * 跨域，选择匹配游戏弹窗
@@ -178,8 +179,14 @@ public class SelectMatchGameDialog extends BaseDialogFragment {
             @Override
             public void onSuccess(CrossAppGameListResp resp) {
                 super.onSuccess(resp);
-                adapter.setList(wrapList(resp));
+                onGameListResp(resp);
             }
+        });
+    }
+
+    private void onGameListResp(CrossAppGameListResp resp) {
+        LifecycleUtils.safeLifecycle(this, () -> {
+            adapter.setList(wrapList(resp));
         });
     }
 

@@ -222,7 +222,13 @@ public class SceneCrossAppManager extends BaseServiceManager {
     }
 
     public void crossAppGameSettle() {
-        if (crossAppModel != null && crossAppModel.captain == HSUserInfo.userId) {
+        if (crossAppModel == null) {
+            return;
+        }
+
+//        if (crossAppModel.captain == HSUserInfo.userId) {
+        // 修改为队伍成员去切
+        if (isInTeam()) {
             switchGame(GameIdCons.NONE);
             changeMatchGame(crossAppModel.gameModel);
         }
@@ -303,7 +309,9 @@ public class SceneCrossAppManager extends BaseServiceManager {
             callbackUpdateCrossApp();
 
             if (crossAppModel.matchStatus == CrossAppMatchStatus.MATCH_SUCCESS) {
-                if (crossAppModel.captain == HSUserInfo.userId) { // 匹配成功时，队长触发游戏
+//                if (crossAppModel.captain == HSUserInfo.userId) { // 匹配成功时，队长触发游戏
+                // 修改为队伍成员去切
+                if (isInTeam()) {
                     switchGame(crossAppModel.matchGameId);
                 }
                 if (parentManager.getCallback() == null) { // 唤醒界面

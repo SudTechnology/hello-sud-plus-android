@@ -230,14 +230,9 @@ public class SceneCrossAppManager extends BaseServiceManager {
         if (crossAppModel == null) {
             return;
         }
-
-//        if (crossAppModel.captain == HSUserInfo.userId) {
-        // 修改为队伍成员去切
-        if (isInTeam()) {
+        if (crossAppModel.matchStatus == CrossAppMatchStatus.MATCH_SUCCESS) {
             switchGame(GameIdCons.NONE);
             changeMatchGame(crossAppModel.gameModel);
-        } else {
-            parentManager.callbackOnGameChange(GameIdCons.NONE);
         }
     }
 

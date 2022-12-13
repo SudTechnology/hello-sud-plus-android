@@ -231,6 +231,8 @@ public class SceneCrossAppManager extends BaseServiceManager {
         if (isInTeam()) {
             switchGame(GameIdCons.NONE);
             changeMatchGame(crossAppModel.gameModel);
+        } else {
+            parentManager.callbackOnGameChange(GameIdCons.NONE);
         }
     }
 

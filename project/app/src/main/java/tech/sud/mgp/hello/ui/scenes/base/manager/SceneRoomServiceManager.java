@@ -219,6 +219,9 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
         sceneEngineManager.enterRoom(config, model);
         sceneMicManager.enterRoom(config, model);
         sceneRoomPkManager.enterRoom(config, model);
+        if (sceneCrossAppManager != null) {
+            sceneCrossAppManager.enterRoom(config, model);
+        }
     }
 
     /** 根据不同的场景类型，初始化相关的业务管理类 */

@@ -7,7 +7,6 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,6 +18,11 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
+import com.gyf.immersionbar.ImmersionBar;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseFragment;
@@ -27,30 +31,36 @@ import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
-import tech.sud.mgp.hello.common.utils.ImageLoader;
+import tech.sud.mgp.hello.common.utils.ViewUtils;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
+import tech.sud.mgp.hello.service.main.repository.UserInfoRepository;
 import tech.sud.mgp.hello.service.main.resp.AuthMatchRoomResp;
 import tech.sud.mgp.hello.service.main.resp.AuthRoomListResp;
 import tech.sud.mgp.hello.service.main.resp.AuthRoomModel;
+import tech.sud.mgp.hello.service.main.resp.UserInfoResp;
 import tech.sud.mgp.hello.ui.common.utils.CompletedListener;
 import tech.sud.mgp.hello.ui.common.utils.LifecycleUtils;
 import tech.sud.mgp.hello.ui.common.widget.EmptyDataView;
 import tech.sud.mgp.hello.ui.common.widget.refresh.ListModel;
 import tech.sud.mgp.hello.ui.common.widget.refresh.RefreshDataHelper;
 import tech.sud.mgp.hello.ui.common.widget.refresh.RefreshView;
-import tech.sud.mgp.hello.ui.main.home.view.CoinDialog;
+import tech.sud.mgp.hello.ui.main.base.widget.MainUserInfoView;
+import tech.sud.mgp.hello.ui.main.nft.model.BindWalletInfoModel;
+import tech.sud.mgp.hello.ui.main.nft.model.NftModel;
+import tech.sud.mgp.hello.ui.main.nft.viewmodel.CancelWearNftListener;
+import tech.sud.mgp.hello.ui.main.nft.viewmodel.NFTViewModel;
 import tech.sud.mgp.hello.ui.scenes.base.utils.EnterRoomUtils;
 
 public class DiscoverFragment extends BaseFragment {
 
     private EditText searchEt;
     private TextView goSearch;
-    private TextView nameTv, useridTv;
-    private ImageView headerIv;
     private RefreshView refreshView;
+    private MainUserInfoView userInfoView;
     private RefreshDataHelper<AuthRoomModel> refreshDataHelper;
     private DiscoverRoomAdapter adapter;
     private boolean isInMatchRoom; // 是否正在匹配房间
+    private final NFTViewModel nftViewModel = new NFTViewModel();
 
     @Override
     protected int getLayoutId() {
@@ -62,10 +72,14 @@ public class DiscoverFragment extends BaseFragment {
         super.initWidget();
         searchEt = mRootView.findViewById(R.id.search_et);
         goSearch = mRootView.findViewById(R.id.go_search);
-        nameTv = mRootView.findViewById(R.id.name_tv);
-        useridTv = mRootView.findViewById(R.id.userid_tv);
-        headerIv = mRootView.findViewById(R.id.header_iv);
         refreshView = mRootView.findViewById(R.id.refresh_view);
+        userInfoView = mRootView.findViewById(R.id.user_info_view);
+
+        userInfoView.setNftMask(R.drawable.ic_nft_mask_white);
+        userInfoView.setViewWalletAddressArrowVisible(false);
+        View viewStatusBar = findViewById(R.id.view_statusbar);
+        ViewUtils.setHeight(viewStatusBar, ImmersionBar.getStatusBarHeight(requireContext()));
+
         initRefreshDataHelper();
         initRecyclerView();
     }
@@ -145,9 +159,6 @@ public class DiscoverFragment extends BaseFragment {
     @Override
     protected void setListeners() {
         super.setListeners();
-        nameTv.setText(HSUserInfo.nickName);
-        useridTv.setText(getString(R.string.setting_userid, HSUserInfo.userId + ""));
-        ImageLoader.loadImage(headerIv, HSUserInfo.avatar);
         searchEt.setOnFocusChangeListener((v, hasFocus) -> {
             String keyword = searchEt.getText().toString();
             if (keyword.length() > 0) {
@@ -183,9 +194,6 @@ public class DiscoverFragment extends BaseFragment {
             return false;
         });
         goSearch.setOnClickListener(v -> enterRoom());
-        headerIv.setOnClickListener(v -> {
-            new CoinDialog().show(getChildFragmentManager(), null);
-        });
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
@@ -246,6 +254,46 @@ public class DiscoverFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         refreshDataHelper.initData();
+        userInfoView.updateUserInfo();
+        updateNftHeader();
+    }
+
+    /** 更新nft头像 */
+    private void updateNftHeader() {
+        List<Long> userIdList = new ArrayList<>();
+        userIdList.add(HSUserInfo.userId);
+        UserInfoRepository.getUserInfoList(this, userIdList, new UserInfoRepository.UserInfoResultListener() {
+            @Override
+            public void userInfoList(List<UserInfoResp> userInfos) {
+                BindWalletInfoModel bindWalletInfoModel = nftViewModel.getBindWalletInfoByCache();
+                if (userInfos == null || userInfos.size() == 0 || bindWalletInfoModel == null) {
+                    return;
+                }
+                NftModel wearNft = bindWalletInfoModel.getWearNft();
+                if (wearNft == null) {
+                    return;
+                }
+                UserInfoResp userInfoResp = userInfos.get(0);
+                if (userInfoResp.headerType != 1 || !Objects.equals(userInfoResp.headerNftToken, wearNft.detailsToken)) {
+                    nftViewModel.cancelWearNft(new CancelWearNftListener() {
+                        @Override
+                        public void onSuccess() {
+                            LifecycleUtils.safeLifecycle(mFragment, () -> {
+                                userInfoView.updateUserInfo();
+                            });
+                        }
+
+                        @Override
+                        public void onFailure(int retCode, String retMsg) {
+                            LifecycleUtils.safeLifecycle(mFragment, () -> {
+                                nftViewModel.clearWearNft();
+                                userInfoView.updateUserInfo();
+                            });
+                        }
+                    });
+                }
+            }
+        });
     }
 
 }

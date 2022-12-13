@@ -22,6 +22,8 @@ import tech.sud.mgp.hello.service.room.resp.CrossAppStartMatchResp;
 import tech.sud.mgp.hello.ui.common.utils.CompletedListener;
 import tech.sud.mgp.hello.ui.common.utils.ResultListener;
 import tech.sud.mgp.hello.ui.main.base.constant.GameIdCons;
+import tech.sud.mgp.hello.ui.scenes.base.activity.RoomConfig;
+import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
 import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomServiceCallback;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.crossapp.CrossAppCmdGameSwitchModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.crossapp.CrossAppCmdStatusChangeModel;
@@ -50,6 +52,14 @@ public class SceneCrossAppManager extends BaseServiceManager {
         parentManager.sceneEngineManager.setCommandListener(crossAppCmdGameSwitchListener);
     }
 
+    public void enterRoom(RoomConfig config, RoomInfoModel model) {
+        crossAppModel = model.crossAppModel;
+        if (crossAppModel == null) {
+            crossAppModel = new CrossAppModel();
+            model.crossAppModel = crossAppModel;
+        }
+    }
+
     public void crossAppExitTeam(boolean inLifecycle) {
         LifecycleOwner lifecycleOwner;
         if (inLifecycle) {
@@ -61,11 +71,6 @@ public class SceneCrossAppManager extends BaseServiceManager {
     }
 
     public void onEnterRoomSuccess() {
-        crossAppModel = parentManager.getRoomInfoModel().crossAppModel;
-        if (crossAppModel == null) {
-            crossAppModel = new CrossAppModel();
-            parentManager.getRoomInfoModel().crossAppModel = crossAppModel;
-        }
         initData();
     }
 

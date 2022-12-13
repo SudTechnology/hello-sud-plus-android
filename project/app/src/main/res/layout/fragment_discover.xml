@@ -7,6 +7,13 @@
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintTop_toTopOf="parent">
 
+    <View
+        android:id="@+id/view_statusbar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/white"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/index_header"
         android:layout_width="match_parent"
@@ -17,41 +24,13 @@
         android:paddingBottom="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/view_statusbar">
 
-        <tech.sud.mgp.hello.common.widget.view.round.RoundedImageView
-            android:id="@+id/header_iv"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:src="@color/black"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:riv_corner_radius="28dp" />
-
-        <TextView
-            android:id="@+id/name_tv"
-            android:layout_width="wrap_content"
+        <tech.sud.mgp.hello.ui.main.base.widget.MainUserInfoView
+            android:id="@+id/user_info_view"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:singleLine="true"
-            android:textColor="#1a1a1a"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@id/userid_tv"
-            app:layout_constraintStart_toEndOf="@id/header_iv"
-            app:layout_constraintTop_toTopOf="@id/header_iv" />
-
-        <TextView
-            android:id="@+id/userid_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="4dp"
-            android:singleLine="true"
-            android:textColor="#13141a"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="@id/header_iv"
-            app:layout_constraintStart_toEndOf="@id/header_iv"
-            app:layout_constraintTop_toBottomOf="@id/name_tv" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/search_et"
@@ -70,7 +49,7 @@
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/header_iv" />
+            app:layout_constraintTop_toBottomOf="@id/user_info_view" />
 
         <TextView
             android:id="@+id/go_search"

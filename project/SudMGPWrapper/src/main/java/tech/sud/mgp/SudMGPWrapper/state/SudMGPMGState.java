@@ -833,4 +833,323 @@ public class SudMGPMGState implements Serializable {
     }
     // endregion 元宇宙砂砂舞
 
+    // region 定制火箭
+    /**
+     * 1. 礼物配置文件(火箭)
+     */
+    public static final String MG_CUSTOM_ROCKET_CONFIG = "mg_custom_rocket_config";
+
+    /**
+     * 1. 礼物配置文件(火箭) 模型
+     */
+    public static final class MGCustomRocketConfig implements Serializable {
+    }
+
+    /**
+     * 2. 拥有模型列表(火箭)
+     */
+    public static final String MG_CUSTOM_ROCKET_MODEL_LIST = "mg_custom_rocket_model_list";
+
+    /**
+     * 2. 拥有模型列表(火箭) 模型
+     */
+    public static final class MGCustomRocketModelList implements Serializable {
+    }
+
+    /**
+     * 3. 拥有组件列表(火箭)
+     */
+    public static final String MG_CUSTOM_ROCKET_COMPONENT_LIST = "mg_custom_rocket_component_list";
+
+    /**
+     * 3. 拥有组件列表(火箭) 模型
+     */
+    public static final class MGCustomRocketComponentList implements Serializable {
+    }
+
+    /**
+     * 4. 获取用户信息(火箭)
+     */
+    public static final String MG_CUSTOM_ROCKET_USER_INFO = "mg_custom_rocket_user_info";
+
+    /**
+     * 4. 获取用户信息 模型
+     */
+    public static final class MGCustomRocketUserInfo implements Serializable {
+        public List<String> userIdList;
+    }
+
+    /**
+     * 5. 订单记录列表(火箭)
+     */
+    public static final String MG_CUSTOM_ROCKET_ORDER_RECORD_LIST = "mg_custom_rocket_order_record_list";
+
+    /**
+     * 5. 订单记录列表(火箭) 模型
+     */
+    public static final class MGCustomRocketOrderRecordList implements Serializable {
+        public int pageIndex; // 第几页
+        public int pageSize; // 每页多少条数据
+    }
+
+    /**
+     * 6. 展馆内列表(火箭)
+     */
+    public static final String MG_CUSTOM_ROCKET_ROOM_RECORD_LIST = "mg_custom_rocket_room_record_list";
+
+    /**
+     * 6. 展馆内列表(火箭) 模型
+     */
+    public static final class MGCustomRocketRoomRecordList implements Serializable {
+        public int pageIndex; // 第几页
+        public int pageSize; // 每页多少条数据
+    }
+
+    /**
+     * 7. 展馆内玩家送出记录(火箭)
+     */
+    public static final String MG_CUSTOM_ROCKET_USER_RECORD_LIST = "mg_custom_rocket_user_record_list";
+
+    /**
+     * 7. 展馆内玩家送出记录(火箭) 模型
+     */
+    public static final class MGCustomRocketUserRecordList implements Serializable {
+        public String userId; // 用户id
+        public int pageIndex; // 第几页
+        public int pageSize; // 每页多少条数据
+    }
+
+    /**
+     * 8. 设置默认模型(火箭)
+     */
+    public static final String MG_CUSTOM_ROCKET_SET_DEFAULT_MODEL = "mg_custom_rocket_set_default_model";
+
+    /**
+     * 8. 设置默认模型(火箭) 模型
+     */
+    public static final class MGCustomRocketSetDefaultModel implements Serializable {
+        public String modelId; // 默认模型
+    }
+
+    /**
+     * 9. 动态计算一键发送价格(火箭)
+     */
+    public static final String MG_CUSTOM_ROCKET_DYNAMIC_FIRE_PRICE = "mg_custom_rocket_dynamic_fire_price";
+
+    /**
+     * 9. 动态计算一键发送价格(火箭) 模型
+     */
+    public static final class MGCustomRocketDynamicFirePrice implements Serializable {
+        public List<ComponentModel> componentList; // 组件列表
+
+        public static class ComponentModel {
+            public String itemId; // 已购买的唯一标识
+        }
+    }
+
+    /**
+     * 10. 一键发送(火箭)
+     */
+    public static final String MG_CUSTOM_ROCKET_FIRE_MODEL = "mg_custom_rocket_fire_model";
+
+    /**
+     * 10. 一键发送(火箭) 模型
+     */
+    public static final class MGCustomRocketFireModel implements Serializable {
+        public List<ComponentModel> componentList; // 组件列表
+
+        public static class ComponentModel {
+            public int type; // 类型
+            public String itemId; // 已购买的唯一标识
+        }
+    }
+
+    /**
+     * 11. 新组装模型(火箭)
+     */
+    public static final String MG_CUSTOM_ROCKET_CREATE_MODEL = "mg_custom_rocket_create_model";
+
+    /**
+     * 11. 新组装模型(火箭) 模型
+     */
+    public static final class MGCustomRocketCreateModel implements Serializable {
+        public List<ComponentModel> componentList; // 组件列表
+
+        public static class ComponentModel {
+            public String itemId; // 模型Id
+        }
+    }
+
+    /**
+     * 12. 模型更换组件(火箭)
+     */
+    public static final String MG_CUSTOM_ROCKET_REPLACE_COMPONENT = "mg_custom_rocket_replace_component";
+
+    /**
+     * 12. 模型更换组件(火箭) 模型
+     */
+    public static final class MGCustomRocketReplaceComponent implements Serializable {
+        public String modelId; // 模型ID
+        public List<ComponentModel> componentList; // 组件列表
+
+        public static class ComponentModel {
+            public String itemId; // 已购买的唯一标识
+        }
+    }
+
+    /**
+     * 13. 购买组件(火箭)
+     */
+    public static final String MG_CUSTOM_ROCKET_BUY_COMPONENT = "mg_custom_rocket_buy_component";
+
+    /**
+     * 13. 购买组件(火箭) 模型
+     */
+    public static final class MGCustomRocketBuyComponent implements Serializable {
+        public List<ComponentModel> componentList; // 组件列表
+
+        public static class ComponentModel {
+            public String componentId; // 已购买的唯一标识
+            public String value; // 值
+        }
+    }
+
+    /**
+     * 14. 播放效果开始(火箭)
+     */
+    public static final String MG_CUSTOM_ROCKET_PLAY_EFFECT_START = "mg_custom_rocket_play_effect_start";
+
+    /**
+     * 14. 播放效果开始(火箭) 模型
+     */
+    public static final class MGCustomRocketPlayEffectStart implements Serializable {
+    }
+
+    /**
+     * 15. 播放效果完成(火箭)
+     */
+    public static final String MG_CUSTOM_ROCKET_PLAY_EFFECT_FINISH = "mg_custom_rocket_play_effect_finish";
+
+    /**
+     * 15. 播放效果完成(火箭) 模型
+     */
+    public static final class MGCustomRocketPlayEffectFinish implements Serializable {
+    }
+
+    /**
+     * 16. 验证签名合规(火箭)
+     */
+    public static final String MG_CUSTOM_ROCKET_VERIFY_SIGN = "mg_custom_rocket_verify_sign";
+
+    /**
+     * 16. 验证签名合规(火箭) 模型
+     */
+    public static final class MGCustomRocketVerifySign implements Serializable {
+        public String sign; // 验证的内容
+    }
+
+    /**
+     * 17. 上传icon(火箭)
+     */
+    public static final String MG_CUSTOM_ROCKET_UPLOAD_MODEL_ICON = "mg_custom_rocket_upload_model_icon";
+
+    /**
+     * 17. 上传icon(火箭) 模型
+     */
+    public static final class MGCustomRocketUploadModelIcon implements Serializable {
+        public String data; // 图片base64数据
+    }
+
+    /**
+     * 18. 前期准备完成(火箭)
+     * 表示app此时可以向火箭发出指令了
+     */
+    public static final String MG_CUSTOM_ROCKET_PREPARE_FINISH = "mg_custom_rocket_prepare_finish";
+
+    /**
+     * 18. 前期准备完成(火箭) 模型
+     */
+    public static final class MGCustomRocketPrepareFinish implements Serializable {
+    }
+
+    /**
+     * 19. 火箭主界面已显示(火箭)
+     */
+    public static final String MG_CUSTOM_ROCKET_SHOW_GAME_SCENE = "mg_custom_rocket_show_game_scene";
+
+    /**
+     * 19. 火箭主界面已显示(火箭) 模型
+     */
+    public static final class MGCustomRocketShowGameScene implements Serializable {
+    }
+
+    /**
+     * 20. 火箭主界面已隐藏(火箭)
+     */
+    public static final String MG_CUSTOM_ROCKET_HIDE_GAME_SCENE = "mg_custom_rocket_hide_game_scene";
+
+    /**
+     * 20. 火箭主界面已隐藏(火箭) 模型
+     */
+    public static final class MGCustomRocketHideGameScene implements Serializable {
+    }
+
+    /**
+     * 21. 点击锁住组件(火箭)
+     */
+    public static final String MG_CUSTOM_ROCKET_CLICK_LOCK_COMPONENT = "mg_custom_rocket_click_lock_component";
+
+    /**
+     * 21. 点击锁住组件(火箭) 模型
+     */
+    public static final class MGCustomRocketClickLockComponent implements Serializable {
+        public int type; // 组件类型
+        public String componentId; // 组件ID
+    }
+
+    /**
+     * 22. 火箭效果飞行点击(火箭)
+     */
+    public static final String MG_CUSTOM_ROCKET_FLY_CLICK = "mg_custom_rocket_fly_click";
+
+    /**
+     * 22. 火箭效果飞行点击(火箭) 模型
+     */
+    public static final class MGCustomRocketFlyClick implements Serializable {
+    }
+
+    /**
+     * 23. 火箭效果飞行结束(火箭)
+     */
+    public static final String MG_CUSTOM_ROCKET_FLY_END = "mg_custom_rocket_fly_end";
+
+    /**
+     * 23. 火箭效果飞行结束(火箭) 模型
+     */
+    public static final class MGCustomRocketFlyEnd implements Serializable {
+        public long clickNumber; // 点击多少次
+        public long flyNumber; // 飞行多远
+    }
+
+    /**
+     * 24. 设置点击区域(火箭)
+     */
+    public static final String MG_CUSTOM_ROCKET_SET_CLICK_RECT = "mg_custom_rocket_set_click_rect";
+
+    /**
+     * 24. 设置点击区域(火箭) 模型
+     */
+    public static final class MGCustomRocketSetClickRect implements Serializable {
+        public List<InteractionClickRect> list; // 游戏的点击区域
+    }
+    // endregion 定制火箭
+
+    /** 点击区域定义 */
+    public static class InteractionClickRect {
+        public float x; // 区域的x
+        public float y; // 区域的y
+        public float width; // 区域的width
+        public float height; // 区域的height
+    }
+
 }

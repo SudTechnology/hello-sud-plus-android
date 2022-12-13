@@ -323,4 +323,440 @@ public class SudMGPAPPState implements Serializable {
     }
     // endregion 元宇宙砂砂舞
 
+    // region 定制火箭
+    /**
+     * 1. 礼物配置文件回调
+     */
+    public static final String APP_CUSTOM_ROCKET_CONFIG = "app_custom_rocket_config";
+
+    /**
+     * 1. 礼物配置文件回调 模型
+     */
+    public static class AppCustomRocketConfig implements Serializable {
+        public int maxSeat; // 最大机位
+        public double firePrice; // 发射的静态价格
+        public int isDynamicPrice; // 发射价格是否动态开关 0:静态 1动态
+        public String gameIntroduce; // 玩法介绍
+        public String monetaryUnit; // 货币的单位
+        public long serverTime; // 服务器时间戳，单位秒
+        public List<String> filterModel; // 过滤不显示的模块(默认是为空)
+        public List<String> filterLayer; // 过滤不显示的页面(默认是为空)
+        public List<ComponentModel> componentList; // 组件列表 1套装，2主仓，3尾翼，4头像，5签名，6颜色
+        public List<HeadModel> headList; // 组件列表
+        public List<ExtraModel> extraList; // 专属配置
+
+        public static class ComponentModel {
+            public String componentId; // 组件的ID
+            public int type; // 1套装，2主仓，3尾翼
+            public String name; // 显示名称(商城+装配间+购买记录+...)
+            public double price; // 价格
+            public int isForever; // 永久：0非永久 1永久
+            public long validTime; // 有效期：单位是秒
+            public String imageId; // 图片ID
+            public int isLock; // 锁：0不锁 1锁
+            public int isShow; // 展示：0不展示 1展示
+        }
+
+        public static class HeadModel {
+            public String componentId; // 组件的ID
+            public int type; // 4头像(商城+装配间+购买记录+...)
+            public String name; // 显示名称
+            public double price; // 价格 暂时不考虑小数
+            public int isForever; // 永久：0非永久 1永久
+            public long validTime; // 有效期：单位是秒
+            public String userId; // 用户的userId
+            public String nickname; // 昵称
+            public int sex; // 性别 0:男 1:女
+            public String url; // 头像URL
+        }
+
+        public static class ExtraModel {
+            public String componentId; // 组件的ID
+            public int type; // 5签名，6颜色
+            public String name; // 显示名称(商城+装配间+购买记录+...)
+            public double price; // 价格
+            public int isForever; // 永久：0非永久 1永久
+            public long validTime; // 有效期：单位是秒
+            public String desc; // 描述
+        }
+    }
+
+    /**
+     * 2. 拥有模型列表回调(火箭)
+     */
+    public static final String APP_CUSTOM_ROCKET_MODEL_LIST = "app_custom_rocket_model_list";
+
+    /**
+     * 2. 拥有模型列表回调(火箭) 模型
+     */
+    public static class AppCustomRocketModelList implements Serializable {
+        public String defaultModelId; // 默认模型
+        public int isScreenshot; // 截图：0不截图 1截图(app上传失败或者过期时,被动截图)
+        public List<Model> list;
+
+        public static class Model {
+            public String modelId; // 模型Id
+            public int isAvatar; // 可以换装：0不可以 1可以
+            public String serviceFlag; // 服务标识
+            public List<ComponentModel> componentList; // 列表
+
+            public static class ComponentModel {
+                public String itemId; // 唯一标识
+                public int type; // 类型
+                public String value; // 值
+                public int isForever; // 永久：0非永久 1永久
+                public long validTime; // 有效期时间戳：单位是秒
+            }
+        }
+    }
+
+    /**
+     * 3. 拥有组件列表回调(火箭)
+     */
+    public static final String APP_CUSTOM_ROCKET_COMPONENT_LIST = "app_custom_rocket_component_list";
+
+    /**
+     * 3. 拥有组件列表回调(火箭) 模型
+     */
+    public static class AppCustomRocketComponentList implements Serializable {
+        public List<ComponentModel> defaultList; // 默认组件列表
+        public List<ComponentModel> list; // 组件列表
+
+        public static class ComponentModel {
+            public String itemId; // 唯一标识
+            public int type; // 类型
+            public String value; // 值
+            public int isForever; // 永久：0非永久 1永久
+            public long validTime; // 有效期时间戳：单位是秒
+            public long date; // 购买时间：1970年1月1日开始。时间戳：单位是秒
+        }
+    }
+
+    /**
+     * 4. 获取用户信息回调(火箭)
+     */
+    public static final String APP_CUSTOM_ROCKET_USER_INFO = "app_custom_rocket_user_info";
+
+    /**
+     * 4. 获取用户信息回调(火箭) 模型
+     */
+    public static class AppCustomRocketUserInfo implements Serializable {
+        public int resultCode; // 0: 请求成功，1：请求失败
+        public String error; // 错误描述
+        public List<CustomRocketUserInfoModel> userList; // 用户信息列表
+    }
+
+    /**
+     * 5. 订单记录列表回调
+     */
+    public static final String APP_CUSTOM_ROCKET_ORDER_RECORD_LIST = "app_custom_rocket_order_record_list";
+
+    /**
+     * 5. 订单记录列表回调 模型
+     */
+    public static class AppCustomRocketOrderRecordList implements Serializable {
+        public int pageIndex; // 第几页
+        public int pageCount; // 总页数
+        public List<ComponentModel> list; // 列表
+
+        /**
+         * 定制火箭，订单组件 模型
+         */
+        public static class ComponentModel {
+            public int type; // 类型
+            public String value; // 值
+            public int isForever; // 永久：0非永久 1永久
+            public long validTime; // 有效期时间戳：单位是秒
+            public long date; // 有效期时间戳：单位是秒
+        }
+    }
+
+    /**
+     * 6. 展馆内列表回调
+     */
+    public static final String APP_CUSTOM_ROCKET_ROOM_RECORD_LIST = "app_custom_rocket_room_record_list";
+
+    /**
+     * 6. 展馆内列表回调 模型
+     */
+    public static class AppCustomRocketRoomRecordList implements Serializable {
+        public int pageIndex; // 第几页
+        public int pageCount; // 总页数
+        public List<RoomRecordModel> list; // 列表
+
+        public static class RoomRecordModel {
+            public CustomRocketUserInfoModel fromUser; // 送礼人
+            public int number; // 火箭数量
+        }
+    }
+
+    /**
+     * 7. 展馆内玩家送出记录回调
+     */
+    public static final String APP_CUSTOM_ROCKET_USER_RECORD_LIST = "app_custom_rocket_user_record_list";
+
+    /**
+     * 7. 展馆内玩家送出记录回调 模型
+     */
+    public static class AppCustomRocketUserRecordList implements Serializable {
+        public int pageIndex; // 第几页
+        public int pageCount; // 总页数
+        public CustomRocketUserInfoModel fromUser; // 送礼人
+        public List<UserRecordModel> list; // 列表
+
+        public static class UserRecordModel {
+            public long date; // 订单时间戳: 单位是秒
+            public int number; // 个数
+            public CustomRocketUserInfoModel toUser; // 收礼人
+            public List<ComponentModel> componentList; // 列表
+
+            public static class ComponentModel {
+                public int type; // 类型
+                public String value; // 值
+                public int isForever; // 永久：0非永久 1永久
+                public long validTime; // 有效期时间戳：单位是秒
+            }
+        }
+    }
+
+    /**
+     * 8. 设置默认模型(火箭)
+     */
+    public static final String APP_CUSTOM_ROCKET_SET_DEFAULT_MODEL = "app_custom_rocket_set_default_model";
+
+    /**
+     * 8. 设置默认模型(火箭) 模型
+     */
+    public static class AppCustomRocketSetDefaultModel implements Serializable {
+        public int resultCode; // 0: 请求成功，1：请求失败
+        public String error; // 错误描述
+        public Data data; // 数据
+
+        public static class Data {
+            public String modelId; // 默认模型
+        }
+    }
+
+    /**
+     * 9. 动态计算一键发送价格回调
+     */
+    public static final String APP_CUSTOM_ROCKET_DYNAMIC_FIRE_PRICE = "app_custom_rocket_dynamic_fire_price";
+
+    /**
+     * 9. 动态计算一键发送价格回调 模型
+     */
+    public static class AppCustomRocketDynamicFirePrice implements Serializable {
+        public int resultCode; // 0: 请求成功，1：请求失败
+        public String error; // 错误描述
+        public Data data; // 数据
+
+        public static class Data {
+            public double price; // 发送的价格
+        }
+    }
+
+    /**
+     * 10. 一键发送回调
+     */
+    public static final String APP_CUSTOM_ROCKET_FIRE_MODEL = "app_custom_rocket_fire_model";
+
+    /**
+     * 10. 一键发送回调 模型
+     */
+    public static class AppCustomRocketFireModel implements Serializable {
+        public int resultCode; // 0: 请求成功，1：请求失败
+        public String error; // 错误描述
+    }
+
+    /**
+     * 11. 新组装模型 回调
+     */
+    public static final String APP_CUSTOM_ROCKET_CREATE_MODEL = "app_custom_rocket_create_model";
+
+    /**
+     * 11. 新组装模型 回调 模型
+     */
+    public static class AppCustomRocketCreateModel implements Serializable {
+        public int resultCode; // 0: 请求成功，1：请求失败
+        public String error; // 错误描述
+        public Data data;
+
+        public static class Data {
+            public String modelId; // 模型Id
+            public int isAvatar; // 可以换装：0不可以 1可以
+            public String serviceFlag; // 服务标识
+            public List<ComponentModel> componentList;
+
+            public static class ComponentModel {
+                public String itemId; // 模型Id
+            }
+        }
+    }
+
+    /**
+     * 12. 更换组件 回调
+     */
+    public static final String APP_CUSTOM_ROCKET_REPLACE_COMPONENT = "app_custom_rocket_replace_component";
+
+    /**
+     * 12. 更换组件 回调 模型
+     */
+    public static class AppCustomRocketReplaceComponent implements Serializable {
+        public int resultCode; // 0: 请求成功，1：请求失败
+        public String error; // 错误描述
+        public Data data;
+
+        public static class Data {
+            public String modelId; // 模型Id
+            public List<ComponentModel> componentList;
+
+            public static class ComponentModel {
+                public String itemId;
+            }
+        }
+    }
+
+    /**
+     * 13. 购买组件 回调
+     */
+    public static final String APP_CUSTOM_ROCKET_BUY_COMPONENT = "app_custom_rocket_buy_component";
+
+    /**
+     * 13. 购买组件 回调 模型
+     */
+    public static class AppCustomRocketBuyComponent implements Serializable {
+        public int resultCode; // 0: 请求成功，1：请求失败
+        public String error; // 错误描述
+        public Data data;
+
+        public static class Data {
+            public List<ComponentModel> componentList;
+
+            public static class ComponentModel {
+                public String itemId; // 唯一标识
+                public int type; // 类型
+                public String value; // 值
+                public int isForever; // 永久：0非永久 1永久
+                public long validTime; // 有效期时间戳：单位是秒
+                public long date; // 有效期时间戳：单位是秒
+            }
+        }
+    }
+
+    /**
+     * 14. app播放火箭发射动效(火箭)
+     */
+    public static final String APP_CUSTOM_ROCKET_PLAY_MODEL_LIST = "app_custom_rocket_play_model_list";
+
+    /**
+     * 14. app播放火箭发射动效(火箭) 模型
+     */
+    public static class AppCustomRocketPlayModelList implements Serializable {
+        public String orderId; // 订单号
+        public List<ComponentModel> componentList; // 组件列表
+
+        public static class ComponentModel {
+            public int type; // 类型
+            public String value; // 值
+        }
+    }
+
+    /**
+     * 15. app推送主播信息(火箭)
+     */
+    public static final String APP_CUSTOM_ROCKET_NEW_USER_INFO = "app_custom_rocket_new_user_info";
+
+    /**
+     * 15. app推送主播信息(火箭) 模型
+     */
+    public static class AppCustomRocketNewUserInfo implements Serializable {
+        public List<CustomRocketUserInfoModel> userList; // 用户信息列表
+    }
+
+    /**
+     * 16. 验证签名合规(火箭)
+     */
+    public static final String APP_CUSTOM_ROCKET_VERIFY_SIGN = "app_custom_rocket_verify_sign";
+
+    /**
+     * 16. 验证签名合规(火箭) 回调  模型
+     */
+    public static class AppCustomRocketVerifySign implements Serializable {
+        public int resultCode; // 0: 请求成功，1：请求失败
+        public String error; // 错误描述
+        public Data data;
+
+        public static class Data {
+            public String sign; // 验证的签名
+        }
+    }
+
+    /**
+     * 17. app主动调起火箭主界面(火箭)
+     */
+    public static final String APP_CUSTOM_ROCKET_SHOW_GAME_SCENE = "app_custom_rocket_show_game_scene";
+
+    /**
+     * 17. app主动调起火箭主界面(火箭) 模型
+     */
+    public static class AppCustomRocketShowGameScene implements Serializable {
+    }
+
+    /**
+     * 18. app主动隐藏火箭主界面(火箭)
+     */
+    public static final String APP_CUSTOM_ROCKET_HIDE_GAME_SCENE = "app_custom_rocket_hide_game_scene";
+
+    /**
+     * 18. app主动隐藏火箭主界面(火箭)  模型
+     */
+    public static class AppCustomRocketHideGameScene implements Serializable {
+    }
+
+    /**
+     * 19. app推送解锁组件(火箭)
+     */
+    public static final String APP_CUSTOM_ROCKET_UNLOCK_COMPONENT = "app_custom_rocket_unlock_component";
+
+    /**
+     * 19. app推送解锁组件(火箭)  模型
+     */
+    public static class AppCustomRocketUnlockComponent implements Serializable {
+        public int type; // 组件类型
+        public String componentId; // 组件ID
+    }
+
+    /**
+     * 20. app推送火箭效果飞行点击(火箭)
+     */
+    public static final String APP_CUSTOM_ROCKET_FLY_CLICK = "app_custom_rocket_fly_click";
+
+    /**
+     * 20. app推送火箭效果飞行点击(火箭)  模型
+     */
+    public static class AppCustomRocketFlyClick implements Serializable {
+    }
+
+    /**
+     * 21. app推送关闭火箭播放效果(火箭)
+     */
+    public static final String APP_CUSTOM_ROCKET_CLOSE_PLAY_EFFECT = "app_custom_rocket_close_play_effect";
+
+    /**
+     * 21. app推送关闭火箭播放效果(火箭)  模型
+     */
+    public static class AppCustomRocketClosePlayEffect implements Serializable {
+    }
+
+    /**
+     * 定制火箭，用户信息 模型
+     */
+    public static class CustomRocketUserInfoModel {
+        public String userId;   // 用户的userId
+        public String nickname; // 昵称
+        public int sex; // 性别 0:男 1:女
+        public String url; // 头像URL
+    }
+    // endregion 定制火箭
+
 }

@@ -19,6 +19,8 @@ public class RoomCmdSendGiftModel extends RoomCmdBaseModel {
     public String giftUrl; // 1.4.0新增：礼物图片
     public String animationUrl; // 1.4.0新增：礼物动图
 
+    public String extData; // 1.5.9新增：扩展字段
+
     public static RoomCmdSendGiftModel fromJson(String json) {
         return SudJsonUtils.fromJson(json, RoomCmdSendGiftModel.class);
     }

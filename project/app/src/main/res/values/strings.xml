@@ -641,6 +641,18 @@ Go to homepage to create one~</string>
     <string name="in_a_team">组队中</string>
     <string name="cancel_match_title">正在为您寻找玩伴中，\n确定要取消匹配吗？</string>
     <string name="do_wait">再等等</string>
+    <string name="custom_rocket">定制火箭</string>
+    <string name="custom_made">定制</string>
+    <string name="go_custom">去定制</string>
+    <string name="choose_the_recipient">选择收礼人</string>
+    <string name="confirm_fire_price">确认发射(%1$s金币)</string>
+    <string name="go_rocket_stage">正在前往火箭台…</string>
+    <string name="component_lock_title">该商品锁定中，是否解锁？</string>
+    <string name="quicken">加速</string>
     <!-- endregion 新增 -->
+
+    <!-- region 1.4.2 -->
+    <string name="discover">发现</string>
+    <!-- endregion 1.4.2 -->
 
 </resources>

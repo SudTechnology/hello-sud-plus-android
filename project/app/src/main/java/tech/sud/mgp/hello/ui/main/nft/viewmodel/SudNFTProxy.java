@@ -9,7 +9,7 @@ import com.jeremyliao.liveeventbus.LiveEventBus;
 import java.util.List;
 
 import tech.sud.mgp.hello.common.event.LiveEventBusKey;
-import tech.sud.mgp.hello.common.event.NftTokenInvalidEvent;
+import tech.sud.mgp.hello.common.event.model.NftTokenInvalidEvent;
 import tech.sud.mgp.hello.ui.main.base.activity.MainActivity;
 import tech.sud.mgp.hello.ui.main.nft.model.BindWalletInfoModel;
 import tech.sud.mgp.hello.ui.main.nft.model.NftRetCode;

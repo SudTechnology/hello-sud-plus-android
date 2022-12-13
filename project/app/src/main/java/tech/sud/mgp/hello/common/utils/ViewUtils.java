@@ -38,6 +38,22 @@ public class ViewUtils {
         }
     }
 
+    /**
+     * 对view的MarginEnd增加设定的值
+     *
+     * @param view  操作的View
+     * @param value 需要增加的值
+     */
+    public static void addMarginEnd(View view, int value) {
+        if (view == null) return;
+        ViewGroup.LayoutParams params = view.getLayoutParams();
+        if (params instanceof ViewGroup.MarginLayoutParams) {
+            ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) params;
+            marginLayoutParams.setMarginEnd(marginLayoutParams.getMarginEnd() + value);
+            view.setLayoutParams(marginLayoutParams);
+        }
+    }
+
     /** 设置MarginTop */
     public static void setMarginTop(View view, int value) {
         if (view == null) return;

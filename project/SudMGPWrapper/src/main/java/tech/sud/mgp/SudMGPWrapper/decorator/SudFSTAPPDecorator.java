@@ -433,4 +433,14 @@ public class SudFSTAPPDecorator {
         notifyStateChange(state, dataJson, null);
     }
 
+    /**
+     * APP状态通知给小游戏
+     *
+     * @param state 状态标识
+     * @param obj   数据
+     */
+    public void notifyStateChange(String state, Object obj) {
+        notifyStateChange(state, SudJsonUtils.toJson(obj), null);
+    }
+
 }

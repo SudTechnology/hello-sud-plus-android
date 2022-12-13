@@ -53,4 +53,7 @@ public class APPConfig {
     /** 竞猜场景，赢取的金币数量 */
     public static int QUIZ_WIN_COUNT = 1000;
 
+    /** 火箭发射的价格 */
+    public static int ROCKET_FIRE_PRICE = 19888;
+
 }

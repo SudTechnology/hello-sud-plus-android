@@ -31,7 +31,7 @@ import java.util.Random;
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState.AIPlayers;
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.core.ISudListenerNotifyStateChange;
-import tech.sud.mgp.core.SudMGP;
+import tech.sud.mgp.core.SudLoadMGMode;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseActivity;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
@@ -169,7 +169,6 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
 
         clOpenMic.setVisibility(View.GONE);
 
-        SudMGP.getCfg().setShowLoadingGameBg(true); // 默认需要显示加载游戏时的背景图
         gameViewModel.gameConfigModel.ui.lobby_players.hide = true; // 配置不展示大厅玩家展示位
         gameViewModel.gameConfigModel.ui.nft_avatar.hide = false; // 显示NFT图像
         gameViewModel.gameConfigModel.ui.game_opening.hide = false; // 显示开场动画
@@ -1006,6 +1005,13 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
                 }
             }
         });
+        roomGiftDialog.setOnShowCustomRocketClickListener((v) -> {
+            onGiftDialogShowCustomRocket();
+        });
+    }
+
+    /** 礼物弹窗，点击显示定制火箭 */
+    protected void onGiftDialogShowCustomRocket() {
     }
 
     protected void onSendGift(GiftModel giftModel, int giftCount, List<UserInfo> toUsers) {
@@ -1059,13 +1065,13 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
 
     private void initGame() {
         if (roomConfig.isSudGame) {
-            gameViewModel.switchGame(this, getGameRoomId(), roomInfoModel.gameId);
+            gameViewModel.switchGame(this, getGameRoomId(), roomInfoModel.gameId, getLoadMGMode(), getAuthorizationSecret());
         }
         updateGameNumber();
     }
 
     /** 获取游戏房间的id */
-    protected String getGameRoomId() {
+    public String getGameRoomId() {
         return roomInfoModel.roomId + "";
     }
 
@@ -1283,7 +1289,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         }
         playingGameId = gameId;
         roomInfoModel.gameId = gameId;
-        gameViewModel.switchGame(this, gameRoomId, gameId);
+        gameViewModel.switchGame(this, getGameRoomId(), gameId, getLoadMGMode(), getAuthorizationSecret());
         updatePageStyle();
         updateStatusBar();
         updateGameNumber();
@@ -1291,6 +1297,27 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
             binder.updateMicList();
         }
         return true;
+    }
+
+    /**
+     * 获取跨App域模式时的授权码
+     * 当加载游戏模式为{@link SudLoadMGMode#kSudLoadMGModeAppCrossAuth 为跨APP域模式}时
+     * 本字段才有效用
+     *
+     * @return
+     */
+    protected String getAuthorizationSecret() {
+        return null;
+    }
+
+    /**
+     * 获取加载游戏模式
+     * {@link SudLoadMGMode#kSudLoadMGModeNormal 为默认模式}； {@link SudLoadMGMode#kSudLoadMGModeAppCrossAuth 为跨APP域模式}
+     *
+     * @return 加载游戏模式
+     */
+    protected int getLoadMGMode() {
+        return SudLoadMGMode.kSudLoadMGModeNormal;
     }
 
     @Override
@@ -1484,4 +1511,15 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         }
     };
 
+    public SceneRoomService.MyBinder getBinder() {
+        return binder;
+    }
+
+    public RoomInfoModel getRoomInfoModel() {
+        return roomInfoModel;
+    }
+
+    public long getPlayingGameId() {
+        return playingGameId;
+    }
 }

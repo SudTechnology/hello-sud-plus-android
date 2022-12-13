@@ -29,9 +29,12 @@ import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.main.resp.BaseConfigResp;
 import tech.sud.mgp.hello.ui.common.utils.channel.NotifyChannelHelper;
+import tech.sud.mgp.hello.ui.main.base.constant.GameIdCons;
+import tech.sud.mgp.hello.ui.main.discover.DiscoverFragment;
 import tech.sud.mgp.hello.ui.main.home.HomeFragment;
 import tech.sud.mgp.hello.ui.main.roomlist.RoomListFragment;
 import tech.sud.mgp.hello.ui.main.settings.fragment.SettingsFragment;
+import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
 
 /**
  * 首页
@@ -43,6 +46,7 @@ public class MainActivity extends BaseActivity implements MainTabView.TabClickLi
     private MainTabView currentTabView;
     private final List<TabModel> tabs = new ArrayList<>();
     private final List<MainTabView> tabViews = new ArrayList<>();
+    private AppGameViewModel gameViewModel = new AppGameViewModel();
 
     @Override
     protected int getLayoutId() {
@@ -66,7 +70,7 @@ public class MainActivity extends BaseActivity implements MainTabView.TabClickLi
         }
         viewPager.setSaveEnabled(false);
         viewPager.setUserInputEnabled(false);
-        
+
     }
 
     @Override
@@ -74,6 +78,7 @@ public class MainActivity extends BaseActivity implements MainTabView.TabClickLi
         super.initData();
         new NotifyChannelHelper().initChannel(this);
         getBaseConfig();
+        gameViewModel.preloadMG(this, GameIdCons.CUSTOM_ROCKET);
     }
 
     private void getBaseConfig() {
@@ -120,7 +125,8 @@ public class MainActivity extends BaseActivity implements MainTabView.TabClickLi
     private void initTabs() {
         tabs.add(new TabModel(0, getString(R.string.tabs_index), R.drawable.icon_home_index));
         tabs.add(new TabModel(1, getString(R.string.tabs_room), R.drawable.icon_home_room));
-        tabs.add(new TabModel(2, getString(R.string.mine), R.drawable.icon_mine_tabbar_select_24));
+        tabs.add(new TabModel(2, getString(R.string.discover), R.drawable.ic_discover));
+        tabs.add(new TabModel(3, getString(R.string.mine), R.drawable.icon_mine_tabbar_select_24));
         for (int i = 0; i < tabs.size(); i++) {
             MainTabView tabView = new MainTabView(this);
             tabView.setData(tabs.get(i));
@@ -134,6 +140,7 @@ public class MainActivity extends BaseActivity implements MainTabView.TabClickLi
             tabLayout.addView(tabView, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT, 1));
             tabViews.add(tabView);
         }
+
         HomeTabAdapter adapter = new HomeTabAdapter(this);
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(tabs.size());
@@ -180,6 +187,9 @@ public class MainActivity extends BaseActivity implements MainTabView.TabClickLi
                 }
                 case 1: {
                     return RoomListFragment.newInstance();
+                }
+                case 2: {
+                    return new DiscoverFragment();
                 }
                 default: {
                     return SettingsFragment.newInstance();

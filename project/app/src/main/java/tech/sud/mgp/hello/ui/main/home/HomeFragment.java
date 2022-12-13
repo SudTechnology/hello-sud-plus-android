@@ -12,9 +12,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.lifecycle.Observer;
+
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.gyf.immersionbar.ImmersionBar;
+import com.jeremyliao.liveeventbus.LiveEventBus;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
@@ -25,6 +28,8 @@ import java.util.Objects;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseFragment;
+import tech.sud.mgp.hello.common.event.LiveEventBusKey;
+import tech.sud.mgp.hello.common.event.model.JumpRocketEvent;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
@@ -36,6 +41,7 @@ import tech.sud.mgp.hello.service.main.repository.UserInfoRepository;
 import tech.sud.mgp.hello.service.main.resp.CreatRoomResp;
 import tech.sud.mgp.hello.service.main.resp.GameListResp;
 import tech.sud.mgp.hello.service.main.resp.GameModel;
+import tech.sud.mgp.hello.service.main.resp.GetBannerResp;
 import tech.sud.mgp.hello.service.main.resp.QuizGameListResp;
 import tech.sud.mgp.hello.service.main.resp.SceneModel;
 import tech.sud.mgp.hello.service.main.resp.UserInfoResp;
@@ -46,8 +52,10 @@ import tech.sud.mgp.hello.ui.common.utils.LifecycleUtils;
 import tech.sud.mgp.hello.ui.main.base.constant.SceneType;
 import tech.sud.mgp.hello.ui.main.base.widget.CreateTicketRoomDialog;
 import tech.sud.mgp.hello.ui.main.base.widget.MainUserInfoView;
+import tech.sud.mgp.hello.ui.main.home.helper.JumpHelper;
 import tech.sud.mgp.hello.ui.main.home.manager.IndicatorHelper;
 import tech.sud.mgp.hello.ui.main.home.model.MatchRoomModel;
+import tech.sud.mgp.hello.ui.main.home.view.HomeBannerView;
 import tech.sud.mgp.hello.ui.main.home.view.NewNestedScrollView;
 import tech.sud.mgp.hello.ui.main.home.view.SceneTypeDialog;
 import tech.sud.mgp.hello.ui.main.home.view.homeitem.CreatRoomClickListener;
@@ -73,6 +81,7 @@ public class HomeFragment extends BaseFragment implements CreatRoomClickListener
 
     private EditText searchEt;
     private TextView goSearch;
+    private HomeBannerView bannerView;
     private LinearLayout sceneLayout;
     private SmartRefreshLayout refreshLayout;
     private MagicIndicator magicIndicator;
@@ -103,6 +112,7 @@ public class HomeFragment extends BaseFragment implements CreatRoomClickListener
         scrollView = mRootView.findViewById(R.id.scrollView);
         menuIv = mRootView.findViewById(R.id.menu_iv);
         userInfoView = mRootView.findViewById(R.id.user_info_view);
+        bannerView = mRootView.findViewById(R.id.banner_view);
         refreshLayout.setEnableRefresh(true);
         refreshLayout.setEnableLoadMore(false);
 
@@ -119,10 +129,45 @@ public class HomeFragment extends BaseFragment implements CreatRoomClickListener
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        bannerView.stopChangeTask();
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         userInfoView.updateUserInfo();
         updateNftHeader();
+        getBanner();
+        bannerView.startChangeTask();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        LiveEventBus.<JumpRocketEvent>get(LiveEventBusKey.KEY_JUMP_ROCKET).removeObserver(jumpRocketObserver);
+    }
+
+    private void getBanner() {
+        HomeRepository.getBanner(this, new RxCallback<GetBannerResp>() {
+            @Override
+            public void onSuccess(GetBannerResp getBannerResp) {
+                super.onSuccess(getBannerResp);
+                LifecycleUtils.safeLifecycle(mFragment, () -> {
+                    updateBannerInfo(getBannerResp);
+                });
+            }
+        });
+    }
+
+    private void updateBannerInfo(GetBannerResp resp) {
+        if (resp == null || resp.bannerInfoList == null || resp.bannerInfoList.size() == 0) {
+            bannerView.setVisibility(View.GONE);
+            return;
+        }
+        bannerView.setVisibility(View.VISIBLE);
+        bannerView.setBannerInfo(resp);
     }
 
     /** 更新nft头像 */
@@ -209,7 +254,24 @@ public class HomeFragment extends BaseFragment implements CreatRoomClickListener
                 dialog.show(getChildFragmentManager(), "SceneTypeDialog");
             }
         });
+        bannerView.setOnPagerClickListener(new HomeBannerView.OnPagerClickListener() {
+            @Override
+            public void onPagerClick(GetBannerResp.BannerModel model) {
+                JumpHelper.jump(model);
+            }
+        });
+        LiveEventBus.<JumpRocketEvent>get(LiveEventBusKey.KEY_JUMP_ROCKET).observe(this, jumpRocketObserver);
     }
+
+    private final Observer<JumpRocketEvent> jumpRocketObserver = new Observer<JumpRocketEvent>() {
+        @Override
+        public void onChanged(JumpRocketEvent jumpRocketEvent) {
+            if (jumpRocketEvent.isConsume) {
+                return;
+            }
+            createRoom(SceneType.AUDIO, null);
+        }
+    };
 
     private void enterRoom() {
         try {

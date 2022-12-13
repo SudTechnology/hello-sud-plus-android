@@ -58,7 +58,7 @@ public class RoomCmdModelUtils {
 
     /** 构建发礼消息信令 */
     public static String buildSendGiftCommand(long giftID, int giftCount, UserInfo toUser,
-                                              int type, String giftName, String giftUrl, String animationUrl) {
+                                              int type, String giftName, String giftUrl, String animationUrl, String extData) {
         RoomCmdSendGiftModel command = new RoomCmdSendGiftModel(getSendUser());
         command.giftID = giftID;
         command.giftCount = giftCount;
@@ -67,6 +67,7 @@ public class RoomCmdModelUtils {
         command.giftName = giftName;
         command.giftUrl = giftUrl;
         command.animationUrl = animationUrl;
+        command.extData = extData;
         return command.toJson();
     }
 

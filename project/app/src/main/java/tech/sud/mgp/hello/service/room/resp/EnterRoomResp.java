@@ -15,6 +15,7 @@ public class EnterRoomResp {
     public String rtiToken; // 信令 token
     public String imToken;  // IM token
     public RoomPkModel pkResultVO; // PK 结果
+    public AuthRoomInfo extraRoomVO; // 跨域房间信息
     public String streamId; // 流id(弹幕游戏用)
     public CrossAppModel extraMatchVO; // 跨域匹配信息
 }

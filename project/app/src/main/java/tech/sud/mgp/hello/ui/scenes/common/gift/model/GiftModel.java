@@ -23,4 +23,6 @@ public class GiftModel {
     public boolean isFeature; // 是否是特写
     public boolean isEffect; // 是否是特效
 
+    public String extData; // 扩展参数
+
 }

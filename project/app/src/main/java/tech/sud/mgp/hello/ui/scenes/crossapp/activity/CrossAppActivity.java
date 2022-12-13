@@ -195,7 +195,7 @@ public class CrossAppActivity extends BaseRoomActivity<CrossAppGameViewModel> {
     }
 
     @Override
-    protected String getGameRoomId() {
+    public String getGameRoomId() {
         String matchRoomId = getMatchRoomId();
         if (TextUtils.isEmpty(matchRoomId)) {
             return super.getGameRoomId();

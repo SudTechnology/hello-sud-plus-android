@@ -55,7 +55,7 @@ public class RxCallback<T> implements Observer<BaseResponse<T>> {
 
     private void processError(Throwable e) {
         if (e != null) {
-            e.printStackTrace();
+            LogUtils.e("okhttp", e);
         }
 //        if (e instanceof SocketTimeoutException) { // 连接超时
 //        } else if (e instanceof ConnectException || e instanceof UnknownHostException) { // 无网络

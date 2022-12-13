@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.common.event;
+package tech.sud.mgp.hello.common.event.model;
 
 /**
  * 切换RTC的事件通知

@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tech.sud.mgp.hello.R;
+import tech.sud.mgp.hello.app.APPConfig;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.EffectAnimationFormat;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftModel;
@@ -43,17 +44,6 @@ public class GiftHelper {
     public List<GiftModel> creatGifts(Context context) {
         if (this.gifts.size() == 0) {
             List<GiftModel> gifts = new ArrayList<>();
-            GiftModel model1 = new GiftModel();
-            model1.giftId = 1;
-            model1.giftName = "svga";
-            model1.animationType = EffectAnimationFormat.SVGA;
-            model1.path = context.getCacheDir().getAbsolutePath() + File.separator + "sud_svga_600.svga";
-            model1.resId = R.raw.sud_svga_600;
-            model1.giftImage = R.drawable.icon_gift_600;
-            model1.giftSmallImage = R.drawable.icon_gift_128;
-            model1.checkState = true;
-            model1.giftPrice = 1;
-            gifts.add(model1);
 
             GiftModel model2 = new GiftModel();
             model2.giftId = 2;
@@ -90,6 +80,20 @@ public class GiftHelper {
             model4.isFeature = true;
             model4.isEffect = true;
             gifts.add(model4);
+
+            gifts.add(createGiftModel(GiftId.ROCKET));
+
+            GiftModel model1 = new GiftModel();
+            model1.giftId = 1;
+            model1.giftName = "svga";
+            model1.animationType = EffectAnimationFormat.SVGA;
+            model1.path = context.getCacheDir().getAbsolutePath() + File.separator + "sud_svga_600.svga";
+            model1.resId = R.raw.sud_svga_600;
+            model1.giftImage = R.drawable.icon_gift_600;
+            model1.giftSmallImage = R.drawable.icon_gift_128;
+            model1.checkState = true;
+            model1.giftPrice = 1;
+            gifts.add(model1);
 
             this.gifts.clear();
             this.gifts.addAll(gifts);
@@ -152,6 +156,16 @@ public class GiftHelper {
             model.giftSmallImage = R.drawable.icon_gift_128;
             model.giftPrice = 1500;
             return model;
+        }
+        if (giftId == GiftId.ROCKET) {
+            GiftModel model9 = new GiftModel();
+            model9.giftId = GiftId.ROCKET;
+            model9.giftName = Utils.getApp().getString(R.string.custom_rocket);
+            model9.animationType = EffectAnimationFormat.ROCKET;
+            model9.giftImage = R.drawable.ic_rocket;
+            model9.giftSmallImage = R.drawable.ic_rocket;
+            model9.giftPrice = APPConfig.ROCKET_FIRE_PRICE;
+            return model9;
         }
         return null;
     }

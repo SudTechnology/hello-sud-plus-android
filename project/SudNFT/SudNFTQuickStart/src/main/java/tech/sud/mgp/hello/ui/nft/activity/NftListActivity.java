@@ -159,6 +159,7 @@ public class NftListActivity extends BaseActivity {
         model.chainType = bindWalletInfo.getChainType();
         model.walletAddress = bindWalletInfo.getWalletAddress();
         model.pageKey = pageKey;
+        model.pageSize = pageSize;
         viewModel.getNftList(model, new NFTViewModel.GetNftListListener() {
             @Override
             public void onSuccess(NftListResultModel model) {

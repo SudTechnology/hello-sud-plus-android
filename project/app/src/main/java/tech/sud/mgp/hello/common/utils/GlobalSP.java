@@ -24,6 +24,8 @@ public class GlobalSP {
     public final static String KEY_SHOWN_CHANGE_ADDRESS_GUIDE = "key_shown_change_address_guide_v1"; // 是否已经展示过切换地址的引导
     public final static String KEY_SHOWN_CHANGE_NETWORK_GUIDE = "key_shown_change_network_guide_v1"; // 是否已经展示过切换网络的引导
 
+    public final static String KEY_ROCKET_THUMB_PATH = "key_rocket_thumb_path"; // 火箭缩略图地址
+
     public static SPUtils getSP() {
         return SPUtils.getInstance(SP_NAME);
     }

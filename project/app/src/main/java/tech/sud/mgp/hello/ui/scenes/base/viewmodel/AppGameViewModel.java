@@ -14,6 +14,10 @@ import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.Utils;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 import tech.sud.mgp.SudMGPWrapper.decorator.SudFSMMGDecorator;
 import tech.sud.mgp.SudMGPWrapper.decorator.SudFSMMGListener;
 import tech.sud.mgp.SudMGPWrapper.decorator.SudFSTAPPDecorator;
@@ -27,6 +31,8 @@ import tech.sud.mgp.core.ISudFSMStateHandle;
 import tech.sud.mgp.core.ISudFSTAPP;
 import tech.sud.mgp.core.ISudListenerInitSDK;
 import tech.sud.mgp.core.ISudListenerNotifyStateChange;
+import tech.sud.mgp.core.ISudListenerPreloadMGPkg;
+import tech.sud.mgp.core.PkgDownloadStatus;
 import tech.sud.mgp.core.SudLoadMGMode;
 import tech.sud.mgp.core.SudLoadMGParamModel;
 import tech.sud.mgp.core.SudMGP;
@@ -56,8 +62,8 @@ public class AppGameViewModel implements SudFSMMGListener {
     // region field
     public static long GAME_ID_NONE = 0; // 没有游戏
 
-    private String gameRoomId; // 游戏房间id
-    private long playingGameId; // 当前使用的游戏id
+    protected String gameRoomId; // 游戏房间id
+    protected long playingGameId; // 当前使用的游戏id
     public final SudFSTAPPDecorator sudFSTAPPDecorator = new SudFSTAPPDecorator(); // app调用sdk的封装类
     public final SudFSMMGDecorator sudFSMMGDecorator = new SudFSMMGDecorator(); // 用于处理游戏SDK部分回调业务
 
@@ -82,10 +88,13 @@ public class AppGameViewModel implements SudFSMMGListener {
     public final MutableLiveData<SudMGPMGState.MGCommonGameSetScore> onGameSetScoreLiveData = new MutableLiveData<>(); // 24. 游戏通知app带入积分
     public final MutableLiveData<SudMGPMGState.MGCommonGameSettle> gameSettleLiveData = new MutableLiveData<>();
 
-    private boolean isRunning = true; // 业务是否还在运行
+    protected boolean isRunning = true; // 业务是否还在运行
     public View gameView; // 游戏View
     private int selfMicIndex = -1; // 记录自己所在麦位
     public GameConfigModel gameConfigModel = new GameConfigModel(); // 游戏配置
+
+    public boolean isShowLoadingGameBg = true; // 是否要显示加载时的背景图
+    public boolean isShowCustomLoading = false; // 是否要显示自定义的加载进度
 
     // endregion field
 
@@ -121,7 +130,7 @@ public class AppGameViewModel implements SudFSMMGListener {
                 if (!isRunning) {
                     return;
                 }
-                if (playingGameId == gameId && AppGameViewModel.this.gameRoomId == gameRoomId) {
+                if (playingGameId == gameId && Objects.equals(AppGameViewModel.this.gameRoomId, gameRoomId)) {
                     return;
                 }
                 destroyMG();
@@ -153,7 +162,7 @@ public class AppGameViewModel implements SudFSMMGListener {
      * @param activity 游戏所在页面
      * @param gameId   游戏id
      */
-    private void login(FragmentActivity activity, long gameId, int loadMGMode, String authorizationSecret) {
+    protected void login(FragmentActivity activity, long gameId, int loadMGMode, String authorizationSecret) {
         if (activity.isDestroyed() || gameId <= 0) {
             return;
         }
@@ -226,6 +235,9 @@ public class AppGameViewModel implements SudFSMMGListener {
 
         // 给装饰类设置回调
         sudFSMMGDecorator.setSudFSMMGListener(this);
+
+        SudMGP.getCfg().setShowLoadingGameBg(isShowLoadingGameBg);
+        SudMGP.getCfg().setShowCustomLoading(isShowCustomLoading);
 
         // 调用游戏sdk加载游戏
         SudLoadMGParamModel sudLoadMGParamModel = new SudLoadMGParamModel();
@@ -687,6 +699,7 @@ public class AppGameViewModel implements SudFSMMGListener {
     public void onGameLoadingProgress(int stage, int retCode, int progress) {
         SudFSMMGListener.super.onGameLoadingProgress(stage, retCode, progress);
         gameLoadingProgressLiveData.setValue(new GameLoadingProgressModel(stage, retCode, progress));
+        LogUtils.d("onGameLoadingProgress:" + stage + " :" + retCode + " :" + progress);
     }
 
     @Override
@@ -838,6 +851,56 @@ public class AppGameViewModel implements SudFSMMGListener {
     }
     // endregion 游戏侧回调
 
+    public void preloadMG(FragmentActivity activity, long gameId) {
+        if (activity.isDestroyed() || gameId <= 0) {
+            return;
+        }
+        // 请求登录code
+        GameRepository.login(activity, new RxCallback<GameLoginResp>() {
+            @Override
+            public void onSuccess(GameLoginResp gameLoginResp) {
+                super.onSuccess(gameLoginResp);
+                if (gameLoginResp == null) {
+                    return;
+                }
+                SudConfig sudConfig = AppData.getInstance().getSudConfig();
+                if (sudConfig == null || sudConfig.appId == null || sudConfig.appKey == null) {
+                    ToastUtils.showLong("SudConfig is empty");
+                    return;
+                }
+                EnvUtils.initMgpEnv();
+                // 初始化sdk
+                SudMGP.initSDK(activity, sudConfig.appId, sudConfig.appKey, APPConfig.GAME_IS_TEST_ENV, new ISudListenerInitSDK() {
+                    @Override
+                    public void onSuccess() {
+                        List<Long> mgIdList = new ArrayList<>();
+                        mgIdList.add(gameId);
+                        SudMGP.preloadMGPkgList(activity, mgIdList, new ISudListenerPreloadMGPkg() {
+                            @Override
+                            public void onPreloadSuccess(long mgId) {
+                                LogUtils.d("onPreloadSuccess:" + mgId);
+                            }
+
+                            @Override
+                            public void onPreloadFailure(long mgId, int errorCode, String errorMsg) {
+                                LogUtils.d("onPreloadFailure:" + mgId + " :" + errorCode + " :" + errorMsg);
+                            }
+
+                            @Override
+                            public void onPreloadStatus(long mgId, long downloadedSize, long totalSize, PkgDownloadStatus status) {
+                                LogUtils.d("onPreloadStatus:" + mgId + " :" + downloadedSize + " :" + totalSize + " :" + status);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onFailure(int errCode, String errMsg) {
+                    }
+                });
+            }
+        });
+    }
+
     @Override
     public boolean onGameStateChange(ISudFSMStateHandle handle, String state, String dataJson) {
         LogUtils.d("onGameStateChange: " + state + " :" + dataJson);
@@ -849,5 +912,5 @@ public class AppGameViewModel implements SudFSMMGListener {
         LogUtils.d("onPlayerStateChange: " + userId + " :" + state + " :" + dataJson);
         return SudFSMMGListener.super.onPlayerStateChange(handle, userId, state, dataJson);
     }
-    
+
 }

@@ -1,14 +1,14 @@
 package tech.sud.mgp.hello.ui.scenes.orderentertainment.activity;
 
 import tech.sud.mgp.hello.ui.scenes.audio.widget.view.mic.AudioRoomMicView;
-import tech.sud.mgp.hello.ui.scenes.base.activity.BaseRoomActivity;
+import tech.sud.mgp.hello.ui.scenes.base.interaction.base.activity.BaseInteractionRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.chat.SceneRoomChatView;
 
 /**
  * 点单房间页面抽象类
  */
-public abstract class AbsOrderRoomActivity<T extends AppGameViewModel> extends BaseRoomActivity<T> {
+public abstract class AbsOrderRoomActivity<T extends AppGameViewModel> extends BaseInteractionRoomActivity<T> {
 
     private volatile int isInit = 0;
 

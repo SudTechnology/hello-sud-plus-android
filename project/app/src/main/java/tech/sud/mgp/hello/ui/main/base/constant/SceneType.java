@@ -18,6 +18,6 @@ public class SceneType {
     public static final int CUSTOM_SCENE = 11; // 自定义场景
     public static final int DANMAKU = 12; // 弹幕游戏
     public static final int DISCO = 13; // 蹦迪
-    public static final int CROSS_APP = 16; // 跨域场景类型
-    public static final int CROSS_DOMAIN = 14; // 跨域场景类型
+    public static final int CROSS_APP_AUTH = 14; // 跨域授权场景类型
+    public static final int CROSS_APP_MATCH = 16; // 跨域匹配场景类型
 }

@@ -19,9 +19,9 @@ import tech.sud.mgp.hello.ui.scenes.crossapp.widget.dialog.SelectMatchGameDialog
 import tech.sud.mgp.hello.ui.scenes.crossapp.widget.view.CrossAppStatusView;
 
 /**
- * 跨APP对战 场景
+ * 跨APP对战 匹配 场景
  */
-public class CrossAppActivity extends BaseRoomActivity<CrossAppGameViewModel> {
+public class CrossAppMatchActivity extends BaseRoomActivity<CrossAppGameViewModel> {
 
     private CrossAppStatusView crossAppStatusView;
 
@@ -38,7 +38,7 @@ public class CrossAppActivity extends BaseRoomActivity<CrossAppGameViewModel> {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_cross_app;
+        return R.layout.activity_cross_app_match;
     }
 
     @Override

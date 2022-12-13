@@ -179,7 +179,7 @@
 
         <!-- 跨域房间页面 -->
         <activity
-            android:name=".ui.scenes.crossdomain.CrossDomainActivity"
+            android:name=".ui.scenes.crossapp.activity.CrossAppAuthActivity"
             android:configChanges="orientation|screenSize"
             android:exported="false"
             android:launchMode="singleTask"
@@ -298,7 +298,7 @@
 
         <!-- 跨域 页面 -->
         <activity
-            android:name=".ui.scenes.crossapp.activity.CrossAppActivity"
+            android:name=".ui.scenes.crossapp.activity.CrossAppMatchActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:launchMode="singleTask"

@@ -1,5 +1,7 @@
 package tech.sud.mgp.hello.ui.main.discover;
 
+import android.widget.ImageView;
+
 import androidx.annotation.NonNull;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -8,6 +10,7 @@ import com.chad.library.adapter.base.module.LoadMoreModule;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
 import tech.sud.mgp.hello.R;
+import tech.sud.mgp.hello.common.utils.ImageLoader;
 import tech.sud.mgp.hello.service.main.resp.AuthRoomModel;
 
 /**
@@ -19,8 +22,12 @@ public class DiscoverRoomAdapter extends BaseQuickAdapter<AuthRoomModel, BaseVie
     }
 
     @Override
-    protected void convert(@NonNull BaseViewHolder holder, AuthRoomModel discoverRoomModel) {
+    protected void convert(@NonNull BaseViewHolder holder, AuthRoomModel model) {
+        ImageView ivIcon = holder.getView(R.id.iv_icon);
+        ImageLoader.loadAvatar(ivIcon, null);
 
+        holder.setText(R.id.tv_id, model.roomId);
+        holder.setText(R.id.tv_count, model.playerTotal + model.obTotal + "");
     }
 
     @NonNull
@@ -28,4 +35,5 @@ public class DiscoverRoomAdapter extends BaseQuickAdapter<AuthRoomModel, BaseVie
     public BaseLoadMoreModule addLoadMoreModule(@NonNull BaseQuickAdapter<?, ?> baseQuickAdapter) {
         return new BaseLoadMoreModule(baseQuickAdapter);
     }
+    
 }

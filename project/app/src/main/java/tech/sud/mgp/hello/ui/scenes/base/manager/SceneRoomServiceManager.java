@@ -235,7 +235,7 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
                 sceneLeagueManager = new SceneLeagueManager(this);
                 sceneLeagueManager.onCreate();
                 break;
-            case SceneType.CROSS_APP:
+            case SceneType.CROSS_APP_MATCH:
                 sceneCrossAppManager = new SceneCrossAppManager(this);
                 sceneCrossAppManager.onCreate();
                 break;

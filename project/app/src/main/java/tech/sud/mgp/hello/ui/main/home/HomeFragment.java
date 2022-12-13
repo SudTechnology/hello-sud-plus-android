@@ -456,7 +456,7 @@ public class HomeFragment extends BaseFragment implements CreatRoomClickListener
                 case SceneType.TICKET:
                     new CreateTicketRoomDialog().show(getChildFragmentManager(), null);
                     break;
-                case SceneType.CROSS_APP:
+                case SceneType.CROSS_APP_MATCH:
                     showCrossAppMatchGameDialog(sceneModel);
                     break;
                 default:

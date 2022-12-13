@@ -102,7 +102,7 @@ public class RoomListAdapter extends BaseQuickAdapter<RoomItemModel, BaseViewHol
 
         // 跨域状态显示
         TextView tvCrossAppStatus = helper.getView(R.id.tv_cross_app_status);
-        if (item.getSceneType() == SceneType.CROSS_APP) {
+        if (item.getSceneType() == SceneType.CROSS_APP_MATCH) {
             if (item.teamStatus == CrossAppMatchStatus.TEAM) {
                 tvCrossAppStatus.setText(R.string.in_a_team);
                 tvCrossAppStatus.setVisibility(View.VISIBLE);
@@ -174,7 +174,7 @@ public class RoomListAdapter extends BaseQuickAdapter<RoomItemModel, BaseViewHol
                 color.colorBg = Color.parseColor("#cb1530");
                 color.colorText = Color.parseColor("#FFFFFF");
                 break;
-            case SceneType.CROSS_APP:
+            case SceneType.CROSS_APP_MATCH:
                 color.colorBg = Color.parseColor("#0d0deb");
                 color.colorText = Color.parseColor("#FFFFFF");
                 break;

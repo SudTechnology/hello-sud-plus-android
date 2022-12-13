@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.scenes.crossdomain;
+package tech.sud.mgp.hello.ui.scenes.crossapp.activity;
 
 import android.text.TextUtils;
 
@@ -8,9 +8,9 @@ import tech.sud.mgp.hello.ui.scenes.base.activity.BaseRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
 
 /**
- * 跨域 房间页面
+ * 跨域 授权 房间页面
  */
-public class CrossDomainActivity extends BaseRoomActivity<AppGameViewModel> {
+public class CrossAppAuthActivity extends BaseRoomActivity<AppGameViewModel> {
 
     @Override
     protected AppGameViewModel initGameViewModel() {

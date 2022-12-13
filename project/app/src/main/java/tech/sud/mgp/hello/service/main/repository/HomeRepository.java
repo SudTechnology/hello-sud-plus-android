@@ -212,7 +212,7 @@ public class HomeRepository {
         req.pageNumber = pageNumber;
         req.pageSize = pageSize;
         HomeRequestMethodFactory.getMethod()
-                .authRoomList(BaseUrlManager.getInteractBaseUrl(), req)
+                .authRoomList(BaseUrlManager.getGameBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }
@@ -258,7 +258,7 @@ public class HomeRepository {
                 .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }
-    
+
     /**
      * 获取首页banner信息
      */

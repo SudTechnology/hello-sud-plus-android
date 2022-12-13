@@ -13,6 +13,7 @@ public class EnvUtils {
             ISudAPPD.d();
         } else if ("fat".equalsIgnoreCase(BuildConfig.mgpEnv)) {
             ISudAPPD.e(3);
+            ISudAPPD.d();
         }
         // endregion 为demo代码，直接忽略
     }

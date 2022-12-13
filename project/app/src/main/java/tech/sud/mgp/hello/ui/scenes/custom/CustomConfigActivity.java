@@ -442,7 +442,7 @@ public class CustomConfigActivity extends BaseActivity {
         item1View.setData(configItemModel);
         configContainer.addView(item1View);
 
-        // 控制MVP动画的开关
+        // 游戏结算前的mvp动画
         item1View = new CustomPageItem1View(this);
         configItemModel = addItem(
                 getString(R.string.custom_config_game_mvp),
@@ -451,6 +451,42 @@ public class CustomConfigActivity extends BaseActivity {
                 getString(R.string.custom_config_game_hide_false),
                 getString(R.string.custom_config_game_hide_true));
         item1View.setListener(itemModel -> viewModel.configModel.ui.game_mvp.hide = itemModel.hide);
+        item1View.setData(configItemModel);
+        configContainer.addView(item1View);
+
+        // 游戏中动画和头像右上角的UMO图标
+        item1View = new CustomPageItem1View(this);
+        configItemModel = addItem(
+                getString(R.string.custom_config_umo_icon),
+                getString(R.string.custom_config_umo_icon_subtitle),
+                1, 0, viewModel.configModel.ui.umo_icon.hide, false,
+                getString(R.string.custom_config_game_hide_false),
+                getString(R.string.custom_config_game_hide_true));
+        item1View.setListener(itemModel -> viewModel.configModel.ui.umo_icon.hide = itemModel.hide);
+        item1View.setData(configItemModel);
+        configContainer.addView(item1View);
+
+        // 游戏中动画和头像右上角的UMO图标
+        item1View = new CustomPageItem1View(this);
+        configItemModel = addItem(
+                getString(R.string.custom_config_logo),
+                getString(R.string.custom_config_logo_subtitle),
+                1, 0, viewModel.configModel.ui.logo.hide, false,
+                getString(R.string.custom_config_game_hide_false),
+                getString(R.string.custom_config_game_hide_true));
+        item1View.setListener(itemModel -> viewModel.configModel.ui.logo.hide = itemModel.hide);
+        item1View.setData(configItemModel);
+        configContainer.addView(item1View);
+
+        // 游戏中的游戏位
+        item1View = new CustomPageItem1View(this);
+        configItemModel = addItem(
+                getString(R.string.custom_config_game_players),
+                getString(R.string.custom_config_game_players_subtitle),
+                1, 0, viewModel.configModel.ui.game_players.hide, false,
+                getString(R.string.custom_config_game_hide_false),
+                getString(R.string.custom_config_game_hide_true));
+        item1View.setListener(itemModel -> viewModel.configModel.ui.game_players.hide = itemModel.hide);
         item1View.setData(configItemModel);
         configContainer.addView(item1View);
 

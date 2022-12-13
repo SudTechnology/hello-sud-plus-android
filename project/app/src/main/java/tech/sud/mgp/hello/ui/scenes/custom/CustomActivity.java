@@ -4,7 +4,9 @@ import android.widget.TextView;
 
 import tech.sud.mgp.SudMGPWrapper.model.GameConfigModel;
 import tech.sud.mgp.hello.R;
+import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.utils.GlobalCache;
+import tech.sud.mgp.hello.common.utils.ViewUtils;
 import tech.sud.mgp.hello.ui.scenes.audio.activity.AbsAudioRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.custom.dialog.CustomApiDialog;
 import tech.sud.mgp.hello.ui.scenes.custom.viewmodel.CustomGameViewModel;
@@ -41,6 +43,10 @@ public class CustomActivity extends AbsAudioRoomActivity<CustomGameViewModel> {
         } else {
             gameViewModel.gameConfigModel = new GameConfigModel();
         }
+
+        // 解决火箭入口显示位置的问题
+        ViewUtils.addMarginEnd(interactionBannerView, DensityUtils.dp2px(64));
+        ViewUtils.addMarginEnd(chatView, DensityUtils.dp2px(100));
     }
 
     @Override

@@ -103,7 +103,7 @@ public class InternalWalletBindActivity extends BaseActivity {
     @Override
     protected void initData() {
         super.initData();
-        viewModel.initData(this);
+        viewModel.initNFT(this);
 
         topBar.setTitle(getString(R.string.bind_phone_title, walletInfo.name));
 

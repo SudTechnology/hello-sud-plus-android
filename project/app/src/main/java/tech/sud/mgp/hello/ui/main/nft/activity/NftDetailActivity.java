@@ -93,7 +93,7 @@ public class NftDetailActivity extends BaseActivity {
     @Override
     protected void initData() {
         super.initData();
-        viewModel.initData(this);
+        viewModel.initNFT(this);
 
         // 国外国内钱包展示不同的信息
         BindWalletInfoModel bindWalletInfo = viewModel.getBindWalletInfo();

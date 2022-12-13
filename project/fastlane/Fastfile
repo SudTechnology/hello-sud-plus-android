@@ -34,6 +34,7 @@ platform :android do
         baseUrl=options[:baseUrl]
         interactBaseUrl=options[:interactBaseUrl]
         gameBaseUrl=options[:gameBaseUrl]
+        buildType=options[:buildType]
         puts versionCode
         if moduleName.nil? || moduleName.empty?
             puts "moduleName is empty"
@@ -51,7 +52,7 @@ platform :android do
         # puts outputDir
         gradle(
             task: ":" + moduleName + ":assemble",
-            build_type:"Release",
+            build_type:buildType,
             flavor:"official",
             print_command: true,
             properties: {
@@ -97,4 +98,18 @@ platform :android do
             }
         )
     end
+
+    desc "上传符号表到bugly"
+    lane :uploadMapping do |options|
+        # 上传符号表到bugly
+        versionCode=options[:code]
+        buglyAppId=options[:buglyAppId]
+        buglyAppKey=options[:buglyAppKey]
+        versionName = android_get_version_name(
+            gradle_file: "build.gradle"
+        )
+        outputMappingDir = "../app/build/outputs/mapping/*/mapping.txt"
+        sh("java -jar ../../tool/bugly/buglyqq-upload-symbol.jar -appid #{buglyAppId} -appkey #{buglyAppKey} -bundleid tech.sud.mgp.hello -version #{versionName}.#{versionCode} -platform Android -inputMapping #{outputMappingDir}")
+    end
+
 end

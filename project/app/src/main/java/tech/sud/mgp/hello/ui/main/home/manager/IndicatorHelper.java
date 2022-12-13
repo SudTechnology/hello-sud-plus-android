@@ -19,6 +19,7 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.Common
 
 import java.util.List;
 
+import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.service.main.resp.SceneModel;
 import tech.sud.mgp.hello.ui.main.home.view.NewNestedScrollView;
@@ -120,7 +121,7 @@ public class IndicatorHelper {
         }
         optionType = 1;
         LogUtils.i("=====", "clickIndicator = optionType=" + optionType);
-        LinearLayout childView = (LinearLayout) nestedScrollView.getChildAt(0);
+        LinearLayout childView = (LinearLayout) nestedScrollView.findViewById(R.id.scene_root);
         View sceneView = childView.getChildAt(index);
         if (nestedScrollViewTop == 0) {
             scrollViewTop();
@@ -148,7 +149,7 @@ public class IndicatorHelper {
 
     /** 查找1坐标最接近的view */
     private HomeItemView findView(int locationY) {
-        LinearLayout childView = (LinearLayout) nestedScrollView.getChildAt(0);
+        LinearLayout childView = (LinearLayout) nestedScrollView.findViewById(R.id.scene_root);
         int count = childView.getChildCount();
         if (count > 0) {
             for (int i = 0; i < count; i++) {

@@ -19,7 +19,7 @@ import java.util.Objects;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseFragment;
 import tech.sud.mgp.hello.common.event.LiveEventBusKey;
-import tech.sud.mgp.hello.common.event.NftTokenInvalidEvent;
+import tech.sud.mgp.hello.common.event.model.NftTokenInvalidEvent;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.GlobalSP;
 import tech.sud.mgp.hello.common.utils.ResponseUtils;
@@ -112,7 +112,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         UserInfoRepository.getUserInfoList(this, userIdList, new UserInfoRepository.UserInfoResultListener() {
             @Override
             public void userInfoList(List<UserInfoResp> userInfos) {
-                BindWalletInfoModel bindWalletInfoModel = NFTViewModel.sBindWalletInfo;
+                BindWalletInfoModel bindWalletInfoModel = nftViewModel.getBindWalletInfoByCache();
                 if (userInfos == null || userInfos.size() == 0 || bindWalletInfoModel == null) {
                     return;
                 }

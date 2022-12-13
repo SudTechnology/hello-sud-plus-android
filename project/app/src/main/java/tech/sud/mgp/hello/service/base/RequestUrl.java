@@ -66,6 +66,9 @@ public interface RequestUrl {
     /** 穿戴NFT */
     String WEAR_NFT = "wear-nft-header/v1";
 
+    /** 获取首页banner信息 */
+    String GET_BANNER = "get-banner/v1";
+
     // region 房间pk
     /** 设置PK时长 */
     String ROOM_PK_DURATION = "room/pk/duration/v1";
@@ -141,5 +144,47 @@ public interface RequestUrl {
 
     /** 带入筹码到游戏 */
     String GAME_BRING_CHIP = "app/bring-chip/v1";
+
+    // region 定制火箭
+
+    /** 查询商城组件列表 */
+    String ROCKET_MALL_COMPONENT_LIST = "rocket/get-mall-component-list/v1";
+
+    /** 解锁组件 */
+    String ROCKET_UNLOCK_COMPONENT = "rocket/unlock-component/v1";
+
+    /** 购买组件 */
+    String ROCKET_BUY_COMPONENT = "rocket/purchase-component/v1";
+
+    /** 购买组件记录 */
+    String ROCKET_BUY_COMPONENT_RECORD = "rocket/purchase-component-record/v1";
+
+    /** 查询装配间组件列表 */
+    String ROCKET_COMPONENT_LIST = "rocket/get-component-list/v1";
+
+    /** 保存火箭模型 */
+    String ROCKET_SAVE_MODEL = "rocket/save-rocket-model/v1";
+
+    /** 查询火箭模型列表 */
+    String ROCKET_MODEL_LIST = "rocket/get-model-list/v1";
+
+    /** 发射火箭 */
+    String ROCKET_FIRE = "rocket/fire-rocket/v1";
+
+    /** 发射火箭记录摘要 */
+    String ROCKET_FIRE_RECORD_SUMMERY = "rocket/fire-record-summery/v1";
+
+    /** 发射火箭记录 */
+    String ROCKET_FIRE_RECORD = "rocket/fire-record/v1";
+
+    /** 获取发射价格 */
+    String ROCKET_FIRE_PRICE = "rocket/fire-price/v1";
+
+    /** 设置火箭默认位置 */
+    String ROCKET_SET_DEFAULT_MODEL = "rocket/set-default-model/v1";
+
+    /** 校验签名合规性 */
+    String ROCKET_VERIFY_SIGN = "rocket/verify-sign/v1";
+    // endregion 定制火箭
 
 }

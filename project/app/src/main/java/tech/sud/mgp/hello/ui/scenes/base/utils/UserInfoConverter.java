@@ -1,5 +1,8 @@
 package tech.sud.mgp.hello.ui.scenes.base.utils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import tech.sud.mgp.hello.common.model.Gender;
 import tech.sud.mgp.hello.service.main.resp.UserInfoResp;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
@@ -29,6 +32,17 @@ public class UserInfoConverter {
         info.icon = model.avatar;
         info.sex = Gender.MALE.equals(model.gender) ? 1 : 2;
         return info;
+    }
+
+    public static List<UserInfo> conver(List<AudioRoomMicModel> src) {
+        if (src == null) {
+            return null;
+        }
+        List<UserInfo> dest = new ArrayList<>();
+        for (AudioRoomMicModel audioRoomMicModel : src) {
+            dest.add(conver(audioRoomMicModel));
+        }
+        return dest;
     }
 
 }

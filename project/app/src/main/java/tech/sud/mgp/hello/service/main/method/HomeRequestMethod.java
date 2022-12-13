@@ -22,6 +22,7 @@ import tech.sud.mgp.hello.service.main.resp.CheckUpgradeResp;
 import tech.sud.mgp.hello.service.main.resp.CreatRoomResp;
 import tech.sud.mgp.hello.service.main.resp.GameListResp;
 import tech.sud.mgp.hello.service.main.resp.GetAccountResp;
+import tech.sud.mgp.hello.service.main.resp.GetBannerResp;
 import tech.sud.mgp.hello.service.main.resp.QuizGameListResp;
 import tech.sud.mgp.hello.service.main.resp.RoomListResp;
 import tech.sud.mgp.hello.service.main.resp.TicketConfirmJoinResp;
@@ -117,5 +118,11 @@ public interface HomeRequestMethod {
      */
     @POST(RequestUrl.WEAR_NFT)
     Observable<BaseResponse<Object>> wearNFT(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body WearNftReq req);
+
+    /**
+     * 获取首页banner信息
+     */
+    @POST(RequestUrl.GET_BANNER)
+    Observable<BaseResponse<GetBannerResp>> getBanner(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl);
     
 }

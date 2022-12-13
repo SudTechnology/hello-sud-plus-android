@@ -12,6 +12,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
+import tech.sud.mgp.hello.ui.scenes.base.interaction.rocket.viewmodel.RocketGameViewModel;
+import tech.sud.mgp.hello.ui.scenes.common.gift.manager.GiftId;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftModel;
 
 public class GiftItemView extends ConstraintLayout {
@@ -22,6 +24,7 @@ public class GiftItemView extends ConstraintLayout {
     private TextView tvPrice;
     private TextView tvFeature;
     private TextView tvEffect;
+    private TextView tvCustom;
     public boolean isShowFlag; // 是否显示标记
 
     public GiftItemView(@NonNull Context context) {
@@ -47,14 +50,18 @@ public class GiftItemView extends ConstraintLayout {
         tvPrice = findViewById(R.id.tv_price);
         tvFeature = findViewById(R.id.tv_feature);
         tvEffect = findViewById(R.id.tv_effect);
+        tvCustom = findViewById(R.id.tv_custom);
     }
 
     public void setModel(GiftModel model) {
-        if (model.type == 0) {
+        if (model.giftId == GiftId.ROCKET) {
+            ImageLoader.loadRocketImage(itemGiftImgIv, RocketGameViewModel.getExistsRocketThumbPath());
+        } else if (model.type == 0) {
             ImageLoader.loadDrawable(itemGiftImgIv, model.giftImage);
         } else {
             ImageLoader.loadImage(itemGiftImgIv, model.giftUrl);
         }
+
         itemGiftNameTv.setText(model.giftName);
         itemGiftBg.setSelected(model.checkState);
         tvPrice.setText(model.giftPrice + "");
@@ -73,6 +80,12 @@ public class GiftItemView extends ConstraintLayout {
         } else {
             tvFeature.setVisibility(View.GONE);
             tvEffect.setVisibility(View.GONE);
+        }
+
+        if (model.giftId == GiftId.ROCKET) {
+            tvCustom.setVisibility(View.VISIBLE);
+        } else {
+            tvCustom.setVisibility(View.GONE);
         }
     }
 

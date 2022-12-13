@@ -39,6 +39,8 @@ import tech.sud.nft.core.listener.ISudNFTListenerGetCnNFTList;
 import tech.sud.nft.core.listener.ISudNFTListenerGetNFTList;
 import tech.sud.nft.core.listener.ISudNFTListenerGetWalletList;
 import tech.sud.nft.core.listener.ISudNFTListenerInitNFT;
+import tech.sud.nft.core.listener.ISudNFTListenerRefreshCnWalletToken;
+import tech.sud.nft.core.listener.ISudNFTListenerRefreshWalletToken;
 import tech.sud.nft.core.listener.ISudNFTListenerRemoveCnNFTCredentialsToken;
 import tech.sud.nft.core.listener.ISudNFTListenerRemoveNFTCredentialsToken;
 import tech.sud.nft.core.listener.ISudNFTListenerSendSmsCode;
@@ -66,6 +68,8 @@ import tech.sud.nft.core.model.resp.SudNFTGetCnNFTListModel;
 import tech.sud.nft.core.model.resp.SudNFTGetNFTListModel;
 import tech.sud.nft.core.model.resp.SudNFTGetWalletListModel;
 import tech.sud.nft.core.model.resp.SudNFTGetWalletListModel.WalletInfo;
+import tech.sud.nft.core.model.resp.SudNFTRefreshCnWalletTokenModel;
+import tech.sud.nft.core.model.resp.SudNFTRefreshWalletTokenModel;
 
 /**
  * nft 业务
@@ -90,7 +94,18 @@ public class NFTViewModel extends BaseViewModel {
     private static boolean sIsInitCompleted; // 是否初始化完成
 
     /**
-     * 初始化数据
+     * 已经初始化时，直接使用NFT相关操作
+     * 未初始化，再请求数据
+     */
+    public void initNFT(Context context) {
+        if (sIsInitCompleted) {
+            return;
+        }
+        initData(context);
+    }
+
+    /**
+     * 初始化数据，用于设置页的展示
      * 1，未绑定时显示钱包列表
      * 2，已绑定时显示nft列表
      */
@@ -104,6 +119,8 @@ public class NFTViewModel extends BaseViewModel {
                 public void onSuccess() {
                     sIsInitCompleted = true;
                     initDataGetBindWallet();
+                    // 刷新token
+                    refreshWalletTokenList(sBindWalletInfo);
                 }
 
                 @Override
@@ -126,6 +143,57 @@ public class NFTViewModel extends BaseViewModel {
             initNftList(sBindWalletInfo);
         }
         bindWalletInfoMutableLiveData.setValue(sBindWalletInfo);
+    }
+
+    /**
+     * 刷新已绑定钱包token
+     * 刷新token的动作，在每次app启动的时候刷新即可
+     *
+     * @param bindWalletInfo 本地缓存
+     */
+    private void refreshWalletTokenList(BindWalletInfoModel bindWalletInfo) {
+        if (bindWalletInfo != null && bindWalletInfo.walletList != null) {
+            for (WalletInfoModel walletInfoModel : bindWalletInfo.walletList) {
+                switch (walletInfoModel.zoneType) {
+                    case ZoneType.OVERSEAS:
+                        refreshWalletToken(walletInfoModel);
+                        break;
+                    case ZoneType.INTERNAL:
+                        refreshCnWalletToken(walletInfoModel);
+                        break;
+                }
+            }
+        }
+    }
+
+    /** 刷新钱包token */
+    private void refreshWalletToken(WalletInfoModel walletInfoModel) {
+        mSudNFTProxy.refreshWalletToken(walletInfoModel, new ISudNFTListenerRefreshWalletToken() {
+            @Override
+            public void onSuccess(SudNFTRefreshWalletTokenModel model) {
+                LogUtils.d("nft: refreshWalletToken onSuccess:" + GsonUtils.toJson(model));
+            }
+
+            @Override
+            public void onFailure(int retCode, String retMsg) {
+                ToastUtils.showLong("refreshWalletToken:" + ResponseUtils.nftConver(retCode, retMsg));
+            }
+        });
+    }
+
+    /** 刷新国内钱包token */
+    private void refreshCnWalletToken(WalletInfoModel walletInfoModel) {
+        mSudNFTProxy.refreshCnWalletToken(walletInfoModel, new ISudNFTListenerRefreshCnWalletToken() {
+            @Override
+            public void onSuccess(SudNFTRefreshCnWalletTokenModel model) {
+                LogUtils.d("nft: refreshCnWalletToken onSuccess:" + GsonUtils.toJson(model));
+            }
+
+            @Override
+            public void onFailure(int retCode, String retMsg) {
+                ToastUtils.showLong("refreshCnWalletToken:" + ResponseUtils.nftConver(retCode, retMsg));
+            }
+        });
     }
 
     // 展示钱包列表
@@ -250,12 +318,6 @@ public class NFTViewModel extends BaseViewModel {
         bindWalletInfoModel.walletType = walletInfoModel.type;
         saveBindWalletInfo(bindWalletInfoModel);
         sBindWalletInfo = bindWalletInfoModel;
-
-        // 全局用户信息里显示
-        bindWalletInfoMutableLiveData.setValue(bindWalletInfoModel);
-
-        // 获取NFT列表
-        initNftList(bindWalletInfoModel);
     }
 
     /** 获取国内钱包nft列表 */
@@ -308,12 +370,6 @@ public class NFTViewModel extends BaseViewModel {
         bindWalletInfoModel.walletType = walletInfoModel.type;
         saveBindWalletInfo(bindWalletInfoModel);
         sBindWalletInfo = bindWalletInfoModel;
-
-        // 全局用户信息里显示
-        bindWalletInfoMutableLiveData.setValue(bindWalletInfoModel);
-
-        // 获取NFT列表
-        initNftList(bindWalletInfoModel);
     }
 
     // 初始化数据获取nft列表
@@ -448,7 +504,7 @@ public class NFTViewModel extends BaseViewModel {
     }
 
     // 本地缓存当中获取已绑定钱包信息
-    private BindWalletInfoModel getBindWalletInfoByCache() {
+    public BindWalletInfoModel getBindWalletInfoByCache() {
         String json = GlobalSP.getSP().getString(GlobalSP.KEY_NFT_BIND_WALLET);
         if (json != null) {
             return SudJsonUtils.fromJson(json, BindWalletInfoModel.class);

@@ -9,9 +9,11 @@ import com.jeremyliao.liveeventbus.LiveEventBus;
 import java.util.List;
 
 import tech.sud.mgp.hello.common.event.LiveEventBusKey;
-import tech.sud.mgp.hello.common.event.NftTokenInvalidEvent;
+import tech.sud.mgp.hello.common.event.model.NftTokenInvalidEvent;
 import tech.sud.mgp.hello.ui.main.base.activity.MainActivity;
 import tech.sud.mgp.hello.ui.main.nft.model.BindWalletInfoModel;
+import tech.sud.mgp.hello.ui.main.nft.model.NftRetCode;
+import tech.sud.mgp.hello.ui.main.nft.model.WalletInfoModel;
 import tech.sud.nft.core.SudNFT;
 import tech.sud.nft.core.listener.ISudNFTListenerBindCnWallet;
 import tech.sud.nft.core.listener.ISudNFTListenerBindWallet;
@@ -21,6 +23,8 @@ import tech.sud.nft.core.listener.ISudNFTListenerGetCnNFTList;
 import tech.sud.nft.core.listener.ISudNFTListenerGetNFTList;
 import tech.sud.nft.core.listener.ISudNFTListenerGetWalletList;
 import tech.sud.nft.core.listener.ISudNFTListenerInitNFT;
+import tech.sud.nft.core.listener.ISudNFTListenerRefreshCnWalletToken;
+import tech.sud.nft.core.listener.ISudNFTListenerRefreshWalletToken;
 import tech.sud.nft.core.listener.ISudNFTListenerRemoveCnNFTCredentialsToken;
 import tech.sud.nft.core.listener.ISudNFTListenerRemoveNFTCredentialsToken;
 import tech.sud.nft.core.listener.ISudNFTListenerSendSmsCode;
@@ -33,6 +37,8 @@ import tech.sud.nft.core.model.param.SudNFTCnCredentialsTokenParamModel;
 import tech.sud.nft.core.model.param.SudNFTCredentialsTokenParamModel;
 import tech.sud.nft.core.model.param.SudNFTGetCnNFTListParamModel;
 import tech.sud.nft.core.model.param.SudNFTGetNFTListParamModel;
+import tech.sud.nft.core.model.param.SudNFTRefreshCnWalletTokenParamModel;
+import tech.sud.nft.core.model.param.SudNFTRefreshWalletTokenParamModel;
 import tech.sud.nft.core.model.param.SudNFTRemoveCnCredentialsTokenParamModel;
 import tech.sud.nft.core.model.param.SudNFTRemoveCredentialsTokenParamModel;
 import tech.sud.nft.core.model.param.SudNFTSendSmsCodeParamModel;
@@ -47,6 +53,8 @@ import tech.sud.nft.core.model.resp.SudNFTGenNFTCredentialsTokenModel;
 import tech.sud.nft.core.model.resp.SudNFTGetCnNFTListModel;
 import tech.sud.nft.core.model.resp.SudNFTGetNFTListModel;
 import tech.sud.nft.core.model.resp.SudNFTGetWalletListModel;
+import tech.sud.nft.core.model.resp.SudNFTRefreshCnWalletTokenModel;
+import tech.sud.nft.core.model.resp.SudNFTRefreshWalletTokenModel;
 
 /**
  * SudNFT代理类
@@ -256,6 +264,34 @@ public class SudNFTProxy {
             }
         });
     }
+
+    /**
+     * 刷新钱包token
+     *
+     * @param model    参数
+     * @param listener 回调
+     */
+    public void refreshWalletToken(WalletInfoModel model, ISudNFTListenerRefreshWalletToken listener) {
+        SudNFTRefreshWalletTokenParamModel paramModel = new SudNFTRefreshWalletTokenParamModel();
+        paramModel.walletToken = model.walletToken;
+        Long walletType = model.type;
+        SudNFT.refreshWalletToken(paramModel, new ISudNFTListenerRefreshWalletToken() {
+            @Override
+            public void onSuccess(SudNFTRefreshWalletTokenModel resp) {
+                if (listener != null) {
+                    listener.onSuccess(resp);
+                }
+            }
+
+            @Override
+            public void onFailure(int code, String msg) {
+                if (listener != null) {
+                    listener.onFailure(code, msg);
+                }
+                processonFailure(walletType, code, msg);
+            }
+        });
+    }
     // endregion 国外钱包接口
 
     // region 国内钱包接口
@@ -415,6 +451,34 @@ public class SudNFTProxy {
             }
         });
     }
+
+    /**
+     * 刷新国内钱包token
+     *
+     * @param model    参数
+     * @param listener 回调
+     */
+    public void refreshCnWalletToken(WalletInfoModel model, ISudNFTListenerRefreshCnWalletToken listener) {
+        SudNFTRefreshCnWalletTokenParamModel paramModel = new SudNFTRefreshCnWalletTokenParamModel();
+        paramModel.walletToken = model.walletToken;
+        Long walletType = model.type;
+        SudNFT.refreshCnWalletToken(paramModel, new ISudNFTListenerRefreshCnWalletToken() {
+            @Override
+            public void onSuccess(SudNFTRefreshCnWalletTokenModel resp) {
+                if (listener != null) {
+                    listener.onSuccess(resp);
+                }
+            }
+
+            @Override
+            public void onFailure(int code, String msg) {
+                if (listener != null) {
+                    listener.onFailure(code, msg);
+                }
+                processonFailure(walletType, code, msg);
+            }
+        });
+    }
     // endregion 国内钱包接口
 
     private Long getWalletType() {
@@ -427,7 +491,7 @@ public class SudNFTProxy {
 
     /** 抽取错误码共性，统一处理 */
     private void processonFailure(Long walletType, int code, String msg) {
-        if (code == 1008 || code == 1020) { // 钱包令牌无效，执行解绑
+        if (code == NftRetCode.WALLET_TOKEN_INVALID || code == NftRetCode.WALLET_TYPE_NOT_SUPPORT) { // 钱包令牌无效，执行解绑
             if (walletType != null) {
                 // 清除本地信息
                 mViewModel.tokenFailed(walletType);

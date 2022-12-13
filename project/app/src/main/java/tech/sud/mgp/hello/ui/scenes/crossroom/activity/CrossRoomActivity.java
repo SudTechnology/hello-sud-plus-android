@@ -27,7 +27,7 @@ import tech.sud.mgp.hello.ui.main.home.model.RoomItemModel;
 import tech.sud.mgp.hello.ui.scenes.audio.activity.AbsAudioRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.audio.widget.view.mic.AudioRoomGameMicView;
 import tech.sud.mgp.hello.ui.scenes.audio.widget.view.mic.AudioRoomMicView;
-import tech.sud.mgp.hello.ui.scenes.base.activity.BaseRoomActivity;
+import tech.sud.mgp.hello.ui.scenes.base.interaction.base.activity.BaseInteractionRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.base.model.ReportGameInfoModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoleType;
 import tech.sud.mgp.hello.ui.scenes.base.utils.EnterRoomUtils;
@@ -43,7 +43,7 @@ import tech.sud.mgp.hello.ui.scenes.crossroom.widget.view.RoomPkInfoView;
 /**
  * 跨房互动类场景
  */
-public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> implements View.OnClickListener {
+public class CrossRoomActivity extends BaseInteractionRoomActivity<CrossRoomGameViewModel> implements View.OnClickListener {
 
     private AbsAudioRoomActivity.AudioRoomMicStyle audioRoomMicStyle;
     private RoomPkInfoView roomPkInfoView;
@@ -116,6 +116,7 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
         tvPkSettings.setBackgroundResource(R.drawable.shape_room_top_btn_bg);
         topView.addCustomView(tvPkSettings, (LinearLayout.LayoutParams) tvPkSettings.getLayoutParams());
 
+        interactionBannerView.bringToFront();
         bringToFrontViews();
     }
 
@@ -346,7 +347,7 @@ public class CrossRoomActivity extends BaseRoomActivity<CrossRoomGameViewModel> 
     }
 
     @Override
-    protected long getGameRoomId() {
+    public long getGameRoomId() {
         return viewModel.getGameRoomId(roomInfoModel);
     }
 

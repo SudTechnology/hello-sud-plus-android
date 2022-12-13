@@ -179,4 +179,10 @@ public class ImageLoader {
                 });
     }
 
+    /** 加载火箭图片 */
+    public static void loadRocketImage(ImageView view, String url) {
+        if (isDestroy(view)) return;
+        Glide.with(view).load(url).error(R.drawable.ic_rocket).into(view);
+    }
+
 }

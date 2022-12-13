@@ -26,6 +26,7 @@ import tech.sud.mgp.hello.service.main.resp.CheckUpgradeResp;
 import tech.sud.mgp.hello.service.main.resp.CreatRoomResp;
 import tech.sud.mgp.hello.service.main.resp.GameListResp;
 import tech.sud.mgp.hello.service.main.resp.GetAccountResp;
+import tech.sud.mgp.hello.service.main.resp.GetBannerResp;
 import tech.sud.mgp.hello.service.main.resp.QuizGameListResp;
 import tech.sud.mgp.hello.service.main.resp.RoomListResp;
 import tech.sud.mgp.hello.service.main.resp.TicketConfirmJoinResp;
@@ -243,6 +244,16 @@ public class HomeRepository {
         req.type = type;
         HomeRequestMethodFactory.getMethod()
                 .wearNFT(BaseUrlManager.getBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /**
+     * 获取首页banner信息
+     */
+    public static void getBanner(LifecycleOwner owner, RxCallback<GetBannerResp> callback) {
+        HomeRequestMethodFactory.getMethod()
+                .getBanner(BaseUrlManager.getBaseUrl())
                 .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }

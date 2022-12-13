@@ -131,12 +131,26 @@
             android:overScrollMode="never">
 
             <LinearLayout
-                android:id="@+id/scene_root"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_horizontal"
-                android:orientation="vertical"
-                android:paddingBottom="20dp" />
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <tech.sud.mgp.hello.ui.main.home.view.HomeBannerView
+                    android:id="@+id/banner_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="104dp"
+                    android:layout_marginTop="20dp"
+                    android:visibility="gone" />
+
+                <LinearLayout
+                    android:id="@+id/scene_root"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:paddingBottom="20dp" />
+
+            </LinearLayout>
 
         </tech.sud.mgp.hello.ui.main.home.view.NewNestedScrollView>
 

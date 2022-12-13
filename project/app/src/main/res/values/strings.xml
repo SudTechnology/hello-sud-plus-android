@@ -618,6 +618,14 @@ Go to homepage to create one~</string>
     <string name="click_change_network">点击切换网络</string>
     <string name="works_desc">作品描述</string>
     <string name="internal_nft_title">数字藏品详情</string>
+    <string name="custom_rocket">定制火箭</string>
+    <string name="custom_made">定制</string>
+    <string name="go_custom">去定制</string>
+    <string name="choose_the_recipient">选择收礼人</string>
+    <string name="confirm_fire_price">确认发射(%1$s金币)</string>
+    <string name="go_rocket_stage">正在前往火箭台…</string>
+    <string name="component_lock_title">该商品锁定中，是否解锁？</string>
+    <string name="quicken">加速</string>
     <!-- endregion 新增 -->
 
     <!-- region 1.4.2 -->

@@ -51,7 +51,10 @@ public class GameConfigModel implements Serializable {
         public GameSelectedTips game_selected_tips = new GameSelectedTips(); // 游戏中所选择的玩法提示文字 （注：现在只针对ludo生效）
         public NFTAvatar nft_avatar = new NFTAvatar(); // 控制NFT头像的开关
         public GameOpening game_opening = new GameOpening(); // 控制开场动画的开关
-        public GameMvp game_mvp = new GameMvp(); // 控制MVP动画的开关
+        public GameMvp game_mvp = new GameMvp(); // 游戏结算前的mvp动画
+        public UmoIcon umo_icon = new UmoIcon(); // 游戏中动画和头像右上角的UMO图标
+        public Logo logo = new Logo(); // 大厅中的logo
+        public GamePlayers game_players = new GamePlayers(); // 游戏中的游戏位
     }
 
     // 结算界面
@@ -226,10 +229,28 @@ public class GameConfigModel implements Serializable {
         public boolean hide = true;
     }
 
-    // 控制MVP动画的开关
+    // 游戏结算前的mvp动画
     public static class GameMvp implements Serializable {
         // true隐藏 false显示
         public boolean hide = true;
+    }
+
+    // 游戏中动画和头像右上角的UMO图标
+    public static class UmoIcon implements Serializable {
+        // 是否隐藏游戏中动画和头像右上角的UMO图标并改为UNO（false: 不隐藏，依然显示UMO； true: 隐藏，改为显示UNO，默认为false）
+        public boolean hide = false;
+    }
+
+    // 大厅中的logo
+    public static class Logo implements Serializable {
+        // 是否隐藏大厅中的logo（false: 不隐藏； true: 隐藏，默认为false）
+        public boolean hide = false;
+    }
+
+    // 游戏中的游戏位
+    public static class GamePlayers implements Serializable {
+        // 是否隐藏游戏中的游戏位（false: 不隐藏； true: 隐藏，默认为false，暂时只支持你画我猜）
+        public boolean hide = false;
     }
 
 }

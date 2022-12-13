@@ -264,6 +264,22 @@ public interface SudFSMMGListener {
     default void onGameMGCommonGameSetScore(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameSetScore model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
+
+    /**
+     * 25. 创建订单
+     * mg_common_game_create_order
+     */
+    default void onGameMGCommonGameCreateOrder(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameCreateOrder model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 26. 游戏通知app玩家角色(仅对狼人杀有效)
+     * mg_common_player_role_id
+     */
+    default void onGameMGCommonPlayerRoleId(ISudFSMStateHandle handle, SudMGPMGState.MGCommonPlayerRoleId model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
     // endregion 游戏回调APP 通用状态
 
     // region 游戏回调APP 玩家状态
@@ -317,7 +333,7 @@ public interface SudFSMMGListener {
     }
 
     /**
-     * 7. 游戏通知app点击玩家头像（2022-02-09新增，现在只支持飞行棋ludo，仅用于游戏场景中的玩家头像）
+     * 7. 游戏通知app点击玩家头像
      * mg_common_self_click_game_player_icon
      */
     default void onPlayerMGCommonSelfClickGamePlayerIcon(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGCommonSelfClickGamePlayerIcon model) {
@@ -353,6 +369,14 @@ public interface SudFSMMGListener {
      * mg_common_game_countdown_time
      */
     default void onPlayerMGCommonGameCountdownTime(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGCommonGameCountdownTime model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 12. 游戏通知app层当前玩家死亡后变成ob视角（2022-08-23新增，目前狼人杀生效）
+     * mg_common_self_ob_status
+     */
+    default void onPlayerMGCommonSelfObStatus(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGCommonSelfObStatus model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -403,7 +427,7 @@ public interface SudFSMMGListener {
 
     // endregion 游戏回调APP 玩家状态 你画我猜
 
-    // region 游戏回调APP 玩家状态 元宇宙砂砂舞
+    // region 游戏回调APP 通用状态 元宇宙砂砂舞
 
     /**
      * 1. 元宇宙砂砂舞指令回调
@@ -420,6 +444,231 @@ public interface SudFSMMGListener {
     default void onGameMGCommonGameDiscoActionEnd(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameDiscoActionEnd model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
-    // endregion 游戏回调APP 玩家状态 元宇宙砂砂舞
+    // endregion 游戏回调APP 通用状态 元宇宙砂砂舞
+
+    // region 游戏回调APP 通用状态 定制火箭
+
+    /**
+     * 1. 礼物配置文件(火箭)
+     * mg_custom_rocket_config
+     */
+    default void onGameMGCustomRocketConfig(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketConfig model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 2. 拥有模型列表(火箭)
+     * mg_custom_rocket_model_list
+     */
+    default void onGameMGCustomRocketModelList(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketModelList model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 3. 拥有组件列表(火箭)
+     * mg_custom_rocket_component_list
+     */
+    default void onGameMGCustomRocketComponentList(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketComponentList model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 4. 获取用户信息(火箭)
+     * mg_custom_rocket_user_info
+     */
+    default void onGameMGCustomRocketUserInfo(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketUserInfo model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 5. 订单记录列表(火箭)
+     * mg_custom_rocket_order_record_list
+     */
+    default void onGameMGCustomRocketOrderRecordList(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketOrderRecordList model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 6. 展馆内列表(火箭)
+     * mg_custom_rocket_room_record_list
+     */
+    default void onGameMGCustomRocketRoomRecordList(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketRoomRecordList model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 7. 展馆内玩家送出记录(火箭)
+     * mg_custom_rocket_user_record_list
+     */
+    default void onGameMGCustomRocketUserRecordList(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketUserRecordList model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 8. 设置默认模型(火箭)
+     * mg_custom_rocket_set_default_model
+     */
+    default void onGameMGCustomRocketSetDefaultModel(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketSetDefaultModel model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 9. 动态计算一键发送价格(火箭)
+     * mg_custom_rocket_dynamic_fire_price
+     */
+    default void onGameMGCustomRocketDynamicFirePrice(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketDynamicFirePrice model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 10. 一键发送(火箭)
+     * mg_custom_rocket_fire_model
+     */
+    default void onGameMGCustomRocketFireModel(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketFireModel model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 11. 新组装模型(火箭)
+     * mg_custom_rocket_create_model
+     */
+    default void onGameMGCustomRocketCreateModel(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketCreateModel model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 12. 模型更换组件(火箭)
+     * mg_custom_rocket_replace_component
+     */
+    default void onGameMGCustomRocketReplaceComponent(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketReplaceComponent model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 13. 购买组件(火箭)
+     * mg_custom_rocket_buy_component
+     */
+    default void onGameMGCustomRocketBuyComponent(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketBuyComponent model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 14. 播放效果开始(火箭)
+     * mg_custom_rocket_play_effect_start
+     */
+    default void onGameMGCustomRocketPlayEffectStart(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketPlayEffectStart model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 15. 播放效果完成(火箭)
+     * mg_custom_rocket_play_effect_finish
+     */
+    default void onGameMGCustomRocketPlayEffectFinish(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketPlayEffectFinish model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 16. 验证签名合规(火箭)
+     * mg_custom_rocket_verify_sign
+     */
+    default void onGameMGCustomRocketVerifySign(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketVerifySign model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 17. 上传icon(火箭)
+     * mg_custom_rocket_upload_model_icon
+     */
+    default void onGameMGCustomRocketUploadModelIcon(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketUploadModelIcon model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 18. 前期准备完成(火箭)
+     * mg_custom_rocket_prepare_finish
+     */
+    default void onGameMGCustomRocketPrepareFinish(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketPrepareFinish model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 19. 火箭主界面已显示(火箭)
+     * mg_custom_rocket_show_game_scene
+     */
+    default void onGameMGCustomRocketShowGameScene(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketShowGameScene model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 20. 火箭主界面已隐藏(火箭)
+     * mg_custom_rocket_hide_game_scene
+     */
+    default void onGameMGCustomRocketHideGameScene(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketHideGameScene model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 21. 点击锁住组件(火箭)
+     * mg_custom_rocket_click_lock_component
+     */
+    default void onGameMGCustomRocketClickLockComponent(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketClickLockComponent model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 22. 火箭效果飞行点击(火箭)
+     * mg_custom_rocket_fly_click
+     */
+    default void onGameMGCustomRocketFlyClick(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketFlyClick model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 23. 火箭效果飞行结束(火箭)
+     * mg_custom_rocket_fly_end
+     */
+    default void onGameMGCustomRocketFlyEnd(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketFlyEnd model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 24. 设置点击区域(火箭)
+     * mg_custom_rocket_set_click_rect
+     */
+    default void onGameMGCustomRocketSetClickRect(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketSetClickRect model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    // endregion 游戏回调APP 通用状态 定制火箭
+
+    /**
+     * 游戏状态变化
+     * 透传游戏向App发送的游戏通用状态消息
+     * **********使用此方法可先看下此方法的使用逻辑*************
+     *
+     * @param handle   回调操作
+     * @param state    状态命令
+     * @param dataJson 状态值
+     * @return 返回true，表示由此方法接管该状态处理，此时需注意调用：ISudFSMStateHandleUtils.handleSuccess(handle);
+     */
+    default boolean onGameStateChange(ISudFSMStateHandle handle, String state, String dataJson) {
+        return false;
+    }
+
+    /**
+     * 游戏玩家状态变化
+     * 透传游戏向App发送的玩家状态变化
+     * **********使用此方法可先看下此方法的使用逻辑*************
+     *
+     * @param handle   回调操作
+     * @param userId   用户Id
+     * @param state    状态命令
+     * @param dataJson 状态值
+     * @return 返回true，表示由此方法接管该状态处理，此时需注意调用：ISudFSMStateHandleUtils.handleSuccess(handle);
+     */
+    default boolean onPlayerStateChange(ISudFSMStateHandle handle, String userId, String state, String dataJson) {
+        return false;
+    }
 
 }

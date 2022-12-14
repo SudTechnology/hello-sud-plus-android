@@ -223,10 +223,11 @@ public class HomeRepository {
      * @param authSecret app授权码
      * @param roomId     房间id，对方app房间id
      */
-    public static void authMatchRoom(LifecycleOwner owner, String authSecret, String roomId, RxCallback<AuthMatchRoomResp> callback) {
+    public static void authMatchRoom(LifecycleOwner owner, String authSecret, String roomId, long gameId, RxCallback<AuthMatchRoomResp> callback) {
         AuthMatchRoomReq req = new AuthMatchRoomReq();
         req.authSecret = authSecret;
         req.roomId = roomId;
+        req.gameId = gameId;
         HomeRequestMethodFactory.getMethod()
                 .authMatchRoom(BaseUrlManager.getInteractBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))

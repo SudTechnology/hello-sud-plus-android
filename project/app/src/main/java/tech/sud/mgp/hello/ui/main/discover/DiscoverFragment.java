@@ -142,7 +142,7 @@ public class DiscoverFragment extends BaseFragment {
         }
         isInMatchRoom = true;
         AuthRoomModel item = adapter.getItem(position);
-        HomeRepository.authMatchRoom(this, item.authSecret, item.roomId, new RxCallback<AuthMatchRoomResp>() {
+        HomeRepository.authMatchRoom(this, item.authSecret, item.roomId, item.mgId, new RxCallback<AuthMatchRoomResp>() {
             @Override
             public void onSuccess(AuthMatchRoomResp resp) {
                 super.onSuccess(resp);

@@ -6,4 +6,5 @@ package tech.sud.mgp.hello.service.main.req;
 public class AuthMatchRoomReq {
     public String authSecret; // app授权码
     public String roomId; // 房间id，对方app房间id
+    public long gameId; // 游戏id
 }

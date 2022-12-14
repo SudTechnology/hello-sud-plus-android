@@ -119,12 +119,12 @@ public interface RequestUrl {
     String ROBOT_LIST = "robot/list/v1";
     // endregion 礼物
 
-    // region 跨域
+    // region 跨域授权
     /** 授权房间列表 */
     String AUTH_ROOM_LIST = "extra/get-auth-room-list";
     /** 跨域匹配房间 */
     String AUTH_MATCH_ROOM = "extra/match-room/v1";
-    // endregion 跨域
+    // endregion 跨域授权
 
     // region 蹦迪
     /** 扣费 */

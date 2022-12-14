@@ -88,50 +88,41 @@ public class SplashViewModel extends BaseViewModel {
 
     // 2.检查是否已登录并处理
     private void checkLogin(RxAppCompatActivity owner) {
-        ThreadUtils.getIoPool().execute(new Runnable() {
-            @Override
-            public void run() {
-                LoginRepository.loadUserInfo();
-                if (HSUserInfo.userId == -1) {
-                    startLoginPageLiveData.postValue(null);
-                } else {
-                    ThreadUtils.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            String refreshToken = HSUserInfo.refreshToken;
-                            if (TextUtils.isEmpty(refreshToken)) { // 没有refreshToken时，直接跳登录页
-                                startLoginPageLiveData.postValue(null);
-                                return;
-                            }
-                            LoginRepository.refreshToken(refreshToken, owner, new RxCallback<RefreshTokenResponse>() {
-                                @Override
-                                public void onError(Throwable e) {
-                                    super.onError(e);
-                                    loginSuccess(); // 刷新Token遇到网络异常，直接进入首页
-                                }
-
-                                @Override
-                                public void onNext(BaseResponse<RefreshTokenResponse> t) {
-                                    super.onNext(t);
-                                    if (t.getRetCode() == RetCode.SUCCESS) { // 刷新Token成功
-                                        HSUserInfoConverter.conver(t.getData());
-                                        ThreadUtils.getIoPool().execute(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                LoginRepository.saveUserInfo();
-                                            }
-                                        });
-                                        configViewModel.getBaseConfig(owner);
-                                    } else { // 刷新Token不成功，回到登录页
-                                        startLoginPageLiveData.postValue(null);
-                                    }
-                                }
-                            });
-                        }
-                    });
-                }
+        LoginRepository.loadUserInfo();
+        if (HSUserInfo.userId == -1) {
+            startLoginPageLiveData.postValue(null);
+        } else {
+            String refreshToken = HSUserInfo.refreshToken;
+            if (TextUtils.isEmpty(refreshToken)) { // 没有refreshToken时，直接跳登录页
+                startLoginPageLiveData.postValue(null);
+                return;
             }
-        });
+            LoginRepository.refreshToken(refreshToken, owner, new RxCallback<RefreshTokenResponse>() {
+                @Override
+                public void onError(Throwable e) {
+                    super.onError(e);
+                    loginSuccess(); // 刷新Token遇到网络异常，直接进入首页
+                }
+
+                @Override
+                public void onNext(BaseResponse<RefreshTokenResponse> t) {
+                    super.onNext(t);
+                    if (t.getRetCode() == RetCode.SUCCESS) { // 刷新Token成功
+                        HSUserInfoConverter.conver(t.getData());
+                        ThreadUtils.getIoPool().execute(new Runnable() {
+                            @Override
+                            public void run() {
+                                LoginRepository.saveUserInfo();
+                            }
+                        });
+                        configViewModel.getBaseConfig(owner);
+                    } else { // 刷新Token不成功，回到登录页
+                        startLoginPageLiveData.postValue(null);
+                    }
+                }
+            });
+        }
+
     }
 
     // 在登录成功且获取配置成功之后返回

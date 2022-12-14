@@ -30,9 +30,8 @@ import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.main.resp.BaseConfigResp;
 import tech.sud.mgp.hello.ui.common.utils.channel.NotifyChannelHelper;
 import tech.sud.mgp.hello.ui.main.base.constant.GameIdCons;
-import tech.sud.mgp.hello.ui.main.discover.DiscoverFragment;
 import tech.sud.mgp.hello.ui.main.home.HomeFragment;
-import tech.sud.mgp.hello.ui.main.roomlist.RoomListFragment;
+import tech.sud.mgp.hello.ui.main.room.RoomFragment;
 import tech.sud.mgp.hello.ui.main.settings.fragment.SettingsFragment;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
 
@@ -125,8 +124,7 @@ public class MainActivity extends BaseActivity implements MainTabView.TabClickLi
     private void initTabs() {
         tabs.add(new TabModel(0, getString(R.string.tabs_index), R.drawable.icon_home_index));
         tabs.add(new TabModel(1, getString(R.string.tabs_room), R.drawable.icon_home_room));
-        tabs.add(new TabModel(2, getString(R.string.discover), R.drawable.ic_discover));
-        tabs.add(new TabModel(3, getString(R.string.mine), R.drawable.icon_mine_tabbar_select_24));
+        tabs.add(new TabModel(2, getString(R.string.mine), R.drawable.icon_mine_tabbar_select_24));
         for (int i = 0; i < tabs.size(); i++) {
             MainTabView tabView = new MainTabView(this);
             tabView.setData(tabs.get(i));
@@ -186,10 +184,7 @@ public class MainActivity extends BaseActivity implements MainTabView.TabClickLi
                     return HomeFragment.newInstance();
                 }
                 case 1: {
-                    return RoomListFragment.newInstance();
-                }
-                case 2: {
-                    return new DiscoverFragment();
+                    return RoomFragment.newInstance();
                 }
                 default: {
                     return SettingsFragment.newInstance();

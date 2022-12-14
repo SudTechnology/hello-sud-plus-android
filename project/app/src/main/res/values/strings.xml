@@ -649,10 +649,9 @@ Go to homepage to create one~</string>
     <string name="go_rocket_stage">正在前往火箭台…</string>
     <string name="component_lock_title">该商品锁定中，是否解锁？</string>
     <string name="quicken">加速</string>
+    <string name="room_list">房间列表</string>
+    <string name="cross_domain_connect">跨域连接</string>
+    <string name="play_count">%1$s人在玩</string>
     <!-- endregion 新增 -->
-
-    <!-- region 1.4.2 -->
-    <string name="discover">发现</string>
-    <!-- endregion 1.4.2 -->
 
 </resources>

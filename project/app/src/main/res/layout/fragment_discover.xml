@@ -7,71 +7,10 @@
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintTop_toTopOf="parent">
 
-    <View
-        android:id="@+id/view_statusbar"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="@color/white"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/index_header"
-        android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:background="@color/white"
-        android:paddingHorizontal="24dp"
-        android:paddingTop="7dp"
-        android:paddingBottom="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/view_statusbar">
-
-        <tech.sud.mgp.hello.ui.main.base.widget.MainUserInfoView
-            android:id="@+id/user_info_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <EditText
-            android:id="@+id/search_et"
-            android:layout_width="match_parent"
-            android:layout_height="32dp"
-            android:layout_marginTop="15dp"
-            android:background="#F2F3F7"
-            android:hint="@string/search_hint"
-            android:imeOptions="actionSearch"
-            android:inputType="number"
-            android:paddingStart="8dp"
-            android:paddingEnd="47dp"
-            android:singleLine="true"
-            android:textColor="@color/black"
-            android:textColorHint="#aaaaaa"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/user_info_view" />
-
-        <TextView
-            android:id="@+id/go_search"
-            android:layout_width="39dp"
-            android:layout_height="32dp"
-            android:background="@color/black"
-            android:gravity="center"
-            android:text="@string/search_enter"
-            android:textColor="@color/c_ffffff"
-            android:textSize="12sp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@id/search_et"
-            app:layout_constraintEnd_toEndOf="@id/search_et"
-            app:layout_constraintTop_toTopOf="@id/search_et" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
     <tech.sud.mgp.hello.ui.common.widget.refresh.RefreshView
         android:id="@+id/refresh_view"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/index_header" />
+        android:layout_height="match_parent"
+        android:layout_marginTop="12dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

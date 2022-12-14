@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<tech.sud.mgp.hello.common.widget.view.CornersConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginTop="7dp"
-    android:layout_marginHorizontal="7dp">
+    android:background="@color/transparent"
+    app:ccl_cornerRadius="14dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginHorizontal="4dp">
 
     <tech.sud.mgp.hello.common.widget.view.round.RoundedImageView
         android:id="@+id/iv_icon"
@@ -27,7 +29,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -35,15 +36,6 @@
         android:paddingHorizontal="10dp"
         android:background="@drawable/shape_discover_item_mask"
         app:layout_constraintBottom_toBottomOf="parent">
-
-        <TextView
-            android:id="@+id/tv_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/tv_name"
@@ -54,6 +46,15 @@
             app:layout_constraintStart_toStartOf="@id/tv_count"
             app:layout_constraintBottom_toTopOf="@id/tv_count" />
 
+        <TextView
+            android:id="@+id/tv_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</tech.sud.mgp.hello.common.widget.view.CornersConstraintLayout>

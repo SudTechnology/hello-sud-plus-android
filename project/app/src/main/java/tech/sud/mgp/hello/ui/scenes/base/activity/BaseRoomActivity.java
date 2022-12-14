@@ -32,6 +32,7 @@ import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState.AIPlayers;
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.core.ISudListenerNotifyStateChange;
 import tech.sud.mgp.core.SudLoadMGMode;
+import tech.sud.mgp.hello.BuildConfig;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseActivity;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
@@ -200,7 +201,11 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
     protected void initData() {
         super.initData();
         topView.setName(roomInfoModel.roomName);
-        topView.setId(getString(R.string.audio_room_number) + " " + roomInfoModel.roomNumber);
+        if (BuildConfig.gameIsTestEnv) {
+            topView.setId(roomInfoModel.roomId + "--" + roomInfoModel.roomNumber);
+        } else {
+            topView.setId(getString(R.string.audio_room_number) + " " + roomInfoModel.roomNumber);
+        }
         viewModel.initData();
         bindService();
     }

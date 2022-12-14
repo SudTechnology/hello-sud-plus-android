@@ -202,6 +202,7 @@ public class AppGameViewModel implements SudFSMMGListener {
             ToastUtils.showLong("SudConfig is empty");
             return;
         }
+        LogUtils.d("initSdk:" + sudConfig.appId);
         EnvUtils.initMgpEnv();
         // 初始化sdk
         SudMGP.initSDK(activity, sudConfig.appId, sudConfig.appKey, APPConfig.GAME_IS_TEST_ENV, new ISudListenerInitSDK() {

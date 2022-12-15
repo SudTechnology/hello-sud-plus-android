@@ -42,7 +42,7 @@ public class DiscoverRoomAdapter extends BaseQuickAdapter<AuthRoomModel, BaseVie
         ImageLoader.loadGameCover(ivIcon, gamePic);
 
         holder.setText(R.id.tv_id, "ID " + model.roomId);
-        holder.setText(R.id.tv_count, getContext().getString(R.string.play_count, model.playerTotal + model.obTotal + ""));
+        holder.setText(R.id.tv_count, getContext().getString(R.string.play_count, model.playerTotal + ""));
         holder.setText(R.id.tv_name, gameName);
     }
 

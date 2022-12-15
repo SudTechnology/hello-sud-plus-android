@@ -166,10 +166,8 @@ public class BaseballGameViewModel extends AppGameViewModel {
         if (model == null) {
             return;
         }
-        if (!"buy_baseball".equalsIgnoreCase(model.cmd)) {
-            return;
-        }
         BaseballPlayReq req = new BaseballPlayReq();
+        req.cmd = model.cmd;
         req.number = model.value;
         req.roomId = roomId;
         GameRepository.baseballPlay(fragmentActivity, req, new RxCallback<Object>() {

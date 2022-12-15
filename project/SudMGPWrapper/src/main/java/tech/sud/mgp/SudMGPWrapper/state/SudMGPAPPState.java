@@ -830,6 +830,7 @@ public class SudMGPAPPState implements Serializable {
     public static class AppBaseballTextConfig implements Serializable {
         public String mode1;
         public String mode2;
+        public String mode3;
     }
 
     public static class AppBaseballPlayerInfo implements Serializable {

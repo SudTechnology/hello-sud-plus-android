@@ -13,6 +13,10 @@ import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
+import tech.sud.mgp.hello.common.http.rx.RxCallback;
+import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
+import tech.sud.mgp.hello.service.game.repository.GameRepository;
+import tech.sud.mgp.hello.service.game.req.BaseballPlayReq;
 import tech.sud.mgp.hello.ui.common.dialog.LoadingDialog;
 import tech.sud.mgp.hello.ui.main.base.constant.GameIdCons;
 import tech.sud.mgp.hello.ui.scenes.base.interaction.base.activity.BaseInteractionRoomActivity;
@@ -45,7 +49,7 @@ public class BaseballControl extends BaseInteractionControl {
         gameContainer = includeBaseball.findViewById(R.id.baseball_container);
 
         baseballGameViewModel.fragmentActivity = activity;
-        baseballGameViewModel.roomId = activity.getRoomInfoModel().roomId;
+        baseballGameViewModel.roomId = getRoomId();
 
         baseballGameViewModel.isShowLoadingGameBg = false;
         baseballGameViewModel.isShowCustomLoading = true;
@@ -67,6 +71,10 @@ public class BaseballControl extends BaseInteractionControl {
 //        SudMGP.getCfg().addEmbeddedMGPkg(GameIdCons.BASEBALL, file.getAbsolutePath());
 
 //        SudMGP.getCfg().addEmbeddedMGPkg(GameIdCons.BASEBALL, "baseball.rpk");
+    }
+
+    private Long getRoomId() {
+        return activity.getRoomInfoModel().roomId;
     }
 
     @Override
@@ -98,6 +106,40 @@ public class BaseballControl extends BaseInteractionControl {
                 list = model.list;
             }
             gameContainer.setClickRectList(list);
+        });
+        baseballGameViewModel.gameCreateOrderLiveData.observe(activity, this::onGameCreateOrder);
+    }
+
+    private void onGameCreateOrder(SudMGPMGState.MGCommonGameCreateOrder model) {
+        if (model == null) {
+            return;
+        }
+        long coin = 5 * model.value;
+        String title = activity.getString(R.string.baseball_consume_title, coin + "", model.value + "");
+        SimpleChooseDialog dialog = new SimpleChooseDialog(activity, title, activity.getString(R.string.cancel), activity.getString(R.string.affirm));
+        dialog.setOnChooseListener(new SimpleChooseDialog.OnChooseListener() {
+            @Override
+            public void onChoose(int index) {
+                if (index == 1) {
+                    sendBaseBallPlay(model);
+                }
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+
+    private void sendBaseBallPlay(SudMGPMGState.MGCommonGameCreateOrder model) {
+        BaseballPlayReq req = new BaseballPlayReq();
+        req.cmd = model.cmd;
+        req.number = model.value;
+        req.roomId = getRoomId();
+        GameRepository.baseballPlay(activity, req, new RxCallback<Object>() {
+            @Override
+            public void onSuccess(Object o) {
+                super.onSuccess(o);
+//                ToastUtils.showShort("打棒球成功");
+            }
         });
     }
 

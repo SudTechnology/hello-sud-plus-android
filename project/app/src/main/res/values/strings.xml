@@ -627,6 +627,8 @@ Go to homepage to create one~</string>
     <string name="go_baseball_stage">正在前往棒球…</string>
     <string name="component_lock_title">该商品锁定中，是否解锁？</string>
     <string name="quicken">加速</string>
+    <string name="baseball_consume_title">是否花费%1$s金币打%2$s次</string>
+    <string name="affirm">确认</string>
     <!-- endregion 新增 -->
 
 </resources>

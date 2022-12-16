@@ -41,9 +41,27 @@ public class DiscoverRoomAdapter extends BaseQuickAdapter<AuthRoomModel, BaseVie
         ImageView ivIcon = holder.getView(R.id.iv_icon);
         ImageLoader.loadGameCover(ivIcon, gamePic);
 
-        holder.setText(R.id.tv_id, "ID " + model.roomId);
+        holder.setText(R.id.tv_id, "ID " + getDisplayRoomId(model));
         holder.setText(R.id.tv_count, getContext().getString(R.string.play_count, model.playerTotal + ""));
         holder.setText(R.id.tv_name, gameName);
+    }
+
+    private String getDisplayRoomId(AuthRoomModel model) {
+        StringBuilder sb = new StringBuilder();
+        if (model.localRoomNumber != null) {
+            sb.append(model.localRoomNumber);
+        }
+        sb.append("(");
+        if (model.roomId != null) {
+            int length = model.roomId.length();
+            if (length >= 4) {
+                sb.append(model.roomId.substring(length - 4, length));
+            } else {
+                sb.append(model.roomId);
+            }
+        }
+        sb.append(")");
+        return sb.toString();
     }
 
     @NonNull

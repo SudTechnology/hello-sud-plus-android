@@ -142,19 +142,21 @@ public class DiscoverFragment extends BaseFragment {
         }
         isInMatchRoom = true;
         AuthRoomModel item = adapter.getItem(position);
-        HomeRepository.authMatchRoom(this, item.authSecret, item.roomId, item.mgId, new RxCallback<AuthMatchRoomResp>() {
-            @Override
-            public void onSuccess(AuthMatchRoomResp resp) {
-                super.onSuccess(resp);
-                matchRoomOnSuccess(resp);
-            }
-
-            @Override
-            public void onFinally() {
-                super.onFinally();
-                isInMatchRoom = false;
-            }
-        });
+        // 直接进房，不再调匹配接口
+        EnterRoomUtils.enterRoom(requireContext(), item.localRoomId);
+//        HomeRepository.authMatchRoom(this, item.authSecret, item.roomId, item.mgId, new RxCallback<AuthMatchRoomResp>() {
+//            @Override
+//            public void onSuccess(AuthMatchRoomResp resp) {
+//                super.onSuccess(resp);
+//                matchRoomOnSuccess(resp);
+//            }
+//
+//            @Override
+//            public void onFinally() {
+//                super.onFinally();
+//                isInMatchRoom = false;
+//            }
+//        });
     }
 
     private void matchRoomOnSuccess(AuthMatchRoomResp resp) {

@@ -96,7 +96,11 @@ public class SceneCrossAppManager extends BaseServiceManager {
             oldList.addAll(crossAppModel.userList);
         }
         crossAppModel.userList = new ArrayList<>();
-        int gameMaxNumber = crossAppModel.gameModel.getGameMaxNumber();
+        GameModel gameModel = crossAppModel.gameModel;
+        int gameMaxNumber = 0;
+        if (gameModel != null) {
+            gameMaxNumber = gameModel.getGameMaxNumber();
+        }
         for (int i = 0; i < gameMaxNumber; i++) {
             UserInfoResp model = findUserInfo(oldList, i);
             if (model == null) {

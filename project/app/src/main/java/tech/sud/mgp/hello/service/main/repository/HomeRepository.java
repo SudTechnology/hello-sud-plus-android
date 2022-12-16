@@ -212,7 +212,7 @@ public class HomeRepository {
         req.pageNumber = pageNumber;
         req.pageSize = pageSize;
         HomeRequestMethodFactory.getMethod()
-                .authRoomList(BaseUrlManager.getGameBaseUrl(), req)
+                .authRoomList(BaseUrlManager.getInteractBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }

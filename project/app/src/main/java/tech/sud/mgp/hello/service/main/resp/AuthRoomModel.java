@@ -13,4 +13,5 @@ public class AuthRoomModel implements Serializable {
     public int obTotal; // ob总数
     public long lastChangedTime; // 最新变更时间戳
     public String authSecret; // 授权码
+    public long localRoomId; // 本地房间id
 }

@@ -73,10 +73,6 @@ public class BaseballControl extends BaseInteractionControl {
 //        SudMGP.getCfg().addEmbeddedMGPkg(GameIdCons.BASEBALL, "baseball.rpk");
     }
 
-    private Long getRoomId() {
-        return activity.getRoomInfoModel().roomId;
-    }
-
     @Override
     public void setListeners() {
         super.setListeners();
@@ -99,7 +95,7 @@ public class BaseballControl extends BaseInteractionControl {
             }
         });
         baseballGameViewModel.baseballPrepareCompletedLiveData.observe(activity, o -> onBaseballPrepareCompleted());
-        baseballGameViewModel.destroyBaseballLiveData.observe(activity, o -> stopBaseball());
+        baseballGameViewModel.destroyBaseballLiveData.observe(activity, o -> stopInteractionGame());
         baseballGameViewModel.baseballClickRectLiveData.observe(activity, model -> {
             List<SudMGPMGState.InteractionClickRect> list = null;
             if (model != null) {
@@ -175,8 +171,8 @@ public class BaseballControl extends BaseInteractionControl {
     }
 
     /** 隐藏棒球 */
-    private void stopBaseball() {
-        baseballGameViewModel.switchGame(activity, getGameRoomId(), 0);
+    public void stopInteractionGame() {
+        baseballGameViewModel.switchGame(activity, getRoomId(), 0);
         hideLoadingDialog();
     }
 
@@ -204,7 +200,7 @@ public class BaseballControl extends BaseInteractionControl {
     public void switchGame(long gameId) {
         super.switchGame(gameId);
         if (gameId > 0) {
-            stopBaseball();
+            stopInteractionGame();
         }
     }
 

@@ -56,8 +56,8 @@ public abstract class BaseInteractionControl implements IBaseInteractionControl 
         return activity.getPlayingGameId();
     }
 
-    protected long getGameRoomId() {
-        return activity.getGameRoomId();
+    protected long getRoomId() {
+        return activity.getRoomId();
     }
 
     /** 是否要拦截发送礼物 */
@@ -86,6 +86,10 @@ public abstract class BaseInteractionControl implements IBaseInteractionControl 
 
     /** 点击了入口 */
     public void onClickEntrance() {
+    }
+
+    /** 关闭互动游戏 */
+    public void stopInteractionGame() {
     }
 
     /** 获取当前控制的游戏Id */

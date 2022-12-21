@@ -14,7 +14,6 @@ import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.Utils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import tech.sud.mgp.SudMGPWrapper.decorator.SudFSMMGDecorator;
@@ -818,8 +817,8 @@ public class AppGameViewModel implements SudFSMMGListener {
     }
     // endregion 游戏侧回调
 
-    public void preloadMG(FragmentActivity activity, long gameId) {
-        if (activity.isDestroyed() || gameId <= 0) {
+    public void preloadMG(FragmentActivity activity, List<Long> mgIdList) {
+        if (activity.isDestroyed() || mgIdList == null || mgIdList.size() == 0) {
             return;
         }
         // 请求登录code
@@ -840,8 +839,6 @@ public class AppGameViewModel implements SudFSMMGListener {
                 SudMGP.initSDK(activity, sudConfig.appId, sudConfig.appKey, APPConfig.GAME_IS_TEST_ENV, new ISudListenerInitSDK() {
                     @Override
                     public void onSuccess() {
-                        List<Long> mgIdList = new ArrayList<>();
-                        mgIdList.add(gameId);
                         SudMGP.preloadMGPkgList(activity, mgIdList, new ISudListenerPreloadMGPkg() {
                             @Override
                             public void onPreloadSuccess(long mgId) {

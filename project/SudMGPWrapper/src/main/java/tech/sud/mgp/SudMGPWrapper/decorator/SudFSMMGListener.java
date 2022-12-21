@@ -639,8 +639,74 @@ public interface SudFSMMGListener {
     default void onGameMGCustomRocketSetClickRect(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketSetClickRect model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
-
     // endregion 游戏回调APP 通用状态 定制火箭
+
+    // region 游戏回调APP 通用状态 棒球
+
+    /**
+     * 1. 查询排行榜数据(棒球)
+     * mg_baseball_ranking
+     */
+    default void onGameMGBaseballRanking(ISudFSMStateHandle handle, SudMGPMGState.MGBaseballRanking model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 2. 查询我的排名(棒球)
+     * mg_baseball_my_ranking
+     */
+    default void onGameMGBaseballMyRanking(ISudFSMStateHandle handle, SudMGPMGState.MGBaseballMyRanking model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 3. 查询当前距离我的前后玩家数据(棒球)
+     * mg_baseball_range_info
+     */
+    default void onGameMGBaseballRangeInfo(ISudFSMStateHandle handle, SudMGPMGState.MGBaseballRangeInfo model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 4. 设置app提供给游戏可点击区域(棒球)
+     * mg_baseball_set_click_rect
+     */
+    default void onGameMGBaseballSetClickRect(ISudFSMStateHandle handle, SudMGPMGState.MGBaseballSetClickRect model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 5. 前期准备完成(棒球)
+     * mg_baseball_prepare_finish
+     */
+    default void onGameMGBaseballPrepareFinish(ISudFSMStateHandle handle, SudMGPMGState.MGBaseballPrepareFinish model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 6. 主界面已显示(棒球)
+     * mg_baseball_show_game_scene
+     */
+    default void onGameMGBaseballShowGameScene(ISudFSMStateHandle handle, SudMGPMGState.MGBaseballShowGameScene model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 7. 主界面已隐藏(棒球)
+     * mg_baseball_hide_game_scene
+     */
+    default void onGameMGBaseballHideGameScene(ISudFSMStateHandle handle, SudMGPMGState.MGBaseballHideGameScene model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 8. 获取文本配置数据(棒球)
+     * mg_baseball_text_config
+     */
+    default void onGameMGBaseballTextConfig(ISudFSMStateHandle handle, SudMGPMGState.MGBaseballTextConfig model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+    // endregion 游戏回调APP 通用状态 棒球
 
     /**
      * 游戏状态变化

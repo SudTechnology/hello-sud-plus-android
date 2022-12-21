@@ -182,4 +182,5 @@ public interface AudioRequestMethod {
     @POST(RequestUrl.LEAGUE_PLAYING)
     Observable<BaseResponse<LeaguePlayingResp>> leaguePlaying(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body LeaguePlayingReq req);
     // endregion 联赛
+
 }

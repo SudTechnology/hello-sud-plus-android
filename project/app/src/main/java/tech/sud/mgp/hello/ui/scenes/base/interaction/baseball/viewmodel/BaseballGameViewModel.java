@@ -27,11 +27,6 @@ public class BaseballGameViewModel extends AppGameViewModel {
     public MutableLiveData<SudMGPMGState.MGBaseballSetClickRect> baseballClickRectLiveData = new MutableLiveData<>(); // 棒球点击区域
     public MutableLiveData<SudMGPMGState.MGCommonGameCreateOrder> gameCreateOrderLiveData = new MutableLiveData<>(); // 创建订单，打棒球
 
-    /** 启动棒球 */
-    public void startBaseball() {
-        switchGame(fragmentActivity, getGameRoomId(), GameIdCons.BASEBALL);
-    }
-
     @Override
     public void switchGame(FragmentActivity activity, long gameRoomId, long gameId) {
         if (!isRunning) {

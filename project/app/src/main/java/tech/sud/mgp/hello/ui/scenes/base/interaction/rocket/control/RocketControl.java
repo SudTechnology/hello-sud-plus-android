@@ -260,7 +260,7 @@ public class RocketControl extends BaseInteractionControl {
         if (playingGameId <= 0) {
             showLoadingDialog();
         }
-        rocketGameViewModel.startRocket();
+        rocketGameViewModel.switchGame(activity, getRoomId(), GameIdCons.CUSTOM_ROCKET);
         return true;
     }
 

@@ -603,11 +603,6 @@ public class RocketGameViewModel extends AppGameViewModel {
         return userInfo;
     }
 
-    /** 启动火箭 */
-    public void startRocket() {
-        switchGame(fragmentActivity, getGameRoomId(), GameIdCons.CUSTOM_ROCKET);
-    }
-
     @Override
     public void switchGame(FragmentActivity activity, long gameRoomId, long gameId) {
         if (!isRunning) {

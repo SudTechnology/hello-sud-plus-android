@@ -166,7 +166,7 @@ public class BaseballControl extends BaseInteractionControl {
         if (playingGameId <= 0) {
             showLoadingDialog();
         }
-        baseballGameViewModel.startBaseball();
+        baseballGameViewModel.switchGame(activity, getRoomId(), GameIdCons.BASEBALL);
         return true;
     }
 

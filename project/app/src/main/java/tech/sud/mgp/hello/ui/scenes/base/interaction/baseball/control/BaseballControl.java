@@ -110,7 +110,12 @@ public class BaseballControl extends BaseInteractionControl {
         if (model == null) {
             return;
         }
-        long coin = 5 * model.value;
+        long coin;
+        if ("buy_combo_baseball".equals(model.cmd)) {
+            coin = 10 * model.value;
+        } else {
+            coin = 5 * model.value;
+        }
         String title = activity.getString(R.string.baseball_consume_title, coin + "", model.value + "");
         SimpleChooseDialog dialog = new SimpleChooseDialog(activity, title, activity.getString(R.string.cancel), activity.getString(R.string.affirm));
         dialog.setOnChooseListener(new SimpleChooseDialog.OnChooseListener() {

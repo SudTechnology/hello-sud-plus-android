@@ -137,13 +137,13 @@ public class DiscoverFragment extends BaseFragment {
     }
 
     private void clickRoom(int position) {
+        AuthRoomModel item = adapter.getItem(position);
+        // 直接进房，不再调匹配接口
+        EnterRoomUtils.enterRoom(requireContext(), item.localRoomId);
         if (isInMatchRoom) {
             return;
         }
         isInMatchRoom = true;
-        AuthRoomModel item = adapter.getItem(position);
-        // 直接进房，不再调匹配接口
-        EnterRoomUtils.enterRoom(requireContext(), item.localRoomId);
 //        HomeRepository.authMatchRoom(this, item.authSecret, item.roomId, item.mgId, new RxCallback<AuthMatchRoomResp>() {
 //            @Override
 //            public void onSuccess(AuthMatchRoomResp resp) {

@@ -9,6 +9,7 @@ import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.IBaseUrl;
 import tech.sud.mgp.hello.service.base.RequestUrl;
+import tech.sud.mgp.hello.service.game.req.BaseballPlayReq;
 import tech.sud.mgp.hello.service.game.req.BringChipReq;
 import tech.sud.mgp.hello.service.game.req.RocketFireRecordReq;
 import tech.sud.mgp.hello.service.game.req.RocketFireRecordSummeryReq;
@@ -43,6 +44,8 @@ public interface GameRequestMethod {
      */
     @POST(RequestUrl.GAME_BRING_CHIP)
     Observable<BaseResponse<Object>> bringChip(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body BringChipReq body);
+
+    // region 火箭
 
     /**
      * 查询商城组件列表
@@ -127,5 +130,29 @@ public interface GameRequestMethod {
      */
     @POST(RequestUrl.ROCKET_VERIFY_SIGN)
     Observable<BaseResponse<SudMGPAPPState.AppCustomRocketVerifySign.Data>> rocketVerifySign(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body SudMGPMGState.MGCustomRocketVerifySign body);
+    // endregion 火箭
+
+    // region 棒球
+
+    /** 查询排行榜 */
+    @POST(RequestUrl.BASEBALL_RANKING)
+    Observable<BaseResponse<SudMGPAPPState.AppBaseballRanking>> baseballRanking(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body SudMGPMGState.MGBaseballRanking body);
+
+    /** 查询我的排行榜 */
+    @POST(RequestUrl.BASEBALL_MY_RANKING)
+    Observable<BaseResponse<SudMGPAPPState.AppBaseballMyRanking>> baseballMyRanking(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body SudMGPMGState.MGBaseballMyRanking body);
+
+    /** 查询排在自己前后的玩家数据 */
+    @POST(RequestUrl.BASEBALL_RANGE_INFO)
+    Observable<BaseResponse<SudMGPAPPState.AppBaseballRangeInfo>> baseballRangeInfo(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body SudMGPMGState.MGBaseballRangeInfo body);
+
+    /** 打棒球 */
+    @POST(RequestUrl.BASEBALL_PLAY)
+    Observable<BaseResponse<Object>> baseballPlay(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body BaseballPlayReq body);
+
+    /** 棒球文本配置 */
+    @POST(RequestUrl.BASEBALL_TEXT_CONFIG)
+    Observable<BaseResponse<SudMGPAPPState.AppBaseballTextConfig>> baseballTextConfig(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body SudMGPMGState.MGBaseballTextConfig body);
+    // endregion 棒球
 
 }

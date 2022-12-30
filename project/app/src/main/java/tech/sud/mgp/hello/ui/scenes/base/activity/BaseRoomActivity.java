@@ -1527,4 +1527,9 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
     public long getPlayingGameId() {
         return playingGameId;
     }
+
+    public long getRoomId() {
+        return roomInfoModel.roomId;
+    }
+
 }

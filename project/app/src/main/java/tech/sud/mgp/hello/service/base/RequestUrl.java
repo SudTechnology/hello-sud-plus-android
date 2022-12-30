@@ -207,4 +207,21 @@ public interface RequestUrl {
     String ROCKET_VERIFY_SIGN = "rocket/verify-sign/v1";
     // endregion 定制火箭
 
+    // region 棒球
+    /** 查询我的排行榜 */
+    String BASEBALL_MY_RANKING = "baseball/my-ranking/v1";
+
+    /** 查询排在自己前后的玩家数据 */
+    String BASEBALL_RANGE_INFO = "baseball/range-info/v1";
+
+    /** 查询排行榜 */
+    String BASEBALL_RANKING = "baseball/ranking/v1";
+
+    /** 打棒球 */
+    String BASEBALL_PLAY = "baseball/play/v1";
+
+    /** 棒球文本配置 */
+    String BASEBALL_TEXT_CONFIG = "baseball/text-config/v1";
+    // endregion 棒球
+
 }

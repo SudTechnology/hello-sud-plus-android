@@ -12,8 +12,6 @@ import tech.sud.mgp.rtc.audio.core.ISudAudioEventListener;
  */
 public class IMRoomManager {
 
-    private static final String kTag = IMRoomManager.class.toString();
-
     private ISudAudioEventListener mISudAudioEventListener;
 
     private static IMRoomManager imRoomManager;
@@ -30,7 +28,7 @@ public class IMRoomManager {
         return imRoomManager;
     }
 
-    public void init(String appId, ISudAudioEventListener listener) {
+    public void init(String appId, ISudAudioEventListener listener, ZIMManager.ZimListener zimListener) {
         long appID = 0;
         try {
             appID = Long.parseLong(appId);
@@ -39,7 +37,7 @@ public class IMRoomManager {
         }
 
         mISudAudioEventListener = listener;
-        ZIMManager.sharedInstance().create(appID, Utils.getApp());
+        ZIMManager.sharedInstance().create(appID, Utils.getApp(), zimListener);
         ZIMManager.sharedInstance().setReceiveRoomMessageCallback(new ZIMManager.OnReceiveRoomMessage() {
             @Override
             public void onReceiveRoomMessage(String roomID, String senderUserID, String message) {
@@ -62,8 +60,8 @@ public class IMRoomManager {
         mISudAudioEventListener = null;
     }
 
-    public void joinRoom(String roomID, String userID, String userName, String token, ZIMManager.JoinRoomListener joinRoomListener) {
-        ZIMManager.sharedInstance().joinRoom(roomID, userID, userName, token, joinRoomListener);
+    public void joinRoom(String roomID, String userID, String userName, String token) {
+        ZIMManager.sharedInstance().joinRoom(roomID, userID, userName, token);
     }
 
     public void leaveRoom() {

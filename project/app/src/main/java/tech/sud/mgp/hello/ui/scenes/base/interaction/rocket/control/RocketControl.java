@@ -19,7 +19,6 @@ import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState.AppCustomRocketPlayModelList;
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.SudMGPWrapper.utils.SudJsonUtils;
-import tech.sud.mgp.core.SudLoadMGMode;
 import tech.sud.mgp.hello.BuildConfig;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
@@ -92,7 +91,7 @@ public class RocketControl extends BaseInteractionControl {
 //        SudMGP.getCfg().addEmbeddedMGPkg(GameIdCons.CUSTOM_ROCKET, "rocket.rpk");
 
         rocketGameViewModel.fragmentActivity = activity;
-        rocketGameViewModel.roomId = activity.getRoomInfoModel().roomId;
+        rocketGameViewModel.roomId = getRoomId();
 
         rocketGameViewModel.isShowLoadingGameBg = false;
         rocketGameViewModel.isShowCustomLoading = true;
@@ -124,7 +123,7 @@ public class RocketControl extends BaseInteractionControl {
         });
         rocketGameViewModel.rocketPlayEffectStartLiveData.observe(activity, o -> onRocketPlayEffectStart());
         rocketGameViewModel.rocketPlayEffectFinishLiveData.observe(activity, o -> onRocketPlayEffectFinish());
-        rocketGameViewModel.destroyRocketLiveData.observe(activity, o -> stopRocket());
+        rocketGameViewModel.destroyRocketLiveData.observe(activity, o -> stopInteractionGame());
         rocketGameViewModel.gameLoadingProgressLiveData.observe(activity, model -> {
             if (model != null && model.progress == 100) {
                 rocketContainer.postDelayed(() -> {
@@ -261,14 +260,14 @@ public class RocketControl extends BaseInteractionControl {
         if (playingGameId <= 0) {
             showLoadingDialog();
         }
-        rocketGameViewModel.startRocket();
+        rocketGameViewModel.switchGame(activity, getRoomId() + "", GameIdCons.CUSTOM_ROCKET);
         return true;
     }
 
     /** 隐藏火箭 */
-    private void stopRocket() {
+    public void stopInteractionGame() {
         rocketEffectOperateContainer.setVisibility(View.GONE);
-        rocketGameViewModel.switchGame(activity, getGameRoomId(), 0, SudLoadMGMode.kSudLoadMGModeNormal, null);
+        rocketGameViewModel.switchGame(activity, getRoomId() + "", 0);
         hideLoadingDialog();
     }
 
@@ -302,7 +301,7 @@ public class RocketControl extends BaseInteractionControl {
             return;
         }
         RocketFireReq req = new RocketFireReq();
-        req.roomId = activity.getRoomInfoModel().roomId;
+        req.roomId = getRoomId();
         req.number = number;
         List<Long> receiverList = new ArrayList<>();
         for (UserInfo userInfo : userInfoList) {
@@ -390,7 +389,7 @@ public class RocketControl extends BaseInteractionControl {
     public void switchGame(long gameId) {
         super.switchGame(gameId);
         if (gameId > 0) {
-            stopRocket();
+            stopInteractionGame();
         }
     }
 

@@ -24,6 +24,8 @@ import im.zego.zim.entity.ZIMRoomFullInfo;
 import im.zego.zim.entity.ZIMRoomInfo;
 import im.zego.zim.entity.ZIMTextMessage;
 import im.zego.zim.entity.ZIMUserInfo;
+import im.zego.zim.enums.ZIMConnectionEvent;
+import im.zego.zim.enums.ZIMConnectionState;
 import im.zego.zim.enums.ZIMErrorCode;
 import im.zego.zim.enums.ZIMMessagePriority;
 import im.zego.zim.enums.ZIMRoomEvent;
@@ -54,7 +56,7 @@ public class ZIMManager {
         return zimManager;
     }
 
-    public void create(long appID, Application application) {
+    public void create(long appID, Application application, ZimListener zimListener) {
         if (zim != null) {
             destroy();
         }
@@ -62,6 +64,14 @@ public class ZIMManager {
         zim = ZIM.create(appID, application);
 
         zim.setEventHandler(new ZIMEventHandler() {
+            @Override
+            public void onConnectionStateChanged(ZIM zim, ZIMConnectionState state, ZIMConnectionEvent event, JSONObject extendedData) {
+                super.onConnectionStateChanged(zim, state, event, extendedData);
+                if (zimListener != null) {
+                    zimListener.onConnectionStateChanged(zim, state, event, extendedData);
+                }
+            }
+
             @Override
             public void onError(ZIM zim, ZIMError errorInfo) {
                 super.onError(zim, errorInfo);
@@ -102,7 +112,7 @@ public class ZIMManager {
         mRoomID = null;
     }
 
-    public void joinRoom(String roomID, String userID, String userName, String token, JoinRoomListener joinRoomListener) {
+    public void joinRoom(String roomID, String userID, String userName, String token) {
         if (zim == null) {
             return;
         }
@@ -130,20 +140,9 @@ public class ZIMManager {
                             Log.i(kTag, "enterRoom: " + errorInfo.code);
                             if (errorInfo.code == ZIMErrorCode.SUCCESS) {
                                 mRoomID = roomID;
-                                if (joinRoomListener != null) {
-                                    joinRoomListener.onSuccess();
-                                }
-                            } else {
-                                if (joinRoomListener != null) {
-                                    joinRoomListener.onFailed(errorInfo.code.value());
-                                }
                             }
                         }
                     });
-                } else {
-                    if (joinRoomListener != null) {
-                        joinRoomListener.onFailed(errorInfo.code.value());
-                    }
                 }
             }
         });
@@ -223,10 +222,8 @@ public class ZIMManager {
         }
     }
 
-    public interface JoinRoomListener {
-        void onSuccess();
-
-        void onFailed(int code);
+    public interface ZimListener {
+        void onConnectionStateChanged(ZIM zim, ZIMConnectionState state, ZIMConnectionEvent event, JSONObject extendedData);
     }
 
 }

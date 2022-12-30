@@ -561,6 +561,70 @@ public class SudFSMMGDecorator implements ISudFSMMG {
                     listener.onGameMGCustomRocketSetClickRect(handle, mgCustomRocketSetClickRect);
                 }
                 break;
+            case SudMGPMGState.MG_BASEBALL_RANKING: // 1. 查询排行榜数据(棒球)
+                SudMGPMGState.MGBaseballRanking mgBaseballRanking = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGBaseballRanking.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGBaseballRanking(handle, mgBaseballRanking);
+                }
+                break;
+            case SudMGPMGState.MG_BASEBALL_MY_RANKING: // 2. 查询我的排名(棒球)
+                SudMGPMGState.MGBaseballMyRanking mgBaseballMyRanking = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGBaseballMyRanking.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGBaseballMyRanking(handle, mgBaseballMyRanking);
+                }
+                break;
+            case SudMGPMGState.MG_BASEBALL_RANGE_INFO: // 3. 查询当前距离我的前后玩家数据(棒球)
+                SudMGPMGState.MGBaseballRangeInfo mgBaseballRangeInfo = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGBaseballRangeInfo.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGBaseballRangeInfo(handle, mgBaseballRangeInfo);
+                }
+                break;
+            case SudMGPMGState.MG_BASEBALL_SET_CLICK_RECT: // 4. 设置app提供给游戏可点击区域(棒球)
+                SudMGPMGState.MGBaseballSetClickRect mgBaseballSetClickRect = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGBaseballSetClickRect.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGBaseballSetClickRect(handle, mgBaseballSetClickRect);
+                }
+                break;
+            case SudMGPMGState.MG_BASEBALL_PREPARE_FINISH: // 5. 前期准备完成(棒球)
+                SudMGPMGState.MGBaseballPrepareFinish mgBaseballPrepareFinish = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGBaseballPrepareFinish.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGBaseballPrepareFinish(handle, mgBaseballPrepareFinish);
+                }
+                break;
+            case SudMGPMGState.MG_BASEBALL_SHOW_GAME_SCENE: // 6. 主界面已显示(棒球)
+                SudMGPMGState.MGBaseballShowGameScene mgBaseballShowGameScene = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGBaseballShowGameScene.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGBaseballShowGameScene(handle, mgBaseballShowGameScene);
+                }
+                break;
+            case SudMGPMGState.MG_BASEBALL_HIDE_GAME_SCENE: // 7. 主界面已隐藏(棒球)
+                SudMGPMGState.MGBaseballHideGameScene mgBaseballHideGameScene = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGBaseballHideGameScene.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGBaseballHideGameScene(handle, mgBaseballHideGameScene);
+                }
+                break;
+            case SudMGPMGState.MG_BASEBALL_TEXT_CONFIG: // 8. 获取文本配置数据(棒球)
+                SudMGPMGState.MGBaseballTextConfig mgBaseballTextConfig = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGBaseballTextConfig.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGBaseballTextConfig(handle, mgBaseballTextConfig);
+                }
+                break;
             default:
                 ISudFSMStateHandleUtils.handleSuccess(handle);
                 break;

@@ -759,4 +759,87 @@ public class SudMGPAPPState implements Serializable {
     }
     // endregion 定制火箭
 
+    // region 棒球
+    /**
+     * 1. 下发游戏客户端查询排行榜数据(棒球)
+     */
+    public static final String APP_BASEBALL_RANKING = "app_baseball_ranking";
+
+    /**
+     * 1. 下发游戏客户端查询排行榜数据(棒球) 模型
+     */
+    public static class AppBaseballRanking implements Serializable {
+        public List<AppBaseballPlayerInfo> data;
+    }
+
+    /**
+     * 2. 下发游戏客户端查询我的排名数据(棒球)
+     */
+    public static final String APP_BASEBALL_MY_RANKING = "app_baseball_my_ranking";
+
+    /**
+     * 2. 下发游戏客户端查询我的排名数据(棒球) 模型
+     */
+    public static class AppBaseballMyRanking implements Serializable {
+        public AppBaseballPlayerInfo data;
+    }
+
+    /**
+     * 3. 下发游戏客户端查询排在自己前后的玩家数据(棒球)
+     */
+    public static final String APP_BASEBALL_RANGE_INFO = "app_baseball_range_info";
+
+    /**
+     * 3. 下发游戏客户端查询排在自己前后的玩家数据(棒球) 模型
+     */
+    public static class AppBaseballRangeInfo implements Serializable {
+        public AppBaseballPlayerInfo before; // 前一名
+        public AppBaseballPlayerInfo after; // 后一名
+    }
+
+    /**
+     * 4. app主动调起主界面(棒球)
+     */
+    public static final String APP_BASEBALL_SHOW_GAME_SCENE = "app_baseball_show_game_scene";
+
+    /**
+     * 4. app主动调起主界面(棒球) 模型
+     */
+    public static class AppBaseballShowGameScene implements Serializable {
+    }
+
+    /**
+     * 5. app主动隐藏主界面(棒球)
+     */
+    public static final String APP_BASEBALL_HIDE_GAME_SCENE = "app_baseball_hide_game_scene";
+
+    /**
+     * 5. app主动隐藏主界面(棒球) 模型
+     */
+    public static class AppBaseballHideGameScene implements Serializable {
+    }
+
+    /**
+     * 6. app推送需要的文本数据(棒球)
+     */
+    public static final String APP_BASEBALL_TEXT_CONFIG = "app_baseball_text_config";
+
+    /**
+     * 6. app推送需要的文本数据(棒球) 模型
+     */
+    public static class AppBaseballTextConfig implements Serializable {
+        public String mode1;
+        public String mode2;
+        public String mode3;
+    }
+
+    public static class AppBaseballPlayerInfo implements Serializable {
+        public String playerId; // 玩家Id
+        public String name; // 玩家昵称
+        public String avatar; // 头像
+        public long distance; // 距离
+        public int rank; // 排名
+    }
+    // endregion 棒球
+
 }

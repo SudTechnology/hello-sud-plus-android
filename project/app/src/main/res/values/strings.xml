@@ -647,11 +647,14 @@ Go to homepage to create one~</string>
     <string name="choose_the_recipient">选择收礼人</string>
     <string name="confirm_fire_price">确认发射(%1$s金币)</string>
     <string name="go_rocket_stage">正在前往火箭台…</string>
+    <string name="go_baseball_stage">正在前往棒球…</string>
     <string name="component_lock_title">该商品锁定中，是否解锁？</string>
     <string name="quicken">加速</string>
     <string name="room_list">房间列表</string>
     <string name="cross_domain_connect">跨域连接</string>
     <string name="play_count">%1$s人在玩</string>
+    <string name="baseball_consume_title">是否花费%1$s金币打%2$s次</string>
+    <string name="affirm">确认</string>
     <!-- endregion 新增 -->
 
 </resources>

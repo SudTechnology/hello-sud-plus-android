@@ -1,9 +1,9 @@
 package tech.sud.mgp.hello.ui.scenes.base.manager;
 
+import android.os.Handler;
 import android.view.View;
 
 import com.blankj.utilcode.util.LogUtils;
-import com.blankj.utilcode.util.ToastUtils;
 
 import org.json.JSONObject;
 
@@ -12,6 +12,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import im.zego.zim.ZIM;
+import im.zego.zim.enums.ZIMConnectionEvent;
+import im.zego.zim.enums.ZIMConnectionState;
 import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.GlobalCache;
@@ -43,14 +46,16 @@ public class SceneEngineManager extends BaseServiceManager {
     private final int soundLevelThreshold = 1; // 触发声浪显示的阀值
     private boolean isOpenListen = false; // 标识音频监听开关状态
     private boolean enterRoomCompleted = false; // 标识是否进房成功
-    private boolean imJoinRoomCompleted = false; // 标识im进房是否成功
     private boolean isInitEngine = false; // 标识是否已初始化engine
     public SceneRoomServiceManager.EnterRoomCompletedListener enterRoomCompletedListener;
     private View videoView;
+    private Handler handler;
+    private ZIMConnectionState zimConnectionState;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        handler = new Handler();
         commandManager.onCreate();
     }
 
@@ -70,30 +75,20 @@ public class SceneEngineManager extends BaseServiceManager {
 
             BaseConfigResp baseConfigResp = (BaseConfigResp) GlobalCache.getInstance().getSerializable(GlobalCache.BASE_CONFIG_KEY);
             if (baseConfigResp != null && baseConfigResp.zegoCfg != null) {
-                IMRoomManager.sharedInstance().init(baseConfigResp.zegoCfg.appId, eventHandler);
-                imJoinRoom(model);
+                IMRoomManager.sharedInstance().init(baseConfigResp.zegoCfg.appId, eventHandler, zimListener);
+                zimJoinRoom(model);
             }
             return;
         }
 
         joinRoom(model);
 
-        imJoinRoom(model);
+        zimJoinRoom(model);
     }
 
-    private void imJoinRoom(RoomInfoModel model) {
-        IMRoomManager.sharedInstance().joinRoom(model.roomId + "", HSUserInfo.userId + "",
-                HSUserInfo.nickName, model.imToken, new ZIMManager.JoinRoomListener() {
-                    @Override
-                    public void onSuccess() {
-                        imJoinRoomCompleted();
-                    }
-
-                    @Override
-                    public void onFailed(int code) {
-                        ToastUtils.showLong("imJoinRoom:" + code);
-                    }
-                });
+    private void zimJoinRoom(RoomInfoModel model) {
+        LogUtils.d("zimJoinRoom");
+        IMRoomManager.sharedInstance().joinRoom(model.roomId + "", HSUserInfo.userId + "", HSUserInfo.nickName, model.imToken);
     }
 
     private void joinRoom(RoomInfoModel model) {
@@ -382,12 +377,47 @@ public class SceneEngineManager extends BaseServiceManager {
         }
     };
 
+    private final ZIMManager.ZimListener zimListener = new ZIMManager.ZimListener() {
+        @Override
+        public void onConnectionStateChanged(ZIM zim, ZIMConnectionState state, ZIMConnectionEvent event, JSONObject extendedData) {
+            if (state == null) {
+                return;
+            }
+            // zim断线重连
+            LogUtils.d("onConnectionStateChanged:" + state);
+            zimConnectionState = state;
+            if (state == ZIMConnectionState.DISCONNECTED) {
+                delayConnectZim(0);
+            }
+        }
+    };
+
+    private void delayConnectZim(long delay) {
+        if (handler == null) {
+            return;
+        }
+        if (zimConnectionState != null && zimConnectionState == ZIMConnectionState.CONNECTED) {
+            return;
+        }
+        handler.postDelayed(() -> {
+            RoomInfoModel roomInfoModel = parentManager.getRoomInfoModel();
+            if (roomInfoModel != null) {
+                zimJoinRoom(roomInfoModel);
+            }
+            delayConnectZim(5000);
+        }, delay);
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
         commandManager.onDestroy();
         AudioEngineFactory.destroy();
         IMRoomManager.sharedInstance().destroy();
+        if (handler != null) {
+            handler.removeCallbacksAndMessages(null);
+            handler = null;
+        }
     }
 
     public interface OnRoomStreamUpdateListener {
@@ -395,29 +425,16 @@ public class SceneEngineManager extends BaseServiceManager {
     }
 
     public boolean isEnterRoomCompleted() {
-        return enterRoomCompleted && imJoinRoomCompleted;
+        return enterRoomCompleted;
     }
 
     private void enterRoomCompleted() {
         if (enterRoomCompleted) return;
         enterRoomCompleted = true;
-        checkInitCompleted();
-    }
-
-    private void checkInitCompleted() {
-        if (!isEnterRoomCompleted()) {
-            return;
-        }
         SceneRoomServiceManager.EnterRoomCompletedListener listener = enterRoomCompletedListener;
         if (listener != null) {
             listener.onEnterRoomCompleted();
         }
-    }
-
-    private void imJoinRoomCompleted() {
-        if (imJoinRoomCompleted) return;
-        imJoinRoomCompleted = true;
-        checkInitCompleted();
     }
 
 }

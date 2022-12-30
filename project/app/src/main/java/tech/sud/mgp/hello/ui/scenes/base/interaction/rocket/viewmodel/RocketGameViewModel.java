@@ -20,7 +20,6 @@ import java.util.Objects;
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.core.ISudFSMStateHandle;
-import tech.sud.mgp.core.SudLoadMGMode;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
@@ -603,11 +602,6 @@ public class RocketGameViewModel extends AppGameViewModel {
         userInfo.sex = -1;
         userInfo.url = userInfoResp.getUseAvatar();
         return userInfo;
-    }
-
-    /** 启动火箭 */
-    public void startRocket() {
-        switchGame(fragmentActivity, getGameRoomId(), GameIdCons.CUSTOM_ROCKET, SudLoadMGMode.kSudLoadMGModeNormal, null);
     }
 
     @Override

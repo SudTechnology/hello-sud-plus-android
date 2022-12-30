@@ -174,6 +174,7 @@ public class AppGameViewModel implements SudFSMMGListener {
                     return;
                 }
                 if (t.getRetCode() == RetCode.SUCCESS && t.getData() != null) {
+                    LogUtils.d("code为：" + t.getData().code);
                     initSdk(activity, gameId, t.getData().code, loadMGMode, authorizationSecret);
                 } else {
                     delayLoadGame(activity, gameId, loadMGMode, authorizationSecret);

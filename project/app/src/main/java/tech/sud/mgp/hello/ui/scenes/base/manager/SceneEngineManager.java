@@ -1,5 +1,6 @@
 package tech.sud.mgp.hello.ui.scenes.base.manager;
 
+import android.os.Handler;
 import android.view.View;
 
 import com.blankj.utilcode.util.LogUtils;
@@ -11,6 +12,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import im.zego.zim.ZIM;
+import im.zego.zim.enums.ZIMConnectionEvent;
+import im.zego.zim.enums.ZIMConnectionState;
 import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.GlobalCache;
@@ -28,6 +32,7 @@ import tech.sud.mgp.rtc.audio.core.ISudAudioEngine;
 import tech.sud.mgp.rtc.audio.core.ISudAudioEventListener;
 import tech.sud.mgp.rtc.audio.factory.AudioEngineFactory;
 import tech.sud.mgp.rtc.audio.impl.zego.IMRoomManager;
+import tech.sud.mgp.rtc.audio.impl.zego.ZIMManager;
 import tech.sud.mgp.rtc.audio.model.AudioJoinRoomModel;
 
 /**
@@ -44,10 +49,13 @@ public class SceneEngineManager extends BaseServiceManager {
     private boolean isInitEngine = false; // 标识是否已初始化engine
     public SceneRoomServiceManager.EnterRoomCompletedListener enterRoomCompletedListener;
     private View videoView;
+    private Handler handler;
+    private ZIMConnectionState zimConnectionState;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        handler = new Handler();
         commandManager.onCreate();
     }
 
@@ -67,14 +75,19 @@ public class SceneEngineManager extends BaseServiceManager {
 
             BaseConfigResp baseConfigResp = (BaseConfigResp) GlobalCache.getInstance().getSerializable(GlobalCache.BASE_CONFIG_KEY);
             if (baseConfigResp != null && baseConfigResp.zegoCfg != null) {
-                IMRoomManager.sharedInstance().init(baseConfigResp.zegoCfg.appId, eventHandler);
-                IMRoomManager.sharedInstance().joinRoom(model.roomId + "", HSUserInfo.userId + "", HSUserInfo.nickName, model.imToken);
+                IMRoomManager.sharedInstance().init(baseConfigResp.zegoCfg.appId, eventHandler, zimListener);
+                zimJoinRoom(model);
             }
             return;
         }
 
         joinRoom(model);
 
+        zimJoinRoom(model);
+    }
+
+    private void zimJoinRoom(RoomInfoModel model) {
+        LogUtils.d("zimJoinRoom");
         IMRoomManager.sharedInstance().joinRoom(model.roomId + "", HSUserInfo.userId + "", HSUserInfo.nickName, model.imToken);
     }
 
@@ -364,12 +377,47 @@ public class SceneEngineManager extends BaseServiceManager {
         }
     };
 
+    private final ZIMManager.ZimListener zimListener = new ZIMManager.ZimListener() {
+        @Override
+        public void onConnectionStateChanged(ZIM zim, ZIMConnectionState state, ZIMConnectionEvent event, JSONObject extendedData) {
+            if (state == null) {
+                return;
+            }
+            // zim断线重连
+            LogUtils.d("onConnectionStateChanged:" + state);
+            zimConnectionState = state;
+            if (state == ZIMConnectionState.DISCONNECTED) {
+                delayConnectZim(0);
+            }
+        }
+    };
+
+    private void delayConnectZim(long delay) {
+        if (handler == null) {
+            return;
+        }
+        if (zimConnectionState != null && zimConnectionState == ZIMConnectionState.CONNECTED) {
+            return;
+        }
+        handler.postDelayed(() -> {
+            RoomInfoModel roomInfoModel = parentManager.getRoomInfoModel();
+            if (roomInfoModel != null) {
+                zimJoinRoom(roomInfoModel);
+            }
+            delayConnectZim(5000);
+        }, delay);
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
         commandManager.onDestroy();
         AudioEngineFactory.destroy();
         IMRoomManager.sharedInstance().destroy();
+        if (handler != null) {
+            handler.removeCallbacksAndMessages(null);
+            handler = null;
+        }
     }
 
     public interface OnRoomStreamUpdateListener {

@@ -24,6 +24,8 @@ import im.zego.zim.entity.ZIMRoomFullInfo;
 import im.zego.zim.entity.ZIMRoomInfo;
 import im.zego.zim.entity.ZIMTextMessage;
 import im.zego.zim.entity.ZIMUserInfo;
+import im.zego.zim.enums.ZIMConnectionEvent;
+import im.zego.zim.enums.ZIMConnectionState;
 import im.zego.zim.enums.ZIMErrorCode;
 import im.zego.zim.enums.ZIMMessagePriority;
 import im.zego.zim.enums.ZIMRoomEvent;
@@ -54,7 +56,7 @@ public class ZIMManager {
         return zimManager;
     }
 
-    public void create(long appID, Application application) {
+    public void create(long appID, Application application, ZimListener zimListener) {
         if (zim != null) {
             destroy();
         }
@@ -62,6 +64,14 @@ public class ZIMManager {
         zim = ZIM.create(appID, application);
 
         zim.setEventHandler(new ZIMEventHandler() {
+            @Override
+            public void onConnectionStateChanged(ZIM zim, ZIMConnectionState state, ZIMConnectionEvent event, JSONObject extendedData) {
+                super.onConnectionStateChanged(zim, state, event, extendedData);
+                if (zimListener != null) {
+                    zimListener.onConnectionStateChanged(zim, state, event, extendedData);
+                }
+            }
+
             @Override
             public void onError(ZIM zim, ZIMError errorInfo) {
                 super.onError(zim, errorInfo);
@@ -211,4 +221,9 @@ public class ZIMManager {
             });
         }
     }
+
+    public interface ZimListener {
+        void onConnectionStateChanged(ZIM zim, ZIMConnectionState state, ZIMConnectionEvent event, JSONObject extendedData);
+    }
+
 }

@@ -354,6 +354,7 @@ public class AppGameViewModel implements SudFSMMGListener {
                 MGStateResponse mgStateResponse = new MGStateResponse();
                 mgStateResponse.ret_code = t.getRetCode();
                 if (t.getRetCode() == RetCode.SUCCESS && t.getData() != null) {
+                    LogUtils.d("processOnExpireCode code为：" + t.getData().code);
                     sudFSTAPPDecorator.updateCode(t.getData().code, null);
                     handle.success(GsonUtils.toJson(mgStateResponse));
                 } else {

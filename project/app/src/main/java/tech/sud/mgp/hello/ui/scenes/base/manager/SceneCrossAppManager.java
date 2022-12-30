@@ -235,8 +235,16 @@ public class SceneCrossAppManager extends BaseServiceManager {
             return;
         }
         if (crossAppModel.matchStatus == CrossAppMatchStatus.MATCH_SUCCESS) {
-            switchGame(GameIdCons.NONE);
-            changeMatchGame(crossAppModel.gameModel);
+            if (isCaptain()) {
+                // 队长，去切游戏
+                switchGame(GameIdCons.NONE);
+                changeMatchGame(crossAppModel.gameModel);
+            } else {
+                // 非队长，直接把游戏关了，然后把本地的状态修改为组队中
+                parentManager.callbackOnGameChange(GameIdCons.NONE);
+                crossAppModel.matchStatus = CrossAppMatchStatus.TEAM;
+                callbackUpdateCrossApp();
+            }
         }
     }
 
@@ -482,6 +490,17 @@ public class SceneCrossAppManager extends BaseServiceManager {
             for (UserInfoResp userInfoResp : crossAppModel.userList) {
                 if (userInfoResp.userId == HSUserInfo.userId) {
                     return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean isCaptain() {
+        if (crossAppModel != null && crossAppModel.userList != null) {
+            for (UserInfoResp userInfoResp : crossAppModel.userList) {
+                if (userInfoResp.userId == HSUserInfo.userId) {
+                    return userInfoResp.isCaptain;
                 }
             }
         }

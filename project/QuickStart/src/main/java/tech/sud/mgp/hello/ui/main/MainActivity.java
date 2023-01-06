@@ -37,7 +37,7 @@ import tech.sud.mgp.hello.service.MainRepository;
 public class MainActivity extends BaseActivity {
 
     private final MyAdapter adapter = new MyAdapter();
-    private final String roomId = "10000"; // 默认使用的房间Id
+    private final String defaultRoomId = "10000"; // 默认使用的房间Id
 
     private EditText editText;
     private TextView tvEnter;
@@ -54,7 +54,7 @@ public class MainActivity extends BaseActivity {
         tvEnter = findViewById(R.id.tv_enter);
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
 
-        editText.setHint(roomId);
+        editText.setHint(defaultRoomId);
 
         adapter.setHeaderView(getHeaderView());
         GridLayoutManager layoutManager = new GridLayoutManager(this, 3, LinearLayoutManager.VERTICAL, false);
@@ -94,7 +94,7 @@ public class MainActivity extends BaseActivity {
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
-                clickGame(position);
+                onClickItemGame(position);
             }
         });
         editText.addTextChangedListener(new SimpleTextWatcher() {
@@ -110,23 +110,25 @@ public class MainActivity extends BaseActivity {
         });
         editText.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_GO) {
-                return !enterRoom();
+                return !onClickEnterRoom();
             }
             return false;
         });
         tvEnter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                enterRoom();
+                onClickEnterRoom();
             }
         });
     }
 
-    /** 进入房间 */
-    private boolean enterRoom() {
+    /** 输入自定义房间号 打开游戏页面 */
+    private boolean onClickEnterRoom() {
         String inputRoomId = getInputRoomId();
-        if (TextUtils.isEmpty(inputRoomId)) return false;
-        QuickStartActivity.start(this, inputRoomId, 0);
+        if (TextUtils.isEmpty(inputRoomId)) {
+            return false;
+        }
+        startGameActivity(inputRoomId, 0);
         return true;
     }
 
@@ -135,12 +137,18 @@ public class MainActivity extends BaseActivity {
         return ViewUtils.getEditTextText(editText);
     }
 
-    /** 点击了游戏 */
-    private void clickGame(int position) {
+    /** 点击了游戏列表中的游戏 */
+    private void onClickItemGame(int position) {
         GameModel model = adapter.getItem(position);
-        QuickStartActivity.start(this, roomId, model.gameId);
+        startGameActivity(defaultRoomId, model.gameId);
     }
 
+    /** 打开游戏页面 */
+    private void startGameActivity(String roomId, long gameId) {
+        QuickStartActivity.start(this, roomId, gameId);
+    }
+
+    // 游戏列表适配器
     private static class MyAdapter extends BaseQuickAdapter<GameModel, BaseViewHolder> {
         public MyAdapter() {
             super(R.layout.item_home_game);

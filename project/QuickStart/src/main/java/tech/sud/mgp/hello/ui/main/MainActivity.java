@@ -1,5 +1,6 @@
 package tech.sud.mgp.hello.ui.main;
 
+import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -36,7 +37,7 @@ import tech.sud.mgp.hello.service.MainRepository;
 public class MainActivity extends BaseActivity {
 
     private final MyAdapter adapter = new MyAdapter();
-    private final long roomId = 10000; // 默认使用的房间Id
+    private final String roomId = "10000"; // 默认使用的房间Id
 
     private EditText editText;
     private TextView tvEnter;
@@ -53,7 +54,7 @@ public class MainActivity extends BaseActivity {
         tvEnter = findViewById(R.id.tv_enter);
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
 
-        editText.setHint(roomId + "");
+        editText.setHint(roomId);
 
         adapter.setHeaderView(getHeaderView());
         GridLayoutManager layoutManager = new GridLayoutManager(this, 3, LinearLayoutManager.VERTICAL, false);
@@ -99,8 +100,8 @@ public class MainActivity extends BaseActivity {
         editText.addTextChangedListener(new SimpleTextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                Long number = getInputNumber();
-                if (number == null) {
+                String inputRoomId = getInputRoomId();
+                if (TextUtils.isEmpty(inputRoomId)) {
                     tvEnter.setVisibility(View.GONE);
                 } else {
                     tvEnter.setVisibility(View.VISIBLE);
@@ -123,22 +124,15 @@ public class MainActivity extends BaseActivity {
 
     /** 进入房间 */
     private boolean enterRoom() {
-        Long number = getInputNumber();
-        if (number == null) return false;
-        QuickStartActivity.start(this, number, 0);
+        String inputRoomId = getInputRoomId();
+        if (TextUtils.isEmpty(inputRoomId)) return false;
+        QuickStartActivity.start(this, inputRoomId, 0);
         return true;
     }
 
     /** 获取输入的房间号 */
-    private Long getInputNumber() {
-        String content = ViewUtils.getEditTextText(editText);
-        if (content == null) return null;
-        try {
-            return Long.parseLong(content);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
+    private String getInputRoomId() {
+        return ViewUtils.getEditTextText(editText);
     }
 
     /** 点击了游戏 */

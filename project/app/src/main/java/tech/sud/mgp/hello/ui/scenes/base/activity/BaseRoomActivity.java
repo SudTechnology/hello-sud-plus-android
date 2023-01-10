@@ -478,6 +478,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
             binder.showFloating(roomInfoModel, getClass());
         }
         releaseService();
+        gameViewModel.onDestroy();
         finish();
     }
 
@@ -884,6 +885,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         if (isStartMainPage) {
             startMainPage();
         }
+        gameViewModel.onDestroy();
         finish();
     }
 
@@ -1120,6 +1122,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         @Override
         public void onServiceDisconnected(ComponentName name) {
             // 系统会在与服务的连接意外中断（或者随着activity 的生命周期stop）时调用该方法，当客户端取消绑定的时候，不会回调该方法
+            gameViewModel.onDestroy();
             finish();
         }
     };

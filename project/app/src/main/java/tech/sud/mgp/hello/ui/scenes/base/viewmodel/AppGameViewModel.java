@@ -265,12 +265,12 @@ public class AppGameViewModel implements SudFSMMGListener {
 
     public void onPause() {
         // 根据场景需要，playMG和pauseMG要配对
-//        sudFSTAPPDecorator.pauseMG();
+        sudFSTAPPDecorator.pauseMG();
     }
 
     public void onResume() {
         // 根据场景需要，playMG和pauseMG要配对
-//        sudFSTAPPDecorator.playMG();
+        sudFSTAPPDecorator.playMG();
     }
 
     public void onStop() {

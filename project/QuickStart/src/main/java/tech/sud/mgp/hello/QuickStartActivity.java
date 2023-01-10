@@ -131,6 +131,7 @@ public class QuickStartActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+                gameViewModel.onDestroy();
                 finish();
             }
         });
@@ -170,6 +171,15 @@ public class QuickStartActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         updateStatusBar();
+        // 如果接入的是Unity游戏，则必须要在此处调用onResume()方法
+        gameViewModel.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // 如果接入的是Unity游戏，则必须要在此处调用onPause()方法
+        gameViewModel.onPause();
     }
 
     @Override

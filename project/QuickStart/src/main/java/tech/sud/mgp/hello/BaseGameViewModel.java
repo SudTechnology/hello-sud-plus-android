@@ -390,6 +390,16 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
         handle.success(json);
     }
 
+    public void onPause() {
+        // playMG和pauseMG要配对
+        sudFSTAPPDecorator.pauseMG();
+    }
+
+    public void onResume() {
+        // playMG和pauseMG要配对
+        sudFSTAPPDecorator.playMG();
+    }
+
     /**
      * 处理游戏配置
      * 文档：https://docs.sud.tech/zh-CN/app/Client/API/ISudFSMMG/onGetGameCfg.html

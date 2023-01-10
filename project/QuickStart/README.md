@@ -3,12 +3,12 @@
 - 第一步：APP客户端集成SUD游戏（三分钟集成代码）
   <details>
   <summary>详细描述</summary>
-  
+
       1.appId、appKey和isTestEnv=true，请使用QuickStart客户端的；
       2.iOS bundleId、Android applicationId，请使用APP客户端自己的；(接入信息表中的bundleId/applicationId)；
       3.短期令牌code，请使用QuickStart的后端服务（login/getCode获取的）；
       4.完成集成，游戏跑起来;
-  
+
       *** SUD平台支持一个appId绑定多个bundleId和applicationId；***
       *** 填完接入信息表后，SUD会将APP的bundleId和applicationId，绑定到QuickStart的appId上，仅支持测试环境；***
   QuickStart 后端服务[hello-sud-java代码仓库](https://github.com/SudTechnology/hello-sud-java) ，`如果访问不了代码仓库，请联系SUD添加，github账号`；
@@ -18,7 +18,7 @@
 - 第二步：APP客户端和APP服务端联调
   <details>
   <summary>详细描述</summary>
-  
+
       1.APP服务端实现4个HTTP API；（接入信息表填的）
       2.APP服务端实现login/getCode接口，获取短期令牌code；
       3.请使用APP客户端自己的appId、appKey、isTestEnv=true、bundleId(iOS)、applicationId(Android)；
@@ -103,12 +103,13 @@
     </details>
 
 
-- 第四步：创建QuickStartGameViewModel实例，例如：QuickStartActivity
+- 第四步：创建QuickStartGameViewModel实例，及生命周期对应，例如：QuickStartActivity
     <details>
     <summary>详细描述 QuickStartActivity.java</summary>
 
       1.实现游戏View的添加与移除；
-      2.代码；
+      2.生命周期(可选)
+      3.代码；
     ``` java
     private final QuickStartGameViewModel gameViewModel = new QuickStartGameViewModel(); // 创建ViewModel
   
@@ -126,6 +127,21 @@
                 }
             }
         });
+    }
+  
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateStatusBar();
+        // 如果接入的是Unity游戏，则必须要在此处调用onResume()方法
+        gameViewModel.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // 如果接入的是Unity游戏，则必须要在此处调用onPause()方法
+        gameViewModel.onPause();
     }
     ```
     </details>
@@ -152,11 +168,9 @@
     <summary>详细描述 QuickStartActivity.java</summary>
 
     ``` java
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        gameViewModel.onDestroy();
-    }    
+    // 页面销毁之前，先销毁游戏
+    gameViewModel.onDestroy();
+    finish();    
     ```
     </details>
 

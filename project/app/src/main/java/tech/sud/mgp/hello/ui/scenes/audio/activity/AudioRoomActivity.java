@@ -17,4 +17,11 @@ public class AudioRoomActivity extends AbsAudioRoomActivity<AppGameViewModel> {
         roomConfig.isSupportAddRobot = true;
         return super.beforeSetContentView();
     }
+
+    @Override
+    protected void initWidget() {
+        super.initWidget();
+        gameViewModel.gameConfigModel.ui.lobby_players.hide = false; // 展示玩家游戏位
+    }
+    
 }

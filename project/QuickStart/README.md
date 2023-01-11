@@ -332,3 +332,7 @@
 
 ![AppCallSudMGPSeqDiag.png](doc/AppCallSudMGPSeqDiag.png)
 
+# 6. 其它注意事项
+
+- 首次集成，请根据自身要接入的游戏不同，来选择不同的SDK。地址：[SudMGPSDK](https://github.com/SudTechnology/sud-mgp-android)
+- 需要替换SDK，将代码里SudMGPSDK模块下面的aar包替换，然后修改SudMGPSDK/build.gradle里面的aar文件名称即可

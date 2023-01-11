@@ -336,3 +336,4 @@
 
 - 首次集成，请根据自身要接入的游戏不同，来选择不同的SDK。地址：[SudMGPSDK](https://github.com/SudTechnology/sud-mgp-android)
 - 需要替换SDK，将代码里SudMGPSDK模块下面的aar包替换，然后修改SudMGPSDK/build.gradle里面的aar文件名称即可
+- 如需使用微软ASR的能力，在项目里集成SudASR-MS-Android-vx.x.x.x.aar即可；微软ASR具备多语言识别的能力，比如英语、德语、阿拉伯语等等

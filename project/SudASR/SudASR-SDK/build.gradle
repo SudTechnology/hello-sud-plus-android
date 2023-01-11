@@ -1,0 +1,4 @@
+configurations.maybeCreate("default")
+artifacts.add("default", file('SudASR-v1.2.7.1087.aar'))
+dependencies {
+}

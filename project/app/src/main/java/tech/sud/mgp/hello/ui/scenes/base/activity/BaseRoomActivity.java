@@ -43,6 +43,7 @@ import tech.sud.mgp.hello.common.utils.permission.SudPermissionUtils;
 import tech.sud.mgp.hello.common.widget.dialog.BottomOptionDialog;
 import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
 import tech.sud.mgp.hello.service.game.repository.GameRepository;
+import tech.sud.mgp.hello.service.game.req.CreateOrderReq;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.main.resp.GetAccountResp;
 import tech.sud.mgp.hello.service.room.repository.RoomRepository;
@@ -614,6 +615,23 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
             onGameGetScore();
         });
         gameViewModel.onGameSetScoreLiveData.observe(this, this::onGameSetScore);
+        gameViewModel.gameCreateOrderLiveData.observe(this, this::onGameCreateOrder);
+    }
+
+    /** 游戏回调，创建订单 */
+    private void onGameCreateOrder(SudMGPMGState.MGCommonGameCreateOrder model) {
+        if (model == null) {
+            return;
+        }
+        try {
+            CreateOrderReq req = new CreateOrderReq();
+            req.setCreateOrderValues(model);
+            req.gameId = gameViewModel.getPlayingGameId();
+            req.roomId = gameViewModel.getGameRoomId();
+            GameRepository.createOrder(this, req, new RxCallback<>());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void onGameGetScore() {

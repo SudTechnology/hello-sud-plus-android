@@ -10,6 +10,7 @@ import tech.sud.mgp.hello.common.http.rx.RxUtils;
 import tech.sud.mgp.hello.service.game.method.GameRequestMethodFactory;
 import tech.sud.mgp.hello.service.game.req.BaseballPlayReq;
 import tech.sud.mgp.hello.service.game.req.BringChipReq;
+import tech.sud.mgp.hello.service.game.req.CreateOrderReq;
 import tech.sud.mgp.hello.service.game.req.RocketFireRecordReq;
 import tech.sud.mgp.hello.service.game.req.RocketFireRecordSummeryReq;
 import tech.sud.mgp.hello.service.game.req.RocketFireReq;
@@ -354,5 +355,18 @@ public class GameRepository {
                 .subscribe(callback);
     }
     // endregion 棒球
+
+    /**
+     * 创建订单
+     *
+     * @param owner    生命周期对象
+     * @param callback 回调
+     */
+    public static void createOrder(LifecycleOwner owner, CreateOrderReq req, RxCallback<Object> callback) {
+        GameRequestMethodFactory.getMethod()
+                .createOrder(BaseUrlManager.getGameBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
 
 }

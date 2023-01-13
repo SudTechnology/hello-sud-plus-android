@@ -83,6 +83,8 @@ public class AppGameViewModel implements SudFSMMGListener {
     public final MutableLiveData<Object> onGameGetScoreLiveData = new MutableLiveData<>(); // 游戏通知app获取积分
     public final MutableLiveData<SudMGPMGState.MGCommonGameSetScore> onGameSetScoreLiveData = new MutableLiveData<>(); // 24. 游戏通知app带入积分
 
+    public MutableLiveData<SudMGPMGState.MGCommonGameCreateOrder> gameCreateOrderLiveData = new MutableLiveData<>(); // 创建订单
+
     protected boolean isRunning = true; // 业务是否还在运行
     public View gameView; // 游戏View
     private int selfMicIndex = -1; // 记录自己所在麦位
@@ -875,6 +877,12 @@ public class AppGameViewModel implements SudFSMMGListener {
     public boolean onPlayerStateChange(ISudFSMStateHandle handle, String userId, String state, String dataJson) {
         LogUtils.d("onPlayerStateChange: " + userId + " :" + state + " :" + dataJson);
         return SudFSMMGListener.super.onPlayerStateChange(handle, userId, state, dataJson);
+    }
+
+    @Override
+    public void onGameMGCommonGameCreateOrder(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameCreateOrder model) {
+        SudFSMMGListener.super.onGameMGCommonGameCreateOrder(handle, model);
+        gameCreateOrderLiveData.setValue(model);
     }
 
 }

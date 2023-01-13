@@ -195,6 +195,10 @@ public interface RequestUrl {
 
     /** 棒球文本配置 */
     String BASEBALL_TEXT_CONFIG = "baseball/text-config/v1";
+
     // endregion 棒球
+
+    /** 创建订单 */
+    String CREATE_ORDER = "app/create-order/v1";
 
 }

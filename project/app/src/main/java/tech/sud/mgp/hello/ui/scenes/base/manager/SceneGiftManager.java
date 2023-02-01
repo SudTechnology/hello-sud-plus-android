@@ -80,6 +80,9 @@ public class SceneGiftManager extends BaseServiceManager {
                 giftModel.giftUrl = command.giftUrl;
                 giftModel.animationUrl = command.animationUrl;
             }
+            if (giftModel == null) {
+                return;
+            }
             giftModel.extData = command.extData;
             GiftNotifyDetailModel notify = new GiftNotifyDetailModel();
             notify.gift = giftModel;

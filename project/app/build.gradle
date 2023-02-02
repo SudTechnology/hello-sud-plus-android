@@ -89,6 +89,9 @@ dependencies {
     // 引入 SudMGPWrapper
     implementation project(':SudMGPWrapper')
 
+    // 引入 SudASR
+    implementation project(':SudASR:SudASR-SDK')
+
     // 引入 SudNFT
     implementation project(':SudNFT:SudNFTSDK')
 

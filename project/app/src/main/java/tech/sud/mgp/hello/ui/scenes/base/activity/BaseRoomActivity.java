@@ -45,6 +45,7 @@ import tech.sud.mgp.hello.common.utils.permission.SudPermissionUtils;
 import tech.sud.mgp.hello.common.widget.dialog.BottomOptionDialog;
 import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
 import tech.sud.mgp.hello.service.game.repository.GameRepository;
+import tech.sud.mgp.hello.service.game.req.CreateOrderReq;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.main.resp.GetAccountResp;
 import tech.sud.mgp.hello.service.room.repository.RoomRepository;
@@ -484,6 +485,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
             binder.showFloating(roomInfoModel, getClass());
         }
         releaseService();
+        gameViewModel.onDestroy();
         finish();
     }
 
@@ -619,6 +621,23 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
             onGameGetScore();
         });
         gameViewModel.onGameSetScoreLiveData.observe(this, this::onGameSetScore);
+        gameViewModel.gameCreateOrderLiveData.observe(this, this::onGameCreateOrder);
+    }
+
+    /** 游戏回调，创建订单 */
+    private void onGameCreateOrder(SudMGPMGState.MGCommonGameCreateOrder model) {
+        if (model == null) {
+            return;
+        }
+        try {
+            CreateOrderReq req = new CreateOrderReq();
+            req.setCreateOrderValues(model);
+            req.gameId = gameViewModel.getPlayingGameId();
+            req.roomId = gameViewModel.getGameRoomId();
+            GameRepository.createOrder(this, req, new RxCallback<>());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void onGameGetScore() {
@@ -890,6 +909,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         if (isStartMainPage) {
             startMainPage();
         }
+        gameViewModel.onDestroy();
         finish();
     }
 
@@ -1127,6 +1147,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         @Override
         public void onServiceDisconnected(ComponentName name) {
             // 系统会在与服务的连接意外中断（或者随着activity 的生命周期stop）时调用该方法，当客户端取消绑定的时候，不会回调该方法
+            gameViewModel.onDestroy();
             finish();
         }
     };

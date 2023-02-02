@@ -27,7 +27,7 @@ import tech.sud.mgp.hello.ui.game.widget.GameRoomTopView;
  */
 public class QuickStartActivity extends BaseActivity {
 
-    private long roomId;
+    private String roomId;
     private long gameId;
 
     private GameRoomTopView topView;
@@ -35,7 +35,7 @@ public class QuickStartActivity extends BaseActivity {
     private final QuickStartGameViewModel gameViewModel = new QuickStartGameViewModel();
 
     /** 外部调用，打开游戏页面 */
-    public static void start(Context context, long roomId, long gameId) {
+    public static void start(Context context, String roomId, long gameId) {
         Intent intent = new Intent(context, QuickStartActivity.class);
         intent.putExtra("roomId", roomId);
         intent.putExtra("gameId", gameId);
@@ -49,7 +49,7 @@ public class QuickStartActivity extends BaseActivity {
 
     @Override
     protected boolean beforeSetContentView() {
-        roomId = getIntent().getLongExtra("roomId", 0);
+        roomId = getIntent().getStringExtra("roomId");
         gameId = getIntent().getLongExtra("gameId", 0);
         return super.beforeSetContentView();
     }
@@ -89,7 +89,7 @@ public class QuickStartActivity extends BaseActivity {
     protected void initData() {
         super.initData();
         // 调用此方法，加载对应的游戏，开发者可根据业务决定什么时候加载游戏。
-        gameViewModel.switchGame(this, roomId + "", gameId);
+        gameViewModel.switchGame(this, roomId, gameId);
         updateStatusBar();
     }
 
@@ -131,6 +131,7 @@ public class QuickStartActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+                gameViewModel.onDestroy();
                 finish();
             }
         });
@@ -144,7 +145,7 @@ public class QuickStartActivity extends BaseActivity {
             @Override
             public void onSelectGame(long gameId) {
                 QuickStartActivity.this.gameId = gameId;
-                gameViewModel.switchGame(context, roomId + "", gameId);
+                gameViewModel.switchGame(context, roomId, gameId);
             }
         });
         dialog.show(getSupportFragmentManager(), null);
@@ -170,6 +171,15 @@ public class QuickStartActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         updateStatusBar();
+        // 注意：要在此处调用onResume()方法
+        gameViewModel.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // 注意：要在此处调用onPause()方法
+        gameViewModel.onPause();
     }
 
     @Override

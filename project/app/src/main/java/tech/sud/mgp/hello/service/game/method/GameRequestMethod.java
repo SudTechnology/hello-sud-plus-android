@@ -11,6 +11,7 @@ import tech.sud.mgp.hello.common.http.param.IBaseUrl;
 import tech.sud.mgp.hello.service.base.RequestUrl;
 import tech.sud.mgp.hello.service.game.req.BaseballPlayReq;
 import tech.sud.mgp.hello.service.game.req.BringChipReq;
+import tech.sud.mgp.hello.service.game.req.CreateOrderReq;
 import tech.sud.mgp.hello.service.game.req.RocketFireRecordReq;
 import tech.sud.mgp.hello.service.game.req.RocketFireRecordSummeryReq;
 import tech.sud.mgp.hello.service.game.req.RocketFireReq;
@@ -154,5 +155,9 @@ public interface GameRequestMethod {
     @POST(RequestUrl.BASEBALL_TEXT_CONFIG)
     Observable<BaseResponse<SudMGPAPPState.AppBaseballTextConfig>> baseballTextConfig(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body SudMGPMGState.MGBaseballTextConfig body);
     // endregion 棒球
+
+    /** 创建订单 */
+    @POST(RequestUrl.CREATE_ORDER)
+    Observable<BaseResponse<Object>> createOrder(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body CreateOrderReq body);
 
 }

@@ -27,7 +27,6 @@ public class BaseballGameViewModel extends AppGameViewModel {
     public MutableLiveData<Object> baseballPrepareCompletedLiveData = new MutableLiveData<>(); // 棒球准备完成
     public MutableLiveData<Object> destroyBaseballLiveData = new MutableLiveData<>(); // 销毁通知
     public MutableLiveData<SudMGPMGState.MGBaseballSetClickRect> baseballClickRectLiveData = new MutableLiveData<>(); // 棒球点击区域
-    public MutableLiveData<SudMGPMGState.MGCommonGameCreateOrder> gameCreateOrderLiveData = new MutableLiveData<>(); // 创建订单，打棒球
 
     @Override
     public void switchGame(FragmentActivity activity, String gameRoomId, long gameId, int loadMGMode, String authorizationSecret) {
@@ -149,16 +148,6 @@ public class BaseballGameViewModel extends AppGameViewModel {
                 notifyAppBaseballTextConfig(resp);
             }
         });
-    }
-
-    /**
-     * 25. 创建订单
-     * mg_common_game_create_order
-     */
-    @Override
-    public void onGameMGCommonGameCreateOrder(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameCreateOrder model) {
-        super.onGameMGCommonGameCreateOrder(handle, model);
-        gameCreateOrderLiveData.setValue(model);
     }
     // endregion 棒球回调
 

@@ -68,6 +68,7 @@ android {
         official {
             String channel = "official"
             buildConfigField("String", "CHANNEL", "\"" + channel + "\"")
+            buildConfigField("String", "baseUrlConfig", "\"" + project.baseUrlConfig + "\"")
             buildConfigField("String", "baseUrl", "\"" + project.baseUrl + "\"")
             buildConfigField("String", "interactBaseUrl", "\"" + project.interactBaseUrl + "\"")
             buildConfigField("String", "gameBaseUrl", "\"" + project.gameBaseUrl + "\"")

@@ -26,6 +26,8 @@ public class GlobalSP {
 
     public final static String KEY_ROCKET_THUMB_PATH = "key_rocket_thumb_path"; // 火箭缩略图地址
 
+    public final static String KEY_BASE_URL_CONFIG = "key_base_url_config"; // 当前环境标识
+
     public static SPUtils getSP() {
         return SPUtils.getInstance(SP_NAME);
     }

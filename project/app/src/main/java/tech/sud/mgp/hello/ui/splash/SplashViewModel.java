@@ -9,12 +9,14 @@ import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.trello.rxlifecycle4.components.support.RxAppCompatActivity;
 
+import tech.sud.mgp.hello.BuildConfig;
 import tech.sud.mgp.hello.common.base.BaseViewModel;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.model.HSUserInfoConverter;
+import tech.sud.mgp.hello.common.utils.GlobalCache;
 import tech.sud.mgp.hello.common.utils.GlobalSP;
 import tech.sud.mgp.hello.service.login.repository.LoginRepository;
 import tech.sud.mgp.hello.service.login.resp.RefreshTokenResponse;
@@ -35,7 +37,21 @@ public class SplashViewModel extends BaseViewModel {
     // 初始化
     public void init(RxAppCompatActivity owner) {
         configViewModel.initConfigSuccessLiveData.observeForever(configObserver);
+        checkEnvChange();
         checkUpgrade(owner);
+    }
+
+    // 检查环境是否有变，如果有变，则把本地保存的信息给清除
+    private void checkEnvChange() {
+        String baseUrlConfig = BuildConfig.baseUrlConfig;
+        String savedBaseUrlConfig = GlobalSP.getSP().getString(GlobalSP.KEY_BASE_URL_CONFIG, "");
+        if (TextUtils.isEmpty(savedBaseUrlConfig)) { // 本地未保存时，保存最新的
+            GlobalSP.getSP().put(GlobalSP.KEY_BASE_URL_CONFIG, baseUrlConfig);
+        } else if (!savedBaseUrlConfig.equals(baseUrlConfig)) { // 环境有变，清除信息
+            GlobalSP.getSP().clear();
+            GlobalCache.getInstance().clear();
+            GlobalSP.getSP().put(GlobalSP.KEY_BASE_URL_CONFIG, baseUrlConfig);
+        }
     }
 
     // 1.检查应用升级

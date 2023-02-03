@@ -3,6 +3,7 @@ package tech.sud.mgp.rtc.audio.impl.zego;
 import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.Utils;
 
+import im.zego.zim.callback.ZIMRoomLeftCallback;
 import tech.sud.mgp.rtc.audio.core.ISudAudioEngine;
 import tech.sud.mgp.rtc.audio.core.ISudAudioEventListener;
 
@@ -60,12 +61,16 @@ public class IMRoomManager {
         mISudAudioEventListener = null;
     }
 
-    public void joinRoom(String roomID, String userID, String userName, String token) {
-        ZIMManager.sharedInstance().joinRoom(roomID, userID, userName, token);
+    public void joinRoom(String roomID, String userID, String userName, String token, ZIMManager.ZimListener zimListener) {
+        ZIMManager.sharedInstance().joinRoom(roomID, userID, userName, token, zimListener);
     }
 
     public void leaveRoom() {
         ZIMManager.sharedInstance().leaveRoom();
+    }
+
+    public void leaveRoom(String roomId, ZIMRoomLeftCallback callback) {
+        ZIMManager.sharedInstance().leaveRoom(roomId, callback);
     }
 
     public void sendXRoomCommand(String roomID, String command, ISudAudioEngine.SendCommandListener listener) {

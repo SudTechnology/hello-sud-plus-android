@@ -7,14 +7,22 @@ import com.blankj.utilcode.util.LogUtils;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import im.zego.zim.ZIM;
+import im.zego.zim.callback.ZIMRoomMemberQueriedCallback;
+import im.zego.zim.entity.ZIMError;
+import im.zego.zim.entity.ZIMRoomFullInfo;
+import im.zego.zim.entity.ZIMRoomMemberQueryConfig;
+import im.zego.zim.entity.ZIMUserInfo;
 import im.zego.zim.enums.ZIMConnectionEvent;
 import im.zego.zim.enums.ZIMConnectionState;
+import im.zego.zim.enums.ZIMErrorCode;
+import im.zego.zim.enums.ZIMRoomState;
 import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.GlobalCache;
@@ -50,7 +58,7 @@ public class SceneEngineManager extends BaseServiceManager {
     public SceneRoomServiceManager.EnterRoomCompletedListener enterRoomCompletedListener;
     private View videoView;
     private Handler handler;
-    private ZIMConnectionState zimConnectionState;
+    private ZIMRoomState zimRoomState;
 
     @Override
     public void onCreate() {
@@ -73,11 +81,7 @@ public class SceneEngineManager extends BaseServiceManager {
                 }
             });
 
-            BaseConfigResp baseConfigResp = (BaseConfigResp) GlobalCache.getInstance().getSerializable(GlobalCache.BASE_CONFIG_KEY);
-            if (baseConfigResp != null && baseConfigResp.zegoCfg != null) {
-                IMRoomManager.sharedInstance().init(baseConfigResp.zegoCfg.appId, eventHandler, zimListener);
-                zimJoinRoom(model);
-            }
+            initZim(model);
             return;
         }
 
@@ -86,9 +90,19 @@ public class SceneEngineManager extends BaseServiceManager {
         zimJoinRoom(model);
     }
 
+    private void initZim(RoomInfoModel model) {
+        LogUtils.file("initZim");
+        BaseConfigResp baseConfigResp = (BaseConfigResp) GlobalCache.getInstance().getSerializable(GlobalCache.BASE_CONFIG_KEY);
+        if (baseConfigResp != null && baseConfigResp.zegoCfg != null) {
+            IMRoomManager.sharedInstance().init(baseConfigResp.zegoCfg.appId, eventHandler, zimListener);
+            zimJoinRoom(model);
+        }
+    }
+
     private void zimJoinRoom(RoomInfoModel model) {
-        LogUtils.d("zimJoinRoom");
-        IMRoomManager.sharedInstance().joinRoom(model.roomId + "", HSUserInfo.userId + "", HSUserInfo.nickName, model.imToken);
+        LogUtils.file("zimJoinRoom:" + model.roomId + " userId:" + HSUserInfo.userId);
+        IMRoomManager.sharedInstance().joinRoom(model.roomId + "", HSUserInfo.userId + "",
+                HSUserInfo.nickName, model.imToken, zimListener);
     }
 
     private void joinRoom(RoomInfoModel model) {
@@ -384,29 +398,98 @@ public class SceneEngineManager extends BaseServiceManager {
                 return;
             }
             // zim断线重连
-            LogUtils.d("onConnectionStateChanged:" + state);
-            zimConnectionState = state;
-            if (state == ZIMConnectionState.DISCONNECTED) {
-                delayConnectZim(0);
+            LogUtils.file("zim:onConnectionStateChanged:" + state);
+        }
+
+        @Override
+        public void onError(ZIM zim, ZIMError errorInfo) {
+            LogUtils.file("zim:onError:" + errorInfo.code);
+        }
+
+        @Override
+        public void onLoggedIn(ZIMError errorInfo) {
+            LogUtils.file("zim:onLoggedIn:" + errorInfo.code);
+        }
+
+        @Override
+        public void onRoomEntered(ZIMRoomFullInfo roomInfo, ZIMError errorInfo) {
+            LogUtils.file("zim:onRoomEntered:" + errorInfo.code + " message:" + errorInfo.message);
+            if (errorInfo.code != ZIMErrorCode.SUCCESS) {
+                ZIMRoomMemberQueryConfig config = new ZIMRoomMemberQueryConfig();
+                config.count = 10;
+                ZIMManager.sharedInstance().queryRoomMemberList(parentManager.getRoomId() + "", config, new ZIMRoomMemberQueriedCallback() {
+                    @Override
+                    public void onRoomMemberQueried(String roomID, ArrayList<ZIMUserInfo> memberList, String nextFlag, ZIMError errorInfo) {
+                        LogUtils.file("zim:onRoomMemberQueried:" + errorInfo.code + " msg:" + errorInfo.message);
+                        if (errorInfo.code == ZIMErrorCode.SUCCESS) {
+                            boolean existsZim = selfExistsZim(memberList);
+                            LogUtils.file("zim:onRoomMemberQueried-existsZim:" + existsZim);
+                            if (!existsZim) {
+                                // 不存在此房间内，离开房间再次进入该房间
+                                zimRejoinRoom();
+                            }
+                        }
+                    }
+
+                    private boolean selfExistsZim(ArrayList<ZIMUserInfo> memberList) {
+                        if (memberList != null) {
+                            String userId = HSUserInfo.userId + "";
+                            for (ZIMUserInfo zimUserInfo : memberList) {
+                                if (zimUserInfo != null && userId.equals(zimUserInfo.userID)) {
+                                    return true;
+                                }
+                            }
+                        }
+                        return false;
+                    }
+                });
+            }
+        }
+
+        @Override
+        public void onRoomStateChanged(ZIMRoomState state, String roomID) {
+            if (state == null || roomID == null || !roomID.equals(parentManager.getRoomId() + "")) {
+                return;
+            }
+            LogUtils.file("zim:onRoomStateChanged:" + state + "  roomID:" + roomID);
+            zimRoomState = state;
+            if (state == ZIMRoomState.DISCONNECTED) {
+                delayZimJoinRoom(100);
             }
         }
     };
 
-    private void delayConnectZim(long delay) {
+    private void zimRejoinRoom() {
+        removeDelayZimJoinRoom();
+        IMRoomManager.sharedInstance().destroy();
+        initZim(parentManager.getRoomInfoModel());
+    }
+
+    private void delayZimJoinRoom(long delay) {
         if (handler == null) {
             return;
         }
-        if (zimConnectionState != null && zimConnectionState == ZIMConnectionState.CONNECTED) {
+        if (zimRoomState != null && zimRoomState == ZIMRoomState.CONNECTED) {
             return;
         }
-        handler.postDelayed(() -> {
+        removeDelayZimJoinRoom();
+        handler.postDelayed(zimJoinRoomTask, delay);
+    }
+
+    private void removeDelayZimJoinRoom() {
+        handler.removeCallbacks(zimJoinRoomTask);
+    }
+
+    private final Runnable zimJoinRoomTask = new Runnable() {
+        @Override
+        public void run() {
             RoomInfoModel roomInfoModel = parentManager.getRoomInfoModel();
             if (roomInfoModel != null) {
                 zimJoinRoom(roomInfoModel);
             }
-            delayConnectZim(5000);
-        }, delay);
-    }
+            delayZimJoinRoom(5000);
+        }
+    };
 
     @Override
     public void onDestroy() {

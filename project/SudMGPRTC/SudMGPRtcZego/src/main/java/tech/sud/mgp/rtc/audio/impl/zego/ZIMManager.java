@@ -15,6 +15,7 @@ import im.zego.zim.callback.ZIMMessageSentCallback;
 import im.zego.zim.callback.ZIMRoomEnteredCallback;
 import im.zego.zim.callback.ZIMRoomJoinedCallback;
 import im.zego.zim.callback.ZIMRoomLeftCallback;
+import im.zego.zim.callback.ZIMRoomMemberQueriedCallback;
 import im.zego.zim.entity.ZIMCommandMessage;
 import im.zego.zim.entity.ZIMError;
 import im.zego.zim.entity.ZIMMessage;
@@ -22,6 +23,7 @@ import im.zego.zim.entity.ZIMMessageSendConfig;
 import im.zego.zim.entity.ZIMRoomAdvancedConfig;
 import im.zego.zim.entity.ZIMRoomFullInfo;
 import im.zego.zim.entity.ZIMRoomInfo;
+import im.zego.zim.entity.ZIMRoomMemberQueryConfig;
 import im.zego.zim.entity.ZIMTextMessage;
 import im.zego.zim.entity.ZIMUserInfo;
 import im.zego.zim.enums.ZIMConnectionEvent;
@@ -76,6 +78,9 @@ public class ZIMManager {
             public void onError(ZIM zim, ZIMError errorInfo) {
                 super.onError(zim, errorInfo);
                 Log.i(kTag, "onError: " + errorInfo.code);
+                if (zimListener != null) {
+                    zimListener.onError(zim, errorInfo);
+                }
             }
 
             @Override
@@ -98,6 +103,9 @@ public class ZIMManager {
 
             public void onRoomStateChanged(ZIM zim, ZIMRoomState state, ZIMRoomEvent event, JSONObject extendedData, String roomID) {
                 Log.i(kTag, "onRoomStateChanged: " + state);
+                if (zimListener != null) {
+                    zimListener.onRoomStateChanged(state, roomID);
+                }
             }
         });
     }
@@ -112,7 +120,7 @@ public class ZIMManager {
         mRoomID = null;
     }
 
-    public void joinRoom(String roomID, String userID, String userName, String token) {
+    public void joinRoom(String roomID, String userID, String userName, String token, ZIMManager.ZimListener zimListener) {
         if (zim == null) {
             return;
         }
@@ -125,6 +133,9 @@ public class ZIMManager {
         zim.login(zimUserInfo, token, new ZIMLoggedInCallback() {
             @Override
             public void onLoggedIn(ZIMError errorInfo) {
+                if (zimListener != null) {
+                    zimListener.onLoggedIn(errorInfo);
+                }
                 if (errorInfo.code == ZIMErrorCode.SUCCESS || errorInfo.code == ZIMErrorCode.USER_HAS_ALREADY_LOGGED) {
 
                     ZIMRoomInfo zimRoomInfo = new ZIMRoomInfo();
@@ -138,6 +149,9 @@ public class ZIMManager {
                         @Override
                         public void onRoomEntered(ZIMRoomFullInfo roomInfo, ZIMError errorInfo) {
                             Log.i(kTag, "enterRoom: " + errorInfo.code);
+                            if (zimListener != null) {
+                                zimListener.onRoomEntered(roomInfo, errorInfo);
+                            }
                             if (errorInfo.code == ZIMErrorCode.SUCCESS) {
                                 mRoomID = roomID;
                             }
@@ -161,6 +175,20 @@ public class ZIMManager {
                 }
             }
         });
+    }
+
+    public void leaveRoom(String roomId, ZIMRoomLeftCallback callback) {
+        if (zim == null || roomId == null) {
+            return;
+        }
+
+        zim.leaveRoom(roomId, callback);
+    }
+
+    public void queryRoomMemberList(String roomID, ZIMRoomMemberQueryConfig config, ZIMRoomMemberQueriedCallback callback) {
+        if (zim != null) {
+            zim.queryRoomMemberList(roomID, config, callback);
+        }
     }
 
     public interface OnReceiveRoomMessage {
@@ -224,6 +252,14 @@ public class ZIMManager {
 
     public interface ZimListener {
         void onConnectionStateChanged(ZIM zim, ZIMConnectionState state, ZIMConnectionEvent event, JSONObject extendedData);
+
+        void onError(ZIM zim, ZIMError errorInfo);
+
+        void onLoggedIn(ZIMError errorInfo);
+
+        void onRoomEntered(ZIMRoomFullInfo roomInfo, ZIMError errorInfo);
+
+        void onRoomStateChanged(ZIMRoomState state, String roomID);
     }
 
 }

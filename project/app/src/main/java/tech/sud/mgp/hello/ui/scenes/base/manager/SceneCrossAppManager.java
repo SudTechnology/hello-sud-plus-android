@@ -20,7 +20,6 @@ import tech.sud.mgp.hello.service.room.repository.RoomRepository;
 import tech.sud.mgp.hello.service.room.resp.CrossAppModel;
 import tech.sud.mgp.hello.service.room.resp.CrossAppStartMatchResp;
 import tech.sud.mgp.hello.ui.common.utils.CompletedListener;
-import tech.sud.mgp.hello.ui.common.utils.ResultListener;
 import tech.sud.mgp.hello.ui.main.base.constant.GameIdCons;
 import tech.sud.mgp.hello.ui.scenes.base.activity.RoomConfig;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
@@ -125,9 +124,10 @@ public class SceneCrossAppManager extends BaseServiceManager {
 
     /** 快速匹配 */
     private void fastMatch() {
-        joinTeam(null, new ResultListener() {
+        joinTeam(null, new JoinTeamListener() {
             @Override
-            public void onSuccess() {
+            public void onSuccess(int index) {
+                selfFastJoinTeamOnSuccess(index);
                 startMatch();
             }
 
@@ -137,8 +137,42 @@ public class SceneCrossAppManager extends BaseServiceManager {
         });
     }
 
+    /** 快速匹配，加入队伍成功 */
+    private void selfFastJoinTeamOnSuccess(int index) {
+        if (crossAppModel == null || crossAppModel.userList == null) {
+            return;
+        }
+        boolean existsUser = teamExistsUser();
+        for (UserInfoResp userInfoResp : crossAppModel.userList) {
+            if (userInfoResp.index != index) {
+                continue;
+            }
+            userInfoResp.userId = HSUserInfo.userId;
+            userInfoResp.avatar = HSUserInfo.avatar;
+            userInfoResp.nickname = HSUserInfo.nickName;
+            userInfoResp.gender = HSUserInfo.gender;
+
+            userInfoResp.headerType = HSUserInfo.headerType;
+            userInfoResp.headerNftUrl = HSUserInfo.headerNftUrl;
+
+            userInfoResp.isCaptain = !existsUser;
+        }
+    }
+
+    private boolean teamExistsUser() {
+        if (crossAppModel == null || crossAppModel.userList == null) {
+            return false;
+        }
+        for (UserInfoResp userInfoResp : crossAppModel.userList) {
+            if (userInfoResp.userId > 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /** 加入组队 */
-    public void joinTeam(Integer intentIndex, ResultListener listener) {
+    public void joinTeam(Integer intentIndex, JoinTeamListener listener) {
         int availableIndex;
         if (intentIndex == null) {
             availableIndex = findAvailableIndex();
@@ -154,7 +188,7 @@ public class SceneCrossAppManager extends BaseServiceManager {
                 super.onNext(t);
                 if (listener != null) {
                     if (t.getRetCode() == RetCode.SUCCESS) {
-                        listener.onSuccess();
+                        listener.onSuccess(availableIndex);
                     } else {
                         listener.onFailed();
                     }
@@ -505,6 +539,12 @@ public class SceneCrossAppManager extends BaseServiceManager {
             }
         }
         return false;
+    }
+
+    public interface JoinTeamListener {
+        void onSuccess(int index);
+
+        void onFailed();
     }
 
 }

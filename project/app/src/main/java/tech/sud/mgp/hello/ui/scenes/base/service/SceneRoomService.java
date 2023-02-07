@@ -24,11 +24,11 @@ import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.service.main.resp.GameModel;
 import tech.sud.mgp.hello.service.main.resp.UserInfoResp;
 import tech.sud.mgp.hello.service.room.resp.CrossAppModel;
-import tech.sud.mgp.hello.ui.common.utils.ResultListener;
 import tech.sud.mgp.hello.ui.common.utils.channel.NotifyId;
 import tech.sud.mgp.hello.ui.main.home.model.RoomItemModel;
 import tech.sud.mgp.hello.ui.scenes.base.activity.RoomConfig;
 import tech.sud.mgp.hello.ui.scenes.base.constant.OperateMicType;
+import tech.sud.mgp.hello.ui.scenes.base.manager.SceneCrossAppManager;
 import tech.sud.mgp.hello.ui.scenes.base.manager.SceneDiscoManager;
 import tech.sud.mgp.hello.ui.scenes.base.manager.SceneLeagueManager;
 import tech.sud.mgp.hello.ui.scenes.base.manager.SceneRoomServiceManager;
@@ -366,7 +366,7 @@ public class SceneRoomService extends Service {
         }
 
         // region 跨域
-        public void crossAppJoinTeam(Integer intentIndex, ResultListener listener) {
+        public void crossAppJoinTeam(Integer intentIndex, SceneCrossAppManager.JoinTeamListener listener) {
             if (serviceManager.sceneCrossAppManager != null) {
                 serviceManager.sceneCrossAppManager.joinTeam(intentIndex, listener);
             }

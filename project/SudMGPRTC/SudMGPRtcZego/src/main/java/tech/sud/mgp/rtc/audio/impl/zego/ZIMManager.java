@@ -88,12 +88,12 @@ public class ZIMManager {
                 for (ZIMMessage zimMessage : messageList) {
                     if (zimMessage instanceof ZIMTextMessage) {
                         ZIMTextMessage zimTextMessage = (ZIMTextMessage) zimMessage;
-                        if (receiveRoomMessageCallback != null && mRoomID.equals(fromRoomID)) {
+                        if (receiveRoomMessageCallback != null && mRoomID != null && mRoomID.equals(fromRoomID)) {
                             receiveRoomMessageCallback.onReceiveRoomMessage(fromRoomID, zimTextMessage.getSenderUserID(), zimTextMessage.message);
                         }
                     } else if (zimMessage instanceof ZIMCommandMessage) {
                         ZIMCommandMessage zimCommandMessage = (ZIMCommandMessage) zimMessage;
-                        if (receiveRoomMessageCallback != null && mRoomID.equals(fromRoomID)) {
+                        if (receiveRoomMessageCallback != null && mRoomID != null && mRoomID.equals(fromRoomID)) {
                             String command = new String(zimCommandMessage.message);
                             receiveRoomMessageCallback.onReceiveRoomMessage(fromRoomID, zimCommandMessage.getSenderUserID(), command);
                         }

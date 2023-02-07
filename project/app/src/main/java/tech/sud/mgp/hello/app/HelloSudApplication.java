@@ -97,6 +97,9 @@ public class HelloSudApplication extends Application {
 
     // Bugly config
     private void configBugly() {
+        if (BuildConfig.DEBUG) {
+            return;
+        }
         CrashReport.UserStrategy strategy = new CrashReport.UserStrategy(getApplicationContext());
         String versionAndCode = AppUtils.getAppVersionName() + "." + AppUtils.getAppVersionCode();
         strategy.setAppVersion(versionAndCode);

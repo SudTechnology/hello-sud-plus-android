@@ -144,7 +144,7 @@ public class SceneCrossAppManager extends BaseServiceManager {
         }
         boolean existsUser = teamExistsUser();
         for (UserInfoResp userInfoResp : crossAppModel.userList) {
-            if (userInfoResp.index != index) {
+            if (userInfoResp.index != index || userInfoResp.userId == HSUserInfo.userId) {
                 continue;
             }
             userInfoResp.userId = HSUserInfo.userId;

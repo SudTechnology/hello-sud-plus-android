@@ -78,6 +78,9 @@ public class CrossAppMatchActivity extends BaseRoomActivity<CrossAppGameViewMode
                 Integer intentIndex = null;
                 if (userInfoResp != null) {
                     intentIndex = userInfoResp.index;
+                    if (userInfoResp.existsUser()) {
+                        return;
+                    }
                 }
                 binder.crossAppJoinTeam(intentIndex, null);
             }

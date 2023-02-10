@@ -19,7 +19,6 @@ public class QuizGameViewModel extends AppGameViewModel {
     public MutableLiveData<Object> clickStartBtnLiveData = new MutableLiveData<>(); // 开始按钮点击事件
     public MutableLiveData<Object> clickJoinBtnLiveData = new MutableLiveData<>(); // 加入游戏按钮点击事件
     public MutableLiveData<Boolean> selfIsInLiveData = new MutableLiveData<>(); // 自己是否已经加入了游戏
-    public MutableLiveData<SudMGPMGState.MGCommonGameSettle> gameSettleLiveData = new MutableLiveData<>(); // 游戏结算
 
     // 玩家加入状态
     @Override
@@ -57,12 +56,6 @@ public class QuizGameViewModel extends AppGameViewModel {
     public void onGameMGCommonSelfClickJoinBtn(ISudFSMStateHandle handle, SudMGPMGState.MGCommonSelfClickJoinBtn model) {
         super.onGameMGCommonSelfClickJoinBtn(handle, model);
         clickJoinBtnLiveData.setValue(null);
-    }
-
-    @Override
-    public void onGameMGCommonGameSettle(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameSettle model) {
-        super.onGameMGCommonGameSettle(handle, model);
-        gameSettleLiveData.setValue(model);
     }
 
 }

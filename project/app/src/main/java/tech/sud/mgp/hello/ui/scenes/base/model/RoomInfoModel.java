@@ -2,6 +2,8 @@ package tech.sud.mgp.hello.ui.scenes.base.model;
 
 import java.io.Serializable;
 
+import tech.sud.mgp.hello.service.room.resp.AuthRoomInfo;
+import tech.sud.mgp.hello.service.room.resp.CrossAppModel;
 import tech.sud.mgp.hello.service.room.resp.RoomPkModel;
 
 /**
@@ -20,6 +22,9 @@ public class RoomInfoModel implements Serializable {
     public Integer gameLevel; // 门票场景游戏级别 从1开始
     public RoomPkModel roomPkModel; // PK 结果
     public String streamId; // 流id(弹幕游戏用)
+    public AuthRoomInfo authRoomInfo; // 跨域房间信息
 
     public long initGameId; // 用于记录初始的游戏id
+
+    public CrossAppModel crossAppModel; // 跨域匹配信息
 }

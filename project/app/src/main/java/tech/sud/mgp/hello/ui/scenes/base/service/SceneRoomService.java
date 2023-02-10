@@ -21,11 +21,14 @@ import tech.sud.mgp.hello.common.event.LiveEventBusKey;
 import tech.sud.mgp.hello.common.event.model.ChangeRTCEvent;
 import tech.sud.mgp.hello.common.event.model.EnterRoomEvent;
 import tech.sud.mgp.hello.common.model.AppData;
+import tech.sud.mgp.hello.service.main.resp.GameModel;
 import tech.sud.mgp.hello.service.main.resp.UserInfoResp;
+import tech.sud.mgp.hello.service.room.resp.CrossAppModel;
 import tech.sud.mgp.hello.ui.common.utils.channel.NotifyId;
 import tech.sud.mgp.hello.ui.main.home.model.RoomItemModel;
 import tech.sud.mgp.hello.ui.scenes.base.activity.RoomConfig;
 import tech.sud.mgp.hello.ui.scenes.base.constant.OperateMicType;
+import tech.sud.mgp.hello.ui.scenes.base.manager.SceneCrossAppManager;
 import tech.sud.mgp.hello.ui.scenes.base.manager.SceneDiscoManager;
 import tech.sud.mgp.hello.ui.scenes.base.manager.SceneLeagueManager;
 import tech.sud.mgp.hello.ui.scenes.base.manager.SceneRoomServiceManager;
@@ -361,6 +364,51 @@ public class SceneRoomService extends Service {
         public void kickOutRoom(AudioRoomMicModel model) {
             serviceManager.kickOutRoom(model);
         }
+
+        // region 跨域
+        public void crossAppJoinTeam(Integer intentIndex, SceneCrossAppManager.JoinTeamListener listener) {
+            if (serviceManager.sceneCrossAppManager != null) {
+                serviceManager.sceneCrossAppManager.joinTeam(intentIndex, listener);
+            }
+        }
+
+        public void crossAppExitTeam() {
+            if (serviceManager.sceneCrossAppManager != null) {
+                serviceManager.sceneCrossAppManager.crossAppExitTeam(true);
+            }
+        }
+
+        public void crossAppStartMatch() {
+            if (serviceManager.sceneCrossAppManager != null) {
+                serviceManager.sceneCrossAppManager.startMatch();
+            }
+        }
+
+        public void crossAppCancelMatch() {
+            if (serviceManager.sceneCrossAppManager != null) {
+                serviceManager.sceneCrossAppManager.cancelMatch(true, null);
+            }
+        }
+
+        public void crossAppChangeGame(GameModel gameModel) {
+            if (serviceManager.sceneCrossAppManager != null) {
+                serviceManager.sceneCrossAppManager.changeMatchGame(gameModel);
+            }
+        }
+
+        public CrossAppModel getCrossAppModel() {
+            if (serviceManager.sceneCrossAppManager != null) {
+                return serviceManager.sceneCrossAppManager.getCrossAppModel();
+            }
+            return null;
+        }
+
+        public void crossAppGameSettle() {
+            if (serviceManager.sceneCrossAppManager != null) {
+                serviceManager.sceneCrossAppManager.crossAppGameSettle();
+            }
+        }
+        // endregion 跨域
 
     }
 

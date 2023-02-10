@@ -31,7 +31,7 @@ import tech.sud.mgp.hello.service.main.resp.BaseConfigResp;
 import tech.sud.mgp.hello.ui.common.utils.channel.NotifyChannelHelper;
 import tech.sud.mgp.hello.ui.main.base.constant.GameIdCons;
 import tech.sud.mgp.hello.ui.main.home.HomeFragment;
-import tech.sud.mgp.hello.ui.main.roomlist.RoomListFragment;
+import tech.sud.mgp.hello.ui.main.room.RoomFragment;
 import tech.sud.mgp.hello.ui.main.settings.fragment.SettingsFragment;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
 
@@ -142,6 +142,7 @@ public class MainActivity extends BaseActivity implements MainTabView.TabClickLi
             tabLayout.addView(tabView, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT, 1));
             tabViews.add(tabView);
         }
+
         HomeTabAdapter adapter = new HomeTabAdapter(this);
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(tabs.size());
@@ -187,7 +188,7 @@ public class MainActivity extends BaseActivity implements MainTabView.TabClickLi
                     return HomeFragment.newInstance();
                 }
                 case 1: {
-                    return RoomListFragment.newInstance();
+                    return RoomFragment.newInstance();
                 }
                 default: {
                     return SettingsFragment.newInstance();

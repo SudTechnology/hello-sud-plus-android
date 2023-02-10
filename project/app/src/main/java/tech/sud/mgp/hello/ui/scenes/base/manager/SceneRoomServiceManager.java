@@ -70,6 +70,7 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
     public final SceneFloatingManager floatingManager = new SceneFloatingManager(this);
     public SceneDiscoManager sceneDiscoManager;
     public SceneLeagueManager sceneLeagueManager;
+    public SceneCrossAppManager sceneCrossAppManager;
 
     @Override
     public void onCreate() {
@@ -162,6 +163,9 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
         if (sceneLeagueManager != null) {
             sceneLeagueManager.onDestroy();
         }
+        if (sceneCrossAppManager != null) {
+            sceneCrossAppManager.onDestroy();
+        }
     }
 
     /** 设置回调 */
@@ -215,6 +219,9 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
         sceneEngineManager.enterRoom(config, model);
         sceneMicManager.enterRoom(config, model);
         sceneRoomPkManager.enterRoom(config, model);
+        if (sceneCrossAppManager != null) {
+            sceneCrossAppManager.enterRoom(config, model);
+        }
     }
 
     /** 根据不同的场景类型，初始化相关的业务管理类 */
@@ -227,6 +234,10 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
             case SceneType.LEAGUE:
                 sceneLeagueManager = new SceneLeagueManager(this);
                 sceneLeagueManager.onCreate();
+                break;
+            case SceneType.CROSS_APP_MATCH:
+                sceneCrossAppManager = new SceneCrossAppManager(this);
+                sceneCrossAppManager.onCreate();
                 break;
         }
     }
@@ -250,6 +261,9 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
         sceneStreamManager.callbackPageData();
         sceneRoomPkManager.callbackPageData();
         sceneOrderManager.callbackPageData();
+        if (sceneCrossAppManager != null) {
+            sceneCrossAppManager.callbackPageData();
+        }
         SceneRoomServiceCallback callback = getCallback();
         if (callback != null) {
             callback.onRecoverCompleted();
@@ -269,6 +283,9 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
             }
             if (sceneDiscoManager != null) {
                 sceneDiscoManager.onEnterRoomSuccess();
+            }
+            if (sceneCrossAppManager != null) {
+                sceneCrossAppManager.onEnterRoomSuccess();
             }
         }
     }

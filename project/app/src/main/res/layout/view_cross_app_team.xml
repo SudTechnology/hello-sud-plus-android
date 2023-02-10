@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/team_main_view"
+        android:layout_width="match_parent"
+        android:layout_height="280dp"
+        android:background="@drawable/shape_cross_app_team_bg"
+        android:layout_marginHorizontal="16dp"
+        app:layout_constraintVertical_bias="0.241"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <tech.sud.mgp.hello.ui.scenes.crossapp.widget.view.CrossAppStallView
+            android:id="@+id/team_cross_app_stall_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="62dp"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <tech.sud.mgp.hello.common.widget.view.round.RoundedImageView
+        android:id="@+id/team_iv_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:scaleType="centerCrop"
+        app:riv_corner_radius="6dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginBottom="250dp"
+        app:layout_constraintBottom_toBottomOf="@id/team_main_view"
+        app:layout_constraintStart_toStartOf="@id/team_main_view" />
+
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        app:layout_constraintEnd_toEndOf="@id/team_main_view"
+        app:layout_constraintBottom_toBottomOf="@id/team_iv_icon"
+        app:layout_constraintStart_toEndOf="@id/team_iv_icon">
+
+        <TextView
+            android:id="@+id/team_tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/white" />
+
+    </FrameLayout>
+
+    <!-- 按钮 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        app:layout_constraintVertical_bias="0.216"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/team_main_view">
+
+        <TextView
+            android:id="@+id/team_tv_exit_team"
+            android:layout_width="162dp"
+            android:layout_height="match_parent"
+            android:textSize="14sp"
+            android:textColor="@color/white"
+            android:text="@string/exit_team"
+            android:gravity="center"
+            android:background="@drawable/shape_stroke_1_ffffff_solid_33000000" />
+
+        <TextView
+            android:id="@+id/team_tv_join"
+            android:layout_width="162dp"
+            android:layout_height="match_parent"
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            android:text="@string/i_am_gonna_join"
+            android:visibility="gone"
+            android:gravity="center"
+            android:background="@color/white" />
+
+        <LinearLayout
+            android:id="@+id/team_container_fast_match"
+            android:layout_width="162dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:visibility="gone"
+            android:orientation="horizontal"
+            android:layout_marginStart="19dp"
+            android:background="@color/white">
+
+            <View
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@drawable/ic_black_lightning" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/one_key_matching_of_playmates"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:layout_marginStart="4dp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/team_tv_wait_start"
+            android:layout_width="162dp"
+            android:layout_height="match_parent"
+            android:textSize="14sp"
+            android:textColor="#cccccc"
+            android:text="@string/waiting_captain_start_match"
+            android:gravity="center"
+            android:background="#66ffffff"
+            android:layout_marginStart="19dp" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

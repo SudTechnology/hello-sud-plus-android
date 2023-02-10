@@ -260,14 +260,14 @@ public class RocketControl extends BaseInteractionControl {
         if (playingGameId <= 0) {
             showLoadingDialog();
         }
-        rocketGameViewModel.switchGame(activity, getRoomId(), GameIdCons.CUSTOM_ROCKET);
+        rocketGameViewModel.switchGame(activity, getRoomId() + "", GameIdCons.CUSTOM_ROCKET);
         return true;
     }
 
     /** 隐藏火箭 */
     public void stopInteractionGame() {
         rocketEffectOperateContainer.setVisibility(View.GONE);
-        rocketGameViewModel.switchGame(activity, getRoomId(), 0);
+        rocketGameViewModel.switchGame(activity, getRoomId() + "", 0);
         hideLoadingDialog();
     }
 

@@ -45,9 +45,11 @@ import tech.sud.mgp.hello.service.main.resp.GetBannerResp;
 import tech.sud.mgp.hello.service.main.resp.QuizGameListResp;
 import tech.sud.mgp.hello.service.main.resp.SceneModel;
 import tech.sud.mgp.hello.service.main.resp.UserInfoResp;
+import tech.sud.mgp.hello.service.room.resp.CrossAppModel;
 import tech.sud.mgp.hello.ui.common.constant.RequestKey;
 import tech.sud.mgp.hello.ui.common.utils.CompletedListener;
 import tech.sud.mgp.hello.ui.common.utils.LifecycleUtils;
+import tech.sud.mgp.hello.ui.main.base.constant.GameIdCons;
 import tech.sud.mgp.hello.ui.main.base.constant.SceneType;
 import tech.sud.mgp.hello.ui.main.base.widget.CreateTicketRoomDialog;
 import tech.sud.mgp.hello.ui.main.base.widget.MainUserInfoView;
@@ -64,7 +66,9 @@ import tech.sud.mgp.hello.ui.main.nft.model.BindWalletInfoModel;
 import tech.sud.mgp.hello.ui.main.nft.model.NftModel;
 import tech.sud.mgp.hello.ui.main.nft.viewmodel.CancelWearNftListener;
 import tech.sud.mgp.hello.ui.main.nft.viewmodel.NFTViewModel;
+import tech.sud.mgp.hello.ui.scenes.base.model.EnterRoomParams;
 import tech.sud.mgp.hello.ui.scenes.base.utils.EnterRoomUtils;
+import tech.sud.mgp.hello.ui.scenes.crossapp.widget.dialog.SelectMatchGameDialog;
 import tech.sud.mgp.hello.ui.scenes.disco.activity.DiscoRankingActivity;
 import tech.sud.mgp.hello.ui.scenes.league.activity.LeagueEntranceActivity;
 import tech.sud.mgp.hello.ui.scenes.quiz.activity.MoreQuizActivity;
@@ -418,6 +422,10 @@ public class HomeFragment extends BaseFragment implements CreatRoomClickListener
     }
 
     private void createRoom(Integer sceneType, GameModel gameModel) {
+        createRoom(sceneType, gameModel, null);
+    }
+
+    private void createRoom(Integer sceneType, GameModel gameModel, EnterRoomParams params) {
         Long gameId;
         if (gameModel == null) {
             gameId = null;
@@ -429,7 +437,13 @@ public class HomeFragment extends BaseFragment implements CreatRoomClickListener
             public void onNext(BaseResponse<CreatRoomResp> t) {
                 super.onNext(t);
                 if (t.getRetCode() == RetCode.SUCCESS) {
-                    EnterRoomUtils.enterRoom(null, t.getData().roomId);
+                    long roomId = t.getData().roomId;
+                    if (params == null) {
+                        EnterRoomUtils.enterRoom(null, roomId);
+                    } else {
+                        params.roomId = roomId;
+                        EnterRoomUtils.enterRoom(null, params);
+                    }
                 }
             }
         });
@@ -437,17 +451,37 @@ public class HomeFragment extends BaseFragment implements CreatRoomClickListener
 
     @Override
     public void onCreateRoomClick(SceneModel sceneModel, GameModel gameModel) {
-        //创建房间
+        // 创建房间
         if (sceneModel != null) {
             switch (sceneModel.getSceneId()) {
                 case SceneType.TICKET:
                     new CreateTicketRoomDialog().show(getChildFragmentManager(), null);
+                    break;
+                case SceneType.CROSS_APP_MATCH:
+                    showCrossAppMatchGameDialog(sceneModel);
                     break;
                 default:
                     createRoom(sceneModel.getSceneId(), gameModel);
                     break;
             }
         }
+    }
+
+    private void showCrossAppMatchGameDialog(SceneModel sceneModel) {
+        SelectMatchGameDialog dialog = SelectMatchGameDialog.newInstance(SelectMatchGameDialog.MODE_MATCH, GameIdCons.NONE);
+        EnterRoomParams enterRoomParams = new EnterRoomParams();
+        enterRoomParams.crossAppModel = new CrossAppModel();
+        dialog.setOnSingleMatchListener((model) -> {
+            enterRoomParams.crossAppModel.matchGameId = model.gameId;
+            enterRoomParams.crossAppModel.enterType = CrossAppModel.SINGLE_MATCH;
+            createRoom(sceneModel.getSceneId(), null, enterRoomParams);
+        });
+        dialog.setOnTeamMatchListener((model) -> {
+            enterRoomParams.crossAppModel.matchGameId = model.gameId;
+            enterRoomParams.crossAppModel.enterType = CrossAppModel.TEAM_MATCH;
+            createRoom(sceneModel.getSceneId(), null, enterRoomParams);
+        });
+        dialog.show(getChildFragmentManager(), null);
     }
 
 }

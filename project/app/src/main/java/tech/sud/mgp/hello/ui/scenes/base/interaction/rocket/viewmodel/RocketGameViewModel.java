@@ -15,6 +15,7 @@ import com.blankj.utilcode.util.Utils;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
@@ -604,17 +605,17 @@ public class RocketGameViewModel extends AppGameViewModel {
     }
 
     @Override
-    public void switchGame(FragmentActivity activity, long gameRoomId, long gameId) {
+    public void switchGame(FragmentActivity activity, String gameRoomId, long gameId, int loadMGMode, String authorizationSecret) {
         if (!isRunning) {
             return;
         }
-        if (playingGameId == gameId && this.gameRoomId == gameRoomId) {
+        if (playingGameId == gameId && Objects.equals(this.gameRoomId, gameRoomId)) {
             return;
         }
         destroyMG();
         this.gameRoomId = gameRoomId;
         playingGameId = gameId;
-        login(activity, gameId);
+        login(activity, gameId, loadMGMode, authorizationSecret);
     }
 
     @Override

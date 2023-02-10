@@ -119,6 +119,13 @@ public interface RequestUrl {
     String ROBOT_LIST = "robot/list/v1";
     // endregion 礼物
 
+    // region 跨域授权
+    /** 授权房间列表 */
+    String AUTH_ROOM_LIST = "extra/get-auth-room-list";
+    /** 跨域匹配房间 */
+    String AUTH_MATCH_ROOM = "extra/match-room/v1";
+    // endregion 跨域授权
+
     // region 蹦迪
     /** 扣费 */
     String DEDUCTION_COIN = "disco/operation/v1";
@@ -137,6 +144,26 @@ public interface RequestUrl {
 
     /** 带入筹码到游戏 */
     String GAME_BRING_CHIP = "app/bring-chip/v1";
+
+    // region 跨域
+    /** 跨域游戏列表 */
+    String CROSS_APP_GAME_LIST = "extra/game-list/v1";
+
+    /** 加入组队 */
+    String CROSS_APP_JOIN_TEAM = "extra/join-team/v1";
+
+    /** 开启匹配 */
+    String CROSS_APP_START_MATCH = "extra/start-match-team/v1";
+
+    /** 取消匹配 */
+    String CROSS_APP_CANCEL_MATCH = "extra/cancel-match-team/v1";
+
+    /** 退出组队 */
+    String CROSS_APP_QUIT_TEAM = "extra/quit-team/v1";
+
+    /** 切换游戏 */
+    String CROSS_APP_SWITCH_GAME = "extra/switch-game/v1";
+    // region 跨域
 
     // region 定制火箭
 

@@ -4,7 +4,7 @@ import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
 
 public class CreateOrderReq {
     public long gameId;
-    public long roomId;
+    public String roomId;
 
     public String cmd; // 触发的行为动作，比如打赏，购买等
     public String fromUid; // 付费用户uid

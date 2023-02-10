@@ -9,7 +9,6 @@ import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.service.main.manager.HomeManager;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.main.resp.GameListResp;
-import tech.sud.mgp.hello.service.main.resp.GameModeModel;
 import tech.sud.mgp.hello.service.main.resp.GameModel;
 
 /**
@@ -66,18 +65,8 @@ public class SceneRoomViewModel extends BaseViewModel {
      */
     public int getGameMaxNumber(long gameId) {
         GameModel gameModel = HomeManager.getInstance().getGameModel(gameId);
-        if (gameModel != null && gameModel.gameModeList != null && gameModel.gameModeList.size() > 0) {
-            GameModeModel gameModeModel = gameModel.gameModeList.get(0);
-            if (gameModeModel.mode != 1) {
-                for (GameModeModel model : gameModel.gameModeList) {
-                    if (model.mode == 1) {
-                        gameModeModel = model;
-                    }
-                }
-            }
-            if (gameModeModel.count.length >= 2) {
-                return gameModeModel.count[1];
-            }
+        if (gameModel != null) {
+            return gameModel.getGameMaxNumber();
         }
         return 0;
     }

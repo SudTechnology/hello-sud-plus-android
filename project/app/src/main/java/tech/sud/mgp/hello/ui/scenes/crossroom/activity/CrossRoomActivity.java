@@ -347,8 +347,8 @@ public class CrossRoomActivity extends BaseInteractionRoomActivity<CrossRoomGame
     }
 
     @Override
-    public long getGameRoomId() {
-        return viewModel.getGameRoomId(roomInfoModel);
+    public String getGameRoomId() {
+        return viewModel.getGameRoomId(roomInfoModel) + "";
     }
 
     @Override

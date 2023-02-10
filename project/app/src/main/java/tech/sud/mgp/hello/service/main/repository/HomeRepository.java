@@ -11,15 +11,20 @@ import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.http.rx.RxUtils;
 import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.service.main.method.HomeRequestMethodFactory;
+import tech.sud.mgp.hello.service.main.req.AuthMatchRoomReq;
+import tech.sud.mgp.hello.service.main.req.AuthRoomListReq;
 import tech.sud.mgp.hello.service.main.req.CreatRoomReq;
 import tech.sud.mgp.hello.service.main.req.MatchBodyReq;
 import tech.sud.mgp.hello.service.main.req.QuizBetReq;
 import tech.sud.mgp.hello.service.main.req.RoomListReq;
 import tech.sud.mgp.hello.service.main.req.TicketConfirmJoinReq;
 import tech.sud.mgp.hello.service.main.req.UserInfoReq;
+import tech.sud.mgp.hello.service.main.resp.AuthMatchRoomResp;
+import tech.sud.mgp.hello.service.main.resp.AuthRoomListResp;
 import tech.sud.mgp.hello.service.main.resp.BaseConfigResp;
 import tech.sud.mgp.hello.service.main.resp.CheckUpgradeResp;
 import tech.sud.mgp.hello.service.main.resp.CreatRoomResp;
+import tech.sud.mgp.hello.service.main.resp.CrossAppGameListResp;
 import tech.sud.mgp.hello.service.main.resp.GameListResp;
 import tech.sud.mgp.hello.service.main.resp.GetAccountResp;
 import tech.sud.mgp.hello.service.main.resp.GetBannerResp;
@@ -197,6 +202,39 @@ public class HomeRepository {
     }
 
     /**
+     * 查询授权房间列表
+     *
+     * @param pageNumber 页码
+     * @param pageSize   每页大小
+     */
+    public static void authRoomList(LifecycleOwner owner, int pageNumber, int pageSize, RxCallback<AuthRoomListResp> callback) {
+        AuthRoomListReq req = new AuthRoomListReq();
+        req.pageNumber = pageNumber;
+        req.pageSize = pageSize;
+        HomeRequestMethodFactory.getMethod()
+                .authRoomList(BaseUrlManager.getInteractBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /**
+     * 跨域匹配房间
+     *
+     * @param authSecret app授权码
+     * @param roomId     房间id，对方app房间id
+     */
+    public static void authMatchRoom(LifecycleOwner owner, String authSecret, String roomId, long gameId, RxCallback<AuthMatchRoomResp> callback) {
+        AuthMatchRoomReq req = new AuthMatchRoomReq();
+        req.authSecret = authSecret;
+        req.roomId = roomId;
+        req.gameId = gameId;
+        HomeRequestMethodFactory.getMethod()
+                .authMatchRoom(BaseUrlManager.getInteractBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /**
      * 穿戴nft
      *
      * @param nftToken token
@@ -208,6 +246,16 @@ public class HomeRepository {
         req.type = type;
         HomeRequestMethodFactory.getMethod()
                 .wearNFT(BaseUrlManager.getBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /**
+     * 跨域游戏列表
+     */
+    public static void crossAppGameList(LifecycleOwner owner, RxCallback<CrossAppGameListResp> callback) {
+        HomeRequestMethodFactory.getMethod()
+                .crossAppGameList(BaseUrlManager.getInteractBaseUrl())
                 .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }

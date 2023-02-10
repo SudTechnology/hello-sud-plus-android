@@ -7,15 +7,20 @@ import retrofit2.http.POST;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.IBaseUrl;
 import tech.sud.mgp.hello.service.base.RequestUrl;
+import tech.sud.mgp.hello.service.main.req.AuthMatchRoomReq;
+import tech.sud.mgp.hello.service.main.req.AuthRoomListReq;
 import tech.sud.mgp.hello.service.main.req.CreatRoomReq;
 import tech.sud.mgp.hello.service.main.req.MatchBodyReq;
 import tech.sud.mgp.hello.service.main.req.QuizBetReq;
 import tech.sud.mgp.hello.service.main.req.RoomListReq;
 import tech.sud.mgp.hello.service.main.req.TicketConfirmJoinReq;
 import tech.sud.mgp.hello.service.main.req.UserInfoReq;
+import tech.sud.mgp.hello.service.main.resp.AuthMatchRoomResp;
+import tech.sud.mgp.hello.service.main.resp.AuthRoomListResp;
 import tech.sud.mgp.hello.service.main.resp.BaseConfigResp;
 import tech.sud.mgp.hello.service.main.resp.CheckUpgradeResp;
 import tech.sud.mgp.hello.service.main.resp.CreatRoomResp;
+import tech.sud.mgp.hello.service.main.resp.CrossAppGameListResp;
 import tech.sud.mgp.hello.service.main.resp.GameListResp;
 import tech.sud.mgp.hello.service.main.resp.GetAccountResp;
 import tech.sud.mgp.hello.service.main.resp.GetBannerResp;
@@ -98,14 +103,33 @@ public interface HomeRequestMethod {
     Observable<BaseResponse<QuizGameListResp>> quizGameList(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl);
 
     /**
+     * 授权房间列表
+     */
+    @POST(RequestUrl.AUTH_ROOM_LIST)
+    Observable<BaseResponse<AuthRoomListResp>> authRoomList(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body AuthRoomListReq body);
+
+    /**
+     * 跨域匹配房间
+     */
+    @POST(RequestUrl.AUTH_MATCH_ROOM)
+    Observable<BaseResponse<AuthMatchRoomResp>> authMatchRoom(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body AuthMatchRoomReq body);
+
+    /**
      * 穿戴NFT
      */
     @POST(RequestUrl.WEAR_NFT)
     Observable<BaseResponse<Object>> wearNFT(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body WearNftReq req);
 
     /**
+     * 跨域游戏列表
+     */
+    @POST(RequestUrl.CROSS_APP_GAME_LIST)
+    Observable<BaseResponse<CrossAppGameListResp>> crossAppGameList(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl);
+
+    /**
      * 获取首页banner信息
      */
     @POST(RequestUrl.GET_BANNER)
     Observable<BaseResponse<GetBannerResp>> getBanner(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl);
+
 }

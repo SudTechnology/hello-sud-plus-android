@@ -50,6 +50,9 @@ public class HomeItemView extends FrameLayout {
             case SceneType.LEAGUE:
                 view = new HomeLeagueItemView(getContext());
                 break;
+            case SceneType.CROSS_APP_MATCH:
+                view = new HomeCrossAppItemView(getContext());
+                break;
             default:
                 view = new HomeNormalItemView(getContext());
                 break;

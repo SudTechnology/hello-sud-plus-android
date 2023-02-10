@@ -7,6 +7,11 @@ import retrofit2.http.POST;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.IBaseUrl;
 import tech.sud.mgp.hello.service.base.RequestUrl;
+import tech.sud.mgp.hello.service.room.req.CrossAppCancelMatchReq;
+import tech.sud.mgp.hello.service.room.req.CrossAppJoinTeamReq;
+import tech.sud.mgp.hello.service.room.req.CrossAppQuitTeamReq;
+import tech.sud.mgp.hello.service.room.req.CrossAppStartMatchReq;
+import tech.sud.mgp.hello.service.room.req.CrossAppSwitchGameReq;
 import tech.sud.mgp.hello.service.room.req.DanmakuListReq;
 import tech.sud.mgp.hello.service.room.req.DeductionCoinReq;
 import tech.sud.mgp.hello.service.room.req.DiscoAnchorListReq;
@@ -29,6 +34,7 @@ import tech.sud.mgp.hello.service.room.req.RoomPkStartReq;
 import tech.sud.mgp.hello.service.room.req.RoomPkSwitchReq;
 import tech.sud.mgp.hello.service.room.req.SendDanmakuReq;
 import tech.sud.mgp.hello.service.room.req.SendGiftReq;
+import tech.sud.mgp.hello.service.room.resp.CrossAppStartMatchResp;
 import tech.sud.mgp.hello.service.room.resp.DanmakuListResp;
 import tech.sud.mgp.hello.service.room.resp.DiscoAnchorListResp;
 import tech.sud.mgp.hello.service.room.resp.EnterRoomResp;
@@ -182,5 +188,28 @@ public interface AudioRequestMethod {
     @POST(RequestUrl.LEAGUE_PLAYING)
     Observable<BaseResponse<LeaguePlayingResp>> leaguePlaying(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body LeaguePlayingReq req);
     // endregion 联赛
+
+    // region 跨域
+
+    /** 加入组队 */
+    @POST(RequestUrl.CROSS_APP_JOIN_TEAM)
+    Observable<BaseResponse<Object>> crossAppJoinTeam(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body CrossAppJoinTeamReq req);
+
+    /** 开启匹配 */
+    @POST(RequestUrl.CROSS_APP_START_MATCH)
+    Observable<BaseResponse<CrossAppStartMatchResp>> crossAppStartMatch(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body CrossAppStartMatchReq req);
+
+    /** 取消匹配 */
+    @POST(RequestUrl.CROSS_APP_CANCEL_MATCH)
+    Observable<BaseResponse<Object>> crossAppCancelMatch(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body CrossAppCancelMatchReq req);
+
+    /** 退出组队 */
+    @POST(RequestUrl.CROSS_APP_QUIT_TEAM)
+    Observable<BaseResponse<Object>> crossAppQuitTeam(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body CrossAppQuitTeamReq req);
+
+    /** 切换游戏 */
+    @POST(RequestUrl.CROSS_APP_SWITCH_GAME)
+    Observable<BaseResponse<Object>> crossAppSwitchGame(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body CrossAppSwitchGameReq req);
+    // endregion 跨域
 
 }

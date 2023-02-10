@@ -166,13 +166,13 @@ public class BaseballControl extends BaseInteractionControl {
         if (playingGameId <= 0) {
             showLoadingDialog();
         }
-        baseballGameViewModel.switchGame(activity, getRoomId(), GameIdCons.BASEBALL);
+        baseballGameViewModel.switchGame(activity, getRoomId() + "", GameIdCons.BASEBALL);
         return true;
     }
 
     /** 隐藏棒球 */
     public void stopInteractionGame() {
-        baseballGameViewModel.switchGame(activity, getRoomId(), 0);
+        baseballGameViewModel.switchGame(activity, getRoomId() + "", 0);
         hideLoadingDialog();
     }
 

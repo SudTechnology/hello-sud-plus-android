@@ -29,6 +29,8 @@ import tech.sud.mgp.hello.ui.scenes.asr.ASRActivity;
 import tech.sud.mgp.hello.ui.scenes.audio.activity.AudioRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.base.model.EnterRoomParams;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
+import tech.sud.mgp.hello.ui.scenes.crossapp.activity.CrossAppAuthActivity;
+import tech.sud.mgp.hello.ui.scenes.crossapp.activity.CrossAppMatchActivity;
 import tech.sud.mgp.hello.ui.scenes.crossroom.activity.CrossRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.custom.CustomActivity;
 import tech.sud.mgp.hello.ui.scenes.danmaku.activity.DanmakuActivity;
@@ -82,7 +84,7 @@ public class EnterRoomUtils {
                 if (t.getRetCode() == RetCode.SUCCESS) {
                     if (resp != null) {
                         if (canEnterRoom(resp)) {
-                            safeStartSceneRoomActivity(context, resp);
+                            safeStartSceneRoomActivity(context, params, resp);
                         }
                     }
                 }
@@ -110,19 +112,19 @@ public class EnterRoomUtils {
     }
 
     /** 安全地打开场景房间 */
-    private static void safeStartSceneRoomActivity(Context context, EnterRoomResp resp) {
+    private static void safeStartSceneRoomActivity(Context context, EnterRoomParams enterRoomParams, EnterRoomResp resp) {
         if (context == null) {
             Activity topActivity = ActivityUtils.getTopActivity();
             if (topActivity instanceof LifecycleOwner) {
                 LifecycleUtils.safeLifecycle((LifecycleOwner) topActivity, new CompletedListener() {
                     @Override
                     public void onCompleted() {
-                        startSceneRoomActivity(topActivity, resp);
+                        startSceneRoomActivity(topActivity, enterRoomParams, resp);
                     }
                 });
             }
         } else {
-            startSceneRoomActivity(context, resp);
+            startSceneRoomActivity(context, enterRoomParams, resp);
         }
     }
 
@@ -131,7 +133,7 @@ public class EnterRoomUtils {
      *
      * @param context 上下文
      */
-    private static void startSceneRoomActivity(Context context, EnterRoomResp enterRoomResp) {
+    private static void startSceneRoomActivity(Context context, EnterRoomParams enterRoomParams, EnterRoomResp enterRoomResp) {
         RoomInfoModel model = new RoomInfoModel();
         model.sceneType = enterRoomResp.sceneType;
         model.roomId = enterRoomResp.roomId;
@@ -145,6 +147,12 @@ public class EnterRoomUtils {
         model.gameLevel = enterRoomResp.gameLevel;
         model.roomPkModel = enterRoomResp.pkResultVO;
         model.streamId = enterRoomResp.streamId;
+        if (enterRoomParams.crossAppModel == null) {
+            model.crossAppModel = enterRoomResp.extraMatchVO;
+        } else {
+            model.crossAppModel = enterRoomParams.crossAppModel;
+        }
+        model.authRoomInfo = enterRoomResp.extraRoomVO;
         Intent intent = getSceneIntent(context, enterRoomResp.sceneType);
         intent.putExtra("RoomInfoModel", model);
         context.startActivity(intent);
@@ -170,8 +178,12 @@ public class EnterRoomUtils {
                 return new Intent(context, DanmakuActivity.class);
             case SceneType.DISCO:
                 return new Intent(context, DiscoActivity.class);
+            case SceneType.CROSS_APP_AUTH:
+                return new Intent(context, CrossAppAuthActivity.class);
             case SceneType.LEAGUE:
                 return new Intent(context, LeagueActivity.class);
+            case SceneType.CROSS_APP_MATCH:
+                return new Intent(context, CrossAppMatchActivity.class);
 //            case SceneType.TALENT:
 //                return new Intent(context, TalentRoomActivity.class);
 //            case SceneType.ONE_ONE:

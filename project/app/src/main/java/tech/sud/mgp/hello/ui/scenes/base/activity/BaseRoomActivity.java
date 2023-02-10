@@ -31,6 +31,8 @@ import java.util.Random;
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState.AIPlayers;
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.core.ISudListenerNotifyStateChange;
+import tech.sud.mgp.core.SudLoadMGMode;
+import tech.sud.mgp.hello.BuildConfig;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseActivity;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
@@ -47,6 +49,7 @@ import tech.sud.mgp.hello.service.game.req.CreateOrderReq;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.main.resp.GetAccountResp;
 import tech.sud.mgp.hello.service.room.repository.RoomRepository;
+import tech.sud.mgp.hello.service.room.resp.CrossAppModel;
 import tech.sud.mgp.hello.service.room.resp.RobotListResp;
 import tech.sud.mgp.hello.ui.common.constant.RequestKey;
 import tech.sud.mgp.hello.ui.main.base.activity.MainActivity;
@@ -199,9 +202,12 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
     protected void initData() {
         super.initData();
         topView.setName(roomInfoModel.roomName);
-        topView.setId(getString(R.string.audio_room_number) + " " + roomInfoModel.roomNumber);
+        if (BuildConfig.gameIsTestEnv) {
+            topView.setId(roomInfoModel.roomId + "--" + roomInfoModel.roomNumber);
+        } else {
+            topView.setId(getString(R.string.audio_room_number) + " " + roomInfoModel.roomNumber);
+        }
         viewModel.initData();
-        initGame();
         bindService();
     }
 
@@ -350,7 +356,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         });
     }
 
-    private AudioRoomMicModel findNewRobotMic(List<AudioRoomMicModel> micList) {
+    protected AudioRoomMicModel findNewRobotMic(List<AudioRoomMicModel> micList) {
         int totalRobotCount = 0;
         AudioRoomMicModel emptyMicModel = null;
         for (AudioRoomMicModel model : micList) {
@@ -374,7 +380,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
      * @param robotList 机器人列表
      * @param micList   麦位列表
      */
-    private AIPlayers findAvailableAiPlayers(List<AIPlayers> robotList, List<AudioRoomMicModel> micList) {
+    protected AIPlayers findAvailableAiPlayers(List<AIPlayers> robotList, List<AudioRoomMicModel> micList) {
         Random random = new Random();
         for (int i = 0; i < 1000; i++) {
             int position = random.nextInt(robotList.size());
@@ -1084,14 +1090,14 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
 
     private void initGame() {
         if (roomConfig.isSudGame) {
-            gameViewModel.switchGame(this, getGameRoomId(), roomInfoModel.gameId);
+            gameViewModel.switchGame(this, getGameRoomId(), roomInfoModel.gameId, getLoadMGMode(), getAuthorizationSecret());
         }
         updateGameNumber();
     }
 
     /** 获取游戏房间的id */
-    public long getGameRoomId() {
-        return roomInfoModel.roomId;
+    public String getGameRoomId() {
+        return roomInfoModel.roomId + "";
     }
 
     // 切换游戏之后，更新页面样式
@@ -1135,6 +1141,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
             binder = (SceneRoomService.MyBinder) service;
             binder.dismissFloating();
             enterRoom();
+            initGame();
         }
 
         @Override
@@ -1302,12 +1309,13 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         if (!roomConfig.isSudGame) {
             return false;
         }
-        if (playingGameId == gameId && getGameRoomId() == gameViewModel.getGameRoomId()) {
+        String gameRoomId = getGameRoomId();
+        if (playingGameId == gameId && gameRoomId.equals(gameViewModel.getGameRoomId())) {
             return false;
         }
         playingGameId = gameId;
         roomInfoModel.gameId = gameId;
-        gameViewModel.switchGame(this, getGameRoomId(), gameId);
+        gameViewModel.switchGame(this, getGameRoomId(), gameId, getLoadMGMode(), getAuthorizationSecret());
         updatePageStyle();
         updateStatusBar();
         updateGameNumber();
@@ -1315,6 +1323,27 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
             binder.updateMicList();
         }
         return true;
+    }
+
+    /**
+     * 获取跨App域模式时的授权码
+     * 当加载游戏模式为{@link SudLoadMGMode#kSudLoadMGModeAppCrossAuth 为跨APP域模式}时
+     * 本字段才有效用
+     *
+     * @return
+     */
+    protected String getAuthorizationSecret() {
+        return null;
+    }
+
+    /**
+     * 获取加载游戏模式
+     * {@link SudLoadMGMode#kSudLoadMGModeNormal 为默认模式}； {@link SudLoadMGMode#kSudLoadMGModeAppCrossAuth 为跨APP域模式}
+     *
+     * @return 加载游戏模式
+     */
+    protected int getLoadMGMode() {
+        return SudLoadMGMode.kSudLoadMGModeNormal;
     }
 
     @Override
@@ -1419,6 +1448,9 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         processOnKickOutRoom(userId);
     }
 
+    @Override
+    public void onUpdateCrossApp(CrossAppModel model) {
+    }
     // endregion service回调
 
     /** 处理踢出房间的逻辑 */

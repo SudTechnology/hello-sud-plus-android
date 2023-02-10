@@ -177,6 +177,15 @@
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
 
+        <!-- 跨域房间页面 -->
+        <activity
+            android:name=".ui.scenes.crossapp.activity.CrossAppAuthActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+
         <!-- 联赛场景 -->
         <activity
             android:name=".ui.scenes.league.activity.LeagueActivity"
@@ -282,6 +291,14 @@
         <!-- 蹦迪 页面 -->
         <activity
             android:name=".ui.scenes.disco.activity.DiscoActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"
+            tools:ignore="LockedOrientationActivity" />
+
+        <!-- 跨域 页面 -->
+        <activity
+            android:name=".ui.scenes.crossapp.activity.CrossAppMatchActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:launchMode="singleTask"

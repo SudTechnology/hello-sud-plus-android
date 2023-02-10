@@ -147,7 +147,7 @@ public class CrossAppMatchActivity extends BaseRoomActivity<CrossAppGameViewMode
     }
 
     private void showCrossAppMatchGameDialog() {
-        SelectMatchGameDialog dialog = SelectMatchGameDialog.newInstance(SelectMatchGameDialog.MODE_CHANGE);
+        SelectMatchGameDialog dialog = SelectMatchGameDialog.newInstance(SelectMatchGameDialog.MODE_CHANGE, getCrossAppModel().matchGameId);
         dialog.setOnSelectedListener(gameModel -> {
             if (binder != null) {
                 binder.crossAppChangeGame(gameModel);

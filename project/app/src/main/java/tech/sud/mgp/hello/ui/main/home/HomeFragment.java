@@ -49,6 +49,7 @@ import tech.sud.mgp.hello.service.room.resp.CrossAppModel;
 import tech.sud.mgp.hello.ui.common.constant.RequestKey;
 import tech.sud.mgp.hello.ui.common.utils.CompletedListener;
 import tech.sud.mgp.hello.ui.common.utils.LifecycleUtils;
+import tech.sud.mgp.hello.ui.main.base.constant.GameIdCons;
 import tech.sud.mgp.hello.ui.main.base.constant.SceneType;
 import tech.sud.mgp.hello.ui.main.base.widget.CreateTicketRoomDialog;
 import tech.sud.mgp.hello.ui.main.base.widget.MainUserInfoView;
@@ -467,7 +468,7 @@ public class HomeFragment extends BaseFragment implements CreatRoomClickListener
     }
 
     private void showCrossAppMatchGameDialog(SceneModel sceneModel) {
-        SelectMatchGameDialog dialog = SelectMatchGameDialog.newInstance(SelectMatchGameDialog.MODE_MATCH);
+        SelectMatchGameDialog dialog = SelectMatchGameDialog.newInstance(SelectMatchGameDialog.MODE_MATCH, GameIdCons.NONE);
         EnterRoomParams enterRoomParams = new EnterRoomParams();
         enterRoomParams.crossAppModel = new CrossAppModel();
         dialog.setOnSingleMatchListener((model) -> {

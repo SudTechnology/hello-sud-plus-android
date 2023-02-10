@@ -52,10 +52,12 @@ public class SelectMatchGameDialog extends BaseDialogFragment {
 
     private TextView tvSingleMatch;
     private TextView tvTeamMatch;
+    private long matchGameId;
 
-    public static SelectMatchGameDialog newInstance(int mode) {
+    public static SelectMatchGameDialog newInstance(int mode, long matchGameId) {
         Bundle args = new Bundle();
         args.putInt("mode", mode);
+        args.putLong("matchGameId", matchGameId);
         SelectMatchGameDialog fragment = new SelectMatchGameDialog();
         fragment.setArguments(args);
         return fragment;
@@ -67,6 +69,7 @@ public class SelectMatchGameDialog extends BaseDialogFragment {
         Bundle arguments = getArguments();
         if (arguments != null) {
             mode = arguments.getInt("mode");
+            matchGameId = arguments.getLong("matchGameId");
         }
     }
 
@@ -323,7 +326,7 @@ public class SelectMatchGameDialog extends BaseDialogFragment {
             if (mode == MODE_MATCH) {
                 holder.setVisible(R.id.view_selected, isSelected(item));
             } else {
-                holder.setVisible(R.id.view_selected, false);
+                holder.setVisible(R.id.view_selected, matchGameId == item.gameId);
             }
         }
     }

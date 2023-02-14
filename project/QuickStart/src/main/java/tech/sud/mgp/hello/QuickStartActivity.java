@@ -183,6 +183,12 @@ public class QuickStartActivity extends BaseActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        gameViewModel.onDestroy();
+        super.onBackPressed();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         gameViewModel.onDestroy();

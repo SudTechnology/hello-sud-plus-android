@@ -859,46 +859,36 @@ public class AppGameViewModel implements SudFSMMGListener {
         if (activity.isDestroyed() || mgIdList == null || mgIdList.size() == 0) {
             return;
         }
-        // 请求登录code
-        GameRepository.login(activity, new RxCallback<GameLoginResp>() {
+        SudConfig sudConfig = AppData.getInstance().getSudConfig();
+        if (sudConfig == null || sudConfig.appId == null || sudConfig.appKey == null) {
+            ToastUtils.showLong("SudConfig is empty");
+            return;
+        }
+        EnvUtils.initMgpEnv();
+        // 初始化sdk
+        SudMGP.initSDK(activity, sudConfig.appId, sudConfig.appKey, APPConfig.GAME_IS_TEST_ENV, new ISudListenerInitSDK() {
             @Override
-            public void onSuccess(GameLoginResp gameLoginResp) {
-                super.onSuccess(gameLoginResp);
-                if (gameLoginResp == null) {
-                    return;
-                }
-                SudConfig sudConfig = AppData.getInstance().getSudConfig();
-                if (sudConfig == null || sudConfig.appId == null || sudConfig.appKey == null) {
-                    ToastUtils.showLong("SudConfig is empty");
-                    return;
-                }
-                EnvUtils.initMgpEnv();
-                // 初始化sdk
-                SudMGP.initSDK(activity, sudConfig.appId, sudConfig.appKey, APPConfig.GAME_IS_TEST_ENV, new ISudListenerInitSDK() {
+            public void onSuccess() {
+                SudMGP.preloadMGPkgList(activity, mgIdList, new ISudListenerPreloadMGPkg() {
                     @Override
-                    public void onSuccess() {
-                        SudMGP.preloadMGPkgList(activity, mgIdList, new ISudListenerPreloadMGPkg() {
-                            @Override
-                            public void onPreloadSuccess(long mgId) {
-                                LogUtils.d("onPreloadSuccess:" + mgId);
-                            }
-
-                            @Override
-                            public void onPreloadFailure(long mgId, int errorCode, String errorMsg) {
-                                LogUtils.d("onPreloadFailure:" + mgId + " :" + errorCode + " :" + errorMsg);
-                            }
-
-                            @Override
-                            public void onPreloadStatus(long mgId, long downloadedSize, long totalSize, PkgDownloadStatus status) {
-                                LogUtils.d("onPreloadStatus:" + mgId + " :" + downloadedSize + " :" + totalSize + " :" + status);
-                            }
-                        });
+                    public void onPreloadSuccess(long mgId) {
+                        LogUtils.d("onPreloadSuccess:" + mgId);
                     }
 
                     @Override
-                    public void onFailure(int errCode, String errMsg) {
+                    public void onPreloadFailure(long mgId, int errorCode, String errorMsg) {
+                        LogUtils.d("onPreloadFailure:" + mgId + " :" + errorCode + " :" + errorMsg);
+                    }
+
+                    @Override
+                    public void onPreloadStatus(long mgId, long downloadedSize, long totalSize, PkgDownloadStatus status) {
+                        LogUtils.d("onPreloadStatus:" + mgId + " :" + downloadedSize + " :" + totalSize + " :" + status);
                     }
                 });
+            }
+
+            @Override
+            public void onFailure(int errCode, String errMsg) {
             }
         });
     }

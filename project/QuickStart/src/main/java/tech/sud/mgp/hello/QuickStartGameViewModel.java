@@ -62,7 +62,6 @@ public class QuickStartGameViewModel extends BaseGameViewModel {
         try {
             JSONObject reqJsonObj = new JSONObject();
             reqJsonObj.put("user_id", userId);
-            reqJsonObj.put("app_id", appId);
             req = reqJsonObj.toString();
         } catch (Exception e) {
             e.printStackTrace();

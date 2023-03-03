@@ -28,7 +28,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState.AIPlayers;
+import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState.APPCommonGameCreateOrderResult;
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.core.ISudListenerNotifyStateChange;
 import tech.sud.mgp.core.SudLoadMGMode;
@@ -36,6 +38,8 @@ import tech.sud.mgp.hello.BuildConfig;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseActivity;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
+import tech.sud.mgp.hello.common.http.param.BaseResponse;
+import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.AnimUtils;
@@ -634,7 +638,26 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
             req.setCreateOrderValues(model);
             req.gameId = gameViewModel.getPlayingGameId();
             req.roomId = gameViewModel.getGameRoomId();
-            GameRepository.createOrder(this, req, new RxCallback<>());
+            GameRepository.createOrder(this, req, new RxCallback<Object>() {
+                @Override
+                public void onNext(BaseResponse<Object> t) {
+                    super.onNext(t);
+                    sendCallbackToGame(t.getRetCode() == RetCode.SUCCESS);
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    super.onError(e);
+                    sendCallbackToGame(false);
+                }
+
+                private void sendCallbackToGame(boolean isSuccess) {
+                    APPCommonGameCreateOrderResult model = new APPCommonGameCreateOrderResult();
+                    model.result = isSuccess ? 1 : 0;
+                    gameViewModel.notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_CREATE_ORDER_RESULT, model);
+                }
+
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }

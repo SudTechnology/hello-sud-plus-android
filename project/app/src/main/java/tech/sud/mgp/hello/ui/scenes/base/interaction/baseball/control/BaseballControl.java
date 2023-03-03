@@ -10,9 +10,12 @@ import androidx.lifecycle.Observer;
 import java.util.List;
 
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
+import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState.APPCommonGameCreateOrderResult;
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
+import tech.sud.mgp.hello.common.http.param.BaseResponse;
+import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
 import tech.sud.mgp.hello.service.game.repository.GameRepository;
@@ -132,10 +135,23 @@ public class BaseballControl extends BaseInteractionControl {
         req.roomId = getRoomId();
         GameRepository.baseballPlay(activity, req, new RxCallback<Object>() {
             @Override
-            public void onSuccess(Object o) {
-                super.onSuccess(o);
-//                ToastUtils.showShort("打棒球成功");
+            public void onNext(BaseResponse<Object> t) {
+                super.onNext(t);
+                sendCallbackToGame(t.getRetCode() == RetCode.SUCCESS);
             }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                sendCallbackToGame(false);
+            }
+
+            private void sendCallbackToGame(boolean isSuccess) {
+                APPCommonGameCreateOrderResult model = new APPCommonGameCreateOrderResult();
+                model.result = isSuccess ? 1 : 0;
+                baseballGameViewModel.notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_CREATE_ORDER_RESULT, model);
+            }
+
         });
     }
 

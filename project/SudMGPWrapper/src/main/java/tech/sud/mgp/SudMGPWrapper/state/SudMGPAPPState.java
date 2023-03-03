@@ -297,10 +297,22 @@ public class SudMGPAPPState implements Serializable {
     public static final String APP_COMMON_GAME_SCORE = "app_common_game_score";
 
     /**
-     * 18. app返回玩家当前积分
+     * 18. app返回玩家当前积分 模型
      */
     public static class APPCommonGameScore implements Serializable {
         public long score; // 玩家当前积分
+    }
+
+    /**
+     * 23. app通知游戏创建订单的结果
+     */
+    public static final String APP_COMMON_GAME_CREATE_ORDER_RESULT = "app_common_game_create_order_result";
+
+    /**
+     * 23. app通知游戏创建订单的结果 模型
+     */
+    public static class APPCommonGameCreateOrderResult implements Serializable {
+        public int result; // app通知游戏创建订单的结果0：失败 1：成功
     }
     // endregion 通用状态
 

@@ -692,6 +692,16 @@ public class AppGameViewModel implements SudFSMMGListener {
         sudFSTAPPDecorator.notifyStateChange(state, dataJson, listener);
     }
 
+    /**
+     * APP状态通知给小游戏
+     *
+     * @param state 状态标识
+     * @param obj   数据
+     */
+    public void notifyStateChange(String state, Object obj) {
+        sudFSTAPPDecorator.notifyStateChange(state, obj);
+    }
+
     // region 游戏侧回调
     @Override
     public void onGameLog(String str) {

@@ -7,6 +7,7 @@ import android.graphics.Rect;
 import android.view.View;
 
 import com.blankj.utilcode.util.ThreadUtils;
+import com.netease.lava.api.model.RTCAudioFocusMode;
 import com.netease.lava.nertc.sdk.NERtcCallbackEx;
 import com.netease.lava.nertc.sdk.NERtcConstants;
 import com.netease.lava.nertc.sdk.NERtcEx;
@@ -109,6 +110,7 @@ public class NeteaseAudioEngineImpl implements ISudAudioEngine {
                 engine.setAudioProfile(NERtcConstants.AudioProfile.HIGH_QUALITY, NERtcConstants.AudioScenario.CHATROOM);
                 engine.setChannelProfile(COMMUNICATION);
                 engine.setSpeakerphoneOn(true);
+                engine.setAudioFocusMode(RTCAudioFocusMode.kAudioFocus_OFF);
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -37,7 +37,7 @@ public class SudJsonUtils {
     }
 
     public static class InnerClass {
-        public static Gson gson = new GsonBuilder().serializeNulls().disableHtmlEscaping().create();
+        public static Gson gson = new GsonBuilder().disableHtmlEscaping().create();
     }
 
 }

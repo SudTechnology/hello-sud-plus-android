@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/ic_room_bg">
 
-    <!-- 游戏View容器，容器不能设置为android:visibility="gone"，可能会出现未知问题 -->
+    <!-- 游戏View容器，容器不能设置为android:visibility="gone"或者invisible，可能会出现未知问题 -->
     <FrameLayout
         android:id="@+id/game_container"
         android:layout_width="match_parent"

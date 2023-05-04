@@ -101,13 +101,31 @@ public class LanguageViewModel extends BaseViewModel {
                 locale = new Locale("vi", "VN");
                 break;
             case Korean:
-                locale = Locale.KOREA;
+                locale = new Locale("ko", "KR");
                 break;
             case Spanish:
                 locale = new Locale("es", "ES");
                 break;
             case Japanese:
-                locale = Locale.JAPANESE;
+                locale = new Locale("ja", "JP");
+                break;
+            case Urdu:
+                locale = new Locale("ur", "PK");
+                break;
+            case Turkish:
+                locale = new Locale("tr", "TR");
+                break;
+            case Portuguese:
+                locale = new Locale("pt", "PT");
+                break;
+            case Hindi:
+                locale = new Locale("hi", "IN");
+                break;
+            case Bengalese:
+                locale = new Locale("bn", "BD");
+                break;
+            case Tagalog:
+                locale = new Locale("tl", "PH");
                 break;
         }
         return locale;

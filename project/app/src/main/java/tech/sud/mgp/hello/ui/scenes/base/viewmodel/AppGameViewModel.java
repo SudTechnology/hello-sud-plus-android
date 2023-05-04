@@ -252,6 +252,7 @@ public class AppGameViewModel implements SudFSMMGListener {
         sudLoadMGParamModel.mgId = gameId;
         sudLoadMGParamModel.language = SystemUtils.getLanguageCode(activity);
         sudLoadMGParamModel.authorizationSecret = authorizationSecret;
+        LogUtils.d("加载游戏使用的语言：" + sudLoadMGParamModel.language);
         ISudFSTAPP iSudFSTAPP = SudMGP.loadMG(sudLoadMGParamModel, sudFSMMGDecorator);
 
         // 如果返回空，则代表参数问题或者非主线程

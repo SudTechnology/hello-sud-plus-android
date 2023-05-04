@@ -159,6 +159,12 @@
         <item>한국어</item>
         <item>Español</item>
         <item>日本語</item>
+        <item>اردو</item>
+        <item>Türkçe</item>
+        <item>Português</item>
+        <item>हिंदी</item>
+        <item>বাংলা</item>
+        <item>Tagalog (Pilipinas)</item>
     </string-array>
 
     <string name="search_room_error">Vui lòng nhập chính xác số phòng</string>

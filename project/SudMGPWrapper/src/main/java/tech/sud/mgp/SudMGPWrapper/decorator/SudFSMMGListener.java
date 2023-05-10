@@ -280,6 +280,158 @@ public interface SudFSMMGListener {
     default void onGameMGCommonPlayerRoleId(ISudFSMStateHandle handle, SudMGPMGState.MGCommonPlayerRoleId model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
+
+    /**
+     * 27. 游戏通知app玩家被扔便便(你画我猜，你说我猜，友尽闯关有效)
+     * mg_common_self_click_poop
+     */
+    default void onGameMGCommonSelfClickPoop(ISudFSMStateHandle handle, SudMGPMGState.MGCommonSelfClickPoop model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 28. 游戏通知app玩家被点赞(你画我猜，你说我猜，友尽闯关有效)
+     * mg_common_self_click_good
+     */
+    default void onGameMGCommonSelfClickGood(ISudFSMStateHandle handle, SudMGPMGState.MGCommonSelfClickGood model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 29. 游戏通知app游戏FPS(仅对碰碰，多米诺骨牌，飞镖达人生效)
+     * mg_common_game_fps
+     */
+    default void onGameMGCommonGameFps(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameFps model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 30. 游戏通知app游戏弹框
+     * mg_common_alert
+     */
+    default void onGameMGCommonAlert(ISudFSMStateHandle handle, SudMGPMGState.MGCommonAlert model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 31. 游戏通知app最坑队友（只支持友尽闯关）
+     * mg_common_worst_teammate
+     */
+    default void onGameMGCommonWorstTeammate(ISudFSMStateHandle handle, SudMGPMGState.MGCommonWorstTeammate model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 32. 游戏通知app因玩家逃跑导致游戏结束（只支持友尽闯关）
+     * mg_common_game_over_tip
+     */
+    default void onGameMGCommonGameOverTip(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameOverTip model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 33. 游戏通知app玩家颜色（只支持友尽闯关）
+     * mg_common_game_player_color
+     */
+    default void onGameMGCommonGamePlayerColor(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGamePlayerColor model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 34. 游戏通知app玩家头像的坐标（只支持ludo）
+     * mg_common_game_player_icon_position
+     */
+    default void onGameMGCommonGamePlayerIconPosition(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGamePlayerIconPosition model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 35. 游戏通知app退出游戏（只支持teenpattipro 与 德州pro）
+     * mg_common_self_click_exit_game_btn
+     */
+    default void onGameMGCommonSelfClickExitGameBtn(ISudFSMStateHandle handle, SudMGPMGState.MGCommonSelfClickExitGameBtn model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 36. 游戏通知app是否要开启带入积分（只支持teenpattipro 与 德州pro）
+     * mg_common_game_is_app_chip
+     */
+    default void onGameMGCommonGameIsAppChip(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameIsAppChip model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 37. 游戏通知app当前游戏的设置信息（只支持德州pro，teenpatti pro）
+     * mg_common_game_rule
+     */
+    default void onGameMGCommonGameRule(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameRule model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 38. 游戏通知app进行玩法设置（只支持德州pro，teenpatti pro）
+     * mg_common_game_settings
+     */
+    default void onGameMGCommonGameSettings(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameSettings model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 39. 游戏通知app钱币不足（只支持德州pro，teenpatti pro）
+     * mg_common_game_money_not_enough
+     */
+    default void onGameMGCommonGameMoneyNotEnough(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameMoneyNotEnough model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 40. 游戏通知app下发定制ui配置表（只支持ludo）
+     * mg_common_game_ui_custom_config
+     */
+    default void onGameMGCommonGameUiCustomConfig(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameUiCustomConfig model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 41. 设置app提供给游戏可点击区域(赛车)
+     * mg_common_set_click_rect
+     */
+    default void onGameMGCommonSetClickRect(ISudFSMStateHandle handle, SudMGPMGState.MGCommonSetClickRect model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 42. 通知app提供对应uids列表玩家的数据(赛车)
+     * mg_common_users_info
+     */
+    default void onGameMGCommonUsersInfo(ISudFSMStateHandle handle, SudMGPMGState.MGCommonUsersInfo model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 43. 通知app游戏前期准备完成(赛车)
+     * mg_common_game_prepare_finish
+     */
+    default void onGameMGCommonGamePrepareFinish(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGamePrepareFinish model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 44. 通知app游戏主界面已显示(赛车)
+     * mg_common_show_game_scene
+     */
+    default void onGameMGCommonShowGameScene(ISudFSMStateHandle handle, SudMGPMGState.MGCommonShowGameScene model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 45. 通知app游戏主界面已隐藏(赛车)
+     * mg_common_hide_game_scene
+     */
+    default void onGameMGCommonHideGameScene(ISudFSMStateHandle handle, SudMGPMGState.MGCommonHideGameScene model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
     // endregion 游戏回调APP 通用状态
 
     // region 游戏回调APP 玩家状态

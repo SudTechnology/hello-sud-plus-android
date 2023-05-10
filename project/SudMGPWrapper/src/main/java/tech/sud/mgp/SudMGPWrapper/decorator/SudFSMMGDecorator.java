@@ -353,6 +353,158 @@ public class SudFSMMGDecorator implements ISudFSMMG {
                     listener.onGameMGCommonPlayerRoleId(handle, mgCommonPlayerRoleId);
                 }
                 break;
+            case SudMGPMGState.MG_COMMON_SELF_CLICK_POOP: // 27. 游戏通知app玩家被扔便便(你画我猜，你说我猜，友尽闯关有效)
+                SudMGPMGState.MGCommonSelfClickPoop mgCommonSelfClickPoop = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonSelfClickPoop.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGCommonSelfClickPoop(handle, mgCommonSelfClickPoop);
+                }
+                break;
+            case SudMGPMGState.MG_COMMON_SELF_CLICK_GOOD: // 28. 游戏通知app玩家被点赞(你画我猜，你说我猜，友尽闯关有效)
+                SudMGPMGState.MGCommonSelfClickGood mgCommonSelfClickGood = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonSelfClickGood.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGCommonSelfClickGood(handle, mgCommonSelfClickGood);
+                }
+                break;
+            case SudMGPMGState.MG_COMMON_GAME_FPS: // 29. 游戏通知app游戏FPS(仅对碰碰，多米诺骨牌，飞镖达人生效)
+                SudMGPMGState.MGCommonGameFps mgCommonGameFps = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonGameFps.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGCommonGameFps(handle, mgCommonGameFps);
+                }
+                break;
+            case SudMGPMGState.MG_COMMON_ALERT: // 30. 游戏通知app游戏弹框
+                SudMGPMGState.MGCommonAlert mgCommonAlert = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonAlert.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGCommonAlert(handle, mgCommonAlert);
+                }
+                break;
+            case SudMGPMGState.MG_COMMON_WORST_TEAMMATE: // 31. 游戏通知app最坑队友（只支持友尽闯关）
+                SudMGPMGState.MGCommonWorstTeammate mgCommonWorstTeammate = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonWorstTeammate.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGCommonWorstTeammate(handle, mgCommonWorstTeammate);
+                }
+                break;
+            case SudMGPMGState.MG_COMMON_GAME_OVER_TIP: // 32. 游戏通知app因玩家逃跑导致游戏结束（只支持友尽闯关）
+                SudMGPMGState.MGCommonGameOverTip mgCommonGameOverTip = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonGameOverTip.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGCommonGameOverTip(handle, mgCommonGameOverTip);
+                }
+                break;
+            case SudMGPMGState.MG_COMMON_GAME_PLAYER_COLOR: // 33. 游戏通知app玩家颜色（只支持友尽闯关）
+                SudMGPMGState.MGCommonGamePlayerColor mgCommonGamePlayerColor = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonGamePlayerColor.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGCommonGamePlayerColor(handle, mgCommonGamePlayerColor);
+                }
+                break;
+            case SudMGPMGState.MG_COMMON_GAME_PLAYER_ICON_POSITION: // 34. 游戏通知app玩家头像的坐标（只支持ludo）
+                SudMGPMGState.MGCommonGamePlayerIconPosition mgCommonGamePlayerIconPosition = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonGamePlayerIconPosition.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGCommonGamePlayerIconPosition(handle, mgCommonGamePlayerIconPosition);
+                }
+                break;
+            case SudMGPMGState.MG_COMMON_SELF_CLICK_EXIT_GAME_BTN: // 35. 游戏通知app退出游戏（只支持teenpattipro 与 德州pro）
+                SudMGPMGState.MGCommonSelfClickExitGameBtn mgCommonSelfClickExitGameBtn = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonSelfClickExitGameBtn.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGCommonSelfClickExitGameBtn(handle, mgCommonSelfClickExitGameBtn);
+                }
+                break;
+            case SudMGPMGState.MG_COMMON_GAME_IS_APP_CHIP: // 36. 游戏通知app是否要开启带入积分（只支持teenpattipro 与 德州pro）
+                SudMGPMGState.MGCommonGameIsAppChip mgCommonGameIsAppChip = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonGameIsAppChip.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGCommonGameIsAppChip(handle, mgCommonGameIsAppChip);
+                }
+                break;
+            case SudMGPMGState.MG_COMMON_GAME_RULE: // 37. 游戏通知app当前游戏的设置信息（只支持德州pro，teenpatti pro）
+                SudMGPMGState.MGCommonGameRule mgCommonGameRule = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonGameRule.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGCommonGameRule(handle, mgCommonGameRule);
+                }
+                break;
+            case SudMGPMGState.MG_COMMON_GAME_SETTINGS: // 38. 游戏通知app进行玩法设置（只支持德州pro，teenpatti pro）
+                SudMGPMGState.MGCommonGameSettings mgCommonGameSettings = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonGameSettings.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGCommonGameSettings(handle, mgCommonGameSettings);
+                }
+                break;
+            case SudMGPMGState.MG_COMMON_GAME_MONEY_NOT_ENOUGH: // 39. 游戏通知app钱币不足（只支持德州pro，teenpatti pro）
+                SudMGPMGState.MGCommonGameMoneyNotEnough mgCommonGameMoneyNotEnough = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonGameMoneyNotEnough.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGCommonGameMoneyNotEnough(handle, mgCommonGameMoneyNotEnough);
+                }
+                break;
+            case SudMGPMGState.MG_COMMON_GAME_UI_CUSTOM_CONFIG: // 40. 游戏通知app下发定制ui配置表（只支持ludo）
+                SudMGPMGState.MGCommonGameUiCustomConfig mgCommonGameUiCustomConfig = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonGameUiCustomConfig.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGCommonGameUiCustomConfig(handle, mgCommonGameUiCustomConfig);
+                }
+                break;
+            case SudMGPMGState.MG_COMMON_SET_CLICK_RECT: // 41. 设置app提供给游戏可点击区域(赛车)
+                SudMGPMGState.MGCommonSetClickRect mgCommonSetClickRect = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonSetClickRect.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGCommonSetClickRect(handle, mgCommonSetClickRect);
+                }
+                break;
+            case SudMGPMGState.MG_COMMON_USERS_INFO: // 42. 通知app提供对应uids列表玩家的数据(赛车)
+                SudMGPMGState.MGCommonUsersInfo mgCommonUsersInfo = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonUsersInfo.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGCommonUsersInfo(handle, mgCommonUsersInfo);
+                }
+                break;
+            case SudMGPMGState.MG_COMMON_GAME_PREPARE_FINISH: // 43. 通知app游戏前期准备完成(赛车)
+                SudMGPMGState.MGCommonGamePrepareFinish mgCommonGamePrepareFinish = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonGamePrepareFinish.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGCommonGamePrepareFinish(handle, mgCommonGamePrepareFinish);
+                }
+                break;
+            case SudMGPMGState.MG_COMMON_SHOW_GAME_SCENE: // 44. 通知app游戏主界面已显示(赛车)
+                SudMGPMGState.MGCommonShowGameScene mgCommonShowGameScene = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonShowGameScene.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGCommonShowGameScene(handle, mgCommonShowGameScene);
+                }
+                break;
+            case SudMGPMGState.MG_COMMON_HIDE_GAME_SCENE: // 45. 通知app游戏主界面已隐藏(赛车)
+                SudMGPMGState.MGCommonHideGameScene mgCommonHideGameScene = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonHideGameScene.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGCommonHideGameScene(handle, mgCommonHideGameScene);
+                }
+                break;
             case SudMGPMGState.MG_COMMON_GAME_DISCO_ACTION: // 1. 元宇宙砂砂舞指令回调
                 SudMGPMGState.MGCommonGameDiscoAction mgCommonGameDiscoAction = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonGameDiscoAction.class);
                 if (listener == null) {

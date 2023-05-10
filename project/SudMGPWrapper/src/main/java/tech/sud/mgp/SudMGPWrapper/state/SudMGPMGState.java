@@ -528,6 +528,255 @@ public class SudMGPMGState implements Serializable {
             public int roleId; // 角色id
         }
     }
+
+    /**
+     * 27. 游戏通知app玩家被扔便便(你画我猜，你说我猜，友尽闯关有效)
+     */
+    public static final String MG_COMMON_SELF_CLICK_POOP = "mg_common_self_click_poop";
+
+    /**
+     * 27. 游戏通知app玩家被扔便便(你画我猜，你说我猜，友尽闯关有效) 模型
+     */
+    public static class MGCommonSelfClickPoop implements Serializable {
+    }
+
+    /**
+     * 28. 游戏通知app玩家被点赞(你画我猜，你说我猜，友尽闯关有效)
+     */
+    public static final String MG_COMMON_SELF_CLICK_GOOD = "mg_common_self_click_good";
+
+    /**
+     * 28. 游戏通知app玩家被点赞(你画我猜，你说我猜，友尽闯关有效) 模型
+     */
+    public static class MGCommonSelfClickGood implements Serializable {
+    }
+
+    /**
+     * 29. 游戏通知app游戏FPS(仅对碰碰，多米诺骨牌，飞镖达人生效)
+     */
+    public static final String MG_COMMON_GAME_FPS = "mg_common_game_fps";
+
+    /**
+     * 29. 游戏通知app游戏FPS(仅对碰碰，多米诺骨牌，飞镖达人生效) 模型
+     */
+    public static class MGCommonGameFps implements Serializable {
+        public int fps;
+    }
+
+    /**
+     * 30. 游戏通知app游戏弹框
+     */
+    public static final String MG_COMMON_ALERT = "mg_common_alert";
+
+    /**
+     * 30. 游戏通知app游戏弹框 模型
+     */
+    public static class MGCommonAlert implements Serializable {
+        public String state; // show:显示，close:关闭
+    }
+
+    /**
+     * 31. 游戏通知app最坑队友（只支持友尽闯关）
+     */
+    public static final String MG_COMMON_WORST_TEAMMATE = "mg_common_worst_teammate";
+
+    /**
+     * 31. 游戏通知app最坑队友（只支持友尽闯关） 模型
+     */
+    public static class MGCommonWorstTeammate implements Serializable {
+        public String uid; // 最坑队友的uid
+    }
+
+    /**
+     * 32. 游戏通知app因玩家逃跑导致游戏结束（只支持友尽闯关）
+     */
+    public static final String MG_COMMON_GAME_OVER_TIP = "mg_common_game_over_tip";
+
+    /**
+     * 32. 游戏通知app因玩家逃跑导致游戏结束（只支持友尽闯关） 模型
+     */
+    public static class MGCommonGameOverTip implements Serializable {
+        public List<String> uids; // 逃跑玩家的uid数组
+    }
+
+    /**
+     * 33. 游戏通知app玩家颜色（只支持友尽闯关）
+     */
+    public static final String MG_COMMON_GAME_PLAYER_COLOR = "mg_common_game_player_color";
+
+    /**
+     * 33. 游戏通知app玩家颜色（只支持友尽闯关） 模型
+     */
+    public static class MGCommonGamePlayerColor implements Serializable {
+        public List<PlayerColorModel> players;
+
+        public static class PlayerColorModel {
+            public String uid; // 用户id
+            public int color; // color:1是粉色，2是紫色，3是绿色，4是蓝色，5是黄色，6是橙色
+        }
+    }
+
+    /**
+     * 34. 游戏通知app玩家头像的坐标（只支持ludo）
+     */
+    public static final String MG_COMMON_GAME_PLAYER_ICON_POSITION = "mg_common_game_player_icon_position";
+
+    /**
+     * 34. 游戏通知app玩家头像的坐标（只支持ludo） 模型
+     */
+    public static class MGCommonGamePlayerIconPosition implements Serializable {
+        public String uid;
+        public PlayerIconPositionModel position;
+
+        public static class PlayerIconPositionModel {
+            // 头像坐标和宽高，坐标为头像中心
+            public double x;
+            public double y;
+            public double width;
+            public double height;
+        }
+    }
+
+    /**
+     * 35. 游戏通知app退出游戏（只支持teenpattipro 与 德州pro）
+     */
+    public static final String MG_COMMON_SELF_CLICK_EXIT_GAME_BTN = "mg_common_self_click_exit_game_btn";
+
+    /**
+     * 35. 游戏通知app退出游戏（只支持teenpattipro 与 德州pro） 模型
+     */
+    public static class MGCommonSelfClickExitGameBtn implements Serializable {
+    }
+
+    /**
+     * 36. 游戏通知app是否要开启带入积分（只支持teenpattipro 与 德州pro）
+     */
+    public static final String MG_COMMON_GAME_IS_APP_CHIP = "mg_common_game_is_app_chip";
+
+    /**
+     * 36. 游戏通知app是否要开启带入积分（只支持teenpattipro 与 德州pro） 模型
+     */
+    public static class MGCommonGameIsAppChip implements Serializable {
+        public int isAppChip; // 0:不开启，1：开启
+    }
+
+    /**
+     * 37. 游戏通知app当前游戏的设置信息（只支持德州pro，teenpatti pro）
+     */
+    public static final String MG_COMMON_GAME_RULE = "mg_common_game_rule";
+
+    /**
+     * 37. 游戏通知app当前游戏的设置信息（只支持德州pro，teenpatti pro） 模型
+     */
+    public static class MGCommonGameRule implements Serializable {
+        public GameRuleModel gameMode;
+
+        // 德州与teenpatti的结构融合在一起
+        public static class GameRuleModel {
+            public Integer smallBlind; // 小盲
+            public Integer ante; // 前注
+            public Integer isStraddle; // 0：关闭，1自由，2强制
+            public Integer sBuyIn; // 带入值/最小带入配置
+            public Integer bBuyIn; // 最大带入，无限（0）
+            public Integer isAutoStart; // 是否自动开始
+            public Double tableDuration; // 牌桌时长配置（小时）
+            public Integer thinkTime; // 思考时间（秒）
+            public Integer darkCard; // 暗牌回合
+            public Integer potLimit; // 最大带入
+            public Integer round; // 最大回合
+            public Integer singleLimit; // 单注限
+        }
+    }
+
+    /**
+     * 38. 游戏通知app进行玩法设置（只支持德州pro，teenpatti pro）
+     */
+    public static final String MG_COMMON_GAME_SETTINGS = "mg_common_game_settings";
+
+    /**
+     * 38. 游戏通知app进行玩法设置（只支持德州pro，teenpatti pro） 模型
+     */
+    public static class MGCommonGameSettings implements Serializable {
+    }
+
+    /**
+     * 39. 游戏通知app钱币不足（只支持德州pro，teenpatti pro）
+     */
+    public static final String MG_COMMON_GAME_MONEY_NOT_ENOUGH = "mg_common_game_money_not_enough";
+
+    /**
+     * 39. 游戏通知app钱币不足（只支持德州pro，teenpatti pro） 模型
+     */
+    public static class MGCommonGameMoneyNotEnough implements Serializable {
+    }
+
+    /**
+     * 40. 游戏通知app下发定制ui配置表（只支持ludo）
+     */
+    public static final String MG_COMMON_GAME_UI_CUSTOM_CONFIG = "mg_common_game_ui_custom_config";
+
+    /**
+     * 40. 游戏通知app下发定制ui配置表（只支持ludo） 模型
+     */
+    public static class MGCommonGameUiCustomConfig implements Serializable {
+    }
+
+    /**
+     * 41. 设置app提供给游戏可点击区域(赛车)
+     */
+    public static final String MG_COMMON_SET_CLICK_RECT = "mg_common_set_click_rect";
+
+    /**
+     * 41. 设置app提供给游戏可点击区域(赛车) 模型
+     */
+    public static class MGCommonSetClickRect implements Serializable {
+        public List<InteractionClickRect> list; // 游戏的点击区域
+    }
+
+    /**
+     * 42. 通知app提供对应uids列表玩家的数据(赛车)
+     */
+    public static final String MG_COMMON_USERS_INFO = "mg_common_users_info";
+
+    /**
+     * 42. 通知app提供对应uids列表玩家的数据(赛车) 模型
+     */
+    public static class MGCommonUsersInfo implements Serializable {
+        public List<String> uids;
+    }
+
+    /**
+     * 43. 通知app游戏前期准备完成(赛车)
+     */
+    public static final String MG_COMMON_GAME_PREPARE_FINISH = "mg_common_game_prepare_finish";
+
+    /**
+     * 43. 通知app游戏前期准备完成(赛车) 模型
+     */
+    public static class MGCommonGamePrepareFinish implements Serializable {
+    }
+
+    /**
+     * 44. 通知app游戏主界面已显示(赛车)
+     */
+    public static final String MG_COMMON_SHOW_GAME_SCENE = "mg_common_show_game_scene";
+
+    /**
+     * 44. 通知app游戏主界面已显示(赛车) 模型
+     */
+    public static class MGCommonShowGameScene implements Serializable {
+    }
+
+    /**
+     * 45. 通知app游戏主界面已隐藏(赛车)
+     */
+    public static final String MG_COMMON_HIDE_GAME_SCENE = "mg_common_hide_game_scene";
+
+    /**
+     * 45. 通知app游戏主界面已隐藏(赛车) 模型
+     */
+    public static class MGCommonHideGameScene implements Serializable {
+    }
     // endregion 通用状态-游戏
 
     // region MG状态机-通用状态-玩家

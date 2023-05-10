@@ -15,7 +15,6 @@ import com.blankj.utilcode.util.Utils;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
@@ -34,12 +33,12 @@ import tech.sud.mgp.hello.service.main.resp.UserInfoListResp;
 import tech.sud.mgp.hello.service.main.resp.UserInfoResp;
 import tech.sud.mgp.hello.ui.common.utils.FilePath;
 import tech.sud.mgp.hello.ui.main.base.constant.GameIdCons;
-import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
+import tech.sud.mgp.hello.ui.scenes.base.viewmodel.InteractionGameViewModel;
 
 /**
  * 带火箭动效房间的游戏逻辑
  */
-public class RocketGameViewModel extends AppGameViewModel {
+public class RocketGameViewModel extends InteractionGameViewModel {
 
     public FragmentActivity fragmentActivity;
     public long roomId;
@@ -602,20 +601,6 @@ public class RocketGameViewModel extends AppGameViewModel {
         userInfo.sex = -1;
         userInfo.url = userInfoResp.getUseAvatar();
         return userInfo;
-    }
-
-    @Override
-    public void switchGame(FragmentActivity activity, String gameRoomId, long gameId, int loadMGMode, String authorizationSecret) {
-        if (!isRunning) {
-            return;
-        }
-        if (playingGameId == gameId && Objects.equals(this.gameRoomId, gameRoomId)) {
-            return;
-        }
-        destroyMG();
-        this.gameRoomId = gameRoomId;
-        playingGameId = gameId;
-        login(activity, gameId, loadMGMode, authorizationSecret);
     }
 
     @Override

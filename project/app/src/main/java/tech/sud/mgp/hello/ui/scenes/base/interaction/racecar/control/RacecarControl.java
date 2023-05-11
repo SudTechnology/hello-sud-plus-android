@@ -18,9 +18,13 @@ import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.core.SudMGP;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
+import tech.sud.mgp.hello.common.http.param.BaseResponse;
+import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.utils.permission.PermissionFragment;
 import tech.sud.mgp.hello.common.utils.permission.SudPermissionUtils;
+import tech.sud.mgp.hello.service.game.repository.GameRepository;
+import tech.sud.mgp.hello.service.game.req.CreateOrderReq;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.main.repository.UserInfoRepository;
 import tech.sud.mgp.hello.service.main.resp.GetAccountResp;
@@ -115,6 +119,42 @@ public class RacecarControl extends BaseInteractionControl {
         gameViewModel.onGameGetScoreLiveData.observe(activity, (o) -> {
             onGameGetScore();
         });
+        gameViewModel.gameCreateOrderLiveData.observe(activity, this::onGameCreateOrder);
+    }
+
+    /** 游戏回调，创建订单 */
+    private void onGameCreateOrder(SudMGPMGState.MGCommonGameCreateOrder model) {
+        if (model == null) {
+            return;
+        }
+        try {
+            CreateOrderReq req = new CreateOrderReq();
+            req.setCreateOrderValues(model);
+            req.gameId = gameViewModel.getPlayingGameId();
+            req.roomId = gameViewModel.getGameRoomId();
+            GameRepository.createOrder(activity, req, new RxCallback<Object>() {
+                @Override
+                public void onNext(BaseResponse<Object> t) {
+                    super.onNext(t);
+                    sendCallbackToGame(t.getRetCode() == RetCode.SUCCESS);
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    super.onError(e);
+                    sendCallbackToGame(false);
+                }
+
+                private void sendCallbackToGame(boolean isSuccess) {
+                    SudMGPAPPState.APPCommonGameCreateOrderResult model = new SudMGPAPPState.APPCommonGameCreateOrderResult();
+                    model.result = isSuccess ? 1 : 0;
+                    gameViewModel.notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_CREATE_ORDER_RESULT, model);
+                }
+
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void onGameGetScore() {

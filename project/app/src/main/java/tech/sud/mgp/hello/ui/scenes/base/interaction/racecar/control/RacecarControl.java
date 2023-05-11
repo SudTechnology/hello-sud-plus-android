@@ -18,9 +18,12 @@ import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.core.SudMGP;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
+import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.utils.permission.PermissionFragment;
 import tech.sud.mgp.hello.common.utils.permission.SudPermissionUtils;
+import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.main.repository.UserInfoRepository;
+import tech.sud.mgp.hello.service.main.resp.GetAccountResp;
 import tech.sud.mgp.hello.service.main.resp.UserInfoResp;
 import tech.sud.mgp.hello.ui.common.dialog.LoadingDialog;
 import tech.sud.mgp.hello.ui.main.base.constant.GameIdCons;
@@ -109,6 +112,21 @@ public class RacecarControl extends BaseInteractionControl {
             gameContainer.setClickRectList(list);
         });
         gameViewModel.gameGetUserInfoListLiveData.observe(activity, this::onGameGetUserInfoList);
+        gameViewModel.onGameGetScoreLiveData.observe(activity, (o) -> {
+            onGameGetScore();
+        });
+    }
+
+    private void onGameGetScore() {
+        HomeRepository.getAccount(activity, new RxCallback<GetAccountResp>() {
+            @Override
+            public void onSuccess(GetAccountResp resp) {
+                super.onSuccess(resp);
+                if (resp != null) {
+                    gameViewModel.sudFSTAPPDecorator.notifyAPPCommonGameScore(resp.coin);
+                }
+            }
+        });
     }
 
     private void onGameGetUserInfoList(SudMGPMGState.MGCommonUsersInfo model) {

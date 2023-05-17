@@ -6,7 +6,7 @@ android {
     compileSdkVersion project.compileSdkVersion
 
     defaultConfig {
-        applicationId "tech.sud.mgp.hello"
+        applicationId project.mainApplicationId
         minSdkVersion project.minSdkVersion
         targetSdkVersion project.targetSdkVersion
         versionCode Integer.parseInt(project.versionCode)
@@ -76,6 +76,7 @@ android {
             buildConfigField("boolean", "gameIsTestEnv", project.gameIsTestEnv)
             buildConfigField("String", "nftEnv", "\"" + project.nftEnv + "\"")
             buildConfigField("String", "mgpEnv", "\"" + project.mgpEnv + "\"")
+            buildConfigField("boolean", "nftSwitch", project.nftSwitch)
         }
     }
 }

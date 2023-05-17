@@ -76,6 +76,7 @@ platform :android do
         gameBaseUrl=options[:gameBaseUrl]
         buglyAppId=options[:buglyAppId]
         gameIsTestEnv=options[:gameIsTestEnv]
+        mainApplicationId=options[:mainApplicationId]
         puts versionCode
         # outputDir = parentOutputDir + "/fat/" + versionCode
         # puts outputDir
@@ -94,7 +95,9 @@ platform :android do
                 "interactBaseUrl" => interactBaseUrl,
                 "gameBaseUrl" => gameBaseUrl,
                 "buglyAppId" => buglyAppId,
-                "gameIsTestEnv" => gameIsTestEnv
+                "gameIsTestEnv" => gameIsTestEnv,
+                "mainApplicationId" => mainApplicationId,
+                "nftSwitch" => nftSwitch
             }
         )
     end

@@ -32,6 +32,9 @@ ext {
 
     nftEnv = "sim"
     mgpEnv = "sim"
+
+    mainApplicationId = "tech.sud.mgp.hello"
+    nftSwitch = "true"
 }
 
 allprojects {

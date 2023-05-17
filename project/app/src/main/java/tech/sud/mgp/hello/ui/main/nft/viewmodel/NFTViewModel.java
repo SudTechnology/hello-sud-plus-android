@@ -11,6 +11,7 @@ import com.blankj.utilcode.util.ToastUtils;
 import java.util.List;
 
 import tech.sud.mgp.SudMGPWrapper.utils.SudJsonUtils;
+import tech.sud.mgp.hello.BuildConfig;
 import tech.sud.mgp.hello.app.APPConfig;
 import tech.sud.mgp.hello.common.base.BaseViewModel;
 import tech.sud.mgp.hello.common.http.param.RetCode;
@@ -455,6 +456,11 @@ public class NFTViewModel extends BaseViewModel {
     }
 
     public void initNFT(Context context, ISudNFTListenerInitNFT listener) {
+        if (!BuildConfig.nftSwitch) {
+            LogUtils.d("NFT开关未打开，不执行NFT业务");
+            return;
+        }
+
         SudConfig sudConfig = AppData.getInstance().getSudConfig();
         if (sudConfig == null || sudConfig.appId == null || sudConfig.appKey == null) {
             if (listener != null) {

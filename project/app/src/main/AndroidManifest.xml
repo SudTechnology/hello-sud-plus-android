@@ -21,10 +21,10 @@
 
     <!-- 下面的 uses-permission 一起加入到你的 AndroidManifest 文件中。 -->
     <permission
-        android:name="tech.sud.mgp.hello.permission.RECEIVE_MSG"
+        android:name="${applicationId}.permission.RECEIVE_MSG"
         android:protectionLevel="signature" />
 
-    <uses-permission android:name="tech.sud.mgp.hello.permission.RECEIVE_MSG" />
+    <uses-permission android:name="${applicationId}.permission.RECEIVE_MSG" />
 
     <application
         android:name=".app.HelloSudApplication"
@@ -392,7 +392,7 @@
         <!-- 云信进程间通信provider -->
         <provider
             android:name="com.netease.nimlib.ipc.NIMContentProvider"
-            android:authorities="tech.sud.mgp.hello.ipc.provider"
+            android:authorities="${applicationId}.ipc.provider"
             android:exported="false"
             android:process=":core" />
 
@@ -400,7 +400,7 @@
         <!-- SDK启动时会强制检测该组件的声明是否配置正确，如果检测到该声明不正确，SDK会主动抛出异常引发崩溃 -->
         <provider
             android:name="com.netease.nimlib.ipc.cp.provider.PreferenceContentProvider"
-            android:authorities="tech.sud.mgp.hello.ipc.provider.preference"
+            android:authorities="${applicationId}.ipc.provider.preference"
             android:exported="false" />
 
         <!-- 房间服务 -->

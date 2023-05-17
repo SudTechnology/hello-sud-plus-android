@@ -35,6 +35,8 @@ platform :android do
         interactBaseUrl=options[:interactBaseUrl]
         gameBaseUrl=options[:gameBaseUrl]
         buildType=options[:buildType]
+        mainApplicationId=options[:mainApplicationId]
+        nftSwitch=options[:nftSwitch]
         puts versionCode
         if moduleName.nil? || moduleName.empty?
             puts "moduleName is empty"
@@ -62,7 +64,9 @@ platform :android do
                 "baseUrl" => baseUrl,
                 "interactBaseUrl" => interactBaseUrl,
                 "gameBaseUrl" => gameBaseUrl,
-                "baseUrlConfig" => baseUrlConfig
+                "baseUrlConfig" => baseUrlConfig,
+                "mainApplicationId" => mainApplicationId,
+                "nftSwitch" => nftSwitch
             }
         )
     end
@@ -77,6 +81,7 @@ platform :android do
         buglyAppId=options[:buglyAppId]
         gameIsTestEnv=options[:gameIsTestEnv]
         mainApplicationId=options[:mainApplicationId]
+        nftSwitch=options[:nftSwitch]
         puts versionCode
         # outputDir = parentOutputDir + "/fat/" + versionCode
         # puts outputDir

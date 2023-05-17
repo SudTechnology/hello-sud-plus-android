@@ -82,6 +82,7 @@ platform :android do
         gameIsTestEnv=options[:gameIsTestEnv]
         mainApplicationId=options[:mainApplicationId]
         nftSwitch=options[:nftSwitch]
+        jksPropertyPath=options[:jksPropertyPath]
         puts versionCode
         # outputDir = parentOutputDir + "/fat/" + versionCode
         # puts outputDir
@@ -92,7 +93,7 @@ platform :android do
             print_command: true,
             properties: {
                 "versionCode" => versionCode,
-                "jksPropertyPath" => "../../../../../../../certs/hellosud/hellosud_jks_release.properties",
+                "jksPropertyPath" => jksPropertyPath,
                 "baseUrlConfig" => "pro",
                 "nftEnv" => "pro",
                 "mgpEnv" => "pro",

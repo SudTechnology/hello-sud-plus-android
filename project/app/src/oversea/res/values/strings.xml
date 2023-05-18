@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="names_list">
+        <item>Sparkle</item>
+        <item>Joy</item>
+        <item>Sunshine</item>
+        <item>Dreamer</item>
+        <item>Breezy</item>
+        <item>Melody</item>
+        <item>Bliss</item>
+        <item>Smiley</item>
+        <item>Happy</item>
+        <item>Angel</item>
+        <item>Radiant</item>
+        <item>Playful</item>
+        <item>Sweetie</item>
+        <item>Whisper</item>
+        <item>Enchant</item>
+        <item>Cherish</item>
+        <item>Wander</item>
+        <item>Serene</item>
+        <item>Dazzle</item>
+        <item>Jolly</item>
+        <item>Magic</item>
+        <item>Blossom</item>
+        <item>Lucky</item>
+        <item>Twinkle</item>
+        <item>Giggly</item>
+        <item>Harmony</item>
+        <item>Sunny</item>
+        <item>Delight</item>
+        <item>Euphoria</item>
+        <item>Serenade</item>
+        <item>Captivate</item>
+        <item>Luna</item>
+        <item>Vivid</item>
+        <item>Ecstasy</item>
+        <item>Zephyr</item>
+        <item>Lively</item>
+        <item>Jubilant</item>
+        <item>Aurora</item>
+        <item>Radiate</item>
+        <item>Enchanted</item>
+        <item>Mellow</item>
+        <item>Cheer</item>
+        <item>Enthrall</item>
+        <item>Blissful</item>
+        <item>Tender</item>
+        <item>Whimsy</item>
+        <item>Zest</item>
+        <item>Savor</item>
+        <item>Rapture</item>
+        <item>Frolic</item>
+    </string-array>
+</resources>

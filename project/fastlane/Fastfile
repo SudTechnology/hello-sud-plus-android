@@ -35,8 +35,7 @@ platform :android do
         interactBaseUrl=options[:interactBaseUrl]
         gameBaseUrl=options[:gameBaseUrl]
         buildType=options[:buildType]
-        mainApplicationId=options[:mainApplicationId]
-        nftSwitch=options[:nftSwitch]
+        flavor=options[:flavor]
         puts versionCode
         if moduleName.nil? || moduleName.empty?
             puts "moduleName is empty"
@@ -55,7 +54,7 @@ platform :android do
         gradle(
             task: ":" + moduleName + ":assemble",
             build_type:buildType,
-            flavor:"official",
+            flavor:flavor,
             print_command: true,
             properties: {
                 "versionCode" => versionCode,
@@ -64,9 +63,7 @@ platform :android do
                 "baseUrl" => baseUrl,
                 "interactBaseUrl" => interactBaseUrl,
                 "gameBaseUrl" => gameBaseUrl,
-                "baseUrlConfig" => baseUrlConfig,
-                "mainApplicationId" => mainApplicationId,
-                "nftSwitch" => nftSwitch
+                "baseUrlConfig" => baseUrlConfig
             }
         )
     end
@@ -80,16 +77,15 @@ platform :android do
         gameBaseUrl=options[:gameBaseUrl]
         buglyAppId=options[:buglyAppId]
         gameIsTestEnv=options[:gameIsTestEnv]
-        mainApplicationId=options[:mainApplicationId]
-        nftSwitch=options[:nftSwitch]
         jksPropertyPath=options[:jksPropertyPath]
+        flavor=options[:flavor]
         puts versionCode
         # outputDir = parentOutputDir + "/fat/" + versionCode
         # puts outputDir
         gradle(
             task: ":app:assemble",
             build_type:"Release",
-            flavor:"official",
+            flavor:flavor,
             print_command: true,
             properties: {
                 "versionCode" => versionCode,
@@ -101,9 +97,7 @@ platform :android do
                 "interactBaseUrl" => interactBaseUrl,
                 "gameBaseUrl" => gameBaseUrl,
                 "buglyAppId" => buglyAppId,
-                "gameIsTestEnv" => gameIsTestEnv,
-                "mainApplicationId" => mainApplicationId,
-                "nftSwitch" => nftSwitch
+                "gameIsTestEnv" => gameIsTestEnv
             }
         )
     end

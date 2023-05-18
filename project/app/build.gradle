@@ -77,6 +77,7 @@ android {
             buildConfigField("String", "nftEnv", "\"" + project.nftEnv + "\"")
             buildConfigField("String", "mgpEnv", "\"" + project.mgpEnv + "\"")
             buildConfigField("boolean", "nftSwitch", project.nftSwitch)
+            manifestPlaceholders.put("mainAppName", project.mainAppName)
         }
     }
 }

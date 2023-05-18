@@ -35,6 +35,7 @@ ext {
 
     mainApplicationId = "tech.sud.mgp.hello"
     nftSwitch = "true"
+    mainAppName = "HelloSud"
 }
 
 allprojects {

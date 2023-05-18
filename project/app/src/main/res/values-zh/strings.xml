@@ -370,4 +370,9 @@
     <string name="disco_explain_top_5">前五</string>
     <string name="disco_explain_1">1. 贡献榜%1$s随机当DJ（%2$s秒刷新）。</string>
     <string name="waiting">等待中</string>
+    <string name="add_robot">添加机器人</string>
+    <string name="go_rocket_stage">正在前往火箭台…</string>
+    <string name="go_baseball_stage">正在前往棒球…</string>
+    <string name="mine">我的</string>
+    <string name="about_us">关于我们</string>
 </resources>

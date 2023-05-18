@@ -548,10 +548,8 @@ Go to homepage to create one~</string>
     <string name="disco_explain_2">2. 送礼可与主播跳舞、或触发不同的效果。</string>
     <string name="disco_explain_3">3. 麦上用户发送【%1$s】可触发特写。</string>
     <string name="please_select_anchor">请选择主播</string>
-    <string name="add_robot">添加机器人</string>
     <string name="kick_out_room">踢出房间</string>
     <string name="connect_your_wallet">连接账户，同步你的NFT或数字藏品</string>
-    <string name="about_us">关于我们</string>
     <string name="more">更多</string>
     <string name="pack_up">收起</string>
     <string name="owned_nft">我的NFT</string>
@@ -564,7 +562,6 @@ Go to homepage to create one~</string>
     <string name="copy">复制</string>
     <string name="wear">穿戴</string>
     <string name="cancel_wear">取消穿戴</string>
-    <string name="mine">我的</string>
     <string name="connect_failed">连接失败</string>
     <string name="refuse_wallet_operate">你拒绝了钱包中的操作</string>
     <string name="dressed_in">穿戴中</string>
@@ -653,8 +650,6 @@ Go to homepage to create one~</string>
     <string name="go_custom">去定制</string>
     <string name="choose_the_recipient">选择收礼人</string>
     <string name="confirm_fire_price">确认发射(%1$s金币)</string>
-    <string name="go_rocket_stage">正在前往火箭台…</string>
-    <string name="go_baseball_stage">正在前往棒球…</string>
     <string name="component_lock_title">该商品锁定中，是否解锁？</string>
     <string name="quicken">加速</string>
     <string name="room_list">房间列表</string>
@@ -663,5 +658,13 @@ Go to homepage to create one~</string>
     <string name="baseball_consume_title">是否花费%1$s金币打%2$s次</string>
     <string name="affirm">确认</string>
     <!-- endregion 新增 -->
+
+    <!-- region 只翻译了英语 -->
+    <string name="add_robot">Add Robot</string>
+    <string name="go_rocket_stage">Turn on the rocket…</string>
+    <string name="go_baseball_stage">Turn on the baseball…</string>
+    <string name="mine">my</string>
+    <string name="about_us">About</string>
+    <!-- endregion 只翻译了英语 -->
 
 </resources>

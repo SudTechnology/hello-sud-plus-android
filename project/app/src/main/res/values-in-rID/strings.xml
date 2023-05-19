@@ -278,6 +278,8 @@ Buat ruangan di Beranda</string>
     <string name="quiz_bet_title">Berapa banyak dukungan yang ingin kamu berikan?</string>
     <string name="quiz_bet_hint">Bertaruh lebih banyak dan dapatkan poin lebih banyak</string>
     <string name="support_now">Dukung sekarang</string>
+    <string name="gold_coin">koin emas</string>
+    <string name="ranking_of_quiz">Menebak Raja</string>
     <string name="ranking_of_big_god">Daftar Peringkat Master</string>
     <string name="ranking_of_day">harian</string>
     <string name="ranking_of_week">mingguan</string>

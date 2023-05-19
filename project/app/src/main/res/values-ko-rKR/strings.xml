@@ -348,6 +348,7 @@
     <string name="feature">클로즈업</string>
     <string name="effect">특효</string>
     <string name="dancing_minute_count">%1$s분간 댄싱</string>
+    <string name="dance_top">춤을 추기 위해 줄을 서다</string>
     <string name="send_gift_title">내가 증정한것은 %1$s개【%2$s】</string>
     <string name="stage_menu">무대 프로그램</string>
     <string name="invite_dance_info">%1$s를 초청하여%2$s분간 댄싱</string>

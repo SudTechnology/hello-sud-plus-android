@@ -316,7 +316,7 @@ Go to homepage to create one~</string>
     <string name="renew_pk">Again</string>
     <string name="open_room_pk">Turn on cross-room gaming</string>
     <string name="start_pk">Start the competiton</string>
-    <string name="pk_settings">Set up</string>
+    <string name="pk_settings">Settings</string>
     <string name="select_game_hint">Please select a game to battle</string>
     <string name="loading">Loading&#8230;</string>
     <string name="load_failed">Loading failed, please click here to try again</string>

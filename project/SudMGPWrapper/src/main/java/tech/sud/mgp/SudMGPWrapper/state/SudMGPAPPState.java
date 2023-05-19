@@ -869,6 +869,32 @@ public class SudMGPAPPState implements Serializable {
     }
 
     /**
+     * 22. 颜色和签名自定义改到装配间的模式，保存颜色或签名回调
+     */
+    public static final String APP_CUSTOM_ROCKET_SAVE_SIGN_COLOR = "app_custom_rocket_save_sign_color";
+
+    /**
+     * 22. 颜色和签名自定义改到装配间的模式，保存颜色或签名回调 模型
+     */
+    public static final class AppCustomRocketSaveSignColor implements Serializable {
+        public int resultCode; // 0: 请求成功，1：请求失败
+        public String error; // 错误描述
+        public Data data; // 数据
+
+        public static class Data {
+            public List<ComponentModel> componentList;
+        }
+
+        public static class ComponentModel {
+            public String itemId; // 唯一标识
+            public int type; // 签名
+            public String value; // 签名的值
+            public int isForever; // 永久：0非永久 1永久
+            public long validTime; // 有效期时间戳：单位是秒
+        }
+    }
+
+    /**
      * 定制火箭，用户信息 模型
      */
     public static class CustomRocketUserInfoModel {

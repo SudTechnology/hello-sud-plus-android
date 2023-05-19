@@ -491,6 +491,34 @@ public class RocketGameViewModel extends InteractionGameViewModel {
     }
 
     /**
+     * 25. 颜色和签名自定义改到装配间的模式，保存颜色或签名
+     * mg_custom_rocket_save_sign_color
+     */
+    @Override
+    public void onGameMGCustomRocketSaveSignColor(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketSaveSignColor model) {
+        super.onGameMGCustomRocketSaveSignColor(handle, model);
+        SudMGPAPPState.AppCustomRocketSaveSignColor resp = new SudMGPAPPState.AppCustomRocketSaveSignColor();
+        GameRepository.rocketSaveSignColor(fragmentActivity, model, new RxCallback<SudMGPAPPState.AppCustomRocketSaveSignColor.Data>() {
+            @Override
+            public void onNext(BaseResponse<SudMGPAPPState.AppCustomRocketSaveSignColor.Data> t) {
+                super.onNext(t);
+                resp.resultCode = t.getRetCode();
+                resp.error = t.getRetMsg();
+                resp.data = t.getData();
+                notifyStateChange(SudMGPAPPState.APP_CUSTOM_ROCKET_SAVE_SIGN_COLOR, resp);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                resp.resultCode = RetCode.FAIL;
+                resp.error = e.toString();
+                notifyStateChange(SudMGPAPPState.APP_CUSTOM_ROCKET_SAVE_SIGN_COLOR, resp);
+            }
+        });
+    }
+
+    /**
      * 22. 火箭效果飞行点击(火箭)
      * mg_custom_rocket_fly_click
      */

@@ -282,6 +282,20 @@ public class GameRepository {
                 .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }
+
+    /**
+     * 保存颜色或签名
+     *
+     * @param owner    生命周期对象
+     * @param req      请求参数
+     * @param callback 回调
+     */
+    public static void rocketSaveSignColor(LifecycleOwner owner, SudMGPMGState.MGCustomRocketSaveSignColor req, RxCallback<SudMGPAPPState.AppCustomRocketSaveSignColor.Data> callback) {
+        GameRequestMethodFactory.getMethod()
+                .rocketSaveSignColor(BaseUrlManager.getGameBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
     // endregion 火箭
 
     // region 棒球

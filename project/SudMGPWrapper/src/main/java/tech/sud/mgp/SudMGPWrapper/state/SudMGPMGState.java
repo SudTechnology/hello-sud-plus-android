@@ -1391,6 +1391,24 @@ public class SudMGPMGState implements Serializable {
     public static final class MGCustomRocketSetClickRect implements Serializable {
         public List<InteractionClickRect> list; // 游戏的点击区域
     }
+
+    /**
+     * 25. 颜色和签名自定义改到装配间的模式，保存颜色或签名
+     */
+    public static final String MG_CUSTOM_ROCKET_SAVE_SIGN_COLOR = "mg_custom_rocket_save_sign_color";
+
+    /**
+     * 25. 颜色和签名自定义改到装配间的模式，保存颜色或签名 模型
+     */
+    public static final class MGCustomRocketSaveSignColor implements Serializable {
+        public List<ComponentModel> componentList;
+
+        public static class ComponentModel {
+            public String componentId; // 组件的ID
+            public String value; // 颜色值,采用十六进制
+            public String modelId; // 模型id (更新模型时使用)
+        }
+    }
     // endregion 定制火箭
 
     // region 棒球

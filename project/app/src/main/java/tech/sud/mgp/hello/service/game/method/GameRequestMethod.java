@@ -131,6 +131,12 @@ public interface GameRequestMethod {
      */
     @POST(RequestUrl.ROCKET_VERIFY_SIGN)
     Observable<BaseResponse<SudMGPAPPState.AppCustomRocketVerifySign.Data>> rocketVerifySign(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body SudMGPMGState.MGCustomRocketVerifySign body);
+
+    /**
+     * 保存颜色或签名
+     */
+    @POST(RequestUrl.ROCKET_SAVE_SIGN_COLOR)
+    Observable<BaseResponse<SudMGPAPPState.AppCustomRocketSaveSignColor.Data>> rocketSaveSignColor(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body SudMGPMGState.MGCustomRocketSaveSignColor body);
     // endregion 火箭
 
     // region 棒球

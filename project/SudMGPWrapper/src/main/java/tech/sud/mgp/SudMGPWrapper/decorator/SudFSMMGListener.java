@@ -791,6 +791,14 @@ public interface SudFSMMGListener {
     default void onGameMGCustomRocketSetClickRect(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketSetClickRect model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
+
+    /**
+     * 25. 颜色和签名自定义改到装配间的模式，保存颜色或签名
+     * mg_custom_rocket_save_sign_color
+     */
+    default void onGameMGCustomRocketSaveSignColor(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketSaveSignColor model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
     // endregion 游戏回调APP 通用状态 定制火箭
 
     // region 游戏回调APP 通用状态 棒球

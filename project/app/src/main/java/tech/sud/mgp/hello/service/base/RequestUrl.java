@@ -205,6 +205,9 @@ public interface RequestUrl {
 
     /** 校验签名合规性 */
     String ROCKET_VERIFY_SIGN = "rocket/verify-sign/v1";
+
+    /** 保存颜色或签名 */
+    String ROCKET_SAVE_SIGN_COLOR = "rocket/save-sign-color/v1";
     // endregion 定制火箭
 
     // region 棒球

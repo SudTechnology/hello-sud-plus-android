@@ -713,6 +713,14 @@ public class SudFSMMGDecorator implements ISudFSMMG {
                     listener.onGameMGCustomRocketSetClickRect(handle, mgCustomRocketSetClickRect);
                 }
                 break;
+            case SudMGPMGState.MG_CUSTOM_ROCKET_SAVE_SIGN_COLOR: // 25. 颜色和签名自定义改到装配间的模式，保存颜色或签名 模型
+                SudMGPMGState.MGCustomRocketSaveSignColor mgCustomRocketSaveSignColor = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCustomRocketSaveSignColor.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGCustomRocketSaveSignColor(handle, mgCustomRocketSaveSignColor);
+                }
+                break;
             case SudMGPMGState.MG_BASEBALL_RANKING: // 1. 查询排行榜数据(棒球)
                 SudMGPMGState.MGBaseballRanking mgBaseballRanking = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGBaseballRanking.class);
                 if (listener == null) {

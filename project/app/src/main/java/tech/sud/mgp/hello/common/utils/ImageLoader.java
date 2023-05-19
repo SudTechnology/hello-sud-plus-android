@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.CustomViewTarget;
@@ -96,7 +97,8 @@ public class ImageLoader {
     // 加载本地drawable资源
     public static void loadDrawable(ImageView view, @DrawableRes int drawableResId) {
         if (isDestroy(view)) return;
-        Glide.with(view).load(drawableResId).into(view);
+        // 这里去掉缓存是因为配置了国际化相关的图片，如果缓存下来，切换语言后图片不会刷新
+        Glide.with(view).load(drawableResId).skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE).into(view);
     }
 
     // 加载礼物图片

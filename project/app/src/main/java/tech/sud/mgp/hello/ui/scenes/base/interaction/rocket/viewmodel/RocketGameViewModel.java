@@ -15,7 +15,6 @@ import com.blankj.utilcode.util.Utils;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
@@ -34,12 +33,12 @@ import tech.sud.mgp.hello.service.main.resp.UserInfoListResp;
 import tech.sud.mgp.hello.service.main.resp.UserInfoResp;
 import tech.sud.mgp.hello.ui.common.utils.FilePath;
 import tech.sud.mgp.hello.ui.main.base.constant.GameIdCons;
-import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
+import tech.sud.mgp.hello.ui.scenes.base.viewmodel.InteractionGameViewModel;
 
 /**
  * 带火箭动效房间的游戏逻辑
  */
-public class RocketGameViewModel extends AppGameViewModel {
+public class RocketGameViewModel extends InteractionGameViewModel {
 
     public FragmentActivity fragmentActivity;
     public long roomId;
@@ -492,6 +491,34 @@ public class RocketGameViewModel extends AppGameViewModel {
     }
 
     /**
+     * 25. 颜色和签名自定义改到装配间的模式，保存颜色或签名
+     * mg_custom_rocket_save_sign_color
+     */
+    @Override
+    public void onGameMGCustomRocketSaveSignColor(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketSaveSignColor model) {
+        super.onGameMGCustomRocketSaveSignColor(handle, model);
+        SudMGPAPPState.AppCustomRocketSaveSignColor resp = new SudMGPAPPState.AppCustomRocketSaveSignColor();
+        GameRepository.rocketSaveSignColor(fragmentActivity, model, new RxCallback<SudMGPAPPState.AppCustomRocketSaveSignColor.Data>() {
+            @Override
+            public void onNext(BaseResponse<SudMGPAPPState.AppCustomRocketSaveSignColor.Data> t) {
+                super.onNext(t);
+                resp.resultCode = t.getRetCode();
+                resp.error = t.getRetMsg();
+                resp.data = t.getData();
+                notifyStateChange(SudMGPAPPState.APP_CUSTOM_ROCKET_SAVE_SIGN_COLOR, resp);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                resp.resultCode = RetCode.FAIL;
+                resp.error = e.toString();
+                notifyStateChange(SudMGPAPPState.APP_CUSTOM_ROCKET_SAVE_SIGN_COLOR, resp);
+            }
+        });
+    }
+
+    /**
      * 22. 火箭效果飞行点击(火箭)
      * mg_custom_rocket_fly_click
      */
@@ -602,20 +629,6 @@ public class RocketGameViewModel extends AppGameViewModel {
         userInfo.sex = -1;
         userInfo.url = userInfoResp.getUseAvatar();
         return userInfo;
-    }
-
-    @Override
-    public void switchGame(FragmentActivity activity, String gameRoomId, long gameId, int loadMGMode, String authorizationSecret) {
-        if (!isRunning) {
-            return;
-        }
-        if (playingGameId == gameId && Objects.equals(this.gameRoomId, gameRoomId)) {
-            return;
-        }
-        destroyMG();
-        this.gameRoomId = gameRoomId;
-        playingGameId = gameId;
-        login(activity, gameId, loadMGMode, authorizationSecret);
     }
 
     @Override

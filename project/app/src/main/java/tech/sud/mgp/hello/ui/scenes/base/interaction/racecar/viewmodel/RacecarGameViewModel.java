@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.core.ISudFSMStateHandle;
+import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.ui.main.base.constant.GameIdCons;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.InteractionGameViewModel;
 
@@ -62,8 +63,8 @@ public class RacecarGameViewModel extends InteractionGameViewModel {
         // 发送自定义帮助内容
         SudMGPAPPState.APPCommonCustomHelpInfo helpInfo = new SudMGPAPPState.APPCommonCustomHelpInfo();
         helpInfo.content = new ArrayList<>();
-        helpInfo.content.add("HelloSudPlus content first");
-        helpInfo.content.add("HelloSudPlus content second");
+        helpInfo.content.add(fragmentActivity.getString(R.string.racecar_rule_1));
+        helpInfo.content.add(fragmentActivity.getString(R.string.racecar_rule_2));
         notifyAPPCommonCustomHelpInfo(helpInfo);
     }
 

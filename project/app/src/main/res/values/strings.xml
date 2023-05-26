@@ -667,6 +667,8 @@ Go to homepage to create one~</string>
     <string name="baseball_consume_title">Will you spend %1$s gold coins to play %2$s times?</string>
     <string name="affirm">Confirm</string>
     <string name="go_crazy_racecar_stage">Turn on the car.…</string>
+    <string name="racecar_rule_1">Odds for each car are calculated based on dynamic odds</string>
+    <string name="racecar_rule_2">Dynamic odds = total bets / bets on this car</string>
     <!-- endregion 只翻译了英语 -->
 
 </resources>

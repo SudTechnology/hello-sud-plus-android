@@ -178,7 +178,7 @@ public class AppGameViewModel implements SudFSMMGListener {
             return;
         }
         // 请求登录code
-        GameRepository.login(activity, new RxCallback<GameLoginResp>() {
+        GameRepository.login(activity, getAppId(), new RxCallback<GameLoginResp>() {
             @Override
             public void onNext(BaseResponse<GameLoginResp> t) {
                 super.onNext(t);
@@ -229,6 +229,14 @@ public class AppGameViewModel implements SudFSMMGListener {
                 delayLoadGame(activity, gameId, loadMGMode, authorizationSecret);
             }
         });
+    }
+
+    private String getAppId() {
+        SudConfig sudConfig = AppData.getInstance().getSudConfig();
+        if (sudConfig != null) {
+            return sudConfig.appId;
+        }
+        return "";
     }
 
     /**
@@ -360,7 +368,7 @@ public class AppGameViewModel implements SudFSMMGListener {
      */
     public void processOnExpireCode(SudFSTAPPDecorator sudFSTAPPDecorator, ISudFSMStateHandle handle) {
         // code过期，刷新code
-        GameRepository.login(null, new RxCallback<GameLoginResp>() {
+        GameRepository.login(null, getAppId(), new RxCallback<GameLoginResp>() {
             @Override
             public void onNext(BaseResponse<GameLoginResp> t) {
                 super.onNext(t);

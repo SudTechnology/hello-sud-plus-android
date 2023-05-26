@@ -12,6 +12,7 @@ import tech.sud.mgp.hello.service.base.RequestUrl;
 import tech.sud.mgp.hello.service.game.req.BaseballPlayReq;
 import tech.sud.mgp.hello.service.game.req.BringChipReq;
 import tech.sud.mgp.hello.service.game.req.CreateOrderReq;
+import tech.sud.mgp.hello.service.game.req.GameLoginReq;
 import tech.sud.mgp.hello.service.game.req.RocketFireRecordReq;
 import tech.sud.mgp.hello.service.game.req.RocketFireRecordSummeryReq;
 import tech.sud.mgp.hello.service.game.req.RocketFireReq;
@@ -32,7 +33,7 @@ public interface GameRequestMethod {
      * 游戏登录
      */
     @POST(RequestUrl.GAME_LOGIN)
-    Observable<BaseResponse<GameLoginResp>> gameLogin(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl);
+    Observable<BaseResponse<GameLoginResp>> gameLogin(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body GameLoginReq body);
 
     /**
      * 游戏切换

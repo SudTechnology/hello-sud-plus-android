@@ -41,6 +41,7 @@
 -keep class tech.sud.mgp.hello.ui.scenes.orderentertainment.model.** {*;}
 -keep class tech.sud.mgp.hello.ui.main.settings.model.** {*;}
 -keep class tech.sud.mgp.hello.ui.main.nft.model.** {*;}
+-keep class tech.sud.mgp.hello.common.event.model.** {*;}
 
 # 腾讯bugly的混淆
 -dontwarn com.tencent.bugly.**
@@ -82,3 +83,9 @@
 
 # 腾讯云
 -keep class com.tencent.** { *; }
+
+# LiveEventBus
+-dontwarn com.jeremyliao.liveeventbus.**
+-keep class com.jeremyliao.liveeventbus.** { *; }
+-keep class androidx.lifecycle.** { *; }
+-keep class androidx.arch.core.** { *; }

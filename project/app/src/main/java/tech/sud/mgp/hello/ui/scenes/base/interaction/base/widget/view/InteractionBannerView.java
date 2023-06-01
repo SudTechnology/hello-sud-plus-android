@@ -201,4 +201,10 @@ public class InteractionBannerView extends LinearLayout {
         void onPagerClick(InteractionGameModel model);
     }
 
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        stopChangeTask();
+    }
+    
 }

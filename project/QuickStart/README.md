@@ -157,7 +157,7 @@
     // App的房间ID
     String appRoomId = "10000";       
     // SudMGP平台64bit游戏ID
-    long mgId = 1461227817776713818L; // 碰碰我最强，此id与QuickStart绑定。替换Sud平台AppId之后，请修改为对应mgId
+    long mgId = 1461227817776713818L; // 这是'碰碰我最强'的mgId，加载不同游戏填不同的mgId即可
     gameViewModel.switchGame(this, appRoomId, mgId);       
     ```
     </details>

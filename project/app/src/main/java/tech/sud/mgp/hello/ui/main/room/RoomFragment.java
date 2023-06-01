@@ -29,7 +29,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import tech.sud.mgp.hello.BuildConfig;
 import tech.sud.mgp.hello.R;
+import tech.sud.mgp.hello.app.FlavorChannel;
 import tech.sud.mgp.hello.common.base.BaseFragment;
 import tech.sud.mgp.hello.common.base.BaseFragmentStateAdapter;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
@@ -89,8 +91,14 @@ public class RoomFragment extends BaseFragment {
     @Override
     protected void initData() {
         super.initData();
-        tabs.add(getString(R.string.room_list));
-        tabs.add(getString(R.string.cross_domain_connect));
+        if (FlavorChannel.OVERSEA.equals(BuildConfig.CHANNEL)) {
+            tabs.add(getString(R.string.room_list));
+//            tabs.add(getString(R.string.cross_domain_connect));
+            magicIndicator.setVisibility(View.GONE);
+        } else {
+            tabs.add(getString(R.string.room_list));
+            tabs.add(getString(R.string.cross_domain_connect));
+        }
         initMagicIndicator();
         initViewPager();
     }

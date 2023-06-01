@@ -97,6 +97,8 @@ public class AppGameViewModel implements SudFSMMGListener {
     public boolean isShowLoadingGameBg = true; // 是否要显示加载时的背景图
     public boolean isShowCustomLoading = false; // 是否要显示自定义的加载进度
 
+    protected boolean closeGameIsCheckFinishGame = true; // 关闭游戏前，是否需要先结束掉游戏
+
     // endregion field
 
     /**
@@ -122,24 +124,32 @@ public class AppGameViewModel implements SudFSMMGListener {
      * @param authorizationSecret loadMGMode为跨APP域模式时，所使用的授权密钥
      */
     public void switchGame(FragmentActivity activity, String gameRoomId, long gameId, int loadMGMode, String authorizationSecret) {
-        checkFinishGame(gameId);
-        // 因为finishGame需要一定时间发送给游戏服务，所以这里带了delay
-        // 如果没有finishGame的需求，那可以不需要delay
-        ThreadUtils.runOnUiThreadDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (!isRunning) {
-                    return;
+        if (closeGameIsCheckFinishGame) {
+            checkFinishGame(gameId);
+            // 因为finishGame需要一定时间发送给游戏服务，所以这里带了delay
+            // 如果没有finishGame的需求，那可以不需要delay
+            ThreadUtils.runOnUiThreadDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    switchGameNoPreFinishGame(gameId, gameRoomId, activity, loadMGMode, authorizationSecret);
                 }
-                if (playingGameId == gameId && Objects.equals(AppGameViewModel.this.gameRoomId, gameRoomId)) {
-                    return;
-                }
-                destroyMG();
-                AppGameViewModel.this.gameRoomId = gameRoomId;
-                playingGameId = gameId;
-                login(activity, gameId, loadMGMode, authorizationSecret);
-            }
-        }, 100);
+            }, 100);
+        } else {
+            switchGameNoPreFinishGame(gameId, gameRoomId, activity, loadMGMode, authorizationSecret);
+        }
+    }
+
+    private void switchGameNoPreFinishGame(long gameId, String gameRoomId, FragmentActivity activity, int loadMGMode, String authorizationSecret) {
+        if (!isRunning) {
+            return;
+        }
+        if (playingGameId == gameId && Objects.equals(this.gameRoomId, gameRoomId)) {
+            return;
+        }
+        destroyMG();
+        this.gameRoomId = gameRoomId;
+        playingGameId = gameId;
+        login(activity, gameId, loadMGMode, authorizationSecret);
     }
 
     private void checkFinishGame(long newGameId) {
@@ -168,7 +178,7 @@ public class AppGameViewModel implements SudFSMMGListener {
             return;
         }
         // 请求登录code
-        GameRepository.login(activity, new RxCallback<GameLoginResp>() {
+        GameRepository.login(activity, getAppId(), new RxCallback<GameLoginResp>() {
             @Override
             public void onNext(BaseResponse<GameLoginResp> t) {
                 super.onNext(t);
@@ -219,6 +229,14 @@ public class AppGameViewModel implements SudFSMMGListener {
                 delayLoadGame(activity, gameId, loadMGMode, authorizationSecret);
             }
         });
+    }
+
+    private String getAppId() {
+        SudConfig sudConfig = AppData.getInstance().getSudConfig();
+        if (sudConfig != null) {
+            return sudConfig.appId;
+        }
+        return "";
     }
 
     /**
@@ -350,7 +368,7 @@ public class AppGameViewModel implements SudFSMMGListener {
      */
     public void processOnExpireCode(SudFSTAPPDecorator sudFSTAPPDecorator, ISudFSMStateHandle handle) {
         // code过期，刷新code
-        GameRepository.login(null, new RxCallback<GameLoginResp>() {
+        GameRepository.login(null, getAppId(), new RxCallback<GameLoginResp>() {
             @Override
             public void onNext(BaseResponse<GameLoginResp> t) {
                 super.onNext(t);
@@ -714,7 +732,7 @@ public class AppGameViewModel implements SudFSMMGListener {
     public void onGameLoadingProgress(int stage, int retCode, int progress) {
         SudFSMMGListener.super.onGameLoadingProgress(stage, retCode, progress);
         gameLoadingProgressLiveData.setValue(new GameLoadingProgressModel(stage, retCode, progress));
-        LogUtils.d("onGameLoadingProgress:" + stage + " :" + retCode + " :" + progress);
+        LogUtils.d("onGameLoadingProgress stage:" + stage + " retCode:" + retCode + " progress:" + progress);
     }
 
     @Override

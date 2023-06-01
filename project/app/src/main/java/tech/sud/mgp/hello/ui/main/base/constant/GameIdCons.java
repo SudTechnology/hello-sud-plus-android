@@ -11,4 +11,5 @@ public class GameIdCons {
     //    public static final long CUSTOM_ROCKET = 1461228410184400899L; // 定制火箭
     public static final long CUSTOM_ROCKET = 1583284410804244481L; // 定制火箭
     public static final long BASEBALL = 1594978084509368321L; // 棒球
+    public static final long CRAZY_RACECAR = 1649319572314173442L; // 疯狂赛车
 }

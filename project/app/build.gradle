@@ -66,6 +66,8 @@ android {
     flavorDimensions 'channel'
     productFlavors {
         official {
+            applicationId "tech.sud.mgp.hello"
+            manifestPlaceholders.put("mainAppName", "HelloSud")
             String channel = "official"
             buildConfigField("String", "CHANNEL", "\"" + channel + "\"")
             buildConfigField("String", "baseUrlConfig", "\"" + project.baseUrlConfig + "\"")
@@ -76,6 +78,22 @@ android {
             buildConfigField("boolean", "gameIsTestEnv", project.gameIsTestEnv)
             buildConfigField("String", "nftEnv", "\"" + project.nftEnv + "\"")
             buildConfigField("String", "mgpEnv", "\"" + project.mgpEnv + "\"")
+            buildConfigField("boolean", "nftSwitch", "true")
+        }
+        oversea {
+            applicationId "tech.sud.mgp.hello.oversea"
+            manifestPlaceholders.put("mainAppName", "HelloSud")
+            String channel = "oversea"
+            buildConfigField("String", "CHANNEL", "\"" + channel + "\"")
+            buildConfigField("String", "baseUrlConfig", "\"" + project.baseUrlConfig + "\"")
+            buildConfigField("String", "baseUrl", "\"" + project.baseUrl + "\"")
+            buildConfigField("String", "interactBaseUrl", "\"" + project.interactBaseUrl + "\"")
+            buildConfigField("String", "gameBaseUrl", "\"" + project.gameBaseUrl + "\"")
+            buildConfigField("String", "buglyAppId", "\"" + project.buglyAppId + "\"")
+            buildConfigField("boolean", "gameIsTestEnv", project.gameIsTestEnv)
+            buildConfigField("String", "nftEnv", "\"" + project.nftEnv + "\"")
+            buildConfigField("String", "mgpEnv", "\"" + project.mgpEnv + "\"")
+            buildConfigField("boolean", "nftSwitch", "false")
         }
     }
 }

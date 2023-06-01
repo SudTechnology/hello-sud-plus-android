@@ -314,6 +314,114 @@ public class SudMGPAPPState implements Serializable {
     public static class APPCommonGameCreateOrderResult implements Serializable {
         public int result; // app通知游戏创建订单的结果0：失败 1：成功
     }
+
+    /**
+     * 24. app通知游戏设置玩法（只支持 德州pro和teenpattipro）
+     */
+    public static final String APP_COMMON_GAME_SETTINGS = "app_common_game_settings";
+
+    /**
+     * 24. app通知游戏设置玩法（只支持 德州pro和teenpattipro） 模型
+     */
+    public static class APPCommonGameSettings implements Serializable {
+        public int smallBlind; // 1    配置小盲,大盲为小盲的2倍[1,2,5,10,20,50,100,200,500,1000]
+        public int ante; // 0    前注
+        public int sBuyIn; // 100  带入值/最小带入配置[100,200,100,200,500,1000,2000,5000,100000]
+        public int bBuyIn; // 200  最大带入，无限（0）
+        public int isAutoStart; // 2    0表示关闭自动开始 [0,2,6,7,8,9]
+        public int isStraddle; // 0    0：关闭，1自由，2强制
+        public double tableDuration; // 0.05 牌桌时长配置（小时）[0.5,1,2,4,6,8]
+        public int thinkTime; // 20   思考时间（秒）[10,15,20]
+    }
+
+    /**
+     * 25. app通知返回大厅
+     */
+    public static final String APP_COMMON_GAME_BACK_LOBBY = "app_common_game_back_lobby";
+
+    /**
+     * 25. app通知返回大厅 模型
+     */
+    public static class APPCommonGameBackLobby implements Serializable {
+    }
+
+    /**
+     * 26. app通知游戏定制UI配置表 (仅支持ludo)
+     */
+    public static final String APP_COMMON_GAME_UI_CUSTOM_CONFIG = "app_common_game_ui_custom_config";
+
+    /**
+     * 26. app通知游戏定制UI配置表 (仅支持ludo) 模型
+     */
+    public static class APPCommonGameUiCustomConfig implements Serializable {
+        public String gameBoard01; // 棋盘底
+        public String gameBoard02; // 棋盘
+        public String diceBg; // 骰子白底
+        public String diceBgGold; // 黄金骰子底
+        public String dice01; // 骰子1
+        public String dice02; // 骰子2
+        public String dice03; // 骰子3
+        public String dice04; // 骰子4
+        public String dice05; // 骰子5
+        public String dice06; // 骰子6
+        public String diceCrown; // 骰子皇冠
+        public String chessYellow; // 黄色棋子
+        public String chessBlue; // 蓝色棋子
+        public String chessGreen; // 绿色棋子
+        public String chessRed; // 红色棋子
+    }
+
+    /**
+     * 27. app通知游戏玩家信息列表 (赛车)
+     */
+    public static final String APP_COMMON_USERS_INFO = "app_common_users_info";
+
+    /**
+     * 27. app通知游戏玩家信息列表 (赛车) 模型
+     */
+    public static class APPCommonUsersInfo implements Serializable {
+        public List<UserInfoModel> infos;
+
+        public static class UserInfoModel {
+            public String uid; // 玩家id
+            public String avatar; // 玩家头像url
+            public String name; // 玩家名字
+        }
+    }
+
+    /**
+     * 28. app通知游戏自定义帮助内容 (赛车)
+     */
+    public static final String APP_COMMON_CUSTOM_HELP_INFO = "app_common_custom_help_info";
+
+    /**
+     * 28. app通知游戏自定义帮助内容 (赛车) 模型
+     */
+    public static class APPCommonCustomHelpInfo implements Serializable {
+        public List<String> content;
+    }
+
+    /**
+     * 29. app主动调起主界面(赛车)
+     */
+    public static final String APP_COMMON_SHOW_GAME_SCENE = "app_common_show_game_scene";
+
+    /**
+     * 29. app主动调起主界面(赛车) 模型
+     */
+    public static class APPCommonShowGameScene implements Serializable {
+    }
+
+    /**
+     * 30. app主动隐藏主界面(赛车)
+     */
+    public static final String APP_COMMON_HIDE_GAME_SCENE = "app_common_hide_game_scene";
+
+    /**
+     * 30. app主动隐藏主界面(赛车) 模型
+     */
+    public static class APPCommonHideGameScene implements Serializable {
+    }
     // endregion 通用状态
 
     // region 元宇宙砂砂舞
@@ -758,6 +866,32 @@ public class SudMGPAPPState implements Serializable {
      * 21. app推送关闭火箭播放效果(火箭)  模型
      */
     public static class AppCustomRocketClosePlayEffect implements Serializable {
+    }
+
+    /**
+     * 22. 颜色和签名自定义改到装配间的模式，保存颜色或签名回调
+     */
+    public static final String APP_CUSTOM_ROCKET_SAVE_SIGN_COLOR = "app_custom_rocket_save_sign_color";
+
+    /**
+     * 22. 颜色和签名自定义改到装配间的模式，保存颜色或签名回调 模型
+     */
+    public static final class AppCustomRocketSaveSignColor implements Serializable {
+        public int resultCode; // 0: 请求成功，1：请求失败
+        public String error; // 错误描述
+        public Data data; // 数据
+
+        public static class Data {
+            public List<ComponentModel> componentList;
+        }
+
+        public static class ComponentModel {
+            public String itemId; // 唯一标识
+            public int type; // 签名
+            public String value; // 签名的值
+            public int isForever; // 永久：0非永久 1永久
+            public long validTime; // 有效期时间戳：单位是秒
+        }
     }
 
     /**

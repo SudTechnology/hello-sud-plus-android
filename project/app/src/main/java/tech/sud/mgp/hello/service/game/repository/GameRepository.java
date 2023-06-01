@@ -11,6 +11,7 @@ import tech.sud.mgp.hello.service.game.method.GameRequestMethodFactory;
 import tech.sud.mgp.hello.service.game.req.BaseballPlayReq;
 import tech.sud.mgp.hello.service.game.req.BringChipReq;
 import tech.sud.mgp.hello.service.game.req.CreateOrderReq;
+import tech.sud.mgp.hello.service.game.req.GameLoginReq;
 import tech.sud.mgp.hello.service.game.req.RocketFireRecordReq;
 import tech.sud.mgp.hello.service.game.req.RocketFireRecordSummeryReq;
 import tech.sud.mgp.hello.service.game.req.RocketFireReq;
@@ -30,9 +31,11 @@ public class GameRepository {
      * @param owner    生命周期对象
      * @param callback 回调
      */
-    public static void login(LifecycleOwner owner, RxCallback<GameLoginResp> callback) {
+    public static void login(LifecycleOwner owner, String appId, RxCallback<GameLoginResp> callback) {
+        GameLoginReq req = new GameLoginReq();
+        req.appId = appId;
         GameRequestMethodFactory.getMethod()
-                .gameLogin(BaseUrlManager.getGameBaseUrl())
+                .gameLogin(BaseUrlManager.getGameBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }
@@ -279,6 +282,20 @@ public class GameRepository {
     public static void rocketVerifySign(LifecycleOwner owner, SudMGPMGState.MGCustomRocketVerifySign req, RxCallback<SudMGPAPPState.AppCustomRocketVerifySign.Data> callback) {
         GameRequestMethodFactory.getMethod()
                 .rocketVerifySign(BaseUrlManager.getGameBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /**
+     * 保存颜色或签名
+     *
+     * @param owner    生命周期对象
+     * @param req      请求参数
+     * @param callback 回调
+     */
+    public static void rocketSaveSignColor(LifecycleOwner owner, SudMGPMGState.MGCustomRocketSaveSignColor req, RxCallback<SudMGPAPPState.AppCustomRocketSaveSignColor.Data> callback) {
+        GameRequestMethodFactory.getMethod()
+                .rocketSaveSignColor(BaseUrlManager.getGameBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }

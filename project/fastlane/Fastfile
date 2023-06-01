@@ -35,6 +35,7 @@ platform :android do
         interactBaseUrl=options[:interactBaseUrl]
         gameBaseUrl=options[:gameBaseUrl]
         buildType=options[:buildType]
+        flavor=options[:flavor]
         puts versionCode
         if moduleName.nil? || moduleName.empty?
             puts "moduleName is empty"
@@ -53,7 +54,7 @@ platform :android do
         gradle(
             task: ":" + moduleName + ":assemble",
             build_type:buildType,
-            flavor:"official",
+            flavor:flavor,
             print_command: true,
             properties: {
                 "versionCode" => versionCode,
@@ -76,17 +77,19 @@ platform :android do
         gameBaseUrl=options[:gameBaseUrl]
         buglyAppId=options[:buglyAppId]
         gameIsTestEnv=options[:gameIsTestEnv]
+        jksPropertyPath=options[:jksPropertyPath]
+        flavor=options[:flavor]
         puts versionCode
         # outputDir = parentOutputDir + "/fat/" + versionCode
         # puts outputDir
         gradle(
             task: ":app:assemble",
             build_type:"Release",
-            flavor:"official",
+            flavor:flavor,
             print_command: true,
             properties: {
                 "versionCode" => versionCode,
-                "jksPropertyPath" => "../../../../../../../certs/hellosud/hellosud_jks_release.properties",
+                "jksPropertyPath" => jksPropertyPath,
                 "baseUrlConfig" => "pro",
                 "nftEnv" => "pro",
                 "mgpEnv" => "pro",

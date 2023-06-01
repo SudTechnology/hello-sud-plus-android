@@ -3,20 +3,18 @@ package tech.sud.mgp.hello.ui.scenes.base.interaction.baseball.viewmodel;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.MutableLiveData;
 
-import java.util.Objects;
-
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.core.ISudFSMStateHandle;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.service.game.repository.GameRepository;
 import tech.sud.mgp.hello.ui.main.base.constant.GameIdCons;
-import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
+import tech.sud.mgp.hello.ui.scenes.base.viewmodel.InteractionGameViewModel;
 
 /**
  * 棒球 游戏逻辑
  */
-public class BaseballGameViewModel extends AppGameViewModel {
+public class BaseballGameViewModel extends InteractionGameViewModel {
 
     public FragmentActivity fragmentActivity;
     public long roomId;
@@ -27,20 +25,6 @@ public class BaseballGameViewModel extends AppGameViewModel {
     public MutableLiveData<Object> baseballPrepareCompletedLiveData = new MutableLiveData<>(); // 棒球准备完成
     public MutableLiveData<Object> destroyBaseballLiveData = new MutableLiveData<>(); // 销毁通知
     public MutableLiveData<SudMGPMGState.MGBaseballSetClickRect> baseballClickRectLiveData = new MutableLiveData<>(); // 棒球点击区域
-
-    @Override
-    public void switchGame(FragmentActivity activity, String gameRoomId, long gameId, int loadMGMode, String authorizationSecret) {
-        if (!isRunning) {
-            return;
-        }
-        if (playingGameId == gameId && Objects.equals(this.gameRoomId, gameRoomId)) {
-            return;
-        }
-        destroyMG();
-        this.gameRoomId = gameRoomId;
-        playingGameId = gameId;
-        login(activity, gameId, loadMGMode, authorizationSecret);
-    }
 
     // region 棒球回调
 

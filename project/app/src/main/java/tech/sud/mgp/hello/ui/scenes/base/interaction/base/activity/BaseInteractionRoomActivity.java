@@ -6,7 +6,9 @@ import android.widget.FrameLayout;
 import java.util.ArrayList;
 import java.util.List;
 
+import tech.sud.mgp.hello.BuildConfig;
 import tech.sud.mgp.hello.R;
+import tech.sud.mgp.hello.app.FlavorChannel;
 import tech.sud.mgp.hello.ui.main.base.constant.GameIdCons;
 import tech.sud.mgp.hello.ui.scenes.base.activity.BaseRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.base.interaction.base.control.BaseInteractionControl;
@@ -42,17 +44,33 @@ public abstract class BaseInteractionRoomActivity<T extends AppGameViewModel> ex
     }
 
     private void initInteractionGame() {
-        // 控制器
-        controlList.add(new RocketControl(this));
-        controlList.add(new BaseballControl(this));
-        controlList.add(new RacecarControl(this));
+        if (FlavorChannel.OVERSEA.equals(BuildConfig.CHANNEL)) {
+            // 控制器
+            controlList.add(new RocketControl(this));
+            controlList.add(new BaseballControl(this));
+            controlList.add(new RacecarControl(this));
 
-        // banner
-        List<InteractionGameModel> bannerList = new ArrayList<>();
-        bannerList.add(new InteractionGameModel(GameIdCons.CUSTOM_ROCKET, R.drawable.ic_rocket_entrance));
-        bannerList.add(new InteractionGameModel(GameIdCons.BASEBALL, R.drawable.ic_baseball_entrance));
-        bannerList.add(new InteractionGameModel(GameIdCons.CRAZY_RACECAR, R.drawable.ic_crazy_racecar));
-        interactionBannerView.setDatas(bannerList);
+            // banner
+            List<InteractionGameModel> bannerList = new ArrayList<>();
+            bannerList.add(new InteractionGameModel(GameIdCons.CUSTOM_ROCKET, R.drawable.ic_rocket_entrance));
+            bannerList.add(new InteractionGameModel(GameIdCons.BASEBALL, R.drawable.ic_baseball_entrance));
+            bannerList.add(new InteractionGameModel(GameIdCons.CRAZY_RACECAR, R.drawable.ic_crazy_racecar));
+
+            interactionBannerView.setDatas(bannerList);
+        } else {
+            // 控制器
+            controlList.add(new RocketControl(this));
+            controlList.add(new BaseballControl(this));
+//            controlList.add(new RacecarControl(this));
+
+            // banner
+            List<InteractionGameModel> bannerList = new ArrayList<>();
+            bannerList.add(new InteractionGameModel(GameIdCons.CUSTOM_ROCKET, R.drawable.ic_rocket_entrance));
+            bannerList.add(new InteractionGameModel(GameIdCons.BASEBALL, R.drawable.ic_baseball_entrance));
+//            bannerList.add(new InteractionGameModel(GameIdCons.CRAZY_RACECAR, R.drawable.ic_crazy_racecar));
+
+            interactionBannerView.setDatas(bannerList);
+        }
     }
 
     @Override

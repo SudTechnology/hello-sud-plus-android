@@ -47,11 +47,11 @@
 
 # 三分钟集成代码
 
-- 第一步：导入模块SudMGPSDK、SudMGPWrapper
+- 第一步：导入模块SudMGPWrapper
   <details>
   <summary>详细描述</summary>
 
-      1.通过Android Studio的Import Module功能，导入SudMGPSDK、SudMGPWrapper；
+      1.通过Android Studio的Import Module功能，导入SudMGPWrapper；
       2.APP主工程文件build.gradle中，添加 SudMGPWrapper 依赖;
   ``` java
   build.gradle
@@ -182,8 +182,8 @@
 
 ### 1.1 SudMGP Client SDK
 
-- [下载 SudMGP-Android-v1.1.52.554.zip](https://github.com/SudTechnology/sud-mgp-android/releases)
-- [下载 SudMGP-iOS-v1.1.52.527.zip](https://github.com/SudTechnology/sud-mgp-ios/releases)
+- [Android SDK](https://github.com/SudTechnology/sud-mgp-android)
+- [iOS SDK](https://github.com/SudTechnology/sud-mgp-ios)
 
 ### 1.2 接入文档
 
@@ -311,12 +311,13 @@
 # 3. QuickStart
 
 - 请使用QuickStart项目运行；
-- QuickStart使用SudMGPWrapper、SudMGPSDK实现快速接入游戏；
+- QuickStart使用SudMGPWrapper实现快速接入游戏；
 - 快速接入文档：[StartUp-Android](https://docs.sud.tech/zh-CN/app/Client/StartUp-Android.html)
   和 [StartUp-iOS](https://docs.sud.tech/zh-CN/app/Client/StartUp-iOS.html) ；
 - `QuickStartGameViewModel` 负责login(App getCode) --> SudMGP.initSDK --> SudMGP.loadMG；
 - `GameActivity` 负责addGameView；
-- `QuickStart 服务端` [hello-sud-java](https://github.com/SudTechnology/hello-sud-java) ，login(App getCode 获取短期令牌code) ，`如果访问不了代码仓库，请联系SUD添加，github账号`；
+- `QuickStart 服务端` [hello-sud-java](https://github.com/SudTechnology/hello-sud-java) ，login(App getCode 获取短期令牌code)
+  ，`如果访问不了代码仓库，请联系SUD添加，github账号`；
 
 # 4. QuickStart运行效果图
 
@@ -335,5 +336,4 @@
 # 6. 其它注意事项
 
 - 首次集成，请根据自身要接入的游戏不同，来选择不同的SDK。地址：[SudMGPSDK](https://github.com/SudTechnology/sud-mgp-android)
-- 需要替换SDK，将代码里SudMGPSDK模块下面的aar包替换，然后修改SudMGPSDK/build.gradle里面的aar文件名称即可
-- 如需使用ASR多语言识别的能力，在项目里集成SudASR-Android-vx.x.x.x.aar即可；具备多语言识别的能力，比如英语、德语、阿拉伯语等等
+- 如需使用ASR多语言识别的能力，在项目build.gradle添加 implementation 'tech.sud.mgp:SudASR:1.3.1.1127' 即可；具备多语言识别的能力，比如英语、德语、阿拉伯语等等

@@ -1,6 +1,5 @@
 rootProject.name = "hello-sud-android"
 include ':app'
-include ':SudMGPSDK'
 include ':SudMGPWrapper'
 include ':QuickStart'
 include ':SudMGPRTC'
@@ -16,4 +15,3 @@ include ':SudMGPRTC:SudMGPRtcVolc-lib'
 include ':SudMGPRTC:SudMGPRtcZego'
 include ':SudNFT:SudNFTSDK'
 include ':SudNFT:SudNFTQuickStart'
-include ':SudASR:SudASR-SDK'

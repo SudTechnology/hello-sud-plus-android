@@ -1,4 +1,0 @@
-configurations.maybeCreate("default")
-artifacts.add("default", file('SudASR-v1.3.1.1127.aar'))
-dependencies {
-}

@@ -388,6 +388,8 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
         // 给游戏侧进行返回
         String json = SudJsonUtils.toJson(gameViewInfoModel);
         // 如果设置安全区有疑问，可将下面的日志打印出来，分析json数据
+        // 正确的格式为：{"ret_code":0,"view_game_rect":{"bottom":156,"left":0,"right":0,"top":196},"view_size":{"height":1920,"width":1080}}
+        // 如果发生debug版本游戏正常，release版本游戏不正常，请检查是否混淆了GameViewInfoModel类，导致json序列化类的成员发生了变化
         // Log.d("SudBaseGameViewModel", "notifyGameViewInfo:" + json);
         handle.success(json);
     }

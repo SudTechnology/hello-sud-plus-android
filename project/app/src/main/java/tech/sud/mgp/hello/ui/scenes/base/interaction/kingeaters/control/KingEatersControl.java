@@ -242,7 +242,7 @@ public class KingEatersControl extends BaseInteractionControl {
         if (loadingDialog != null) {
             return;
         }
-        loadingDialog = new LoadingDialog(getString(R.string.go_crazy_racecar_stage));
+        loadingDialog = new LoadingDialog(getString(R.string.go_king_eaters));
         loadingDialog.show(getSupportFragmentManager(), null);
         loadingDialog.setOnDestroyListener(new BaseDialogFragment.OnDestroyListener() {
             @Override

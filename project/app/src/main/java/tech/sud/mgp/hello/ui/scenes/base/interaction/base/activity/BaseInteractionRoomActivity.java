@@ -15,6 +15,7 @@ import tech.sud.mgp.hello.ui.scenes.base.interaction.base.control.BaseInteractio
 import tech.sud.mgp.hello.ui.scenes.base.interaction.base.model.InteractionGameModel;
 import tech.sud.mgp.hello.ui.scenes.base.interaction.base.widget.view.InteractionBannerView;
 import tech.sud.mgp.hello.ui.scenes.base.interaction.baseball.control.BaseballControl;
+import tech.sud.mgp.hello.ui.scenes.base.interaction.kingeaters.control.KingEatersControl;
 import tech.sud.mgp.hello.ui.scenes.base.interaction.racecar.control.RacecarControl;
 import tech.sud.mgp.hello.ui.scenes.base.interaction.rocket.control.RocketControl;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
@@ -49,12 +50,14 @@ public abstract class BaseInteractionRoomActivity<T extends AppGameViewModel> ex
             controlList.add(new RocketControl(this));
             controlList.add(new BaseballControl(this));
             controlList.add(new RacecarControl(this));
+            controlList.add(new KingEatersControl(this));
 
             // banner
             List<InteractionGameModel> bannerList = new ArrayList<>();
             bannerList.add(new InteractionGameModel(GameIdCons.CUSTOM_ROCKET, R.drawable.ic_rocket_entrance));
             bannerList.add(new InteractionGameModel(GameIdCons.BASEBALL, R.drawable.ic_baseball_entrance));
             bannerList.add(new InteractionGameModel(GameIdCons.CRAZY_RACECAR, R.drawable.ic_crazy_racecar));
+            bannerList.add(new InteractionGameModel(GameIdCons.KING_EATERS, R.drawable.ic_king_eaters));
 
             interactionBannerView.setDatas(bannerList);
         } else {
@@ -62,12 +65,14 @@ public abstract class BaseInteractionRoomActivity<T extends AppGameViewModel> ex
             controlList.add(new RocketControl(this));
             controlList.add(new BaseballControl(this));
 //            controlList.add(new RacecarControl(this));
+            controlList.add(new KingEatersControl(this));
 
             // banner
             List<InteractionGameModel> bannerList = new ArrayList<>();
             bannerList.add(new InteractionGameModel(GameIdCons.CUSTOM_ROCKET, R.drawable.ic_rocket_entrance));
             bannerList.add(new InteractionGameModel(GameIdCons.BASEBALL, R.drawable.ic_baseball_entrance));
 //            bannerList.add(new InteractionGameModel(GameIdCons.CRAZY_RACECAR, R.drawable.ic_crazy_racecar));
+            bannerList.add(new InteractionGameModel(GameIdCons.KING_EATERS, R.drawable.ic_king_eaters));
 
             interactionBannerView.setDatas(bannerList);
         }

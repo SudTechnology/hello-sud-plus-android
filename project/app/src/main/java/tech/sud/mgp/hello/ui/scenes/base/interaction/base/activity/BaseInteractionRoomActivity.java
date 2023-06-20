@@ -192,4 +192,20 @@ public abstract class BaseInteractionRoomActivity<T extends AppGameViewModel> ex
         return interactionContainer;
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        for (BaseInteractionControl control : controlList) {
+            control.onResume();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        for (BaseInteractionControl control : controlList) {
+            control.onPause();
+        }
+    }
+
 }

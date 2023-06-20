@@ -103,4 +103,10 @@ public abstract class BaseInteractionControl implements IBaseInteractionControl 
         return activity;
     }
 
+    public void onResume() {
+    }
+
+    public void onPause() {
+    }
+ 
 }

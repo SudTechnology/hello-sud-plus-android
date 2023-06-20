@@ -157,7 +157,7 @@ public class KingEatersGameViewModel extends InteractionGameViewModel {
         int appScreenHeight = DensityUtils.getAppScreenHeight();
 
         gameViewInfoModel.view_game_rect.left = 0;
-        gameViewInfoModel.view_game_rect.top = (int) (appScreenHeight - appScreenWidth * 1.1);
+        gameViewInfoModel.view_game_rect.top = appScreenHeight - appScreenWidth; // 宽高比1:1
         gameViewInfoModel.view_game_rect.right = 0;
         gameViewInfoModel.view_game_rect.bottom = 0;
     }

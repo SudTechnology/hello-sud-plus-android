@@ -283,4 +283,16 @@ public class KingEatersControl extends BaseInteractionControl {
         return GameIdCons.KING_EATERS;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        gameViewModel.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        gameViewModel.onPause();
+    }
+
 }

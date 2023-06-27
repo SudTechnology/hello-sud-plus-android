@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Toast;
 
+import tech.sud.mgp.SudMGPWrapper.decorator.SudFSMMGCache;
 import tech.sud.mgp.SudMGPWrapper.decorator.SudFSMMGDecorator;
 import tech.sud.mgp.SudMGPWrapper.decorator.SudFSMMGListener;
 import tech.sud.mgp.SudMGPWrapper.decorator.SudFSTAPPDecorator;
@@ -419,6 +420,11 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
 
         /** 失败 */
         void onFailed();
+    }
+
+    /** 获取游戏状态缓存 */
+    public SudFSMMGCache getSudFSMMGCache() {
+        return sudFSMMGDecorator.getSudFSMMGCache();
     }
 
 }

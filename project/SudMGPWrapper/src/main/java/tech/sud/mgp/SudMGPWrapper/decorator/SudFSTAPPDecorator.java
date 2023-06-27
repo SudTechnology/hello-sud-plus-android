@@ -280,7 +280,6 @@ public class SudFSTAPPDecorator {
     /**
      * 发送
      * 16. 设置游戏中的AI玩家（2022-05-11新增）
-     * 队长设置才有效
      *
      * @param aiPlayers AI玩家
      * @param isReady   机器人加入后是否自动准备 1：自动准备，0：不自动准备 默认为1

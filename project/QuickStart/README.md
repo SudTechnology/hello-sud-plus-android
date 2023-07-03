@@ -353,7 +353,6 @@
     "*.R.bool. fsm_*",
     "*.R.mipmap.fsm_*"，
     "*.R.styleable.fsm_*"，
-    "*/fsm_mgp_*",
     "*.R.id.*loading*"，
     "*.R.id.container_progress"，
     "*.R.id.reload_btn"，

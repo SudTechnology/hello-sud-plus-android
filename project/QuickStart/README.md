@@ -339,8 +339,7 @@
 - 如需使用ASR多语言识别的能力，在项目build.gradle添加 implementation 'tech.sud.mgp:SudASR:1.3.1.1127' 即可；具备多语言识别的能力，比如英语、德语、阿拉伯语等等
 - 如果项目开启了资源混淆，请添加以下混淆白名单
     <details>
-    <summary>详细描述 activity_game.xml</summary>
-
+    <summary>资源混淆白名单列表</summary>
     ``` groovy
     "*.R.drawable.fsm_*",
     "*.R.string.fsm_*"，

@@ -341,22 +341,22 @@
     <details>
     <summary>资源混淆白名单列表</summary>
     ``` groovy
-    "*.R.drawable.fsm_*",
-    "*.R.string.fsm_*"，
-    "*.R.layou.fsm_*"'，
-    "*.R.color.fsm_*"，
-    "*.R.id.fsm_*，
-    "*.R.style.fsm_*"，
-    "*.R.dimen. fsm_*",
-    "*.R.array.fsm_*"，
-    "*.R.integer.fsm_*"'，
-    "*.R.bool. fsm_*",
-    "*.R.mipmap.fsm_*"，
-    "*.R.styleable.fsm_*"，
-    "*.R.id.*loading*"，
-    "*.R.id.container_progress"，
-    "*.R.id.reload_btn"，
-    "*.R.id.unitySurfaceView"，
-    "*.R.string.game_view_content_description"
+    "R.drawable.fsm_*",
+    "R.string.fsm_*",
+    "R.layou.fsm_*"',
+    "R.color.fsm_*",
+    "R.id.fsm_*,
+    "R.style.fsm_*",
+    "R.dimen.fsm_*",
+    "R.array.fsm_*",
+    "R.integer.fsm_*"',
+    "R.bool.fsm_*",
+    "R.mipmap.fsm_*",
+    "R.styleable.fsm_*",
+    "R.id.*loading*",
+    "R.id.container_progress",
+    "R.id.reload_btn",
+    "R.id.unitySurfaceView",
+    "R.string.game_view_content_description"
     ```
     </details>

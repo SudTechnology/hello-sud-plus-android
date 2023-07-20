@@ -145,7 +145,7 @@ public class DanmakuActivity extends BaseInteractionRoomActivity<AppGameViewMode
 
     /** 刷新弹幕列表 */
     private void refreshDanmakuList() {
-        RoomRepository.danmakuList(this, roomInfoModel.gameId, new RxCallback<DanmakuListResp>() {
+        RoomRepository.danmakuList(this, roomInfoModel.gameId, getRoomId(), new RxCallback<DanmakuListResp>() {
             @Override
             public void onSuccess(DanmakuListResp resp) {
                 super.onSuccess(resp);

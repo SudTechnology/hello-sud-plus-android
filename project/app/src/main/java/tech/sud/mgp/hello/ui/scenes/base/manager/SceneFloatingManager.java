@@ -35,7 +35,7 @@ public class SceneFloatingManager extends BaseServiceManager {
                              View.OnClickListener shutdownOnClickListener) {
         roomInfoModel = model;
         this.startClass = startClass;
-        if (model.sceneType == SceneType.DANMAKU) {
+        if (model.sceneType == SceneType.DANMAKU || model.sceneType == SceneType.VERTICAL_DANMAKU) {
             showDanmakuFloating(context, model, startClass, shutdownOnClickListener);
         } else {
             showDefaultFloating(context, model, startClass, shutdownOnClickListener);

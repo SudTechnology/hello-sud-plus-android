@@ -282,9 +282,10 @@ public class RoomRepository {
      *
      * @param gameId 游戏id
      */
-    public static void danmakuList(LifecycleOwner owner, long gameId, RxCallback<DanmakuListResp> callback) {
+    public static void danmakuList(LifecycleOwner owner, long gameId, long roomId, RxCallback<DanmakuListResp> callback) {
         DanmakuListReq req = new DanmakuListReq();
         req.gameId = gameId;
+        req.roomId = roomId;
         AudioRequestMethodFactory.getMethod()
                 .danmakuList(BaseUrlManager.getInteractBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))

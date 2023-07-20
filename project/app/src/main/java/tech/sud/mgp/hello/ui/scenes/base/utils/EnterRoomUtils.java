@@ -11,7 +11,6 @@ import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.jeremyliao.liveeventbus.LiveEventBus;
 
-import tech.sud.mgp.hello.BuildConfig;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.event.LiveEventBusKey;
 import tech.sud.mgp.hello.common.event.model.EnterRoomEvent;
@@ -102,7 +101,7 @@ public class EnterRoomUtils {
     }
 
     private static boolean canEnterRoom(EnterRoomResp resp) {
-        if (resp.sceneType == SceneType.DANMAKU) {
+        if (resp.sceneType == SceneType.DANMAKU || resp.sceneType == SceneType.VERTICAL_DANMAKU) {
             // TODO: 2022/6/16 弹幕游戏目前只支持即构RTC
             BaseRtcConfig rtcConfig = AppData.getInstance().getSelectRtcConfig();
             if (!(rtcConfig instanceof ZegoConfig)) {
@@ -177,9 +176,9 @@ public class EnterRoomUtils {
             case SceneType.QUIZ:
                 return new Intent(context, QuizActivity.class);
             case SceneType.DANMAKU:
-                if (BuildConfig.DEBUG) {
-                    return new Intent(context, VerticalDanmakuActivity.class);
-                }
+//                if (BuildConfig.DEBUG) {
+//                    return new Intent(context, VerticalDanmakuActivity.class);
+//                }
                 return new Intent(context, DanmakuActivity.class);
             case SceneType.VERTICAL_DANMAKU:
                 return new Intent(context, VerticalDanmakuActivity.class);

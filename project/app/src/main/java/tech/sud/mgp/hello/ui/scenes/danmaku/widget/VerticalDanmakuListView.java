@@ -166,8 +166,8 @@ public class VerticalDanmakuListView extends ConstraintLayout {
                             GradientDrawable.RECTANGLE, null, Color.parseColor(joinTeam.backgroundColor)));
                 } catch (Exception e) {
                     e.printStackTrace();
-                    tv.setBackground(ShapeUtils.createShape(null, (float) height, null,
-                            GradientDrawable.RECTANGLE, null, Color.parseColor("#ff0000")));
+//                    tv.setBackground(ShapeUtils.createShape(null, (float) height, null,
+//                            GradientDrawable.RECTANGLE, null, Color.parseColor("#ff0000")));
                 }
                 tv.setText(joinTeam.name);
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width, height);

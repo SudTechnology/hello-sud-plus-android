@@ -11,6 +11,7 @@ import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.jeremyliao.liveeventbus.LiveEventBus;
 
+import tech.sud.mgp.hello.BuildConfig;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.event.LiveEventBusKey;
 import tech.sud.mgp.hello.common.event.model.EnterRoomEvent;
@@ -34,6 +35,7 @@ import tech.sud.mgp.hello.ui.scenes.crossapp.activity.CrossAppMatchActivity;
 import tech.sud.mgp.hello.ui.scenes.crossroom.activity.CrossRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.custom.CustomActivity;
 import tech.sud.mgp.hello.ui.scenes.danmaku.activity.DanmakuActivity;
+import tech.sud.mgp.hello.ui.scenes.danmaku.activity.VerticalDanmakuActivity;
 import tech.sud.mgp.hello.ui.scenes.disco.activity.DiscoActivity;
 import tech.sud.mgp.hello.ui.scenes.league.activity.LeagueActivity;
 import tech.sud.mgp.hello.ui.scenes.orderentertainment.OrderEntertainmentActivity;
@@ -175,7 +177,12 @@ public class EnterRoomUtils {
             case SceneType.QUIZ:
                 return new Intent(context, QuizActivity.class);
             case SceneType.DANMAKU:
+                if (BuildConfig.DEBUG) {
+                    return new Intent(context, VerticalDanmakuActivity.class);
+                }
                 return new Intent(context, DanmakuActivity.class);
+            case SceneType.VERTICAL_DANMAKU:
+                return new Intent(context, VerticalDanmakuActivity.class);
             case SceneType.DISCO:
                 return new Intent(context, DiscoActivity.class);
             case SceneType.CROSS_APP_AUTH:

@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -19,7 +20,7 @@ public class SceneRoomBottomView extends ConstraintLayout {
     private ImageView mIvMicState;
     private TextView mTvInput;
     private View mViewGift;
-    private View leftContainer;
+    private LinearLayout leftContainer;
     private LinearLayout rightContainer;
 
     private boolean micOpened = false;
@@ -68,8 +69,10 @@ public class SceneRoomBottomView extends ConstraintLayout {
     }
 
     /** 设置上麦按钮、麦克风按钮等等，是否显示 */
-    public void setLeftContainerVisibility(int visibility) {
-        leftContainer.setVisibility(visibility);
+    public void setLeftContainerChildViewsVisibility(int visibility) {
+        for (int i = 0; i < leftContainer.getChildCount(); i++) {
+            leftContainer.getChildAt(i).setVisibility(visibility);
+        }
     }
 
     public void setMicOpened(boolean micOpened) {
@@ -103,6 +106,27 @@ public class SceneRoomBottomView extends ConstraintLayout {
     /** 在右侧添加一个View */
     public void addViewToRight(View view, int index, LinearLayout.LayoutParams params) {
         rightContainer.addView(view, index, params);
+    }
+
+    /** 在左侧添加一个View */
+    public void addViewToLeft(View view, int index, LinearLayout.LayoutParams params) {
+        leftContainer.addView(view, index, params);
+    }
+
+    public void setGiftBackground(@DrawableRes int resId) {
+        mViewGift.setBackgroundResource(resId);
+    }
+
+    public void setInputBackground(@DrawableRes int resId) {
+        mTvInput.setBackgroundResource(resId);
+    }
+
+    public void setInputVisibility(int visibility) {
+        mTvInput.setVisibility(visibility);
+    }
+
+    public void setGiftVisibility(int visibility) {
+        mViewGift.setVisibility(visibility);
     }
 
 }

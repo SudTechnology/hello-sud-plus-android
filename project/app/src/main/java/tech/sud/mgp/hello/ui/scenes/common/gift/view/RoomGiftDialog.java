@@ -276,7 +276,7 @@ public class RoomGiftDialog extends BaseDialogFragment implements SendGiftToUser
 
     /** 添加后端配置的礼物 */
     private void addServerGifts() {
-        if (sceneType != SceneType.DANMAKU) {
+        if (sceneType != SceneType.DANMAKU && sceneType != SceneType.VERTICAL_DANMAKU) {
             return;
         }
         RoomRepository.giftList(this, sceneType, gameId, new RxCallback<GiftListResp>() {

@@ -39,6 +39,7 @@ public class HomeItemView extends FrameLayout {
         View view;
         switch (sceneModel.sceneId) {
             case SceneType.DANMAKU:
+            case SceneType.VERTICAL_DANMAKU:
                 view = new HomeDanmakuItemView(getContext());
                 break;
             case SceneType.QUIZ:

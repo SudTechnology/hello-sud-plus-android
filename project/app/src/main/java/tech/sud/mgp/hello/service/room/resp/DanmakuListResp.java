@@ -38,6 +38,7 @@ public class DanmakuListResp {
         public String name; // 名称
         public String content; // 文本内容(弹幕使用)
         public String buttonPic; // 按钮图片
+        public String backgroundColor; // 背景颜色
     }
 
 }

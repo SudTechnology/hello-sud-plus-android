@@ -71,7 +71,8 @@ public class VerticalDanmakuActivity extends BaseInteractionRoomActivity<AppGame
 
         topView.setSelectGameVisible(false);
 
-        bottomView.setLeftContainerChildViewsVisibility(View.GONE);
+        bottomView.removeGotMicView();
+        bottomView.removeMicStateView();
 
         ConstraintLayout.LayoutParams chatParams = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, DensityUtils.dp2px(119));
         chatParams.bottomToTop = R.id.danmaku_list_view;
@@ -314,10 +315,6 @@ public class VerticalDanmakuActivity extends BaseInteractionRoomActivity<AppGame
         if (model.roleType == RoleType.OWNER) {
             super.updateGiftDialogMicUsers(model);
         }
-    }
-
-    @Override
-    public void selfMicIndex(int micIndex) {
     }
 
     @Override

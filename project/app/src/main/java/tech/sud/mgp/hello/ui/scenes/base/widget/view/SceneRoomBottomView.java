@@ -68,11 +68,12 @@ public class SceneRoomBottomView extends ConstraintLayout {
         return micOpened;
     }
 
-    /** 设置上麦按钮、麦克风按钮等等，是否显示 */
-    public void setLeftContainerChildViewsVisibility(int visibility) {
-        for (int i = 0; i < leftContainer.getChildCount(); i++) {
-            leftContainer.getChildAt(i).setVisibility(visibility);
-        }
+    public void removeGotMicView() {
+        leftContainer.removeView(mViewGotMic);
+    }
+
+    public void removeMicStateView() {
+        leftContainer.removeView(mIvMicState);
     }
 
     public void setMicOpened(boolean micOpened) {

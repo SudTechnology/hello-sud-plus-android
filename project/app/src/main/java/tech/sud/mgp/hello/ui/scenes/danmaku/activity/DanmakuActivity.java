@@ -125,7 +125,8 @@ public class DanmakuActivity extends BaseInteractionRoomActivity<AppGameViewMode
         topViewLand.setFinishGameVisible(false);
         topViewLand.setSelectGameVisible(false);
 
-        bottomView.setLeftContainerChildViewsVisibility(View.GONE);
+        bottomView.removeGotMicView();
+        bottomView.removeMicStateView();
 
         ConstraintLayout.LayoutParams chatParams = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, 0);
         chatParams.bottomToTop = R.id.room_bottom_view;

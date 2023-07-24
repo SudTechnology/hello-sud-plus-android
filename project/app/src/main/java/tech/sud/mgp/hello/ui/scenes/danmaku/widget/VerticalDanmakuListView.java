@@ -203,7 +203,12 @@ public class VerticalDanmakuListView extends ConstraintLayout {
             ImageLoader.loadImage(ivIcon, iconUrl);
 
             holder.setText(R.id.tv_title, model.title);
-            holder.setText(R.id.tv_name, model.name);
+
+            if (model.callMode == DanmakuListResp.CALL_MODE_GIFT) {
+                holder.setText(R.id.tv_name, getContext().getString(R.string.gold_coin_count, model.giftPrice + ""));
+            } else {
+                holder.setText(R.id.tv_name, model.name);
+            }
         }
     }
 

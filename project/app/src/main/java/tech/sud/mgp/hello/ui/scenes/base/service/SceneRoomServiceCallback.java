@@ -8,6 +8,7 @@ import tech.sud.mgp.hello.ui.scenes.base.constant.OperateMicType;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.OrderInviteModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.danmaku.RoomCmdDanmakuTeamChangeModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.ContributionModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.DanceModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.order.RoomCmdUserOrderModel;
@@ -173,5 +174,11 @@ public interface SceneRoomServiceCallback {
     /** 更新跨域信息 */
     void onUpdateCrossApp(CrossAppModel model);
     // endregion 跨域
+
+    // region 弹幕
+
+    /** 弹幕匹配变更 */
+    void onDanmakuMatch(RoomCmdDanmakuTeamChangeModel model);
+    // endregion 弹幕
 
 }

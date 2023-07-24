@@ -2,6 +2,7 @@ package tech.sud.mgp.hello.ui.scenes.base.manager;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.Lifecycle;
@@ -36,6 +37,7 @@ import tech.sud.mgp.hello.ui.scenes.common.cmd.RoomCmdModelUtils;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdChangeGameModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdEnterRoomModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdKickOutRoomModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.danmaku.RoomCmdDanmakuTeamChangeModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.ContributionModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.DanceModel;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftModel;
@@ -118,6 +120,20 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
                     }
                 } else {
                     callback.onKickOutRoom(model.userID);
+                }
+            }
+        });
+        sceneEngineManager.setCommandListener(new SceneCommandManager.DanmakuTeamChangeListener() {
+            @Override
+            public void onRecvCommand(RoomCmdDanmakuTeamChangeModel model, String userID) {
+                // 公屏处理
+                if (model.content != null && !TextUtils.isEmpty(model.content.content)) {
+                    sceneChatManager.addMsg(model.content.content);
+                }
+
+                SceneRoomServiceCallback callback = getCallback();
+                if (callback != null) {
+                    callback.onDanmakuMatch(model);
                 }
             }
         });

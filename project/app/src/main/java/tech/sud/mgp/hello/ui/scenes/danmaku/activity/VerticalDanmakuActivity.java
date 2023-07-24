@@ -23,8 +23,10 @@ import tech.sud.mgp.hello.ui.scenes.base.model.RoleType;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.base.utils.UserInfoConverter;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.danmaku.RoomCmdDanmakuTeamChangeModel;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftModel;
 import tech.sud.mgp.hello.ui.scenes.danmaku.widget.VerticalDanmakuListView;
+import tech.sud.mgp.rtc.audio.core.MediaViewMode;
 
 /**
  * 竖版弹幕场景房间
@@ -116,7 +118,7 @@ public class VerticalDanmakuActivity extends BaseInteractionRoomActivity<AppGame
 
     private void startVideo() {
         if (binder != null) {
-            binder.startVideo(roomInfoModel.streamId, videoView);
+            binder.startVideo(roomInfoModel.streamId, MediaViewMode.ASPECT_FIT, videoView);
             playingVideoView = videoView;
         }
     }
@@ -314,4 +316,13 @@ public class VerticalDanmakuActivity extends BaseInteractionRoomActivity<AppGame
         }
     }
 
+    @Override
+    public void selfMicIndex(int micIndex) {
+    }
+
+    @Override
+    public void onDanmakuMatch(RoomCmdDanmakuTeamChangeModel model) {
+        super.onDanmakuMatch(model);
+        refreshDanmakuList();
+    }
 }

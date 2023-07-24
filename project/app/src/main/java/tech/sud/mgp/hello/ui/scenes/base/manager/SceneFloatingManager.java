@@ -60,7 +60,7 @@ public class SceneFloatingManager extends BaseServiceManager {
         String streamId = getStreamId();
         if (!TextUtils.isEmpty(streamId)) {
             parentManager.sceneEngineManager.stopVideo(streamId);
-            parentManager.sceneEngineManager.startVideo(streamId, view.getVideoView());
+            parentManager.sceneEngineManager.startVideo(streamId, null, view.getVideoView());
         }
     }
 

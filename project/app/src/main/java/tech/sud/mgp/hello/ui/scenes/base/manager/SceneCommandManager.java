@@ -20,6 +20,7 @@ import tech.sud.mgp.hello.ui.scenes.common.cmd.model.crossapp.CrossAppCmdGameSwi
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.crossapp.CrossAppCmdStatusChangeModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.crossapp.CrossAppCmdTeamChangeModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.crossapp.CrossAppCmdUsersChangeModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.danmaku.RoomCmdDanmakuTeamChangeModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdBecomeDJModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdDiscoActionPayModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdDiscoInfoReqModel;
@@ -158,6 +159,9 @@ public class SceneCommandManager extends BaseServiceManager {
                 break;
             case RoomCmd.CMD_GAME_EXTRA_GAME_SWITCH_NOTIFY: // 跨域匹配游戏切换通知
                 dispatchCommand(commandCmd, CrossAppCmdGameSwitchModel.fromJson(command), userID);
+                break;
+            case RoomCmd.CMD_GAME_BULLET_MATCH_NOTIFY: // 弹幕游戏pk匹配成功通知
+                dispatchCommand(commandCmd, RoomCmdDanmakuTeamChangeModel.fromJson(command), userID);
                 break;
         }
     }
@@ -318,6 +322,11 @@ public class SceneCommandManager extends BaseServiceManager {
                         ((CrossAppCmdGameSwitchListener) listener).onRecvCommand((CrossAppCmdGameSwitchModel) model, fromUserID);
                     }
                     break;
+                case RoomCmd.CMD_GAME_BULLET_MATCH_NOTIFY: // 弹幕游戏pk匹配成功通知
+                    if (listener instanceof DanmakuTeamChangeListener) {
+                        ((DanmakuTeamChangeListener) listener).onRecvCommand((RoomCmdDanmakuTeamChangeModel) model, fromUserID);
+                    }
+                    break;
             }
         }
     }
@@ -464,6 +473,12 @@ public class SceneCommandManager extends BaseServiceManager {
         void onRecvCommand(CrossAppCmdGameSwitchModel model, String userID);
     }
     // endregion 跨域信令监听
+
+    // region 弹幕
+    interface DanmakuTeamChangeListener extends ICommandListener {
+        void onRecvCommand(RoomCmdDanmakuTeamChangeModel model, String userID);
+    }
+    // endregion 弹幕
 
     @Override
     public void onDestroy() {

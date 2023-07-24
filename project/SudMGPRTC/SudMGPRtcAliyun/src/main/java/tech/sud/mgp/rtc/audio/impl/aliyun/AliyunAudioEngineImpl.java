@@ -5,6 +5,7 @@ import android.view.View;
 
 import tech.sud.mgp.rtc.audio.core.ISudAudioEngine;
 import tech.sud.mgp.rtc.audio.core.ISudAudioEventListener;
+import tech.sud.mgp.rtc.audio.core.MediaViewMode;
 import tech.sud.mgp.rtc.audio.model.AudioConfigModel;
 import tech.sud.mgp.rtc.audio.model.AudioJoinRoomModel;
 
@@ -78,7 +79,7 @@ public class AliyunAudioEngineImpl implements ISudAudioEngine {
     }
 
     @Override
-    public void startPlayingStream(String streamID, View view) {
+    public void startPlayingStream(String streamID, MediaViewMode mediaViewMode, View view) {
 
     }
 

@@ -122,8 +122,9 @@ public interface ISudAudioEngine {
      *
      * @param streamID
      * @param view
+     * @param mediaViewMode 图像拉伸
      */
-    void startPlayingStream(String streamID, View view);
+    void startPlayingStream(String streamID, MediaViewMode mediaViewMode, View view);
 
     /**
      * 观众停止拉流

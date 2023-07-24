@@ -26,6 +26,7 @@ import im.zego.zegoexpress.constants.ZegoRoomState;
 import im.zego.zegoexpress.constants.ZegoScenario;
 import im.zego.zegoexpress.constants.ZegoStreamResourceMode;
 import im.zego.zegoexpress.constants.ZegoUpdateType;
+import im.zego.zegoexpress.constants.ZegoViewMode;
 import im.zego.zegoexpress.entity.ZegoAudioFrameParam;
 import im.zego.zegoexpress.entity.ZegoCanvas;
 import im.zego.zegoexpress.entity.ZegoEngineConfig;
@@ -40,6 +41,7 @@ import tech.sud.mgp.rtc.audio.core.AudioRoomState;
 import tech.sud.mgp.rtc.audio.core.AudioStream;
 import tech.sud.mgp.rtc.audio.core.ISudAudioEngine;
 import tech.sud.mgp.rtc.audio.core.ISudAudioEventListener;
+import tech.sud.mgp.rtc.audio.core.MediaViewMode;
 import tech.sud.mgp.rtc.audio.model.AudioConfigModel;
 import tech.sud.mgp.rtc.audio.model.AudioJoinRoomModel;
 
@@ -218,10 +220,23 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
     }
 
     @Override
-    public void startPlayingStream(String streamID, View view) {
+    public void startPlayingStream(String streamID, MediaViewMode mediaViewMode, View view) {
         ZegoExpressEngine engine = getEngine();
         if (engine != null) {
             ZegoCanvas canvas = new ZegoCanvas(view);
+            if (mediaViewMode != null) {
+                switch (mediaViewMode) {
+                    case ASPECT_FIT:
+                        canvas.viewMode = ZegoViewMode.ASPECT_FIT;
+                        break;
+                    case ASPECT_FILL:
+                        canvas.viewMode = ZegoViewMode.ASPECT_FILL;
+                        break;
+                    case SCALE_TO_FILL:
+                        canvas.viewMode = ZegoViewMode.SCALE_TO_FILL;
+                        break;
+                }
+            }
             ZegoPlayerConfig zegoPlayerConfig = new ZegoPlayerConfig();
             zegoPlayerConfig.resourceMode = ZegoStreamResourceMode.ONLY_RTC;
             engine.startPlayingStream(streamID, canvas, zegoPlayerConfig);

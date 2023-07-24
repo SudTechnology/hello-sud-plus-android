@@ -44,6 +44,7 @@ import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.DanceModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.quiz.QuizBetModel;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftModel;
 import tech.sud.mgp.hello.ui.scenes.disco.model.DiscoInteractionModel;
+import tech.sud.mgp.rtc.audio.core.MediaViewMode;
 
 /**
  * 房间服务
@@ -317,8 +318,8 @@ public class SceneRoomService extends Service {
         }
 
         /** 开始拉视频流 */
-        public void startVideo(String streamID, View view) {
-            serviceManager.sceneEngineManager.startVideo(streamID, view);
+        public void startVideo(String streamID, MediaViewMode mediaViewMode, View view) {
+            serviceManager.sceneEngineManager.startVideo(streamID, mediaViewMode, view);
         }
 
         /** 停止视频流 */

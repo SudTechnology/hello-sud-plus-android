@@ -81,6 +81,7 @@ import tech.sud.mgp.hello.ui.scenes.base.widget.view.chat.RoomInputMsgView;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.chat.SceneRoomChatView;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.mic.OnMicItemClickListener;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.mic.SceneRoomMicWrapView;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.danmaku.RoomCmdDanmakuTeamChangeModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.ContributionModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.DanceModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.order.RoomCmdUserOrderModel;
@@ -1473,6 +1474,10 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
 
     @Override
     public void onUpdateCrossApp(CrossAppModel model) {
+    }
+
+    @Override
+    public void onDanmakuMatch(RoomCmdDanmakuTeamChangeModel model) {
     }
     // endregion service回调
 

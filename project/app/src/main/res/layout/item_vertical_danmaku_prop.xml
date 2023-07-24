@@ -5,11 +5,12 @@
     android:layout_marginHorizontal="3dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ImageView
+    <tech.sud.mgp.hello.common.widget.view.round.RoundedImageView
         android:id="@+id/iv_icon"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:scaleType="centerCrop"
+        app:riv_corner_radius="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

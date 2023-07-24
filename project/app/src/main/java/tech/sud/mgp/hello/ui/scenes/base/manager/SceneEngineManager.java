@@ -38,6 +38,7 @@ import tech.sud.mgp.rtc.audio.core.AudioRoomState;
 import tech.sud.mgp.rtc.audio.core.AudioStream;
 import tech.sud.mgp.rtc.audio.core.ISudAudioEngine;
 import tech.sud.mgp.rtc.audio.core.ISudAudioEventListener;
+import tech.sud.mgp.rtc.audio.core.MediaViewMode;
 import tech.sud.mgp.rtc.audio.factory.AudioEngineFactory;
 import tech.sud.mgp.rtc.audio.impl.zego.IMRoomManager;
 import tech.sud.mgp.rtc.audio.impl.zego.ZIMManager;
@@ -248,11 +249,11 @@ public class SceneEngineManager extends BaseServiceManager {
     }
 
     /** 开始拉视频流 */
-    public void startVideo(String streamID, View view) {
+    public void startVideo(String streamID, MediaViewMode mediaViewMode, View view) {
         ISudAudioEngine engine = getEngine();
         if (engine != null) {
             videoView = view;
-            engine.startPlayingStream(streamID, view);
+            engine.startPlayingStream(streamID, mediaViewMode, view);
         }
     }
 

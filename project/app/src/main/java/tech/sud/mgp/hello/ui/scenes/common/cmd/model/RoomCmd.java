@@ -101,4 +101,9 @@ public class RoomCmd {
     public static final int CMD_GAME_EXTRA_GAME_SWITCH_NOTIFY = 21004;
     // endregion 跨域
 
+    // region 弹幕
+    /** 弹幕游戏pk匹配成功通知 */
+    public static final int CMD_GAME_BULLET_MATCH_NOTIFY = 21006;
+    // endregion 弹幕
+
 }

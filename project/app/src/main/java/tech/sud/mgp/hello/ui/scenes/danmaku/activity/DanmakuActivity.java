@@ -204,10 +204,10 @@ public class DanmakuActivity extends BaseInteractionRoomActivity<AppGameViewMode
     private void startVideo() {
         if (binder != null) {
             if (isFullscreen) {
-                binder.startVideo(roomInfoModel.streamId, videoViewLand);
+                binder.startVideo(roomInfoModel.streamId, null, videoViewLand);
                 playingVideoView = videoViewLand;
             } else {
-                binder.startVideo(roomInfoModel.streamId, videoView);
+                binder.startVideo(roomInfoModel.streamId, null, videoView);
                 playingVideoView = videoView;
             }
         }

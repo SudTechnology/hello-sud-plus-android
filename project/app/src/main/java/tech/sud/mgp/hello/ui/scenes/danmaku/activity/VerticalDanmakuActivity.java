@@ -119,7 +119,7 @@ public class VerticalDanmakuActivity extends BaseInteractionRoomActivity<AppGame
 
     private void startVideo() {
         if (binder != null) {
-            binder.startVideo(roomInfoModel.streamId, MediaViewMode.ASPECT_FIT, videoView);
+            binder.startVideo(roomInfoModel.streamId, MediaViewMode.ASPECT_FILL, videoView);
             playingVideoView = videoView;
         }
     }

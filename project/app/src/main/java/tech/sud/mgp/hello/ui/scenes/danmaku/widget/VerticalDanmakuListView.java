@@ -60,7 +60,6 @@ public class VerticalDanmakuListView extends ConstraintLayout {
     }
 
     private void initView() {
-        setBackgroundColor(Color.parseColor("#000000"));
 //        inflate(getContext(), R.layout.view_danmaku_list, this);
 //        recyclerView = findViewById(R.id.recycler_view);
         addView(recyclerView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);

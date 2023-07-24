@@ -216,9 +216,6 @@ public class VerticalDanmakuActivity extends BaseInteractionRoomActivity<AppGame
         if (TextUtils.isEmpty(content)) {
             return;
         }
-        // 发送弹幕内容到后端
-        RoomRepository.sendDanmaku(this, roomInfoModel.roomId, content, new RxCallback<>());
-
         // 发送公屏
         if (binder != null) {
             binder.sendPublicMsg(content);

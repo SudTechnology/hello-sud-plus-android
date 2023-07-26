@@ -226,7 +226,9 @@ public class VerticalDanmakuActivity extends BaseInteractionRoomActivity<AppGame
     @Override
     public void onSelfSendMsg(String msg) {
         super.onSelfSendMsg(msg);
-        checkHitDanmaku(msg);
+        // 直接把消息发给后端，不过滤
+        RoomRepository.sendDanmaku(this, roomInfoModel.roomId, msg, new RxCallback<>());
+//        checkHitDanmaku(msg);
     }
 
     /** 检查公屏消息是否命中了弹幕 */

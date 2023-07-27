@@ -549,6 +549,7 @@ public class SudMGPAPPState implements Serializable {
             public int isForever; // 永久：0非永久 1永久
             public long validTime; // 有效期时间戳：单位是秒
             public long date; // 购买时间：1970年1月1日开始。时间戳：单位是秒
+            public String extra; // (可选择) 字段存在显示内容，字段不存在显示时间或者永久
         }
     }
 

@@ -16,5 +16,6 @@ public class RocketFireResp {
      * value集合中，对应该用户的所有订单
      */
     public Map<String, List<String>> userOrderIdsMap;
+    public SudMGPAPPState.AppCustomRocketPlayModelList.InteractConfigModel interactConfig;
     public List<SudMGPAPPState.AppCustomRocketPlayModelList.ComponentModel> componentList; // 组件列表
 }

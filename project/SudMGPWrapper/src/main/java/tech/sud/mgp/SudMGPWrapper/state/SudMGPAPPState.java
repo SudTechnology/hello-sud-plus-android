@@ -773,11 +773,20 @@ public class SudMGPAPPState implements Serializable {
      */
     public static class AppCustomRocketPlayModelList implements Serializable {
         public String orderId; // 订单号
+        public InteractConfigModel interactConfig; // 可选配置
         public List<ComponentModel> componentList; // 组件列表
 
         public static class ComponentModel {
             public int type; // 类型
             public String value; // 值
+        }
+
+        public static class InteractConfigModel {
+            public int interactivePlay; // 互动玩法默认状态，1是关闭，0是打开，默认打开；
+            public List<Integer> gear; // 每个档位需要点击的次数；
+            public int nicknameTips; // 昵称飘字是否显示，1是隐藏，0是显示，默认0；
+            public int uiSwitche; // 左上角UI信息是否显示，1是隐藏，0是显示，默认0；
+            public int guide; // 新手引导是否显示，1是隐藏，0是显示，默认0；
         }
     }
 

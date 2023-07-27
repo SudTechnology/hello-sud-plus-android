@@ -358,6 +358,7 @@ public class RocketControl extends BaseInteractionControl {
                 for (String orderId : orderList) {
                     AppCustomRocketPlayModelList model = new AppCustomRocketPlayModelList();
                     model.orderId = orderId;
+                    model.interactConfig = rocketFireResp.interactConfig;
                     model.componentList = rocketFireResp.componentList;
                     fireRocketList.add(model);
                     startRocket();

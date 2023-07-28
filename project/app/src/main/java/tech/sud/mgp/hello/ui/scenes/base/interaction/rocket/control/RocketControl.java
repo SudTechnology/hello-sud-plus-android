@@ -335,6 +335,7 @@ public class RocketControl extends BaseInteractionControl {
                     RocketFireResp useRocketFireResp = new RocketFireResp();
                     useRocketFireResp.userOrderIdsMap = new HashMap<>();
                     useRocketFireResp.userOrderIdsMap.put(userInfo.userID, orderList);
+                    useRocketFireResp.interactConfig = rocketFireResp.interactConfig;
                     useRocketFireResp.componentList = rocketFireResp.componentList;
 
                     GiftModel giftModel = GiftHelper.getInstance().createGiftModel(GiftId.ROCKET);

@@ -62,7 +62,7 @@ public class VerticalDanmakuListView extends ConstraintLayout {
     private void initView() {
 //        inflate(getContext(), R.layout.view_danmaku_list, this);
 //        recyclerView = findViewById(R.id.recycler_view);
-        addView(recyclerView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+        addView(recyclerView, LayoutParams.MATCH_PARENT, DensityUtils.dp2px(getContext(), 63));
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         recyclerView.setAdapter(adapter);
     }
@@ -90,6 +90,11 @@ public class VerticalDanmakuListView extends ConstraintLayout {
             } else if (resp.propList != null) {
                 list.addAll(resp.propList);
             }
+        }
+        if (list.size() == 0) {
+            recyclerView.setVisibility(View.GONE);
+        } else {
+            recyclerView.setVisibility(View.VISIBLE);
         }
         adapter.setList(list);
     }

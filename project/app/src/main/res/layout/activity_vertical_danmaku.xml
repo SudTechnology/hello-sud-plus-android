@@ -24,7 +24,7 @@
     <tech.sud.mgp.hello.ui.scenes.danmaku.widget.VerticalDanmakuListView
         android:id="@+id/danmaku_list_view"
         android:layout_width="match_parent"
-        android:layout_height="63dp"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@id/room_bottom_view" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

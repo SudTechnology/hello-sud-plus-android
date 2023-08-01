@@ -23,6 +23,7 @@ import im.zego.zim.enums.ZIMConnectionEvent;
 import im.zego.zim.enums.ZIMConnectionState;
 import im.zego.zim.enums.ZIMErrorCode;
 import im.zego.zim.enums.ZIMRoomState;
+import tech.sud.mgp.SudMGPWrapper.utils.SudJsonUtils;
 import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.GlobalCache;
@@ -81,7 +82,7 @@ public class SceneEngineManager extends BaseServiceManager {
                     joinRoom(model);
                 }
             });
-
+            LogUtils.file("enterRoom:" + SudJsonUtils.toJson(model));
             initZim(model);
             return;
         }
@@ -101,7 +102,7 @@ public class SceneEngineManager extends BaseServiceManager {
     }
 
     private void zimJoinRoom(RoomInfoModel model) {
-        LogUtils.file("zimJoinRoom:" + model.roomId + " userId:" + HSUserInfo.userId);
+        LogUtils.file("zimJoinRoom " + " userId:" + HSUserInfo.userId + "  roomInfoModel:" + SudJsonUtils.toJson(model));
         IMRoomManager.sharedInstance().joinRoom(model.roomId + "", HSUserInfo.userId + "",
                 HSUserInfo.nickName, model.imToken, zimListener);
     }

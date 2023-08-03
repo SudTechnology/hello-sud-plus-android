@@ -541,5 +541,6 @@
     <string name="baseball_consume_title">是否花费%1$s金币打%2$s次</string>
     <string name="affirm">确认</string>
     <string name="go_crazy_racecar_stage">正在前往疯狂赛车…</string>
+    <string name="go_king_eaters">正在前往大胃王…</string>
 
 </resources>

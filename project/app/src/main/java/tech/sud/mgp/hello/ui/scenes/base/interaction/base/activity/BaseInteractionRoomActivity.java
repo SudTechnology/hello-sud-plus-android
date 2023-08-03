@@ -65,14 +65,14 @@ public abstract class BaseInteractionRoomActivity<T extends AppGameViewModel> ex
             controlList.add(new RocketControl(this));
             controlList.add(new BaseballControl(this));
 //            controlList.add(new RacecarControl(this));
-            controlList.add(new KingEatersControl(this));
+//            controlList.add(new KingEatersControl(this));
 
             // banner
             List<InteractionGameModel> bannerList = new ArrayList<>();
             bannerList.add(new InteractionGameModel(GameIdCons.CUSTOM_ROCKET, R.drawable.ic_rocket_entrance));
             bannerList.add(new InteractionGameModel(GameIdCons.BASEBALL, R.drawable.ic_baseball_entrance));
 //            bannerList.add(new InteractionGameModel(GameIdCons.CRAZY_RACECAR, R.drawable.ic_crazy_racecar));
-            bannerList.add(new InteractionGameModel(GameIdCons.KING_EATERS, R.drawable.ic_king_eaters));
+//            bannerList.add(new InteractionGameModel(GameIdCons.KING_EATERS, R.drawable.ic_king_eaters));
 
             interactionBannerView.setDatas(bannerList);
         }

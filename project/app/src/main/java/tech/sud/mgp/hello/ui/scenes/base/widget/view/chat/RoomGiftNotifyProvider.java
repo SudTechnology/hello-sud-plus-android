@@ -90,7 +90,7 @@ public class RoomGiftNotifyProvider extends BaseItemProvider<Object> {
     private void creatText(GiftNotifyDetailModel item, TextView textTv, Drawable drawable, int overSize) {
         SpannableStringBuilder builder = new SpannableStringBuilder();
         builder.append(item.sendUser.name);
-        ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#aaaaaa"));
+        ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#f6ff00"));
         builder.append(" " + getContext().getString(R.string.audio_dialog_present) + " ", colorSpan, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         if (item.toUser != null && item.toUser.name != null) {
             builder.append(item.toUser.name);

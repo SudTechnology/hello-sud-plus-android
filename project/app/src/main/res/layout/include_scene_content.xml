@@ -10,6 +10,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <!-- 游戏自定义加载进度条 -->
+    <FrameLayout
+        android:id="@+id/container_game_loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
     <!-- 顶部的一个遮罩 -->
     <View
         android:layout_width="match_parent"
@@ -69,6 +75,17 @@
         android:layout_marginEnd="60dp"
         app:layout_constraintTop_toBottomOf="@id/room_mic_view"
         app:layout_constraintBottom_toTopOf="@id/room_bottom_view" />
+
+    <!-- 大富翁游戏的卡片展示 -->
+    <ViewStub
+        android:id="@+id/view_stub_monopoly_card_view"
+        android:layout_width="174dp"
+        android:layout_height="171dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="6dp"
+        android:layout="@layout/include_monopoly_card_container"
+        app:layout_constraintBottom_toTopOf="@id/room_bottom_view"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- 底部的View -->
     <tech.sud.mgp.hello.ui.scenes.base.widget.view.SceneRoomBottomView

@@ -4,11 +4,17 @@ import androidx.lifecycle.LifecycleOwner;
 
 import java.util.List;
 
+import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
 import tech.sud.mgp.hello.common.http.param.BaseUrlManager;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.http.rx.RxUtils;
 import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.service.room.method.AudioRequestMethodFactory;
+import tech.sud.mgp.hello.service.room.req.Audio3DGetConfigReq;
+import tech.sud.mgp.hello.service.room.req.Audio3DLockMicReq;
+import tech.sud.mgp.hello.service.room.req.Audio3DMicListReq;
+import tech.sud.mgp.hello.service.room.req.Audio3DSwitchMicReq;
+import tech.sud.mgp.hello.service.room.req.Audio3DUpdateMicrophoneStateReq;
 import tech.sud.mgp.hello.service.room.req.CrossAppCancelMatchReq;
 import tech.sud.mgp.hello.service.room.req.CrossAppJoinTeamReq;
 import tech.sud.mgp.hello.service.room.req.CrossAppQuitTeamReq;
@@ -20,6 +26,7 @@ import tech.sud.mgp.hello.service.room.req.DiscoAnchorListReq;
 import tech.sud.mgp.hello.service.room.req.DiscoSwitchAnchorReq;
 import tech.sud.mgp.hello.service.room.req.EnterRoomReq;
 import tech.sud.mgp.hello.service.room.req.ExitRoomReq;
+import tech.sud.mgp.hello.service.room.req.GetMonopolyCardsReq;
 import tech.sud.mgp.hello.service.room.req.GiftListReq;
 import tech.sud.mgp.hello.service.room.req.LeaguePlayingReq;
 import tech.sud.mgp.hello.service.room.req.QuizGamePlayerReq;
@@ -36,12 +43,14 @@ import tech.sud.mgp.hello.service.room.req.RoomPkStartReq;
 import tech.sud.mgp.hello.service.room.req.RoomPkSwitchReq;
 import tech.sud.mgp.hello.service.room.req.SendDanmakuReq;
 import tech.sud.mgp.hello.service.room.req.SendGiftReq;
+import tech.sud.mgp.hello.service.room.req.SetCrRoomConfigReq;
 import tech.sud.mgp.hello.service.room.resp.CrossAppStartMatchResp;
 import tech.sud.mgp.hello.service.room.resp.DanmakuListResp;
 import tech.sud.mgp.hello.service.room.resp.DiscoAnchorListResp;
 import tech.sud.mgp.hello.service.room.resp.EnterRoomResp;
 import tech.sud.mgp.hello.service.room.resp.GiftListResp;
 import tech.sud.mgp.hello.service.room.resp.LeaguePlayingResp;
+import tech.sud.mgp.hello.service.room.resp.MonopolyCardsResp;
 import tech.sud.mgp.hello.service.room.resp.QuizGamePlayerResp;
 import tech.sud.mgp.hello.service.room.resp.RobotListResp;
 import tech.sud.mgp.hello.service.room.resp.RoomMicListResp;
@@ -318,13 +327,14 @@ public class RoomRepository {
      * @param giftPrice      礼物价格(金币)
      */
     public static void sendGift(LifecycleOwner owner, long roomId, long giftId, int amount,
-                                int giftConfigType, int giftPrice, RxCallback<Object> callback) {
+                                int giftConfigType, int giftPrice, List<String> receiverList, RxCallback<Object> callback) {
         SendGiftReq req = new SendGiftReq();
         req.roomId = roomId;
         req.giftId = giftId;
         req.amount = amount;
         req.giftConfigType = giftConfigType;
         req.giftPrice = giftPrice;
+        req.receiverList = receiverList;
         AudioRequestMethodFactory.getMethod()
                 .sendGift(BaseUrlManager.getInteractBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
@@ -482,5 +492,69 @@ public class RoomRepository {
                 .subscribe(callback);
     }
     // endregion 跨域
+
+    // region 3D语聊房
+
+    /** 上麦或下麦 */
+    public static void audio3DSwitchMic(LifecycleOwner owner, Audio3DSwitchMicReq req, RxCallback<Object> callback) {
+        AudioRequestMethodFactory.getMethod()
+                .audio3DSwitchMic(BaseUrlManager.getInteractBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /** 更新麦克风信息 */
+    public static void audio3DUpdateMicrophoneState(LifecycleOwner owner, Audio3DUpdateMicrophoneStateReq req, RxCallback<Object> callback) {
+        AudioRequestMethodFactory.getMethod()
+                .audio3DUpdateMicrophoneState(BaseUrlManager.getInteractBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /** 锁/解锁麦位 */
+    public static void audio3DLockMic(LifecycleOwner owner, Audio3DLockMicReq req, RxCallback<Object> callback) {
+        AudioRequestMethodFactory.getMethod()
+                .audio3DLockMic(BaseUrlManager.getInteractBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /** 查询麦位列表 */
+    public static void audio3DMicList(LifecycleOwner owner, Audio3DMicListReq req, RxCallback<SudMGPAPPState.AppCustomCrSetSeats> callback) {
+        AudioRequestMethodFactory.getMethod()
+                .audio3DMicList(BaseUrlManager.getInteractBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /** 获取配置 */
+    public static void audio3DGetConfig(LifecycleOwner owner, Audio3DGetConfigReq req, RxCallback<SudMGPAPPState.AppCustomCrSetRoomConfig> callback) {
+        AudioRequestMethodFactory.getMethod()
+                .audio3DGetConfig(BaseUrlManager.getInteractBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /** 设置配置 */
+    public static void audio3DSetConfig(LifecycleOwner owner, long roomId, SudMGPAPPState.AppCustomCrSetRoomConfig config, RxCallback<Object> callback) {
+        SetCrRoomConfigReq req = new SetCrRoomConfigReq();
+        req.roomId = roomId;
+        req.setConfig(config);
+        AudioRequestMethodFactory.getMethod()
+                .audio3DSetConfig(BaseUrlManager.getInteractBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+    // endregion 3D语聊房
+
+
+    /** 大富翁道具列表 */
+    public static void getMonopolyCards(LifecycleOwner owner, RxCallback<MonopolyCardsResp> callback) {
+        GetMonopolyCardsReq req = new GetMonopolyCardsReq();
+        AudioRequestMethodFactory.getMethod()
+                .getMonopolyCards(BaseUrlManager.getGameBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
 
 }

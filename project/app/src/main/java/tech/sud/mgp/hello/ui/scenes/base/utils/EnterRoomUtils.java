@@ -190,6 +190,8 @@ public class EnterRoomUtils {
                 return new Intent(context, LeagueActivity.class);
             case SceneType.CROSS_APP_MATCH:
                 return new Intent(context, CrossAppMatchActivity.class);
+//            case SceneType.AUDIO_3D:
+//                return new Intent(context, Audio3DRoomActivity.class);
 //            case SceneType.TALENT:
 //                return new Intent(context, TalentRoomActivity.class);
 //            case SceneType.ONE_ONE:

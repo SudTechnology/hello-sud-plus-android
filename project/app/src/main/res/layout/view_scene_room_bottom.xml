@@ -78,6 +78,18 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
 
+    <ImageView
+        android:id="@+id/view_emoji"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:padding="7dp"
+        android:src="@drawable/ic_emoji"
+        android:layout_marginEnd="3dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="@id/tv_input"
+        app:layout_constraintBottom_toBottomOf="@id/tv_input"
+        app:layout_constraintEnd_toEndOf="@id/tv_input" />
+
     <LinearLayout
         android:id="@+id/right_container"
         android:layout_width="wrap_content"

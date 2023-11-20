@@ -22,6 +22,7 @@ public class SceneRoomBottomView extends ConstraintLayout {
     private View mViewGift;
     private LinearLayout leftContainer;
     private LinearLayout rightContainer;
+    private View mViewEmoji;
 
     private boolean micOpened = false;
 
@@ -46,6 +47,7 @@ public class SceneRoomBottomView extends ConstraintLayout {
         mViewGift = findViewById(R.id.view_gift);
         leftContainer = findViewById(R.id.left_container);
         rightContainer = findViewById(R.id.right_container);
+        mViewEmoji = findViewById(R.id.view_emoji);
     }
 
     public void showMicState() {
@@ -130,4 +132,11 @@ public class SceneRoomBottomView extends ConstraintLayout {
         mViewGift.setVisibility(visibility);
     }
 
+    public void setEmojiVisibility(int visibility) {
+        mViewEmoji.setVisibility(visibility);
+    }
+
+    public void setEmojiClickListener(OnClickListener listener) {
+        mViewEmoji.setOnClickListener(listener);
+    }
 }

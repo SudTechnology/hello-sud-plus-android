@@ -47,6 +47,7 @@ import tech.sud.mgp.hello.common.utils.SystemUtils;
 import tech.sud.mgp.hello.service.game.repository.GameRepository;
 import tech.sud.mgp.hello.service.game.resp.GameLoginResp;
 import tech.sud.mgp.hello.service.main.config.SudConfig;
+import tech.sud.mgp.hello.ui.main.base.constant.GameIdCons;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.GameLoadingProgressModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.GameTextModel;
@@ -56,7 +57,7 @@ import tech.sud.mgp.rtc.audio.core.AudioPCMData;
 /**
  * 游戏业务逻辑
  */
-public class AppGameViewModel implements SudFSMMGListener {
+public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.OnNotifyStateChangeListener {
 
     // region field
     public static long GAME_ID_NONE = 0; // 没有游戏
@@ -85,7 +86,8 @@ public class AppGameViewModel implements SudFSMMGListener {
     public final MutableLiveData<GameLoadingProgressModel> gameLoadingProgressLiveData = new MutableLiveData<>(); // 游戏加载进度回调
     public final MutableLiveData<Object> onGameGetScoreLiveData = new MutableLiveData<>(); // 游戏通知app获取积分
     public final MutableLiveData<SudMGPMGState.MGCommonGameSetScore> onGameSetScoreLiveData = new MutableLiveData<>(); // 24. 游戏通知app带入积分
-    public final MutableLiveData<SudMGPMGState.MGCommonGameSettle> gameSettleLiveData = new MutableLiveData<>();
+    public final MutableLiveData<SudMGPMGState.MGCommonGameSettle> gameSettleLiveData = new MutableLiveData<>(); // 游戏结算
+    public final MutableLiveData<SudMGPMGState.MGCommonGamePlayerMonopolyCards> monopolyCardsLiveData = new MutableLiveData<>(); // 大富翁获取道具
 
     public MutableLiveData<SudMGPMGState.MGCommonGameCreateOrder> gameCreateOrderLiveData = new MutableLiveData<>(); // 创建订单
 
@@ -98,6 +100,10 @@ public class AppGameViewModel implements SudFSMMGListener {
     public boolean isShowCustomLoading = false; // 是否要显示自定义的加载进度
 
     protected boolean closeGameIsCheckFinishGame = true; // 关闭游戏前，是否需要先结束掉游戏
+
+    public AppGameViewModel() {
+        sudFSTAPPDecorator.setOnNotifyStateChangeListener(this);
+    }
 
     // endregion field
 
@@ -443,6 +449,33 @@ public class AppGameViewModel implements SudFSMMGListener {
         gameViewInfoModel.view_game_rect.top = DensityUtils.dp2px(Utils.getApp(), 121) + BarUtils.getStatusBarHeight();
         gameViewInfoModel.view_game_rect.right = 0;
         gameViewInfoModel.view_game_rect.bottom = DensityUtils.dp2px(Utils.getApp(), 160);
+
+        // 计算大富翁游戏所使用的安全区底部padding
+        if (playingGameId == GameIdCons.MONOPOLY) {
+            calcMonopolyGameRectBottom(gameViewInfoModel);
+        }
+    }
+
+    /** 计算大富翁游戏所使用的底部padding */
+    private void calcMonopolyGameRectBottom(GameViewInfoModel gameViewInfoModel) {
+        int viewSizeWidth = gameViewInfoModel.view_size.width; // 游戏View的宽度
+        int viewSizeHeight = gameViewInfoModel.view_size.height; // 游戏View的高度
+        float gameMinRatio = 1155 * 1.0f / 1080; // 大富翁最小高度和最小宽度的比例
+        int gameMinHeight = (int) (viewSizeWidth * gameMinRatio); // 得到游戏在当前屏幕至少需要多少高度来展示
+        int suggestBottom = DensityUtils.dp2px(Utils.getApp(), 231); // 最佳安全区建议值
+
+        // 游戏View高度减去top和bottom，如果剩余空间可以让游戏正常展示交互，那则使用建议值
+        if (viewSizeHeight - gameViewInfoModel.view_game_rect.top - suggestBottom >= gameMinHeight) {
+            gameViewInfoModel.view_game_rect.bottom = suggestBottom;
+        } else { // 否则，不做处理，因为上面已经设置了默认值，默认值会比较小
+        }
+    }
+
+    private boolean isCanUseMonopolySettings(GameViewInfoModel gameViewInfoModel) {
+        float gameMinRatio = 1155 * 1.0f / 1080; // 大富翁最小高度和最小宽度的比例
+        int gameMinHeight = (int) (DensityUtils.getAppScreenWidth() * gameMinRatio);
+
+        return false;
     }
 
     /**
@@ -882,6 +915,17 @@ public class AppGameViewModel implements SudFSMMGListener {
         SudFSMMGListener.super.onGameMGCommonGameSetScore(handle, model);
         onGameSetScoreLiveData.setValue(model);
     }
+
+    /**
+     * 52. 游戏向app发送获取玩家持有的道具卡（只支持大富翁）
+     * mg_common_game_player_monopoly_cards
+     */
+    @Override
+    public void onGameMGCommonGamePlayerMonopolyCards(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGamePlayerMonopolyCards model) {
+        SudFSMMGListener.super.onGameMGCommonGamePlayerMonopolyCards(handle, model);
+        monopolyCardsLiveData.setValue(model);
+    }
+
     // endregion 游戏侧回调
 
     public void preloadMG(FragmentActivity activity, List<Long> mgIdList) {
@@ -935,9 +979,19 @@ public class AppGameViewModel implements SudFSMMGListener {
     }
 
     @Override
+    public void onNotifyStateChange(String state, String dataJson) {
+        // 此接口回调用于监控app向游戏发送的消息，可将其打印到控制台，尽量不要在此做其他业务性的操作
+        LogUtils.d("onNotifyStateChange:" + state + " :" + dataJson);
+    }
+
+    @Override
     public void onGameMGCommonGameCreateOrder(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameCreateOrder model) {
         SudFSMMGListener.super.onGameMGCommonGameCreateOrder(handle, model);
         gameCreateOrderLiveData.setValue(model);
+    }
+
+    public void reloadMG() {
+        sudFSTAPPDecorator.reloadMG();
     }
 
 }

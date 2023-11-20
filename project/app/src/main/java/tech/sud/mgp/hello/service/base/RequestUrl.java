@@ -69,6 +69,9 @@ public interface RequestUrl {
     /** 获取首页banner信息 */
     String GET_BANNER = "get-banner/v1";
 
+    /** 加金币 */
+    String ADD_COIN = "add-coin/v1";
+
     // region 房间pk
     /** 设置PK时长 */
     String ROOM_PK_DURATION = "room/pk/duration/v1";
@@ -230,5 +233,28 @@ public interface RequestUrl {
 
     /** 创建订单 */
     String CREATE_ORDER = "app/create-order/v1";
+
+    // region 3D语聊房
+    /** 上麦或下麦 */
+    String AUDIO_3D_SWITCH_MIC = "3d-chat-room/switch-mic/v1";
+
+    /** 更新麦克风信息 */
+    String AUDIO_3D_UPDATE_MICROPHONE_STATE = "3d-chat-room/update-mic/v1";
+
+    /** 锁/解锁麦位 */
+    String AUDIO_3D_LOCK_MIC = "3d-chat-room/lock-mic/v1";
+
+    /** 查询麦位列表 */
+    String AUDIO_3D_MIC_LIST = "3d-chat-room/mic/list/v1";
+
+    /** 获取配置 */
+    String AUDIO_3D_GET_CONFIG = "3d-chat-room/get-config/v1";
+
+    /** 设置配置 */
+    String AUDIO_3D_SET_CONFIG = "3d-chat-room/set-config/v1";
+    // endregion 3D语聊房
+
+    /** 大富翁道具列表 */
+    String MONOPOLY_CARDS = "monopoly/player/cards/v1";
 
 }

@@ -16,6 +16,9 @@ import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdEnterRoomModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdKickOutRoomModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdSendGiftModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdUpMicModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.audio3d.Audio3DCmdConfigChangModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.audio3d.Audio3DCmdFaceNotifyModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.audio3d.Audio3DCmdMicChangModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.crossapp.CrossAppCmdGameSwitchModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.crossapp.CrossAppCmdStatusChangeModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.crossapp.CrossAppCmdTeamChangeModel;
@@ -26,6 +29,7 @@ import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdDiscoActionPay
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdDiscoInfoReqModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdDiscoInfoRespModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.league.RoomCmdLeagueInfoRespModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.monopoly.RoomCmdMonopolyCardGiftModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.order.RoomCmdOrderOperateModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.order.RoomCmdUserOrderModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.pk.RoomCmdPKAnswerModel;
@@ -162,6 +166,18 @@ public class SceneCommandManager extends BaseServiceManager {
                 break;
             case RoomCmd.CMD_GAME_BULLET_MATCH_NOTIFY: // 弹幕游戏pk匹配成功通知
                 dispatchCommand(commandCmd, RoomCmdDanmakuTeamChangeModel.fromJson(command), userID);
+                break;
+            case RoomCmd.CMD_ROOM_3D_CONFIG_CHANGE_NOTIFY: // 3D语聊房配置变更
+                dispatchCommand(commandCmd, Audio3DCmdConfigChangModel.fromJson(command), userID);
+                break;
+            case RoomCmd.CMD_ROOM_3D_MIC_STATE_CHANGE_NOTIFY: // 弹幕游戏pk匹配成功通知
+                dispatchCommand(commandCmd, Audio3DCmdMicChangModel.fromJson(command), userID);
+                break;
+            case RoomCmd.CMD_ROOM_3D_SEND_FACE_NOTIFY: // 3D语聊房发送表情通知
+                dispatchCommand(commandCmd, Audio3DCmdFaceNotifyModel.fromJson(command), userID);
+                break;
+            case RoomCmd.CMD_GAME_MONOPOLY_CARD_GIFT_NOTIFY: // 大富翁道具卡送礼通知
+                dispatchCommand(commandCmd, RoomCmdMonopolyCardGiftModel.fromJson(command), userID);
                 break;
         }
     }
@@ -327,6 +343,26 @@ public class SceneCommandManager extends BaseServiceManager {
                         ((DanmakuTeamChangeListener) listener).onRecvCommand((RoomCmdDanmakuTeamChangeModel) model, fromUserID);
                     }
                     break;
+                case RoomCmd.CMD_ROOM_3D_CONFIG_CHANGE_NOTIFY: // 3D语聊房配置变更
+                    if (listener instanceof Audio3DConfigChangeListener) {
+                        ((Audio3DConfigChangeListener) listener).onRecvCommand((Audio3DCmdConfigChangModel) model, fromUserID);
+                    }
+                    break;
+                case RoomCmd.CMD_ROOM_3D_MIC_STATE_CHANGE_NOTIFY: // 3D语聊房麦位状态变更
+                    if (listener instanceof Audio3DMicChangeListener) {
+                        ((Audio3DMicChangeListener) listener).onRecvCommand((Audio3DCmdMicChangModel) model, fromUserID);
+                    }
+                    break;
+                case RoomCmd.CMD_ROOM_3D_SEND_FACE_NOTIFY: // 3D语聊房发送表情通知
+                    if (listener instanceof Audio3DFaceNotifyListener) {
+                        ((Audio3DFaceNotifyListener) listener).onRecvCommand((Audio3DCmdFaceNotifyModel) model, fromUserID);
+                    }
+                    break;
+                case RoomCmd.CMD_GAME_MONOPOLY_CARD_GIFT_NOTIFY: // 大富翁道具卡送礼通知
+                    if (listener instanceof MonopolyCardGiftListener) {
+                        ((MonopolyCardGiftListener) listener).onRecvCommand((RoomCmdMonopolyCardGiftModel) model, fromUserID);
+                    }
+                    break;
             }
         }
     }
@@ -479,6 +515,26 @@ public class SceneCommandManager extends BaseServiceManager {
         void onRecvCommand(RoomCmdDanmakuTeamChangeModel model, String userID);
     }
     // endregion 弹幕
+
+    // region 3D语聊房
+    interface Audio3DConfigChangeListener extends ICommandListener {
+        void onRecvCommand(Audio3DCmdConfigChangModel model, String userID);
+    }
+
+    interface Audio3DMicChangeListener extends ICommandListener {
+        void onRecvCommand(Audio3DCmdMicChangModel model, String userID);
+    }
+
+    interface Audio3DFaceNotifyListener extends ICommandListener {
+        void onRecvCommand(Audio3DCmdFaceNotifyModel model, String userID);
+    }
+    // endregion 3D语聊房
+
+    // region 大富翁
+    interface MonopolyCardGiftListener extends ICommandListener {
+        void onRecvCommand(RoomCmdMonopolyCardGiftModel model, String userID);
+    }
+    // endregion 大富翁
 
     @Override
     public void onDestroy() {

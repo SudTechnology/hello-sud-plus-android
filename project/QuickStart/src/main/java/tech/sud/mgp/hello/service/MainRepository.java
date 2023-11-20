@@ -39,6 +39,12 @@ public class MainRepository {
         list.add(buildGameModel(1490944230389182466L, "友尽闯关", R.drawable.picopark, R.drawable.ic_picopark));
         list.add(buildGameModel(1490944604005199873L, "大话骰", R.drawable.dice, R.drawable.ic_dice));
         list.add(buildGameModel(1494212349664686081L, "德州扑克", R.drawable.dz, R.drawable.ic_dz));
+        list.add(buildGameModel(1582551621189419010L, "桌球", R.drawable.zq, R.drawable.ic_zq));
+        list.add(buildGameModel(1572529757165293569L, "连线激斗", R.drawable.lxjd, R.drawable.ic_lxjd));
+        list.add(buildGameModel(1559030313895714818L, "麻将对对碰", R.drawable.mjddp, R.drawable.ic_mjddp));
+        list.add(buildGameModel(1564814666005299201L, "科学计算器", R.drawable.kxjsq, R.drawable.ic_kxjsq));
+        list.add(buildGameModel(1564814818015264770L, "疯狂购物", R.drawable.fkgw, R.drawable.ic_fkgw));
+        list.add(buildGameModel(1585556944972623874L, "魔法大乐斗", R.drawable.mfdld, R.drawable.ic_mfdld));
         return list;
     }
 

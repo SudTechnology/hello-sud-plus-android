@@ -16,6 +16,7 @@ import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
 import tech.sud.mgp.hello.common.widget.view.SoundLevelView;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
+import tech.sud.mgp.hello.ui.scenes.base.model.MicAnimModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoleType;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.mic.BaseMicItemView;
 
@@ -101,6 +102,10 @@ public class AudioRoomMicItemView extends BaseMicItemView {
     @Override
     public void stopSoundLevel() {
         mSoundLevelView.stop();
+    }
+
+    @Override
+    public void startAnim(MicAnimModel model) {
     }
 
 }

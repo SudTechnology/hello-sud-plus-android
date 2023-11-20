@@ -432,6 +432,71 @@ public interface SudFSMMGListener {
     default void onGameMGCommonHideGameScene(ISudFSMStateHandle handle, SudMGPMGState.MGCommonHideGameScene model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
+
+    /**
+     * 46. 通知app点击了游戏的金币按钮(赛车)
+     * mg_common_self_click_gold_btn
+     */
+    default void onGameMGCommonSelfClickGoldBtn(ISudFSMStateHandle handle, SudMGPMGState.MGCommonSelfClickGoldBtn model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 47. 通知app棋子到达终点(ludo)
+     * mg_common_game_piece_arrive_end
+     */
+    default void onGameMGCommonGamePieceArriveEnd(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGamePieceArriveEnd model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 48. 通知app玩家是否托管
+     * mg_common_game_player_managed_state
+     */
+    default void onGameMGCommonGamePlayerManagedState(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGamePlayerManagedState model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 49. 游戏向app发送爆词
+     * mg_common_game_send_burst_word
+     */
+    default void onGameMGCommonGameSendBurstWord(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameSendBurstWord model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 50. 游戏向app发送玩家实时排名（只支持怪物消消乐）
+     * mg_common_game_player_ranks
+     */
+    default void onGameMGCommonGamePlayerRanks(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGamePlayerRanks model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 51. 游戏向app发送玩家即时变化的单双牌（只支持okey101）
+     * mg_common_game_player_pair_singular
+     */
+    default void onGameMGCommonGamePlayerPairSingular(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGamePlayerPairSingular model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 52. 游戏向app发送获取玩家持有的道具卡（只支持大富翁）
+     * mg_common_game_player_monopoly_cards
+     */
+    default void onGameMGCommonGamePlayerMonopolyCards(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGamePlayerMonopolyCards model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 53. 游戏向app发送玩家实时积分（只支持怪物消消乐）
+     * mg_common_game_player_scores
+     */
+    default void onGameMGCommonGamePlayerScores(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGamePlayerScores model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
     // endregion 游戏回调APP 通用状态
 
     // region 游戏回调APP 玩家状态
@@ -867,6 +932,25 @@ public interface SudFSMMGListener {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
     // endregion 游戏回调APP 通用状态 棒球
+
+    // region 游戏回调APP 3D语聊房
+
+    /**
+     * 1. 请求房间数据
+     * mg_custom_cr_room_init_data
+     */
+    default void onGameMGCustomCrRoomInitData(ISudFSMStateHandle handle, SudMGPMGState.MGCustomCrRoomInitData model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 2. 点击主播位或老板位通知
+     * mg_custom_cr_click_seat
+     */
+    default void onGameMGCustomCrClickSeat(ISudFSMStateHandle handle, SudMGPMGState.MGCustomCrClickSeat model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+    // endregion 游戏回调APP 3D语聊房
 
     /**
      * 游戏状态变化

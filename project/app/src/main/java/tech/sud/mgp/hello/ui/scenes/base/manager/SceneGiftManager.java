@@ -1,6 +1,9 @@
 package tech.sud.mgp.hello.ui.scenes.base.manager;
 
-import tech.sud.mgp.hello.common.model.HSUserInfo;
+import java.util.List;
+
+import tech.sud.mgp.hello.ui.main.base.constant.SceneType;
+import tech.sud.mgp.hello.ui.scenes.base.model.GiftNotifyModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomServiceCallback;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.RoomCmdModelUtils;
@@ -34,7 +37,11 @@ public class SceneGiftManager extends BaseServiceManager {
     }
 
     /** 发送礼物 */
-    public void sendGift(GiftModel giftModel, int giftCount, UserInfo toUser) {
+    public void sendGift(GiftModel giftModel, int giftCount, List<UserInfo> toUserList, boolean isAllSeat) {
+        if (toUserList == null || toUserList.size() == 0) {
+            return;
+        }
+
         long giftID = giftModel.giftId;
         int type = giftModel.type;
         String giftName = giftModel.giftName;
@@ -42,24 +49,19 @@ public class SceneGiftManager extends BaseServiceManager {
         String animationUrl = giftModel.animationUrl;
         String extData = giftModel.extData;
 
-        String command = RoomCmdModelUtils.buildSendGiftCommand(giftID, giftCount, toUser, type, giftName, giftUrl, animationUrl, extData);
+        String command = RoomCmdModelUtils.buildSendGiftCommand(giftID, giftCount, toUserList, type, giftName, giftUrl, animationUrl, extData, isAllSeat);
 
-        GiftNotifyDetailModel notify = new GiftNotifyDetailModel();
-        notify.gift = giftModel;
+        for (UserInfo userInfo : toUserList) {
+            GiftNotifyDetailModel notify = new GiftNotifyDetailModel();
+            notify.gift = giftModel;
+            notify.sendUser = RoomCmdModelUtils.getSendUser();
+            notify.toUser = userInfo;
+            notify.giftCount = giftCount;
+            notify.giftID = giftID;
+            parentManager.sceneChatManager.addMsg(notify);
+        }
 
-        UserInfo user = new UserInfo();
-        user.userID = HSUserInfo.userId + "";
-        user.name = HSUserInfo.nickName;
-        user.icon = HSUserInfo.getUseAvatar();
-
-        notify.sendUser = user;
-        notify.toUser = toUser;
-        notify.giftCount = giftCount;
-        notify.giftID = giftID;
-
-        parentManager.sceneChatManager.addMsg(notify);
-
-        if (giftID == GiftId.ROCKET) {
+        if (giftID == GiftId.ROCKET || parentManager.getSceneType() == SceneType.AUDIO_3D) {
             parentManager.sceneEngineManager.sendXRoomCommand(parentManager.getRoomId() + "", command, null);
         } else {
             parentManager.sceneEngineManager.sendCommand(command, null);
@@ -83,18 +85,33 @@ public class SceneGiftManager extends BaseServiceManager {
             if (giftModel == null) {
                 return;
             }
+            if (command.toUserList == null || command.toUserList.size() == 0) {
+                return;
+            }
             giftModel.extData = command.extData;
-            GiftNotifyDetailModel notify = new GiftNotifyDetailModel();
-            notify.gift = giftModel;
-            notify.sendUser = command.sendUser;
-            notify.toUser = command.toUser;
-            notify.giftCount = command.giftCount;
-            notify.giftID = command.giftID;
+
+            for (UserInfo userInfo : command.toUserList) {
+                GiftNotifyDetailModel notify = new GiftNotifyDetailModel();
+                notify.gift = giftModel;
+                notify.sendUser = command.sendUser;
+                notify.toUser = userInfo;
+                notify.giftCount = command.giftCount;
+                notify.giftID = command.giftID;
+                parentManager.sceneChatManager.addMsg(notify);
+            }
+
             SceneRoomServiceCallback callback = parentManager.getCallback();
             if (callback != null) {
-                callback.sendGiftsNotify(notify);
+                GiftNotifyModel model = new GiftNotifyModel();
+                model.gift = giftModel;
+                model.sendUser = command.sendUser;
+                model.toUserList = command.toUserList;
+                model.giftCount = command.giftCount;
+                model.giftID = command.giftID;
+                model.isAllSeat = command.isAllSeat;
+                callback.sendGiftsNotify(model);
             }
-            parentManager.sceneChatManager.addMsg(notify);
         }
     };
+
 }

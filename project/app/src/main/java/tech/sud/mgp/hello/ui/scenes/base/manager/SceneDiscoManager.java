@@ -223,12 +223,14 @@ public class SceneDiscoManager extends BaseServiceManager {
     }
 
     /** 自己发送了礼物 */
-    public void onSendGift(GiftModel giftModel, int giftCount, UserInfo toUser) {
-        if (toUser == null || giftModel == null) {
+    public void onSendGift(GiftModel giftModel, int giftCount, List<UserInfo> toUserList) {
+        if (toUserList == null || toUserList.size() == 0 || giftModel == null) {
             return;
         }
-        processGiftAction(giftModel.giftId, giftCount, toUser, giftModel.type, giftModel.giftName);
-        addGiftContribution(giftModel, giftCount, selfUserInfo);
+        for (UserInfo toUser : toUserList) {
+            processGiftAction(giftModel.giftId, giftCount, toUser, giftModel.type, giftModel.giftName);
+            addGiftContribution(giftModel, giftCount, selfUserInfo);
+        }
     }
 
     /** 添加礼物贡献 */
@@ -559,18 +561,20 @@ public class SceneDiscoManager extends BaseServiceManager {
         @Override
         public void onRecvCommand(RoomCmdSendGiftModel model, String userID) {
             GiftModel giftModel = GiftHelper.getInstance().getGift(model.giftID);
-            if (model.sendUser != null && giftModel != null) {
-                // 添加贡献榜
-                addGiftContribution(giftModel, model.giftCount, model.sendUser);
+            if (model.sendUser != null && model.toUserList != null && model.toUserList.size() > 0 && giftModel != null) {
+                for (UserInfo toUser : model.toUserList) {
+                    // 添加贡献榜
+                    addGiftContribution(giftModel, model.giftCount, model.sendUser);
 
-                // 跳舞
-                if (model.type == 0) {
-                    if (model.giftID == 5) {
-                        addDance(model.sendUser, model.toUser, 60 * model.giftCount);
-                    } else if (model.giftID == 6) {
-                        addDance(model.sendUser, model.toUser, 3 * 60 * model.giftCount);
-                    } else if (model.giftID == 7) {
-                        danceTop(model.sendUser, model.toUser);
+                    // 跳舞
+                    if (model.type == 0) {
+                        if (model.giftID == 5) {
+                            addDance(model.sendUser, toUser, 60 * model.giftCount);
+                        } else if (model.giftID == 6) {
+                            addDance(model.sendUser, toUser, 3 * 60 * model.giftCount);
+                        } else if (model.giftID == 7) {
+                            danceTop(model.sendUser, toUser);
+                        }
                     }
                 }
             }

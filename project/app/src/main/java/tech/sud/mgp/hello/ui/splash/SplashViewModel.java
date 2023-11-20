@@ -36,7 +36,7 @@ public class SplashViewModel extends BaseViewModel {
 
     // 初始化
     public void init(RxAppCompatActivity owner) {
-        configViewModel.initConfigSuccessLiveData.observeForever(configObserver);
+        configViewModel.initConfigSuccessLiveData.observe(owner, configObserver);
         checkEnvChange();
         checkUpgrade(owner);
     }

@@ -32,6 +32,7 @@ import tech.sud.mgp.hello.service.main.resp.QuizGameListResp;
 import tech.sud.mgp.hello.service.main.resp.RoomListResp;
 import tech.sud.mgp.hello.service.main.resp.TicketConfirmJoinResp;
 import tech.sud.mgp.hello.service.main.resp.UserInfoListResp;
+import tech.sud.mgp.hello.service.room.req.AddCoinReq;
 import tech.sud.mgp.hello.service.room.req.WearNftReq;
 import tech.sud.mgp.hello.ui.main.home.model.MatchRoomModel;
 
@@ -266,6 +267,19 @@ public class HomeRepository {
     public static void getBanner(LifecycleOwner owner, RxCallback<GetBannerResp> callback) {
         HomeRequestMethodFactory.getMethod()
                 .getBanner(BaseUrlManager.getBaseUrl())
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /**
+     * 加金币
+     */
+    public static void addCoin(LifecycleOwner owner, long userId, long coin, RxCallback<Object> callback) {
+        AddCoinReq req = new AddCoinReq();
+        req.userId = userId;
+        req.coin = coin;
+        HomeRequestMethodFactory.getMethod()
+                .addCoin(BaseUrlManager.getBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }

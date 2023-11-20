@@ -37,8 +37,12 @@ import tech.sud.mgp.hello.service.room.resp.DanmakuListResp;
  */
 public class VerticalDanmakuListView extends ConstraintLayout {
 
-    private RecyclerView recyclerView = new RecyclerView(getContext());
-    private MyAdapter adapter = new MyAdapter();
+    private final RecyclerView recyclerView = new RecyclerView(getContext());
+    private final MyAdapter adapter = new MyAdapter();
+
+    private final RecyclerView mSecondRecyclerView = new RecyclerView(getContext());
+    private final SecondAdapter mSecondAdapter = new SecondAdapter();
+
     private DanmakuOnClickListener danmakuOnClickListener;
 
     public VerticalDanmakuListView(@NonNull Context context) {
@@ -60,9 +64,21 @@ public class VerticalDanmakuListView extends ConstraintLayout {
     }
 
     private void initView() {
-//        inflate(getContext(), R.layout.view_danmaku_list, this);
-//        recyclerView = findViewById(R.id.recycler_view);
-        addView(recyclerView, LayoutParams.MATCH_PARENT, DensityUtils.dp2px(getContext(), 63));
+        LayoutParams secondParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        secondParams.topToTop = LayoutParams.PARENT_ID;
+        addView(mSecondRecyclerView, secondParams);
+        mSecondRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        mSecondRecyclerView.setAdapter(mSecondAdapter);
+        mSecondRecyclerView.setVisibility(View.GONE);
+        int secondPaddingHorizontal = DensityUtils.dp2px(getContext(), 1);
+        mSecondRecyclerView.setPadding(secondPaddingHorizontal, 0, secondPaddingHorizontal, 0);
+        mSecondRecyclerView.setClipToPadding(false);
+        mSecondRecyclerView.setId(View.generateViewId());
+
+        recyclerView.setId(View.generateViewId());
+        LayoutParams firstParams = new LayoutParams(LayoutParams.MATCH_PARENT, DensityUtils.dp2px(getContext(), 63));
+        firstParams.topToBottom = mSecondRecyclerView.getId();
+        addView(recyclerView, firstParams);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         recyclerView.setAdapter(adapter);
     }
@@ -79,10 +95,24 @@ public class VerticalDanmakuListView extends ConstraintLayout {
                 }
             }
         });
+        mSecondAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(@NonNull BaseQuickAdapter<?, ?> baseQuickAdapter, @NonNull View view, int position) {
+                DanmakuListResp.Prop item = mSecondAdapter.getItem(position);
+                if (danmakuOnClickListener != null) {
+                    danmakuOnClickListener.onClickProp(item);
+                }
+            }
+        });
     }
 
     /** 设置数据集 */
     public void setDatas(DanmakuListResp resp) {
+        setFirstDatas(resp);
+        setSecondDatas(resp);
+    }
+
+    private void setFirstDatas(DanmakuListResp resp) {
         List<Object> list = new ArrayList<>();
         if (resp != null) {
             if (resp.joinTeamList != null && resp.joinTeamList.size() > 0) {
@@ -97,6 +127,16 @@ public class VerticalDanmakuListView extends ConstraintLayout {
             recyclerView.setVisibility(View.VISIBLE);
         }
         adapter.setList(list);
+    }
+
+    private void setSecondDatas(DanmakuListResp resp) {
+        List<DanmakuListResp.Prop> list = resp.actionList;
+        if (list == null || list.size() == 0) {
+            mSecondRecyclerView.setVisibility(View.GONE);
+        } else {
+            mSecondRecyclerView.setVisibility(View.VISIBLE);
+            mSecondAdapter.setList(list);
+        }
     }
 
     /** 设置点击监听器 */
@@ -221,6 +261,27 @@ public class VerticalDanmakuListView extends ConstraintLayout {
         void onClickTeam(DanmakuListResp.JoinTeam model);
 
         void onClickProp(DanmakuListResp.Prop model);
+    }
+
+    private class SecondAdapter extends BaseQuickAdapter<DanmakuListResp.Prop, BaseViewHolder> {
+
+        public SecondAdapter() {
+            super(R.layout.item_vertical_danmaku_second);
+        }
+
+        @Override
+        protected void convert(@NonNull BaseViewHolder holder, DanmakuListResp.Prop model) {
+            ImageView ivIcon = holder.getView(R.id.iv_icon);
+            ImageLoader.loadImage(ivIcon, model.backgroundUrl);
+
+            TextView tvName = holder.getView(R.id.tv_name);
+            tvName.setText(model.title);
+            try {
+                tvName.setTextColor(Color.parseColor(model.titleColor));
+            } catch (Exception e) {
+                tvName.setTextColor(Color.WHITE);
+            }
+        }
     }
 
 }

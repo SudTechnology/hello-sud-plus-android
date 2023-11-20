@@ -96,6 +96,13 @@
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
 
+        <!-- 3D语聊房页面 -->
+        <activity
+            android:name=".ui.scenes.audio3d.activity.Audio3DRoomActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+
         <!-- 秀场页面 -->
         <activity
             android:name=".ui.scenes.show.ShowActivity"

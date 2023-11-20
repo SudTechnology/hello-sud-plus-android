@@ -16,6 +16,7 @@ public class AIPlayersConverter {
         aiPlayers.name = model.nickName;
         aiPlayers.avatar = model.avatar;
         aiPlayers.gender = model.gender;
+        aiPlayers.level = model.level;
         return aiPlayers;
     }
 
@@ -28,6 +29,7 @@ public class AIPlayersConverter {
         aiPlayers.name = model.name;
         aiPlayers.avatar = model.icon;
         aiPlayers.gender = model.sex == 1 ? Gender.MALE : Gender.FEMALE;
+        aiPlayers.level = model.level;
         return aiPlayers;
     }
 

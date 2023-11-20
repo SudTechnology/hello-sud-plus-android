@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
+import tech.sud.mgp.hello.ui.scenes.base.model.MicAnimModel;
 
 public abstract class BaseMicItemView extends FrameLayout {
 
@@ -28,5 +29,7 @@ public abstract class BaseMicItemView extends FrameLayout {
     public abstract void startSoundLevel();
 
     public abstract void stopSoundLevel();
+    
+    public abstract void startAnim(MicAnimModel model);
 
 }

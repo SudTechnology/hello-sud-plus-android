@@ -95,4 +95,16 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <ImageView
+        android:id="@+id/view_details"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_gift_details"
+        android:padding="5dp"
+        android:translationX="5dp"
+        android:translationY="-5dp"
+        app:layout_constraintEnd_toEndOf="@id/item_gift_img_iv"
+        app:layout_constraintTop_toTopOf="@id/item_gift_img_iv" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

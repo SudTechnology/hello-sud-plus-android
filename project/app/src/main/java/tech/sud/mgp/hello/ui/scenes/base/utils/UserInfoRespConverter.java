@@ -20,6 +20,7 @@ public class UserInfoRespConverter {
         info.nickname = model.name;
         info.gender = model.gender;
         info.isAi = true;
+        info.level = model.level;
         return info;
     }
 
@@ -33,6 +34,7 @@ public class UserInfoRespConverter {
         info.nickname = model.nickName;
         info.gender = model.gender;
         info.isAi = model.isAi;
+        info.level = model.level;
         return info;
     }
 

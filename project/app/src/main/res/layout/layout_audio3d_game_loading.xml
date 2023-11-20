@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_audio3d_bg" />
+
+    <ImageView
+        android:id="@+id/iv_loading_anim"
+        android:layout_width="210dp"
+        android:layout_height="147dp"
+        android:layout_marginBottom="55dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/tv_game_progress" />
+
+    <TextView
+        android:id="@+id/tv_game_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <tech.sud.mgp.hello.ui.common.widget.ForbidDragSeekBar
+        android:id="@+id/progress_bar_game"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="248dp"
+        android:layout_height="10dp"
+        android:max="100"
+        android:progress="0"
+        android:progressDrawable="@drawable/layerlist_game_progress"
+        android:thumb="@drawable/game_seekbar_thumb"
+        android:thumbTintMode="multiply"
+        android:splitTrack="false"
+        android:layout_marginTop="5dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_game_progress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_reload_game"
+        android:layout_width="104dp"
+        android:layout_height="36dp"
+        android:background="@drawable/fsm_mgp_game_loading_retry_btn"
+        android:gravity="center"
+        android:text="@string/fsm_mgp_loading_reload_game"
+        android:textAlignment="center"
+        android:textColor="@color/fsm_mgp_loading_reload_game"
+        android:textSize="14sp"
+        android:layout_marginTop="10dp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/progress_bar_game" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

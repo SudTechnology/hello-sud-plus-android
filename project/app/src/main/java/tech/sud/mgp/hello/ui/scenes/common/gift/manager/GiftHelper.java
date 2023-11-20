@@ -52,7 +52,7 @@ public class GiftHelper {
             model2.path = "sud_lottie_600.json";
             model2.giftImage = R.drawable.icon_gift_600;
             model2.giftSmallImage = R.drawable.icon_gift_128;
-            model2.giftPrice = 100;
+            model2.giftPrice = 1;
             model2.isFeature = true;
             gifts.add(model2);
 
@@ -63,7 +63,7 @@ public class GiftHelper {
             model3.resId = R.raw.sud_webp_600;
             model3.giftImage = R.drawable.icon_gift_600;
             model3.giftSmallImage = R.drawable.icon_gift_128;
-            model3.giftPrice = 1000;
+            model3.giftPrice = 10;
             model3.isFeature = true;
             gifts.add(model3);
 
@@ -76,7 +76,7 @@ public class GiftHelper {
             model4.path = context.getCacheDir().getAbsolutePath() + File.separator + "sud_mp4_600.mp4";
             model4.giftImage = R.drawable.icon_gift_600;
             model4.giftSmallImage = R.drawable.icon_gift_128;
-            model4.giftPrice = 10000;
+            model4.giftPrice = 50;
             model4.isFeature = true;
             model4.isEffect = true;
             gifts.add(model4);
@@ -92,7 +92,7 @@ public class GiftHelper {
             model1.giftImage = R.drawable.icon_gift_600;
             model1.giftSmallImage = R.drawable.icon_gift_128;
             model1.checkState = true;
-            model1.giftPrice = 1;
+            model1.giftPrice = 100;
             gifts.add(model1);
 
             this.gifts.clear();

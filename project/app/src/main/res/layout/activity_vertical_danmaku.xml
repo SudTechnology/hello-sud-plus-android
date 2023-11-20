@@ -4,12 +4,16 @@
     android:layout_height="match_parent"
     android:keepScreenOn="true"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/ic_room_bg">
+    android:background="@drawable/ic_vertical_danmaku_bg">
 
     <TextureView
         android:id="@+id/video_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <View
         android:layout_width="match_parent"

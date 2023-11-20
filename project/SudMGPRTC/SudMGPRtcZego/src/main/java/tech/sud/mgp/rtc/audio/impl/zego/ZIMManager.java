@@ -216,6 +216,11 @@ public class ZIMManager {
                     if (errorInfo.code == ZIMErrorCode.SUCCESS) {
                         zim.sendRoomMessage(zimMessage, roomID, config, new ZIMMessageSentCallback() {
                             @Override
+                            public void onMessageAttached(ZIMMessage message) {
+
+                            }
+
+                            @Override
                             public void onMessageSent(ZIMMessage message, ZIMError errorInfo) {
                                 Log.i(kTag, "sendRoomMessage: " + errorInfo.code);
 
@@ -239,6 +244,10 @@ public class ZIMManager {
             });
         } else {
             zim.sendRoomMessage(zimMessage, roomID, config, new ZIMMessageSentCallback() {
+                @Override
+                public void onMessageAttached(ZIMMessage message) {
+                }
+
                 @Override
                 public void onMessageSent(ZIMMessage message, ZIMError errorInfo) {
                     Log.i(kTag, "sendRoomMessage: " + errorInfo.code);

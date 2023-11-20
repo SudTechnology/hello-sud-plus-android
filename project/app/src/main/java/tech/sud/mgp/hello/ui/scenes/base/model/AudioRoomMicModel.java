@@ -9,6 +9,7 @@ public class AudioRoomMicModel {
 
     public long userId; // 0代表没有人
     public boolean isAi; // 是否是机器人
+    public int level; // 机器人等级 1:简单 2:适中 3:困难
     public String nickName;
     public String avatar;
     public String gender;
@@ -20,6 +21,7 @@ public class AudioRoomMicModel {
     public boolean isPlayingGame; // 是否正在游戏中
     public boolean isIn; // 是否加入游戏
     public Boolean giftEnable = false; // 是否展示礼物icon true 展示 false 不展示
+
 
     public void clearUser() {
         userId = 0;
@@ -50,6 +52,7 @@ public class AudioRoomMicModel {
         roleType = model.roleType;
         streamId = model.streamId;
         isAi = model.isAi;
+        level = model.level;
     }
 
 }

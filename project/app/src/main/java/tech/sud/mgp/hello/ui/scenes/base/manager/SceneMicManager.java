@@ -118,6 +118,7 @@ public class SceneMicManager extends BaseServiceManager {
                                         audioRoomMicModel.avatar = userInfo.avatar;
                                         audioRoomMicModel.gender = userInfo.gender;
                                         audioRoomMicModel.isAi = userInfo.isAi;
+                                        audioRoomMicModel.level = userInfo.level;
                                         break;
                                     }
                                 }
@@ -319,6 +320,7 @@ public class SceneMicManager extends BaseServiceManager {
                                     model.gender = userInfo.gender;
                                     model.roleType = roleType;
                                     model.isAi = userInfo.isAi;
+                                    model.level = userInfo.level;
                                     break;
                                 }
                             }
@@ -486,6 +488,7 @@ public class SceneMicManager extends BaseServiceManager {
                 model.streamId = command.streamID;
                 model.gender = sendUser.sex == 1 ? Gender.MALE : Gender.FEMALE;
                 model.isAi = sendUser.isAi;
+                model.level = sendUser.level;
                 notifyItemChange(micIndex, model);
             }
             callbackMicChange(command.micIndex, command.sendUser, true);

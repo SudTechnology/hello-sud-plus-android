@@ -106,4 +106,18 @@ public class RoomCmd {
     public static final int CMD_GAME_BULLET_MATCH_NOTIFY = 21006;
     // endregion 弹幕
 
+    // region 3D语聊房
+    /** 3D语聊房配置变更 */
+    public static final int CMD_ROOM_3D_CONFIG_CHANGE_NOTIFY = 21011;
+    /** 3D语聊房麦位状态变更 */
+    public static final int CMD_ROOM_3D_MIC_STATE_CHANGE_NOTIFY = 21012;
+    /** 3D语聊房发送表情通知 */
+    public static final int CMD_ROOM_3D_SEND_FACE_NOTIFY = 10700;
+    // endregion 3D语聊房
+
+    // region 大富翁
+    /** 大富翁道具卡送礼通知 */
+    public static final int CMD_GAME_MONOPOLY_CARD_GIFT_NOTIFY = 22001;
+    // endregion 大富翁
+
 }

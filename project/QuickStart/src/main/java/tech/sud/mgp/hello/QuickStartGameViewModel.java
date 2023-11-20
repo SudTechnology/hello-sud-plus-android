@@ -57,6 +57,7 @@ public class QuickStartGameViewModel extends BaseGameViewModel {
     protected void getCode(Activity activity, String userId, String appId, GameGetCodeListener listener) {
         // TODO: 2022/6/10 注意，这里是演示使用OkHttpClient请求hello-sud服务
         // TODO: 2022/6/10 开发者在与后端联调时需将其改成自己的网络请求方式向自己的服务器获取code
+        // TODO: 2023/10/26 每次回调此方法都去自己的后端拿最新的code，不要缓存code
         OkHttpClient client = new OkHttpClient();
         String req;
         try {

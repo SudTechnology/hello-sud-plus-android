@@ -1,5 +1,7 @@
 package tech.sud.mgp.hello.ui.scenes.common.gift.model;
 
+import tech.sud.mgp.hello.service.room.resp.GiftListResp;
+
 /**
  * 礼物描述
  */
@@ -24,5 +26,7 @@ public class GiftModel {
     public boolean isEffect; // 是否是特效
 
     public String extData; // 扩展参数
+
+    public GiftListResp.Details details; // 后端返回的详情字段
 
 }

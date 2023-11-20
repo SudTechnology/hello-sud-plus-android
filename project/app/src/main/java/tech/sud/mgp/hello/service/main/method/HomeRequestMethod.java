@@ -28,6 +28,7 @@ import tech.sud.mgp.hello.service.main.resp.QuizGameListResp;
 import tech.sud.mgp.hello.service.main.resp.RoomListResp;
 import tech.sud.mgp.hello.service.main.resp.TicketConfirmJoinResp;
 import tech.sud.mgp.hello.service.main.resp.UserInfoListResp;
+import tech.sud.mgp.hello.service.room.req.AddCoinReq;
 import tech.sud.mgp.hello.service.room.req.WearNftReq;
 import tech.sud.mgp.hello.ui.main.home.model.MatchRoomModel;
 
@@ -131,5 +132,11 @@ public interface HomeRequestMethod {
      */
     @POST(RequestUrl.GET_BANNER)
     Observable<BaseResponse<GetBannerResp>> getBanner(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl);
+
+    /**
+     * 加金币
+     */
+    @POST(RequestUrl.ADD_COIN)
+    Observable<BaseResponse<Object>> addCoin(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body AddCoinReq req);
 
 }

@@ -14,8 +14,10 @@ import androidx.lifecycle.Observer;
 
 import com.jeremyliao.liveeventbus.LiveEventBus;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.hello.common.event.LiveEventBusKey;
 import tech.sud.mgp.hello.common.event.model.ChangeRTCEvent;
@@ -197,8 +199,18 @@ public class SceneRoomService extends Service {
         }
 
         /** 发送礼物 */
-        public void sendGift(GiftModel giftModel, int giftCount, UserInfo toUser) {
-            serviceManager.sendGift(giftModel, giftCount, toUser);
+        public void sendGift(GiftModel giftModel, int giftCount, UserInfo toUser, boolean isAllSeat) {
+            if (toUser == null) {
+                return;
+            }
+            List<UserInfo> toUserList = new ArrayList<>();
+            toUserList.add(toUser);
+            sendGift(giftModel, giftCount, toUserList, isAllSeat);
+        }
+
+        /** 发送礼物 */
+        public void sendGift(GiftModel giftModel, int giftCount, List<UserInfo> toUserList, boolean isAllSeat) {
+            serviceManager.sendGift(giftModel, giftCount, toUserList, isAllSeat);
         }
 
         /**
@@ -362,6 +374,11 @@ public class SceneRoomService extends Service {
         }
 
         /** 把用户踢出房间 */
+        public void kickOutRoom(long userId) {
+            serviceManager.kickOutRoom(userId);
+        }
+
+        /** 把用户踢出房间 */
         public void kickOutRoom(AudioRoomMicModel model) {
             serviceManager.kickOutRoom(model);
         }
@@ -409,8 +426,36 @@ public class SceneRoomService extends Service {
                 serviceManager.sceneCrossAppManager.crossAppGameSettle();
             }
         }
+
         // endregion 跨域
 
+        // region 3D语聊房
+        public void audio3DInitData(SudMGPMGState.MGCustomCrRoomInitData model) {
+            if (serviceManager.sceneAudio3DRoomManager != null) {
+                serviceManager.sceneAudio3DRoomManager.audio3DInitData(model);
+            }
+        }
+
+        public List<SudMGPAPPState.AppCustomCrSetSeats.CrSeatModel> getAudio3DRoomSeats() {
+            if (serviceManager.sceneAudio3DRoomManager != null) {
+                return serviceManager.sceneAudio3DRoomManager.getSeats();
+            }
+            return null;
+        }
+
+        public SudMGPAPPState.AppCustomCrSetRoomConfig getAudio3DRoomConfig() {
+            if (serviceManager.sceneAudio3DRoomManager != null) {
+                return serviceManager.sceneAudio3DRoomManager.getConfig();
+            }
+            return null;
+        }
+
+        public void sendFaceNotify(int type, int actionId, int seatIndex) {
+            if (serviceManager.sceneAudio3DRoomManager != null) {
+                serviceManager.sceneAudio3DRoomManager.sendFaceNotify(type, actionId, seatIndex);
+            }
+        }
+        // endregion 3D语聊房
     }
 
     /** 获取当前使用的房间基本数据 */

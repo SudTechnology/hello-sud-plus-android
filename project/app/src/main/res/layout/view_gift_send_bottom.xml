@@ -32,6 +32,19 @@
             android:textColor="@color/c_f6a209"
             android:layout_marginStart="6dp" />
 
+        <TextView
+            android:id="@+id/tv_add_coin"
+            android:layout_width="wrap_content"
+            android:layout_height="24dp"
+            android:paddingHorizontal="12dp"
+            android:gravity="center"
+            android:textSize="12sp"
+            android:textColor="@color/black"
+            android:visibility="gone"
+            android:layout_marginStart="12dp"
+            android:background="@drawable/shape_round_ffffff"
+            android:text="@string/plus_dollars" />
+
         <Space
             android:layout_width="0dip"
             android:layout_height="1dip"
@@ -39,7 +52,7 @@
 
         <LinearLayout
             android:id="@+id/bottom_right_ll"
-            android:layout_width="110sp"
+            android:layout_width="wrap_content"
             android:layout_height="32dip"
             android:background="@color/c_ffffff"
             android:gravity="center_vertical"
@@ -48,11 +61,11 @@
 
             <TextView
                 android:id="@+id/send_gift_count_tv"
-                android:layout_width="30dp"
+                android:layout_width="wrap_content"
                 android:layout_height="28dp"
+                android:paddingStart="10dp"
                 android:background="@color/c_000000"
                 android:gravity="center_vertical|end"
-                android:text="x 1"
                 android:textColor="#ffffff"
                 android:textSize="12sp" />
 
@@ -70,8 +83,7 @@
 
             <TextView
                 android:id="@+id/present_tv"
-                android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_width="55dp"
                 android:layout_height="32dip"
                 android:gravity="center"
                 android:text="@string/audio_dialog_gift_present"

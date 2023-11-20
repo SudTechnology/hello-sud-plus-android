@@ -21,4 +21,5 @@ public class SceneType {
     public static final int CROSS_APP_AUTH = 14; // 跨域授权场景类型
     public static final int CROSS_APP_MATCH = 16; // 跨域匹配场景类型
     public static final int VERTICAL_DANMAKU = 18; // 弹幕游戏竖版
+    public static final int AUDIO_3D = 19; // 3D语聊房
 }

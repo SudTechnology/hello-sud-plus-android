@@ -505,6 +505,70 @@ public class SudFSMMGDecorator implements ISudFSMMG {
                     listener.onGameMGCommonHideGameScene(handle, mgCommonHideGameScene);
                 }
                 break;
+            case SudMGPMGState.MG_COMMON_SELF_CLICK_GOLD_BTN: // 46. 通知app点击了游戏的金币按钮(赛车)
+                SudMGPMGState.MGCommonSelfClickGoldBtn mgCommonSelfClickGoldBtn = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonSelfClickGoldBtn.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGCommonSelfClickGoldBtn(handle, mgCommonSelfClickGoldBtn);
+                }
+                break;
+            case SudMGPMGState.MG_COMMON_GAME_PIECE_ARRIVE_END: // 47. 通知app棋子到达终点(ludo)
+                SudMGPMGState.MGCommonGamePieceArriveEnd mgCommonGamePieceArriveEnd = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonGamePieceArriveEnd.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGCommonGamePieceArriveEnd(handle, mgCommonGamePieceArriveEnd);
+                }
+                break;
+            case SudMGPMGState.MG_COMMON_GAME_PLAYER_MANAGED_STATE: // 48. 通知app玩家是否托管
+                SudMGPMGState.MGCommonGamePlayerManagedState mgCommonGamePlayerManagedState = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonGamePlayerManagedState.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGCommonGamePlayerManagedState(handle, mgCommonGamePlayerManagedState);
+                }
+                break;
+            case SudMGPMGState.MG_COMMON_GAME_SEND_BURST_WORD: // 49. 游戏向app发送爆词
+                SudMGPMGState.MGCommonGameSendBurstWord mgCommonGameSendBurstWord = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonGameSendBurstWord.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGCommonGameSendBurstWord(handle, mgCommonGameSendBurstWord);
+                }
+                break;
+            case SudMGPMGState.MG_COMMON_GAME_PLAYER_RANKS: // 50. 游戏向app发送玩家实时排名（只支持怪物消消乐）
+                SudMGPMGState.MGCommonGamePlayerRanks mgCommonGamePlayerRanks = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonGamePlayerRanks.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGCommonGamePlayerRanks(handle, mgCommonGamePlayerRanks);
+                }
+                break;
+            case SudMGPMGState.MG_COMMON_GAME_PLAYER_PAIR_SINGULAR: // 51. 游戏向app发送玩家即时变化的单双牌（只支持okey101）
+                SudMGPMGState.MGCommonGamePlayerPairSingular mgCommonGamePlayerPairSingular = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonGamePlayerPairSingular.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGCommonGamePlayerPairSingular(handle, mgCommonGamePlayerPairSingular);
+                }
+                break;
+            case SudMGPMGState.MG_COMMON_GAME_PLAYER_MONOPOLY_CARDS: // 52. 游戏向app发送获取玩家持有的道具卡（只支持大富翁）
+                SudMGPMGState.MGCommonGamePlayerMonopolyCards mgCommonGamePlayerMonopolyCards = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonGamePlayerMonopolyCards.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGCommonGamePlayerMonopolyCards(handle, mgCommonGamePlayerMonopolyCards);
+                }
+                break;
+            case SudMGPMGState.MG_COMMON_GAME_PLAYER_SCORES: // 53. 游戏向app发送玩家实时积分（只支持怪物消消乐）
+                SudMGPMGState.MGCommonGamePlayerScores mgCommonGamePlayerScores = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonGamePlayerScores.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGCommonGamePlayerScores(handle, mgCommonGamePlayerScores);
+                }
+                break;
             case SudMGPMGState.MG_COMMON_GAME_DISCO_ACTION: // 1. 元宇宙砂砂舞指令回调
                 SudMGPMGState.MGCommonGameDiscoAction mgCommonGameDiscoAction = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonGameDiscoAction.class);
                 if (listener == null) {
@@ -785,6 +849,22 @@ public class SudFSMMGDecorator implements ISudFSMMG {
                     listener.onGameMGBaseballTextConfig(handle, mgBaseballTextConfig);
                 }
                 break;
+            case SudMGPMGState.MG_CUSTOM_CR_ROOM_INIT_DATA: // 1. 请求房间数据
+                SudMGPMGState.MGCustomCrRoomInitData mgCustomCrRoomInitData = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCustomCrRoomInitData.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGCustomCrRoomInitData(handle, mgCustomCrRoomInitData);
+                }
+                break;
+            case SudMGPMGState.MG_CUSTOM_CR_CLICK_SEAT: // 2. 点击主播位或老板位通知
+                SudMGPMGState.MGCustomCrClickSeat mgCustomCrClickSeat = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCustomCrClickSeat.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGCustomCrClickSeat(handle, mgCustomCrClickSeat);
+                }
+                break;
             default:
                 ISudFSMStateHandleUtils.handleSuccess(handle);
                 break;
@@ -986,6 +1066,7 @@ public class SudFSMMGDecorator implements ISudFSMMG {
     // 销毁游戏
     public void destroyMG() {
         sudFSMMGCache.destroyMG();
+        sudFSMMGListener = null;
     }
 
     /**

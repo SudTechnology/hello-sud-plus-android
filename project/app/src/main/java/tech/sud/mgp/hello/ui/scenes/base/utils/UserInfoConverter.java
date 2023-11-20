@@ -19,6 +19,7 @@ public class UserInfoConverter {
         info.name = model.nickname;
         info.icon = model.avatar;
         info.sex = Gender.MALE.equals(model.gender) ? 1 : 2;
+        info.level = model.level;
         return info;
     }
 
@@ -31,6 +32,7 @@ public class UserInfoConverter {
         info.name = model.nickName;
         info.icon = model.avatar;
         info.sex = Gender.MALE.equals(model.gender) ? 1 : 2;
+        info.level = model.level;
         return info;
     }
 

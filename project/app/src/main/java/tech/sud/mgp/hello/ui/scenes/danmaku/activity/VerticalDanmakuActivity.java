@@ -1,7 +1,9 @@
 package tech.sud.mgp.hello.ui.scenes.danmaku.activity;
 
 import android.text.TextUtils;
+import android.view.TextureView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -23,6 +25,7 @@ import tech.sud.mgp.hello.ui.scenes.base.model.RoleType;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.base.utils.UserInfoConverter;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.RoomCmdModelUtils;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.danmaku.RoomCmdDanmakuTeamChangeModel;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftModel;
 import tech.sud.mgp.hello.ui.scenes.danmaku.widget.VerticalDanmakuListView;
@@ -33,7 +36,7 @@ import tech.sud.mgp.rtc.audio.core.MediaViewMode;
  */
 public class VerticalDanmakuActivity extends BaseInteractionRoomActivity<AppGameViewModel> {
 
-    private View videoView;
+    private TextureView videoView;
     private VerticalDanmakuListView danmakuListView;
 
     private View playingVideoView;
@@ -74,7 +77,7 @@ public class VerticalDanmakuActivity extends BaseInteractionRoomActivity<AppGame
         bottomView.removeGotMicView();
         bottomView.removeMicStateView();
 
-        ConstraintLayout.LayoutParams chatParams = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, DensityUtils.dp2px(119));
+        ConstraintLayout.LayoutParams chatParams = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, DensityUtils.dp2px(169));
         chatParams.bottomToTop = R.id.danmaku_list_view;
         chatParams.bottomMargin = DensityUtils.dp2px(8);
         chatView.setLayoutParams(chatParams);
@@ -142,11 +145,13 @@ public class VerticalDanmakuActivity extends BaseInteractionRoomActivity<AppGame
                 danmakuListView.setVisibility(View.GONE);
                 bottomView.setInputVisibility(View.GONE);
                 bottomView.setGiftVisibility(View.GONE);
+                topView.setVisibility(View.GONE);
             } else {
                 chatView.setVisibility(View.VISIBLE);
                 danmakuListView.setVisibility(View.VISIBLE);
                 bottomView.setInputVisibility(View.VISIBLE);
                 bottomView.setGiftVisibility(View.VISIBLE);
+                topView.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -187,11 +192,16 @@ public class VerticalDanmakuActivity extends BaseInteractionRoomActivity<AppGame
         }
 
         // 发送http到后端
-        UserInfo finalToUser = toUser;
-        RoomRepository.sendGift(this, roomInfoModel.roomId, model.giftId, 1, 2, model.giftPrice, new RxCallback<Object>() {
+        List<UserInfo> toUserList = new ArrayList<>();
+        toUserList.add(toUser);
+        List<String> receiverList = new ArrayList<>();
+        receiverList.add(toUser.userID);
+        RoomRepository.sendGift(this, roomInfoModel.roomId, model.giftId, 1, 2, model.giftPrice, receiverList, new RxCallback<Object>() {
             @Override
             public void onSuccess(Object o) {
                 super.onSuccess(o);
+
+                boolean isAllSeat = isAllSeat(toUserList);
 
                 // 展示礼物
                 GiftModel giftModel = new GiftModel();
@@ -201,11 +211,11 @@ public class VerticalDanmakuActivity extends BaseInteractionRoomActivity<AppGame
                 giftModel.giftUrl = model.giftUrl;
                 giftModel.animationUrl = model.animationUrl;
                 giftModel.giftPrice = model.giftPrice;
-                showGift(giftModel);
+                showGift(giftModel, 1, RoomCmdModelUtils.getSendUser(), toUserList, isAllSeat);
 
                 // 发送"送礼消息"
                 if (binder != null) {
-                    binder.sendGift(giftModel, 1, finalToUser);
+                    binder.sendGift(giftModel, 1, toUserList, isAllSeat);
                 }
             }
         });
@@ -321,4 +331,34 @@ public class VerticalDanmakuActivity extends BaseInteractionRoomActivity<AppGame
         super.onDanmakuMatch(model);
         refreshDanmakuList();
     }
+
+    /** 拉流分辨率变化 */
+    @Override
+    public void onPlayerVideoSizeChanged(String streamID, int width, int height) {
+        super.onPlayerVideoSizeChanged(streamID, width, height);
+        // 根据分辨率，等比缩放显示到屏幕后的宽高来设置视频View的宽高
+        if (width <= 0 || height <= 0) {
+            return;
+        }
+        int appScreenWidth = DensityUtils.getAppScreenWidth();
+        int appScreenHeight = DensityUtils.getAppScreenHeight();
+        double widthRatio = appScreenWidth * 1.0 / width;
+        double heightRatio = appScreenHeight * 1.0 / height;
+        double ratio = Math.min(widthRatio, heightRatio);
+        // 2023-11-11 修改为以宽度为准
+        ratio = widthRatio;
+
+        // 拿到等比缩放之后的宽高
+        int scaledWidth = (int) (width * ratio);
+        int scaledheight = (int) (height * ratio);
+        if (videoView.getMeasuredWidth() != scaledWidth || videoView.getMeasuredHeight() != scaledheight) {
+//            stopVideo();
+            ViewGroup.LayoutParams params = videoView.getLayoutParams();
+            params.width = scaledWidth;
+            params.height = scaledheight;
+            videoView.setLayoutParams(params);
+//            startVideo();
+        }
+    }
+
 }

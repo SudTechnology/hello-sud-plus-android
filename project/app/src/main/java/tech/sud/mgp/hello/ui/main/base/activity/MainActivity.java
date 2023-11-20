@@ -69,7 +69,6 @@ public class MainActivity extends BaseActivity implements MainTabView.TabClickLi
         }
         viewPager.setSaveEnabled(false);
         viewPager.setUserInputEnabled(false);
-
     }
 
     @Override

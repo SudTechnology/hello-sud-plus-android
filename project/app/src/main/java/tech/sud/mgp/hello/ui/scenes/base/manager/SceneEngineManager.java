@@ -53,7 +53,6 @@ public class SceneEngineManager extends BaseServiceManager {
 
     public final SceneCommandManager commandManager = new SceneCommandManager();
     private OnRoomStreamUpdateListener onRoomStreamUpdateListener;
-    private final int soundLevelThreshold = 1; // 触发声浪显示的阀值
     private boolean isOpenListen = false; // 标识音频监听开关状态
     private boolean enterRoomCompleted = false; // 标识是否进房成功
     private boolean isInitEngine = false; // 标识是否已初始化engine
@@ -299,14 +298,16 @@ public class SceneEngineManager extends BaseServiceManager {
     }
 
     private final ISudAudioEventListener eventHandler = new ISudAudioEventListener() {
+        private String mSelfUserId = HSUserInfo.userId + "";
+
         @Override
         public void onCapturedSoundLevelUpdate(float soundLevel) {
-            if (parentManager.sceneStreamManager.isPublishingStream() && soundLevel > soundLevelThreshold) {
+            if (parentManager.sceneStreamManager.isPublishingStream()) {
                 int selfMicIndex = parentManager.sceneMicManager.findSelfMicIndex();
                 if (selfMicIndex >= 0) {
                     SceneRoomServiceCallback callback = parentManager.getCallback();
                     if (callback != null) {
-                        callback.onSoundLevel(selfMicIndex);
+                        callback.onSoundLevel(mSelfUserId, selfMicIndex, soundLevel);
                     }
                 }
             }
@@ -321,7 +322,7 @@ public class SceneEngineManager extends BaseServiceManager {
             for (Map.Entry<String, Float> entry : entries) {
                 String userIdStr = entry.getKey();
                 Float soundLevel = entry.getValue();
-                if (soundLevel > soundLevelThreshold) {
+                if (soundLevel != null) {
                     long userIdL;
                     try {
                         userIdL = Long.parseLong(userIdStr);
@@ -333,7 +334,7 @@ public class SceneEngineManager extends BaseServiceManager {
                     if (micIndex >= 0) {
                         SceneRoomServiceCallback callback = parentManager.getCallback();
                         if (callback != null) {
-                            callback.onSoundLevel(micIndex);
+                            callback.onSoundLevel(userIdStr, micIndex, soundLevel);
                         }
                     }
                 }
@@ -384,12 +385,18 @@ public class SceneEngineManager extends BaseServiceManager {
 
         @Override
         public void onPlayingStreamingAdd(String streamID) {
-
         }
 
         @Override
         public void onPlayingStreamingDelete(String streamID) {
+        }
 
+        @Override
+        public void onPlayerVideoSizeChanged(String streamID, int width, int height) {
+            SceneRoomServiceCallback callback = parentManager.getCallback();
+            if (callback != null) {
+                callback.onPlayerVideoSizeChanged(streamID, width, height);
+            }
         }
     };
 

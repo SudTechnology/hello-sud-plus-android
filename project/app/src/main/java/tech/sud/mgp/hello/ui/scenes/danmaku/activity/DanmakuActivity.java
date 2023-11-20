@@ -39,6 +39,7 @@ import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.base.utils.UserInfoConverter;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.SceneRoomTopView;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.RoomCmdModelUtils;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftModel;
 import tech.sud.mgp.hello.ui.scenes.danmaku.widget.AutoLandDialog;
 import tech.sud.mgp.hello.ui.scenes.danmaku.widget.DanmakuListView;
@@ -349,11 +350,16 @@ public class DanmakuActivity extends BaseInteractionRoomActivity<AppGameViewMode
         }
 
         // 发送http到后端
-        UserInfo finalToUser = toUser;
-        RoomRepository.sendGift(this, roomInfoModel.roomId, model.giftId, 1, 2, model.giftPrice, new RxCallback<Object>() {
+        List<UserInfo> toUserList = new ArrayList<>();
+        toUserList.add(toUser);
+        List<String> receiverList = new ArrayList<>();
+        receiverList.add(toUser.userID);
+        RoomRepository.sendGift(this, roomInfoModel.roomId, model.giftId, 1, 2, model.giftPrice, receiverList, new RxCallback<Object>() {
             @Override
             public void onSuccess(Object o) {
                 super.onSuccess(o);
+
+                boolean isAllSeat = isAllSeat(toUserList);
 
                 // 展示礼物
                 GiftModel giftModel = new GiftModel();
@@ -363,11 +369,11 @@ public class DanmakuActivity extends BaseInteractionRoomActivity<AppGameViewMode
                 giftModel.giftUrl = model.giftUrl;
                 giftModel.animationUrl = model.animationUrl;
                 giftModel.giftPrice = model.giftPrice;
-                showGift(giftModel);
+                showGift(giftModel, 1, RoomCmdModelUtils.getSendUser(), toUserList, isAllSeat);
 
                 // 发送"送礼消息"
                 if (binder != null) {
-                    binder.sendGift(giftModel, 1, finalToUser);
+                    binder.sendGift(giftModel, 1, toUserList, isAllSeat);
                 }
             }
         });

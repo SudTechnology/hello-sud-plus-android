@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/ic_room_bg">
+
+    <!-- 基础组件 -->
+    <include layout="@layout/include_scene_content" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container_tip"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:background="#66000000">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="202dp"
+            android:layout_height="104dp"
+            android:background="@drawable/ic_audio3d_tip_top"
+            android:layout_marginBottom="3dp"
+            android:layout_marginEnd="17dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/container_bottom_views">
+
+            <TextView
+                android:id="@+id/tv_tip_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="@color/white"
+                android:text="@string/audio3d_tip_title"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_got_it"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:textSize="12sp"
+                android:textColor="#417ce8"
+                android:gravity="center"
+                android:text="@string/got_it"
+                android:layout_marginEnd="15dp"
+                android:paddingHorizontal="11dp"
+                android:background="@drawable/shape_round_ffffff"
+                app:layout_constraintTop_toTopOf="@id/tv_tip_title"
+                app:layout_constraintBottom_toBottomOf="@id/tv_tip_title"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/container_bottom_views"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="14dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <View
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/ic_audio3d_tip_emoji"
+                android:layout_marginEnd="107dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <View
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/ic_audio3d_tip_gift"
+                android:layout_marginEnd="60dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <View
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/ic_audio3d_tip_setting"
+                android:layout_marginEnd="12dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:layout_width="11dp"
+            android:layout_height="17dp"
+            android:background="@drawable/ic_audio3d_tip_star"
+            android:layout_marginBottom="27dp"
+            android:translationX="4dp"
+            app:layout_constraintEnd_toStartOf="@id/container_bottom_views"
+            app:layout_constraintBottom_toBottomOf="@id/container_bottom_views" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <tech.sud.mgp.hello.ui.scenes.audio3d.widget.view.Audio3DGiftEffectView
+        android:id="@+id/audio3d_gift_effect_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="259dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

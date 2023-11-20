@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:width="10dp" android:height="10dp">
+        <bitmap android:src="@drawable/ic_audio3d_progress_thumb" />
+    </item>
+</layer-list>

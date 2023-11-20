@@ -120,8 +120,8 @@ public abstract class BaseInteractionRoomActivity<T extends AppGameViewModel> ex
 
     /** 显示礼物 */
     @Override
-    protected void showGift(GiftModel giftModel) {
-        super.showGift(giftModel);
+    protected void showGift(GiftModel giftModel, int giftCount, UserInfo fromUser, List<UserInfo> toUserList, boolean isAllSeat) {
+        super.showGift(giftModel, giftCount, fromUser, toUserList, isAllSeat);
         if (!canShowGift()) {
             return;
         }
@@ -149,7 +149,7 @@ public abstract class BaseInteractionRoomActivity<T extends AppGameViewModel> ex
     @Override
     protected void updatePageStyle() {
         super.updatePageStyle();
-        if (playingGameId > 0) {
+        if (playingGameId > 0 || !roomConfig.isShowInteractionGame) {
             interactionBannerView.setVisibility(View.GONE);
         } else {
             interactionBannerView.setVisibility(View.VISIBLE);

@@ -14,6 +14,7 @@ import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdEnterRoomModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdKickOutRoomModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdSendGiftModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdUpMicModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.audio3d.Audio3DCmdFaceNotifyModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.ContributionModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.DanceModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdBecomeDJModel;
@@ -48,26 +49,18 @@ public class RoomCmdModelUtils {
     }
 
     /** 构建发礼消息信令 */
-    public static String buildSendGiftCommand(long giftID, int giftCount, UserInfo toUser) {
+    public static String buildSendGiftCommand(long giftID, int giftCount, List<UserInfo> toUserList,
+                                              int type, String giftName, String giftUrl, String animationUrl, String extData, boolean isAllSeat) {
         RoomCmdSendGiftModel command = new RoomCmdSendGiftModel(getSendUser());
         command.giftID = giftID;
         command.giftCount = giftCount;
-        command.toUser = toUser;
-        return command.toJson();
-    }
-
-    /** 构建发礼消息信令 */
-    public static String buildSendGiftCommand(long giftID, int giftCount, UserInfo toUser,
-                                              int type, String giftName, String giftUrl, String animationUrl, String extData) {
-        RoomCmdSendGiftModel command = new RoomCmdSendGiftModel(getSendUser());
-        command.giftID = giftID;
-        command.giftCount = giftCount;
-        command.toUser = toUser;
+        command.toUserList = toUserList;
         command.type = type;
         command.giftName = giftName;
         command.giftUrl = giftUrl;
         command.animationUrl = animationUrl;
         command.extData = extData;
+        command.isAllSeat = isAllSeat;
         return command.toJson();
     }
 
@@ -278,6 +271,18 @@ public class RoomCmdModelUtils {
         return command.toJson();
     }
     // endregion 联赛
+
+    // region 3D语聊房
+
+    /** 构建 3D语聊房发送表情 信令 */
+    public static String buildCmdAudio3DFaceNotify(int type, int faceId, int seatIndex) {
+        Audio3DCmdFaceNotifyModel command = new Audio3DCmdFaceNotifyModel(getSendUser());
+        command.type = type;
+        command.faceId = faceId;
+        command.seatIndex = seatIndex;
+        return command.toJson();
+    }
+    // endregion 3D语聊房
 
     public static UserInfo getSendUser() {
         UserInfo user = new UserInfo();

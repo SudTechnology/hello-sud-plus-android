@@ -763,6 +763,113 @@ public class SudMGPMGState implements Serializable {
      */
     public static class MGCommonHideGameScene implements Serializable {
     }
+
+    /**
+     * 46. 通知app点击了游戏的金币按钮(赛车)
+     */
+    public static final String MG_COMMON_SELF_CLICK_GOLD_BTN = "mg_common_self_click_gold_btn";
+
+    /**
+     * 46. 通知app点击了游戏的金币按钮(赛车) 模型
+     */
+    public static class MGCommonSelfClickGoldBtn implements Serializable {
+    }
+
+    /**
+     * 47. 通知app棋子到达终点(ludo)
+     */
+    public static final String MG_COMMON_GAME_PIECE_ARRIVE_END = "mg_common_game_piece_arrive_end";
+
+    /**
+     * 47. 通知app棋子到达终点(ludo) 模型
+     */
+    public static class MGCommonGamePieceArriveEnd implements Serializable {
+    }
+
+    /**
+     * 48. 通知app玩家是否托管
+     */
+    public static final String MG_COMMON_GAME_PLAYER_MANAGED_STATE = "mg_common_game_player_managed_state";
+
+    /**
+     * 48. 通知app玩家是否托管 模型
+     */
+    public static class MGCommonGamePlayerManagedState implements Serializable {
+    }
+
+    /**
+     * 49. 游戏向app发送爆词
+     */
+    public static final String MG_COMMON_GAME_SEND_BURST_WORD = "mg_common_game_send_burst_word";
+
+    /**
+     * 49. 游戏向app发送爆词 模型
+     */
+    public static class MGCommonGameSendBurstWord implements Serializable {
+        public String text; // 爆词
+    }
+
+    /**
+     * 50. 游戏向app发送玩家实时排名（只支持怪物消消乐）
+     */
+    public static final String MG_COMMON_GAME_PLAYER_RANKS = "mg_common_game_player_ranks";
+
+    /**
+     * 50. 游戏向app发送玩家实时排名（只支持怪物消消乐） 模型
+     */
+    public static class MGCommonGamePlayerRanks implements Serializable {
+        public List<RanksModel> ranks; // 所有玩家排名变化推送
+
+        public static class RanksModel implements Serializable {
+            public String uid; // 用户id
+            public int rank; // 排名
+        }
+    }
+
+    /**
+     * 51. 游戏向app发送玩家即时变化的单双牌（只支持okey101）
+     */
+    public static final String MG_COMMON_GAME_PLAYER_PAIR_SINGULAR = "mg_common_game_player_pair_singular";
+
+    /**
+     * 51. 游戏向app发送玩家即时变化的单双牌（只支持okey101） 模型
+     */
+    public static class MGCommonGamePlayerPairSingular implements Serializable {
+        public List<SingularModel> pairs; // 玩家单双牌推送
+
+        public static class SingularModel implements Serializable {
+            public String uid; // 用户id
+            public int pair; // pair: 1 双，0 单
+        }
+    }
+
+    /**
+     * 52. 游戏向app发送获取玩家持有的道具卡（只支持大富翁）
+     */
+    public static final String MG_COMMON_GAME_PLAYER_MONOPOLY_CARDS = "mg_common_game_player_monopoly_cards";
+
+    /**
+     * 52. 游戏向app发送获取玩家持有的道具卡（只支持大富翁） 模型
+     */
+    public static class MGCommonGamePlayerMonopolyCards implements Serializable {
+    }
+
+    /**
+     * 53. 游戏向app发送玩家实时积分（只支持怪物消消乐）
+     */
+    public static final String MG_COMMON_GAME_PLAYER_SCORES = "mg_common_game_player_scores";
+
+    /**
+     * 53. 游戏向app发送玩家实时积分（只支持怪物消消乐） 模型
+     */
+    public static class MGCommonGamePlayerScores implements Serializable {
+        public List<ScoresModel> scores; // 所有玩家积分变化推送
+
+        public static class ScoresModel implements Serializable {
+            public String uid; // 用户id
+            public int score; // 积分
+        }
+    }
     // endregion 通用状态-游戏
 
     // region MG状态机-通用状态-玩家
@@ -1505,5 +1612,30 @@ public class SudMGPMGState implements Serializable {
         public float width; // 区域的width
         public float height; // 区域的height
     }
+
+    // region 3D语聊房
+    /**
+     * 1. 请求房间数据
+     */
+    public static final String MG_CUSTOM_CR_ROOM_INIT_DATA = "mg_custom_cr_room_init_data";
+
+    /**
+     * 1. 请求房间数据 模型
+     */
+    public static final class MGCustomCrRoomInitData implements Serializable {
+    }
+
+    /**
+     * 2. 点击主播位或老板位通知
+     */
+    public static final String MG_CUSTOM_CR_CLICK_SEAT = "mg_custom_cr_click_seat";
+
+    /**
+     * 2. 点击主播位或老板位通知 模型
+     */
+    public static final class MGCustomCrClickSeat implements Serializable {
+        public int seatIndex; // 0~4一共5个麦位，0为老板位，1~4为四个面主播位
+    }
+    // endregion 3D语聊房
 
 }

@@ -274,10 +274,15 @@ public class SudMGPAPPState implements Serializable {
     }
 
     public static class AIPlayers implements Serializable {
+        public static final int LEVEL_SIMPLE = 1; // 机器人等级：简单
+        public static final int LEVEL_MODERATE = 2; // 机器人等级：适中
+        public static final int LEVEL_DIFFICULTY = 3; // 机器人等级：困难
+
         public String userId; // 玩家id
         public String avatar; // 头像url
         public String name; // 名字
         public String gender; // 性别 male：男，female：女
+        public int level; // 机器人等级 1:简单 2:适中 3:困难
     }
 
     /**
@@ -421,6 +426,47 @@ public class SudMGPAPPState implements Serializable {
      * 30. app主动隐藏主界面(赛车) 模型
      */
     public static class APPCommonHideGameScene implements Serializable {
+    }
+
+    /**
+     * 31. app通知游戏爆词内容(谁是卧底)
+     */
+    public static final String APP_COMMON_GAME_SEND_BURST_WORD = "app_common_game_send_burst_word";
+
+    /**
+     * 31. app通知游戏爆词内容(谁是卧底) 模型
+     */
+    public static class APPCommonGameSendBurstWord implements Serializable {
+        public String text; // 爆词内容
+    }
+
+    /**
+     * 32. app通知游戏玩家所持有的道具卡(大富翁)
+     */
+    public static final String APP_COMMON_GAME_PLAYER_MONOPOLY_CARDS = "app_common_game_player_monopoly_cards";
+
+    /**
+     * 32. app通知游戏玩家所持有的道具卡(大富翁) 模型
+     */
+    public static class APPCommonGamePlayerMonopolyCards implements Serializable {
+        public int reroll_card_count; // 重摇卡的数量
+        public int free_rent_card_count; // 免租卡的数量
+        public int ctrl_dice_card_count; // 购买指定骰子点数卡的数量
+    }
+
+    /**
+     * 33. app通知游戏获取到道具卡(大富翁)
+     */
+    public static final String APP_COMMON_GAME_SHOW_MONOPOLY_CARD_EFFECT = "app_common_game_show_monopoly_card_effect";
+
+    /**
+     * 33. app通知游戏获取到道具卡(大富翁) 模型
+     */
+    public static class APPCommonGameShowMonopolyCardEffect implements Serializable {
+        public int type; // 1：重摇卡，2：免租卡，3：指定点数卡
+        public String fromUid; // 发送的玩家id
+        public String toUid; // 接收方玩家id
+        public int count; // 数量
     }
     // endregion 通用状态
 
@@ -997,5 +1043,138 @@ public class SudMGPAPPState implements Serializable {
         public int rank; // 排名
     }
     // endregion 棒球
+
+    // region 3D语聊房
+    /**
+     * 1. 设置房间配置
+     * 收到游戏发过来的mg_custom_cr_room_init_data状态后
+     * App把房间配置以及主播位数据发送给游戏
+     */
+    public static final String APP_CUSTOM_CR_SET_ROOM_CONFIG = "app_custom_cr_set_room_config";
+
+    /**
+     * 1. 设置房间配置 模型
+     */
+    public static class AppCustomCrSetRoomConfig implements Serializable {
+        public int platformRotate; // 立方体是否自转  0:不旋转 1：旋转
+        public int rotateDir; // 立方体自转方向 0:从右往左转  1:从左往右转
+        public int rotateSpeed; // 立方体自转速度（整形类型）0:使用默认速度每秒6度  x>0:每秒旋转x度
+        public int gameMusic; // 音乐控制  0:关  1:开
+        public int gameSound; // 音效控制  0:关  1:开
+        public int flashVFX; // 是否开启爆灯边框效果  0:关  1:开
+        public int micphoneWave; // 是否开启麦浪边框效果  0:关  1:开
+        public int showGiftValue; // 是否显示心动值  0:隐藏  1:显示
+    }
+
+    /**
+     * 2. 设置主播位数据
+     * 收到游戏发过来的mg_custom_cr_room_init_data状态后
+     * App把房间配置以及主播位数据发送给游戏
+     * <p>
+     * 初始化时，需要发送5个主播位的全量数据
+     * 后续如果某个主播位有变化，可只传一个或多个主播位的数据(需要该主播位的全量数据)
+     */
+    public static final String APP_CUSTOM_CR_SET_SEATS = "app_custom_cr_set_seats";
+
+    /**
+     * 2. 设置主播位数据 模型
+     */
+    public static class AppCustomCrSetSeats implements Serializable {
+        public List<CrSeatModel> seats; // 主播位数据
+
+        /**
+         * 3D语聊房主播位 模型
+         */
+        public static class CrSeatModel implements Serializable {
+            public static final int MICRO_STATE_SOMEONE = 1;
+            public static final int MICRO_STATE_NO_ONE = 2;
+            public static final int MICRO_STATE_LOCKED = 3;
+
+            public int seatIndex; // 0~4一共5个麦位，0为老板位，1~4为四个面主播位
+            public int level; // 四个面场景等级 0~2
+            public int microState;  // 麦位状态  1:有人  2:空位  3:麦位被锁
+            public String userId; // 当前麦位用户id（如果有）
+            public int gender; // 性别  0:男  1:女
+            public String name; // 名字
+            public String photoUrl; // 头像链接
+            public int micphoneState; // 麦克风状态  -1:禁麦  0:闭麦  1:开麦
+            public int giftValue; // 心动值
+        }
+    }
+
+    /**
+     * 3. 播放收礼效果
+     */
+    public static final String APP_CUSTOM_CR_PLAY_GIFT_EFFECT = "app_custom_cr_play_gift_effect";
+
+    /**
+     * 3. 播放收礼效果 模型
+     */
+    public static class AppCustomCrPlayGiftEffect implements Serializable {
+        public String giverUserId; // 送礼人的userId
+        public boolean isAllSeat; // 标识是否是全麦
+        public List<CrGiftModel> giftList; // 礼物列表，可送给一个或者多个主播
+
+        public static class CrGiftModel implements Serializable {
+            public int seatIndex; // 0~4一共5个麦位，0为老板位，1~4为四个面主播位
+            public int level; // 礼物档位，1 ~ 30
+            public int count; // 礼物数量
+        }
+    }
+
+    /**
+     * 4. 通知播放爆灯特效
+     */
+    public static final String APP_CUSTOM_CR_SET_LIGHT_FLASH = "app_custom_cr_set_light_flash";
+
+    /**
+     * 4. 通知播放爆灯特效 模型
+     */
+    public static class AppCustomCrSetLightFlash implements Serializable {
+        public int seatIndex; // 主播位index
+    }
+
+    /**
+     * 5. 通知主播播放指定动作
+     */
+    public static final String APP_CUSTOM_CR_PLAY_ANIM = "app_custom_cr_play_anim";
+
+    /**
+     * 5. 通知主播播放指定动作 模型
+     */
+    public static class AppCustomCrPlayAnim implements Serializable {
+        public int seatIndex; // 主播位index
+        public int animId; // 动作id 1:跳舞 2:飞吻 3:感谢 4:鼓掌 5:害羞 6:欢呼 7:伤心 8:生气
+    }
+
+    /**
+     * 6. 通知麦浪值变化
+     */
+    public static final String APP_CUSTOM_CR_MICPHONE_VALUE_SEAT = "app_custom_cr_micphone_value_seat";
+
+    /**
+     * 6. 通知麦浪值变化 模型
+     */
+    public static class AppCustomCrMicphoneValueSeat implements Serializable {
+        public int seatIndex; // 主播位index
+        public int value; // 麦浪值，请映射到区间0~100
+    }
+
+    /**
+     * 7. 通知暂停或恢复立方体自转
+     */
+    public static final String APP_CUSTOM_CR_PAUSE_ROTATE = "app_custom_cr_pause_rotate";
+
+    /**
+     * 7. 通知暂停或恢复立方体自转 模型
+     */
+    public static class AppCustomCrPauseRotate implements Serializable {
+        /**
+         * 0:恢复自转（若旋转配置启用自转，则收到0时恢复自转，若旋转配置不启用自转，则无效果）
+         * 1:暂停自转（若旋转配置启用自转，则收到1时暂定自转，若旋转配置不启用自转，则无效果）
+         */
+        public int pause;
+    }
+    // endregion 3D语聊房
 
 }

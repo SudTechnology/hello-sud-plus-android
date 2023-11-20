@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
+import tech.sud.mgp.hello.ui.scenes.base.model.MicAnimModel;
 
 public abstract class BaseMicView<T extends BaseMicItemView> extends ConstraintLayout {
 
@@ -105,6 +106,14 @@ public abstract class BaseMicView<T extends BaseMicItemView> extends ConstraintL
 
     /** 展开麦位 */
     protected void spreadMicView() {
+    }
+
+    /** 播放麦位动画 */
+    public void startAnim(int position, MicAnimModel model) {
+        BaseMicItemView itemView = getItemView(position);
+        if (itemView != null) {
+            itemView.startAnim(model);
+        }
     }
 
 }

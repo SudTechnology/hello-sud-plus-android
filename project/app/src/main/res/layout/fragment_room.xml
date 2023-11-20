@@ -8,6 +8,12 @@
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintTop_toTopOf="parent">
 
+    <View
+        android:id="@+id/view_statusbar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/white" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/index_header"
         android:layout_width="match_parent"

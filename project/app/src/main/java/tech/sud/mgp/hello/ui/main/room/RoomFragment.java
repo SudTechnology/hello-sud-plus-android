@@ -85,7 +85,8 @@ public class RoomFragment extends BaseFragment {
 
         userInfoView.setNftMask(R.drawable.ic_nft_mask_white);
         userInfoView.setViewWalletAddressArrowVisible(false);
-        ViewUtils.addMarginTop(findViewById(R.id.index_header), ImmersionBar.getStatusBarHeight(requireContext()));
+        View viewStatusBar = findViewById(R.id.view_statusbar);
+        ViewUtils.setHeight(viewStatusBar, ImmersionBar.getStatusBarHeight(requireContext()));
     }
 
     @Override

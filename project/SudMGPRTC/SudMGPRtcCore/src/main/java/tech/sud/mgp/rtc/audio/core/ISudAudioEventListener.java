@@ -87,4 +87,13 @@ public interface ISudAudioEventListener {
      * @param streamID
      */
     void onPlayingStreamingDelete(String streamID);
+
+    /**
+     * 拉流分辨率变更通知。
+     *
+     * @param streamID 流id
+     * @param width    宽
+     * @param height   高
+     */
+    void onPlayerVideoSizeChanged(String streamID, int width, int height);
 }

@@ -19,6 +19,8 @@ public class DanmakuListResp {
     @SerializedName(value = "callWarcraftInfoList")
     public List<Prop> propList; // 道具列表
 
+    public List<Prop> actionList; // 第二行
+
     public static class Prop {
         public int callMode; // 召唤方式（1弹幕，2礼物）
         public String title; // 标题
@@ -32,6 +34,7 @@ public class DanmakuListResp {
         public int giftPrice; // 礼物价格
         public String giftUrl; // 礼物图片
         public String animationUrl; // 礼物动图
+        public String backgroundUrl;
     }
 
     public static class JoinTeam {

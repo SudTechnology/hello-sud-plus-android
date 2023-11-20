@@ -55,6 +55,13 @@ public class GameConfigModel implements Serializable {
         public UmoIcon umo_icon = new UmoIcon(); // 游戏中动画和头像右上角的UMO图标
         public Logo logo = new Logo(); // 大厅中的logo
         public GamePlayers game_players = new GamePlayers(); // 游戏中的游戏位
+        public BulletScreensBtn bullet_screens_btn = new BulletScreensBtn(); // 你画我猜，你说我猜『弹幕开关』按钮
+        public RoundOverPoopBtn round_over_poop_btn = new RoundOverPoopBtn(); // 你画我猜，小局结算界面点击扔大便按钮
+        public RoundOverGoodBtn round_over_good_btn = new RoundOverGoodBtn(); // 你画我猜，小局结算界面点击点赞按钮
+        public Mask mask = new Mask(); // 弹框界面的蒙层
+        public WorstTeammateTip worst_teammate_tip = new WorstTeammateTip(); // 友尽闯关中最坑队友的弹框
+        public GameOverTip game_over_tip = new GameOverTip(); // 友尽闯关中玩家逃跑导致游戏结束弹框
+        public LobbyAnimation lobby_animation = new LobbyAnimation(); // 碰碰我最强大厅动画
     }
 
     // 结算界面
@@ -250,6 +257,48 @@ public class GameConfigModel implements Serializable {
     // 游戏中的游戏位
     public static class GamePlayers implements Serializable {
         // 是否隐藏游戏中的游戏位（false: 不隐藏； true: 隐藏，默认为false，暂时只支持你画我猜）
+        public boolean hide = false;
+    }
+
+    // 你画我猜，你说我猜『弹幕开关』按钮
+    public static class BulletScreensBtn implements Serializable {
+        // 是否隐藏 你画我猜，你说我猜『弹幕开关』按钮（false: 显示； true: 隐藏；默认为true）
+        public boolean hide = true;
+    }
+
+    // 你画我猜，小局结算界面点击扔大便按钮
+    public static class RoundOverPoopBtn implements Serializable {
+        // 你画我猜，小局结算点击扔大便按钮抛事件（false: 正常点击； true: 游戏通知app按钮点击事件；默认为false）
+        public boolean custom = false;
+    }
+
+    // 你画我猜，小局结算界面点击点赞按钮
+    public static class RoundOverGoodBtn implements Serializable {
+        // 你画我猜，小局结算点击点赞按钮抛事件（false: 正常点击； true: 游戏通知app按钮点击事件；默认为false）
+        public boolean custom = false;
+    }
+
+    // 弹框界面的蒙层
+    public static class Mask implements Serializable {
+        // 是否将弹框界面的蒙层设置为全透明（false: 半透明； true: 全透明；默认为false）
+        public boolean transparent = false;
+    }
+
+    // 友尽闯关中最坑队友的弹框
+    public static class WorstTeammateTip implements Serializable {
+        // 是否隐藏最坑队友弹框（false: 显示； true: 隐藏，默认为false；）只支持友尽闯关
+        public boolean hide = false;
+    }
+
+    // 友尽闯关中玩家逃跑导致游戏结束弹框
+    public static class GameOverTip implements Serializable {
+        // 是否隐藏玩家逃跑导致游戏结束弹框（false: 显示； true: 隐藏，默认为false；）只支持友尽闯关
+        public boolean hide = false;
+    }
+
+    // 碰碰我最强大厅动画
+    public static class LobbyAnimation implements Serializable {
+        // 是否隐藏碰碰我最强大厅动画（false: 显示； true: 隐藏，默认为false；）只支持碰碰我最强
         public boolean hide = false;
     }
 

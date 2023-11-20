@@ -65,6 +65,17 @@ public class ViewUtils {
         }
     }
 
+    /** 设置MarginBottom */
+    public static void setMarginBottom(View view, int value) {
+        if (view == null) return;
+        ViewGroup.LayoutParams params = view.getLayoutParams();
+        if (params instanceof ViewGroup.MarginLayoutParams) {
+            ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) params;
+            marginLayoutParams.bottomMargin = value;
+            view.setLayoutParams(marginLayoutParams);
+        }
+    }
+
     /** 获取MarginTop */
     public static int getMarginTop(View view) {
         if (view == null) return 0;

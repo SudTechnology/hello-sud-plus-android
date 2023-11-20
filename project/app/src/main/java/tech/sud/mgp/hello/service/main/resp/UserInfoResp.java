@@ -11,6 +11,7 @@ public class UserInfoResp implements Serializable {
     public String gender; // 性别
     @SerializedName(value = "ai")
     public boolean isAi; // 是否是机器人
+    public int level; // 机器人等级 1:简单 2:适中 3:困难
 
     public int headerType; // 头像类型（0图片，1nft）
     public String headerNftToken; // 头像nft穿戴token
@@ -45,6 +46,7 @@ public class UserInfoResp implements Serializable {
         nickname = userInfoResp.nickname;
         gender = userInfoResp.gender;
         isAi = userInfoResp.isAi;
+        level = userInfoResp.level;
         headerType = userInfoResp.headerType;
         headerNftToken = userInfoResp.headerNftToken;
         headerNftUrl = userInfoResp.headerNftUrl;

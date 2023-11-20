@@ -340,11 +340,17 @@ public class RocketControl extends BaseInteractionControl {
 
                     GiftModel giftModel = GiftHelper.getInstance().createGiftModel(GiftId.ROCKET);
                     giftModel.extData = SudJsonUtils.toJson(useRocketFireResp);
-                    getBinder().sendGift(giftModel, number, userInfo);
+                    getBinder().sendGift(giftModel, number, userInfo, isAllSeat(userInfo));
                 }
                 onShowRocketFire(rocketFireResp);
             }
         });
+    }
+
+    private boolean isAllSeat(UserInfo userInfo) {
+        List<UserInfo> list = new ArrayList<>();
+        list.add(userInfo);
+        return activity.isAllSeat(list);
     }
 
     /** 展示火箭发射 */

@@ -4,9 +4,15 @@ import io.reactivex.rxjava3.core.Observable;
 import retrofit2.http.Body;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.IBaseUrl;
 import tech.sud.mgp.hello.service.base.RequestUrl;
+import tech.sud.mgp.hello.service.room.req.Audio3DGetConfigReq;
+import tech.sud.mgp.hello.service.room.req.Audio3DLockMicReq;
+import tech.sud.mgp.hello.service.room.req.Audio3DMicListReq;
+import tech.sud.mgp.hello.service.room.req.Audio3DSwitchMicReq;
+import tech.sud.mgp.hello.service.room.req.Audio3DUpdateMicrophoneStateReq;
 import tech.sud.mgp.hello.service.room.req.CrossAppCancelMatchReq;
 import tech.sud.mgp.hello.service.room.req.CrossAppJoinTeamReq;
 import tech.sud.mgp.hello.service.room.req.CrossAppQuitTeamReq;
@@ -18,6 +24,7 @@ import tech.sud.mgp.hello.service.room.req.DiscoAnchorListReq;
 import tech.sud.mgp.hello.service.room.req.DiscoSwitchAnchorReq;
 import tech.sud.mgp.hello.service.room.req.EnterRoomReq;
 import tech.sud.mgp.hello.service.room.req.ExitRoomReq;
+import tech.sud.mgp.hello.service.room.req.GetMonopolyCardsReq;
 import tech.sud.mgp.hello.service.room.req.GiftListReq;
 import tech.sud.mgp.hello.service.room.req.LeaguePlayingReq;
 import tech.sud.mgp.hello.service.room.req.QuizGamePlayerReq;
@@ -34,12 +41,14 @@ import tech.sud.mgp.hello.service.room.req.RoomPkStartReq;
 import tech.sud.mgp.hello.service.room.req.RoomPkSwitchReq;
 import tech.sud.mgp.hello.service.room.req.SendDanmakuReq;
 import tech.sud.mgp.hello.service.room.req.SendGiftReq;
+import tech.sud.mgp.hello.service.room.req.SetCrRoomConfigReq;
 import tech.sud.mgp.hello.service.room.resp.CrossAppStartMatchResp;
 import tech.sud.mgp.hello.service.room.resp.DanmakuListResp;
 import tech.sud.mgp.hello.service.room.resp.DiscoAnchorListResp;
 import tech.sud.mgp.hello.service.room.resp.EnterRoomResp;
 import tech.sud.mgp.hello.service.room.resp.GiftListResp;
 import tech.sud.mgp.hello.service.room.resp.LeaguePlayingResp;
+import tech.sud.mgp.hello.service.room.resp.MonopolyCardsResp;
 import tech.sud.mgp.hello.service.room.resp.QuizGamePlayerResp;
 import tech.sud.mgp.hello.service.room.resp.RobotListResp;
 import tech.sud.mgp.hello.service.room.resp.RoomMicListResp;
@@ -211,5 +220,36 @@ public interface AudioRequestMethod {
     @POST(RequestUrl.CROSS_APP_SWITCH_GAME)
     Observable<BaseResponse<Object>> crossAppSwitchGame(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body CrossAppSwitchGameReq req);
     // endregion 跨域
+
+    // region 3D语聊房
+
+    /** 上麦或下麦 */
+    @POST(RequestUrl.AUDIO_3D_SWITCH_MIC)
+    Observable<BaseResponse<Object>> audio3DSwitchMic(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body Audio3DSwitchMicReq req);
+
+    /** 更新麦克风信息 */
+    @POST(RequestUrl.AUDIO_3D_UPDATE_MICROPHONE_STATE)
+    Observable<BaseResponse<Object>> audio3DUpdateMicrophoneState(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body Audio3DUpdateMicrophoneStateReq req);
+
+    /** 锁/解锁麦位 */
+    @POST(RequestUrl.AUDIO_3D_LOCK_MIC)
+    Observable<BaseResponse<Object>> audio3DLockMic(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body Audio3DLockMicReq req);
+
+    /** 查询麦位列表 */
+    @POST(RequestUrl.AUDIO_3D_MIC_LIST)
+    Observable<BaseResponse<SudMGPAPPState.AppCustomCrSetSeats>> audio3DMicList(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body Audio3DMicListReq req);
+
+    /** 获取配置 */
+    @POST(RequestUrl.AUDIO_3D_GET_CONFIG)
+    Observable<BaseResponse<SudMGPAPPState.AppCustomCrSetRoomConfig>> audio3DGetConfig(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body Audio3DGetConfigReq req);
+
+    /** 设置配置 */
+    @POST(RequestUrl.AUDIO_3D_SET_CONFIG)
+    Observable<BaseResponse<Object>> audio3DSetConfig(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body SetCrRoomConfigReq req);
+    // endregion 3D语聊房
+
+    /** 大富翁道具列表 */
+    @POST(RequestUrl.MONOPOLY_CARDS)
+    Observable<BaseResponse<MonopolyCardsResp>> getMonopolyCards(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body GetMonopolyCardsReq req);
 
 }

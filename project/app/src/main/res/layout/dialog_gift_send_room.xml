@@ -68,6 +68,15 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <!-- 大富翁卡片 -->
+    <tech.sud.mgp.hello.ui.scenes.common.gift.view.GiftDetailsView
+        android:id="@+id/gift_details_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/content_cl" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/content_cl"
         android:layout_width="match_parent"
@@ -107,5 +116,6 @@
             app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

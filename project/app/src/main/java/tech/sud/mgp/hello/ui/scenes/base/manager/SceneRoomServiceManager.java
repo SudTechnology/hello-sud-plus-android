@@ -40,6 +40,7 @@ import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdKickOutRoomModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.danmaku.RoomCmdDanmakuTeamChangeModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.ContributionModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.DanceModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.monopoly.RoomCmdMonopolyCardGiftModel;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftModel;
 
 /**
@@ -73,6 +74,7 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
     public SceneDiscoManager sceneDiscoManager;
     public SceneLeagueManager sceneLeagueManager;
     public SceneCrossAppManager sceneCrossAppManager;
+    public SceneAudio3DRoomManager sceneAudio3DRoomManager;
 
     @Override
     public void onCreate() {
@@ -134,6 +136,15 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
                 SceneRoomServiceCallback callback = getCallback();
                 if (callback != null) {
                     callback.onDanmakuMatch(model);
+                }
+            }
+        });
+        sceneEngineManager.setCommandListener(new SceneCommandManager.MonopolyCardGiftListener() {
+            @Override
+            public void onRecvCommand(RoomCmdMonopolyCardGiftModel model, String userID) {
+                SceneRoomServiceCallback callback = getCallback();
+                if (callback != null) {
+                    callback.onMonopolyCardGiftNotify(model);
                 }
             }
         });
@@ -238,6 +249,9 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
         if (sceneCrossAppManager != null) {
             sceneCrossAppManager.enterRoom(config, model);
         }
+        if (sceneAudio3DRoomManager != null) {
+            sceneAudio3DRoomManager.enterRoom(config, model);
+        }
     }
 
     /** 根据不同的场景类型，初始化相关的业务管理类 */
@@ -255,6 +269,18 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
                 sceneCrossAppManager = new SceneCrossAppManager(this);
                 sceneCrossAppManager.onCreate();
                 break;
+            case SceneType.AUDIO_3D:
+                sceneAudio3DRoomManager = new SceneAudio3DRoomManager(this);
+                sceneAudio3DRoomManager.onCreate();
+                break;
+        }
+    }
+
+    public int getSceneType() {
+        if (roomInfoModel == null) {
+            return SceneType.UNDEFINED;
+        } else {
+            return roomInfoModel.sceneType;
         }
     }
 
@@ -279,6 +305,9 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
         sceneOrderManager.callbackPageData();
         if (sceneCrossAppManager != null) {
             sceneCrossAppManager.callbackPageData();
+        }
+        if (sceneAudio3DRoomManager != null) {
+            sceneAudio3DRoomManager.callbackPageData();
         }
         SceneRoomServiceCallback callback = getCallback();
         if (callback != null) {
@@ -346,6 +375,9 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
         if (roomId > 0) {
             RoomRepository.exitRoom(null, roomId, new RxCallback<>());
         }
+        if (sceneAudio3DRoomManager != null) {
+            sceneAudio3DRoomManager.exitRoom();
+        }
         sceneMicManager.exitRoom();
         SceneRoomService service = sceneRoomService;
         if (service != null) {
@@ -365,10 +397,10 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
     }
 
     /** 发送礼物 */
-    public void sendGift(GiftModel giftModel, int giftCount, UserInfo toUser) {
-        sceneGiftManager.sendGift(giftModel, giftCount, toUser);
+    public void sendGift(GiftModel giftModel, int giftCount, List<UserInfo> toUserList, boolean isAllSeat) {
+        sceneGiftManager.sendGift(giftModel, giftCount, toUserList, isAllSeat);
         if (sceneDiscoManager != null) {
-            sceneDiscoManager.onSendGift(giftModel, giftCount, toUser);
+            sceneDiscoManager.onSendGift(giftModel, giftCount, toUserList);
         }
     }
 
@@ -377,6 +409,18 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
             return sceneDiscoManager.getDiscoContribution();
         }
         return null;
+    }
+
+    /** 将用户踢出房间 */
+    public void kickOutRoom(long userId) {
+        AudioRoomMicModel micModel = sceneMicManager.findMicModel(userId);
+        if (micModel == null) { // 不在麦位上的处理
+            // 发送信令，让其自己退出房间
+            String cmd = RoomCmdModelUtils.buildKickOutRoomCommand(userId + "");
+            sceneEngineManager.sendCommand(cmd);
+        } else { // 在麦位上的处理
+            kickOutRoom(micModel);
+        }
     }
 
     /** 将用户踢出房间 */

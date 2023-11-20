@@ -412,6 +412,14 @@ public class ZegoAudioEngineImpl implements ISudAudioEngine {
                 }
             }
         }
+
+        @Override
+        public void onPlayerVideoSizeChanged(String streamID, int width, int height) {
+            super.onPlayerVideoSizeChanged(streamID, width, height);
+            if (mISudAudioEventListener != null) {
+                mISudAudioEventListener.onPlayerVideoSizeChanged(streamID, width, height);
+            }
+        }
     };
 
     private final IZegoAudioDataHandler zegoAudioDataHandler = new IZegoAudioDataHandler() {

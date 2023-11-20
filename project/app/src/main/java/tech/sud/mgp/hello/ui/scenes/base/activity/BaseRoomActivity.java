@@ -5,18 +5,26 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.IBinder;
+import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.view.animation.Animation;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.Observer;
 
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.gyf.immersionbar.BarHide;
 import com.gyf.immersionbar.ImmersionBar;
@@ -43,6 +51,7 @@ import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.AnimUtils;
+import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.utils.ViewUtils;
 import tech.sud.mgp.hello.common.utils.permission.PermissionFragment;
 import tech.sud.mgp.hello.common.utils.permission.SudPermissionUtils;
@@ -54,15 +63,17 @@ import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.main.resp.GetAccountResp;
 import tech.sud.mgp.hello.service.room.repository.RoomRepository;
 import tech.sud.mgp.hello.service.room.resp.CrossAppModel;
+import tech.sud.mgp.hello.service.room.resp.GiftListResp;
+import tech.sud.mgp.hello.service.room.resp.MonopolyCardsResp;
 import tech.sud.mgp.hello.service.room.resp.RobotListResp;
 import tech.sud.mgp.hello.ui.common.constant.RequestKey;
 import tech.sud.mgp.hello.ui.main.base.activity.MainActivity;
 import tech.sud.mgp.hello.ui.main.base.constant.GameIdCons;
 import tech.sud.mgp.hello.ui.scenes.base.constant.OperateMicType;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
-import tech.sud.mgp.hello.ui.scenes.base.model.BooleanModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.GameLoadingProgressModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.GameTextModel;
+import tech.sud.mgp.hello.ui.scenes.base.model.GiftNotifyModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.OrderInviteModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoleType;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
@@ -75,19 +86,23 @@ import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.SceneRoomViewModel;
 import tech.sud.mgp.hello.ui.scenes.base.widget.dialog.GameModeDialog;
 import tech.sud.mgp.hello.ui.scenes.base.widget.dialog.RoomMoreDialog;
+import tech.sud.mgp.hello.ui.scenes.base.widget.view.MonopolyCardContainer;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.SceneRoomBottomView;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.SceneRoomTopView;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.chat.RoomInputMsgView;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.chat.SceneRoomChatView;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.mic.OnMicItemClickListener;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.mic.SceneRoomMicWrapView;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.RoomCmdModelUtils;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.audio3d.Audio3DCmdFaceNotifyModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.danmaku.RoomCmdDanmakuTeamChangeModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.ContributionModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.DanceModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.monopoly.RoomCmdMonopolyCardGiftModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.order.RoomCmdUserOrderModel;
 import tech.sud.mgp.hello.ui.scenes.common.gift.listener.GiftSendClickListener;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftModel;
-import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftNotifyDetailModel;
+import tech.sud.mgp.hello.ui.scenes.common.gift.utils.GiftModelConverter;
 import tech.sud.mgp.hello.ui.scenes.common.gift.view.GiftEffectView;
 import tech.sud.mgp.hello.ui.scenes.common.gift.view.RoomGiftDialog;
 import tech.sud.mgp.rtc.audio.core.AudioPCMData;
@@ -113,6 +128,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
     private TextView tvOpenMic;
     private TextView tvASRHint;
     private TextView tvAddRobot;
+    private MonopolyCardContainer mMonopolyCardContainer;
 
     protected boolean closeing; // 标识是否正在关闭房间
     protected SceneRoomService.MyBinder binder;
@@ -190,7 +206,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         }
 
         topView.setFinishGameVisible(false);
-        topView.setSelectGameVisible(roomInfoModel.roleType == RoleType.OWNER);
+        topView.setSelectGameVisible(isOwner());
 
         if (roomConfig.isSupportAddRobot) {
             tvAddRobot.setVisibility(View.VISIBLE);
@@ -318,13 +334,77 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         tvAddRobot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onClickAddRobot();
+                showRobotLevelPopup();
             }
         });
     }
 
+    private void showRobotLevelPopup() {
+        View contnetView = View.inflate(this, R.layout.popup_bot_level, null);
+        LinearLayout viewRoot = contnetView.findViewById(R.id.view_root);
+
+        int popupWindowWidth = DensityUtils.dp2px(this, 80);
+        int popupWindowHeight = DensityUtils.dp2px(this, 128);
+        PopupWindow popupWindow = new PopupWindow(contnetView, popupWindowWidth, popupWindowHeight);
+
+        popupWindow.setOutsideTouchable(true); //设置点击外部区域可以取消popupWindow
+        popupWindow.setFocusable(true); // 返回键取消popupwindow
+
+        addRobotLevelItem(popupWindow, viewRoot, 3);
+        addRobotLevelItem(popupWindow, viewRoot, 2);
+        addRobotLevelItem(popupWindow, viewRoot, 1);
+
+        int xoff = -(popupWindowWidth / 2 - tvAddRobot.getMeasuredWidth() / 2);
+        int yoff = -(popupWindowHeight + DensityUtils.dp2px(this, 32));
+        popupWindow.showAsDropDown(tvAddRobot, xoff, yoff);
+    }
+
+    private void addRobotLevelItem(PopupWindow popupWindow, LinearLayout viewRoot, int level) {
+        ConstraintLayout parent = new ConstraintLayout(this);
+
+        TextView tv = new TextView(this);
+        tv.setTextSize(13);
+        tv.setTextColor(Color.BLACK);
+        switch (level) {
+            case 1:
+                tv.setText(R.string.simple);
+                break;
+            case 2:
+                tv.setText(R.string.moderate);
+                break;
+            case 3:
+                tv.setText(R.string.difficulty);
+                break;
+        }
+        tv.setBackgroundResource(R.drawable.selector_bot_level_item);
+        tv.setGravity(Gravity.CENTER);
+        ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, DensityUtils.dp2px(20));
+        params.topToTop = ConstraintLayout.LayoutParams.PARENT_ID;
+        params.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID;
+        parent.addView(tv, params);
+
+        if (viewRoot.getChildCount() > 0) {
+            View view = new View(this);
+            view.setBackgroundColor(Color.parseColor("#dddddd"));
+            int marginHorizontal = DensityUtils.dp2px(7);
+            ConstraintLayout.LayoutParams viewParams = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, DensityUtils.dp2px(1));
+            viewParams.topToTop = ConstraintLayout.LayoutParams.PARENT_ID;
+            viewParams.setMarginStart(marginHorizontal);
+            viewParams.setMarginEnd(marginHorizontal);
+            parent.addView(view, viewParams);
+        }
+
+        viewRoot.addView(parent, LinearLayout.LayoutParams.MATCH_PARENT, DensityUtils.dp2px(40));
+
+        tv.setOnClickListener(v -> {
+            onClickAddRobot(level);
+            popupWindow.dismiss();
+        });
+
+    }
+
     /** 点击了添加机器人 */
-    protected void onClickAddRobot() {
+    protected void onClickAddRobot(int level) {
         RoomRepository.robotList(this, 30, new RxCallback<RobotListResp>() {
             @Override
             public void onSuccess(RobotListResp robotListResp) {
@@ -337,7 +417,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
                 }
                 List<AudioRoomMicModel> micList = binder.getMicList();
                 // 找到一个可以用的机器人
-                AIPlayers aiPlayers = findAvailableAiPlayers(robotListResp.robotList, micList);
+                AIPlayers aiPlayers = findAvailableAiPlayers(robotListResp.robotList, micList, level);
 
                 if (aiPlayers == null) {
                     return;
@@ -384,8 +464,9 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
      *
      * @param robotList 机器人列表
      * @param micList   麦位列表
+     * @param level
      */
-    protected AIPlayers findAvailableAiPlayers(List<AIPlayers> robotList, List<AudioRoomMicModel> micList) {
+    protected AIPlayers findAvailableAiPlayers(List<AIPlayers> robotList, List<AudioRoomMicModel> micList, int level) {
         Random random = new Random();
         for (int i = 0; i < 1000; i++) {
             int position = random.nextInt(robotList.size());
@@ -398,7 +479,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
                     break;
                 }
             }
-            if (!exists) {
+            if (!exists && aiPlayers.level == level) {
                 return aiPlayers;
             }
         }
@@ -627,6 +708,19 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         });
         gameViewModel.onGameSetScoreLiveData.observe(this, this::onGameSetScore);
         gameViewModel.gameCreateOrderLiveData.observe(this, this::onGameCreateOrder);
+        gameViewModel.monopolyCardsLiveData.observe(this, model -> {
+            RoomRepository.getMonopolyCards(this, new RxCallback<MonopolyCardsResp>() {
+                @Override
+                public void onSuccess(MonopolyCardsResp resp) {
+                    super.onSuccess(resp);
+                    SudMGPAPPState.APPCommonGamePlayerMonopolyCards backModel = new SudMGPAPPState.APPCommonGamePlayerMonopolyCards();
+                    backModel.reroll_card_count = resp.rerollCardCount;
+                    backModel.free_rent_card_count = resp.freeRentCardCount;
+                    backModel.ctrl_dice_card_count = resp.ctrlDiceCardCount;
+                    gameViewModel.notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_PLAYER_MONOPOLY_CARDS, backModel);
+                }
+            });
+        });
     }
 
     /** 游戏回调，创建订单 */
@@ -698,7 +792,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
     protected void onShowFinishGameChange(Boolean isShow) {
         boolean isOperateFinishGame = isShow != null && isShow;
         // 是房主，则不显示结束游戏按钮，放到选择游戏弹窗当中
-        if (roomInfoModel.roleType == RoleType.OWNER) {
+        if (isOwner()) {
             topView.setFinishGameVisible(false);
         } else {
             topView.setFinishGameVisible(isOperateFinishGame);
@@ -706,6 +800,10 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         if (gameModeDialog != null) {
             gameModeDialog.setFinishGame(isOperateFinishGame);
         }
+    }
+
+    protected boolean isOwner() {
+        return roomInfoModel.roleType == RoleType.OWNER;
     }
 
     /** 把麦位上的机器人都添加到游戏上去 */
@@ -819,7 +917,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
 
         // 自己是房主，可以把其他人给踢出
         int kickOutRoomKey = 3;
-        if (roomInfoModel.roleType == RoleType.OWNER) {
+        if (isOwner()) {
             options.put(kickOutRoomKey, getString(R.string.kick_out_room));
         }
 
@@ -1024,7 +1122,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
      * underUser:null
      * index:默认选中的麦上用户麦序号
      */
-    private void showSendGiftDialog(UserInfo underUser, int index) {
+    protected void showSendGiftDialog(UserInfo underUser, int index) {
         roomGiftDialog = RoomGiftDialog.newInstance(roomInfoModel.sceneType, roomInfoModel.gameId);
         if (underUser == null) {
             roomGiftDialog.setMicUsers(getGiftDialogMicList(), index);
@@ -1063,39 +1161,70 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
     protected void onGiftDialogShowCustomRocket() {
     }
 
-    protected void onSendGift(GiftModel giftModel, int giftCount, List<UserInfo> toUsers) {
-        if (toUsers == null || toUsers.size() == 0) {
+    protected void onSendGift(GiftModel giftModel, int giftCount, List<UserInfo> toUserList) {
+        if (toUserList == null || toUserList.size() == 0) {
             return;
         }
-        BooleanModel isShowGift = new BooleanModel();
-        isShowGift.value = true;
-        for (UserInfo user : toUsers) {
-            // 发送http到后端
-            int giftConfigType; // 礼物配置方式（1：客户端，2：服务端）
-            if (giftModel.type == 0) { // 1.4.0新增:礼物类型 0：内置礼物 1：后端配置礼物
-                giftConfigType = 1;
-            } else {
-                giftConfigType = 2;
-            }
-            RoomRepository.sendGift(context, roomInfoModel.roomId, giftModel.giftId, giftCount,
-                    giftConfigType, giftModel.giftPrice, new RxCallback<Object>() {
-                        @Override
-                        public void onSuccess(Object o) {
-                            super.onSuccess(o);
-                            if (binder != null) {
-                                binder.sendGift(giftModel, giftCount, user);
-                            }
-                            if (isShowGift.value) { // 只显示一次动效
-                                isShowGift.value = false;
-                                showGift(giftModel);
-                            }
-                        }
-                    });
+        // 发送http到后端
+        int giftConfigType; // 礼物配置方式（1：客户端，2：服务端）
+        if (giftModel.type == 0) { // 1.4.0新增:礼物类型 0：内置礼物 1：后端配置礼物
+            giftConfigType = 1;
+        } else {
+            giftConfigType = 2;
         }
+        List<String> receiverList = new ArrayList<>();
+        for (UserInfo user : toUserList) {
+            receiverList.add(user.userID);
+        }
+        UserInfo sendUser = RoomCmdModelUtils.getSendUser();
+        RoomRepository.sendGift(context, roomInfoModel.roomId, giftModel.giftId, giftCount,
+                giftConfigType, giftModel.giftPrice, receiverList, new RxCallback<Object>() {
+                    @Override
+                    public void onSuccess(Object o) {
+                        super.onSuccess(o);
+                        boolean isAllSeat = isAllSeat(toUserList);
+                        if (binder != null) {
+                            binder.sendGift(giftModel, giftCount, toUserList, isAllSeat);
+                        }
+                        showGift(giftModel, giftCount, sendUser, toUserList, isAllSeat);
+                    }
+                });
+    }
+
+    /** 判断送的礼是否是全麦 */
+    public boolean isAllSeat(List<UserInfo> toUserList) {
+        if (binder == null) {
+            return false;
+        }
+        List<AudioRoomMicModel> micList = binder.getMicList();
+        if (toUserList == null || toUserList.size() == 0) {
+            return false;
+        }
+        if (micList == null || micList.size() == 0) {
+            return false;
+        }
+        // 语聊房自身麦位上的人，都在toUserList列表内，就是全麦
+        for (AudioRoomMicModel model : micList) {
+            if (model.userId <= 0) {
+                continue;
+            }
+            String userId = model.userId + "";
+            boolean exists = false;
+            for (UserInfo userInfo : toUserList) {
+                if (userId.equals(userInfo.userID)) {
+                    exists = true;
+                    break;
+                }
+            }
+            if (!exists) { // 有一个不存在，那就是非全麦
+                return false;
+            }
+        }
+        return true;
     }
 
     /** 显示礼物 */
-    protected void showGift(GiftModel giftModel) {
+    protected void showGift(GiftModel giftModel, int giftCount, UserInfo fromUser, List<UserInfo> toUserList, boolean isAllSeat) {
         if (!canShowGift()) {
             return;
         }
@@ -1131,11 +1260,69 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         } else {
             tvASRHint.setVisibility(View.GONE);
         }
-//        if (roomConfig.isSupportAddRobot && playingGameId > 0 && roomInfoModel.roleType == RoleType.OWNER) {
+//        if (roomConfig.isSupportAddRobot && playingGameId > 0 && isOwner()) {
 //            tvAddRobot.setVisibility(View.VISIBLE);
 //        } else {
 //            tvAddRobot.setVisibility(View.GONE);
 //        }
+        if (playingGameId == GameIdCons.MONOPOLY) {
+            showMonopolyCardView();
+        } else {
+            hideMonopolyCardView();
+        }
+    }
+
+    private void showMonopolyCardView() {
+        if (mMonopolyCardContainer == null) {
+            initMonopolyCardView();
+        } else {
+            mMonopolyCardContainer.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void initMonopolyCardView() {
+        ViewStub viewStub = findViewById(R.id.view_stub_monopoly_card_view);
+        viewStub.inflate();
+        mMonopolyCardContainer = findViewById(R.id.monopoly_card_container);
+        if (mMonopolyCardContainer != null) {
+            mMonopolyCardContainer.setVisibility(View.VISIBLE);
+        }
+        refreshMonopolyCardDatas();
+        mMonopolyCardContainer.setCustomClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showSendGiftDialog(null, 0);
+            }
+        });
+    }
+
+    private void refreshMonopolyCardDatas() {
+        RoomRepository.giftList(this, roomInfoModel.sceneType, playingGameId, new RxCallback<GiftListResp>() {
+            private boolean isSuccess;
+
+            @Override
+            public void onSuccess(GiftListResp giftListResp) {
+                super.onSuccess(giftListResp);
+                isSuccess = true;
+                mMonopolyCardContainer.setDatas(giftListResp);
+            }
+
+            @Override
+            public void onFinally() {
+                super.onFinally();
+                if (!isSuccess) {
+                    ThreadUtils.runOnUiThreadDelayed(() -> {
+                        refreshMonopolyCardDatas();
+                    }, 10000);
+                }
+            }
+        });
+    }
+
+    private void hideMonopolyCardView() {
+        if (mMonopolyCardContainer != null) {
+            mMonopolyCardContainer.setVisibility(View.GONE);
+        }
     }
 
     protected void updateStatusBar() {
@@ -1215,28 +1402,62 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
                 }
                 // 修改逻辑为，随机选三个机器人上麦位
                 int addRobotCount = 3;
-                if (resp.robotList.size() <= addRobotCount) {
+                if (resp.robotList.size() <= addRobotCount) { // 机器人列表不足，不用随机
                     for (int i = 0; i < resp.robotList.size(); i++) {
                         if (i < addRobotCount) {
                             binder.robotUpMicLocation(UserInfoRespConverter.conver(resp.robotList.get(i)), i + 1);
                         }
                     }
-                } else {
+                } else { // 随机选机器人
                     List<AIPlayers> list = new ArrayList<>();
-                    Random random = new Random();
-                    while (list.size() < addRobotCount) {
-                        int position = random.nextInt(resp.robotList.size());
-                        AIPlayers aiPlayers = resp.robotList.get(position);
-                        if (!list.contains(aiPlayers)) {
-                            list.add(aiPlayers);
-                        }
+                    // 默认先加一个难度最高的
+                    findLevelRobot(resp, addRobotCount, list, AIPlayers.LEVEL_DIFFICULTY);
+
+                    // 再找中等难度的
+                    if (list.size() < addRobotCount) {
+                        findLevelRobot(resp, addRobotCount, list, AIPlayers.LEVEL_MODERATE);
                     }
+
+                    // 再找简单的
+                    if (list.size() < addRobotCount) {
+                        findLevelRobot(resp, addRobotCount, list, AIPlayers.LEVEL_SIMPLE);
+                    }
+
+                    // 如果还需要，那就不限等级的找了
+                    findLevelRobot(resp, addRobotCount, list, null);
+
                     for (int i = 0; i < list.size(); i++) {
                         binder.robotUpMicLocation(UserInfoRespConverter.conver(list.get(i)), i + 1);
                     }
                 }
             }
         });
+    }
+
+    /**
+     * 寻找指定等级机器人
+     * needLevel不为空时，只找一个对应等级的即可
+     * needLevel为空时，找到满人为止(addRobotCount)
+     */
+    private static void findLevelRobot(RobotListResp resp, int addRobotCount, List<AIPlayers> list, Integer needLevel) {
+        Random random = new Random();
+        int whileCount = 0;
+        while (list.size() < addRobotCount) {
+            whileCount++;
+            if (whileCount > 1000) { // 防止一直找不到对应等级的机器人
+                break;
+            }
+            int position = random.nextInt(resp.robotList.size());
+            AIPlayers aiPlayers = resp.robotList.get(position);
+            if (!list.contains(aiPlayers)) {
+                if (needLevel == null) {
+                    list.add(aiPlayers);
+                } else if (aiPlayers.level == needLevel) {
+                    list.add(aiPlayers);
+                    return;
+                }
+            }
+        }
     }
 
     /** 业务自动上麦 */
@@ -1305,8 +1526,8 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
     }
 
     @Override
-    public void sendGiftsNotify(GiftNotifyDetailModel notify) {
-        showGift(notify.gift);
+    public void sendGiftsNotify(GiftNotifyModel notify) {
+        showGift(notify.gift, notify.giftCount, notify.sendUser, notify.toUserList, notify.isAllSeat);
     }
 
     @Override
@@ -1315,8 +1536,10 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
     }
 
     @Override
-    public void onSoundLevel(int micIndex) {
-        micView.startSoundLevel(micIndex);
+    public void onSoundLevel(String userId, int micIndex, float soundLevel) {
+        if (soundLevel > 1) { // 大于1，才触发声浪
+            micView.startSoundLevel(micIndex);
+        }
     }
 
     @Override
@@ -1388,6 +1611,24 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
     @Override
     public void onSelfSendMsg(String msg) {
         gameViewModel.sendMsgCompleted(msg);
+
+        // 大富翁弹幕区域
+        if (mMonopolyCardContainer != null && playingGameId == GameIdCons.MONOPOLY) {
+            List<GiftListResp.BackGiftModel> danmakuList = mMonopolyCardContainer.getDanmakuList();
+            if (danmakuList != null && danmakuList.size() > 0) {
+                for (GiftListResp.BackGiftModel backGiftModel : danmakuList) {
+                    if (backGiftModel.details != null && !TextUtils.isEmpty(backGiftModel.details.content)) {
+                        String content = backGiftModel.details.content;
+                        if (content.equals(msg)) { // 触发送礼，送给自己就可以了
+                            List<UserInfo> userInfoList = new ArrayList<>();
+                            userInfoList.add(RoomCmdModelUtils.getSendUser());
+                            onSendGift(GiftModelConverter.conver(backGiftModel), 1, userInfoList);
+                            return;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     @Override
@@ -1478,6 +1719,37 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
 
     @Override
     public void onDanmakuMatch(RoomCmdDanmakuTeamChangeModel model) {
+    }
+
+    @Override
+    public void onAudio3DConfig(SudMGPAPPState.AppCustomCrSetRoomConfig model) {
+    }
+
+    @Override
+    public void onAudio3DSeats(SudMGPAPPState.AppCustomCrSetSeats model) {
+    }
+
+    @Override
+    public void onAudio3DFaceNotify(Audio3DCmdFaceNotifyModel model) {
+    }
+
+    @Override
+    public void onPlayerVideoSizeChanged(String streamID, int width, int height) {
+    }
+
+    @Override
+    public void onMonopolyCardGiftNotify(RoomCmdMonopolyCardGiftModel model) {
+        if (model == null || model.content == null || model.content.receiverUidList == null) {
+            return;
+        }
+        for (String uid : model.content.receiverUidList) {
+            SudMGPAPPState.APPCommonGameShowMonopolyCardEffect state = new SudMGPAPPState.APPCommonGameShowMonopolyCardEffect();
+            state.type = model.content.type;
+            state.fromUid = model.content.senderUid;
+            state.toUid = uid;
+            state.count = model.content.amount;
+            gameViewModel.notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_SHOW_MONOPOLY_CARD_EFFECT, state);
+        }
     }
     // endregion service回调
 

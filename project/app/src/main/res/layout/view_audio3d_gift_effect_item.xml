@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container_main"
+        android:layout_width="172dp"
+        android:layout_height="53dp"
+        android:background="@drawable/ic_audio3d_gift_bg"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <tech.sud.mgp.hello.common.widget.view.round.RoundedImageView
+            android:id="@+id/iv_avatar"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            app:riv_oval="true"
+            android:scaleType="centerCrop"
+            android:layout_marginStart="4dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:layout_marginStart="7dp"
+            android:textSize="12sp"
+            android:textColor="@color/white"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintStart_toEndOf="@id/iv_avatar"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/tv_info" />
+
+        <TextView
+            android:id="@+id/tv_info"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:textSize="12sp"
+            android:textColor="#7c7a7a"
+            app:layout_constraintStart_toStartOf="@id/tv_name"
+            app:layout_constraintTop_toBottomOf="@id/tv_name"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/iv_gift_icon"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="@id/container_main"
+        app:layout_constraintTop_toTopOf="@id/container_main"
+        app:layout_constraintBottom_toBottomOf="@id/container_main" />
+
+    <TextView
+        android:id="@+id/tv_gift_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:textColor="@color/white"
+        android:layout_marginStart="2dp"
+        app:layout_constraintStart_toEndOf="@id/iv_gift_icon"
+        app:layout_constraintTop_toTopOf="@id/iv_gift_icon"
+        app:layout_constraintBottom_toBottomOf="@id/iv_gift_icon" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

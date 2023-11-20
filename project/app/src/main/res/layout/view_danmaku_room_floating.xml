@@ -5,7 +5,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:hl_shadowColor="#60000000"
     app:hl_cornerRadius="0dp"
-    app:hl_shadowLimit="0dp">
+    app:hl_shadowLimit="0dp"
+    app:clickable="false">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/floating_cl_content"

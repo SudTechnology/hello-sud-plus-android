@@ -2,17 +2,20 @@ package tech.sud.mgp.hello.ui.scenes.base.service;
 
 import java.util.List;
 
+import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
 import tech.sud.mgp.core.ISudListenerNotifyStateChange;
 import tech.sud.mgp.hello.service.room.resp.CrossAppModel;
 import tech.sud.mgp.hello.ui.scenes.base.constant.OperateMicType;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
+import tech.sud.mgp.hello.ui.scenes.base.model.GiftNotifyModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.OrderInviteModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.audio3d.Audio3DCmdFaceNotifyModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.danmaku.RoomCmdDanmakuTeamChangeModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.ContributionModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.DanceModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.monopoly.RoomCmdMonopolyCardGiftModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.order.RoomCmdUserOrderModel;
-import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftNotifyDetailModel;
 import tech.sud.mgp.rtc.audio.core.AudioPCMData;
 
 public interface SceneRoomServiceCallback {
@@ -54,7 +57,7 @@ public interface SceneRoomServiceCallback {
     void onChatList(List<Object> list);
 
     /** 礼物通知 */
-    void sendGiftsNotify(GiftNotifyDetailModel notify);
+    void sendGiftsNotify(GiftNotifyModel notify);
 
     /** 麦克风开关状态变化 */
     void onMicStateChanged(boolean isOpened);
@@ -62,9 +65,10 @@ public interface SceneRoomServiceCallback {
     /**
      * 某个麦位下产生的声浪
      *
-     * @param micIndex 麦位索引
+     * @param micIndex   麦位索引
+     * @param soundLevel 音量级别，取值范围[0, 100]
      */
-    void onSoundLevel(int micIndex);
+    void onSoundLevel(String userId, int micIndex, float soundLevel);
 
     /**
      * 房间内当前在线用户数量回调
@@ -179,6 +183,23 @@ public interface SceneRoomServiceCallback {
 
     /** 弹幕匹配变更 */
     void onDanmakuMatch(RoomCmdDanmakuTeamChangeModel model);
+
+    /** 拉流分辨率变更通知 */
+    void onPlayerVideoSizeChanged(String streamID, int width, int height);
     // endregion 弹幕
+
+    // region 3D语聊房
+
+    /** 3D语聊房麦位 */
+    void onAudio3DConfig(SudMGPAPPState.AppCustomCrSetRoomConfig model);
+
+    void onAudio3DSeats(SudMGPAPPState.AppCustomCrSetSeats model);
+
+    void onAudio3DFaceNotify(Audio3DCmdFaceNotifyModel model);
+    // endregion 3D语聊房
+
+    // region 大富翁
+    void onMonopolyCardGiftNotify(RoomCmdMonopolyCardGiftModel model);
+    // endregion 大富翁
 
 }

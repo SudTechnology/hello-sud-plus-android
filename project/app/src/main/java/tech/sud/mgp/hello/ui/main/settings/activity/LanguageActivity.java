@@ -6,8 +6,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.ActivityUtils;
+import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.Utils;
+import com.bumptech.glide.Glide;
 import com.jeremyliao.liveeventbus.LiveEventBus;
 
 import java.util.Locale;
@@ -72,13 +74,28 @@ public class LanguageActivity extends BaseActivity {
         LiveEventBus.get(LiveEventBusKey.KEY_CHANGE_LANGUAGE).post(new ChangeLanguageEvent());
         viewModel.saveLangCellType(item.cellType);
         boolean isRelaunchApp = false;
-        Utils.Consumer<Boolean> consumer = aBoolean -> toMainActivity();
+        Utils.Consumer<Boolean> consumer = aBoolean -> changeLanguageCompleted();
         if (item.cellType == LangCellType.Follow) {
             HSLanguageUtils.applySystemLanguage(isRelaunchApp, consumer);
         } else {
             Locale locale = viewModel.converLocale(item.cellType);
             HSLanguageUtils.applyLanguageReal(locale, isRelaunchApp, consumer);
         }
+    }
+
+    private void changeLanguageCompleted() {
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                Glide glide = Glide.get(getApplicationContext());
+                glide.clearDiskCache();
+                ThreadUtils.runOnUiThread(() -> {
+                    glide.clearMemory();
+                    toMainActivity();
+                });
+            }
+        }.start();
     }
 
     /**

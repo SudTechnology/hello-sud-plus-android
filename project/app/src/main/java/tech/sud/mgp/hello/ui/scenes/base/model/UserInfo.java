@@ -9,7 +9,8 @@ public class UserInfo {
     public int sex; // 用户性别[1男 2女]
     public String roomID; // 房间Id
     public boolean isAi; // 是否是机器人
-
+    public int level; // 机器人等级 1:简单 2:适中 3:困难
+    
     public long getRoomId() {
         try {
             return Long.parseLong(roomID);

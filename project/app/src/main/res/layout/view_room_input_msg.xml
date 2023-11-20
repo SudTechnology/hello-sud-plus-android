@@ -34,10 +34,22 @@
             android:imeOptions="actionSend"
             android:gravity="center_vertical"
             android:background="@color/transparent"
-            app:layout_constraintRight_toLeftOf="@id/room_input_msg_tv_send"
+            app:layout_constraintRight_toLeftOf="@id/view_emoji"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent" />
+
+        <ImageView
+            android:id="@+id/view_emoji"
+            android:layout_width="43dp"
+            android:layout_height="43dp"
+            android:padding="10dp"
+            android:src="@drawable/ic_input_emoji"
+            android:layout_marginEnd="2dp"
+            android:visibility="gone"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/room_input_msg_tv_send" />
 
         <TextView
             android:id="@+id/room_input_msg_tv_send"
@@ -52,6 +64,24 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container_emoji"
+        android:layout_width="match_parent"
+        android:layout_height="219dp"
+        android:paddingBottom="18dp"
+        android:visibility="gone"
+        android:background="#f5f6fb"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_emoji"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

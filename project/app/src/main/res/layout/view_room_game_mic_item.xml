@@ -80,4 +80,13 @@
         app:layout_constraintStart_toStartOf="@id/riv_avatar"
         app:layout_constraintEnd_toEndOf="@id/riv_avatar" />
 
+    <FrameLayout
+        android:id="@+id/container_anim"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        app:layout_constraintStart_toStartOf="@id/sound_level_view"
+        app:layout_constraintEnd_toEndOf="@id/sound_level_view"
+        app:layout_constraintTop_toTopOf="@id/sound_level_view"
+        app:layout_constraintBottom_toBottomOf="@id/sound_level_view" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

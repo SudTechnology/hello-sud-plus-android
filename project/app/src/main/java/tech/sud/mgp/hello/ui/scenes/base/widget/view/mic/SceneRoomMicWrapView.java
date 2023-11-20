@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
+import tech.sud.mgp.hello.ui.scenes.base.model.MicAnimModel;
 
 /**
  * 场景房间顶层的麦位View，管理切换不同形态
@@ -90,6 +91,14 @@ public class SceneRoomMicWrapView extends ConstraintLayout {
         BaseMicView<?> baseMicView = mBaseMicView;
         if (baseMicView != null) {
             baseMicView.stopSoundLevel(position);
+        }
+    }
+
+    /** 播放动画 */
+    public void startAnim(int position, MicAnimModel model) {
+        BaseMicView<?> baseMicView = mBaseMicView;
+        if (baseMicView != null) {
+            baseMicView.startAnim(position, model);
         }
     }
 

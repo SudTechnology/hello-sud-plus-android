@@ -18,6 +18,16 @@ public class GiftListResp {
         public String bigGiftUrl; // 礼物大图
         public String smallGiftUrl; // 礼物小图
         public String animationUrl; // 动效路径
+        public Details details; // 详情
+    }
+
+    public static class Details {
+        public String backgroundUrl; // 卡片背景
+        public String description; // 描述
+        public String title; // 标题
+        public int cardType; // 1：角色卡 2：功能卡
+        public String textColor; // 文字颜色
+        public String content; // 弹幕内容
     }
 
 }

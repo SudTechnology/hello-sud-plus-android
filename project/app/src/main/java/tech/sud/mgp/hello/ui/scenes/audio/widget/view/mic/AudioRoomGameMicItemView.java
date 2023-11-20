@@ -5,20 +5,27 @@ import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageView;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
 import tech.sud.mgp.hello.common.utils.ShapeUtils;
 import tech.sud.mgp.hello.common.utils.ViewUtils;
+import tech.sud.mgp.hello.common.utils.WebPUtils;
 import tech.sud.mgp.hello.common.widget.view.SoundLevelView;
+import tech.sud.mgp.hello.ui.scenes.audio3d.model.EmojiModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
+import tech.sud.mgp.hello.ui.scenes.base.model.MicAnimModel;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.mic.BaseMicItemView;
+import tech.sud.mgp.hello.ui.scenes.common.gift.listener.PlayResultListener;
+import tech.sud.mgp.hello.ui.scenes.common.gift.model.PlayResult;
 
 /**
  * 语聊房，游戏时显示的单个麦位
@@ -31,7 +38,9 @@ public class AudioRoomGameMicItemView extends BaseMicItemView {
     private View viewCaptain;
     private TextView tvState;
     private View viewPlayingGame;
-
+    private FrameLayout mContainerAnim;
+    private ImageView mIvAnim;
+    private long mUserId;
     private AudioRoomGameMicView.GameMicMode micMode;
 
     public AudioRoomGameMicItemView(@NonNull Context context) {
@@ -55,10 +64,23 @@ public class AudioRoomGameMicItemView extends BaseMicItemView {
         viewCaptain = findViewById(R.id.view_captain);
         tvState = findViewById(R.id.tv_game_state);
         viewPlayingGame = findViewById(R.id.view_playing_game);
+        mContainerAnim = findViewById(R.id.container_anim);
+        initIvAnim();
+    }
+
+    private void initIvAnim() {
+        mIvAnim = new AppCompatImageView(getContext());
+//        mIvAnim.setScaleType(ImageView.ScaleType.CENTER);
+        mContainerAnim.addView(mIvAnim, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
     }
 
     @Override
     public void convert(int position, AudioRoomMicModel item) {
+        if (mUserId != item.userId) {
+            mUserId = item.userId;
+            mIvAnim.setImageBitmap(null);
+        }
+
         // 给View设置数据
         if (micMode != null && micMode.isShirnk) {
             shirnkConvert(position, item);
@@ -160,6 +182,26 @@ public class AudioRoomGameMicItemView extends BaseMicItemView {
     @Override
     public void stopSoundLevel() {
         soundLevelView.stop();
+    }
+
+    @Override
+    public void startAnim(MicAnimModel model) {
+        if (model == null) {
+            return;
+        }
+        if (model.animModel instanceof EmojiModel) {
+            EmojiModel emojiModel = (EmojiModel) model.animModel;
+            if (emojiModel.type == 1) { // 爆灯
+                WebPUtils.loadWebP(mIvAnim, R.raw.bao_deng, 3, new PlayResultListener() {
+                    @Override
+                    public void onResult(PlayResult result) {
+                        if (result == PlayResult.PLAYEND) {
+                            mIvAnim.setImageBitmap(null);
+                        }
+                    }
+                });
+            }
+        }
     }
 
     public void setMicMode(AudioRoomGameMicView.GameMicMode micMode) {

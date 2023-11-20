@@ -25,6 +25,7 @@ public class GiftItemView extends ConstraintLayout {
     private TextView tvFeature;
     private TextView tvEffect;
     private TextView tvCustom;
+    private View viewDetails;
     public boolean isShowFlag; // 是否显示标记
 
     public GiftItemView(@NonNull Context context) {
@@ -51,6 +52,7 @@ public class GiftItemView extends ConstraintLayout {
         tvFeature = findViewById(R.id.tv_feature);
         tvEffect = findViewById(R.id.tv_effect);
         tvCustom = findViewById(R.id.tv_custom);
+        viewDetails = findViewById(R.id.view_details);
     }
 
     public void setModel(GiftModel model) {
@@ -86,6 +88,12 @@ public class GiftItemView extends ConstraintLayout {
             tvCustom.setVisibility(View.VISIBLE);
         } else {
             tvCustom.setVisibility(View.GONE);
+        }
+
+        if (model.details == null) {
+            viewDetails.setVisibility(View.GONE);
+        } else {
+            viewDetails.setVisibility(View.VISIBLE);
         }
     }
 

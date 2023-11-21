@@ -58,7 +58,7 @@ public class GameConfigModel implements Serializable {
         public BulletScreensBtn bullet_screens_btn = new BulletScreensBtn(); // 你画我猜，你说我猜『弹幕开关』按钮
         public RoundOverPoopBtn round_over_poop_btn = new RoundOverPoopBtn(); // 你画我猜，小局结算界面点击扔大便按钮
         public RoundOverGoodBtn round_over_good_btn = new RoundOverGoodBtn(); // 你画我猜，小局结算界面点击点赞按钮
-        public Mask mask = new Mask(); // 弹框界面的蒙层
+        public Mask mask = new Mask(); // 游戏中所有蒙版
         public WorstTeammateTip worst_teammate_tip = new WorstTeammateTip(); // 友尽闯关中最坑队友的弹框
         public GameOverTip game_over_tip = new GameOverTip(); // 友尽闯关中玩家逃跑导致游戏结束弹框
         public LobbyAnimation lobby_animation = new LobbyAnimation(); // 碰碰我最强大厅动画
@@ -278,9 +278,9 @@ public class GameConfigModel implements Serializable {
         public boolean custom = false;
     }
 
-    // 弹框界面的蒙层
+    // 游戏中所有蒙版
     public static class Mask implements Serializable {
-        // 是否将弹框界面的蒙层设置为全透明（false: 半透明； true: 全透明；默认为false）
+        // 游戏中的所有蒙版是否透明（false: 不透明，按默认显示； true: 完全透明，默认为false；暂时只支持部分游戏）
         public boolean transparent = false;
     }
 

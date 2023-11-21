@@ -107,5 +107,9 @@
     <string name="custom_config_logo_subtitle">(ui.logo.hide)</string>
     <string name="custom_config_game_players">游戏中的游戏位</string>
     <string name="custom_config_game_players_subtitle">(ui.game_players.hide)</string>
+    <string name="custom_config_ui_mask">游戏中所有蒙版</string>
+    <string name="custom_config_ui_mask_subtitle">(ui.mask.transparent)</string>
+    <string name="custom_config_ui_mask_false">false: 不透明</string>
+    <string name="custom_config_ui_mask_true">true: 完全透明</string>
 
 </resources>

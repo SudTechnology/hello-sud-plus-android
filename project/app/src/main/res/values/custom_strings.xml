@@ -108,6 +108,10 @@
     <string name="custom_config_logo_subtitle">(ui.logo.hide)</string>
     <string name="custom_config_game_players">Players seat in game</string>
     <string name="custom_config_game_players_subtitle">(ui.game_players.hide)</string>
+    <string name="custom_config_ui_mask">All masks in the game</string>
+    <string name="custom_config_ui_mask_subtitle">(ui.mask.transparent)</string>
+    <string name="custom_config_ui_mask_false">false: opacification</string>
+    <string name="custom_config_ui_mask_true">true: transparent</string>
 
     <!-- endregion custom场景，暂不用全部翻译 -->
 </resources>

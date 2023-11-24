@@ -542,5 +542,8 @@
     <string name="affirm">确认</string>
     <string name="go_crazy_racecar_stage">正在前往疯狂赛车…</string>
     <string name="go_king_eaters">正在前往大胃王…</string>
+    <string name="gift_card_list">礼物卡橱窗</string>
+    <string name="role_gift_card_list">角色礼物橱窗</string>
+    <string name="presented">赠送</string>
 
 </resources>

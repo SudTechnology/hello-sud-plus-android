@@ -667,6 +667,9 @@ Go to homepage to create one~</string>
     <string name="racecar_rule_1">Odds for each car are calculated based on dynamic odds</string>
     <string name="racecar_rule_2">Dynamic odds = total bets / bets on this car</string>
     <string name="go_king_eaters">Turn on the big eater…</string>
+    <string name="gift_card_list">Gift card showcase</string>
+    <string name="role_gift_card_list">Role gift showcase</string>
+    <string name="presented">Give</string>
     <!-- endregion 只翻译了英语 -->
 
     <!-- region 新增 -->
@@ -711,9 +714,6 @@ Go to homepage to create one~</string>
     <string name="light_effect_closed">已关闭爆灯特效展示</string>
     <string name="sound_effect_opened">已开启声音特效展示</string>
     <string name="sound_effect_closed">已关闭声音特效展示</string>
-    <string name="gift_card_list">Gift card showcase</string>
-    <string name="role_gift_card_list">Role gift showcase</string>
-    <string name="presented">Give</string>
     <!-- endregion 新增 -->
 
 </resources>

@@ -25,7 +25,7 @@
             android:scaleType="centerCrop"
             android:contentDescription="@null" />
 
-        <TextView
+        <tech.sud.mgp.hello.common.widget.view.MarqueeTextView
             android:id="@+id/tv_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

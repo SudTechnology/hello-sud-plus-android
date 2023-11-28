@@ -1,7 +1,5 @@
 package tech.sud.mgp.rtc.audio.impl.agora;
 
-import static io.agora.rtc.Constants.CHANNEL_PROFILE_COMMUNICATION;
-import static io.agora.rtc.RtcEngineConfig.AreaCode.AREA_CODE_GLOB;
 
 import android.content.Context;
 import android.util.Log;
@@ -9,18 +7,18 @@ import android.view.View;
 
 import com.blankj.utilcode.util.ThreadUtils;
 
+import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import io.agora.rtc.AudioFrame;
-import io.agora.rtc.Constants;
-import io.agora.rtc.IAudioFrameObserver;
-import io.agora.rtc.IRtcEngineEventHandler;
-import io.agora.rtc.RtcEngine;
-import io.agora.rtc.RtcEngineConfig;
-import io.agora.rtc.audio.AudioParams;
-import io.agora.rtc.models.ChannelMediaOptions;
+import io.agora.rtc2.ChannelMediaOptions;
+import io.agora.rtc2.Constants;
+import io.agora.rtc2.IAudioFrameObserver;
+import io.agora.rtc2.IRtcEngineEventHandler;
+import io.agora.rtc2.RtcEngine;
+import io.agora.rtc2.RtcEngineConfig;
+import io.agora.rtc2.audio.AudioParams;
 import io.agora.rtm.ErrorInfo;
 import io.agora.rtm.ResultCallback;
 import io.agora.rtm.RtmChannel;
@@ -74,11 +72,11 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
                     config.mAppId = model.appId;
                     config.mEventHandler = mIRtcEngineEventHandler;
                     config.mContext = context.getApplicationContext();
-                    config.mAreaCode = AREA_CODE_GLOB;
+                    config.mAreaCode = RtcEngineConfig.AreaCode.AREA_CODE_GLOB;
                     mEngine = RtcEngine.create(config);
 
                     if (mEngine != null) {
-                        mEngine.setChannelProfile(CHANNEL_PROFILE_COMMUNICATION);
+                        mEngine.setChannelProfile(Constants.CHANNEL_PROFILE_COMMUNICATION);
                         mEngine.enableAudioVolumeIndication(300, 3, true);
 
                         // 初始化rtm信令
@@ -123,8 +121,8 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
                     ChannelMediaOptions channelMediaOptions = new ChannelMediaOptions();
                     channelMediaOptions.autoSubscribeAudio = true;
                     channelMediaOptions.autoSubscribeVideo = false;
-                    channelMediaOptions.publishLocalAudio = false;
-                    channelMediaOptions.publishLocalVideo = false;
+//                    channelMediaOptions.publishLocalAudio = false;
+//                    channelMediaOptions.publishLocalVideo = false;
                     // 加入频道
                     engine.joinChannelWithUserAccount(model.token, model.roomID, model.userID, channelMediaOptions);
                     engine.setEnableSpeakerphone(true); // 开启。音频路由为扬声器。
@@ -277,12 +275,10 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
 
     @Override
     public void startPlayingStream(String streamID, MediaViewMode mediaViewMode, View view) {
-
     }
 
     @Override
     public void stopPlayingStream(String streamID) {
-
     }
 
     private AudioRoomState convertAudioRoomState(int state) {
@@ -374,8 +370,9 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
     };
 
     private final IAudioFrameObserver iAudioFrameObserver = new IAudioFrameObserver() {
+
         @Override
-        public boolean onRecordFrame(AudioFrame audioFrame) {
+        public boolean onRecordAudioFrame(String channelId, int type, int samplesPerChannel, int bytesPerSample, int channels, int samplesPerSec, ByteBuffer buffer, long renderTimeMs, int avsync_type) {
             //该回调再子线程，切回主线程
             ThreadUtils.runOnUiThread(new Runnable() {
                 @Override
@@ -383,8 +380,8 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
                     ISudAudioEventListener handler = mISudAudioEventListener;
                     if (handler != null) {
                         AudioPCMData audioPCMData = new AudioPCMData();
-                        audioPCMData.data = audioFrame.samples;
-                        audioPCMData.dataLength = audioFrame.samples.remaining();
+                        audioPCMData.data = buffer;
+                        audioPCMData.dataLength = buffer.remaining();
                         handler.onCapturedPCMData(audioPCMData);
                     }
                 }
@@ -393,33 +390,28 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
         }
 
         @Override
-        public boolean onPlaybackFrame(AudioFrame audioFrame) {
+        public boolean onPlaybackAudioFrame(String channelId, int type, int samplesPerChannel, int bytesPerSample, int channels, int samplesPerSec, ByteBuffer buffer, long renderTimeMs, int avsync_type) {
             return false;
         }
 
         @Override
-        public boolean onPlaybackFrameBeforeMixing(AudioFrame audioFrame, int uid) {
+        public boolean onMixedAudioFrame(String channelId, int type, int samplesPerChannel, int bytesPerSample, int channels, int samplesPerSec, ByteBuffer buffer, long renderTimeMs, int avsync_type) {
             return false;
         }
 
         @Override
-        public boolean onMixedFrame(AudioFrame audioFrame) {
+        public boolean onEarMonitoringAudioFrame(int type, int samplesPerChannel, int bytesPerSample, int channels, int samplesPerSec, ByteBuffer buffer, long renderTimeMs, int avsync_type) {
             return false;
         }
 
         @Override
-        public boolean isMultipleChannelFrameWanted() {
-            return false;
-        }
-
-        @Override
-        public boolean onPlaybackFrameBeforeMixingEx(AudioFrame audioFrame, int uid, String channelId) {
+        public boolean onPlaybackAudioFrameBeforeMixing(String channelId, int userId, int type, int samplesPerChannel, int bytesPerSample, int channels, int samplesPerSec, ByteBuffer buffer, long renderTimeMs, int avsync_type) {
             return false;
         }
 
         @Override
         public int getObservedAudioFramePosition() {
-            return IAudioFrameObserver.POSITION_RECORD;
+            return Constants.POSITION_MIXED;
         }
 
         @Override
@@ -438,6 +430,11 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
 
         @Override
         public AudioParams getMixedAudioParams() {
+            return null;
+        }
+
+        @Override
+        public AudioParams getEarMonitoringAudioParams() {
             return null;
         }
     };

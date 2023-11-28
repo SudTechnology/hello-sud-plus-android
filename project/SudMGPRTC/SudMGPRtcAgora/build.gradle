@@ -38,4 +38,7 @@ dependencies {
     // 引入 SudMGPRtcCore
     api project(':SudMGPRTC:SudMGPRtcCore')
 
+    // 声网RTC SDK
+    api 'io.agora.rtc:full-sdk:4.2.6'
+
 }

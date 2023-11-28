@@ -5,6 +5,7 @@ import android.content.Context;
 import android.util.Log;
 import android.view.View;
 
+import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ThreadUtils;
 
 import java.nio.ByteBuffer;
@@ -76,7 +77,9 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
                     mEngine = RtcEngine.create(config);
 
                     if (mEngine != null) {
-                        mEngine.setChannelProfile(Constants.CHANNEL_PROFILE_COMMUNICATION);
+                        mEngine.setDefaultAudioRoutetoSpeakerphone(true);
+                        mEngine.setClientRole(Constants.CLIENT_ROLE_BROADCASTER);
+                        mEngine.setChannelProfile(Constants.CHANNEL_PROFILE_LIVE_BROADCASTING);
                         mEngine.enableAudioVolumeIndication(300, 3, true);
 
                         // 初始化rtm信令
@@ -294,6 +297,12 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
     }
 
     private IRtcEngineEventHandler mIRtcEngineEventHandler = new IRtcEngineEventHandler() {
+
+        @Override
+        public void onAudioRouteChanged(int routing) {
+            super.onAudioRouteChanged(routing);
+            LogUtils.d("onAudioRouteChanged:" + routing);
+        }
 
         @Override
         public void onError(int err) {

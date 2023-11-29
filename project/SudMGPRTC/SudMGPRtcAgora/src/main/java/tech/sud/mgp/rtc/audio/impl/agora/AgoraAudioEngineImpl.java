@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ThreadUtils;
+import com.blankj.utilcode.util.ToastUtils;
 
 import java.nio.ByteBuffer;
 import java.util.HashMap;
@@ -20,6 +21,7 @@ import io.agora.rtc2.IRtcEngineEventHandler;
 import io.agora.rtc2.RtcEngine;
 import io.agora.rtc2.RtcEngineConfig;
 import io.agora.rtc2.audio.AudioParams;
+import io.agora.rtc2.video.VideoCanvas;
 import io.agora.rtm.ErrorInfo;
 import io.agora.rtm.ResultCallback;
 import io.agora.rtm.RtmChannel;
@@ -123,11 +125,21 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
                     engine.enableLocalAudio(false);
                     ChannelMediaOptions channelMediaOptions = new ChannelMediaOptions();
                     channelMediaOptions.autoSubscribeAudio = true;
-                    channelMediaOptions.autoSubscribeVideo = false;
+                    channelMediaOptions.autoSubscribeVideo = true;
 //                    channelMediaOptions.publishLocalAudio = false;
 //                    channelMediaOptions.publishLocalVideo = false;
+                    int uid;
+                    try {
+                        uid = Integer.parseInt(model.userID);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        ToastUtils.showLong("uid转int失败:" + model.userID);
+                        return;
+                    }
+
                     // 加入频道
-                    engine.joinChannelWithUserAccount(model.token, model.roomID, model.userID, channelMediaOptions);
+                    engine.joinChannel(model.token, model.roomID, uid, channelMediaOptions);
+//                    engine.joinChannelWithUserAccount(model.token, model.roomID, model.userID,channelMediaOptions);
                     engine.setEnableSpeakerphone(true); // 开启。音频路由为扬声器。
                 }
             }
@@ -278,6 +290,15 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
 
     @Override
     public void startPlayingStream(String streamID, MediaViewMode mediaViewMode, View view) {
+        int uid;
+        try {
+            uid = Integer.parseInt(streamID);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+        // 将 SurfaceView 对象传入声网实时互动 SDK，设置远端视图
+        mEngine.setupRemoteVideo(new VideoCanvas(view, VideoCanvas.RENDER_MODE_FIT, uid));
     }
 
     @Override
@@ -297,6 +318,12 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
     }
 
     private IRtcEngineEventHandler mIRtcEngineEventHandler = new IRtcEngineEventHandler() {
+
+        @Override
+        public void onJoinChannelSuccess(String channel, int uid, int elapsed) {
+            super.onJoinChannelSuccess(channel, uid, elapsed);
+            LogUtils.d("onJoinChannelSuccess channel:" + channel + " uid:" + uid);
+        }
 
         @Override
         public void onAudioRouteChanged(int routing) {
@@ -370,12 +397,25 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
         @Override
         public void onUserJoined(int uid, int elapsed) {
             super.onUserJoined(uid, elapsed);
+            LogUtils.d("onUserJoined uid:" + uid + " elapsed:" + elapsed);
         }
 
         @Override
         public void onUserOffline(int uid, int reason) {
             super.onUserOffline(uid, reason);
+            LogUtils.d("onUserOffline uid:" + uid + " reason:" + reason);
         }
+
+        @Override
+        public void onFirstRemoteVideoFrame(int uid, int width, int height, int elapsed) {
+            super.onFirstRemoteVideoFrame(uid, width, height, elapsed);
+            ThreadUtils.runOnUiThread(() -> {
+                if (mISudAudioEventListener != null) {
+                    mISudAudioEventListener.onPlayerVideoSizeChanged(uid + "", width, height);
+                }
+            });
+        }
+
     };
 
     private final IAudioFrameObserver iAudioFrameObserver = new IAudioFrameObserver() {

@@ -418,12 +418,12 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
             ThreadUtils.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    ISudAudioEventListener handler = mISudAudioEventListener;
-                    if (handler != null) {
+                    ISudAudioEventListener listener = mISudAudioEventListener;
+                    if (listener != null) {
                         AudioPCMData audioPCMData = new AudioPCMData();
                         audioPCMData.data = buffer;
                         audioPCMData.dataLength = buffer.remaining();
-                        handler.onCapturedPCMData(audioPCMData);
+                        listener.onCapturedPCMData(audioPCMData);
                     }
                 }
             });

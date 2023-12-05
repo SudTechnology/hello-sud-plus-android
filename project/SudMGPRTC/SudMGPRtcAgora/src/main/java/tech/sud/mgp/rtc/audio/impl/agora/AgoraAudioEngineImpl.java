@@ -54,6 +54,7 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
     // 信令相关
     private RtmClient mRtmClient;
     private RtmChannel mRtmChannel;
+    private boolean isStartedPCMData;
 
     private RtcEngine getEngine() {
         return mEngine;
@@ -79,6 +80,10 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
                     mEngine = RtcEngine.create(config);
 
                     if (mEngine != null) {
+                        // 监听原始音频数据，声网RTC得在加入频道前进行注册和设置
+                        mEngine.registerAudioFrameObserver(iAudioFrameObserver);
+                        mEngine.setRecordingAudioFrameParameters(16000, 1, Constants.RAW_AUDIO_FRAME_OP_MODE_READ_ONLY, 160);
+
                         mEngine.setDefaultAudioRoutetoSpeakerphone(true);
                         mEngine.setClientRole(Constants.CLIENT_ROLE_BROADCASTER);
                         mEngine.setChannelProfile(Constants.CHANNEL_PROFILE_LIVE_BROADCASTING);
@@ -216,30 +221,12 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
 
     @Override
     public void startPCMCapture() {
-        AsyncCallWrapper.sharedInstance().executeInSerial(new Runnable() {
-            @Override
-            public void run() {
-                RtcEngine engine = getEngine();
-                if (engine != null) {
-                    /* 开启获取PCM数据功能 */
-                    engine.registerAudioFrameObserver(iAudioFrameObserver);
-                }
-            }
-        });
+        isStartedPCMData = true;
     }
 
     @Override
     public void stopPCMCapture() {
-        AsyncCallWrapper.sharedInstance().executeInSerial(new Runnable() {
-            @Override
-            public void run() {
-                RtcEngine engine = getEngine();
-                if (engine != null) {
-                    /* 关闭获取PCM数据功能 */
-                    engine.registerAudioFrameObserver(null);
-                }
-            }
-        });
+        isStartedPCMData = false;
     }
 
     @Override
@@ -422,7 +409,12 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
 
         @Override
         public boolean onRecordAudioFrame(String channelId, int type, int samplesPerChannel, int bytesPerSample, int channels, int samplesPerSec, ByteBuffer buffer, long renderTimeMs, int avsync_type) {
-            //该回调再子线程，切回主线程
+            // 这里做个优化处理，如果外部没有意图开启PCM数据回调，直接阻断不回调
+            if (!isStartedPCMData) {
+                return false;
+            }
+
+            // 该回调再子线程，切回主线程
             ThreadUtils.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {

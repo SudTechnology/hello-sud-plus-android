@@ -87,26 +87,33 @@ public class ConfigViewModel extends BaseViewModel {
         });
     }
 
+    /** 获取默认的RTC配置 */
     private BaseRtcConfig getDefaultRtcConfig(BaseConfigResp baseConfigResp) {
-        BaseRtcConfig baseRtcConfig = null;
         if (baseConfigResp != null) {
+            // 哪个在前，哪个优先级就高
+            if (baseConfigResp.agoraCfg != null) {
+                return baseConfigResp.agoraCfg;
+            }
             if (baseConfigResp.zegoCfg != null) {
-                baseRtcConfig = baseConfigResp.zegoCfg;
-            } else if (baseConfigResp.agoraCfg != null) {
-                baseRtcConfig = baseConfigResp.agoraCfg;
-            } else if (baseConfigResp.rongCloudCfg != null) {
-                baseRtcConfig = baseConfigResp.rongCloudCfg;
-            } else if (baseConfigResp.commsEaseCfg != null) {
-                baseRtcConfig = baseConfigResp.commsEaseCfg;
-            } else if (baseConfigResp.volcEngineCfg != null) {
-                baseRtcConfig = baseConfigResp.volcEngineCfg;
-            } else if (baseConfigResp.alibabaCloudCfg != null) {
-                baseRtcConfig = baseConfigResp.alibabaCloudCfg;
-            } else if (baseConfigResp.tencentCloudCfg != null) {
-                baseRtcConfig = baseConfigResp.tencentCloudCfg;
+                return baseConfigResp.zegoCfg;
+            }
+            if (baseConfigResp.rongCloudCfg != null) {
+                return baseConfigResp.rongCloudCfg;
+            }
+            if (baseConfigResp.commsEaseCfg != null) {
+                return baseConfigResp.commsEaseCfg;
+            }
+            if (baseConfigResp.volcEngineCfg != null) {
+                return baseConfigResp.volcEngineCfg;
+            }
+            if (baseConfigResp.alibabaCloudCfg != null) {
+                return baseConfigResp.alibabaCloudCfg;
+            }
+            if (baseConfigResp.tencentCloudCfg != null) {
+                return baseConfigResp.tencentCloudCfg;
             }
         }
-        return baseRtcConfig;
+        return null;
     }
 
     /** 使用后端返回的最新的RTC配置 */

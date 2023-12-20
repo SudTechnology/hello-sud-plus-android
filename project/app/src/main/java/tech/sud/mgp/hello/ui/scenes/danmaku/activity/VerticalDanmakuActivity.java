@@ -1,7 +1,6 @@
 package tech.sud.mgp.hello.ui.scenes.danmaku.activity;
 
 import android.text.TextUtils;
-import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -36,7 +35,7 @@ import tech.sud.mgp.rtc.audio.core.MediaViewMode;
  */
 public class VerticalDanmakuActivity extends BaseInteractionRoomActivity<AppGameViewModel> {
 
-    private TextureView videoView;
+    private View videoView;
     private VerticalDanmakuListView danmakuListView;
 
     private View playingVideoView;

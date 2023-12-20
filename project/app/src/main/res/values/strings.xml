@@ -670,6 +670,7 @@ Go to homepage to create one~</string>
     <string name="gift_card_list">Gift card showcase</string>
     <string name="role_gift_card_list">Role gift showcase</string>
     <string name="presented">Give</string>
+    <string name="send">Send</string>
     <!-- endregion 只翻译了英语 -->
 
     <!-- region 新增 -->

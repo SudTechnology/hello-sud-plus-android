@@ -184,6 +184,8 @@ public class QuickStartActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
+        // 注意：需要保证页面销毁之前，先调用游戏的销毁方法
+        // 如果有其他地方调用finish()，那么也要在finish()之前，先调用游戏的销毁方法
         gameViewModel.onDestroy();
         super.onBackPressed();
     }

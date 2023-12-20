@@ -490,6 +490,18 @@ public class CustomConfigActivity extends BaseActivity {
         item1View.setData(configItemModel);
         configContainer.addView(item1View);
 
+        // 游戏中所有蒙板
+        item1View = new CustomPageItem1View(this);
+        configItemModel = addItem(
+                getString(R.string.custom_config_ui_mask),
+                getString(R.string.custom_config_ui_mask_subtitle),
+                1, 0, viewModel.configModel.ui.mask.transparent, false,
+                getString(R.string.custom_config_ui_mask_false),
+                getString(R.string.custom_config_ui_mask_true));
+        item1View.setListener(itemModel -> viewModel.configModel.ui.mask.transparent = itemModel.hide);
+        item1View.setData(configItemModel);
+        configContainer.addView(item1View);
+
         // region ------- Custom
 
         // Custom分类

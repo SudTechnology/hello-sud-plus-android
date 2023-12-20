@@ -18,6 +18,7 @@ import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.AppData;
+import tech.sud.mgp.hello.service.main.config.AgoraConfig;
 import tech.sud.mgp.hello.service.main.config.BaseRtcConfig;
 import tech.sud.mgp.hello.service.main.config.ZegoConfig;
 import tech.sud.mgp.hello.service.room.repository.RoomRepository;
@@ -103,8 +104,9 @@ public class EnterRoomUtils {
     private static boolean canEnterRoom(EnterRoomResp resp) {
         if (resp.sceneType == SceneType.DANMAKU || resp.sceneType == SceneType.VERTICAL_DANMAKU) {
             // TODO: 2022/6/16 弹幕游戏目前只支持即构RTC
+            // TODO: 2023/11/28 弹幕游戏增加支持声网
             BaseRtcConfig rtcConfig = AppData.getInstance().getSelectRtcConfig();
-            if (!(rtcConfig instanceof ZegoConfig)) {
+            if (!(rtcConfig instanceof ZegoConfig) && !(rtcConfig instanceof AgoraConfig)) {
                 ToastUtils.showLong(R.string.coming_soon);
                 return false;
             }

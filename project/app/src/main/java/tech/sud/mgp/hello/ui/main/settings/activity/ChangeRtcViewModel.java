@@ -34,15 +34,6 @@ public class ChangeRtcViewModel extends BaseViewModel {
             List<BaseRtcConfig> list = new ArrayList<>();
             BaseConfigResp baseConfigResp = (BaseConfigResp) GlobalCache.getInstance().getSerializable(GlobalCache.BASE_CONFIG_KEY);
 
-            // 添加zego
-            String rtcNameZego = context.getString(R.string.rtc_name_zego);
-            if (baseConfigResp != null && baseConfigResp.zegoCfg != null) {
-                baseConfigResp.zegoCfg.desc = rtcNameZego;
-                list.add(baseConfigResp.zegoCfg);
-            } else {
-                list.add(new BaseRtcConfig(null, rtcNameZego));
-            }
-
             // 添加Agora
             String rtcNameAgora = context.getString(R.string.rtc_name_agora);
             if (baseConfigResp != null && baseConfigResp.agoraCfg != null) {
@@ -50,6 +41,15 @@ public class ChangeRtcViewModel extends BaseViewModel {
                 list.add(baseConfigResp.agoraCfg);
             } else {
                 list.add(new BaseRtcConfig(null, rtcNameAgora));
+            }
+
+            // 添加zego
+            String rtcNameZego = context.getString(R.string.rtc_name_zego);
+            if (baseConfigResp != null && baseConfigResp.zegoCfg != null) {
+                baseConfigResp.zegoCfg.desc = rtcNameZego;
+                list.add(baseConfigResp.zegoCfg);
+            } else {
+                list.add(new BaseRtcConfig(null, rtcNameZego));
             }
 
             // 添加融云

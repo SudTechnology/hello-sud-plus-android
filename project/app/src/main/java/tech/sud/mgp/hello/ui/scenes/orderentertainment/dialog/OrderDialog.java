@@ -24,6 +24,7 @@ import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.service.main.manager.HomeManager;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
+import tech.sud.mgp.hello.service.main.resp.GameListResp;
 import tech.sud.mgp.hello.service.main.resp.GameModel;
 import tech.sud.mgp.hello.service.main.resp.GetAccountResp;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
@@ -205,20 +206,30 @@ public class OrderDialog extends BaseDialogFragment {
     }
 
     private void initGameRv() {
-        games.clear();
-        List<GameModel> models = HomeManager.getInstance().getSceneGame(sceneType);
-        if (models != null && models.size() > 0) {
-            for (int i = 0; i < models.size(); i++) {
-                OrderGameModel model = new OrderGameModel();
-                model.gameModel = models.get(i);
-                model.checked = false;
-                games.add(model);
-            }
-        }
-        gameAdapter.setList(games);
         gamesRv.setLayoutManager(new LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false));
         gamesRv.setAdapter(gameAdapter);
         gameAdapter.setOnItemClickListener((adapter, view, position) -> clickGame(position));
+        refreshGameList();
+    }
+
+    private void refreshGameList() {
+        HomeRepository.gameList(this, new RxCallback<GameListResp>() {
+            @Override
+            public void onSuccess(GameListResp gameListResp) {
+                super.onSuccess(gameListResp);
+                games.clear();
+                List<GameModel> models = HomeManager.getInstance().getSceneGame(gameListResp, sceneType);
+                if (models != null && models.size() > 0) {
+                    for (int i = 0; i < models.size(); i++) {
+                        OrderGameModel model = new OrderGameModel();
+                        model.gameModel = models.get(i);
+                        model.checked = false;
+                        games.add(model);
+                    }
+                }
+                gameAdapter.setList(games);
+            }
+        });
     }
 
     private void clickGame(int position) {

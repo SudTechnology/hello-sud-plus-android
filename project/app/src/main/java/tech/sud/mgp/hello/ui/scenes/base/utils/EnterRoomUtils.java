@@ -102,7 +102,7 @@ public class EnterRoomUtils {
     }
 
     private static boolean canEnterRoom(EnterRoomResp resp) {
-        if (resp.sceneType == SceneType.DANMAKU || resp.sceneType == SceneType.VERTICAL_DANMAKU) {
+        if (resp.sceneType == SceneType.DANMAKU || resp.sceneType == SceneType.VERTICAL_DANMAKU || resp.sceneType == SceneType.DANMAKU_LIST_CLASS) {
             // TODO: 2022/6/16 弹幕游戏目前只支持即构RTC
             // TODO: 2023/11/28 弹幕游戏增加支持声网
             BaseRtcConfig rtcConfig = AppData.getInstance().getSelectRtcConfig();
@@ -183,6 +183,7 @@ public class EnterRoomUtils {
 //                }
                 return new Intent(context, DanmakuActivity.class);
             case SceneType.VERTICAL_DANMAKU:
+            case SceneType.DANMAKU_LIST_CLASS:
                 return new Intent(context, VerticalDanmakuActivity.class);
             case SceneType.DISCO:
                 return new Intent(context, DiscoActivity.class);

@@ -546,5 +546,6 @@
     <string name="role_gift_card_list">角色礼物橱窗</string>
     <string name="presented">赠送</string>
     <string name="send">发送</string>
+    <string name="game">游戏</string>
 
 </resources>

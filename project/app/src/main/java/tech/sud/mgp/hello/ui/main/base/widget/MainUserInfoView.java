@@ -73,7 +73,7 @@ public class MainUserInfoView extends ConstraintLayout {
         ivUnbind = findViewById(R.id.view_unbind);
         viewWalletAddressArrow = findViewById(R.id.view_wallet_address_arrow);
         viewNftMask = findViewById(R.id.view_nft_mask);
-        ClickUtils.expandClickArea(ivUnbind, DensityUtils.dp2px(20));
+        ClickUtils.expandClickArea(ivUnbind, DensityUtils.dp2px(getContext(), 20));
     }
 
     public void updateUserInfo() {

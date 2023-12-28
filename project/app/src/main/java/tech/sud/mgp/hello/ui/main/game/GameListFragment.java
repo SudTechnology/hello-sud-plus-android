@@ -1,21 +1,13 @@
-package tech.sud.mgp.hello.ui.main.home;
+package tech.sud.mgp.hello.ui.main.game;
 
 import android.content.Context;
 import android.content.Intent;
-import android.text.Editable;
-import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.lifecycle.Observer;
 
-import com.blankj.utilcode.util.KeyboardUtils;
-import com.blankj.utilcode.util.ToastUtils;
 import com.gyf.immersionbar.ImmersionBar;
 import com.jeremyliao.liveeventbus.LiveEventBus;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
@@ -42,7 +34,6 @@ import tech.sud.mgp.hello.service.main.req.GameListReq;
 import tech.sud.mgp.hello.service.main.resp.CreatRoomResp;
 import tech.sud.mgp.hello.service.main.resp.GameListResp;
 import tech.sud.mgp.hello.service.main.resp.GameModel;
-import tech.sud.mgp.hello.service.main.resp.GetBannerResp;
 import tech.sud.mgp.hello.service.main.resp.QuizGameListResp;
 import tech.sud.mgp.hello.service.main.resp.SceneModel;
 import tech.sud.mgp.hello.service.main.resp.UserInfoResp;
@@ -54,10 +45,8 @@ import tech.sud.mgp.hello.ui.main.base.constant.GameIdCons;
 import tech.sud.mgp.hello.ui.main.base.constant.SceneType;
 import tech.sud.mgp.hello.ui.main.base.widget.CreateTicketRoomDialog;
 import tech.sud.mgp.hello.ui.main.base.widget.MainUserInfoView;
-import tech.sud.mgp.hello.ui.main.home.helper.JumpHelper;
 import tech.sud.mgp.hello.ui.main.home.manager.IndicatorHelper;
 import tech.sud.mgp.hello.ui.main.home.model.MatchRoomModel;
-import tech.sud.mgp.hello.ui.main.home.view.HomeBannerView;
 import tech.sud.mgp.hello.ui.main.home.view.NewNestedScrollView;
 import tech.sud.mgp.hello.ui.main.home.view.SceneTypeDialog;
 import tech.sud.mgp.hello.ui.main.home.view.homeitem.CreatRoomClickListener;
@@ -79,11 +68,8 @@ import tech.sud.mgp.hello.ui.scenes.ticket.model.TicketLevelParams;
 /**
  * 首页页面
  */
-public class HomeFragment extends BaseFragment implements CreatRoomClickListener, GameItemListener {
+public class GameListFragment extends BaseFragment implements CreatRoomClickListener, GameItemListener {
 
-    private EditText searchEt;
-    private TextView goSearch;
-    private HomeBannerView bannerView;
     private LinearLayout sceneLayout;
     private SmartRefreshLayout refreshLayout;
     private MagicIndicator magicIndicator;
@@ -94,28 +80,25 @@ public class HomeFragment extends BaseFragment implements CreatRoomClickListener
     private final NFTViewModel nftViewModel = new NFTViewModel();
     private GameListResp mGameListResp;
 
-    public static HomeFragment newInstance() {
-        HomeFragment fragment = new HomeFragment();
+    public static GameListFragment newInstance() {
+        GameListFragment fragment = new GameListFragment();
         return fragment;
     }
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_home;
+        return R.layout.fragment_game_list;
     }
 
     @Override
     protected void initWidget() {
         super.initWidget();
-        searchEt = mRootView.findViewById(R.id.search_et);
-        goSearch = mRootView.findViewById(R.id.go_search);
         sceneLayout = mRootView.findViewById(R.id.scene_root);
         refreshLayout = mRootView.findViewById(R.id.refresh_layout);
         magicIndicator = mRootView.findViewById(R.id.magic_indicator);
         scrollView = mRootView.findViewById(R.id.scrollView);
         menuIv = mRootView.findViewById(R.id.menu_iv);
         userInfoView = mRootView.findViewById(R.id.user_info_view);
-        bannerView = mRootView.findViewById(R.id.banner_view);
         refreshLayout.setEnableRefresh(true);
         refreshLayout.setEnableLoadMore(false);
 
@@ -134,7 +117,6 @@ public class HomeFragment extends BaseFragment implements CreatRoomClickListener
     @Override
     public void onPause() {
         super.onPause();
-        bannerView.stopChangeTask();
     }
 
     @Override
@@ -142,35 +124,12 @@ public class HomeFragment extends BaseFragment implements CreatRoomClickListener
         super.onResume();
         userInfoView.updateUserInfo();
         updateNftHeader();
-        getBanner();
-        bannerView.startChangeTask();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         LiveEventBus.<JumpRocketEvent>get(LiveEventBusKey.KEY_JUMP_ROCKET).removeObserver(jumpRocketObserver);
-    }
-
-    private void getBanner() {
-        HomeRepository.getBanner(this, new RxCallback<GetBannerResp>() {
-            @Override
-            public void onSuccess(GetBannerResp getBannerResp) {
-                super.onSuccess(getBannerResp);
-                LifecycleUtils.safeLifecycle(mFragment, () -> {
-                    updateBannerInfo(getBannerResp);
-                });
-            }
-        });
-    }
-
-    private void updateBannerInfo(GetBannerResp resp) {
-        if (resp == null || resp.bannerInfoList == null || resp.bannerInfoList.size() == 0) {
-            bannerView.setVisibility(View.GONE);
-            return;
-        }
-        bannerView.setVisibility(View.VISIBLE);
-        bannerView.setBannerInfo(resp);
     }
 
     /** 更新nft头像 */
@@ -214,41 +173,6 @@ public class HomeFragment extends BaseFragment implements CreatRoomClickListener
     @Override
     protected void setListeners() {
         super.setListeners();
-        searchEt.setOnFocusChangeListener((v, hasFocus) -> {
-            String keyword = searchEt.getText().toString();
-            if (keyword.length() > 0) {
-                goSearch.setVisibility(View.VISIBLE);
-            } else {
-                goSearch.setVisibility(View.GONE);
-            }
-        });
-        searchEt.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() > 0) {
-                    goSearch.setVisibility(View.VISIBLE);
-                } else {
-                    goSearch.setVisibility(View.GONE);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        searchEt.setOnEditorActionListener((v, actionId, event) -> {
-            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                enterRoom();
-            }
-            return false;
-        });
-        goSearch.setOnClickListener(v -> enterRoom());
         refreshLayout.setOnRefreshListener(refreshLayout -> loadList());
         menuIv.setOnClickListener(v -> {
             if (helper != null) {
@@ -256,12 +180,6 @@ public class HomeFragment extends BaseFragment implements CreatRoomClickListener
                 dialog.mGameListResp = mGameListResp;
                 dialog.listener = position -> helper.clickIndicator(position);
                 dialog.show(getChildFragmentManager(), "SceneTypeDialog");
-            }
-        });
-        bannerView.setOnPagerClickListener(new HomeBannerView.OnPagerClickListener() {
-            @Override
-            public void onPagerClick(GetBannerResp.BannerModel model) {
-                JumpHelper.jump(model);
             }
         });
         LiveEventBus.<JumpRocketEvent>get(LiveEventBusKey.KEY_JUMP_ROCKET).observe(this, jumpRocketObserver);
@@ -276,21 +194,6 @@ public class HomeFragment extends BaseFragment implements CreatRoomClickListener
             createRoom(SceneType.AUDIO, null);
         }
     };
-
-    private void enterRoom() {
-        try {
-            String roomIdString = searchEt.getText().toString().trim();
-            if (!TextUtils.isEmpty(roomIdString)) {
-                long roomId = Long.parseLong(roomIdString);
-                EnterRoomUtils.enterRoom(requireContext(), roomId);
-            }
-            KeyboardUtils.hideSoftInput(searchEt);
-            searchEt.setText("");
-            searchEt.clearFocus();
-        } catch (Exception e) {
-            ToastUtils.showShort(getString(R.string.search_room_error));
-        }
-    }
 
     private void createScene(GameListResp resp, QuizGameListResp quizGameListResp) {
         if (resp != null && resp.sceneList.size() > 0) {
@@ -373,36 +276,20 @@ public class HomeFragment extends BaseFragment implements CreatRoomClickListener
 
     private void loadList() {
         // 1，游戏列表
-        HomeRepository.gameListV2(this, GameListReq.TAB_SCENE, new RxCallback<GameListResp>() {
+        HomeRepository.gameListV2(this, GameListReq.TAB_GAME, new RxCallback<GameListResp>() {
             @Override
             public void onNext(BaseResponse<GameListResp> t) {
                 super.onNext(t);
                 if (t.getRetCode() == RetCode.SUCCESS) {
                     GameListResp gameListResp = t.getData();
                     mGameListResp = gameListResp;
-
-                    // 2，竞猜游戏列表
-                    HomeRepository.quizGameList(HomeFragment.this, new RxCallback<QuizGameListResp>() {
-                        @Override
-                        public void onSuccess(QuizGameListResp quizGameListResp) {
-                            super.onSuccess(quizGameListResp);
-                            safeCreateScene(gameListResp, quizGameListResp);
-                        }
-
-                        @Override
-                        public void onFinally() {
-                            super.onFinally();
-                            loadCompleted();
-                        }
-                    });
-                } else {
-                    loadCompleted();
+                    safeCreateScene(gameListResp, null);
                 }
             }
 
             @Override
-            public void onError(Throwable e) {
-                super.onError(e);
+            public void onFinally() {
+                super.onFinally();
                 loadCompleted();
             }
         });
@@ -458,7 +345,7 @@ public class HomeFragment extends BaseFragment implements CreatRoomClickListener
         if (sceneModel != null) {
             switch (sceneModel.getSceneId()) {
                 case SceneType.TICKET:
-                    CreateTicketRoomDialog.newInstance(GameListReq.TAB_SCENE).show(getChildFragmentManager(), null);
+                    CreateTicketRoomDialog.newInstance(GameListReq.TAB_GAME).show(getChildFragmentManager(), null);
                     break;
                 case SceneType.CROSS_APP_MATCH:
                     showCrossAppMatchGameDialog(sceneModel);

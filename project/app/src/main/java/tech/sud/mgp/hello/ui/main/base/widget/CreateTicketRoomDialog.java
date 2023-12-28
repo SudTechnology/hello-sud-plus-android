@@ -1,10 +1,12 @@
 package tech.sud.mgp.hello.ui.main.base.widget;
 
+import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 
 import com.blankj.utilcode.util.ClickUtils;
@@ -27,6 +29,24 @@ import tech.sud.mgp.hello.ui.scenes.base.utils.EnterRoomUtils;
 public class CreateTicketRoomDialog extends BaseDialogFragment implements View.OnClickListener {
 
     private boolean isCreating = false;
+    private int tab;
+
+    public static CreateTicketRoomDialog newInstance(int tab) {
+        Bundle args = new Bundle();
+        args.putInt("tab", tab);
+        CreateTicketRoomDialog fragment = new CreateTicketRoomDialog();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle arguments = getArguments();
+        if (arguments != null) {
+            tab = arguments.getInt("tab");
+        }
+    }
 
     @Override
     protected int getLayoutId() {

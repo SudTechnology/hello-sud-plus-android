@@ -18,9 +18,11 @@ import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
+import tech.sud.mgp.hello.service.main.req.GameListReq;
 import tech.sud.mgp.hello.service.main.resp.AuthMatchRoomResp;
 import tech.sud.mgp.hello.service.main.resp.AuthRoomListResp;
 import tech.sud.mgp.hello.service.main.resp.AuthRoomModel;
+import tech.sud.mgp.hello.service.main.resp.GameListResp;
 import tech.sud.mgp.hello.ui.common.utils.CompletedListener;
 import tech.sud.mgp.hello.ui.common.utils.LifecycleUtils;
 import tech.sud.mgp.hello.ui.common.widget.EmptyDataView;
@@ -167,6 +169,19 @@ public class DiscoverFragment extends BaseFragment {
             @Override
             public void onCompleted() {
                 EnterRoomUtils.enterRoom(requireContext(), resp.localRoomId);
+            }
+        });
+    }
+
+    @Override
+    protected void initData() {
+        super.initData();
+        HomeRepository.gameListV2(this, GameListReq.TAB_SCENE, new RxCallback<GameListResp>() {
+            @Override
+            public void onSuccess(GameListResp gameListResp) {
+                super.onSuccess(gameListResp);
+                adapter.mGameListResp = gameListResp;
+                adapter.notifyDataSetChanged();
             }
         });
     }

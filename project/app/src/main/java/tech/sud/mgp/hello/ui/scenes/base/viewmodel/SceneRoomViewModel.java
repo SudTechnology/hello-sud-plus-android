@@ -17,6 +17,7 @@ import tech.sud.mgp.hello.service.main.resp.GameModel;
 public class SceneRoomViewModel extends BaseViewModel {
 
     private int getGameListErrCount;
+    public GameListResp mGameListResp;
 
     /** 初始化数据 */
     public void initData() {
@@ -25,12 +26,16 @@ public class SceneRoomViewModel extends BaseViewModel {
 
     /** 获取游戏列表 */
     private void getGameList() {
+        if (mGameListResp != null) {
+            return;
+        }
+
         HomeRepository.gameList(null, new RxCallback<GameListResp>() {
             @Override
             public void onNext(BaseResponse<GameListResp> t) {
                 super.onNext(t);
                 if (t.getRetCode() == RetCode.SUCCESS) {
-                    HomeManager.getInstance().gameListResp = t.getData();
+                    mGameListResp = t.getData();
                 } else {
                     delayGetGameList();
                 }
@@ -64,7 +69,7 @@ public class SceneRoomViewModel extends BaseViewModel {
      * @return
      */
     public int getGameMaxNumber(long gameId) {
-        GameModel gameModel = HomeManager.getInstance().getGameModel(gameId);
+        GameModel gameModel = HomeManager.getInstance().getGameModel(mGameListResp, gameId);
         if (gameModel != null) {
             return gameModel.getGameMaxNumber();
         }

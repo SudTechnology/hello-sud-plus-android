@@ -13,7 +13,6 @@ import tech.sud.mgp.hello.common.base.BaseFragment;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
-import tech.sud.mgp.hello.service.main.manager.HomeManager;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.main.resp.RoomListResp;
 import tech.sud.mgp.hello.ui.scenes.base.utils.EnterRoomUtils;
@@ -67,7 +66,6 @@ public class RoomListFragment extends BaseFragment {
             public void onNext(BaseResponse<RoomListResp> t) {
                 super.onNext(t);
                 if (t.getRetCode() == RetCode.SUCCESS) {
-                    HomeManager.getInstance().roomListResp = t.getData();
                     RoomListResp data = t.getData();
                     if (data == null) {
                         adapter.setList(null);

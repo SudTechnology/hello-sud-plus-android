@@ -14,6 +14,7 @@ import tech.sud.mgp.hello.service.main.method.HomeRequestMethodFactory;
 import tech.sud.mgp.hello.service.main.req.AuthMatchRoomReq;
 import tech.sud.mgp.hello.service.main.req.AuthRoomListReq;
 import tech.sud.mgp.hello.service.main.req.CreatRoomReq;
+import tech.sud.mgp.hello.service.main.req.GameListReq;
 import tech.sud.mgp.hello.service.main.req.MatchBodyReq;
 import tech.sud.mgp.hello.service.main.req.QuizBetReq;
 import tech.sud.mgp.hello.service.main.req.RoomListReq;
@@ -87,6 +88,20 @@ public class HomeRepository {
     public static void gameList(LifecycleOwner owner, RxCallback<GameListResp> callback) {
         HomeRequestMethodFactory.getMethod()
                 .gameList(BaseUrlManager.getInteractBaseUrl())
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /**
+     * 游戏列表V2
+     *
+     * @param tab 应用tab，1: scene, 2: game
+     */
+    public static void gameListV2(LifecycleOwner owner, int tab, RxCallback<GameListResp> callback) {
+        GameListReq req = new GameListReq();
+        req.tab = tab;
+        HomeRequestMethodFactory.getMethod()
+                .gameListV2(BaseUrlManager.getInteractBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }

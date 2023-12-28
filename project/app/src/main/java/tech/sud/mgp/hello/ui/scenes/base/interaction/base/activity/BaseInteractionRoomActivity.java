@@ -31,12 +31,14 @@ public abstract class BaseInteractionRoomActivity<T extends AppGameViewModel> ex
     protected InteractionBannerView interactionBannerView;
     private final List<BaseInteractionControl> controlList = new ArrayList<>();
     private FrameLayout interactionContainer;
+    protected FrameLayout webGameContainer;
 
     @Override
     protected void initWidget() {
         super.initWidget();
         interactionBannerView = findViewById(R.id.interaction_banner_view);
         interactionContainer = findViewById(R.id.interaction_container);
+        webGameContainer = findViewById(R.id.web_game_container);
 
         initInteractionGame();
         for (BaseInteractionControl control : controlList) {
@@ -90,17 +92,21 @@ public abstract class BaseInteractionRoomActivity<T extends AppGameViewModel> ex
     protected void setListeners() {
         super.setListeners();
         interactionBannerView.setOnPagerClickListener(model -> {
-            for (BaseInteractionControl control : controlList) {
-                if (control.getControlGameId() == model.gameId) {
-                    control.onClickEntrance();
-                } else {
-                    control.stopInteractionGame();
-                }
-            }
+            switchInteractionGame(model.gameId);
         });
 
         for (BaseInteractionControl control : controlList) {
             control.setListeners();
+        }
+    }
+
+    protected void switchInteractionGame(long gameId) {
+        for (BaseInteractionControl control : controlList) {
+            if (control.getControlGameId() == gameId) {
+                control.onClickEntrance();
+            } else {
+                control.stopInteractionGame();
+            }
         }
     }
 
@@ -160,6 +166,7 @@ public abstract class BaseInteractionRoomActivity<T extends AppGameViewModel> ex
     protected void bringToFrontViews() {
         giftContainer.bringToFront();
         interactionContainer.bringToFront();
+        webGameContainer.bringToFront();
         inputMsgView.bringToFront();
         clOpenMic.bringToFront();
     }

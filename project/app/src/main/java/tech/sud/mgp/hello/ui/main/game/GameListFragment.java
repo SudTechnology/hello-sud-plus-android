@@ -283,6 +283,7 @@ public class GameListFragment extends BaseFragment implements CreatRoomClickList
                 if (t.getRetCode() == RetCode.SUCCESS) {
                     GameListResp gameListResp = t.getData();
                     mGameListResp = gameListResp;
+                    HomeManager.getInstance().mGameListRespTabGame = gameListResp;
                     safeCreateScene(gameListResp, null);
                 }
             }

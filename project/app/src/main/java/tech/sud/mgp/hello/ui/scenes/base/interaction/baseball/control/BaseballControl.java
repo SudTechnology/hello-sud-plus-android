@@ -175,7 +175,7 @@ public class BaseballControl extends BaseInteractionControl {
 
     /** 打开棒球 */
     private boolean startBaseball() {
-        if (getPlayingGameId() > 0) { // 有加载其他游戏时，不加载棒球
+        if (getActivityPlayingGameId() > 0 && getActivityPlayingGameId() != getControlGameId()) { // 有加载其他游戏时，不加载棒球
             return false;
         }
         long playingGameId = baseballGameViewModel.getPlayingGameId();

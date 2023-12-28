@@ -12,6 +12,8 @@ import tech.sud.mgp.hello.service.main.resp.GameModel;
 public class HomeManager {
 
     private static HomeManager homeManager;
+    public GameListResp mGameListRespTabScene;
+    public GameListResp mGameListRespTabGame;
 
     private HomeManager() {
     }
@@ -38,6 +40,17 @@ public class HomeManager {
     }
 
     /**
+     * 获取场景下可用的游戏
+     */
+    public List<GameModel> getSceneGame(int sceneId) {
+        List<GameModel> list = getSceneGame(mGameListRespTabScene, sceneId);
+        if (list == null || list.size() == 0) {
+            list = getSceneGame(mGameListRespTabGame, sceneId);
+        }
+        return list;
+    }
+
+    /**
      * 敬请期待数据
      */
     public List<GameModel> getSceneEmptyGame(Context context) {
@@ -55,7 +68,18 @@ public class HomeManager {
     /**
      * 根据游戏id获取gameModel
      */
-    public GameModel getGameModel(GameListResp gameListResp, long gameId) {
+    public GameModel getGameModel(long gameId) {
+        GameModel gameModel = getGameModel(mGameListRespTabScene, gameId);
+        if (gameModel == null) {
+            gameModel = getGameModel(mGameListRespTabGame, gameId);
+        }
+        return gameModel;
+    }
+
+    /**
+     * 根据游戏id获取gameModel
+     */
+    private GameModel getGameModel(GameListResp gameListResp, long gameId) {
         if (gameListResp != null && gameListResp.gameList != null) {
             for (GameModel gameModel : gameListResp.gameList) {
                 if (gameModel.gameId == gameId) {

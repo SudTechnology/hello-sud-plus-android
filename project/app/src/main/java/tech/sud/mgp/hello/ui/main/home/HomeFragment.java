@@ -380,6 +380,7 @@ public class HomeFragment extends BaseFragment implements CreatRoomClickListener
                 if (t.getRetCode() == RetCode.SUCCESS) {
                     GameListResp gameListResp = t.getData();
                     mGameListResp = gameListResp;
+                    HomeManager.getInstance().mGameListRespTabScene = gameListResp;
 
                     // 2，竞猜游戏列表
                     HomeRepository.quizGameList(HomeFragment.this, new RxCallback<QuizGameListResp>() {

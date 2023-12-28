@@ -44,6 +44,7 @@ import tech.sud.mgp.hello.service.room.req.RoomPkSwitchReq;
 import tech.sud.mgp.hello.service.room.req.SendDanmakuReq;
 import tech.sud.mgp.hello.service.room.req.SendGiftReq;
 import tech.sud.mgp.hello.service.room.req.SetCrRoomConfigReq;
+import tech.sud.mgp.hello.service.room.req.WebGameTokenReq;
 import tech.sud.mgp.hello.service.room.resp.CrossAppStartMatchResp;
 import tech.sud.mgp.hello.service.room.resp.DanmakuListResp;
 import tech.sud.mgp.hello.service.room.resp.DiscoAnchorListResp;
@@ -59,6 +60,7 @@ import tech.sud.mgp.hello.service.room.resp.RoomOrderCreateResp;
 import tech.sud.mgp.hello.service.room.resp.RoomPkAgainResp;
 import tech.sud.mgp.hello.service.room.resp.RoomPkAgreeResp;
 import tech.sud.mgp.hello.service.room.resp.RoomPkStartResp;
+import tech.sud.mgp.hello.service.room.resp.WebGameTokenResp;
 
 public class RoomRepository {
 
@@ -547,12 +549,22 @@ public class RoomRepository {
     }
     // endregion 3D语聊房
 
-
     /** 大富翁道具列表 */
     public static void getMonopolyCards(LifecycleOwner owner, RxCallback<MonopolyCardsResp> callback) {
         GetMonopolyCardsReq req = new GetMonopolyCardsReq();
         AudioRequestMethodFactory.getMethod()
                 .getMonopolyCards(BaseUrlManager.getGameBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /** web游戏登录token信息 */
+    public static void webGameToken(LifecycleOwner owner, String roomId, long gameId, RxCallback<WebGameTokenResp> callback) {
+        WebGameTokenReq req = new WebGameTokenReq();
+        req.roomId = roomId;
+        req.gameId = gameId;
+        AudioRequestMethodFactory.getMethod()
+                .webGameToken(BaseUrlManager.getGameBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }

@@ -260,4 +260,7 @@ public interface RequestUrl {
     /** 大富翁道具列表 */
     String MONOPOLY_CARDS = "monopoly/player/cards/v1";
 
+    /** web游戏token信息 */
+    String WEB_GAME_TOKEN = "app/webgame/token/v1";
+
 }

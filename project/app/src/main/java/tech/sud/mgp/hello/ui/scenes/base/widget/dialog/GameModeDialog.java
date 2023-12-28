@@ -153,16 +153,6 @@ public class GameModeDialog extends BaseDialogFragment {
                 }
             }
         });
-        HomeRepository.gameList(this, new RxCallback<GameListResp>() {
-            @Override
-            public void onSuccess(GameListResp gameListResp) {
-                super.onSuccess(gameListResp);
-                if (gameListResp != null) {
-                    gameModeAdapter.setList(gameListResp.getGameList(sceneType));
-                }
-                gameModeAdapter.addData(0, new GameModel()); // 添加一个关闭游戏选项
-            }
-        });
     }
 
     @Override

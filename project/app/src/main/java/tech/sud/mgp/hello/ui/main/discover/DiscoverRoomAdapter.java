@@ -13,7 +13,6 @@ import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
 import tech.sud.mgp.hello.service.main.manager.HomeManager;
 import tech.sud.mgp.hello.service.main.resp.AuthRoomModel;
-import tech.sud.mgp.hello.service.main.resp.GameListResp;
 import tech.sud.mgp.hello.service.main.resp.GameModel;
 
 /**
@@ -21,15 +20,13 @@ import tech.sud.mgp.hello.service.main.resp.GameModel;
  */
 public class DiscoverRoomAdapter extends BaseQuickAdapter<AuthRoomModel, BaseViewHolder> implements LoadMoreModule {
 
-    public GameListResp mGameListResp;
-
     public DiscoverRoomAdapter() {
         super(R.layout.item_discover_room);
     }
 
     @Override
     protected void convert(@NonNull BaseViewHolder holder, AuthRoomModel model) {
-        GameModel gameModel = HomeManager.getInstance().getGameModel(mGameListResp, model.mgId);
+        GameModel gameModel = HomeManager.getInstance().getGameModel(model.mgId);
 
         String gamePic;
         String gameName;

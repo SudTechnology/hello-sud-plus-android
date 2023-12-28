@@ -26,8 +26,11 @@ import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.AppData;
+import tech.sud.mgp.hello.service.main.manager.HomeManager;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
+import tech.sud.mgp.hello.service.main.req.GameListReq;
 import tech.sud.mgp.hello.service.main.resp.BaseConfigResp;
+import tech.sud.mgp.hello.service.main.resp.GameListResp;
 import tech.sud.mgp.hello.ui.common.utils.channel.NotifyChannelHelper;
 import tech.sud.mgp.hello.ui.main.base.constant.GameIdCons;
 import tech.sud.mgp.hello.ui.main.game.GameListFragment;
@@ -82,6 +85,16 @@ public class MainActivity extends BaseActivity implements MainTabView.TabClickLi
         mgIdList.add(GameIdCons.CUSTOM_ROCKET);
         mgIdList.add(GameIdCons.BASEBALL);
         gameViewModel.preloadMG(this, mgIdList);
+
+        HomeRepository.gameListV2(null, GameListReq.TAB_GAME, new RxCallback<GameListResp>() {
+            @Override
+            public void onNext(BaseResponse<GameListResp> t) {
+                super.onNext(t);
+                if (t.getRetCode() == RetCode.SUCCESS) {
+                    HomeManager.getInstance().mGameListRespTabGame = t.getData();
+                }
+            }
+        });
     }
 
     private void getBaseConfig() {

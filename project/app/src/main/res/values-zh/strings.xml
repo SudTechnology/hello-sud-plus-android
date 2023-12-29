@@ -547,5 +547,6 @@
     <string name="presented">赠送</string>
     <string name="send">发送</string>
     <string name="game">游戏</string>
+    <string name="scene">场景</string>
 
 </resources>

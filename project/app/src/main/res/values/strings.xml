@@ -671,6 +671,8 @@ Go to homepage to create one~</string>
     <string name="role_gift_card_list">Role gift showcase</string>
     <string name="presented">Give</string>
     <string name="send">Send</string>
+    <string name="game">game</string>
+    <string name="scene">scene</string>
     <!-- endregion 只翻译了英语 -->
 
     <!-- region 新增 -->
@@ -715,7 +717,6 @@ Go to homepage to create one~</string>
     <string name="light_effect_closed">已关闭爆灯特效展示</string>
     <string name="sound_effect_opened">已开启声音特效展示</string>
     <string name="sound_effect_closed">已关闭声音特效展示</string>
-    <string name="game">game</string>
     <!-- endregion 新增 -->
 
 </resources>

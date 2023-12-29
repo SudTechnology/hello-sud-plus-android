@@ -35,7 +35,7 @@ public class AudioRoomActivity extends AbsAudioRoomActivity<AppGameViewModel> {
         if (gameId == 0) {
             switchInteractionGame(gameId);
             gameViewModel.switchGame(this, getGameRoomId(), gameId, getLoadMGMode(), getAuthorizationSecret());
-            webGameContainer.removeAllViews();
+            destroyWebGame();
             return;
         }
 
@@ -47,16 +47,25 @@ public class AudioRoomActivity extends AbsAudioRoomActivity<AppGameViewModel> {
             case GameModel.LOAD_TYPE_SDK:
                 if (GameIdCons.isInteractionGame(gameId)) {
                     switchInteractionGame(gameId);
+                    gameViewModel.switchGame(this, getGameRoomId(), 0, getLoadMGMode(), getAuthorizationSecret());
                 } else {
+                    switchInteractionGame(0);
                     gameViewModel.switchGame(this, getGameRoomId(), gameId, getLoadMGMode(), getAuthorizationSecret());
                 }
+                destroyWebGame();
                 break;
             case GameModel.LOAD_TYPE_H5:
+                switchInteractionGame(gameId);
+                gameViewModel.switchGame(this, getGameRoomId(), 0, getLoadMGMode(), getAuthorizationSecret());
                 loadWebGame(gameModel);
                 break;
             case GameModel.LOAD_TYPE_RTMP:
                 break;
         }
+    }
+
+    private void destroyWebGame() {
+        webGameContainer.removeAllViews();
     }
 
     private void loadWebGame(GameModel gameModel) {

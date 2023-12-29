@@ -66,8 +66,8 @@ public abstract class BaseInteractionRoomActivity<T extends AppGameViewModel> ex
             // 控制器
             controlList.add(new RocketControl(this));
             controlList.add(new BaseballControl(this));
-//            controlList.add(new RacecarControl(this));
-//            controlList.add(new KingEatersControl(this));
+            controlList.add(new RacecarControl(this));
+            controlList.add(new KingEatersControl(this));
 
             // banner
             List<InteractionGameModel> bannerList = new ArrayList<>();

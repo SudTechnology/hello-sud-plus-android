@@ -1073,7 +1073,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
 
     protected void updateGameNumber() {
         long gameId = playingGameId;
-        if (!roomConfig.isSudGame || gameId <= 0 || !roomConfig.isShowGameNumber) {
+        if (!roomConfig.isSudGame || gameId <= 0 || !roomConfig.isShowGameNumber || GameIdCons.isInteractionGame(gameId)) {
             tvGameNumber.setText("");
             return;
         }

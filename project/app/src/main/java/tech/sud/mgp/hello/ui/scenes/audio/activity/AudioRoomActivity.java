@@ -55,7 +55,7 @@ public class AudioRoomActivity extends AbsAudioRoomActivity<AppGameViewModel> {
                 destroyWebGame();
                 break;
             case GameModel.LOAD_TYPE_H5:
-                switchInteractionGame(gameId);
+                switchInteractionGame(0);
                 gameViewModel.switchGame(this, getGameRoomId(), 0, getLoadMGMode(), getAuthorizationSecret());
                 loadWebGame(gameModel);
                 break;

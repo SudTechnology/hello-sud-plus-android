@@ -105,10 +105,10 @@ public class WebGameFragment extends BaseFragment {
             }
         });
 
-        // 设置背景色
-        webView.setBackgroundColor(0);
-        // 设置透明度 范围：0-255
-        webView.getBackground().setAlpha(0);
+//        // 设置背景色
+//        webView.setBackgroundColor(0);
+//        // 设置透明度 范围：0-255
+//        webView.getBackground().setAlpha(0);
     }
 
     @Override

@@ -196,7 +196,7 @@ public class GameListFragment extends BaseFragment implements CreatRoomClickList
     };
 
     private void createScene(GameListResp resp, QuizGameListResp quizGameListResp) {
-        if (resp != null && resp.sceneList.size() > 0) {
+        if (resp != null && resp.sceneList != null && resp.sceneList.size() > 0) {
             Context context = getContext();
             if (context != null) {
                 helper = new IndicatorHelper(magicIndicator, resp.sceneList, scrollView);

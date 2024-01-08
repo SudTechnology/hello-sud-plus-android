@@ -172,12 +172,12 @@
 
 # 1. SudMGP SDK
 ### 1.1 SudMGP Client SDK
-- [Android SDK](https://github.com/SudTechnology/sud-mgp-android)
-- [iOS SDK](https://github.com/SudTechnology/sud-mgp-ios)
+- [Android SDK](https://github.com/SudTechnology/sud-mgp-android/blob/main/README_en.md)
+- [iOS SDK](https://github.com/SudTechnology/sud-mgp-ios/blob/main/README_en.md)
 
 ### 1.2 Integration Documentation
-- [Integration Documentation](https://docs.sud.tech/zh-CN/app/Client/API/)
-- [FAQ](https://docs.sud.tech/zh-CN/app/Client/FAQ/)
+- [Integration Documentation](https://docs.sud.tech/en-US/app/Client/API/)
+- [FAQ](https://docs.sud.tech/en-US/app/Client/FAQ/)
 
 # 2. SudMGPWrapper
 - SudMGPWrapper encapsulates SudMGP and simplifies the interaction between the app and the game.
@@ -189,8 +189,8 @@ If you have any further questions or need more information, feel free to ask!
 
 ### 2.1 App Calling the Game 
 
--  `SudMGPAPPState`  encapsulates [App Common State](https://docs.sud.tech/app/Client/APPFST/CommonState.html). 
--  `SudFSTAPPDecorator`  encapsulates [ISudFSTAPP](https://docs.sud.tech/app/Client/API/ISudFSTAPP) interfaces, including [notifyStateChange](https://docs.sud.tech/app/Client/APPFST/CommonState.html) and foo. 
+-  `SudMGPAPPState`  encapsulates [App Common State](https://docs.sud.tech/en-US/app/Client/APPFST/CommonState.html). 
+-  `SudFSTAPPDecorator`  encapsulates [ISudFSTAPP](https://docs.sud.tech/en-US/app/Client/API/ISudFSTAPP.html) interfaces, including [notifyStateChange](https://docs.sud.tech/app/Client/APPFST/CommonState.html) and foo. 
 -  `SudFSTAPPDecorator`  is responsible for encapsulating each App common state into an interface.  
 Here is a code framework for the  SudFSTAPPDecorator  class:
     <details> 
@@ -218,8 +218,8 @@ Here is a code framework for the  SudFSTAPPDecorator  class:
     </details>
 
 ### 2.2 Game Calling the App 
--  `SudMGPMGState`  encapsulates [Common State - Game](https://docs.sud.tech/app/Client/MGFSM/CommonStateGame.html) and [Common State - Player](https://docs.sud.tech/app/Client/MGFSM/CommonStatePlayer.html). 
--  `SudFSMMGListener`  encapsulates three types of callback functions from [ISudFSMMG](https://docs.sud.tech/app/Client/API/ISudFSMMG): onGameStateChange, onPlayerStateChange, and onFoo. 
+-  `SudMGPMGState`  encapsulates [Common State - Game](https://docs.sud.tech/en-US/app/Client/MGFSM/CommonStateGame.html) and [Common State - Player](https://docs.sud.tech/en-US/app/Client/MGFSM/CommonStatePlayer.html). 
+-  `SudFSMMGListener`  encapsulates three types of callback functions from [ISudFSMMG](https://docs.sud.tech/en-US/app/Client/API/ISudFSMMG.html): onGameStateChange, onPlayerStateChange, and onFoo. 
 -  `SudFSMMGListener`  is responsible for encapsulating each game state into separate callback functions. 
     <details>
     <summary>Code framework for Java interface SudFSMMGListener</summary>
@@ -256,7 +256,7 @@ Here is a code framework for the  SudFSTAPPDecorator  class:
     }
     ```
     </details>
-- The decorator class  `SudFSMMGDecorator`  for [ISudFSMMG](https://docs.sud.tech/app/Client/API/ISudFSMMG.html) is responsib
+- The decorator class  `SudFSMMGDecorator`  for [ISudFSMMG](https://docs.sud.tech/en-US/app/Client/API/ISudFSMMG.html) is responsib
     <details>
     <summary>Code framework for Java interface SudFSMMGDecorator</summary>
 
@@ -292,7 +292,7 @@ Here is a code framework for the  SudFSTAPPDecorator  class:
 # 3. QuickStart 
 - Please use the QuickStart project to run. 
 - QuickStart uses SudMGPWrapper for quick integration of games. 
-- Quick integration documentation: [StartUp-Android](https://docs.sud.tech/app/Client/StartUp-Android.html) and [StartUp-iOS](https://docs.sud.tech/app/Client/StartUp-iOS.html). 
+- Quick integration documentation: [StartUp-Android](https://docs.sud.tech/en-US/app/Client/StartUp-Android.html) and [StartUp-iOS](https://docs.sud.tech/en-US/app/Client/StartUp-iOS.html). 
 -  `QuickStartGameViewModel`  is responsible for login (App getCode), SudMGP.initSDK, and SudMGP.loadMG. 
 -  `GameActivity`  is responsible for adding the game view. 
 -  `QuickStart Server`  [hello-sud-java](https://github.com/SudTechnology/hello-sud-java) for login (App getCode to obtain short-term token code). `If you cannot access the code repository, please contact SUD to add your GitHub account.` 
@@ -311,7 +311,7 @@ Here is a code framework for the  SudFSTAPPDecorator  class:
 ![AppCallSudMGPSeqDiag.png](doc/AppCallSudMGPSeqDiag.png) 
 
 # 6. Other Considerations 
-- For initial integration, please choose the appropriate SDK based on the game you want to integrate. You can find the SDK here: [SudMGPSDK](https://github.com/SudTechnology/sud-mgp-android). 
+- For initial integration, please choose the appropriate SDK based on the game you want to integrate. You can find the SDK here: [SudMGPSDK](https://github.com/SudTechnology/sud-mgp-android/blob/main/README_en.md). 
 - If you need to use the ASR multilingual recognition capability, simply add  implementation 'tech.sud.mgp:SudASR:1.3.1.1127'  to your project's build.gradle. This will enable multilingual recognition for languages such as English, German, Arabic, and more. 
 - If your project has resource obfuscation enabled, please add the following items to the proguard whitelist:
     <details>

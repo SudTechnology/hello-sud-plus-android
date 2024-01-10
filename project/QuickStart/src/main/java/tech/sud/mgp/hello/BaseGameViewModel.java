@@ -19,6 +19,7 @@ import tech.sud.mgp.SudMGPWrapper.utils.SudJsonUtils;
 import tech.sud.mgp.core.ISudFSMStateHandle;
 import tech.sud.mgp.core.ISudFSTAPP;
 import tech.sud.mgp.core.ISudListenerInitSDK;
+import tech.sud.mgp.core.SudInitSDKParamModel;
 import tech.sud.mgp.core.SudMGP;
 
 /**
@@ -104,7 +105,13 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
         String appId = getAppId();
         String appKey = getAppKey();
         // 初始化sdk
-        SudMGP.initSDK(activity, appId, appKey, isTestEnv(), new ISudListenerInitSDK() {
+        SudInitSDKParamModel params = new SudInitSDKParamModel();
+        params.context = activity;
+        params.appId = appId;
+        params.appKey = appKey;
+        params.isTestEnv = isTestEnv();
+        params.userId = getUserId();
+        SudMGP.initSDK(params, new ISudListenerInitSDK() {
             @Override
             public void onSuccess() {
                 loadGame(activity, code, gameId);

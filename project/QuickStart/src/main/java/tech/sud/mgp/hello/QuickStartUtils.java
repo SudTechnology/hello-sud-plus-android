@@ -7,7 +7,10 @@ import java.util.UUID;
 
 public class QuickStartUtils {
 
-    /** 随机生成一个userId，用于演示 */
+    /**
+     * 随机生成一个userId，用于演示
+     * Generate a random userId for demonstration purposes.
+     */
     public static String genUserID() {
         return md5Hex8(UUID.randomUUID().toString());
     }

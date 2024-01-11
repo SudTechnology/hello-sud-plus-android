@@ -6,12 +6,14 @@
     android:background="@drawable/ic_room_bg">
 
     <!-- 游戏View容器，容器不能设置为android:visibility="gone"或者invisible，可能会出现未知问题 -->
+    <!-- Game View container, the container should not be set to android:visibility="gone" or invisible as it may cause unknown issues. -->
     <FrameLayout
         android:id="@+id/game_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
     <!-- 顶部的一个遮罩 -->
+    <!-- A top overlay. -->
     <View
         android:layout_width="match_parent"
         android:layout_height="145dp"
@@ -19,6 +21,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <!-- 顶部View -->
+    <!-- Top view. -->
     <tech.sud.mgp.hello.ui.game.widget.GameRoomTopView
         android:id="@+id/room_top_view"
         android:layout_width="match_parent"
@@ -26,6 +29,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <!-- 底部的View -->
+    <!-- Bottom view. -->
     <tech.sud.mgp.hello.ui.game.widget.GameRoomBottomView
         android:id="@+id/room_bottom_view"
         android:layout_width="match_parent"

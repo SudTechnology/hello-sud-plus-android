@@ -33,5 +33,6 @@ public class SceneType {
     public static final int INTERACTIVE_GIFTS = 108; // 互动礼物
     public static final int DANMAKU_LIST_CLASS = 109; // 弹幕游戏
     public static final int BETTING_GAMES = 110; // Betting Games
+    public static final int LINGXIAN_GAME_ZONE = 111; // LINGXIAN Game Zone
 
 }

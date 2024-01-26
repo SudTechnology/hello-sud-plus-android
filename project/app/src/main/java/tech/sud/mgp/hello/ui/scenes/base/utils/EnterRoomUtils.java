@@ -28,6 +28,7 @@ import tech.sud.mgp.hello.ui.common.utils.LifecycleUtils;
 import tech.sud.mgp.hello.ui.main.base.constant.SceneType;
 import tech.sud.mgp.hello.ui.scenes.asr.ASRActivity;
 import tech.sud.mgp.hello.ui.scenes.audio.activity.AudioRoomActivity;
+import tech.sud.mgp.hello.ui.scenes.audio3d.activity.Audio3DRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.base.model.EnterRoomParams;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
 import tech.sud.mgp.hello.ui.scenes.crossapp.activity.CrossAppAuthActivity;
@@ -193,8 +194,9 @@ public class EnterRoomUtils {
                 return new Intent(context, LeagueActivity.class);
             case SceneType.CROSS_APP_MATCH:
                 return new Intent(context, CrossAppMatchActivity.class);
-//            case SceneType.AUDIO_3D:
-//                return new Intent(context, Audio3DRoomActivity.class);
+            case SceneType.AUDIO_3D:
+            case SceneType.CUBE:
+                return new Intent(context, Audio3DRoomActivity.class);
 //            case SceneType.TALENT:
 //                return new Intent(context, TalentRoomActivity.class);
 //            case SceneType.ONE_ONE:

@@ -181,6 +181,7 @@ public class RoomListAdapter extends BaseQuickAdapter<RoomItemModel, BaseViewHol
                 color.colorText = Color.parseColor("#FFFFFF");
                 break;
             case SceneType.AUDIO_3D:
+            case SceneType.CUBE:
                 color.colorBg = Color.parseColor("#258cfb");
                 color.colorText = Color.parseColor("#FFFFFF");
                 break;

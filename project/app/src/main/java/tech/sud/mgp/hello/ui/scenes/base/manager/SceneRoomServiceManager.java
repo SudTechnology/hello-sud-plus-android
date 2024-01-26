@@ -270,6 +270,7 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
                 sceneCrossAppManager.onCreate();
                 break;
             case SceneType.AUDIO_3D:
+            case SceneType.CUBE:
                 sceneAudio3DRoomManager = new SceneAudio3DRoomManager(this);
                 sceneAudio3DRoomManager.onCreate();
                 break;

@@ -57,9 +57,9 @@ public class HomeItemView extends FrameLayout {
             case SceneType.CROSS_APP_MATCH:
                 view = new HomeCrossAppItemView(getContext());
                 break;
-//            case SceneType.AUDIO_3D:
-//                view = new HomeAudio3DItemView(getContext());
-//                break;
+            case SceneType.AUDIO_3D:
+                view = new HomeAudio3DItemView(getContext());
+                break;
             case SceneType.AUDIO_INTERACT:
             case SceneType.REAL_TIME_SPORTS:
             case SceneType.CLASSIC_CHESS_GAME:

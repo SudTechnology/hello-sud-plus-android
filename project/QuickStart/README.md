@@ -50,7 +50,7 @@
 
 - 第一步：导入模块SudMGPWrapper
   <details>
-  <summary>详细描述</summary>
+  <summary>导入模块SudMGPWrapper</summary>
 
       1.通过Android Studio的Import Module功能，导入SudMGPWrapper；
       2.APP主工程文件build.gradle中，添加 SudMGPWrapper 依赖;
@@ -60,6 +60,22 @@
   dependencies {
     // 引入 SudMGPWrapper
     implementation project(':SudMGPWrapper')
+  }
+  ```
+  </details>
+
+  <details>
+  <summary>ASR识别支持（可选 v1.2.7及后续版本支持）</summary>
+
+      1.此为扩展功能，如果不需要ASR识别，可以忽略此库的集成;
+  ``` java
+  build.gradle
+  
+  dependencies {
+    // 引入 SudASR扩展库
+    // 依赖版本修改成与SudMGPWrapper里的build.gradle的依赖
+    // api 'tech.sud.mgp:SudMGP:1.3.6.1181'版本号一致即可
+    implementation 'tech.sud.mgp:SudASR:1.3.6.1181'
   }
   ```
   </details>
@@ -337,7 +353,6 @@
 # 6. 其它注意事项
 
 - 首次集成，请根据自身要接入的游戏不同，来选择不同的SDK。地址：[SudMGPSDK](https://github.com/SudTechnology/sud-mgp-android)
-- 如需使用ASR多语言识别的能力，在项目build.gradle添加 implementation 'tech.sud.mgp:SudASR:1.3.1.1127' 即可；具备多语言识别的能力，比如英语、德语、阿拉伯语等等
 - 如果项目开启了资源混淆，请添加以下混淆白名单
     <details>
     <summary>资源混淆白名单列表</summary>

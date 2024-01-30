@@ -41,7 +41,7 @@
 # 3-Minute Integration Code 
 - Step 1: Import the SudMGPWrapper module 
   <details> 
-  <summary>Detailed description</summary> 
+  <summary>Import the SudMGPWrapper module</summary> 
 
       1. Use Android Studio's Import Module feature to import SudMGPWrapper. 
       2. Add the SudMGPWrapper dependency in the build.gradle file of the main project.
@@ -56,6 +56,22 @@
 
   ```
 
+  </details>
+
+  <details>
+  <summary>ASR Recognition Support (Optional, available in v1.2.7 and later versions)</summary>
+
+  1. This is an optional extension feature. If ASR recognition is not needed, the integration of this library can be ignored.
+  
+  ```java
+  // build.gradle
+  
+  dependencies {
+    // Integrate SudASR extension library
+    // Modify the version to match the dependency in SudMGPWrapper's build.gradle
+    // Use the same version as 'tech.sud.mgp:SudMGP:1.3.6.1181'
+    implementation 'tech.sud.mgp:SudASR:1.3.6.1181'
+  }
   </details>
 
 
@@ -312,7 +328,6 @@ Here is a code framework for the  SudFSTAPPDecorator  class:
 
 # 6. Other Considerations 
 - For initial integration, please choose the appropriate SDK based on the game you want to integrate. You can find the SDK here: [SudMGPSDK](https://github.com/SudTechnology/sud-mgp-android/blob/main/README_en.md). 
-- If you need to use the ASR multilingual recognition capability, simply add  implementation 'tech.sud.mgp:SudASR:1.3.1.1127'  to your project's build.gradle. This will enable multilingual recognition for languages such as English, German, Arabic, and more. 
 - If your project has resource obfuscation enabled, please add the following items to the proguard whitelist:
     <details>
     <summary>Resource obfuscation whitelist list</summary>

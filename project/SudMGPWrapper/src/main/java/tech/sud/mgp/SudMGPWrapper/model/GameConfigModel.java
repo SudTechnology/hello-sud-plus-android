@@ -169,6 +169,7 @@ public class GameConfigModel implements Serializable {
     // 游戏结算界面中的关闭按钮
     public static class GameSettleCloseBtn implements Serializable {
         public boolean custom = false; // 游戏结算界面中的关闭按钮（false: 关闭结算界面返回大厅； true: 游戏通知按钮点击事件，并关闭结算界面返回大厅；默认为false）
+        public boolean hide = false; // 是否隐藏结算界面中的『关闭』按钮（false: 显示； true: 隐藏，默认为true）
     }
 
     // 游戏结算界面中的再来一局按钮

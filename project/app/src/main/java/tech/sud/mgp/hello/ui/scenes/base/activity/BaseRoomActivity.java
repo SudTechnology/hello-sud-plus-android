@@ -1073,7 +1073,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
 
     protected void updateGameNumber() {
         long gameId = playingGameId;
-        if (!roomConfig.isSudGame || gameId <= 0 || !roomConfig.isShowGameNumber) {
+        if (!roomConfig.isSudGame || gameId <= 0 || !roomConfig.isShowGameNumber || GameIdCons.isInteractionGame(gameId)) {
             tvGameNumber.setText("");
             return;
         }
@@ -1243,7 +1243,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
 
     private void initGame() {
         if (roomConfig.isSudGame) {
-            gameViewModel.switchGame(this, getGameRoomId(), roomInfoModel.gameId, getLoadMGMode(), getAuthorizationSecret());
+            callSudSwitchGame(getGameRoomId(), roomInfoModel.gameId, getLoadMGMode(), getAuthorizationSecret());
         }
         updateGameNumber();
     }
@@ -1562,7 +1562,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         }
         playingGameId = gameId;
         roomInfoModel.gameId = gameId;
-        gameViewModel.switchGame(this, getGameRoomId(), gameId, getLoadMGMode(), getAuthorizationSecret());
+        callSudSwitchGame(getGameRoomId(), gameId, getLoadMGMode(), getAuthorizationSecret());
         updatePageStyle();
         updateStatusBar();
         updateGameNumber();
@@ -1570,6 +1570,10 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
             binder.updateMicList();
         }
         return true;
+    }
+
+    protected void callSudSwitchGame(String gameRoomId, long gameId, int loadMGMode, String authorizationSecret) {
+        gameViewModel.switchGame(this, getGameRoomId(), gameId, getLoadMGMode(), getAuthorizationSecret());
     }
 
     /**
@@ -1851,6 +1855,26 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
 
     public long getRoomId() {
         return roomInfoModel.roomId;
+    }
+
+    public void webGameOnCloseGame() {
+        switchGame(0);
+    }
+
+    public void webGameOnPay(WebGameOnPayListener listener) {
+        HomeRepository.addCoin(this, HSUserInfo.userId, 10_0000, new RxCallback<Object>() {
+            @Override
+            public void onSuccess(Object o) {
+                super.onSuccess(o);
+                if (listener != null) {
+                    listener.onSuccess();
+                }
+            }
+        });
+    }
+
+    public interface WebGameOnPayListener {
+        void onSuccess();
     }
 
 }

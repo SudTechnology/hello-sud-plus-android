@@ -176,4 +176,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <!-- H5游戏 容器 -->
+    <FrameLayout
+        android:id="@+id/web_game_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
 </merge>

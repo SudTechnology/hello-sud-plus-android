@@ -42,6 +42,7 @@ import tech.sud.mgp.hello.service.room.req.RoomPkSwitchReq;
 import tech.sud.mgp.hello.service.room.req.SendDanmakuReq;
 import tech.sud.mgp.hello.service.room.req.SendGiftReq;
 import tech.sud.mgp.hello.service.room.req.SetCrRoomConfigReq;
+import tech.sud.mgp.hello.service.room.req.WebGameTokenReq;
 import tech.sud.mgp.hello.service.room.resp.CrossAppStartMatchResp;
 import tech.sud.mgp.hello.service.room.resp.DanmakuListResp;
 import tech.sud.mgp.hello.service.room.resp.DiscoAnchorListResp;
@@ -57,6 +58,7 @@ import tech.sud.mgp.hello.service.room.resp.RoomOrderCreateResp;
 import tech.sud.mgp.hello.service.room.resp.RoomPkAgainResp;
 import tech.sud.mgp.hello.service.room.resp.RoomPkAgreeResp;
 import tech.sud.mgp.hello.service.room.resp.RoomPkStartResp;
+import tech.sud.mgp.hello.service.room.resp.WebGameTokenResp;
 
 /**
  * 网络请求方法和地址
@@ -251,5 +253,9 @@ public interface AudioRequestMethod {
     /** 大富翁道具列表 */
     @POST(RequestUrl.MONOPOLY_CARDS)
     Observable<BaseResponse<MonopolyCardsResp>> getMonopolyCards(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body GetMonopolyCardsReq req);
+
+    /** web游戏登录token信息 */
+    @POST(RequestUrl.WEB_GAME_TOKEN)
+    Observable<BaseResponse<WebGameTokenResp>> webGameToken(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body WebGameTokenReq req);
 
 }

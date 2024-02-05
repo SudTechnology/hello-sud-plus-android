@@ -10,6 +10,7 @@ import tech.sud.mgp.hello.service.base.RequestUrl;
 import tech.sud.mgp.hello.service.main.req.AuthMatchRoomReq;
 import tech.sud.mgp.hello.service.main.req.AuthRoomListReq;
 import tech.sud.mgp.hello.service.main.req.CreatRoomReq;
+import tech.sud.mgp.hello.service.main.req.GameListReq;
 import tech.sud.mgp.hello.service.main.req.MatchBodyReq;
 import tech.sud.mgp.hello.service.main.req.QuizBetReq;
 import tech.sud.mgp.hello.service.main.req.RoomListReq;
@@ -54,6 +55,12 @@ public interface HomeRequestMethod {
      */
     @POST(RequestUrl.GAME_LIST)
     Observable<BaseResponse<GameListResp>> gameList(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl);
+
+    /**
+     * 游戏列表V2
+     */
+    @POST(RequestUrl.GAME_LIST_V2)
+    Observable<BaseResponse<GameListResp>> gameListV2(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body GameListReq body);
 
     /**
      * 批量查询用户信息

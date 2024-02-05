@@ -28,6 +28,7 @@ import tech.sud.mgp.hello.ui.common.utils.LifecycleUtils;
 import tech.sud.mgp.hello.ui.main.base.constant.SceneType;
 import tech.sud.mgp.hello.ui.scenes.asr.ASRActivity;
 import tech.sud.mgp.hello.ui.scenes.audio.activity.AudioRoomActivity;
+import tech.sud.mgp.hello.ui.scenes.audio3d.activity.Audio3DRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.base.model.EnterRoomParams;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
 import tech.sud.mgp.hello.ui.scenes.crossapp.activity.CrossAppAuthActivity;
@@ -102,7 +103,7 @@ public class EnterRoomUtils {
     }
 
     private static boolean canEnterRoom(EnterRoomResp resp) {
-        if (resp.sceneType == SceneType.DANMAKU || resp.sceneType == SceneType.VERTICAL_DANMAKU) {
+        if (resp.sceneType == SceneType.DANMAKU || resp.sceneType == SceneType.VERTICAL_DANMAKU || resp.sceneType == SceneType.DANMAKU_LIST_CLASS) {
             // TODO: 2022/6/16 弹幕游戏目前只支持即构RTC
             // TODO: 2023/11/28 弹幕游戏增加支持声网
             BaseRtcConfig rtcConfig = AppData.getInstance().getSelectRtcConfig();
@@ -183,6 +184,7 @@ public class EnterRoomUtils {
 //                }
                 return new Intent(context, DanmakuActivity.class);
             case SceneType.VERTICAL_DANMAKU:
+            case SceneType.DANMAKU_LIST_CLASS:
                 return new Intent(context, VerticalDanmakuActivity.class);
             case SceneType.DISCO:
                 return new Intent(context, DiscoActivity.class);
@@ -192,8 +194,9 @@ public class EnterRoomUtils {
                 return new Intent(context, LeagueActivity.class);
             case SceneType.CROSS_APP_MATCH:
                 return new Intent(context, CrossAppMatchActivity.class);
-//            case SceneType.AUDIO_3D:
-//                return new Intent(context, Audio3DRoomActivity.class);
+            case SceneType.AUDIO_3D:
+            case SceneType.CUBE:
+                return new Intent(context, Audio3DRoomActivity.class);
 //            case SceneType.TALENT:
 //                return new Intent(context, TalentRoomActivity.class);
 //            case SceneType.ONE_ONE:

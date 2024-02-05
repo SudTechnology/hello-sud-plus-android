@@ -7,6 +7,12 @@ import java.util.List;
  * 游戏描述
  */
 public class GameModel implements Serializable {
+
+    // 游戏加载类型定义
+    public static final int LOAD_TYPE_SDK = 0;
+    public static final int LOAD_TYPE_H5 = 1;
+    public static final int LOAD_TYPE_RTMP = 2;
+
     public long gameId; // 游戏ID
     public String gameName; // 游戏名称
     public String gamePic; // 游戏图片
@@ -22,6 +28,8 @@ public class GameModel implements Serializable {
 
     public String leagueSceneName; // 联赛场景名称
     public String leagueScenePic; // 联赛场景图片
+
+    public int loadType; // 游戏加载类型,0:sdk,1:h5,2:rtmp
 
     public int getGameMaxNumber() {
         if (gameModeList != null && gameModeList.size() > 0) {

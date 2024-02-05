@@ -253,7 +253,7 @@ public class RocketControl extends BaseInteractionControl {
 
     /** 打开火箭 */
     private boolean startRocket() {
-        if (getPlayingGameId() > 0) { // 有加载游戏时，不加载火箭
+        if (getActivityPlayingGameId() > 0 && getActivityPlayingGameId() != getControlGameId()) { // 有加载游戏时，不加载火箭
             return false;
         }
         long playingGameId = rocketGameViewModel.getPlayingGameId();

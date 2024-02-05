@@ -113,7 +113,7 @@ public class HomeQuizItemView extends ConstraintLayout implements IHomeChildItem
     // 设置竞猜场景游戏列表数据
     private void setGameList(SceneModel sceneModel, QuizGameListResp quizGameListResp) {
         List<GameModel> models = new ArrayList<>();
-        List<GameModel> datas = quizGameListResp.quizGameInfoList;
+        List<GameModel> datas = quizGameListResp == null ? null : quizGameListResp.quizGameInfoList;
         if (datas != null && datas.size() > 0) {
             createEnable = true;
             if (datas.size() >= 5) {

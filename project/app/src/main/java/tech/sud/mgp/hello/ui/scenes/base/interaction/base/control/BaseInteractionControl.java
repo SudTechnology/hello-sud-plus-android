@@ -52,7 +52,7 @@ public abstract class BaseInteractionControl implements IBaseInteractionControl 
         return activity.getSupportFragmentManager();
     }
 
-    public long getPlayingGameId() {
+    public long getActivityPlayingGameId() {
         return activity.getPlayingGameId();
     }
 
@@ -108,5 +108,5 @@ public abstract class BaseInteractionControl implements IBaseInteractionControl 
 
     public void onPause() {
     }
- 
+
 }

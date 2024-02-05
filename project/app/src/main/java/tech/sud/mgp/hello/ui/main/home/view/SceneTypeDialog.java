@@ -18,7 +18,7 @@ import java.util.List;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
-import tech.sud.mgp.hello.service.main.manager.HomeManager;
+import tech.sud.mgp.hello.service.main.resp.GameListResp;
 import tech.sud.mgp.hello.service.main.resp.SceneModel;
 import tech.sud.mgp.hello.ui.main.home.adapter.SceneAdapter;
 
@@ -33,6 +33,7 @@ public class SceneTypeDialog extends BaseDialogFragment {
     private final SceneAdapter adapter = new SceneAdapter();
     private final List<DialogSceneModel> models = new ArrayList<>();
     public SelectedSceneListener listener;
+    public GameListResp mGameListResp;
 
     public static SceneTypeDialog getInstance(int selected) {
         Bundle bundle = new Bundle();
@@ -67,7 +68,7 @@ public class SceneTypeDialog extends BaseDialogFragment {
         if (arguments != null) {
             selected = arguments.getInt("selectedIndex", 0);
         }
-        List<SceneModel> sceneList = HomeManager.getInstance().gameListResp.sceneList;
+        List<SceneModel> sceneList = mGameListResp == null ? null : mGameListResp.sceneList;
         if (sceneList != null && sceneList.size() > 0) {
             for (int i = 0; i < sceneList.size(); i++) {
                 DialogSceneModel model = new DialogSceneModel();

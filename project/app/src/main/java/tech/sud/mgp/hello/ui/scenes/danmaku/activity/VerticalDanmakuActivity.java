@@ -18,7 +18,7 @@ import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.service.room.repository.RoomRepository;
 import tech.sud.mgp.hello.service.room.resp.DanmakuListResp;
-import tech.sud.mgp.hello.ui.scenes.base.interaction.base.activity.BaseInteractionRoomActivity;
+import tech.sud.mgp.hello.ui.scenes.base.activity.BaseRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoleType;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
@@ -33,7 +33,7 @@ import tech.sud.mgp.rtc.audio.core.MediaViewMode;
 /**
  * 竖版弹幕场景房间
  */
-public class VerticalDanmakuActivity extends BaseInteractionRoomActivity<AppGameViewModel> {
+public class VerticalDanmakuActivity extends BaseRoomActivity<AppGameViewModel> {
 
     private View videoView;
     private VerticalDanmakuListView danmakuListView;

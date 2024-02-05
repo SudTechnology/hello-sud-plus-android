@@ -221,7 +221,7 @@ public class KingEatersControl extends BaseInteractionControl {
 
     /** 打开交互游戏 */
     private boolean startInteractionGame() {
-        if (getPlayingGameId() > 0) { // 有加载其他游戏时，不加载此交互游戏
+        if (getActivityPlayingGameId() > 0 && getActivityPlayingGameId() != getControlGameId()) { // 有加载其他游戏时，不加载此交互游戏
             return false;
         }
         long playingGameId = gameViewModel.getPlayingGameId();

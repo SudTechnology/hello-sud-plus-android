@@ -205,6 +205,13 @@ public class OrderDialog extends BaseDialogFragment {
     }
 
     private void initGameRv() {
+        gamesRv.setLayoutManager(new LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false));
+        gamesRv.setAdapter(gameAdapter);
+        gameAdapter.setOnItemClickListener((adapter, view, position) -> clickGame(position));
+        refreshGameList();
+    }
+
+    private void refreshGameList() {
         games.clear();
         List<GameModel> models = HomeManager.getInstance().getSceneGame(sceneType);
         if (models != null && models.size() > 0) {
@@ -216,9 +223,6 @@ public class OrderDialog extends BaseDialogFragment {
             }
         }
         gameAdapter.setList(games);
-        gamesRv.setLayoutManager(new LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false));
-        gamesRv.setAdapter(gameAdapter);
-        gameAdapter.setOnItemClickListener((adapter, view, position) -> clickGame(position));
     }
 
     private void clickGame(int position) {

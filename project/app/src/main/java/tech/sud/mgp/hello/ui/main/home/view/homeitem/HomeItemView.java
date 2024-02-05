@@ -42,6 +42,7 @@ public class HomeItemView extends FrameLayout {
                 view = new HomeDanmakuItemView(getContext());
                 break;
             case SceneType.VERTICAL_DANMAKU:
+            case SceneType.DANMAKU_LIST_CLASS:
                 view = new HomeVerticalDanmakuItemView(getContext());
                 break;
             case SceneType.QUIZ:
@@ -56,9 +57,22 @@ public class HomeItemView extends FrameLayout {
             case SceneType.CROSS_APP_MATCH:
                 view = new HomeCrossAppItemView(getContext());
                 break;
-//            case SceneType.AUDIO_3D:
-//                view = new HomeAudio3DItemView(getContext());
-//                break;
+            case SceneType.AUDIO_3D:
+                view = new HomeAudio3DItemView(getContext());
+                break;
+            case SceneType.AUDIO_INTERACT:
+            case SceneType.REAL_TIME_SPORTS:
+            case SceneType.CLASSIC_CHESS_GAME:
+            case SceneType.CLASSIC_CARD_CLASS:
+            case SceneType.CLASSIC_BOARD_GAMES:
+            case SceneType.COMPETE_IN_A_TEAM:
+            case SceneType.LEISURE_AND_ENTERTAINMENT:
+            case SceneType.INTERACTIVE_GIFTS:
+            case SceneType.BETTING_GAMES:
+            case SceneType.LINGXIAN_GAME_ZONE:
+            case SceneType.CUBE:
+                view = new HomeMatchItemView(getContext());
+                break;
             default:
                 view = new HomeNormalItemView(getContext());
                 break;

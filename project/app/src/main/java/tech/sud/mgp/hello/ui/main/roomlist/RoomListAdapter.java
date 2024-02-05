@@ -164,6 +164,7 @@ public class RoomListAdapter extends BaseQuickAdapter<RoomItemModel, BaseViewHol
                 break;
             case SceneType.DANMAKU:
             case SceneType.VERTICAL_DANMAKU:
+            case SceneType.DANMAKU_LIST_CLASS:
                 color.colorBg = Color.parseColor("#00cbd2");
                 color.colorText = Color.parseColor("#FFFFFF");
                 break;
@@ -180,6 +181,7 @@ public class RoomListAdapter extends BaseQuickAdapter<RoomItemModel, BaseViewHol
                 color.colorText = Color.parseColor("#FFFFFF");
                 break;
             case SceneType.AUDIO_3D:
+            case SceneType.CUBE:
                 color.colorBg = Color.parseColor("#258cfb");
                 color.colorText = Color.parseColor("#FFFFFF");
                 break;

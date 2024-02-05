@@ -8,14 +8,12 @@ import java.util.List;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.service.main.resp.GameListResp;
 import tech.sud.mgp.hello.service.main.resp.GameModel;
-import tech.sud.mgp.hello.service.main.resp.RoomListResp;
 
 public class HomeManager {
 
     private static HomeManager homeManager;
-
-    public GameListResp gameListResp;
-    public RoomListResp roomListResp;
+    public GameListResp mGameListRespTabScene;
+    public GameListResp mGameListRespTabGame;
 
     private HomeManager() {
     }
@@ -34,11 +32,22 @@ public class HomeManager {
     /**
      * 获取场景下可用的游戏
      */
-    public List<GameModel> getSceneGame(int sceneId) {
+    public List<GameModel> getSceneGame(GameListResp gameListResp, int sceneId) {
         if (gameListResp == null) {
             return null;
         }
         return gameListResp.getGameList(sceneId);
+    }
+
+    /**
+     * 获取场景下可用的游戏
+     */
+    public List<GameModel> getSceneGame(int sceneId) {
+        List<GameModel> list = getSceneGame(mGameListRespTabScene, sceneId);
+        if (list == null || list.size() == 0) {
+            list = getSceneGame(mGameListRespTabGame, sceneId);
+        }
+        return list;
     }
 
     /**
@@ -60,9 +69,19 @@ public class HomeManager {
      * 根据游戏id获取gameModel
      */
     public GameModel getGameModel(long gameId) {
-        GameListResp resp = gameListResp;
-        if (resp != null && resp.gameList != null) {
-            for (GameModel gameModel : resp.gameList) {
+        GameModel gameModel = getGameModel(mGameListRespTabScene, gameId);
+        if (gameModel == null) {
+            gameModel = getGameModel(mGameListRespTabGame, gameId);
+        }
+        return gameModel;
+    }
+
+    /**
+     * 根据游戏id获取gameModel
+     */
+    private GameModel getGameModel(GameListResp gameListResp, long gameId) {
+        if (gameListResp != null && gameListResp.gameList != null) {
+            for (GameModel gameModel : gameListResp.gameList) {
                 if (gameModel.gameId == gameId) {
                     return gameModel;
                 }

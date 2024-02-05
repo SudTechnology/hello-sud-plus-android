@@ -15,6 +15,9 @@ public interface RequestUrl {
     /** 主页接口 */
     String GAME_LIST = "game/list/v1";
 
+    /** 主页接口V2 */
+    String GAME_LIST_V2 = "game/list/v2";
+
     /** 房间列表 */
     String ROOM_LIST = "room/list/v1";
 
@@ -256,5 +259,8 @@ public interface RequestUrl {
 
     /** 大富翁道具列表 */
     String MONOPOLY_CARDS = "monopoly/player/cards/v1";
+
+    /** web游戏token信息 */
+    String WEB_GAME_TOKEN = "app/webgame/token/v1";
 
 }

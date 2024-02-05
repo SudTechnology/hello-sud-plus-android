@@ -9,6 +9,7 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,12 +17,15 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
+import java.util.List;
+
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
+import tech.sud.mgp.hello.service.main.req.GameListReq;
 import tech.sud.mgp.hello.service.main.resp.GameListResp;
 import tech.sud.mgp.hello.service.main.resp.GameModel;
 
@@ -113,14 +117,40 @@ public class GameModeDialog extends BaseDialogFragment {
     @Override
     protected void initData() {
         super.initData();
-        HomeRepository.gameList(this, new RxCallback<GameListResp>() {
+        LifecycleOwner lifecycleOwner = this;
+        HomeRepository.gameListV2(lifecycleOwner, GameListReq.TAB_SCENE, new RxCallback<GameListResp>() {
             @Override
             public void onSuccess(GameListResp gameListResp) {
                 super.onSuccess(gameListResp);
-                if (gameListResp != null) {
-                    gameModeAdapter.setList(gameListResp.getGameList(sceneType));
+                if (gameListResp == null) {
+                    return;
                 }
-                gameModeAdapter.addData(0, new GameModel()); // 添加一个关闭游戏选项
+                List<GameModel> gameList = gameListResp.getGameList(sceneType);
+                if (gameList != null && gameList.size() > 0) {
+                    gameModeAdapter.setList(gameList);
+                    gameModeAdapter.addData(0, new GameModel()); // 添加一个关闭游戏选项
+                }
+            }
+
+            @Override
+            public void onFinally() {
+                super.onFinally();
+                if (gameModeAdapter.getData().size() == 0) {
+                    HomeRepository.gameListV2(lifecycleOwner, GameListReq.TAB_GAME, new RxCallback<GameListResp>() {
+                        @Override
+                        public void onSuccess(GameListResp gameListResp) {
+                            super.onSuccess(gameListResp);
+                            if (gameListResp == null) {
+                                return;
+                            }
+                            List<GameModel> gameList = gameListResp.getGameList(sceneType);
+                            if (gameList != null && gameList.size() > 0) {
+                                gameModeAdapter.setList(gameList);
+                                gameModeAdapter.addData(0, new GameModel()); // 添加一个关闭游戏选项
+                            }
+                        }
+                    });
+                }
             }
         });
     }

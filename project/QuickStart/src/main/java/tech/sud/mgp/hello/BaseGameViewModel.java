@@ -24,7 +24,7 @@ import tech.sud.mgp.core.SudMGP;
 
 /**
  * 游戏业务逻辑抽象类
- * 1.定自义ViewModel继承此类，实现对应方法。(注意：onAddGameView()与onRemoveGameView()与页面有交互)
+ * 1.自定义ViewModel继承此类，实现对应方法。(注意：onAddGameView()与onRemoveGameView()与页面有交互)
  * 2.外部调用switchGame()方法启动游戏
  * 3.页面销毁时调用onDestroy()
  * <p>

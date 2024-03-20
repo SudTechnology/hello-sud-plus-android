@@ -174,20 +174,11 @@ public class SudMGPAPPState implements Serializable {
         // true 命中，false 未命中
         public boolean isHit;
 
-        // 单个关键词， 兼容老版本
+        // 关键词
         public String keyWord;
 
-        // 返回转写文本
+        // 聊天原始内容
         public String text;
-
-        // text:文本包含匹配; number:数字等于匹配
-        public String wordType;
-
-        // 命中关键词，可以包含多个关键词
-        public List<String> keyWordList;
-
-        // 在number模式下才有，返回转写的多个数字
-        public List<Integer> numberList;
     }
 
     /**

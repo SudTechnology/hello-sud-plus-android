@@ -604,7 +604,7 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
         }
         // 数字炸弹
         if (sudFSMMGDecorator.isHitBomb() && HSTextUtils.isInteger(msg)) {
-            sudFSTAPPDecorator.notifyAPPCommonSelfTextHitState(false, null, msg, null, null, null);
+            sudFSTAPPDecorator.notifyAPPCommonSelfTextHitState(false, null, msg);
             return;
         }
         String keyword = gameKeywordLiveData.getValue();
@@ -613,7 +613,7 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
         }
         // 判断是否命中了关键字，这里是contains判断。接入方可根据自身业务使用equals或者其它自定义的条件。
         if (msg.contains(keyword)) {
-            sudFSTAPPDecorator.notifyAPPCommonSelfTextHitState(true, keyword, msg, null, null, null);
+            sudFSTAPPDecorator.notifyAPPCommonSelfTextHitState(true, keyword, msg);
             gameKeywordLiveData.setValue(null);
         }
     }

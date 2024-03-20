@@ -160,22 +160,15 @@ public class SudFSTAPPDecorator {
      * 首次聊天内容命中关键词之后，后续聊天内容不翻转成未命中；
      * 直至小游戏侧关键词更新，再将状态翻转为未命中；
      *
-     * @param isHit       true 命中，false 未命中
-     * @param keyWord     单个关键词， 兼容老版本
-     * @param text        返回转写文本
-     * @param wordType    text:文本包含匹配; number:数字等于匹配
-     * @param keyWordList 命中关键词，可以包含多个关键词
-     * @param numberList  在number模式下才有，返回转写的多个数字
+     * @param isHit   true 命中，false 未命中
+     * @param keyWord 关键词
+     * @param text    聊天原始内容
      */
-    public void notifyAPPCommonSelfTextHitState(boolean isHit, String keyWord, String text,
-                                                String wordType, List<String> keyWordList, List<Integer> numberList) {
+    public void notifyAPPCommonSelfTextHitState(boolean isHit, String keyWord, String text) {
         SudMGPAPPState.APPCommonSelfTextHitState state = new SudMGPAPPState.APPCommonSelfTextHitState();
         state.isHit = isHit;
         state.keyWord = keyWord;
         state.text = text;
-        state.wordType = wordType;
-        state.keyWordList = keyWordList;
-        state.numberList = numberList;
         notifyStateChange(SudMGPAPPState.APP_COMMON_SELF_TEXT_HIT, state);
     }
 

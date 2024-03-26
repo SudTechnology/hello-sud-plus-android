@@ -29,6 +29,7 @@ import tech.sud.mgp.hello.ui.scenes.base.interaction.base.activity.BaseInteracti
 import tech.sud.mgp.hello.ui.scenes.base.interaction.base.control.BaseInteractionControl;
 import tech.sud.mgp.hello.ui.scenes.base.interaction.base.widget.view.InteractionGameContainer;
 import tech.sud.mgp.hello.ui.scenes.base.interaction.racecar.viewmodel.RacecarGameViewModel;
+import tech.sud.mgp.hello.ui.scenes.base.model.GameViewParams;
 
 /**
  * 疯狂赛车，处理View以及ViewModel的交互
@@ -82,9 +83,10 @@ public class RacecarControl extends BaseInteractionControl {
     @Override
     public void setListeners() {
         super.setListeners();
-        gameViewModel.gameViewLiveData.observe(activity, new Observer<View>() {
+        gameViewModel.gameViewLiveData.observe(activity, new Observer<GameViewParams>() {
             @Override
-            public void onChanged(View view) {
+            public void onChanged(GameViewParams params) {
+                View view = params.gameView;
                 if (view == null) {
                     gameContainer.removeAllViews();
                 } else {

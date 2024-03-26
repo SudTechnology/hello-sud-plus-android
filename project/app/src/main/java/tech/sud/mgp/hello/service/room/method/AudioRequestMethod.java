@@ -258,4 +258,8 @@ public interface AudioRequestMethod {
     @POST(RequestUrl.WEB_GAME_TOKEN)
     Observable<BaseResponse<WebGameTokenResp>> webGameToken(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body WebGameTokenReq req);
 
+    /** 获取gameScale */
+    @POST(RequestUrl.GAME_SCALE)
+    Observable<BaseResponse<WebGameTokenResp>> getGameScale(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body WebGameTokenReq req);
+
 }

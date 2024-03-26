@@ -60,6 +60,7 @@ import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
 import tech.sud.mgp.hello.service.game.repository.GameRepository;
 import tech.sud.mgp.hello.service.game.req.CreateOrderReq;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
+import tech.sud.mgp.hello.service.main.resp.GameModel;
 import tech.sud.mgp.hello.service.main.resp.GetAccountResp;
 import tech.sud.mgp.hello.service.room.repository.RoomRepository;
 import tech.sud.mgp.hello.service.room.resp.CrossAppModel;
@@ -73,6 +74,7 @@ import tech.sud.mgp.hello.ui.scenes.base.constant.OperateMicType;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.GameLoadingProgressModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.GameTextModel;
+import tech.sud.mgp.hello.ui.scenes.base.model.GameViewParams;
 import tech.sud.mgp.hello.ui.scenes.base.model.GiftNotifyModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.OrderInviteModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoleType;
@@ -123,6 +125,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
     protected GiftEffectView effectView;
     protected RoomInputMsgView inputMsgView;
     protected FrameLayout gameContainer;
+    protected FrameLayout topGameContainer;
     protected TextView tvGameNumber;
     protected View clOpenMic;
     private TextView tvOpenMic;
@@ -184,6 +187,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         giftContainer = findViewById(R.id.gift_container);
         inputMsgView = findViewById(R.id.room_input_msg_view);
         gameContainer = findViewById(R.id.game_container);
+        topGameContainer = findViewById(R.id.top_game_container);
         tvGameNumber = findViewById(R.id.tv_game_number);
         clOpenMic = findViewById(R.id.cl_open_mic);
         tvOpenMic = findViewById(R.id.tv_open_mic);
@@ -217,6 +221,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         giftContainer.bringToFront();
         inputMsgView.bringToFront();
         clOpenMic.bringToFront();
+        topGameContainer.bringToFront();
     }
 
     @Override
@@ -603,13 +608,20 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
     }
 
     private void setGameListeners() {
-        gameViewModel.gameViewLiveData.observe(this, new Observer<View>() {
+        gameViewModel.gameViewLiveData.observe(this, new Observer<GameViewParams>() {
             @Override
-            public void onChanged(View view) {
+            public void onChanged(GameViewParams params) {
+                FrameLayout useGameContainer = params.loadType == GameModel.LOAD_TYPE_REYOU_SDK ? topGameContainer : gameContainer;
+                View view = params.gameView;
                 if (view == null) {
-                    gameContainer.removeAllViews();
+                    useGameContainer.removeAllViews();
                 } else {
-                    gameContainer.addView(view, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+                    if (params.scale == null) {
+                        ViewUtils.setHeight(useGameContainer, FrameLayout.LayoutParams.MATCH_PARENT);
+                    } else {
+                        ViewUtils.setHeight(useGameContainer, (int) (DensityUtils.getAppScreenWidth() * params.scale));
+                    }
+                    useGameContainer.addView(view, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
                 }
             }
         });

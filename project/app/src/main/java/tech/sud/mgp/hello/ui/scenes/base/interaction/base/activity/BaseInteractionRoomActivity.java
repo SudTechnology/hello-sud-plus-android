@@ -30,7 +30,7 @@ public abstract class BaseInteractionRoomActivity<T extends AppGameViewModel> ex
 
     protected InteractionBannerView interactionBannerView;
     private final List<BaseInteractionControl> controlList = new ArrayList<>();
-    private FrameLayout interactionContainer;
+    protected FrameLayout interactionContainer;
     protected FrameLayout webGameContainer;
 
     @Override
@@ -167,6 +167,7 @@ public abstract class BaseInteractionRoomActivity<T extends AppGameViewModel> ex
         giftContainer.bringToFront();
         interactionContainer.bringToFront();
         webGameContainer.bringToFront();
+        topGameContainer.bringToFront();
         inputMsgView.bringToFront();
         clOpenMic.bringToFront();
     }

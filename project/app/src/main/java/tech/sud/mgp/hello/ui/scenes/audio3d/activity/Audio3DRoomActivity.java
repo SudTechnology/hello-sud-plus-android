@@ -48,6 +48,7 @@ import tech.sud.mgp.hello.ui.scenes.audio3d.widget.dialog.PutOtherUpMicDialog;
 import tech.sud.mgp.hello.ui.scenes.audio3d.widget.dialog.RoomUserInfoDialog;
 import tech.sud.mgp.hello.ui.scenes.audio3d.widget.view.Audio3DGiftEffectView;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
+import tech.sud.mgp.hello.ui.scenes.base.model.GameViewParams;
 import tech.sud.mgp.hello.ui.scenes.base.model.MicAnimModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.base.utils.UserInfoConverter;
@@ -244,10 +245,10 @@ public class Audio3DRoomActivity extends AbsAudioRoomActivity<Audio3DGameViewMod
                 }
             }
         });
-        gameViewModel.gameViewLiveData.observe(this, new Observer<View>() {
+        gameViewModel.gameViewLiveData.observe(this, new Observer<GameViewParams>() {
             @Override
-            public void onChanged(View view) {
-                if (view == null) {
+            public void onChanged(GameViewParams params) {
+                if (params.gameView == null) {
                     mContainerGameLoading.setVisibility(View.GONE);
                 } else {
                     WebPUtils.loadWebP(mIvLoadingAnim, R.raw.audio3d_cube, -1, new PlayResultListener() {

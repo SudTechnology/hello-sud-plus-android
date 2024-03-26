@@ -263,4 +263,7 @@ public interface RequestUrl {
     /** web游戏token信息 */
     String WEB_GAME_TOKEN = "app/webgame/token/v1";
 
+    /** 获取gameScale */
+    String GAME_SCALE = "app/game/config/v1";
+
 }

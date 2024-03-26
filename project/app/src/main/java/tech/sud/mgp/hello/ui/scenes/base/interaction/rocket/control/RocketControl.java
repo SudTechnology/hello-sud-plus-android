@@ -37,6 +37,7 @@ import tech.sud.mgp.hello.ui.scenes.base.interaction.base.widget.view.Interactio
 import tech.sud.mgp.hello.ui.scenes.base.interaction.rocket.viewmodel.RocketGameViewModel;
 import tech.sud.mgp.hello.ui.scenes.base.interaction.rocket.widget.dialog.RocketFireSelectDialog;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
+import tech.sud.mgp.hello.ui.scenes.base.model.GameViewParams;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.common.gift.manager.GiftHelper;
 import tech.sud.mgp.hello.ui.scenes.common.gift.manager.GiftId;
@@ -100,9 +101,10 @@ public class RocketControl extends BaseInteractionControl {
     @Override
     public void setListeners() {
         super.setListeners();
-        rocketGameViewModel.gameViewLiveData.observe(activity, new Observer<View>() {
+        rocketGameViewModel.gameViewLiveData.observe(activity, new Observer<GameViewParams>() {
             @Override
-            public void onChanged(View view) {
+            public void onChanged(GameViewParams params) {
+                View view = params.gameView;
                 if (view == null) {
                     rocketContainer.removeAllViews();
                 } else {

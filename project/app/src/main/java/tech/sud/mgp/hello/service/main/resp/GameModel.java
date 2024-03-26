@@ -12,6 +12,7 @@ public class GameModel implements Serializable {
     public static final int LOAD_TYPE_SDK = 0;
     public static final int LOAD_TYPE_H5 = 1;
     public static final int LOAD_TYPE_RTMP = 2;
+    public static final int LOAD_TYPE_REYOU_SDK = 3;
 
     public long gameId; // 游戏ID
     public String gameName; // 游戏名称
@@ -29,7 +30,7 @@ public class GameModel implements Serializable {
     public String leagueSceneName; // 联赛场景名称
     public String leagueScenePic; // 联赛场景图片
 
-    public int loadType; // 游戏加载类型,0:sdk,1:h5,2:rtmp
+    public int loadType; // 游戏加载类型,0:sdk,1:h5,2:rtmp,3:
 
     public int getGameMaxNumber() {
         if (gameModeList != null && gameModeList.size() > 0) {

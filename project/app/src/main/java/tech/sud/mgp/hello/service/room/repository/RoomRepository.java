@@ -569,4 +569,15 @@ public class RoomRepository {
                 .subscribe(callback);
     }
 
+    /** 获取gameScale */
+    public static void getGameScale(LifecycleOwner owner, String roomId, long gameId, RxCallback<WebGameTokenResp> callback) {
+        WebGameTokenReq req = new WebGameTokenReq();
+        req.roomId = roomId;
+        req.gameId = gameId;
+        AudioRequestMethodFactory.getMethod()
+                .getGameScale(BaseUrlManager.getGameBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
 }

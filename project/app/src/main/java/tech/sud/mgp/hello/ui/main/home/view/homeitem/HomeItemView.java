@@ -71,6 +71,7 @@ public class HomeItemView extends FrameLayout {
             case SceneType.BETTING_GAMES:
             case SceneType.LINGXIAN_GAME_ZONE:
             case SceneType.CUBE:
+            case SceneType.REYOU:
                 view = new HomeMatchItemView(getContext());
                 break;
             default:

@@ -48,10 +48,10 @@ public class AudioRoomActivity extends AbsAudioRoomActivity<AppGameViewModel> {
             case GameModel.LOAD_TYPE_REYOU_SDK:
                 if (GameIdCons.isInteractionGame(gameId)) {
                     switchInteractionGame(gameId);
-                    gameViewModel.switchGame(this, getGameRoomId(), 0, getLoadMGMode(), getAuthorizationSecret());
+                    gameViewModel.switchGame(this, getGameRoomId(), 0, getLoadMGMode(), getAuthorizationSecret(), gameModel.loadType);
                 } else {
                     switchInteractionGame(0);
-                    gameViewModel.switchGame(this, getGameRoomId(), gameId, getLoadMGMode(), getAuthorizationSecret());
+                    gameViewModel.switchGame(this, getGameRoomId(), gameId, getLoadMGMode(), getAuthorizationSecret(), gameModel.loadType);
                 }
                 destroyWebGame();
                 break;

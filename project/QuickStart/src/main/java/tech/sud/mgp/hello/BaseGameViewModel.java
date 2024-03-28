@@ -60,12 +60,6 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
     private final SudFSMMGDecorator sudFSMMGDecorator = new SudFSMMGDecorator();
 
     /**
-     * 业务是否还在运行
-     * Is the business still running
-     */
-    private boolean isRunning = true;
-
-    /**
      * 游戏View
      * Game view
      */
@@ -97,7 +91,7 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
             Toast.makeText(activity, "gameRoomId can not be empty", Toast.LENGTH_LONG).show();
             return;
         }
-        if (!isRunning) {
+        if (!isRunning()) {
             return;
         }
         if (playingGameId == gameId && gameRoomId.equals(this.gameRoomId)) {
@@ -132,7 +126,7 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
         getCode(activity, getUserId(), getAppId(), new GameGetCodeListener() {
             @Override
             public void onSuccess(String code) {
-                if (!isRunning || gameId != playingGameId) {
+                if (!isRunning() || gameId != playingGameId) {
                     return;
                 }
                 initSdk(activity, gameId, code);
@@ -206,7 +200,7 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
      *                 Game ID.
      */
     private void loadGame(Activity activity, String code, long gameId) {
-        if (activity.isDestroyed() || !isRunning || gameId != playingGameId) {
+        if (activity.isDestroyed() || !isRunning() || gameId != playingGameId) {
             return;
         }
 
@@ -262,7 +256,6 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
      * Called when the page is destroyed.
      */
     public void onDestroy() {
-        isRunning = false;
         destroyMG();
     }
 
@@ -457,7 +450,7 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
         getCode(null, getUserId(), getAppId(), new GameGetCodeListener() {
             @Override
             public void onSuccess(String code) {
-                if (!isRunning) return;
+                if (!isRunning()) return;
                 MGStateResponse mgStateResponse = new MGStateResponse();
                 mgStateResponse.ret_code = MGStateResponse.SUCCESS;
                 sudFSTAPPDecorator.updateCode(code, null);
@@ -574,6 +567,10 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
      */
     public SudFSMMGCache getSudFSMMGCache() {
         return sudFSMMGDecorator.getSudFSMMGCache();
+    }
+
+    private boolean isRunning() {
+        return playingGameId > 0;
     }
 
 }

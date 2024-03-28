@@ -133,6 +133,7 @@
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ......
         FrameLayout gameContainer = findViewById(R.id.game_container); // 获取游戏View容器
         gameViewModel.gameViewLiveData.observe(this, new Observer<View>() {
             @Override
@@ -149,7 +150,6 @@
     @Override
     protected void onResume() {
         super.onResume();
-        updateStatusBar();
         // 注意：要在此处调用onResume()方法
         gameViewModel.onResume();
     }

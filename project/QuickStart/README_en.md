@@ -128,6 +128,7 @@
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ......
         FrameLayout gameContainer = findViewById(R.id.game_container); // Get the game view container
         gameViewModel.gameViewLiveData.observe(this, new Observer<View>() {
             @Override
@@ -143,7 +144,6 @@
     @Override
     protected void onResume() {
         super.onResume();
-        updateStatusBar();
         // Note: Call the onResume() method here
         gameViewModel.onResume();
     }

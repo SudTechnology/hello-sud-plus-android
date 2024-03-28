@@ -131,7 +131,7 @@
     private final QuickStartGameViewModel gameViewModel = new QuickStartGameViewModel(); // 创建ViewModel
   
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ......
         FrameLayout gameContainer = findViewById(R.id.game_container); // 获取游戏View容器
@@ -186,7 +186,7 @@
 
     ``` java
     // 页面销毁之前，先销毁游戏
-    gameViewModel.onDestroy();
+    gameViewModel.destroyMG();
     finish();    
     ```
     </details>

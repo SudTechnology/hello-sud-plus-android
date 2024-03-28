@@ -141,7 +141,7 @@ public class QuickStartActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                gameViewModel.onDestroy();
+                gameViewModel.destroyMG();
                 finish();
             }
         });
@@ -198,11 +198,11 @@ public class QuickStartActivity extends BaseActivity {
     public void onBackPressed() {
         // 注意：需要保证页面销毁之前，先调用游戏的销毁方法
         // 如果有其他地方调用finish()，那么也要在finish()之前，先调用游戏的销毁方法
-        
+
         // Note: Ensure that the game's destruction method is called before the page is destroyed.
         // If finish() is called elsewhere, make sure to call the game's destruction method before finish().
 
-        gameViewModel.onDestroy();
+        gameViewModel.destroyMG();
 
         super.onBackPressed();
     }
@@ -210,7 +210,7 @@ public class QuickStartActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        gameViewModel.onDestroy();
+        gameViewModel.destroyMG();
     }
 
 }

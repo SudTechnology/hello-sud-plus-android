@@ -91,9 +91,6 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
             Toast.makeText(activity, "gameRoomId can not be empty", Toast.LENGTH_LONG).show();
             return;
         }
-        if (!isRunning()) {
-            return;
-        }
         if (playingGameId == gameId && gameRoomId.equals(this.gameRoomId)) {
             return;
         }
@@ -126,7 +123,7 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
         getCode(activity, getUserId(), getAppId(), new GameGetCodeListener() {
             @Override
             public void onSuccess(String code) {
-                if (!isRunning() || gameId != playingGameId) {
+                if (gameId != playingGameId) {
                     return;
                 }
                 initSdk(activity, gameId, code);
@@ -200,7 +197,7 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
      *                 Game ID.
      */
     private void loadGame(Activity activity, String code, long gameId) {
-        if (activity.isDestroyed() || !isRunning() || gameId != playingGameId) {
+        if (activity.isDestroyed() || gameId != playingGameId) {
             return;
         }
 
@@ -252,21 +249,14 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
     }
 
     /**
-     * 页面销毁的时候调用
-     * Called when the page is destroyed.
-     */
-    public void onDestroy() {
-        destroyMG();
-    }
-
-    /**
      * 销毁游戏
      * Destroy the game.
      */
-    private void destroyMG() {
+    public void destroyMG() {
         if (playingGameId > 0) {
             sudFSTAPPDecorator.destroyMG();
             sudFSMMGDecorator.destroyMG();
+            gameRoomId = null;
             playingGameId = 0;
             gameView = null;
             onRemoveGameView();
@@ -450,7 +440,7 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
         getCode(null, getUserId(), getAppId(), new GameGetCodeListener() {
             @Override
             public void onSuccess(String code) {
-                if (!isRunning()) return;
+                if (playingGameId <= 0) return;
                 MGStateResponse mgStateResponse = new MGStateResponse();
                 mgStateResponse.ret_code = MGStateResponse.SUCCESS;
                 sudFSTAPPDecorator.updateCode(code, null);
@@ -567,10 +557,6 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
      */
     public SudFSMMGCache getSudFSMMGCache() {
         return sudFSMMGDecorator.getSudFSMMGCache();
-    }
-
-    private boolean isRunning() {
-        return playingGameId > 0;
     }
 
 }

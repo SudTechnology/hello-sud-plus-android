@@ -567,6 +567,15 @@ public interface SudFSMMGListener {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
+    /**
+     * 游戏通知app销毁游戏
+     * The game informs the app to destroy the game
+     * mg_common_destroy_game_scene
+     */
+    default void onGameMGCommonDestroyGameScene(ISudFSMStateHandle handle, SudMGPMGState.MGCommonDestroyGameScene model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
     // endregion 游戏回调APP 通用状态 English: Game callback to APP for general state.
 
     // region 游戏回调APP 玩家状态 English: Game callback to APP for player state.

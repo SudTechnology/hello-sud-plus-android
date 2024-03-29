@@ -733,6 +733,9 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
                 }
             });
         });
+        gameViewModel.onGameDestroyLiveData.observe(this, mgCommonDestroyGameScene -> {
+            intentSwitchGame(GameIdCons.NONE);
+        });
     }
 
     /** 游戏回调，创建订单 */

@@ -870,6 +870,18 @@ public class SudMGPMGState implements Serializable {
             public int score; // 积分
         }
     }
+
+    /**
+     * 游戏通知app销毁游戏
+     */
+    public static final String MG_COMMON_DESTROY_GAME_SCENE = "mg_common_destroy_game_scene";
+
+    /**
+     * 游戏通知app销毁游戏 模型
+     */
+    public static class MGCommonDestroyGameScene implements Serializable {
+    }
+
     // endregion 通用状态-游戏
 
     // region MG状态机-通用状态-玩家

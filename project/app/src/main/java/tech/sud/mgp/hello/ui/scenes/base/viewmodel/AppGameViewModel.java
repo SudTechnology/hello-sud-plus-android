@@ -94,6 +94,7 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
     public final MutableLiveData<SudMGPMGState.MGCommonGameSettle> gameSettleLiveData = new MutableLiveData<>(); // 游戏结算
     public final MutableLiveData<SudMGPMGState.MGCommonGamePlayerMonopolyCards> monopolyCardsLiveData = new MutableLiveData<>(); // 大富翁获取道具
     public final MutableLiveData<SudMGPMGState.MGCommonDestroyGameScene> onGameDestroyLiveData = new MutableLiveData<>(); // 游戏通知app销毁游戏
+    public final MutableLiveData<SudMGPMGState.MGCommonGameMoneyNotEnough> onGameMoneyNotEnoughLiveData = new MutableLiveData<>(); // 金币不足
 
     public MutableLiveData<SudMGPMGState.MGCommonGameCreateOrder> gameCreateOrderLiveData = new MutableLiveData<>(); // 创建订单
 
@@ -988,6 +989,12 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
     public void onGameMGCommonDestroyGameScene(ISudFSMStateHandle handle, SudMGPMGState.MGCommonDestroyGameScene model) {
         SudFSMMGListener.super.onGameMGCommonDestroyGameScene(handle, model);
         onGameDestroyLiveData.setValue(model);
+    }
+
+    @Override
+    public void onGameMGCommonGameMoneyNotEnough(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameMoneyNotEnough model) {
+        SudFSMMGListener.super.onGameMGCommonGameMoneyNotEnough(handle, model);
+        onGameMoneyNotEnoughLiveData.setValue(model);
     }
 
     // endregion 游戏侧回调

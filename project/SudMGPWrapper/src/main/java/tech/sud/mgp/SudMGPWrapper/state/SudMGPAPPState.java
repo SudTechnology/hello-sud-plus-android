@@ -459,6 +459,17 @@ public class SudMGPAPPState implements Serializable {
         public String toUid; // 接收方玩家id
         public int count; // 数量
     }
+
+    /**
+     * 34. app通知游戏侧更新游戏币(概率游戏相关玩法)
+     */
+    public static final String APP_COMMON_UPDATE_GAME_MONEY = "app_common_update_game_money";
+
+    /**
+     * 34. app通知游戏侧更新游戏币(概率游戏相关玩法) 模型
+     */
+    public static class AppCommonUpdateGameMoney implements Serializable {
+    }
     // endregion 通用状态
 
     // region 元宇宙砂砂舞

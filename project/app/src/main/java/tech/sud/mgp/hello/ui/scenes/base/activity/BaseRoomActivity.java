@@ -736,6 +736,14 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         gameViewModel.onGameDestroyLiveData.observe(this, mgCommonDestroyGameScene -> {
             intentSwitchGame(GameIdCons.NONE);
         });
+        gameViewModel.onGameMoneyNotEnoughLiveData.observe(this, model -> {
+            webGameOnPay(new WebGameOnPayListener() {
+                @Override
+                public void onSuccess() {
+                    gameViewModel.notifyStateChange(SudMGPAPPState.APP_COMMON_UPDATE_GAME_MONEY, new SudMGPAPPState.AppCommonUpdateGameMoney());
+                }
+            });
+        });
     }
 
     /** 游戏回调，创建订单 */

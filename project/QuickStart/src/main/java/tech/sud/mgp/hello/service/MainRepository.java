@@ -31,14 +31,14 @@ public class MainRepository {
         list.add(buildGameModel(1468434504892882946L, "你说我猜", R.drawable.nswc, R.drawable.ic_nswc));
         list.add(buildGameModel(1468434637562912769L, "数字转轮", R.drawable.szzl, R.drawable.ic_szzl));
         list.add(buildGameModel(1468434723902660610L, "石头剪刀布", R.drawable.stjdb, R.drawable.ic_stjdb));
-        list.add(buildGameModel(1472142478505271298L, "TeenPatti", R.drawable.teen_patti, R.drawable.ic_teen_patti));
+        list.add(buildGameModel(1557194487352053761L, "TeenPatti", R.drawable.teen_patti, R.drawable.ic_teen_patti));
         list.add(buildGameModel(1472142559912517633L, "UMO", R.drawable.umo, R.drawable.ic_umo));
         list.add(buildGameModel(1472142640866779138L, "排雷兵", R.drawable.plb, R.drawable.ic_plb));
         list.add(buildGameModel(1472142695162044417L, "台湾麻将", R.drawable.twmj, R.drawable.ic_twmj));
         list.add(buildGameModel(1472142747708284929L, "狼人杀", R.drawable.lrs, R.drawable.ic_lrs));
         list.add(buildGameModel(1490944230389182466L, "友尽闯关", R.drawable.picopark, R.drawable.ic_picopark));
         list.add(buildGameModel(1490944604005199873L, "大话骰", R.drawable.dice, R.drawable.ic_dice));
-        list.add(buildGameModel(1494212349664686081L, "德州扑克", R.drawable.dz, R.drawable.ic_dz));
+        list.add(buildGameModel(1557194155570024449L, "德州扑克", R.drawable.dz, R.drawable.ic_dz));
         list.add(buildGameModel(1582551621189419010L, "桌球", R.drawable.zq, R.drawable.ic_zq));
         list.add(buildGameModel(1572529757165293569L, "连线激斗", R.drawable.lxjd, R.drawable.ic_lxjd));
         list.add(buildGameModel(1559030313895714818L, "麻将对对碰", R.drawable.mjddp, R.drawable.ic_mjddp));

@@ -67,7 +67,7 @@ android {
     productFlavors {
         official {
             applicationId "tech.sud.mgp.hello"
-            manifestPlaceholders.put("mainAppName", "HelloSud")
+            manifestPlaceholders.put("mainAppName", "HelloSud Global")
             String channel = "official"
             buildConfigField("String", "CHANNEL", "\"" + channel + "\"")
             buildConfigField("String", "baseUrlConfig", "\"" + project.baseUrlConfig + "\"")
@@ -82,7 +82,7 @@ android {
         }
         oversea {
             applicationId "tech.sud.mgp.hello.oversea"
-            manifestPlaceholders.put("mainAppName", "HelloSud")
+            manifestPlaceholders.put("mainAppName", "HelloSud Global")
             String channel = "oversea"
             buildConfigField("String", "CHANNEL", "\"" + channel + "\"")
             buildConfigField("String", "baseUrlConfig", "\"" + project.baseUrlConfig + "\"")

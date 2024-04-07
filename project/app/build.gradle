@@ -82,7 +82,7 @@ android {
         }
         oversea {
             applicationId "tech.sud.mgp.hello.oversea"
-            manifestPlaceholders.put("mainAppName", "HelloSud Global")
+            manifestPlaceholders.put("mainAppName", "SUD Global")
             String channel = "oversea"
             buildConfigField("String", "CHANNEL", "\"" + channel + "\"")
             buildConfigField("String", "baseUrlConfig", "\"" + project.baseUrlConfig + "\"")

@@ -611,17 +611,26 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         gameViewModel.gameViewLiveData.observe(this, new Observer<GameViewParams>() {
             @Override
             public void onChanged(GameViewParams params) {
-                FrameLayout useGameContainer = params.loadType == GameModel.LOAD_TYPE_REYOU_SDK ? topGameContainer : gameContainer;
                 View view = params.gameView;
-                if (view == null) {
-                    useGameContainer.removeAllViews();
-                } else {
-                    if (params.scale == null) {
-                        ViewUtils.setHeight(useGameContainer, FrameLayout.LayoutParams.MATCH_PARENT);
+                if (params.loadType == GameModel.LOAD_TYPE_REYOU_SDK) {
+                    if (view == null) {
+                        topGameContainer.removeAllViews();
+                        topGameContainer.setBackgroundResource(R.color.transparent);
                     } else {
-                        ViewUtils.setHeight(useGameContainer, (int) (DensityUtils.getAppScreenWidth() * params.scale));
+                        if (params.scale == null) {
+                            ViewUtils.setHeight(topGameContainer, FrameLayout.LayoutParams.MATCH_PARENT);
+                        } else {
+                            ViewUtils.setHeight(topGameContainer, (int) (DensityUtils.getAppScreenWidth() * params.scale));
+                        }
+                        topGameContainer.addView(view, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+                        topGameContainer.setBackgroundResource(R.color.black);
                     }
-                    useGameContainer.addView(view, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+                } else {
+                    if (view == null) {
+                        gameContainer.removeAllViews();
+                    } else {
+                        gameContainer.addView(view, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+                    }
                 }
             }
         });

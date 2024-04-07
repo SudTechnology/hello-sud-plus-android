@@ -400,10 +400,11 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
         if (playingGameId > 0) {
             sudFSTAPPDecorator.destroyMG();
             sudFSMMGDecorator.destroyMG();
-            playingGameId = 0;
-            gameView = null;
-            gameViewLiveData.setValue(new GameViewParams());
+            gameViewLiveData.setValue(new GameViewParams(mLoadType));
             gameRTCPublishLiveData.setValue(null);
+            playingGameId = 0;
+            mLoadType = -1;
+            gameView = null;
             notifyUpdateMic();
             gameLoadingCompletedLiveData.setValue(false);
             notifyShowFinishGameBtn();

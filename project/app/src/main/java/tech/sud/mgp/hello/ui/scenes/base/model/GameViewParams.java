@@ -20,4 +20,8 @@ public class GameViewParams {
         this.scale = scale;
         this.loadType = loadType;
     }
+
+    public GameViewParams(int loadType) {
+        this.loadType = loadType;
+    }
 }

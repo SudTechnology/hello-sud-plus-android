@@ -67,7 +67,7 @@ android {
     productFlavors {
         official {
             applicationId "tech.sud.mgp.hello"
-            manifestPlaceholders.put("mainAppName", "HelloSud Global")
+            manifestPlaceholders.put("mainAppName", "HelloSud")
             String channel = "official"
             buildConfigField("String", "CHANNEL", "\"" + channel + "\"")
             buildConfigField("String", "baseUrlConfig", "\"" + project.baseUrlConfig + "\"")

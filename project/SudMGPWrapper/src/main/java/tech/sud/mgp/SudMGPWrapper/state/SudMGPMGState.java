@@ -798,7 +798,7 @@ public class SudMGPMGState implements Serializable {
      */
     public static class MGCommonGamePlayerManagedState implements Serializable {
         public String uid; // 玩家id
-        public int isManaged; // 0: 未托管 1：托管
+        public int managed; // 0: 未托管 1：托管
     }
 
     /**

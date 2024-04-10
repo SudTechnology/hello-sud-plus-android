@@ -784,6 +784,8 @@ public class SudMGPMGState implements Serializable {
      * 47. 通知app棋子到达终点(ludo) 模型
      */
     public static class MGCommonGamePieceArriveEnd implements Serializable {
+        public String uid; // 玩家id
+        public int pieceIndex; // 棋子编号 0 ~ 3
     }
 
     /**
@@ -795,6 +797,8 @@ public class SudMGPMGState implements Serializable {
      * 48. 通知app玩家是否托管 模型
      */
     public static class MGCommonGamePlayerManagedState implements Serializable {
+        public String uid; // 玩家id
+        public int isManaged; // 0: 未托管 1：托管
     }
 
     /**

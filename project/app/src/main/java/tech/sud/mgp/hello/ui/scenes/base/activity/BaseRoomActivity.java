@@ -758,6 +758,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         });
         gameViewModel.onGamePlayerPropsCardsLiveData.observe(this, model -> {
             GamePlayerPropsReq req = new GamePlayerPropsReq();
+            req.gameId = getPlayingGameId();
             GameRepository.gamePlayerProps(context, req, new RxCallback<GamePlayerPropsResp>() {
                 @Override
                 public void onSuccess(GamePlayerPropsResp gamePlayerPropsResp) {

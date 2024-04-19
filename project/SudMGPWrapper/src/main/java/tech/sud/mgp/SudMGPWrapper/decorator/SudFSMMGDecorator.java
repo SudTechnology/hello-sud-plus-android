@@ -569,12 +569,28 @@ public class SudFSMMGDecorator implements ISudFSMMG {
                     listener.onGameMGCommonGamePlayerScores(handle, mgCommonGamePlayerScores);
                 }
                 break;
-            case SudMGPMGState.MG_COMMON_DESTROY_GAME_SCENE: // 游戏通知app销毁游戏
+            case SudMGPMGState.MG_COMMON_DESTROY_GAME_SCENE: // 54. 游戏通知app销毁游戏（只支持部分概率类游戏）
                 SudMGPMGState.MGCommonDestroyGameScene mgCommonDestroyGameScene = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonDestroyGameScene.class);
                 if (listener == null) {
                     ISudFSMStateHandleUtils.handleSuccess(handle);
                 } else {
                     listener.onGameMGCommonDestroyGameScene(handle, mgCommonDestroyGameScene);
+                }
+                break;
+            case SudMGPMGState.MG_COMMON_GAME_BILLIARDS_HIT_STATE: // 55. 游戏通知app击球状态（只支持桌球）
+                SudMGPMGState.MGCommonGameBilliardsHitState mgCommonGameBilliardsHitState = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonGameBilliardsHitState.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGCommonGameBilliardsHitState(handle, mgCommonGameBilliardsHitState);
+                }
+                break;
+            case SudMGPMGState.MG_COMMON_GAME_PLAYER_PROPS_CARDS: // 56. 游戏向app发送获取玩家持有的指定点数道具卡（只支持飞行棋）
+                SudMGPMGState.MGCommonGamePlayerPropsCards mgCommonGamePlayerPropsCards = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonGamePlayerPropsCards.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGCommonGamePlayerPropsCards(handle, mgCommonGamePlayerPropsCards);
                 }
                 break;
             case SudMGPMGState.MG_COMMON_GAME_DISCO_ACTION: // 1. 元宇宙砂砂舞指令回调

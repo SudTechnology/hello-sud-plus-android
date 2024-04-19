@@ -568,11 +568,29 @@ public interface SudFSMMGListener {
     }
 
     /**
-     * 游戏通知app销毁游戏
-     * The game informs the app to destroy the game
+     * 54. 游戏通知app销毁游戏（只支持部分概率类游戏）
+     * 54. The game informs the app to destroy the game
      * mg_common_destroy_game_scene
      */
     default void onGameMGCommonDestroyGameScene(ISudFSMStateHandle handle, SudMGPMGState.MGCommonDestroyGameScene model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 55. 游戏通知app击球状态（只支持桌球）
+     * 55. Game notification app Batting status (only table tennis is supported)
+     * mg_common_game_billiards_hit_state
+     */
+    default void onGameMGCommonGameBilliardsHitState(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameBilliardsHitState model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
+    /**
+     * 56. 游戏向app发送获取玩家持有的指定点数道具卡（只支持飞行棋）
+     * 56. The game sends the item card to the app to obtain the specified points held by the player (only flying chess is supported)
+     * mg_common_game_player_props_cards
+     */
+    default void onGameMGCommonGamePlayerPropsCards(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGamePlayerPropsCards model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 

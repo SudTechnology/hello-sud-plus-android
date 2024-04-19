@@ -120,4 +120,9 @@ public class RoomCmd {
     public static final int CMD_GAME_MONOPOLY_CARD_GIFT_NOTIFY = 22001;
     // endregion 大富翁
 
+    // region 游戏公共
+    /** 游戏道具卡送礼通知 */
+    public static final int CMD_GAME_PROPS_CARD_GIFT_NOTIFY = 22002;
+    // endregion 游戏公共
+
 }

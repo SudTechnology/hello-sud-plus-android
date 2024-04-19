@@ -12,6 +12,7 @@ import tech.sud.mgp.hello.service.game.req.BaseballPlayReq;
 import tech.sud.mgp.hello.service.game.req.BringChipReq;
 import tech.sud.mgp.hello.service.game.req.CreateOrderReq;
 import tech.sud.mgp.hello.service.game.req.GameLoginReq;
+import tech.sud.mgp.hello.service.game.req.GamePlayerPropsReq;
 import tech.sud.mgp.hello.service.game.req.RocketFireRecordReq;
 import tech.sud.mgp.hello.service.game.req.RocketFireRecordSummeryReq;
 import tech.sud.mgp.hello.service.game.req.RocketFireReq;
@@ -20,6 +21,7 @@ import tech.sud.mgp.hello.service.game.req.RocketSetDefaultSeatReq;
 import tech.sud.mgp.hello.service.game.req.RocketUnlockComponentReq;
 import tech.sud.mgp.hello.service.game.req.SwitchGameReq;
 import tech.sud.mgp.hello.service.game.resp.GameLoginResp;
+import tech.sud.mgp.hello.service.game.resp.GamePlayerPropsResp;
 import tech.sud.mgp.hello.service.game.resp.RocketFirePriceResp;
 import tech.sud.mgp.hello.service.game.resp.RocketFireResp;
 
@@ -382,6 +384,19 @@ public class GameRepository {
     public static void createOrder(LifecycleOwner owner, CreateOrderReq req, RxCallback<Object> callback) {
         GameRequestMethodFactory.getMethod()
                 .createOrder(BaseUrlManager.getGameBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /**
+     * 查询玩家持有的道具
+     *
+     * @param owner    生命周期对象
+     * @param callback 回调
+     */
+    public static void gamePlayerProps(LifecycleOwner owner, GamePlayerPropsReq req, RxCallback<GamePlayerPropsResp> callback) {
+        GameRequestMethodFactory.getMethod()
+                .gamePlayerProps(BaseUrlManager.getGameBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }

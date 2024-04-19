@@ -40,6 +40,7 @@ import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdKickOutRoomModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.danmaku.RoomCmdDanmakuTeamChangeModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.ContributionModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.DanceModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.game.RoomCmdPropsCardGiftModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.monopoly.RoomCmdMonopolyCardGiftModel;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftModel;
 
@@ -145,6 +146,15 @@ public class SceneRoomServiceManager extends BaseServiceManager implements Custo
                 SceneRoomServiceCallback callback = getCallback();
                 if (callback != null) {
                     callback.onMonopolyCardGiftNotify(model);
+                }
+            }
+        });
+        sceneEngineManager.setCommandListener(new SceneCommandManager.PropsCardGiftListener() {
+            @Override
+            public void onRecvCommand(RoomCmdPropsCardGiftModel model, String userID) {
+                SceneRoomServiceCallback callback = getCallback();
+                if (callback != null) {
+                    callback.onGamePropsCardGift(model);
                 }
             }
         });

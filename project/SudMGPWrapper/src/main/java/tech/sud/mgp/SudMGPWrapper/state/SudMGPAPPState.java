@@ -470,6 +470,46 @@ public class SudMGPAPPState implements Serializable {
      */
     public static class AppCommonUpdateGameMoney implements Serializable {
     }
+
+    /**
+     * 35. app通知游戏玩家所持有的道具卡(只支持飞行棋)
+     */
+    public static final String APP_COMMON_GAME_PLAYER_PROPS_CARDS = "app_common_game_player_props_cards";
+
+    /**
+     * 35. app通知游戏玩家所持有的道具卡(只支持飞行棋) 模型
+     */
+    public static class AppCommonGamePlayerPropsCards implements Serializable {
+        /**
+         * 道具卡数量结构的json字符串
+         * <p>
+         * ludo 返回字符串结构说明
+         * 注：返回的是一个json数据的字符串，specify_dice_roll是遥控骰子字段对应的数量
+         * {"props": "{"specify_dice_roll":0}"}
+         */
+        public String props;
+    }
+
+    /**
+     * 36. app通知游戏播放玩家所获得的道具卡的特效(只支持飞行棋)
+     */
+    public static final String APP_COMMON_GAME_PLAYER_PROPS_CARDS_EFFECT = "app_common_game_player_props_cards_effect";
+
+    /**
+     * 36. app通知游戏播放玩家所获得的道具卡的特效(只支持飞行棋) 模型
+     */
+    public static class AppCommonGamePlayerPropsCardsEffect implements Serializable {
+        /**
+         * 获得的道具卡名字
+         * <p>
+         * 飞行棋（ludo）
+         * paid_events_type: "specify_dice_roll" // 控制指定摇出骰子点数的道具
+         */
+        public String paid_events_type;
+        public String fromUid; // 发送的玩家id
+        public String toUid; // 接收方玩家id
+        public int count; // 数量
+    }
     // endregion 通用状态
 
     // region 元宇宙砂砂舞

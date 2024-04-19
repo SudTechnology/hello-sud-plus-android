@@ -266,4 +266,7 @@ public interface RequestUrl {
     /** 获取gameScale */
     String GAME_SCALE = "app/game/config/v1";
 
+    /** 查询玩家持有的道具 */
+    String GAME_PLAYER_PROPS = "game/player-props/v1";
+
 }

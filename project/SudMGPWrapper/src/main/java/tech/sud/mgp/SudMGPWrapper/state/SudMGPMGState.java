@@ -876,14 +876,50 @@ public class SudMGPMGState implements Serializable {
     }
 
     /**
-     * 游戏通知app销毁游戏
+     * 54. 游戏通知app销毁游戏（只支持部分概率类游戏）
      */
     public static final String MG_COMMON_DESTROY_GAME_SCENE = "mg_common_destroy_game_scene";
 
     /**
-     * 游戏通知app销毁游戏 模型
+     * 54. 游戏通知app销毁游戏（只支持部分概率类游戏） 模型
      */
     public static class MGCommonDestroyGameScene implements Serializable {
+    }
+
+    /**
+     * 55. 游戏通知app击球状态（只支持桌球）
+     */
+    public static final String MG_COMMON_GAME_BILLIARDS_HIT_STATE = "mg_common_game_billiards_hit_state";
+
+    /**
+     * 55. 游戏通知app击球状态（只支持桌球） 模型
+     */
+    public static class MGCommonGameBilliardsHitState implements Serializable {
+        public String uid; // 操作玩家的id
+        /**
+         * state状态说明:
+         * 0: 母球击空或者第一击没击中目标球
+         * 2-7: 连杆
+         * 8: 白球进洞
+         * 9: 没有足够的撞库数量
+         * 10: 开球时进了黑八
+         * 11: 提前进了黑八
+         * 12: 没有有效进球
+         * 13: 有有效进球
+         * 14: 超时
+         */
+        public int state;
+    }
+
+    /**
+     * 56. 游戏向app发送获取玩家持有的指定点数道具卡（只支持飞行棋）
+     */
+    public static final String MG_COMMON_GAME_PLAYER_PROPS_CARDS = "mg_common_game_player_props_cards";
+
+    /**
+     * 56. 游戏向app发送获取玩家持有的指定点数道具卡（只支持飞行棋） 模型
+     */
+    public static class MGCommonGamePlayerPropsCards implements Serializable {
     }
 
     // endregion 通用状态-游戏

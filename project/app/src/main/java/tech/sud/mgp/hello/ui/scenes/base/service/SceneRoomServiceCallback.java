@@ -14,6 +14,7 @@ import tech.sud.mgp.hello.ui.scenes.common.cmd.model.audio3d.Audio3DCmdFaceNotif
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.danmaku.RoomCmdDanmakuTeamChangeModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.ContributionModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.DanceModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.game.RoomCmdPropsCardGiftModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.monopoly.RoomCmdMonopolyCardGiftModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.order.RoomCmdUserOrderModel;
 import tech.sud.mgp.rtc.audio.core.AudioPCMData;
@@ -201,5 +202,8 @@ public interface SceneRoomServiceCallback {
     // region 大富翁
     void onMonopolyCardGiftNotify(RoomCmdMonopolyCardGiftModel model);
     // endregion 大富翁
+
+    /** 游戏道具卡送礼通知 */
+    void onGamePropsCardGift(RoomCmdPropsCardGiftModel model);
 
 }

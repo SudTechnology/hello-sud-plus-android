@@ -28,6 +28,7 @@ import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdBecomeDJModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdDiscoActionPayModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdDiscoInfoReqModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.RoomCmdDiscoInfoRespModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.game.RoomCmdPropsCardGiftModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.league.RoomCmdLeagueInfoRespModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.monopoly.RoomCmdMonopolyCardGiftModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.order.RoomCmdOrderOperateModel;
@@ -178,6 +179,9 @@ public class SceneCommandManager extends BaseServiceManager {
                 break;
             case RoomCmd.CMD_GAME_MONOPOLY_CARD_GIFT_NOTIFY: // 大富翁道具卡送礼通知
                 dispatchCommand(commandCmd, RoomCmdMonopolyCardGiftModel.fromJson(command), userID);
+                break;
+            case RoomCmd.CMD_GAME_PROPS_CARD_GIFT_NOTIFY: // 游戏道具卡送礼通知
+                dispatchCommand(commandCmd, RoomCmdPropsCardGiftModel.fromJson(command), userID);
                 break;
         }
     }
@@ -363,6 +367,11 @@ public class SceneCommandManager extends BaseServiceManager {
                         ((MonopolyCardGiftListener) listener).onRecvCommand((RoomCmdMonopolyCardGiftModel) model, fromUserID);
                     }
                     break;
+                case RoomCmd.CMD_GAME_PROPS_CARD_GIFT_NOTIFY: // 游戏道具卡送礼通知
+                    if (listener instanceof PropsCardGiftListener) {
+                        ((PropsCardGiftListener) listener).onRecvCommand((RoomCmdPropsCardGiftModel) model, fromUserID);
+                    }
+                    break;
             }
         }
     }
@@ -535,6 +544,10 @@ public class SceneCommandManager extends BaseServiceManager {
         void onRecvCommand(RoomCmdMonopolyCardGiftModel model, String userID);
     }
     // endregion 大富翁
+
+    interface PropsCardGiftListener extends ICommandListener {
+        void onRecvCommand(RoomCmdPropsCardGiftModel model, String userID);
+    }
 
     @Override
     public void onDestroy() {

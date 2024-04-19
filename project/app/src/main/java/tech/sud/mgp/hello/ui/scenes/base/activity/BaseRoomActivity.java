@@ -59,6 +59,8 @@ import tech.sud.mgp.hello.common.widget.dialog.BottomOptionDialog;
 import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
 import tech.sud.mgp.hello.service.game.repository.GameRepository;
 import tech.sud.mgp.hello.service.game.req.CreateOrderReq;
+import tech.sud.mgp.hello.service.game.req.GamePlayerPropsReq;
+import tech.sud.mgp.hello.service.game.resp.GamePlayerPropsResp;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.main.resp.GameModel;
 import tech.sud.mgp.hello.service.main.resp.GetAccountResp;
@@ -100,6 +102,7 @@ import tech.sud.mgp.hello.ui.scenes.common.cmd.model.audio3d.Audio3DCmdFaceNotif
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.danmaku.RoomCmdDanmakuTeamChangeModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.ContributionModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.disco.DanceModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.game.RoomCmdPropsCardGiftModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.monopoly.RoomCmdMonopolyCardGiftModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.order.RoomCmdUserOrderModel;
 import tech.sud.mgp.hello.ui.scenes.common.gift.listener.GiftSendClickListener;
@@ -750,6 +753,18 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
                 @Override
                 public void onSuccess() {
                     gameViewModel.notifyStateChange(SudMGPAPPState.APP_COMMON_UPDATE_GAME_MONEY, new SudMGPAPPState.AppCommonUpdateGameMoney());
+                }
+            });
+        });
+        gameViewModel.onGamePlayerPropsCardsLiveData.observe(this, model -> {
+            GamePlayerPropsReq req = new GamePlayerPropsReq();
+            GameRepository.gamePlayerProps(context, req, new RxCallback<GamePlayerPropsResp>() {
+                @Override
+                public void onSuccess(GamePlayerPropsResp gamePlayerPropsResp) {
+                    super.onSuccess(gamePlayerPropsResp);
+                    SudMGPAPPState.AppCommonGamePlayerPropsCards appCommonGamePlayerPropsCards = new SudMGPAPPState.AppCommonGamePlayerPropsCards();
+                    appCommonGamePlayerPropsCards.props = gamePlayerPropsResp.props;
+                    gameViewModel.notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_PLAYER_PROPS_CARDS, appCommonGamePlayerPropsCards);
                 }
             });
         });
@@ -1787,6 +1802,22 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
             gameViewModel.notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_SHOW_MONOPOLY_CARD_EFFECT, state);
         }
     }
+
+    @Override
+    public void onGamePropsCardGift(RoomCmdPropsCardGiftModel model) {
+        if (model == null || model.content == null || model.content.receiverUidList == null) {
+            return;
+        }
+        for (String uid : model.content.receiverUidList) {
+            SudMGPAPPState.AppCommonGamePlayerPropsCardsEffect state = new SudMGPAPPState.AppCommonGamePlayerPropsCardsEffect();
+            state.paid_events_type = model.content.paidEventType;
+            state.fromUid = model.content.senderUid;
+            state.toUid = uid;
+            state.count = model.content.amount;
+            gameViewModel.notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_PLAYER_PROPS_CARDS_EFFECT, state);
+        }
+    }
+
     // endregion service回调
 
     /** 处理踢出房间的逻辑 */

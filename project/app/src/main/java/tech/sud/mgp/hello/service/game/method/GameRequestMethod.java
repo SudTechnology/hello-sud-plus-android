@@ -13,6 +13,7 @@ import tech.sud.mgp.hello.service.game.req.BaseballPlayReq;
 import tech.sud.mgp.hello.service.game.req.BringChipReq;
 import tech.sud.mgp.hello.service.game.req.CreateOrderReq;
 import tech.sud.mgp.hello.service.game.req.GameLoginReq;
+import tech.sud.mgp.hello.service.game.req.GamePlayerPropsReq;
 import tech.sud.mgp.hello.service.game.req.RocketFireRecordReq;
 import tech.sud.mgp.hello.service.game.req.RocketFireRecordSummeryReq;
 import tech.sud.mgp.hello.service.game.req.RocketFireReq;
@@ -21,6 +22,7 @@ import tech.sud.mgp.hello.service.game.req.RocketSetDefaultSeatReq;
 import tech.sud.mgp.hello.service.game.req.RocketUnlockComponentReq;
 import tech.sud.mgp.hello.service.game.req.SwitchGameReq;
 import tech.sud.mgp.hello.service.game.resp.GameLoginResp;
+import tech.sud.mgp.hello.service.game.resp.GamePlayerPropsResp;
 import tech.sud.mgp.hello.service.game.resp.RocketFirePriceResp;
 import tech.sud.mgp.hello.service.game.resp.RocketFireResp;
 
@@ -166,5 +168,9 @@ public interface GameRequestMethod {
     /** 创建订单 */
     @POST(RequestUrl.CREATE_ORDER)
     Observable<BaseResponse<Object>> createOrder(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body CreateOrderReq body);
+
+    /** 查询玩家持有的道具 */
+    @POST(RequestUrl.GAME_PLAYER_PROPS)
+    Observable<BaseResponse<GamePlayerPropsResp>> gamePlayerProps(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body GamePlayerPropsReq body);
 
 }

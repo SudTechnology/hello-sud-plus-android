@@ -109,6 +109,18 @@ public class GameCommonStateUtils {
                 return model.ur_PK;
             case "tr-TR":
                 return model.tr_TR;
+            case "pt-PT":
+                return model.pt_PT;
+            case "hi-IN":
+                return model.hi_IN;
+            case "bn-BD":
+                return model.bn_BD;
+            case "tl-PH":
+                return model.tl_PH;
+            case "fa-IR":
+                return model.fa_IR;
+            case "ru-RU":
+                return model.ru_RU;
         }
         return null;
     }

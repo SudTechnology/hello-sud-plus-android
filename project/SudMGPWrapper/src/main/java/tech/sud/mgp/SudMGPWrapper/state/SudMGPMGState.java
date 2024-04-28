@@ -113,6 +113,24 @@ public class SudMGPMGState implements Serializable {
 
             @SerializedName(value = "tr-TR")
             public String tr_TR; // 土耳其语
+
+            @SerializedName(value = "pt-PT")
+            public String pt_PT; // 葡萄语
+
+            @SerializedName(value = "hi-IN")
+            public String hi_IN; // 印地语
+
+            @SerializedName(value = "bn-BD")
+            public String bn_BD; // 孟加拉语
+
+            @SerializedName(value = "tl-PH")
+            public String tl_PH; // 塔加路语(菲律宾)
+
+            @SerializedName(value = "fa-IR")
+            public String fa_IR; // 波斯语(伊朗)
+
+            @SerializedName(value = "ru-RU")
+            public String ru_RU; // 俄罗斯语
         }
 
         public static class MGCommonPublicMessageMsgUser implements Serializable {

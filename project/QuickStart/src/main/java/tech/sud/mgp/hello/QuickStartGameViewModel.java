@@ -39,28 +39,28 @@ import tech.sud.mgp.core.ISudFSMStateHandle;
  */
 public class QuickStartGameViewModel extends BaseGameViewModel {
 
-    // Sud平台申请的appId
-    // The appId obtained from Sud platform application.
+    // TODO: Sud平台申请的appId
+    // TODO: The appId obtained from Sud platform application.
     public static String SudMGP_APP_ID = "1461564080052506636";
 
-    // Sud平台申请的appKey
-    // The appKey obtained from Sud platform application.
+    // TODO: Sud平台申请的appKey
+    // TODO: The appKey obtained from Sud platform application.
     public static String SudMGP_APP_KEY = "03pNxK2lEXsKiiwrBQ9GbH541Fk2Sfnc";
 
-    // true 加载游戏时为测试环境 false 加载游戏时为生产环境
-    // true for loading the game in the testing environment, false for loading the game in the production environment.
+    // TODO: true 加载游戏时为测试环境 false 加载游戏时为生产环境
+    // TODO: true for loading the game in the testing environment, false for loading the game in the production environment.
     public static final boolean GAME_IS_TEST_ENV = true;
 
-    // 使用的UserId。这里随机生成作演示，开发者将其修改为业务使用的唯一userId
-    // Used UserId. Here it is randomly generated for demonstration purposes. Developers should modify it to the unique userId used for the business.
+    // TODO: 使用的UserId。这里随机生成作演示，开发者将其修改为业务使用的唯一userId
+    // TODO: Used UserId. Here it is randomly generated for demonstration purposes. Developers should modify it to the unique userId used for the business.
     public static String userId = QuickStartUtils.genUserID();
 
     // 游戏自定义安全操作区域
     // Customized security operation zone for the game.
     public GameViewInfoModel.GameViewRectModel gameViewRectModel;
 
-    // 游戏的语言代码
-    // Language code for the game.
+    // TODO: 游戏的语言代码，参考文档：https://docs.sud.tech/zh-CN/app/Client/Languages/
+    // TODO: Language code for the game. Reference documentation: https://docs.sud.tech/en-US/app/Client/Languages/
     public String languageCode = "zh-CN";
 
     // 游戏View回调

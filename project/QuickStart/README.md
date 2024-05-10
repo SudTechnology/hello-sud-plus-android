@@ -89,20 +89,7 @@
         BaseGameViewModel.java
         QuickStartGameViewModel.java
         QuickStartUtils.java
-      2.appId和appKey，APP客户端请使用使用QuickStart客户端的（保持配置参数不变，）；
-        文件QuickStartGameViewModel.java
-  ```java
-  /** Sud平台申请的appId */
-  public static String SudMGP_APP_ID = "1461564080052506636";
-  /** Sud平台申请的appKey */
-  public static String SudMGP_APP_KEY = "03pNxK2lEXsKiiwrBQ9GbH541Fk2Sfnc";
-  /** true 加载游戏时为测试环境 false 加载游戏时为生产环境 */
-  public static final boolean GAME_IS_TEST_ENV = true;
-  ```
-      3.APP客户端请使用QuickStart后端服务login/getCode；
-        *** 实现APP快速加载运行游戏，使用QuickStart服务 ***
-        *** SUD平台支持一个appId绑定多个bundleId和applicationId ***
-        *** 填完接入信息表后，SUD会将APP的bundleId和applicationId，绑定到QuickStart的appId上，仅支持测试环境 ***
+      2.特别注意：和游戏交互的重点在于QuickStartGameViewModel.java这个文件里，请花时间查看其中的每一行注释及代码实现，其中标注为TODO的是需要开发者修改或特别关心的内容
   </details>
 
 

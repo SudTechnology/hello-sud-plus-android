@@ -83,22 +83,7 @@
          BaseGameViewModel.java 
          QuickStartGameViewModel.java 
          QuickStartUtils.java 
-      2. Use the appId and appKey from the QuickStart client (keep the configuration parameters unchanged). 
-         In the QuickStartGameViewModel.java file:
-         
-  ```java
-  /** appId obtained from the Sud platform */
-  public static String SudMGP_APP_ID = "1461564080052506636";
-  /** appKey obtained from the Sud platform */
-  public static String SudMGP_APP_KEY = "03pNxK2lEXsKiiwrBQ9GbH541Fk2Sfnc";
-  /** true for the test environment when loading the game, false for the production environment */
-  public static final boolean GAME_IS_TEST_ENV = true;
-
-  ```
-      3. Use the login/getCode interface of the QuickStart backend service in the APP client. 
-         *** Use the QuickStart service to quickly load and run the game. *** 
-         *** The SUD platform supports binding multiple bundleIds and applicationIds to a single appId. *** 
-         *** After filling out the integration information table, SUD will bind the bundleId and applicationId of the APP to the appId of QuickStart, only in the test environment. *** 
+      2. Special Note: The key to interacting with the game lies in the QuickStartGameViewModel.java file. Please take the time to review every line of comment and code implementation in it. The sections marked as TODO require developers' modification or special attention.
   </details>
 
 

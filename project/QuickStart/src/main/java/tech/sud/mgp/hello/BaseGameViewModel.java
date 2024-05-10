@@ -27,11 +27,13 @@ import tech.sud.mgp.core.SudMGP;
  * 1.自定义ViewModel继承此类，实现对应方法。(注意：onAddGameView()与onRemoveGameView()与页面有交互)
  * 2.外部调用switchGame()方法启动游戏
  * 3.页面销毁时调用onDestroy()
+ * 4.此类是base类，通常情况下不需要修改此类，有时间的情况下了解清楚此类的实现逻辑即可
  * <p>
  * Game business logic abstract class
  * 1. Define a custom ViewModel that extends this class and implement the corresponding methods. (Note: onAddGameView() and onRemoveGameView() interact with the page)
  * 2. Call the switchGame() method externally to start the game.
  * 3. Call onDestroy() when the page is destroyed.
+ * 4. This class is a base class, and typically, there's no need to modify it. If time allows, understanding the implementation logic of this class is sufficient.
  */
 public abstract class BaseGameViewModel implements SudFSMMGListener {
 

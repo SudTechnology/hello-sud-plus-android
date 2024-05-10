@@ -37,15 +37,15 @@ ext {
 allprojects {
     repositories {
         // region 增加阿里云云效 Maven ,加速构建
-        maven() {
-            url 'https://maven.aliyun.com/repository/public'
-        }
-        maven() {
-            url 'https://maven.aliyun.com/repository/google'
-        }
-        maven() {
-            url 'https://maven.aliyun.com/repository/gradle-plugin'
-        }
+//        maven() {
+//            url 'https://maven.aliyun.com/repository/public'
+//        }
+//        maven() {
+//            url 'https://maven.aliyun.com/repository/google'
+//        }
+//        maven() {
+//            url 'https://maven.aliyun.com/repository/gradle-plugin'
+//        }
         // endregion 增加阿里云云效 Maven ,加速构建
 
         google()

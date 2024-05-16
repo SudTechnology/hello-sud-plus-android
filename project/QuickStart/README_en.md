@@ -313,7 +313,9 @@ Here is a code framework for the  SudFSTAPPDecorator  class:
 
 # 6. Other Considerations 
 - For initial integration, please choose the appropriate SDK based on the game you want to integrate. You can find the SDK here: [SudMGPSDK](https://github.com/SudTechnology/sud-mgp-android/blob/main/README_en.md). 
-- If your project has resource obfuscation enabled, please add the following items to the proguard whitelist:
+- If resource obfuscation is enabled for the project, please add the following obfuscation whitelist for AndResGuard.   
+  Note: If using AabResGuard, prepend each entry with '*.', for example '*.R.id.reload_btn'.   
+  For other obfuscation tools, please refer to their specific whitelist configuration rules.
     <details>
     <summary>Resource obfuscation whitelist list</summary>
 

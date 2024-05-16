@@ -340,7 +340,9 @@
 # 6. 其它注意事项
 
 - 首次集成，请根据自身要接入的游戏不同，来选择不同的SDK。地址：[SudMGPSDK](https://github.com/SudTechnology/sud-mgp-android)
-- 如果项目开启了资源混淆，请添加以下混淆白名单
+- 如果项目开启了资源混淆，请添加以下混淆白名单，针对AndResGuard   
+  注意：如果使用的是AabResGuard，那么需要在每条名单前面加上"*."，比如"*.R.id.reload_btn"；  
+  其他的混淆工具参考其具体的白名单设置规则
     <details>
     <summary>资源混淆白名单列表</summary>
 

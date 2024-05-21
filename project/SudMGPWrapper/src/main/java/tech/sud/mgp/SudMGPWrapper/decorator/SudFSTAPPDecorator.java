@@ -96,7 +96,6 @@ public class SudFSTAPPDecorator {
      * 4. 队长状态
      * 用户是否为队长，队长在游戏中会有开始游戏的权利。
      * 发送此状态后，会把队长身份转移到另一名用户身上。
-     * 注意：必须是队长发送才有效果。可通过{@link SudFSMMGDecorator#getCaptainUserId()}拿到当前队长id
      *
      * @param curCaptainUID 必填，指定队长uid
      */

@@ -68,8 +68,8 @@ public class WebGameFragment extends BaseFragment {
         sets.setDomStorageEnabled(true);
         sets.setDatabaseEnabled(true);
         sets.setDatabasePath(context.getFilesDir().getAbsolutePath());
-        sets.setAppCacheEnabled(true);
-        sets.setAppCachePath(context.getFilesDir().getAbsolutePath());
+//        sets.setAppCacheEnabled(true);
+//        sets.setAppCachePath(context.getFilesDir().getAbsolutePath());
         sets.setMediaPlaybackRequiresUserGesture(true);
 
         // LingxianAndroid 这是游戏调用的类

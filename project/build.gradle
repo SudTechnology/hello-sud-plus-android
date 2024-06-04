@@ -6,14 +6,14 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:4.0.0"
+        classpath 'com.android.tools.build:gradle:7.4.2'
     }
 }
 
 ext {
-    compileSdkVersion = 32
+    compileSdkVersion = 34
     minSdkVersion = 21
-    targetSdkVersion = 32
+    targetSdkVersion = 34
 
     ndkVersion = "21.4.7075529"
 

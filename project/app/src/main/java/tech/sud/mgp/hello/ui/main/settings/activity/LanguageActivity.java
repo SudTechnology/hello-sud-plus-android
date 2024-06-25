@@ -10,14 +10,14 @@ import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.Utils;
 import com.bumptech.glide.Glide;
-import com.jeremyliao.liveeventbus.LiveEventBus;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.Locale;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.app.HelloSudApplication;
 import tech.sud.mgp.hello.common.base.BaseActivity;
-import tech.sud.mgp.hello.common.event.LiveEventBusKey;
 import tech.sud.mgp.hello.common.event.model.ChangeLanguageEvent;
 import tech.sud.mgp.hello.common.model.SudMetaModel;
 import tech.sud.mgp.hello.common.utils.SystemUtils;
@@ -71,7 +71,7 @@ public class LanguageActivity extends BaseActivity {
     }
 
     private void changeLanguage(LangModel item) {
-        LiveEventBus.get(LiveEventBusKey.KEY_CHANGE_LANGUAGE).post(new ChangeLanguageEvent());
+        EventBus.getDefault().post(new ChangeLanguageEvent());
         viewModel.saveLangCellType(item.cellType);
         boolean isRelaunchApp = false;
         Utils.Consumer<Boolean> consumer = aBoolean -> changeLanguageCompleted();

@@ -285,4 +285,9 @@ public class RacecarControl extends BaseInteractionControl {
         return GameIdCons.CRAZY_RACECAR;
     }
 
+    @Override
+    public long getPlayingGameId() {
+        return gameViewModel.getPlayingGameId();
+    }
+
 }

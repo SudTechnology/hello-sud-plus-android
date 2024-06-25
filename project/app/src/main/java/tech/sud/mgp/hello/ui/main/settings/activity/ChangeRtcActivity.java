@@ -12,13 +12,13 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
-import com.jeremyliao.liveeventbus.LiveEventBus;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseActivity;
-import tech.sud.mgp.hello.common.event.LiveEventBusKey;
 import tech.sud.mgp.hello.common.event.model.ChangeRTCEvent;
 import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
 import tech.sud.mgp.hello.service.main.config.BaseRtcConfig;
@@ -81,7 +81,7 @@ public class ChangeRtcActivity extends BaseActivity {
             @Override
             public void onChoose(int index) {
                 if (index == 1) {
-                    LiveEventBus.get(LiveEventBusKey.KEY_CHANGE_RTC).post(new ChangeRTCEvent());
+                    EventBus.getDefault().post(new ChangeRTCEvent());
                     viewModel.setRtcConfig(item);
                     adapter.notifyDataSetChanged();
                     finish();

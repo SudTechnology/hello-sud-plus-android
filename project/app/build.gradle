@@ -163,9 +163,6 @@ dependencies {
     // 沉浸式状态栏
     implementation 'com.geyifeng.immersionbar:immersionbar:3.2.2'
 
-    // 事件通知
-    implementation 'io.github.jeremyliao:live-event-bus:1.8.0'
-
     // 设置阴影颜色的控件:https://github.com/lihangleo2/ShadowLayout
     implementation 'com.github.lihangleo2:ShadowLayout:3.3.3'
 
@@ -183,5 +180,8 @@ dependencies {
 
     // glide svg解析：https://github.com/qoqa/glide-svg
     implementation 'com.github.qoqa:glide-svg:4.0.2'
+
+    // 事件通知
+    implementation("org.greenrobot:eventbus:3.3.1")
 
 }

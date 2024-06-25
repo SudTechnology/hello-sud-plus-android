@@ -9,10 +9,10 @@ import androidx.lifecycle.LifecycleOwner;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ToastUtils;
-import com.jeremyliao.liveeventbus.LiveEventBus;
+
+import org.greenrobot.eventbus.EventBus;
 
 import tech.sud.mgp.hello.R;
-import tech.sud.mgp.hello.common.event.LiveEventBusKey;
 import tech.sud.mgp.hello.common.event.model.EnterRoomEvent;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
@@ -73,7 +73,7 @@ public class EnterRoomUtils {
         long roomId = params.roomId;
         EnterRoomEvent enterRoomEvent = new EnterRoomEvent();
         enterRoomEvent.roomId = roomId;
-        LiveEventBus.<EnterRoomEvent>get(LiveEventBusKey.KEY_ENTER_ROOM).post(enterRoomEvent);
+        EventBus.getDefault().post(enterRoomEvent);
 
         LifecycleOwner owner = null;
         if (context instanceof LifecycleOwner) {

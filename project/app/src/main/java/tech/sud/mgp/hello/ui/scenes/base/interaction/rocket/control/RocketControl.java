@@ -6,9 +6,12 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
-import com.jeremyliao.liveeventbus.LiveEventBus;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,7 +25,6 @@ import tech.sud.mgp.SudMGPWrapper.utils.SudJsonUtils;
 import tech.sud.mgp.hello.BuildConfig;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
-import tech.sud.mgp.hello.common.event.LiveEventBusKey;
 import tech.sud.mgp.hello.common.event.model.JumpRocketEvent;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.widget.dialog.SimpleChooseDialog;
@@ -58,6 +60,7 @@ public class RocketControl extends BaseInteractionControl {
     private LoadingDialog loadingDialog; // 加载火箭loading弹窗
     private final List<AppCustomRocketPlayModelList> fireRocketList = new ArrayList<>(); // 火箭待发射列表
     private RocketFireSelectDialog rocketFireSelectDialog;
+    private MutableLiveData<JumpRocketEvent> mJumpRocketEventMutableLiveData = new MutableLiveData<>();
 
     public RocketControl(BaseInteractionRoomActivity<?> activity) {
         super(activity);
@@ -134,11 +137,18 @@ public class RocketControl extends BaseInteractionControl {
             }
         });
 
-        LiveEventBus.<JumpRocketEvent>get(LiveEventBusKey.KEY_JUMP_ROCKET).observeSticky(activity, jumpRocketObserver);
+        EventBus.getDefault().register(this);
+        mJumpRocketEventMutableLiveData.observe(activity, jumpRocketObserver);
         tvCloseRocketEffect.setOnClickListener((v) -> {
             rocketGameViewModel.notifyAppCustomRocketClosePlayEffect();
         });
         tvRocketQuicken.setOnClickListener((v) -> rocketGameViewModel.notifyAppCustomRocketFlyClick());
+    }
+
+    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(JumpRocketEvent event) {
+        mJumpRocketEventMutableLiveData.postValue(event);
+        EventBus.getDefault().removeStickyEvent(event);
     }
 
     private void onRocketPlayEffectFinish() {
@@ -429,7 +439,7 @@ public class RocketControl extends BaseInteractionControl {
     public void onDestroy() {
         super.onDestroy();
         rocketGameViewModel.onDestroy();
-        LiveEventBus.<JumpRocketEvent>get(LiveEventBusKey.KEY_JUMP_ROCKET).removeObserver(jumpRocketObserver);
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -441,6 +451,11 @@ public class RocketControl extends BaseInteractionControl {
     @Override
     public long getControlGameId() {
         return GameIdCons.CUSTOM_ROCKET;
+    }
+
+    @Override
+    public long getPlayingGameId() {
+        return rocketGameViewModel.getPlayingGameId();
     }
 
 }

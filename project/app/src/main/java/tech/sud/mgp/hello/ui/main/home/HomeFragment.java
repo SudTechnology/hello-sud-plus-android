@@ -12,15 +12,19 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.gyf.immersionbar.ImmersionBar;
-import com.jeremyliao.liveeventbus.LiveEventBus;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +32,6 @@ import java.util.Objects;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseFragment;
-import tech.sud.mgp.hello.common.event.LiveEventBusKey;
 import tech.sud.mgp.hello.common.event.model.JumpRocketEvent;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
@@ -93,6 +96,7 @@ public class HomeFragment extends BaseFragment implements CreatRoomClickListener
     private MainUserInfoView userInfoView;
     private final NFTViewModel nftViewModel = new NFTViewModel();
     private GameListResp mGameListResp;
+    private MutableLiveData<JumpRocketEvent> mJumpRocketEventMutableLiveData = new MutableLiveData<>();
 
     public static HomeFragment newInstance() {
         HomeFragment fragment = new HomeFragment();
@@ -149,7 +153,13 @@ public class HomeFragment extends BaseFragment implements CreatRoomClickListener
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        LiveEventBus.<JumpRocketEvent>get(LiveEventBusKey.KEY_JUMP_ROCKET).removeObserver(jumpRocketObserver);
+        EventBus.getDefault().unregister(this);
+        mJumpRocketEventMutableLiveData.removeObservers(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(JumpRocketEvent event) {
+        mJumpRocketEventMutableLiveData.setValue(event);
     }
 
     private void getBanner() {
@@ -264,7 +274,8 @@ public class HomeFragment extends BaseFragment implements CreatRoomClickListener
                 JumpHelper.jump(model);
             }
         });
-        LiveEventBus.<JumpRocketEvent>get(LiveEventBusKey.KEY_JUMP_ROCKET).observe(this, jumpRocketObserver);
+        EventBus.getDefault().register(this);
+        mJumpRocketEventMutableLiveData.observe(this, jumpRocketObserver);
     }
 
     private final Observer<JumpRocketEvent> jumpRocketObserver = new Observer<JumpRocketEvent>() {

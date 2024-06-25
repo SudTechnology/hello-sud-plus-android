@@ -5,12 +5,13 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.lifecycle.Observer;
-
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.gyf.immersionbar.ImmersionBar;
-import com.jeremyliao.liveeventbus.LiveEventBus;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +19,6 @@ import java.util.Objects;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseFragment;
-import tech.sud.mgp.hello.common.event.LiveEventBusKey;
 import tech.sud.mgp.hello.common.event.model.NftTokenInvalidEvent;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.GlobalSP;
@@ -190,12 +190,18 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
             }
         });
         nftViewModel.bindWalletInfoMutableLiveData.observe(this, this::showWalletInfo);
-        LiveEventBus.<NftTokenInvalidEvent>get(LiveEventBusKey.KEY_NFT_TOKEN_INVALID).observe(this, new Observer<NftTokenInvalidEvent>() {
-            @Override
-            public void onChanged(NftTokenInvalidEvent nftTokenInvalidEvent) {
-                nftViewModel.initData(requireContext());
-            }
-        });
+        EventBus.getDefault().register(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(NftTokenInvalidEvent event) {
+        LifecycleUtils.safeLifecycle(this, () -> nftViewModel.initData(requireContext()));
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        EventBus.getDefault().unregister(this);
     }
 
     private void showChangeOverseasWalletDialog() {

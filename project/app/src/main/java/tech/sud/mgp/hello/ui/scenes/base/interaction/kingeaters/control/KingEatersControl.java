@@ -286,6 +286,11 @@ public class KingEatersControl extends BaseInteractionControl {
     }
 
     @Override
+    public long getPlayingGameId() {
+        return gameViewModel.getPlayingGameId();
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         gameViewModel.onResume();

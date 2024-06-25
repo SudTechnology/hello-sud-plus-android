@@ -4,11 +4,11 @@ import android.app.Activity;
 import android.content.Intent;
 
 import com.blankj.utilcode.util.ActivityUtils;
-import com.jeremyliao.liveeventbus.LiveEventBus;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
-import tech.sud.mgp.hello.common.event.LiveEventBusKey;
 import tech.sud.mgp.hello.common.event.NftTokenInvalidEvent;
 import tech.sud.mgp.hello.ui.main.MainActivity;
 import tech.sud.mgp.hello.ui.nft.model.BindWalletInfoModel;
@@ -505,7 +505,7 @@ public class SudNFTProxy {
                 }
 
                 // 发送通知
-                LiveEventBus.<NftTokenInvalidEvent>get(LiveEventBusKey.KEY_NFT_TOKEN_INVALID).post(new NftTokenInvalidEvent());
+                EventBus.getDefault().post(new NftTokenInvalidEvent());
             }
         }
     }

@@ -145,6 +145,23 @@ public abstract class BaseInteractionRoomActivity<T extends AppGameViewModel> ex
     }
 
     @Override
+    protected void initGame() {
+        if (controlIsRunningGame()) {
+            return;
+        }
+        super.initGame();
+    }
+
+    private boolean controlIsRunningGame() {
+        for (BaseInteractionControl control : controlList) {
+            if (control.getPlayingGameId() > 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
     protected void onGiftDialogShowCustomRocket() {
         super.onGiftDialogShowCustomRocket();
         for (BaseInteractionControl control : controlList) {

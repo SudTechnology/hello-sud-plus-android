@@ -1289,7 +1289,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         return true;
     }
 
-    private void initGame() {
+    protected void initGame() {
         if (roomConfig.isSudGame) {
             callSudSwitchGame(getGameRoomId(), roomInfoModel.gameId, getLoadMGMode(), getAuthorizationSecret());
         }

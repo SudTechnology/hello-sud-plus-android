@@ -95,6 +95,9 @@ public abstract class BaseInteractionControl implements IBaseInteractionControl 
     /** 获取当前控制的游戏Id */
     public abstract long getControlGameId();
 
+    /** 获取当前正在运行的游戏id */
+    public abstract long getPlayingGameId();
+
     public FrameLayout getInteractionContainer() {
         return activity.getInteractionContainer();
     }

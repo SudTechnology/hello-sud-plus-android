@@ -1,9 +1,9 @@
 package tech.sud.mgp.hello.ui.main.home.helper;
 
 import com.blankj.utilcode.util.ActivityUtils;
-import com.jeremyliao.liveeventbus.LiveEventBus;
 
-import tech.sud.mgp.hello.common.event.LiveEventBusKey;
+import org.greenrobot.eventbus.EventBus;
+
 import tech.sud.mgp.hello.common.event.model.JumpRocketEvent;
 import tech.sud.mgp.hello.service.main.resp.GetBannerResp;
 import tech.sud.mgp.hello.ui.main.base.utils.RouterUtils;
@@ -28,7 +28,7 @@ public class JumpHelper {
         }
         switch (model.type) {
             case JUMP_TYPE_ROCKET: // 创建语聊房，打开火箭
-                LiveEventBus.get(LiveEventBusKey.KEY_JUMP_ROCKET).post(new JumpRocketEvent());
+                EventBus.getDefault().postSticky(new JumpRocketEvent());
                 break;
             case JUMP_TYPE_H5: // 打开H5页面
                 RouterUtils.openUrl(ActivityUtils.getTopActivity(), "", model.jumpUrl);

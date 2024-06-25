@@ -26,7 +26,7 @@ public class LifecycleUtils {
      * 安全的生命周期下回调
      * 比如可以用在DialogFragment的安全地显示上
      *
-     * @param waitTime 超时时间 值为0时没有超时，单位为毫秒
+     * @param waitTime 超时时间 值为0时没有超时，单位为毫秒。超过时间之后将不会回调completed
      */
     public static Future<Object> safeLifecycle(LifecycleOwner owner, long waitTime, CompletedListener listener) {
         MyFuture myFuture = new MyFuture(owner);

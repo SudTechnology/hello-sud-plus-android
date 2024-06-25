@@ -6,13 +6,17 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
 import com.gyf.immersionbar.ImmersionBar;
-import com.jeremyliao.liveeventbus.LiveEventBus;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +24,6 @@ import java.util.Objects;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseFragment;
-import tech.sud.mgp.hello.common.event.LiveEventBusKey;
 import tech.sud.mgp.hello.common.event.model.JumpRocketEvent;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
@@ -79,6 +82,7 @@ public class GameListFragment extends BaseFragment implements CreatRoomClickList
     private MainUserInfoView userInfoView;
     private final NFTViewModel nftViewModel = new NFTViewModel();
     private GameListResp mGameListResp;
+    private MutableLiveData<JumpRocketEvent> mJumpRocketEventMutableLiveData = new MutableLiveData<>();
 
     public static GameListFragment newInstance() {
         GameListFragment fragment = new GameListFragment();
@@ -129,8 +133,24 @@ public class GameListFragment extends BaseFragment implements CreatRoomClickList
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        LiveEventBus.<JumpRocketEvent>get(LiveEventBusKey.KEY_JUMP_ROCKET).removeObserver(jumpRocketObserver);
+        EventBus.getDefault().unregister(this);
+        mJumpRocketEventMutableLiveData.removeObservers(this);
     }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(JumpRocketEvent event) {
+        mJumpRocketEventMutableLiveData.setValue(event);
+    }
+
+    private final Observer<JumpRocketEvent> jumpRocketObserver = new Observer<JumpRocketEvent>() {
+        @Override
+        public void onChanged(JumpRocketEvent jumpRocketEvent) {
+            if (jumpRocketEvent.isConsume) {
+                return;
+            }
+            createRoom(SceneType.AUDIO, null);
+        }
+    };
 
     /** 更新nft头像 */
     private void updateNftHeader() {
@@ -182,18 +202,9 @@ public class GameListFragment extends BaseFragment implements CreatRoomClickList
                 dialog.show(getChildFragmentManager(), "SceneTypeDialog");
             }
         });
-        LiveEventBus.<JumpRocketEvent>get(LiveEventBusKey.KEY_JUMP_ROCKET).observe(this, jumpRocketObserver);
+        EventBus.getDefault().register(this);
+        mJumpRocketEventMutableLiveData.observe(this, jumpRocketObserver);
     }
-
-    private final Observer<JumpRocketEvent> jumpRocketObserver = new Observer<JumpRocketEvent>() {
-        @Override
-        public void onChanged(JumpRocketEvent jumpRocketEvent) {
-            if (jumpRocketEvent.isConsume) {
-                return;
-            }
-            createRoom(SceneType.AUDIO, null);
-        }
-    };
 
     private void createScene(GameListResp resp, QuizGameListResp quizGameListResp) {
         if (resp != null && resp.sceneList != null && resp.sceneList.size() > 0) {

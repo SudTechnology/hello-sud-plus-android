@@ -239,4 +239,9 @@ public class BaseballControl extends BaseInteractionControl {
         return GameIdCons.BASEBALL;
     }
 
+    @Override
+    public long getPlayingGameId() {
+        return baseballGameViewModel.getPlayingGameId();
+    }
+
 }

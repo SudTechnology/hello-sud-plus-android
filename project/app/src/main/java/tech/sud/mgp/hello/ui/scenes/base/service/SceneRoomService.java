@@ -10,16 +10,16 @@ import android.os.IBinder;
 import android.view.View;
 
 import androidx.annotation.Nullable;
-import androidx.lifecycle.Observer;
 
-import com.jeremyliao.liveeventbus.LiveEventBus;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
-import tech.sud.mgp.hello.common.event.LiveEventBusKey;
 import tech.sud.mgp.hello.common.event.model.ChangeRTCEvent;
 import tech.sud.mgp.hello.common.event.model.EnterRoomEvent;
 import tech.sud.mgp.hello.common.model.AppData;
@@ -57,8 +57,6 @@ public class SceneRoomService extends Service {
     private final MyBinder binder = new MyBinder();
     private SceneRoomNotificationHelper notificationHelper;
     private Context context = this;
-    private Observer<ChangeRTCEvent> changeRTCEventObserver;
-    private Observer<EnterRoomEvent> enterRoomEventObserver;
 
     /** 房间数据 */
     private static SceneRoomData sceneRoomData;
@@ -84,22 +82,19 @@ public class SceneRoomService extends Service {
     }
 
     private void setListeners() {
-        changeRTCEventObserver = new Observer<ChangeRTCEvent>() {
-            @Override
-            public void onChanged(ChangeRTCEvent event) {
-                binder.exitRoom();
-            }
-        };
-        LiveEventBus.<ChangeRTCEvent>get(LiveEventBusKey.KEY_CHANGE_RTC).observeForever(changeRTCEventObserver);
-        enterRoomEventObserver = new Observer<EnterRoomEvent>() {
-            @Override
-            public void onChanged(EnterRoomEvent event) {
-                if (getRoomId() != event.roomId && serviceManager.getCallback() == null) {
-                    binder.exitRoom();
-                }
-            }
-        };
-        LiveEventBus.<EnterRoomEvent>get(LiveEventBusKey.KEY_ENTER_ROOM).observeForever(enterRoomEventObserver);
+        EventBus.getDefault().register(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(ChangeRTCEvent event) {
+        binder.exitRoom();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(EnterRoomEvent event) {
+        if (getRoomId() != event.roomId && serviceManager.getCallback() == null) {
+            binder.exitRoom();
+        }
     }
 
     private long getRoomId() {
@@ -486,13 +481,6 @@ public class SceneRoomService extends Service {
             notificationHelper.hide();
         }
         serviceManager.onDestroy();
-        if (changeRTCEventObserver != null) {
-            LiveEventBus.<ChangeRTCEvent>get(LiveEventBusKey.KEY_CHANGE_RTC).removeObserver(changeRTCEventObserver);
-            changeRTCEventObserver = null;
-        }
-        if (enterRoomEventObserver != null) {
-            LiveEventBus.<EnterRoomEvent>get(LiveEventBusKey.KEY_ENTER_ROOM).removeObserver(enterRoomEventObserver);
-            enterRoomEventObserver = null;
-        }
+        EventBus.getDefault().unregister(this);
     }
 }

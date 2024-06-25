@@ -4,12 +4,15 @@ import android.app.Activity;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ServiceInfo;
 import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
 import android.view.View;
 
 import androidx.annotation.Nullable;
+
+import com.blankj.utilcode.util.LogUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -69,7 +72,9 @@ public class SceneRoomService extends Service {
 
         // 通知栏处理
         notificationHelper = new SceneRoomNotificationHelper(this);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) { //android8.0及以后需要开启前台服务
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) { // 需要传递前台服务类型
+            startForeground(NotifyId.SCENE_ROOM_NOTIFY_ID.getValue(), notificationHelper.createNotification(), ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) { // android8.0及以后需要开启前台服务
             startForeground(NotifyId.SCENE_ROOM_NOTIFY_ID.getValue(), notificationHelper.createNotification());
         } else {
             notificationHelper.show();
@@ -79,6 +84,12 @@ public class SceneRoomService extends Service {
         setListeners();
 
         serviceManager.onCreate();
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        LogUtils.d("onStartCommand");
+        return super.onStartCommand(intent, flags, startId);
     }
 
     private void setListeners() {

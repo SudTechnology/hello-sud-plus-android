@@ -9,6 +9,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- 运行前台服务 -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" /> <!-- 运行前台服务媒体播放类型 -->
 
     <!-- 悬浮窗所需权限 -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
@@ -421,7 +422,9 @@
             android:exported="false" />
 
         <!-- 房间服务 -->
-        <service android:name=".ui.scenes.base.service.SceneRoomService" />
+        <service
+            android:name=".ui.scenes.base.service.SceneRoomService"
+            android:foregroundServiceType="mediaPlayback" />
 
     </application>
 

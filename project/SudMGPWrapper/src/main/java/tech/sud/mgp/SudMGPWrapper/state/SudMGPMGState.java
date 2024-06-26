@@ -1228,6 +1228,7 @@ public class SudMGPMGState implements Serializable {
     public static final class MGCommonGameDiscoAction implements Serializable {
         public int actionId; // 指令序号类型
         public boolean isSuccess; // true 指令成功，false 指令失败
+        public int errCode; // 返回码
     }
 
     /**

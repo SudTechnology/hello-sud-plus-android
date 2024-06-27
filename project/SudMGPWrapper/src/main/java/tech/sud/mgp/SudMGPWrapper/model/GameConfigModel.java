@@ -62,6 +62,12 @@ public class GameConfigModel implements Serializable {
         public WorstTeammateTip worst_teammate_tip = new WorstTeammateTip(); // 友尽闯关中最坑队友的弹框
         public GameOverTip game_over_tip = new GameOverTip(); // 友尽闯关中玩家逃跑导致游戏结束弹框
         public LobbyAnimation lobby_animation = new LobbyAnimation(); // 碰碰我最强大厅动画
+        public GameEffect game_effect = new GameEffect(); // 消消乐中的特效
+        public GameBurstSendBtn game_burst_send_btn = new GameBurstSendBtn(); // 谁是卧底发送爆词按钮
+        public PlayerPairSignular player_pair_singular = new PlayerPairSignular(); // okey101 玩家左上角单双牌
+        public GameRankInfo game_rank_info = new GameRankInfo(); // 怪物消消乐玩家左上角排名
+        public Auxiliary auxiliary = new Auxiliary(); // 是否隐藏游戏中的辅助线（只支持桌球）
+        public ObPnl ob_pnl = new ObPnl(); // 是否隐藏OB玩家观看的提示（只支持ludo）
     }
 
     // 结算界面
@@ -300,6 +306,42 @@ public class GameConfigModel implements Serializable {
     // 碰碰我最强大厅动画
     public static class LobbyAnimation implements Serializable {
         // 是否隐藏碰碰我最强大厅动画（false: 显示； true: 隐藏，默认为false；）只支持碰碰我最强
+        public boolean hide = false;
+    }
+
+    // 消消乐中的特效
+    public static class GameEffect implements Serializable {
+        // 是否隐藏消消乐中的特效（false: 显示； true: 隐藏，默认为false；）只支持monstercrush(消消乐)
+        public boolean hide = false;
+    }
+
+    // 谁是卧底发送爆词按钮
+    public static class GameBurstSendBtn implements Serializable {
+        // 是否接管发送爆词按钮事件（false: 正常点击； 游戏通知app按钮点击事件；默认为false）只支持谁是卧底
+        public boolean custom = false;
+    }
+
+    // okey101 玩家左上角单双牌
+    public static class PlayerPairSignular implements Serializable {
+        // 是否隐藏玩家左上角单双牌（false: 显示， ture: 隐藏；默认为false）只支持okey101
+        public boolean hide = false;
+    }
+
+    // 怪物消消乐玩家左上角排名
+    public static class GameRankInfo implements Serializable {
+        // 是否隐藏玩家左上角排名（false: 显示， ture: 隐藏；默认为false）只支持怪物消消乐
+        public boolean hide = false;
+    }
+
+    // 是否隐藏游戏中的辅助线（只支持桌球）
+    public static class Auxiliary implements Serializable {
+        // 是否隐藏游戏中的辅助线（false: 显示， ture: 隐藏；默认为false）只支持桌球
+        public boolean hide = false;
+    }
+
+    // 是否隐藏OB玩家观看的提示（只支持ludo）
+    public static class ObPnl implements Serializable {
+        // 是否隐藏OB玩家观看的提示（false: 显示， ture: 隐藏；默认为false）只支持ludo
         public boolean hide = false;
     }
 

@@ -594,6 +594,14 @@ public interface SudFSMMGListener {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
+    /**
+     * 57. 游戏向app发送获游戏通用数据
+     * 57. The game sends general game data to the app.
+     */
+    default void onGameMGCommonGameInfoX(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameInfoX model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
     // endregion 游戏回调APP 通用状态 English: Game callback to APP for general state.
 
     // region 游戏回调APP 玩家状态 English: Game callback to APP for player state.

@@ -593,6 +593,14 @@ public class SudFSMMGDecorator implements ISudFSMMG {
                     listener.onGameMGCommonGamePlayerPropsCards(handle, mgCommonGamePlayerPropsCards);
                 }
                 break;
+            case SudMGPMGState.MG_COMMON_GAME_INFO_X: // 57. 游戏向app发送获游戏通用数据
+                SudMGPMGState.MGCommonGameInfoX mgCommonGameInfoX = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonGameInfoX.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGCommonGameInfoX(handle, mgCommonGameInfoX);
+                }
+                break;
             case SudMGPMGState.MG_COMMON_GAME_DISCO_ACTION: // 1. 元宇宙砂砂舞指令回调
                 SudMGPMGState.MGCommonGameDiscoAction mgCommonGameDiscoAction = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonGameDiscoAction.class);
                 if (listener == null) {

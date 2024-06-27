@@ -940,6 +940,19 @@ public class SudMGPMGState implements Serializable {
     public static class MGCommonGamePlayerPropsCards implements Serializable {
     }
 
+    /**
+     * 57. 游戏向app发送获游戏通用数据
+     */
+    public static final String MG_COMMON_GAME_INFO_X = "mg_common_game_info_x";
+
+    /**
+     * 57. 游戏向app发送获游戏通用数据 模型
+     */
+    public static class MGCommonGameInfoX implements Serializable {
+        public String eventName; // 事件名称 ，（注：具体游戏参考如下）
+        public String data;  // 具体的数据，为一个JSON字符串， （注：具体游戏参考如下）
+    }
+
     // endregion 通用状态-游戏
 
     // region MG状态机-通用状态-玩家

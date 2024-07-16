@@ -20,6 +20,7 @@ import tech.sud.mgp.core.ISudFSMStateHandle;
 import tech.sud.mgp.core.ISudFSTAPP;
 import tech.sud.mgp.core.ISudListenerInitSDK;
 import tech.sud.mgp.core.SudInitSDKParamModel;
+import tech.sud.mgp.core.SudLoadMGParamModel;
 import tech.sud.mgp.core.SudMGP;
 
 /**
@@ -209,7 +210,14 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
 
         // 调用游戏sdk加载游戏
         // Invoke the game SDK to load the game.
-        ISudFSTAPP iSudFSTAPP = SudMGP.loadMG(activity, getUserId(), gameRoomId, code, gameId, getLanguageCode(), sudFSMMGDecorator);
+        SudLoadMGParamModel sudLoadMGParamModel = new SudLoadMGParamModel();
+        sudLoadMGParamModel.activity = activity;
+        sudLoadMGParamModel.userId = getUserId();
+        sudLoadMGParamModel.roomId = gameRoomId;
+        sudLoadMGParamModel.code = code;
+        sudLoadMGParamModel.mgId = gameId;
+        sudLoadMGParamModel.language = getLanguageCode();
+        ISudFSTAPP iSudFSTAPP = SudMGP.loadMG(sudLoadMGParamModel, sudFSMMGDecorator);
 
         // 如果返回空，则代表参数问题或者非主线程
         // If null is returned, it indicates a parameter issue or a non-main thread.

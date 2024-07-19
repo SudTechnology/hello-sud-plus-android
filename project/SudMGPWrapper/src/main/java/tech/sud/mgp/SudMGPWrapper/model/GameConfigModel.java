@@ -17,7 +17,8 @@ public class GameConfigModel implements Serializable {
     public int gameCPU = 0; // 游戏CPU（值为0和1；0：CPU正常功耗，1：CPU低功耗；默认是0，CPU正常功耗）
     public int gameSoundControl = 0; // 游戏中声音的播放是否被app层接管（值为0和1；0：游戏播放声音，1：app层播放声音，游戏中不播放任何声音；默认是0）
     public int gameSoundVolume = 100; // 游戏中音量的大小（值为0到100；默认是100）
-    public int autoScale = 0; // 自动缩放，0不缩放  1缩放
+    public float viewScale = 1.0f; // 主动缩放游戏（比如0.8就是缩放到原始大小0.8倍，默认为1.0）
+    public int autoScale = 0; // 自动根据安全区缩放游戏（默认0为不开启，设置为1就是开启自动适配缩放）
     public GameUi ui = new GameUi(); // 对游戏ui界面的配置，可定制ui界面的显示与不显示
 
     // 游戏配置中，ui部分

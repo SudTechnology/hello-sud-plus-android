@@ -277,14 +277,14 @@ public class GameConfigModel implements Serializable {
 
     // 你画我猜，小局结算界面点击扔大便按钮
     public static class RoundOverPoopBtn implements Serializable {
-        // 你画我猜，小局结算点击扔大便按钮抛事件（false: 正常点击； true: 游戏通知app按钮点击事件；默认为false）
-        public boolean custom = false;
+        public boolean custom = false; // 你画我猜，小局结算点击扔大便按钮抛事件（false: 正常点击； true: 游戏通知app按钮点击事件；默认为false）
+        public boolean hide = false; // 小局结算点击扔大便按钮隐藏（false: 显示； true: 隐藏；默认为false）
     }
 
     // 你画我猜，小局结算界面点击点赞按钮
     public static class RoundOverGoodBtn implements Serializable {
-        // 你画我猜，小局结算点击点赞按钮抛事件（false: 正常点击； true: 游戏通知app按钮点击事件；默认为false）
-        public boolean custom = false;
+        public boolean custom = false; // 你画我猜，小局结算点击点赞按钮抛事件（false: 正常点击； true: 游戏通知app按钮点击事件；默认为false）
+        public boolean hide = false; // 小局结算点击点赞按钮隐藏（false: 显示； true: 隐藏；默认为false）
     }
 
     // 游戏中所有蒙版

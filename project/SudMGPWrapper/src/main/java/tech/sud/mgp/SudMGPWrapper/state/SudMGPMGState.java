@@ -413,8 +413,8 @@ public class SudMGPMGState implements Serializable {
      * 游戏通知app麦克风状态
      */
     public static class MGCommonSelfMicrophone implements Serializable {
-        // 麦克风开关状态 true: 开，false: 关
-        public boolean isOn;
+        public boolean isOn; // 麦克风开关状态 true: 开，false: 关
+        public int state; // 1: 白天 2：黑夜 3：非游戏
     }
 
     /**

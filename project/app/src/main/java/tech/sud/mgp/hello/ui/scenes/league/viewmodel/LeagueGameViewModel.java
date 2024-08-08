@@ -77,7 +77,7 @@ public class LeagueGameViewModel extends AppGameViewModel {
 
     /** 加入游戏 */
     public void joinGame() {
-        sudFSTAPPDecorator.notifyAPPCommonSelfIn(true, -1, true, 1);
+        sudFSTAPPDecorator.notifyAPPCommonSelfInV2(true, -1, true, 1);
     }
 
     /** 准备 */

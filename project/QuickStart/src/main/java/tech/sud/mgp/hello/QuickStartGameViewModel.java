@@ -269,8 +269,8 @@ public class QuickStartGameViewModel extends BaseGameViewModel {
      * When sending states from the App to the game, as it involves network communication, the game should not be immediately destroyed or the Activity finished after sending the state; otherwise, the state may not be successfully sent.
      * To ensure the state reaches the game, it is recommended to delay the destruction of the game or finishing the Activity by 500ms after sending the state.
      */
-    public void notifyAPPCommonSelfIn(boolean isIn, int seatIndex, boolean isSeatRandom, int teamId) {
-        sudFSTAPPDecorator.notifyAPPCommonSelfIn(isIn, seatIndex, isSeatRandom, teamId);
+    public void notifyAPPCommonSelfInV2(boolean isIn, int seatIndex, boolean isSeatRandom, int teamId) {
+        sudFSTAPPDecorator.notifyAPPCommonSelfInV2(isIn, seatIndex, isSeatRandom, teamId);
     }
 
     /**

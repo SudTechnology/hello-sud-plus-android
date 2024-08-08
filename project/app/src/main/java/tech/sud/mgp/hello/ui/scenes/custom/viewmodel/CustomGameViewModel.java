@@ -6,12 +6,12 @@ public class CustomGameViewModel extends AppGameViewModel {
 
     // 加入游戏
     public void actionJoinGame() {
-        sudFSTAPPDecorator.notifyAPPCommonSelfIn(true, -1, true, 1);
+        sudFSTAPPDecorator.notifyAPPCommonSelfInV2(true, -1, true, 1);
     }
 
     // 退出游戏
     public void actionExitGame() {
-        sudFSTAPPDecorator.notifyAPPCommonSelfIn(false, -1, true, 1);
+        sudFSTAPPDecorator.notifyAPPCommonSelfInV2(false, -1, true, 1);
     }
 
     // 准备

@@ -616,7 +616,7 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
     public void joinGame() {
         // 游戏闲置，并且自己没有加入游戏时，才发送
         if (sudFSMMGDecorator.getGameState() == SudMGPMGState.MGCommonGameState.IDLE && !isSelfInGame()) {
-            sudFSTAPPDecorator.notifyAPPCommonSelfIn(true, -1, true, 1);
+            sudFSTAPPDecorator.notifyAPPCommonSelfInV2(true, -1, true, 1);
         }
     }
 
@@ -638,14 +638,14 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
             // 用户正在游戏中，先退出本局游戏，再退出游戏
             sudFSTAPPDecorator.notifyAPPCommonSelfPlaying(false, null, null);
             sudFSTAPPDecorator.notifyAPPCommonSelfReady(false);
-            sudFSTAPPDecorator.notifyAPPCommonSelfIn(false, -1, true, 1);
+            sudFSTAPPDecorator.notifyAPPCommonSelfInV2(false, -1, true, 1);
         } else if (sudFSMMGDecorator.playerIsReady(HSUserInfo.userId + "")) {
             // 用户已加入并且已经准备，先取消准备，再退出游戏
             sudFSTAPPDecorator.notifyAPPCommonSelfReady(false);
-            sudFSTAPPDecorator.notifyAPPCommonSelfIn(false, -1, true, 1);
+            sudFSTAPPDecorator.notifyAPPCommonSelfInV2(false, -1, true, 1);
         } else if (isSelfInGame()) {
             // 用户已加入游戏 退出游戏
-            sudFSTAPPDecorator.notifyAPPCommonSelfIn(false, -1, true, 1);
+            sudFSTAPPDecorator.notifyAPPCommonSelfInV2(false, -1, true, 1);
         }
     }
 

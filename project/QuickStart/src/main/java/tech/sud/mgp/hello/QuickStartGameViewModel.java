@@ -94,7 +94,7 @@ public class QuickStartGameViewModel extends BaseGameViewModel {
 
         RequestBody body = RequestBody.create(req, MediaType.get("application/json; charset=utf-8"));
         Request request = new Request.Builder()
-                .url("https://mgp-hello.sudden.ltd/login/v3")
+                .url("https://prod-hellosud-base.s00.tech/login/v3")
                 .post(body)
                 .build();
         client.newCall(request).enqueue(new Callback() {

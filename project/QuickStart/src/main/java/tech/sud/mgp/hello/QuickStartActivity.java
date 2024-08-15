@@ -99,6 +99,10 @@ public class QuickStartActivity extends BaseActivity {
         // Call this method to load the corresponding game. Developers can decide when to load the game based on their business logic.
         gameViewModel.switchGame(this, roomId, gameId);
         updateStatusBar();
+
+        // 设置在加载对应游戏时，让pauseMG走异步调用的方式
+        // Set the pauseMG to be called asynchronously when loading the corresponding game.
+        gameViewModel.addPauseAsyncMgId(1739914495960793090L);
     }
 
     @Override

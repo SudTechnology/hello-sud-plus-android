@@ -8,6 +8,11 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import tech.sud.mgp.SudMGPWrapper.decorator.SudFSMMGCache;
 import tech.sud.mgp.SudMGPWrapper.decorator.SudFSMMGDecorator;
 import tech.sud.mgp.SudMGPWrapper.decorator.SudFSMMGListener;
@@ -74,6 +79,9 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
      */
     public GameConfigModel gameConfigModel = new GameConfigModel();
     protected final Handler handler = new Handler(Looper.getMainLooper());
+
+    private List<Long> pauseAsyncMgIdList;
+    private ExecutorService pauseAsyncSingleExecutorService;
 
     /**
      * 外部调用切换游戏，传不同的gameId即可加载不同的游戏
@@ -531,13 +539,36 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
     public void onPause() {
         // playMG和pauseMG要配对
         // playMG and pauseMG should be paired.
-        sudFSTAPPDecorator.pauseMG();
+        if (needPauseAsync()) {
+            onPauseAsync();
+        } else {
+            sudFSTAPPDecorator.pauseMG();
+        }
     }
 
     public void onResume() {
         // playMG和pauseMG要配对
         // playMG and pauseMG should be paired.
-        sudFSTAPPDecorator.playMG();
+        if (needPauseAsync()) {
+            onResumeAsync();
+        } else {
+            sudFSTAPPDecorator.playMG();
+        }
+    }
+
+    private void onPauseAsync() {
+        pauseAsyncSingleExecutorService.execute(sudFSTAPPDecorator::pauseMG);
+    }
+
+    private void onResumeAsync() {
+        pauseAsyncSingleExecutorService.execute(sudFSTAPPDecorator::playMG);
+    }
+
+    private boolean needPauseAsync() {
+        if (pauseAsyncMgIdList != null && pauseAsyncMgIdList.contains(playingGameId)) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -567,6 +598,25 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
      */
     public SudFSMMGCache getSudFSMMGCache() {
         return sudFSMMGDecorator.getSudFSMMGCache();
+    }
+
+    /**
+     * 添加需要异步调用onPause和onResume方法的游戏id
+     * 是属于对象方法，所以每次创建ViewModel对象时都需要初始化调用一次
+     * <p>
+     * Add the game ID that requires asynchronous calls to the onPause and onResume methods.
+     * These are instance methods, so they need to be initialized and called each time a ViewModel object is created.
+     */
+    public void addPauseAsyncMgId(long gameId) {
+        if (pauseAsyncSingleExecutorService == null) {
+            pauseAsyncSingleExecutorService = Executors.newSingleThreadExecutor();
+        }
+        if (pauseAsyncMgIdList == null) {
+            pauseAsyncMgIdList = new ArrayList<>();
+        }
+        if (!pauseAsyncMgIdList.contains(gameId)) {
+            pauseAsyncMgIdList.add(gameId);
+        }
     }
 
 }

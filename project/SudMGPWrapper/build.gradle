@@ -27,7 +27,7 @@ android {
 dependencies {
 
     // 引入 SudMGPSDK
-    api 'tech.sud.mgp:SudMGP:1.4.4.1205'
+    api 'tech.sud.mgp:SudMGP:1.4.5.1208'
 
     // 依赖okhttp
     api 'com.squareup.okhttp3:okhttp:4.9.2'

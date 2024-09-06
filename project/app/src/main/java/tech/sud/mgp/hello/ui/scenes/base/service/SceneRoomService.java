@@ -469,6 +469,16 @@ public class SceneRoomService extends Service {
             }
         }
         // endregion 3D语聊房
+
+        /**
+         * 纯发送公屏消息
+         *
+         * @param msg 消息
+         */
+        public void onlySendPublicMsgCommand(CharSequence msg) {
+            String command = RoomCmdModelUtils.buildPublicMsgCommand(msg.toString());
+            serviceManager.sceneEngineManager.sendCommand(command, null);
+        }
     }
 
     /** 获取当前使用的房间基本数据 */

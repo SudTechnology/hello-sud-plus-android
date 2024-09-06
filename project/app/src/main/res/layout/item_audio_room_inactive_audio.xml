@@ -35,6 +35,7 @@
         <View
             android:layout_width="12dp"
             android:layout_height="12dp"
+            android:layout_marginStart="8dp"
             android:background="@drawable/ic_inactive_audio_label"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"

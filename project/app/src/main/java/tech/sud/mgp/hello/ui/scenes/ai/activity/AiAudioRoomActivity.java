@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.lifecycle.Observer;
 
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
 import tech.sud.mgp.hello.R;
@@ -20,6 +21,7 @@ import tech.sud.mgp.hello.common.utils.permission.PermissionFragment;
 import tech.sud.mgp.hello.common.utils.permission.SudPermissionUtils;
 import tech.sud.mgp.hello.ui.scenes.ai.manager.AudioRecordManager;
 import tech.sud.mgp.hello.ui.scenes.audio.activity.AudioRoomActivity;
+import tech.sud.mgp.hello.ui.scenes.base.model.GameTextModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdChatMediaModel;
 
 public class AiAudioRoomActivity extends AudioRoomActivity {
@@ -55,9 +57,10 @@ public class AiAudioRoomActivity extends AudioRoomActivity {
         audioRecordParams.topToTop = tvInputId;
         audioRecordParams.bottomToBottom = tvInputId;
         viewRoot.addView(tvAudioRecord, audioRecordParams);
+        tvAudioRecord.setVisibility(View.GONE);
 
         viewInputMode = new View(this);
-        LinearLayout.LayoutParams foldParams = new LinearLayout.LayoutParams(DensityUtils.dp2px(43), DensityUtils.dp2px(32));
+        LinearLayout.LayoutParams foldParams = new LinearLayout.LayoutParams(DensityUtils.dp2px(32), DensityUtils.dp2px(32));
         foldParams.setMarginStart(DensityUtils.dp2px(15));
         bottomView.addViewToLeft(viewInputMode, 0, foldParams);
 
@@ -81,6 +84,16 @@ public class AiAudioRoomActivity extends AudioRoomActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 return onTouchAudioRecord(event);
+            }
+        });
+        gameViewModel.gameMessageLiveData.observe(this, new Observer<GameTextModel>() {
+            @Override
+            public void onChanged(GameTextModel msg) {
+                if (msg != null && !TextUtils.isEmpty(msg.message)) {
+                    if (binder != null) {
+                        binder.onlySendPublicMsgCommand(msg.message);
+                    }
+                }
             }
         });
     }
@@ -161,7 +174,7 @@ public class AiAudioRoomActivity extends AudioRoomActivity {
         isAudioMode = !isAudioMode;
         setInputModeStyle();
         if (isAudioMode) {
-            tvInput.setVisibility(View.GONE);
+            tvInput.setVisibility(View.INVISIBLE);
             tvAudioRecord.setVisibility(View.VISIBLE);
         } else {
             tvInput.setVisibility(View.VISIBLE);
@@ -176,4 +189,5 @@ public class AiAudioRoomActivity extends AudioRoomActivity {
             audioRecordManager.stopRecording();
         }
     }
+
 }

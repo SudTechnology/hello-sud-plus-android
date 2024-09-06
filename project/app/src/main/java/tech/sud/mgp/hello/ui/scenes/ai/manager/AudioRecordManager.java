@@ -18,17 +18,17 @@ public class AudioRecordManager {
     private int bufferSize;
     private ReadAudioTask readAudioTask;
 
-    @SuppressLint("MissingPermission")
     public AudioRecordManager() {
         bufferSize = AudioRecord.getMinBufferSize(SAMPLE_RATE, CHANNEL_CONFIG, AUDIO_FORMAT);
-        audioRecord = new AudioRecord(MediaRecorder.AudioSource.MIC, SAMPLE_RATE, CHANNEL_CONFIG, AUDIO_FORMAT, bufferSize);
     }
 
+    @SuppressLint("MissingPermission")
     // 开始录音
     public void startRecording() {
         if (isRecording) {
             return;
         }
+        audioRecord = new AudioRecord(MediaRecorder.AudioSource.MIC, SAMPLE_RATE, CHANNEL_CONFIG, AUDIO_FORMAT, bufferSize);
         audioRecord.startRecording();
         isRecording = true;
 

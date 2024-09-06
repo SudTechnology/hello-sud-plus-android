@@ -36,5 +36,6 @@ public class SceneType {
     public static final int LINGXIAN_GAME_ZONE = 111; // LINGXIAN Game Zone
     public static final int CUBE = 112; // CUBE
     public static final int REYOU = 113; // REYOU
+    public static final int AI = 114; // AI
 
 }

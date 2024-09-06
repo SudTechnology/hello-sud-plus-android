@@ -246,6 +246,13 @@
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
 
+        <!-- AI语聊房页面 -->
+        <activity
+            android:name=".ui.scenes.ai.activity.AiAudioRoomActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+
         <!-- 更多设置页面 -->
         <activity
             android:name=".ui.main.settings.activity.MoreSettingsActivity"

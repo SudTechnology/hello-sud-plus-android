@@ -1222,4 +1222,30 @@ public class SudMGPAPPState implements Serializable {
     }
     // endregion 3D语聊房
 
+    // region 喜羊羊
+    /**
+     * 1. 文本/语音聊天
+     */
+    public static final String APP_HAPPY_GOAT_CHAT = "app_happy_goat_chat";
+
+    /**
+     * 1. 文本/语音聊天 模型
+     */
+    public static class AppHappyGoatChat implements Serializable {
+        public int type; // 数据类型：0为文本 1为音频
+        public ChatTextModel text; // 文本数据
+        public ChatAudioModel audio; // 文本数据
+
+        public static class ChatTextModel {
+            public String text; // 输入的聊天文本
+        }
+
+        public static class ChatAudioModel {
+            public String sample_rate; // 音频采样率，枚举值：16k
+            public String audio_format; // 音频格式，枚举值：WAV，OGG-OPUS，PCM，MP3
+            public String audio_base64; // base64音频内容
+        }
+    }
+    // endregion 喜羊羊
+
 }

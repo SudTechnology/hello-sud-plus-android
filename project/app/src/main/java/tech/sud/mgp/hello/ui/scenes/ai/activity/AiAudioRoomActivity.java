@@ -20,6 +20,7 @@ import tech.sud.mgp.hello.common.utils.permission.PermissionFragment;
 import tech.sud.mgp.hello.common.utils.permission.SudPermissionUtils;
 import tech.sud.mgp.hello.ui.scenes.ai.manager.AudioRecordManager;
 import tech.sud.mgp.hello.ui.scenes.audio.activity.AudioRoomActivity;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdChatMediaModel;
 
 public class AiAudioRoomActivity extends AudioRoomActivity {
 
@@ -135,6 +136,10 @@ public class AiAudioRoomActivity extends AudioRoomActivity {
         audioModel.audio_base64 = audioBase64;
         model.audio = audioModel;
         gameViewModel.notifyStateChange(SudMGPAPPState.APP_HAPPY_GOAT_CHAT, model);
+
+        if (binder != null) {
+            binder.sendMediaMsg(RoomCmdChatMediaModel.MSG_TYPE_INACTIVE_TYPE, null);
+        }
     }
 
     @Override

@@ -26,6 +26,9 @@ public class RoomCmd {
 
     /** 踢出房间 */
     public static final int CMD_KICK_OUT_ROOM = 10006;
+
+    /** 公屏消息V2 */
+    public static final int CMD_CHAT_MEDIA_NOTIFY = 10007;
     // endregion 基础
 
 

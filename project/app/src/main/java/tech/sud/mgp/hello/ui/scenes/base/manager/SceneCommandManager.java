@@ -10,6 +10,7 @@ import java.util.List;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmd;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdBaseModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdChangeGameModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdChatMediaModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdChatTextModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdDownMicModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdEnterRoomModel;
@@ -98,6 +99,9 @@ public class SceneCommandManager extends BaseServiceManager {
                 break;
             case RoomCmd.CMD_KICK_OUT_ROOM: // 踢出房间
                 dispatchCommand(commandCmd, RoomCmdKickOutRoomModel.fromJson(command), userID);
+                break;
+            case RoomCmd.CMD_CHAT_MEDIA_NOTIFY: // 公屏消息V2
+                dispatchCommand(commandCmd, RoomCmdChatMediaModel.fromJson(command), userID);
                 break;
             case RoomCmd.CMD_ROOM_PK_SEND_INVITE: // 发送跨房PK邀请
                 dispatchCommand(commandCmd, RoomCmdPKSendInviteModel.fromJson(command), userID);
@@ -230,6 +234,11 @@ public class SceneCommandManager extends BaseServiceManager {
                 case RoomCmd.CMD_KICK_OUT_ROOM: // 踢出房间
                     if (listener instanceof KickOutRoomCommandListener) {
                         ((KickOutRoomCommandListener) listener).onRecvCommand((RoomCmdKickOutRoomModel) model, fromUserID);
+                    }
+                    break;
+                case RoomCmd.CMD_CHAT_MEDIA_NOTIFY: // 发送公屏V2
+                    if (listener instanceof MediaMsgCommandListener) {
+                        ((MediaMsgCommandListener) listener).onRecvCommand((RoomCmdChatMediaModel) model, fromUserID);
                     }
                     break;
                 case RoomCmd.CMD_ROOM_PK_SEND_INVITE: // 发送跨房PK邀请
@@ -416,6 +425,10 @@ public class SceneCommandManager extends BaseServiceManager {
 
     interface KickOutRoomCommandListener extends ICommandListener {
         void onRecvCommand(RoomCmdKickOutRoomModel model, String userID);
+    }
+
+    interface MediaMsgCommandListener extends ICommandListener {
+        void onRecvCommand(RoomCmdChatMediaModel model, String userID);
     }
     // endregion 基础信令监听
 

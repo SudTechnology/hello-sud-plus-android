@@ -204,6 +204,13 @@ public class SceneRoomService extends Service {
             }
         }
 
+        /**
+         * 发送公屏消息V2
+         */
+        public void sendMediaMsg(int msgType, String content) {
+            serviceManager.sceneChatManager.sendMediaMsg(msgType, content);
+        }
+
         /** 发送礼物 */
         public void sendGift(GiftModel giftModel, int giftCount, UserInfo toUser, boolean isAllSeat) {
             if (toUser == null) {

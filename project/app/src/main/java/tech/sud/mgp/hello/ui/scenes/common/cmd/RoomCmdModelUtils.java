@@ -8,6 +8,7 @@ import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomService;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdChangeGameModel;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdChatMediaModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdChatTextModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdDownMicModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdEnterRoomModel;
@@ -44,6 +45,14 @@ public class RoomCmdModelUtils {
     /** 构建公屏消息的信令 */
     public static String buildPublicMsgCommand(String content) {
         RoomCmdChatTextModel command = new RoomCmdChatTextModel(getSendUser());
+        command.content = content;
+        return command.toJson();
+    }
+
+    /** 构建公屏消息的信令V2 */
+    public static String buildMediaMsgCommand(int msgType, String content) {
+        RoomCmdChatMediaModel command = new RoomCmdChatMediaModel(getSendUser());
+        command.msgType = msgType;
         command.content = content;
         return command.toJson();
     }

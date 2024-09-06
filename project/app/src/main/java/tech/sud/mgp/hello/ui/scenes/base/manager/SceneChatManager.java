@@ -5,10 +5,12 @@ import java.util.HashSet;
 import java.util.List;
 
 import tech.sud.mgp.hello.common.model.HSUserInfo;
+import tech.sud.mgp.hello.ui.scenes.base.model.RoomInactiveAudioModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoomTextModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomServiceCallback;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.RoomCmdModelUtils;
+import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdChatMediaModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdChatTextModel;
 
 /**
@@ -29,6 +31,14 @@ public class SceneChatManager extends BaseServiceManager {
     public void onCreate() {
         super.onCreate();
         parentManager.sceneEngineManager.setCommandListener(publicMsgCommandListener);
+        parentManager.sceneEngineManager.setCommandListener(mediaMsgCommandListener);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        parentManager.sceneEngineManager.removeCommandListener(publicMsgCommandListener);
+        parentManager.sceneEngineManager.removeCommandListener(mediaMsgCommandListener);
     }
 
     public void sendPublicMsg(CharSequence msg) {
@@ -44,6 +54,23 @@ public class SceneChatManager extends BaseServiceManager {
 
         // 发送公屏消息信令
         String command = RoomCmdModelUtils.buildPublicMsgCommand(msg.toString());
+        parentManager.sceneEngineManager.sendCommand(command, null);
+    }
+
+    public void sendMediaMsg(int msgType, String content) {
+        // 往公屏列表当中插入一条数据
+        switch (msgType) {
+            case RoomCmdChatMediaModel.MSG_TYPE_INACTIVE_TYPE:
+                RoomInactiveAudioModel model = new RoomInactiveAudioModel();
+                model.userId = HSUserInfo.userId;
+                model.avatar = HSUserInfo.getUseAvatar();
+                model.nickName = HSUserInfo.nickName;
+                addMsg(model);
+                break;
+        }
+
+        // 发送公屏消息信令
+        String command = RoomCmdModelUtils.buildMediaMsgCommand(msgType, content);
         parentManager.sceneEngineManager.sendCommand(command, null);
     }
 
@@ -103,6 +130,26 @@ public class SceneChatManager extends BaseServiceManager {
             model.nickName = userInfo.name;
             model.text = command.content;
             addMsg(model);
+        }
+    };
+    private final SceneCommandManager.MediaMsgCommandListener mediaMsgCommandListener = new SceneCommandManager.MediaMsgCommandListener() {
+        @Override
+        public void onRecvCommand(RoomCmdChatMediaModel command, String userID) {
+            UserInfo userInfo = command.sendUser;
+            if (userInfo == null) return;
+            switch (command.msgType) {
+                case RoomCmdChatMediaModel.MSG_TYPE_INACTIVE_TYPE:
+                    RoomInactiveAudioModel model = new RoomInactiveAudioModel();
+                    try {
+                        model.userId = Long.parseLong(userInfo.userID);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    model.avatar = userInfo.icon;
+                    model.nickName = userInfo.name;
+                    addMsg(model);
+                    break;
+            }
         }
     };
 

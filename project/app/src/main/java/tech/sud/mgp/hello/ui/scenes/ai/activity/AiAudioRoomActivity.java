@@ -12,25 +12,30 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.lifecycle.Observer;
 
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
+import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.utils.permission.PermissionFragment;
 import tech.sud.mgp.hello.common.utils.permission.SudPermissionUtils;
 import tech.sud.mgp.hello.ui.scenes.ai.manager.AudioRecordManager;
-import tech.sud.mgp.hello.ui.scenes.audio.activity.AudioRoomActivity;
-import tech.sud.mgp.hello.ui.scenes.base.model.GameTextModel;
+import tech.sud.mgp.hello.ui.scenes.ai.viewmodel.AiAudioRoomGameViewModel;
+import tech.sud.mgp.hello.ui.scenes.audio.activity.AbsAudioRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdChatMediaModel;
 
-public class AiAudioRoomActivity extends AudioRoomActivity {
+public class AiAudioRoomActivity extends AbsAudioRoomActivity<AiAudioRoomGameViewModel> {
 
     private TextView tvInput;
     private TextView tvAudioRecord;
     private View viewInputMode;
     private boolean isAudioMode;
     private AudioRecordManager audioRecordManager;
+
+    @Override
+    protected AiAudioRoomGameViewModel initGameViewModel() {
+        return new AiAudioRoomGameViewModel();
+    }
 
     @Override
     protected void initWidget() {
@@ -86,16 +91,23 @@ public class AiAudioRoomActivity extends AudioRoomActivity {
                 return onTouchAudioRecord(event);
             }
         });
-        gameViewModel.gameMessageLiveData.observe(this, new Observer<GameTextModel>() {
-            @Override
-            public void onChanged(GameTextModel msg) {
-                if (msg != null && !TextUtils.isEmpty(msg.message)) {
-                    if (binder != null) {
-                        binder.onlySendPublicMsgCommand(msg.message);
-                    }
-                }
+        gameViewModel.happyGoatChatLiveData.observe(this, this::onHappyGoatChat);
+    }
+
+    private void onHappyGoatChat(SudMGPMGState.MGHappyGoatChat model) {
+        if (model == null || model.data == null || model.data.length == 0) {
+            return;
+        }
+        for (SudMGPMGState.MGHappyGoatChat.ChatAudioTextModel audioTextModel : model.data) {
+            SudMGPMGState.MGHappyGoatChat.TextModel textModel = audioTextModel.text;
+            if (textModel == null || TextUtils.isEmpty(textModel.text)) {
+                continue;
             }
-        });
+            if (binder != null) {
+                String userId = gameViewModel.getPlayingGameId() + "";
+                binder.assignUserSendPublicMsg(userId, model.icon, model.nickname, textModel.text);
+            }
+        }
     }
 
     private boolean onTouchAudioRecord(MotionEvent event) {

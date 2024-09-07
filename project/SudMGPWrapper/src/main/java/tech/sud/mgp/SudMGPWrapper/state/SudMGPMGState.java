@@ -1745,4 +1745,28 @@ public class SudMGPMGState implements Serializable {
     }
     // endregion 3D语聊房
 
+    // region 喜羊羊
+    /**
+     * 1. 文本/语音聊天结果
+     */
+    public static final String MG_HAPPY_GOAT_CHAT = "mg_happy_goat_chat";
+
+    /**
+     * 1. 文本/语音聊天结果 模型
+     */
+    public static final class MGHappyGoatChat implements Serializable {
+        public String icon; // 头像url
+        public String nickname; // 昵称
+        public ChatAudioTextModel[] data;
+
+        public static final class ChatAudioTextModel {
+            public TextModel text; // 对话答复的文本
+        }
+
+        public static final class TextModel {
+            public String text; // 对话答复的文本
+        }
+    }
+    // endregion 喜羊羊
+
 }

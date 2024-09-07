@@ -45,12 +45,27 @@ public class SceneChatManager extends BaseServiceManager {
         if (msg == null) return;
         // 往公屏列表当中插入一条数据
         RoomTextModel model = new RoomTextModel();
-        model.userId = HSUserInfo.userId;
+        model.userId = HSUserInfo.userId + "";
         model.avatar = HSUserInfo.getUseAvatar();
         model.nickName = HSUserInfo.nickName;
         model.text = msg.toString();
         addMsg(model);
         selfSendMsg(model.text);
+
+        // 发送公屏消息信令
+        String command = RoomCmdModelUtils.buildPublicMsgCommand(msg.toString());
+        parentManager.sceneEngineManager.sendCommand(command, null);
+    }
+
+    public void assignUserSendPublicMsg(String userId, String icon, String nickname, CharSequence msg) {
+        if (msg == null) return;
+        // 往公屏列表当中插入一条数据
+        RoomTextModel model = new RoomTextModel();
+        model.userId = userId;
+        model.avatar = icon;
+        model.nickName = nickname;
+        model.text = msg.toString();
+        addMsg(model);
 
         // 发送公屏消息信令
         String command = RoomCmdModelUtils.buildPublicMsgCommand(msg.toString());
@@ -121,11 +136,7 @@ public class SceneChatManager extends BaseServiceManager {
             UserInfo userInfo = command.sendUser;
             if (userInfo == null) return;
             RoomTextModel model = new RoomTextModel();
-            try {
-                model.userId = Long.parseLong(userInfo.userID);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            model.userId = userInfo.userID;
             model.avatar = userInfo.icon;
             model.nickName = userInfo.name;
             model.text = command.content;

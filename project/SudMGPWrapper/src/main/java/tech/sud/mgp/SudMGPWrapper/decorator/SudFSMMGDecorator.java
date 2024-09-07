@@ -913,6 +913,14 @@ public class SudFSMMGDecorator implements ISudFSMMG {
                     listener.onGameMGCustomCrClickSeat(handle, mgCustomCrClickSeat);
                 }
                 break;
+            case SudMGPMGState.MG_HAPPY_GOAT_CHAT: // 1. 文本/语音聊天结果
+                SudMGPMGState.MGHappyGoatChat mgHappyGoatChat = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGHappyGoatChat.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGHappyGoatChat(handle, mgHappyGoatChat);
+                }
+                break;
             default:
                 ISudFSMStateHandleUtils.handleSuccess(handle);
                 break;

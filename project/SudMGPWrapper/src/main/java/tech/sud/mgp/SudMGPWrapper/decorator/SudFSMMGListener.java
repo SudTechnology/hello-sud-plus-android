@@ -1130,6 +1130,17 @@ public interface SudFSMMGListener {
     }
     // endregion 游戏回调APP 3D语聊房
 
+    // region 游戏回调APP 喜羊羊
+
+    /**
+     * 1. 文本/语音聊天结果
+     * mg_happy_goat_chat
+     */
+    default void onGameMGHappyGoatChat(ISudFSMStateHandle handle, SudMGPMGState.MGHappyGoatChat model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+    // endregion 游戏回调APP 喜羊羊
+
     /**
      * 游戏状态变化
      * 透传游戏向App发送的游戏通用状态消息

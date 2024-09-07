@@ -471,14 +471,14 @@ public class SceneRoomService extends Service {
         // endregion 3D语聊房
 
         /**
-         * 纯发送公屏消息
+         * 指定某个用户发送公屏消息
          *
          * @param msg 消息
          */
-        public void onlySendPublicMsgCommand(CharSequence msg) {
-            String command = RoomCmdModelUtils.buildPublicMsgCommand(msg.toString());
-            serviceManager.sceneEngineManager.sendCommand(command, null);
+        public void assignUserSendPublicMsg(String userId, String icon, String nickname, CharSequence msg) {
+            serviceManager.sceneChatManager.assignUserSendPublicMsg(userId, icon, nickname, msg);
         }
+
     }
 
     /** 获取当前使用的房间基本数据 */

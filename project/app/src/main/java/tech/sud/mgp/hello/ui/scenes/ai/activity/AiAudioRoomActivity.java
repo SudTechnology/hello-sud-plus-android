@@ -3,6 +3,8 @@ package tech.sud.mgp.hello.ui.scenes.ai.activity;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.graphics.Color;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.view.Gravity;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import tech.sud.logger.LogUtils;
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.hello.R;
@@ -31,6 +34,7 @@ public class AiAudioRoomActivity extends AbsAudioRoomActivity<AiAudioRoomGameVie
     private View viewInputMode;
     private boolean isAudioMode;
     private AudioRecordManager audioRecordManager;
+    private Handler handler = new Handler();
 
     @Override
     protected AiAudioRoomGameViewModel initGameViewModel() {
@@ -113,17 +117,32 @@ public class AiAudioRoomActivity extends AbsAudioRoomActivity<AiAudioRoomGameVie
     private boolean onTouchAudioRecord(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                handler.postDelayed(abortAudioRecordTask, 15000); // 15秒，要自动结束
                 tvAudioRecord.setText(R.string.end_of_release);
                 intentStartAudioRecord();
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
+                handler.removeCallbacks(abortAudioRecordTask);
                 tvAudioRecord.setText(R.string.hold_to_speak);
                 stopAudioRecord();
                 break;
         }
         return true;
     }
+
+    private Runnable abortAudioRecordTask = new Runnable() {
+        @Override
+        public void run() {
+            tvAudioRecord.dispatchTouchEvent(MotionEvent.obtain(
+                    SystemClock.uptimeMillis(),
+                    SystemClock.uptimeMillis(),
+                    MotionEvent.ACTION_CANCEL, // 触发 ACTION_CANCEL
+                    0, 0, 0
+            ));
+//            tvAudioRecord.setEnabled(false);
+        }
+    };
 
     private void intentStartAudioRecord() {
         // 检查权限
@@ -142,6 +161,7 @@ public class AiAudioRoomActivity extends AbsAudioRoomActivity<AiAudioRoomGameVie
             audioRecordManager = new AudioRecordManager();
             audioRecordManager.setOnAudioRecordListener(this::onAudioData);
         }
+        LogUtils.d("startRecording");
         audioRecordManager.startRecording();
     }
 
@@ -149,10 +169,12 @@ public class AiAudioRoomActivity extends AbsAudioRoomActivity<AiAudioRoomGameVie
         if (audioRecordManager == null) {
             return;
         }
+        LogUtils.d("stopAudioRecord");
         audioRecordManager.stopRecording();
     }
 
     private void onAudioData(byte[] audioData) {
+        LogUtils.d("onAudioData");
         if (audioData == null || audioData.length == 0) {
             return;
         }
@@ -204,6 +226,7 @@ public class AiAudioRoomActivity extends AbsAudioRoomActivity<AiAudioRoomGameVie
         if (audioRecordManager != null) {
             audioRecordManager.stopRecording();
         }
+        handler.removeCallbacks(abortAudioRecordTask);
     }
 
 }

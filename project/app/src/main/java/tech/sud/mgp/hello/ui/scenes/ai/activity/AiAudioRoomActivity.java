@@ -154,7 +154,7 @@ public class AiAudioRoomActivity extends AbsAudioRoomActivity<AiAudioRoomGameVie
         }
         String audioBase64 = Base64.encodeToString(audioData, Base64.NO_WRAP);
         SudMGPAPPState.AppHappyGoatChat model = new SudMGPAPPState.AppHappyGoatChat();
-        model.type = 0;
+        model.type = 1;
         SudMGPAPPState.AppHappyGoatChat.ChatAudioModel audioModel = new SudMGPAPPState.AppHappyGoatChat.ChatAudioModel();
         audioModel.sample_rate = "16k";
         audioModel.audio_format = "PCM";

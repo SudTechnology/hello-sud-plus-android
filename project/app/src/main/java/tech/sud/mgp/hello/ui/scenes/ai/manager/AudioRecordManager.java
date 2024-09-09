@@ -4,9 +4,12 @@ import android.annotation.SuppressLint;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
+import android.os.Handler;
+import android.os.Looper;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+
 
 // 录音使用前先申请系统权限
 public class AudioRecordManager {
@@ -17,6 +20,7 @@ public class AudioRecordManager {
     private boolean isRecording = false;
     private int bufferSize;
     private ReadAudioTask readAudioTask;
+    private OnAudioRecordListener onAudioRecordListener;
 
     public AudioRecordManager() {
         bufferSize = AudioRecord.getMinBufferSize(SAMPLE_RATE, CHANNEL_CONFIG, AUDIO_FORMAT);
@@ -37,9 +41,9 @@ public class AudioRecordManager {
     }
 
     // 停止录音，并返回读取到的音频录音，如果有
-    public byte[] stopRecording() {
+    public void stopRecording() {
         if (!isRecording) {
-            return null;
+            return;
         }
         isRecording = false;
 
@@ -49,9 +53,8 @@ public class AudioRecordManager {
         }
 
         if (readAudioTask != null) {
-            return readAudioTask.stopAudioRecord();
+            readAudioTask.stopAudioRecord();
         }
-        return null;
     }
 
     private class ReadAudioTask extends Thread {
@@ -63,6 +66,11 @@ public class AudioRecordManager {
             super.run();
             taskIsRecording = true;
             writeAudioDataToBuffer();
+            new Handler(Looper.getMainLooper()).post(() -> {
+                if (onAudioRecordListener != null) {
+                    onAudioRecordListener.onAudioData(bos == null ? null : bos.toByteArray());
+                }
+            });
         }
 
         // 将音频数据写入文件
@@ -89,14 +97,19 @@ public class AudioRecordManager {
             }
         }
 
-        // 返回读取到的音频数据
-        public byte[] stopAudioRecord() {
+        public void stopAudioRecord() {
             taskIsRecording = false;
-            if (bos != null) {
-                return bos.toByteArray();
-            }
-            return null;
         }
+    }
+
+    /** 设置音频数据监听，在结束时会回调 */
+    public void setOnAudioRecordListener(OnAudioRecordListener onAudioRecordListener) {
+        this.onAudioRecordListener = onAudioRecordListener;
+    }
+
+    public interface OnAudioRecordListener {
+        /** 返回录音数据，注意判空 */
+        void onAudioData(byte[] audioData);
     }
 
 }

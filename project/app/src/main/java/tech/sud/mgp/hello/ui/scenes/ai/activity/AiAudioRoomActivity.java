@@ -140,6 +140,7 @@ public class AiAudioRoomActivity extends AbsAudioRoomActivity<AiAudioRoomGameVie
     private void startAudioRecord() {
         if (audioRecordManager == null) {
             audioRecordManager = new AudioRecordManager();
+            audioRecordManager.setOnAudioRecordListener(this::onAudioData);
         }
         audioRecordManager.startRecording();
     }
@@ -148,7 +149,10 @@ public class AiAudioRoomActivity extends AbsAudioRoomActivity<AiAudioRoomGameVie
         if (audioRecordManager == null) {
             return;
         }
-        byte[] audioData = audioRecordManager.stopRecording();
+        audioRecordManager.stopRecording();
+    }
+
+    private void onAudioData(byte[] audioData) {
         if (audioData == null || audioData.length == 0) {
             return;
         }

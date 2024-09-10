@@ -68,7 +68,13 @@ public class SceneChatManager extends BaseServiceManager {
         addMsg(model);
 
         // 发送公屏消息信令
-        String command = RoomCmdModelUtils.buildPublicMsgCommand(msg.toString());
+        UserInfo user = new UserInfo();
+        user.userID = userId;
+        user.icon = icon;
+        user.name = nickname;
+        user.sex = 1;
+        user.roomID = parentManager.getRoomId() + "";
+        String command = RoomCmdModelUtils.buildPublicMsgCommand(user, msg.toString());
         parentManager.sceneEngineManager.sendCommand(command, null);
     }
 

@@ -49,6 +49,13 @@ public class RoomCmdModelUtils {
         return command.toJson();
     }
 
+    /** 构建公屏消息的信令 */
+    public static String buildPublicMsgCommand(UserInfo userInfo, String content) {
+        RoomCmdChatTextModel command = new RoomCmdChatTextModel(userInfo);
+        command.content = content;
+        return command.toJson();
+    }
+
     /** 构建公屏消息的信令V2 */
     public static String buildMediaMsgCommand(int msgType, String content) {
         RoomCmdChatMediaModel command = new RoomCmdChatMediaModel(getSendUser());

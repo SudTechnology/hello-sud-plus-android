@@ -78,9 +78,9 @@ public class AiAudioRoomActivity extends AbsAudioRoomActivity<AiAudioRoomGameVie
 
     private void setInputModeStyle() {
         if (isAudioMode) {
-            viewInputMode.setBackgroundResource(R.drawable.ic_ai_audio);
-        } else {
             viewInputMode.setBackgroundResource(R.drawable.ic_ai_keyboard);
+        } else {
+            viewInputMode.setBackgroundResource(R.drawable.ic_ai_audio);
         }
     }
 

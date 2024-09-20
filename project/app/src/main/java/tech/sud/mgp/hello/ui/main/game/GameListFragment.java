@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
+import com.blankj.utilcode.util.LogUtils;
 import com.gyf.immersionbar.ImmersionBar;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 
@@ -207,6 +208,7 @@ public class GameListFragment extends BaseFragment implements CreatRoomClickList
     }
 
     private void createScene(GameListResp resp, QuizGameListResp quizGameListResp) {
+        LogUtils.d("执行了一次");
         if (resp != null && resp.sceneList != null && resp.sceneList.size() > 0) {
             Context context = getContext();
             if (context != null) {
@@ -236,6 +238,8 @@ public class GameListFragment extends BaseFragment implements CreatRoomClickList
                     });
                     sceneLayout.addView(view);
                 }
+                sceneLayout.postDelayed(() -> helper.selectSceneType(resp.defaultSceneId), 500);
+
             }
         }
     }

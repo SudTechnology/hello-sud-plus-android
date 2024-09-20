@@ -128,12 +128,26 @@ public class IndicatorHelper {
         }
         int[] intArray1 = locationInScreen(sceneView);
         int distance = intArray1[1] - nestedScrollViewTop;
-        nestedScrollView.fling(distance);
+//        nestedScrollView.fling(distance);
         nestedScrollView.smoothScrollBy(0, distance);
         LogUtils.i("=====", "distance=" + distance);
         selectedIndex = index;
         indicator.onPageSelected(index);
         indicator.onPageScrolled(index, 0.0F, 0);
+    }
+
+    /** 设置选中某个场景 */
+    public void selectSceneType(int sceneId) {
+        if (sceneList == null) {
+            return;
+        }
+        for (int i = 0; i < sceneList.size(); i++) {
+            SceneModel model = sceneList.get(i);
+            if (model != null && model.sceneId == sceneId) {
+                clickIndicator(i);
+                return;
+            }
+        }
     }
 
     /** 用户滚动了nestscrollview */

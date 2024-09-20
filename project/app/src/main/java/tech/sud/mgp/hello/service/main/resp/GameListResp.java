@@ -7,6 +7,7 @@ public class GameListResp {
 
     public List<GameModel> gameList;
     public List<SceneModel> sceneList;
+    public int defaultSceneId;
 
     /**
      * 获取该场景下的游戏列表

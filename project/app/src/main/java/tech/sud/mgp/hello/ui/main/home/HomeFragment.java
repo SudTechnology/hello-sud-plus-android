@@ -333,6 +333,7 @@ public class HomeFragment extends BaseFragment implements CreatRoomClickListener
                     });
                     sceneLayout.addView(view);
                 }
+                sceneLayout.postDelayed(() -> helper.selectSceneType(resp.defaultSceneId), 500);
             }
         }
     }

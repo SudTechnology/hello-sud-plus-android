@@ -29,6 +29,7 @@ android {
             jniLibs.srcDirs = ['libs/agora']
         }
     }
+
 }
 
 dependencies {
@@ -40,5 +41,9 @@ dependencies {
 
     // 声网RTC SDK
     api 'io.agora.rtc:full-sdk:4.3.0'
+
+    api project(':SudMGPRTC:SudMGPIMCore')
+
+    api 'io.agora:agora-rtm:2.2.1'
 
 }

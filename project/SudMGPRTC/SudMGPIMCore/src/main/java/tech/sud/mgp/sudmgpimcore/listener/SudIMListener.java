@@ -32,4 +32,7 @@ public interface SudIMListener {
      * @param command    指令内容
      */
     void onRecvXRoomCommand(String fromRoomID, String fromUserID, String command);
+
+    /** 房间在线人数变更 */
+    void onRoomOnlineUserCountUpdate(int count);
 }

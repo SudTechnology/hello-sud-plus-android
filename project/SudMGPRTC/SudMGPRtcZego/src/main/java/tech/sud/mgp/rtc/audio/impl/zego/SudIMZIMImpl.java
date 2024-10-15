@@ -1,6 +1,7 @@
 package tech.sud.mgp.rtc.audio.impl.zego;
 
 import android.app.Application;
+import android.content.Context;
 import android.util.Log;
 
 import com.blankj.utilcode.util.LogUtils;
@@ -56,7 +57,7 @@ public class SudIMZIMImpl implements ISudIM {
     private SudIMListener mSudIMListener;
 
     @Override
-    public void init(String appId, SudIMListener imListener) {
+    public void init(Context context, String appId, String userId, SudIMListener imListener) {
         long appID = 0;
         try {
             appID = Long.parseLong(appId);
@@ -148,7 +149,7 @@ public class SudIMZIMImpl implements ISudIM {
     }
 
     @Override
-    public void joinRoom(String roomID, String userID, String userName, String token, SudIMListener imListener) {
+    public void joinRoom(String roomID, String userID, String userName, String token) {
         if (zim == null) {
             return;
         }
@@ -161,8 +162,8 @@ public class SudIMZIMImpl implements ISudIM {
         zim.login(zimUserInfo, token, new ZIMLoggedInCallback() {
             @Override
             public void onLoggedIn(ZIMError errorInfo) {
-                if (imListener != null) {
-                    imListener.onLoggedIn(convertSudIMError(errorInfo));
+                if (mSudIMListener != null) {
+                    mSudIMListener.onLoggedIn(convertSudIMError(errorInfo));
                 }
                 if (errorInfo.code == ZIMErrorCode.SUCCESS || errorInfo.code == ZIMErrorCode.USER_HAS_ALREADY_LOGGED) {
 
@@ -177,8 +178,8 @@ public class SudIMZIMImpl implements ISudIM {
                         @Override
                         public void onRoomEntered(ZIMRoomFullInfo roomInfo, ZIMError errorInfo) {
                             Log.i(kTag, "enterRoom: " + errorInfo.code);
-                            if (imListener != null) {
-                                imListener.onRoomEntered(convertSudIMRoomFullInfo(roomInfo), convertSudIMError(errorInfo));
+                            if (mSudIMListener != null) {
+                                mSudIMListener.onRoomEntered(convertSudIMRoomFullInfo(roomInfo), convertSudIMError(errorInfo));
                             }
                             if (errorInfo.code == ZIMErrorCode.SUCCESS) {
                                 mRoomID = roomID;

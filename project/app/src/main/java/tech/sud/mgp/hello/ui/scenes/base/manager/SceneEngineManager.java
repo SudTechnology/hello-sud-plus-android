@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.view.View;
 
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.Utils;
 
 import org.json.JSONObject;
 
@@ -12,8 +13,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import im.zego.zim.enums.ZIMErrorCode;
 import tech.sud.mgp.SudMGPWrapper.utils.SudJsonUtils;
+import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.GlobalCache;
@@ -31,6 +32,7 @@ import tech.sud.mgp.rtc.audio.core.ISudAudioEngine;
 import tech.sud.mgp.rtc.audio.core.ISudAudioEventListener;
 import tech.sud.mgp.rtc.audio.core.MediaViewMode;
 import tech.sud.mgp.rtc.audio.factory.AudioEngineFactory;
+import tech.sud.mgp.rtc.audio.impl.agora.AgoraAudioEngineImpl;
 import tech.sud.mgp.rtc.audio.model.AudioJoinRoomModel;
 import tech.sud.mgp.sudmgpim.SudIMRoomManager;
 import tech.sud.mgp.sudmgpimcore.listener.SendXCommandListener;
@@ -78,28 +80,28 @@ public class SceneEngineManager extends BaseServiceManager {
                 }
             });
             LogUtils.file("enterRoom:" + SudJsonUtils.toJson(model));
-            initZim(model);
+            initIm(model);
             return;
         }
 
         joinRoom(model);
 
-        zimJoinRoom(model);
+        imJoinRoom(model);
     }
 
-    private void initZim(RoomInfoModel model) {
-        LogUtils.file("initZim");
+    private void initIm(RoomInfoModel model) {
+        LogUtils.file("initIm");
         BaseConfigResp baseConfigResp = (BaseConfigResp) GlobalCache.getInstance().getSerializable(GlobalCache.BASE_CONFIG_KEY);
-        if (baseConfigResp != null && baseConfigResp.zegoCfg != null) {
-            SudIMRoomManager.sharedInstance().init(baseConfigResp.zegoCfg.appId, zimListener);
-            zimJoinRoom(model);
+        if (baseConfigResp != null && baseConfigResp.agoraCfg != null) {
+            SudIMRoomManager.sharedInstance().init(Utils.getApp(), baseConfigResp.agoraCfg.appId, HSUserInfo.userId + "", imListener);
+            imJoinRoom(model);
         }
     }
 
-    private void zimJoinRoom(RoomInfoModel model) {
-        LogUtils.file("zimJoinRoom " + " userId:" + HSUserInfo.userId + "  roomInfoModel:" + SudJsonUtils.toJson(model));
+    private void imJoinRoom(RoomInfoModel model) {
+        LogUtils.file("imJoinRoom " + " userId:" + HSUserInfo.userId + "  roomInfoModel:" + SudJsonUtils.toJson(model));
         SudIMRoomManager.sharedInstance().joinRoom(model.roomId + "", HSUserInfo.userId + "",
-                HSUserInfo.nickName, model.imToken, zimListener);
+                HSUserInfo.nickName, model.imToken);
     }
 
     private void joinRoom(RoomInfoModel model) {
@@ -162,15 +164,26 @@ public class SceneEngineManager extends BaseServiceManager {
         LogUtils.d("sendCommand:" + command);
         ISudAudioEngine engine = getEngine();
         if (engine != null) {
-            engine.sendCommand(command, new ISudAudioEngine.SendCommandListener() {
-                @Override
-                public void onResult(int value) {
-                    LogUtils.d("sendCommand onResult:" + value + "---:" + command);
-                    if (result != null) {
-                        result.onResult(value);
+            if (engine instanceof AgoraAudioEngineImpl) {
+                SudIMRoomManager.sharedInstance().sendXRoomCommand(parentManager.getRoomId() + "", command, new SendXCommandListener() {
+                    @Override
+                    public void onResult(int value) {
+                        if (result != null) {
+                            result.onResult(value);
+                        }
                     }
-                }
-            });
+                });
+            } else {
+                engine.sendCommand(command, new ISudAudioEngine.SendCommandListener() {
+                    @Override
+                    public void onResult(int value) {
+                        LogUtils.d("sendCommand onResult:" + value + "---:" + command);
+                        if (result != null) {
+                            result.onResult(value);
+                        }
+                    }
+                });
+            }
         }
     }
 
@@ -449,30 +462,30 @@ public class SceneEngineManager extends BaseServiceManager {
         }
     };
 
-    private final SudIMListener zimListener = new SudIMListener() {
+    private final SudIMListener imListener = new SudIMListener() {
         @Override
         public void onConnectionStateChanged(SudIMConnectionState state, SudIMConnectionEvent event, JSONObject extendedData) {
             if (state == null) {
                 return;
             }
-            // zim断线重连
-            LogUtils.file("zim:onConnectionStateChanged:" + state);
+            // im断线重连
+            LogUtils.file("im:onConnectionStateChanged:" + state);
         }
 
         @Override
         public void onError(SudIMError errorInfo) {
-            LogUtils.file("zim:onError:" + errorInfo.code);
+            LogUtils.file("im:onError:" + errorInfo.code);
         }
 
         @Override
         public void onLoggedIn(SudIMError errorInfo) {
-            LogUtils.file("zim:onLoggedIn:" + errorInfo.code);
+            LogUtils.file("im:onLoggedIn:" + errorInfo.code);
         }
 
         @Override
         public void onRoomEntered(SudIMRoomFullInfo roomInfo, SudIMError errorInfo) {
-            LogUtils.file("zim:onRoomEntered:" + errorInfo.code + " message:" + errorInfo.message);
-            if (errorInfo.code != ZIMErrorCode.SUCCESS.value()) {
+            LogUtils.file("im:onRoomEntered:" + errorInfo.code + " message:" + errorInfo.message);
+            if (errorInfo.code != RetCode.SUCCESS) {
                 SudIMRoomManager.sharedInstance().checkConnected(parentManager.getRoomId() + "", HSUserInfo.userId + "");
             }
         }
@@ -482,16 +495,16 @@ public class SceneEngineManager extends BaseServiceManager {
             if (state == null || roomID == null || !roomID.equals(parentManager.getRoomId() + "")) {
                 return;
             }
-            LogUtils.file("zim:onRoomStateChanged:" + state + "  roomID:" + roomID);
+            LogUtils.file("im:onRoomStateChanged:" + state + "  roomID:" + roomID);
             sudImRoomState = state;
             if (state == SudIMRoomState.DISCONNECTED) {
-                delayZimJoinRoom(100);
+                delayImJoinRoom(100);
             }
         }
 
         @Override
         public void onRejoinRoom(String roomId, String userId) {
-            zimRejoinRoom();
+            imRejoinRoom();
         }
 
         /**
@@ -506,37 +519,45 @@ public class SceneEngineManager extends BaseServiceManager {
             commandManager.onRecvCommand(fromUserID, command);
         }
 
+        @Override
+        public void onRoomOnlineUserCountUpdate(int count) {
+            SceneRoomServiceCallback callback = parentManager.getCallback();
+            if (callback != null) {
+                callback.onRoomOnlineUserCountUpdate(count);
+            }
+        }
+
     };
 
-    private void zimRejoinRoom() {
-        removeDelayZimJoinRoom();
+    private void imRejoinRoom() {
+        removeDelayImJoinRoom();
         SudIMRoomManager.sharedInstance().destroy();
-        initZim(parentManager.getRoomInfoModel());
+        initIm(parentManager.getRoomInfoModel());
     }
 
-    private void delayZimJoinRoom(long delay) {
+    private void delayImJoinRoom(long delay) {
         if (handler == null) {
             return;
         }
         if (sudImRoomState != null && sudImRoomState == SudIMRoomState.CONNECTED) {
             return;
         }
-        removeDelayZimJoinRoom();
-        handler.postDelayed(zimJoinRoomTask, delay);
+        removeDelayImJoinRoom();
+        handler.postDelayed(imJoinRoomTask, delay);
     }
 
-    private void removeDelayZimJoinRoom() {
-        handler.removeCallbacks(zimJoinRoomTask);
+    private void removeDelayImJoinRoom() {
+        handler.removeCallbacks(imJoinRoomTask);
     }
 
-    private final Runnable zimJoinRoomTask = new Runnable() {
+    private final Runnable imJoinRoomTask = new Runnable() {
         @Override
         public void run() {
             RoomInfoModel roomInfoModel = parentManager.getRoomInfoModel();
             if (roomInfoModel != null) {
-                zimJoinRoom(roomInfoModel);
+                imJoinRoom(roomInfoModel);
             }
-            delayZimJoinRoom(5000);
+            delayImJoinRoom(5000);
         }
     };
 

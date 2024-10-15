@@ -11,8 +11,6 @@ import com.blankj.utilcode.util.ToastUtils;
 
 import java.nio.ByteBuffer;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import io.agora.rtc2.ChannelMediaOptions;
 import io.agora.rtc2.Constants;
@@ -22,19 +20,6 @@ import io.agora.rtc2.RtcEngine;
 import io.agora.rtc2.RtcEngineConfig;
 import io.agora.rtc2.audio.AudioParams;
 import io.agora.rtc2.video.VideoCanvas;
-import io.agora.rtm.ErrorInfo;
-import io.agora.rtm.ResultCallback;
-import io.agora.rtm.RtmChannel;
-import io.agora.rtm.RtmChannelAttribute;
-import io.agora.rtm.RtmChannelListener;
-import io.agora.rtm.RtmChannelMember;
-import io.agora.rtm.RtmClient;
-import io.agora.rtm.RtmClientListener;
-import io.agora.rtm.RtmFileMessage;
-import io.agora.rtm.RtmImageMessage;
-import io.agora.rtm.RtmMediaOperationProgress;
-import io.agora.rtm.RtmMessage;
-import io.agora.rtm.RtmStatusCode;
 import tech.sud.mgp.rtc.audio.core.AudioPCMData;
 import tech.sud.mgp.rtc.audio.core.AudioRoomState;
 import tech.sud.mgp.rtc.audio.core.ISudAudioEngine;
@@ -52,8 +37,6 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
     private RtcEngine mEngine;
 
     // 信令相关
-    private RtmClient mRtmClient;
-    private RtmChannel mRtmChannel;
     private boolean isStartedPCMData;
 
     private RtcEngine getEngine() {
@@ -89,8 +72,14 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
                         mEngine.setChannelProfile(Constants.CHANNEL_PROFILE_LIVE_BROADCASTING);
                         mEngine.enableAudioVolumeIndication(300, 3, true);
 
-                        // 初始化rtm信令
-                        initRtm(context, model, success);
+                        if (success != null) {
+                            ThreadUtils.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    success.run();
+                                }
+                            });
+                        }
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -106,7 +95,6 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
             public void run() {
                 RtcEngine.destroy();
                 mEngine = null;
-                destroyRtm();
             }
         });
     }
@@ -124,7 +112,6 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
             public void run() {
                 RtcEngine engine = getEngine();
                 if (engine != null) {
-                    joinRtmRoom(model.roomID);
 
                     // 默认关闭麦克风，关掉推流
                     engine.enableLocalAudio(false);
@@ -160,7 +147,6 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
                 if (engine != null) {
                     engine.leaveChannel();
                 }
-                leaveRtmRoom();
             }
         });
     }
@@ -244,35 +230,7 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
 
     @Override
     public void sendCommand(String command, SendCommandListener listener) {
-        AsyncCallWrapper.sharedInstance().executeInSerial(new Runnable() {
-            @Override
-            public void run() {
-                if (mRtmChannel != null) {
-                    // 创建消息实例
-                    RtmMessage message = mRtmClient.createMessage();
-                    message.setText(command);
 
-                    // 发送频道消息
-                    mRtmChannel.sendMessage(message, new ResultCallback<Void>() {
-                        @Override
-                        public void onSuccess(Void unused) {
-                            Log.d(kTag, "sendMessage onSuccess:");
-                            if (null != listener) {
-                                listener.onResult(0);
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(ErrorInfo errorInfo) {
-                            Log.d(kTag, "sendMessage onFailure:" + errorInfo);
-                            if (null != listener) {
-                                listener.onResult(errorInfo.getErrorCode());
-                            }
-                        }
-                    });
-                }
-            }
-        });
     }
 
     @Override
@@ -480,190 +438,5 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
         }
     };
 
-    // region RTM 信令操作
-    // 初始化rtm信令, 登录 Agora RTM 系统
-    private void initRtm(Context context, AudioConfigModel model, Runnable success) {
-        try {
-            if (mRtmClient == null) {
-                mRtmClient = RtmClient.createInstance(context.getApplicationContext(), model.appId, rtmClientListener);
-            }
-
-            if (mRtmClient != null) {
-                // 登录Agora RTM 系统
-                mRtmClient.login(model.token, model.userID, new ResultCallback<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        if (success != null) {
-                            ThreadUtils.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    success.run();
-                                }
-                            });
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(ErrorInfo errorInfo) {
-                        if (errorInfo.getErrorCode() == RtmStatusCode.LoginError.LOGIN_ERR_ALREADY_LOGIN) {
-                            if (success != null) {
-                                ThreadUtils.runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        success.run();
-                                    }
-                                });
-                            }
-                        }
-                    }
-                });
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    // 登出 Agora RTM 系统, 释放当前 RtmClient 实例使用的所有资源
-    private void destroyRtm() {
-        if (mRtmClient != null) {
-            mRtmClient.logout(null);
-            mRtmClient.release();
-            mRtmClient = null;
-        }
-        mRtmChannel = null;
-    }
-
-    // rtm登录房间
-    private void joinRtmRoom(String roomId) {
-        if (mRtmClient != null) {
-            try {
-                // 创建频道
-                mRtmChannel = mRtmClient.createChannel(roomId, rtmChannelListener);
-                if (mRtmChannel != null) {
-                    mRtmChannel.join(null);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    // rtm退出房间
-    private void leaveRtmRoom() {
-        if (mRtmChannel != null) {
-            mRtmChannel.leave(null);
-            mRtmChannel.release();
-            mRtmChannel = null;
-        }
-    }
-
-    // 云信令回调
-    private final RtmChannelListener rtmChannelListener = new RtmChannelListener() {
-        @Override
-        public void onMemberCountUpdated(int memberCount) {
-            ThreadUtils.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    ISudAudioEventListener handler = mISudAudioEventListener;
-                    if (handler != null) {
-                        handler.onRoomOnlineUserCountUpdate(memberCount);
-                    }
-                }
-            });
-        }
-
-        @Override
-        public void onAttributesUpdated(List<RtmChannelAttribute> list) {
-
-        }
-
-        @Override
-        public void onMessageReceived(RtmMessage rtmMessage, RtmChannelMember rtmChannelMember) {
-            if (rtmMessage == null || rtmChannelMember == null) {
-                return;
-            }
-
-            ThreadUtils.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Log.d(kTag, "onMessageReceived:" + rtmMessage.getText());
-                    ISudAudioEventListener listener = mISudAudioEventListener;
-                    if (listener != null) {
-                        try {
-                            listener.onRecvCommand(rtmChannelMember.getUserId(), rtmMessage.getText());
-                        } catch (Exception e) {
-                            Log.e(kTag, "onMessageReceived: " + e.getMessage());
-                        }
-                    }
-                }
-            });
-        }
-
-        @Override
-        public void onImageMessageReceived(RtmImageMessage rtmImageMessage, RtmChannelMember rtmChannelMember) {
-
-        }
-
-        @Override
-        public void onFileMessageReceived(RtmFileMessage rtmFileMessage, RtmChannelMember rtmChannelMember) {
-
-        }
-
-        @Override
-        public void onMemberJoined(RtmChannelMember rtmChannelMember) {
-
-        }
-
-        @Override
-        public void onMemberLeft(RtmChannelMember rtmChannelMember) {
-
-        }
-    };
-
-    /**
-     * 声网RTM客户端监听
-     */
-    private final RtmClientListener rtmClientListener = new RtmClientListener() {
-        @Override
-        public void onConnectionStateChanged(int i, int i1) {
-
-        }
-
-        @Override
-        public void onMessageReceived(RtmMessage rtmMessage, String s) {
-
-        }
-
-        @Override
-        public void onImageMessageReceivedFromPeer(RtmImageMessage rtmImageMessage, String s) {
-
-        }
-
-        @Override
-        public void onFileMessageReceivedFromPeer(RtmFileMessage rtmFileMessage, String s) {
-
-        }
-
-        @Override
-        public void onMediaUploadingProgress(RtmMediaOperationProgress rtmMediaOperationProgress, long l) {
-
-        }
-
-        @Override
-        public void onMediaDownloadingProgress(RtmMediaOperationProgress rtmMediaOperationProgress, long l) {
-
-        }
-
-        @Override
-        public void onTokenExpired() {
-
-        }
-
-        @Override
-        public void onPeersOnlineStatusChanged(Map<String, Integer> map) {
-
-        }
-    };
     // endregion
 }

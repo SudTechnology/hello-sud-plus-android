@@ -27,5 +27,6 @@ android {
 dependencies {
 
     api project(':SudMGPRTC:SudMGPRtcZego')
+    api project(':SudMGPRTC:SudMGPRtcAgora')
 
 }

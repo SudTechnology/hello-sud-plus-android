@@ -1,6 +1,8 @@
 package tech.sud.mgp.sudmgpim;
 
-import tech.sud.mgp.rtc.audio.impl.zego.SudIMZIMImpl;
+import android.content.Context;
+
+import tech.sud.mgp.rtc.audio.impl.agora.SudIMAgoraImpl;
 import tech.sud.mgp.sudmgpimcore.ISudIM;
 import tech.sud.mgp.sudmgpimcore.listener.SendXCommandListener;
 import tech.sud.mgp.sudmgpimcore.listener.SudIMListener;
@@ -13,7 +15,7 @@ public class SudIMRoomManager {
 
     private static SudIMRoomManager sudImRoomManager;
 
-    private ISudIM mISudIM = new SudIMZIMImpl();
+    private ISudIM mISudIM = new SudIMAgoraImpl();
 
     public static SudIMRoomManager sharedInstance() {
         if (sudImRoomManager == null) {
@@ -26,16 +28,16 @@ public class SudIMRoomManager {
         return sudImRoomManager;
     }
 
-    public void init(String appId, SudIMListener imListener) {
-        mISudIM.init(appId, imListener);
+    public void init(Context context, String appId, String userId, SudIMListener imListener) {
+        mISudIM.init(context, appId, userId, imListener);
     }
 
     public void destroy() {
         mISudIM.destroy();
     }
 
-    public void joinRoom(String roomID, String userID, String userName, String token, SudIMListener imListener) {
-        mISudIM.joinRoom(roomID, userID, userName, token, imListener);
+    public void joinRoom(String roomID, String userID, String userName, String token) {
+        mISudIM.joinRoom(roomID, userID, userName, token);
     }
 
     public void leaveRoom(String roomId, SudIMRoomLeftCallback callback) {

@@ -96,6 +96,15 @@ android {
             buildConfigField("boolean", "nftSwitch", "false")
         }
     }
+
+    // 声网同时集成RTM和RTC有一个库冲突，这里解决一下
+    packagingOptions {
+        pickFirst 'lib/x86/libaosl.so'
+        pickFirst 'lib/x86_64/libaosl.so'
+        pickFirst 'lib/armeabi-v7a/libaosl.so'
+        pickFirst 'lib/arm64-v8a/libaosl.so'
+    }
+
 }
 
 dependencies {

@@ -7,22 +7,12 @@ import com.blankj.utilcode.util.LogUtils;
 
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import im.zego.zim.ZIM;
-import im.zego.zim.callback.ZIMRoomMemberQueriedCallback;
-import im.zego.zim.entity.ZIMError;
-import im.zego.zim.entity.ZIMRoomFullInfo;
-import im.zego.zim.entity.ZIMRoomMemberQueryConfig;
-import im.zego.zim.entity.ZIMUserInfo;
-import im.zego.zim.enums.ZIMConnectionEvent;
-import im.zego.zim.enums.ZIMConnectionState;
 import im.zego.zim.enums.ZIMErrorCode;
-import im.zego.zim.enums.ZIMRoomState;
 import tech.sud.mgp.SudMGPWrapper.utils.SudJsonUtils;
 import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
@@ -41,9 +31,15 @@ import tech.sud.mgp.rtc.audio.core.ISudAudioEngine;
 import tech.sud.mgp.rtc.audio.core.ISudAudioEventListener;
 import tech.sud.mgp.rtc.audio.core.MediaViewMode;
 import tech.sud.mgp.rtc.audio.factory.AudioEngineFactory;
-import tech.sud.mgp.rtc.audio.impl.zego.IMRoomManager;
-import tech.sud.mgp.rtc.audio.impl.zego.ZIMManager;
 import tech.sud.mgp.rtc.audio.model.AudioJoinRoomModel;
+import tech.sud.mgp.sudmgpim.SudIMRoomManager;
+import tech.sud.mgp.sudmgpimcore.listener.SendXCommandListener;
+import tech.sud.mgp.sudmgpimcore.listener.SudIMListener;
+import tech.sud.mgp.sudmgpimcore.model.SudIMConnectionEvent;
+import tech.sud.mgp.sudmgpimcore.model.SudIMConnectionState;
+import tech.sud.mgp.sudmgpimcore.model.SudIMError;
+import tech.sud.mgp.sudmgpimcore.model.SudIMRoomFullInfo;
+import tech.sud.mgp.sudmgpimcore.model.SudIMRoomState;
 
 /**
  * 语音引擎
@@ -59,7 +55,7 @@ public class SceneEngineManager extends BaseServiceManager {
     public SceneRoomServiceManager.EnterRoomCompletedListener enterRoomCompletedListener;
     private View videoView;
     private Handler handler;
-    private ZIMRoomState zimRoomState;
+    private SudIMRoomState sudImRoomState;
 
     @Override
     public void onCreate() {
@@ -95,14 +91,14 @@ public class SceneEngineManager extends BaseServiceManager {
         LogUtils.file("initZim");
         BaseConfigResp baseConfigResp = (BaseConfigResp) GlobalCache.getInstance().getSerializable(GlobalCache.BASE_CONFIG_KEY);
         if (baseConfigResp != null && baseConfigResp.zegoCfg != null) {
-            IMRoomManager.sharedInstance().init(baseConfigResp.zegoCfg.appId, eventHandler, zimListener);
+            SudIMRoomManager.sharedInstance().init(baseConfigResp.zegoCfg.appId, zimListener);
             zimJoinRoom(model);
         }
     }
 
     private void zimJoinRoom(RoomInfoModel model) {
         LogUtils.file("zimJoinRoom " + " userId:" + HSUserInfo.userId + "  roomInfoModel:" + SudJsonUtils.toJson(model));
-        IMRoomManager.sharedInstance().joinRoom(model.roomId + "", HSUserInfo.userId + "",
+        SudIMRoomManager.sharedInstance().joinRoom(model.roomId + "", HSUserInfo.userId + "",
                 HSUserInfo.nickName, model.imToken, zimListener);
     }
 
@@ -197,7 +193,7 @@ public class SceneEngineManager extends BaseServiceManager {
      */
     public void sendXRoomCommand(String roomID, String command, ISudAudioEngine.SendCommandListener result) {
         LogUtils.d("sendXRoomCommand:" + command);
-        IMRoomManager.sharedInstance().sendXRoomCommand(roomID, command, new ISudAudioEngine.SendCommandListener() {
+        SudIMRoomManager.sharedInstance().sendXRoomCommand(roomID, command, new SendXCommandListener() {
             @Override
             public void onResult(int value) {
                 LogUtils.d("sendXRoomCommand onResult:" + value + "---:" + command);
@@ -379,18 +375,6 @@ public class SceneEngineManager extends BaseServiceManager {
         }
 
         /**
-         * 接收跨房指令信息回调
-         *
-         * @param fromRoomID 消息的房间 ID
-         * @param fromUserID 消息的用户 ID
-         * @param command    指令内容
-         */
-        @Override
-        public void onRecvXRoomCommand(String fromRoomID, String fromUserID, String command) {
-            commandManager.onRecvCommand(fromUserID, command);
-        }
-
-        /**
          * 房间内当前在线用户数量回调
          *
          * @param count 人数
@@ -465,9 +449,9 @@ public class SceneEngineManager extends BaseServiceManager {
         }
     };
 
-    private final ZIMManager.ZimListener zimListener = new ZIMManager.ZimListener() {
+    private final SudIMListener zimListener = new SudIMListener() {
         @Override
-        public void onConnectionStateChanged(ZIM zim, ZIMConnectionState state, ZIMConnectionEvent event, JSONObject extendedData) {
+        public void onConnectionStateChanged(SudIMConnectionState state, SudIMConnectionEvent event, JSONObject extendedData) {
             if (state == null) {
                 return;
             }
@@ -476,66 +460,57 @@ public class SceneEngineManager extends BaseServiceManager {
         }
 
         @Override
-        public void onError(ZIM zim, ZIMError errorInfo) {
+        public void onError(SudIMError errorInfo) {
             LogUtils.file("zim:onError:" + errorInfo.code);
         }
 
         @Override
-        public void onLoggedIn(ZIMError errorInfo) {
+        public void onLoggedIn(SudIMError errorInfo) {
             LogUtils.file("zim:onLoggedIn:" + errorInfo.code);
         }
 
         @Override
-        public void onRoomEntered(ZIMRoomFullInfo roomInfo, ZIMError errorInfo) {
+        public void onRoomEntered(SudIMRoomFullInfo roomInfo, SudIMError errorInfo) {
             LogUtils.file("zim:onRoomEntered:" + errorInfo.code + " message:" + errorInfo.message);
-            if (errorInfo.code != ZIMErrorCode.SUCCESS) {
-                ZIMRoomMemberQueryConfig config = new ZIMRoomMemberQueryConfig();
-                config.count = 10;
-                ZIMManager.sharedInstance().queryRoomMemberList(parentManager.getRoomId() + "", config, new ZIMRoomMemberQueriedCallback() {
-                    @Override
-                    public void onRoomMemberQueried(String roomID, ArrayList<ZIMUserInfo> memberList, String nextFlag, ZIMError errorInfo) {
-                        LogUtils.file("zim:onRoomMemberQueried:" + errorInfo.code + " msg:" + errorInfo.message);
-                        if (errorInfo.code == ZIMErrorCode.SUCCESS) {
-                            boolean existsZim = selfExistsZim(memberList);
-                            LogUtils.file("zim:onRoomMemberQueried-existsZim:" + existsZim);
-                            if (!existsZim) {
-                                // 不存在此房间内，离开房间再次进入该房间
-                                zimRejoinRoom();
-                            }
-                        }
-                    }
-
-                    private boolean selfExistsZim(ArrayList<ZIMUserInfo> memberList) {
-                        if (memberList != null) {
-                            String userId = HSUserInfo.userId + "";
-                            for (ZIMUserInfo zimUserInfo : memberList) {
-                                if (zimUserInfo != null && userId.equals(zimUserInfo.userID)) {
-                                    return true;
-                                }
-                            }
-                        }
-                        return false;
-                    }
-                });
+            if (errorInfo.code != ZIMErrorCode.SUCCESS.value()) {
+                SudIMRoomManager.sharedInstance().checkConnected(parentManager.getRoomId() + "", HSUserInfo.userId + "");
             }
         }
 
         @Override
-        public void onRoomStateChanged(ZIMRoomState state, String roomID) {
+        public void onRoomStateChanged(SudIMRoomState state, String roomID) {
             if (state == null || roomID == null || !roomID.equals(parentManager.getRoomId() + "")) {
                 return;
             }
             LogUtils.file("zim:onRoomStateChanged:" + state + "  roomID:" + roomID);
-            zimRoomState = state;
-            if (state == ZIMRoomState.DISCONNECTED) {
+            sudImRoomState = state;
+            if (state == SudIMRoomState.DISCONNECTED) {
                 delayZimJoinRoom(100);
             }
         }
+
+        @Override
+        public void onRejoinRoom(String roomId, String userId) {
+            zimRejoinRoom();
+        }
+
+        /**
+         * 接收跨房指令信息回调
+         *
+         * @param fromRoomID 消息的房间 ID
+         * @param fromUserID 消息的用户 ID
+         * @param command    指令内容
+         */
+        @Override
+        public void onRecvXRoomCommand(String fromRoomID, String fromUserID, String command) {
+            commandManager.onRecvCommand(fromUserID, command);
+        }
+
     };
 
     private void zimRejoinRoom() {
         removeDelayZimJoinRoom();
-        IMRoomManager.sharedInstance().destroy();
+        SudIMRoomManager.sharedInstance().destroy();
         initZim(parentManager.getRoomInfoModel());
     }
 
@@ -543,7 +518,7 @@ public class SceneEngineManager extends BaseServiceManager {
         if (handler == null) {
             return;
         }
-        if (zimRoomState != null && zimRoomState == ZIMRoomState.CONNECTED) {
+        if (sudImRoomState != null && sudImRoomState == SudIMRoomState.CONNECTED) {
             return;
         }
         removeDelayZimJoinRoom();
@@ -570,7 +545,7 @@ public class SceneEngineManager extends BaseServiceManager {
         super.onDestroy();
         commandManager.onDestroy();
         AudioEngineFactory.destroy();
-        IMRoomManager.sharedInstance().destroy();
+        SudIMRoomManager.sharedInstance().destroy();
         if (handler != null) {
             handler.removeCallbacksAndMessages(null);
             handler = null;

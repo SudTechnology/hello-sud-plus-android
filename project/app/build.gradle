@@ -122,6 +122,7 @@ dependencies {
     implementation project(':SudMGPRTC:SudMGPRtcTx')
     implementation project(':SudMGPRTC:SudMGPRtcVolc')
     implementation project(':SudMGPRTC:SudMGPRtcZego')
+    implementation project(':SudMGPRTC:SudMGPIM')
 
     // 屏幕适配：https://github.com/JessYanCoding/AndroidAutoSize
     implementation 'com.github.JessYanCoding:AndroidAutoSize:v1.2.1'

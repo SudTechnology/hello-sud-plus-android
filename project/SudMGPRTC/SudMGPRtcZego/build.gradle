@@ -37,5 +37,7 @@ dependencies {
 
     // 引入 SudMGPRtcCore
     api project(':SudMGPRTC:SudMGPRtcCore')
+    
+    api project(':SudMGPRTC:SudMGPIMCore')
 
 }

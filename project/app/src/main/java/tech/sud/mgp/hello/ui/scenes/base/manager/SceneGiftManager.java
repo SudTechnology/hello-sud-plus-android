@@ -62,7 +62,7 @@ public class SceneGiftManager extends BaseServiceManager {
         }
 
         if (giftID == GiftId.ROCKET || parentManager.getSceneType() == SceneType.AUDIO_3D || parentManager.getSceneType() == SceneType.CUBE) {
-            parentManager.sceneEngineManager.sendXRoomCommand(parentManager.getRoomId() + "", command, null);
+            parentManager.sceneEngineManager.sendXRoomCommand(parentManager.getRoomId() + "", command);
         } else {
             parentManager.sceneEngineManager.sendCommand(command, null);
         }

@@ -3,6 +3,10 @@ package tech.sud.mgp.rtc.audio.impl.zego;
 import android.app.Application;
 import android.util.Log;
 
+import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.ThreadUtils;
+import com.blankj.utilcode.util.Utils;
+
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -32,45 +36,64 @@ import im.zego.zim.enums.ZIMErrorCode;
 import im.zego.zim.enums.ZIMMessagePriority;
 import im.zego.zim.enums.ZIMRoomEvent;
 import im.zego.zim.enums.ZIMRoomState;
-import tech.sud.mgp.rtc.audio.core.ISudAudioEngine;
+import tech.sud.mgp.sudmgpimcore.ISudIM;
+import tech.sud.mgp.sudmgpimcore.listener.SendXCommandListener;
+import tech.sud.mgp.sudmgpimcore.listener.SudIMListener;
+import tech.sud.mgp.sudmgpimcore.listener.SudIMRoomLeftCallback;
+import tech.sud.mgp.sudmgpimcore.model.SudIMConnectionEvent;
+import tech.sud.mgp.sudmgpimcore.model.SudIMConnectionState;
+import tech.sud.mgp.sudmgpimcore.model.SudIMError;
+import tech.sud.mgp.sudmgpimcore.model.SudIMRoomFullInfo;
+import tech.sud.mgp.sudmgpimcore.model.SudIMRoomState;
 
-public class ZIMManager {
+public class SudIMZIMImpl implements ISudIM {
 
-    private static final String kTag = ZIMManager.class.toString();
-
-    private static ZIMManager zimManager;
+    private static final String kTag = SudIMZIMImpl.class.toString();
 
     private ZIM zim;
-
     private OnReceiveRoomMessage receiveRoomMessageCallback;
-
     private String mRoomID;
+    private SudIMListener mSudIMListener;
 
-    public static ZIMManager sharedInstance() {
-        if (zimManager == null) {
-            synchronized (ZIMManager.class) {
-                if (zimManager == null) {
-                    zimManager = new ZIMManager();
-                }
-            }
+    @Override
+    public void init(String appId, SudIMListener imListener) {
+        long appID = 0;
+        try {
+            appID = Long.parseLong(appId);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-        return zimManager;
+        create(appID, Utils.getApp(), imListener);
+        setReceiveRoomMessageCallback(new SudIMZIMImpl.OnReceiveRoomMessage() {
+            @Override
+            public void onReceiveRoomMessage(String roomID, String senderUserID, String message) {
+                ThreadUtils.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        SudIMListener listener = imListener;
+                        if (listener != null) {
+                            listener.onRecvXRoomCommand(roomID, senderUserID, message);
+                        }
+                    }
+                });
+            }
+        });
     }
 
-    public void create(long appID, Application application, ZimListener zimListener) {
+    private void create(long appID, Application application, SudIMListener imListener) {
         if (zim != null) {
             destroy();
         }
-
+        mSudIMListener = imListener;
         zim = ZIM.create(appID, application);
 
         zim.setEventHandler(new ZIMEventHandler() {
             @Override
             public void onConnectionStateChanged(ZIM zim, ZIMConnectionState state, ZIMConnectionEvent event, JSONObject extendedData) {
                 super.onConnectionStateChanged(zim, state, event, extendedData);
-                if (zimListener != null) {
-                    zimListener.onConnectionStateChanged(zim, state, event, extendedData);
+                if (imListener != null) {
+                    imListener.onConnectionStateChanged(convertSudIMConnectionState(state), convertSudIMConnectionEvent(event), extendedData);
                 }
             }
 
@@ -78,8 +101,8 @@ public class ZIMManager {
             public void onError(ZIM zim, ZIMError errorInfo) {
                 super.onError(zim, errorInfo);
                 Log.i(kTag, "onError: " + errorInfo.code);
-                if (zimListener != null) {
-                    zimListener.onError(zim, errorInfo);
+                if (imListener != null) {
+                    imListener.onError(convertSudIMError(errorInfo));
                 }
             }
 
@@ -103,14 +126,18 @@ public class ZIMManager {
 
             public void onRoomStateChanged(ZIM zim, ZIMRoomState state, ZIMRoomEvent event, JSONObject extendedData, String roomID) {
                 Log.i(kTag, "onRoomStateChanged: " + state);
-                if (zimListener != null) {
-                    zimListener.onRoomStateChanged(state, roomID);
+                if (imListener != null) {
+                    imListener.onRoomStateChanged(convertSudIMRoomState(state), roomID);
                 }
             }
         });
     }
 
+    @Override
     public void destroy() {
+        mSudIMListener = null;
+        setReceiveRoomMessageCallback(null);
+
         if (zim == null) {
             return;
         }
@@ -120,7 +147,8 @@ public class ZIMManager {
         mRoomID = null;
     }
 
-    public void joinRoom(String roomID, String userID, String userName, String token, ZIMManager.ZimListener zimListener) {
+    @Override
+    public void joinRoom(String roomID, String userID, String userName, String token, SudIMListener imListener) {
         if (zim == null) {
             return;
         }
@@ -133,8 +161,8 @@ public class ZIMManager {
         zim.login(zimUserInfo, token, new ZIMLoggedInCallback() {
             @Override
             public void onLoggedIn(ZIMError errorInfo) {
-                if (zimListener != null) {
-                    zimListener.onLoggedIn(errorInfo);
+                if (imListener != null) {
+                    imListener.onLoggedIn(convertSudIMError(errorInfo));
                 }
                 if (errorInfo.code == ZIMErrorCode.SUCCESS || errorInfo.code == ZIMErrorCode.USER_HAS_ALREADY_LOGGED) {
 
@@ -149,8 +177,8 @@ public class ZIMManager {
                         @Override
                         public void onRoomEntered(ZIMRoomFullInfo roomInfo, ZIMError errorInfo) {
                             Log.i(kTag, "enterRoom: " + errorInfo.code);
-                            if (zimListener != null) {
-                                zimListener.onRoomEntered(roomInfo, errorInfo);
+                            if (imListener != null) {
+                                imListener.onRoomEntered(convertSudIMRoomFullInfo(roomInfo), convertSudIMError(errorInfo));
                             }
                             if (errorInfo.code == ZIMErrorCode.SUCCESS) {
                                 mRoomID = roomID;
@@ -177,12 +205,20 @@ public class ZIMManager {
         });
     }
 
-    public void leaveRoom(String roomId, ZIMRoomLeftCallback callback) {
+    @Override
+    public void leaveRoom(String roomId, SudIMRoomLeftCallback callback) {
         if (zim == null || roomId == null) {
             return;
         }
 
-        zim.leaveRoom(roomId, callback);
+        zim.leaveRoom(roomId, new ZIMRoomLeftCallback() {
+            @Override
+            public void onRoomLeft(String roomID, ZIMError errorInfo) {
+                if (callback != null) {
+                    callback.onRoomLeft(roomID, convertSudIMError(errorInfo));
+                }
+            }
+        });
     }
 
     public void queryRoomMemberList(String roomID, ZIMRoomMemberQueryConfig config, ZIMRoomMemberQueriedCallback callback) {
@@ -195,11 +231,12 @@ public class ZIMManager {
         void onReceiveRoomMessage(String roomID, String senderUserID, String message);
     }
 
-    public void setReceiveRoomMessageCallback(OnReceiveRoomMessage callback) {
+    private void setReceiveRoomMessageCallback(OnReceiveRoomMessage callback) {
         receiveRoomMessageCallback = callback;
     }
 
-    public void sendXRoomCommand(String roomID, String command, ISudAudioEngine.SendCommandListener listener) {
+    @Override
+    public void sendXRoomCommand(String roomID, String command, SendXCommandListener listener) {
         if (zim == null) {
             return;
         }
@@ -259,16 +296,80 @@ public class ZIMManager {
         }
     }
 
-    public interface ZimListener {
-        void onConnectionStateChanged(ZIM zim, ZIMConnectionState state, ZIMConnectionEvent event, JSONObject extendedData);
+    @Override
+    public void checkConnected(String roomId, String userId) {
+        if (roomId == null || userId == null) {
+            return;
+        }
+        ZIMRoomMemberQueryConfig config = new ZIMRoomMemberQueryConfig();
+        config.count = 10;
+        queryRoomMemberList(roomId, config, new ZIMRoomMemberQueriedCallback() {
+            @Override
+            public void onRoomMemberQueried(String roomID, ArrayList<ZIMUserInfo> memberList, String nextFlag, ZIMError errorInfo) {
+                LogUtils.file("zim:onRoomMemberQueried:" + errorInfo.code + " msg:" + errorInfo.message);
+                if (errorInfo.code == ZIMErrorCode.SUCCESS) {
+                    boolean existsZim = selfExistsZim(memberList);
+                    LogUtils.file("zim:onRoomMemberQueried-existsZim:" + existsZim);
+                    if (!existsZim) {
+                        // 不存在此房间内，离开房间再次进入该房间
+                        if (mSudIMListener != null) {
+                            mSudIMListener.onRejoinRoom(roomID, userId);
+                        }
+                    }
+                }
+            }
 
-        void onError(ZIM zim, ZIMError errorInfo);
-
-        void onLoggedIn(ZIMError errorInfo);
-
-        void onRoomEntered(ZIMRoomFullInfo roomInfo, ZIMError errorInfo);
-
-        void onRoomStateChanged(ZIMRoomState state, String roomID);
+            private boolean selfExistsZim(ArrayList<ZIMUserInfo> memberList) {
+                if (memberList != null) {
+                    for (ZIMUserInfo zimUserInfo : memberList) {
+                        if (zimUserInfo != null && userId.equals(zimUserInfo.userID)) {
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            }
+        });
     }
 
+    private SudIMConnectionState convertSudIMConnectionState(ZIMConnectionState state) {
+        if (state == null) {
+            return SudIMConnectionState.UNKNOWN;
+        }
+        return SudIMConnectionState.getIMConnectionState(state.value());
+    }
+
+    private SudIMConnectionEvent convertSudIMConnectionEvent(ZIMConnectionEvent state) {
+        if (state == null) {
+            return SudIMConnectionEvent.UNKNOWN;
+        }
+        return SudIMConnectionEvent.getIMConnectionEvent(state.value());
+    }
+
+    private SudIMError convertSudIMError(ZIMError state) {
+        SudIMError sudIMError = new SudIMError();
+        if (state == null) {
+            return sudIMError;
+        }
+        sudIMError.code = state.code == null ? -1 : state.code.value();
+        sudIMError.message = state.message;
+        return sudIMError;
+    }
+
+    private SudIMRoomState convertSudIMRoomState(ZIMRoomState state) {
+        if (state == null) {
+            return SudIMRoomState.UNKNOWN;
+        }
+        return SudIMRoomState.getIMRoomState(state.value());
+    }
+
+    private SudIMRoomFullInfo convertSudIMRoomFullInfo(ZIMRoomFullInfo state) {
+        SudIMRoomFullInfo sudIMRoomFullInfo = new SudIMRoomFullInfo();
+        if (state == null || state.baseInfo == null) {
+            return null;
+        }
+        sudIMRoomFullInfo.roomID = state.baseInfo.roomID;
+        sudIMRoomFullInfo.roomName = state.baseInfo.roomName;
+        return sudIMRoomFullInfo;
+    }
 }

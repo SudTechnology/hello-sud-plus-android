@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    compileSdkVersion project.compileSdkVersion
+    compileSdk project.compileSdkVersion
 
     defaultConfig {
         applicationId "tech.sud.mgp.hello"
-        minSdkVersion project.minSdkVersion
+        minSdk project.minSdkVersion
         targetSdkVersion project.targetSdkVersion
         versionCode 1
         versionName "1.0"
@@ -101,7 +101,7 @@ dependencies {
     // 图片加载库
     implementation 'com.github.bumptech.glide:glide:4.13.2'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.13.2'
-    
+
     // 事件通知
     implementation("org.greenrobot:eventbus:3.3.1")
 

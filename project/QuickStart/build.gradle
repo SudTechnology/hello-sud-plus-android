@@ -3,12 +3,12 @@ plugins {
 }
 
 android {
-    compileSdkVersion project.compileSdkVersion
+    compileSdk project.compileSdkVersion
 
     defaultConfig {
         applicationId "tech.sud.mgp.hello"
-        minSdkVersion project.minSdkVersion
-        targetSdkVersion project.targetSdkVersion
+        minSdk project.minSdkVersion
+        targetSdk project.targetSdkVersion
         versionCode 1
         versionName "1.0"
     }

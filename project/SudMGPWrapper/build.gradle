@@ -3,13 +3,12 @@ plugins {
 }
 
 android {
-    compileSdkVersion 32
+    namespace 'tech.sud.mgp.SudMGPWrapper'
+    compileSdk 32
 
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 32
+        minSdk 21
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
     }
 

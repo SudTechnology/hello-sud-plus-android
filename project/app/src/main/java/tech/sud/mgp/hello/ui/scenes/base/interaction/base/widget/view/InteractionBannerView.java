@@ -14,9 +14,9 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import java.util.List;
 
-import tech.sud.mgp.core.view.RoundImageView;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
+import tech.sud.mgp.hello.common.widget.view.round.RoundedImageView;
 import tech.sud.mgp.hello.ui.scenes.base.interaction.base.model.InteractionGameModel;
 
 /**
@@ -148,7 +148,7 @@ public class InteractionBannerView extends LinearLayout {
         @NonNull
         @Override
         public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            RoundImageView roundImageView = new RoundImageView(getContext());
+            RoundedImageView roundImageView = new RoundedImageView(getContext());
             roundImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             roundImageView.setRadius(DensityUtils.dp2px(8));
             ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -180,7 +180,7 @@ public class InteractionBannerView extends LinearLayout {
             public ImageView imageView;
             public InteractionGameModel bannerModel;
 
-            public MyViewHolder(@NonNull RoundImageView itemView) {
+            public MyViewHolder(@NonNull RoundedImageView itemView) {
                 super(itemView);
                 imageView = itemView;
                 imageView.setOnClickListener((v) -> {
@@ -206,5 +206,5 @@ public class InteractionBannerView extends LinearLayout {
         super.onDetachedFromWindow();
         stopChangeTask();
     }
-    
+
 }

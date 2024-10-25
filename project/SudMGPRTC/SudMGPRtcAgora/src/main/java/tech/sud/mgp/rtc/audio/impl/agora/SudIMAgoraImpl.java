@@ -6,6 +6,7 @@ import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ThreadUtils;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import io.agora.rtm.ErrorInfo;
@@ -38,52 +39,58 @@ public class SudIMAgoraImpl implements ISudIM {
 
     @Override
     public void init(Context context, String appId, String userId, SudIMListener imListener) {
-        mSudIMListener = imListener;
-        try {
-            RtmConfig config = new RtmConfig.Builder(appId, userId)
-                    .eventListener(rtmClientListener)
-                    .build();
-            mRtmClient = RtmClient.create(config);
-        } catch (Exception e) {
-            e.printStackTrace();
-            log("agora im init error:" + e);
-        }
+        AsyncCallWrapper.sharedInstance().executeInSerial(() -> {
+            mSudIMListener = imListener;
+            try {
+                RtmConfig config = new RtmConfig.Builder(appId, userId)
+                        .eventListener(rtmClientListener)
+                        .build();
+                mRtmClient = RtmClient.create(config);
+            } catch (Exception e) {
+                e.printStackTrace();
+                log("agora im init error:" + e);
+            }
+        });
     }
 
     @Override
     public void joinRoom(String roomID, String userID, String userName, String token) {
-        if (mRtmClient == null) {
-            return;
-        }
-        mRoomId = roomID;
-        mToken = token;
-        mUserId = userID;
-        // 登录Agora RTM 系统
-        login(token, userID, new IAgoraImLoginListener() {
-            @Override
-            public void onSuccess() {
-                isLoginSuccess = true;
-                sendMessageCacheList();
-
-                SubscribeOptions options = new SubscribeOptions();
-                mRtmClient.subscribe(roomID, options, new ResultCallback<Void>() {
-                    @Override
-                    public void onSuccess(Void responseInfo) {
-                        log("agora im subscribe onSuccess:" + roomID);
-                    }
-
-                    @Override
-                    public void onFailure(ErrorInfo errorInfo) {
-                        int code = getErrorInfoCode(errorInfo);
-                        log("agora im login join error code:" + code + " roomId:" + roomID);
-                    }
-                });
+        AsyncCallWrapper.sharedInstance().executeInSerial(() -> {
+            if (mRtmClient == null) {
+                return;
             }
+            mRoomId = roomID;
+            mToken = token;
+            mUserId = userID;
+            // 登录Agora RTM 系统
+            login(token, userID, new IAgoraImLoginListener() {
+                @Override
+                public void onSuccess() {
+                    AsyncCallWrapper.sharedInstance().executeInSerial(() -> {
+                        isLoginSuccess = true;
+                        sendMessageCacheList();
 
-            @Override
-            public void onFailure(int code) {
-                log("agora im login failure code:" + code);
-            }
+                        SubscribeOptions options = new SubscribeOptions();
+                        mRtmClient.subscribe(roomID, options, new ResultCallback<Void>() {
+                            @Override
+                            public void onSuccess(Void responseInfo) {
+                                log("agora im subscribe onSuccess:" + roomID);
+                            }
+
+                            @Override
+                            public void onFailure(ErrorInfo errorInfo) {
+                                int code = getErrorInfoCode(errorInfo);
+                                log("agora im login join error code:" + code + " roomId:" + roomID);
+                            }
+                        });
+                    });
+                }
+
+                @Override
+                public void onFailure(int code) {
+                    log("agora im login failure code:" + code);
+                }
+            });
         });
     }
 
@@ -92,8 +99,10 @@ public class SudIMAgoraImpl implements ISudIM {
         if (!isLoginSuccess) {
             return;
         }
-        for (CommandModel model : mCommandModelList) {
-            sendXRoomCommand(model);
+        Iterator<CommandModel> iterator = mCommandModelList.iterator();
+        while (iterator.hasNext()) {
+            sendXRoomCommand(iterator.next());
+            iterator.remove();
         }
     }
 
@@ -145,15 +154,17 @@ public class SudIMAgoraImpl implements ISudIM {
 
     @Override
     public void sendXRoomCommand(String roomID, String command, SendXCommandListener listener) {
-        if (!isLoginSuccess) {
-            CommandModel model = new CommandModel();
-            model.roomId = roomID;
-            model.command = command;
-            model.listener = listener;
-            mCommandModelList.add(model);
-            return;
-        }
-        sendMessage(roomID, command, listener);
+        AsyncCallWrapper.sharedInstance().executeInSerial(() -> {
+            if (!isLoginSuccess) {
+                CommandModel model = new CommandModel();
+                model.roomId = roomID;
+                model.command = command;
+                model.listener = listener;
+                mCommandModelList.add(model);
+                return;
+            }
+            sendMessage(roomID, command, listener);
+        });
     }
 
     private void sendXRoomCommand(CommandModel model) {
@@ -203,22 +214,24 @@ public class SudIMAgoraImpl implements ISudIM {
 
     @Override
     public void destroy() {
-        if (mRtmClient != null) {
-            isLoginSuccess = false;
-            mRtmClient.logout(new ResultCallback<Void>() {
-                @Override
-                public void onSuccess(Void responseInfo) {
-                    log("agora logout success");
-                }
+        AsyncCallWrapper.sharedInstance().executeInSerial(() -> {
+            if (mRtmClient != null) {
+                isLoginSuccess = false;
+                mRtmClient.logout(new ResultCallback<Void>() {
+                    @Override
+                    public void onSuccess(Void responseInfo) {
+                        log("agora logout success");
+                    }
 
-                @Override
-                public void onFailure(ErrorInfo errorInfo) {
-                    log("agora logout onFailre" + errorInfo);
-                }
-            });
-            RtmClient.release();
-            mRtmClient = null;
-        }
+                    @Override
+                    public void onFailure(ErrorInfo errorInfo) {
+                        log("agora logout onFailre" + errorInfo);
+                    }
+                });
+                RtmClient.release();
+                mRtmClient = null;
+            }
+        });
     }
 
     // 云信令回调

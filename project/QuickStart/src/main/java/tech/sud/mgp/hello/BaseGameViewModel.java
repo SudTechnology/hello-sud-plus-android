@@ -619,4 +619,9 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
         }
     }
 
+    /** 获取当前正在玩的游戏id */
+    public long getPlayingGameId() {
+        return playingGameId;
+    }
+
 }

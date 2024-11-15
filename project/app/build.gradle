@@ -118,7 +118,7 @@ dependencies {
     implementation project(':SudMGPWrapper')
 
     // 引入 SudASR
-    implementation 'tech.sud.mgp:SudASR:1.4.6.1211'
+    implementation 'tech.sud.mgp:SudASR:1.4.7.1218'
 
     // 引入 SudNFT
     implementation project(':SudNFT:SudNFTSDK')

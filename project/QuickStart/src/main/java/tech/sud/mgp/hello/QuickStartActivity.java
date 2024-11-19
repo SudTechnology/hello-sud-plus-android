@@ -166,6 +166,8 @@ public class QuickStartActivity extends BaseActivity {
     }
 
     private void updateStatusBar() {
+        // 这个沉浸式状态栏的使用是APP的业务，对于游戏而言不是必须的
+        // The use of the immersive status bar is part of the app's functionality and is not essential for games.
         if (gameId > 0) { // 玩着游戏 English: Playing the game.
             ImmersionBar.with(this).statusBarColor(R.color.transparent).hideBar(BarHide.FLAG_HIDE_NAVIGATION_BAR).init();
         } else {

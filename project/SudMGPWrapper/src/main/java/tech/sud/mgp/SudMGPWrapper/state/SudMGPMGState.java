@@ -357,7 +357,8 @@ public class SudMGPMGState implements Serializable {
         // 声音资源类型
         public String type;
         // 播放次数；注：times == 0 为循环播放
-        public String times;
+        // 此参数使用时注意判空
+        public Integer times;
         // https://www.xxxx.xx/xxx.mp3"  声音资源的url链接
         public String url;
     }

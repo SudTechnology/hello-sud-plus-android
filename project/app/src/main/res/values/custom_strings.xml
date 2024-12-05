@@ -2,6 +2,8 @@
 <resources>
     <!-- region custom场景，暂不用全部翻译 -->
     <string name="custom_config_game_system">Game system</string>
+    <string name="custom_config_game_mode">Game Mode</string>
+    <string name="custom_config_game_mode_subtitle">(gameMode)</string>
     <string name="custom_config_game_cpu">The CPU power dissipation of the game</string>
     <string name="custom_config_game_cpu_subtitle">(gameCPU)</string>
     <string name="custom_config_game_cpu0">0: normal</string>

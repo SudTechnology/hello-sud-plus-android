@@ -10,6 +10,7 @@ import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseActivity;
 import tech.sud.mgp.hello.common.utils.GlobalCache;
 import tech.sud.mgp.hello.ui.scenes.custom.model.ConfigItemModel;
+import tech.sud.mgp.hello.ui.scenes.custom.view.CustomInputView;
 import tech.sud.mgp.hello.ui.scenes.custom.view.CustomPageItem1View;
 import tech.sud.mgp.hello.ui.scenes.custom.view.CustomPageItem2View;
 import tech.sud.mgp.hello.ui.scenes.custom.view.CustomPageTitleView;
@@ -64,6 +65,14 @@ public class CustomConfigActivity extends BaseActivity {
         ConfigItemModel itemModel1 = addTitle(getString(R.string.custom_config_game_system));
         titleView1.setData(itemModel1);
         configContainer.addView(titleView1);
+
+        //游戏模式
+        CustomInputView customInputView = new CustomInputView(this);
+        customInputView.setListener(gameMode -> viewModel.configModel.gameMode = gameMode);
+        customInputView.setData(getString(R.string.custom_config_game_mode),
+                getString(R.string.custom_config_game_mode_subtitle),
+                viewModel.configModel.gameMode);
+        configContainer.addView(customInputView);
 
         //游戏CPU
         CustomPageItem1View item1View2 = new CustomPageItem1View(this);

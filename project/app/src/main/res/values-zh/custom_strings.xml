@@ -2,6 +2,8 @@
 <resources>
 
     <string name="custom_config_game_system">游戏系统</string>
+    <string name="custom_config_game_mode">游戏模式</string>
+    <string name="custom_config_game_mode_subtitle">(gameMode)</string>
     <string name="custom_config_game_cpu">游戏CPU</string>
     <string name="custom_config_game_cpu_subtitle">(gameCPU)</string>
     <string name="custom_config_game_cpu0">0：CPU正常功耗</string>

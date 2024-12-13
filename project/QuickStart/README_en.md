@@ -45,6 +45,7 @@
 
       1. Use Android Studio's Import Module feature to import SudMGPWrapper. 
       2. Add the SudMGPWrapper dependency in the build.gradle file of the main project.
+      3. This module contains the SDK dependencies. For Google Play listing, please refer to the comments in the `SudMGPwrapper/build.gradle` file.
 
   ``` java
   build.gradle
@@ -61,17 +62,7 @@
   <details>
   <summary>ASR Recognition Support (Optional, available in v1.2.7 and later versions)</summary>
 
-  1. This is an optional extension feature. If ASR recognition is not needed, the integration of this library can be ignored.
-  
-  ```java
-  // build.gradle
-  
-  dependencies {
-    // Integrate SudASR extension library
-    // Modify the version to match the dependency in SudMGPWrapper's build.gradle
-    // Use the same version as 'tech.sud.mgp:SudMGP:1.3.6.1181'
-    implementation 'tech.sud.mgp:SudASR:1.3.6.1181'
-  }
+    This is an extended feature. If ASR recognition is not required, you can ignore the integration of this library. Please visit：[SudMGP-Android](https://github.com/SudTechnology/sud-mgp-android/blob/main/README_en.md)
   </details>
 
 

@@ -54,6 +54,7 @@
 
       1.通过Android Studio的Import Module功能，导入SudMGPWrapper；
       2.APP主工程文件build.gradle中，添加 SudMGPWrapper 依赖;
+      3.此模块包含了SDK的依赖，如需上架Google Play，请查看SudMGPwrapper/build.gradle当中的注释说明
   ``` java
   build.gradle
   
@@ -67,17 +68,7 @@
   <details>
   <summary>ASR识别支持（可选 v1.2.7及后续版本支持）</summary>
 
-      1.此为扩展功能，如果不需要ASR识别，可以忽略此库的集成;
-  ``` java
-  build.gradle
-  
-  dependencies {
-    // 引入 SudASR扩展库
-    // 依赖版本修改成与SudMGPWrapper里的build.gradle的依赖
-    // api 'tech.sud.mgp:SudMGP:1.3.6.1181'版本号一致即可
-    implementation 'tech.sud.mgp:SudASR:1.3.6.1181'
-  }
-  ```
+  此为扩展功能，如果不需要ASR识别，可以忽略此库的集成，请访问：[SudMGP-Android](https://github.com/SudTechnology/sud-mgp-android)
   </details>
 
 

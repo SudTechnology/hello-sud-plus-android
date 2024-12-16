@@ -93,10 +93,10 @@ dependencies {
     implementation 'com.blankj:utilcodex:1.31.0'
 
     // 下拉刷新，核心库
-    implementation 'com.scwang.smart:refresh-layout-kernel:2.0.3'
+    implementation 'io.github.scwang90:refresh-layout-kernel:2.1.1'
 
     // 下拉刷新，经典刷新头
-    implementation 'com.scwang.smart:refresh-header-classics:2.0.3'
+    implementation 'io.github.scwang90:refresh-header-classics:2.1.1'
 
     // 图片加载库
     implementation 'com.github.bumptech.glide:glide:4.13.2'

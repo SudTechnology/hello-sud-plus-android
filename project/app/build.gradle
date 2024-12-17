@@ -161,8 +161,8 @@ dependencies {
     api 'androidx.recyclerview:recyclerview:1.2.1'
 
     // 增加mp4 sdk
-    implementation 'com.github.bytedance:AlphaPlayer:1.2.0'
-    implementation 'com.google.android.exoplayer:exoplayer-core:2.9.6'
+    implementation 'com.github.bytedance:AlphaPlayer:1.0.4'
+    implementation 'com.google.android.exoplayer:exoplayer-core:2.18.5'
     // Android svga https://github.com/svga/SVGAPlayer-Android
     implementation 'com.github.yyued:SVGAPlayer-Android:2.6.1'
     // 播放json动画的库，网址为：https://github.com/airbnb/lottie-android

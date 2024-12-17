@@ -7,16 +7,15 @@ import android.view.Surface;
 
 import androidx.annotation.NonNull;
 
-import com.google.android.exoplayer2.ExoPlaybackException;
-import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.ExoPlayer;
+import com.google.android.exoplayer2.MediaItem;
+import com.google.android.exoplayer2.PlaybackException;
 import com.google.android.exoplayer2.Player;
-import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.source.ExtractorMediaSource;
-import com.google.android.exoplayer2.source.LoopingMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
-import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
-import com.google.android.exoplayer2.util.Util;
-import com.google.android.exoplayer2.video.VideoListener;
+import com.google.android.exoplayer2.source.ProgressiveMediaSource;
+import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.google.android.exoplayer2.upstream.DefaultDataSource;
+import com.google.android.exoplayer2.video.VideoSize;
 import com.ss.ugc.android.alpha_player.model.VideoInfo;
 import com.ss.ugc.android.alpha_player.player.AbsPlayer;
 
@@ -24,9 +23,8 @@ import java.io.IOException;
 
 public class ExoPlayerImpl extends AbsPlayer {
 
-    private SimpleExoPlayer exoPlayer;
+    private ExoPlayer exoPlayer;
     private MediaSource videoSource;
-    private DefaultDataSourceFactory dataSourceFactory;
     private int currVideoWidth = 0;
     private int currVideoHeight = 0;
     private boolean isLooping = false;
@@ -34,23 +32,14 @@ public class ExoPlayerImpl extends AbsPlayer {
 
     public ExoPlayerImpl(Context context) {
         super(context);
-        dataSourceFactory = new DefaultDataSourceFactory(context,
-                Util.getUserAgent(context, "player"));
         this.context = context;
     }
 
-    private Player.EventListener exoPlayerListener = new Player.EventListener() {
+    private Player.Listener exoPlayerListener = new Player.Listener() {
         @Override
-        public void onPlayerError(ExoPlaybackException error) {
-            if (getErrorListener() != null) {
-                getErrorListener().onError(0, 0, "ExoPlayer on error: " + Log.getStackTraceString(error));
-            }
-        }
-
-        @Override
-        public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
+        public void onPlaybackStateChanged(@Player.State int playbackState) {
             if (playbackState == Player.STATE_READY) {
-                if (playWhenReady && getPreparedListener() != null) {
+                if (exoPlayer.getPlayWhenReady() && getPreparedListener() != null) {
                     getPreparedListener().onPrepared();
                 }
             } else if (playbackState == Player.STATE_ENDED) {
@@ -59,17 +48,26 @@ public class ExoPlayerImpl extends AbsPlayer {
                 }
             }
         }
-    };
 
-    private VideoListener exoVideoListener = new VideoListener() {
         @Override
-        public void onVideoSizeChanged(int width, int height, int unappliedRotationDegrees, float pixelWidthHeightRatio) {
-            currVideoWidth = width;
-            currVideoHeight = height;
+        public void onPlayerError(PlaybackException error) {
+            if (getErrorListener() != null) {
+                getErrorListener().onError(0, 0, "ExoPlayer on error: " + Log.getStackTraceString(error));
+            }
+        }
+
+        @Override
+        public void onVideoSizeChanged(VideoSize videoSize) {
+            // Handle video size change
+            if (videoSize != null) {
+                currVideoWidth = videoSize.width;
+                currVideoHeight = videoSize.height;
+            }
         }
 
         @Override
         public void onRenderedFirstFrame() {
+            Player.Listener.super.onRenderedFirstFrame();
             if (getFirstFrameListener() != null) {
                 getFirstFrameListener().onFirstFrame();
             }
@@ -90,9 +88,10 @@ public class ExoPlayerImpl extends AbsPlayer {
 
     @Override
     public void initMediaPlayer() {
-        exoPlayer = ExoPlayerFactory.newSimpleInstance(context);
+        exoPlayer = new ExoPlayer.Builder(context)
+                .setTrackSelector(new DefaultTrackSelector(context))
+                .build();
         exoPlayer.addListener(exoPlayerListener);
-        exoPlayer.addVideoListener(exoVideoListener);
     }
 
     @Override
@@ -118,15 +117,26 @@ public class ExoPlayerImpl extends AbsPlayer {
 
     @Override
     public void setDataSource(@NonNull String s) throws IOException {
+        // 创建默认的数据源工厂
+        DefaultDataSource.Factory dataSourceFactory = new DefaultDataSource.Factory(context);
+
+        // 创建媒体项
+        MediaItem mediaItem = MediaItem.fromUri(Uri.parse(s));
+
+        // 根据是否循环设置播放源
         if (isLooping) {
-            ExtractorMediaSource extractorMediaSource = new ExtractorMediaSource.Factory(dataSourceFactory)
-                    .createMediaSource(Uri.parse(s));
-            videoSource = new LoopingMediaSource(extractorMediaSource);
+            videoSource = new ProgressiveMediaSource.Factory(dataSourceFactory)
+                    .createMediaSource(mediaItem);
+            exoPlayer.setRepeatMode(Player.REPEAT_MODE_ALL); // 设置循环模式
         } else {
-            videoSource = new ExtractorMediaSource.Factory(dataSourceFactory)
-                    .createMediaSource(Uri.parse(s));
+            videoSource = new ProgressiveMediaSource.Factory(dataSourceFactory)
+                    .createMediaSource(mediaItem);
+            exoPlayer.setRepeatMode(Player.REPEAT_MODE_OFF); // 关闭循环模式
         }
-        reset();
+
+        // 准备播放器
+        exoPlayer.setMediaSource(videoSource);
+        exoPlayer.prepare();
     }
 
     @Override

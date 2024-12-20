@@ -23,6 +23,7 @@ import tech.sud.mgp.SudMGPWrapper.decorator.SudFSTAPPDecorator;
 import tech.sud.mgp.SudMGPWrapper.model.GameConfigModel;
 import tech.sud.mgp.SudMGPWrapper.model.GameViewInfoModel;
 import tech.sud.mgp.SudMGPWrapper.state.MGStateResponse;
+import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.SudMGPWrapper.utils.GameCommonStateUtils;
 import tech.sud.mgp.SudMGPWrapper.utils.ISudFSMStateHandleUtils;
@@ -108,6 +109,7 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
     public boolean isShowCustomLoading = false; // 是否要显示自定义的加载进度
 
     protected boolean closeGameIsCheckFinishGame = true; // 关闭游戏前，是否需要先结束掉游戏
+    protected boolean isSendAiMessage; // 向AI发送消息
 
     public AppGameViewModel() {
         sudFSTAPPDecorator.setOnNotifyStateChangeListener(this);
@@ -409,6 +411,7 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
             notifyUpdateMic();
             gameLoadingCompletedLiveData.setValue(false);
             notifyShowFinishGameBtn();
+            isSendAiMessage = false;
         }
     }
 
@@ -663,6 +666,9 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
         if (msg == null || msg.isEmpty()) {
             return;
         }
+
+        sendAiMessage(msg);
+
         // 数字炸弹
         if (sudFSMMGDecorator.isHitBomb() && HSTextUtils.isInteger(msg)) {
             sudFSTAPPDecorator.notifyAPPCommonSelfTextHitState(false, null, msg);
@@ -677,6 +683,16 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
             sudFSTAPPDecorator.notifyAPPCommonSelfTextHitState(true, keyword, msg);
             gameKeywordLiveData.setValue(null);
         }
+    }
+
+    // 向ai游戏发送公屏消息
+    private void sendAiMessage(String msg) {
+        if (!isSendAiMessage) {
+            return;
+        }
+        SudMGPAPPState.AppCommonAiModelMessage model = new SudMGPAPPState.AppCommonAiModelMessage();
+        model.text = msg;
+        notifyStateChange(SudMGPAPPState.APP_COMMON_AI_MODEL_MESSAGE, model);
     }
 
     // 获取当前游戏中的人数
@@ -1067,6 +1083,12 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
     public void onGameMGCommonGameCreateOrder(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameCreateOrder model) {
         SudFSMMGListener.super.onGameMGCommonGameCreateOrder(handle, model);
         gameCreateOrderLiveData.setValue(model);
+    }
+
+    @Override
+    public void onGameMGCommonAiModelMessage(ISudFSMStateHandle handle, SudMGPMGState.MGCommonAiModelMessage model) {
+        SudFSMMGListener.super.onGameMGCommonAiModelMessage(handle, model);
+        isSendAiMessage = true;
     }
 
     public void reloadMG() {

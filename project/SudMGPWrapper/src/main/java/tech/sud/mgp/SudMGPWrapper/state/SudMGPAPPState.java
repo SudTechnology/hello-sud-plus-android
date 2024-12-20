@@ -513,6 +513,24 @@ public class SudMGPAPPState implements Serializable {
         public String toUid; // 接收方玩家id
         public int count; // 数量
     }
+
+    /**
+     * app向游戏下发ai模型的输入
+     */
+    public static final String APP_COMMON_AI_MODEL_MESSAGE = "app_common_ai_model_message";
+
+    /**
+     * app向游戏下发ai模型的输入 模型
+     */
+    public static class AppCommonAiModelMessage implements Serializable {
+        public String text; // 输入的文本；和audio二选一
+        public AppCommonAiModelMessageAudio audio; // 输入的文本；和text二选一
+
+        public static class AppCommonAiModelMessageAudio implements Serializable {
+            public String url; // 音频地址
+            public String base64Data;// 音频base64数据
+        }
+    }
     // endregion 通用状态
 
     // region 元宇宙砂砂舞

@@ -954,6 +954,17 @@ public class SudMGPMGState implements Serializable {
         public String data;  // 具体的数据，为一个JSON字符串， （注：具体游戏参考如下）
     }
 
+    /**
+     * 通知app开启ai大模型
+     */
+    public static final String MG_COMMON_AI_MODEL_MESSAGE = "mg_common_ai_model_message";
+
+    /**
+     * 通知app开启ai大模型 模型
+     */
+    public static class MGCommonAiModelMessage implements Serializable {
+    }
+
     // endregion 通用状态-游戏
 
     // region MG状态机-通用状态-玩家

@@ -99,6 +99,7 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
     public final MutableLiveData<SudMGPMGState.MGCommonGamePlayerPropsCards> onGamePlayerPropsCardsLiveData = new MutableLiveData<>(); // 游戏向app发送获取玩家持有的指定点数道具卡
 
     public MutableLiveData<SudMGPMGState.MGCommonGameCreateOrder> gameCreateOrderLiveData = new MutableLiveData<>(); // 创建订单
+    public MutableLiveData<SudMGPMGState.MGCommonAiMessage> aiMessageLiveData = new MutableLiveData<>(); // 创建订单
 
     protected boolean isRunning = true; // 业务是否还在运行
     public View gameView; // 游戏View
@@ -1089,6 +1090,12 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
     public void onGameMGCommonAiModelMessage(ISudFSMStateHandle handle, SudMGPMGState.MGCommonAiModelMessage model) {
         SudFSMMGListener.super.onGameMGCommonAiModelMessage(handle, model);
         isSendAiMessage = true;
+    }
+
+    @Override
+    public void onGameMGCommonAiMessage(ISudFSMStateHandle handle, SudMGPMGState.MGCommonAiMessage model) {
+        SudFSMMGListener.super.onGameMGCommonAiMessage(handle, model);
+        aiMessageLiveData.setValue(model);
     }
 
     public void reloadMG() {

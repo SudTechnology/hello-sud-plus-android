@@ -609,6 +609,14 @@ public class SudFSMMGDecorator implements ISudFSMMG {
                     listener.onGameMGCommonAiModelMessage(handle, mgCommonAiModelMessage);
                 }
                 break;
+            case SudMGPMGState.MG_COMMON_AI_MESSAGE: // 通知app ai消息
+                SudMGPMGState.MGCommonAiMessage mgCommonAiMessage = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonAiMessage.class);
+                if (listener == null) {
+                    ISudFSMStateHandleUtils.handleSuccess(handle);
+                } else {
+                    listener.onGameMGCommonAiMessage(handle, mgCommonAiMessage);
+                }
+                break;
             case SudMGPMGState.MG_COMMON_GAME_DISCO_ACTION: // 1. 元宇宙砂砂舞指令回调
                 SudMGPMGState.MGCommonGameDiscoAction mgCommonGameDiscoAction = SudJsonUtils.fromJson(dataJson, SudMGPMGState.MGCommonGameDiscoAction.class);
                 if (listener == null) {

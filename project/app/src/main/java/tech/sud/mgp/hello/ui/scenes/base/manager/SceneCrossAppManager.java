@@ -450,7 +450,7 @@ public class SceneCrossAppManager extends BaseServiceManager {
             callbackUpdateCrossApp();
             return;
         }
-        UserInfoRepository.getUserInfoList(parentManager, userIdList, new UserInfoRepository.UserInfoResultListener() {
+        UserInfoRepository.getUserInfoList(parentManager, userIdList, new UserInfoRepository.UserInfoListResultListener() {
             @Override
             public void userInfoList(List<UserInfoResp> userInfos) {
                 if (userInfos == null) {

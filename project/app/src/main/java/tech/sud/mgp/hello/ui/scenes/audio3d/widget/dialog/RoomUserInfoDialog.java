@@ -80,7 +80,7 @@ public class RoomUserInfoDialog extends BaseDialogFragment {
     private void getUserInfo() {
         List<Long> userIdList = new ArrayList<>();
         userIdList.add(mUserId);
-        UserInfoRepository.getUserInfoList(this, userIdList, new UserInfoRepository.UserInfoResultListener() {
+        UserInfoRepository.getUserInfoList(this, userIdList, new UserInfoRepository.UserInfoListResultListener() {
             @Override
             public void userInfoList(List<UserInfoResp> userInfos) {
                 if (userInfos != null && userInfos.size() > 0) {

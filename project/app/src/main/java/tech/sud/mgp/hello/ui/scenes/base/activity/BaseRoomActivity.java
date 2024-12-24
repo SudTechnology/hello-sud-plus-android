@@ -62,6 +62,7 @@ import tech.sud.mgp.hello.service.game.req.CreateOrderReq;
 import tech.sud.mgp.hello.service.game.req.GamePlayerPropsReq;
 import tech.sud.mgp.hello.service.game.resp.GamePlayerPropsResp;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
+import tech.sud.mgp.hello.service.main.repository.UserInfoRepository;
 import tech.sud.mgp.hello.service.main.resp.GameModel;
 import tech.sud.mgp.hello.service.main.resp.GetAccountResp;
 import tech.sud.mgp.hello.service.room.repository.RoomRepository;
@@ -81,6 +82,7 @@ import tech.sud.mgp.hello.ui.scenes.base.model.GiftNotifyModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.OrderInviteModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoleType;
 import tech.sud.mgp.hello.ui.scenes.base.model.RoomInfoModel;
+import tech.sud.mgp.hello.ui.scenes.base.model.RoomTextModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomService;
 import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomServiceCallback;
@@ -766,6 +768,26 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
                     SudMGPAPPState.AppCommonGamePlayerPropsCards appCommonGamePlayerPropsCards = new SudMGPAPPState.AppCommonGamePlayerPropsCards();
                     appCommonGamePlayerPropsCards.props = gamePlayerPropsResp.props;
                     gameViewModel.notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_PLAYER_PROPS_CARDS, appCommonGamePlayerPropsCards);
+                }
+            });
+        });
+        gameViewModel.aiMessageLiveData.observe(this, aiMessageModel -> {
+            long userId = 0;
+            try {
+                userId = Long.parseLong(aiMessageModel.uid);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            UserInfoRepository.getUserInfo(this, userId, userInfoResp -> {
+                RoomTextModel model = new RoomTextModel();
+                model.userId = aiMessageModel.uid;
+                if (userInfoResp != null) {
+                    model.avatar = userInfoResp.getUseAvatar();
+                    model.nickName = userInfoResp.nickname;
+                }
+                model.text = aiMessageModel.content;
+                if (binder != null) {
+                    binder.addChatMsg(model);
                 }
             });
         });

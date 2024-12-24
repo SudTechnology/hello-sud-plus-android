@@ -180,7 +180,7 @@ public class KingEatersControl extends BaseInteractionControl {
         if (userIdList.size() == 0) {
             return;
         }
-        UserInfoRepository.getUserInfoList(activity, userIdList, new UserInfoRepository.UserInfoResultListener() {
+        UserInfoRepository.getUserInfoList(activity, userIdList, new UserInfoRepository.UserInfoListResultListener() {
             @Override
             public void userInfoList(List<UserInfoResp> userInfos) {
                 if (userInfos == null || userInfos.size() == 0) {

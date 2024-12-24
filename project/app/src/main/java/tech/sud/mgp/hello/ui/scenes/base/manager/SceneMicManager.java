@@ -106,7 +106,7 @@ public class SceneMicManager extends BaseServiceManager {
                     userIds.add(roomMicResp.userId);
                     list.add(AudioRoomMicModelConverter.conver(roomMicResp));
                 }
-                UserInfoRepository.getUserInfoList(parentManager, userIds, new UserInfoRepository.UserInfoResultListener() {
+                UserInfoRepository.getUserInfoList(parentManager, userIds, new UserInfoRepository.UserInfoListResultListener() {
                     @Override
                     public void userInfoList(List<UserInfoResp> userInfos) {
                         if (userInfos != null) {
@@ -309,7 +309,7 @@ public class SceneMicManager extends BaseServiceManager {
             } else {
                 List<Long> userIds = new ArrayList<>();
                 userIds.add(userId);
-                UserInfoRepository.getUserInfoList(parentManager, userIds, new UserInfoRepository.UserInfoResultListener() {
+                UserInfoRepository.getUserInfoList(parentManager, userIds, new UserInfoRepository.UserInfoListResultListener() {
                     @Override
                     public void userInfoList(List<UserInfoResp> userInfos) {
                         if (userInfos != null) {

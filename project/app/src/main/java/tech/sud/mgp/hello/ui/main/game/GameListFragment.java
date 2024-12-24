@@ -157,7 +157,7 @@ public class GameListFragment extends BaseFragment implements CreatRoomClickList
     private void updateNftHeader() {
         List<Long> userIdList = new ArrayList<>();
         userIdList.add(HSUserInfo.userId);
-        UserInfoRepository.getUserInfoList(this, userIdList, new UserInfoRepository.UserInfoResultListener() {
+        UserInfoRepository.getUserInfoList(this, userIdList, new UserInfoRepository.UserInfoListResultListener() {
             @Override
             public void userInfoList(List<UserInfoResp> userInfos) {
                 BindWalletInfoModel bindWalletInfoModel = nftViewModel.getBindWalletInfoByCache();

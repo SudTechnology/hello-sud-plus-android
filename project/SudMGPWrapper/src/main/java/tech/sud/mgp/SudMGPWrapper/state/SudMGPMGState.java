@@ -965,6 +965,19 @@ public class SudMGPMGState implements Serializable {
     public static class MGCommonAiModelMessage implements Serializable {
     }
 
+    /**
+     * 通知app ai消息
+     */
+    public static final String MG_COMMON_AI_MESSAGE = "mg_common_ai_message";
+
+    /**
+     * 通知app ai消息 模型
+     */
+    public static class MGCommonAiMessage implements Serializable {
+        public String uid; // user id
+        public String content; // ai message
+    }
+
     // endregion 通用状态-游戏
 
     // region MG状态机-通用状态-玩家

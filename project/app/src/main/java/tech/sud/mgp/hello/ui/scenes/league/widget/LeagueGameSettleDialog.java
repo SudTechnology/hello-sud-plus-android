@@ -314,7 +314,7 @@ public class LeagueGameSettleDialog extends BaseDialogFragment {
                 e.printStackTrace();
             }
         }
-        UserInfoRepository.getUserInfoList(this, list, new UserInfoRepository.UserInfoResultListener() {
+        UserInfoRepository.getUserInfoList(this, list, new UserInfoRepository.UserInfoListResultListener() {
             @Override
             public void userInfoList(List<UserInfoResp> userInfos) {
                 LifecycleUtils.safeLifecycle(LeagueGameSettleDialog.this, new CompletedListener() {

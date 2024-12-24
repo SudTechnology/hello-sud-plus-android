@@ -2,6 +2,7 @@ package tech.sud.mgp.hello.service.main.repository;
 
 import androidx.lifecycle.LifecycleOwner;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
@@ -12,7 +13,7 @@ import tech.sud.mgp.hello.service.main.resp.UserInfoResp;
 
 public class UserInfoRepository {
 
-    public static void getUserInfoList(LifecycleOwner owner, List<Long> userIds, UserInfoResultListener listener) {
+    public static void getUserInfoList(LifecycleOwner owner, List<Long> userIds, UserInfoListResultListener listener) {
         if (listener == null) return;
         HomeRepository.getUserInfoList(owner, userIds, new RxCallback<UserInfoListResp>() {
             @Override
@@ -37,6 +38,22 @@ public class UserInfoRepository {
         });
     }
 
+    public static void getUserInfo(LifecycleOwner owner, long userId, UserInfoResultListener listener) {
+        if (listener == null) return;
+        List<Long> reqUserIdList = new ArrayList<>();
+        reqUserIdList.add(userId);
+        getUserInfoList(owner, reqUserIdList, new UserInfoListResultListener() {
+            @Override
+            public void userInfoList(List<UserInfoResp> respList) {
+                if (respList == null || respList.size() == 0) {
+                    listener.userInfo(null);
+                } else {
+                    listener.userInfo(respList.get(0));
+                }
+            }
+        });
+    }
+
     /**
      * 对数据做处理
      * 1，后端返回的nft头像，将直接赋值到avatar字段当中，避免多处修改
@@ -52,8 +69,12 @@ public class UserInfoRepository {
         }
     }
 
-    public interface UserInfoResultListener {
+    public interface UserInfoListResultListener {
         void userInfoList(List<UserInfoResp> userInfos);
+    }
+
+    public interface UserInfoResultListener {
+        void userInfo(UserInfoResp userInfoResp);
     }
 
 }

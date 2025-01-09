@@ -515,6 +515,47 @@ public class SudMGPAPPState implements Serializable {
     }
 
     /**
+     * 37. app通知游戏指定observer观众观看的玩家
+     */
+    public static final String APP_COMMON_GAME_OBSERVE_PLAYER = "app_common_game_observe_player";
+
+    /**
+     * 37. app通知游戏指定observer观众观看的玩家 模型
+     */
+    public static class AppCommonGameObservePlayer implements Serializable {
+        public String uid; // 观众观看的玩家id
+    }
+
+    /**
+     * 38. 设置游戏的背景音音乐量大小（只修改背景音乐音量大小）
+     */
+    public static final String APP_COMMON_GAME_MUSIC_VOLUME = "app_common_game_music_volume";
+
+    /**
+     * 38. 设置游戏的背景音音乐量大小（只修改背景音乐音量大小） 模型
+     */
+    public static class AppCommonGameMusicVolume implements Serializable {
+        public int volume; // 背景音量大小 0 到 100
+    }
+
+    /**
+     * 39. app向游戏下发头像新URL
+     */
+    public static final String APP_COMMON_GAME_AVATAR = "app_common_game_avatar";
+
+    /**
+     * 39. app向游戏下发头像新URL 模型
+     */
+    public static class AppCommonGameAvatar implements Serializable {
+        public List<AvatarModel> avatars; // user头像url列表
+
+        public static class AvatarModel implements Serializable {
+            public String uid; // uid
+            public String avatar; // 头像url
+        }
+    }
+
+    /**
      * app向游戏下发ai模型的输入
      */
     public static final String APP_COMMON_AI_MODEL_MESSAGE = "app_common_ai_model_message";

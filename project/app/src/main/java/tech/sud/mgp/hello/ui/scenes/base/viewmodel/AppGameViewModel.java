@@ -33,6 +33,7 @@ import tech.sud.mgp.core.ISudListenerInitSDK;
 import tech.sud.mgp.core.ISudListenerNotifyStateChange;
 import tech.sud.mgp.core.ISudListenerPreloadMGPkg;
 import tech.sud.mgp.core.PkgDownloadStatus;
+import tech.sud.mgp.core.SudInitSDKParamModel;
 import tech.sud.mgp.core.SudLoadMGMode;
 import tech.sud.mgp.core.SudLoadMGParamModel;
 import tech.sud.mgp.core.SudMGP;
@@ -276,8 +277,15 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
         }
         LogUtils.d("initSdk:" + sudConfig.appId);
         EnvUtils.initMgpEnv();
+
+        SudInitSDKParamModel params = new SudInitSDKParamModel();
+        params.context = activity;
+        params.appId = sudConfig.appId;
+        params.appKey = sudConfig.appKey;
+        params.isTestEnv = APPConfig.GAME_IS_TEST_ENV;
+        params.userId = getUserId();
         // 初始化sdk
-        SudMGP.initSDK(activity, sudConfig.appId, sudConfig.appKey, APPConfig.GAME_IS_TEST_ENV, new ISudListenerInitSDK() {
+        SudMGP.initSDK(params, new ISudListenerInitSDK() {
             @Override
             public void onSuccess() {
                 loadGame(activity, code, gameId, loadMGMode, authorizationSecret, scale);
@@ -324,7 +332,7 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
         SudLoadMGParamModel sudLoadMGParamModel = new SudLoadMGParamModel();
         sudLoadMGParamModel.loadMGMode = loadMGMode;
         sudLoadMGParamModel.activity = activity;
-        sudLoadMGParamModel.userId = HSUserInfo.userId + "";
+        sudLoadMGParamModel.userId = getUserId();
         sudLoadMGParamModel.roomId = gameRoomId + "";
         sudLoadMGParamModel.code = code;
         sudLoadMGParamModel.mgId = gameId;
@@ -643,7 +651,7 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
             sudFSTAPPDecorator.notifyAPPCommonSelfPlaying(false, null, null);
             sudFSTAPPDecorator.notifyAPPCommonSelfReady(false);
             sudFSTAPPDecorator.notifyAPPCommonSelfInV2(false, -1, true, 1);
-        } else if (sudFSMMGDecorator.playerIsReady(HSUserInfo.userId + "")) {
+        } else if (sudFSMMGDecorator.playerIsReady(getUserId())) {
             // 用户已加入并且已经准备，先取消准备，再退出游戏
             sudFSTAPPDecorator.notifyAPPCommonSelfReady(false);
             sudFSTAPPDecorator.notifyAPPCommonSelfInV2(false, -1, true, 1);
@@ -954,7 +962,7 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
     @Override
     public void onPlayerMGCommonPlayerIn(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGCommonPlayerIn model) {
         if (model != null) {
-            if ((HSUserInfo.userId + "").equals(userId)) { // 属于自己的变动
+            if (getUserId().equals(userId)) { // 属于自己的变动
                 if (model.isIn) {
                     autoUpMicLiveData.setValue(null);
                 }
@@ -1034,8 +1042,15 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
             return;
         }
         EnvUtils.initMgpEnv();
+        SudInitSDKParamModel params = new SudInitSDKParamModel();
+        params.context = activity;
+        params.appId = sudConfig.appId;
+        params.appKey = sudConfig.appKey;
+        params.isTestEnv = APPConfig.GAME_IS_TEST_ENV;
+        params.userId = getUserId();
+
         // 初始化sdk
-        SudMGP.initSDK(activity, sudConfig.appId, sudConfig.appKey, APPConfig.GAME_IS_TEST_ENV, new ISudListenerInitSDK() {
+        SudMGP.initSDK(params, new ISudListenerInitSDK() {
             @Override
             public void onSuccess() {
                 SudMGP.preloadMGPkgList(activity, mgIdList, new ISudListenerPreloadMGPkg() {
@@ -1060,6 +1075,10 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
             public void onFailure(int errCode, String errMsg) {
             }
         });
+    }
+
+    private String getUserId() {
+        return HSUserInfo.userId + "";
     }
 
     @Override

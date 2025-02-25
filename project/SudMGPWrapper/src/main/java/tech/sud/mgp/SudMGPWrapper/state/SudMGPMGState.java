@@ -213,7 +213,7 @@ public class SudMGPMGState implements Serializable {
      */
     public static class MGCommonSelfClickJoinBtn implements Serializable {
         // 点击头像加入游戏对应的座位号，int 类型，从0开始， 如果seatIndex=-1，则是随机加入一个空位，如果seatIndex 大于座位数，则加入不成功
-        public int seatIndex;
+        public int seatIndex = -1;
     }
 
     /**

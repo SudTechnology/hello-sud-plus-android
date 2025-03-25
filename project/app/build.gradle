@@ -115,7 +115,13 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     // 引入 SudMGPWrapper
-    implementation project(':SudMGPWrapper')
+//    implementation project(':SudMGPWrapper')
+    // 下面这一块是演示demo的特殊处理，不要照着demo这样引入。直接引入SudMGPWrapper模块就可以了，然后由该模块再去引入SDK的依赖
+    // 参考文档'三分钟集成代码'来集成：https://github.com/SudTechnology/hello-sud-plus-android/tree/master/project/QuickStart
+    implementation(project(":SudMGPWrapper")) {
+        exclude group: "tech.sud.mgp", module: "SudMGP-lite"
+    }
+    implementation 'tech.sud.mgp:SudMGP:1.4.9.1231'
 
     // 引入 SudASR
     implementation 'tech.sud.mgp:SudASR:1.4.9.1231'

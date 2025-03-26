@@ -75,7 +75,7 @@ dependencies {
     implementation(project(":SudMGPWrapper")) {
         exclude group: "tech.sud.mgp", module: "SudMGP-lite"
     }
-    implementation 'tech.sud.mgp:SudMGP:1.4.9.1231'
+    implementation 'tech.sud.mgp:SudMGP:1.5.0.1234'
 
     // --- region QuickStart使用
 

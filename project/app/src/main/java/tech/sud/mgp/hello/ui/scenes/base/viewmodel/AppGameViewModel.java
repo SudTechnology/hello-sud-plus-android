@@ -27,6 +27,7 @@ import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
 import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.SudMGPWrapper.utils.GameCommonStateUtils;
 import tech.sud.mgp.SudMGPWrapper.utils.ISudFSMStateHandleUtils;
+import tech.sud.mgp.core.ISudAiAgent;
 import tech.sud.mgp.core.ISudFSMStateHandle;
 import tech.sud.mgp.core.ISudFSTAPP;
 import tech.sud.mgp.core.ISudListenerInitSDK;
@@ -98,6 +99,7 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
     public final MutableLiveData<SudMGPMGState.MGCommonDestroyGameScene> onGameDestroyLiveData = new MutableLiveData<>(); // 游戏通知app销毁游戏
     public final MutableLiveData<SudMGPMGState.MGCommonGameMoneyNotEnough> onGameMoneyNotEnoughLiveData = new MutableLiveData<>(); // 金币不足
     public final MutableLiveData<SudMGPMGState.MGCommonGamePlayerPropsCards> onGamePlayerPropsCardsLiveData = new MutableLiveData<>(); // 游戏向app发送获取玩家持有的指定点数道具卡
+    public final MutableLiveData<SudMGPMGState.MGCommonAiLargeScaleModelMsg> scaleModelMsgLiveData = new MutableLiveData<>(); // 通知app ai大模型消息
 
     public MutableLiveData<SudMGPMGState.MGCommonGameCreateOrder> gameCreateOrderLiveData = new MutableLiveData<>(); // 创建订单
     public MutableLiveData<SudMGPMGState.MGCommonAiMessage> aiMessageLiveData = new MutableLiveData<>(); // 创建订单
@@ -112,6 +114,7 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
 
     protected boolean closeGameIsCheckFinishGame = true; // 关闭游戏前，是否需要先结束掉游戏
     protected boolean isSendAiMessage; // 向AI发送消息
+    private ISudAiAgent aiAgent;
 
     public AppGameViewModel() {
         sudFSTAPPDecorator.setOnNotifyStateChangeListener(this);
@@ -348,6 +351,8 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
             return;
         }
 
+        aiAgent = iSudFSTAPP.getAiAgent();
+
         // APP调用游戏接口的装饰类设置
         sudFSTAPPDecorator.setISudFSTAPP(iSudFSTAPP);
 
@@ -421,6 +426,7 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
             gameLoadingCompletedLiveData.setValue(false);
             notifyShowFinishGameBtn();
             isSendAiMessage = false;
+            aiAgent = null;
         }
     }
 
@@ -666,6 +672,9 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
      */
     public void onCapturedAudioData(AudioPCMData audioPCMData) {
         sudFSTAPPDecorator.pushAudio(audioPCMData.data, audioPCMData.dataLength);
+        if (aiAgent != null) {
+            aiAgent.pushAudio(audioPCMData.data, audioPCMData.dataLength);
+        }
     }
 
     /**
@@ -675,6 +684,8 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
         if (msg == null || msg.isEmpty()) {
             return;
         }
+
+        sendAiText(msg);
 
         sendAiMessage(msg);
 
@@ -691,6 +702,12 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
         if (msg.contains(keyword)) {
             sudFSTAPPDecorator.notifyAPPCommonSelfTextHitState(true, keyword, msg);
             gameKeywordLiveData.setValue(null);
+        }
+    }
+
+    private void sendAiText(String msg) {
+        if (aiAgent != null) {
+            aiAgent.sendText(msg);
         }
     }
 
@@ -861,6 +878,9 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
         }
         gameLoadingCompletedLiveData.setValue(true);
         gameStartedLiveData.setValue(true);
+        if (playingGameId == GameIdCons.SOUL_STONE) { // 振魂石，AI对话
+            gameASRLiveData.setValue(true);
+        }
     }
 
     @Override
@@ -1028,6 +1048,12 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
     public void onGameMGCommonGamePlayerPropsCards(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGamePlayerPropsCards model) {
         SudFSMMGListener.super.onGameMGCommonGamePlayerPropsCards(handle, model);
         onGamePlayerPropsCardsLiveData.setValue(model);
+    }
+
+    @Override
+    public void onGameMGCommonAiLargeScaleModelMsg(ISudFSMStateHandle handle, SudMGPMGState.MGCommonAiLargeScaleModelMsg model) {
+        SudFSMMGListener.super.onGameMGCommonAiLargeScaleModelMsg(handle, model);
+        scaleModelMsgLiveData.setValue(model);
     }
 
     // endregion 游戏侧回调

@@ -13,6 +13,7 @@ public class GameIdCons {
     public static final long CRAZY_RACECAR = 1649319572314173442L; // 疯狂赛车
     public static final long KING_EATERS = 1641330097642704898L; // 大胃王
     public static final long MONOPOLY = 1704460412809043970L; // 大富翁
+    public static final long SOUL_STONE = 1890346721291059202L; // 振魂石
 
     public static boolean isInteractionGame(long gameId) {
         if (gameId == CUSTOM_ROCKET) return true;

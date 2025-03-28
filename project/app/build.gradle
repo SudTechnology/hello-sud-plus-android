@@ -121,7 +121,8 @@ dependencies {
     implementation(project(":SudMGPWrapper")) {
         exclude group: "tech.sud.mgp", module: "SudMGP-lite"
     }
-    implementation 'tech.sud.mgp:SudMGP:1.5.0.1234'
+    api project(':SudMGPSDK')
+//    implementation 'tech.sud.mgp:SudMGP:1.5.0.1234'
 
     // 引入 SudASR
     implementation 'tech.sud.mgp:SudASR:1.5.0.1234'

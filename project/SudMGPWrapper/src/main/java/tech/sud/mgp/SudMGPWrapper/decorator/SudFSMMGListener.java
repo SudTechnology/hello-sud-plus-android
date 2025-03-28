@@ -618,6 +618,13 @@ public interface SudFSMMGListener {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
+    /**
+     * 64. 通知app ai大模型消息
+     */
+    default void onGameMGCommonAiLargeScaleModelMsg(ISudFSMStateHandle handle, SudMGPMGState.MGCommonAiLargeScaleModelMsg model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
     // endregion 游戏回调APP 通用状态 English: Game callback to APP for general state.
 
     // region 游戏回调APP 玩家状态 English: Game callback to APP for player state.

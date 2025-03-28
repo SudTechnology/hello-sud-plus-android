@@ -87,6 +87,7 @@ import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomService;
 import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomServiceCallback;
 import tech.sud.mgp.hello.ui.scenes.base.utils.AIPlayersConverter;
+import tech.sud.mgp.hello.ui.scenes.base.utils.AudioMsgPlayer;
 import tech.sud.mgp.hello.ui.scenes.base.utils.UserInfoRespConverter;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.SceneRoomViewModel;
@@ -153,6 +154,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
     protected final RoomConfig roomConfig = new RoomConfig();
 
     public long delayExitDuration = 500; // 延时关闭的时长
+    private AudioMsgPlayer mAudioMsgPlayer;
 
     @Override
     protected boolean beforeSetContentView() {
@@ -791,6 +793,17 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
                 }
             });
         });
+        gameViewModel.scaleModelMsgLiveData.observe(this, this::onScaleModelMsg);
+    }
+
+    private void onScaleModelMsg(SudMGPMGState.MGCommonAiLargeScaleModelMsg model) {
+        if (model == null) {
+            return;
+        }
+        if (mAudioMsgPlayer == null) {
+            mAudioMsgPlayer = new AudioMsgPlayer();
+        }
+        mAudioMsgPlayer.play(model.audioData);
     }
 
     /** 游戏回调，创建订单 */

@@ -87,7 +87,7 @@ import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomService;
 import tech.sud.mgp.hello.ui.scenes.base.service.SceneRoomServiceCallback;
 import tech.sud.mgp.hello.ui.scenes.base.utils.AIPlayersConverter;
-import tech.sud.mgp.hello.ui.scenes.base.utils.AudioMsgPlayer;
+import tech.sud.mgp.hello.ui.scenes.base.utils.AudioMsgPlayerConcurrent;
 import tech.sud.mgp.hello.ui.scenes.base.utils.UserInfoRespConverter;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.SceneRoomViewModel;
@@ -154,7 +154,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
     protected final RoomConfig roomConfig = new RoomConfig();
 
     public long delayExitDuration = 500; // 延时关闭的时长
-    private AudioMsgPlayer mAudioMsgPlayer;
+    private AudioMsgPlayerConcurrent mAudioMsgPlayer;
 
     private final int customRobotLevelBigModel = -1;
 
@@ -871,7 +871,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
             return;
         }
         if (mAudioMsgPlayer == null) {
-            mAudioMsgPlayer = new AudioMsgPlayer();
+            mAudioMsgPlayer = new AudioMsgPlayerConcurrent();
         }
         mAudioMsgPlayer.play(model.audioData);
     }

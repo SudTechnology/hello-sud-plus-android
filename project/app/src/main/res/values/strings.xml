@@ -706,6 +706,7 @@ Go to homepage to create one~</string>
     <string name="light_effect">爆灯效果</string>
     <string name="sound_effect">音浪效果</string>
     <string name="rockets_can_only_send_one">火箭只支持发送一个哦</string>
+    <string name="big_model">大模型</string>
     <string name="difficulty">困难</string>
     <string name="moderate">适中</string>
     <string name="simple">简单</string>

@@ -156,6 +156,8 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
     public long delayExitDuration = 500; // 延时关闭的时长
     private AudioMsgPlayer mAudioMsgPlayer;
 
+    private final int customRobotLevelBigModel = -1;
+
     @Override
     protected boolean beforeSetContentView() {
         Serializable modelSerializable = getIntent().getSerializableExtra("RoomInfoModel");
@@ -356,12 +358,13 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         LinearLayout viewRoot = contnetView.findViewById(R.id.view_root);
 
         int popupWindowWidth = DensityUtils.dp2px(this, 80);
-        int popupWindowHeight = DensityUtils.dp2px(this, 128);
+        int popupWindowHeight = DensityUtils.dp2px(this, 168);
         PopupWindow popupWindow = new PopupWindow(contnetView, popupWindowWidth, popupWindowHeight);
 
         popupWindow.setOutsideTouchable(true); //设置点击外部区域可以取消popupWindow
         popupWindow.setFocusable(true); // 返回键取消popupwindow
 
+        addRobotLevelItem(popupWindow, viewRoot, customRobotLevelBigModel); // 大模型
         addRobotLevelItem(popupWindow, viewRoot, 3);
         addRobotLevelItem(popupWindow, viewRoot, 2);
         addRobotLevelItem(popupWindow, viewRoot, 1);
@@ -387,6 +390,9 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
             case 3:
                 tv.setText(R.string.difficulty);
                 break;
+            case customRobotLevelBigModel:
+                tv.setText(R.string.big_model);
+                break;
         }
         tv.setBackgroundResource(R.drawable.selector_bot_level_item);
         tv.setGravity(Gravity.CENTER);
@@ -409,14 +415,76 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         viewRoot.addView(parent, LinearLayout.LayoutParams.MATCH_PARENT, DensityUtils.dp2px(40));
 
         tv.setOnClickListener(v -> {
-            onClickAddRobot(level);
+            if (level == customRobotLevelBigModel) {
+                showBigModelPopupWindow();
+            } else {
+                onClickAddRobot(level, 0, 0);
+            }
+            popupWindow.dismiss();
+        });
+
+    }
+
+    // 大模型AI选项
+    private void showBigModelPopupWindow() {
+        View contnetView = View.inflate(this, R.layout.popup_bot_level, null);
+        LinearLayout viewRoot = contnetView.findViewById(R.id.view_root);
+        viewRoot.setBackgroundColor(Color.WHITE);
+
+        int idCount = 10;
+
+        int popupWindowWidth = DensityUtils.dp2px(this, 80);
+        int popupWindowHeight = DensityUtils.dp2px(this, 40 * idCount);
+        PopupWindow popupWindow = new PopupWindow(contnetView, popupWindowWidth, popupWindowHeight);
+
+        popupWindow.setOutsideTouchable(true); //设置点击外部区域可以取消popupWindow
+        popupWindow.setFocusable(true); // 返回键取消popupwindow
+
+        for (int i = 1; i <= idCount; i++) {
+            addRobotBigModelItem(popupWindow, viewRoot, i); // 大模型
+        }
+
+        int xoff = -(popupWindowWidth / 2 - tvAddRobot.getMeasuredWidth() / 2);
+        int yoff = -(popupWindowHeight + DensityUtils.dp2px(this, 32));
+        popupWindow.showAsDropDown(tvAddRobot, xoff, yoff);
+    }
+
+    private void addRobotBigModelItem(PopupWindow popupWindow, LinearLayout viewRoot, int aiId) {
+        ConstraintLayout parent = new ConstraintLayout(this);
+
+        TextView tv = new TextView(this);
+        tv.setTextSize(13);
+        tv.setTextColor(Color.BLACK);
+        tv.setText(aiId + "");
+        tv.setBackgroundResource(R.drawable.selector_bot_level_item);
+        tv.setGravity(Gravity.CENTER);
+        ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, DensityUtils.dp2px(20));
+        params.topToTop = ConstraintLayout.LayoutParams.PARENT_ID;
+        params.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID;
+        parent.addView(tv, params);
+
+        if (viewRoot.getChildCount() > 0) {
+            View view = new View(this);
+            view.setBackgroundColor(Color.parseColor("#dddddd"));
+            int marginHorizontal = DensityUtils.dp2px(7);
+            ConstraintLayout.LayoutParams viewParams = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, DensityUtils.dp2px(1));
+            viewParams.topToTop = ConstraintLayout.LayoutParams.PARENT_ID;
+            viewParams.setMarginStart(marginHorizontal);
+            viewParams.setMarginEnd(marginHorizontal);
+            parent.addView(view, viewParams);
+        }
+
+        viewRoot.addView(parent, LinearLayout.LayoutParams.MATCH_PARENT, DensityUtils.dp2px(40));
+
+        tv.setOnClickListener(v -> {
+            onClickAddRobot(3, 1, aiId);
             popupWindow.dismiss();
         });
 
     }
 
     /** 点击了添加机器人 */
-    protected void onClickAddRobot(int level) {
+    protected void onClickAddRobot(int level, int aiType, int aiId) {
         RoomRepository.robotList(this, 30, new RxCallback<RobotListResp>() {
             @Override
             public void onSuccess(RobotListResp robotListResp) {
@@ -448,6 +516,8 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
                 // 添加到游戏中
                 List<AIPlayers> aiPlayersList = new ArrayList<>();
                 aiPlayersList.add(aiPlayers);
+                aiPlayers.aiType = aiType;
+                aiPlayers.aiId = aiId;
                 gameViewModel.sudFSTAPPDecorator.notifyAPPCommonGameAddAIPlayers(aiPlayersList, 1);
             }
         });

@@ -278,6 +278,8 @@ public class SudMGPAPPState implements Serializable {
         public String name; // 名字
         public String gender; // 性别 male：男，female：女
         public int level; // 机器人等级 1:简单 2:适中 3:困难
+        public int aiType; // 机器人类型 0.普通AI 1.大模型AI
+        public int aiId; // ai性格 目前支持1~10
     }
 
     /**

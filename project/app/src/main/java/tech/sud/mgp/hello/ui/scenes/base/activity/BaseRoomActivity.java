@@ -17,6 +17,7 @@ import android.view.animation.Animation;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -431,17 +432,23 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         LinearLayout viewRoot = contnetView.findViewById(R.id.view_root);
         viewRoot.setBackgroundColor(Color.WHITE);
 
-        int idCount = 10;
-
         int popupWindowWidth = DensityUtils.dp2px(this, 80);
-        int popupWindowHeight = DensityUtils.dp2px(this, 40 * idCount);
+        int popupWindowHeight = DensityUtils.dp2px(this, 40 * 10);
+
+        ScrollView scrollView = new ScrollView(this);
+        viewRoot.addView(scrollView, popupWindowWidth, ViewGroup.LayoutParams.MATCH_PARENT);
+        LinearLayout container = new LinearLayout(this);
+        container.setOrientation(LinearLayout.VERTICAL);
+        scrollView.addView(container, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
         PopupWindow popupWindow = new PopupWindow(contnetView, popupWindowWidth, popupWindowHeight);
 
         popupWindow.setOutsideTouchable(true); //设置点击外部区域可以取消popupWindow
         popupWindow.setFocusable(true); // 返回键取消popupwindow
 
+        int idCount = 20;
         for (int i = 1; i <= idCount; i++) {
-            addRobotBigModelItem(popupWindow, viewRoot, i); // 大模型
+            addRobotBigModelItem(popupWindow, container, i); // 大模型
         }
 
         int xoff = -(popupWindowWidth / 2 - tvAddRobot.getMeasuredWidth() / 2);

@@ -5,8 +5,13 @@ import android.util.Base64;
 
 import com.blankj.utilcode.util.LogUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /** AI语音消息并发播放 */
 public class AudioMsgPlayerConcurrent {
+
+    private List<MediaPlayer> mPlayerList = new ArrayList<>();
 
     public synchronized void play(String base64) {
         play(base64Decode(base64));
@@ -21,6 +26,8 @@ public class AudioMsgPlayerConcurrent {
 
     private void playMp3(byte[] mp3Buffer) {
         LogUtils.d("playMp3：" + mp3Buffer.length);
+        MediaPlayer mediaPlayer = new MediaPlayer();
+        mPlayerList.add(mediaPlayer);
         try {
             // 用 MemoryFile 作为临时存储
 //            MemoryFile memoryFile = new MemoryFile("temp_audio", mp3Buffer.length);
@@ -29,7 +36,6 @@ public class AudioMsgPlayerConcurrent {
 //            // 获取 FileDescriptor
 //            FileDescriptor fd = ReflectUtils.reflect(memoryFile).method("getFileDescriptor").get();
 
-            MediaPlayer mediaPlayer = new MediaPlayer();
             mediaPlayer.setDataSource(new ByteArrayMediaDataSource(mp3Buffer));
             mediaPlayer.prepareAsync();
             mediaPlayer.setOnPreparedListener(MediaPlayer::start);
@@ -37,17 +43,20 @@ public class AudioMsgPlayerConcurrent {
             // 播放完成时，继续播放队列中的下一个音频
             mediaPlayer.setOnCompletionListener(mp -> {
                 mediaPlayer.release();
+                mPlayerList.remove(mediaPlayer);
             });
 
             // 处理播放错误，防止队列阻塞
             mediaPlayer.setOnErrorListener((mp, what, extra) -> {
                 LogUtils.d("audio error：" + what);
+                mPlayerList.remove(mediaPlayer);
                 mediaPlayer.release();
                 return true; // 表示我们已经处理了错误
             });
 
         } catch (Exception e) {
             LogUtils.d("音频播放失败：" + e.getMessage());
+            mPlayerList.remove(mediaPlayer);
         }
     }
 

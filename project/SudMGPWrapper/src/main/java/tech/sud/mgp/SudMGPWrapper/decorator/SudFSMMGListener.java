@@ -625,6 +625,14 @@ public interface SudFSMMGListener {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
+    /**
+     * 65. 通知app可以开始推送麦克说话状态
+     * mg_common_game_player_mic_state
+     */
+    default void onGameMGCommonGamePlayerMicState(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGamePlayerMicState model) {
+        ISudFSMStateHandleUtils.handleSuccess(handle);
+    }
+
     // endregion 游戏回调APP 通用状态 English: Game callback to APP for general state.
 
     // region 游戏回调APP 玩家状态 English: Game callback to APP for player state.

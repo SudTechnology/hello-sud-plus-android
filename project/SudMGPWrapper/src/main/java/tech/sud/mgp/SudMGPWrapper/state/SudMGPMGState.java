@@ -999,6 +999,17 @@ public class SudMGPMGState implements Serializable {
         }
     }
 
+    /**
+     * 65. 通知app可以开始推送麦克说话状态
+     */
+    public static final String MG_COMMON_GAME_PLAYER_MIC_STATE = "mg_common_game_player_mic_state";
+
+    /**
+     * 65. 通知app可以开始推送麦克说话状态 模型
+     */
+    public static class MGCommonGamePlayerMicState implements Serializable {
+    }
+
     // endregion 通用状态-游戏
 
     // region MG状态机-通用状态-玩家

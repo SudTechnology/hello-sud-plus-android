@@ -575,6 +575,20 @@ public class SudMGPAPPState implements Serializable {
             public String base64Data;// 音频base64数据
         }
     }
+
+    /**
+     * app向游戏下发玩家mic状态
+     */
+    public static final String APP_COMMON_GAME_PLAYER_MIC_STATE = "app_common_game_player_mic_state";
+
+    /**
+     * app向游戏下发玩家mic状态 模型
+     */
+    public static class AppCommonGamePlayerMicState implements Serializable {
+        public String uid;
+        public int state; // 0：停止说话 1：说话中
+    }
+
     // endregion 通用状态
 
     // region 元宇宙砂砂舞

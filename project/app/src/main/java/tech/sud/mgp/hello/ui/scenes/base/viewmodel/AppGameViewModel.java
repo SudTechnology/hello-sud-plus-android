@@ -115,6 +115,7 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
     protected boolean closeGameIsCheckFinishGame = true; // 关闭游戏前，是否需要先结束掉游戏
     protected boolean isSendAiMessage; // 向AI发送消息
     private ISudAiAgent aiAgent;
+    private boolean micIsOpened;
 
     public AppGameViewModel() {
         sudFSTAPPDecorator.setOnNotifyStateChangeListener(this);
@@ -1143,8 +1144,26 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
         aiMessageLiveData.setValue(model);
     }
 
+    @Override
+    public void onGameMGCommonGamePlayerMicState(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGamePlayerMicState model) {
+        SudFSMMGListener.super.onGameMGCommonGamePlayerMicState(handle, model);
+        notifyGameMicState();
+    }
+
     public void reloadMG() {
         sudFSTAPPDecorator.reloadMG();
+    }
+
+    public void setMicOpened(boolean isOpened) {
+        micIsOpened = isOpened;
+        notifyGameMicState();
+    }
+
+    private void notifyGameMicState() {
+        SudMGPAPPState.AppCommonGamePlayerMicState model = new SudMGPAPPState.AppCommonGamePlayerMicState();
+        model.uid = HSUserInfo.userId + "";
+        model.state = micIsOpened ? 1 : 0;
+        notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_PLAYER_MIC_STATE, model);
     }
 
 }

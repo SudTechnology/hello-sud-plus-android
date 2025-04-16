@@ -1693,6 +1693,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
     @Override
     public void onMicStateChanged(boolean isOpened) {
         bottomView.setMicOpened(isOpened);
+        gameViewModel.setMicOpened(isOpened);
     }
 
     @Override

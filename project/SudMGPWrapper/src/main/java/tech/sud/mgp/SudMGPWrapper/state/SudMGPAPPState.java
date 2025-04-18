@@ -278,8 +278,6 @@ public class SudMGPAPPState implements Serializable {
         public String name; // 名字
         public String gender; // 性别 male：男，female：女
         public int level; // 机器人等级 1:简单 2:适中 3:困难
-        public int aiType; // 机器人类型 0.普通AI 1.大模型AI
-        public int aiId; // ai性格 目前支持1~10
     }
 
     /**
@@ -587,6 +585,27 @@ public class SudMGPAPPState implements Serializable {
     public static class AppCommonGamePlayerMicState implements Serializable {
         public String uid;
         public int state; // 0：停止说话 1：说话中
+    }
+
+    /**
+     * 设置游戏中的大模型Al玩家
+     */
+    public static final String APP_COMMON_GAME_ADD_BIG_SCALE_MODEL_AI_PLAYERS = "app_common_game_add_big_scale_model_ai_players";
+
+    /**
+     * 设置游戏中的大模型Al玩家 模型
+     */
+    public static class APPCommonGameAddBigScaleModelAIPlayers implements Serializable {
+        public List<ModelAIPlayers> aiPlayers; // AI玩家
+        public int isReady = 1; // 机器人加入后是否自动准备 1：自动准备，0：不自动准备 默认为1
+    }
+
+    public static class ModelAIPlayers implements Serializable {
+        public String userId; // 玩家id
+        public String avatar; // 头像url
+        public String name; // 名字
+        public String gender; // 性别 male：男，female：女
+        public int aiId; // ai性格 目前支持1~20
     }
 
     // endregion 通用状态

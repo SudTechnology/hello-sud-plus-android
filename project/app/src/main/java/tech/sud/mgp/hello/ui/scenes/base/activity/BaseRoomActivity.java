@@ -521,11 +521,24 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
                 binder.robotUpMicLocation(UserInfoRespConverter.conver(aiPlayers), newRobotMic.micIndex);
 
                 // 添加到游戏中
-                List<AIPlayers> aiPlayersList = new ArrayList<>();
-                aiPlayersList.add(aiPlayers);
-                aiPlayers.aiType = aiType;
-                aiPlayers.aiId = aiId;
-                gameViewModel.sudFSTAPPDecorator.notifyAPPCommonGameAddAIPlayers(aiPlayersList, 1);
+                if (aiType == 0) { // 普通AI
+                    List<AIPlayers> aiPlayersList = new ArrayList<>();
+                    aiPlayersList.add(aiPlayers);
+                    gameViewModel.sudFSTAPPDecorator.notifyAPPCommonGameAddAIPlayers(aiPlayersList, 1);
+                } else if (aiType == 1) { // 大模型
+                    List<SudMGPAPPState.ModelAIPlayers> aiPlayersList = new ArrayList<>();
+                    SudMGPAPPState.ModelAIPlayers modelAIPlayers = new SudMGPAPPState.ModelAIPlayers();
+                    modelAIPlayers.userId = aiPlayers.userId;
+                    modelAIPlayers.avatar = aiPlayers.avatar;
+                    modelAIPlayers.name = aiPlayers.name;
+                    modelAIPlayers.gender = aiPlayers.gender;
+                    modelAIPlayers.aiId = aiId;
+                    aiPlayersList.add(modelAIPlayers);
+                    SudMGPAPPState.APPCommonGameAddBigScaleModelAIPlayers model = new SudMGPAPPState.APPCommonGameAddBigScaleModelAIPlayers();
+                    model.aiPlayers = aiPlayersList;
+                    model.isReady = 1;
+                    gameViewModel.notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_ADD_BIG_SCALE_MODEL_AI_PLAYERS, model);
+                }
             }
         });
     }

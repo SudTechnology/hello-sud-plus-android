@@ -673,7 +673,7 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
      */
     public void onCapturedAudioData(AudioPCMData audioPCMData) {
         sudFSTAPPDecorator.pushAudio(audioPCMData.data, audioPCMData.dataLength);
-        if (aiAgent != null) {
+        if (isAiGame() && aiAgent != null) {
             aiAgent.pushAudio(audioPCMData.data, audioPCMData.dataLength);
         }
     }
@@ -707,9 +707,16 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
     }
 
     private void sendAiText(String msg) {
-        if (aiAgent != null) {
+        if (isAiGame() && aiAgent != null) {
             aiAgent.sendText(msg);
         }
+    }
+
+    private boolean isAiGame() {
+        if (playingGameId == GameIdCons.SOUL_STONE) {
+            return true;
+        }
+        return false;
     }
 
     // 向ai游戏发送公屏消息
@@ -879,7 +886,7 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
         }
         gameLoadingCompletedLiveData.setValue(true);
         gameStartedLiveData.setValue(true);
-        if (playingGameId == GameIdCons.SOUL_STONE) { // 振魂石，AI对话
+        if (isAiGame()) { // 测试，AI对话
             gameASRLiveData.setValue(true);
         }
     }

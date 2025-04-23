@@ -1169,6 +1169,9 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
     public void setMicOpened(boolean isOpened) {
         micIsOpened = isOpened;
         notifyGameMicState();
+        if (!isOpened && aiAgent != null) {
+            aiAgent.pauseAudio();
+        }
     }
 
     private void notifyGameMicState() {

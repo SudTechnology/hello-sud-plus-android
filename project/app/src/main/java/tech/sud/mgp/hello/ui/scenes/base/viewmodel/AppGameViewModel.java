@@ -525,6 +525,11 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
 
     /** 获取游戏的安全操作区域 */
     protected void getGameRect(GameViewInfoModel gameViewInfoModel) {
+        if (mLoadType == GameModel.LOAD_TYPE_REYOU_SDK) {
+            // 此类游戏安全区大小都设为0
+            return;
+        }
+
         gameViewInfoModel.view_game_rect.left = 0;
         gameViewInfoModel.view_game_rect.top = DensityUtils.dp2px(Utils.getApp(), 121) + BarUtils.getStatusBarHeight();
         gameViewInfoModel.view_game_rect.right = 0;

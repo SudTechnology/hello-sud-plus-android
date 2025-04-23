@@ -549,4 +549,8 @@
     <string name="game">游戏</string>
     <string name="scene">场景</string>
 
+    <string name="difficulty">困难</string>
+    <string name="moderate">适中</string>
+    <string name="simple">简单</string>
+
 </resources>

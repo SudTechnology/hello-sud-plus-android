@@ -718,7 +718,7 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
     }
 
     private boolean isAiGame() {
-        if (playingGameId == GameIdCons.SOUL_STONE) {
+        if (playingGameId == GameIdCons.SOUL_STONE || playingGameId == GameIdCons.LUDO) {
             return true;
         }
         return false;

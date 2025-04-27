@@ -1732,6 +1732,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         if (soundLevel > 1) { // 大于1，才触发声浪
             micView.startSoundLevel(micIndex);
         }
+        gameViewModel.onSoundLevel(userId, soundLevel);
     }
 
     @Override

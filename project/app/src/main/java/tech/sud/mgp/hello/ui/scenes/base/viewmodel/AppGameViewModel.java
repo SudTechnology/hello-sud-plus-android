@@ -30,6 +30,7 @@ import tech.sud.mgp.SudMGPWrapper.utils.ISudFSMStateHandleUtils;
 import tech.sud.mgp.core.ISudAiAgent;
 import tech.sud.mgp.core.ISudFSMStateHandle;
 import tech.sud.mgp.core.ISudFSTAPP;
+import tech.sud.mgp.core.ISudListenerAiAgent;
 import tech.sud.mgp.core.ISudListenerInitSDK;
 import tech.sud.mgp.core.ISudListenerNotifyStateChange;
 import tech.sud.mgp.core.ISudListenerPreloadMGPkg;
@@ -100,6 +101,7 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
     public final MutableLiveData<SudMGPMGState.MGCommonGameMoneyNotEnough> onGameMoneyNotEnoughLiveData = new MutableLiveData<>(); // 金币不足
     public final MutableLiveData<SudMGPMGState.MGCommonGamePlayerPropsCards> onGamePlayerPropsCardsLiveData = new MutableLiveData<>(); // 游戏向app发送获取玩家持有的指定点数道具卡
     public final MutableLiveData<SudMGPMGState.MGCommonAiLargeScaleModelMsg> scaleModelMsgLiveData = new MutableLiveData<>(); // 通知app ai大模型消息
+    public final MutableLiveData<String> onAiRoomMessageLiveData = new MutableLiveData<>(); // 通知app，AI房间消息
 
     public MutableLiveData<SudMGPMGState.MGCommonGameCreateOrder> gameCreateOrderLiveData = new MutableLiveData<>(); // 创建订单
     public MutableLiveData<SudMGPMGState.MGCommonAiMessage> aiMessageLiveData = new MutableLiveData<>(); // 创建订单
@@ -353,6 +355,12 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
         }
 
         aiAgent = iSudFSTAPP.getAiAgent();
+        aiAgent.setISudListenerAiAgent(new ISudListenerAiAgent() {
+            @Override
+            public void onRoomChatMessage(String s) {
+                onAiRoomMessageLiveData.setValue(s);
+            }
+        });
 
         // APP调用游戏接口的装饰类设置
         sudFSTAPPDecorator.setISudFSTAPP(iSudFSTAPP);

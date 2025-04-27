@@ -30,6 +30,8 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.gyf.immersionbar.BarHide;
 import com.gyf.immersionbar.ImmersionBar;
 
+import org.json.JSONObject;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -884,16 +886,32 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
             });
         });
         gameViewModel.scaleModelMsgLiveData.observe(this, this::onScaleModelMsg);
+        gameViewModel.onAiRoomMessageLiveData.observe(this, this::onAiRoomMessage);
+    }
+
+    private void onAiRoomMessage(String json) {
+        try {
+            JSONObject obj = new JSONObject(json);
+            String audioData = obj.getString("audioData");
+            playAudioData(audioData);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void onScaleModelMsg(SudMGPMGState.MGCommonAiLargeScaleModelMsg model) {
         if (model == null) {
             return;
         }
+        // TODO: 2025/4/27 先不播放游戏通道过来的数据
+//        playAudioData(model.audioData);
+    }
+
+    private void playAudioData(String model) {
         if (mAudioMsgPlayer == null) {
             mAudioMsgPlayer = new AudioMsgPlayerConcurrent();
         }
-        mAudioMsgPlayer.play(model.audioData);
+        mAudioMsgPlayer.play(model);
     }
 
     /** 游戏回调，创建订单 */

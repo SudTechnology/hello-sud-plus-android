@@ -1,4 +1,4 @@
 configurations.maybeCreate("default")
-artifacts.add("default", file('SudMGP-v0.0.0-804.aar'))
+artifacts.add("default", file('SudMGP-v0.0.0-808.aar'))
 dependencies {
 }

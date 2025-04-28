@@ -479,6 +479,13 @@ public class SceneRoomService extends Service {
             serviceManager.sceneChatManager.assignUserSendPublicMsg(userId, icon, nickname, msg);
         }
 
+        /**
+         * 使用rtc来播放音频
+         */
+        public void playAudio(byte[] audioDatas) {
+            serviceManager.sceneEngineManager.playAudio(audioDatas);
+        }
+
     }
 
     /** 获取当前使用的房间基本数据 */

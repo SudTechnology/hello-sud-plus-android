@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.IBinder;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -907,11 +908,22 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
 //        playAudioData(model.audioData);
     }
 
-    private void playAudioData(String model) {
-        if (mAudioMsgPlayer == null) {
-            mAudioMsgPlayer = new AudioMsgPlayerConcurrent();
+    private void playAudioData(String audioData) {
+//        if (mAudioMsgPlayer == null) {
+//            mAudioMsgPlayer = new AudioMsgPlayerConcurrent();
+//        }
+//        mAudioMsgPlayer.play(audioData);
+
+        // 改为走RTC通道去播放
+        if (binder != null) {
+            binder.playAudio(base64Decode(audioData));
         }
-        mAudioMsgPlayer.play(model);
+    }
+
+    public byte[] base64Decode(String base64Str) {
+        if (base64Str == null || base64Str.length() == 0)
+            return null;
+        return Base64.decode(base64Str, Base64.NO_WRAP);
     }
 
     /** 游戏回调，创建订单 */

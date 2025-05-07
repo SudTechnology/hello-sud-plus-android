@@ -122,10 +122,9 @@ dependencies {
         exclude group: "tech.sud.mgp", module: "SudMGP-lite"
     }
     api project(':SudMGPSDK')
-//    implementation 'tech.sud.mgp:SudMGP:1.5.0.1234'
 
     // 引入 SudASR
-    implementation 'tech.sud.mgp:SudASR:1.5.0.1234'
+    implementation 'tech.sud.mgp:SudASR:1.5.1.1236'
 
     // 引入 SudNFT
     implementation project(':SudNFT:SudNFTSDK')

@@ -435,13 +435,10 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
 
                 // 找到一个空位置
                 AudioRoomMicModel newRobotMic = findNewRobotMic(micList);
-                if (newRobotMic == null) {
-                    ToastUtils.showShort(R.string.no_empty_seat);
-                    return;
+                if (newRobotMic != null) {
+//                    ToastUtils.showShort(R.string.no_empty_seat);
+                    binder.robotUpMicLocation(UserInfoRespConverter.conver(aiPlayers), newRobotMic.micIndex);
                 }
-
-                // 上麦位
-                binder.robotUpMicLocation(UserInfoRespConverter.conver(aiPlayers), newRobotMic.micIndex);
 
                 // 添加到游戏中
                 List<AIPlayers> aiPlayersList = new ArrayList<>();

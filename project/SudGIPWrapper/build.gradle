@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace 'tech.sud.gip.SudMGPWrapper'
+    namespace 'tech.sud.gip.SudGIPWrapper'
     compileSdk 32
 
     defaultConfig {
@@ -25,7 +25,7 @@ android {
 
 dependencies {
 
-    // 引入 SudMGPSDK，发布页：https://github.com/SudTechnology/sud-mgp-android
+    // 引入 SudGIPSDK，发布页：https://github.com/SudTechnology/sud-mgp-android
     // TODO 如果需要上架Google Play，请访问SDK网站说明替换成对应的SDK：
     // TODO If you need to publish on Google Play, please visit the SDK website for instructions to replace it with the corresponding SDK
     api 'tech.sud.mgp:SudMGP-lite:1.5.2.1238'

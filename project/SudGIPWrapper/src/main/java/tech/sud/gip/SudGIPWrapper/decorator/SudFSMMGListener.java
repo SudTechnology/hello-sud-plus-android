@@ -236,7 +236,7 @@ public interface SudFSMMGListener {
 
     /**
      * 17. ASR状态(开启和关闭语音识别状态，v1.1.45.xx 版本新增)
-     * 17. ASR (enabling/disabling voice recognition, added in SudMGP V1.1.45.xx)
+     * 17. ASR (enabling/disabling voice recognition, added in SudGIP V1.1.45.xx)
      * mg_common_game_asr
      */
     default void onGameMGCommonGameASR(ISudFSMStateHandle handle, SudGIPMGState.MGCommonGameASR model) {

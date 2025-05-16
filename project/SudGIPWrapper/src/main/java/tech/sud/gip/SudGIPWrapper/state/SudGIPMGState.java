@@ -3,7 +3,7 @@
  * https://sud.tech
  */
 
-package tech.sud.mgp.SudMGPWrapper.state;
+package tech.sud.gip.SudGIPWrapper.state;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -14,7 +14,7 @@ import java.util.List;
  * MG to APP 的状态定义
  * 参考文档：https://docs.sud.tech/zh-CN/app/Client/MGFSM/
  */
-public class SudMGPMGState implements Serializable {
+public class SudGIPMGState implements Serializable {
 
     // region MG状态机-通用状态-游戏
     // 参考文档：https://docs.sud.tech/zh-CN/app/Client/MGFSM/CommonStateGame.html

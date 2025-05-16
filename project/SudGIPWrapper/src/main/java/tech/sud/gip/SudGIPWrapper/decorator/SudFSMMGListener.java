@@ -3,10 +3,10 @@
  * https://sud.tech
  */
 
-package tech.sud.mgp.SudMGPWrapper.decorator;
+package tech.sud.gip.SudGIPWrapper.decorator;
 
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
-import tech.sud.mgp.SudMGPWrapper.utils.ISudFSMStateHandleUtils;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPMGState;
+import tech.sud.gip.SudGIPWrapper.utils.ISudFSMStateHandleUtils;
 import tech.sud.mgp.core.ISudFSMStateHandle;
 
 /**
@@ -95,7 +95,7 @@ public interface SudFSMMGListener {
      * 1. Public screen messages (modified)
      * mg_common_public_message
      */
-    default void onGameMGCommonPublicMessage(ISudFSMStateHandle handle, SudMGPMGState.MGCommonPublicMessage model) {
+    default void onGameMGCommonPublicMessage(ISudFSMStateHandle handle, SudGIPMGState.MGCommonPublicMessage model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -104,7 +104,7 @@ public interface SudFSMMGListener {
      * 2. Keyword
      * mg_common_key_word_to_hit
      */
-    default void onGameMGCommonKeyWordToHit(ISudFSMStateHandle handle, SudMGPMGState.MGCommonKeyWordToHit model) {
+    default void onGameMGCommonKeyWordToHit(ISudFSMStateHandle handle, SudGIPMGState.MGCommonKeyWordToHit model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -113,7 +113,7 @@ public interface SudFSMMGListener {
      * 3. Post-game
      * mg_common_game_settle
      */
-    default void onGameMGCommonGameSettle(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameSettle model) {
+    default void onGameMGCommonGameSettle(ISudFSMStateHandle handle, SudGIPMGState.MGCommonGameSettle model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -122,7 +122,7 @@ public interface SudFSMMGListener {
      * 4. Tapping the Join button
      * mg_common_self_click_join_btn
      */
-    default void onGameMGCommonSelfClickJoinBtn(ISudFSMStateHandle handle, SudMGPMGState.MGCommonSelfClickJoinBtn model) {
+    default void onGameMGCommonSelfClickJoinBtn(ISudFSMStateHandle handle, SudGIPMGState.MGCommonSelfClickJoinBtn model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -131,7 +131,7 @@ public interface SudFSMMGListener {
      * 5. Tapping the Cancel Join button
      * mg_common_self_click_cancel_join_btn
      */
-    default void onGameMGCommonSelfClickCancelJoinBtn(ISudFSMStateHandle handle, SudMGPMGState.MGCommonSelfClickCancelJoinBtn model) {
+    default void onGameMGCommonSelfClickCancelJoinBtn(ISudFSMStateHandle handle, SudGIPMGState.MGCommonSelfClickCancelJoinBtn model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -140,7 +140,7 @@ public interface SudFSMMGListener {
      * 6. Tapping the Ready button
      * mg_common_self_click_ready_btn
      */
-    default void onGameMGCommonSelfClickReadyBtn(ISudFSMStateHandle handle, SudMGPMGState.MGCommonSelfClickReadyBtn model) {
+    default void onGameMGCommonSelfClickReadyBtn(ISudFSMStateHandle handle, SudGIPMGState.MGCommonSelfClickReadyBtn model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -149,7 +149,7 @@ public interface SudFSMMGListener {
      * 7. Tapping the Cancel Ready button
      * mg_common_self_click_cancel_ready_btn
      */
-    default void onGameMGCommonSelfClickCancelReadyBtn(ISudFSMStateHandle handle, SudMGPMGState.MGCommonSelfClickCancelReadyBtn model) {
+    default void onGameMGCommonSelfClickCancelReadyBtn(ISudFSMStateHandle handle, SudGIPMGState.MGCommonSelfClickCancelReadyBtn model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -158,7 +158,7 @@ public interface SudFSMMGListener {
      * 8. Tapping the Start button
      * mg_common_self_click_start_btn
      */
-    default void onGameMGCommonSelfClickStartBtn(ISudFSMStateHandle handle, SudMGPMGState.MGCommonSelfClickStartBtn model) {
+    default void onGameMGCommonSelfClickStartBtn(ISudFSMStateHandle handle, SudGIPMGState.MGCommonSelfClickStartBtn model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -167,7 +167,7 @@ public interface SudFSMMGListener {
      * 9. Tapping the Share button
      * mg_common_self_click_share_btn
      */
-    default void onGameMGCommonSelfClickShareBtn(ISudFSMStateHandle handle, SudMGPMGState.MGCommonSelfClickShareBtn model) {
+    default void onGameMGCommonSelfClickShareBtn(ISudFSMStateHandle handle, SudGIPMGState.MGCommonSelfClickShareBtn model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -176,7 +176,7 @@ public interface SudFSMMGListener {
      * 10. Gaming
      * mg_common_game_state
      */
-    default void onGameMGCommonGameState(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameState model) {
+    default void onGameMGCommonGameState(ISudFSMStateHandle handle, SudGIPMGState.MGCommonGameState model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -185,7 +185,7 @@ public interface SudFSMMGListener {
      * 11. Tapping the Close button on the post-game screen (added on December 27, 2021)
      * mg_common_self_click_game_settle_close_btn
      */
-    default void onGameMGCommonSelfClickGameSettleCloseBtn(ISudFSMStateHandle handle, SudMGPMGState.MGCommonSelfClickGameSettleCloseBtn model) {
+    default void onGameMGCommonSelfClickGameSettleCloseBtn(ISudFSMStateHandle handle, SudGIPMGState.MGCommonSelfClickGameSettleCloseBtn model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -194,7 +194,7 @@ public interface SudFSMMGListener {
      * 12. Tapping the Play Again button on the post-game screen (added on December 27, 2021)
      * mg_common_self_click_game_settle_again_btn
      */
-    default void onGameMGCommonSelfClickGameSettleAgainBtn(ISudFSMStateHandle handle, SudMGPMGState.MGCommonSelfClickGameSettleAgainBtn model) {
+    default void onGameMGCommonSelfClickGameSettleAgainBtn(ISudFSMStateHandle handle, SudGIPMGState.MGCommonSelfClickGameSettleAgainBtn model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -203,7 +203,7 @@ public interface SudFSMMGListener {
      * 13. Reporting the sound list in a game (added on December 30, 2021)
      * mg_common_game_sound_list
      */
-    default void onGameMGCommonGameSoundList(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameSoundList model) {
+    default void onGameMGCommonGameSoundList(ISudFSMStateHandle handle, SudGIPMGState.MGCommonGameSoundList model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -212,7 +212,7 @@ public interface SudFSMMGListener {
      * 14. Notifying the app layer of playing sound (added on December 30, 2021)
      * mg_common_game_sound
      */
-    default void onGameMGCommonGameSound(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameSound model) {
+    default void onGameMGCommonGameSound(ISudFSMStateHandle handle, SudGIPMGState.MGCommonGameSound model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -221,7 +221,7 @@ public interface SudFSMMGListener {
      * 15. Notifying the app layer of playing background music (added on January 7, 2022)
      * mg_common_game_bg_music_state
      */
-    default void onGameMGCommonGameBgMusicState(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameBgMusicState model) {
+    default void onGameMGCommonGameBgMusicState(ISudFSMStateHandle handle, SudGIPMGState.MGCommonGameBgMusicState model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -230,7 +230,7 @@ public interface SudFSMMGListener {
      * 16. Notifying the app layer of playing sound effect (added on January 7, 2022)
      * mg_common_game_sound_state
      */
-    default void onGameMGCommonGameSoundState(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameSoundState model) {
+    default void onGameMGCommonGameSoundState(ISudFSMStateHandle handle, SudGIPMGState.MGCommonGameSoundState model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -239,7 +239,7 @@ public interface SudFSMMGListener {
      * 17. ASR (enabling/disabling voice recognition, added in SudMGP V1.1.45.xx)
      * mg_common_game_asr
      */
-    default void onGameMGCommonGameASR(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameASR model) {
+    default void onGameMGCommonGameASR(ISudFSMStateHandle handle, SudGIPMGState.MGCommonGameASR model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -248,7 +248,7 @@ public interface SudFSMMGListener {
      * 18. Microphone (added on March 4, 2022)
      * mg_common_self_microphone
      */
-    default void onGameMGCommonSelfMicrophone(ISudFSMStateHandle handle, SudMGPMGState.MGCommonSelfMicrophone model) {
+    default void onGameMGCommonSelfMicrophone(ISudFSMStateHandle handle, SudGIPMGState.MGCommonSelfMicrophone model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -257,7 +257,7 @@ public interface SudFSMMGListener {
      * 19. Headphone (receiver and speaker) (added on March 4, 2022)
      * mg_common_self_headphone
      */
-    default void onGameMGCommonSelfHeadphone(ISudFSMStateHandle handle, SudMGPMGState.MGCommonSelfHeadphone model) {
+    default void onGameMGCommonSelfHeadphone(ISudFSMStateHandle handle, SudGIPMGState.MGCommonSelfHeadphone model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -266,7 +266,7 @@ public interface SudFSMMGListener {
      * 20. app_common_self_x response error code（added on May 10, 2022）
      * mg_common_app_common_self_x_resp
      */
-    default void onGameMGCommonAPPCommonSelfXResp(ISudFSMStateHandle handle, SudMGPMGState.MGCommonAPPCommonSelfXResp model) {
+    default void onGameMGCommonAPPCommonSelfXResp(ISudFSMStateHandle handle, SudGIPMGState.MGCommonAPPCommonSelfXResp model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -275,7 +275,7 @@ public interface SudFSMMGListener {
      * 21. Whether the game notifies the app layer of the success of adding the robot players (added on May 17, 2022)
      * mg_common_game_add_ai_players
      */
-    default void onGameMGCommonGameAddAIPlayers(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameAddAIPlayers model) {
+    default void onGameMGCommonGameAddAIPlayers(ISudFSMStateHandle handle, SudGIPMGState.MGCommonGameAddAIPlayers model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -284,7 +284,7 @@ public interface SudFSMMGListener {
      * 22. The game notifies the app layer to add the current network connection status (added on June 21, 2022)
      * mg_common_game_network_state
      */
-    default void onGameMGCommonGameNetworkState(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameNetworkState model) {
+    default void onGameMGCommonGameNetworkState(ISudFSMStateHandle handle, SudGIPMGState.MGCommonGameNetworkState model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -293,7 +293,7 @@ public interface SudFSMMGListener {
      * 23. Game notification app to get score
      * mg_common_game_score
      */
-    default void onGameMGCommonGameGetScore(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameGetScore model) {
+    default void onGameMGCommonGameGetScore(ISudFSMStateHandle handle, SudGIPMGState.MGCommonGameGetScore model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -302,7 +302,7 @@ public interface SudFSMMGListener {
      * 24. score brought in by game notification app
      * mg_common_game_set_score
      */
-    default void onGameMGCommonGameSetScore(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameSetScore model) {
+    default void onGameMGCommonGameSetScore(ISudFSMStateHandle handle, SudGIPMGState.MGCommonGameSetScore model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -311,7 +311,7 @@ public interface SudFSMMGListener {
      * 25. create order in game
      * mg_common_game_create_order
      */
-    default void onGameMGCommonGameCreateOrder(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameCreateOrder model) {
+    default void onGameMGCommonGameCreateOrder(ISudFSMStateHandle handle, SudGIPMGState.MGCommonGameCreateOrder model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -320,7 +320,7 @@ public interface SudFSMMGListener {
      * 26. Game notification app player role (only valid for werewolf killing)
      * mg_common_player_role_id
      */
-    default void onGameMGCommonPlayerRoleId(ISudFSMStateHandle handle, SudMGPMGState.MGCommonPlayerRoleId model) {
+    default void onGameMGCommonPlayerRoleId(ISudFSMStateHandle handle, SudGIPMGState.MGCommonPlayerRoleId model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -329,7 +329,7 @@ public interface SudFSMMGListener {
      * 27. The game notifies app players that they are thrown poop (only valid for you to draw, I guess)
      * mg_common_self_click_poop
      */
-    default void onGameMGCommonSelfClickPoop(ISudFSMStateHandle handle, SudMGPMGState.MGCommonSelfClickPoop model) {
+    default void onGameMGCommonSelfClickPoop(ISudFSMStateHandle handle, SudGIPMGState.MGCommonSelfClickPoop model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -338,7 +338,7 @@ public interface SudFSMMGListener {
      * 28. The game notifies app players that they are liked (only valid for you to draw and guess)
      * mg_common_self_click_good
      */
-    default void onGameMGCommonSelfClickGood(ISudFSMStateHandle handle, SudMGPMGState.MGCommonSelfClickGood model) {
+    default void onGameMGCommonSelfClickGood(ISudFSMStateHandle handle, SudGIPMGState.MGCommonSelfClickGood model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -347,7 +347,7 @@ public interface SudFSMMGListener {
      * 29. Game Notification App Game FPS (Only effective for bumper, Dominoes, and knifeMasters)
      * mg_common_game_fps
      */
-    default void onGameMGCommonGameFps(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameFps model) {
+    default void onGameMGCommonGameFps(ISudFSMStateHandle handle, SudGIPMGState.MGCommonGameFps model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -356,7 +356,7 @@ public interface SudFSMMGListener {
      * 30. Game Notification App Game Pop-up
      * mg_common_alert
      */
-    default void onGameMGCommonAlert(ISudFSMStateHandle handle, SudMGPMGState.MGCommonAlert model) {
+    default void onGameMGCommonAlert(ISudFSMStateHandle handle, SudGIPMGState.MGCommonAlert model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -365,7 +365,7 @@ public interface SudFSMMGListener {
      * 31. Game Notification App: Most Annoying Teammate (Supports only pickpark)
      * mg_common_worst_teammate
      */
-    default void onGameMGCommonWorstTeammate(ISudFSMStateHandle handle, SudMGPMGState.MGCommonWorstTeammate model) {
+    default void onGameMGCommonWorstTeammate(ISudFSMStateHandle handle, SudGIPMGState.MGCommonWorstTeammate model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -374,7 +374,7 @@ public interface SudFSMMGListener {
      * 32. Game Notification App: Game Ended Due to Player Quitting（Supports only pickpark）
      * mg_common_game_over_tip
      */
-    default void onGameMGCommonGameOverTip(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameOverTip model) {
+    default void onGameMGCommonGameOverTip(ISudFSMStateHandle handle, SudGIPMGState.MGCommonGameOverTip model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -383,7 +383,7 @@ public interface SudFSMMGListener {
      * 33. Game Notification App: Player Color（Supports pickpark and ludo）
      * mg_common_game_player_color
      */
-    default void onGameMGCommonGamePlayerColor(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGamePlayerColor model) {
+    default void onGameMGCommonGamePlayerColor(ISudFSMStateHandle handle, SudGIPMGState.MGCommonGamePlayerColor model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -392,7 +392,7 @@ public interface SudFSMMGListener {
      * 34. Game Notification App: Player Avatar Coordinates （ludo, knife, umo, dominos, teenpatti, texasholdem, drawAndGuess）
      * mg_common_game_player_icon_position
      */
-    default void onGameMGCommonGamePlayerIconPosition(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGamePlayerIconPosition model) {
+    default void onGameMGCommonGamePlayerIconPosition(ISudFSMStateHandle handle, SudGIPMGState.MGCommonGamePlayerIconPosition model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -401,7 +401,7 @@ public interface SudFSMMGListener {
      * 35. Game Notification App: click exit game button (Only supports Teen Patti Pro and Texas Hold'em Pro)
      * mg_common_self_click_exit_game_btn
      */
-    default void onGameMGCommonSelfClickExitGameBtn(ISudFSMStateHandle handle, SudMGPMGState.MGCommonSelfClickExitGameBtn model) {
+    default void onGameMGCommonSelfClickExitGameBtn(ISudFSMStateHandle handle, SudGIPMGState.MGCommonSelfClickExitGameBtn model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -410,7 +410,7 @@ public interface SudFSMMGListener {
      * 36. Game Notification App: Enable Buy-in Points (Only supports Teen Patti Pro and Texas Hold'em Pro)
      * mg_common_game_is_app_chip
      */
-    default void onGameMGCommonGameIsAppChip(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameIsAppChip model) {
+    default void onGameMGCommonGameIsAppChip(ISudFSMStateHandle handle, SudGIPMGState.MGCommonGameIsAppChip model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -419,7 +419,7 @@ public interface SudFSMMGListener {
      * 37. Game Notification App: Current Game Settings Information (Only supports Texas Hold'em Pro and Teen Patti Pro)
      * mg_common_game_rule
      */
-    default void onGameMGCommonGameRule(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameRule model) {
+    default void onGameMGCommonGameRule(ISudFSMStateHandle handle, SudGIPMGState.MGCommonGameRule model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -428,7 +428,7 @@ public interface SudFSMMGListener {
      * 38. Game Notification App: Game Mode Settings (Only supports Texas Hold'em Pro and Teen Patti Pro)
      * mg_common_game_settings
      */
-    default void onGameMGCommonGameSettings(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameSettings model) {
+    default void onGameMGCommonGameSettings(ISudFSMStateHandle handle, SudGIPMGState.MGCommonGameSettings model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -437,7 +437,7 @@ public interface SudFSMMGListener {
      * 39. Game Notification App: Insufficient Coins (Only supports Texas Hold'em Pro and Teen Patti Pro)
      * mg_common_game_money_not_enough
      */
-    default void onGameMGCommonGameMoneyNotEnough(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameMoneyNotEnough model) {
+    default void onGameMGCommonGameMoneyNotEnough(ISudFSMStateHandle handle, SudGIPMGState.MGCommonGameMoneyNotEnough model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -446,7 +446,7 @@ public interface SudFSMMGListener {
      * 40. Game Notification App: Send Custom UI Configuration Table (supports Ludo, fir)
      * mg_common_game_ui_custom_config
      */
-    default void onGameMGCommonGameUiCustomConfig(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameUiCustomConfig model) {
+    default void onGameMGCommonGameUiCustomConfig(ISudFSMStateHandle handle, SudGIPMGState.MGCommonGameUiCustomConfig model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -455,7 +455,7 @@ public interface SudFSMMGListener {
      * 41. Set clickable areas provided by the app for the game (crazyracing)
      * mg_common_set_click_rect
      */
-    default void onGameMGCommonSetClickRect(ISudFSMStateHandle handle, SudMGPMGState.MGCommonSetClickRect model) {
+    default void onGameMGCommonSetClickRect(ISudFSMStateHandle handle, SudGIPMGState.MGCommonSetClickRect model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -464,7 +464,7 @@ public interface SudFSMMGListener {
      * 42. Notify the app to provide data for the corresponding list of UIDs' players (crazyracing).
      * mg_common_users_info
      */
-    default void onGameMGCommonUsersInfo(ISudFSMStateHandle handle, SudMGPMGState.MGCommonUsersInfo model) {
+    default void onGameMGCommonUsersInfo(ISudFSMStateHandle handle, SudGIPMGState.MGCommonUsersInfo model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -473,7 +473,7 @@ public interface SudFSMMGListener {
      * 43. Notify the app that the game's preliminary preparations are complete.(crazyracing)
      * mg_common_game_prepare_finish
      */
-    default void onGameMGCommonGamePrepareFinish(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGamePrepareFinish model) {
+    default void onGameMGCommonGamePrepareFinish(ISudFSMStateHandle handle, SudGIPMGState.MGCommonGamePrepareFinish model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -482,7 +482,7 @@ public interface SudFSMMGListener {
      * 44. Notify the app that the game's main interface has been displayed.(crazyracing)
      * mg_common_show_game_scene
      */
-    default void onGameMGCommonShowGameScene(ISudFSMStateHandle handle, SudMGPMGState.MGCommonShowGameScene model) {
+    default void onGameMGCommonShowGameScene(ISudFSMStateHandle handle, SudGIPMGState.MGCommonShowGameScene model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -491,7 +491,7 @@ public interface SudFSMMGListener {
      * 45. Notify the app that the game's main interface has been hidden.(crazyracing)
      * mg_common_hide_game_scene
      */
-    default void onGameMGCommonHideGameScene(ISudFSMStateHandle handle, SudMGPMGState.MGCommonHideGameScene model) {
+    default void onGameMGCommonHideGameScene(ISudFSMStateHandle handle, SudGIPMGState.MGCommonHideGameScene model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -500,7 +500,7 @@ public interface SudFSMMGListener {
      * 46. Notify the app that the game's coin button has been clicked.(crazyracing)
      * mg_common_self_click_gold_btn
      */
-    default void onGameMGCommonSelfClickGoldBtn(ISudFSMStateHandle handle, SudMGPMGState.MGCommonSelfClickGoldBtn model) {
+    default void onGameMGCommonSelfClickGoldBtn(ISudFSMStateHandle handle, SudGIPMGState.MGCommonSelfClickGoldBtn model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -509,7 +509,7 @@ public interface SudFSMMGListener {
      * 47. Notify app reaches the destination (ludo)
      * mg_common_game_piece_arrive_end
      */
-    default void onGameMGCommonGamePieceArriveEnd(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGamePieceArriveEnd model) {
+    default void onGameMGCommonGamePieceArriveEnd(ISudFSMStateHandle handle, SudGIPMGState.MGCommonGamePieceArriveEnd model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -518,7 +518,7 @@ public interface SudFSMMGListener {
      * 48. Notify App the player is auto Managed
      * mg_common_game_player_managed_state
      */
-    default void onGameMGCommonGamePlayerManagedState(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGamePlayerManagedState model) {
+    default void onGameMGCommonGamePlayerManagedState(ISudFSMStateHandle handle, SudGIPMGState.MGCommonGamePlayerManagedState model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -527,7 +527,7 @@ public interface SudFSMMGListener {
      * 49. Notify App the baochi （whoisspy）
      * mg_common_game_send_burst_word
      */
-    default void onGameMGCommonGameSendBurstWord(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameSendBurstWord model) {
+    default void onGameMGCommonGameSendBurstWord(ISudFSMStateHandle handle, SudGIPMGState.MGCommonGameSendBurstWord model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -536,7 +536,7 @@ public interface SudFSMMGListener {
      * 50. Game sends real-time player rankings to the app (only supported in Monster Smash).
      * mg_common_game_player_ranks
      */
-    default void onGameMGCommonGamePlayerRanks(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGamePlayerRanks model) {
+    default void onGameMGCommonGamePlayerRanks(ISudFSMStateHandle handle, SudGIPMGState.MGCommonGamePlayerRanks model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -545,7 +545,7 @@ public interface SudFSMMGListener {
      * 51. Game sends real-time changes of odd and even cards to the app (only supported in Okey101).
      * mg_common_game_player_pair_singular
      */
-    default void onGameMGCommonGamePlayerPairSingular(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGamePlayerPairSingular model) {
+    default void onGameMGCommonGamePlayerPairSingular(ISudFSMStateHandle handle, SudGIPMGState.MGCommonGamePlayerPairSingular model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -554,7 +554,7 @@ public interface SudFSMMGListener {
      * 52. Game sends the app a request for obtaining the player's held property cards (only supported in Monopoly).
      * mg_common_game_player_monopoly_cards
      */
-    default void onGameMGCommonGamePlayerMonopolyCards(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGamePlayerMonopolyCards model) {
+    default void onGameMGCommonGamePlayerMonopolyCards(ISudFSMStateHandle handle, SudGIPMGState.MGCommonGamePlayerMonopolyCards model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -563,7 +563,7 @@ public interface SudFSMMGListener {
      * 53. Game sends real-time player scores to the app (only supported in Monster Smash).
      * mg_common_game_player_scores
      */
-    default void onGameMGCommonGamePlayerScores(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGamePlayerScores model) {
+    default void onGameMGCommonGamePlayerScores(ISudFSMStateHandle handle, SudGIPMGState.MGCommonGamePlayerScores model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -572,7 +572,7 @@ public interface SudFSMMGListener {
      * 54. The game informs the app to destroy the game
      * mg_common_destroy_game_scene
      */
-    default void onGameMGCommonDestroyGameScene(ISudFSMStateHandle handle, SudMGPMGState.MGCommonDestroyGameScene model) {
+    default void onGameMGCommonDestroyGameScene(ISudFSMStateHandle handle, SudGIPMGState.MGCommonDestroyGameScene model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -581,7 +581,7 @@ public interface SudFSMMGListener {
      * 55. Game notification app Batting status (only table tennis is supported)
      * mg_common_game_billiards_hit_state
      */
-    default void onGameMGCommonGameBilliardsHitState(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameBilliardsHitState model) {
+    default void onGameMGCommonGameBilliardsHitState(ISudFSMStateHandle handle, SudGIPMGState.MGCommonGameBilliardsHitState model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -590,7 +590,7 @@ public interface SudFSMMGListener {
      * 56. The game sends the item card to the app to obtain the specified points held by the player (only flying chess is supported)
      * mg_common_game_player_props_cards
      */
-    default void onGameMGCommonGamePlayerPropsCards(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGamePlayerPropsCards model) {
+    default void onGameMGCommonGamePlayerPropsCards(ISudFSMStateHandle handle, SudGIPMGState.MGCommonGamePlayerPropsCards model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -598,7 +598,7 @@ public interface SudFSMMGListener {
      * 57. 游戏向app发送获游戏通用数据
      * 57. The game sends general game data to the app.
      */
-    default void onGameMGCommonGameInfoX(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameInfoX model) {
+    default void onGameMGCommonGameInfoX(ISudFSMStateHandle handle, SudGIPMGState.MGCommonGameInfoX model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -606,7 +606,7 @@ public interface SudFSMMGListener {
      * 通知app开启ai大模型
      * Notify app to open ai large model
      */
-    default void onGameMGCommonAiModelMessage(ISudFSMStateHandle handle, SudMGPMGState.MGCommonAiModelMessage model) {
+    default void onGameMGCommonAiModelMessage(ISudFSMStateHandle handle, SudGIPMGState.MGCommonAiModelMessage model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -614,7 +614,7 @@ public interface SudFSMMGListener {
      * 通知app ai消息
      * Notify app ai of the message
      */
-    default void onGameMGCommonAiMessage(ISudFSMStateHandle handle, SudMGPMGState.MGCommonAiMessage model) {
+    default void onGameMGCommonAiMessage(ISudFSMStateHandle handle, SudGIPMGState.MGCommonAiMessage model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -629,7 +629,7 @@ public interface SudFSMMGListener {
      * 1. Joining (modified)
      * mg_common_player_in
      */
-    default void onPlayerMGCommonPlayerIn(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGCommonPlayerIn model) {
+    default void onPlayerMGCommonPlayerIn(ISudFSMStateHandle handle, String userId, SudGIPMGState.MGCommonPlayerIn model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -638,7 +638,7 @@ public interface SudFSMMGListener {
      * 2. Ready (modified)
      * mg_common_player_ready
      */
-    default void onPlayerMGCommonPlayerReady(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGCommonPlayerReady model) {
+    default void onPlayerMGCommonPlayerReady(ISudFSMStateHandle handle, String userId, SudGIPMGState.MGCommonPlayerReady model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -647,7 +647,7 @@ public interface SudFSMMGListener {
      * 3. Captain (modified)
      * mg_common_player_captain
      */
-    default void onPlayerMGCommonPlayerCaptain(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGCommonPlayerCaptain model) {
+    default void onPlayerMGCommonPlayerCaptain(ISudFSMStateHandle handle, String userId, SudGIPMGState.MGCommonPlayerCaptain model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -656,7 +656,7 @@ public interface SudFSMMGListener {
      * 4. Gaming (modified)
      * mg_common_player_playing
      */
-    default void onPlayerMGCommonPlayerPlaying(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGCommonPlayerPlaying model) {
+    default void onPlayerMGCommonPlayerPlaying(ISudFSMStateHandle handle, String userId, SudGIPMGState.MGCommonPlayerPlaying model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -665,7 +665,7 @@ public interface SudFSMMGListener {
      * 5. Changing the game seat
      * mg_common_player_online
      */
-    default void onPlayerMGCommonPlayerOnline(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGCommonPlayerOnline model) {
+    default void onPlayerMGCommonPlayerOnline(ISudFSMStateHandle handle, String userId, SudGIPMGState.MGCommonPlayerOnline model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -674,7 +674,7 @@ public interface SudFSMMGListener {
      * 6. Notifying the app of tapping a player's avatar (Added on February 9, 2022. This state applies only to player avatars in game scenes.)
      * mg_common_player_change_seat
      */
-    default void onPlayerMGCommonPlayerChangeSeat(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGCommonPlayerChangeSeat model) {
+    default void onPlayerMGCommonPlayerChangeSeat(ISudFSMStateHandle handle, String userId, SudGIPMGState.MGCommonPlayerChangeSeat model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -683,7 +683,7 @@ public interface SudFSMMGListener {
      * 7. Click the player's Avatar on the game notification app
      * mg_common_self_click_game_player_icon
      */
-    default void onPlayerMGCommonSelfClickGamePlayerIcon(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGCommonSelfClickGamePlayerIcon model) {
+    default void onPlayerMGCommonSelfClickGamePlayerIcon(ISudFSMStateHandle handle, String userId, SudGIPMGState.MGCommonSelfClickGamePlayerIcon model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -692,7 +692,7 @@ public interface SudFSMMGListener {
      * 8. Game notification app player death status (added on April 24, 2022)
      * mg_common_self_die_status
      */
-    default void onPlayerMGCommonSelfDieStatus(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGCommonSelfDieStatus model) {
+    default void onPlayerMGCommonSelfDieStatus(ISudFSMStateHandle handle, String userId, SudGIPMGState.MGCommonSelfDieStatus model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -701,7 +701,7 @@ public interface SudFSMMGListener {
      * 9. Game notification app player's turn (added on April 24, 2022)
      * mg_common_self_turn_status
      */
-    default void onPlayerMGCommonSelfTurnStatus(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGCommonSelfTurnStatus model) {
+    default void onPlayerMGCommonSelfTurnStatus(ISudFSMStateHandle handle, String userId, SudGIPMGState.MGCommonSelfTurnStatus model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -710,7 +710,7 @@ public interface SudFSMMGListener {
      * 10. Game notification app player selection status (added on April 24, 2022)
      * mg_common_self_select_status
      */
-    default void onPlayerMGCommonSelfSelectStatus(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGCommonSelfSelectStatus model) {
+    default void onPlayerMGCommonSelfSelectStatus(ISudFSMStateHandle handle, String userId, SudGIPMGState.MGCommonSelfSelectStatus model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -719,7 +719,7 @@ public interface SudFSMMGListener {
      * 11. The game notifies the app layer of the remaining time of the current game (added on May 23, 2022, and UMO takes effect at present)
      * mg_common_game_countdown_time
      */
-    default void onPlayerMGCommonGameCountdownTime(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGCommonGameCountdownTime model) {
+    default void onPlayerMGCommonGameCountdownTime(ISudFSMStateHandle handle, String userId, SudGIPMGState.MGCommonGameCountdownTime model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -728,7 +728,7 @@ public interface SudFSMMGListener {
      * 12. The game notifies the app layer that the current player will become an OB perspective after death (added on August 23, 2022, and now the werewolf )
      * mg_common_self_ob_status
      */
-    default void onPlayerMGCommonSelfObStatus(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGCommonSelfObStatus model) {
+    default void onPlayerMGCommonSelfObStatus(ISudFSMStateHandle handle, String userId, SudGIPMGState.MGCommonSelfObStatus model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -743,7 +743,7 @@ public interface SudFSMMGListener {
      * 1. Selecting words (modified)
      * mg_dg_selecting
      */
-    default void onPlayerMGDGSelecting(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGDGSelecting model) {
+    default void onPlayerMGDGSelecting(ISudFSMStateHandle handle, String userId, SudGIPMGState.MGDGSelecting model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -752,7 +752,7 @@ public interface SudFSMMGListener {
      * 2. Drawing (modified)
      * mg_dg_painting
      */
-    default void onPlayerMGDGPainting(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGDGPainting model) {
+    default void onPlayerMGDGPainting(ISudFSMStateHandle handle, String userId, SudGIPMGState.MGDGPainting model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -761,7 +761,7 @@ public interface SudFSMMGListener {
      * 3. Displaying incorrect answers (modified)
      * mg_dg_erroranswer
      */
-    default void onPlayerMGDGErroranswer(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGDGErroranswer model) {
+    default void onPlayerMGDGErroranswer(ISudFSMStateHandle handle, String userId, SudGIPMGState.MGDGErroranswer model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -770,7 +770,7 @@ public interface SudFSMMGListener {
      * 4. Displaying the total points (modified)
      * mg_dg_totalscore
      */
-    default void onPlayerMGDGTotalscore(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGDGTotalscore model) {
+    default void onPlayerMGDGTotalscore(ISudFSMStateHandle handle, String userId, SudGIPMGState.MGDGTotalscore model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -779,7 +779,7 @@ public interface SudFSMMGListener {
      * 5. Displaying the points obtained from this round (modified)
      * mg_dg_score
      */
-    default void onPlayerMGDGScore(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGDGScore model) {
+    default void onPlayerMGDGScore(ISudFSMStateHandle handle, String userId, SudGIPMGState.MGDGScore model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -792,7 +792,7 @@ public interface SudFSMMGListener {
      * 1. Callback for instructions in the Metaverse Sand Dance game.
      * mg_common_game_disco_action
      */
-    default void onGameMGCommonGameDiscoAction(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameDiscoAction model) {
+    default void onGameMGCommonGameDiscoAction(ISudFSMStateHandle handle, SudGIPMGState.MGCommonGameDiscoAction model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -801,7 +801,7 @@ public interface SudFSMMGListener {
      * 2. Notification for the completion of actions in the Metaverse Sand Dance game.
      * mg_common_game_disco_action_end
      */
-    default void onGameMGCommonGameDiscoActionEnd(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameDiscoActionEnd model) {
+    default void onGameMGCommonGameDiscoActionEnd(ISudFSMStateHandle handle, SudGIPMGState.MGCommonGameDiscoActionEnd model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
     // endregion 游戏回调APP 通用状态 元宇宙砂砂舞 English: Game callback to APP for general state in Metaverse Sand Dance.
@@ -813,7 +813,7 @@ public interface SudFSMMGListener {
      * 1. Gift Configuration File (Rocket)
      * mg_custom_rocket_config
      */
-    default void onGameMGCustomRocketConfig(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketConfig model) {
+    default void onGameMGCustomRocketConfig(ISudFSMStateHandle handle, SudGIPMGState.MGCustomRocketConfig model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -822,7 +822,7 @@ public interface SudFSMMGListener {
      * 2. List of Owned Models (Rocket)
      * mg_custom_rocket_model_list
      */
-    default void onGameMGCustomRocketModelList(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketModelList model) {
+    default void onGameMGCustomRocketModelList(ISudFSMStateHandle handle, SudGIPMGState.MGCustomRocketModelList model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -831,7 +831,7 @@ public interface SudFSMMGListener {
      * 3. List of Owned Components (Rocket)
      * mg_custom_rocket_component_list
      */
-    default void onGameMGCustomRocketComponentList(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketComponentList model) {
+    default void onGameMGCustomRocketComponentList(ISudFSMStateHandle handle, SudGIPMGState.MGCustomRocketComponentList model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -840,7 +840,7 @@ public interface SudFSMMGListener {
      * 4. Get User Information (Rocket)
      * mg_custom_rocket_user_info
      */
-    default void onGameMGCustomRocketUserInfo(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketUserInfo model) {
+    default void onGameMGCustomRocketUserInfo(ISudFSMStateHandle handle, SudGIPMGState.MGCustomRocketUserInfo model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -849,7 +849,7 @@ public interface SudFSMMGListener {
      * 5. Order History List (Rocket)
      * mg_custom_rocket_order_record_list
      */
-    default void onGameMGCustomRocketOrderRecordList(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketOrderRecordList model) {
+    default void onGameMGCustomRocketOrderRecordList(ISudFSMStateHandle handle, SudGIPMGState.MGCustomRocketOrderRecordList model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -858,7 +858,7 @@ public interface SudFSMMGListener {
      * 6. Exhibition Hall List (Rocket)
      * mg_custom_rocket_room_record_list
      */
-    default void onGameMGCustomRocketRoomRecordList(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketRoomRecordList model) {
+    default void onGameMGCustomRocketRoomRecordList(ISudFSMStateHandle handle, SudGIPMGState.MGCustomRocketRoomRecordList model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -867,7 +867,7 @@ public interface SudFSMMGListener {
      * 7. Game client notifies the app to fetch the player gifting records in the exhibition hall.(Rocket)
      * mg_custom_rocket_user_record_list
      */
-    default void onGameMGCustomRocketUserRecordList(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketUserRecordList model) {
+    default void onGameMGCustomRocketUserRecordList(ISudFSMStateHandle handle, SudGIPMGState.MGCustomRocketUserRecordList model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -876,7 +876,7 @@ public interface SudFSMMGListener {
      * 8. Set default model (Rocket)
      * mg_custom_rocket_set_default_model
      */
-    default void onGameMGCustomRocketSetDefaultModel(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketSetDefaultModel model) {
+    default void onGameMGCustomRocketSetDefaultModel(ISudFSMStateHandle handle, SudGIPMGState.MGCustomRocketSetDefaultModel model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -885,7 +885,7 @@ public interface SudFSMMGListener {
      * 9. Dynamic calculation of one-click sending price(Rocket)
      * mg_custom_rocket_dynamic_fire_price
      */
-    default void onGameMGCustomRocketDynamicFirePrice(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketDynamicFirePrice model) {
+    default void onGameMGCustomRocketDynamicFirePrice(ISudFSMStateHandle handle, SudGIPMGState.MGCustomRocketDynamicFirePrice model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -894,7 +894,7 @@ public interface SudFSMMGListener {
      * 10. One-click sending(Rocket)
      * mg_custom_rocket_fire_model
      */
-    default void onGameMGCustomRocketFireModel(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketFireModel model) {
+    default void onGameMGCustomRocketFireModel(ISudFSMStateHandle handle, SudGIPMGState.MGCustomRocketFireModel model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -903,7 +903,7 @@ public interface SudFSMMGListener {
      * 11. Newly assembled model.(Rocket)
      * mg_custom_rocket_create_model
      */
-    default void onGameMGCustomRocketCreateModel(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketCreateModel model) {
+    default void onGameMGCustomRocketCreateModel(ISudFSMStateHandle handle, SudGIPMGState.MGCustomRocketCreateModel model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -912,7 +912,7 @@ public interface SudFSMMGListener {
      * 12. Model Component Replacement(Rocket)
      * mg_custom_rocket_replace_component
      */
-    default void onGameMGCustomRocketReplaceComponent(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketReplaceComponent model) {
+    default void onGameMGCustomRocketReplaceComponent(ISudFSMStateHandle handle, SudGIPMGState.MGCustomRocketReplaceComponent model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -921,7 +921,7 @@ public interface SudFSMMGListener {
      * 13. Buy component(Rocket)
      * mg_custom_rocket_buy_component
      */
-    default void onGameMGCustomRocketBuyComponent(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketBuyComponent model) {
+    default void onGameMGCustomRocketBuyComponent(ISudFSMStateHandle handle, SudGIPMGState.MGCustomRocketBuyComponent model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -930,7 +930,7 @@ public interface SudFSMMGListener {
      * 14. Play effect start(Rocket)
      * mg_custom_rocket_play_effect_start
      */
-    default void onGameMGCustomRocketPlayEffectStart(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketPlayEffectStart model) {
+    default void onGameMGCustomRocketPlayEffectStart(ISudFSMStateHandle handle, SudGIPMGState.MGCustomRocketPlayEffectStart model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -939,7 +939,7 @@ public interface SudFSMMGListener {
      * 15. Play effect finished(Rocket)
      * mg_custom_rocket_play_effect_finish
      */
-    default void onGameMGCustomRocketPlayEffectFinish(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketPlayEffectFinish model) {
+    default void onGameMGCustomRocketPlayEffectFinish(ISudFSMStateHandle handle, SudGIPMGState.MGCustomRocketPlayEffectFinish model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -948,7 +948,7 @@ public interface SudFSMMGListener {
      * 16. To verify the compliance of a signature(Rocket)
      * mg_custom_rocket_verify_sign
      */
-    default void onGameMGCustomRocketVerifySign(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketVerifySign model) {
+    default void onGameMGCustomRocketVerifySign(ISudFSMStateHandle handle, SudGIPMGState.MGCustomRocketVerifySign model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -957,7 +957,7 @@ public interface SudFSMMGListener {
      * 17. upload icon(Rocket)
      * mg_custom_rocket_upload_model_icon
      */
-    default void onGameMGCustomRocketUploadModelIcon(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketUploadModelIcon model) {
+    default void onGameMGCustomRocketUploadModelIcon(ISudFSMStateHandle handle, SudGIPMGState.MGCustomRocketUploadModelIcon model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -966,7 +966,7 @@ public interface SudFSMMGListener {
      * 18. Preparation is complete.(Rocket)
      * mg_custom_rocket_prepare_finish
      */
-    default void onGameMGCustomRocketPrepareFinish(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketPrepareFinish model) {
+    default void onGameMGCustomRocketPrepareFinish(ISudFSMStateHandle handle, SudGIPMGState.MGCustomRocketPrepareFinish model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -975,7 +975,7 @@ public interface SudFSMMGListener {
      * 19. Rocket main interface has been displayed(Rocket)
      * mg_custom_rocket_show_game_scene
      */
-    default void onGameMGCustomRocketShowGameScene(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketShowGameScene model) {
+    default void onGameMGCustomRocketShowGameScene(ISudFSMStateHandle handle, SudGIPMGState.MGCustomRocketShowGameScene model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -984,7 +984,7 @@ public interface SudFSMMGListener {
      * 20. The rocket main interface has been hidden(Rocket)
      * mg_custom_rocket_hide_game_scene
      */
-    default void onGameMGCustomRocketHideGameScene(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketHideGameScene model) {
+    default void onGameMGCustomRocketHideGameScene(ISudFSMStateHandle handle, SudGIPMGState.MGCustomRocketHideGameScene model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -993,7 +993,7 @@ public interface SudFSMMGListener {
      * 21. Click to lock the component(Rocket)
      * mg_custom_rocket_click_lock_component
      */
-    default void onGameMGCustomRocketClickLockComponent(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketClickLockComponent model) {
+    default void onGameMGCustomRocketClickLockComponent(ISudFSMStateHandle handle, SudGIPMGState.MGCustomRocketClickLockComponent model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -1002,7 +1002,7 @@ public interface SudFSMMGListener {
      * 22. Rocket effect fly click(Rocket)
      * mg_custom_rocket_fly_click
      */
-    default void onGameMGCustomRocketFlyClick(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketFlyClick model) {
+    default void onGameMGCustomRocketFlyClick(ISudFSMStateHandle handle, SudGIPMGState.MGCustomRocketFlyClick model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -1011,7 +1011,7 @@ public interface SudFSMMGListener {
      * 23. Rocket effect fly finished(Rocket)
      * mg_custom_rocket_fly_end
      */
-    default void onGameMGCustomRocketFlyEnd(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketFlyEnd model) {
+    default void onGameMGCustomRocketFlyEnd(ISudFSMStateHandle handle, SudGIPMGState.MGCustomRocketFlyEnd model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -1020,7 +1020,7 @@ public interface SudFSMMGListener {
      * 24. Set clickable area provided by the app for the game(Rocket)
      * mg_custom_rocket_set_click_rect
      */
-    default void onGameMGCustomRocketSetClickRect(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketSetClickRect model) {
+    default void onGameMGCustomRocketSetClickRect(ISudFSMStateHandle handle, SudGIPMGState.MGCustomRocketSetClickRect model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -1029,7 +1029,7 @@ public interface SudFSMMGListener {
      * 25. Save rocket signature or color.(Rocket)
      * mg_custom_rocket_save_sign_color
      */
-    default void onGameMGCustomRocketSaveSignColor(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketSaveSignColor model) {
+    default void onGameMGCustomRocketSaveSignColor(ISudFSMStateHandle handle, SudGIPMGState.MGCustomRocketSaveSignColor model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
     // endregion 游戏回调APP 通用状态 定制火箭 English: Game callback to APP for general state in Custom Rocket.
@@ -1041,7 +1041,7 @@ public interface SudFSMMGListener {
      * 1. Set Default State of Interface (Baseball)
      * mg_baseball_defualt_state
      */
-    default void onGameMGBaseballDefaultState(ISudFSMStateHandle handle, SudMGPMGState.MGBaseballDefaultState model) {
+    default void onGameMGBaseballDefaultState(ISudFSMStateHandle handle, SudGIPMGState.MGBaseballDefaultState model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -1050,7 +1050,7 @@ public interface SudFSMMGListener {
      * 2. Preparation is complete (Baseball)
      * mg_baseball_prepare_finish
      */
-    default void onGameMGBaseballPrepareFinish(ISudFSMStateHandle handle, SudMGPMGState.MGBaseballPrepareFinish model) {
+    default void onGameMGBaseballPrepareFinish(ISudFSMStateHandle handle, SudGIPMGState.MGBaseballPrepareFinish model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -1059,7 +1059,7 @@ public interface SudFSMMGListener {
      * 3. The main interface is now displayed (Baseball)
      * mg_baseball_show_game_scene
      */
-    default void onGameMGBaseballShowGameScene(ISudFSMStateHandle handle, SudMGPMGState.MGBaseballShowGameScene model) {
+    default void onGameMGBaseballShowGameScene(ISudFSMStateHandle handle, SudGIPMGState.MGBaseballShowGameScene model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -1068,7 +1068,7 @@ public interface SudFSMMGListener {
      * 4. The game client has notified the app that the main interface is now hidden (Baseball)
      * mg_baseball_hide_game_scene
      */
-    default void onGameMGBaseballHideGameScene(ISudFSMStateHandle handle, SudMGPMGState.MGBaseballHideGameScene model) {
+    default void onGameMGBaseballHideGameScene(ISudFSMStateHandle handle, SudGIPMGState.MGBaseballHideGameScene model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -1077,7 +1077,7 @@ public interface SudFSMMGListener {
      * 5. To query the ranks data (Baseball)
      * mg_baseball_ranking
      */
-    default void onGameMGBaseballRanking(ISudFSMStateHandle handle, SudMGPMGState.MGBaseballRanking model) {
+    default void onGameMGBaseballRanking(ISudFSMStateHandle handle, SudGIPMGState.MGBaseballRanking model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -1086,7 +1086,7 @@ public interface SudFSMMGListener {
      * 6. Querying my ranking (baseball)
      * mg_baseball_my_ranking
      */
-    default void onGameMGBaseballMyRanking(ISudFSMStateHandle handle, SudMGPMGState.MGBaseballMyRanking model) {
+    default void onGameMGBaseballMyRanking(ISudFSMStateHandle handle, SudGIPMGState.MGBaseballMyRanking model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -1095,7 +1095,7 @@ public interface SudFSMMGListener {
      * 7. The game client notifies the app to query the data of players before and after me in the current distance (Baseball)
      * mg_baseball_range_info
      */
-    default void onGameMGBaseballRangeInfo(ISudFSMStateHandle handle, SudMGPMGState.MGBaseballRangeInfo model) {
+    default void onGameMGBaseballRangeInfo(ISudFSMStateHandle handle, SudGIPMGState.MGBaseballRangeInfo model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -1104,7 +1104,7 @@ public interface SudFSMMGListener {
      * 8. Set the clickable area provided by the app for the game (baseball)
      * mg_baseball_set_click_rect
      */
-    default void onGameMGBaseballSetClickRect(ISudFSMStateHandle handle, SudMGPMGState.MGBaseballSetClickRect model) {
+    default void onGameMGBaseballSetClickRect(ISudFSMStateHandle handle, SudGIPMGState.MGBaseballSetClickRect model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -1113,7 +1113,7 @@ public interface SudFSMMGListener {
      * 9. Retrieve Text Configuration Data (Baseball)
      * mg_baseball_text_config
      */
-    default void onGameMGBaseballTextConfig(ISudFSMStateHandle handle, SudMGPMGState.MGBaseballTextConfig model) {
+    default void onGameMGBaseballTextConfig(ISudFSMStateHandle handle, SudGIPMGState.MGBaseballTextConfig model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -1122,7 +1122,7 @@ public interface SudFSMMGListener {
      * 10. Ball landed, notify distance (Baseball)
      * mg_baseball_send_distance
      */
-    default void onGameMGBaseballSendDistance(ISudFSMStateHandle handle, SudMGPMGState.MGBaseballSendDistance model) {
+    default void onGameMGBaseballSendDistance(ISudFSMStateHandle handle, SudGIPMGState.MGBaseballSendDistance model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
     // endregion 游戏回调APP 通用状态 棒球 English: Game callback to APP for general state in Baseball.
@@ -1133,7 +1133,7 @@ public interface SudFSMMGListener {
      * 1. 请求房间数据
      * mg_custom_cr_room_init_data
      */
-    default void onGameMGCustomCrRoomInitData(ISudFSMStateHandle handle, SudMGPMGState.MGCustomCrRoomInitData model) {
+    default void onGameMGCustomCrRoomInitData(ISudFSMStateHandle handle, SudGIPMGState.MGCustomCrRoomInitData model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 
@@ -1141,7 +1141,7 @@ public interface SudFSMMGListener {
      * 2. 点击主播位或老板位通知
      * mg_custom_cr_click_seat
      */
-    default void onGameMGCustomCrClickSeat(ISudFSMStateHandle handle, SudMGPMGState.MGCustomCrClickSeat model) {
+    default void onGameMGCustomCrClickSeat(ISudFSMStateHandle handle, SudGIPMGState.MGCustomCrClickSeat model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
     // endregion 游戏回调APP 3D语聊房
@@ -1152,7 +1152,7 @@ public interface SudFSMMGListener {
      * 1. 文本/语音聊天结果
      * mg_happy_goat_chat
      */
-    default void onGameMGHappyGoatChat(ISudFSMStateHandle handle, SudMGPMGState.MGHappyGoatChat model) {
+    default void onGameMGHappyGoatChat(ISudFSMStateHandle handle, SudGIPMGState.MGHappyGoatChat model) {
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
     // endregion 游戏回调APP 喜羊羊

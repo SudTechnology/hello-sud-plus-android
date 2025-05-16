@@ -13,7 +13,7 @@ import androidx.lifecycle.Observer;
 import java.util.ArrayList;
 import java.util.List;
 
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPAPPState;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
@@ -494,7 +494,7 @@ public class DiscoActivity extends AbsAudioRoomActivity<DiscoGameViewModel> {
                 if (binder != null) {
                     for (int i = 0; i < robotListResp.robotList.size(); i++) {
                         if (i < SceneDiscoManager.ROBOT_UP_MIC_COUNT) {
-                            SudMGPAPPState.AIPlayers aiPlayers = robotListResp.robotList.get(i);
+                            SudGIPAPPState.AIPlayers aiPlayers = robotListResp.robotList.get(i);
                             binder.robotUpMicLocation(UserInfoRespConverter.conver(aiPlayers), i);
                         } else {
                             break;

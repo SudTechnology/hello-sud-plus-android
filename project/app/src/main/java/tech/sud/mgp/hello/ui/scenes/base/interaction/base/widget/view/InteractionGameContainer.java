@@ -11,7 +11,7 @@ import androidx.annotation.Nullable;
 
 import java.util.List;
 
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPMGState;
 import tech.sud.mgp.hello.BuildConfig;
 import tech.sud.mgp.hello.R;
 
@@ -21,7 +21,7 @@ import tech.sud.mgp.hello.R;
  */
 public class InteractionGameContainer extends FrameLayout {
 
-    private List<SudMGPMGState.InteractionClickRect> clickRectList;
+    private List<SudGIPMGState.InteractionClickRect> clickRectList;
     private FrameLayout clickRectContainer;
 
     public InteractionGameContainer(@NonNull Context context) {
@@ -62,7 +62,7 @@ public class InteractionGameContainer extends FrameLayout {
         }
         float x = ev.getX();
         float y = ev.getY();
-        for (SudMGPMGState.InteractionClickRect rect : clickRectList) {
+        for (SudGIPMGState.InteractionClickRect rect : clickRectList) {
             if (x >= rect.x && x <= (rect.x + rect.width)) {
                 if (y >= rect.y && y <= (rect.y + rect.height)) {
                     return true;
@@ -72,7 +72,7 @@ public class InteractionGameContainer extends FrameLayout {
         return false;
     }
 
-    public void setClickRectList(List<SudMGPMGState.InteractionClickRect> clickRectList) {
+    public void setClickRectList(List<SudGIPMGState.InteractionClickRect> clickRectList) {
         this.clickRectList = clickRectList;
         drawRectViewList();
     }
@@ -80,13 +80,13 @@ public class InteractionGameContainer extends FrameLayout {
     private void drawRectViewList() {
         clickRectContainer.removeAllViews();
         if (clickRectList != null && BuildConfig.gameIsTestEnv) {
-            for (SudMGPMGState.InteractionClickRect rocketClickRect : clickRectList) {
+            for (SudGIPMGState.InteractionClickRect rocketClickRect : clickRectList) {
                 drawRectView(rocketClickRect);
             }
         }
     }
 
-    private void drawRectView(SudMGPMGState.InteractionClickRect rocketClickRect) {
+    private void drawRectView(SudGIPMGState.InteractionClickRect rocketClickRect) {
         View view = new View(getContext());
         LayoutParams layoutParams = new LayoutParams((int) rocketClickRect.width, (int) rocketClickRect.height);
         layoutParams.leftMargin = (int) rocketClickRect.x;

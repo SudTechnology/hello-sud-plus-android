@@ -10,8 +10,8 @@ import androidx.lifecycle.Observer;
 import java.util.ArrayList;
 import java.util.List;
 
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPAPPState;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPMGState;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
@@ -105,7 +105,7 @@ public class KingEatersControl extends BaseInteractionControl {
         gameViewModel.gamePrepareCompletedLiveData.observe(activity, o -> onGamePrepareCompleted());
         gameViewModel.destroyInteractionGameLiveData.observe(activity, o -> stopInteractionGame());
         gameViewModel.gameClickRectLiveData.observe(activity, model -> {
-            List<SudMGPMGState.InteractionClickRect> list = null;
+            List<SudGIPMGState.InteractionClickRect> list = null;
             if (model != null) {
                 list = model.list;
             }
@@ -119,7 +119,7 @@ public class KingEatersControl extends BaseInteractionControl {
     }
 
     /** 游戏回调，创建订单 */
-    private void onGameCreateOrder(SudMGPMGState.MGCommonGameCreateOrder model) {
+    private void onGameCreateOrder(SudGIPMGState.MGCommonGameCreateOrder model) {
         if (model == null) {
             return;
         }
@@ -142,9 +142,9 @@ public class KingEatersControl extends BaseInteractionControl {
                 }
 
                 private void sendCallbackToGame(boolean isSuccess) {
-                    SudMGPAPPState.APPCommonGameCreateOrderResult model = new SudMGPAPPState.APPCommonGameCreateOrderResult();
+                    SudGIPAPPState.APPCommonGameCreateOrderResult model = new SudGIPAPPState.APPCommonGameCreateOrderResult();
                     model.result = isSuccess ? 1 : 0;
-                    gameViewModel.notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_CREATE_ORDER_RESULT, model);
+                    gameViewModel.notifyStateChange(SudGIPAPPState.APP_COMMON_GAME_CREATE_ORDER_RESULT, model);
                 }
 
             });
@@ -165,7 +165,7 @@ public class KingEatersControl extends BaseInteractionControl {
         });
     }
 
-    private void onGameGetUserInfoList(SudMGPMGState.MGCommonUsersInfo model) {
+    private void onGameGetUserInfoList(SudGIPMGState.MGCommonUsersInfo model) {
         if (model == null || model.uids == null) {
             return;
         }
@@ -186,11 +186,11 @@ public class KingEatersControl extends BaseInteractionControl {
                 if (userInfos == null || userInfos.size() == 0) {
                     return;
                 }
-                SudMGPAPPState.APPCommonUsersInfo backModel = new SudMGPAPPState.APPCommonUsersInfo();
+                SudGIPAPPState.APPCommonUsersInfo backModel = new SudGIPAPPState.APPCommonUsersInfo();
                 backModel.infos = new ArrayList<>();
                 for (UserInfoResp userInfo : userInfos) {
                     if (userInfo != null) {
-                        SudMGPAPPState.APPCommonUsersInfo.UserInfoModel backUserInfoModel = new SudMGPAPPState.APPCommonUsersInfo.UserInfoModel();
+                        SudGIPAPPState.APPCommonUsersInfo.UserInfoModel backUserInfoModel = new SudGIPAPPState.APPCommonUsersInfo.UserInfoModel();
                         backUserInfoModel.uid = userInfo.userId + "";
                         backUserInfoModel.avatar = userInfo.getUseAvatar();
                         backUserInfoModel.name = userInfo.nickname;
@@ -207,7 +207,7 @@ public class KingEatersControl extends BaseInteractionControl {
         // 打开游戏主页面
         if (isShowMainScene) {
             isShowMainScene = false;
-            gameViewModel.notifyAppCommonShowGameScene(new SudMGPAPPState.APPCommonShowGameScene());
+            gameViewModel.notifyAppCommonShowGameScene(new SudGIPAPPState.APPCommonShowGameScene());
         }
         hideLoadingDialog();
     }
@@ -217,7 +217,7 @@ public class KingEatersControl extends BaseInteractionControl {
         boolean success = startInteractionGame();
         if (success) {
             isShowMainScene = true;
-            gameViewModel.notifyAppCommonShowGameScene(new SudMGPAPPState.APPCommonShowGameScene());
+            gameViewModel.notifyAppCommonShowGameScene(new SudGIPAPPState.APPCommonShowGameScene());
         }
     }
 

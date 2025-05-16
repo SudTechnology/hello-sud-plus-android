@@ -17,12 +17,12 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import tech.sud.mgp.SudMGPWrapper.decorator.SudFSMMGListener;
-import tech.sud.mgp.SudMGPWrapper.decorator.SudFSTAPPDecorator;
-import tech.sud.mgp.SudMGPWrapper.model.GameConfigModel;
-import tech.sud.mgp.SudMGPWrapper.model.GameViewInfoModel;
-import tech.sud.mgp.SudMGPWrapper.state.MGStateResponse;
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
+import tech.sud.gip.SudGIPWrapper.decorator.SudFSMMGListener;
+import tech.sud.gip.SudGIPWrapper.decorator.SudFSTAPPDecorator;
+import tech.sud.gip.SudGIPWrapper.model.GameConfigModel;
+import tech.sud.gip.SudGIPWrapper.model.GameViewInfoModel;
+import tech.sud.gip.SudGIPWrapper.state.MGStateResponse;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPMGState;
 import tech.sud.mgp.core.ISudFSMMG;
 import tech.sud.mgp.core.ISudFSMStateHandle;
 
@@ -288,7 +288,7 @@ public class QuickStartGameViewModel extends BaseGameViewModel {
      * These states are further divided into two different interfaces for callbacks: onGameStateChange and onPlayerStateChange. However, they are already encapsulated, and you only need to focus on the corresponding callbacks in SudFSMMGListener.
      */
     @Override
-    public void onGameMGCommonGameState(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameState model) {
+    public void onGameMGCommonGameState(ISudFSMStateHandle handle, SudGIPMGState.MGCommonGameState model) {
         super.onGameMGCommonGameState(handle, model);
     }
 

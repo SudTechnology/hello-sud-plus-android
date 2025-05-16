@@ -3,7 +3,7 @@
  * https://sud.tech
  */
 
-package tech.sud.mgp.SudMGPWrapper.state;
+package tech.sud.gip.SudGIPWrapper.state;
 
 import java.io.Serializable;
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.List;
  * APP to MG 的通用状态定义
  * 参考文档：https://docs.sud.tech/zh-CN/app/Client/APPFST/
  */
-public class SudMGPAPPState implements Serializable {
+public class SudGIPAPPState implements Serializable {
 
     // region 通用状态
     /**

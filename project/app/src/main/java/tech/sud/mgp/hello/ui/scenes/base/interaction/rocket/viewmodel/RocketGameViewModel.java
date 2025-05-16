@@ -16,8 +16,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPAPPState;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPMGState;
 import tech.sud.mgp.core.ISudFSMStateHandle;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
@@ -46,10 +46,10 @@ public class RocketGameViewModel extends InteractionGameViewModel {
     private boolean isPlayingRocketEffect; // 火箭动效是否播放中
     private boolean isShowingRocketScene; // 火箭的主界面是否已显示
 
-    public MutableLiveData<SudMGPMGState.MGCustomRocketFireModel> gameFireRocketLiveData = new MutableLiveData<>(); // 发射火箭
-    public MutableLiveData<SudMGPMGState.MGCustomRocketClickLockComponent> clickLockComponentLiveData = new MutableLiveData<>(); // 点击了锁住的组件
+    public MutableLiveData<SudGIPMGState.MGCustomRocketFireModel> gameFireRocketLiveData = new MutableLiveData<>(); // 发射火箭
+    public MutableLiveData<SudGIPMGState.MGCustomRocketClickLockComponent> clickLockComponentLiveData = new MutableLiveData<>(); // 点击了锁住的组件
     public MutableLiveData<Object> rocketPrepareCompletedLiveData = new MutableLiveData<>(); // 火箭准备完成
-    public MutableLiveData<SudMGPMGState.MGCustomRocketSetClickRect> rocketClickRectLiveData = new MutableLiveData<>(); // 火箭点击区域
+    public MutableLiveData<SudGIPMGState.MGCustomRocketSetClickRect> rocketClickRectLiveData = new MutableLiveData<>(); // 火箭点击区域
     public MutableLiveData<Object> rocketPlayEffectStartLiveData = new MutableLiveData<>(); // 火箭飞行开始
     public MutableLiveData<Object> rocketPlayEffectFinishLiveData = new MutableLiveData<>(); // 火箭飞行结束
     public MutableLiveData<Object> destroyRocketLiveData = new MutableLiveData<>(); // 销毁火箭通知
@@ -61,13 +61,13 @@ public class RocketGameViewModel extends InteractionGameViewModel {
      * mg_custom_rocket_config
      */
     @Override
-    public void onGameMGCustomRocketConfig(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketConfig model) {
+    public void onGameMGCustomRocketConfig(ISudFSMStateHandle handle, SudGIPMGState.MGCustomRocketConfig model) {
         super.onGameMGCustomRocketConfig(handle, model);
-        GameRepository.rocketMallComponentList(fragmentActivity, new RxCallback<SudMGPAPPState.AppCustomRocketConfig>() {
+        GameRepository.rocketMallComponentList(fragmentActivity, new RxCallback<SudGIPAPPState.AppCustomRocketConfig>() {
             @Override
-            public void onSuccess(SudMGPAPPState.AppCustomRocketConfig appCustomRocketConfig) {
+            public void onSuccess(SudGIPAPPState.AppCustomRocketConfig appCustomRocketConfig) {
                 super.onSuccess(appCustomRocketConfig);
-                sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_CUSTOM_ROCKET_CONFIG, appCustomRocketConfig);
+                sudFSTAPPDecorator.notifyStateChange(SudGIPAPPState.APP_CUSTOM_ROCKET_CONFIG, appCustomRocketConfig);
             }
         });
     }
@@ -77,13 +77,13 @@ public class RocketGameViewModel extends InteractionGameViewModel {
      * mg_custom_rocket_model_list
      */
     @Override
-    public void onGameMGCustomRocketModelList(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketModelList model) {
+    public void onGameMGCustomRocketModelList(ISudFSMStateHandle handle, SudGIPMGState.MGCustomRocketModelList model) {
         super.onGameMGCustomRocketModelList(handle, model);
-        GameRepository.rocketModelList(fragmentActivity, new RxCallback<SudMGPAPPState.AppCustomRocketModelList>() {
+        GameRepository.rocketModelList(fragmentActivity, new RxCallback<SudGIPAPPState.AppCustomRocketModelList>() {
             @Override
-            public void onSuccess(SudMGPAPPState.AppCustomRocketModelList appCustomRocketModelList) {
+            public void onSuccess(SudGIPAPPState.AppCustomRocketModelList appCustomRocketModelList) {
                 super.onSuccess(appCustomRocketModelList);
-                sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_CUSTOM_ROCKET_MODEL_LIST, appCustomRocketModelList);
+                sudFSTAPPDecorator.notifyStateChange(SudGIPAPPState.APP_CUSTOM_ROCKET_MODEL_LIST, appCustomRocketModelList);
             }
         });
     }
@@ -93,13 +93,13 @@ public class RocketGameViewModel extends InteractionGameViewModel {
      * mg_custom_rocket_component_list
      */
     @Override
-    public void onGameMGCustomRocketComponentList(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketComponentList model) {
+    public void onGameMGCustomRocketComponentList(ISudFSMStateHandle handle, SudGIPMGState.MGCustomRocketComponentList model) {
         super.onGameMGCustomRocketComponentList(handle, model);
-        GameRepository.rocketComponentList(fragmentActivity, new RxCallback<SudMGPAPPState.AppCustomRocketComponentList>() {
+        GameRepository.rocketComponentList(fragmentActivity, new RxCallback<SudGIPAPPState.AppCustomRocketComponentList>() {
             @Override
-            public void onSuccess(SudMGPAPPState.AppCustomRocketComponentList appCustomRocketComponentList) {
+            public void onSuccess(SudGIPAPPState.AppCustomRocketComponentList appCustomRocketComponentList) {
                 super.onSuccess(appCustomRocketComponentList);
-                sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_CUSTOM_ROCKET_COMPONENT_LIST, appCustomRocketComponentList);
+                sudFSTAPPDecorator.notifyStateChange(SudGIPAPPState.APP_CUSTOM_ROCKET_COMPONENT_LIST, appCustomRocketComponentList);
             }
         });
     }
@@ -109,7 +109,7 @@ public class RocketGameViewModel extends InteractionGameViewModel {
      * mg_custom_rocket_user_info
      */
     @Override
-    public void onGameMGCustomRocketUserInfo(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketUserInfo model) {
+    public void onGameMGCustomRocketUserInfo(ISudFSMStateHandle handle, SudGIPMGState.MGCustomRocketUserInfo model) {
         super.onGameMGCustomRocketUserInfo(handle, model);
         List<Long> userIdList = new ArrayList<>();
         try {
@@ -127,13 +127,13 @@ public class RocketGameViewModel extends InteractionGameViewModel {
             @Override
             public void onNext(BaseResponse<UserInfoListResp> t) {
                 super.onNext(t);
-                SudMGPAPPState.AppCustomRocketUserInfo appCustomRocketUserInfo = new SudMGPAPPState.AppCustomRocketUserInfo();
+                SudGIPAPPState.AppCustomRocketUserInfo appCustomRocketUserInfo = new SudGIPAPPState.AppCustomRocketUserInfo();
                 appCustomRocketUserInfo.resultCode = t.getRetCode();
                 appCustomRocketUserInfo.error = t.getRetMsg();
                 if (t.getData() != null) {
                     appCustomRocketUserInfo.userList = conver(t.getData().userInfoList);
                 }
-                sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_CUSTOM_ROCKET_USER_INFO, appCustomRocketUserInfo);
+                sudFSTAPPDecorator.notifyStateChange(SudGIPAPPState.APP_CUSTOM_ROCKET_USER_INFO, appCustomRocketUserInfo);
             }
 
             @Override
@@ -149,16 +149,16 @@ public class RocketGameViewModel extends InteractionGameViewModel {
      * mg_custom_rocket_order_record_list
      */
     @Override
-    public void onGameMGCustomRocketOrderRecordList(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketOrderRecordList model) {
+    public void onGameMGCustomRocketOrderRecordList(ISudFSMStateHandle handle, SudGIPMGState.MGCustomRocketOrderRecordList model) {
         super.onGameMGCustomRocketOrderRecordList(handle, model);
         if (model == null) {
             return;
         }
-        GameRepository.rocketBuyComponentRecord(fragmentActivity, model.pageIndex, model.pageSize, new RxCallback<SudMGPAPPState.AppCustomRocketOrderRecordList>() {
+        GameRepository.rocketBuyComponentRecord(fragmentActivity, model.pageIndex, model.pageSize, new RxCallback<SudGIPAPPState.AppCustomRocketOrderRecordList>() {
             @Override
-            public void onSuccess(SudMGPAPPState.AppCustomRocketOrderRecordList appCustomRocketOrderRecordList) {
+            public void onSuccess(SudGIPAPPState.AppCustomRocketOrderRecordList appCustomRocketOrderRecordList) {
                 super.onSuccess(appCustomRocketOrderRecordList);
-                sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_CUSTOM_ROCKET_ORDER_RECORD_LIST, appCustomRocketOrderRecordList);
+                sudFSTAPPDecorator.notifyStateChange(SudGIPAPPState.APP_CUSTOM_ROCKET_ORDER_RECORD_LIST, appCustomRocketOrderRecordList);
             }
         });
     }
@@ -168,7 +168,7 @@ public class RocketGameViewModel extends InteractionGameViewModel {
      * mg_custom_rocket_room_record_list
      */
     @Override
-    public void onGameMGCustomRocketRoomRecordList(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketRoomRecordList model) {
+    public void onGameMGCustomRocketRoomRecordList(ISudFSMStateHandle handle, SudGIPMGState.MGCustomRocketRoomRecordList model) {
         super.onGameMGCustomRocketRoomRecordList(handle, model);
         if (model == null) {
             return;
@@ -177,11 +177,11 @@ public class RocketGameViewModel extends InteractionGameViewModel {
         req.pageIndex = model.pageIndex;
         req.pageSize = model.pageSize;
         req.roomId = roomId;
-        GameRepository.rocketFireRecordSummery(fragmentActivity, req, new RxCallback<SudMGPAPPState.AppCustomRocketRoomRecordList>() {
+        GameRepository.rocketFireRecordSummery(fragmentActivity, req, new RxCallback<SudGIPAPPState.AppCustomRocketRoomRecordList>() {
             @Override
-            public void onSuccess(SudMGPAPPState.AppCustomRocketRoomRecordList appCustomRocketOrderRecordList) {
+            public void onSuccess(SudGIPAPPState.AppCustomRocketRoomRecordList appCustomRocketOrderRecordList) {
                 super.onSuccess(appCustomRocketOrderRecordList);
-                sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_CUSTOM_ROCKET_ROOM_RECORD_LIST, appCustomRocketOrderRecordList);
+                sudFSTAPPDecorator.notifyStateChange(SudGIPAPPState.APP_CUSTOM_ROCKET_ROOM_RECORD_LIST, appCustomRocketOrderRecordList);
             }
         });
     }
@@ -191,7 +191,7 @@ public class RocketGameViewModel extends InteractionGameViewModel {
      * mg_custom_rocket_user_record_list
      */
     @Override
-    public void onGameMGCustomRocketUserRecordList(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketUserRecordList model) {
+    public void onGameMGCustomRocketUserRecordList(ISudFSMStateHandle handle, SudGIPMGState.MGCustomRocketUserRecordList model) {
         super.onGameMGCustomRocketUserRecordList(handle, model);
         if (model == null) {
             return;
@@ -201,11 +201,11 @@ public class RocketGameViewModel extends InteractionGameViewModel {
         req.pageSize = model.pageSize;
         req.userId = model.userId;
         req.roomId = roomId;
-        GameRepository.rocketFireRecord(fragmentActivity, req, new RxCallback<SudMGPAPPState.AppCustomRocketUserRecordList>() {
+        GameRepository.rocketFireRecord(fragmentActivity, req, new RxCallback<SudGIPAPPState.AppCustomRocketUserRecordList>() {
             @Override
-            public void onSuccess(SudMGPAPPState.AppCustomRocketUserRecordList appCustomRocketUserRecordList) {
+            public void onSuccess(SudGIPAPPState.AppCustomRocketUserRecordList appCustomRocketUserRecordList) {
                 super.onSuccess(appCustomRocketUserRecordList);
-                sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_CUSTOM_ROCKET_USER_RECORD_LIST, appCustomRocketUserRecordList);
+                sudFSTAPPDecorator.notifyStateChange(SudGIPAPPState.APP_CUSTOM_ROCKET_USER_RECORD_LIST, appCustomRocketUserRecordList);
             }
         });
     }
@@ -215,15 +215,15 @@ public class RocketGameViewModel extends InteractionGameViewModel {
      * mg_custom_rocket_set_default_model
      */
     @Override
-    public void onGameMGCustomRocketSetDefaultModel(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketSetDefaultModel model) {
+    public void onGameMGCustomRocketSetDefaultModel(ISudFSMStateHandle handle, SudGIPMGState.MGCustomRocketSetDefaultModel model) {
         super.onGameMGCustomRocketSetDefaultModel(handle, model);
         if (model == null) {
             return;
         }
         RocketSetDefaultSeatReq req = new RocketSetDefaultSeatReq();
         req.modelId = model.modelId;
-        SudMGPAPPState.AppCustomRocketSetDefaultModel resp = new SudMGPAPPState.AppCustomRocketSetDefaultModel();
-        resp.data = new SudMGPAPPState.AppCustomRocketSetDefaultModel.Data();
+        SudGIPAPPState.AppCustomRocketSetDefaultModel resp = new SudGIPAPPState.AppCustomRocketSetDefaultModel();
+        resp.data = new SudGIPAPPState.AppCustomRocketSetDefaultModel.Data();
         resp.data.modelId = req.modelId;
         GameRepository.rocketSetDefaultModel(fragmentActivity, req, new RxCallback<Object>() {
             @Override
@@ -231,7 +231,7 @@ public class RocketGameViewModel extends InteractionGameViewModel {
                 super.onNext(t);
                 resp.resultCode = t.getRetCode();
                 resp.error = t.getRetMsg();
-                sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_CUSTOM_ROCKET_SET_DEFAULT_MODEL, resp);
+                sudFSTAPPDecorator.notifyStateChange(SudGIPAPPState.APP_CUSTOM_ROCKET_SET_DEFAULT_MODEL, resp);
             }
 
             @Override
@@ -239,7 +239,7 @@ public class RocketGameViewModel extends InteractionGameViewModel {
                 super.onError(e);
                 resp.resultCode = RetCode.FAIL;
                 resp.error = e.toString();
-                sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_CUSTOM_ROCKET_SET_DEFAULT_MODEL, resp);
+                sudFSTAPPDecorator.notifyStateChange(SudGIPAPPState.APP_CUSTOM_ROCKET_SET_DEFAULT_MODEL, resp);
             }
         });
     }
@@ -249,23 +249,23 @@ public class RocketGameViewModel extends InteractionGameViewModel {
      * mg_custom_rocket_dynamic_fire_price
      */
     @Override
-    public void onGameMGCustomRocketDynamicFirePrice(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketDynamicFirePrice model) {
+    public void onGameMGCustomRocketDynamicFirePrice(ISudFSMStateHandle handle, SudGIPMGState.MGCustomRocketDynamicFirePrice model) {
         super.onGameMGCustomRocketDynamicFirePrice(handle, model);
         if (model == null) {
             return;
         }
-        SudMGPAPPState.AppCustomRocketDynamicFirePrice resp = new SudMGPAPPState.AppCustomRocketDynamicFirePrice();
+        SudGIPAPPState.AppCustomRocketDynamicFirePrice resp = new SudGIPAPPState.AppCustomRocketDynamicFirePrice();
         GameRepository.rocketFirePrice(fragmentActivity, model, new RxCallback<RocketFirePriceResp>() {
             @Override
             public void onNext(BaseResponse<RocketFirePriceResp> t) {
                 super.onNext(t);
                 resp.resultCode = t.getRetCode();
                 resp.error = t.getRetMsg();
-                resp.data = new SudMGPAPPState.AppCustomRocketDynamicFirePrice.Data();
+                resp.data = new SudGIPAPPState.AppCustomRocketDynamicFirePrice.Data();
                 if (t.getData() != null) {
                     resp.data.price = t.getData().price;
                 }
-                sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_CUSTOM_ROCKET_DYNAMIC_FIRE_PRICE, resp);
+                sudFSTAPPDecorator.notifyStateChange(SudGIPAPPState.APP_CUSTOM_ROCKET_DYNAMIC_FIRE_PRICE, resp);
             }
 
             @Override
@@ -273,7 +273,7 @@ public class RocketGameViewModel extends InteractionGameViewModel {
                 super.onError(e);
                 resp.resultCode = RetCode.FAIL;
                 resp.error = e.toString();
-                sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_CUSTOM_ROCKET_DYNAMIC_FIRE_PRICE, resp);
+                sudFSTAPPDecorator.notifyStateChange(SudGIPAPPState.APP_CUSTOM_ROCKET_DYNAMIC_FIRE_PRICE, resp);
             }
         });
     }
@@ -283,7 +283,7 @@ public class RocketGameViewModel extends InteractionGameViewModel {
      * mg_custom_rocket_fire_model
      */
     @Override
-    public void onGameMGCustomRocketFireModel(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketFireModel model) {
+    public void onGameMGCustomRocketFireModel(ISudFSMStateHandle handle, SudGIPMGState.MGCustomRocketFireModel model) {
         super.onGameMGCustomRocketFireModel(handle, model);
         gameFireRocketLiveData.setValue(model);
     }
@@ -293,17 +293,17 @@ public class RocketGameViewModel extends InteractionGameViewModel {
      * mg_custom_rocket_create_model
      */
     @Override
-    public void onGameMGCustomRocketCreateModel(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketCreateModel model) {
+    public void onGameMGCustomRocketCreateModel(ISudFSMStateHandle handle, SudGIPMGState.MGCustomRocketCreateModel model) {
         super.onGameMGCustomRocketCreateModel(handle, model);
-        SudMGPAPPState.AppCustomRocketCreateModel resp = new SudMGPAPPState.AppCustomRocketCreateModel();
-        GameRepository.rocketCreateModel(fragmentActivity, model, new RxCallback<SudMGPAPPState.AppCustomRocketCreateModel.Data>() {
+        SudGIPAPPState.AppCustomRocketCreateModel resp = new SudGIPAPPState.AppCustomRocketCreateModel();
+        GameRepository.rocketCreateModel(fragmentActivity, model, new RxCallback<SudGIPAPPState.AppCustomRocketCreateModel.Data>() {
             @Override
-            public void onNext(BaseResponse<SudMGPAPPState.AppCustomRocketCreateModel.Data> t) {
+            public void onNext(BaseResponse<SudGIPAPPState.AppCustomRocketCreateModel.Data> t) {
                 super.onNext(t);
                 resp.resultCode = t.getRetCode();
                 resp.error = t.getRetMsg();
                 resp.data = t.getData();
-                sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_CUSTOM_ROCKET_CREATE_MODEL, resp);
+                sudFSTAPPDecorator.notifyStateChange(SudGIPAPPState.APP_CUSTOM_ROCKET_CREATE_MODEL, resp);
             }
 
             @Override
@@ -311,7 +311,7 @@ public class RocketGameViewModel extends InteractionGameViewModel {
                 super.onError(e);
                 resp.resultCode = RetCode.FAIL;
                 resp.error = e.toString();
-                sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_CUSTOM_ROCKET_CREATE_MODEL, resp);
+                sudFSTAPPDecorator.notifyStateChange(SudGIPAPPState.APP_CUSTOM_ROCKET_CREATE_MODEL, resp);
             }
         });
     }
@@ -321,17 +321,17 @@ public class RocketGameViewModel extends InteractionGameViewModel {
      * mg_custom_rocket_replace_component
      */
     @Override
-    public void onGameMGCustomRocketReplaceComponent(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketReplaceComponent model) {
+    public void onGameMGCustomRocketReplaceComponent(ISudFSMStateHandle handle, SudGIPMGState.MGCustomRocketReplaceComponent model) {
         super.onGameMGCustomRocketReplaceComponent(handle, model);
-        SudMGPAPPState.AppCustomRocketReplaceComponent resp = new SudMGPAPPState.AppCustomRocketReplaceComponent();
-        GameRepository.rocketReplaceComponent(fragmentActivity, model, new RxCallback<SudMGPAPPState.AppCustomRocketReplaceComponent.Data>() {
+        SudGIPAPPState.AppCustomRocketReplaceComponent resp = new SudGIPAPPState.AppCustomRocketReplaceComponent();
+        GameRepository.rocketReplaceComponent(fragmentActivity, model, new RxCallback<SudGIPAPPState.AppCustomRocketReplaceComponent.Data>() {
             @Override
-            public void onNext(BaseResponse<SudMGPAPPState.AppCustomRocketReplaceComponent.Data> t) {
+            public void onNext(BaseResponse<SudGIPAPPState.AppCustomRocketReplaceComponent.Data> t) {
                 super.onNext(t);
                 resp.resultCode = t.getRetCode();
                 resp.error = t.getRetMsg();
                 resp.data = t.getData();
-                sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_CUSTOM_ROCKET_REPLACE_COMPONENT, resp);
+                sudFSTAPPDecorator.notifyStateChange(SudGIPAPPState.APP_CUSTOM_ROCKET_REPLACE_COMPONENT, resp);
             }
 
             @Override
@@ -339,7 +339,7 @@ public class RocketGameViewModel extends InteractionGameViewModel {
                 super.onError(e);
                 resp.resultCode = RetCode.FAIL;
                 resp.error = e.toString();
-                sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_CUSTOM_ROCKET_REPLACE_COMPONENT, resp);
+                sudFSTAPPDecorator.notifyStateChange(SudGIPAPPState.APP_CUSTOM_ROCKET_REPLACE_COMPONENT, resp);
             }
         });
     }
@@ -349,17 +349,17 @@ public class RocketGameViewModel extends InteractionGameViewModel {
      * mg_custom_rocket_buy_component
      */
     @Override
-    public void onGameMGCustomRocketBuyComponent(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketBuyComponent model) {
+    public void onGameMGCustomRocketBuyComponent(ISudFSMStateHandle handle, SudGIPMGState.MGCustomRocketBuyComponent model) {
         super.onGameMGCustomRocketBuyComponent(handle, model);
-        SudMGPAPPState.AppCustomRocketBuyComponent resp = new SudMGPAPPState.AppCustomRocketBuyComponent();
-        GameRepository.rocketBuyComponent(fragmentActivity, model, new RxCallback<SudMGPAPPState.AppCustomRocketBuyComponent.Data>() {
+        SudGIPAPPState.AppCustomRocketBuyComponent resp = new SudGIPAPPState.AppCustomRocketBuyComponent();
+        GameRepository.rocketBuyComponent(fragmentActivity, model, new RxCallback<SudGIPAPPState.AppCustomRocketBuyComponent.Data>() {
             @Override
-            public void onNext(BaseResponse<SudMGPAPPState.AppCustomRocketBuyComponent.Data> t) {
+            public void onNext(BaseResponse<SudGIPAPPState.AppCustomRocketBuyComponent.Data> t) {
                 super.onNext(t);
                 resp.resultCode = t.getRetCode();
                 resp.error = t.getRetMsg();
                 resp.data = t.getData();
-                sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_CUSTOM_ROCKET_BUY_COMPONENT, resp);
+                sudFSTAPPDecorator.notifyStateChange(SudGIPAPPState.APP_CUSTOM_ROCKET_BUY_COMPONENT, resp);
             }
 
             @Override
@@ -367,7 +367,7 @@ public class RocketGameViewModel extends InteractionGameViewModel {
                 super.onError(e);
                 resp.resultCode = RetCode.FAIL;
                 resp.error = e.toString();
-                sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_CUSTOM_ROCKET_BUY_COMPONENT, resp);
+                sudFSTAPPDecorator.notifyStateChange(SudGIPAPPState.APP_CUSTOM_ROCKET_BUY_COMPONENT, resp);
             }
         });
     }
@@ -377,7 +377,7 @@ public class RocketGameViewModel extends InteractionGameViewModel {
      * mg_custom_rocket_play_effect_start
      */
     @Override
-    public void onGameMGCustomRocketPlayEffectStart(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketPlayEffectStart model) {
+    public void onGameMGCustomRocketPlayEffectStart(ISudFSMStateHandle handle, SudGIPMGState.MGCustomRocketPlayEffectStart model) {
         super.onGameMGCustomRocketPlayEffectStart(handle, model);
         rocketPlayEffectStartLiveData.setValue(null);
         isPlayingRocketEffect = true;
@@ -388,7 +388,7 @@ public class RocketGameViewModel extends InteractionGameViewModel {
      * mg_custom_rocket_play_effect_finish
      */
     @Override
-    public void onGameMGCustomRocketPlayEffectFinish(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketPlayEffectFinish model) {
+    public void onGameMGCustomRocketPlayEffectFinish(ISudFSMStateHandle handle, SudGIPMGState.MGCustomRocketPlayEffectFinish model) {
         super.onGameMGCustomRocketPlayEffectFinish(handle, model);
         rocketPlayEffectFinishLiveData.setValue(null);
         isPlayingRocketEffect = false;
@@ -400,17 +400,17 @@ public class RocketGameViewModel extends InteractionGameViewModel {
      * mg_custom_rocket_verify_sign
      */
     @Override
-    public void onGameMGCustomRocketVerifySign(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketVerifySign model) {
+    public void onGameMGCustomRocketVerifySign(ISudFSMStateHandle handle, SudGIPMGState.MGCustomRocketVerifySign model) {
         super.onGameMGCustomRocketVerifySign(handle, model);
-        SudMGPAPPState.AppCustomRocketVerifySign resp = new SudMGPAPPState.AppCustomRocketVerifySign();
-        GameRepository.rocketVerifySign(fragmentActivity, model, new RxCallback<SudMGPAPPState.AppCustomRocketVerifySign.Data>() {
+        SudGIPAPPState.AppCustomRocketVerifySign resp = new SudGIPAPPState.AppCustomRocketVerifySign();
+        GameRepository.rocketVerifySign(fragmentActivity, model, new RxCallback<SudGIPAPPState.AppCustomRocketVerifySign.Data>() {
             @Override
-            public void onNext(BaseResponse<SudMGPAPPState.AppCustomRocketVerifySign.Data> t) {
+            public void onNext(BaseResponse<SudGIPAPPState.AppCustomRocketVerifySign.Data> t) {
                 super.onNext(t);
                 resp.resultCode = t.getRetCode();
                 resp.error = t.getRetMsg();
                 resp.data = t.getData();
-                sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_CUSTOM_ROCKET_VERIFY_SIGN, resp);
+                sudFSTAPPDecorator.notifyStateChange(SudGIPAPPState.APP_CUSTOM_ROCKET_VERIFY_SIGN, resp);
             }
 
             @Override
@@ -418,7 +418,7 @@ public class RocketGameViewModel extends InteractionGameViewModel {
                 super.onError(e);
                 resp.resultCode = RetCode.FAIL;
                 resp.error = e.toString();
-                sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_CUSTOM_ROCKET_VERIFY_SIGN, resp);
+                sudFSTAPPDecorator.notifyStateChange(SudGIPAPPState.APP_CUSTOM_ROCKET_VERIFY_SIGN, resp);
             }
         });
     }
@@ -428,7 +428,7 @@ public class RocketGameViewModel extends InteractionGameViewModel {
      * mg_custom_rocket_upload_model_icon
      */
     @Override
-    public void onGameMGCustomRocketUploadModelIcon(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketUploadModelIcon model) {
+    public void onGameMGCustomRocketUploadModelIcon(ISudFSMStateHandle handle, SudGIPMGState.MGCustomRocketUploadModelIcon model) {
         super.onGameMGCustomRocketUploadModelIcon(handle, model);
         if (model == null || TextUtils.isEmpty(model.data)) {
             return;
@@ -453,7 +453,7 @@ public class RocketGameViewModel extends InteractionGameViewModel {
      * mg_custom_rocket_prepare_finish
      */
     @Override
-    public void onGameMGCustomRocketPrepareFinish(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketPrepareFinish model) {
+    public void onGameMGCustomRocketPrepareFinish(ISudFSMStateHandle handle, SudGIPMGState.MGCustomRocketPrepareFinish model) {
         super.onGameMGCustomRocketPrepareFinish(handle, model);
         rocketIsReady = true;
         rocketPrepareCompletedLiveData.setValue(null);
@@ -464,7 +464,7 @@ public class RocketGameViewModel extends InteractionGameViewModel {
      * mg_custom_rocket_show_game_scene
      */
     @Override
-    public void onGameMGCustomRocketShowGameScene(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketShowGameScene model) {
+    public void onGameMGCustomRocketShowGameScene(ISudFSMStateHandle handle, SudGIPMGState.MGCustomRocketShowGameScene model) {
         super.onGameMGCustomRocketShowGameScene(handle, model);
         isShowingRocketScene = true;
     }
@@ -474,7 +474,7 @@ public class RocketGameViewModel extends InteractionGameViewModel {
      * mg_custom_rocket_hide_game_scene
      */
     @Override
-    public void onGameMGCustomRocketHideGameScene(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketHideGameScene model) {
+    public void onGameMGCustomRocketHideGameScene(ISudFSMStateHandle handle, SudGIPMGState.MGCustomRocketHideGameScene model) {
         super.onGameMGCustomRocketHideGameScene(handle, model);
         isShowingRocketScene = false;
         checkDestroyRocket();
@@ -485,7 +485,7 @@ public class RocketGameViewModel extends InteractionGameViewModel {
      * mg_custom_rocket_click_lock_component
      */
     @Override
-    public void onGameMGCustomRocketClickLockComponent(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketClickLockComponent model) {
+    public void onGameMGCustomRocketClickLockComponent(ISudFSMStateHandle handle, SudGIPMGState.MGCustomRocketClickLockComponent model) {
         super.onGameMGCustomRocketClickLockComponent(handle, model);
         clickLockComponentLiveData.setValue(model);
     }
@@ -495,17 +495,17 @@ public class RocketGameViewModel extends InteractionGameViewModel {
      * mg_custom_rocket_save_sign_color
      */
     @Override
-    public void onGameMGCustomRocketSaveSignColor(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketSaveSignColor model) {
+    public void onGameMGCustomRocketSaveSignColor(ISudFSMStateHandle handle, SudGIPMGState.MGCustomRocketSaveSignColor model) {
         super.onGameMGCustomRocketSaveSignColor(handle, model);
-        SudMGPAPPState.AppCustomRocketSaveSignColor resp = new SudMGPAPPState.AppCustomRocketSaveSignColor();
-        GameRepository.rocketSaveSignColor(fragmentActivity, model, new RxCallback<SudMGPAPPState.AppCustomRocketSaveSignColor.Data>() {
+        SudGIPAPPState.AppCustomRocketSaveSignColor resp = new SudGIPAPPState.AppCustomRocketSaveSignColor();
+        GameRepository.rocketSaveSignColor(fragmentActivity, model, new RxCallback<SudGIPAPPState.AppCustomRocketSaveSignColor.Data>() {
             @Override
-            public void onNext(BaseResponse<SudMGPAPPState.AppCustomRocketSaveSignColor.Data> t) {
+            public void onNext(BaseResponse<SudGIPAPPState.AppCustomRocketSaveSignColor.Data> t) {
                 super.onNext(t);
                 resp.resultCode = t.getRetCode();
                 resp.error = t.getRetMsg();
                 resp.data = t.getData();
-                notifyStateChange(SudMGPAPPState.APP_CUSTOM_ROCKET_SAVE_SIGN_COLOR, resp);
+                notifyStateChange(SudGIPAPPState.APP_CUSTOM_ROCKET_SAVE_SIGN_COLOR, resp);
             }
 
             @Override
@@ -513,7 +513,7 @@ public class RocketGameViewModel extends InteractionGameViewModel {
                 super.onError(e);
                 resp.resultCode = RetCode.FAIL;
                 resp.error = e.toString();
-                notifyStateChange(SudMGPAPPState.APP_CUSTOM_ROCKET_SAVE_SIGN_COLOR, resp);
+                notifyStateChange(SudGIPAPPState.APP_CUSTOM_ROCKET_SAVE_SIGN_COLOR, resp);
             }
         });
     }
@@ -523,7 +523,7 @@ public class RocketGameViewModel extends InteractionGameViewModel {
      * mg_custom_rocket_fly_click
      */
     @Override
-    public void onGameMGCustomRocketFlyClick(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketFlyClick model) {
+    public void onGameMGCustomRocketFlyClick(ISudFSMStateHandle handle, SudGIPMGState.MGCustomRocketFlyClick model) {
         super.onGameMGCustomRocketFlyClick(handle, model);
     }
 
@@ -532,7 +532,7 @@ public class RocketGameViewModel extends InteractionGameViewModel {
      * mg_custom_rocket_fly_end
      */
     @Override
-    public void onGameMGCustomRocketFlyEnd(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketFlyEnd model) {
+    public void onGameMGCustomRocketFlyEnd(ISudFSMStateHandle handle, SudGIPMGState.MGCustomRocketFlyEnd model) {
         super.onGameMGCustomRocketFlyEnd(handle, model);
     }
 
@@ -541,7 +541,7 @@ public class RocketGameViewModel extends InteractionGameViewModel {
      * mg_custom_rocket_set_click_rect
      */
     @Override
-    public void onGameMGCustomRocketSetClickRect(ISudFSMStateHandle handle, SudMGPMGState.MGCustomRocketSetClickRect model) {
+    public void onGameMGCustomRocketSetClickRect(ISudFSMStateHandle handle, SudGIPMGState.MGCustomRocketSetClickRect model) {
         super.onGameMGCustomRocketSetClickRect(handle, model);
         rocketClickRectLiveData.setValue(model);
     }
@@ -553,65 +553,65 @@ public class RocketGameViewModel extends InteractionGameViewModel {
     /**
      * 10. 一键发送回调
      */
-    public void notifyAppCustomRocketFireModel(SudMGPAPPState.AppCustomRocketFireModel model) {
-        sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_CUSTOM_ROCKET_FIRE_MODEL, model);
+    public void notifyAppCustomRocketFireModel(SudGIPAPPState.AppCustomRocketFireModel model) {
+        sudFSTAPPDecorator.notifyStateChange(SudGIPAPPState.APP_CUSTOM_ROCKET_FIRE_MODEL, model);
     }
 
     /**
      * 14. app播放火箭发射动效(火箭)
      */
-    public void notifyAppCustomRocketPlayModelList(SudMGPAPPState.AppCustomRocketPlayModelList model) {
-        sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_CUSTOM_ROCKET_PLAY_MODEL_LIST, model);
+    public void notifyAppCustomRocketPlayModelList(SudGIPAPPState.AppCustomRocketPlayModelList model) {
+        sudFSTAPPDecorator.notifyStateChange(SudGIPAPPState.APP_CUSTOM_ROCKET_PLAY_MODEL_LIST, model);
     }
 
     /**
      * 17. app主动调起火箭主界面(火箭)
      */
     public void notifyAppCustomRocketShowGameScene() {
-        SudMGPAPPState.AppCustomRocketShowGameScene model = new SudMGPAPPState.AppCustomRocketShowGameScene();
-        sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_CUSTOM_ROCKET_SHOW_GAME_SCENE, model);
+        SudGIPAPPState.AppCustomRocketShowGameScene model = new SudGIPAPPState.AppCustomRocketShowGameScene();
+        sudFSTAPPDecorator.notifyStateChange(SudGIPAPPState.APP_CUSTOM_ROCKET_SHOW_GAME_SCENE, model);
     }
 
     /**
      * 18. app主动隐藏火箭主界面(火箭)
      */
     public void notifyAppCustomRocketHideGameScene() {
-        SudMGPAPPState.AppCustomRocketHideGameScene model = new SudMGPAPPState.AppCustomRocketHideGameScene();
-        sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_CUSTOM_ROCKET_HIDE_GAME_SCENE, model);
+        SudGIPAPPState.AppCustomRocketHideGameScene model = new SudGIPAPPState.AppCustomRocketHideGameScene();
+        sudFSTAPPDecorator.notifyStateChange(SudGIPAPPState.APP_CUSTOM_ROCKET_HIDE_GAME_SCENE, model);
     }
 
     /**
      * 19. app推送解锁组件(火箭)
      */
-    public void notifyAppCustomRocketUnlockComponent(SudMGPAPPState.AppCustomRocketUnlockComponent model) {
-        sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_CUSTOM_ROCKET_UNLOCK_COMPONENT, model);
+    public void notifyAppCustomRocketUnlockComponent(SudGIPAPPState.AppCustomRocketUnlockComponent model) {
+        sudFSTAPPDecorator.notifyStateChange(SudGIPAPPState.APP_CUSTOM_ROCKET_UNLOCK_COMPONENT, model);
     }
 
     /**
      * 20. app推送火箭效果飞行点击(火箭)
      */
     public void notifyAppCustomRocketFlyClick() {
-        sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_CUSTOM_ROCKET_FLY_CLICK, new SudMGPAPPState.AppCustomRocketFlyClick());
+        sudFSTAPPDecorator.notifyStateChange(SudGIPAPPState.APP_CUSTOM_ROCKET_FLY_CLICK, new SudGIPAPPState.AppCustomRocketFlyClick());
     }
 
     /**
      * 21. app推送关闭火箭播放效果(火箭)
      */
     public void notifyAppCustomRocketClosePlayEffect() {
-        sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_CUSTOM_ROCKET_CLOSE_PLAY_EFFECT, new SudMGPAPPState.AppCustomRocketClosePlayEffect());
+        sudFSTAPPDecorator.notifyStateChange(SudGIPAPPState.APP_CUSTOM_ROCKET_CLOSE_PLAY_EFFECT, new SudGIPAPPState.AppCustomRocketClosePlayEffect());
     }
     // endregion 向火箭发送状态
 
     private void callbackGetUserInfoError(Throwable e) {
-        SudMGPAPPState.AppCustomRocketUserInfo appCustomRocketUserInfo = new SudMGPAPPState.AppCustomRocketUserInfo();
+        SudGIPAPPState.AppCustomRocketUserInfo appCustomRocketUserInfo = new SudGIPAPPState.AppCustomRocketUserInfo();
         appCustomRocketUserInfo.resultCode = RetCode.FAIL;
         appCustomRocketUserInfo.error = e.toString();
-        sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_CUSTOM_ROCKET_USER_INFO, appCustomRocketUserInfo);
+        sudFSTAPPDecorator.notifyStateChange(SudGIPAPPState.APP_CUSTOM_ROCKET_USER_INFO, appCustomRocketUserInfo);
     }
 
-    public List<SudMGPAPPState.CustomRocketUserInfoModel> conver(List<UserInfoResp> list) {
+    public List<SudGIPAPPState.CustomRocketUserInfoModel> conver(List<UserInfoResp> list) {
         if (list != null) {
-            List<SudMGPAPPState.CustomRocketUserInfoModel> userInfoList = new ArrayList<>();
+            List<SudGIPAPPState.CustomRocketUserInfoModel> userInfoList = new ArrayList<>();
             for (UserInfoResp userInfoResp : list) {
                 userInfoList.add(conver(userInfoResp));
             }
@@ -619,11 +619,11 @@ public class RocketGameViewModel extends InteractionGameViewModel {
         return null;
     }
 
-    public SudMGPAPPState.CustomRocketUserInfoModel conver(UserInfoResp userInfoResp) {
+    public SudGIPAPPState.CustomRocketUserInfoModel conver(UserInfoResp userInfoResp) {
         if (userInfoResp == null) {
             return null;
         }
-        SudMGPAPPState.CustomRocketUserInfoModel userInfo = new SudMGPAPPState.CustomRocketUserInfoModel();
+        SudGIPAPPState.CustomRocketUserInfoModel userInfo = new SudGIPAPPState.CustomRocketUserInfoModel();
         userInfo.userId = userInfoResp.userId + "";
         userInfo.nickname = userInfoResp.nickname;
         userInfo.sex = -1;

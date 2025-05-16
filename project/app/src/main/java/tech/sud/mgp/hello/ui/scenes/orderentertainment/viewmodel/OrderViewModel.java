@@ -10,8 +10,8 @@ import com.blankj.utilcode.util.LogUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import tech.sud.mgp.SudMGPWrapper.model.GameViewInfoModel;
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
+import tech.sud.gip.SudGIPWrapper.model.GameViewInfoModel;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPMGState;
 import tech.sud.mgp.core.ISudFSMStateHandle;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
@@ -84,7 +84,7 @@ public class OrderViewModel extends AppGameViewModel {
     }
 
     @Override
-    public void onGameMGCommonGameSettle(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameSettle model) {
+    public void onGameMGCommonGameSettle(ISudFSMStateHandle handle, SudGIPMGState.MGCommonGameSettle model) {
         super.onGameMGCommonGameSettle(handle, model);
         LogUtils.i("onGameMGCommonGameSettle");
         if (isSelfOrder) {
@@ -97,7 +97,7 @@ public class OrderViewModel extends AppGameViewModel {
         orderDataLiveData.setValue(null);
         //查找积分榜第一个未逃跑的人切回游戏到语音
         if (model.results != null && model.results.size() > 0) {
-            for (SudMGPMGState.MGCommonGameSettle.PlayerResult playerResult : model.results) {
+            for (SudGIPMGState.MGCommonGameSettle.PlayerResult playerResult : model.results) {
                 if (playerResult.isEscaped == 0) {
                     if (playerResult.uid.equals(HSUserInfo.userId + "")) {
                         changeToAduio.setValue(1);

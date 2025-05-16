@@ -3,11 +3,11 @@
  * https://sud.tech
  */
 
-package tech.sud.mgp.SudMGPWrapper.utils;
+package tech.sud.gip.SudGIPWrapper.utils;
 
 import android.text.TextUtils;
 
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPMGState;
 
 /**
  * 游戏通用状态工具类
@@ -21,13 +21,13 @@ public class GameCommonStateUtils {
      * @param languageCode  需要提取的语言，比如zh-CN、en-US等等
      * @return 拼接起来的公屏文本
      */
-    public static String parseMGCommonPublicMessage(SudMGPMGState.MGCommonPublicMessage publicMessage, String languageCode) {
+    public static String parseMGCommonPublicMessage(SudGIPMGState.MGCommonPublicMessage publicMessage, String languageCode) {
         if (publicMessage == null || publicMessage.msg == null || publicMessage.msg.size() == 0) {
             return null;
         }
         StringBuilder sb = new StringBuilder();
         // 解析数组，拼接消息
-        for (SudMGPMGState.MGCommonPublicMessage.MGCommonPublicMessageMsg msgModel : publicMessage.msg) {
+        for (SudGIPMGState.MGCommonPublicMessage.MGCommonPublicMessageMsg msgModel : publicMessage.msg) {
             switch (msgModel.phrase) { // 词组类型 当phrase=1时，会返回text; 当phrase=2时，会返回user
                 case 1: // 文本
                     String text = parseI18nText(languageCode, msgModel.text);
@@ -52,7 +52,7 @@ public class GameCommonStateUtils {
      * @param model        游戏发过来的文本对象
      * @return 返回选择的字符串
      */
-    public static String parseI18nText(String languageCode, SudMGPMGState.MGCommonPublicMessage.MGCommonPublicMessageMsgText model) {
+    public static String parseI18nText(String languageCode, SudGIPMGState.MGCommonPublicMessage.MGCommonPublicMessageMsgText model) {
         if (model == null) return null;
         if (languageCode == null) return model.defaultStr;
 
@@ -71,7 +71,7 @@ public class GameCommonStateUtils {
     }
 
     /** 精准匹配 */
-    private static String i18nPrecise(String languageCode, SudMGPMGState.MGCommonPublicMessage.MGCommonPublicMessageMsgText model) {
+    private static String i18nPrecise(String languageCode, SudGIPMGState.MGCommonPublicMessage.MGCommonPublicMessageMsgText model) {
         switch (languageCode) {
             case "zh-CN":
                 return model.zh_CN;

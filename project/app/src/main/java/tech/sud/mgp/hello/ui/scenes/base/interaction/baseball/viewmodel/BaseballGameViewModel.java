@@ -3,8 +3,8 @@ package tech.sud.mgp.hello.ui.scenes.base.interaction.baseball.viewmodel;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.MutableLiveData;
 
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPAPPState;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPMGState;
 import tech.sud.mgp.core.ISudFSMStateHandle;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.service.game.repository.GameRepository;
@@ -24,7 +24,7 @@ public class BaseballGameViewModel extends InteractionGameViewModel {
 
     public MutableLiveData<Object> baseballPrepareCompletedLiveData = new MutableLiveData<>(); // 棒球准备完成
     public MutableLiveData<Object> destroyBaseballLiveData = new MutableLiveData<>(); // 销毁通知
-    public MutableLiveData<SudMGPMGState.MGBaseballSetClickRect> baseballClickRectLiveData = new MutableLiveData<>(); // 棒球点击区域
+    public MutableLiveData<SudGIPMGState.MGBaseballSetClickRect> baseballClickRectLiveData = new MutableLiveData<>(); // 棒球点击区域
 
     // region 棒球回调
 
@@ -33,11 +33,11 @@ public class BaseballGameViewModel extends InteractionGameViewModel {
      * mg_baseball_ranking
      */
     @Override
-    public void onGameMGBaseballRanking(ISudFSMStateHandle handle, SudMGPMGState.MGBaseballRanking model) {
+    public void onGameMGBaseballRanking(ISudFSMStateHandle handle, SudGIPMGState.MGBaseballRanking model) {
         super.onGameMGBaseballRanking(handle, model);
-        GameRepository.baseballRanking(fragmentActivity, model, new RxCallback<SudMGPAPPState.AppBaseballRanking>() {
+        GameRepository.baseballRanking(fragmentActivity, model, new RxCallback<SudGIPAPPState.AppBaseballRanking>() {
             @Override
-            public void onSuccess(SudMGPAPPState.AppBaseballRanking resp) {
+            public void onSuccess(SudGIPAPPState.AppBaseballRanking resp) {
                 super.onSuccess(resp);
                 notifyAppBaseballRanking(resp);
             }
@@ -49,11 +49,11 @@ public class BaseballGameViewModel extends InteractionGameViewModel {
      * mg_baseball_my_ranking
      */
     @Override
-    public void onGameMGBaseballMyRanking(ISudFSMStateHandle handle, SudMGPMGState.MGBaseballMyRanking model) {
+    public void onGameMGBaseballMyRanking(ISudFSMStateHandle handle, SudGIPMGState.MGBaseballMyRanking model) {
         super.onGameMGBaseballMyRanking(handle, model);
-        GameRepository.baseballMyRanking(fragmentActivity, model, new RxCallback<SudMGPAPPState.AppBaseballMyRanking>() {
+        GameRepository.baseballMyRanking(fragmentActivity, model, new RxCallback<SudGIPAPPState.AppBaseballMyRanking>() {
             @Override
-            public void onSuccess(SudMGPAPPState.AppBaseballMyRanking resp) {
+            public void onSuccess(SudGIPAPPState.AppBaseballMyRanking resp) {
                 super.onSuccess(resp);
                 notifyAppBaseballMyRanking(resp);
             }
@@ -65,11 +65,11 @@ public class BaseballGameViewModel extends InteractionGameViewModel {
      * mg_baseball_range_info
      */
     @Override
-    public void onGameMGBaseballRangeInfo(ISudFSMStateHandle handle, SudMGPMGState.MGBaseballRangeInfo model) {
+    public void onGameMGBaseballRangeInfo(ISudFSMStateHandle handle, SudGIPMGState.MGBaseballRangeInfo model) {
         super.onGameMGBaseballRangeInfo(handle, model);
-        GameRepository.baseballRangeInfo(fragmentActivity, model, new RxCallback<SudMGPAPPState.AppBaseballRangeInfo>() {
+        GameRepository.baseballRangeInfo(fragmentActivity, model, new RxCallback<SudGIPAPPState.AppBaseballRangeInfo>() {
             @Override
-            public void onSuccess(SudMGPAPPState.AppBaseballRangeInfo resp) {
+            public void onSuccess(SudGIPAPPState.AppBaseballRangeInfo resp) {
                 super.onSuccess(resp);
                 notifyAppBaseballRangeInfo(resp);
             }
@@ -81,7 +81,7 @@ public class BaseballGameViewModel extends InteractionGameViewModel {
      * mg_baseball_set_click_rect
      */
     @Override
-    public void onGameMGBaseballSetClickRect(ISudFSMStateHandle handle, SudMGPMGState.MGBaseballSetClickRect model) {
+    public void onGameMGBaseballSetClickRect(ISudFSMStateHandle handle, SudGIPMGState.MGBaseballSetClickRect model) {
         super.onGameMGBaseballSetClickRect(handle, model);
         baseballClickRectLiveData.setValue(model);
     }
@@ -91,7 +91,7 @@ public class BaseballGameViewModel extends InteractionGameViewModel {
      * mg_baseball_prepare_finish
      */
     @Override
-    public void onGameMGBaseballPrepareFinish(ISudFSMStateHandle handle, SudMGPMGState.MGBaseballPrepareFinish model) {
+    public void onGameMGBaseballPrepareFinish(ISudFSMStateHandle handle, SudGIPMGState.MGBaseballPrepareFinish model) {
         super.onGameMGBaseballPrepareFinish(handle, model);
         baseballIsReady = true;
         baseballPrepareCompletedLiveData.setValue(null);
@@ -102,7 +102,7 @@ public class BaseballGameViewModel extends InteractionGameViewModel {
      * mg_baseball_show_game_scene
      */
     @Override
-    public void onGameMGBaseballShowGameScene(ISudFSMStateHandle handle, SudMGPMGState.MGBaseballShowGameScene model) {
+    public void onGameMGBaseballShowGameScene(ISudFSMStateHandle handle, SudGIPMGState.MGBaseballShowGameScene model) {
         super.onGameMGBaseballShowGameScene(handle, model);
         isShowingBaseballScene = true;
     }
@@ -112,7 +112,7 @@ public class BaseballGameViewModel extends InteractionGameViewModel {
      * mg_baseball_hide_game_scene
      */
     @Override
-    public void onGameMGBaseballHideGameScene(ISudFSMStateHandle handle, SudMGPMGState.MGBaseballHideGameScene model) {
+    public void onGameMGBaseballHideGameScene(ISudFSMStateHandle handle, SudGIPMGState.MGBaseballHideGameScene model) {
         super.onGameMGBaseballHideGameScene(handle, model);
         isShowingBaseballScene = false;
 //        checkDestroyBaseball();
@@ -123,11 +123,11 @@ public class BaseballGameViewModel extends InteractionGameViewModel {
      * mg_baseball_text_config
      */
     @Override
-    public void onGameMGBaseballTextConfig(ISudFSMStateHandle handle, SudMGPMGState.MGBaseballTextConfig model) {
+    public void onGameMGBaseballTextConfig(ISudFSMStateHandle handle, SudGIPMGState.MGBaseballTextConfig model) {
         super.onGameMGBaseballTextConfig(handle, model);
-        GameRepository.baseballTextConfig(fragmentActivity, model, new RxCallback<SudMGPAPPState.AppBaseballTextConfig>() {
+        GameRepository.baseballTextConfig(fragmentActivity, model, new RxCallback<SudGIPAPPState.AppBaseballTextConfig>() {
             @Override
-            public void onSuccess(SudMGPAPPState.AppBaseballTextConfig resp) {
+            public void onSuccess(SudGIPAPPState.AppBaseballTextConfig resp) {
                 super.onSuccess(resp);
                 notifyAppBaseballTextConfig(resp);
             }
@@ -141,48 +141,48 @@ public class BaseballGameViewModel extends InteractionGameViewModel {
      * 1. 下发游戏客户端查询排行榜数据(棒球)
      * app_baseball_ranking
      */
-    public void notifyAppBaseballRanking(SudMGPAPPState.AppBaseballRanking model) {
-        sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_BASEBALL_RANKING, model);
+    public void notifyAppBaseballRanking(SudGIPAPPState.AppBaseballRanking model) {
+        sudFSTAPPDecorator.notifyStateChange(SudGIPAPPState.APP_BASEBALL_RANKING, model);
     }
 
     /**
      * 2. 下发游戏客户端查询我的排名数据(棒球)
      * app_baseball_my_ranking
      */
-    public void notifyAppBaseballMyRanking(SudMGPAPPState.AppBaseballMyRanking model) {
-        sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_BASEBALL_MY_RANKING, model);
+    public void notifyAppBaseballMyRanking(SudGIPAPPState.AppBaseballMyRanking model) {
+        sudFSTAPPDecorator.notifyStateChange(SudGIPAPPState.APP_BASEBALL_MY_RANKING, model);
     }
 
     /**
      * 3. 下发游戏客户端查询排在自己前后的玩家数据(棒球)
      * app_baseball_range_info
      */
-    public void notifyAppBaseballRangeInfo(SudMGPAPPState.AppBaseballRangeInfo model) {
-        sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_BASEBALL_RANGE_INFO, model);
+    public void notifyAppBaseballRangeInfo(SudGIPAPPState.AppBaseballRangeInfo model) {
+        sudFSTAPPDecorator.notifyStateChange(SudGIPAPPState.APP_BASEBALL_RANGE_INFO, model);
     }
 
     /**
      * 4. app主动调起主界面(棒球)
      * app_baseball_show_game_scene
      */
-    public void notifyAppBaseballShowGameScene(SudMGPAPPState.AppBaseballShowGameScene model) {
-        sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_BASEBALL_SHOW_GAME_SCENE, model);
+    public void notifyAppBaseballShowGameScene(SudGIPAPPState.AppBaseballShowGameScene model) {
+        sudFSTAPPDecorator.notifyStateChange(SudGIPAPPState.APP_BASEBALL_SHOW_GAME_SCENE, model);
     }
 
     /**
      * 5. app主动隐藏主界面(棒球)
      * app_baseball_hide_game_scene
      */
-    public void notifyAppBaseballHideGameScene(SudMGPAPPState.AppBaseballHideGameScene model) {
-        sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_BASEBALL_HIDE_GAME_SCENE, model);
+    public void notifyAppBaseballHideGameScene(SudGIPAPPState.AppBaseballHideGameScene model) {
+        sudFSTAPPDecorator.notifyStateChange(SudGIPAPPState.APP_BASEBALL_HIDE_GAME_SCENE, model);
     }
 
     /**
      * 6. app推送需要的文本数据(棒球)
      * app_baseball_text_config
      */
-    public void notifyAppBaseballTextConfig(SudMGPAPPState.AppBaseballTextConfig model) {
-        sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_BASEBALL_TEXT_CONFIG, model);
+    public void notifyAppBaseballTextConfig(SudGIPAPPState.AppBaseballTextConfig model) {
+        sudFSTAPPDecorator.notifyStateChange(SudGIPAPPState.APP_BASEBALL_TEXT_CONFIG, model);
     }
     // endregion 调用棒球
 

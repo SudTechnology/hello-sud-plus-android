@@ -1,4 +1,4 @@
-package tech.sud.mgp.SudMGPWrapper.utils;
+package tech.sud.gip.SudGIPWrapper.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

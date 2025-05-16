@@ -24,9 +24,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState.AppCustomCrSetSeats.CrSeatModel;
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPAPPState;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPAPPState.AppCustomCrSetSeats.CrSeatModel;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPMGState;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
@@ -270,7 +270,7 @@ public class Audio3DRoomActivity extends AbsAudioRoomActivity<Audio3DGameViewMod
         if (binder == null) {
             return;
         }
-        SudMGPAPPState.AppCustomCrSetRoomConfig config = binder.getAudio3DRoomConfig();
+        SudGIPAPPState.AppCustomCrSetRoomConfig config = binder.getAudio3DRoomConfig();
         if (config == null) {
             return;
         }
@@ -297,12 +297,12 @@ public class Audio3DRoomActivity extends AbsAudioRoomActivity<Audio3DGameViewMod
 
     private void notifyEmoji2Game(int type, int actionId, int seatIndex) {
         if (type == 1) {
-            SudMGPAPPState.AppCustomCrSetLightFlash model = new SudMGPAPPState.AppCustomCrSetLightFlash();
+            SudGIPAPPState.AppCustomCrSetLightFlash model = new SudGIPAPPState.AppCustomCrSetLightFlash();
             model.seatIndex = seatIndex;
             gameViewModel.notifyAppCustomCrSetLightFlash(model);
             notifyAudioMicLight(seatIndex);
         } else {
-            SudMGPAPPState.AppCustomCrPlayAnim model = new SudMGPAPPState.AppCustomCrPlayAnim();
+            SudGIPAPPState.AppCustomCrPlayAnim model = new SudGIPAPPState.AppCustomCrPlayAnim();
             model.seatIndex = seatIndex;
             model.animId = actionId;
             gameViewModel.notifyAppCustomCrPlayAnim(model);
@@ -349,18 +349,18 @@ public class Audio3DRoomActivity extends AbsAudioRoomActivity<Audio3DGameViewMod
     }
 
     private void startRotate() {
-        SudMGPAPPState.AppCustomCrPauseRotate model = new SudMGPAPPState.AppCustomCrPauseRotate();
+        SudGIPAPPState.AppCustomCrPauseRotate model = new SudGIPAPPState.AppCustomCrPauseRotate();
         model.pause = 0;
         gameViewModel.notifyAppCustomCrPauseRotate(model);
     }
 
     private void pauseRotate() {
-        SudMGPAPPState.AppCustomCrPauseRotate model = new SudMGPAPPState.AppCustomCrPauseRotate();
+        SudGIPAPPState.AppCustomCrPauseRotate model = new SudGIPAPPState.AppCustomCrPauseRotate();
         model.pause = 1;
         gameViewModel.notifyAppCustomCrPauseRotate(model);
     }
 
-    private void onClickSeat(SudMGPMGState.MGCustomCrClickSeat model) {
+    private void onClickSeat(SudGIPMGState.MGCustomCrClickSeat model) {
         if (binder == null || model == null) {
             return;
         }
@@ -621,13 +621,13 @@ public class Audio3DRoomActivity extends AbsAudioRoomActivity<Audio3DGameViewMod
     }
 
     @Override
-    public void onAudio3DSeats(SudMGPAPPState.AppCustomCrSetSeats model) {
+    public void onAudio3DSeats(SudGIPAPPState.AppCustomCrSetSeats model) {
         super.onAudio3DSeats(model);
         gameViewModel.notifyAppCustomCrSetSeats(model);
     }
 
     @Override
-    public void onAudio3DConfig(SudMGPAPPState.AppCustomCrSetRoomConfig model) {
+    public void onAudio3DConfig(SudGIPAPPState.AppCustomCrSetRoomConfig model) {
         super.onAudio3DConfig(model);
         gameViewModel.notifyAppCustomCrSetRoomConfig(model);
         if (mAudio3DSettingsDialog != null) {
@@ -646,7 +646,7 @@ public class Audio3DRoomActivity extends AbsAudioRoomActivity<Audio3DGameViewMod
             return;
         }
 
-        SudMGPAPPState.AppCustomCrPlayGiftEffect model = new SudMGPAPPState.AppCustomCrPlayGiftEffect();
+        SudGIPAPPState.AppCustomCrPlayGiftEffect model = new SudGIPAPPState.AppCustomCrPlayGiftEffect();
         model.giverUserId = fromUser.userID;
         model.giftList = new ArrayList<>();
         model.isAllSeat = isAllSeat;
@@ -656,7 +656,7 @@ public class Audio3DRoomActivity extends AbsAudioRoomActivity<Audio3DGameViewMod
             if (userSeatModel == null) {
                 continue;
             }
-            SudMGPAPPState.AppCustomCrPlayGiftEffect.CrGiftModel crGiftModel = new SudMGPAPPState.AppCustomCrPlayGiftEffect.CrGiftModel();
+            SudGIPAPPState.AppCustomCrPlayGiftEffect.CrGiftModel crGiftModel = new SudGIPAPPState.AppCustomCrPlayGiftEffect.CrGiftModel();
             crGiftModel.seatIndex = userSeatModel.seatIndex;
             crGiftModel.level = randomAudio3DGiftLevel(giftModel);
             crGiftModel.count = giftCount;
@@ -704,7 +704,7 @@ public class Audio3DRoomActivity extends AbsAudioRoomActivity<Audio3DGameViewMod
         if (crSeatModel == null) {
             return;
         }
-        SudMGPAPPState.AppCustomCrMicphoneValueSeat model = new SudMGPAPPState.AppCustomCrMicphoneValueSeat();
+        SudGIPAPPState.AppCustomCrMicphoneValueSeat model = new SudGIPAPPState.AppCustomCrMicphoneValueSeat();
         model.seatIndex = crSeatModel.seatIndex;
         model.value = (int) soundLevel;
         gameViewModel.notifyAppCustomCrMicphoneValueSeat(model);

@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import tech.sud.mgp.SudMGPWrapper.utils.SudJsonUtils;
+import tech.sud.gip.SudGIPWrapper.utils.SudJsonUtils;
 import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.common.model.HSUserInfo;

@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPAPPState;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPMGState;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.app.APPConfig;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
@@ -28,7 +28,7 @@ import tech.sud.mgp.hello.ui.scenes.league.widget.LeagueGameSettleDialog;
  */
 public class LeagueActivity extends AbsAudioRoomActivity<LeagueGameViewModel> {
 
-    public List<SudMGPAPPState.AIPlayers> robotList; // 机器人列表
+    public List<SudGIPAPPState.AIPlayers> robotList; // 机器人列表
     private boolean isProcessClickStartBtn; // 是否正在处理点击开始按钮
 
     @Override
@@ -93,27 +93,27 @@ public class LeagueActivity extends AbsAudioRoomActivity<LeagueGameViewModel> {
                 onCaptainChange();
             }
         });
-        gameViewModel.gameSettleLiveData.observe(this, new Observer<SudMGPMGState.MGCommonGameSettle>() {
+        gameViewModel.gameSettleLiveData.observe(this, new Observer<SudGIPMGState.MGCommonGameSettle>() {
             @Override
-            public void onChanged(SudMGPMGState.MGCommonGameSettle gameSettle) {
+            public void onChanged(SudGIPMGState.MGCommonGameSettle gameSettle) {
                 onGameSettle(gameSettle);
             }
         });
-        gameViewModel.gameStateLiveData.observe(this, new Observer<SudMGPMGState.MGCommonGameState>() {
+        gameViewModel.gameStateLiveData.observe(this, new Observer<SudGIPMGState.MGCommonGameState>() {
             @Override
-            public void onChanged(SudMGPMGState.MGCommonGameState state) {
+            public void onChanged(SudGIPMGState.MGCommonGameState state) {
                 kickLose();
             }
         });
-        gameViewModel.playerInLiveData.observe(this, new Observer<SudMGPMGState.MGCommonPlayerIn>() {
+        gameViewModel.playerInLiveData.observe(this, new Observer<SudGIPMGState.MGCommonPlayerIn>() {
             @Override
-            public void onChanged(SudMGPMGState.MGCommonPlayerIn state) {
+            public void onChanged(SudGIPMGState.MGCommonPlayerIn state) {
                 onPlayerInChange(state);
             }
         });
     }
 
-    private void onPlayerInChange(SudMGPMGState.MGCommonPlayerIn state) {
+    private void onPlayerInChange(SudGIPMGState.MGCommonPlayerIn state) {
         LeagueModel model = getLeagueModel();
         if (model == null) {
             return;
@@ -140,8 +140,8 @@ public class LeagueActivity extends AbsAudioRoomActivity<LeagueGameViewModel> {
         // 执行踢人的逻辑，保留胜者
         if (model.schedule > 0 && playingGameId > 0
                 && gameViewModel.isCaptain(HSUserInfo.userId)
-                && gameViewModel.getGameState() != SudMGPMGState.MGCommonGameState.PLAYING
-                && gameViewModel.getGameState() != SudMGPMGState.MGCommonGameState.LOADING) {
+                && gameViewModel.getGameState() != SudGIPMGState.MGCommonGameState.PLAYING
+                && gameViewModel.getGameState() != SudGIPMGState.MGCommonGameState.LOADING) {
             HashSet<String> playerInSet = gameViewModel.getPlayerInSet();
             // 如果自己输了，那么执行自己退出游戏的逻辑
             boolean selfLose = false;
@@ -162,7 +162,7 @@ public class LeagueActivity extends AbsAudioRoomActivity<LeagueGameViewModel> {
     }
 
     // 游戏结算
-    private void onGameSettle(SudMGPMGState.MGCommonGameSettle gameSettle) {
+    private void onGameSettle(SudGIPMGState.MGCommonGameSettle gameSettle) {
         showGameSettleDialog(gameSettle);
         if (binder != null) {
             binder.onGameSettle(gameSettle);
@@ -185,7 +185,7 @@ public class LeagueActivity extends AbsAudioRoomActivity<LeagueGameViewModel> {
     }
 
     // 展示结算弹窗
-    private void showGameSettleDialog(SudMGPMGState.MGCommonGameSettle gameSettle) {
+    private void showGameSettleDialog(SudGIPMGState.MGCommonGameSettle gameSettle) {
         LeagueModel model = getLeagueModel();
         if (model == null) {
             return;
@@ -218,7 +218,7 @@ public class LeagueActivity extends AbsAudioRoomActivity<LeagueGameViewModel> {
                     gameViewModel.notifyAPPCommonGameAddAIPlayers(robotList.subList(0, 1), 1);
                 }
             } else {
-                List<SudMGPAPPState.AIPlayers> winRobotList = findWinRobotList(model);
+                List<SudGIPAPPState.AIPlayers> winRobotList = findWinRobotList(model);
                 if (winRobotList.size() > 0) {
                     gameViewModel.notifyAPPCommonGameAddAIPlayers(winRobotList, 1);
                 }
@@ -227,10 +227,10 @@ public class LeagueActivity extends AbsAudioRoomActivity<LeagueGameViewModel> {
     }
 
     // 查询已经赢了的机器人
-    private List<SudMGPAPPState.AIPlayers> findWinRobotList(LeagueModel model) {
-        List<SudMGPAPPState.AIPlayers> list = new ArrayList<>();
+    private List<SudGIPAPPState.AIPlayers> findWinRobotList(LeagueModel model) {
+        List<SudGIPAPPState.AIPlayers> list = new ArrayList<>();
         for (String userId : model.winner) {
-            SudMGPAPPState.AIPlayers aiPlayer = findAIPlayer(userId);
+            SudGIPAPPState.AIPlayers aiPlayer = findAIPlayer(userId);
             if (aiPlayer != null) {
                 list.add(aiPlayer);
             }
@@ -238,9 +238,9 @@ public class LeagueActivity extends AbsAudioRoomActivity<LeagueGameViewModel> {
         return list;
     }
 
-    private SudMGPAPPState.AIPlayers findAIPlayer(String userId) {
+    private SudGIPAPPState.AIPlayers findAIPlayer(String userId) {
         if (userId != null && robotList != null) {
-            for (SudMGPAPPState.AIPlayers aiPlayers : robotList) {
+            for (SudGIPAPPState.AIPlayers aiPlayers : robotList) {
                 if (userId.equals(aiPlayers.userId)) {
                     return aiPlayers;
                 }

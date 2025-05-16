@@ -1,12 +1,12 @@
 package tech.sud.mgp.hello.ui.scenes.base.utils;
 
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPAPPState;
 import tech.sud.mgp.hello.service.main.resp.UserInfoResp;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 
 public class UserInfoRespConverter {
 
-    public static UserInfoResp conver(SudMGPAPPState.AIPlayers model) {
+    public static UserInfoResp conver(SudGIPAPPState.AIPlayers model) {
         if (model == null) {
             return null;
         }

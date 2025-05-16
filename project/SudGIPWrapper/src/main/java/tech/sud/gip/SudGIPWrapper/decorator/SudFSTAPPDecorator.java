@@ -3,13 +3,13 @@
  * https://sud.tech
  */
 
-package tech.sud.mgp.SudMGPWrapper.decorator;
+package tech.sud.gip.SudGIPWrapper.decorator;
 
 import java.nio.ByteBuffer;
 import java.util.List;
 
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
-import tech.sud.mgp.SudMGPWrapper.utils.SudJsonUtils;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPAPPState;
+import tech.sud.gip.SudGIPWrapper.utils.SudJsonUtils;
 import tech.sud.mgp.core.ISudFSTAPP;
 import tech.sud.mgp.core.ISudListenerNotifyStateChange;
 
@@ -49,12 +49,12 @@ public class SudFSTAPPDecorator {
      */
     @Deprecated
     public void notifyAPPCommonSelfIn(boolean isIn, int seatIndex, boolean isSeatRandom, int teamId) {
-        SudMGPAPPState.APPCommonSelfIn state = new SudMGPAPPState.APPCommonSelfIn();
+        SudGIPAPPState.APPCommonSelfIn state = new SudGIPAPPState.APPCommonSelfIn();
         state.isIn = isIn;
         state.seatIndex = seatIndex;
         state.isSeatRandom = isSeatRandom;
         state.teamId = teamId;
-        notifyStateChange(SudMGPAPPState.APP_COMMON_SELF_IN, state);
+        notifyStateChange(SudGIPAPPState.APP_COMMON_SELF_IN, state);
     }
 
     /**
@@ -67,13 +67,13 @@ public class SudFSTAPPDecorator {
      * @param teamId    不支持分队的游戏：数值填1；支持分队的游戏：数值填1或2（两支队伍）；
      */
     public void notifyAPPCommonSelfInV2(boolean isIn, int seatIndex, boolean isRandom, int teamId) {
-        SudMGPAPPState.APPCommonSelfIn state = new SudMGPAPPState.APPCommonSelfIn();
+        SudGIPAPPState.APPCommonSelfIn state = new SudGIPAPPState.APPCommonSelfIn();
         state.isIn = isIn;
         state.seatIndex = seatIndex;
         state.isSeatRandom = isRandom; // 兼容旧的游戏版本
         state.isRandom = isRandom;
         state.teamId = teamId;
-        notifyStateChange(SudMGPAPPState.APP_COMMON_SELF_IN, state);
+        notifyStateChange(SudGIPAPPState.APP_COMMON_SELF_IN, state);
     }
 
     /**
@@ -84,9 +84,9 @@ public class SudFSTAPPDecorator {
      * @param isReady true 准备，false 取消准备
      */
     public void notifyAPPCommonSelfReady(boolean isReady) {
-        SudMGPAPPState.APPCommonSelfReady state = new SudMGPAPPState.APPCommonSelfReady();
+        SudGIPAPPState.APPCommonSelfReady state = new SudGIPAPPState.APPCommonSelfReady();
         state.isReady = isReady;
-        notifyStateChange(SudMGPAPPState.APP_COMMON_SELF_READY, state);
+        notifyStateChange(SudGIPAPPState.APP_COMMON_SELF_READY, state);
     }
 
     /**
@@ -104,11 +104,11 @@ public class SudFSTAPPDecorator {
      * @param reportGameInfoExtras string类型，Https服务回调report_game_info参数，最大长度1024字节，超过则截断（2022-01-21）
      */
     public void notifyAPPCommonSelfPlaying(boolean isPlaying, String reportGameInfoExtras, String reportGameInfoKey) {
-        SudMGPAPPState.APPCommonSelfPlaying state = new SudMGPAPPState.APPCommonSelfPlaying();
+        SudGIPAPPState.APPCommonSelfPlaying state = new SudGIPAPPState.APPCommonSelfPlaying();
         state.isPlaying = isPlaying;
         state.reportGameInfoExtras = reportGameInfoExtras;
         state.reportGameInfoKey = reportGameInfoKey;
-        notifyStateChange(SudMGPAPPState.APP_COMMON_SELF_PLAYING, state);
+        notifyStateChange(SudGIPAPPState.APP_COMMON_SELF_PLAYING, state);
     }
 
     /**
@@ -120,9 +120,9 @@ public class SudFSTAPPDecorator {
      * @param curCaptainUID 必填，指定队长uid
      */
     public void notifyAPPCommonSelfCaptain(String curCaptainUID) {
-        SudMGPAPPState.APPCommonSelfCaptain state = new SudMGPAPPState.APPCommonSelfCaptain();
+        SudGIPAPPState.APPCommonSelfCaptain state = new SudGIPAPPState.APPCommonSelfCaptain();
         state.curCaptainUID = curCaptainUID;
-        notifyStateChange(SudMGPAPPState.APP_COMMON_SELF_CAPTAIN, state);
+        notifyStateChange(SudGIPAPPState.APP_COMMON_SELF_CAPTAIN, state);
     }
 
     /**
@@ -134,9 +134,9 @@ public class SudFSTAPPDecorator {
      * @param kickedUID 被踢用户uid
      */
     public void notifyAPPCommonSelfKick(String kickedUID) {
-        SudMGPAPPState.APPCommonSelfKick state = new SudMGPAPPState.APPCommonSelfKick();
+        SudGIPAPPState.APPCommonSelfKick state = new SudGIPAPPState.APPCommonSelfKick();
         state.kickedUID = kickedUID;
-        notifyStateChange(SudMGPAPPState.APP_COMMON_SELF_KICK, state);
+        notifyStateChange(SudGIPAPPState.APP_COMMON_SELF_KICK, state);
     }
 
     /**
@@ -146,12 +146,12 @@ public class SudFSTAPPDecorator {
      * 注意：必须是队长发送才有效果。可通过{@link SudFSMMGDecorator#getCaptainUserId()}拿到当前队长id
      */
     public void notifyAPPCommonSelfEnd() {
-        SudMGPAPPState.APPCommonSelfEnd state = new SudMGPAPPState.APPCommonSelfEnd();
+        SudGIPAPPState.APPCommonSelfEnd state = new SudGIPAPPState.APPCommonSelfEnd();
         // 使用iSudFSTAPP.notifyStateChange方法向游戏侧发送状态时，因为大部分状态都需要通过网络向后端发送状态指令
         // 所以如果发送状态后，马上就销毁游戏或者Activity，那么状态指令大概率会不生效
         // *** 如果要确保指令能到达后端，那么发送指令后不要立即destroyMG()或finish Activity，可在发送后delay一定时间(如300 or 500 ms)再销毁
         // *** 如果不在乎指令是否能成功到达，可忽略delay
-        notifyStateChange(SudMGPAPPState.APP_COMMON_SELF_END, state);
+        notifyStateChange(SudGIPAPPState.APP_COMMON_SELF_END, state);
     }
 
     /**
@@ -165,10 +165,10 @@ public class SudFSTAPPDecorator {
      * @param isDisabled true 被禁麦，false 未被禁麦
      */
     public void notifyAPPCommonSelfMicrophone(boolean isOn, boolean isDisabled) {
-        SudMGPAPPState.APPCommonSelfMicrophone state = new SudMGPAPPState.APPCommonSelfMicrophone();
+        SudGIPAPPState.APPCommonSelfMicrophone state = new SudGIPAPPState.APPCommonSelfMicrophone();
         state.isOn = isOn;
         state.isDisabled = isDisabled;
-        notifyStateChange(SudMGPAPPState.APP_COMMON_SELF_MICROPHONE, state);
+        notifyStateChange(SudGIPAPPState.APP_COMMON_SELF_MICROPHONE, state);
     }
 
     /**
@@ -184,11 +184,11 @@ public class SudFSTAPPDecorator {
      * @param text    聊天原始内容
      */
     public void notifyAPPCommonSelfTextHitState(boolean isHit, String keyWord, String text) {
-        SudMGPAPPState.APPCommonSelfTextHitState state = new SudMGPAPPState.APPCommonSelfTextHitState();
+        SudGIPAPPState.APPCommonSelfTextHitState state = new SudGIPAPPState.APPCommonSelfTextHitState();
         state.isHit = isHit;
         state.keyWord = keyWord;
         state.text = text;
-        notifyStateChange(SudMGPAPPState.APP_COMMON_SELF_TEXT_HIT, state);
+        notifyStateChange(SudGIPAPPState.APP_COMMON_SELF_TEXT_HIT, state);
     }
 
     /**
@@ -198,9 +198,9 @@ public class SudFSTAPPDecorator {
      * @param isOpen true 打开背景音乐，false 关闭背景音乐
      */
     public void notifyAPPCommonOpenBgMusic(boolean isOpen) {
-        SudMGPAPPState.APPCommonOpenBgMusic state = new SudMGPAPPState.APPCommonOpenBgMusic();
+        SudGIPAPPState.APPCommonOpenBgMusic state = new SudGIPAPPState.APPCommonOpenBgMusic();
         state.isOpen = isOpen;
-        notifyStateChange(SudMGPAPPState.APP_COMMON_OPEN_BG_MUSIC, state);
+        notifyStateChange(SudGIPAPPState.APP_COMMON_OPEN_BG_MUSIC, state);
     }
 
     /**
@@ -210,9 +210,9 @@ public class SudFSTAPPDecorator {
      * @param isOpen true 打开音效，false 关闭音效
      */
     public void notifyAPPCommonOpenSound(boolean isOpen) {
-        SudMGPAPPState.APPCommonOpenSound state = new SudMGPAPPState.APPCommonOpenSound();
+        SudGIPAPPState.APPCommonOpenSound state = new SudGIPAPPState.APPCommonOpenSound();
         state.isOpen = isOpen;
-        notifyStateChange(SudMGPAPPState.APP_COMMON_OPEN_SOUND, state);
+        notifyStateChange(SudGIPAPPState.APP_COMMON_OPEN_SOUND, state);
     }
 
     /**
@@ -222,9 +222,9 @@ public class SudFSTAPPDecorator {
      * @param isOpen 打开振动效果，false 关闭振动效果
      */
     public void notifyAPPCommonOpenVibrate(boolean isOpen) {
-        SudMGPAPPState.APPCommonOpenVibrate state = new SudMGPAPPState.APPCommonOpenVibrate();
+        SudGIPAPPState.APPCommonOpenVibrate state = new SudGIPAPPState.APPCommonOpenVibrate();
         state.isOpen = isOpen;
-        notifyStateChange(SudMGPAPPState.APP_COMMON_OPEN_VIBRATE, state);
+        notifyStateChange(SudGIPAPPState.APP_COMMON_OPEN_VIBRATE, state);
     }
 
     /**
@@ -234,9 +234,9 @@ public class SudFSTAPPDecorator {
      * @param volume 音量大小 0 到 100
      */
     public void notifyAPPCommonGameSoundVolume(int volume) {
-        SudMGPAPPState.APPCommonGameSoundVolume state = new SudMGPAPPState.APPCommonGameSoundVolume();
+        SudGIPAPPState.APPCommonGameSoundVolume state = new SudGIPAPPState.APPCommonGameSoundVolume();
         state.volume = volume;
-        notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_SOUND_VOLUME, state);
+        notifyStateChange(SudGIPAPPState.APP_COMMON_GAME_SOUND_VOLUME, state);
     }
 
     /**
@@ -245,10 +245,10 @@ public class SudFSTAPPDecorator {
      *
      * @param ludo ludo游戏
      */
-    public void notifyAPPCommonGameSettingSelectInfo(SudMGPAPPState.Ludo ludo) {
-        SudMGPAPPState.APPCommonGameSettingSelectInfo state = new SudMGPAPPState.APPCommonGameSettingSelectInfo();
+    public void notifyAPPCommonGameSettingSelectInfo(SudGIPAPPState.Ludo ludo) {
+        SudGIPAPPState.APPCommonGameSettingSelectInfo state = new SudGIPAPPState.APPCommonGameSettingSelectInfo();
         state.ludo = ludo;
-        notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_SETTING_SELECT_INFO, state);
+        notifyStateChange(SudGIPAPPState.APP_COMMON_GAME_SETTING_SELECT_INFO, state);
     }
 
     /**
@@ -258,11 +258,11 @@ public class SudFSTAPPDecorator {
      * @param aiPlayers AI玩家
      * @param isReady   机器人加入后是否自动准备 1：自动准备，0：不自动准备 默认为1
      */
-    public void notifyAPPCommonGameAddAIPlayers(List<SudMGPAPPState.AIPlayers> aiPlayers, int isReady) {
-        SudMGPAPPState.APPCommonGameAddAIPlayers state = new SudMGPAPPState.APPCommonGameAddAIPlayers();
+    public void notifyAPPCommonGameAddAIPlayers(List<SudGIPAPPState.AIPlayers> aiPlayers, int isReady) {
+        SudGIPAPPState.APPCommonGameAddAIPlayers state = new SudGIPAPPState.APPCommonGameAddAIPlayers();
         state.aiPlayers = aiPlayers;
         state.isReady = isReady;
-        notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_ADD_AI_PLAYERS, state);
+        notifyStateChange(SudGIPAPPState.APP_COMMON_GAME_ADD_AI_PLAYERS, state);
     }
 
     /**
@@ -270,8 +270,8 @@ public class SudFSTAPPDecorator {
      * 17. app在收到游戏断开连接通知后，通知游戏重试连接（2022-06-21新增，暂时支持ludo）
      */
     public void notifyAPPCommonGameReconnect() {
-        SudMGPAPPState.APPCommonGameReconnect state = new SudMGPAPPState.APPCommonGameReconnect();
-        notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_RECONNECT, state);
+        SudGIPAPPState.APPCommonGameReconnect state = new SudGIPAPPState.APPCommonGameReconnect();
+        notifyStateChange(SudGIPAPPState.APP_COMMON_GAME_RECONNECT, state);
     }
 
     /**
@@ -279,9 +279,9 @@ public class SudFSTAPPDecorator {
      * 18. app返回玩家当前积分
      */
     public void notifyAPPCommonGameScore(long score) {
-        SudMGPAPPState.APPCommonGameScore state = new SudMGPAPPState.APPCommonGameScore();
+        SudGIPAPPState.APPCommonGameScore state = new SudGIPAPPState.APPCommonGameScore();
         state.score = score;
-        notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_SCORE, state);
+        notifyStateChange(SudGIPAPPState.APP_COMMON_GAME_SCORE, state);
     }
     // endregion 状态通知，ISudFSTAPP.notifyStateChange
 
@@ -361,13 +361,13 @@ public class SudFSTAPPDecorator {
      * @param field2   额外参数2，针对部分功能有具体的意义
      */
     public void notifyAppCommonGameDiscoAction(int actionId, Integer cooldown, Boolean isTop, String field1, String field2) {
-        SudMGPAPPState.AppCommonGameDiscoAction state = new SudMGPAPPState.AppCommonGameDiscoAction();
+        SudGIPAPPState.AppCommonGameDiscoAction state = new SudGIPAPPState.AppCommonGameDiscoAction();
         state.actionId = actionId;
         state.cooldown = cooldown;
         state.isTop = isTop;
         state.field1 = field1;
         state.field2 = field2;
-        notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_DISCO_ACTION, state);
+        notifyStateChange(SudGIPAPPState.APP_COMMON_GAME_DISCO_ACTION, state);
     }
     // endregion 元宇宙砂砂舞
 

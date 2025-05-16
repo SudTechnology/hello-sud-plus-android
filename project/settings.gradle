@@ -1,6 +1,6 @@
 rootProject.name = "hello-sud-android"
 include ':app'
-include ':SudMGPWrapper'
+include ':SudGIPWrapper'
 include ':QuickStart'
 include ':SudMGPRTC'
 include ':SudMGPRTC:SudMGPRtcAgora'

@@ -3,7 +3,7 @@
  * https://sud.tech
  */
 
-package tech.sud.mgp.SudMGPWrapper.model;
+package tech.sud.gip.SudGIPWrapper.model;
 
 /**
  * 游戏视图

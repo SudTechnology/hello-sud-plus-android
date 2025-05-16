@@ -12,7 +12,7 @@ import com.blankj.utilcode.util.Utils;
 
 import java.util.concurrent.Future;
 
-import tech.sud.mgp.SudMGPWrapper.utils.SudJsonUtils;
+import tech.sud.gip.SudGIPWrapper.utils.SudJsonUtils;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;

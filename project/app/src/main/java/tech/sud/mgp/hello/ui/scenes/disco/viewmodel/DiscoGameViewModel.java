@@ -3,8 +3,8 @@ package tech.sud.mgp.hello.ui.scenes.disco.viewmodel;
 import com.blankj.utilcode.util.BarUtils;
 import com.blankj.utilcode.util.Utils;
 
-import tech.sud.mgp.SudMGPWrapper.model.GameViewInfoModel;
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
+import tech.sud.gip.SudGIPWrapper.model.GameViewInfoModel;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPAPPState;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
@@ -23,7 +23,7 @@ public class DiscoGameViewModel extends AppGameViewModel {
      * @param speed   field2:节奏快慢的数值，用于控制角色跳舞的快慢（0.1-10，保留1位小数点，1为正常速度，超出范围会取默认值）；默认1
      */
     public void switchSong(String musicId, String speed) {
-        sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_DISCO_ACTION, helper.switchSong(musicId, speed));
+        sudFSTAPPDecorator.notifyStateChange(SudGIPAPPState.APP_COMMON_GAME_DISCO_ACTION, helper.switchSong(musicId, speed));
     }
 
     /**
@@ -32,7 +32,7 @@ public class DiscoGameViewModel extends AppGameViewModel {
      * @param bind field1:0-不绑定（会在所有角色中随机）；1-绑定（会在对应性别的角色中随机）；默认0不绑定
      */
     public void bindGender(boolean bind) {
-        sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_DISCO_ACTION, helper.bindGender(bind));
+        sudFSTAPPDecorator.notifyStateChange(SudGIPAPPState.APP_COMMON_GAME_DISCO_ACTION, helper.bindGender(bind));
     }
 
     /**
@@ -43,7 +43,7 @@ public class DiscoGameViewModel extends AppGameViewModel {
      *               ；16：角色16（女）；17：角色17（女）；18：角色18（女）；19：角色19（女）；20：角色20（女）；21：角色21（女））；默认随机
      */
     public void changeRole(String roleId) {
-        sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_DISCO_ACTION, helper.changeRole(roleId));
+        sudFSTAPPDecorator.notifyStateChange(SudGIPAPPState.APP_COMMON_GAME_DISCO_ACTION, helper.changeRole(roleId));
     }
 
     /**
@@ -53,7 +53,7 @@ public class DiscoGameViewModel extends AppGameViewModel {
      * @param userId   加入主播位的userId，不填，默认是自己
      */
     public void joinAnchor(String position, String userId) {
-        sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_DISCO_ACTION, helper.joinAnchor(position, userId));
+        sudFSTAPPDecorator.notifyStateChange(SudGIPAPPState.APP_COMMON_GAME_DISCO_ACTION, helper.joinAnchor(position, userId));
     }
 
     /**
@@ -62,7 +62,7 @@ public class DiscoGameViewModel extends AppGameViewModel {
      * @param userId field1:playerId（离开主播位的玩家id），默认自己离开，如果该玩家本来就不在主播位则没有任何效果
      */
     public void leaveAnchor(String userId) {
-        sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_DISCO_ACTION, helper.leaveAnchor(userId));
+        sudFSTAPPDecorator.notifyStateChange(SudGIPAPPState.APP_COMMON_GAME_DISCO_ACTION, helper.leaveAnchor(userId));
     }
 
     /**
@@ -71,7 +71,7 @@ public class DiscoGameViewModel extends AppGameViewModel {
      * @param isHide field1:0-显示；1-隐藏（隐藏后不再有主播位，也不能和主播跳舞），默认显示
      */
     public void hideCenterStage(boolean isHide) {
-        sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_DISCO_ACTION, helper.hideCenterStage(isHide));
+        sudFSTAPPDecorator.notifyStateChange(SudGIPAPPState.APP_COMMON_GAME_DISCO_ACTION, helper.hideCenterStage(isHide));
     }
 
     /**
@@ -80,7 +80,7 @@ public class DiscoGameViewModel extends AppGameViewModel {
      * @param color field1:昵称的颜色色值（比如#ffffff就是昵称颜色为白色）默认白色
      */
     public void joinDancingFloor(String color) {
-        sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_DISCO_ACTION, helper.joinDancingFloor(color));
+        sudFSTAPPDecorator.notifyStateChange(SudGIPAPPState.APP_COMMON_GAME_DISCO_ACTION, helper.joinDancingFloor(color));
     }
 
     /**
@@ -89,14 +89,14 @@ public class DiscoGameViewModel extends AppGameViewModel {
      * @param userId field1:playerId（离开舞池的玩家id），默认自己离开，如果该玩家本来就不在舞池则没有任何效果
      */
     public void leaveDancingFloor(String userId) {
-        sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_DISCO_ACTION, helper.leaveDancingFloor(userId));
+        sudFSTAPPDecorator.notifyStateChange(SudGIPAPPState.APP_COMMON_GAME_DISCO_ACTION, helper.leaveDancingFloor(userId));
     }
 
     /**
      * 清场，强制所有人离开舞池，全部变成观众
      */
     public void clearSite() {
-        sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_DISCO_ACTION, helper.clearSite());
+        sudFSTAPPDecorator.notifyStateChange(SudGIPAPPState.APP_COMMON_GAME_DISCO_ACTION, helper.clearSite());
     }
 
     /**
@@ -106,7 +106,7 @@ public class DiscoGameViewModel extends AppGameViewModel {
      * @param speed    field1:移动速度快慢的数值（范围为0.1-10，保留1位小数点，1为正常速度，超出范围会取默认值）；默认1
      */
     public void roleMove(Integer cooldown, String speed) {
-        sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_DISCO_ACTION, helper.roleMove(cooldown, speed));
+        sudFSTAPPDecorator.notifyStateChange(SudGIPAPPState.APP_COMMON_GAME_DISCO_ACTION, helper.roleMove(cooldown, speed));
     }
 
     /**
@@ -116,7 +116,7 @@ public class DiscoGameViewModel extends AppGameViewModel {
      * @param multiple field1:放大倍数的数值（范围为0.1-5，保留1位小数点，1为原始大小，超出范围会取默认值）；默认2
      */
     public void roleBig(Integer cooldown, float multiple) {
-        sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_DISCO_ACTION, helper.roleBig(cooldown, multiple));
+        sudFSTAPPDecorator.notifyStateChange(SudGIPAPPState.APP_COMMON_GAME_DISCO_ACTION, helper.roleBig(cooldown, multiple));
     }
 
     /**
@@ -125,7 +125,7 @@ public class DiscoGameViewModel extends AppGameViewModel {
      * @param cooldown cooldown:飞天的持续时间，单位秒（-1为永久）默认30秒
      */
     public void roleFly(Integer cooldown) {
-        sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_DISCO_ACTION, helper.roleFly(cooldown));
+        sudFSTAPPDecorator.notifyStateChange(SudGIPAPPState.APP_COMMON_GAME_DISCO_ACTION, helper.roleFly(cooldown));
     }
 
     /**
@@ -135,7 +135,7 @@ public class DiscoGameViewModel extends AppGameViewModel {
      * @param effectId field1:特效ID（1：特效1；2：特效2；3：特效3；4：特效4；5：特效5；6：特效6）；默认随机
      */
     public void roleEffects(Integer cooldown, String effectId) {
-        sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_DISCO_ACTION, helper.roleEffects(cooldown, effectId));
+        sudFSTAPPDecorator.notifyStateChange(SudGIPAPPState.APP_COMMON_GAME_DISCO_ACTION, helper.roleEffects(cooldown, effectId));
     }
 
     /**
@@ -145,7 +145,7 @@ public class DiscoGameViewModel extends AppGameViewModel {
      * @param isTop    isTop:false-不置顶；true-置顶
      */
     public void roleFocus(Integer cooldown, Boolean isTop) {
-        sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_DISCO_ACTION, helper.roleFocus(cooldown, isTop));
+        sudFSTAPPDecorator.notifyStateChange(SudGIPAPPState.APP_COMMON_GAME_DISCO_ACTION, helper.roleFocus(cooldown, isTop));
     }
 
     /**
@@ -155,7 +155,7 @@ public class DiscoGameViewModel extends AppGameViewModel {
      * @param content  field1:气泡的文字内容；默认为空
      */
     public void textPop(Integer cooldown, String content) {
-        sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_DISCO_ACTION, helper.textPop(cooldown, content));
+        sudFSTAPPDecorator.notifyStateChange(SudGIPAPPState.APP_COMMON_GAME_DISCO_ACTION, helper.textPop(cooldown, content));
     }
 
     /**
@@ -166,7 +166,7 @@ public class DiscoGameViewModel extends AppGameViewModel {
      * @param effectId field2:称号特效ID（1：称号1；2：称号2；3：称号3）默认随机
      */
     public void roleTitle(Integer cooldown, String text, String effectId) {
-        sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_DISCO_ACTION, helper.roleTitle(cooldown, text, effectId));
+        sudFSTAPPDecorator.notifyStateChange(SudGIPAPPState.APP_COMMON_GAME_DISCO_ACTION, helper.roleTitle(cooldown, text, effectId));
     }
 
     /**
@@ -175,7 +175,7 @@ public class DiscoGameViewModel extends AppGameViewModel {
      * @param cooldown cooldown:上DJ台的持续时间，单位秒（-1为永久）默认180秒
      */
     public void upDJ(Integer cooldown) {
-        sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_DISCO_ACTION, helper.upDJ(cooldown));
+        sudFSTAPPDecorator.notifyStateChange(SudGIPAPPState.APP_COMMON_GAME_DISCO_ACTION, helper.upDJ(cooldown));
     }
 
     /**
@@ -184,7 +184,7 @@ public class DiscoGameViewModel extends AppGameViewModel {
      * @param mode field1:0-单对单（单个玩家只能和单个主播跳舞）；1-单对多（单个玩家可以和多个主播跳舞）默认0）
      */
     public void danceMode(int mode) {
-        sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_DISCO_ACTION, helper.danceMode(mode));
+        sudFSTAPPDecorator.notifyStateChange(SudGIPAPPState.APP_COMMON_GAME_DISCO_ACTION, helper.danceMode(mode));
     }
 
     /**
@@ -195,7 +195,7 @@ public class DiscoGameViewModel extends AppGameViewModel {
      * @param userId   field1:playerId（主播玩家的id）；该参数必传，不传则没有任何效果
      */
     public void danceWithAnchor(Integer cooldown, Boolean isTop, String userId) {
-        sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_DISCO_ACTION, helper.danceWithAnchor(cooldown, isTop, userId));
+        sudFSTAPPDecorator.notifyStateChange(SudGIPAPPState.APP_COMMON_GAME_DISCO_ACTION, helper.danceWithAnchor(cooldown, isTop, userId));
     }
 
     @Override

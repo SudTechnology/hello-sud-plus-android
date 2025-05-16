@@ -17,16 +17,16 @@ import com.blankj.utilcode.util.Utils;
 import java.util.List;
 import java.util.Objects;
 
-import tech.sud.mgp.SudMGPWrapper.decorator.SudFSMMGDecorator;
-import tech.sud.mgp.SudMGPWrapper.decorator.SudFSMMGListener;
-import tech.sud.mgp.SudMGPWrapper.decorator.SudFSTAPPDecorator;
-import tech.sud.mgp.SudMGPWrapper.model.GameConfigModel;
-import tech.sud.mgp.SudMGPWrapper.model.GameViewInfoModel;
-import tech.sud.mgp.SudMGPWrapper.state.MGStateResponse;
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
-import tech.sud.mgp.SudMGPWrapper.utils.GameCommonStateUtils;
-import tech.sud.mgp.SudMGPWrapper.utils.ISudFSMStateHandleUtils;
+import tech.sud.gip.SudGIPWrapper.decorator.SudFSMMGDecorator;
+import tech.sud.gip.SudGIPWrapper.decorator.SudFSMMGListener;
+import tech.sud.gip.SudGIPWrapper.decorator.SudFSTAPPDecorator;
+import tech.sud.gip.SudGIPWrapper.model.GameConfigModel;
+import tech.sud.gip.SudGIPWrapper.model.GameViewInfoModel;
+import tech.sud.gip.SudGIPWrapper.state.MGStateResponse;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPAPPState;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPMGState;
+import tech.sud.gip.SudGIPWrapper.utils.GameCommonStateUtils;
+import tech.sud.gip.SudGIPWrapper.utils.ISudFSMStateHandleUtils;
 import tech.sud.mgp.core.ISudFSMStateHandle;
 import tech.sud.mgp.core.ISudFSTAPP;
 import tech.sud.mgp.core.ISudListenerInitSDK;
@@ -92,15 +92,15 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
     public final MutableLiveData<Object> captainChangeLiveData = new MutableLiveData<>(); // 队长变化了
     public final MutableLiveData<GameLoadingProgressModel> gameLoadingProgressLiveData = new MutableLiveData<>(); // 游戏加载进度回调
     public final MutableLiveData<Object> onGameGetScoreLiveData = new MutableLiveData<>(); // 游戏通知app获取积分
-    public final MutableLiveData<SudMGPMGState.MGCommonGameSetScore> onGameSetScoreLiveData = new MutableLiveData<>(); // 24. 游戏通知app带入积分
-    public final MutableLiveData<SudMGPMGState.MGCommonGameSettle> gameSettleLiveData = new MutableLiveData<>(); // 游戏结算
-    public final MutableLiveData<SudMGPMGState.MGCommonGamePlayerMonopolyCards> monopolyCardsLiveData = new MutableLiveData<>(); // 大富翁获取道具
-    public final MutableLiveData<SudMGPMGState.MGCommonDestroyGameScene> onGameDestroyLiveData = new MutableLiveData<>(); // 游戏通知app销毁游戏
-    public final MutableLiveData<SudMGPMGState.MGCommonGameMoneyNotEnough> onGameMoneyNotEnoughLiveData = new MutableLiveData<>(); // 金币不足
-    public final MutableLiveData<SudMGPMGState.MGCommonGamePlayerPropsCards> onGamePlayerPropsCardsLiveData = new MutableLiveData<>(); // 游戏向app发送获取玩家持有的指定点数道具卡
+    public final MutableLiveData<SudGIPMGState.MGCommonGameSetScore> onGameSetScoreLiveData = new MutableLiveData<>(); // 24. 游戏通知app带入积分
+    public final MutableLiveData<SudGIPMGState.MGCommonGameSettle> gameSettleLiveData = new MutableLiveData<>(); // 游戏结算
+    public final MutableLiveData<SudGIPMGState.MGCommonGamePlayerMonopolyCards> monopolyCardsLiveData = new MutableLiveData<>(); // 大富翁获取道具
+    public final MutableLiveData<SudGIPMGState.MGCommonDestroyGameScene> onGameDestroyLiveData = new MutableLiveData<>(); // 游戏通知app销毁游戏
+    public final MutableLiveData<SudGIPMGState.MGCommonGameMoneyNotEnough> onGameMoneyNotEnoughLiveData = new MutableLiveData<>(); // 金币不足
+    public final MutableLiveData<SudGIPMGState.MGCommonGamePlayerPropsCards> onGamePlayerPropsCardsLiveData = new MutableLiveData<>(); // 游戏向app发送获取玩家持有的指定点数道具卡
 
-    public MutableLiveData<SudMGPMGState.MGCommonGameCreateOrder> gameCreateOrderLiveData = new MutableLiveData<>(); // 创建订单
-    public MutableLiveData<SudMGPMGState.MGCommonAiMessage> aiMessageLiveData = new MutableLiveData<>(); // 创建订单
+    public MutableLiveData<SudGIPMGState.MGCommonGameCreateOrder> gameCreateOrderLiveData = new MutableLiveData<>(); // 创建订单
+    public MutableLiveData<SudGIPMGState.MGCommonAiMessage> aiMessageLiveData = new MutableLiveData<>(); // 创建订单
 
     protected boolean isRunning = true; // 业务是否还在运行
     public View gameView; // 游戏View
@@ -217,8 +217,8 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
         // 自己是队长，并且游戏在进行中，收到关闭游戏的指令，则发送结束游戏的状态给游戏
         if (isCaptain(HSUserInfo.userId)) {
             int gameState = getGameState();
-            if (gameState == SudMGPMGState.MGCommonGameState.LOADING
-                    || gameState == SudMGPMGState.MGCommonGameState.PLAYING) {
+            if (gameState == SudGIPMGState.MGCommonGameState.LOADING
+                    || gameState == SudGIPMGState.MGCommonGameState.PLAYING) {
                 if (newGameId == GAME_ID_NONE) {
                     finishGame();
                 }
@@ -632,7 +632,7 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
     /** 加入游戏 */
     public void joinGame() {
         // 游戏闲置，并且自己没有加入游戏时，才发送
-        if (sudFSMMGDecorator.getGameState() == SudMGPMGState.MGCommonGameState.IDLE && !isSelfInGame()) {
+        if (sudFSMMGDecorator.getGameState() == SudGIPMGState.MGCommonGameState.IDLE && !isSelfInGame()) {
             sudFSTAPPDecorator.notifyAPPCommonSelfInV2(true, -1, true, 1);
         }
     }
@@ -704,9 +704,9 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
         if (!isSendAiMessage) {
             return;
         }
-        SudMGPAPPState.AppCommonAiModelMessage model = new SudMGPAPPState.AppCommonAiModelMessage();
+        SudGIPAPPState.AppCommonAiModelMessage model = new SudGIPAPPState.AppCommonAiModelMessage();
         model.text = msg;
-        notifyStateChange(SudMGPAPPState.APP_COMMON_AI_MODEL_MESSAGE, model);
+        notifyStateChange(SudGIPAPPState.APP_COMMON_AI_MODEL_MESSAGE, model);
     }
 
     // 获取当前游戏中的人数
@@ -725,11 +725,11 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
 
     // 游戏是否在进行中
     private boolean isGamePlaying() {
-        return sudFSMMGDecorator.getGameState() == SudMGPMGState.MGCommonGameState.PLAYING;
+        return sudFSMMGDecorator.getGameState() == SudGIPMGState.MGCommonGameState.PLAYING;
     }
 
     @Override
-    public void onGameMGCommonGameSettle(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameSettle model) {
+    public void onGameMGCommonGameSettle(ISudFSMStateHandle handle, SudGIPMGState.MGCommonGameSettle model) {
         SudFSMMGListener.super.onGameMGCommonGameSettle(handle, model);
         gameSettleLiveData.setValue(model);
     }
@@ -806,7 +806,7 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
     }
 
     /**
-     * 返回当前游戏的状态，数值参数{@link SudMGPMGState.MGCommonGameState}
+     * 返回当前游戏的状态，数值参数{@link SudGIPMGState.MGCommonGameState}
      */
     public int getGameState() {
         return sudFSMMGDecorator.getGameState();
@@ -889,7 +889,7 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
 
     // 公屏消息
     @Override
-    public void onGameMGCommonPublicMessage(ISudFSMStateHandle handle, SudMGPMGState.MGCommonPublicMessage model) {
+    public void onGameMGCommonPublicMessage(ISudFSMStateHandle handle, SudGIPMGState.MGCommonPublicMessage model) {
         String message = GameCommonStateUtils.parseMGCommonPublicMessage(model, SystemUtils.getLanguageCode(Utils.getApp()));
         if (!TextUtils.isEmpty(message)) {
             GameTextModel gameTextModel = new GameTextModel();
@@ -901,10 +901,10 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
 
     // 游戏状态
     @Override
-    public void onGameMGCommonGameState(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameState model) {
+    public void onGameMGCommonGameState(ISudFSMStateHandle handle, SudGIPMGState.MGCommonGameState model) {
         gameStateChangedLiveData.setValue(model.gameState);
         notifyShowFinishGameBtn();
-        if (model.gameState == SudMGPMGState.MGCommonGameState.LOADING) { // 游戏开始，收缩麦位
+        if (model.gameState == SudGIPMGState.MGCommonGameState.LOADING) { // 游戏开始，收缩麦位
             micSpaceMaxLiveData.setValue(true);
         }
         ISudFSMStateHandleUtils.handleSuccess(handle);
@@ -912,7 +912,7 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
 
     // 关键字
     @Override
-    public void onGameMGCommonKeyWordToHit(ISudFSMStateHandle handle, SudMGPMGState.MGCommonKeyWordToHit model) {
+    public void onGameMGCommonKeyWordToHit(ISudFSMStateHandle handle, SudGIPMGState.MGCommonKeyWordToHit model) {
         if (model != null) {
             gameKeywordLiveData.setValue(model.word);
         }
@@ -921,7 +921,7 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
 
     // ASR开关
     @Override
-    public void onGameMGCommonGameASR(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameASR model) {
+    public void onGameMGCommonGameASR(ISudFSMStateHandle handle, SudGIPMGState.MGCommonGameASR model) {
         boolean isOpen = model != null && model.isOpen;
         gameASRLiveData.setValue(isOpen);
         ISudFSMStateHandleUtils.handleSuccess(handle);
@@ -929,7 +929,7 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
 
     // 麦克风状态
     @Override
-    public void onGameMGCommonSelfMicrophone(ISudFSMStateHandle handle, SudMGPMGState.MGCommonSelfMicrophone model) {
+    public void onGameMGCommonSelfMicrophone(ISudFSMStateHandle handle, SudGIPMGState.MGCommonSelfMicrophone model) {
         boolean isOn = model != null && model.isOn;
         gameRTCPublishLiveData.setValue(isOn);
         ISudFSMStateHandleUtils.handleSuccess(handle);
@@ -937,7 +937,7 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
 
     // 耳机（听筒，扬声器）状态
     @Override
-    public void onGameMGCommonSelfHeadphone(ISudFSMStateHandle handle, SudMGPMGState.MGCommonSelfHeadphone model) {
+    public void onGameMGCommonSelfHeadphone(ISudFSMStateHandle handle, SudGIPMGState.MGCommonSelfHeadphone model) {
         boolean isOn = model != null && model.isOn;
         gameRTCPlayLiveData.setValue(isOn);
         ISudFSMStateHandleUtils.handleSuccess(handle);
@@ -945,7 +945,7 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
 
     // 队长状态
     @Override
-    public void onPlayerMGCommonPlayerCaptain(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGCommonPlayerCaptain model) {
+    public void onPlayerMGCommonPlayerCaptain(ISudFSMStateHandle handle, String userId, SudGIPMGState.MGCommonPlayerCaptain model) {
         captainChangeLiveData.setValue(model);
         if (model != null) {
             notifyUpdateMic();
@@ -956,7 +956,7 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
 
     // 玩家准备状态
     @Override
-    public void onPlayerMGCommonPlayerReady(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGCommonPlayerReady model) {
+    public void onPlayerMGCommonPlayerReady(ISudFSMStateHandle handle, String userId, SudGIPMGState.MGCommonPlayerReady model) {
         if (model != null) {
             notifyUpdateMic();
         }
@@ -965,7 +965,7 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
 
     // 玩家加入状态
     @Override
-    public void onPlayerMGCommonPlayerIn(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGCommonPlayerIn model) {
+    public void onPlayerMGCommonPlayerIn(ISudFSMStateHandle handle, String userId, SudGIPMGState.MGCommonPlayerIn model) {
         if (model != null) {
             if (getUserId().equals(userId)) { // 属于自己的变动
                 if (model.isIn) {
@@ -980,7 +980,7 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
 
     // 玩家游戏状态
     @Override
-    public void onPlayerMGCommonPlayerPlaying(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGCommonPlayerPlaying model) {
+    public void onPlayerMGCommonPlayerPlaying(ISudFSMStateHandle handle, String userId, SudGIPMGState.MGCommonPlayerPlaying model) {
         if (model != null) {
             notifyUpdateMic();
         }
@@ -992,7 +992,7 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
      * mg_common_game_score
      */
     @Override
-    public void onGameMGCommonGameGetScore(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameGetScore model) {
+    public void onGameMGCommonGameGetScore(ISudFSMStateHandle handle, SudGIPMGState.MGCommonGameGetScore model) {
         SudFSMMGListener.super.onGameMGCommonGameGetScore(handle, model);
         onGameGetScoreLiveData.setValue(null);
     }
@@ -1002,7 +1002,7 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
      * mg_common_game_set_score
      */
     @Override
-    public void onGameMGCommonGameSetScore(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameSetScore model) {
+    public void onGameMGCommonGameSetScore(ISudFSMStateHandle handle, SudGIPMGState.MGCommonGameSetScore model) {
         SudFSMMGListener.super.onGameMGCommonGameSetScore(handle, model);
         onGameSetScoreLiveData.setValue(model);
     }
@@ -1012,25 +1012,25 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
      * mg_common_game_player_monopoly_cards
      */
     @Override
-    public void onGameMGCommonGamePlayerMonopolyCards(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGamePlayerMonopolyCards model) {
+    public void onGameMGCommonGamePlayerMonopolyCards(ISudFSMStateHandle handle, SudGIPMGState.MGCommonGamePlayerMonopolyCards model) {
         SudFSMMGListener.super.onGameMGCommonGamePlayerMonopolyCards(handle, model);
         monopolyCardsLiveData.setValue(model);
     }
 
     @Override
-    public void onGameMGCommonDestroyGameScene(ISudFSMStateHandle handle, SudMGPMGState.MGCommonDestroyGameScene model) {
+    public void onGameMGCommonDestroyGameScene(ISudFSMStateHandle handle, SudGIPMGState.MGCommonDestroyGameScene model) {
         SudFSMMGListener.super.onGameMGCommonDestroyGameScene(handle, model);
         onGameDestroyLiveData.setValue(model);
     }
 
     @Override
-    public void onGameMGCommonGameMoneyNotEnough(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameMoneyNotEnough model) {
+    public void onGameMGCommonGameMoneyNotEnough(ISudFSMStateHandle handle, SudGIPMGState.MGCommonGameMoneyNotEnough model) {
         SudFSMMGListener.super.onGameMGCommonGameMoneyNotEnough(handle, model);
         onGameMoneyNotEnoughLiveData.setValue(model);
     }
 
     @Override
-    public void onGameMGCommonGamePlayerPropsCards(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGamePlayerPropsCards model) {
+    public void onGameMGCommonGamePlayerPropsCards(ISudFSMStateHandle handle, SudGIPMGState.MGCommonGamePlayerPropsCards model) {
         SudFSMMGListener.super.onGameMGCommonGamePlayerPropsCards(handle, model);
         onGamePlayerPropsCardsLiveData.setValue(model);
     }
@@ -1105,19 +1105,19 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
     }
 
     @Override
-    public void onGameMGCommonGameCreateOrder(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameCreateOrder model) {
+    public void onGameMGCommonGameCreateOrder(ISudFSMStateHandle handle, SudGIPMGState.MGCommonGameCreateOrder model) {
         SudFSMMGListener.super.onGameMGCommonGameCreateOrder(handle, model);
         gameCreateOrderLiveData.setValue(model);
     }
 
     @Override
-    public void onGameMGCommonAiModelMessage(ISudFSMStateHandle handle, SudMGPMGState.MGCommonAiModelMessage model) {
+    public void onGameMGCommonAiModelMessage(ISudFSMStateHandle handle, SudGIPMGState.MGCommonAiModelMessage model) {
         SudFSMMGListener.super.onGameMGCommonAiModelMessage(handle, model);
         isSendAiMessage = true;
     }
 
     @Override
-    public void onGameMGCommonAiMessage(ISudFSMStateHandle handle, SudMGPMGState.MGCommonAiMessage model) {
+    public void onGameMGCommonAiMessage(ISudFSMStateHandle handle, SudGIPMGState.MGCommonAiMessage model) {
         SudFSMMGListener.super.onGameMGCommonAiMessage(handle, model);
         aiMessageLiveData.setValue(model);
     }

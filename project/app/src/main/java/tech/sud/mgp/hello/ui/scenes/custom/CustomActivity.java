@@ -2,7 +2,7 @@ package tech.sud.mgp.hello.ui.scenes.custom;
 
 import android.widget.TextView;
 
-import tech.sud.mgp.SudMGPWrapper.model.GameConfigModel;
+import tech.sud.gip.SudGIPWrapper.model.GameConfigModel;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.utils.GlobalCache;

@@ -1,7 +1,7 @@
 package tech.sud.mgp.hello.ui.scenes.disco.viewmodel;
 
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
-import tech.sud.mgp.SudMGPWrapper.utils.SudJsonUtils;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPAPPState;
+import tech.sud.gip.SudGIPWrapper.utils.SudJsonUtils;
 
 public class DiscoActionHelper {
 
@@ -283,7 +283,7 @@ public class DiscoActionHelper {
     }
 
     public String buidlJson(int actionId, Integer cooldown, Boolean isTop, String field1, String field2) {
-        SudMGPAPPState.AppCommonGameDiscoAction state = new SudMGPAPPState.AppCommonGameDiscoAction();
+        SudGIPAPPState.AppCommonGameDiscoAction state = new SudGIPAPPState.AppCommonGameDiscoAction();
         state.actionId = actionId;
         state.cooldown = cooldown;
         state.isTop = isTop;

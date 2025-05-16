@@ -2,7 +2,7 @@ package tech.sud.mgp.hello.ui.scenes.common.cmd.model;
 
 import java.util.List;
 
-import tech.sud.mgp.SudMGPWrapper.utils.SudJsonUtils;
+import tech.sud.gip.SudGIPWrapper.utils.SudJsonUtils;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 
 /**

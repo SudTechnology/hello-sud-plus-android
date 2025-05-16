@@ -4,7 +4,7 @@ import androidx.lifecycle.LifecycleOwner;
 
 import java.util.List;
 
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPAPPState;
 import tech.sud.mgp.hello.common.http.param.BaseUrlManager;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.http.rx.RxUtils;
@@ -522,7 +522,7 @@ public class RoomRepository {
     }
 
     /** 查询麦位列表 */
-    public static void audio3DMicList(LifecycleOwner owner, Audio3DMicListReq req, RxCallback<SudMGPAPPState.AppCustomCrSetSeats> callback) {
+    public static void audio3DMicList(LifecycleOwner owner, Audio3DMicListReq req, RxCallback<SudGIPAPPState.AppCustomCrSetSeats> callback) {
         AudioRequestMethodFactory.getMethod()
                 .audio3DMicList(BaseUrlManager.getInteractBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
@@ -530,7 +530,7 @@ public class RoomRepository {
     }
 
     /** 获取配置 */
-    public static void audio3DGetConfig(LifecycleOwner owner, Audio3DGetConfigReq req, RxCallback<SudMGPAPPState.AppCustomCrSetRoomConfig> callback) {
+    public static void audio3DGetConfig(LifecycleOwner owner, Audio3DGetConfigReq req, RxCallback<SudGIPAPPState.AppCustomCrSetRoomConfig> callback) {
         AudioRequestMethodFactory.getMethod()
                 .audio3DGetConfig(BaseUrlManager.getInteractBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
@@ -538,7 +538,7 @@ public class RoomRepository {
     }
 
     /** 设置配置 */
-    public static void audio3DSetConfig(LifecycleOwner owner, long roomId, SudMGPAPPState.AppCustomCrSetRoomConfig config, RxCallback<Object> callback) {
+    public static void audio3DSetConfig(LifecycleOwner owner, long roomId, SudGIPAPPState.AppCustomCrSetRoomConfig config, RxCallback<Object> callback) {
         SetCrRoomConfigReq req = new SetCrRoomConfigReq();
         req.roomId = roomId;
         req.setConfig(config);

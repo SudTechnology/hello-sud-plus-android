@@ -1,6 +1,6 @@
 package tech.sud.mgp.hello.service.game.req;
 
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPMGState;
 
 public class CreateOrderReq {
     public long gameId;
@@ -12,7 +12,7 @@ public class CreateOrderReq {
     public long value; // 所属的游戏价值
     public String payload; // 扩展数据 json 字符串, 特殊可选
 
-    public void setCreateOrderValues(SudMGPMGState.MGCommonGameCreateOrder model) {
+    public void setCreateOrderValues(SudGIPMGState.MGCommonGameCreateOrder model) {
         if (model == null) {
             return;
         }

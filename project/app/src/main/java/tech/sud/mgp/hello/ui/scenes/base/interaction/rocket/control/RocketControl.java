@@ -18,10 +18,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState.AppCustomRocketPlayModelList;
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
-import tech.sud.mgp.SudMGPWrapper.utils.SudJsonUtils;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPAPPState;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPAPPState.AppCustomRocketPlayModelList;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPMGState;
+import tech.sud.gip.SudGIPWrapper.utils.SudJsonUtils;
 import tech.sud.mgp.hello.BuildConfig;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
@@ -120,7 +120,7 @@ public class RocketControl extends BaseInteractionControl {
         rocketGameViewModel.clickLockComponentLiveData.observe(activity, this::onClickLockComponent);
         rocketGameViewModel.rocketPrepareCompletedLiveData.observe(activity, o -> onRocketPrepareCompleted());
         rocketGameViewModel.rocketClickRectLiveData.observe(activity, model -> {
-            List<SudMGPMGState.InteractionClickRect> list = null;
+            List<SudGIPMGState.InteractionClickRect> list = null;
             if (model != null) {
                 list = model.list;
             }
@@ -195,7 +195,7 @@ public class RocketControl extends BaseInteractionControl {
     }
 
     /** 点击了锁住的组件 */
-    private void onClickLockComponent(SudMGPMGState.MGCustomRocketClickLockComponent model) {
+    private void onClickLockComponent(SudGIPMGState.MGCustomRocketClickLockComponent model) {
         if (model == null) {
             return;
         }
@@ -213,12 +213,12 @@ public class RocketControl extends BaseInteractionControl {
     }
 
     /** 解锁该组件 */
-    private void unlockComponent(SudMGPMGState.MGCustomRocketClickLockComponent model) {
+    private void unlockComponent(SudGIPMGState.MGCustomRocketClickLockComponent model) {
         GameRepository.rocketUnlockComponent(activity, model.componentId, 0, new RxCallback<Object>() {
             @Override
             public void onSuccess(Object o) {
                 super.onSuccess(o);
-                SudMGPAPPState.AppCustomRocketUnlockComponent appCustomRocketUnlockComponent = new SudMGPAPPState.AppCustomRocketUnlockComponent();
+                SudGIPAPPState.AppCustomRocketUnlockComponent appCustomRocketUnlockComponent = new SudGIPAPPState.AppCustomRocketUnlockComponent();
                 appCustomRocketUnlockComponent.type = model.type;
                 appCustomRocketUnlockComponent.componentId = model.componentId;
                 rocketGameViewModel.notifyAppCustomRocketUnlockComponent(appCustomRocketUnlockComponent);
@@ -227,12 +227,12 @@ public class RocketControl extends BaseInteractionControl {
     }
 
     /** 游戏要发射火箭 */
-    private void onGameFireRocket(SudMGPMGState.MGCustomRocketFireModel model) {
+    private void onGameFireRocket(SudGIPMGState.MGCustomRocketFireModel model) {
         showRocketFireSelectDialog(model);
     }
 
     /** 显示火箭发射选择用户的弹窗 */
-    private void showRocketFireSelectDialog(SudMGPMGState.MGCustomRocketFireModel model) {
+    private void showRocketFireSelectDialog(SudGIPMGState.MGCustomRocketFireModel model) {
         if (getBinder() == null) {
             return;
         }
@@ -308,7 +308,7 @@ public class RocketControl extends BaseInteractionControl {
      *
      * @param isFromGame 是否是游戏触发
      */
-    private void onSendRocket(boolean isFromGame, SudMGPMGState.MGCustomRocketFireModel model, int number, List<UserInfo> userInfoList) {
+    private void onSendRocket(boolean isFromGame, SudGIPMGState.MGCustomRocketFireModel model, int number, List<UserInfo> userInfoList) {
         if (userInfoList == null || userInfoList.size() == 0) {
             return;
         }
@@ -337,7 +337,7 @@ public class RocketControl extends BaseInteractionControl {
                 if (getBinder() == null) {
                     return;
                 }
-                rocketGameViewModel.notifyAppCustomRocketFireModel(new SudMGPAPPState.AppCustomRocketFireModel());
+                rocketGameViewModel.notifyAppCustomRocketFireModel(new SudGIPAPPState.AppCustomRocketFireModel());
                 for (UserInfo userInfo : userInfoList) {
                     List<String> orderList = rocketFireResp.userOrderIdsMap.get(userInfo.userID);
                     if (orderList == null || orderList.size() == 0) {

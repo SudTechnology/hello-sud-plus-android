@@ -5,7 +5,7 @@ import android.widget.TextView;
 
 import com.blankj.utilcode.util.LogUtils;
 
-import tech.sud.mgp.SudMGPWrapper.model.GameConfigModel;
+import tech.sud.gip.SudGIPWrapper.model.GameConfigModel;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseActivity;
 import tech.sud.mgp.hello.common.utils.GlobalCache;

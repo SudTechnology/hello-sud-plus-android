@@ -3,10 +3,10 @@
  * https://sud.tech
  */
 
-package tech.sud.mgp.SudMGPWrapper.utils;
+package tech.sud.gip.SudGIPWrapper.utils;
 
 import tech.sud.mgp.core.ISudFSMStateHandle;
-import tech.sud.mgp.SudMGPWrapper.state.MGStateResponse;
+import tech.sud.gip.SudGIPWrapper.state.MGStateResponse;
 
 public class ISudFSMStateHandleUtils {
 

@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace 'tech.sud.mgp.SudMGPWrapper'
+    namespace 'tech.sud.gip.SudMGPWrapper'
     compileSdk 32
 
     defaultConfig {

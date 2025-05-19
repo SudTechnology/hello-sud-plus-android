@@ -1,5 +1,7 @@
 package tech.sud.mgp.hello.ui.scenes.base.viewmodel;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -14,7 +16,9 @@ import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.Utils;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import tech.sud.mgp.SudMGPWrapper.decorator.SudFSMMGDecorator;
@@ -119,6 +123,10 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
     private ISudAiAgent aiAgent;
     private boolean isNotifyAiMicState;
 
+    private final Map<String, Integer> userSoundState = new HashMap<>();
+    private final Map<String, Runnable> timeoutTasks = new HashMap<>();
+    private final Handler handler = new Handler(Looper.getMainLooper());
+    private static final int TIMEOUT_MS = 3000;
 
     public AppGameViewModel() {
         sudFSTAPPDecorator.setOnNotifyStateChangeListener(this);
@@ -1182,17 +1190,55 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
         }
     }
 
-    private void notifyGameMicState(String userId, boolean micIsOpened) {
+    public void notifyGameMicState(String userId, boolean micIsOpened) {
+        notifyGameMicState(userId, micIsOpened ? 1 : 0);
+    }
+
+    public void notifyGameMicState(String userId, int state) {
         SudMGPAPPState.AppCommonGamePlayerMicState model = new SudMGPAPPState.AppCommonGamePlayerMicState();
         model.uid = userId;
-        model.state = micIsOpened ? 1 : 0;
+        model.state = state;
         notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_PLAYER_MIC_STATE, model);
     }
 
     public void onSoundLevel(String userId, float soundLevel) {
-        if (isNotifyAiMicState && isAiGame()) {
-            notifyGameMicState(userId, soundLevel > 1);
+        if (!isAiGame()) {
+            return;
+        }
+        int newState = soundLevel > 1 ? 1 : 0;
+        Integer currentState = userSoundState.get(userId);
+
+        if (currentState == null || currentState != newState) {
+            userSoundState.put(userId, newState);
+            notifyGameMicState(userId, newState);
+        }
+
+        // 如果是新来的 1，或重复 1，也要刷新 timeout
+        if (newState == 1) {
+            refreshTimeout(userId);
+        } else {
+            // 是 0 的话直接取消 timeout
+            cancelTimeout(userId);
+            notifyGameMicState(userId, newState);
         }
     }
 
+    private void refreshTimeout(String userId) {
+        cancelTimeout(userId); // 先取消旧任务
+
+        Runnable timeoutRunnable = () -> {
+            userSoundState.put(userId, 0);
+            notifyGameMicState(userId, 0);
+        };
+
+        timeoutTasks.put(userId, timeoutRunnable);
+        handler.postDelayed(timeoutRunnable, TIMEOUT_MS);
+    }
+
+    private void cancelTimeout(String userId) {
+        Runnable task = timeoutTasks.remove(userId);
+        if (task != null) {
+            handler.removeCallbacks(task);
+        }
+    }
 }

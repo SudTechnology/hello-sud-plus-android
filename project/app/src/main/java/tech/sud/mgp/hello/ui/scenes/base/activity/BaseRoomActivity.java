@@ -118,6 +118,7 @@ import tech.sud.mgp.hello.ui.scenes.common.gift.utils.GiftModelConverter;
 import tech.sud.mgp.hello.ui.scenes.common.gift.view.GiftEffectView;
 import tech.sud.mgp.hello.ui.scenes.common.gift.view.RoomGiftDialog;
 import tech.sud.mgp.rtc.audio.core.AudioPCMData;
+import tech.sud.mgp.rtc.audio.core.SudAudioPlayListener;
 
 /**
  * 场景房间的基类
@@ -891,7 +892,8 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         try {
             JSONObject obj = new JSONObject(json);
             String audioData = obj.getString("audioData");
-            playAudioData(audioData);
+            String uid = obj.optString("uid");
+            playAudioData(uid, audioData);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -905,7 +907,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
 //        playAudioData(model.audioData);
     }
 
-    private void playAudioData(String audioData) {
+    private void playAudioData(String uid, String audioData) {
 //        if (mAudioMsgPlayer == null) {
 //            mAudioMsgPlayer = new AudioMsgPlayerConcurrent();
 //        }
@@ -913,7 +915,17 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
 
         // 改为走RTC通道去播放
         if (binder != null) {
-            binder.playAudio(base64Decode(audioData));
+            binder.playAudio(base64Decode(audioData), new SudAudioPlayListener() {
+                @Override
+                public void onPlaying() {
+                    gameViewModel.notifyGameMicState(uid, true);
+                }
+
+                @Override
+                public void onCompleted() {
+                    gameViewModel.notifyGameMicState(uid, false);
+                }
+            });
         }
     }
 

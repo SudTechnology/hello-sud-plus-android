@@ -50,6 +50,7 @@ import tech.sud.mgp.hello.ui.scenes.common.cmd.model.quiz.QuizBetModel;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.GiftModel;
 import tech.sud.mgp.hello.ui.scenes.disco.model.DiscoInteractionModel;
 import tech.sud.mgp.rtc.audio.core.MediaViewMode;
+import tech.sud.mgp.rtc.audio.core.SudAudioPlayListener;
 
 /**
  * 房间服务
@@ -482,8 +483,8 @@ public class SceneRoomService extends Service {
         /**
          * 使用rtc来播放音频
          */
-        public void playAudio(byte[] audioDatas) {
-            serviceManager.sceneEngineManager.playAudio(audioDatas);
+        public void playAudio(byte[] audioDatas, SudAudioPlayListener sudAudioPlayListener) {
+            serviceManager.sceneEngineManager.playAudio(audioDatas, sudAudioPlayListener);
         }
 
     }

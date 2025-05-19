@@ -260,7 +260,7 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
         if (mAgoraAudioMsgPlayer == null) {
             mAgoraAudioMsgPlayer = new AgoraAudioMsgPlayer();
         }
-        mAgoraAudioMsgPlayer.play(mEngine, audioSource.audioDatas);
+        mAgoraAudioMsgPlayer.play(mEngine, audioSource.audioDatas, audioSource.sudAudioPlayListener);
     }
 
     private AudioRoomState convertAudioRoomState(int state) {

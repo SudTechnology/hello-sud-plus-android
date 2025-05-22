@@ -1,7 +1,5 @@
 package tech.sud.mgp.rtc.audio.impl.agora;
 
-import android.util.Base64;
-
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ThreadUtils;
 
@@ -25,13 +23,14 @@ public class AgoraAudioMsgPlayer {
     }
 
     private void playMp3(RtcEngine engine, byte[] mp3Buffer, SudAudioPlayListener sudAudioPlayListener) {
-        LogUtils.d("playMp3：" + mp3Buffer.length);
+        LogUtils.d("AgoraAudioMsgPlayer playMp3：" + mp3Buffer.length);
         IMediaPlayer mediaPlayer = engine.createMediaPlayer();
         try {
-            mediaPlayer.registerPlayerObserver(new SimpleIMediaPlayerObserver() {
+            SimpleIMediaPlayerObserver simpleIMediaPlayerObserver = new SimpleIMediaPlayerObserver() {
                 @Override
                 public void onPlayerStateChanged(Constants.MediaPlayerState state, Constants.MediaPlayerReason reason) {
-                    LogUtils.d("onPlayerStateChanged:" + state);
+                    super.onPlayerStateChanged(state, reason);
+                    LogUtils.d("AgoraAudioMsgPlayer onPlayerStateChanged:" + state);
                     if (state == Constants.MediaPlayerState.PLAYER_STATE_OPEN_COMPLETED) {
                         ThreadUtils.runOnUiThread(() -> {
                             mediaPlayer.play();
@@ -52,26 +51,18 @@ public class AgoraAudioMsgPlayer {
                         });
                     }
                 }
-            });
+            };
+            int registerResult = mediaPlayer.registerPlayerObserver(simpleIMediaPlayerObserver);
+            LogUtils.d("AgoraAudioMsgPlayer registerResult:" + registerResult);
             MediaPlayerSource mediaPlayerSource = new MediaPlayerSource();
             mediaPlayerSource.setProvider(new ByteArrayMediaPlayerDataProvider(mp3Buffer));
+            mediaPlayer.setLoopCount(1);
             mediaPlayer.openWithMediaSource(mediaPlayerSource);
             mPlayerList.add(mediaPlayer);
         } catch (Exception e) {
-            LogUtils.d("音频播放失败：" + e.getMessage());
+            LogUtils.w("AgoraAudioMsgPlayer 音频播放失败：" + e.getMessage());
             mPlayerList.remove(mediaPlayer);
         }
     }
 
-    /**
-     * 将base64的字符串，转成byte数组
-     *
-     * @param base64Str
-     * @return
-     */
-    public byte[] base64Decode(String base64Str) {
-        if (base64Str == null || base64Str.length() == 0)
-            return null;
-        return Base64.decode(base64Str, Base64.NO_WRAP);
-    }
 }

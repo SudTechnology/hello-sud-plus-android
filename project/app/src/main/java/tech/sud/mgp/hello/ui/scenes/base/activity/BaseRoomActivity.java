@@ -918,11 +918,13 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
             binder.playAudio(base64Decode(audioData), new SudAudioPlayListener() {
                 @Override
                 public void onPlaying() {
+                    LogUtils.d("playAudioData onPlaying:" + uid);
                     gameViewModel.notifyGameMicState(uid, true);
                 }
 
                 @Override
                 public void onCompleted() {
+                    LogUtils.d("playAudioData onCompleted:" + uid);
                     gameViewModel.notifyGameMicState(uid, false);
                 }
             });

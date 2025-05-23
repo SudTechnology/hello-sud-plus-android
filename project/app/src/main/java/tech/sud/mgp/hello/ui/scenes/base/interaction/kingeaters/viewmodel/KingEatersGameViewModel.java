@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import tech.sud.gip.SudGIPWrapper.model.GameViewInfoModel;
 import tech.sud.gip.SudGIPWrapper.state.SudGIPAPPState;
 import tech.sud.gip.SudGIPWrapper.state.SudGIPMGState;
-import tech.sud.mgp.core.ISudFSMStateHandle;
+import tech.sud.gip.core.ISudFSMStateHandle;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.ui.main.base.constant.GameIdCons;

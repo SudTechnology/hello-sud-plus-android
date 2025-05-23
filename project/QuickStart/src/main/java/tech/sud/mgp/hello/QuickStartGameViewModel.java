@@ -23,8 +23,8 @@ import tech.sud.gip.SudGIPWrapper.model.GameConfigModel;
 import tech.sud.gip.SudGIPWrapper.model.GameViewInfoModel;
 import tech.sud.gip.SudGIPWrapper.state.MGStateResponse;
 import tech.sud.gip.SudGIPWrapper.state.SudGIPMGState;
-import tech.sud.mgp.core.ISudFSMMG;
-import tech.sud.mgp.core.ISudFSMStateHandle;
+import tech.sud.gip.core.ISudFSMMG;
+import tech.sud.gip.core.ISudFSMStateHandle;
 
 /**
  * 游戏业务逻辑

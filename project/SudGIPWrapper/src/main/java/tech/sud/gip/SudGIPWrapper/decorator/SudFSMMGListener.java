@@ -7,7 +7,7 @@ package tech.sud.gip.SudGIPWrapper.decorator;
 
 import tech.sud.gip.SudGIPWrapper.state.SudGIPMGState;
 import tech.sud.gip.SudGIPWrapper.utils.ISudFSMStateHandleUtils;
-import tech.sud.mgp.core.ISudFSMStateHandle;
+import tech.sud.gip.core.ISudFSMStateHandle;
 
 /**
  * {@link SudFSMMGDecorator} 回调定义

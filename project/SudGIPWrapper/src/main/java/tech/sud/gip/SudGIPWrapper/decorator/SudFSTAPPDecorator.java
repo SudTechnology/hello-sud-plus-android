@@ -10,8 +10,8 @@ import java.util.List;
 
 import tech.sud.gip.SudGIPWrapper.state.SudGIPAPPState;
 import tech.sud.gip.SudGIPWrapper.utils.SudJsonUtils;
-import tech.sud.mgp.core.ISudFSTAPP;
-import tech.sud.mgp.core.ISudListenerNotifyStateChange;
+import tech.sud.gip.core.ISudFSTAPP;
+import tech.sud.gip.core.ISudListenerNotifyStateChange;
 
 /**
  * ISudFSTAPP的装饰类，接近于业务

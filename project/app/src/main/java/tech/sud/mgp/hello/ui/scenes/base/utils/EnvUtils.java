@@ -1,6 +1,6 @@
 package tech.sud.mgp.hello.ui.scenes.base.utils;
 
-import tech.sud.mgp.core.ISudAPPD;
+import tech.sud.gip.core.ISudAPPD;
 import tech.sud.mgp.hello.BuildConfig;
 import tech.sud.nft.core.ISudNFTD;
 

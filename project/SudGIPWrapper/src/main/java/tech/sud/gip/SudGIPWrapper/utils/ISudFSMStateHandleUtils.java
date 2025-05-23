@@ -5,8 +5,8 @@
 
 package tech.sud.gip.SudGIPWrapper.utils;
 
-import tech.sud.mgp.core.ISudFSMStateHandle;
 import tech.sud.gip.SudGIPWrapper.state.MGStateResponse;
+import tech.sud.gip.core.ISudFSMStateHandle;
 
 public class ISudFSMStateHandleUtils {
 

@@ -28,8 +28,8 @@ dependencies {
     // 引入 SudGIPSDK，发布页：https://github.com/SudTechnology/sud-mgp-android
     // TODO 如果需要上架Google Play，请访问SDK网站说明替换成对应的SDK：
     // TODO If you need to publish on Google Play, please visit the SDK website for instructions to replace it with the corresponding SDK
-    api 'tech.sud.mgp:SudMGP-lite:1.5.2.1238'
-
+    api 'tech.sud.gip:SudGIP:1.6.0.1240'
+    
     // 依赖okhttp
     api 'com.squareup.okhttp3:okhttp:4.9.2'
 

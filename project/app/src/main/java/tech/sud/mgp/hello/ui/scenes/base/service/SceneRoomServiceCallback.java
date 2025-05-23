@@ -3,7 +3,7 @@ package tech.sud.mgp.hello.ui.scenes.base.service;
 import java.util.List;
 
 import tech.sud.gip.SudGIPWrapper.state.SudGIPAPPState;
-import tech.sud.mgp.core.ISudListenerNotifyStateChange;
+import tech.sud.gip.core.ISudListenerNotifyStateChange;
 import tech.sud.mgp.hello.service.room.resp.CrossAppModel;
 import tech.sud.mgp.hello.ui.scenes.base.constant.OperateMicType;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;

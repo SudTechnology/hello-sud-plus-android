@@ -21,11 +21,11 @@ import tech.sud.gip.SudGIPWrapper.model.GameConfigModel;
 import tech.sud.gip.SudGIPWrapper.model.GameViewInfoModel;
 import tech.sud.gip.SudGIPWrapper.state.MGStateResponse;
 import tech.sud.gip.SudGIPWrapper.utils.SudJsonUtils;
-import tech.sud.mgp.core.ISudFSMStateHandle;
-import tech.sud.mgp.core.ISudFSTAPP;
-import tech.sud.mgp.core.ISudListenerInitSDK;
-import tech.sud.mgp.core.SudInitSDKParamModel;
-import tech.sud.mgp.core.SudLoadMGParamModel;
+import tech.sud.gip.core.ISudFSMStateHandle;
+import tech.sud.gip.core.ISudFSTAPP;
+import tech.sud.gip.core.ISudListenerInitSDK;
+import tech.sud.gip.core.SudInitSDKParamModel;
+import tech.sud.gip.core.SudLoadMGParamModel;
 import tech.sud.mgp.core.SudMGP;
 
 /**

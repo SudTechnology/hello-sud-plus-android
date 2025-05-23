@@ -7,7 +7,7 @@ import com.blankj.utilcode.util.Utils;
 
 import tech.sud.gip.SudGIPWrapper.model.GameViewInfoModel;
 import tech.sud.gip.SudGIPWrapper.state.SudGIPMGState;
-import tech.sud.mgp.core.ISudFSMStateHandle;
+import tech.sud.gip.core.ISudFSMStateHandle;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
 

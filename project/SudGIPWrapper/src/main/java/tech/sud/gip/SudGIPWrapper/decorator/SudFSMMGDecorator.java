@@ -8,8 +8,8 @@ package tech.sud.gip.SudGIPWrapper.decorator;
 import tech.sud.gip.SudGIPWrapper.state.SudGIPMGState;
 import tech.sud.gip.SudGIPWrapper.utils.ISudFSMStateHandleUtils;
 import tech.sud.gip.SudGIPWrapper.utils.SudJsonUtils;
-import tech.sud.mgp.core.ISudFSMMG;
-import tech.sud.mgp.core.ISudFSMStateHandle;
+import tech.sud.gip.core.ISudFSMMG;
+import tech.sud.gip.core.ISudFSMStateHandle;
 
 /**
  * ISudFSMMG 游戏调APP回调装饰类

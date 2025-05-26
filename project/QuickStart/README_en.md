@@ -27,7 +27,7 @@
   <details> 
   <summary>Detailed description</summary> 
 
-      1. Refer to SudMGP documentation, SudMGPWrapper, QuickStart, and HelloSud demo (demonstrates multiple scenarios, including custom scenarios). 
+      1. Refer to SudGIP documentation, SudGIPWrapper, QuickStart, and HelloSud demo (demonstrates multiple scenarios, including custom scenarios). 
       2. Focus on APP UI interaction, functionality support, and implementation. 
          For example: 
          - Adjusting the size and position of the game view. 
@@ -39,20 +39,20 @@
   ![iPhone](doc/hello_sudplus_iphone.png) 
   </details> 
 # 3-Minute Integration Code 
-- Step 1: Import the SudMGPWrapper module 
+- Step 1: Import the SudGIPWrapper module 
   <details> 
-  <summary>Import the SudMGPWrapper module</summary> 
+  <summary>Import the SudGIPWrapper module</summary> 
 
-      1. Use Android Studio's Import Module feature to import SudMGPWrapper. 
-      2. Add the SudMGPWrapper dependency in the build.gradle file of the main project.
-      3. This module contains the SDK dependencies. For Google Play listing, please refer to the comments in the `SudMGPwrapper/build.gradle` file.
+      1. Use Android Studio's Import Module feature to import SudGIPWrapper. 
+      2. Add the SudGIPWrapper dependency in the build.gradle file of the main project.
+      3. This module contains the SDK dependencies. For Google Play listing, please refer to the comments in the `SudGIPwrapper/build.gradle` file.
 
   ``` java
   build.gradle
 
   dependencies {
-     // Import SudMGPWrapper
-     implementation project(':SudMGPWrapper')
+     // Import SudGIPWrapper
+     implementation project(':SudGIPWrapper')
   }
 
   ```
@@ -62,7 +62,7 @@
   <details>
   <summary>ASR Recognition Support (Optional, available in v1.2.7 and later versions)</summary>
 
-    This is an extended feature. If ASR recognition is not required, you can ignore the integration of this library. Please visit：[SudMGP-Android](https://github.com/SudTechnology/sud-mgp-android/blob/main/README_en.md)
+    This is an extended feature. If ASR recognition is not required, you can ignore the integration of this library. Please visit：[SudGIP-Android](https://github.com/SudTechnology/sud-mgp-android/blob/main/README_en.md)
   </details>
 
 
@@ -141,7 +141,7 @@
     // Load the game, parameters can be viewed in the comments of the BaseGameViewModel.switchGame() method
     // APP room ID
     String appRoomId = "10000";       
-    // SudMGP platform 64-bit game ID
+    // SudGIP platform 64-bit game ID
     long mgId = 1461227817776713818L; // This is the mgId for 'Ping Pong Me the Strongest', replace it with a different mgId for a different game
     gameViewModel.switchGame(this, appRoomId, mgId);    
     ```
@@ -162,8 +162,8 @@
 # QuickStart Architecture Diagram
 ![QuickStartArch.png](doc/QuickStartArch.png)
 
-# 1. SudMGP SDK
-### 1.1 SudMGP Client SDK
+# 1. SudGIP SDK
+### 1.1 SudGIP Client SDK
 - [Android SDK](https://github.com/SudTechnology/sud-mgp-android/blob/main/README_en.md)
 - [iOS SDK](https://github.com/SudTechnology/sud-mgp-ios/blob/main/README_en.md)
 
@@ -171,17 +171,17 @@
 - [Integration Documentation](https://docs.sud.tech/en-US/app/Client/API/)
 - [FAQ](https://docs.sud.tech/en-US/app/Client/FAQ/)
 
-# 2. SudMGPWrapper
-- SudMGPWrapper encapsulates SudMGP and simplifies the interaction between the app and the game.
-- SudMGPWrapper is continuously maintained and kept up to date.
-- It is recommended for app developers to use SudMGPWrapper.
-- Core classes of SudMGPWrapper include SudMGPAPPState, SudMGPMGState, SudFSMMGListener, SudFSMMGDecorator, and SudFSTAPPDecorator.
+# 2. SudGIPWrapper
+- SudGIPWrapper encapsulates SudGIP and simplifies the interaction between the app and the game.
+- SudGIPWrapper is continuously maintained and kept up to date.
+- It is recommended for app developers to use SudGIPWrapper.
+- Core classes of SudGIPWrapper include SudGIPAPPState, SudGIPMGState, SudFSMMGListener, SudFSMMGDecorator, and SudFSTAPPDecorator.
 
 If you have any further questions or need more information, feel free to ask!
 
 ### 2.1 App Calling the Game 
 
--  `SudMGPAPPState`  encapsulates [App Common State](https://docs.sud.tech/en-US/app/Client/APPFST/CommonState.html). 
+-  `SudGIPAPPState`  encapsulates [App Common State](https://docs.sud.tech/en-US/app/Client/APPFST/CommonState.html). 
 -  `SudFSTAPPDecorator`  encapsulates [ISudFSTAPP](https://docs.sud.tech/en-US/app/Client/API/ISudFSTAPP.html) interfaces, including [notifyStateChange](https://docs.sud.tech/app/Client/APPFST/CommonState.html) and foo. 
 -  `SudFSTAPPDecorator`  is responsible for encapsulating each App common state into an interface.  
 Here is a code framework for the  SudFSTAPPDecorator  class:
@@ -190,13 +190,13 @@ Here is a code framework for the  SudFSTAPPDecorator  class:
 
     ``` java
     public class SudFSTAPPDecorator {
-        // iSudFSTAPP = SudMGP.loadMG(QuickStartActivity, userId, roomId, code, gameId, language, sudFSMMGDecorator);
+        // iSudFSTAPP = SudGIP.loadMG(SudLoadMGParamModel model, ISudFSMMG fsmMG);
         public void setISudFSTAPP(ISudFSTAPP iSudFSTAPP);
         // 1. Join state
         public void notifyAPPCommonSelfIn(boolean isIn, int seatIndex, boolean isSeatRandom, int teamId);
         ...
         // 16. Set AI players in the game (added on 2022-05-11)
-        public void notifyAPPCommonGameAddAIPlayers(List<SudMGPAPPState.AIPlayers> aiPlayers, int isReady);
+        public void notifyAPPCommonGameAddAIPlayers(List<SudGIPAPPState.AIPlayers> aiPlayers, int isReady);
         public void startMG();
         public void pauseMG();
         public void playMG();
@@ -210,7 +210,7 @@ Here is a code framework for the  SudFSTAPPDecorator  class:
     </details>
 
 ### 2.2 Game Calling the App 
--  `SudMGPMGState`  encapsulates [Common State - Game](https://docs.sud.tech/en-US/app/Client/MGFSM/CommonStateGame.html) and [Common State - Player](https://docs.sud.tech/en-US/app/Client/MGFSM/CommonStatePlayer.html). 
+-  `SudGIPMGState`  encapsulates [Common State - Game](https://docs.sud.tech/en-US/app/Client/MGFSM/CommonStateGame.html) and [Common State - Player](https://docs.sud.tech/en-US/app/Client/MGFSM/CommonStatePlayer.html). 
 -  `SudFSMMGListener`  encapsulates three types of callback functions from [ISudFSMMG](https://docs.sud.tech/en-US/app/Client/API/ISudFSMMG.html): onGameStateChange, onPlayerStateChange, and onFoo. 
 -  `SudFSMMGListener`  is responsible for encapsulating each game state into separate callback functions. 
     <details>
@@ -228,22 +228,22 @@ Here is a code framework for the  SudFSTAPPDecorator  class:
     // void onGameStateChange(ISudFSMStateHandle handle, String state, String dataJson);
     // Documentation: [Common State - Game](https://docs.sud.tech/app/Client/MGFSM/CommonStateGame.html)
     // 1. Game common public message
-    default void onGameMGCommonPublicMessage(ISudFSMStateHandle handle, SudMGPMGState.MGCommonPublicMessage model);
+    default void onGameMGCommonPublicMessage(ISudFSMStateHandle handle, SudGIPMGState.MGCommonPublicMessage model);
     ...
     // 21. Game notifies the app layer whether adding AI players is successful (added on 2022-05-17)
-    default void onGameMGCommonGameAddAIPlayers(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameAddAIPlayers model);
+    default void onGameMGCommonGameAddAIPlayers(ISudFSMStateHandle handle, SudGIPMGState.MGCommonGameAddAIPlayers model);
     // Common State - Player
     // void onPlayerStateChange(ISudFSMStateHandle handle, String userId, String state, String dataJson);
     // Documentation: [Common State - Player](https://docs.sud.tech/app/Client/MGFSM/CommonStatePlayer.html)
     // 1. Player join state
-    default void onPlayerMGCommonPlayerIn(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGCommonPlayerIn model);
+    default void onPlayerMGCommonPlayerIn(ISudFSMStateHandle handle, String userId, SudGIPMGState.MGCommonPlayerIn model);
     ...
     // 11. Game notifies the app layer of the remaining game time (added on 2022-05-23, currently effective for UMO)
-    default void onPlayerMGCommonGameCountdownTime(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGCommonGameCountdownTime model);
+    default void onPlayerMGCommonGameCountdownTime(ISudFSMStateHandle handle, String userId, SudGIPMGState.MGCommonGameCountdownTime model);
     // Game-specific state: Draw Guess
     // Documentation: [Draw Guess](https://docs.sud.tech/app/Client/MGFSM/DrawGuess.html)
     // 1. Selecting word state
-    default void onPlayerMGDGSelecting(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGDGSelecting model);
+    default void onPlayerMGDGSelecting(ISudFSMStateHandle handle, String userId, SudGIPMGState.MGDGSelecting model);
     ...
     }
     ```
@@ -283,9 +283,9 @@ Here is a code framework for the  SudFSTAPPDecorator  class:
 
 # 3. QuickStart 
 - Please use the QuickStart project to run. 
-- QuickStart uses SudMGPWrapper for quick integration of games. 
+- QuickStart uses SudGIPWrapper for quick integration of games. 
 - Quick integration documentation: [StartUp-Android](https://docs.sud.tech/en-US/app/Client/StartUp-Android.html) and [StartUp-iOS](https://docs.sud.tech/en-US/app/Client/StartUp-iOS.html). 
--  `QuickStartGameViewModel`  is responsible for login (App getCode), SudMGP.initSDK, and SudMGP.loadMG. 
+-  `QuickStartGameViewModel`  is responsible for login (App getCode), SudGIP.initSDK, and SudGIP.loadMG. 
 -  `GameActivity`  is responsible for adding the game view. 
 -  `QuickStart Server`  [hello-sud-java](https://github.com/SudTechnology/hello-sud-java) for login (App getCode to obtain short-term token code). `If you cannot access the code repository, please contact SUD to add your GitHub account.` 
 
@@ -299,11 +299,11 @@ Here is a code framework for the  SudFSTAPPDecorator  class:
 ![Android](doc/hello_sudplus_android.png) 
 ![iPhone](doc/hello_sudplus_iphone.png) 
  
-# 5. Sequence Diagram for Client and SudMGP SDK Invocation 
+# 5. Sequence Diagram for Client and SudGIP SDK Invocation 
 ![AppCallSudMGPSeqDiag.png](doc/AppCallSudMGPSeqDiag.png) 
 
 # 6. Other Considerations 
-- For initial integration, please choose the appropriate SDK based on the game you want to integrate. You can find the SDK here: [SudMGPSDK](https://github.com/SudTechnology/sud-mgp-android/blob/main/README_en.md). 
+- For initial integration, please choose the appropriate SDK based on the game you want to integrate. You can find the SDK here: [SudGIPSDK](https://github.com/SudTechnology/sud-mgp-android/blob/main/README_en.md). 
 - If resource obfuscation is enabled for the project, please add the following obfuscation whitelist for AndResGuard.   
   Note: If using AabResGuard, prepend each entry with '*.', for example '*.R.id.reload_btn'.   
   For other obfuscation tools, please refer to their specific whitelist configuration rules.

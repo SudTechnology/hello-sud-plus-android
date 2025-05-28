@@ -315,7 +315,7 @@ public class HomeFragment extends BaseFragment implements CreatRoomClickListener
                 for (int i = 0; i < resp.sceneList.size(); i++) {
                     SceneModel model = resp.sceneList.get(i);
                     HomeItemView view = new HomeItemView(context);
-                    view.setData(model, HomeManager.getInstance().getSceneGame(resp, model.getSceneId()), quizGameListResp);
+                    view.setData(GameListReq.TAB_SCENE, model, HomeManager.getInstance().getSceneGame(resp, model.getSceneId()), quizGameListResp);
                     view.setGameItemListener(this);
                     view.setCreatRoomClickListener(this);
                     view.setMoreActivityOnClickListener(new View.OnClickListener() {

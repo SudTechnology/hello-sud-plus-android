@@ -42,7 +42,7 @@ public class HelloSudApplication extends Application {
         LogUtils.d("processName:" + processName);
         if (getPackageName().equals(processName)) {//只有是当前进程下才需要初始化如下参数
             instance = this;
-            configGift();
+//            configGift();
             configLog();
             configToast();
             registerActivityLifecycleCallbacks(MyActivityManager.getInstance());

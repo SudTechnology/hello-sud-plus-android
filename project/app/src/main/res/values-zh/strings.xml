@@ -370,12 +370,12 @@
     <string name="disco_explain_top_5">前五</string>
     <string name="disco_explain_1">1. 贡献榜%1$s随机当DJ（%2$s秒刷新）。</string>
     <string name="waiting">等待中</string>
+
     <string name="add_robot">添加机器人</string>
     <string name="go_rocket_stage">正在前往火箭台…</string>
     <string name="go_baseball_stage">正在前往棒球…</string>
     <string name="mine">我的</string>
     <string name="about_us">关于我们</string>
-
     <string name="example">示例</string>
     <string name="league_entrace_title">勇敢去赢</string>
     <string name="league_entrace_award_info">大赛奖金池，达一百万金币</string>
@@ -412,7 +412,6 @@
     <string name="continue_watch">继续观看(%1$s)</string>
     <string name="i_see">我知道了</string>
     <string name="can_not_continue_game">当前有用户退出比赛，\n游戏不能继续进行</string>
-
     <string name="invite_dance">约主播跳舞</string>
     <string name="interaction">互动</string>
     <string name="select_anchor_dance">选择主播跳舞</string>
@@ -472,6 +471,7 @@
     <string name="bind_phone_info_5">获得您的数字藏品信息，以展示在第三方应用</string>
     <string name="confirm_auth">确认授权</string>
     <string name="agreement_prefix">授权即代表您同意</string>
+
     <string name="user_agreement_info">%1$s用户协议</string>
     <string name="privacy_policy_info">%1$s隐私政策</string>
     <string name="unbind_internal_wallet_title">解绑后，HelloSud将不再展示当前账号在“%1$s”上的藏品</string>
@@ -522,6 +522,7 @@
     <string name="match_ob_hint">未加入队伍，围观中</string>
     <string name="matching_title">正在匹配【%1$s】的玩伴</string>
     <string name="person">人</string>
+
     <string name="match_failed_captain_title">暂匹配不到\n可重新匹配或者更换游戏</string>
     <string name="match_failed_member_title">暂匹配不到\n可重新匹配</string>
     <string name="match_failed_hint">啊哦，系统繁忙</string>
@@ -548,9 +549,51 @@
     <string name="send">发送</string>
     <string name="game">游戏</string>
     <string name="scene">场景</string>
-
     <string name="difficulty">困难</string>
     <string name="moderate">适中</string>
     <string name="simple">简单</string>
+    <string name="racecar_rule_1">每辆车的赔率是根据动态赔率计算的</string>
+    <string name="racecar_rule_2">动态赔率=总下注/这辆车的下注</string>
+
+    <string name="click_enter">点我进入</string>
+    <string name="mic_seat_locked">麦位已被锁定</string>
+    <string name="self_up_mic">自己上麦</string>
+    <string name="put_other_up_mic">抱Ta上麦</string>
+    <string name="put_other_down_mic">抱下麦</string>
+    <string name="lock_mic">锁麦</string>
+    <string name="unlock">解锁</string>
+    <string name="already_in_the_scene">已在场景</string>
+    <string name="check_infomation">查看资料</string>
+    <string name="send_gift">送礼</string>
+    <string name="audio3d_tip_title">试试点我有惊喜</string>
+    <string name="got_it">知道了</string>
+    <string name="surprise_on_the_anchor">上主播位有惊喜</string>
+    <string name="light_flash">爆灯</string>
+    <string name="dance">跳舞</string>
+    <string name="fly_kiss">飞吻</string>
+    <string name="thanks">感谢</string>
+    <string name="handclap">鼓掌</string>
+    <string name="shy">害羞</string>
+    <string name="cheer">欢呼</string>
+    <string name="sad">伤心</string>
+    <string name="anger">生气</string>
+    <string name="plus_dollars">加10万币</string>
+    <string name="more_personalization">更多个性化设置</string>
+    <string name="now_on">已开启</string>
+    <string name="closed">已关闭</string>
+    <string name="turn_effect">转动效果</string>
+    <string name="light_effect">爆灯效果</string>
+    <string name="sound_effect">音浪效果</string>
+    <string name="rockets_can_only_send_one">火箭只支持发送一个哦</string>
+    <string name="game_loading">正在加载…%1$s</string>
+    <string name="present_gift">送%1$s</string>
+    <string name="turn_effect_opened">已打开场景自转模式</string>
+    <string name="turn_effect_closed">已关闭场景自转模式</string>
+    <string name="light_effect_opened">已开启爆灯特效展示</string>
+    <string name="light_effect_closed">已关闭爆灯特效展示</string>
+    <string name="sound_effect_opened">已开启声音特效展示</string>
+    <string name="sound_effect_closed">已关闭声音特效展示</string>
+    <string name="hold_to_speak">按住说话</string>
+    <string name="end_of_release">松开结束</string>
 
 </resources>

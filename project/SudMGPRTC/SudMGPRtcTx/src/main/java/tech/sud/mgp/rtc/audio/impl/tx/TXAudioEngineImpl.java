@@ -279,14 +279,16 @@ public class TXAudioEngineImpl implements ISudAudioEngine {
     private final TRTCCloudListener.TRTCAudioFrameListener trtcAudioFrameListener = new TRTCCloudListener.TRTCAudioFrameListener() {
         @Override
         public void onCapturedRawAudioFrame(TRTCCloudDef.TRTCAudioFrame trtcAudioFrame) {
+            ByteBuffer data = ByteBuffer.wrap(trtcAudioFrame.data);
+            int dataLength = trtcAudioFrame.data.length;
             ThreadUtils.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     ISudAudioEventListener listener = mISudAudioEventListener;
                     if (listener != null) {
                         AudioPCMData audioPCMData = new AudioPCMData();
-                        audioPCMData.data = ByteBuffer.wrap(trtcAudioFrame.data);
-                        audioPCMData.dataLength = trtcAudioFrame.data.length;
+                        audioPCMData.data = data;
+                        audioPCMData.dataLength = dataLength;
                         listener.onCapturedPCMData(audioPCMData);
                     }
                 }

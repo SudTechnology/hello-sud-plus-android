@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Toast;
@@ -24,9 +25,9 @@ import tech.sud.gip.SudGIPWrapper.utils.SudJsonUtils;
 import tech.sud.gip.core.ISudFSMStateHandle;
 import tech.sud.gip.core.ISudFSTAPP;
 import tech.sud.gip.core.ISudListenerInitSDK;
+import tech.sud.gip.core.SudGIP;
 import tech.sud.gip.core.SudInitSDKParamModel;
 import tech.sud.gip.core.SudLoadMGParamModel;
-import tech.sud.mgp.core.SudMGP;
 
 /**
  * 游戏业务逻辑抽象类
@@ -148,9 +149,9 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
     }
 
     /**
-     * 第2步，初始化SudMGP sdk
+     * 第2步，初始化SudGIP sdk
      * <p>
-     * Step 2, initialize the SudMGP SDK.
+     * Step 2, initialize the SudGIP SDK.
      *
      * @param activity 游戏所在页面
      *                 The page where the game is located.
@@ -170,7 +171,7 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
         params.appKey = appKey;
         params.isTestEnv = isTestEnv();
         params.userId = getUserId();
-        SudMGP.initSDK(params, new ISudListenerInitSDK() {
+        SudGIP.initSDK(params, new ISudListenerInitSDK() {
             @Override
             public void onSuccess() {
                 loadGame(activity, code, gameId);
@@ -183,7 +184,7 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
                 if (isTestEnv()) {
                     Toast.makeText(activity, "initSDK onFailure:" + errMsg + "(" + errCode + ")", Toast.LENGTH_LONG).show();
                 }
-
+                Log.d("BaseGameViewModel", "initSDK onFailure:" + errMsg + "(" + errCode + ")");
                 delayLoadGame(activity, gameId);
             }
         });
@@ -225,7 +226,7 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
         sudLoadMGParamModel.code = code;
         sudLoadMGParamModel.mgId = gameId;
         sudLoadMGParamModel.language = getLanguageCode();
-        ISudFSTAPP iSudFSTAPP = SudMGP.loadMG(sudLoadMGParamModel, sudFSMMGDecorator);
+        ISudFSTAPP iSudFSTAPP = SudGIP.loadMG(sudLoadMGParamModel, sudFSMMGDecorator);
 
         // 如果返回空，则代表参数问题或者非主线程
         // If null is returned, it indicates a parameter issue or a non-main thread.

@@ -10,7 +10,7 @@ import androidx.core.content.ContextCompat;
 
 import com.blankj.utilcode.util.AppUtils;
 
-import tech.sud.mgp.core.SudMGP;
+import tech.sud.gip.core.SudGIP;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseActivity;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
@@ -38,7 +38,7 @@ public class VersionInfoActivity extends BaseActivity {
         super.initData();
         addVersionItem("HelloSud App", "V" + AppUtils.getAppVersionName() + "." + AppUtils.getAppVersionCode());
         addLine();
-        addVersionItem("SudMGP SDK", "V" + SudMGP.getVersion());
+        addVersionItem("SudGIP SDK", "V" + SudGIP.getVersion());
 //        addLine();
 //        addVersionItem("Zego SDK", "V" + ZegoExpressEngine.getVersion());
 //        addLine();

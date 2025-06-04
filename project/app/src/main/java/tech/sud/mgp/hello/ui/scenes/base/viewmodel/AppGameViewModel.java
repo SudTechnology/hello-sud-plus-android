@@ -33,10 +33,10 @@ import tech.sud.gip.core.ISudListenerInitSDK;
 import tech.sud.gip.core.ISudListenerNotifyStateChange;
 import tech.sud.gip.core.ISudListenerPreloadMGPkg;
 import tech.sud.gip.core.PkgDownloadStatus;
+import tech.sud.gip.core.SudGIP;
 import tech.sud.gip.core.SudInitSDKParamModel;
 import tech.sud.gip.core.SudLoadMGMode;
 import tech.sud.gip.core.SudLoadMGParamModel;
-import tech.sud.mgp.core.SudMGP;
 import tech.sud.mgp.hello.app.APPConfig;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
@@ -263,7 +263,7 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
     }
 
     /**
-     * 第2步，初始化SudMGP sdk
+     * 第2步，初始化SudGIP sdk
      *
      * @param activity 游戏所在页面
      * @param gameId   游戏id
@@ -285,7 +285,7 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
         params.isTestEnv = APPConfig.GAME_IS_TEST_ENV;
         params.userId = getUserId();
         // 初始化sdk
-        SudMGP.initSDK(params, new ISudListenerInitSDK() {
+        SudGIP.initSDK(params, new ISudListenerInitSDK() {
             @Override
             public void onSuccess() {
                 loadGame(activity, code, gameId, loadMGMode, authorizationSecret, scale);
@@ -325,8 +325,8 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
         // 给装饰类设置回调
         sudFSMMGDecorator.setSudFSMMGListener(this);
 
-        SudMGP.getCfg().setShowLoadingGameBg(isShowLoadingGameBg);
-        SudMGP.getCfg().setShowCustomLoading(isShowCustomLoading);
+        SudGIP.getCfg().setShowLoadingGameBg(isShowLoadingGameBg);
+        SudGIP.getCfg().setShowCustomLoading(isShowCustomLoading);
 
         // 调用游戏sdk加载游戏
         SudLoadMGParamModel sudLoadMGParamModel = new SudLoadMGParamModel();
@@ -339,7 +339,7 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
         sudLoadMGParamModel.language = SystemUtils.getLanguageCode(activity);
         sudLoadMGParamModel.authorizationSecret = authorizationSecret;
         LogUtils.d("加载游戏使用的语言：" + sudLoadMGParamModel.language);
-        ISudFSTAPP iSudFSTAPP = SudMGP.loadMG(sudLoadMGParamModel, sudFSMMGDecorator);
+        ISudFSTAPP iSudFSTAPP = SudGIP.loadMG(sudLoadMGParamModel, sudFSMMGDecorator);
 
         // 如果返回空，则代表参数问题或者非主线程
         if (iSudFSTAPP == null) {
@@ -1055,10 +1055,10 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
         params.userId = getUserId();
 
         // 初始化sdk
-        SudMGP.initSDK(params, new ISudListenerInitSDK() {
+        SudGIP.initSDK(params, new ISudListenerInitSDK() {
             @Override
             public void onSuccess() {
-                SudMGP.preloadMGPkgList(activity, mgIdList, new ISudListenerPreloadMGPkg() {
+                SudGIP.preloadMGPkgList(activity, mgIdList, new ISudListenerPreloadMGPkg() {
                     @Override
                     public void onPreloadSuccess(long mgId) {
                         LogUtils.d("onPreloadSuccess:" + mgId);

@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-import tech.sud.mgp.SudMGPWrapper.decorator.SudFSMMGCache;
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
-import tech.sud.mgp.core.ISudFSMStateHandle;
+import tech.sud.gip.SudGIPWrapper.decorator.SudFSMMGCache;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPMGState;
+import tech.sud.gip.core.ISudFSMStateHandle;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
 
 /**
@@ -22,7 +22,7 @@ public class QuizGameViewModel extends AppGameViewModel {
 
     // 玩家加入状态
     @Override
-    public void onPlayerMGCommonPlayerIn(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGCommonPlayerIn model) {
+    public void onPlayerMGCommonPlayerIn(ISudFSMStateHandle handle, String userId, SudGIPMGState.MGCommonPlayerIn model) {
         super.onPlayerMGCommonPlayerIn(handle, userId, model);
         selfIsInLiveData.setValue(isSelfInGame());
     }
@@ -47,13 +47,13 @@ public class QuizGameViewModel extends AppGameViewModel {
 
     // 开始按钮点击事件
     @Override
-    public void onGameMGCommonSelfClickStartBtn(ISudFSMStateHandle handle, SudMGPMGState.MGCommonSelfClickStartBtn model) {
+    public void onGameMGCommonSelfClickStartBtn(ISudFSMStateHandle handle, SudGIPMGState.MGCommonSelfClickStartBtn model) {
         super.onGameMGCommonSelfClickStartBtn(handle, model);
         clickStartBtnLiveData.setValue(null);
     }
 
     @Override
-    public void onGameMGCommonSelfClickJoinBtn(ISudFSMStateHandle handle, SudMGPMGState.MGCommonSelfClickJoinBtn model) {
+    public void onGameMGCommonSelfClickJoinBtn(ISudFSMStateHandle handle, SudGIPMGState.MGCommonSelfClickJoinBtn model) {
         super.onGameMGCommonSelfClickJoinBtn(handle, model);
         clickJoinBtnLiveData.setValue(null);
     }

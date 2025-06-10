@@ -22,7 +22,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPMGState;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.app.APPConfig;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
@@ -163,7 +163,7 @@ public class QuizGuessDialog extends BaseDialogFragment {
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> baseQuickAdapter, @NonNull View view, int position) {
-                if (gameState != SudMGPMGState.MGCommonGameState.IDLE) {
+                if (gameState != SudGIPMGState.MGCommonGameState.IDLE) {
                     return;
                 }
                 QuizGamePlayerResp.Player item = adapter.getItem(position);
@@ -196,7 +196,7 @@ public class QuizGuessDialog extends BaseDialogFragment {
     }
 
     private void updateConfirmBtn() {
-        if (gameState == SudMGPMGState.MGCommonGameState.IDLE) {
+        if (gameState == SudGIPMGState.MGCommonGameState.IDLE) {
             List<QuizGamePlayerResp.Player> list = getSelectedList();
             if (list.size() == 0) {
                 tvConfirm.setEnabled(false);

@@ -20,7 +20,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState.MGCommonGameSettle;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPMGState.MGCommonGameSettle;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
 import tech.sud.mgp.hello.common.model.HSUserInfo;

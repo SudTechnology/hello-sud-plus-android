@@ -18,7 +18,7 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
 import java.util.List;
 
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPAPPState;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
@@ -27,7 +27,7 @@ import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
 public class PutOtherUpMicDialog extends BaseDialogFragment {
 
     private MyAdapter mAdapter;
-    public List<SudMGPAPPState.AppCustomCrSetSeats.CrSeatModel> seatList;
+    public List<SudGIPAPPState.AppCustomCrSetSeats.CrSeatModel> seatList;
     public List<AudioRoomMicModel> micList;
     public int seatIndex;
 
@@ -116,7 +116,7 @@ public class PutOtherUpMicDialog extends BaseDialogFragment {
 
     private boolean existsAudio3D(AudioRoomMicModel model) {
         if (seatList != null) {
-            for (SudMGPAPPState.AppCustomCrSetSeats.CrSeatModel crSeatModel : seatList) {
+            for (SudGIPAPPState.AppCustomCrSetSeats.CrSeatModel crSeatModel : seatList) {
                 if ((model.userId + "").equals(crSeatModel.userId)) {
                     return true;
                 }

@@ -15,9 +15,9 @@ import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import tech.sud.gip.SudGIPWrapper.state.SudGIPAPPState;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPMGState;
 import tech.sud.logger.LogUtils;
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.utils.permission.PermissionFragment;
@@ -98,12 +98,12 @@ public class AiAudioRoomActivity extends AbsAudioRoomActivity<AiAudioRoomGameVie
         gameViewModel.happyGoatChatLiveData.observe(this, this::onHappyGoatChat);
     }
 
-    private void onHappyGoatChat(SudMGPMGState.MGHappyGoatChat model) {
+    private void onHappyGoatChat(SudGIPMGState.MGHappyGoatChat model) {
         if (model == null || model.data == null || model.data.length == 0) {
             return;
         }
-        for (SudMGPMGState.MGHappyGoatChat.ChatAudioTextModel audioTextModel : model.data) {
-            SudMGPMGState.MGHappyGoatChat.TextModel textModel = audioTextModel.text;
+        for (SudGIPMGState.MGHappyGoatChat.ChatAudioTextModel audioTextModel : model.data) {
+            SudGIPMGState.MGHappyGoatChat.TextModel textModel = audioTextModel.text;
             if (textModel == null || TextUtils.isEmpty(textModel.text)) {
                 continue;
             }
@@ -179,14 +179,14 @@ public class AiAudioRoomActivity extends AbsAudioRoomActivity<AiAudioRoomGameVie
             return;
         }
         String audioBase64 = Base64.encodeToString(audioData, Base64.NO_WRAP);
-        SudMGPAPPState.AppHappyGoatChat model = new SudMGPAPPState.AppHappyGoatChat();
+        SudGIPAPPState.AppHappyGoatChat model = new SudGIPAPPState.AppHappyGoatChat();
         model.type = 1;
-        SudMGPAPPState.AppHappyGoatChat.ChatAudioModel audioModel = new SudMGPAPPState.AppHappyGoatChat.ChatAudioModel();
+        SudGIPAPPState.AppHappyGoatChat.ChatAudioModel audioModel = new SudGIPAPPState.AppHappyGoatChat.ChatAudioModel();
         audioModel.sample_rate = "16k";
         audioModel.audio_format = "PCM";
         audioModel.audio_base64 = audioBase64;
         model.audio = audioModel;
-        gameViewModel.notifyStateChange(SudMGPAPPState.APP_HAPPY_GOAT_CHAT, model);
+        gameViewModel.notifyStateChange(SudGIPAPPState.APP_HAPPY_GOAT_CHAT, model);
 
         if (binder != null) {
             binder.sendMediaMsg(RoomCmdChatMediaModel.MSG_TYPE_INACTIVE_TYPE, null);
@@ -199,12 +199,12 @@ public class AiAudioRoomActivity extends AbsAudioRoomActivity<AiAudioRoomGameVie
         if (TextUtils.isEmpty(msg)) {
             return;
         }
-        SudMGPAPPState.AppHappyGoatChat model = new SudMGPAPPState.AppHappyGoatChat();
+        SudGIPAPPState.AppHappyGoatChat model = new SudGIPAPPState.AppHappyGoatChat();
         model.type = 0;
-        SudMGPAPPState.AppHappyGoatChat.ChatTextModel textModel = new SudMGPAPPState.AppHappyGoatChat.ChatTextModel();
+        SudGIPAPPState.AppHappyGoatChat.ChatTextModel textModel = new SudGIPAPPState.AppHappyGoatChat.ChatTextModel();
         textModel.text = msg;
         model.text = textModel;
-        gameViewModel.notifyStateChange(SudMGPAPPState.APP_HAPPY_GOAT_CHAT, model);
+        gameViewModel.notifyStateChange(SudGIPAPPState.APP_HAPPY_GOAT_CHAT, model);
     }
 
     // 切换键盘或语音

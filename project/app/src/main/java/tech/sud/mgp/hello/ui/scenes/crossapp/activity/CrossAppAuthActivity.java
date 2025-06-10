@@ -2,7 +2,7 @@ package tech.sud.mgp.hello.ui.scenes.crossapp.activity;
 
 import android.text.TextUtils;
 
-import tech.sud.mgp.core.SudLoadMGMode;
+import tech.sud.gip.core.SudLoadMGMode;
 import tech.sud.mgp.hello.service.room.resp.AuthRoomInfo;
 import tech.sud.mgp.hello.ui.scenes.audio.activity.AbsAudioRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;

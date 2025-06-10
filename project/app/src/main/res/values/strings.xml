@@ -492,13 +492,12 @@ Go to homepage to create one~</string>
     <string name="disco_explain_1">1. Contribution rank %1$s random DJ (%2$s seconds refresh).</string>
     <string name="waiting">Waiting</string>
 
-    <!-- region 只翻译了英语 -->
+
     <string name="add_robot">Add Robot</string>
     <string name="go_rocket_stage">Turn on the rocket…</string>
     <string name="go_baseball_stage">Turn on the baseball…</string>
     <string name="mine">my</string>
     <string name="about_us">About</string>
-
     <string name="example">example</string>
     <string name="league_entrace_title">Brave to win</string>
     <string name="league_entrace_award_info">Tournament prize pool, reaching one million coins</string>
@@ -535,7 +534,6 @@ Go to homepage to create one~</string>
     <string name="continue_watch">Continue watching(%1$s)</string>
     <string name="i_see">I understand</string>
     <string name="can_not_continue_game">A user has exited the game, \nit cannot continue</string>
-
     <string name="invite_dance">Dance with the anchor</string>
     <string name="interaction">Interaction</string>
     <string name="select_anchor_dance">Choose the anchor to dance with</string>
@@ -626,6 +624,8 @@ Go to homepage to create one~</string>
     <string name="is_binding_wallet_address">Bound wallet addresses</string>
     <string name="click_change_address">Click to switch address</string>
     <string name="click_change_network">Click to switch network</string>
+
+
     <string name="works_desc">Artwork description</string>
     <string name="internal_nft_title">Digital collectible details</string>
     <string name="single_fast_match">Single-player quick match</string>
@@ -664,6 +664,7 @@ Go to homepage to create one~</string>
     <string name="baseball_consume_title">Will you spend %1$s gold coins to play %2$s times?</string>
     <string name="affirm">Confirm</string>
     <string name="go_crazy_racecar_stage">Turn on the car.…</string>
+
     <string name="racecar_rule_1">Odds for each car are calculated based on dynamic odds</string>
     <string name="racecar_rule_2">Dynamic odds = total bets / bets on this car</string>
     <string name="go_king_eaters">Turn on the big eater…</string>
@@ -676,50 +677,54 @@ Go to homepage to create one~</string>
     <string name="difficulty">Hard</string>
     <string name="moderate">Normal</string>
     <string name="simple">Easy</string>
+
+    <string name="click_enter">Click to enter</string>
+    <string name="mic_seat_locked">Mic seat is locked</string>
+    <string name="self_up_mic">Get on mic</string>
+    <string name="put_other_up_mic">Put them on mic</string>
+    <string name="put_other_down_mic">Take them off mic</string>
+    <string name="lock_mic">Lock mic</string>
+    <string name="unlock">Unlock</string>
+    <string name="already_in_the_scene">Already in the scene</string>
+    <string name="check_infomation">View profile</string>
+    <string name="send_gift">Send gift</string>
+    <string name="audio3d_tip_title">Click me for a surprise</string>
+    <string name="got_it">Got it</string>
+    <string name="surprise_on_the_anchor">Surprise on the host seat</string>
+    <string name="light_flash">Flash light</string>
+    <string name="dance">Dance</string>
+    <string name="fly_kiss">Blow kiss</string>
+    <string name="thanks">Thanks</string>
+    <string name="handclap">Clap</string>
+    <string name="shy">Shy</string>
+    <string name="cheer">Cheer</string>
+    <string name="sad">Sad</string>
+    <string name="anger">Angry</string>
+    <string name="plus_dollars">+100K Coins</string>
+    <string name="more_personalization">More personalization options</string>
+    <string name="now_on">Enabled</string>
+    <string name="closed">Disabled</string>
+    <string name="turn_effect">Rotation effect</string>
+    <string name="light_effect">Flash effect</string>
+    <string name="sound_effect">Sound wave effect</string>
+    <string name="rockets_can_only_send_one">Only one rocket can be sent</string>
+    <string name="game_loading">Loading… %1$s</string>
+    <string name="present_gift">Send %1$s</string>
+    <string name="turn_effect_opened">Scene auto-rotate enabled</string>
+    <string name="turn_effect_closed">Scene auto-rotate disabled</string>
+    <string name="light_effect_opened">Flash effect enabled</string>
+    <string name="light_effect_closed">Flash effect disabled</string>
+    <string name="sound_effect_opened">Sound effect enabled</string>
+    <string name="sound_effect_closed">Sound effect disabled</string>
+    <string name="hold_to_speak">Hold to speak</string>
+    <string name="end_of_release">Release to end</string>
+    <string name="large_model">Large Model</string>
+
+    <!-- region 只翻译了英语 -->
     <!-- endregion 只翻译了英语 -->
 
     <!-- region 新增 -->
-    <string name="click_enter">点我进入</string>
-    <string name="mic_seat_locked">麦位已被锁定</string>
-    <string name="self_up_mic">自己上麦</string>
-    <string name="put_other_up_mic">抱Ta上麦</string>
-    <string name="put_other_down_mic">抱下麦</string>
-    <string name="lock_mic">锁麦</string>
-    <string name="unlock">解锁</string>
-    <string name="already_in_the_scene">已在场景</string>
-    <string name="check_infomation">查看资料</string>
-    <string name="send_gift">送礼</string>
-    <string name="audio3d_tip_title">试试点我有惊喜</string>
-    <string name="got_it">知道了</string>
-    <string name="surprise_on_the_anchor">上主播位有惊喜</string>
-    <string name="light_flash">爆灯</string>
-    <string name="dance">跳舞</string>
-    <string name="fly_kiss">飞吻</string>
-    <string name="thanks">感谢</string>
-    <string name="handclap">鼓掌</string>
-    <string name="shy">害羞</string>
-    <string name="cheer">欢呼</string>
-    <string name="sad">伤心</string>
-    <string name="anger">生气</string>
-    <string name="plus_dollars">加10万币</string>
-    <string name="more_personalization">更多个性化设置</string>
-    <string name="now_on">已开启</string>
-    <string name="closed">已关闭</string>
-    <string name="turn_effect">转动效果</string>
-    <string name="light_effect">爆灯效果</string>
-    <string name="sound_effect">音浪效果</string>
-    <string name="rockets_can_only_send_one">火箭只支持发送一个哦</string>
-    <string name="big_model">大模型</string>
-    <string name="game_loading">正在加载…%1$s</string>
-    <string name="present_gift">送%1$s</string>
-    <string name="turn_effect_opened">已打开场景自转模式</string>
-    <string name="turn_effect_closed">已关闭场景自转模式</string>
-    <string name="light_effect_opened">已开启爆灯特效展示</string>
-    <string name="light_effect_closed">已关闭爆灯特效展示</string>
-    <string name="sound_effect_opened">已开启声音特效展示</string>
-    <string name="sound_effect_closed">已关闭声音特效展示</string>
-    <string name="hold_to_speak">按住说话</string>
-    <string name="end_of_release">松开结束</string>
+
     <!-- endregion 新增 -->
 
 </resources>

@@ -2,8 +2,8 @@ package tech.sud.mgp.hello.ui.scenes.base.service;
 
 import java.util.List;
 
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
-import tech.sud.mgp.core.ISudListenerNotifyStateChange;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPAPPState;
+import tech.sud.gip.core.ISudListenerNotifyStateChange;
 import tech.sud.mgp.hello.service.room.resp.CrossAppModel;
 import tech.sud.mgp.hello.ui.scenes.base.constant.OperateMicType;
 import tech.sud.mgp.hello.ui.scenes.base.model.AudioRoomMicModel;
@@ -192,9 +192,9 @@ public interface SceneRoomServiceCallback {
     // region 3D语聊房
 
     /** 3D语聊房麦位 */
-    void onAudio3DConfig(SudMGPAPPState.AppCustomCrSetRoomConfig model);
+    void onAudio3DConfig(SudGIPAPPState.AppCustomCrSetRoomConfig model);
 
-    void onAudio3DSeats(SudMGPAPPState.AppCustomCrSetSeats model);
+    void onAudio3DSeats(SudGIPAPPState.AppCustomCrSetSeats model);
 
     void onAudio3DFaceNotify(Audio3DCmdFaceNotifyModel model);
     // endregion 3D语聊房

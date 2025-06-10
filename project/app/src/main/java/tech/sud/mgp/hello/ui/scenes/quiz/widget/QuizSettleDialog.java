@@ -21,7 +21,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPMGState;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.app.APPConfig;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
@@ -39,7 +39,7 @@ import tech.sud.mgp.hello.ui.common.utils.LifecycleUtils;
 public class QuizSettleDialog extends BaseDialogFragment {
 
     private List<QuizGamePlayerResp.Player> playerList; // 游戏玩家列表
-    private SudMGPMGState.MGCommonGameSettle gameSettle; // 游戏结算状态
+    private SudGIPMGState.MGCommonGameSettle gameSettle; // 游戏结算状态
 
     private final MyAdapter adapter = new MyAdapter();
 
@@ -61,7 +61,7 @@ public class QuizSettleDialog extends BaseDialogFragment {
 
     private View.OnClickListener againOnClickListener;
 
-    public static QuizSettleDialog newInstance(List<QuizGamePlayerResp.Player> playerList, SudMGPMGState.MGCommonGameSettle gameSettle) {
+    public static QuizSettleDialog newInstance(List<QuizGamePlayerResp.Player> playerList, SudGIPMGState.MGCommonGameSettle gameSettle) {
         Bundle args = new Bundle();
         MyParams params = new MyParams();
         params.playerList = playerList;
@@ -144,7 +144,7 @@ public class QuizSettleDialog extends BaseDialogFragment {
         boolean selfIsPlayer = getPlayer(HSUserInfo.userId + "") != null; // 自己是否是玩家
         List<SettleRankingModel> list = new ArrayList<>();
         for (int i = 0; i < gameSettle.results.size(); i++) {
-            SudMGPMGState.MGCommonGameSettle.PlayerResult result = gameSettle.results.get(i);
+            SudGIPMGState.MGCommonGameSettle.PlayerResult result = gameSettle.results.get(i);
 //            if (result.isAI == 1) {
 //                continue;
 //            }
@@ -302,7 +302,7 @@ public class QuizSettleDialog extends BaseDialogFragment {
 
     private static class MyParams implements Serializable {
         public List<QuizGamePlayerResp.Player> playerList; // 游戏玩家列表
-        public SudMGPMGState.MGCommonGameSettle gameSettle; // 游戏结算状态
+        public SudGIPMGState.MGCommonGameSettle gameSettle; // 游戏结算状态
     }
 
     private static class MyAdapter extends BaseQuickAdapter<SettleRankingModel, BaseViewHolder> {

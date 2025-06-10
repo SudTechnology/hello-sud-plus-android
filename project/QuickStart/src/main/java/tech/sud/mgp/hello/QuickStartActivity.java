@@ -12,8 +12,8 @@ import com.blankj.utilcode.util.Utils;
 import com.gyf.immersionbar.BarHide;
 import com.gyf.immersionbar.ImmersionBar;
 
-import tech.sud.mgp.SudMGPWrapper.model.GameConfigModel;
-import tech.sud.mgp.SudMGPWrapper.model.GameViewInfoModel;
+import tech.sud.gip.SudGIPWrapper.model.GameConfigModel;
+import tech.sud.gip.SudGIPWrapper.model.GameViewInfoModel;
 import tech.sud.mgp.hello.common.base.BaseActivity;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.utils.SystemUtils;

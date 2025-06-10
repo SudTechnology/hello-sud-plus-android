@@ -4,7 +4,7 @@ import io.reactivex.rxjava3.core.Observable;
 import retrofit2.http.Body;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPAPPState;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.IBaseUrl;
 import tech.sud.mgp.hello.service.base.RequestUrl;
@@ -239,11 +239,11 @@ public interface AudioRequestMethod {
 
     /** 查询麦位列表 */
     @POST(RequestUrl.AUDIO_3D_MIC_LIST)
-    Observable<BaseResponse<SudMGPAPPState.AppCustomCrSetSeats>> audio3DMicList(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body Audio3DMicListReq req);
+    Observable<BaseResponse<SudGIPAPPState.AppCustomCrSetSeats>> audio3DMicList(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body Audio3DMicListReq req);
 
     /** 获取配置 */
     @POST(RequestUrl.AUDIO_3D_GET_CONFIG)
-    Observable<BaseResponse<SudMGPAPPState.AppCustomCrSetRoomConfig>> audio3DGetConfig(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body Audio3DGetConfigReq req);
+    Observable<BaseResponse<SudGIPAPPState.AppCustomCrSetRoomConfig>> audio3DGetConfig(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body Audio3DGetConfigReq req);
 
     /** 设置配置 */
     @POST(RequestUrl.AUDIO_3D_SET_CONFIG)

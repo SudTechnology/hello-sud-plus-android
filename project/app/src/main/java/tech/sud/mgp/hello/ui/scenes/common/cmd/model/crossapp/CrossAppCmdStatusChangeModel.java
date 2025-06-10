@@ -1,6 +1,6 @@
 package tech.sud.mgp.hello.ui.scenes.common.cmd.model.crossapp;
 
-import tech.sud.mgp.SudMGPWrapper.utils.SudJsonUtils;
+import tech.sud.gip.SudGIPWrapper.utils.SudJsonUtils;
 import tech.sud.mgp.hello.service.room.model.CrossAppMatchStatus;
 import tech.sud.mgp.hello.ui.scenes.base.model.UserInfo;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmd;

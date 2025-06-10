@@ -4,8 +4,8 @@ import io.reactivex.rxjava3.core.Observable;
 import retrofit2.http.Body;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPAPPState;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPMGState;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.IBaseUrl;
 import tech.sud.mgp.hello.service.base.RequestUrl;
@@ -55,7 +55,7 @@ public interface GameRequestMethod {
      * 查询商城组件列表
      */
     @POST(RequestUrl.ROCKET_MALL_COMPONENT_LIST)
-    Observable<BaseResponse<SudMGPAPPState.AppCustomRocketConfig>> rocketMallComponentList(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl);
+    Observable<BaseResponse<SudGIPAPPState.AppCustomRocketConfig>> rocketMallComponentList(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl);
 
     /**
      * 解锁组件
@@ -67,37 +67,37 @@ public interface GameRequestMethod {
      * 购买组件
      */
     @POST(RequestUrl.ROCKET_BUY_COMPONENT)
-    Observable<BaseResponse<SudMGPAPPState.AppCustomRocketBuyComponent.Data>> rocketBuyComponent(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body SudMGPMGState.MGCustomRocketBuyComponent body);
+    Observable<BaseResponse<SudGIPAPPState.AppCustomRocketBuyComponent.Data>> rocketBuyComponent(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body SudGIPMGState.MGCustomRocketBuyComponent body);
 
     /**
      * 购买组件记录
      */
     @POST(RequestUrl.ROCKET_BUY_COMPONENT_RECORD)
-    Observable<BaseResponse<SudMGPAPPState.AppCustomRocketOrderRecordList>> rocketBuyComponentRecord(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body RocketPageReq body);
+    Observable<BaseResponse<SudGIPAPPState.AppCustomRocketOrderRecordList>> rocketBuyComponentRecord(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body RocketPageReq body);
 
     /**
      * 查询装配间组件列表
      */
     @POST(RequestUrl.ROCKET_COMPONENT_LIST)
-    Observable<BaseResponse<SudMGPAPPState.AppCustomRocketComponentList>> rocketComponentList(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl);
+    Observable<BaseResponse<SudGIPAPPState.AppCustomRocketComponentList>> rocketComponentList(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl);
 
     /**
      * 保存火箭模型
      */
     @POST(RequestUrl.ROCKET_SAVE_MODEL)
-    Observable<BaseResponse<SudMGPAPPState.AppCustomRocketCreateModel.Data>> rocketCreateModel(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body SudMGPMGState.MGCustomRocketCreateModel body);
+    Observable<BaseResponse<SudGIPAPPState.AppCustomRocketCreateModel.Data>> rocketCreateModel(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body SudGIPMGState.MGCustomRocketCreateModel body);
 
     /**
      * 保存火箭模型
      */
     @POST(RequestUrl.ROCKET_SAVE_MODEL)
-    Observable<BaseResponse<SudMGPAPPState.AppCustomRocketReplaceComponent.Data>> rocketReplaceComponent(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body SudMGPMGState.MGCustomRocketReplaceComponent body);
+    Observable<BaseResponse<SudGIPAPPState.AppCustomRocketReplaceComponent.Data>> rocketReplaceComponent(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body SudGIPMGState.MGCustomRocketReplaceComponent body);
 
     /**
      * 查询火箭模型列表
      */
     @POST(RequestUrl.ROCKET_MODEL_LIST)
-    Observable<BaseResponse<SudMGPAPPState.AppCustomRocketModelList>> rocketModelList(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl);
+    Observable<BaseResponse<SudGIPAPPState.AppCustomRocketModelList>> rocketModelList(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl);
 
     /**
      * 发射火箭
@@ -109,19 +109,19 @@ public interface GameRequestMethod {
      * 发射火箭记录摘要
      */
     @POST(RequestUrl.ROCKET_FIRE_RECORD_SUMMERY)
-    Observable<BaseResponse<SudMGPAPPState.AppCustomRocketRoomRecordList>> rocketFireRecordSummery(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body RocketFireRecordSummeryReq body);
+    Observable<BaseResponse<SudGIPAPPState.AppCustomRocketRoomRecordList>> rocketFireRecordSummery(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body RocketFireRecordSummeryReq body);
 
     /**
      * 发射火箭记录
      */
     @POST(RequestUrl.ROCKET_FIRE_RECORD)
-    Observable<BaseResponse<SudMGPAPPState.AppCustomRocketUserRecordList>> rocketFireRecord(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body RocketFireRecordReq body);
+    Observable<BaseResponse<SudGIPAPPState.AppCustomRocketUserRecordList>> rocketFireRecord(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body RocketFireRecordReq body);
 
     /**
      * 获取发射价格
      */
     @POST(RequestUrl.ROCKET_FIRE_PRICE)
-    Observable<BaseResponse<RocketFirePriceResp>> rocketFirePrice(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body SudMGPMGState.MGCustomRocketDynamicFirePrice body);
+    Observable<BaseResponse<RocketFirePriceResp>> rocketFirePrice(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body SudGIPMGState.MGCustomRocketDynamicFirePrice body);
 
     /**
      * 设置火箭默认位置
@@ -133,28 +133,28 @@ public interface GameRequestMethod {
      * 校验签名合规性
      */
     @POST(RequestUrl.ROCKET_VERIFY_SIGN)
-    Observable<BaseResponse<SudMGPAPPState.AppCustomRocketVerifySign.Data>> rocketVerifySign(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body SudMGPMGState.MGCustomRocketVerifySign body);
+    Observable<BaseResponse<SudGIPAPPState.AppCustomRocketVerifySign.Data>> rocketVerifySign(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body SudGIPMGState.MGCustomRocketVerifySign body);
 
     /**
      * 保存颜色或签名
      */
     @POST(RequestUrl.ROCKET_SAVE_SIGN_COLOR)
-    Observable<BaseResponse<SudMGPAPPState.AppCustomRocketSaveSignColor.Data>> rocketSaveSignColor(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body SudMGPMGState.MGCustomRocketSaveSignColor body);
+    Observable<BaseResponse<SudGIPAPPState.AppCustomRocketSaveSignColor.Data>> rocketSaveSignColor(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body SudGIPMGState.MGCustomRocketSaveSignColor body);
     // endregion 火箭
 
     // region 棒球
 
     /** 查询排行榜 */
     @POST(RequestUrl.BASEBALL_RANKING)
-    Observable<BaseResponse<SudMGPAPPState.AppBaseballRanking>> baseballRanking(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body SudMGPMGState.MGBaseballRanking body);
+    Observable<BaseResponse<SudGIPAPPState.AppBaseballRanking>> baseballRanking(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body SudGIPMGState.MGBaseballRanking body);
 
     /** 查询我的排行榜 */
     @POST(RequestUrl.BASEBALL_MY_RANKING)
-    Observable<BaseResponse<SudMGPAPPState.AppBaseballMyRanking>> baseballMyRanking(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body SudMGPMGState.MGBaseballMyRanking body);
+    Observable<BaseResponse<SudGIPAPPState.AppBaseballMyRanking>> baseballMyRanking(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body SudGIPMGState.MGBaseballMyRanking body);
 
     /** 查询排在自己前后的玩家数据 */
     @POST(RequestUrl.BASEBALL_RANGE_INFO)
-    Observable<BaseResponse<SudMGPAPPState.AppBaseballRangeInfo>> baseballRangeInfo(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body SudMGPMGState.MGBaseballRangeInfo body);
+    Observable<BaseResponse<SudGIPAPPState.AppBaseballRangeInfo>> baseballRangeInfo(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body SudGIPMGState.MGBaseballRangeInfo body);
 
     /** 打棒球 */
     @POST(RequestUrl.BASEBALL_PLAY)
@@ -162,7 +162,7 @@ public interface GameRequestMethod {
 
     /** 棒球文本配置 */
     @POST(RequestUrl.BASEBALL_TEXT_CONFIG)
-    Observable<BaseResponse<SudMGPAPPState.AppBaseballTextConfig>> baseballTextConfig(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body SudMGPMGState.MGBaseballTextConfig body);
+    Observable<BaseResponse<SudGIPAPPState.AppBaseballTextConfig>> baseballTextConfig(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body SudGIPMGState.MGBaseballTextConfig body);
     // endregion 棒球
 
     /** 创建订单 */

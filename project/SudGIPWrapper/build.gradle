@@ -1,0 +1,39 @@
+plugins {
+    id 'com.android.library'
+}
+
+android {
+    namespace 'tech.sud.gip.SudGIPWrapper'
+    compileSdk 32
+
+    defaultConfig {
+        minSdk 21
+
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            consumerProguardFiles 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+
+    // 引入 SudGIPSDK，发布页：https://github.com/SudTechnology/sud-mgp-android
+    // TODO 如果需要上架Google Play，请访问SDK网站说明替换成对应的SDK：
+    // TODO If you need to publish on Google Play, please visit the SDK website for instructions to replace it with the corresponding SDK
+    api 'tech.sud.gip:SudGIP:1.6.0.1240'
+    
+    // 依赖okhttp
+    api 'com.squareup.okhttp3:okhttp:4.9.2'
+
+    // gson
+    api 'com.google.code.gson:gson:2.8.6'
+
+}

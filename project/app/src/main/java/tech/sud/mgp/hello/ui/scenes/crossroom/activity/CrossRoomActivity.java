@@ -12,8 +12,8 @@ import com.blankj.utilcode.util.ClickUtils;
 import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.ToastUtils;
 
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
-import tech.sud.mgp.SudMGPWrapper.utils.SudJsonUtils;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPMGState;
+import tech.sud.gip.SudGIPWrapper.utils.SudJsonUtils;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
@@ -191,7 +191,7 @@ public class CrossRoomActivity extends BaseInteractionRoomActivity<CrossRoomGame
                 if (index == 1) {
                     // 游戏中不可以移除
                     int gameState = gameViewModel.getGameState();
-                    if (gameState == SudMGPMGState.MGCommonGameState.LOADING || gameState == SudMGPMGState.MGCommonGameState.PLAYING) {
+                    if (gameState == SudGIPMGState.MGCommonGameState.LOADING || gameState == SudGIPMGState.MGCommonGameState.PLAYING) {
                         ToastUtils.showShort(R.string.game_running_remove_warn);
                         return;
                     }

@@ -6,9 +6,9 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState.AppCustomCrSetSeats.CrSeatModel;
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPAPPState;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPAPPState.AppCustomCrSetSeats.CrSeatModel;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPMGState;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.service.room.repository.RoomRepository;
@@ -30,7 +30,7 @@ import tech.sud.mgp.hello.ui.scenes.common.cmd.model.audio3d.Audio3DCmdMicChangM
 public class SceneAudio3DRoomManager extends BaseServiceManager {
 
     private final SceneRoomServiceManager parentManager;
-    private SudMGPAPPState.AppCustomCrSetRoomConfig mConfig; // 配置
+    private SudGIPAPPState.AppCustomCrSetRoomConfig mConfig; // 配置
     private List<CrSeatModel> mSeats; // 主播位数据
 
     public SceneAudio3DRoomManager(SceneRoomServiceManager sceneRoomServiceManager) {
@@ -54,7 +54,7 @@ public class SceneAudio3DRoomManager extends BaseServiceManager {
         parentManager.sceneEngineManager.removeCommandListener(mAudio3DFaceNotifyListener);
     }
 
-    public void audio3DInitData(SudMGPMGState.MGCustomCrRoomInitData model) {
+    public void audio3DInitData(SudGIPMGState.MGCustomCrRoomInitData model) {
         refreshConfig();
         refreshSeats();
     }
@@ -70,9 +70,9 @@ public class SceneAudio3DRoomManager extends BaseServiceManager {
     private void refreshConfig() {
         Audio3DGetConfigReq req = new Audio3DGetConfigReq();
         req.roomId = parentManager.getRoomId();
-        RoomRepository.audio3DGetConfig(parentManager, req, new RxCallback<SudMGPAPPState.AppCustomCrSetRoomConfig>() {
+        RoomRepository.audio3DGetConfig(parentManager, req, new RxCallback<SudGIPAPPState.AppCustomCrSetRoomConfig>() {
             @Override
-            public void onSuccess(SudMGPAPPState.AppCustomCrSetRoomConfig appCustomCrSetRoomConfig) {
+            public void onSuccess(SudGIPAPPState.AppCustomCrSetRoomConfig appCustomCrSetRoomConfig) {
                 super.onSuccess(appCustomCrSetRoomConfig);
                 mConfig = appCustomCrSetRoomConfig;
                 callbackConfig();
@@ -98,9 +98,9 @@ public class SceneAudio3DRoomManager extends BaseServiceManager {
     private void refreshSeats() {
         Audio3DMicListReq req = new Audio3DMicListReq();
         req.roomId = parentManager.getRoomId();
-        RoomRepository.audio3DMicList(parentManager, req, new RxCallback<SudMGPAPPState.AppCustomCrSetSeats>() {
+        RoomRepository.audio3DMicList(parentManager, req, new RxCallback<SudGIPAPPState.AppCustomCrSetSeats>() {
             @Override
-            public void onSuccess(SudMGPAPPState.AppCustomCrSetSeats resp) {
+            public void onSuccess(SudGIPAPPState.AppCustomCrSetSeats resp) {
                 super.onSuccess(resp);
                 if (resp != null) {
                     mSeats = resp.seats;
@@ -113,7 +113,7 @@ public class SceneAudio3DRoomManager extends BaseServiceManager {
     private void callbackSeats() {
         SceneRoomServiceCallback callback = parentManager.getCallback();
         if (callback != null) {
-            SudMGPAPPState.AppCustomCrSetSeats appCustomCrSetSeats = new SudMGPAPPState.AppCustomCrSetSeats();
+            SudGIPAPPState.AppCustomCrSetSeats appCustomCrSetSeats = new SudGIPAPPState.AppCustomCrSetSeats();
             appCustomCrSetSeats.seats = mSeats;
             callback.onAudio3DSeats(appCustomCrSetSeats);
         }
@@ -195,7 +195,7 @@ public class SceneAudio3DRoomManager extends BaseServiceManager {
         return mSeats;
     }
 
-    public SudMGPAPPState.AppCustomCrSetRoomConfig getConfig() {
+    public SudGIPAPPState.AppCustomCrSetRoomConfig getConfig() {
         return mConfig;
     }
 

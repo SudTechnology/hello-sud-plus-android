@@ -21,8 +21,8 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPAPPState;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPMGState;
 import tech.sud.mgp.hello.common.event.model.ChangeRTCEvent;
 import tech.sud.mgp.hello.common.event.model.EnterRoomEvent;
 import tech.sud.mgp.hello.common.model.AppData;
@@ -373,7 +373,7 @@ public class SceneRoomService extends Service {
         }
 
         /** 游戏结算 */
-        public void onGameSettle(SudMGPMGState.MGCommonGameSettle gameSettle) {
+        public void onGameSettle(SudGIPMGState.MGCommonGameSettle gameSettle) {
             SceneLeagueManager manager = serviceManager.sceneLeagueManager;
             if (manager != null) {
                 manager.onGameSettle(gameSettle);
@@ -444,20 +444,20 @@ public class SceneRoomService extends Service {
         // endregion 跨域
 
         // region 3D语聊房
-        public void audio3DInitData(SudMGPMGState.MGCustomCrRoomInitData model) {
+        public void audio3DInitData(SudGIPMGState.MGCustomCrRoomInitData model) {
             if (serviceManager.sceneAudio3DRoomManager != null) {
                 serviceManager.sceneAudio3DRoomManager.audio3DInitData(model);
             }
         }
 
-        public List<SudMGPAPPState.AppCustomCrSetSeats.CrSeatModel> getAudio3DRoomSeats() {
+        public List<SudGIPAPPState.AppCustomCrSetSeats.CrSeatModel> getAudio3DRoomSeats() {
             if (serviceManager.sceneAudio3DRoomManager != null) {
                 return serviceManager.sceneAudio3DRoomManager.getSeats();
             }
             return null;
         }
 
-        public SudMGPAPPState.AppCustomCrSetRoomConfig getAudio3DRoomConfig() {
+        public SudGIPAPPState.AppCustomCrSetRoomConfig getAudio3DRoomConfig() {
             if (serviceManager.sceneAudio3DRoomManager != null) {
                 return serviceManager.sceneAudio3DRoomManager.getConfig();
             }

@@ -2,8 +2,8 @@ package tech.sud.mgp.hello.service.game.repository;
 
 import androidx.lifecycle.LifecycleOwner;
 
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPAPPState;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPMGState;
 import tech.sud.mgp.hello.common.http.param.BaseUrlManager;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.http.rx.RxUtils;
@@ -95,7 +95,7 @@ public class GameRepository {
      * @param owner    生命周期对象
      * @param callback 回调
      */
-    public static void rocketMallComponentList(LifecycleOwner owner, RxCallback<SudMGPAPPState.AppCustomRocketConfig> callback) {
+    public static void rocketMallComponentList(LifecycleOwner owner, RxCallback<SudGIPAPPState.AppCustomRocketConfig> callback) {
         GameRequestMethodFactory.getMethod()
                 .rocketMallComponentList(BaseUrlManager.getGameBaseUrl())
                 .compose(RxUtils.schedulers(owner))
@@ -127,7 +127,7 @@ public class GameRepository {
      * @param req      购买的组件列表
      * @param callback 回调
      */
-    public static void rocketBuyComponent(LifecycleOwner owner, SudMGPMGState.MGCustomRocketBuyComponent req, RxCallback<SudMGPAPPState.AppCustomRocketBuyComponent.Data> callback) {
+    public static void rocketBuyComponent(LifecycleOwner owner, SudGIPMGState.MGCustomRocketBuyComponent req, RxCallback<SudGIPAPPState.AppCustomRocketBuyComponent.Data> callback) {
         GameRequestMethodFactory.getMethod()
                 .rocketBuyComponent(BaseUrlManager.getGameBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
@@ -142,7 +142,7 @@ public class GameRepository {
      * @param pageSize  每页多少条数据
      * @param callback  回调
      */
-    public static void rocketBuyComponentRecord(LifecycleOwner owner, int pageIndex, int pageSize, RxCallback<SudMGPAPPState.AppCustomRocketOrderRecordList> callback) {
+    public static void rocketBuyComponentRecord(LifecycleOwner owner, int pageIndex, int pageSize, RxCallback<SudGIPAPPState.AppCustomRocketOrderRecordList> callback) {
         RocketPageReq req = new RocketPageReq();
         req.pageIndex = pageIndex;
         req.pageSize = pageSize;
@@ -158,7 +158,7 @@ public class GameRepository {
      * @param owner    生命周期对象
      * @param callback 回调
      */
-    public static void rocketComponentList(LifecycleOwner owner, RxCallback<SudMGPAPPState.AppCustomRocketComponentList> callback) {
+    public static void rocketComponentList(LifecycleOwner owner, RxCallback<SudGIPAPPState.AppCustomRocketComponentList> callback) {
         GameRequestMethodFactory.getMethod()
                 .rocketComponentList(BaseUrlManager.getGameBaseUrl())
                 .compose(RxUtils.schedulers(owner))
@@ -171,7 +171,7 @@ public class GameRepository {
      * @param owner    生命周期对象
      * @param callback 回调
      */
-    public static void rocketCreateModel(LifecycleOwner owner, SudMGPMGState.MGCustomRocketCreateModel req, RxCallback<SudMGPAPPState.AppCustomRocketCreateModel.Data> callback) {
+    public static void rocketCreateModel(LifecycleOwner owner, SudGIPMGState.MGCustomRocketCreateModel req, RxCallback<SudGIPAPPState.AppCustomRocketCreateModel.Data> callback) {
         GameRequestMethodFactory.getMethod()
                 .rocketCreateModel(BaseUrlManager.getGameBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
@@ -184,7 +184,7 @@ public class GameRepository {
      * @param owner    生命周期对象
      * @param callback 回调
      */
-    public static void rocketReplaceComponent(LifecycleOwner owner, SudMGPMGState.MGCustomRocketReplaceComponent req, RxCallback<SudMGPAPPState.AppCustomRocketReplaceComponent.Data> callback) {
+    public static void rocketReplaceComponent(LifecycleOwner owner, SudGIPMGState.MGCustomRocketReplaceComponent req, RxCallback<SudGIPAPPState.AppCustomRocketReplaceComponent.Data> callback) {
         GameRequestMethodFactory.getMethod()
                 .rocketReplaceComponent(BaseUrlManager.getGameBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
@@ -197,7 +197,7 @@ public class GameRepository {
      * @param owner    生命周期对象
      * @param callback 回调
      */
-    public static void rocketModelList(LifecycleOwner owner, RxCallback<SudMGPAPPState.AppCustomRocketModelList> callback) {
+    public static void rocketModelList(LifecycleOwner owner, RxCallback<SudGIPAPPState.AppCustomRocketModelList> callback) {
         GameRequestMethodFactory.getMethod()
                 .rocketModelList(BaseUrlManager.getGameBaseUrl())
                 .compose(RxUtils.schedulers(owner))
@@ -225,7 +225,7 @@ public class GameRepository {
      * @param req      请求参数
      * @param callback 回调
      */
-    public static void rocketFireRecordSummery(LifecycleOwner owner, RocketFireRecordSummeryReq req, RxCallback<SudMGPAPPState.AppCustomRocketRoomRecordList> callback) {
+    public static void rocketFireRecordSummery(LifecycleOwner owner, RocketFireRecordSummeryReq req, RxCallback<SudGIPAPPState.AppCustomRocketRoomRecordList> callback) {
         GameRequestMethodFactory.getMethod()
                 .rocketFireRecordSummery(BaseUrlManager.getGameBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
@@ -239,7 +239,7 @@ public class GameRepository {
      * @param req      请求参数
      * @param callback 回调
      */
-    public static void rocketFireRecord(LifecycleOwner owner, RocketFireRecordReq req, RxCallback<SudMGPAPPState.AppCustomRocketUserRecordList> callback) {
+    public static void rocketFireRecord(LifecycleOwner owner, RocketFireRecordReq req, RxCallback<SudGIPAPPState.AppCustomRocketUserRecordList> callback) {
         GameRequestMethodFactory.getMethod()
                 .rocketFireRecord(BaseUrlManager.getGameBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
@@ -253,7 +253,7 @@ public class GameRepository {
      * @param req      请求参数
      * @param callback 回调
      */
-    public static void rocketFirePrice(LifecycleOwner owner, SudMGPMGState.MGCustomRocketDynamicFirePrice req, RxCallback<RocketFirePriceResp> callback) {
+    public static void rocketFirePrice(LifecycleOwner owner, SudGIPMGState.MGCustomRocketDynamicFirePrice req, RxCallback<RocketFirePriceResp> callback) {
         GameRequestMethodFactory.getMethod()
                 .rocketFirePrice(BaseUrlManager.getGameBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
@@ -281,7 +281,7 @@ public class GameRepository {
      * @param req      请求参数
      * @param callback 回调
      */
-    public static void rocketVerifySign(LifecycleOwner owner, SudMGPMGState.MGCustomRocketVerifySign req, RxCallback<SudMGPAPPState.AppCustomRocketVerifySign.Data> callback) {
+    public static void rocketVerifySign(LifecycleOwner owner, SudGIPMGState.MGCustomRocketVerifySign req, RxCallback<SudGIPAPPState.AppCustomRocketVerifySign.Data> callback) {
         GameRequestMethodFactory.getMethod()
                 .rocketVerifySign(BaseUrlManager.getGameBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
@@ -295,7 +295,7 @@ public class GameRepository {
      * @param req      请求参数
      * @param callback 回调
      */
-    public static void rocketSaveSignColor(LifecycleOwner owner, SudMGPMGState.MGCustomRocketSaveSignColor req, RxCallback<SudMGPAPPState.AppCustomRocketSaveSignColor.Data> callback) {
+    public static void rocketSaveSignColor(LifecycleOwner owner, SudGIPMGState.MGCustomRocketSaveSignColor req, RxCallback<SudGIPAPPState.AppCustomRocketSaveSignColor.Data> callback) {
         GameRequestMethodFactory.getMethod()
                 .rocketSaveSignColor(BaseUrlManager.getGameBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
@@ -312,7 +312,7 @@ public class GameRepository {
      * @param req      请求参数
      * @param callback 回调
      */
-    public static void baseballRanking(LifecycleOwner owner, SudMGPMGState.MGBaseballRanking req, RxCallback<SudMGPAPPState.AppBaseballRanking> callback) {
+    public static void baseballRanking(LifecycleOwner owner, SudGIPMGState.MGBaseballRanking req, RxCallback<SudGIPAPPState.AppBaseballRanking> callback) {
         GameRequestMethodFactory.getMethod()
                 .baseballRanking(BaseUrlManager.getGameBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
@@ -326,7 +326,7 @@ public class GameRepository {
      * @param req      请求参数
      * @param callback 回调
      */
-    public static void baseballMyRanking(LifecycleOwner owner, SudMGPMGState.MGBaseballMyRanking req, RxCallback<SudMGPAPPState.AppBaseballMyRanking> callback) {
+    public static void baseballMyRanking(LifecycleOwner owner, SudGIPMGState.MGBaseballMyRanking req, RxCallback<SudGIPAPPState.AppBaseballMyRanking> callback) {
         GameRequestMethodFactory.getMethod()
                 .baseballMyRanking(BaseUrlManager.getGameBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
@@ -340,7 +340,7 @@ public class GameRepository {
      * @param req      请求参数
      * @param callback 回调
      */
-    public static void baseballRangeInfo(LifecycleOwner owner, SudMGPMGState.MGBaseballRangeInfo req, RxCallback<SudMGPAPPState.AppBaseballRangeInfo> callback) {
+    public static void baseballRangeInfo(LifecycleOwner owner, SudGIPMGState.MGBaseballRangeInfo req, RxCallback<SudGIPAPPState.AppBaseballRangeInfo> callback) {
         GameRequestMethodFactory.getMethod()
                 .baseballRangeInfo(BaseUrlManager.getGameBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
@@ -367,7 +367,7 @@ public class GameRepository {
      * @param owner    生命周期对象
      * @param callback 回调
      */
-    public static void baseballTextConfig(LifecycleOwner owner, SudMGPMGState.MGBaseballTextConfig req, RxCallback<SudMGPAPPState.AppBaseballTextConfig> callback) {
+    public static void baseballTextConfig(LifecycleOwner owner, SudGIPMGState.MGBaseballTextConfig req, RxCallback<SudGIPAPPState.AppBaseballTextConfig> callback) {
         GameRequestMethodFactory.getMethod()
                 .baseballTextConfig(BaseUrlManager.getGameBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))

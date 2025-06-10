@@ -5,9 +5,9 @@ import androidx.lifecycle.MutableLiveData;
 import java.util.HashSet;
 import java.util.List;
 
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
-import tech.sud.mgp.core.ISudFSMStateHandle;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPAPPState;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPMGState;
+import tech.sud.gip.core.ISudFSMStateHandle;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
 
 /**
@@ -19,8 +19,8 @@ public class LeagueGameViewModel extends AppGameViewModel {
     public MutableLiveData<Object> clickReadyBtnLiveData = new MutableLiveData<>();
     public MutableLiveData<Object> clickStartBtnLiveData = new MutableLiveData<>();
     public MutableLiveData<Object> gameStartedLiveData = new MutableLiveData<>();
-    public MutableLiveData<SudMGPMGState.MGCommonGameState> gameStateLiveData = new MutableLiveData<>();
-    public MutableLiveData<SudMGPMGState.MGCommonPlayerIn> playerInLiveData = new MutableLiveData<>();
+    public MutableLiveData<SudGIPMGState.MGCommonGameState> gameStateLiveData = new MutableLiveData<>();
+    public MutableLiveData<SudGIPMGState.MGCommonPlayerIn> playerInLiveData = new MutableLiveData<>();
 
     // region 游戏侧回调
 
@@ -36,7 +36,7 @@ public class LeagueGameViewModel extends AppGameViewModel {
      * mg_common_self_click_join_btn
      */
     @Override
-    public void onGameMGCommonSelfClickJoinBtn(ISudFSMStateHandle handle, SudMGPMGState.MGCommonSelfClickJoinBtn model) {
+    public void onGameMGCommonSelfClickJoinBtn(ISudFSMStateHandle handle, SudGIPMGState.MGCommonSelfClickJoinBtn model) {
         super.onGameMGCommonSelfClickJoinBtn(handle, model);
         clickJoinBtnLiveData.setValue(null);
     }
@@ -46,7 +46,7 @@ public class LeagueGameViewModel extends AppGameViewModel {
      * mg_common_self_click_ready_btn
      */
     @Override
-    public void onGameMGCommonSelfClickReadyBtn(ISudFSMStateHandle handle, SudMGPMGState.MGCommonSelfClickReadyBtn model) {
+    public void onGameMGCommonSelfClickReadyBtn(ISudFSMStateHandle handle, SudGIPMGState.MGCommonSelfClickReadyBtn model) {
         super.onGameMGCommonSelfClickReadyBtn(handle, model);
         clickReadyBtnLiveData.setValue(null);
     }
@@ -56,7 +56,7 @@ public class LeagueGameViewModel extends AppGameViewModel {
      * mg_common_self_click_start_btn
      */
     @Override
-    public void onGameMGCommonSelfClickStartBtn(ISudFSMStateHandle handle, SudMGPMGState.MGCommonSelfClickStartBtn model) {
+    public void onGameMGCommonSelfClickStartBtn(ISudFSMStateHandle handle, SudGIPMGState.MGCommonSelfClickStartBtn model) {
         super.onGameMGCommonSelfClickStartBtn(handle, model);
         clickStartBtnLiveData.setValue(null);
     }
@@ -66,7 +66,7 @@ public class LeagueGameViewModel extends AppGameViewModel {
      * mg_common_game_state
      */
     @Override
-    public void onGameMGCommonGameState(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameState model) {
+    public void onGameMGCommonGameState(ISudFSMStateHandle handle, SudGIPMGState.MGCommonGameState model) {
         super.onGameMGCommonGameState(handle, model);
         gameStateLiveData.setValue(model);
     }
@@ -97,12 +97,12 @@ public class LeagueGameViewModel extends AppGameViewModel {
      * @param aiPlayers AI玩家
      * @param isReady   机器人加入后是否自动准备 1：自动准备，0：不自动准备 默认为1
      */
-    public void notifyAPPCommonGameAddAIPlayers(List<SudMGPAPPState.AIPlayers> aiPlayers, int isReady) {
+    public void notifyAPPCommonGameAddAIPlayers(List<SudGIPAPPState.AIPlayers> aiPlayers, int isReady) {
         sudFSTAPPDecorator.notifyAPPCommonGameAddAIPlayers(aiPlayers, isReady);
     }
 
     @Override
-    public void onPlayerMGCommonPlayerIn(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGCommonPlayerIn model) {
+    public void onPlayerMGCommonPlayerIn(ISudFSMStateHandle handle, String userId, SudGIPMGState.MGCommonPlayerIn model) {
         super.onPlayerMGCommonPlayerIn(handle, userId, model);
         playerInLiveData.setValue(model);
     }

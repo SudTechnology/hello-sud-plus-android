@@ -33,7 +33,7 @@
   <details>
   <summary>详细描述</summary>
 
-      1.参考SudMGP文档、SudMGPWrapper、QuickStart、HelloSud体验Demo（展示多场景，Custom自定义场景）；
+      1.参考SudGIP文档、SudGIPWrapper、QuickStart、HelloSud体验Demo（展示多场景，Custom自定义场景）；
       2.专注于APP UI交互、功能是否支持、如何实现
       比如：
       调整游戏View大小、位置；
@@ -48,19 +48,19 @@
 
 # 三分钟集成代码
 
-- 第一步：导入模块SudMGPWrapper
+- 第一步：导入模块SudGIPWrapper
   <details>
-  <summary>导入模块SudMGPWrapper</summary>
+  <summary>导入模块SudGIPWrapper</summary>
 
-      1.通过Android Studio的Import Module功能，导入SudMGPWrapper；
-      2.APP主工程文件build.gradle中，添加 SudMGPWrapper 依赖;
-      3.此模块包含了SDK的依赖，如需上架Google Play，请查看SudMGPwrapper/build.gradle当中的注释说明
+      1.通过Android Studio的Import Module功能，导入SudGIPWrapper；
+      2.APP主工程文件build.gradle中，添加 SudGIPWrapper 依赖;
+      3.此模块包含了SDK的依赖，如需上架Google Play，请查看SudGIPwrapper/build.gradle当中的注释说明
   ``` java
   build.gradle
   
   dependencies {
-    // 引入 SudMGPWrapper
-    implementation project(':SudMGPWrapper')
+    // 引入 SudGIPWrapper
+    implementation project(':SudGIPWrapper')
   }
   ```
   </details>
@@ -68,7 +68,7 @@
   <details>
   <summary>ASR识别支持（可选 v1.2.7及后续版本支持）</summary>
 
-  此为扩展功能，如果不需要ASR识别，可以忽略此库的集成，请访问：[SudMGP-Android](https://github.com/SudTechnology/sud-mgp-android)
+  此为扩展功能，如果不需要ASR识别，可以忽略此库的集成，请访问：[SudGIP-Android](https://github.com/SudTechnology/sud-mgp-android)
   </details>
 
 
@@ -151,7 +151,7 @@
   
     // App的房间ID
     String appRoomId = "10000";       
-    // SudMGP平台64bit游戏ID
+    // SudGIP平台64bit游戏ID
     long mgId = 1461227817776713818L; // 这是'碰碰我最强'的mgId，加载不同游戏填不同的mgId即可
     gameViewModel.switchGame(this, appRoomId, mgId);       
     ```
@@ -173,9 +173,9 @@
 
 ![QuickStartArch.png](doc/QuickStartArch.png)
 
-# 1. SudMGP SDK
+# 1. SudGIP SDK
 
-### 1.1 SudMGP Client SDK
+### 1.1 SudGIP Client SDK
 
 - [Android SDK](https://github.com/SudTechnology/sud-mgp-android)
 - [iOS SDK](https://github.com/SudTechnology/sud-mgp-ios)
@@ -185,16 +185,16 @@
 - [接入文档](https://docs.sud.tech/zh-CN/app/Client/API/)
 - [FAQ](https://docs.sud.tech/zh-CN/app/Client/FAQ/)
 
-# 2. SudMGPWrapper
+# 2. SudGIPWrapper
 
-- `SudMGPWrapper封装SudMGP，简化App和游戏相互调用`；
-- `SudMGPWrapper长期维护和保持更新`；
-- `推荐APP接入方使用SudMGPWrapper`；
-- `SudMGPAPPState`、`SudMGPMGState`、`SudFSMMGListener`、`SudFSMMGDecorator`、`SudFSTAPPDecorator核心类`；
+- `SudGIPWrapper封装SudGIP，简化App和游戏相互调用`；
+- `SudGIPWrapper长期维护和保持更新`；
+- `推荐APP接入方使用SudGIPWrapper`；
+- `SudGIPAPPState`、`SudGIPMGState`、`SudFSMMGListener`、`SudFSMMGDecorator`、`SudFSTAPPDecorator核心类`；
 
 ### 2.1 App调用游戏
 
-- `SudMGPAPPState` 封装 [App通用状态](https://docs.sud.tech/zh-CN/app/Client/APPFST/CommonState.html) ；
+- `SudGIPAPPState` 封装 [App通用状态](https://docs.sud.tech/zh-CN/app/Client/APPFST/CommonState.html) ；
 - `SudFSTAPPDecorator` 封装 [ISudFSTAPP](https://docs.sud.tech/zh-CN/app/Client/API/ISudFSTAPP.html)
   两类接口，[notifyStateChange](https://docs.sud.tech/zh-CN/app/Client/APPFST/CommonState.html) 、 foo；
 - `SudFSTAPPDecorator` 负责把每一个App通用状态封装成接口；
@@ -203,14 +203,14 @@
 
     ``` java
     public class SudFSTAPPDecorator {
-        // iSudFSTAPP = SudMGP.loadMG(QuickStartActivity, userId, roomId, code, gameId, language, sudFSMMGDecorator);
+        // iSudFSTAPP = SudGIP.loadMG(SudLoadMGParamModel model, ISudFSMMG fsmMG);
         public void setISudFSTAPP(ISudFSTAPP iSudFSTAPP);
         // 1. 加入状态
         public void notifyAPPCommonSelfIn(boolean isIn, int seatIndex, boolean isSeatRandom, int teamId);
         ...
     
         // 16. 设置游戏中的AI玩家（2022-05-11新增）
-        public void notifyAPPCommonGameAddAIPlayers(List<SudMGPAPPState.AIPlayers> aiPlayers, int isReady);
+        public void notifyAPPCommonGameAddAIPlayers(List<SudGIPAPPState.AIPlayers> aiPlayers, int isReady);
         public void startMG();
         public void pauseMG();
         public void playMG();
@@ -225,7 +225,7 @@
 
 ### 2.2 游戏调用App
 
-- `SudMGPMGState` 封装 [通用状态-游戏](https://docs.sud.tech/zh-CN/app/Client/MGFSM/CommonStateGame.html)
+- `SudGIPMGState` 封装 [通用状态-游戏](https://docs.sud.tech/zh-CN/app/Client/MGFSM/CommonStateGame.html)
   和 [通用状态-玩家](https://docs.sud.tech/zh-CN/app/Client/MGFSM/CommonStatePlayer.html) ；
 - `SudFSMMGListener` 封装[ISudFSMMG](https://docs.sud.tech/zh-CN/app/Client/API/ISudFSMMG.html) 三类回调函数，onGameStateChange、onPlayerStateChange、onFoo；
 - `SudFSMMGListener` 负责把游戏每一个状态封装成单独的回调函数；
@@ -245,26 +245,26 @@
         // void onGameStateChange(ISudFSMStateHandle handle, String state, String dataJson)；
         // 文档: https://docs.sud.tech/zh-CN/app/Client/MGFSM/CommonStateGame.html
         // 1.游戏公屏消息
-        default void onGameMGCommonPublicMessage(ISudFSMStateHandle handle, SudMGPMGState.MGCommonPublicMessage model);
+        default void onGameMGCommonPublicMessage(ISudFSMStateHandle handle, SudGIPMGState.MGCommonPublicMessage model);
         ...
     
         // 21. 游戏通知app层添加陪玩机器人是否成功（2022-05-17新增）
-        default void onGameMGCommonGameAddAIPlayers(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGameAddAIPlayers model);
+        default void onGameMGCommonGameAddAIPlayers(ISudFSMStateHandle handle, SudGIPMGState.MGCommonGameAddAIPlayers model);
         
         // 通用状态 - 玩家
         // void onPlayerStateChange(ISudFSMStateHandle handle, String userId, String state, String dataJson);
         // 文档: https://docs.sud.tech/zh-CN/app/Client/MGFSM/CommonStatePlayer.html
         // 1.加入状态
-        default void onPlayerMGCommonPlayerIn(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGCommonPlayerIn model);
+        default void onPlayerMGCommonPlayerIn(ISudFSMStateHandle handle, String userId, SudGIPMGState.MGCommonPlayerIn model);
         ...
     
         // 11. 游戏通知app层当前游戏剩余时间（2022-05-23新增，目前UMO生效）
-        default void onPlayerMGCommonGameCountdownTime(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGCommonGameCountdownTime model);
+        default void onPlayerMGCommonGameCountdownTime(ISudFSMStateHandle handle, String userId, SudGIPMGState.MGCommonGameCountdownTime model);
     
         // 游戏个性化状态：你画我猜
         // 文档：https://docs.sud.tech/zh-CN/app/Client/MGFSM/DrawGuess.html
         // 1. 选词中状态
-        default void onPlayerMGDGSelecting(ISudFSMStateHandle handle, String userId, SudMGPMGState.MGDGSelecting model);
+        default void onPlayerMGDGSelecting(ISudFSMStateHandle handle, String userId, SudGIPMGState.MGDGSelecting model);
         ...
     }
     ```
@@ -306,10 +306,10 @@
 # 3. QuickStart
 
 - 请使用QuickStart项目运行；
-- QuickStart使用SudMGPWrapper实现快速接入游戏；
+- QuickStart使用SudGIPWrapper实现快速接入游戏；
 - 快速接入文档：[StartUp-Android](https://docs.sud.tech/zh-CN/app/Client/StartUp-Android.html)
   和 [StartUp-iOS](https://docs.sud.tech/zh-CN/app/Client/StartUp-iOS.html) ；
-- `QuickStartGameViewModel` 负责login(App getCode) --> SudMGP.initSDK --> SudMGP.loadMG；
+- `QuickStartGameViewModel` 负责login(App getCode) --> SudGIP.initSDK --> SudGIP.loadMG；
 - `GameActivity` 负责addGameView；
 - `QuickStart 服务端` [hello-sud-java](https://github.com/SudTechnology/hello-sud-java) ，login(App getCode 获取短期令牌code)
   ，`如果访问不了代码仓库，请联系SUD添加，github账号`；
@@ -324,13 +324,13 @@
 ![Android](doc/hello_sudplus_android.png)
 ![iPhone](doc/hello_sudplus_iphone.png)
 
-# 5. 接入方客户端和SudMGP SDK调用时序图
+# 5. 接入方客户端和SudGIP SDK调用时序图
 
 ![AppCallSudMGPSeqDiag.png](doc/AppCallSudMGPSeqDiag.png)
 
 # 6. 其它注意事项
 
-- 首次集成，请根据自身要接入的游戏不同，来选择不同的SDK。地址：[SudMGPSDK](https://github.com/SudTechnology/sud-mgp-android)
+- 首次集成，请根据自身要接入的游戏不同，来选择不同的SDK。地址：[SudGIPSDK](https://github.com/SudTechnology/sud-mgp-android)
 - 如果项目开启了资源混淆，请添加以下混淆白名单，针对AndResGuard   
   注意：如果使用的是AabResGuard，那么需要在每条名单前面加上"*."，比如"*.R.id.reload_btn"；  
   其他的混淆工具参考其具体的白名单设置规则

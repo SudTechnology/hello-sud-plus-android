@@ -20,8 +20,8 @@ import com.blankj.utilcode.util.ToastUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
-import tech.sud.mgp.SudMGPWrapper.utils.SudJsonUtils;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPMGState;
+import tech.sud.gip.SudGIPWrapper.utils.SudJsonUtils;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.app.APPConfig;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
@@ -219,16 +219,16 @@ public class QuizActivity extends AbsAudioRoomActivity<QuizGameViewModel> {
                 }
             }
         });
-        gameViewModel.gameSettleLiveData.observe(this, new Observer<SudMGPMGState.MGCommonGameSettle>() {
+        gameViewModel.gameSettleLiveData.observe(this, new Observer<SudGIPMGState.MGCommonGameSettle>() {
             @Override
-            public void onChanged(SudMGPMGState.MGCommonGameSettle mgCommonGameSettle) {
+            public void onChanged(SudGIPMGState.MGCommonGameSettle mgCommonGameSettle) {
                 onGameSettle(mgCommonGameSettle);
             }
         });
     }
 
     /** 游戏结算 */
-    private void onGameSettle(SudMGPMGState.MGCommonGameSettle gameSettle) {
+    private void onGameSettle(SudGIPMGState.MGCommonGameSettle gameSettle) {
         QuizSettleDialog dialog = QuizSettleDialog.newInstance(playerList, gameSettle);
         dialog.setAgainOnClickListener(new View.OnClickListener() {
             @Override
@@ -258,7 +258,7 @@ public class QuizActivity extends AbsAudioRoomActivity<QuizGameViewModel> {
             public void onClick(View v) {
                 // 游戏进行中时，不可以关闭自动猜自己赢
                 int gameState = gameViewModel.getGameState();
-                if (gameState == SudMGPMGState.MGCommonGameState.LOADING || gameState == SudMGPMGState.MGCommonGameState.PLAYING) {
+                if (gameState == SudGIPMGState.MGCommonGameState.LOADING || gameState == SudGIPMGState.MGCommonGameState.PLAYING) {
                     ToastUtils.showShort(R.string.game_playing_close_quiz_warn);
                     return;
                 }
@@ -290,7 +290,7 @@ public class QuizActivity extends AbsAudioRoomActivity<QuizGameViewModel> {
      * 开启了自动猜自己赢并且游戏状态是在loading状态
      */
     private boolean checkAutoGuessIWin(Integer gameState) {
-        if (gameViewModel.isSelfInGame() && AppData.getInstance().isQuizAutoGuessIWin() && gameState == SudMGPMGState.MGCommonGameState.LOADING) {
+        if (gameViewModel.isSelfInGame() && AppData.getInstance().isQuizAutoGuessIWin() && gameState == SudGIPMGState.MGCommonGameState.LOADING) {
             HomeRepository.quizBet(context, QuizBetReq.QUIZ_TYPE_GAME, APPConfig.QUIZ_SINGLE_BET_COUNT, HSUserInfo.userId, new RxCallback<Object>() {
                 @Override
                 public void onNext(BaseResponse<Object> t) {
@@ -324,7 +324,7 @@ public class QuizActivity extends AbsAudioRoomActivity<QuizGameViewModel> {
 
     /** 从后台获取下注的玩家列表，用于显示结算页 */
     private void getPlayers() {
-        if (gameViewModel.getGameState() != SudMGPMGState.MGCommonGameState.IDLE) {
+        if (gameViewModel.getGameState() != SudGIPMGState.MGCommonGameState.IDLE) {
             RoomRepository.quizGamePlayer(this, roomInfoModel.roomId, gameViewModel.getPlayers(), new RxCallback<QuizGamePlayerResp>() {
                 @Override
                 public void onSuccess(QuizGamePlayerResp resp) {
@@ -339,7 +339,7 @@ public class QuizActivity extends AbsAudioRoomActivity<QuizGameViewModel> {
     private void showGussIWinConfirmDialog() {
         // 游戏进行中时，不可以开启自动猜自己赢
         int gameState = gameViewModel.getGameState();
-        if (gameState == SudMGPMGState.MGCommonGameState.LOADING || gameState == SudMGPMGState.MGCommonGameState.PLAYING) {
+        if (gameState == SudGIPMGState.MGCommonGameState.LOADING || gameState == SudGIPMGState.MGCommonGameState.PLAYING) {
             ToastUtils.showShort(R.string.game_playing_start_quiz_warn);
             return;
         }
@@ -350,7 +350,7 @@ public class QuizActivity extends AbsAudioRoomActivity<QuizGameViewModel> {
                 dialog.dismiss();
                 // 游戏进行中时，不可以开启自动猜自己赢
                 int gameState = gameViewModel.getGameState();
-                if (gameState == SudMGPMGState.MGCommonGameState.LOADING || gameState == SudMGPMGState.MGCommonGameState.PLAYING) {
+                if (gameState == SudGIPMGState.MGCommonGameState.LOADING || gameState == SudGIPMGState.MGCommonGameState.PLAYING) {
                     ToastUtils.showShort(R.string.game_playing_start_quiz_warn);
                     return;
                 }
@@ -462,7 +462,7 @@ public class QuizActivity extends AbsAudioRoomActivity<QuizGameViewModel> {
             tvGuess.setVisibility(View.VISIBLE);
             tvGuess.checkFocus();
             int gameState = gameViewModel.getGameState();
-            if (gameState == SudMGPMGState.MGCommonGameState.LOADING || gameState == SudMGPMGState.MGCommonGameState.PLAYING) {
+            if (gameState == SudGIPMGState.MGCommonGameState.LOADING || gameState == SudGIPMGState.MGCommonGameState.PLAYING) {
                 viewFinger.setVisibility(View.GONE);
             } else {
                 viewFinger.setVisibility(View.VISIBLE);

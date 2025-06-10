@@ -2,8 +2,8 @@ package tech.sud.mgp.hello.ui.scenes.base.utils;
 
 import android.util.Log;
 
-import tech.sud.mgp.core.ISudAPPD;
-import tech.sud.mgp.core.SudMGP;
+import tech.sud.gip.core.ISudAPPD;
+import tech.sud.gip.core.SudGIP;
 import tech.sud.mgp.hello.BuildConfig;
 import tech.sud.nft.core.ISudNFTD;
 
@@ -17,7 +17,7 @@ public class EnvUtils {
         } else if ("fat".equalsIgnoreCase(BuildConfig.mgpEnv)) {
             ISudAPPD.e(3);
             ISudAPPD.d();
-            SudMGP.setLogLevel(Log.DEBUG);
+            SudGIP.setLogLevel(Log.DEBUG);
         }
         // endregion 为demo代码，直接忽略
     }

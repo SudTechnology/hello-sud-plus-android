@@ -1,6 +1,6 @@
 package tech.sud.mgp.hello.ui.scenes.base.manager;
 
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPMGState;
 import tech.sud.mgp.hello.ui.scenes.base.model.LeagueModel;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.RoomCmdModelUtils;
 import tech.sud.mgp.hello.ui.scenes.common.cmd.model.RoomCmdEnterRoomModel;
@@ -31,11 +31,11 @@ public class SceneLeagueManager extends BaseServiceManager {
         return leagueModel;
     }
 
-    public void onGameSettle(SudMGPMGState.MGCommonGameSettle gameSettle) {
+    public void onGameSettle(SudGIPMGState.MGCommonGameSettle gameSettle) {
         // 整理获胜者
         leagueModel.winner.clear();
         if (gameSettle.results != null) {
-            for (SudMGPMGState.MGCommonGameSettle.PlayerResult result : gameSettle.results) {
+            for (SudGIPMGState.MGCommonGameSettle.PlayerResult result : gameSettle.results) {
                 if (leagueModel.schedule == 0) {
                     if (result.rank <= 3) {
                         leagueModel.winner.add(result.uid);

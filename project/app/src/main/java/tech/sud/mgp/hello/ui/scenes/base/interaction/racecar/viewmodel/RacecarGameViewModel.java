@@ -5,9 +5,9 @@ import androidx.lifecycle.MutableLiveData;
 
 import java.util.ArrayList;
 
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
-import tech.sud.mgp.core.ISudFSMStateHandle;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPAPPState;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPMGState;
+import tech.sud.gip.core.ISudFSMStateHandle;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.ui.main.base.constant.GameIdCons;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.InteractionGameViewModel;
@@ -25,8 +25,8 @@ public class RacecarGameViewModel extends InteractionGameViewModel {
 
     public MutableLiveData<Object> gamePrepareCompletedLiveData = new MutableLiveData<>(); // 游戏准备完成
     public MutableLiveData<Object> destroyInteractionGameLiveData = new MutableLiveData<>(); // 销毁通知
-    public MutableLiveData<SudMGPMGState.MGCommonSetClickRect> gameClickRectLiveData = new MutableLiveData<>(); // 点击区域
-    public MutableLiveData<SudMGPMGState.MGCommonUsersInfo> gameGetUserInfoListLiveData = new MutableLiveData<>(); // 游戏获取用户信息
+    public MutableLiveData<SudGIPMGState.MGCommonSetClickRect> gameClickRectLiveData = new MutableLiveData<>(); // 点击区域
+    public MutableLiveData<SudGIPMGState.MGCommonUsersInfo> gameGetUserInfoListLiveData = new MutableLiveData<>(); // 游戏获取用户信息
 
     // region 游戏回调
 
@@ -35,7 +35,7 @@ public class RacecarGameViewModel extends InteractionGameViewModel {
      * mg_common_set_click_rect
      */
     @Override
-    public void onGameMGCommonSetClickRect(ISudFSMStateHandle handle, SudMGPMGState.MGCommonSetClickRect model) {
+    public void onGameMGCommonSetClickRect(ISudFSMStateHandle handle, SudGIPMGState.MGCommonSetClickRect model) {
         super.onGameMGCommonSetClickRect(handle, model);
         gameClickRectLiveData.setValue(model);
     }
@@ -45,7 +45,7 @@ public class RacecarGameViewModel extends InteractionGameViewModel {
      * mg_common_users_info
      */
     @Override
-    public void onGameMGCommonUsersInfo(ISudFSMStateHandle handle, SudMGPMGState.MGCommonUsersInfo model) {
+    public void onGameMGCommonUsersInfo(ISudFSMStateHandle handle, SudGIPMGState.MGCommonUsersInfo model) {
         super.onGameMGCommonUsersInfo(handle, model);
         gameGetUserInfoListLiveData.setValue(model);
     }
@@ -55,13 +55,13 @@ public class RacecarGameViewModel extends InteractionGameViewModel {
      * mg_common_game_prepare_finish
      */
     @Override
-    public void onGameMGCommonGamePrepareFinish(ISudFSMStateHandle handle, SudMGPMGState.MGCommonGamePrepareFinish model) {
+    public void onGameMGCommonGamePrepareFinish(ISudFSMStateHandle handle, SudGIPMGState.MGCommonGamePrepareFinish model) {
         super.onGameMGCommonGamePrepareFinish(handle, model);
         gameIsReady = true;
         gamePrepareCompletedLiveData.setValue(null);
 
         // 发送自定义帮助内容
-        SudMGPAPPState.APPCommonCustomHelpInfo helpInfo = new SudMGPAPPState.APPCommonCustomHelpInfo();
+        SudGIPAPPState.APPCommonCustomHelpInfo helpInfo = new SudGIPAPPState.APPCommonCustomHelpInfo();
         helpInfo.content = new ArrayList<>();
         helpInfo.content.add(fragmentActivity.getString(R.string.racecar_rule_1));
         helpInfo.content.add(fragmentActivity.getString(R.string.racecar_rule_2));
@@ -73,7 +73,7 @@ public class RacecarGameViewModel extends InteractionGameViewModel {
      * mg_common_show_game_scene
      */
     @Override
-    public void onGameMGCommonShowGameScene(ISudFSMStateHandle handle, SudMGPMGState.MGCommonShowGameScene model) {
+    public void onGameMGCommonShowGameScene(ISudFSMStateHandle handle, SudGIPMGState.MGCommonShowGameScene model) {
         super.onGameMGCommonShowGameScene(handle, model);
         isShowingGameScene = true;
     }
@@ -83,7 +83,7 @@ public class RacecarGameViewModel extends InteractionGameViewModel {
      * mg_common_hide_game_scene
      */
     @Override
-    public void onGameMGCommonHideGameScene(ISudFSMStateHandle handle, SudMGPMGState.MGCommonHideGameScene model) {
+    public void onGameMGCommonHideGameScene(ISudFSMStateHandle handle, SudGIPMGState.MGCommonHideGameScene model) {
         super.onGameMGCommonHideGameScene(handle, model);
         isShowingGameScene = false;
 //        checkDestroyBaseball();
@@ -97,24 +97,24 @@ public class RacecarGameViewModel extends InteractionGameViewModel {
      * 27. app通知游戏玩家信息列表 (赛车)
      * app_common_users_info
      */
-    public void notifyAppCommonUsersInfo(SudMGPAPPState.APPCommonUsersInfo model) {
-        sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_COMMON_USERS_INFO, model);
+    public void notifyAppCommonUsersInfo(SudGIPAPPState.APPCommonUsersInfo model) {
+        sudFSTAPPDecorator.notifyStateChange(SudGIPAPPState.APP_COMMON_USERS_INFO, model);
     }
 
     /**
      * 28. app通知游戏自定义帮助内容 (赛车)
      * app_common_custom_help_info
      */
-    public void notifyAPPCommonCustomHelpInfo(SudMGPAPPState.APPCommonCustomHelpInfo model) {
-        sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_COMMON_CUSTOM_HELP_INFO, model);
+    public void notifyAPPCommonCustomHelpInfo(SudGIPAPPState.APPCommonCustomHelpInfo model) {
+        sudFSTAPPDecorator.notifyStateChange(SudGIPAPPState.APP_COMMON_CUSTOM_HELP_INFO, model);
     }
 
     /**
      * 29. app主动调起主界面(赛车)
      * app_common_show_game_scene
      */
-    public void notifyAppCommonShowGameScene(SudMGPAPPState.APPCommonShowGameScene model) {
-        sudFSTAPPDecorator.notifyStateChange(SudMGPAPPState.APP_COMMON_SHOW_GAME_SCENE, model);
+    public void notifyAppCommonShowGameScene(SudGIPAPPState.APPCommonShowGameScene model) {
+        sudFSTAPPDecorator.notifyStateChange(SudGIPAPPState.APP_COMMON_SHOW_GAME_SCENE, model);
     }
 
     // endregion 调用游戏

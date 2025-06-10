@@ -4,8 +4,8 @@ import android.view.View;
 
 import androidx.lifecycle.Observer;
 
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
-import tech.sud.mgp.SudMGPWrapper.utils.SudJsonUtils;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPMGState;
+import tech.sud.gip.SudGIPWrapper.utils.SudJsonUtils;
 import tech.sud.mgp.hello.common.model.AppData;
 import tech.sud.mgp.hello.service.main.resp.TicketConfirmJoinResp;
 import tech.sud.mgp.hello.ui.scenes.audio.activity.AbsAudioRoomActivity;
@@ -59,7 +59,7 @@ public class TicketActivity extends AbsAudioRoomActivity<TicketGameViewModel> {
         viewModel.ticketConfirmJoinMutableLiveData.observe(this, new Observer<TicketConfirmJoinResp>() {
             @Override
             public void onChanged(TicketConfirmJoinResp resp) {
-                if (gameViewModel.getGameState() == SudMGPMGState.MGCommonGameState.IDLE) {
+                if (gameViewModel.getGameState() == SudGIPMGState.MGCommonGameState.IDLE) {
                     ticketConfirmJoinResp = resp;
                     gameViewModel.notifyAPPCommonSelfReady(true);
                 }

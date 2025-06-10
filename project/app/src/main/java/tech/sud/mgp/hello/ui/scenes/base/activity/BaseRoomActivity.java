@@ -40,12 +40,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState.AIPlayers;
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState.APPCommonGameCreateOrderResult;
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
-import tech.sud.mgp.core.ISudListenerNotifyStateChange;
-import tech.sud.mgp.core.SudLoadMGMode;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPAPPState;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPAPPState.AIPlayers;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPAPPState.APPCommonGameCreateOrderResult;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPMGState;
+import tech.sud.gip.core.ISudListenerNotifyStateChange;
+import tech.sud.gip.core.SudLoadMGMode;
 import tech.sud.mgp.hello.BuildConfig;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseActivity;
@@ -396,7 +396,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
                 tv.setText(R.string.difficulty);
                 break;
             case customRobotLevelBigModel:
-                tv.setText(R.string.big_model);
+                tv.setText(R.string.large_model);
                 break;
         }
         tv.setBackgroundResource(R.drawable.selector_bot_level_item);
@@ -527,18 +527,18 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
                     aiPlayersList.add(aiPlayers);
                     gameViewModel.sudFSTAPPDecorator.notifyAPPCommonGameAddAIPlayers(aiPlayersList, 1);
                 } else if (aiType == 1) { // 大模型
-                    List<SudMGPAPPState.ModelAIPlayers> aiPlayersList = new ArrayList<>();
-                    SudMGPAPPState.ModelAIPlayers modelAIPlayers = new SudMGPAPPState.ModelAIPlayers();
+                    List<SudGIPAPPState.ModelAIPlayers> aiPlayersList = new ArrayList<>();
+                    SudGIPAPPState.ModelAIPlayers modelAIPlayers = new SudGIPAPPState.ModelAIPlayers();
                     modelAIPlayers.userId = aiPlayers.userId;
                     modelAIPlayers.avatar = aiPlayers.avatar;
                     modelAIPlayers.name = aiPlayers.name;
                     modelAIPlayers.gender = aiPlayers.gender;
                     modelAIPlayers.aiId = aiId;
                     aiPlayersList.add(modelAIPlayers);
-                    SudMGPAPPState.APPCommonGameAddBigScaleModelAIPlayers model = new SudMGPAPPState.APPCommonGameAddBigScaleModelAIPlayers();
+                    SudGIPAPPState.APPCommonGameAddBigScaleModelAIPlayers model = new SudGIPAPPState.APPCommonGameAddBigScaleModelAIPlayers();
                     model.aiPlayers = aiPlayersList;
                     model.isReady = 1;
-                    gameViewModel.notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_ADD_BIG_SCALE_MODEL_AI_PLAYERS, model);
+                    gameViewModel.notifyStateChange(SudGIPAPPState.APP_COMMON_GAME_ADD_BIG_SCALE_MODEL_AI_PLAYERS, model);
                 }
             }
         });
@@ -603,7 +603,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
                 } else {
                     // 自己主动切游戏，需判断一下是否要拦截
                     int gameState = gameViewModel.getGameState();
-                    if (gameState == SudMGPMGState.MGCommonGameState.LOADING || gameState == SudMGPMGState.MGCommonGameState.PLAYING) {
+                    if (gameState == SudGIPMGState.MGCommonGameState.LOADING || gameState == SudGIPMGState.MGCommonGameState.PLAYING) {
                         if (gameId > 0) {
                             ToastUtils.showLong(R.string.switch_game_warn);
                         } else {
@@ -832,11 +832,11 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
                 @Override
                 public void onSuccess(MonopolyCardsResp resp) {
                     super.onSuccess(resp);
-                    SudMGPAPPState.APPCommonGamePlayerMonopolyCards backModel = new SudMGPAPPState.APPCommonGamePlayerMonopolyCards();
+                    SudGIPAPPState.APPCommonGamePlayerMonopolyCards backModel = new SudGIPAPPState.APPCommonGamePlayerMonopolyCards();
                     backModel.reroll_card_count = resp.rerollCardCount;
                     backModel.free_rent_card_count = resp.freeRentCardCount;
                     backModel.ctrl_dice_card_count = resp.ctrlDiceCardCount;
-                    gameViewModel.notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_PLAYER_MONOPOLY_CARDS, backModel);
+                    gameViewModel.notifyStateChange(SudGIPAPPState.APP_COMMON_GAME_PLAYER_MONOPOLY_CARDS, backModel);
                 }
             });
         });
@@ -847,7 +847,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
             webGameOnPay(new WebGameOnPayListener() {
                 @Override
                 public void onSuccess() {
-                    gameViewModel.notifyStateChange(SudMGPAPPState.APP_COMMON_UPDATE_GAME_MONEY, new SudMGPAPPState.AppCommonUpdateGameMoney());
+                    gameViewModel.notifyStateChange(SudGIPAPPState.APP_COMMON_UPDATE_GAME_MONEY, new SudGIPAPPState.AppCommonUpdateGameMoney());
                 }
             });
         });
@@ -858,9 +858,9 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
                 @Override
                 public void onSuccess(GamePlayerPropsResp gamePlayerPropsResp) {
                     super.onSuccess(gamePlayerPropsResp);
-                    SudMGPAPPState.AppCommonGamePlayerPropsCards appCommonGamePlayerPropsCards = new SudMGPAPPState.AppCommonGamePlayerPropsCards();
+                    SudGIPAPPState.AppCommonGamePlayerPropsCards appCommonGamePlayerPropsCards = new SudGIPAPPState.AppCommonGamePlayerPropsCards();
                     appCommonGamePlayerPropsCards.props = gamePlayerPropsResp.props;
-                    gameViewModel.notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_PLAYER_PROPS_CARDS, appCommonGamePlayerPropsCards);
+                    gameViewModel.notifyStateChange(SudGIPAPPState.APP_COMMON_GAME_PLAYER_PROPS_CARDS, appCommonGamePlayerPropsCards);
                 }
             });
         });
@@ -899,7 +899,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         }
     }
 
-    private void onScaleModelMsg(SudMGPMGState.MGCommonAiLargeScaleModelMsg model) {
+    private void onScaleModelMsg(SudGIPMGState.MGCommonAiLargeScaleModelMsg model) {
         if (model == null) {
             return;
         }
@@ -938,7 +938,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
     }
 
     /** 游戏回调，创建订单 */
-    private void onGameCreateOrder(SudMGPMGState.MGCommonGameCreateOrder model) {
+    private void onGameCreateOrder(SudGIPMGState.MGCommonGameCreateOrder model) {
         if (model == null) {
             return;
         }
@@ -963,7 +963,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
                 private void sendCallbackToGame(boolean isSuccess) {
                     APPCommonGameCreateOrderResult model = new APPCommonGameCreateOrderResult();
                     model.result = isSuccess ? 1 : 0;
-                    gameViewModel.notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_CREATE_ORDER_RESULT, model);
+                    gameViewModel.notifyStateChange(SudGIPAPPState.APP_COMMON_GAME_CREATE_ORDER_RESULT, model);
                 }
 
             });
@@ -984,7 +984,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         });
     }
 
-    private void onGameSetScore(SudMGPMGState.MGCommonGameSetScore model) {
+    private void onGameSetScore(SudGIPMGState.MGCommonGameSetScore model) {
         if (model == null) {
             return;
         }
@@ -1122,8 +1122,8 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         // 4,并且该用户加入了游戏，可以将他踢出游戏
         int kickGameKey = 2;
         if (playingGameId > 0
-                && gameViewModel.getGameState() != SudMGPMGState.MGCommonGameState.PLAYING
-                && gameViewModel.getGameState() != SudMGPMGState.MGCommonGameState.LOADING
+                && gameViewModel.getGameState() != SudGIPMGState.MGCommonGameState.PLAYING
+                && gameViewModel.getGameState() != SudGIPMGState.MGCommonGameState.LOADING
                 && gameViewModel.isCaptain(selfUserId)
                 && gameViewModel.playerIsIn(userId)) {
             options.put(kickGameKey, getString(R.string.kick_game));
@@ -1942,11 +1942,11 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
     }
 
     @Override
-    public void onAudio3DConfig(SudMGPAPPState.AppCustomCrSetRoomConfig model) {
+    public void onAudio3DConfig(SudGIPAPPState.AppCustomCrSetRoomConfig model) {
     }
 
     @Override
-    public void onAudio3DSeats(SudMGPAPPState.AppCustomCrSetSeats model) {
+    public void onAudio3DSeats(SudGIPAPPState.AppCustomCrSetSeats model) {
     }
 
     @Override
@@ -1963,12 +1963,12 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
             return;
         }
         for (String uid : model.content.receiverUidList) {
-            SudMGPAPPState.APPCommonGameShowMonopolyCardEffect state = new SudMGPAPPState.APPCommonGameShowMonopolyCardEffect();
+            SudGIPAPPState.APPCommonGameShowMonopolyCardEffect state = new SudGIPAPPState.APPCommonGameShowMonopolyCardEffect();
             state.type = model.content.type;
             state.fromUid = model.content.senderUid;
             state.toUid = uid;
             state.count = model.content.amount;
-            gameViewModel.notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_SHOW_MONOPOLY_CARD_EFFECT, state);
+            gameViewModel.notifyStateChange(SudGIPAPPState.APP_COMMON_GAME_SHOW_MONOPOLY_CARD_EFFECT, state);
         }
     }
 
@@ -1978,12 +1978,12 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
             return;
         }
         for (String uid : model.content.receiverUidList) {
-            SudMGPAPPState.AppCommonGamePlayerPropsCardsEffect state = new SudMGPAPPState.AppCommonGamePlayerPropsCardsEffect();
+            SudGIPAPPState.AppCommonGamePlayerPropsCardsEffect state = new SudGIPAPPState.AppCommonGamePlayerPropsCardsEffect();
             state.paid_events_type = model.content.paidEventType;
             state.fromUid = model.content.senderUid;
             state.toUid = uid;
             state.count = model.content.amount;
-            gameViewModel.notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_PLAYER_PROPS_CARDS_EFFECT, state);
+            gameViewModel.notifyStateChange(SudGIPAPPState.APP_COMMON_GAME_PLAYER_PROPS_CARDS_EFFECT, state);
         }
     }
 
@@ -2004,8 +2004,8 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
     protected void kickUserFromGame(String userId) {
         if (playingGameId > 0
                 && gameViewModel.isCaptain(HSUserInfo.userId)
-                && gameViewModel.getGameState() != SudMGPMGState.MGCommonGameState.PLAYING
-                && gameViewModel.getGameState() != SudMGPMGState.MGCommonGameState.LOADING) {
+                && gameViewModel.getGameState() != SudGIPMGState.MGCommonGameState.PLAYING
+                && gameViewModel.getGameState() != SudGIPMGState.MGCommonGameState.LOADING) {
             gameViewModel.notifyAPPCommonSelfKick(userId);
         }
     }

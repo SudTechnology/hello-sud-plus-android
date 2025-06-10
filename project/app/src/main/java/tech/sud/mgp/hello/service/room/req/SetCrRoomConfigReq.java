@@ -1,6 +1,6 @@
 package tech.sud.mgp.hello.service.room.req;
 
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPAPPState;
 
 public class SetCrRoomConfigReq {
 
@@ -15,7 +15,7 @@ public class SetCrRoomConfigReq {
     public int micphoneWave; // 是否开启麦浪边框效果  0:关  1:开
     public int showGiftValue; // 是否显示心动值  0:隐藏  1:显示
 
-    public void setConfig(SudMGPAPPState.AppCustomCrSetRoomConfig config) {
+    public void setConfig(SudGIPAPPState.AppCustomCrSetRoomConfig config) {
         if (config == null) {
             return;
         }

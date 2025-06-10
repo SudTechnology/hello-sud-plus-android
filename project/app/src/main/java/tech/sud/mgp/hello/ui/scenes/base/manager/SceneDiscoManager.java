@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPAPPState;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
@@ -139,7 +139,7 @@ public class SceneDiscoManager extends BaseServiceManager {
     private void callbackAction(String dataJson) {
         SceneRoomServiceCallback callback = parentManager.getCallback();
         if (callback != null) {
-            callback.notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_DISCO_ACTION, dataJson, null);
+            callback.notifyStateChange(SudGIPAPPState.APP_COMMON_GAME_DISCO_ACTION, dataJson, null);
         }
     }
 

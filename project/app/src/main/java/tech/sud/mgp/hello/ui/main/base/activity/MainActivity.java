@@ -38,6 +38,7 @@ import tech.sud.mgp.hello.ui.main.home.HomeFragment;
 import tech.sud.mgp.hello.ui.main.room.RoomFragment;
 import tech.sud.mgp.hello.ui.main.settings.fragment.SettingsFragment;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
+import tech.sud.mgp.hello.ui.scenes.common.gift.manager.GiftHelper;
 
 /**
  * 首页
@@ -64,6 +65,7 @@ public class MainActivity extends BaseActivity implements MainTabView.TabClickLi
     @Override
     protected void initWidget() {
         super.initWidget();
+        GiftHelper.getInstance().creatGifts(this);
         viewPager = findViewById(R.id.viewPager);
         tabLayout = findViewById(R.id.tab_layout);
         View view = viewPager.getChildAt(0);

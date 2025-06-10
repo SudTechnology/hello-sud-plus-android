@@ -11,7 +11,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.blankj.utilcode.util.ToastUtils;
 
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPAPPState;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
@@ -32,7 +32,7 @@ public class Audio3DSettingsDialog extends BaseDialogFragment {
     private View mContainerSound;
 
     private long mRoomId;
-    private SudMGPAPPState.AppCustomCrSetRoomConfig mConfig;
+    private SudGIPAPPState.AppCustomCrSetRoomConfig mConfig;
     private final MutableLiveData<Object> mUpdateConfigLiveData = new MutableLiveData<>();
     private OnConfigChangeListener mOnConfigChangeListener;
 
@@ -78,7 +78,7 @@ public class Audio3DSettingsDialog extends BaseDialogFragment {
     }
 
     private void updateConfig() {
-        SudMGPAPPState.AppCustomCrSetRoomConfig config = mConfig;
+        SudGIPAPPState.AppCustomCrSetRoomConfig config = mConfig;
         if (config == null) {
             return;
         }
@@ -148,7 +148,7 @@ public class Audio3DSettingsDialog extends BaseDialogFragment {
     }
 
     private void reqSetConfig() {
-        SudMGPAPPState.AppCustomCrSetRoomConfig config = mConfig;
+        SudGIPAPPState.AppCustomCrSetRoomConfig config = mConfig;
         if (config == null) {
             return;
         }
@@ -169,7 +169,7 @@ public class Audio3DSettingsDialog extends BaseDialogFragment {
         }
     }
 
-    public void setConfig(long roomId, SudMGPAPPState.AppCustomCrSetRoomConfig config) {
+    public void setConfig(long roomId, SudGIPAPPState.AppCustomCrSetRoomConfig config) {
         mRoomId = roomId;
         mConfig = config;
         mUpdateConfigLiveData.setValue(config);
@@ -180,7 +180,7 @@ public class Audio3DSettingsDialog extends BaseDialogFragment {
     }
 
     public interface OnConfigChangeListener {
-        void onChange(SudMGPAPPState.AppCustomCrSetRoomConfig config);
+        void onChange(SudGIPAPPState.AppCustomCrSetRoomConfig config);
     }
 
 }

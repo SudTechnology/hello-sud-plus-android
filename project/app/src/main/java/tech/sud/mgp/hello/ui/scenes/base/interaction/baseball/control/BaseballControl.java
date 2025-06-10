@@ -9,9 +9,9 @@ import androidx.lifecycle.Observer;
 
 import java.util.List;
 
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState;
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPAPPState.APPCommonGameCreateOrderResult;
-import tech.sud.mgp.SudMGPWrapper.state.SudMGPMGState;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPAPPState;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPAPPState.APPCommonGameCreateOrderResult;
+import tech.sud.gip.SudGIPWrapper.state.SudGIPMGState;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseDialogFragment;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
@@ -102,7 +102,7 @@ public class BaseballControl extends BaseInteractionControl {
         baseballGameViewModel.baseballPrepareCompletedLiveData.observe(activity, o -> onBaseballPrepareCompleted());
         baseballGameViewModel.destroyBaseballLiveData.observe(activity, o -> stopInteractionGame());
         baseballGameViewModel.baseballClickRectLiveData.observe(activity, model -> {
-            List<SudMGPMGState.InteractionClickRect> list = null;
+            List<SudGIPMGState.InteractionClickRect> list = null;
             if (model != null) {
                 list = model.list;
             }
@@ -111,7 +111,7 @@ public class BaseballControl extends BaseInteractionControl {
         baseballGameViewModel.gameCreateOrderLiveData.observe(activity, this::onGameCreateOrder);
     }
 
-    private void onGameCreateOrder(SudMGPMGState.MGCommonGameCreateOrder model) {
+    private void onGameCreateOrder(SudGIPMGState.MGCommonGameCreateOrder model) {
         if (model == null) {
             return;
         }
@@ -130,7 +130,7 @@ public class BaseballControl extends BaseInteractionControl {
         dialog.show();
     }
 
-    private void sendBaseBallPlay(SudMGPMGState.MGCommonGameCreateOrder model) {
+    private void sendBaseBallPlay(SudGIPMGState.MGCommonGameCreateOrder model) {
         BaseballPlayReq req = new BaseballPlayReq();
         req.cmd = model.cmd;
         req.number = model.value;
@@ -151,7 +151,7 @@ public class BaseballControl extends BaseInteractionControl {
             private void sendCallbackToGame(boolean isSuccess) {
                 APPCommonGameCreateOrderResult model = new APPCommonGameCreateOrderResult();
                 model.result = isSuccess ? 1 : 0;
-                baseballGameViewModel.notifyStateChange(SudMGPAPPState.APP_COMMON_GAME_CREATE_ORDER_RESULT, model);
+                baseballGameViewModel.notifyStateChange(SudGIPAPPState.APP_COMMON_GAME_CREATE_ORDER_RESULT, model);
             }
 
         });
@@ -161,7 +161,7 @@ public class BaseballControl extends BaseInteractionControl {
         // 打开棒球主页面
         if (isShowBaseballScene) {
             isShowBaseballScene = false;
-            baseballGameViewModel.notifyAppBaseballShowGameScene(new SudMGPAPPState.AppBaseballShowGameScene());
+            baseballGameViewModel.notifyAppBaseballShowGameScene(new SudGIPAPPState.AppBaseballShowGameScene());
         }
         hideLoadingDialog();
     }
@@ -171,7 +171,7 @@ public class BaseballControl extends BaseInteractionControl {
         boolean success = startBaseball();
         if (success) {
             isShowBaseballScene = true;
-            baseballGameViewModel.notifyAppBaseballShowGameScene(new SudMGPAPPState.AppBaseballShowGameScene());
+            baseballGameViewModel.notifyAppBaseballShowGameScene(new SudGIPAPPState.AppBaseballShowGameScene());
         }
     }
 

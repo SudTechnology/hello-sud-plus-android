@@ -1,6 +1,6 @@
 rootProject.name = "hello-sud-android"
 include ':app'
-include ':SudMGPWrapper'
+include ':SudGIPWrapper'
 include ':QuickStart'
 include ':SudMGPRTC'
 include ':SudMGPRTC:SudMGPRtcAgora'
@@ -17,4 +17,4 @@ include ':SudNFT:SudNFTSDK'
 include ':SudNFT:SudNFTQuickStart'
 include ':SudMGPRTC:SudMGPIM'
 include ':SudMGPRTC:SudMGPIMCore'
-include ':SudMGPSDK'
+include ':SudGIPSDK'

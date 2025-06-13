@@ -591,5 +591,6 @@
     <string name="baseball_consume_title">Bạn có muốn tiêu %1$s xu để chơi %2$s lần không?</string>
     <string name="game_loading">Đang tải… %1$s</string>
     <string name="present_gift">Tặng %1$s</string>
+    <string name="large_model">Mô hình lớn</string>
 
 </resources>

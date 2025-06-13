@@ -1,5 +1,7 @@
 package tech.sud.mgp.hello.ui.scenes.base.viewmodel;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -14,7 +16,9 @@ import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.Utils;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import tech.sud.gip.SudGIPWrapper.decorator.SudFSMMGDecorator;
@@ -27,8 +31,10 @@ import tech.sud.gip.SudGIPWrapper.state.SudGIPAPPState;
 import tech.sud.gip.SudGIPWrapper.state.SudGIPMGState;
 import tech.sud.gip.SudGIPWrapper.utils.GameCommonStateUtils;
 import tech.sud.gip.SudGIPWrapper.utils.ISudFSMStateHandleUtils;
+import tech.sud.gip.core.ISudAiAgent;
 import tech.sud.gip.core.ISudFSMStateHandle;
 import tech.sud.gip.core.ISudFSTAPP;
+import tech.sud.gip.core.ISudListenerAiAgent;
 import tech.sud.gip.core.ISudListenerInitSDK;
 import tech.sud.gip.core.ISudListenerNotifyStateChange;
 import tech.sud.gip.core.ISudListenerPreloadMGPkg;
@@ -92,6 +98,7 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
     public final MutableLiveData<Object> captainChangeLiveData = new MutableLiveData<>(); // 队长变化了
     public final MutableLiveData<GameLoadingProgressModel> gameLoadingProgressLiveData = new MutableLiveData<>(); // 游戏加载进度回调
     public final MutableLiveData<Object> onGameGetScoreLiveData = new MutableLiveData<>(); // 游戏通知app获取积分
+    public final MutableLiveData<String> onAiRoomMessageLiveData = new MutableLiveData<>(); // 通知app，AI房间消息
     public final MutableLiveData<SudGIPMGState.MGCommonGameSetScore> onGameSetScoreLiveData = new MutableLiveData<>(); // 24. 游戏通知app带入积分
     public final MutableLiveData<SudGIPMGState.MGCommonGameSettle> gameSettleLiveData = new MutableLiveData<>(); // 游戏结算
     public final MutableLiveData<SudGIPMGState.MGCommonGamePlayerMonopolyCards> monopolyCardsLiveData = new MutableLiveData<>(); // 大富翁获取道具
@@ -101,6 +108,7 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
 
     public MutableLiveData<SudGIPMGState.MGCommonGameCreateOrder> gameCreateOrderLiveData = new MutableLiveData<>(); // 创建订单
     public MutableLiveData<SudGIPMGState.MGCommonAiMessage> aiMessageLiveData = new MutableLiveData<>(); // 创建订单
+    public final MutableLiveData<SudGIPMGState.MGCommonAiLargeScaleModelMsg> scaleModelMsgLiveData = new MutableLiveData<>(); // 通知app ai大模型消息
 
     protected boolean isRunning = true; // 业务是否还在运行
     public View gameView; // 游戏View
@@ -112,6 +120,13 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
 
     protected boolean closeGameIsCheckFinishGame = true; // 关闭游戏前，是否需要先结束掉游戏
     protected boolean isSendAiMessage; // 向AI发送消息
+    private ISudAiAgent aiAgent;
+    private boolean isNotifyAiMicState;
+
+    private final Map<String, Integer> userSoundState = new HashMap<>();
+    private final Map<String, Runnable> timeoutTasks = new HashMap<>();
+    private final Handler handler = new Handler(Looper.getMainLooper());
+    private static final int TIMEOUT_MS = 3000;
 
     public AppGameViewModel() {
         sudFSTAPPDecorator.setOnNotifyStateChangeListener(this);
@@ -348,6 +363,14 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
             return;
         }
 
+        aiAgent = iSudFSTAPP.getAiAgent();
+        aiAgent.setISudListenerAiAgent(new ISudListenerAiAgent() {
+            @Override
+            public void onRoomChatMessage(String s) {
+                onAiRoomMessageLiveData.setValue(s);
+            }
+        });
+
         // APP调用游戏接口的装饰类设置
         sudFSTAPPDecorator.setISudFSTAPP(iSudFSTAPP);
 
@@ -421,6 +444,8 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
             gameLoadingCompletedLiveData.setValue(false);
             notifyShowFinishGameBtn();
             isSendAiMessage = false;
+            aiAgent = null;
+            isNotifyAiMicState = false;
         }
     }
 
@@ -671,6 +696,9 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
      */
     public void onCapturedAudioData(AudioPCMData audioPCMData) {
         sudFSTAPPDecorator.pushAudio(audioPCMData.data, audioPCMData.dataLength);
+        if (isAiGame() && aiAgent != null) {
+            aiAgent.pushAudio(audioPCMData.data, audioPCMData.dataLength);
+        }
     }
 
     /**
@@ -680,6 +708,8 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
         if (msg == null || msg.isEmpty()) {
             return;
         }
+
+        sendAiText(msg);
 
         sendAiMessage(msg);
 
@@ -697,6 +727,19 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
             sudFSTAPPDecorator.notifyAPPCommonSelfTextHitState(true, keyword, msg);
             gameKeywordLiveData.setValue(null);
         }
+    }
+
+    private void sendAiText(String msg) {
+        if (isAiGame() && aiAgent != null) {
+            aiAgent.sendText(msg);
+        }
+    }
+
+    private boolean isAiGame() {
+        if (playingGameId == GameIdCons.SOUL_STONE || playingGameId == GameIdCons.LUDO) {
+            return true;
+        }
+        return false;
     }
 
     // 向ai游戏发送公屏消息
@@ -866,6 +909,9 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
         }
         gameLoadingCompletedLiveData.setValue(true);
         gameStartedLiveData.setValue(true);
+        if (isAiGame()) { // 测试，AI对话
+            gameASRLiveData.setValue(true);
+        }
     }
 
     @Override
@@ -1035,6 +1081,12 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
         onGamePlayerPropsCardsLiveData.setValue(model);
     }
 
+    @Override
+    public void onGameMGCommonAiLargeScaleModelMsg(ISudFSMStateHandle handle, SudGIPMGState.MGCommonAiLargeScaleModelMsg model) {
+        SudFSMMGListener.super.onGameMGCommonAiLargeScaleModelMsg(handle, model);
+        scaleModelMsgLiveData.setValue(model);
+    }
+
     // endregion 游戏侧回调
 
     public void preloadMG(FragmentActivity activity, List<Long> mgIdList) {
@@ -1122,8 +1174,71 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
         aiMessageLiveData.setValue(model);
     }
 
+    @Override
+    public void onGameMGCommonGamePlayerMicState(ISudFSMStateHandle handle, SudGIPMGState.MGCommonGamePlayerMicState model) {
+        SudFSMMGListener.super.onGameMGCommonGamePlayerMicState(handle, model);
+        isNotifyAiMicState = true;
+    }
+
     public void reloadMG() {
         sudFSTAPPDecorator.reloadMG();
     }
 
+    public void setMicOpened(boolean isOpened) {
+        if (!isOpened && aiAgent != null) {
+            aiAgent.pauseAudio();
+        }
+    }
+
+    public void notifyGameMicState(String userId, boolean micIsOpened) {
+        notifyGameMicState(userId, micIsOpened ? 1 : 0);
+    }
+
+    public void notifyGameMicState(String userId, int state) {
+        SudGIPAPPState.AppCommonGamePlayerMicState model = new SudGIPAPPState.AppCommonGamePlayerMicState();
+        model.uid = userId;
+        model.state = state;
+        notifyStateChange(SudGIPAPPState.APP_COMMON_GAME_PLAYER_MIC_STATE, model);
+    }
+
+    public void onSoundLevel(String userId, float soundLevel) {
+        if (!isAiGame()) {
+            return;
+        }
+        int newState = soundLevel > 1 ? 1 : 0;
+        Integer currentState = userSoundState.get(userId);
+
+        if (currentState == null || currentState != newState) {
+            userSoundState.put(userId, newState);
+            notifyGameMicState(userId, newState);
+        }
+
+        // 如果是新来的 1，或重复 1，也要刷新 timeout
+        if (newState == 1) {
+            refreshTimeout(userId);
+        } else {
+            // 是 0 的话直接取消 timeout
+            cancelTimeout(userId);
+            notifyGameMicState(userId, newState);
+        }
+    }
+
+    private void refreshTimeout(String userId) {
+        cancelTimeout(userId); // 先取消旧任务
+
+        Runnable timeoutRunnable = () -> {
+            userSoundState.put(userId, 0);
+            notifyGameMicState(userId, 0);
+        };
+
+        timeoutTasks.put(userId, timeoutRunnable);
+        handler.postDelayed(timeoutRunnable, TIMEOUT_MS);
+    }
+
+    private void cancelTimeout(String userId) {
+        Runnable task = timeoutTasks.remove(userId);
+        if (task != null) {
+            handler.removeCallbacks(task);
+        }
+    }
 }

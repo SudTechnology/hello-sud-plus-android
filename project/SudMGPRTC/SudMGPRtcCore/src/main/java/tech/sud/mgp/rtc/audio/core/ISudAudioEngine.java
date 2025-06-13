@@ -132,5 +132,7 @@ public interface ISudAudioEngine {
      * @param streamID
      */
     void stopPlayingStream(String streamID);
+
+    void playAudio(SudAudioSource audioSource);
     // endregion
 }

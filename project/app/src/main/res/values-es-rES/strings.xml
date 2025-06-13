@@ -591,6 +591,6 @@ Vaya a la página de inicio para crear una!</string>
     <string name="baseball_consume_title">¿Deseas gastar %1$s monedas para jugar %2$s veces?</string>
     <string name="game_loading">Cargando… %1$s</string>
     <string name="present_gift">Enviar %1$s</string>
-
+    <string name="large_model">Modelo Grande</string>
 
 </resources>

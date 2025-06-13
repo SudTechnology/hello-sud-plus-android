@@ -99,3 +99,6 @@
 
 # Accessed via reflection, avoid renaming or removal
 -keep class org.greenrobot.eventbus.android.AndroidComponentsImpl
+
+# 禁止优化掉代码，因为声网播放器registerPlayerObserver在混淆时可能被优化掉了一些东西，导致没有回调回来，可能跟Proguard/R8版本也有关系，未找到声网官方解决方法，先禁用全局优化
+-dontoptimize

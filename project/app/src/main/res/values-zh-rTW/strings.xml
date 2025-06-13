@@ -591,6 +591,6 @@
     <string name="baseball_consume_title">是否花費%1$s金幣打%2$s次</string>
     <string name="game_loading">正在加載…%1$s</string>
     <string name="present_gift">送%1$s</string>
-
+    <string name="large_model">大模型</string>
 
 </resources>

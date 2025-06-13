@@ -492,7 +492,7 @@ Go to homepage to create one~</string>
     <string name="disco_explain_1">1. Contribution rank %1$s random DJ (%2$s seconds refresh).</string>
     <string name="waiting">Waiting</string>
 
-    <!-- region 只翻译了英语 -->
+
     <string name="add_robot">Add Robot</string>
     <string name="go_rocket_stage">Turn on the rocket…</string>
     <string name="go_baseball_stage">Turn on the baseball…</string>
@@ -718,8 +718,10 @@ Go to homepage to create one~</string>
     <string name="sound_effect_closed">Sound effect disabled</string>
     <string name="hold_to_speak">Hold to speak</string>
     <string name="end_of_release">Release to end</string>
-    <!-- endregion 只翻译了英语 -->
+    <string name="large_model">Large Model</string>
 
+    <!-- region 只翻译了英语 -->
+    <!-- endregion 只翻译了英语 -->
 
     <!-- region 新增 -->
 

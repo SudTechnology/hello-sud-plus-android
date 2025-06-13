@@ -589,6 +589,7 @@
     <string name="sound_effect_closed">음향 효과 꺼짐</string>
     <string name="hold_to_speak">눌러서 말하기</string>
     <string name="end_of_release">떼면 종료</string>
+    <string name="large_model">대형 모델</string>
 
 
 </resources>

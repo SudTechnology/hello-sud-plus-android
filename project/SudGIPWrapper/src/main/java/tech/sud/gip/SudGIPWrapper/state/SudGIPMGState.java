@@ -978,6 +978,38 @@ public class SudGIPMGState implements Serializable {
         public String content; // ai message
     }
 
+    /**
+     * 64. 通知app ai大模型消息
+     */
+    public static final String MG_COMMON_AI_LARGE_SCALE_MODEL_MSG = "mg_common_ai_large_scale_model_msg";
+
+    /**
+     * 64. 通知app ai大模型消息 模型
+     */
+    public static class MGCommonAiLargeScaleModelMsg implements Serializable {
+        public UserInfo sendUser; // 发送者信息
+        public int messageType; // 1: 所有人，2: 指定人，3: 系统消息
+        public List<UserInfo> receiveUserInfos; // 当message_type=2时，接收人信息数组
+        public String content; // 消息内容
+        public String audioData; // 音频数据，base64编码
+
+        public static class UserInfo implements Serializable {
+            public String playerId; // ai 玩家id
+            public String nickName; // 昵称
+        }
+    }
+
+    /**
+     * 65. 通知app可以开始推送麦克说话状态
+     */
+    public static final String MG_COMMON_GAME_PLAYER_MIC_STATE = "mg_common_game_player_mic_state";
+
+    /**
+     * 65. 通知app可以开始推送麦克说话状态 模型
+     */
+    public static class MGCommonGamePlayerMicState implements Serializable {
+    }
+
     // endregion 通用状态-游戏
 
     // region MG状态机-通用状态-玩家

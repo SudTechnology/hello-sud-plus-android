@@ -591,6 +591,6 @@
     <string name="baseball_consume_title">คุณต้องการใช้เหรียญ %1$s เพื่อเล่น %2$s ครั้งหรือไม่?</string>
     <string name="game_loading">กำลังโหลด… %1$s</string>
     <string name="present_gift">ส่ง %1$s</string>
-
+    <string name="large_model">โมเดลขนาดใหญ่</string>
 
 </resources>

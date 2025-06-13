@@ -592,5 +592,6 @@ Buat ruangan di Beranda</string>
     <string name="baseball_consume_title">Apakah Anda ingin menghabiskan %1$s koin untuk bermain %2$s kali?</string>
     <string name="game_loading">Sedang memuat… %1$s</string>
     <string name="present_gift">Kirim %1$s</string>
-
+    <string name="large_model">Model Besar</string>
+    
 </resources>

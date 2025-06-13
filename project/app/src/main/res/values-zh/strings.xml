@@ -595,5 +595,6 @@
     <string name="sound_effect_closed">已关闭声音特效展示</string>
     <string name="hold_to_speak">按住说话</string>
     <string name="end_of_release">松开结束</string>
+    <string name="large_model">大模型</string>
 
 </resources>

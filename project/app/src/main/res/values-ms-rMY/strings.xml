@@ -591,6 +591,7 @@ Kunjungi laman utama untuk mencipta satu~</string>
     <string name="baseball_consume_title">Adakah anda ingin membelanjakan %1$s syiling untuk bermain %2$s kali?</string>
     <string name="game_loading">Sedang dimuatkan… %1$s</string>
     <string name="present_gift">Hantar %1$s</string>
+    <string name="large_model">Model Besar</string>
 
 
 </resources>

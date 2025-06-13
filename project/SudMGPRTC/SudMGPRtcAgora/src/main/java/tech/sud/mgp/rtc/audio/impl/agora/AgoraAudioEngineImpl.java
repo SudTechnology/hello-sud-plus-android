@@ -25,6 +25,7 @@ import tech.sud.mgp.rtc.audio.core.AudioRoomState;
 import tech.sud.mgp.rtc.audio.core.ISudAudioEngine;
 import tech.sud.mgp.rtc.audio.core.ISudAudioEventListener;
 import tech.sud.mgp.rtc.audio.core.MediaViewMode;
+import tech.sud.mgp.rtc.audio.core.SudAudioSource;
 import tech.sud.mgp.rtc.audio.model.AudioConfigModel;
 import tech.sud.mgp.rtc.audio.model.AudioJoinRoomModel;
 
@@ -35,6 +36,7 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
 
     private ISudAudioEventListener mISudAudioEventListener;
     private RtcEngine mEngine;
+    private AgoraAudioMsgPlayer mAgoraAudioMsgPlayer;
 
     // 信令相关
     private boolean isStartedPCMData;
@@ -248,6 +250,17 @@ public class AgoraAudioEngineImpl implements ISudAudioEngine {
 
     @Override
     public void stopPlayingStream(String streamID) {
+    }
+
+    @Override
+    public void playAudio(SudAudioSource audioSource) {
+        if (audioSource == null) {
+            return;
+        }
+        if (mAgoraAudioMsgPlayer == null) {
+            mAgoraAudioMsgPlayer = new AgoraAudioMsgPlayer();
+        }
+        mAgoraAudioMsgPlayer.play(mEngine, audioSource.audioDatas, audioSource.sudAudioPlayListener);
     }
 
     private AudioRoomState convertAudioRoomState(int state) {

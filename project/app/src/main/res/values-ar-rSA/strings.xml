@@ -590,5 +590,6 @@
     <string name="sound_effect_closed">تم إيقاف تشغيل عرض المؤثرات الصوتية</string>
     <string name="hold_to_speak">تمسك بالتحدث</string>
     <string name="end_of_release">ينتهي الافراج</string>
-
+    <string name="large_model">النموذج الكبير</string>
+    
 </resources>

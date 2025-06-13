@@ -589,6 +589,7 @@
     <string name="sound_effect_closed">サウンドエフェクトをオフにしました</string>
     <string name="hold_to_speak">押して話す</string>
     <string name="end_of_release">離して終了</string>
+    <string name="large_model">大規模モデル</string>
 
 
 </resources>

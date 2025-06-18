@@ -893,6 +893,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
             JSONObject obj = new JSONObject(json);
             String audioData = obj.getString("audioData");
             String uid = obj.optString("uid");
+            String content = obj.optString("content"); // 文本内容
             playAudioData(uid, audioData);
         } catch (Exception e) {
             e.printStackTrace();

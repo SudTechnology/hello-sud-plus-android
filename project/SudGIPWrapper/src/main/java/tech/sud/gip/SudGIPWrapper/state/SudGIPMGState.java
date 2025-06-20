@@ -666,17 +666,16 @@ public class SudGIPMGState implements Serializable {
     }
 
     /**
-     * 37. 游戏通知app当前游戏的设置信息（只支持德州pro，teenpatti pro）
+     * 37. 游戏通知app当前游戏的设置信息
      */
     public static final String MG_COMMON_GAME_RULE = "mg_common_game_rule";
 
     /**
-     * 37. 游戏通知app当前游戏的设置信息（只支持德州pro，teenpatti pro） 模型
+     * 37. 游戏通知app当前游戏的设置信息 模型
      */
     public static class MGCommonGameRule implements Serializable {
         public GameRuleModel gameMode;
 
-        // 德州与teenpatti的结构融合在一起
         public static class GameRuleModel {
             public Integer smallBlind; // 小盲
             public Integer ante; // 前注
@@ -690,6 +689,7 @@ public class SudGIPMGState implements Serializable {
             public Integer potLimit; // 最大带入
             public Integer round; // 最大回合
             public Integer singleLimit; // 单注限
+            public Integer mode_ex;
         }
     }
 

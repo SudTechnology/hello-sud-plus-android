@@ -433,7 +433,7 @@ public class SudFSMMGDecorator implements ISudFSMMG {
                     listener.onGameMGCommonGameIsAppChip(handle, mgCommonGameIsAppChip);
                 }
                 break;
-            case SudGIPMGState.MG_COMMON_GAME_RULE: // 37. 游戏通知app当前游戏的设置信息（只支持德州pro，teenpatti pro）
+            case SudGIPMGState.MG_COMMON_GAME_RULE: // 37. 游戏通知app当前游戏的设置信息
                 SudGIPMGState.MGCommonGameRule mgCommonGameRule = SudJsonUtils.fromJson(dataJson, SudGIPMGState.MGCommonGameRule.class);
                 if (listener == null) {
                     ISudFSMStateHandleUtils.handleSuccess(handle);

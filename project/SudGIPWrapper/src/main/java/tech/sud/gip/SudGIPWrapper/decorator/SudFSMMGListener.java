@@ -415,8 +415,8 @@ public interface SudFSMMGListener {
     }
 
     /**
-     * 37. 游戏通知app当前游戏的设置信息（只支持德州pro，teenpatti pro）
-     * 37. Game Notification App: Current Game Settings Information (Only supports Texas Hold'em Pro and Teen Patti Pro)
+     * 37. 游戏通知app当前游戏的设置信息
+     * 37. Game Notification App: Current Game Settings Information
      * mg_common_game_rule
      */
     default void onGameMGCommonGameRule(ISudFSMStateHandle handle, SudGIPMGState.MGCommonGameRule model) {

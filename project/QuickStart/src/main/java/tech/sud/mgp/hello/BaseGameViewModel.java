@@ -22,6 +22,7 @@ import tech.sud.gip.SudGIPWrapper.model.GameConfigModel;
 import tech.sud.gip.SudGIPWrapper.model.GameViewInfoModel;
 import tech.sud.gip.SudGIPWrapper.state.MGStateResponse;
 import tech.sud.gip.SudGIPWrapper.utils.SudJsonUtils;
+import tech.sud.gip.core.ISudAiAgent;
 import tech.sud.gip.core.ISudFSMStateHandle;
 import tech.sud.gip.core.ISudFSTAPP;
 import tech.sud.gip.core.ISudListenerInitSDK;
@@ -623,6 +624,31 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
     /** 获取当前正在玩的游戏id */
     public long getPlayingGameId() {
         return playingGameId;
+    }
+
+    /**
+     * APP状态通知给小游戏
+     *
+     * @param state 状态标识
+     * @param obj   数据
+     */
+    public void notifyStateChange(String state, Object obj) {
+        sudFSTAPPDecorator.notifyStateChange(state, SudJsonUtils.toJson(obj));
+    }
+
+    /**
+     * APP状态通知给小游戏
+     *
+     * @param state    状态标识
+     * @param dataJson 数据
+     */
+    public void notifyStateChange(String state, String dataJson) {
+        sudFSTAPPDecorator.notifyStateChange(state, dataJson);
+    }
+
+    /** 获取大模型游戏互动的操作句柄，注意需要在游戏加载完成之后才能获取，否则返回的对象会为空 */
+    public ISudAiAgent getAiAgent() {
+        return sudFSTAPPDecorator.getAiAgent();
     }
 
 }

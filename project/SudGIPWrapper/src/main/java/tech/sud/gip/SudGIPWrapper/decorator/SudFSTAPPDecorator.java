@@ -10,6 +10,7 @@ import java.util.List;
 
 import tech.sud.gip.SudGIPWrapper.state.SudGIPAPPState;
 import tech.sud.gip.SudGIPWrapper.utils.SudJsonUtils;
+import tech.sud.gip.core.ISudAiAgent;
 import tech.sud.gip.core.ISudFSTAPP;
 import tech.sud.gip.core.ISudListenerNotifyStateChange;
 
@@ -421,6 +422,15 @@ public class SudFSTAPPDecorator {
 
     public void setOnNotifyStateChangeListener(OnNotifyStateChangeListener onNotifyStateChangeListener) {
         this.onNotifyStateChangeListener = onNotifyStateChangeListener;
+    }
+
+    /** 获取大模型游戏互动的操作句柄，注意需要在游戏加载完成之后才能获取，否则返回的对象会为空 */
+    public ISudAiAgent getAiAgent() {
+        ISudFSTAPP iSudFSTAPP = this.iSudFSTAPP;
+        if (iSudFSTAPP != null) {
+            return iSudFSTAPP.getAiAgent();
+        }
+        return null;
     }
 
     /**

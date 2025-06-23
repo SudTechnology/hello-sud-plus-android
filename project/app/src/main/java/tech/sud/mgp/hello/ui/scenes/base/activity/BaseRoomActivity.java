@@ -423,7 +423,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
             if (level == customRobotLevelBigModel) {
                 showBigModelPopupWindow();
             } else {
-                onClickAddRobot(level, 0, 0);
+                onClickAddRobot(level, 0, null);
             }
             popupWindow.dismiss();
         });
@@ -452,7 +452,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
 
         int idCount = 20;
         for (int i = 1; i <= idCount; i++) {
-            addRobotBigModelItem(popupWindow, container, i); // 大模型
+            addRobotBigModelItem(popupWindow, container, i + ""); // 大模型
         }
 
         int xoff = -(popupWindowWidth / 2 - tvAddRobot.getMeasuredWidth() / 2);
@@ -460,13 +460,13 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         popupWindow.showAsDropDown(tvAddRobot, xoff, yoff);
     }
 
-    private void addRobotBigModelItem(PopupWindow popupWindow, LinearLayout viewRoot, int aiId) {
+    private void addRobotBigModelItem(PopupWindow popupWindow, LinearLayout viewRoot, String aiId) {
         ConstraintLayout parent = new ConstraintLayout(this);
 
         TextView tv = new TextView(this);
         tv.setTextSize(13);
         tv.setTextColor(Color.BLACK);
-        tv.setText(aiId + "");
+        tv.setText(aiId);
         tv.setBackgroundResource(R.drawable.selector_bot_level_item);
         tv.setGravity(Gravity.CENTER);
         ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, DensityUtils.dp2px(20));
@@ -495,7 +495,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
     }
 
     /** 点击了添加机器人 */
-    protected void onClickAddRobot(int level, int aiType, int aiId) {
+    protected void onClickAddRobot(int level, int aiType, String aiId) {
         RoomRepository.robotList(this, 30, new RxCallback<RobotListResp>() {
             @Override
             public void onSuccess(RobotListResp robotListResp) {
@@ -533,7 +533,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
                     modelAIPlayers.avatar = aiPlayers.avatar;
                     modelAIPlayers.name = aiPlayers.name;
                     modelAIPlayers.gender = aiPlayers.gender;
-                    modelAIPlayers.aiId = aiId;
+                    modelAIPlayers.aiIdStr = aiId;
                     aiPlayersList.add(modelAIPlayers);
                     SudGIPAPPState.APPCommonGameAddBigScaleModelAIPlayers model = new SudGIPAPPState.APPCommonGameAddBigScaleModelAIPlayers();
                     model.aiPlayers = aiPlayersList;

@@ -605,7 +605,7 @@ public class SudGIPAPPState implements Serializable {
         public String avatar; // 头像url
         public String name; // 名字
         public String gender; // 性别 male：男，female：女
-        public int aiId; // ai性格 目前支持1~20
+        public String aiIdStr; // ai id
     }
 
     // endregion 通用状态

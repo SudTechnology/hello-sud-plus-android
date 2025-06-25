@@ -114,6 +114,7 @@
                     android:translationY="-20dp" />
 
                 <tech.sud.mgp.hello.ui.main.llm.widget.CreateLlmView
+                    android:id="@+id/create_llm_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 

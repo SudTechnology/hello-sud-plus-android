@@ -21,7 +21,7 @@ public class GameListResp {
         List<GameModel> list = new ArrayList<>();
         for (int i = 0; i < gameList.size(); i++) {
             GameModel model = gameList.get(i);
-            if (model.suitScene.contains(sceneType)) {
+            if (model.suitScene != null && model.suitScene.contains(sceneType)) {
                 list.add(model);
             }
         }

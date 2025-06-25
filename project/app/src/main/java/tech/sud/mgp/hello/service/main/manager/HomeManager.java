@@ -14,6 +14,7 @@ public class HomeManager {
     private static HomeManager homeManager;
     public GameListResp mGameListRespTabScene;
     public GameListResp mGameListRespTabGame;
+    public GameListResp mGameListRespTabLlm;
 
     private HomeManager() {
     }
@@ -46,6 +47,9 @@ public class HomeManager {
         List<GameModel> list = getSceneGame(mGameListRespTabScene, sceneId);
         if (list == null || list.size() == 0) {
             list = getSceneGame(mGameListRespTabGame, sceneId);
+            if (list == null || list.size() == 0) {
+                list = getSceneGame(mGameListRespTabLlm, sceneId);
+            }
         }
         return list;
     }
@@ -72,6 +76,9 @@ public class HomeManager {
         GameModel gameModel = getGameModel(mGameListRespTabScene, gameId);
         if (gameModel == null) {
             gameModel = getGameModel(mGameListRespTabGame, gameId);
+            if (gameModel == null) {
+                gameModel = getGameModel(mGameListRespTabLlm, gameId);
+            }
         }
         return gameModel;
     }

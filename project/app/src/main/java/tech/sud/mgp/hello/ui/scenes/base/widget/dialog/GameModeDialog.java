@@ -149,6 +149,27 @@ public class GameModeDialog extends BaseDialogFragment {
                                 gameModeAdapter.addData(0, new GameModel()); // 添加一个关闭游戏选项
                             }
                         }
+
+                        @Override
+                        public void onFinally() {
+                            super.onFinally();
+                            if (gameModeAdapter.getData().size() == 0) {
+                                HomeRepository.gameListV2(lifecycleOwner, GameListReq.TAB_LLM, new RxCallback<GameListResp>() {
+                                    @Override
+                                    public void onSuccess(GameListResp gameListResp) {
+                                        super.onSuccess(gameListResp);
+                                        if (gameListResp == null) {
+                                            return;
+                                        }
+                                        List<GameModel> gameList = gameListResp.getGameList(sceneType);
+                                        if (gameList != null && gameList.size() > 0) {
+                                            gameModeAdapter.setList(gameList);
+                                            gameModeAdapter.addData(0, new GameModel()); // 添加一个关闭游戏选项
+                                        }
+                                    }
+                                });
+                            }
+                        }
                     });
                 }
             }

@@ -737,6 +737,11 @@ Go to homepage to create one~</string>
     <string name="submit">提交</string>
     <string name="hold_to_record">按住 录制</string>
     <string name="nothing">无</string>
+    <string name="please_start_clonse">请开启分身</string>
+    <string name="voice_warn_min_seconds">录音时长至少%1$s秒</string>
+    <string name="clone_being_created">分身创建中，请稍后</string>
+    <string name="voice_training">音色训练中</string>
+    <string name="voice_training_fail">训练失败请重新提交</string>
     <!-- endregion 新增 -->
 
 </resources>

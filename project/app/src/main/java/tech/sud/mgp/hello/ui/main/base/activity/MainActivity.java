@@ -98,6 +98,15 @@ public class MainActivity extends BaseActivity implements MainTabView.TabClickLi
                 }
             }
         });
+        HomeRepository.gameListV2(null, GameListReq.TAB_LLM, new RxCallback<GameListResp>() {
+            @Override
+            public void onNext(BaseResponse<GameListResp> t) {
+                super.onNext(t);
+                if (t.getRetCode() == RetCode.SUCCESS) {
+                    HomeManager.getInstance().mGameListRespTabLlm = t.getData();
+                }
+            }
+        });
     }
 
     private void getBaseConfig() {

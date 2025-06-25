@@ -18,13 +18,14 @@ import tech.sud.mgp.hello.service.main.resp.GameModel;
 public class SceneRoomViewModel extends BaseViewModel {
 
     private int getGameListTabSceneErrCount;
-
     private int getGameListTabGameErrCount;
+    private int getGameListTabLlmErrCount;
 
     /** 初始化数据 */
     public void initData() {
         getGameListTabScene();
         getGameListTabGame();
+        getGameListTabLlm();
     }
 
     /** 获取游戏列表 */
@@ -99,6 +100,44 @@ public class SceneRoomViewModel extends BaseViewModel {
                     return;
                 }
                 getGameListTabGame();
+            }
+        }, 3000);
+    }
+
+    /** 获取游戏列表 */
+    private void getGameListTabLlm() {
+        if (HomeManager.getInstance().mGameListRespTabLlm != null) {
+            return;
+        }
+
+        HomeRepository.gameListV2(null, GameListReq.TAB_LLM, new RxCallback<GameListResp>() {
+            @Override
+            public void onNext(BaseResponse<GameListResp> t) {
+                super.onNext(t);
+                if (t.getRetCode() == RetCode.SUCCESS) {
+                    HomeManager.getInstance().mGameListRespTabLlm = t.getData();
+                } else {
+                    delayGetGameListTabLlm();
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                delayGetGameListTabLlm();
+            }
+        });
+    }
+
+    private void delayGetGameListTabLlm() {
+        ThreadUtils.runOnUiThreadDelayed(new Runnable() {
+            @Override
+            public void run() {
+                getGameListTabLlmErrCount++;
+                if (getGameListTabLlmErrCount > 3) {
+                    return;
+                }
+                getGameListTabLlm();
             }
         }, 3000);
     }

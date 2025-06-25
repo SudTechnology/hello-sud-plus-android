@@ -1,14 +1,20 @@
 package tech.sud.mgp.hello.ui.main.llm;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
+import com.blankj.utilcode.util.FileIOUtils;
+import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.gyf.immersionbar.ImmersionBar;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 
@@ -18,9 +24,11 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseFragment;
@@ -29,19 +37,29 @@ import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
+import tech.sud.mgp.hello.common.utils.Base64Utils;
 import tech.sud.mgp.hello.common.utils.ViewUtils;
+import tech.sud.mgp.hello.common.utils.WavRecorder;
+import tech.sud.mgp.hello.common.utils.permission.PermissionFragment;
+import tech.sud.mgp.hello.common.utils.permission.SudPermissionUtils;
+import tech.sud.mgp.hello.common.widget.dialog.BottomItemOptionDialog;
 import tech.sud.mgp.hello.service.main.manager.HomeManager;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.main.repository.UserInfoRepository;
 import tech.sud.mgp.hello.service.main.req.GameListReq;
+import tech.sud.mgp.hello.service.main.resp.AiInfoModel;
 import tech.sud.mgp.hello.service.main.resp.CreatRoomResp;
 import tech.sud.mgp.hello.service.main.resp.GameListResp;
 import tech.sud.mgp.hello.service.main.resp.GameModel;
+import tech.sud.mgp.hello.service.main.resp.GetAiCloneResp;
 import tech.sud.mgp.hello.service.main.resp.QuizGameListResp;
+import tech.sud.mgp.hello.service.main.resp.SaveAiCloneResp;
 import tech.sud.mgp.hello.service.main.resp.SceneModel;
 import tech.sud.mgp.hello.service.main.resp.UserInfoResp;
+import tech.sud.mgp.hello.service.room.req.SaveAiCloneReq;
 import tech.sud.mgp.hello.service.room.resp.CrossAppModel;
 import tech.sud.mgp.hello.ui.common.constant.RequestKey;
+import tech.sud.mgp.hello.ui.common.dialog.LoadingDialog;
 import tech.sud.mgp.hello.ui.common.utils.CompletedListener;
 import tech.sud.mgp.hello.ui.common.utils.LifecycleUtils;
 import tech.sud.mgp.hello.ui.main.base.constant.GameIdCons;
@@ -55,12 +73,15 @@ import tech.sud.mgp.hello.ui.main.home.view.SceneTypeDialog;
 import tech.sud.mgp.hello.ui.main.home.view.homeitem.CreatRoomClickListener;
 import tech.sud.mgp.hello.ui.main.home.view.homeitem.GameItemListener;
 import tech.sud.mgp.hello.ui.main.home.view.homeitem.HomeItemView;
+import tech.sud.mgp.hello.ui.main.llm.widget.CreateLlmView;
+import tech.sud.mgp.hello.ui.main.llm.widget.VoiceRecordView;
 import tech.sud.mgp.hello.ui.main.nft.model.BindWalletInfoModel;
 import tech.sud.mgp.hello.ui.main.nft.model.NftModel;
 import tech.sud.mgp.hello.ui.main.nft.viewmodel.CancelWearNftListener;
 import tech.sud.mgp.hello.ui.main.nft.viewmodel.NFTViewModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.EnterRoomParams;
 import tech.sud.mgp.hello.ui.scenes.base.utils.EnterRoomUtils;
+import tech.sud.mgp.hello.ui.scenes.base.utils.SafeAudioPlayer;
 import tech.sud.mgp.hello.ui.scenes.crossapp.widget.dialog.SelectMatchGameDialog;
 import tech.sud.mgp.hello.ui.scenes.disco.activity.DiscoRankingActivity;
 import tech.sud.mgp.hello.ui.scenes.league.activity.LeagueEntranceActivity;
@@ -83,6 +104,11 @@ public class LlmFragment extends BaseFragment implements CreatRoomClickListener,
     private final NFTViewModel nftViewModel = new NFTViewModel();
     private GameListResp mGameListResp;
     private MutableLiveData<JumpRocketEvent> mJumpRocketEventMutableLiveData = new MutableLiveData<>();
+    private CreateLlmView mLlmView;
+    private GetAiCloneResp mGetAiCloneResp;
+    private WavRecorder mWavRecorder;
+    private File mLocalWavFile;
+    private SafeAudioPlayer mSafeAudioPlayer;
 
     public static LlmFragment newInstance() {
         LlmFragment fragment = new LlmFragment();
@@ -103,6 +129,7 @@ public class LlmFragment extends BaseFragment implements CreatRoomClickListener,
         scrollView = mRootView.findViewById(R.id.scrollView);
         menuIv = mRootView.findViewById(R.id.menu_iv);
         userInfoView = mRootView.findViewById(R.id.user_info_view);
+        mLlmView = mRootView.findViewById(R.id.create_llm_view);
         refreshLayout.setEnableRefresh(false);
         refreshLayout.setEnableLoadMore(false);
 
@@ -115,7 +142,99 @@ public class LlmFragment extends BaseFragment implements CreatRoomClickListener,
     @Override
     protected void initData() {
         super.initData();
-        loadList();
+        mLlmView.showNormalStatus();
+        if (mSafeAudioPlayer == null) {
+            mSafeAudioPlayer = new SafeAudioPlayer(requireContext());
+        }
+    }
+
+    private void refreshClone() {
+        HomeRepository.getAiClone(this, new RxCallback<GetAiCloneResp>() {
+            @Override
+            public void onSuccess(GetAiCloneResp resp) {
+                super.onSuccess(resp);
+                setCloneInfo(resp);
+            }
+        });
+    }
+
+    private void setCloneInfo(GetAiCloneResp resp) {
+        mGetAiCloneResp = resp;
+        if (resp == null) {
+            return;
+        }
+        AiInfoModel aiInfoModel = resp.aiInfo;
+        boolean showVoicePlay = false;
+        if (aiInfoModel == null) {
+            mLlmView.setSwitchCloned(false, false);
+        } else {
+            mLlmView.setSwitchCloned(aiInfoModel.status == 1, false);
+            if (aiInfoModel.voiceStatus != 0) {
+                showVoicePlay = true;
+            }
+        }
+        String nickname = mLlmView.getNickName();
+        if (TextUtils.isEmpty(nickname)) {
+            if (aiInfoModel != null) {
+                nickname = aiInfoModel.nickname;
+            }
+            if (TextUtils.isEmpty(nickname)) {
+                nickname = HSUserInfo.nickName + "AI";
+            }
+            mLlmView.setNickName(nickname);
+        }
+
+        String personality = mLlmView.getPersonality();
+        if (TextUtils.isEmpty(personality)) {
+            if (aiInfoModel != null) {
+                personality = aiInfoModel.personality;
+            }
+            if (TextUtils.isEmpty(personality)) {
+                personality = randomStr(resp.personalityOptions);
+            }
+            mLlmView.setPersonality(personality);
+        }
+
+        String languageStyle = mLlmView.getLanguage();
+        if (TextUtils.isEmpty(languageStyle)) {
+            if (aiInfoModel != null) {
+                languageStyle = aiInfoModel.languageStyle;
+            }
+            if (TextUtils.isEmpty(languageStyle)) {
+                languageStyle = randomStr(resp.languageStyleOptions);
+            }
+            mLlmView.setLanguage(languageStyle);
+        }
+
+        String languageDetailStyle = mLlmView.getLanguageDetail();
+        if (TextUtils.isEmpty(languageDetailStyle)) {
+            if (aiInfoModel != null) {
+                languageDetailStyle = aiInfoModel.languageDetailStyle;
+            }
+            if (TextUtils.isEmpty(languageDetailStyle)) {
+                languageDetailStyle = randomStr(resp.languageDetailStyleOptions);
+            }
+            mLlmView.setLanguageDetail(languageDetailStyle);
+        }
+
+        mLlmView.setReadAloud(resp.audioText);
+
+        if (mLlmView.getVoiceModel() != 0) { // 编辑状态时，不刷新音频状态
+            return;
+        }
+        if (showVoicePlay) {
+            mLlmView.showReadyClonedStatus();
+        } else {
+            mLlmView.showNormalStatus();
+        }
+    }
+
+    private String randomStr(List<String> list) {
+        if (list == null || list.size() == 0) {
+            return null;
+        }
+        int position = new Random().nextInt(list.size());
+        return list.get(position);
     }
 
     @Override
@@ -126,8 +245,10 @@ public class LlmFragment extends BaseFragment implements CreatRoomClickListener,
     @Override
     public void onResume() {
         super.onResume();
+        loadList();
         userInfoView.updateUserInfo();
         updateNftHeader();
+        refreshClone();
     }
 
     @Override
@@ -204,6 +325,249 @@ public class LlmFragment extends BaseFragment implements CreatRoomClickListener,
         });
         EventBus.getDefault().register(this);
         mJumpRocketEventMutableLiveData.observe(this, jumpRocketObserver);
+
+        setLlmListeners();
+    }
+
+    private void setLlmListeners() {
+        mLlmView.setSwitchListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                HomeRepository.updateAiClone(LlmFragment.this, isChecked ? 1 : 0, new RxCallback<>());
+                mLlmView.setSwitchCloned(isChecked, false);
+            }
+        });
+        mLlmView.setPersonalityListener(v -> {
+            if (mGetAiCloneResp == null) {
+                return;
+            }
+            if (mGetAiCloneResp.personalityOptions == null || mGetAiCloneResp.personalityOptions.size() == 0) {
+                return;
+            }
+            List<BottomItemOptionDialog.ItemModel> list = new ArrayList<>();
+            String personality = mLlmView.getPersonality();
+            for (String str : mGetAiCloneResp.personalityOptions) {
+                BottomItemOptionDialog.ItemModel itemModel = new BottomItemOptionDialog.ItemModel();
+                if (str != null && str.equals(personality)) {
+                    itemModel.isSelected = true;
+                }
+                itemModel.info = str;
+                list.add(itemModel);
+            }
+            BottomItemOptionDialog dialog = new BottomItemOptionDialog(requireContext());
+            dialog.setList(list);
+            dialog.setOnItemClickListener(model -> {
+                mLlmView.setPersonality(model.info);
+                dialog.dismiss();
+            });
+            dialog.show();
+        });
+
+        mLlmView.setLanguageListener(v -> {
+            if (mGetAiCloneResp == null) {
+                return;
+            }
+            if (mGetAiCloneResp.languageStyleOptions == null || mGetAiCloneResp.languageStyleOptions.size() == 0) {
+                return;
+            }
+            List<BottomItemOptionDialog.ItemModel> list = new ArrayList<>();
+            String language = mLlmView.getLanguage();
+            for (String str : mGetAiCloneResp.languageStyleOptions) {
+                BottomItemOptionDialog.ItemModel itemModel = new BottomItemOptionDialog.ItemModel();
+                if (str != null && str.equals(language)) {
+                    itemModel.isSelected = true;
+                }
+                itemModel.info = str;
+                list.add(itemModel);
+            }
+            BottomItemOptionDialog dialog = new BottomItemOptionDialog(requireContext());
+            dialog.setList(list);
+            dialog.setOnItemClickListener(model -> {
+                mLlmView.setLanguage(model.info);
+                dialog.dismiss();
+            });
+            dialog.show();
+        });
+
+        mLlmView.setLanguageDetailListener(v -> {
+            if (mGetAiCloneResp == null) {
+                return;
+            }
+            if (mGetAiCloneResp.languageDetailStyleOptions == null || mGetAiCloneResp.languageDetailStyleOptions.size() == 0) {
+                return;
+            }
+            List<BottomItemOptionDialog.ItemModel> list = new ArrayList<>();
+            String language = mLlmView.getLanguageDetail();
+            for (String str : mGetAiCloneResp.languageDetailStyleOptions) {
+                BottomItemOptionDialog.ItemModel itemModel = new BottomItemOptionDialog.ItemModel();
+                if (str != null && str.equals(language)) {
+                    itemModel.isSelected = true;
+                }
+                itemModel.info = str;
+                list.add(itemModel);
+            }
+            BottomItemOptionDialog dialog = new BottomItemOptionDialog(requireContext());
+            dialog.setList(list);
+            dialog.setOnItemClickListener(model -> {
+                mLlmView.setLanguageDetail(model.info);
+                dialog.dismiss();
+            });
+            dialog.show();
+        });
+
+        mLlmView.setOperateListener(v -> {
+            onClickOperateVoice();
+        });
+
+        mLlmView.setOnRecordListener(new VoiceRecordView.OnRecordListener() {
+            @Override
+            public void onStart() {
+                startRecord();
+            }
+
+            @Override
+            public void onStop() {
+                stopRecord();
+            }
+        });
+
+        mLlmView.setPlayPreVoiceListener(v -> {
+            if (mLocalWavFile == null) {
+                return;
+            }
+            mSafeAudioPlayer.playFromPath(mLocalWavFile.getAbsolutePath());
+        });
+
+        mLlmView.setCancelOnClickListener(v -> {
+            mLlmView.showNormalStatus();
+        });
+
+        mLlmView.setSubmitOnClickListener(v -> {
+            onClickSubmit();
+        });
+
+        mLlmView.setLlmVoiceOnClickListener(v -> {
+            onClickLlmVoice();
+        });
+    }
+
+    private void onClickLlmVoice() {
+        // 点击了提交上去的分身音色
+        if (mGetAiCloneResp == null) {
+            LogUtils.d("没有拿到ai信息");
+            return;
+        }
+        AiInfoModel aiInfo = mGetAiCloneResp.aiInfo;
+        if (aiInfo == null) {
+            LogUtils.d("没有拿到ai信息");
+            return;
+        }
+        if (aiInfo.voiceStatus == 1) {
+            ToastUtils.showShort(R.string.voice_training);
+        } else if (aiInfo.voiceStatus == 3) {
+            ToastUtils.showShort(R.string.voice_training_fail);
+        } else {
+            String demoAudioData = aiInfo.demoAudioData;
+            if (TextUtils.isEmpty(demoAudioData)) {
+                LogUtils.d("没有可试听的音色");
+                ToastUtils.showShort(R.string.voice_training);
+            } else {
+                mSafeAudioPlayer.playFromBytes(Base64Utils.base64Decode(demoAudioData), "mp3");
+            }
+        }
+    }
+
+    private void onClickSubmit() {
+        if (mLocalWavFile == null || !mLocalWavFile.exists()) {
+            LogUtils.d("本地没有录音文件");
+            return;
+        }
+        if (mGetAiCloneResp == null) {
+            LogUtils.d("没有拿到ai信息");
+            return;
+        }
+        LoadingDialog loadingDialog = new LoadingDialog(getString(R.string.clone_being_created));
+        loadingDialog.show(getChildFragmentManager(), null);
+        byte[] voiceBytes = FileIOUtils.readFile2BytesByStream(mLocalWavFile);
+        String voiceBase64 = Base64Utils.base64Encode(voiceBytes);
+        SaveAiCloneReq req = new SaveAiCloneReq();
+        req.nickname = mLlmView.getNickName();
+        req.birthday = "1998-05-08";
+        req.bloodType = randomStr(mGetAiCloneResp.bloodTypeOptions);
+        req.mbti = randomStr(mGetAiCloneResp.mbtiOptions);
+        req.personality = mLlmView.getPersonality();
+        req.languageStyle = mLlmView.getLanguage();
+        req.languageDetailStyle = mLlmView.getLanguageDetail();
+        req.audioData = voiceBase64;
+        req.audioFormat = "wav";
+        HomeRepository.saveAiClone(this, req, new RxCallback<SaveAiCloneResp>() {
+            @Override
+            public void onSuccess(SaveAiCloneResp saveAiCloneResp) {
+                super.onSuccess(saveAiCloneResp);
+                mLlmView.showReadyClonedStatus();
+                refreshClone();
+            }
+
+            @Override
+            public void onFinally() {
+                super.onFinally();
+                loadingDialog.dismiss();
+            }
+        });
+    }
+
+    private void startRecord() {
+        Context context = requireContext();
+        SudPermissionUtils.requirePermission(requireContext(), getChildFragmentManager(), new String[]{Manifest.permission.RECORD_AUDIO}, new PermissionFragment.OnPermissionListener() {
+            @Override
+            public void onPermission(boolean success) {
+                if (!success) {
+                    return;
+                }
+                startRecordPermissionDenied(context);
+            }
+        });
+    }
+
+    private void startRecordPermissionDenied(Context context) {
+        File file = new File(context.getFilesDir(), "HelloSud" + File.separator + "audio" + File.separator + "voiceTemp.wav");
+        int minSeconds = 5;
+        int maxSeconds = 15;
+        mLocalWavFile = null;
+        mWavRecorder = new WavRecorder(file, maxSeconds);
+        mWavRecorder.startRecording();
+        mWavRecorder.setOnRecordListener((durationSeconds, saveFile) -> {
+            if (durationSeconds < minSeconds) {
+                ToastUtils.showShort(getString(R.string.voice_warn_min_seconds, minSeconds + ""));
+                return;
+            }
+            mLocalWavFile = saveFile;
+            mLlmView.showReadyRecordStatus();
+        });
+    }
+
+    private void stopRecord() {
+        if (mWavRecorder == null) {
+            return;
+        }
+        mWavRecorder.stopRecording();
+        mWavRecorder = null;
+    }
+
+    private void onClickOperateVoice() {
+        switch (mLlmView.getVoiceModel()) {
+            case 1:
+                break;
+            case 2:
+                mLlmView.showNormalRecordStatus();
+                break;
+            case 3:
+                mLlmView.showNormalRecordStatus();
+                break;
+            default:
+                mLlmView.showNormalRecordStatus();
+                break;
+        }
     }
 
     private void createScene(GameListResp resp, QuizGameListResp quizGameListResp) {
@@ -218,7 +582,7 @@ public class LlmFragment extends BaseFragment implements CreatRoomClickListener,
                 for (int i = 0; i < resp.sceneList.size(); i++) {
                     SceneModel model = resp.sceneList.get(i);
                     HomeItemView view = new HomeItemView(context);
-                    view.setData(GameListReq.TAB_GAME, model, HomeManager.getInstance().getSceneGame(resp, model.getSceneId()), quizGameListResp);
+                    view.setData(GameListReq.TAB_LLM, model, HomeManager.getInstance().getSceneGame(resp, model.getSceneId()), quizGameListResp);
                     view.setGameItemListener(this);
                     view.setCreatRoomClickListener(this);
                     view.setMoreActivityOnClickListener(new View.OnClickListener() {
@@ -291,7 +655,7 @@ public class LlmFragment extends BaseFragment implements CreatRoomClickListener,
 
     private void loadList() {
         // 1，游戏列表
-        HomeRepository.gameListV2(this, GameListReq.TAB_GAME, new RxCallback<GameListResp>() {
+        HomeRepository.gameListV2(this, GameListReq.TAB_LLM, new RxCallback<GameListResp>() {
             @Override
             public void onNext(BaseResponse<GameListResp> t) {
                 super.onNext(t);
@@ -361,7 +725,7 @@ public class LlmFragment extends BaseFragment implements CreatRoomClickListener,
         if (sceneModel != null) {
             switch (sceneModel.getSceneId()) {
                 case SceneType.TICKET:
-                    CreateTicketRoomDialog.newInstance(GameListReq.TAB_GAME).show(getChildFragmentManager(), null);
+                    CreateTicketRoomDialog.newInstance(GameListReq.TAB_LLM).show(getChildFragmentManager(), null);
                     break;
                 case SceneType.CROSS_APP_MATCH:
                     showCrossAppMatchGameDialog(sceneModel);

@@ -38,7 +38,7 @@ public class HomeItemView extends FrameLayout {
     /** 设置数据 */
     public void setData(int tabType, SceneModel sceneModel, List<GameModel> datas, QuizGameListResp quizGameListResp) {
         View view;
-        if (tabType == GameListReq.TAB_GAME) { // 游戏tab直接用一个固定的样式
+        if (tabType == GameListReq.TAB_GAME || tabType == GameListReq.TAB_LLM) { // 游戏或llmtab直接用一个固定的样式
             view = new HomeMatchItemView(getContext());
         } else {
             switch (sceneModel.sceneId) {

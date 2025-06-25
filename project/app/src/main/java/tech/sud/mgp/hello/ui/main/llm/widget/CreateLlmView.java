@@ -1,6 +1,7 @@
 package tech.sud.mgp.hello.ui.main.llm.widget;
 
 import android.content.Context;
+import android.text.Editable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -12,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.kyleduo.switchbutton.SwitchButton;
 
 import tech.sud.mgp.hello.R;
@@ -34,6 +36,8 @@ public class CreateLlmView extends ConstraintLayout {
     private TextView mTvCancel;
     private TextView mTvSubmit;
     private VoiceRecordView mVoiceRecordView;
+    private View mViewCannotOperate;
+    private int mVoiceModel; // 0为默认，1为录制状态，但本地还未录制，2为录制状态，本地已经录制，3为分身已经创建好的情况
 
     public CreateLlmView(@NonNull Context context) {
         this(context, null);
@@ -46,6 +50,7 @@ public class CreateLlmView extends ConstraintLayout {
     public CreateLlmView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initView(context);
+        initListener();
     }
 
     private void initView(Context context) {
@@ -66,6 +71,11 @@ public class CreateLlmView extends ConstraintLayout {
         mTvCancel = findViewById(R.id.tv_cancel);
         mTvSubmit = findViewById(R.id.tv_submit);
         mVoiceRecordView = findViewById(R.id.voice_record_view);
+        mViewCannotOperate = findViewById(R.id.view_cannot_operate);
+    }
+
+    private void initListener() {
+        mViewCannotOperate.setOnClickListener(v -> ToastUtils.showShort(R.string.please_start_clonse));
     }
 
     public void setSwitchCloned(boolean checked, boolean isEvent) {
@@ -74,30 +84,56 @@ public class CreateLlmView extends ConstraintLayout {
         } else {
             mSwitchButtonCloned.setCheckedNoEvent(checked);
         }
+        setCannotOperateShow(!checked);
     }
 
-    public void setName(String name) {
+    public void setNickName(String name) {
         mEtName.setText(name);
+    }
+
+    public String getNickName() {
+        Editable text = mEtName.getText();
+        return text == null ? null : text.toString();
     }
 
     public void setPersonality(String str) {
         mTvPersonality.setText(str);
     }
 
+    public String getPersonality() {
+        CharSequence text = mTvPersonality.getText();
+        return text == null ? null : text.toString();
+    }
+
     public void setLanguage(String str) {
         mTvLanguage.setText(str);
+    }
+
+    public String getLanguage() {
+        CharSequence text = mTvLanguage.getText();
+        return text == null ? null : text.toString();
     }
 
     public void setLanguageDetail(String str) {
         mTvLanguageDetail.setText(str);
     }
 
+    public String getLanguageDetail() {
+        CharSequence text = mTvLanguageDetail.getText();
+        return text == null ? null : text.toString();
+    }
+
     public void setReadAloud(String str) {
         mTvReadAloudContent.setText(str);
     }
 
+    private void setCannotOperateShow(boolean show) {
+        mViewCannotOperate.setVisibility(show ? View.VISIBLE : View.GONE);
+    }
+
     /** 默认状态，没有大模型声音，也没有进行添加本地声音 */
     public void showNormalStatus() {
+        mVoiceModel = 0;
         mTvNothingLlmVoice.setVisibility(View.VISIBLE);
         mContainerLlmVoice.setVisibility(View.GONE);
         mIvOperateVoice.setImageResource(R.drawable.ic_white_add);
@@ -110,6 +146,7 @@ public class CreateLlmView extends ConstraintLayout {
 
     /** 录制状态，但本地还未录制 */
     public void showNormalRecordStatus() {
+        mVoiceModel = 1;
         mTvNothingLlmVoice.setVisibility(View.VISIBLE);
         mContainerLlmVoice.setVisibility(View.GONE);
         mIvOperateVoice.setImageResource(R.drawable.ic_white_add);
@@ -123,6 +160,7 @@ public class CreateLlmView extends ConstraintLayout {
 
     /** 录制状态，本地已经录制 */
     public void showReadyRecordStatus() {
+        mVoiceModel = 2;
         mTvNothingLlmVoice.setVisibility(View.VISIBLE);
         mContainerLlmVoice.setVisibility(View.GONE);
         mIvOperateVoice.setImageResource(R.drawable.ic_white_add);
@@ -136,6 +174,7 @@ public class CreateLlmView extends ConstraintLayout {
 
     /** 分身已经创建好的情况 */
     public void showReadyClonedStatus() {
+        mVoiceModel = 3;
         mTvNothingLlmVoice.setVisibility(View.GONE);
         mContainerLlmVoice.setVisibility(View.VISIBLE);
         mIvOperateVoice.setImageResource(R.drawable.ic_white_edit);
@@ -147,8 +186,48 @@ public class CreateLlmView extends ConstraintLayout {
         mVoiceRecordView.setVisibility(View.GONE);
     }
 
-    private void setSwitchListener(CompoundButton.OnCheckedChangeListener onCheckedChangeListener) {
+    public void setSwitchListener(CompoundButton.OnCheckedChangeListener onCheckedChangeListener) {
         mSwitchButtonCloned.setOnCheckedChangeListener(onCheckedChangeListener);
+    }
+
+    public void setPersonalityListener(OnClickListener listener) {
+        mTvPersonality.setOnClickListener(listener);
+    }
+
+    public void setLanguageListener(OnClickListener listener) {
+        mTvLanguage.setOnClickListener(listener);
+    }
+
+    public void setLanguageDetailListener(OnClickListener listener) {
+        mTvLanguageDetail.setOnClickListener(listener);
+    }
+
+    public void setOperateListener(OnClickListener listener) {
+        mIvOperateVoice.setOnClickListener(listener);
+    }
+
+    public int getVoiceModel() {
+        return mVoiceModel;
+    }
+
+    public void setOnRecordListener(VoiceRecordView.OnRecordListener onRecordListener) {
+        mVoiceRecordView.setOnRecordListener(onRecordListener);
+    }
+
+    public void setPlayPreVoiceListener(OnClickListener listener) {
+        mContainerPlayPreVoiceContent.setOnClickListener(listener);
+    }
+
+    public void setCancelOnClickListener(OnClickListener listener) {
+        mTvCancel.setOnClickListener(listener);
+    }
+
+    public void setSubmitOnClickListener(OnClickListener listener) {
+        mTvSubmit.setOnClickListener(listener);
+    }
+
+    public void setLlmVoiceOnClickListener(OnClickListener listener) {
+        mContainerLlmVoice.setOnClickListener(listener);
     }
 
 }

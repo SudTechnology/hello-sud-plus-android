@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="56dp">
+
+    <TextView
+        android:id="@+id/tv_info"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:paddingStart="36dp"
+        android:paddingEnd="8dp"
+        android:textSize="16sp"
+        android:textColor="@color/c_1a1a1a"
+        android:gravity="center_vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/view_selected" />
+
+    <View
+        android:id="@+id/view_selected"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:background="@drawable/icon_selected_language"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

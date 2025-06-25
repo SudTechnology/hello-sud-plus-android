@@ -28,12 +28,20 @@ import tech.sud.mgp.hello.service.main.resp.CreatRoomResp;
 import tech.sud.mgp.hello.service.main.resp.CrossAppGameListResp;
 import tech.sud.mgp.hello.service.main.resp.GameListResp;
 import tech.sud.mgp.hello.service.main.resp.GetAccountResp;
+import tech.sud.mgp.hello.service.main.resp.GetAiCloneResp;
 import tech.sud.mgp.hello.service.main.resp.GetBannerResp;
 import tech.sud.mgp.hello.service.main.resp.QuizGameListResp;
+import tech.sud.mgp.hello.service.main.resp.RandomAiCloneResp;
 import tech.sud.mgp.hello.service.main.resp.RoomListResp;
+import tech.sud.mgp.hello.service.main.resp.SaveAiCloneResp;
 import tech.sud.mgp.hello.service.main.resp.TicketConfirmJoinResp;
+import tech.sud.mgp.hello.service.main.resp.UpdateAiCloneResp;
 import tech.sud.mgp.hello.service.main.resp.UserInfoListResp;
 import tech.sud.mgp.hello.service.room.req.AddCoinReq;
+import tech.sud.mgp.hello.service.room.req.GetAiCloneReq;
+import tech.sud.mgp.hello.service.room.req.RandomAiCloneReq;
+import tech.sud.mgp.hello.service.room.req.SaveAiCloneReq;
+import tech.sud.mgp.hello.service.room.req.UpdateAiCloneReq;
 import tech.sud.mgp.hello.service.room.req.WearNftReq;
 import tech.sud.mgp.hello.ui.main.home.model.MatchRoomModel;
 
@@ -295,6 +303,52 @@ public class HomeRepository {
         req.coin = coin;
         HomeRequestMethodFactory.getMethod()
                 .addCoin(BaseUrlManager.getBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /**
+     * 保存AI（分身）
+     */
+    public static void saveAiClone(LifecycleOwner owner, SaveAiCloneReq req, RxCallback<SaveAiCloneResp> callback) {
+        HomeRequestMethodFactory.getMethod()
+                .saveAiClone(BaseUrlManager.getInteractBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /**
+     * 查询AI（分身）
+     */
+    public static void getAiClone(LifecycleOwner owner, RxCallback<GetAiCloneResp> callback) {
+        GetAiCloneReq req = new GetAiCloneReq();
+        HomeRequestMethodFactory.getMethod()
+                .getAiClone(BaseUrlManager.getInteractBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /**
+     * 修改AI状态（分身）
+     *
+     * @param status 0：关闭， 1：开启
+     */
+    public static void updateAiClone(LifecycleOwner owner, int status, RxCallback<UpdateAiCloneResp> callback) {
+        UpdateAiCloneReq req = new UpdateAiCloneReq();
+        req.status = status;
+        HomeRequestMethodFactory.getMethod()
+                .updateAiClone(BaseUrlManager.getInteractBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /**
+     * 随机AI（分身）
+     */
+    public static void randomAiClone(LifecycleOwner owner, RxCallback<RandomAiCloneResp> callback) {
+        RandomAiCloneReq req = new RandomAiCloneReq();
+        HomeRequestMethodFactory.getMethod()
+                .randomAiClone(BaseUrlManager.getInteractBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }

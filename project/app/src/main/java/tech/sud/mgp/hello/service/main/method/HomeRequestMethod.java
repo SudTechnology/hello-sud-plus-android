@@ -24,12 +24,20 @@ import tech.sud.mgp.hello.service.main.resp.CreatRoomResp;
 import tech.sud.mgp.hello.service.main.resp.CrossAppGameListResp;
 import tech.sud.mgp.hello.service.main.resp.GameListResp;
 import tech.sud.mgp.hello.service.main.resp.GetAccountResp;
+import tech.sud.mgp.hello.service.main.resp.GetAiCloneResp;
 import tech.sud.mgp.hello.service.main.resp.GetBannerResp;
 import tech.sud.mgp.hello.service.main.resp.QuizGameListResp;
+import tech.sud.mgp.hello.service.main.resp.RandomAiCloneResp;
 import tech.sud.mgp.hello.service.main.resp.RoomListResp;
+import tech.sud.mgp.hello.service.main.resp.SaveAiCloneResp;
 import tech.sud.mgp.hello.service.main.resp.TicketConfirmJoinResp;
+import tech.sud.mgp.hello.service.main.resp.UpdateAiCloneResp;
 import tech.sud.mgp.hello.service.main.resp.UserInfoListResp;
 import tech.sud.mgp.hello.service.room.req.AddCoinReq;
+import tech.sud.mgp.hello.service.room.req.GetAiCloneReq;
+import tech.sud.mgp.hello.service.room.req.RandomAiCloneReq;
+import tech.sud.mgp.hello.service.room.req.SaveAiCloneReq;
+import tech.sud.mgp.hello.service.room.req.UpdateAiCloneReq;
 import tech.sud.mgp.hello.service.room.req.WearNftReq;
 import tech.sud.mgp.hello.ui.main.home.model.MatchRoomModel;
 
@@ -145,5 +153,29 @@ public interface HomeRequestMethod {
      */
     @POST(RequestUrl.ADD_COIN)
     Observable<BaseResponse<Object>> addCoin(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body AddCoinReq req);
+
+    /**
+     * 保存AI（分身）
+     */
+    @POST(RequestUrl.SAVE_AI_CLONE)
+    Observable<BaseResponse<SaveAiCloneResp>> saveAiClone(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body SaveAiCloneReq req);
+
+    /**
+     * 查询AI（分身）
+     */
+    @POST(RequestUrl.GET_AI_CLONE)
+    Observable<BaseResponse<GetAiCloneResp>> getAiClone(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body GetAiCloneReq req);
+
+    /**
+     * 修改AI状态（分身）
+     */
+    @POST(RequestUrl.UPDATE_AI_CLONE)
+    Observable<BaseResponse<UpdateAiCloneResp>> updateAiClone(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body UpdateAiCloneReq req);
+
+    /**
+     * 随机AI（分身）
+     */
+    @POST(RequestUrl.RANDOM_AI_CLONE)
+    Observable<BaseResponse<RandomAiCloneResp>> randomAiClone(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body RandomAiCloneReq req);
 
 }

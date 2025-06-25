@@ -269,4 +269,18 @@ public interface RequestUrl {
     /** 查询玩家持有的道具 */
     String GAME_PLAYER_PROPS = "game/player-props/v1";
 
+    // region ai分身
+    /** 保存AI（分身） */
+    String SAVE_AI_CLONE = "ai/save/v1";
+
+    /** 查询AI（分身） */
+    String GET_AI_CLONE = "ai/get/v1";
+
+    /** 修改AI状态（分身） */
+    String UPDATE_AI_CLONE = "ai/status/update/v1";
+
+    /** 随机AI（分身） */
+    String RANDOM_AI_CLONE = "ai/random/v1";
+    // endregion ai分身
+
 }

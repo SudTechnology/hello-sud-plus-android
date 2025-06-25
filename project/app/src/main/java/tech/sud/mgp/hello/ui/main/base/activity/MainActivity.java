@@ -35,6 +35,7 @@ import tech.sud.mgp.hello.ui.common.utils.channel.NotifyChannelHelper;
 import tech.sud.mgp.hello.ui.main.base.constant.GameIdCons;
 import tech.sud.mgp.hello.ui.main.game.GameListFragment;
 import tech.sud.mgp.hello.ui.main.home.HomeFragment;
+import tech.sud.mgp.hello.ui.main.llm.LlmFragment;
 import tech.sud.mgp.hello.ui.main.room.RoomFragment;
 import tech.sud.mgp.hello.ui.main.settings.fragment.SettingsFragment;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
@@ -143,8 +144,9 @@ public class MainActivity extends BaseActivity implements MainTabView.TabClickLi
     private void initTabs() {
         tabs.add(new TabModel(0, getString(R.string.game), R.drawable.ic_game_list));
         tabs.add(new TabModel(1, getString(R.string.scene), R.drawable.icon_home_index));
-        tabs.add(new TabModel(2, getString(R.string.tabs_room), R.drawable.icon_home_room));
-        tabs.add(new TabModel(3, getString(R.string.mine), R.drawable.icon_mine_tabbar_select_24));
+        tabs.add(new TabModel(2, getString(R.string.cloned), R.drawable.ic_llm, R.drawable.ic_llm_selected));
+        tabs.add(new TabModel(3, getString(R.string.tabs_room), R.drawable.icon_home_room));
+        tabs.add(new TabModel(4, getString(R.string.mine), R.drawable.icon_mine_tabbar_select_24));
         for (int i = 0; i < tabs.size(); i++) {
             MainTabView tabView = new MainTabView(this);
             tabView.setData(tabs.get(i));
@@ -207,6 +209,9 @@ public class MainActivity extends BaseActivity implements MainTabView.TabClickLi
                     return HomeFragment.newInstance();
                 }
                 case 2: {
+                    return LlmFragment.newInstance();
+                }
+                case 3: {
                     return RoomFragment.newInstance();
                 }
                 default: {

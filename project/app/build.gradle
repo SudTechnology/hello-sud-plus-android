@@ -200,4 +200,7 @@ dependencies {
     // 事件通知
     implementation("org.greenrobot:eventbus:3.3.1")
 
+    // 按钮：https://github.com/kyleduo/SwitchButton
+    implementation 'com.kyleduo.switchbutton:library:2.1.0'
+
 }

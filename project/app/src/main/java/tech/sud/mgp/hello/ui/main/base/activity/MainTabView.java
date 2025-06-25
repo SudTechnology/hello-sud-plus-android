@@ -42,7 +42,6 @@ public class MainTabView extends LinearLayout implements View.OnClickListener {
         icon = new ImageView(context);
         LayoutParams iconParams = new LayoutParams(DensityUtils.dp2px(context, 24.0f), DensityUtils.dp2px(context, 24.0f));
         icon.setLayoutParams(iconParams);
-        icon.setColorFilter(Color.parseColor("#8c8c8c"));
         addView(icon);
         text = new TextView(context);
         LayoutParams textParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
@@ -63,6 +62,16 @@ public class MainTabView extends LinearLayout implements View.OnClickListener {
     }
 
     public void setViewState(boolean isSelected) {
+        if (tabModel != null && tabModel.selectedIconId != 0) {
+            if (isSelected) {
+                icon.setImageResource(tabModel.selectedIconId);
+                text.setTextColor(Color.parseColor("#1a1a1a"));
+            } else {
+                icon.setImageResource(tabModel.iconId);
+                text.setTextColor(Color.parseColor("#8c8c8c"));
+            }
+            return;
+        }
         if (isSelected) {
             icon.setColorFilter(Color.parseColor("#1a1a1a"));
             text.setTextColor(Color.parseColor("#1a1a1a"));

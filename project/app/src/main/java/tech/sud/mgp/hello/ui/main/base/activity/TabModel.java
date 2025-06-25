@@ -4,6 +4,7 @@ public class TabModel {
     public int index;
     public String text;
     public int iconId;
+    public int selectedIconId;
 
     public TabModel(int index, String text, int iconId) {
         this.index = index;
@@ -11,5 +12,11 @@ public class TabModel {
         this.iconId = iconId;
     }
 
+    public TabModel(int index, String text, int iconId, int selectedIconId) {
+        this.index = index;
+        this.text = text;
+        this.iconId = iconId;
+        this.selectedIconId = selectedIconId;
+    }
 
 }

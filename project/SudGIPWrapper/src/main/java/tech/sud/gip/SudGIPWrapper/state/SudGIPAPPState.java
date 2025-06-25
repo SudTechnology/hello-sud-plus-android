@@ -588,12 +588,12 @@ public class SudGIPAPPState implements Serializable {
     }
 
     /**
-     * 设置游戏中的大模型Al玩家
+     * 设置游戏中的大模型AI玩家
      */
     public static final String APP_COMMON_GAME_ADD_BIG_SCALE_MODEL_AI_PLAYERS = "app_common_game_add_big_scale_model_ai_players";
 
     /**
-     * 设置游戏中的大模型Al玩家 模型
+     * 设置游戏中的大模型AI玩家 模型
      */
     public static class APPCommonGameAddBigScaleModelAIPlayers implements Serializable {
         public List<ModelAIPlayers> aiPlayers; // AI玩家
@@ -606,6 +606,18 @@ public class SudGIPAPPState implements Serializable {
         public String name; // 名字
         public String gender; // 性别 male：男，female：女
         public String aiIdStr; // ai id
+    }
+
+    /**
+     * 退出游戏中的大模型AI玩家
+     */
+    public static final String APP_COMMON_GAME_EXIT_BIG_SCALE_MODEL_AI_players = "app_common_game_exit_big_scale_model_ai_players";
+
+    /**
+     * 退出游戏中的大模型AI玩家 模型
+     */
+    public static class APPCommonGameExitBigScaleModelAiPlayers implements Serializable {
+        public List<String> playerIds; // 退出的玩家id列表
     }
 
     // endregion 通用状态

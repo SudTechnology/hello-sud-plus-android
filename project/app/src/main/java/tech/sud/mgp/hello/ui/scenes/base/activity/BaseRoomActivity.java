@@ -69,6 +69,7 @@ import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.main.repository.UserInfoRepository;
 import tech.sud.mgp.hello.service.main.resp.GameModel;
 import tech.sud.mgp.hello.service.main.resp.GetAccountResp;
+import tech.sud.mgp.hello.service.main.resp.RandomAiCloneResp;
 import tech.sud.mgp.hello.service.room.repository.RoomRepository;
 import tech.sud.mgp.hello.service.room.resp.CrossAppModel;
 import tech.sud.mgp.hello.service.room.resp.GiftListResp;
@@ -450,9 +451,12 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         popupWindow.setOutsideTouchable(true); //设置点击外部区域可以取消popupWindow
         popupWindow.setFocusable(true); // 返回键取消popupwindow
 
+        addRobotBigModelItem(popupWindow, container, getString(R.string.role_clone), null, true); // 角色分身
+
         int idCount = 20;
         for (int i = 1; i <= idCount; i++) {
-            addRobotBigModelItem(popupWindow, container, i + ""); // 大模型
+            String aiId = i + "";
+            addRobotBigModelItem(popupWindow, container, aiId, aiId, false); // 大模型
         }
 
         int xoff = -(popupWindowWidth / 2 - tvAddRobot.getMeasuredWidth() / 2);
@@ -460,13 +464,13 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         popupWindow.showAsDropDown(tvAddRobot, xoff, yoff);
     }
 
-    private void addRobotBigModelItem(PopupWindow popupWindow, LinearLayout viewRoot, String aiId) {
+    private void addRobotBigModelItem(PopupWindow popupWindow, LinearLayout viewRoot, String name, String aiId, boolean isAiClone) {
         ConstraintLayout parent = new ConstraintLayout(this);
 
         TextView tv = new TextView(this);
         tv.setTextSize(13);
         tv.setTextColor(Color.BLACK);
-        tv.setText(aiId);
+        tv.setText(name);
         tv.setBackgroundResource(R.drawable.selector_bot_level_item);
         tv.setGravity(Gravity.CENTER);
         ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, DensityUtils.dp2px(20));
@@ -488,10 +492,39 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         viewRoot.addView(parent, LinearLayout.LayoutParams.MATCH_PARENT, DensityUtils.dp2px(40));
 
         tv.setOnClickListener(v -> {
-            onClickAddRobot(3, 1, aiId);
+            if (isAiClone) {
+                onClickAddRoleClone();
+            } else {
+                onClickAddRobot(3, 1, aiId);
+            }
             popupWindow.dismiss();
         });
 
+    }
+
+    /** 添加一个角色分身 */
+    private void onClickAddRoleClone() {
+        HomeRepository.randomAiClone(this, new RxCallback<RandomAiCloneResp>() {
+            @Override
+            public void onSuccess(RandomAiCloneResp resp) {
+                super.onSuccess(resp);
+                if (resp == null) {
+                    return;
+                }
+                List<SudGIPAPPState.ModelAIPlayers> aiPlayersList = new ArrayList<>();
+                SudGIPAPPState.ModelAIPlayers modelAIPlayers = new SudGIPAPPState.ModelAIPlayers();
+                modelAIPlayers.userId = resp.aiUid;
+                modelAIPlayers.avatar = resp.avatarUrl;
+                modelAIPlayers.name = resp.nickname;
+                modelAIPlayers.gender = resp.gender;
+                modelAIPlayers.aiIdStr = resp.aiId;
+                aiPlayersList.add(modelAIPlayers);
+                SudGIPAPPState.APPCommonGameAddBigScaleModelAIPlayers model = new SudGIPAPPState.APPCommonGameAddBigScaleModelAIPlayers();
+                model.aiPlayers = aiPlayersList;
+                model.isReady = 1;
+                gameViewModel.notifyStateChange(SudGIPAPPState.APP_COMMON_GAME_ADD_BIG_SCALE_MODEL_AI_PLAYERS, model);
+            }
+        });
     }
 
     /** 点击了添加机器人 */

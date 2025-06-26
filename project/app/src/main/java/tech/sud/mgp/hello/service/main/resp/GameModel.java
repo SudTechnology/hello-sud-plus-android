@@ -31,6 +31,7 @@ public class GameModel implements Serializable {
     public String leagueScenePic; // 联赛场景图片
 
     public int loadType; // 游戏加载类型,0:sdk,1:h5,2:rtmp,3:
+    public int supportLlm; // 是否支持LLM， 0: 不支持， 1: 支持
 
     public int getGameMaxNumber() {
         if (gameModeList != null && gameModeList.size() > 0) {

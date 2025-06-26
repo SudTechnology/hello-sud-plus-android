@@ -440,6 +440,7 @@ public class LlmFragment extends BaseFragment implements CreatRoomClickListener,
 
         mLlmView.setCancelOnClickListener(v -> {
             mLlmView.showNormalStatus();
+            setCloneInfo(mGetAiCloneResp);
         });
 
         mLlmView.setSubmitOnClickListener(v -> {

@@ -742,6 +742,7 @@ Go to homepage to create one~</string>
     <string name="clone_being_created">分身创建中，请稍后</string>
     <string name="voice_training">音色训练中</string>
     <string name="voice_training_fail">训练失败请重新提交</string>
+    <string name="role_clone">角色分身</string>
     <!-- endregion 新增 -->
 
 </resources>

@@ -55,6 +55,7 @@ import tech.sud.mgp.hello.common.utils.SystemUtils;
 import tech.sud.mgp.hello.service.game.repository.GameRepository;
 import tech.sud.mgp.hello.service.game.resp.GameLoginResp;
 import tech.sud.mgp.hello.service.main.config.SudConfig;
+import tech.sud.mgp.hello.service.main.manager.HomeManager;
 import tech.sud.mgp.hello.service.main.resp.GameModel;
 import tech.sud.mgp.hello.service.room.repository.RoomRepository;
 import tech.sud.mgp.hello.service.room.resp.WebGameTokenResp;
@@ -735,10 +736,16 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
         }
     }
 
-    private boolean isAiGame() {
-        if (playingGameId == GameIdCons.SOUL_STONE || playingGameId == GameIdCons.LUDO) {
-            return true;
+    public boolean isAiGame() {
+        GameModel gameModel = HomeManager.getInstance().getGameModel(playingGameId);
+        if (gameModel != null) {
+            if (gameModel.supportLlm == 1) {
+                return true;
+            }
         }
+//        if (playingGameId == GameIdCons.SOUL_STONE || playingGameId == GameIdCons.LUDO) {
+//            return true;
+//        }
         return false;
     }
 

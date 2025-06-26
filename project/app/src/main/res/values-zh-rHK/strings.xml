@@ -593,4 +593,26 @@
     <string name="present_gift">送%1$s</string>
     <string name="large_model">大模型</string>
 
+    <string name="cloned">分身</string>
+    <string name="create_my_cloned">創建我的分身</string>
+    <string name="start_cloned">啟用分身</string>
+    <string name="name">姓名</string>
+    <string name="personality">性格特點</string>
+    <string name="language_style">語言風格</string>
+    <string name="language_detail_style">語言詳細風格</string>
+    <string name="voice">聲音</string>
+    <string name="please_read_it_aloud">請朗讀</string>
+    <string name="click_play">點擊播放</string>
+    <string name="submit">提交</string>
+    <string name="hold_to_record">按住 錄製</string>
+    <string name="nothing">無</string>
+    <string name="please_start_clonse">請開啟分身</string>
+    <string name="voice_warn_min_seconds">錄音時長至少%1$s秒</string>
+    <string name="clone_being_created">分身創建中，請稍後</string>
+    <string name="voice_training">音色訓練中</string>
+    <string name="voice_training_fail">訓練失敗請重新提交</string>
+    <string name="role_clone">角色分身</string>
+    <string name="close_clone_hint">關閉後本人的LLM_BOT分身無法使用</string>
+
+
 </resources>

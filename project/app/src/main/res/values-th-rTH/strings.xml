@@ -593,4 +593,26 @@
     <string name="present_gift">ส่ง %1$s</string>
     <string name="large_model">โมเดลขนาดใหญ่</string>
 
+    <string name="cloned">คลิป</string>
+    <string name="create_my_cloned">สร้างโคลนของฉัน</string>
+    <string name="start_cloned">เปิดใช้งานโคลน</string>
+    <string name="name">ชื่อ</string>
+    <string name="personality">ลักษณะเฉพาะ</string>
+    <string name="language_style">รูปแบบภาษา</string>
+    <string name="language_detail_style">รูปแบบรายละเอียดภาษา</string>
+    <string name="voice">เสียง</string>
+    <string name="please_read_it_aloud">โปรดอ่าน</string>
+    <string name="click_play">คลิกเพื่อเล่น</string>
+    <string name="submit">ส่ง</string>
+    <string name="hold_to_record">กดบันทึกบันทึก</string>
+    <string name="nothing">ไม่มี</string>
+    <string name="please_start_clonse">กรุณาเปิดโคลน</string>
+    <string name="voice_warn_min_seconds">เวลาบันทึกอย่างน้อย %1$s วินาที</string>
+    <string name="clone_being_created">โคลนกำลังถูกสร้างขึ้นโปรดรอ</string>
+    <string name="voice_training">การฝึกเสียง</string>
+    <string name="voice_training_fail">โปรดส่งใหม่หากการฝึกอบรมล้มเหลว</string>
+    <string name="role_clone">ตัวละคร</string>
+    <string name="close_clone_hint">หลังจากปิดการโคลน LLM_BOT ของฉันไม่สามารถใช้งานได้</string>
+
+
 </resources>

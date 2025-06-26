@@ -593,4 +593,25 @@
     <string name="present_gift">Tặng %1$s</string>
     <string name="large_model">Mô hình lớn</string>
 
+    <string name="cloned">Clip</string>
+    <string name="create_my_cloned">Tạo bản sao của tôi</string>
+    <string name="start_cloned">Bật bản sao</string>
+    <string name="name">Tên</string>
+    <string name="personality">Đặc điểm đặc trưng</string>
+    <string name="language_style">Phong cách ngôn ngữ</string>
+    <string name="language_detail_style">Phong cách chi tiết ngôn ngữ</string>
+    <string name="voice">âm thanh</string>
+    <string name="please_read_it_aloud">Xin vui lòng đọc</string>
+    <string name="click_play">Bấm để chơi</string>
+    <string name="submit">nộp</string>
+    <string name="hold_to_record">Nhấn và giữ kỷ lục</string>
+    <string name="nothing">không có</string>
+    <string name="please_start_clonse">Vui lòng bật bản sao</string>
+    <string name="voice_warn_min_seconds">Thời gian ghi ít nhất là %1$s giây</string>
+    <string name="clone_being_created">Bản sao đang được tạo ra, vui lòng đợi</string>
+    <string name="voice_training">Đào tạo giai điệu</string>
+    <string name="voice_training_fail">Vui lòng gửi lại nếu khóa đào tạo thất bại</string>
+    <string name="role_clone">Nhân bản nhân vật</string>
+    <string name="close_clone_hint">Sau khi đóng, bản sao llm_bot của tôi không thể được sử dụng</string>
+
 </resources>

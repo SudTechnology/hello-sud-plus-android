@@ -593,4 +593,26 @@ Vaya a la página de inicio para crear una!</string>
     <string name="present_gift">Enviar %1$s</string>
     <string name="large_model">Modelo Grande</string>
 
+    <string name="cloned">Acortar</string>
+    <string name="create_my_cloned">Crea mi clon</string>
+    <string name="start_cloned">Habilitar el clon</string>
+    <string name="name">Nombre</string>
+    <string name="personality">Rasgos característicos</string>
+    <string name="language_style">Estilo de idioma</string>
+    <string name="language_detail_style">Estilo detallado del idioma</string>
+    <string name="voice">sonido</string>
+    <string name="please_read_it_aloud">Por favor lea</string>
+    <string name="click_play">Haga clic para jugar</string>
+    <string name="submit">entregar</string>
+    <string name="hold_to_record">Mantenga presionando el registro</string>
+    <string name="nothing">ninguno</string>
+    <string name="please_start_clonse">Enciende el clon</string>
+    <string name="voice_warn_min_seconds">El tiempo de grabación es al menos %1$s segundos</string>
+    <string name="clone_being_created">Se está creando el clon, por favor espera</string>
+    <string name="voice_training">Entrenamiento de tono</string>
+    <string name="voice_training_fail">Vuelva a enviar si la capacitación falla</string>
+    <string name="role_clone">Clon de personaje</string>
+    <string name="close_clone_hint">Después de cerrar, mi clon LLM_BOT no se puede usar</string>
+
+
 </resources>

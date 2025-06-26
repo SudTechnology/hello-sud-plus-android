@@ -591,5 +591,25 @@
     <string name="end_of_release">떼면 종료</string>
     <string name="large_model">대형 모델</string>
 
+    <string name="cloned">클립</string>
+    <string name="create_my_cloned">내 클론을 만드십시오</string>
+    <string name="start_cloned">클론을 활성화하십시오</string>
+    <string name="name">이름</string>
+    <string name="personality">특징적인 특성</string>
+    <string name="language_style">언어 스타일</string>
+    <string name="language_detail_style">언어 상세한 스타일</string>
+    <string name="voice">소리</string>
+    <string name="please_read_it_aloud">읽어주세요</string>
+    <string name="click_play">플레이하려면 클릭하십시오</string>
+    <string name="submit">제출하다</string>
+    <string name="hold_to_record">레코드를 누르고 있습니다</string>
+    <string name="nothing">없음</string>
+    <string name="please_start_clonse">클론을 켜십시오</string>
+    <string name="voice_warn_min_seconds">녹음 시간은 최소 1 $ 1 초입니다</string>
+    <string name="clone_being_created">클론이 만들어지고 있습니다. 기다려주세요</string>
+    <string name="voice_training">톤 훈련</string>
+    <string name="voice_training_fail">교육이 실패하면 다시 제출하십시오</string>
+    <string name="role_clone">캐릭터 클론</string>
+    <string name="close_clone_hint">폐쇄 후 LLM_BOT 클론을 사용할 수 없습니다</string>
 
 </resources>

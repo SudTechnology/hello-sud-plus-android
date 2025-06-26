@@ -591,5 +591,25 @@
     <string name="end_of_release">離して終了</string>
     <string name="large_model">大規模モデル</string>
 
+    <string name="cloned">クリップ</string>
+    <string name="create_my_cloned">私のクローンを作成します</string>
+    <string name="start_cloned">クローンを有効にします</string>
+    <string name="name">名前</string>
+    <string name="personality">特徴的な特性</string>
+    <string name="language_style">言語スタイル</string>
+    <string name="language_detail_style">言語詳細なスタイル</string>
+    <string name="voice">音</string>
+    <string name="please_read_it_aloud">読んでください</string>
+    <string name="click_play">クリックして再生します</string>
+    <string name="submit">提出する</string>
+    <string name="hold_to_record">記録を押し続けます</string>
+    <string name="nothing">なし</string>
+    <string name="please_start_clonse">クローンをオンにしてください</string>
+    <string name="voice_warn_min_seconds">記録時間は少なくとも%1$s秒です</string>
+    <string name="clone_being_created">クローンが作成されています、お待ちください</string>
+    <string name="voice_training">トーントレーニング</string>
+    <string name="voice_training_fail">トレーニングが失敗した場合は再送信してください</string>
+    <string name="role_clone">文字クローン</string>
+    <string name="close_clone_hint">閉じた後、LLM_BOTクローンを使用できません</string>
 
 </resources>

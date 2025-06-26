@@ -597,4 +597,25 @@
     <string name="end_of_release">松开结束</string>
     <string name="large_model">大模型</string>
 
+    <string name="cloned">分身</string>
+    <string name="create_my_cloned">创建我的分身</string>
+    <string name="start_cloned">启用分身</string>
+    <string name="name">姓名</string>
+    <string name="personality">性格特点</string>
+    <string name="language_style">语言风格</string>
+    <string name="language_detail_style">语言详细风格</string>
+    <string name="voice">声音</string>
+    <string name="please_read_it_aloud">请朗读</string>
+    <string name="click_play">点击播放</string>
+    <string name="submit">提交</string>
+    <string name="hold_to_record">按住 录制</string>
+    <string name="nothing">无</string>
+    <string name="please_start_clonse">请开启分身</string>
+    <string name="voice_warn_min_seconds">录音时长至少%1$s秒</string>
+    <string name="clone_being_created">分身创建中，请稍后</string>
+    <string name="voice_training">音色训练中</string>
+    <string name="voice_training_fail">训练失败请重新提交</string>
+    <string name="role_clone">角色分身</string>
+    <string name="close_clone_hint">关闭后本人的LLM_BOT分身无法使用</string>
+    
 </resources>

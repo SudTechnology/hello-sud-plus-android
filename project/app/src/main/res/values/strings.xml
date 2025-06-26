@@ -720,30 +720,32 @@ Go to homepage to create one~</string>
     <string name="end_of_release">Release to end</string>
     <string name="large_model">Large Model</string>
 
+    <string name="cloned">Clip</string>
+    <string name="create_my_cloned">Create my clone</string>
+    <string name="start_cloned">Enable the clone</string>
+    <string name="name">Name</string>
+    <string name="personality">Characteristic traits</string>
+    <string name="language_style">Language style</string>
+    <string name="language_detail_style">Language Detailed Style</string>
+    <string name="voice">sound</string>
+    <string name="please_read_it_aloud">Please read</string>
+    <string name="click_play">Click to play</string>
+    <string name="submit">submit</string>
+    <string name="hold_to_record">Press and hold Record</string>
+    <string name="nothing">none</string>
+    <string name="please_start_clonse">Please turn on the clone</string>
+    <string name="voice_warn_min_seconds">Recording time is at least %1$s seconds</string>
+    <string name="clone_being_created">The clone is being created, please wait</string>
+    <string name="voice_training">Tone training</string>
+    <string name="voice_training_fail">Please resubmit if the training fails</string>
+    <string name="role_clone">Character clone</string>
+    <string name="close_clone_hint">After closing, my LLM_BOT clone cannot be used</string>
+
     <!-- region 只翻译了英语 -->
     <!-- endregion 只翻译了英语 -->
 
     <!-- region 新增 -->
-    <string name="cloned">分身</string>
-    <string name="create_my_cloned">创建我的分身</string>
-    <string name="start_cloned">启用分身</string>
-    <string name="name">姓名</string>
-    <string name="personality">性格特点</string>
-    <string name="language_style">语言风格</string>
-    <string name="language_detail_style">语言详细风格</string>
-    <string name="voice">声音</string>
-    <string name="please_read_it_aloud">请朗读</string>
-    <string name="click_play">点击播放</string>
-    <string name="submit">提交</string>
-    <string name="hold_to_record">按住 录制</string>
-    <string name="nothing">无</string>
-    <string name="please_start_clonse">请开启分身</string>
-    <string name="voice_warn_min_seconds">录音时长至少%1$s秒</string>
-    <string name="clone_being_created">分身创建中，请稍后</string>
-    <string name="voice_training">音色训练中</string>
-    <string name="voice_training_fail">训练失败请重新提交</string>
-    <string name="role_clone">角色分身</string>
-    <string name="close_clone_hint">关闭后本人的LLM_BOT分身无法使用</string>
+
     <!-- endregion 新增 -->
 
 </resources>

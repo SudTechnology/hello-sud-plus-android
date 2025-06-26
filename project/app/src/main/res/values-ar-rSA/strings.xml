@@ -591,5 +591,27 @@
     <string name="hold_to_speak">تمسك بالتحدث</string>
     <string name="end_of_release">ينتهي الافراج</string>
     <string name="large_model">النموذج الكبير</string>
-    
+
+    <string name="cloned">مقطع</string>
+    <string name="create_my_cloned">إنشاء استنساخ بلدي</string>
+    <string name="start_cloned">تمكين الاستنساخ</string>
+    <string name="name">اسم</string>
+    <string name="personality">سمات مميزة</string>
+    <string name="language_style">نمط اللغة</string>
+    <string name="language_detail_style">نمط مفصل اللغة</string>
+    <string name="voice">صوت</string>
+    <string name="please_read_it_aloud">يرجى قراءة</string>
+    <string name="click_play">انقر للعب</string>
+    <string name="submit">يُقدِّم</string>
+    <string name="hold_to_record">اضغط على السجل والاحتفاظ به</string>
+    <string name="nothing">لا أحد</string>
+    <string name="please_start_clonse">يرجى تشغيل الاستنساخ</string>
+    <string name="voice_warn_min_seconds">مدة التسجيل يجب أن تكون على الأقل %1$s ثانية</string>
+    <string name="clone_being_created">يتم إنشاء الاستنساخ ، يرجى الانتظار</string>
+    <string name="voice_training">تدريب النغمة</string>
+    <string name="voice_training_fail">يرجى إعادة تقديمها إذا فشل التدريب</string>
+    <string name="role_clone">استنساخ الشخصية</string>
+    <string name="close_clone_hint">بعد الإغلاق ، لا يمكن استخدام استنساخ LLM_BOT الخاص بي</string>
+
+
 </resources>

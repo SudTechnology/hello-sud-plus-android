@@ -593,5 +593,27 @@ Buat ruangan di Beranda</string>
     <string name="game_loading">Sedang memuat… %1$s</string>
     <string name="present_gift">Kirim %1$s</string>
     <string name="large_model">Model Besar</string>
-    
+
+    <string name="cloned">Klip</string>
+    <string name="create_my_cloned">Buat klon saya</string>
+    <string name="start_cloned">Aktifkan klon</string>
+    <string name="name">Nama</string>
+    <string name="personality">Ciri khas</string>
+    <string name="language_style">Gaya bahasa</string>
+    <string name="language_detail_style">Gaya detail bahasa</string>
+    <string name="voice">suara</string>
+    <string name="please_read_it_aloud">Harap baca</string>
+    <string name="click_play">Klik untuk bermain</string>
+    <string name="submit">kirim</string>
+    <string name="hold_to_record">Tekan dan Tahan Catatan</string>
+    <string name="nothing">tidak ada</string>
+    <string name="please_start_clonse">Harap Nyalakan Klon</string>
+    <string name="voice_warn_min_seconds">Waktu perekaman setidaknya %1$s detik</string>
+    <string name="clone_being_created">Klon sedang dibuat, harap tunggu</string>
+    <string name="voice_training">Pelatihan nada</string>
+    <string name="voice_training_fail">Harap kirim kembali jika pelatihan gagal</string>
+    <string name="role_clone">Klon karakter</string>
+    <string name="close_clone_hint">Setelah ditutup, klon llm_bot saya tidak dapat digunakan</string>
+
+
 </resources>

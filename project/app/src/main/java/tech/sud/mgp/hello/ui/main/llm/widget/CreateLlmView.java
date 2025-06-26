@@ -79,10 +79,12 @@ public class CreateLlmView extends ConstraintLayout {
     }
 
     public void setSwitchCloned(boolean checked, boolean isEvent) {
-        if (isEvent) {
-            mSwitchButtonCloned.setChecked(checked);
-        } else {
-            mSwitchButtonCloned.setCheckedNoEvent(checked);
+        if (checked != mSwitchButtonCloned.isChecked()) {
+            if (isEvent) {
+                mSwitchButtonCloned.setChecked(checked);
+            } else {
+                mSwitchButtonCloned.setCheckedImmediatelyNoEvent(checked);
+            }
         }
         setCannotOperateShow(!checked);
     }

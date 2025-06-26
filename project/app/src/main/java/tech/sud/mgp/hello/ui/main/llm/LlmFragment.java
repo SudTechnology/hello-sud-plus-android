@@ -335,6 +335,9 @@ public class LlmFragment extends BaseFragment implements CreatRoomClickListener,
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 HomeRepository.updateAiClone(LlmFragment.this, isChecked ? 1 : 0, new RxCallback<>());
                 mLlmView.setSwitchCloned(isChecked, false);
+                if (!isChecked) {
+                    ToastUtils.showShort(R.string.close_clone_hint);
+                }
             }
         });
         mLlmView.setPersonalityListener(v -> {

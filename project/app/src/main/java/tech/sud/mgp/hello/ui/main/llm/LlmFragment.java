@@ -55,6 +55,7 @@ import tech.sud.mgp.hello.service.main.resp.GetAiCloneResp;
 import tech.sud.mgp.hello.service.main.resp.QuizGameListResp;
 import tech.sud.mgp.hello.service.main.resp.SaveAiCloneResp;
 import tech.sud.mgp.hello.service.main.resp.SceneModel;
+import tech.sud.mgp.hello.service.main.resp.UpdateAiCloneResp;
 import tech.sud.mgp.hello.service.main.resp.UserInfoResp;
 import tech.sud.mgp.hello.service.room.req.SaveAiCloneReq;
 import tech.sud.mgp.hello.service.room.resp.CrossAppModel;
@@ -109,6 +110,7 @@ public class LlmFragment extends BaseFragment implements CreatRoomClickListener,
     private WavRecorder mWavRecorder;
     private File mLocalWavFile;
     private SafeAudioPlayer mSafeAudioPlayer;
+    private boolean isInitSwitchLlm; // 标识是否已经初始化了开关状态
 
     public static LlmFragment newInstance() {
         LlmFragment fragment = new LlmFragment();
@@ -149,18 +151,11 @@ public class LlmFragment extends BaseFragment implements CreatRoomClickListener,
     }
 
     private void refreshClone() {
-        mLlmView.setSwitchEnabled(false);
         HomeRepository.getAiClone(this, new RxCallback<GetAiCloneResp>() {
             @Override
             public void onSuccess(GetAiCloneResp resp) {
                 super.onSuccess(resp);
                 setCloneInfo(resp);
-            }
-
-            @Override
-            public void onFinally() {
-                super.onFinally();
-                mLlmView.setSwitchEnabled(true);
             }
         });
     }
@@ -173,9 +168,15 @@ public class LlmFragment extends BaseFragment implements CreatRoomClickListener,
         AiInfoModel aiInfoModel = resp.aiInfo;
         boolean showVoicePlay = false;
         if (aiInfoModel == null) {
-            mLlmView.setSwitchCloned(false, false);
+            if (!isInitSwitchLlm) {
+                mLlmView.setSwitchCloned(false, false);
+                isInitSwitchLlm = true;
+            }
         } else {
-            mLlmView.setSwitchCloned(aiInfoModel.status == 1, false);
+            if (!isInitSwitchLlm) {
+                mLlmView.setSwitchCloned(aiInfoModel.status == 1, false);
+                isInitSwitchLlm = true;
+            }
             if (aiInfoModel.voiceStatus != 0) {
                 showVoicePlay = true;
             }
@@ -340,8 +341,14 @@ public class LlmFragment extends BaseFragment implements CreatRoomClickListener,
         mLlmView.setSwitchListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                HomeRepository.updateAiClone(LlmFragment.this, isChecked ? 1 : 0, new RxCallback<>());
-                mLlmView.setSwitchCloned(isChecked, false);
+                HomeRepository.updateAiClone(LlmFragment.this, isChecked ? 1 : 0, new RxCallback<UpdateAiCloneResp>() {
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        isInitSwitchLlm = false;
+                        refreshClone();
+                    }
+                });
                 if (!isChecked) {
                     ToastUtils.showShort(R.string.close_clone_hint);
                 }

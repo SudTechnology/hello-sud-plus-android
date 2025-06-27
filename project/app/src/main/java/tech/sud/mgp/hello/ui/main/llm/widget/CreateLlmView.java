@@ -89,6 +89,10 @@ public class CreateLlmView extends ConstraintLayout {
         setCannotOperateShow(!checked);
     }
 
+    public void setSwitchEnabled(boolean enabled) {
+        mSwitchButtonCloned.setEnabled(enabled);
+    }
+
     public void setNickName(String name) {
         mEtName.setText(name);
     }

@@ -149,11 +149,18 @@ public class LlmFragment extends BaseFragment implements CreatRoomClickListener,
     }
 
     private void refreshClone() {
+        mLlmView.setSwitchEnabled(false);
         HomeRepository.getAiClone(this, new RxCallback<GetAiCloneResp>() {
             @Override
             public void onSuccess(GetAiCloneResp resp) {
                 super.onSuccess(resp);
                 setCloneInfo(resp);
+            }
+
+            @Override
+            public void onFinally() {
+                super.onFinally();
+                mLlmView.setSwitchEnabled(true);
             }
         });
     }

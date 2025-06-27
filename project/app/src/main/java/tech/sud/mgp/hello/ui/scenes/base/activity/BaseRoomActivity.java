@@ -453,7 +453,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
 
         addRobotBigModelItem(popupWindow, container, getString(R.string.role_clone), null, true); // 角色分身
 
-        int idCount = 20;
+        int idCount = 275;
         for (int i = 1; i <= idCount; i++) {
             String aiId = i + "";
             addRobotBigModelItem(popupWindow, container, aiId, aiId, false); // 大模型

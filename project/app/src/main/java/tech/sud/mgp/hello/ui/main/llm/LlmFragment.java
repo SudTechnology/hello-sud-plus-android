@@ -171,11 +171,15 @@ public class LlmFragment extends BaseFragment implements CreatRoomClickListener,
             if (!isInitSwitchLlm) {
                 mLlmView.setSwitchCloned(false, false);
                 isInitSwitchLlm = true;
+            } else {
+                mLlmView.setCannotOperateShow(true);
             }
         } else {
             if (!isInitSwitchLlm) {
                 mLlmView.setSwitchCloned(aiInfoModel.status == 1, false);
                 isInitSwitchLlm = true;
+            } else {
+                mLlmView.setCannotOperateShow(aiInfoModel.status != 1);
             }
             if (aiInfoModel.voiceStatus != 0) {
                 showVoicePlay = true;
@@ -349,7 +353,7 @@ public class LlmFragment extends BaseFragment implements CreatRoomClickListener,
                         refreshClone();
                     }
                 });
-                mLlmView.setCannotOperateShow(isChecked);
+                mLlmView.setCannotOperateShow(!isChecked);
                 if (!isChecked) {
                     ToastUtils.showShort(R.string.close_clone_hint);
                 }

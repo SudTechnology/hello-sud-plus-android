@@ -529,7 +529,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
 
     /** 点击了添加机器人 */
     protected void onClickAddRobot(int level, int aiType, String aiId) {
-        RoomRepository.robotList(this, 30, new RxCallback<RobotListResp>() {
+        RoomRepository.robotList(this, 300, new RxCallback<RobotListResp>() {
             @Override
             public void onSuccess(RobotListResp robotListResp) {
                 super.onSuccess(robotListResp);
@@ -1638,7 +1638,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
             return;
         }
         // 不存在，默认添加三个机器人
-        RoomRepository.robotList(this, 30, new RxCallback<RobotListResp>() {
+        RoomRepository.robotList(this, 300, new RxCallback<RobotListResp>() {
             @Override
             public void onSuccess(RobotListResp resp) {
                 super.onSuccess(resp);

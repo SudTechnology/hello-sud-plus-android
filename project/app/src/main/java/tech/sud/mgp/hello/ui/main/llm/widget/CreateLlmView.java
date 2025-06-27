@@ -133,7 +133,7 @@ public class CreateLlmView extends ConstraintLayout {
         mTvReadAloudContent.setText(str);
     }
 
-    private void setCannotOperateShow(boolean show) {
+    public void setCannotOperateShow(boolean show) {
         mViewCannotOperate.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 

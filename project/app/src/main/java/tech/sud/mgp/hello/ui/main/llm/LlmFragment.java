@@ -349,6 +349,7 @@ public class LlmFragment extends BaseFragment implements CreatRoomClickListener,
                         refreshClone();
                     }
                 });
+                mLlmView.setCannotOperateShow(isChecked);
                 if (!isChecked) {
                     ToastUtils.showShort(R.string.close_clone_hint);
                 }

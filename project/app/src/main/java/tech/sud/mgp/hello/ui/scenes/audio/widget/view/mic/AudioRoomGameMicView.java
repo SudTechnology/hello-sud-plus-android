@@ -79,7 +79,7 @@ public class AudioRoomGameMicView extends BaseMicView<AudioRoomGameMicItemView> 
     }
 
     private void initMicView() {
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < 12; i++) {
             AudioRoomGameMicItemView itemView = new AudioRoomGameMicItemView(getContext());
             itemView.setMicMode(micMode);
             container.addView(itemView, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);

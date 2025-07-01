@@ -390,13 +390,16 @@ public class LlmFragment extends BaseFragment implements CreatRoomClickListener,
         }
         if (aiInfo.voiceStatus == 1) {
             ToastUtils.showShort(R.string.voice_training);
+            refreshClone();
         } else if (aiInfo.voiceStatus == 3) {
             ToastUtils.showShort(R.string.voice_training_fail);
+            refreshClone();
         } else {
             String demoAudioData = aiInfo.demoAudioData;
             if (TextUtils.isEmpty(demoAudioData)) {
                 LogUtils.d("没有可试听的音色");
                 ToastUtils.showShort(R.string.voice_training);
+                refreshClone();
             } else {
                 mSafeAudioPlayer.playFromBytes(Base64Utils.base64Decode(demoAudioData), "mp3");
             }

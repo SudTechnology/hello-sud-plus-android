@@ -17,12 +17,13 @@
     <LinearLayout
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
+        android:layout_height="63dp"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:gravity="center_vertical"
-        android:layout_height="63dp">
+        android:clipChildren="false">
 
     </LinearLayout>
 

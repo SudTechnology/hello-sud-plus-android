@@ -5,6 +5,7 @@ public class TabModel {
     public String text;
     public int iconId;
     public int selectedIconId;
+    public boolean isLlmBot;
 
     public TabModel(int index, String text, int iconId) {
         this.index = index;
@@ -12,11 +13,12 @@ public class TabModel {
         this.iconId = iconId;
     }
 
-    public TabModel(int index, String text, int iconId, int selectedIconId) {
+    public TabModel(int index, String text, int iconId, int selectedIconId, boolean isLlmBot) {
         this.index = index;
         this.text = text;
         this.iconId = iconId;
         this.selectedIconId = selectedIconId;
+        this.isLlmBot = isLlmBot;
     }
 
 }

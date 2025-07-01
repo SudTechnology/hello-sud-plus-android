@@ -19,6 +19,13 @@ public class MainTabView extends LinearLayout implements View.OnClickListener {
     private TextView text;
     private TabModel tabModel;
     private TabClickListener tabClickListener;
+    private boolean isLlmBot;
+
+    public MainTabView(@NonNull Context context, boolean isLlmBot) {
+        super(context);
+        this.isLlmBot = isLlmBot;
+        init(context);
+    }
 
     public MainTabView(@NonNull Context context) {
         super(context);
@@ -40,8 +47,15 @@ public class MainTabView extends LinearLayout implements View.OnClickListener {
         setOrientation(LinearLayout.VERTICAL);
         setOnClickListener(this);
         icon = new ImageView(context);
-        LayoutParams iconParams = new LayoutParams(DensityUtils.dp2px(context, 24.0f), DensityUtils.dp2px(context, 24.0f));
-        icon.setLayoutParams(iconParams);
+        if (isLlmBot) {
+            setClipChildren(false);
+            LayoutParams iconParams = new LayoutParams(DensityUtils.dp2px(context, 72.0f), DensityUtils.dp2px(context, 24.0f));
+            icon.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            icon.setLayoutParams(iconParams);
+        } else {
+            LayoutParams iconParams = new LayoutParams(DensityUtils.dp2px(context, 24.0f), DensityUtils.dp2px(context, 24.0f));
+            icon.setLayoutParams(iconParams);
+        }
         addView(icon);
         text = new TextView(context);
         LayoutParams textParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);

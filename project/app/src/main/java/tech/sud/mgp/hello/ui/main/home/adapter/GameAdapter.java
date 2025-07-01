@@ -30,11 +30,12 @@ public class GameAdapter extends BaseQuickAdapter<GameModel, BaseViewHolder> {
         if (!TextUtils.isEmpty(item.homeGamePic)) {
             nameTv.setTextColor(Color.WHITE);
             ImageLoader.loadGameCover(iconView, item.homeGamePic);
-            nameTv.setShadowLayer(3.0f,0,0,Color.parseColor("#66000000"));
+            nameTv.setShadowLayer(3.0f, 0, 0, Color.parseColor("#66000000"));
         } else {
             nameTv.setTextColor(Color.parseColor("#AAAAAA"));
             iconView.setImageResource(R.drawable.icon_game_empty);
-            nameTv.setShadowLayer(0.0f,0,0,0);
+            nameTv.setShadowLayer(0.0f, 0, 0, 0);
         }
+        helper.setVisible(R.id.iv_llm_bot, item.supportLlm == 1);
     }
 }

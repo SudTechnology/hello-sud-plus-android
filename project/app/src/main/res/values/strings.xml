@@ -746,6 +746,11 @@ Go to homepage to create one~</string>
 
     <!-- region 新增 -->
     <string name="large_model_ai">大模型AI</string>
+    <string name="my_voice">我的声音</string>
+    <string name="other">其它</string>
+    <string name="nothing_voice_hint">请按住录制我的声音，训练我的音色</string>
+    <string name="trial_listening">试听</string>
+    <string name="restart_record">重新录制</string>
 
     <!-- endregion 新增 -->
 

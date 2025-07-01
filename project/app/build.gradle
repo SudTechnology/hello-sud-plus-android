@@ -203,4 +203,6 @@ dependencies {
     // 按钮：https://github.com/kyleduo/SwitchButton
     implementation 'com.kyleduo.switchbutton:library:2.1.0'
 
+    implementation 'com.google.android.flexbox:flexbox:3.0.0'
+
 }

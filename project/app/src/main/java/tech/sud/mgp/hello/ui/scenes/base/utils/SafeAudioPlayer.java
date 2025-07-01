@@ -13,6 +13,7 @@ public class SafeAudioPlayer {
     private boolean isPlaying = false;
     private final Context context;
     private File tempFile = null;
+    private OnPlayListener mOnPlayListener;
 
     public SafeAudioPlayer(Context context) {
         this.context = context.getApplicationContext();
@@ -30,7 +31,6 @@ public class SafeAudioPlayer {
     // 播放二进制数据（会写入临时文件）
     public void playFromBytes(byte[] audioBytes, String fileExtension) {
         if (isPlaying) return;
-
         try {
             tempFile = File.createTempFile("audio_temp", fileExtension, context.getCacheDir());
             FileOutputStream fos = new FileOutputStream(tempFile);
@@ -49,6 +49,9 @@ public class SafeAudioPlayer {
             mediaPlayer = new MediaPlayer();
             mediaPlayer.setDataSource(context, uri);
             mediaPlayer.setOnPreparedListener(mp -> {
+                if (mOnPlayListener != null) {
+                    mOnPlayListener.onStart();
+                }
                 isPlaying = true;
                 mp.start();
             });
@@ -66,6 +69,9 @@ public class SafeAudioPlayer {
 
     // 停止播放 + 清理资源
     private void releasePlayer() {
+        if (mOnPlayListener != null) {
+            mOnPlayListener.onStop();
+        }
         isPlaying = false;
         if (mediaPlayer != null) {
             mediaPlayer.stop();
@@ -87,6 +93,16 @@ public class SafeAudioPlayer {
 
     public boolean isPlaying() {
         return isPlaying;
+    }
+
+    public void setOnPlayListener(OnPlayListener onPlayListener) {
+        mOnPlayListener = onPlayListener;
+    }
+
+    public interface OnPlayListener {
+        void onStart();
+
+        void onStop();
     }
 }
 

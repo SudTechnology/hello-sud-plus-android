@@ -42,7 +42,6 @@ import tech.sud.mgp.hello.common.utils.ViewUtils;
 import tech.sud.mgp.hello.common.utils.WavRecorder;
 import tech.sud.mgp.hello.common.utils.permission.PermissionFragment;
 import tech.sud.mgp.hello.common.utils.permission.SudPermissionUtils;
-import tech.sud.mgp.hello.common.widget.dialog.BottomItemOptionDialog;
 import tech.sud.mgp.hello.service.main.manager.HomeManager;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.main.repository.UserInfoRepository;
@@ -147,6 +146,17 @@ public class LlmFragment extends BaseFragment implements CreatRoomClickListener,
         mLlmView.showNormalStatus();
         if (mSafeAudioPlayer == null) {
             mSafeAudioPlayer = new SafeAudioPlayer(requireContext());
+            mSafeAudioPlayer.setOnPlayListener(new SafeAudioPlayer.OnPlayListener() {
+                @Override
+                public void onStart() {
+                    mLlmView.startVoiceAnim();
+                }
+
+                @Override
+                public void onStop() {
+                    mLlmView.stopVoiceAnim();
+                }
+            });
         }
     }
 
@@ -165,6 +175,8 @@ public class LlmFragment extends BaseFragment implements CreatRoomClickListener,
         if (resp == null) {
             return;
         }
+        mLlmView.setDatas(resp);
+
         AiInfoModel aiInfoModel = resp.aiInfo;
         boolean showVoicePlay = false;
         if (aiInfoModel == null) {
@@ -194,39 +206,6 @@ public class LlmFragment extends BaseFragment implements CreatRoomClickListener,
                 nickname = HSUserInfo.nickName + "AI";
             }
             mLlmView.setNickName(nickname);
-        }
-
-        String personality = mLlmView.getPersonality();
-        if (TextUtils.isEmpty(personality)) {
-            if (aiInfoModel != null) {
-                personality = aiInfoModel.personality;
-            }
-            if (TextUtils.isEmpty(personality)) {
-                personality = randomStr(resp.personalityOptions);
-            }
-            mLlmView.setPersonality(personality);
-        }
-
-        String languageStyle = mLlmView.getLanguage();
-        if (TextUtils.isEmpty(languageStyle)) {
-            if (aiInfoModel != null) {
-                languageStyle = aiInfoModel.languageStyle;
-            }
-            if (TextUtils.isEmpty(languageStyle)) {
-                languageStyle = randomStr(resp.languageStyleOptions);
-            }
-            mLlmView.setLanguage(languageStyle);
-        }
-
-        String languageDetailStyle = mLlmView.getLanguageDetail();
-        if (TextUtils.isEmpty(languageDetailStyle)) {
-            if (aiInfoModel != null) {
-                languageDetailStyle = aiInfoModel.languageDetailStyle;
-            }
-            if (TextUtils.isEmpty(languageDetailStyle)) {
-                languageDetailStyle = randomStr(resp.languageDetailStyleOptions);
-            }
-            mLlmView.setLanguageDetail(languageDetailStyle);
         }
 
         mLlmView.setReadAloud(resp.audioText);
@@ -359,87 +338,6 @@ public class LlmFragment extends BaseFragment implements CreatRoomClickListener,
                 }
             }
         });
-        mLlmView.setPersonalityListener(v -> {
-            if (mGetAiCloneResp == null) {
-                return;
-            }
-            if (mGetAiCloneResp.personalityOptions == null || mGetAiCloneResp.personalityOptions.size() == 0) {
-                return;
-            }
-            List<BottomItemOptionDialog.ItemModel> list = new ArrayList<>();
-            String personality = mLlmView.getPersonality();
-            for (String str : mGetAiCloneResp.personalityOptions) {
-                BottomItemOptionDialog.ItemModel itemModel = new BottomItemOptionDialog.ItemModel();
-                if (str != null && str.equals(personality)) {
-                    itemModel.isSelected = true;
-                }
-                itemModel.info = str;
-                list.add(itemModel);
-            }
-            BottomItemOptionDialog dialog = new BottomItemOptionDialog(requireContext());
-            dialog.setList(list);
-            dialog.setOnItemClickListener(model -> {
-                mLlmView.setPersonality(model.info);
-                dialog.dismiss();
-            });
-            dialog.show();
-        });
-
-        mLlmView.setLanguageListener(v -> {
-            if (mGetAiCloneResp == null) {
-                return;
-            }
-            if (mGetAiCloneResp.languageStyleOptions == null || mGetAiCloneResp.languageStyleOptions.size() == 0) {
-                return;
-            }
-            List<BottomItemOptionDialog.ItemModel> list = new ArrayList<>();
-            String language = mLlmView.getLanguage();
-            for (String str : mGetAiCloneResp.languageStyleOptions) {
-                BottomItemOptionDialog.ItemModel itemModel = new BottomItemOptionDialog.ItemModel();
-                if (str != null && str.equals(language)) {
-                    itemModel.isSelected = true;
-                }
-                itemModel.info = str;
-                list.add(itemModel);
-            }
-            BottomItemOptionDialog dialog = new BottomItemOptionDialog(requireContext());
-            dialog.setList(list);
-            dialog.setOnItemClickListener(model -> {
-                mLlmView.setLanguage(model.info);
-                dialog.dismiss();
-            });
-            dialog.show();
-        });
-
-        mLlmView.setLanguageDetailListener(v -> {
-            if (mGetAiCloneResp == null) {
-                return;
-            }
-            if (mGetAiCloneResp.languageDetailStyleOptions == null || mGetAiCloneResp.languageDetailStyleOptions.size() == 0) {
-                return;
-            }
-            List<BottomItemOptionDialog.ItemModel> list = new ArrayList<>();
-            String language = mLlmView.getLanguageDetail();
-            for (String str : mGetAiCloneResp.languageDetailStyleOptions) {
-                BottomItemOptionDialog.ItemModel itemModel = new BottomItemOptionDialog.ItemModel();
-                if (str != null && str.equals(language)) {
-                    itemModel.isSelected = true;
-                }
-                itemModel.info = str;
-                list.add(itemModel);
-            }
-            BottomItemOptionDialog dialog = new BottomItemOptionDialog(requireContext());
-            dialog.setList(list);
-            dialog.setOnItemClickListener(model -> {
-                mLlmView.setLanguageDetail(model.info);
-                dialog.dismiss();
-            });
-            dialog.show();
-        });
-
-        mLlmView.setOperateListener(v -> {
-            onClickOperateVoice();
-        });
 
         mLlmView.setOnRecordListener(new VoiceRecordView.OnRecordListener() {
             @Override
@@ -453,13 +351,6 @@ public class LlmFragment extends BaseFragment implements CreatRoomClickListener,
             }
         });
 
-        mLlmView.setPlayPreVoiceListener(v -> {
-            if (mLocalWavFile == null) {
-                return;
-            }
-            mSafeAudioPlayer.playFromPath(mLocalWavFile.getAbsolutePath());
-        });
-
         mLlmView.setCancelOnClickListener(v -> {
             mLlmView.showNormalStatus();
             setCloneInfo(mGetAiCloneResp);
@@ -470,8 +361,20 @@ public class LlmFragment extends BaseFragment implements CreatRoomClickListener,
         });
 
         mLlmView.setLlmVoiceOnClickListener(v -> {
-            onClickLlmVoice();
+            onClickPlayVoice();
         });
+
+        mLlmView.setTrialListeningOnClickListener(v -> {
+            onClickPlayVoice();
+        });
+    }
+
+    private void onClickPlayVoice() {
+        if (mLocalWavFile == null) {
+            onClickLlmVoice();
+        } else {
+            mSafeAudioPlayer.playFromPath(mLocalWavFile.getAbsolutePath());
+        }
     }
 
     private void onClickLlmVoice() {
@@ -519,14 +422,15 @@ public class LlmFragment extends BaseFragment implements CreatRoomClickListener,
         req.bloodType = randomStr(mGetAiCloneResp.bloodTypeOptions);
         req.mbti = randomStr(mGetAiCloneResp.mbtiOptions);
         req.personality = mLlmView.getPersonality();
-        req.languageStyle = mLlmView.getLanguage();
-        req.languageDetailStyle = mLlmView.getLanguageDetail();
+        req.languageStyle = mLlmView.getLanguageStyle();
+        req.languageDetailStyle = mLlmView.getLanguageDetailStyle();
         req.audioData = voiceBase64;
         req.audioFormat = "wav";
         HomeRepository.saveAiClone(this, req, new RxCallback<SaveAiCloneResp>() {
             @Override
             public void onSuccess(SaveAiCloneResp saveAiCloneResp) {
                 super.onSuccess(saveAiCloneResp);
+                mLocalWavFile = null;
                 mLlmView.showReadyClonedStatus();
                 refreshClone();
             }
@@ -575,22 +479,6 @@ public class LlmFragment extends BaseFragment implements CreatRoomClickListener,
         }
         mWavRecorder.stopRecording();
         mWavRecorder = null;
-    }
-
-    private void onClickOperateVoice() {
-        switch (mLlmView.getVoiceModel()) {
-            case 1:
-                break;
-            case 2:
-                mLlmView.showNormalRecordStatus();
-                break;
-            case 3:
-                mLlmView.showNormalRecordStatus();
-                break;
-            default:
-                mLlmView.showNormalRecordStatus();
-                break;
-        }
     }
 
     private void createScene(GameListResp resp, QuizGameListResp quizGameListResp) {

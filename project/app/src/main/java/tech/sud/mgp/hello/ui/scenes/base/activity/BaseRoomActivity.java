@@ -72,6 +72,7 @@ import tech.sud.mgp.hello.service.main.repository.UserInfoRepository;
 import tech.sud.mgp.hello.service.main.resp.GameModel;
 import tech.sud.mgp.hello.service.main.resp.GetAccountResp;
 import tech.sud.mgp.hello.service.main.resp.RandomAiCloneResp;
+import tech.sud.mgp.hello.service.main.resp.UserInfoResp;
 import tech.sud.mgp.hello.service.room.repository.RoomRepository;
 import tech.sud.mgp.hello.service.room.resp.CrossAppModel;
 import tech.sud.mgp.hello.service.room.resp.GiftListResp;
@@ -983,10 +984,43 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
             String audioData = obj.getString("audioData");
             String uid = obj.optString("uid");
             String content = obj.optString("content"); // 文本内容
+            addAiMsg(uid, content);
             playAudioData(uid, audioData);
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    // 添加一条AI的公屏消息
+    private void addAiMsg(String uidStr, String content) {
+        long uid;
+        try {
+            uid = Long.parseLong(uidStr);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+        List<Long> uidList = new ArrayList<>();
+        uidList.add(uid);
+        UserInfoRepository.getUserInfoList(this, uidList, true, new UserInfoRepository.UserInfoListResultListener() {
+            @Override
+            public void userInfoList(List<UserInfoResp> userInfos) {
+                if (userInfos == null || userInfos.size() == 0) {
+                    return;
+                }
+                if (binder == null) {
+                    return;
+                }
+                UserInfoResp userInfoResp = userInfos.get(0);
+                // 往公屏列表当中插入一条数据
+                RoomTextModel model = new RoomTextModel();
+                model.userId = userInfoResp.userId + "";
+                model.avatar = userInfoResp.getUseAvatar();
+                model.nickName = userInfoResp.nickname;
+                model.text = content;
+                binder.addChatMsg(model);
+            }
+        });
     }
 
     private void onScaleModelMsg(SudGIPMGState.MGCommonAiLargeScaleModelMsg model) {

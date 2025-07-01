@@ -123,7 +123,7 @@ public class RocketGameViewModel extends InteractionGameViewModel {
             callbackGetUserInfoError(e);
             return;
         }
-        HomeRepository.getUserInfoList(fragmentActivity, userIdList, new RxCallback<UserInfoListResp>() {
+        HomeRepository.getUserInfoList(fragmentActivity, userIdList, false, new RxCallback<UserInfoListResp>() {
             @Override
             public void onNext(BaseResponse<UserInfoListResp> t) {
                 super.onNext(t);

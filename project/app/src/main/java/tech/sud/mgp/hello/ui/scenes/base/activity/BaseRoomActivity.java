@@ -7,7 +7,9 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.os.Build;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.view.Gravity;
@@ -164,6 +166,8 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
     private AudioMsgPlayerConcurrent mAudioMsgPlayer;
 
     private final int customRobotLevelBigModel = -1;
+    private List<String> playVoiceAiUidList = new ArrayList<>();
+    private Handler mHandler = new Handler(Looper.getMainLooper());
 
     @Override
     protected boolean beforeSetContentView() {
@@ -550,6 +554,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
                 if (resp == null) {
                     return;
                 }
+                // 添加大模型分身到游戏
                 List<SudGIPAPPState.ModelAIPlayers> aiPlayersList = new ArrayList<>();
                 SudGIPAPPState.ModelAIPlayers modelAIPlayers = new SudGIPAPPState.ModelAIPlayers();
                 modelAIPlayers.userId = resp.aiUid;
@@ -562,6 +567,18 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
                 model.aiPlayers = aiPlayersList;
                 model.isReady = 1;
                 gameViewModel.notifyStateChange(SudGIPAPPState.APP_COMMON_GAME_ADD_BIG_SCALE_MODEL_AI_PLAYERS, model);
+
+                // 分身上麦
+                if (binder == null) {
+                    return;
+                }
+                List<AudioRoomMicModel> micList = binder.getMicList();
+                // 找到一个空位置
+                AudioRoomMicModel newRobotMic = findNewRobotMic(micList);
+                if (newRobotMic != null) {
+//                    ToastUtils.showShort(R.string.no_empty_seat);
+                    binder.robotUpMicLocation(UserInfoRespConverter.conver(modelAIPlayers), newRobotMic.micIndex, true);
+                }
             }
         });
     }
@@ -590,7 +607,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
                 AudioRoomMicModel newRobotMic = findNewRobotMic(micList);
                 if (newRobotMic != null) {
 //                    ToastUtils.showShort(R.string.no_empty_seat);
-                    binder.robotUpMicLocation(UserInfoRespConverter.conver(aiPlayers), newRobotMic.micIndex);
+                    binder.robotUpMicLocation(UserInfoRespConverter.conver(aiPlayers), newRobotMic.micIndex, false);
                 }
 
                 // 添加到游戏中
@@ -993,16 +1010,46 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
                 public void onPlaying() {
                     LogUtils.d("playAudioData onPlaying:" + uid);
                     gameViewModel.notifyGameMicState(uid, true);
+                    playVoiceAiUidList.add(uid);
+                    mHandler.removeCallbacks(mDelayStartAiSoundLevelTask);
+                    mHandler.post(mDelayStartAiSoundLevelTask);
                 }
 
                 @Override
                 public void onCompleted() {
                     LogUtils.d("playAudioData onCompleted:" + uid);
                     gameViewModel.notifyGameMicState(uid, false);
+                    playVoiceAiUidList.remove(uid);
                 }
             });
         }
     }
+
+    private void startDelayStartAiSoundLevel() {
+        mHandler.removeCallbacks(mDelayStartAiSoundLevelTask);
+        mHandler.postDelayed(mDelayStartAiSoundLevelTask, 1000);
+    }
+
+    private Runnable mDelayStartAiSoundLevelTask = new Runnable() {
+        @Override
+        public void run() {
+            for (String uid : playVoiceAiUidList) {
+                if (binder == null) {
+                    return;
+                }
+                List<AudioRoomMicModel> micList = binder.getMicList();
+                if (micList != null && micList.size() > 0) {
+                    for (int i = 0; i < micList.size(); i++) {
+                        AudioRoomMicModel model = micList.get(i);
+                        if (uid.equals(model.userId + "")) {
+                            micView.startSoundLevel(i);
+                        }
+                    }
+                }
+            }
+            startDelayStartAiSoundLevel();
+        }
+    };
 
     public byte[] base64Decode(String base64Str) {
         if (base64Str == null || base64Str.length() == 0)
@@ -1692,7 +1739,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
                 if (resp.robotList.size() <= addRobotCount) { // 机器人列表不足，不用随机
                     for (int i = 0; i < resp.robotList.size(); i++) {
                         if (i < addRobotCount) {
-                            binder.robotUpMicLocation(UserInfoRespConverter.conver(resp.robotList.get(i)), i + 1);
+                            binder.robotUpMicLocation(UserInfoRespConverter.conver(resp.robotList.get(i)), i + 1, false);
                         }
                     }
                 } else { // 随机选机器人
@@ -1714,7 +1761,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
                     findLevelRobot(resp, addRobotCount, list, null);
 
                     for (int i = 0; i < list.size(); i++) {
-                        binder.robotUpMicLocation(UserInfoRespConverter.conver(list.get(i)), i + 1);
+                        binder.robotUpMicLocation(UserInfoRespConverter.conver(list.get(i)), i + 1, false);
                     }
                 }
             }

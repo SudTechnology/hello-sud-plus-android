@@ -81,9 +81,10 @@ public class HomeRepository {
      *
      * @param userIds userId数据集
      */
-    public static void getUserInfoList(LifecycleOwner owner, List<Long> userIds, RxCallback<UserInfoListResp> callback) {
+    public static void getUserInfoList(LifecycleOwner owner, List<Long> userIds, boolean isAi, RxCallback<UserInfoListResp> callback) {
         UserInfoReq req = new UserInfoReq();
         req.userIds = userIds;
+        req.isAi = isAi;
         HomeRequestMethodFactory.getMethod()
                 .getUserInfoList(BaseUrlManager.getBaseUrl(), req)
                 .compose(RxUtils.schedulers(owner))

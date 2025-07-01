@@ -200,7 +200,7 @@ public class SceneMicManager extends BaseServiceManager {
                 parentManager.sceneEngineManager.sendCommand(command, null);
 
                 // 麦位列表
-                addUser2MicList(micIndex, HSUserInfo.userId, roomMicSwitchResp.streamId, parentManager.getRoleType());
+                addUser2MicList(micIndex, HSUserInfo.userId, roomMicSwitchResp.streamId, parentManager.getRoleType(), false);
 
                 // 回调给页面
                 SceneRoomServiceCallback callback = parentManager.getCallback();
@@ -218,7 +218,7 @@ public class SceneMicManager extends BaseServiceManager {
      * @param userInfoResp
      * @param micIndex
      */
-    public void robotUpMicLocation(UserInfoResp userInfoResp, int micIndex) {
+    public void robotUpMicLocation(UserInfoResp userInfoResp, int micIndex, boolean isAi) {
         if (userInfoResp == null) {
             return;
         }
@@ -256,7 +256,7 @@ public class SceneMicManager extends BaseServiceManager {
                 parentManager.sceneEngineManager.sendCommand(command, null);
 
                 // 麦位列表
-                addUser2MicList(micIndex, userId, streamId, RoleType.NORMAL);
+                addUser2MicList(micIndex, userId, streamId, RoleType.NORMAL, isAi);
             }
         });
     }
@@ -295,8 +295,9 @@ public class SceneMicManager extends BaseServiceManager {
      * @param userId   用户id
      * @param streamId 流id
      * @param roleType 房间角色
+     * @param isAi     是否是AI
      */
-    private void addUser2MicList(int micIndex, long userId, String streamId, int roleType) {
+    private void addUser2MicList(int micIndex, long userId, String streamId, int roleType, boolean isAi) {
         if (micIndex >= 0 && micIndex < micList.size()) {
             AudioRoomMicModel model = micList.get(micIndex);
             model.userId = userId;
@@ -309,7 +310,7 @@ public class SceneMicManager extends BaseServiceManager {
             } else {
                 List<Long> userIds = new ArrayList<>();
                 userIds.add(userId);
-                UserInfoRepository.getUserInfoList(parentManager, userIds, new UserInfoRepository.UserInfoListResultListener() {
+                UserInfoRepository.getUserInfoList(parentManager, userIds, isAi, new UserInfoRepository.UserInfoListResultListener() {
                     @Override
                     public void userInfoList(List<UserInfoResp> userInfos) {
                         if (userInfos != null) {

@@ -495,7 +495,7 @@ public class DiscoActivity extends AbsAudioRoomActivity<DiscoGameViewModel> {
                     for (int i = 0; i < robotListResp.robotList.size(); i++) {
                         if (i < SceneDiscoManager.ROBOT_UP_MIC_COUNT) {
                             SudGIPAPPState.AIPlayers aiPlayers = robotListResp.robotList.get(i);
-                            binder.robotUpMicLocation(UserInfoRespConverter.conver(aiPlayers), i);
+                            binder.robotUpMicLocation(UserInfoRespConverter.conver(aiPlayers), i, false);
                         } else {
                             break;
                         }

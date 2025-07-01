@@ -38,4 +38,21 @@ public class UserInfoRespConverter {
         return info;
     }
 
+    public static UserInfoResp conver(SudGIPAPPState.ModelAIPlayers model) {
+        if (model == null) {
+            return null;
+        }
+        UserInfoResp info = new UserInfoResp();
+        try {
+            info.userId = Long.parseLong(model.userId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        info.avatar = model.avatar;
+        info.nickname = model.name;
+        info.gender = model.gender;
+        info.isAi = true;
+        info.level = 3;
+        return info;
+    }
 }

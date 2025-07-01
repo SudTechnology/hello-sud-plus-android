@@ -96,6 +96,7 @@ import tech.sud.mgp.hello.ui.scenes.base.utils.AudioMsgPlayerConcurrent;
 import tech.sud.mgp.hello.ui.scenes.base.utils.UserInfoRespConverter;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.SceneRoomViewModel;
+import tech.sud.mgp.hello.ui.scenes.base.widget.dialog.AddAiDialog;
 import tech.sud.mgp.hello.ui.scenes.base.widget.dialog.GameModeDialog;
 import tech.sud.mgp.hello.ui.scenes.base.widget.dialog.RoomMoreDialog;
 import tech.sud.mgp.hello.ui.scenes.base.widget.view.MonopolyCardContainer;
@@ -354,9 +355,47 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         tvAddRobot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showRobotLevelPopup();
+                showNewAddAiDialog();
+//                showRobotLevelPopup();
             }
         });
+    }
+
+    private void showNewAddAiDialog() {
+        AddAiDialog dialog = new AddAiDialog(this);
+        dialog.show();
+        dialog.setAddAiListener(new AddAiDialog.AddAiListener() {
+            @Override
+            public void onClickAddRobot() {
+                onClickAddRobotNew();
+                dialog.dismiss();
+            }
+
+            @Override
+            public void onClickDefaultTone() {
+                onClickDefaultToneNew();
+                dialog.dismiss();
+            }
+
+            @Override
+            public void onClickCustomTone() {
+                onClickAddRoleClone();
+                dialog.dismiss();
+            }
+        });
+    }
+
+    // 从默认的大模型AI当中，随机选一个添加进去
+    private void onClickDefaultToneNew() {
+        int idCount = 275;
+        int randomAiId = new Random().nextInt(idCount) + 1;
+        onClickAddRobot(3, 1, randomAiId + "");
+    }
+
+    // 随机选一个等级的添加进去
+    private void onClickAddRobotNew() {
+        int randomLevel = new Random().nextInt(3) + 1;
+        onClickAddRobot(randomLevel, 0, null);
     }
 
     private void showRobotLevelPopup() {

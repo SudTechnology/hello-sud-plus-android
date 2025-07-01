@@ -315,7 +315,7 @@ public class SceneMicManager extends BaseServiceManager {
                     public void userInfoList(List<UserInfoResp> userInfos) {
                         if (userInfos != null) {
                             for (UserInfoResp userInfo : userInfos) {
-                                if (model.userId == userInfo.userId) {
+                                if (model.userId == userInfo.userId || isAi) { // ai的用户信息，目前返回的userId对应不上，先可以不用校验这一块
                                     model.nickName = userInfo.nickname;
                                     model.avatar = userInfo.avatar;
                                     model.gender = userInfo.gender;

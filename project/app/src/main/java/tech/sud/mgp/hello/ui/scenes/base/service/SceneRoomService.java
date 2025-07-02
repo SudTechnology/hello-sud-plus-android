@@ -182,8 +182,8 @@ public class SceneRoomService extends Service {
          * @param userInfoResp 机器人数据
          * @param micIndex     位置
          */
-        public void robotUpMicLocation(UserInfoResp userInfoResp, int micIndex, boolean isAi) {
-            serviceManager.sceneMicManager.robotUpMicLocation(userInfoResp, micIndex, isAi);
+        public void robotUpMicLocation(UserInfoResp userInfoResp, int micIndex) {
+            serviceManager.sceneMicManager.robotUpMicLocation(userInfoResp, micIndex);
         }
 
         /** 自动上麦 */

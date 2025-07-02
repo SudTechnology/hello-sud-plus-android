@@ -578,7 +578,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
                 AudioRoomMicModel newRobotMic = findNewRobotMic(micList);
                 if (newRobotMic != null) {
 //                    ToastUtils.showShort(R.string.no_empty_seat);
-                    binder.robotUpMicLocation(UserInfoRespConverter.conver(modelAIPlayers), newRobotMic.micIndex, true);
+                    binder.robotUpMicLocation(UserInfoRespConverter.conver(modelAIPlayers), newRobotMic.micIndex);
                 }
             }
         });
@@ -608,7 +608,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
                 AudioRoomMicModel newRobotMic = findNewRobotMic(micList);
                 if (newRobotMic != null) {
 //                    ToastUtils.showShort(R.string.no_empty_seat);
-                    binder.robotUpMicLocation(UserInfoRespConverter.conver(aiPlayers), newRobotMic.micIndex, false);
+                    binder.robotUpMicLocation(UserInfoRespConverter.conver(aiPlayers), newRobotMic.micIndex);
                 }
 
                 // 添加到游戏中
@@ -1002,7 +1002,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
         }
         List<Long> uidList = new ArrayList<>();
         uidList.add(uid);
-        UserInfoRepository.getUserInfoList(this, uidList, true, new UserInfoRepository.UserInfoListResultListener() {
+        UserInfoRepository.getUserInfoList(this, uidList, new UserInfoRepository.UserInfoListResultListener() {
             @Override
             public void userInfoList(List<UserInfoResp> userInfos) {
                 if (userInfos == null || userInfos.size() == 0) {
@@ -1773,7 +1773,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
                 if (resp.robotList.size() <= addRobotCount) { // 机器人列表不足，不用随机
                     for (int i = 0; i < resp.robotList.size(); i++) {
                         if (i < addRobotCount) {
-                            binder.robotUpMicLocation(UserInfoRespConverter.conver(resp.robotList.get(i)), i + 1, false);
+                            binder.robotUpMicLocation(UserInfoRespConverter.conver(resp.robotList.get(i)), i + 1);
                         }
                     }
                 } else { // 随机选机器人
@@ -1795,7 +1795,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
                     findLevelRobot(resp, addRobotCount, list, null);
 
                     for (int i = 0; i < list.size(); i++) {
-                        binder.robotUpMicLocation(UserInfoRespConverter.conver(list.get(i)), i + 1, false);
+                        binder.robotUpMicLocation(UserInfoRespConverter.conver(list.get(i)), i + 1);
                     }
                 }
             }

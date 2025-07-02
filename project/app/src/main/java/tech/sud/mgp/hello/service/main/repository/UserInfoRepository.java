@@ -14,12 +14,8 @@ import tech.sud.mgp.hello.service.main.resp.UserInfoResp;
 public class UserInfoRepository {
 
     public static void getUserInfoList(LifecycleOwner owner, List<Long> userIds, UserInfoListResultListener listener) {
-        getUserInfoList(owner, userIds, false, listener);
-    }
-
-    public static void getUserInfoList(LifecycleOwner owner, List<Long> userIds, boolean isAi, UserInfoListResultListener listener) {
         if (listener == null) return;
-        HomeRepository.getUserInfoList(owner, userIds, isAi, new RxCallback<UserInfoListResp>() {
+        HomeRepository.getUserInfoList(owner, userIds, new RxCallback<UserInfoListResp>() {
             @Override
             public void onNext(BaseResponse<UserInfoListResp> t) {
                 super.onNext(t);

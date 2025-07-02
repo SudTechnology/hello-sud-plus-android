@@ -200,7 +200,7 @@ public class SceneMicManager extends BaseServiceManager {
                 parentManager.sceneEngineManager.sendCommand(command, null);
 
                 // 麦位列表
-                addUser2MicList(micIndex, HSUserInfo.userId, roomMicSwitchResp.streamId, parentManager.getRoleType(), false);
+                addUser2MicList(micIndex, HSUserInfo.userId, roomMicSwitchResp.streamId, parentManager.getRoleType());
 
                 // 回调给页面
                 SceneRoomServiceCallback callback = parentManager.getCallback();
@@ -218,7 +218,7 @@ public class SceneMicManager extends BaseServiceManager {
      * @param userInfoResp
      * @param micIndex
      */
-    public void robotUpMicLocation(UserInfoResp userInfoResp, int micIndex, boolean isAi) {
+    public void robotUpMicLocation(UserInfoResp userInfoResp, int micIndex) {
         if (userInfoResp == null) {
             return;
         }
@@ -256,7 +256,7 @@ public class SceneMicManager extends BaseServiceManager {
                 parentManager.sceneEngineManager.sendCommand(command, null);
 
                 // 麦位列表
-                addUser2MicList(micIndex, userId, streamId, RoleType.NORMAL, isAi);
+                addUser2MicList(micIndex, userId, streamId, RoleType.NORMAL);
             }
         });
     }
@@ -295,9 +295,8 @@ public class SceneMicManager extends BaseServiceManager {
      * @param userId   用户id
      * @param streamId 流id
      * @param roleType 房间角色
-     * @param isAi     是否是AI
      */
-    private void addUser2MicList(int micIndex, long userId, String streamId, int roleType, boolean isAi) {
+    private void addUser2MicList(int micIndex, long userId, String streamId, int roleType) {
         if (micIndex >= 0 && micIndex < micList.size()) {
             AudioRoomMicModel model = micList.get(micIndex);
             model.userId = userId;
@@ -310,12 +309,12 @@ public class SceneMicManager extends BaseServiceManager {
             } else {
                 List<Long> userIds = new ArrayList<>();
                 userIds.add(userId);
-                UserInfoRepository.getUserInfoList(parentManager, userIds, isAi, new UserInfoRepository.UserInfoListResultListener() {
+                UserInfoRepository.getUserInfoList(parentManager, userIds, new UserInfoRepository.UserInfoListResultListener() {
                     @Override
                     public void userInfoList(List<UserInfoResp> userInfos) {
                         if (userInfos != null) {
                             for (UserInfoResp userInfo : userInfos) {
-                                if (model.userId == userInfo.userId || isAi) { // ai的用户信息，目前返回的userId对应不上，先可以不用校验这一块
+                                if (model.userId == userInfo.userId) {
                                     model.nickName = userInfo.nickname;
                                     model.avatar = userInfo.avatar;
                                     model.gender = userInfo.gender;

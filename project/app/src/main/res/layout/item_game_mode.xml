@@ -53,7 +53,7 @@
         android:scaleType="fitCenter"
         android:visibility="gone"
         android:src="@drawable/ic_llm_bot_game_tag"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@id/item_game_mode_iv_icon"
+        app:layout_constraintEnd_toEndOf="@id/item_game_mode_iv_icon" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

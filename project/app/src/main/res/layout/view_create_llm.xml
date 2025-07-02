@@ -216,13 +216,14 @@
                         android:singleLine="true"
                         android:padding="8dp"
                         android:textSize="14sp"
-                        android:textColor="@color/c_1a1a1a"
+                        android:textColor="#801A1A1A"
                         android:text="@string/nothing_voice_hint" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/container_llm_voice"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:visibility="gone">
 
                         <View
                             android:layout_width="12dp"

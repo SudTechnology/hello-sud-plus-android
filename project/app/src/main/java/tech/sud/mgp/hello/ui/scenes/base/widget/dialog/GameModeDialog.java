@@ -227,6 +227,8 @@ public class GameModeDialog extends BaseDialogFragment {
             }
 
             baseViewHolder.setText(R.id.item_game_mode_tv_name, gameModel.gameName);
+
+            baseViewHolder.setVisible(R.id.iv_llm_bot, gameModel.supportLlm == 1);
         }
     }
 

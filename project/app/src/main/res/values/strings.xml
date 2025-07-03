@@ -753,8 +753,8 @@ Go to homepage to create one~</string>
     <string name="restart_record">重新录制</string>
     <string name="add_robot_ai">添加机器人AI</string>
     <string name="add_large_model_ai">添加大模型AI</string>
-    <string name="default_tone_ai">默认音色AI</string>
-    <string name="custom_tone_ai">自定义音色AI</string>
+    <string name="default_tone_ai">添加预置分身</string>
+    <string name="custom_tone_ai">添加玩家分身</string>
 
     <!-- endregion 新增 -->
 

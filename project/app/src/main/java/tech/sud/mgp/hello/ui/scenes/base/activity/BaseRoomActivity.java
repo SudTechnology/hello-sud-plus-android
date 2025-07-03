@@ -645,9 +645,6 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
                 emptyMicModel = model;
             }
         }
-        if (totalRobotCount >= 8) {
-            return null;
-        }
         return emptyMicModel;
     }
 

@@ -487,6 +487,15 @@ public class SceneRoomService extends Service {
             serviceManager.sceneEngineManager.playAudio(audioDatas, sudAudioPlayListener);
         }
 
+        /**
+         * 查找该用户所在麦位模型
+         *
+         * @param userId 用户id
+         * @return 如果为null, 则表示不在麦上
+         */
+        public AudioRoomMicModel findMicModel(long userId) {
+            return serviceManager.sceneMicManager.findMicModel(userId);
+        }
     }
 
     /** 获取当前使用的房间基本数据 */

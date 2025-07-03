@@ -573,6 +573,17 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
                 if (binder == null) {
                     return;
                 }
+                long userId;
+                try {
+                    userId = Long.parseLong(resp.aiUid);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return;
+                }
+                AudioRoomMicModel micModel = binder.findMicModel(userId);
+                if (micModel != null) { // 这个分身已经在麦上了，就不再继续上麦了
+                    return;
+                }
                 List<AudioRoomMicModel> micList = binder.getMicList();
                 // 找到一个空位置
                 AudioRoomMicModel newRobotMic = findNewRobotMic(micList);

@@ -14,6 +14,7 @@ import tech.sud.mgp.hello.R;
 public class VoiceRecordView extends androidx.appcompat.widget.AppCompatTextView {
 
     private OnRecordListener mOnRecordListener;
+    private boolean isRecording;
 
     public VoiceRecordView(@NonNull Context context) {
         this(context, null);
@@ -40,6 +41,7 @@ public class VoiceRecordView extends androidx.appcompat.widget.AppCompatTextView
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                isRecording = true;
                 setTouchStatus(true);
                 getParent().requestDisallowInterceptTouchEvent(true);
                 if (mOnRecordListener != null) {
@@ -48,6 +50,7 @@ public class VoiceRecordView extends androidx.appcompat.widget.AppCompatTextView
                 break;
             case MotionEvent.ACTION_CANCEL:
             case MotionEvent.ACTION_UP:
+                isRecording = false;
                 setTouchStatus(false);
                 if (mOnRecordListener != null) {
                     mOnRecordListener.onStop();
@@ -67,6 +70,10 @@ public class VoiceRecordView extends androidx.appcompat.widget.AppCompatTextView
 
     public void setOnRecordListener(OnRecordListener onRecordListener) {
         mOnRecordListener = onRecordListener;
+    }
+
+    public boolean isRecording() {
+        return isRecording;
     }
 
     public interface OnRecordListener {

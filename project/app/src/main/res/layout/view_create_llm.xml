@@ -204,7 +204,7 @@
                 <FrameLayout
                     android:id="@+id/container_my_voice"
                     android:layout_width="match_parent"
-                    android:layout_height="36dp"
+                    android:layout_height="44dp"
                     android:layout_marginTop="42dp"
                     android:background="@drawable/shape_d8f7ff_d8e2ff"
                     app:layout_constraintTop_toTopOf="parent">
@@ -222,8 +222,7 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/container_llm_voice"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:visibility="gone">
+                        android:layout_height="match_parent">
 
                         <View
                             android:layout_width="12dp"
@@ -247,14 +246,14 @@
 
                         <ImageView
                             android:id="@+id/iv_voice"
-                            android:layout_width="131dp"
-                            android:layout_height="16dp"
+                            android:layout_width="163dp"
+                            android:layout_height="30dp"
                             android:src="@drawable/ic_voice"
                             android:layout_marginEnd="8dp"
-                            android:scaleType="fitXY"
+                            android:layout_marginTop="4dp"
+                            android:scaleType="centerCrop"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 

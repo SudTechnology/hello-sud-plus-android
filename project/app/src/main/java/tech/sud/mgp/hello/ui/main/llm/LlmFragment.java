@@ -454,7 +454,9 @@ public class LlmFragment extends BaseFragment implements CreatRoomClickListener,
                 if (!success) {
                     return;
                 }
-                startRecordPermissionDenied(context);
+                if (mLlmView.isRecording()) {
+                    startRecordPermissionDenied(context);
+                }
             }
         });
     }

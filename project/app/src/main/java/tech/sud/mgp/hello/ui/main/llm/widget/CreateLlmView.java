@@ -268,4 +268,8 @@ public class CreateLlmView extends ConstraintLayout {
         }
     }
 
+    public boolean isRecording() {
+        return mVoiceRecordView.isRecording();
+    }
+
 }

@@ -21,10 +21,10 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/content"
+        android:id="@+id/top_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@drawable/shape_r8_ffffff"
         android:layout_marginTop="12dp"
         android:layout_marginHorizontal="16dp"
         android:paddingBottom="12dp"
@@ -94,7 +94,7 @@
                     android:maxLength="30"
                     android:textSize="14sp"
                     android:textColor="@color/c_1a1a1a"
-                    android:background="@drawable/shape_stroke_979797_1" />
+                    android:background="@drawable/shape_stroke_r4_979797_0p5" />
 
             </LinearLayout>
 
@@ -103,26 +103,12 @@
                 android:layout_height="0.5dp"
                 android:background="@color/c_dddddd" />
 
-            <LinearLayout
+            <tech.sud.mgp.hello.ui.main.llm.widget.LlmTagView
+                android:id="@+id/tag_view_personality"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:textColor="@color/c_1a1a1a"
-                    android:text="@string/personality"
-                    android:layout_marginTop="12dp" />
-
-                <tech.sud.mgp.hello.ui.main.llm.widget.LlmTagView
-                    android:id="@+id/tag_view_personality"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:flexWrap="wrap" />
-
-            </LinearLayout>
+                android:layout_marginTop="12dp"
+                app:llm_tag_title="@string/personality" />
 
             <View
                 android:layout_width="match_parent"
@@ -130,26 +116,12 @@
                 android:background="@color/c_dddddd"
                 android:layout_marginTop="12dp" />
 
-            <LinearLayout
+            <tech.sud.mgp.hello.ui.main.llm.widget.LlmTagView
+                android:id="@+id/tag_view_language_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:textColor="@color/c_1a1a1a"
-                    android:text="@string/language_style"
-                    android:layout_marginTop="12dp" />
-
-                <tech.sud.mgp.hello.ui.main.llm.widget.LlmTagView
-                    android:id="@+id/tag_view_language_style"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:flexWrap="wrap" />
-
-            </LinearLayout>
+                android:layout_marginTop="12dp"
+                app:llm_tag_title="@string/language_style" />
 
             <View
                 android:layout_width="match_parent"
@@ -157,26 +129,12 @@
                 android:background="@color/c_dddddd"
                 android:layout_marginTop="12dp" />
 
-            <LinearLayout
+            <tech.sud.mgp.hello.ui.main.llm.widget.LlmTagView
+                android:id="@+id/tag_view_language_detail_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:textColor="@color/c_1a1a1a"
-                    android:text="@string/other"
-                    android:layout_marginTop="12dp" />
-
-                <tech.sud.mgp.hello.ui.main.llm.widget.LlmTagView
-                    android:id="@+id/tag_view_language_detail_style"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:flexWrap="wrap" />
-
-            </LinearLayout>
+                android:layout_marginTop="12dp"
+                app:llm_tag_title="@string/others" />
 
             <View
                 android:layout_width="match_parent"
@@ -184,159 +142,17 @@
                 android:background="@color/c_dddddd"
                 android:layout_marginTop="12dp" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <TextView
+                android:id="@+id/tv_save"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center_vertical">
+                android:layout_height="44dp"
+                android:gravity="center"
+                android:textSize="14sp"
+                android:textColor="@color/white"
+                android:text="@string/save"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/shape_r4_000000" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:textColor="@color/c_1a1a1a"
-                    android:text="@string/my_voice"
-                    android:layout_marginTop="12dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <!-- 现有的声音 -->
-                <FrameLayout
-                    android:id="@+id/container_my_voice"
-                    android:layout_width="match_parent"
-                    android:layout_height="44dp"
-                    android:layout_marginTop="42dp"
-                    android:background="@drawable/shape_d8f7ff_d8e2ff"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <TextView
-                        android:id="@+id/tv_nothing_llm_voice"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:singleLine="true"
-                        android:padding="8dp"
-                        android:textSize="14sp"
-                        android:textColor="#801A1A1A"
-                        android:text="@string/nothing_voice_hint" />
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/container_llm_voice"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <View
-                            android:layout_width="12dp"
-                            android:layout_height="12dp"
-                            android:background="@drawable/ic_play_mini"
-                            android:layout_marginStart="8dp"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="12sp"
-                            android:textColor="#008caf"
-                            android:layout_marginStart="22dp"
-                            android:text="@string/click_play"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent" />
-
-                        <ImageView
-                            android:id="@+id/iv_voice"
-                            android:layout_width="163dp"
-                            android:layout_height="30dp"
-                            android:src="@drawable/ic_voice"
-                            android:layout_marginEnd="8dp"
-                            android:layout_marginTop="4dp"
-                            android:scaleType="centerCrop"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                </FrameLayout>
-
-                <TextView
-                    android:id="@+id/tv_read_aloud"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:textColor="@color/c_1a1a1a"
-                    android:text="@string/please_read_it_aloud"
-                    android:layout_marginTop="16dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/container_my_voice" />
-
-                <TextView
-                    android:id="@+id/tv_read_aloud_content"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="8dp"
-                    android:textSize="14sp"
-                    android:textColor="@color/c_1a1a1a"
-                    android:background="@color/c_f5f5f5"
-                    android:layout_marginTop="8dp"
-                    app:layout_constraintTop_toBottomOf="@id/tv_read_aloud" />
-
-                <LinearLayout
-                    android:id="@+id/container_submit"
-                    android:layout_width="match_parent"
-                    android:layout_height="36dp"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="12dp"
-                    app:layout_constraintTop_toBottomOf="@id/tv_read_aloud_content">
-
-                    <TextView
-                        android:id="@+id/tv_trial_listening"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@drawable/shape_stroke_black_05"
-                        android:gravity="center"
-                        android:text="@string/trial_listening"
-                        android:textSize="14sp"
-                        android:textColor="@color/black" />
-
-                    <TextView
-                        android:id="@+id/tv_cancel"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@drawable/shape_stroke_black_05"
-                        android:gravity="center"
-                        android:text="@string/restart_record"
-                        android:textSize="14sp"
-                        android:textColor="@color/black"
-                        android:layout_marginStart="11dp" />
-
-                    <TextView
-                        android:id="@+id/tv_submit"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@color/black"
-                        android:gravity="center"
-                        android:text="@string/submit"
-                        android:textSize="14sp"
-                        android:textColor="@color/white"
-                        android:layout_marginStart="11dp" />
-
-                </LinearLayout>
-
-                <!-- 按住录制 -->
-                <tech.sud.mgp.hello.ui.main.llm.widget.VoiceRecordView
-                    android:id="@+id/voice_record_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="12dp"
-                    android:visibility="gone"
-                    app:layout_constraintTop_toBottomOf="@id/tv_read_aloud_content" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
 
         <View
@@ -348,6 +164,256 @@
             app:layout_constraintBottom_toBottomOf="@id/container_operate_content"
             app:layout_constraintStart_toStartOf="@id/container_operate_content"
             app:layout_constraintEnd_toEndOf="@id/container_operate_content" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- 底部的那一块 -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_r8_ffffff"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="16dp"
+        android:paddingBottom="12dp"
+        android:paddingHorizontal="20dp"
+        app:layout_constraintTop_toBottomOf="@id/top_content">
+
+        <LinearLayout
+            android:id="@+id/bottom_container_operate_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textColor="@color/c_1a1a1a"
+                android:text="@string/clone_voice"
+                android:layout_marginTop="12dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- 分身的身音 -->
+            <FrameLayout
+                android:id="@+id/container_clone_voice"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/shape_r4_d8f7ff_d8e2ff"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/tv_nothing_clone_voice"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:singleLine="true"
+                    android:paddingHorizontal="8dp"
+                    android:gravity="center_vertical"
+                    android:textSize="14sp"
+                    android:textColor="#801A1A1A"
+                    android:text="@string/nothing_voice_hint" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/container_play_clone_voice"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <View
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:background="@drawable/ic_play_mini"
+                        android:layout_marginStart="8dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:textColor="#008caf"
+                        android:layout_marginStart="22dp"
+                        android:text="@string/click_play"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/iv_clone_voice"
+                        android:layout_width="163dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/ic_voice"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginTop="4dp"
+                        android:scaleType="centerCrop"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/tv_read_aloud"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textColor="@color/c_1a1a1a"
+                android:text="@string/please_read_it_aloud"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/container_my_voice" />
+
+            <TextView
+                android:id="@+id/tv_read_aloud_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:textSize="14sp"
+                android:textColor="@color/c_1a1a1a"
+                android:background="@drawable/shape_r4_f5f5f5"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@id/tv_read_aloud" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textColor="@color/c_1a1a1a"
+                android:text="@string/my_voice"
+                android:layout_marginTop="12dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- 现有的声音 -->
+            <FrameLayout
+                android:id="@+id/container_my_voice"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/shape_r4_d8f7ff_d8e2ff"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/tv_nothing_llm_voice"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:singleLine="true"
+                    android:paddingHorizontal="8dp"
+                    android:gravity="center_vertical"
+                    android:textSize="14sp"
+                    android:textColor="#801A1A1A"
+                    android:text="@string/nothing_voice_hint" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/container_llm_voice"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <View
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:background="@drawable/ic_play_mini"
+                        android:layout_marginStart="8dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:textColor="#008caf"
+                        android:layout_marginStart="22dp"
+                        android:text="@string/click_play"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/iv_voice"
+                        android:layout_width="163dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/ic_voice"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginTop="4dp"
+                        android:scaleType="centerCrop"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </FrameLayout>
+
+            <!-- 取消，提交的操作 -->
+            <LinearLayout
+                android:id="@+id/container_submit"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:orientation="horizontal"
+                android:layout_marginTop="12dp"
+                app:layout_constraintTop_toBottomOf="@id/tv_read_aloud_content">
+
+                <TextView
+                    android:id="@+id/tv_cancel"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_stroke_r4_black_05"
+                    android:gravity="center"
+                    android:text="@string/cancel"
+                    android:textSize="14sp"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/tv_submit"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_r4_000000"
+                    android:gravity="center"
+                    android:text="@string/submit"
+                    android:textSize="14sp"
+                    android:textColor="@color/white"
+                    android:layout_marginStart="11dp" />
+
+            </LinearLayout>
+
+            <!-- 按住录制 -->
+            <tech.sud.mgp.hello.ui.main.llm.widget.VoiceRecordView
+                android:id="@+id/voice_record_view"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:orientation="horizontal"
+                android:layout_marginTop="12dp"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/tv_read_aloud_content" />
+
+            <TextView
+                android:id="@+id/tv_restart_record"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:gravity="center"
+                android:textSize="14sp"
+                android:textColor="@color/white"
+                android:text="@string/restart_record"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/shape_r4_000000" />
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/bottom_view_cannot_operate"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="gone"
+            app:layout_constraintTop_toTopOf="@id/bottom_container_operate_content"
+            app:layout_constraintBottom_toBottomOf="@id/bottom_container_operate_content"
+            app:layout_constraintStart_toStartOf="@id/bottom_container_operate_content"
+            app:layout_constraintEnd_toEndOf="@id/bottom_container_operate_content" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

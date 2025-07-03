@@ -62,9 +62,9 @@ public class VoiceRecordView extends androidx.appcompat.widget.AppCompatTextView
 
     private void setTouchStatus(boolean isTouch) {
         if (isTouch) {
-            setBackgroundColor(Color.parseColor("#666666"));
+            setBackgroundResource(R.drawable.shape_r4_80000000);
         } else {
-            setBackgroundColor(Color.BLACK);
+            setBackgroundResource(R.drawable.shape_r4_000000);
         }
     }
 

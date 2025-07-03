@@ -23,6 +23,7 @@ import net.lucode.hackware.magicindicator.MagicIndicator;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -38,6 +39,7 @@ import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.Base64Utils;
+import tech.sud.mgp.hello.common.utils.GlobalSP;
 import tech.sud.mgp.hello.common.utils.ViewUtils;
 import tech.sud.mgp.hello.common.utils.WavRecorder;
 import tech.sud.mgp.hello.common.utils.permission.PermissionFragment;
@@ -143,20 +145,30 @@ public class LlmFragment extends BaseFragment implements CreatRoomClickListener,
     @Override
     protected void initData() {
         super.initData();
-        mLlmView.showNormalStatus();
+        mLlmView.setOperateStatus(0);
         if (mSafeAudioPlayer == null) {
             mSafeAudioPlayer = new SafeAudioPlayer(requireContext());
-            mSafeAudioPlayer.setOnPlayListener(new SafeAudioPlayer.OnPlayListener() {
-                @Override
-                public void onStart() {
-                    mLlmView.startVoiceAnim();
-                }
+        }
 
-                @Override
-                public void onStop() {
-                    mLlmView.stopVoiceAnim();
+        getCacheLocalWavFile();
+    }
+
+    private void getCacheLocalWavFile() {
+        String llmMyVoicePathJson = GlobalSP.getSP().getString(GlobalSP.KEY_LLM_MY_VOICE_PATH_JSON);
+        if (llmMyVoicePathJson != null) {
+            try {
+                JSONObject jsonObject = new JSONObject(llmMyVoicePathJson);
+                long userId = jsonObject.getLong("userId");
+                String localWavFilePath = jsonObject.getString("localWavFilePath");
+                if (userId == HSUserInfo.userId) {
+                    File file = new File(localWavFilePath);
+                    if (file.exists()) {
+                        mLocalWavFile = file;
+                    }
                 }
-            });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -197,6 +209,10 @@ public class LlmFragment extends BaseFragment implements CreatRoomClickListener,
                 showVoicePlay = true;
             }
         }
+
+        mLlmView.setExistsMyVoice(mLocalWavFile != null);
+        mLlmView.setExistsCloneVoice(showVoicePlay);
+
         String nickname = mLlmView.getNickName();
         if (TextUtils.isEmpty(nickname)) {
             if (aiInfoModel != null) {
@@ -210,13 +226,13 @@ public class LlmFragment extends BaseFragment implements CreatRoomClickListener,
 
         mLlmView.setReadAloud(resp.audioText);
 
-        if (mLlmView.getVoiceModel() != 0) { // 编辑状态时，不刷新音频状态
+        if (mLlmView.getOperateStatus() != 0) { // 编辑状态时，不刷新音频状态
             return;
         }
         if (showVoicePlay) {
-            mLlmView.showReadyClonedStatus();
+            mLlmView.setOperateStatus(2);
         } else {
-            mLlmView.showNormalStatus();
+            mLlmView.setOperateStatus(0);
         }
     }
 
@@ -352,7 +368,9 @@ public class LlmFragment extends BaseFragment implements CreatRoomClickListener,
         });
 
         mLlmView.setCancelOnClickListener(v -> {
-            mLlmView.showNormalStatus();
+            mLlmView.setOperateStatus(0);
+            mLocalWavFile = null;
+            getCacheLocalWavFile();
             setCloneInfo(mGetAiCloneResp);
         });
 
@@ -360,21 +378,75 @@ public class LlmFragment extends BaseFragment implements CreatRoomClickListener,
             onClickSubmit();
         });
 
-        mLlmView.setLlmVoiceOnClickListener(v -> {
-            onClickPlayVoice();
+        mLlmView.setLlmVoiceOnClickListener(v -> { // 本地的声音
+            if (mSafeAudioPlayer.isPlaying()) {
+                return;
+            }
+            if (mLocalWavFile != null) {
+                mSafeAudioPlayer.playFromPath(mLocalWavFile.getAbsolutePath());
+                mSafeAudioPlayer.setOnPlayListener(new SafeAudioPlayer.OnPlayListener() {
+                    @Override
+                    public void onStart() {
+                        mLlmView.startVoiceAnim();
+                    }
+
+                    @Override
+                    public void onStop() {
+                        mLlmView.stopVoiceAnim();
+                    }
+                });
+            }
         });
 
-        mLlmView.setTrialListeningOnClickListener(v -> {
-            onClickPlayVoice();
+        mLlmView.setSaveOnClickListener(v -> {
+            onClickSave();
+        });
+        mLlmView.setRestartRecordOnClickListener(v -> {
+            onClickRestartRecord();
+        });
+        mLlmView.setPlayCloneVoiceOnClickListener(v -> {
+            onClickLlmVoice();
         });
     }
 
-    private void onClickPlayVoice() {
-        if (mLocalWavFile == null) {
-            onClickLlmVoice();
-        } else {
-            mSafeAudioPlayer.playFromPath(mLocalWavFile.getAbsolutePath());
+    private void onClickRestartRecord() {
+        mLlmView.setOperateStatus(0);
+    }
+
+    private void onClickSave() {
+        if (mGetAiCloneResp == null) {
+            LogUtils.d("没有拿到ai信息");
+            return;
         }
+        SaveAiCloneReq req = new SaveAiCloneReq();
+        req.nickname = mLlmView.getNickName();
+        req.birthday = "1998-05-08";
+        req.bloodType = randomStr(mGetAiCloneResp.bloodTypeOptions);
+        req.mbti = randomStr(mGetAiCloneResp.mbtiOptions);
+        req.personalities = mLlmView.getPersonality();
+        req.languageStyles = mLlmView.getLanguageStyle();
+        req.languageDetailStyles = mLlmView.getLanguageDetailStyle();
+        if (req.personalities == null || req.personalities.size() == 0
+                || req.languageStyles == null || req.languageStyles.size() == 0
+                || req.languageDetailStyles == null || req.languageDetailStyles.size() == 0) {
+            ToastUtils.showShort(R.string.please_select_tag);
+            return;
+        }
+        LoadingDialog loadingDialog = new LoadingDialog(getString(R.string.saveing));
+        loadingDialog.show(getChildFragmentManager(), null);
+        HomeRepository.saveAiClone(this, req, new RxCallback<SaveAiCloneResp>() {
+            @Override
+            public void onSuccess(SaveAiCloneResp saveAiCloneResp) {
+                super.onSuccess(saveAiCloneResp);
+                ToastUtils.showShort(R.string.save_success);
+            }
+
+            @Override
+            public void onFinally() {
+                super.onFinally();
+                loadingDialog.dismiss();
+            }
+        });
     }
 
     private void onClickLlmVoice() {
@@ -401,7 +473,21 @@ public class LlmFragment extends BaseFragment implements CreatRoomClickListener,
                 ToastUtils.showShort(R.string.voice_training);
                 refreshClone();
             } else {
+                if (mSafeAudioPlayer.isPlaying()) {
+                    return;
+                }
                 mSafeAudioPlayer.playFromBytes(Base64Utils.base64Decode(demoAudioData), "mp3");
+                mSafeAudioPlayer.setOnPlayListener(new SafeAudioPlayer.OnPlayListener() {
+                    @Override
+                    public void onStart() {
+                        mLlmView.startCloneVoiceAnim();
+                    }
+
+                    @Override
+                    public void onStop() {
+                        mLlmView.stopCloneVoiceAnim();
+                    }
+                });
             }
         }
     }
@@ -415,8 +501,7 @@ public class LlmFragment extends BaseFragment implements CreatRoomClickListener,
             LogUtils.d("没有拿到ai信息");
             return;
         }
-        LoadingDialog loadingDialog = new LoadingDialog(getString(R.string.clone_being_created));
-        loadingDialog.show(getChildFragmentManager(), null);
+        String localWavFilePath = mLocalWavFile.getAbsolutePath();
         byte[] voiceBytes = FileIOUtils.readFile2BytesByStream(mLocalWavFile);
         String voiceBase64 = Base64Utils.base64Encode(voiceBytes);
         SaveAiCloneReq req = new SaveAiCloneReq();
@@ -424,18 +509,35 @@ public class LlmFragment extends BaseFragment implements CreatRoomClickListener,
         req.birthday = "1998-05-08";
         req.bloodType = randomStr(mGetAiCloneResp.bloodTypeOptions);
         req.mbti = randomStr(mGetAiCloneResp.mbtiOptions);
-        req.personality = mLlmView.getPersonality();
-        req.languageStyle = mLlmView.getLanguageStyle();
-        req.languageDetailStyle = mLlmView.getLanguageDetailStyle();
+        req.personalities = mLlmView.getPersonality();
+        req.languageStyles = mLlmView.getLanguageStyle();
+        req.languageDetailStyles = mLlmView.getLanguageDetailStyle();
         req.audioData = voiceBase64;
         req.audioFormat = "wav";
+        if (req.personalities == null || req.personalities.size() == 0
+                || req.languageStyles == null || req.languageStyles.size() == 0
+                || req.languageDetailStyles == null || req.languageDetailStyles.size() == 0) {
+            ToastUtils.showShort(R.string.please_select_tag);
+            return;
+        }
+        LoadingDialog loadingDialog = new LoadingDialog(getString(R.string.clone_being_created));
+        loadingDialog.show(getChildFragmentManager(), null);
         HomeRepository.saveAiClone(this, req, new RxCallback<SaveAiCloneResp>() {
             @Override
             public void onSuccess(SaveAiCloneResp saveAiCloneResp) {
                 super.onSuccess(saveAiCloneResp);
-                mLocalWavFile = null;
-                mLlmView.showReadyClonedStatus();
+                mLlmView.setExistsCloneVoice(true);
+                mLlmView.setOperateStatus(2);
                 refreshClone();
+
+                JSONObject obj = new JSONObject();
+                try {
+                    obj.put("userId", HSUserInfo.userId);
+                    obj.put("localWavFilePath", localWavFilePath);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                GlobalSP.getSP().put(GlobalSP.KEY_LLM_MY_VOICE_PATH_JSON, obj.toString(), true);
             }
 
             @Override
@@ -474,7 +576,8 @@ public class LlmFragment extends BaseFragment implements CreatRoomClickListener,
                 return;
             }
             mLocalWavFile = saveFile;
-            mLlmView.showReadyRecordStatus();
+            mLlmView.setExistsMyVoice(true);
+            mLlmView.setOperateStatus(1);
         });
     }
 

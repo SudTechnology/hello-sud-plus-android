@@ -3,7 +3,6 @@ package tech.sud.mgp.hello.ui.main.llm.widget;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -24,6 +23,7 @@ import java.util.List;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
 import tech.sud.mgp.hello.common.utils.WebPUtils;
+import tech.sud.mgp.hello.service.main.resp.AiInfoModel;
 import tech.sud.mgp.hello.service.main.resp.GetAiCloneResp;
 import tech.sud.mgp.hello.ui.scenes.common.gift.listener.PlayResultListener;
 import tech.sud.mgp.hello.ui.scenes.common.gift.model.PlayResult;
@@ -41,13 +41,19 @@ public class CreateLlmView extends ConstraintLayout {
     private TextView mTvSubmit;
     private VoiceRecordView mVoiceRecordView;
     private View mViewCannotOperate;
-    private int mVoiceModel; // 0为默认，1为录制状态，本地已经录制，2为分身已经创建好的情况
 
     private LlmTagView mTagViewPersonality;
     private LlmTagView mTagViewLanguageStyle;
     private LlmTagView mTagViewLanguageDetailStyle;
     private ImageView mIvVoice;
-    private TextView mTvTrialListening;
+
+    private View mBottomViewCannotOperate;
+    private TextView mTvNothingCloneVoice;
+    private View mContainerPlayCloneVoice;
+    private ImageView mIvCloneVoice;
+    private TextView mTvSave;
+    private TextView mTvRestartRecord;
+    private int mOperateStatus;
 
     public CreateLlmView(@NonNull Context context) {
         this(context, null);
@@ -80,11 +86,18 @@ public class CreateLlmView extends ConstraintLayout {
         mTagViewLanguageStyle = findViewById(R.id.tag_view_language_style);
         mTagViewLanguageDetailStyle = findViewById(R.id.tag_view_language_detail_style);
         mIvVoice = findViewById(R.id.iv_voice);
-        mTvTrialListening = findViewById(R.id.tv_trial_listening);
+        mTvSave = findViewById(R.id.tv_save);
+
+        mBottomViewCannotOperate = findViewById(R.id.bottom_view_cannot_operate);
+        mTvNothingCloneVoice = findViewById(R.id.tv_nothing_clone_voice);
+        mContainerPlayCloneVoice = findViewById(R.id.container_play_clone_voice);
+        mIvCloneVoice = findViewById(R.id.iv_clone_voice);
+        mTvRestartRecord = findViewById(R.id.tv_restart_record);
     }
 
     private void initListener() {
         mViewCannotOperate.setOnClickListener(v -> ToastUtils.showShort(R.string.please_start_clonse));
+        mBottomViewCannotOperate.setOnClickListener(v -> ToastUtils.showShort(R.string.please_start_clonse));
     }
 
     public void setSwitchCloned(boolean checked, boolean isEvent) {
@@ -117,47 +130,63 @@ public class CreateLlmView extends ConstraintLayout {
 
     public void setCannotOperateShow(boolean show) {
         mViewCannotOperate.setVisibility(show ? View.VISIBLE : View.GONE);
+        mBottomViewCannotOperate.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
-    /** 默认状态，没有大模型声音，也没有进行添加本地声音 */
-    public void showNormalStatus() {
-        mVoiceModel = 0;
-        mTvNothingLlmVoice.setVisibility(View.VISIBLE);
-        mContainerLlmVoice.setVisibility(View.GONE);
-        mTvReadAloud.setVisibility(View.VISIBLE);
-        mTvReadAloudContent.setVisibility(View.VISIBLE);
-        mContainerSubmit.setVisibility(View.GONE);
-        mVoiceRecordView.setVisibility(View.VISIBLE);
+    /** 设置分身的声音是否存在 */
+    public void setExistsCloneVoice(boolean exists) {
+        if (exists) {
+            mTvNothingCloneVoice.setVisibility(View.GONE);
+            mContainerPlayCloneVoice.setVisibility(View.VISIBLE);
+        } else {
+            mTvNothingCloneVoice.setVisibility(View.VISIBLE);
+            mContainerPlayCloneVoice.setVisibility(View.GONE);
+        }
     }
 
-    /** 录制状态，本地已经录制 */
-    public void showReadyRecordStatus() {
-        mVoiceModel = 1;
-        mTvNothingLlmVoice.setVisibility(View.GONE);
-        mContainerLlmVoice.setVisibility(View.VISIBLE);
-        mTvReadAloud.setVisibility(View.VISIBLE);
-        mTvReadAloudContent.setVisibility(View.VISIBLE);
-        mContainerSubmit.setVisibility(View.VISIBLE);
-        mVoiceRecordView.setVisibility(View.GONE);
+    /** 设置我的声音是否存在 */
+    public void setExistsMyVoice(boolean exists) {
+        if (exists) {
+            mTvNothingLlmVoice.setVisibility(View.GONE);
+            mContainerLlmVoice.setVisibility(View.VISIBLE);
+        } else {
+            mTvNothingLlmVoice.setVisibility(View.VISIBLE);
+            mContainerLlmVoice.setVisibility(View.GONE);
+        }
     }
 
-    /** 分身已经创建好的情况 */
-    public void showReadyClonedStatus() {
-        mVoiceModel = 2;
-        mTvNothingLlmVoice.setVisibility(View.GONE);
-        mContainerLlmVoice.setVisibility(View.VISIBLE);
-        mTvReadAloud.setVisibility(View.VISIBLE);
-        mTvReadAloudContent.setVisibility(View.VISIBLE);
-        mContainerSubmit.setVisibility(View.GONE);
-        mVoiceRecordView.setVisibility(View.VISIBLE);
+    /**
+     * 设置操作按钮的显示状态
+     *
+     * @param status 0显示按住录制 1显示取消和提交 2显示重新开始录制
+     */
+    public void setOperateStatus(int status) {
+        mOperateStatus = status;
+        switch (status) {
+            case 0:
+                mContainerSubmit.setVisibility(View.GONE);
+                mVoiceRecordView.setVisibility(View.VISIBLE);
+                mTvRestartRecord.setVisibility(View.GONE);
+                break;
+            case 1:
+                mContainerSubmit.setVisibility(View.VISIBLE);
+                mVoiceRecordView.setVisibility(View.GONE);
+                mTvRestartRecord.setVisibility(View.GONE);
+                break;
+            case 2:
+                mContainerSubmit.setVisibility(View.GONE);
+                mVoiceRecordView.setVisibility(View.GONE);
+                mTvRestartRecord.setVisibility(View.VISIBLE);
+                break;
+        }
     }
 
     public void setSwitchListener(CompoundButton.OnCheckedChangeListener onCheckedChangeListener) {
         mSwitchButtonCloned.setOnCheckedChangeListener(onCheckedChangeListener);
     }
 
-    public int getVoiceModel() {
-        return mVoiceModel;
+    public int getOperateStatus() {
+        return mOperateStatus;
     }
 
     public void setOnRecordListener(VoiceRecordView.OnRecordListener onRecordListener) {
@@ -176,74 +205,44 @@ public class CreateLlmView extends ConstraintLayout {
         mContainerLlmVoice.setOnClickListener(listener);
     }
 
-    public void setTrialListeningOnClickListener(OnClickListener listener) {
-        mTvTrialListening.setOnClickListener(listener);
+    public void setSaveOnClickListener(OnClickListener listener) {
+        mTvSave.setOnClickListener(listener);
+    }
+
+    public void setRestartRecordOnClickListener(OnClickListener listener) {
+        mTvRestartRecord.setOnClickListener(listener);
+    }
+
+    public void setPlayCloneVoiceOnClickListener(OnClickListener listener) {
+        mContainerPlayCloneVoice.setOnClickListener(listener);
     }
 
     public void setDatas(GetAiCloneResp resp) {
         if (resp == null) {
             return;
         }
+        AiInfoModel aiInfo = resp.aiInfo;
+        if (aiInfo != null) {
+            mTagViewPersonality.initSelectedTags(aiInfo.personalities);
+            mTagViewLanguageStyle.initSelectedTags(aiInfo.languageStyles);
+            mTagViewLanguageDetailStyle.initSelectedTags(aiInfo.languageDetailStyles);
+        }
+
         mTagViewPersonality.setDatas(resp.personalityOptions);
         mTagViewLanguageStyle.setDatas(resp.languageStyleOptions);
         mTagViewLanguageDetailStyle.setDatas(resp.languageDetailStyleOptions);
     }
 
-    public String getPersonality() {
-        List<String> selectedTags = mTagViewPersonality.getSelectedTags();
-        if (selectedTags == null || selectedTags.size() == 0) {
-            return null;
-        }
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < selectedTags.size(); i++) {
-            String tag = selectedTags.get(i);
-            if (TextUtils.isEmpty(tag)) {
-                continue;
-            }
-            if (i > 0) {
-                sb.append(",");
-            }
-            sb.append(tag);
-        }
-        return sb.toString();
+    public List<String> getPersonality() {
+        return mTagViewPersonality.getSelectedTags();
     }
 
-    public String getLanguageStyle() {
-        List<String> selectedTags = mTagViewLanguageStyle.getSelectedTags();
-        if (selectedTags == null || selectedTags.size() == 0) {
-            return null;
-        }
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < selectedTags.size(); i++) {
-            String tag = selectedTags.get(i);
-            if (TextUtils.isEmpty(tag)) {
-                continue;
-            }
-            if (i > 0) {
-                sb.append(",");
-            }
-            sb.append(tag);
-        }
-        return sb.toString();
+    public List<String> getLanguageStyle() {
+        return mTagViewLanguageStyle.getSelectedTags();
     }
 
-    public String getLanguageDetailStyle() {
-        List<String> selectedTags = mTagViewLanguageDetailStyle.getSelectedTags();
-        if (selectedTags == null || selectedTags.size() == 0) {
-            return null;
-        }
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < selectedTags.size(); i++) {
-            String tag = selectedTags.get(i);
-            if (TextUtils.isEmpty(tag)) {
-                continue;
-            }
-            if (i > 0) {
-                sb.append(",");
-            }
-            sb.append(tag);
-        }
-        return sb.toString();
+    public List<String> getLanguageDetailStyle() {
+        return mTagViewLanguageDetailStyle.getSelectedTags();
     }
 
     public void startVoiceAnim() {
@@ -270,6 +269,28 @@ public class CreateLlmView extends ConstraintLayout {
 
     public boolean isRecording() {
         return mVoiceRecordView.isRecording();
+    }
+
+    public void startCloneVoiceAnim() {
+        Drawable drawable = mIvCloneVoice.getDrawable();
+        if (drawable instanceof WebpDrawable) {
+
+        } else {
+            WebPUtils.loadWebP(mIvCloneVoice, R.raw.llm_bot_voice, -1, new PlayResultListener() {
+                @Override
+                public void onResult(PlayResult result) {
+                }
+            });
+        }
+    }
+
+    public void stopCloneVoiceAnim() {
+        Drawable drawable = mIvCloneVoice.getDrawable();
+        if (drawable instanceof WebpDrawable) {
+            WebpDrawable webpDrawable = (WebpDrawable) drawable;
+            webpDrawable.stop();
+            ImageLoader.loadDrawable(mIvCloneVoice, R.drawable.ic_voice);
+        }
     }
 
 }

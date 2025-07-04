@@ -219,7 +219,7 @@ public class LlmFragment extends BaseFragment implements CreatRoomClickListener,
                 nickname = aiInfoModel.nickname;
             }
             if (TextUtils.isEmpty(nickname)) {
-                nickname = HSUserInfo.nickName + "AI";
+                nickname = HSUserInfo.nickName + "";
             }
             mLlmView.setNickName(nickname);
         }

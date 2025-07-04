@@ -750,7 +750,7 @@ Go to homepage to create one~</string>
     <string name="others">其他</string>
     <string name="nothing_voice_hint">请按住录制我的声音，训练我的音色</string>
     <string name="trial_listening">试听</string>
-    <string name="restart_record">重新录制</string>
+    <string name="restart_record">重新开始录制</string>
     <string name="add_robot_ai">添加机器人AI</string>
     <string name="add_large_model_ai">添加大模型AI</string>
     <string name="default_tone_ai">添加预置分身</string>

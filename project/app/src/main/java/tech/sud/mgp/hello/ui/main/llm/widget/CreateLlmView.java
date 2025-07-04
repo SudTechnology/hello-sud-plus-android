@@ -1,6 +1,9 @@
 package tech.sud.mgp.hello.ui.main.llm.widget;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.LinearGradient;
+import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 import android.text.Editable;
 import android.util.AttributeSet;
@@ -54,6 +57,8 @@ public class CreateLlmView extends ConstraintLayout {
     private TextView mTvSave;
     private TextView mTvRestartRecord;
     private int mOperateStatus;
+    private TextView mTvClickPlayCloneVoice;
+    private TextView mTvClickPlayMyVoice;
 
     public CreateLlmView(@NonNull Context context) {
         this(context, null);
@@ -93,6 +98,26 @@ public class CreateLlmView extends ConstraintLayout {
         mContainerPlayCloneVoice = findViewById(R.id.container_play_clone_voice);
         mIvCloneVoice = findViewById(R.id.iv_clone_voice);
         mTvRestartRecord = findViewById(R.id.tv_restart_record);
+
+        mTvClickPlayCloneVoice = findViewById(R.id.tv_click_play_clone_voice);
+        mTvClickPlayMyVoice = findViewById(R.id.tv_click_play_my_voice);
+
+        setTextViewShaderColor(mTvClickPlayCloneVoice);
+        setTextViewShaderColor(mTvClickPlayMyVoice);
+    }
+
+    private static void setTextViewShaderColor(TextView textView) {
+        textView.post(() -> {
+            float width = textView.getMeasuredWidth();
+            Shader shader = new LinearGradient(
+                    0, 0, width, textView.getTextSize(),
+                    new int[]{Color.parseColor("#FF008CAF"), Color.parseColor("#FF002FB0")},
+                    null,
+                    Shader.TileMode.CLAMP
+            );
+            textView.getPaint().setShader(shader);
+            textView.invalidate();
+        });
     }
 
     private void initListener() {
@@ -142,6 +167,7 @@ public class CreateLlmView extends ConstraintLayout {
             mTvNothingCloneVoice.setVisibility(View.VISIBLE);
             mContainerPlayCloneVoice.setVisibility(View.GONE);
         }
+        setTextViewShaderColor(mTvClickPlayCloneVoice);
     }
 
     /** 设置我的声音是否存在 */
@@ -153,6 +179,7 @@ public class CreateLlmView extends ConstraintLayout {
             mTvNothingLlmVoice.setVisibility(View.VISIBLE);
             mContainerLlmVoice.setVisibility(View.GONE);
         }
+        setTextViewShaderColor(mTvClickPlayMyVoice);
     }
 
     /**

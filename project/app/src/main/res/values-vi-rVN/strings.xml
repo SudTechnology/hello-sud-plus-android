@@ -613,5 +613,20 @@
     <string name="voice_training_fail">Vui lòng gửi lại nếu khóa đào tạo thất bại</string>
     <string name="role_clone">Nhân bản nhân vật</string>
     <string name="close_clone_hint">Sau khi đóng, bản sao llm_bot của tôi không thể được sử dụng</string>
+    <string name="large_model_ai">Mô hình lớn AI</string>
+    <string name="my_voice">Giọng nói của tôi</string>
+    <string name="others">khác</string>
+    <string name="nothing_voice_hint">Vui lòng giữ lại để ghi lại giọng nói của tôi và huấn luyện giọng nói của tôi</string>
+    <string name="trial_listening">Nghe</string>
+    <string name="restart_record">Bắt đầu ghi lại</string>
+    <string name="add_robot_ai">Thêm Robot AI</string>
+    <string name="add_large_model_ai">Thêm một mô hình lớn AI</string>
+    <string name="default_tone_ai">Thêm một bản sao đặt trước</string>
+    <string name="custom_tone_ai">Thêm bản sao người chơi</string>
+    <string name="clone_voice">Tiếng nói của bản sao</string>
+    <string name="save">giữ</string>
+    <string name="saveing">Tiết kiệm</string>
+    <string name="save_success">Tiết kiệm thành công</string>
+    <string name="please_select_tag">Vui lòng chọn thẻ</string>
 
 </resources>

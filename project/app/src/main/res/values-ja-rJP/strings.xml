@@ -611,5 +611,20 @@
     <string name="voice_training_fail">トレーニングが失敗した場合は再送信してください</string>
     <string name="role_clone">文字クローン</string>
     <string name="close_clone_hint">閉じた後、LLM_BOTクローンを使用できません</string>
+    <string name="large_model_ai">大きなモデルAI</string>
+    <string name="my_voice">私の声</string>
+    <string name="others">他の</string>
+    <string name="nothing_voice_hint">私の声を記録し、私の声を訓練するために押し続けてください</string>
+    <string name="trial_listening">聞く</string>
+    <string name="restart_record">もう一度録音を開始します</string>
+    <string name="add_robot_ai">ロボットAIの追加</string>
+    <string name="add_large_model_ai">大きなモデルAIを追加します</string>
+    <string name="default_tone_ai">プリセットクローンを追加します</string>
+    <string name="custom_tone_ai">プレーヤークローンを追加します</string>
+    <string name="clone_voice">クローンの声</string>
+    <string name="save">保存</string>
+    <string name="saveing">節約</string>
+    <string name="save_success">正常に保存します</string>
+    <string name="please_select_tag">タグを選択してください</string>
 
 </resources>

@@ -613,6 +613,21 @@
     <string name="voice_training_fail">โปรดส่งใหม่หากการฝึกอบรมล้มเหลว</string>
     <string name="role_clone">ตัวละคร</string>
     <string name="close_clone_hint">หลังจากปิดการโคลน LLM_BOT ของฉันไม่สามารถใช้งานได้</string>
+    <string name="large_model_ai">AI รุ่นใหญ่</string>
+    <string name="my_voice">เสียงของฉัน</string>
+    <string name="others">อื่น</string>
+    <string name="nothing_voice_hint">โปรดกดลงเพื่อบันทึกเสียงของฉันและฝึกฝนเสียงของฉัน</string>
+    <string name="trial_listening">ฟัง</string>
+    <string name="restart_record">เริ่มบันทึกอีกครั้ง</string>
+    <string name="add_robot_ai">การเพิ่มหุ่นยนต์ AI</string>
+    <string name="add_large_model_ai">เพิ่ม AI รุ่นใหญ่</string>
+    <string name="default_tone_ai">เพิ่มโคลนที่ตั้งไว้ล่วงหน้า</string>
+    <string name="custom_tone_ai">เพิ่มโคลนนิ่งผู้เล่น</string>
+    <string name="clone_voice">เสียงของโคลน</string>
+    <string name="save">เก็บ</string>
+    <string name="saveing">ประหยัด</string>
+    <string name="save_success">ประหยัดได้สำเร็จ</string>
+    <string name="please_select_tag">โปรดเลือกแท็ก</string>
 
 
 </resources>

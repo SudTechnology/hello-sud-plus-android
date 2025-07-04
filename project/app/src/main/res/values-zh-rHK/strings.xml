@@ -613,6 +613,21 @@
     <string name="voice_training_fail">訓練失敗請重新提交</string>
     <string name="role_clone">角色分身</string>
     <string name="close_clone_hint">關閉後本人的LLM_BOT分身無法使用</string>
+    <string name="large_model_ai">大模型AI</string>
+    <string name="my_voice">我的聲音</string>
+    <string name="others">其他</string>
+    <string name="nothing_voice_hint">請按住錄製我的聲音，訓練我的音色</string>
+    <string name="trial_listening">試聽</string>
+    <string name="restart_record">重新開始錄製</string>
+    <string name="add_robot_ai">添加機器人AI</string>
+    <string name="add_large_model_ai">添加大模型AI</string>
+    <string name="default_tone_ai">添加預置分身</string>
+    <string name="custom_tone_ai">添加玩家分身</string>
+    <string name="clone_voice">分身的聲音</string>
+    <string name="save">保持</string>
+    <string name="saveing">保存中</string>
+    <string name="save_success">保存成功</string>
+    <string name="please_select_tag">請選擇標籤</string>
 
 
 </resources>

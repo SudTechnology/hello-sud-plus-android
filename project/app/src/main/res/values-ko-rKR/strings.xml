@@ -611,5 +611,20 @@
     <string name="voice_training_fail">교육이 실패하면 다시 제출하십시오</string>
     <string name="role_clone">캐릭터 클론</string>
     <string name="close_clone_hint">폐쇄 후 LLM_BOT 클론을 사용할 수 없습니다</string>
+    <string name="large_model_ai">큰 모델 AI</string>
+    <string name="my_voice">내 목소리</string>
+    <string name="others">다른</string>
+    <string name="nothing_voice_hint">내 목소리를 기록하고 내 목소리를 훈련시키기 위해 잠깐</string>
+    <string name="trial_listening">듣다</string>
+    <string name="restart_record">다시 녹음을 시작하십시오</string>
+    <string name="add_robot_ai">로봇 AI 추가</string>
+    <string name="add_large_model_ai">큰 모델 AI를 추가하십시오</string>
+    <string name="default_tone_ai">사전 설정된 클론을 추가하십시오</string>
+    <string name="custom_tone_ai">플레이어 클론을 추가하십시오</string>
+    <string name="clone_voice">클론의 목소리</string>
+    <string name="save">유지하다</string>
+    <string name="saveing">절약</string>
+    <string name="save_success">성공적으로 저장하십시오</string>
+    <string name="please_select_tag">태그를 선택하십시오</string>
 
 </resources>

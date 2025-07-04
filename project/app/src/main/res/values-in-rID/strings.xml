@@ -614,6 +614,21 @@ Buat ruangan di Beranda</string>
     <string name="voice_training_fail">Harap kirim kembali jika pelatihan gagal</string>
     <string name="role_clone">Klon karakter</string>
     <string name="close_clone_hint">Setelah ditutup, klon llm_bot saya tidak dapat digunakan</string>
+    <string name="large_model_ai">AI Model Besar</string>
+    <string name="my_voice">Suaraku</string>
+    <string name="others">lainnya</string>
+    <string name="nothing_voice_hint">Harap tahan untuk merekam suara saya dan melatih suara saya</string>
+    <string name="trial_listening">Mendengarkan</string>
+    <string name="restart_record">Mulailah merekam lagi</string>
+    <string name="add_robot_ai">Menambahkan robot ai</string>
+    <string name="add_large_model_ai">Tambahkan AI Model Besar</string>
+    <string name="default_tone_ai">Tambahkan klon yang sudah ditetapkan</string>
+    <string name="custom_tone_ai">Tambahkan klon pemain</string>
+    <string name="clone_voice">Suara klon</string>
+    <string name="save">menyimpan</string>
+    <string name="saveing">Penghematan</string>
+    <string name="save_success">Simpan dengan sukses</string>
+    <string name="please_select_tag">Pilih tag</string>
 
 
 </resources>

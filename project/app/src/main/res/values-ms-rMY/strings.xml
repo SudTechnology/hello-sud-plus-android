@@ -613,6 +613,21 @@ Kunjungi laman utama untuk mencipta satu~</string>
     <string name="voice_training_fail">Sila hantar semula jika latihan gagal</string>
     <string name="role_clone">Klon watak</string>
     <string name="close_clone_hint">Setelah ditutup, klon llm_bot saya tidak dapat digunakan</string>
+    <string name="large_model_ai">Model besar AI</string>
+    <string name="my_voice">Suara saya</string>
+    <string name="others">yang lain</string>
+    <string name="nothing_voice_hint">Tunggu untuk merakam suara saya dan melatih suara saya</string>
+    <string name="trial_listening">Dengarkan</string>
+    <string name="restart_record">Mula merakam lagi</string>
+    <string name="add_robot_ai">Menambah Robot AI</string>
+    <string name="add_large_model_ai">Tambahkan model besar AI</string>
+    <string name="default_tone_ai">Tambahkan klon pratetap</string>
+    <string name="custom_tone_ai">Tambah klon pemain</string>
+    <string name="clone_voice">Suara klon</string>
+    <string name="save">Simpan</string>
+    <string name="saveing">Penjimatan</string>
+    <string name="save_success">Jimat dengan jayanya</string>
+    <string name="please_select_tag">Sila pilih tag</string>
 
 
 </resources>

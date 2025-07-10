@@ -1051,7 +1051,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
                 @Override
                 public void onPlaying() {
                     LogUtils.d("playAudioData onPlaying:" + uid);
-                    gameViewModel.notifyGameMicState(uid, true);
+                    gameViewModel.notifyGameMicState(uid, 1);
                     playVoiceAiUidList.add(uid);
                     mHandler.removeCallbacks(mDelayStartAiSoundLevelTask);
                     mHandler.post(mDelayStartAiSoundLevelTask);
@@ -1060,7 +1060,7 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
                 @Override
                 public void onCompleted() {
                     LogUtils.d("playAudioData onCompleted:" + uid);
-                    gameViewModel.notifyGameMicState(uid, false);
+                    gameViewModel.notifyGameMicState(uid, 0);
                     playVoiceAiUidList.remove(uid);
                 }
             });

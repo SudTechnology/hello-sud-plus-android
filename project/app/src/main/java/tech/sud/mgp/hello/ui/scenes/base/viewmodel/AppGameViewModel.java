@@ -17,6 +17,7 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.Utils;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -31,6 +32,7 @@ import tech.sud.gip.SudGIPWrapper.state.SudGIPAPPState;
 import tech.sud.gip.SudGIPWrapper.state.SudGIPMGState;
 import tech.sud.gip.SudGIPWrapper.utils.GameCommonStateUtils;
 import tech.sud.gip.SudGIPWrapper.utils.ISudFSMStateHandleUtils;
+import tech.sud.gip.SudGIPWrapper.utils.SudJsonUtils;
 import tech.sud.gip.core.ISudAiAgent;
 import tech.sud.gip.core.ISudFSMStateHandle;
 import tech.sud.gip.core.ISudFSTAPP;
@@ -128,6 +130,11 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
     private final Map<String, Runnable> timeoutTasks = new HashMap<>();
     private final Handler handler = new Handler(Looper.getMainLooper());
     private static final int TIMEOUT_MS = 3000;
+
+
+    private Map<String, Integer> gameMicStateMap; // 记录对应用户最新的游戏麦克风状态
+    private Map<String, String> gameMicStateQueueMap; // 退后台之后，将游戏麦克风状态缓存起来，等回前台之后再发送
+    private boolean isPaused; // 标识游戏是否已暂停
 
     public AppGameViewModel() {
         sudFSTAPPDecorator.setOnNotifyStateChangeListener(this);
@@ -417,11 +424,26 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
     public void onPause() {
         // 根据场景需要，playMG和pauseMG要配对
         sudFSTAPPDecorator.pauseMG();
+        isPaused = true;
     }
 
     public void onResume() {
         // 根据场景需要，playMG和pauseMG要配对
         sudFSTAPPDecorator.playMG();
+        isPaused = false;
+        dispatchQueueState();
+    }
+
+    private void dispatchQueueState() {
+        if (gameMicStateQueueMap != null) {
+            Iterator<Map.Entry<String, String>> iterator = gameMicStateQueueMap.entrySet().iterator();
+            while (iterator.hasNext()) {
+                Map.Entry<String, String> next = iterator.next();
+                iterator.remove();
+                String value = next.getValue();
+                notifyStateChange(SudGIPAPPState.APP_COMMON_GAME_PLAYER_MIC_STATE, value);
+            }
+        }
     }
 
     public void onStop() {
@@ -447,6 +469,8 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
             isSendAiMessage = false;
             aiAgent = null;
             isNotifyAiMicState = false;
+            gameMicStateMap = null;
+            gameMicStateQueueMap = null;
         }
     }
 
@@ -895,6 +919,10 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
         sudFSTAPPDecorator.notifyStateChange(state, obj);
     }
 
+    public void notifyStateChange(String state, String dataJson) {
+        sudFSTAPPDecorator.notifyStateChange(state, dataJson);
+    }
+
     // region 游戏侧回调
     @Override
     public void onGameLog(String str) {
@@ -917,8 +945,11 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
         gameLoadingCompletedLiveData.setValue(true);
         gameStartedLiveData.setValue(true);
         if (isAiGame()) { // 测试，AI对话
+            gameMicStateMap = new HashMap<>();
+            gameMicStateQueueMap = new HashMap<>();
             gameASRLiveData.setValue(true);
         }
+        isPaused = false;
     }
 
     @Override
@@ -1197,15 +1228,26 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
         }
     }
 
-    public void notifyGameMicState(String userId, boolean micIsOpened) {
-        notifyGameMicState(userId, micIsOpened ? 1 : 0);
-    }
-
     public void notifyGameMicState(String userId, int state) {
+        if (gameMicStateMap != null) {
+            Integer oldState = gameMicStateMap.get(userId);
+            if (oldState != null && oldState == state) {
+                // 麦克风状态，不重复发送
+                return;
+            }
+            gameMicStateMap.put(userId, state);
+        }
         SudGIPAPPState.AppCommonGamePlayerMicState model = new SudGIPAPPState.AppCommonGamePlayerMicState();
         model.uid = userId;
         model.state = state;
-        notifyStateChange(SudGIPAPPState.APP_COMMON_GAME_PLAYER_MIC_STATE, model);
+
+        if (isPaused) {
+            if (gameMicStateQueueMap != null) {
+                gameMicStateQueueMap.put(userId, SudJsonUtils.toJson(model));
+            }
+        } else {
+            notifyStateChange(SudGIPAPPState.APP_COMMON_GAME_PLAYER_MIC_STATE, model);
+        }
     }
 
     public void onSoundLevel(String userId, float soundLevel) {

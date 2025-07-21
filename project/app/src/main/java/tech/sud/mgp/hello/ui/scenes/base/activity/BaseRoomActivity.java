@@ -1312,7 +1312,13 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
                 if (model.key == transferCaptainKey) {
                     gameViewModel.notifyAPPCommonSelfCaptain(userId + "");
                 } else if (model.key == kickGameKey) {
-                    gameViewModel.notifyAPPCommonSelfKick(userId + "");
+                    String userIdStr = userId + "";
+                    gameViewModel.notifyAPPCommonSelfKick(userIdStr);
+                    // 多发一次：退出游戏中的大模型AI玩家
+                    SudGIPAPPState.APPCommonGameExitBigScaleModelAiPlayers scaleModelAiPlayers = new SudGIPAPPState.APPCommonGameExitBigScaleModelAiPlayers();
+                    scaleModelAiPlayers.playerIds = new ArrayList<>();
+                    scaleModelAiPlayers.playerIds.add(userIdStr);
+                    gameViewModel.notifyStateChange(SudGIPAPPState.APP_COMMON_GAME_EXIT_BIG_SCALE_MODEL_AI_players, scaleModelAiPlayers);
                 } else if (model.key == kickOutRoomKey) {
                     if (binder != null) {
                         binder.kickOutRoom(audioRoomMicModel);

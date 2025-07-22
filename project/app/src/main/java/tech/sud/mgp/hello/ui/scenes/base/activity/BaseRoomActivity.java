@@ -1314,17 +1314,24 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
                 } else if (model.key == kickGameKey) {
                     String userIdStr = userId + "";
                     gameViewModel.notifyAPPCommonSelfKick(userIdStr);
-                    // 多发一次：退出游戏中的大模型AI玩家
-                    SudGIPAPPState.APPCommonGameExitBigScaleModelAiPlayers scaleModelAiPlayers = new SudGIPAPPState.APPCommonGameExitBigScaleModelAiPlayers();
-                    scaleModelAiPlayers.playerIds = new ArrayList<>();
-                    scaleModelAiPlayers.playerIds.add(userIdStr);
-                    gameViewModel.notifyStateChange(SudGIPAPPState.APP_COMMON_GAME_EXIT_BIG_SCALE_MODEL_AI_players, scaleModelAiPlayers);
+//                    // 多发一次：退出游戏中的大模型AI玩家
+//                    SudGIPAPPState.APPCommonGameExitBigScaleModelAiPlayers scaleModelAiPlayers = new SudGIPAPPState.APPCommonGameExitBigScaleModelAiPlayers();
+//                    scaleModelAiPlayers.playerIds = new ArrayList<>();
+//                    scaleModelAiPlayers.playerIds.add(userIdStr);
+//                    gameViewModel.notifyStateChange(SudGIPAPPState.APP_COMMON_GAME_EXIT_BIG_SCALE_MODEL_AI_players, scaleModelAiPlayers);
                 } else if (model.key == kickOutRoomKey) {
                     if (binder != null) {
                         binder.kickOutRoom(audioRoomMicModel);
                     }
                     if (audioRoomMicModel.hasUser()) {
-                        kickUserFromGame(audioRoomMicModel.userId + "");
+                        String userIdStr = audioRoomMicModel.userId + "";
+                        kickUserFromGame(userIdStr);
+
+                        // 多发一次：退出游戏中的大模型AI玩家
+                        SudGIPAPPState.APPCommonGameExitBigScaleModelAiPlayers scaleModelAiPlayers = new SudGIPAPPState.APPCommonGameExitBigScaleModelAiPlayers();
+                        scaleModelAiPlayers.playerIds = new ArrayList<>();
+                        scaleModelAiPlayers.playerIds.add(userIdStr);
+                        gameViewModel.notifyStateChange(SudGIPAPPState.APP_COMMON_GAME_EXIT_BIG_SCALE_MODEL_AI_players, scaleModelAiPlayers);
                     }
                 }
             }

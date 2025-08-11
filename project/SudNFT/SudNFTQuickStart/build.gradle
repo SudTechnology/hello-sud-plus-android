@@ -56,6 +56,7 @@ android {
             buildConfigField("String", "CHANNEL", "\"" + channel + "\"")
         }
     }
+    namespace 'tech.sud.mgp.hello'
 }
 
 dependencies {

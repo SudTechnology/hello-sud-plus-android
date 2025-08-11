@@ -28,6 +28,7 @@ android {
             jniLibs.srcDirs = ['libs/agora']
         }
     }
+    namespace 'tech.sud.mgp.rtc.agora'
 
 }
 

@@ -28,6 +28,7 @@ android {
             jniLibs.srcDirs = ['libs/volc']
         }
     }
+    namespace 'tech.sud.mgp.rtc.volc'
 }
 
 dependencies {

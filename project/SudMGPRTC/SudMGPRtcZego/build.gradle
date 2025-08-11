@@ -28,6 +28,7 @@ android {
             jniLibs.srcDirs = ['libs/zego', 'libs']
         }
     }
+    namespace 'tech.sud.mgp.rtc.zego'
 }
 
 dependencies {

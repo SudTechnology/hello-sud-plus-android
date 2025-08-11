@@ -28,6 +28,7 @@ android {
             jniLibs.srcDirs = ['libs/netease']
         }
     }
+    namespace 'tech.sud.mgp.rtcnetease'
 }
 
 dependencies {

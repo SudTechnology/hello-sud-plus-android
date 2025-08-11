@@ -28,6 +28,7 @@ android {
             jniLibs.srcDirs = ['libs/tx']
         }
     }
+    namespace 'tech.sud.mgp.rtc.tx'
 }
 
 dependencies {

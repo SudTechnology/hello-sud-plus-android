@@ -59,6 +59,8 @@ allprojects {
         maven {
             url "https://maven.rongcloud.cn/repository/maven-releases/"
         }
+        maven { url 'https://maven.zego.im' }
+        maven { url 'https://artifact.bytedance.com/repository/Volcengine/' }
     }
 }
 

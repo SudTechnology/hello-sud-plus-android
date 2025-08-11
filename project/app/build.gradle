@@ -135,22 +135,22 @@ dependencies {
     implementation project(':SudMGPRTC:SudMGPRtcNetease')
     implementation project(':SudMGPRTC:SudMGPRtcRcloud')
     implementation project(':SudMGPRTC:SudMGPRtcTx')
-    implementation project(':SudMGPRTC:SudMGPRtcVolc')
+//    implementation project(':SudMGPRTC:SudMGPRtcVolc')
     implementation project(':SudMGPRTC:SudMGPRtcZego')
     implementation project(':SudMGPRTC:SudMGPIM')
 
     // 屏幕适配：https://github.com/JessYanCoding/AndroidAutoSize
     implementation 'com.github.JessYanCoding:AndroidAutoSize:v1.2.1'
 
-    // 腾讯bugly奔溃统计
-    implementation 'com.tencent.bugly:crashreport:4.1.9'
+    // 腾讯bugly崩溃统计
+    implementation 'com.tencent.bugly:crashreport:4.1.9.3'
 
     // 依赖okhttp
     implementation 'com.squareup.okhttp3:okhttp:4.9.2'
 
     // 图片加载库
-    implementation 'com.github.bumptech.glide:glide:4.13.2'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.13.2'
+    implementation 'com.github.bumptech.glide:glide:4.16.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.16.0'
 
     // 网络请求库
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
@@ -174,7 +174,7 @@ dependencies {
     // 播放json动画的库，网址为：https://github.com/airbnb/lottie-android
     implementation "com.airbnb.android:lottie:3.7.0"
     // Glide支持webp动图的库
-    implementation "com.github.zjupure:webpdecoder:2.0.4.12.0"
+    implementation "com.github.zjupure:webpdecoder:2.7.4.16.0"
 
     // 沉浸式状态栏
     implementation 'com.geyifeng.immersionbar:immersionbar:3.2.2'

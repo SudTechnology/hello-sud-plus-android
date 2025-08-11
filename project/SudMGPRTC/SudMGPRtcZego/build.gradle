@@ -32,7 +32,8 @@ android {
 
 dependencies {
 
-    api fileTree(include: ['*.jar', "*.aar", '*.so'], dir: 'libs/zego')
+    api 'im.zego:express-audio:3.21.0'
+    api 'im.zego:zim:2.21.1'
 
     // 引入 SudMGPRtcCore
     api project(':SudMGPRTC:SudMGPRtcCore')

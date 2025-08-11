@@ -39,10 +39,10 @@ dependencies {
     api project(':SudMGPRTC:SudMGPRtcCore')
 
     // 声网RTC SDK
-    api 'io.agora.rtc:full-sdk:4.3.0'
+    api 'io.agora.rtc:full-sdk:4.5.2'
 
     api project(':SudMGPRTC:SudMGPIMCore')
 
-    api 'io.agora:agora-rtm:2.2.1'
+    api 'io.agora:agora-rtm:2.2.5'
 
 }

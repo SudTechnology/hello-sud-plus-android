@@ -49,7 +49,7 @@ public class QuickStartGameViewModel extends BaseGameViewModel {
 
     // TODO: true 加载游戏时为测试环境 false 加载游戏时为生产环境
     // TODO: true for loading the game in the testing environment, false for loading the game in the production environment.
-    public static final boolean GAME_IS_TEST_ENV = true;
+    public static final boolean GAME_IS_TEST_ENV = false;
 
     // TODO: 使用的UserId。这里随机生成作演示，开发者将其修改为业务使用的唯一userId
     // TODO: Used UserId. Here it is randomly generated for demonstration purposes. Developers should modify it to the unique userId used for the business.

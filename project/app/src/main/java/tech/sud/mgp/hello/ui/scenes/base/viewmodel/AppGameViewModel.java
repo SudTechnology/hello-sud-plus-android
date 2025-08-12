@@ -1007,7 +1007,9 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
     @Override
     public void onGameMGCommonGameASR(ISudFSMStateHandle handle, SudGIPMGState.MGCommonGameASR model) {
         boolean isOpen = model != null && model.isOpen;
-        gameASRLiveData.setValue(isOpen);
+        if (!isAiGame()) { // 非AI游戏，才走原来的这一块控制
+            gameASRLiveData.setValue(isOpen);
+        }
         ISudFSMStateHandleUtils.handleSuccess(handle);
     }
 

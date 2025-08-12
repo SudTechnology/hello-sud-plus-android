@@ -134,8 +134,8 @@ dependencies {
     implementation project(':SudMGPRTC:SudMGPRtcAgora')
     implementation project(':SudMGPRTC:SudMGPRtcAliyun')
     implementation project(':SudMGPRTC:SudMGPRtcNetease')
-    implementation project(':SudMGPRTC:SudMGPRtcRcloud')
-    implementation project(':SudMGPRTC:SudMGPRtcTx')
+//    implementation project(':SudMGPRTC:SudMGPRtcRcloud')
+//    implementation project(':SudMGPRTC:SudMGPRtcTx')
 //    implementation project(':SudMGPRTC:SudMGPRtcVolc')
     implementation project(':SudMGPRTC:SudMGPRtcZego')
     implementation project(':SudMGPRTC:SudMGPIM')
@@ -190,7 +190,7 @@ dependencies {
     implementation 'io.github.scwang90:refresh-header-classics:2.1.1'
 
     // 工具类库: https://github.com/Blankj/AndroidUtilCode
-    implementation 'com.blankj:utilcodex:1.31.0'
+    implementation 'com.blankj:utilcodex:1.31.1'
 
     // 指示器：https://github.com/hackware1993/MagicIndicator
     implementation "com.github.hackware1993:MagicIndicator:1.7.0"

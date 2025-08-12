@@ -7,15 +7,11 @@ import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.service.main.config.AgoraConfig;
 import tech.sud.mgp.hello.service.main.config.BaseRtcConfig;
 import tech.sud.mgp.hello.service.main.config.CommsEaseConfig;
-import tech.sud.mgp.hello.service.main.config.RongCloudConfig;
-import tech.sud.mgp.hello.service.main.config.TencentCloudConfig;
 import tech.sud.mgp.hello.service.main.config.ZegoConfig;
 import tech.sud.mgp.rtc.audio.core.ISudAudioEngine;
 import tech.sud.mgp.rtc.audio.factory.AudioEngineFactory;
 import tech.sud.mgp.rtc.audio.impl.agora.AgoraAudioEngineImpl;
 import tech.sud.mgp.rtc.audio.impl.netease.NeteaseAudioEngineImpl;
-import tech.sud.mgp.rtc.audio.impl.rcloud.RCloudAudioEngineImpl;
-import tech.sud.mgp.rtc.audio.impl.tx.TXAudioEngineImpl;
 import tech.sud.mgp.rtc.audio.impl.zego.ZegoAudioEngineImpl;
 import tech.sud.mgp.rtc.audio.model.AudioConfigModel;
 
@@ -45,14 +41,16 @@ public class RTCManager {
             audioConfigModel.token = rtiToken;
             audioConfigModel.userID = HSUserInfo.userId + "";
             AudioEngineFactory.getEngine().initWithConfig(Utils.getApp(), audioConfigModel, runnable);
-        } else if (config instanceof RongCloudConfig) {
-            AudioEngineFactory.create(RCloudAudioEngineImpl.class);
-            AudioConfigModel audioConfigModel = new AudioConfigModel();
-            audioConfigModel.appKey = config.appKey;
-            audioConfigModel.token = rtcToken;
-            audioConfigModel.userID = HSUserInfo.userId + "";
-            AudioEngineFactory.getEngine().initWithConfig(Utils.getApp(), audioConfigModel, runnable);
-        } else if (config instanceof CommsEaseConfig) {
+        }
+//        else if (config instanceof RongCloudConfig) {
+//            AudioEngineFactory.create(RCloudAudioEngineImpl.class);
+//            AudioConfigModel audioConfigModel = new AudioConfigModel();
+//            audioConfigModel.appKey = config.appKey;
+//            audioConfigModel.token = rtcToken;
+//            audioConfigModel.userID = HSUserInfo.userId + "";
+//            AudioEngineFactory.getEngine().initWithConfig(Utils.getApp(), audioConfigModel, runnable);
+//        }
+        else if (config instanceof CommsEaseConfig) {
             AudioEngineFactory.create(NeteaseAudioEngineImpl.class);
             AudioConfigModel audioConfigModel = new AudioConfigModel();
             audioConfigModel.appKey = config.appKey;
@@ -68,14 +66,14 @@ public class RTCManager {
 //            audioConfigModel.userID = HSUserInfo.userId + "";
 //            AudioEngineFactory.getEngine().initWithConfig(Utils.getApp(), audioConfigModel, runnable);
 //        }
-        else if (config instanceof TencentCloudConfig) {
-            AudioEngineFactory.create(TXAudioEngineImpl.class);
-            AudioConfigModel audioConfigModel = new AudioConfigModel();
-            audioConfigModel.appId = config.appId;
-            audioConfigModel.token = rtiToken;
-            audioConfigModel.userID = HSUserInfo.userId + "";
-            AudioEngineFactory.getEngine().initWithConfig(Utils.getApp(), audioConfigModel, runnable);
-        }
+//        else if (config instanceof TencentCloudConfig) {
+//            AudioEngineFactory.create(TXAudioEngineImpl.class);
+//            AudioConfigModel audioConfigModel = new AudioConfigModel();
+//            audioConfigModel.appId = config.appId;
+//            audioConfigModel.token = rtiToken;
+//            audioConfigModel.userID = HSUserInfo.userId + "";
+//            AudioEngineFactory.getEngine().initWithConfig(Utils.getApp(), audioConfigModel, runnable);
+//        }
     }
 
     /**

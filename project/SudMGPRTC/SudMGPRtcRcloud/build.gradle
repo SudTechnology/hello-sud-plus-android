@@ -32,9 +32,9 @@ dependencies {
     api project(':SudMGPRTC:SudMGPRtcCore')
 
     // RongCloud IM
-    api 'cn.rongcloud.sdk:im_lib:5.2.0'
+    api 'cn.rongcloud.sdk:im_lib:5.24.1'
     // RongCloud IM
-    api 'cn.rongcloud.sdk:rtc_lib:5.2.0'
+    api 'cn.rongcloud.sdk:rtc_lib:5.24.0'
     // RongCloud IM 语聊房
     api 'cn.rongcloud.sdk:voiceroom_lib:2.0.8'
 }

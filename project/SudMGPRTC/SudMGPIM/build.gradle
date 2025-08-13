@@ -4,7 +4,7 @@ plugins {
 
 android {
     namespace 'tech.sud.mgp.sudmgpim'
-    compileSdk project.compileSdkVersion
+    compileSdkVersion project.compileSdkVersion
 
     defaultConfig {
         minSdk project.minSdkVersion

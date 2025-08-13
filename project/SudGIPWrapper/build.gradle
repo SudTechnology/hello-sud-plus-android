@@ -4,7 +4,7 @@ plugins {
 
 android {
     namespace 'tech.sud.gip.SudGIPWrapper'
-    compileSdk 34
+    compileSdkVersion 36
 
     defaultConfig {
         minSdk 21

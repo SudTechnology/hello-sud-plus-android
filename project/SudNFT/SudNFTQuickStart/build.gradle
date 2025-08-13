@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    compileSdk project.compileSdkVersion
+    compileSdkVersion project.compileSdkVersion
 
     defaultConfig {
         applicationId "tech.sud.mgp.hello"

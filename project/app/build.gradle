@@ -144,7 +144,7 @@ dependencies {
     implementation 'com.github.JessYanCoding:AndroidAutoSize:v1.2.1'
 
     // 腾讯bugly崩溃统计
-    implementation 'com.tencent.bugly:crashreport:4.1.9.3'
+//    implementation 'com.tencent.bugly:crashreport:4.1.9.3'
 
     // 依赖okhttp
     implementation 'com.squareup.okhttp3:okhttp:4.9.2'

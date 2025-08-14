@@ -11,13 +11,10 @@ import android.graphics.Point;
 import android.text.TextUtils;
 import android.view.Gravity;
 
-import com.blankj.utilcode.util.AppUtils;
-import com.blankj.utilcode.util.DeviceUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.SDKOptions;
-import com.tencent.bugly.crashreport.CrashReport;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -49,7 +46,7 @@ public class HelloSudApplication extends Application {
             initMinClient();
             configAutoSize();
             initCrashHandler();
-            configBugly();
+//            configBugly();
             LogUtils.file("onCreate");
         }
     }
@@ -96,17 +93,17 @@ public class HelloSudApplication extends Application {
     }
 
     // Bugly config
-    private void configBugly() {
-        if (BuildConfig.DEBUG) {
-            return;
-        }
-        CrashReport.UserStrategy strategy = new CrashReport.UserStrategy(getApplicationContext());
-        String versionAndCode = AppUtils.getAppVersionName() + "." + AppUtils.getAppVersionCode();
-        strategy.setAppVersion(versionAndCode);
-        strategy.setAppChannel(BuildConfig.CHANNEL);
-        strategy.setDeviceID(DeviceUtils.getUniqueDeviceId());
-        CrashReport.initCrashReport(getApplicationContext(), APPConfig.BUGLY_APP_ID, BuildConfig.DEBUG, strategy);
-    }
+//    private void configBugly() {
+//        if (BuildConfig.DEBUG) {
+//            return;
+//        }
+//        CrashReport.UserStrategy strategy = new CrashReport.UserStrategy(getApplicationContext());
+//        String versionAndCode = AppUtils.getAppVersionName() + "." + AppUtils.getAppVersionCode();
+//        strategy.setAppVersion(versionAndCode);
+//        strategy.setAppChannel(BuildConfig.CHANNEL);
+//        strategy.setDeviceID(DeviceUtils.getUniqueDeviceId());
+//        CrashReport.initCrashReport(getApplicationContext(), APPConfig.BUGLY_APP_ID, BuildConfig.DEBUG, strategy);
+//    }
 
     private void configGift() {
         GiftHelper.getInstance().creatGifts(this);

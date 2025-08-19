@@ -3,6 +3,7 @@ package tech.sud.mgp.rtc.audio.impl.tx;
 import android.content.Context;
 import android.view.View;
 
+import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ThreadUtils;
 import com.tencent.trtc.TRTCCloud;
 import com.tencent.trtc.TRTCCloudDef;
@@ -144,7 +145,8 @@ public class TXAudioEngineImpl implements ISudAudioEngine {
             format.sampleRate = TRTCCloudDef.TRTCAudioSampleRate16000;
             format.channel = 1;
             format.samplesPerCall = 160;
-            engine.setCapturedRawAudioFrameCallbackFormat(format);
+            engine.setCapturedAudioFrameCallbackFormat(format);
+//            engine.setCapturedRawAudioFrameCallbackFormat(format);
 
             /* 设置原始音频数据回调 */
             engine.setAudioFrameListener(trtcAudioFrameListener);
@@ -226,6 +228,8 @@ public class TXAudioEngineImpl implements ISudAudioEngine {
                     listener.onRoomStateUpdate(AudioRoomState.CONNECTED, 0, null);
                     updateRoomUserCount();
                 }
+            } else {
+                LogUtils.file("腾讯RTC进房失败：" + result);
             }
         }
 
@@ -283,8 +287,10 @@ public class TXAudioEngineImpl implements ISudAudioEngine {
     };
 
     private final TRTCCloudListener.TRTCAudioFrameListener trtcAudioFrameListener = new TRTCCloudListener.TRTCAudioFrameListener() {
+
         @Override
-        public void onCapturedRawAudioFrame(TRTCCloudDef.TRTCAudioFrame trtcAudioFrame) {
+        public void onCapturedAudioFrame(TRTCCloudDef.TRTCAudioFrame trtcAudioFrame) {
+            LogUtils.d("onCapturedAudioFrame");
             ByteBuffer data = ByteBuffer.wrap(trtcAudioFrame.data);
             int dataLength = trtcAudioFrame.data.length;
             ThreadUtils.runOnUiThread(new Runnable() {
@@ -303,7 +309,21 @@ public class TXAudioEngineImpl implements ISudAudioEngine {
 
         @Override
         public void onLocalProcessedAudioFrame(TRTCCloudDef.TRTCAudioFrame trtcAudioFrame) {
-
+//            LogUtils.d("onLocalProcessedAudioFrame");
+//            ByteBuffer data = ByteBuffer.wrap(trtcAudioFrame.data);
+//            int dataLength = trtcAudioFrame.data.length;
+//            ThreadUtils.runOnUiThread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    ISudAudioEventListener listener = mISudAudioEventListener;
+//                    if (listener != null) {
+//                        AudioPCMData audioPCMData = new AudioPCMData();
+//                        audioPCMData.data = data;
+//                        audioPCMData.dataLength = dataLength;
+//                        listener.onCapturedPCMData(audioPCMData);
+//                    }
+//                }
+//            });
         }
 
         @Override
@@ -318,6 +338,11 @@ public class TXAudioEngineImpl implements ISudAudioEngine {
 
         @Override
         public void onMixedAllAudioFrame(TRTCCloudDef.TRTCAudioFrame trtcAudioFrame) {
+
+        }
+
+        @Override
+        public void onVoiceEarMonitorAudioFrame(TRTCCloudDef.TRTCAudioFrame trtcAudioFrame) {
 
         }
     };

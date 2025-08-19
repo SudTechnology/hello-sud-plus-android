@@ -135,7 +135,7 @@ dependencies {
     implementation project(':SudMGPRTC:SudMGPRtcAliyun')
     implementation project(':SudMGPRTC:SudMGPRtcNetease')
 //    implementation project(':SudMGPRTC:SudMGPRtcRcloud')
-//    implementation project(':SudMGPRTC:SudMGPRtcTx')
+    implementation project(':SudMGPRTC:SudMGPRtcTx')
 //    implementation project(':SudMGPRTC:SudMGPRtcVolc')
     implementation project(':SudMGPRTC:SudMGPRtcZego')
     implementation project(':SudMGPRTC:SudMGPIM')

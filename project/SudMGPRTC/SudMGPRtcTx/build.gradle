@@ -39,6 +39,7 @@ dependencies {
     api project(':SudMGPRTC:SudMGPRtcCore')
 
     // 引入 SudMGPRtcTx-lib
-    api project(':SudMGPRTC:SudMGPRtcTx-lib')
+//    api project(':SudMGPRTC:SudMGPRtcTx-lib')
+    implementation 'com.tencent.liteav:LiteAVSDK_TRTC:12.7.0.19072'
 
 }

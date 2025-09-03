@@ -6,8 +6,8 @@ buildscript {
         jcenter()
     }
     dependencies {
-        // AGP8.6版本，至少需要AndroidStudio版本是： Koala 功能更新 | 2024.1.2
-        classpath 'com.android.tools.build:gradle:8.6.0'
+        // AGP8.6版本，至少需要AndroidStudio版本是： Ladybug 功能更新 | 2024.2.2
+        classpath 'com.android.tools.build:gradle:8.8.0'
     }
 }
 

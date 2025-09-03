@@ -105,6 +105,9 @@ android {
         pickFirst 'lib/arm64-v8a/libaosl.so'
     }
     namespace 'tech.sud.mgp.hello'
+    buildFeatures {
+        buildConfig true
+    }
 
 }
 

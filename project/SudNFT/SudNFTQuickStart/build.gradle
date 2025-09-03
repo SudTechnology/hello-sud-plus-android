@@ -57,6 +57,9 @@ android {
         }
     }
     namespace 'tech.sud.mgp.hello'
+    buildFeatures {
+        buildConfig true
+    }
 }
 
 dependencies {

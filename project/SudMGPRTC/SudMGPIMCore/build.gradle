@@ -4,10 +4,10 @@ plugins {
 
 android {
     namespace 'tech.sud.mgp.sudmgpimcore'
-    compileSdkVersion project.compileSdkVersion
+    compileSdk project.compileSdk
 
     defaultConfig {
-        minSdk project.minSdkVersion
+        minSdk project.minSdk
 
         consumerProguardFiles "consumer-rules.pro"
     }
@@ -19,8 +19,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
 }
 

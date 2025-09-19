@@ -19,7 +19,7 @@ ext {
     ndkVersion = "28.1.13356709"
 
     versionCode = "1"
-    versionName = "1.8.5"
+    versionName = "1.8.6"
     baseUrlConfig = "sim"
     baseUrl = "https://sim-base-hello-sud.sud.tech/"
     interactBaseUrl = "https://sim-interact-hello-sud.sud.tech/"

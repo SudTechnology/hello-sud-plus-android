@@ -1,7 +1,10 @@
 package tech.sud.mgp.hello.service.room.method;
 
+import java.util.List;
+
 import io.reactivex.rxjava3.core.Observable;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 import tech.sud.gip.SudGIPWrapper.state.SudGIPAPPState;
@@ -47,6 +50,7 @@ import tech.sud.mgp.hello.service.room.resp.CrossAppStartMatchResp;
 import tech.sud.mgp.hello.service.room.resp.DanmakuListResp;
 import tech.sud.mgp.hello.service.room.resp.DiscoAnchorListResp;
 import tech.sud.mgp.hello.service.room.resp.EnterRoomResp;
+import tech.sud.mgp.hello.service.room.resp.GiAdModel;
 import tech.sud.mgp.hello.service.room.resp.GiftListResp;
 import tech.sud.mgp.hello.service.room.resp.LeaguePlayingResp;
 import tech.sud.mgp.hello.service.room.resp.MonopolyCardsResp;
@@ -261,5 +265,9 @@ public interface AudioRequestMethod {
     /** 获取gameScale */
     @POST(RequestUrl.GAME_SCALE)
     Observable<BaseResponse<WebGameTokenResp>> getGameScale(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body WebGameTokenReq req);
+
+    /** 获取gameScale */
+    @GET(RequestUrl.GI_AD_CONFIG)
+    Observable<List<GiAdModel>> getGiAdConfig(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl);
 
 }

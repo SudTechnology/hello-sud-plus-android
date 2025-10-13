@@ -4,6 +4,7 @@ import androidx.lifecycle.LifecycleOwner;
 
 import java.util.List;
 
+import io.reactivex.rxjava3.core.Observer;
 import tech.sud.gip.SudGIPWrapper.state.SudGIPAPPState;
 import tech.sud.mgp.hello.common.http.param.BaseUrlManager;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
@@ -49,6 +50,7 @@ import tech.sud.mgp.hello.service.room.resp.CrossAppStartMatchResp;
 import tech.sud.mgp.hello.service.room.resp.DanmakuListResp;
 import tech.sud.mgp.hello.service.room.resp.DiscoAnchorListResp;
 import tech.sud.mgp.hello.service.room.resp.EnterRoomResp;
+import tech.sud.mgp.hello.service.room.resp.GiAdModel;
 import tech.sud.mgp.hello.service.room.resp.GiftListResp;
 import tech.sud.mgp.hello.service.room.resp.LeaguePlayingResp;
 import tech.sud.mgp.hello.service.room.resp.MonopolyCardsResp;
@@ -576,6 +578,14 @@ public class RoomRepository {
         req.gameId = gameId;
         AudioRequestMethodFactory.getMethod()
                 .getGameScale(BaseUrlManager.getGameBaseUrl(), req)
+                .compose(RxUtils.schedulers(owner))
+                .subscribe(callback);
+    }
+
+    /** 获取广告列表配置 */
+    public static void getGiAdConfig(LifecycleOwner owner, Observer<List<GiAdModel>> callback) {
+        AudioRequestMethodFactory.getMethod()
+                .getGiAdConfig("https://hello-sud-plus.sudden.ltd/")
                 .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }

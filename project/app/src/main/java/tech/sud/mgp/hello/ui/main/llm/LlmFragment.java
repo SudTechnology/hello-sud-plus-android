@@ -81,6 +81,7 @@ import tech.sud.mgp.hello.ui.main.nft.model.BindWalletInfoModel;
 import tech.sud.mgp.hello.ui.main.nft.model.NftModel;
 import tech.sud.mgp.hello.ui.main.nft.viewmodel.CancelWearNftListener;
 import tech.sud.mgp.hello.ui.main.nft.viewmodel.NFTViewModel;
+import tech.sud.mgp.hello.ui.scenes.ad.activity.AdRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.base.model.EnterRoomParams;
 import tech.sud.mgp.hello.ui.scenes.base.utils.EnterRoomUtils;
 import tech.sud.mgp.hello.ui.scenes.base.utils.SafeAudioPlayer;
@@ -635,6 +636,9 @@ public class LlmFragment extends BaseFragment implements CreatRoomClickListener,
                 break;
             case SceneType.LEAGUE: // 联赛场景
                 clickLeagueGame(sceneModel, gameModel);
+                break;
+            case SceneType.GI_AD: // 广告
+                startActivity(new Intent(requireContext(), AdRoomActivity.class));
                 break;
             default:
                 matchGame(sceneModel.getSceneId(), gameModel.gameId);

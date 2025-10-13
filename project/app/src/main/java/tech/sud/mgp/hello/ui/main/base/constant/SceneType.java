@@ -22,6 +22,7 @@ public class SceneType {
     public static final int CROSS_APP_MATCH = 16; // 跨域匹配场景类型
     public static final int VERTICAL_DANMAKU = 18; // 弹幕游戏竖版
     public static final int AUDIO_3D = 19; // 3D语聊房
+    public static final int GI_AD = 21; // AD场景
 
     public static final int AUDIO_INTERACT = 101; // 语音互动类
     public static final int REAL_TIME_SPORTS = 102; // 实时竞技类

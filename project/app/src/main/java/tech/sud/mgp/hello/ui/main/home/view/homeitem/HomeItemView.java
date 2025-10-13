@@ -64,6 +64,9 @@ public class HomeItemView extends FrameLayout {
                 case SceneType.AUDIO_3D:
                     view = new HomeAudio3DItemView(getContext());
                     break;
+                case SceneType.GI_AD:
+                    view = new HomeGiAdItemView(getContext());
+                    break;
                 case SceneType.AUDIO_INTERACT:
                 case SceneType.REAL_TIME_SPORTS:
                 case SceneType.CLASSIC_CHESS_GAME:

@@ -283,4 +283,7 @@ public interface RequestUrl {
     String RANDOM_AI_CLONE = "ai/random/v1";
     // endregion ai分身
 
+    /** ad配置 */
+    String GI_AD_CONFIG = "ad/config/ad_list_1.json";
+
 }

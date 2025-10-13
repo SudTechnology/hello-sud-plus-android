@@ -133,6 +133,9 @@ dependencies {
     // 引入 SudNFT
     implementation project(':SudNFT:SudNFTSDK')
 
+    // 引入CocosSDK
+    implementation project(':CocosSDK')
+
     // 引入 SudMGPRTC
     implementation project(':SudMGPRTC:SudMGPRtcAgora')
     implementation project(':SudMGPRTC:SudMGPRtcAliyun')

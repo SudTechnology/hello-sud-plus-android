@@ -15,6 +15,7 @@ public class GameIdCons {
     public static final long MONOPOLY = 1704460412809043970L; // 大富翁
     public static final long SOUL_STONE = 1890346721291059202L; // 振魂石
     public static final long LUDO = 1468180338417074177L; // 飞行棋
+    public static final long MONSTER_CRUSH = 1664525565526667266L; // 怪物消消乐
 
     public static boolean isInteractionGame(long gameId) {
         if (gameId == CUSTOM_ROCKET) return true;

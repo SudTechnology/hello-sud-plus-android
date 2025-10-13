@@ -1,10 +1,14 @@
 package tech.sud.mgp.hello.ui.scenes.ad.fragment;
 
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Observer;
 
 import com.blankj.utilcode.util.LogUtils;
@@ -13,9 +17,19 @@ import java.io.Serializable;
 
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseFragment;
+import tech.sud.mgp.hello.common.http.param.BaseResponse;
+import tech.sud.mgp.hello.common.http.param.RetCode;
+import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
+import tech.sud.mgp.hello.common.utils.ImageLoader;
+import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.room.resp.CocosGameInfo;
+import tech.sud.mgp.hello.ui.main.base.constant.GameIdCons;
+import tech.sud.mgp.hello.ui.main.base.constant.SceneType;
+import tech.sud.mgp.hello.ui.main.home.model.MatchRoomModel;
+import tech.sud.mgp.hello.ui.scenes.ad.activity.AdRoomActivity;
 import tech.sud.mgp.hello.ui.scenes.ad.viewmodel.QuickStartCocosGameViewModel;
+import tech.sud.mgp.hello.ui.scenes.base.utils.EnterRoomUtils;
 
 public class CocosGameFragment extends BaseFragment {
 
@@ -23,6 +37,12 @@ public class CocosGameFragment extends BaseFragment {
     private FrameLayout mGameContainer;
     private CocosGameInfo mCocosGameInfo;
     private QuickStartCocosGameViewModel mGameViewModel = new QuickStartCocosGameViewModel();
+
+    private View mContainerClickPlay;
+    private View mContainerGameFinish;
+    private ImageView mIvCover;
+    private ImageView mIvIcon;
+    private TextView mTvGameName;
 
     public static CocosGameFragment newInstance(int position, CocosGameInfo info) {
         Bundle args = new Bundle();
@@ -57,6 +77,14 @@ public class CocosGameFragment extends BaseFragment {
         super.initWidget();
         LogUtils.d("position:" + mPosition + " initWidget");
         mGameContainer = findViewById(R.id.game_container);
+        mContainerClickPlay = findViewById(R.id.container_click_play);
+        mContainerGameFinish = findViewById(R.id.container_finish);
+        mIvCover = findViewById(R.id.iv_game_cover);
+        mIvIcon = findViewById(R.id.iv_game_icon);
+        mTvGameName = findViewById(R.id.tv_game_name);
+
+        mContainerClickPlay.setVisibility(View.VISIBLE);
+        setUserInputEnabled(true);
     }
 
     @Override
@@ -75,6 +103,18 @@ public class CocosGameFragment extends BaseFragment {
     @Override
     protected void setListeners() {
         super.setListeners();
+        mContainerClickPlay.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                return true;
+            }
+        });
+        mContainerGameFinish.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                return true;
+            }
+        });
         mGameViewModel.gameViewLiveData.observe(this, new Observer<View>() {
             @Override
             public void onChanged(View view) {
@@ -86,10 +126,46 @@ public class CocosGameFragment extends BaseFragment {
             }
         });
         mGameViewModel.gameMGCommonGameFinishLiveData.observe(this, this::onGameFinish);
+        findViewById(R.id.tv_click_play).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mContainerClickPlay.setVisibility(View.GONE);
+                setUserInputEnabled(false);
+            }
+        });
+        findViewById(R.id.tv_operate).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickGameOperate();
+            }
+        });
+        findViewById(R.id.tv_play_again).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mContainerGameFinish.setVisibility(View.GONE);
+                setUserInputEnabled(false);
+            }
+        });
+    }
+
+    private void onClickGameOperate() {
+        HomeRepository.matchGame(SceneType.AUDIO, GameIdCons.MONSTER_CRUSH, null, this, new RxCallback<MatchRoomModel>() {
+            @Override
+            public void onNext(BaseResponse<MatchRoomModel> t) {
+                super.onNext(t);
+                if (t.getRetCode() == RetCode.SUCCESS) {
+                    EnterRoomUtils.enterRoom(null, t.getData().roomId);
+                }
+            }
+        });
     }
 
     private void onGameFinish(String dataJson) {
-        // TODO: 2025/10/13 游戏结束了
+        mContainerGameFinish.setVisibility(View.VISIBLE);
+        ImageLoader.loadImage(mIvCover, mCocosGameInfo.cover);
+        ImageLoader.loadImage(mIvIcon, mCocosGameInfo.icon);
+        mTvGameName.setText(mCocosGameInfo.name);
+        setUserInputEnabled(true);
     }
 
     @Override
@@ -134,6 +210,14 @@ public class CocosGameFragment extends BaseFragment {
     public void onDestroy() {
         super.onDestroy();
         LogUtils.d("position:" + mPosition + " onDestroy");
+    }
+
+    private void setUserInputEnabled(boolean enabled) {
+        FragmentActivity activity = getActivity();
+        if (activity instanceof AdRoomActivity) {
+            AdRoomActivity adRoomActivity = (AdRoomActivity) activity;
+            adRoomActivity.setUserInputEnabled(enabled);
+        }
     }
 
 }

@@ -104,4 +104,8 @@ public class AdRoomActivity extends BaseActivity {
         ImmersionBar.with(this).statusBarDarkFont(false).init();
     }
 
+    public void setUserInputEnabled(boolean enabled) {
+        mViewPager2.setUserInputEnabled(enabled);
+    }
+
 }

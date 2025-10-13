@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Observer;
 
 import com.blankj.utilcode.util.LogUtils;
+import com.gyf.immersionbar.ImmersionBar;
 
 import java.io.Serializable;
 
@@ -22,6 +23,7 @@ import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
+import tech.sud.mgp.hello.common.utils.ViewUtils;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
 import tech.sud.mgp.hello.service.room.resp.CocosGameInfo;
 import tech.sud.mgp.hello.ui.main.base.constant.GameIdCons;
@@ -43,6 +45,8 @@ public class CocosGameFragment extends BaseFragment {
     private ImageView mIvCover;
     private ImageView mIvIcon;
     private TextView mTvGameName;
+    private ImageView mIvBack;
+    private ImageView mIvClosePlay;
 
     public static CocosGameFragment newInstance(int position, CocosGameInfo info) {
         Bundle args = new Bundle();
@@ -82,9 +86,13 @@ public class CocosGameFragment extends BaseFragment {
         mIvCover = findViewById(R.id.iv_game_cover);
         mIvIcon = findViewById(R.id.iv_game_icon);
         mTvGameName = findViewById(R.id.tv_game_name);
+        mIvBack = findViewById(R.id.iv_back);
+        mIvClosePlay = findViewById(R.id.iv_close_play);
 
         mContainerClickPlay.setVisibility(View.VISIBLE);
         setUserInputEnabled(true);
+
+        ViewUtils.setHeight(findViewById(R.id.top_bar), ImmersionBar.getStatusBarHeight(this));
     }
 
     @Override
@@ -115,6 +123,7 @@ public class CocosGameFragment extends BaseFragment {
                 return true;
             }
         });
+
         mGameViewModel.gameViewLiveData.observe(this, new Observer<View>() {
             @Override
             public void onChanged(View view) {
@@ -129,8 +138,8 @@ public class CocosGameFragment extends BaseFragment {
         findViewById(R.id.tv_click_play).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mContainerClickPlay.setVisibility(View.GONE);
-                setUserInputEnabled(false);
+                // 点击了试玩
+                onClickPlayGame();
             }
         });
         findViewById(R.id.tv_operate).setOnClickListener(new View.OnClickListener() {
@@ -142,10 +151,34 @@ public class CocosGameFragment extends BaseFragment {
         findViewById(R.id.tv_play_again).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mContainerGameFinish.setVisibility(View.GONE);
-                setUserInputEnabled(false);
+                onClickPlayGame();
             }
         });
+        mIvBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                requireActivity().finish();
+            }
+        });
+        mIvClosePlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // 点击了关闭试玩
+                mIvBack.setVisibility(View.VISIBLE);
+                mIvClosePlay.setVisibility(View.GONE);
+                mContainerClickPlay.setVisibility(View.VISIBLE);
+                mContainerGameFinish.setVisibility(View.GONE);
+                setUserInputEnabled(true);
+            }
+        });
+    }
+
+    private void onClickPlayGame() {
+        mIvBack.setVisibility(View.GONE);
+        mIvClosePlay.setVisibility(View.VISIBLE);
+        mContainerClickPlay.setVisibility(View.GONE);
+        mContainerGameFinish.setVisibility(View.GONE);
+        setUserInputEnabled(false);
     }
 
     private void onClickGameOperate() {
@@ -160,7 +193,10 @@ public class CocosGameFragment extends BaseFragment {
         });
     }
 
+    // 游戏结束了
     private void onGameFinish(String dataJson) {
+        mIvBack.setVisibility(View.VISIBLE);
+        mIvClosePlay.setVisibility(View.VISIBLE);
         mContainerGameFinish.setVisibility(View.VISIBLE);
         ImageLoader.loadImage(mIvCover, mCocosGameInfo.cover);
         ImageLoader.loadImage(mIvIcon, mCocosGameInfo.icon);

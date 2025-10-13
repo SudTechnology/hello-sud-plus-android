@@ -272,7 +272,9 @@ public abstract class BaseCocosGameViewModel {
                     case CocosGameHandleV2.GAME_STATE_RUNNING:
                     case CocosGameHandleV2.GAME_STATE_PLAYING:
                         _isGameStateChanging = true;
-                        mGameHandle.setGameStartOptions(mGameId, null);
+                        Bundle bundle = new Bundle();
+                        bundle.putBoolean(CocosGameHandleV2.KEY_GAME_START_OPTIONS_ENABLE_THIRD_SCRIPT, true);
+                        mGameHandle.setGameStartOptions(mGameId, bundle);
                         mGameHandle.create();
                         break;
                 }

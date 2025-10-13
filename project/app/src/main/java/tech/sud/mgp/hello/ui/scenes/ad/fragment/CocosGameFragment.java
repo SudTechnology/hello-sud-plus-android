@@ -208,16 +208,16 @@ public class CocosGameFragment extends BaseFragment {
     public void onStart() {
         super.onStart();
         LogUtils.d("position:" + mPosition + " onStart");
-        mGameViewModel.setMute(true);
         mGameViewModel.onStart();
+        mGameViewModel.setMute(true);
     }
 
     @Override
     public void onResume() {
         super.onResume();
         LogUtils.d("position:" + mPosition + " onResume");
-        mGameViewModel.setMute(false);
         mGameViewModel.onResume();
+        mGameViewModel.setMute(false);
     }
 
     @Override

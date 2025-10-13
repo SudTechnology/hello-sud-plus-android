@@ -225,6 +225,7 @@ public class CocosGameFragment extends BaseFragment {
         super.onPause();
         LogUtils.d("position:" + mPosition + " onPause");
         mGameViewModel.onPause();
+        mGameViewModel.setMute(true);
     }
 
     @Override

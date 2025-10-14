@@ -12,7 +12,7 @@ android {
         versionCode Integer.parseInt(project.versionCode)
         versionName project.versionName
         ndk {
-            abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86_64'
+            abiFilters 'arm64-v8a'
         }
 
         applicationVariants.all { variant ->

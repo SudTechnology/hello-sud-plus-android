@@ -1,6 +1,8 @@
 package tech.sud.mgp.hello.ui.scenes.ad.viewmodel;
 
 import android.app.Activity;
+import android.content.Context;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -35,6 +37,7 @@ public abstract class BaseCocosGameViewModel {
     private Boolean _isGameInstalled = false;
     private boolean isMute;
     private boolean isGameStarted;
+    private AudioManager _audioManager;
 
     public MutableLiveData<String> gameMGCommonGameFinishLiveData = new MutableLiveData<>();
     public MutableLiveData<String> gameStartedLiveData = new MutableLiveData<>();
@@ -50,6 +53,9 @@ public abstract class BaseCocosGameViewModel {
             LogUtils.d("startGame gameId or gameUrl can not be empty");
             LogUtils.file("startGame gameId or gameUrl can not be empty");
             return;
+        }
+        if (_audioManager == null) {
+            _audioManager = (AudioManager) activity.getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
         }
         mUserId = userId;
         isLoadingGame = true;
@@ -145,6 +151,7 @@ public abstract class BaseCocosGameViewModel {
                 _changeGameState(_expectGameState);
                 initListener(handle);
                 setMute(isMute);
+                handle.getGameAudioSession().setGameQueryAudioOptionsListener(_audioListener);
             }
 
             @Override
@@ -154,6 +161,26 @@ public abstract class BaseCocosGameViewModel {
             }
         });
     }
+
+    AudioManager.OnAudioFocusChangeListener afChangeListener = new AudioManager.OnAudioFocusChangeListener() {
+        @Override
+        public void onAudioFocusChange(int focusChange) {
+            // 不自动暂停音频
+        }
+    };
+
+    private final CocosGameAudioSession.GameQueryAudioOptionsListener _audioListener = new CocosGameAudioSession.GameQueryAudioOptionsListener() {
+        @Override
+        public void onQueryAudioOptions(CocosGameAudioSession.GameQueryAudioOptionsHandle gameQueryAudioOptionsHandle, Bundle bundle) {
+            // bundle 中参数
+            // bundle.getBoolean(CocosGameAudioSession.KEY_AUDIO_MIX_WITH_OTHER); 是否用扬声器播放，true 默认输出设备优先级：耳机 > 蓝牙 > 扬声器；false 用听筒播放
+            // bundle.getBoolean(CocosGameAudioSession.KEY_AUDIO_SPEAKER_ON); 音频是否支持与其他音频混播（包含其他应用、其他游戏实例的音频）
+            _audioManager.requestAudioFocus(afChangeListener,
+                    AudioManager.STREAM_MUSIC,
+                    AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK
+            );
+        }
+    };
 
     private void initListener(CocosGameHandleV2 handle) {
         handle.setCustomCommandListener(new CocosGameHandleV2.CustomCommandListener() {

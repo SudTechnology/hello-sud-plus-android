@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ThreadUtils;
 import com.gyf.immersionbar.ImmersionBar;
 
@@ -25,6 +26,7 @@ public class AdRoomActivity extends BaseActivity {
     private ViewPager2 mViewPager2;
     private List<GiAdModel> mDatas = new ArrayList<>();
     private MyAdapter mAdapter;
+    private boolean isFirstPageCompleted;
 
     @Override
     protected int getLayoutId() {
@@ -36,7 +38,6 @@ public class AdRoomActivity extends BaseActivity {
         super.initWidget();
         mViewPager2 = findViewById(R.id.view_pager2);
         mViewPager2.setOrientation(ViewPager2.ORIENTATION_VERTICAL);
-        mViewPager2.setOffscreenPageLimit(2);
     }
 
     @Override
@@ -75,6 +76,7 @@ public class AdRoomActivity extends BaseActivity {
             mDatas.addAll(list);
         }
         mAdapter.notifyDataSetChanged();
+        mViewPager2.postDelayed(() -> firstPageGameStarted(), 5000);
     }
 
     private class MyAdapter extends FragmentStateAdapter {
@@ -106,6 +108,18 @@ public class AdRoomActivity extends BaseActivity {
 
     public void setUserInputEnabled(boolean enabled) {
         mViewPager2.setUserInputEnabled(enabled);
+    }
+
+    public void firstPageGameStarted() {
+        if (isFirstPageCompleted) {
+            return;
+        }
+        isFirstPageCompleted = true;
+        mViewPager2.post(() -> {
+            mViewPager2.setOffscreenPageLimit(2);
+            mAdapter.notifyDataSetChanged();
+        });
+        LogUtils.d("firstPageGameStarted");
     }
 
 }

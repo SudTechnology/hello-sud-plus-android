@@ -171,6 +171,23 @@ public class CocosGameFragment extends BaseFragment {
                 setUserInputEnabled(true);
             }
         });
+        mGameViewModel.gameStartedLiveData.observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                onGameStarted();
+            }
+        });
+    }
+
+    private void onGameStarted() {
+        if (mPosition != 0) {
+            return;
+        }
+        FragmentActivity activity = getActivity();
+        if (activity instanceof AdRoomActivity) {
+            AdRoomActivity adRoomActivity = (AdRoomActivity) activity;
+            adRoomActivity.firstPageGameStarted();
+        }
     }
 
     private void onClickPlayGame() {

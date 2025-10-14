@@ -34,8 +34,10 @@ public abstract class BaseCocosGameViewModel {
     private int _expectGameState = CocosGameHandleV2.GAME_STATE_UNAVAILABLE;
     private Boolean _isGameInstalled = false;
     private boolean isMute;
+    private boolean isGameStarted;
 
     public MutableLiveData<String> gameMGCommonGameFinishLiveData = new MutableLiveData<>();
+    public MutableLiveData<String> gameStartedLiveData = new MutableLiveData<>();
 
     /**
      * 启动游戏
@@ -216,6 +218,7 @@ public abstract class BaseCocosGameViewModel {
 
     /** 销毁游戏 */
     public void destroyGame() {
+        isGameStarted = false;
         isLoadingGame = false;
         if (mGameHandle != null) {
             mGameHandle.destroy();
@@ -242,6 +245,10 @@ public abstract class BaseCocosGameViewModel {
 
         @Override
         public void onStateChanged(int fromState, int state) {
+            if (!isGameStarted && state == CocosGameHandleV2.GAME_STATE_PLAYING) {
+                isGameStarted = true;
+                gameStartedLiveData.setValue(null);
+            }
             LogUtils.i("onStateChanged:" + state);
             LogUtils.file("onStateChanged:" + state);
             _currentGameState = state;

@@ -20,7 +20,7 @@ import com.cocos.game.CocosGameRuntimeV2;
 public abstract class BaseCocosGameViewModel {
 
     private Activity mActivity;
-
+    public String CALC_TAG = "";
     private CocosGameRuntimeV2 mRuntime;
     private CocosGameCoreHandle mCoreHandle;
 
@@ -38,6 +38,7 @@ public abstract class BaseCocosGameViewModel {
     private boolean isMute;
     private boolean isGameStarted;
     private AudioManager _audioManager;
+    private long startGameTimestamp;
 
     public MutableLiveData<String> gameMGCommonGameFinishLiveData = new MutableLiveData<>();
     public MutableLiveData<String> gameStartedLiveData = new MutableLiveData<>();
@@ -54,6 +55,8 @@ public abstract class BaseCocosGameViewModel {
             LogUtils.file("startGame gameId or gameUrl can not be empty");
             return;
         }
+        startGameTimestamp = System.currentTimeMillis();
+        LogUtils.d(CALC_TAG + "开始加载游戏 gameId:" + gameId);
         if (_audioManager == null) {
             _audioManager = (AudioManager) activity.getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
         }
@@ -142,9 +145,12 @@ public abstract class BaseCocosGameViewModel {
         // 创建游戏实例
         Bundle createOptions = new Bundle();
         createOptions.putString(CocosGameHandleV2.KEY_GAME_USER_ID, mUserId);
+        long start = System.currentTimeMillis();
+        LogUtils.d(CALC_TAG + "创建GameHandle 开始 gameId:" + mGameId);
         mRuntime.createGameHandle(mActivity, createOptions, mCoreHandle, new CocosGameRuntimeV2.GameHandleCreateListener() {
             @Override
             public void onSuccess(CocosGameHandleV2 handle) {
+                LogUtils.d(CALC_TAG + "创建GameHandle 成功 gameId：" + mGameId + " 耗时：" + (System.currentTimeMillis() - start));
                 mGameHandle = handle;
                 onAddGameView(mGameHandle.getGameView());
                 mGameHandle.setGameStateListener(_gameStateListener);
@@ -152,10 +158,19 @@ public abstract class BaseCocosGameViewModel {
                 initListener(handle);
                 setMute(isMute);
                 handle.getGameAudioSession().setGameQueryAudioOptionsListener(_audioListener);
+                mGameHandle.setGameDrawFrameListener(new CocosGameHandleV2.GameDrawFrameListener() {
+                    @Override
+                    public void onDrawFrame(long l) {
+                        mGameHandle.setGameDrawFrameListener(null);
+                        LogUtils.d(CALC_TAG + "第一帧来了 gameId：" + mGameId + " 从开始加载到第一帧的耗时：" + (System.currentTimeMillis() - startGameTimestamp));
+                    }
+                });
             }
 
             @Override
             public void onFailure(Throwable error) {
+                LogUtils.d(CALC_TAG + "创建GameHandle 失败 gameId：" + mGameId + " 耗时：" + (System.currentTimeMillis() - start));
+
                 LogUtils.e("createCocosGameInstance fail:" + error);
                 LogUtils.file("createCocosGameInstance fail:" + error);
             }
@@ -245,12 +260,23 @@ public abstract class BaseCocosGameViewModel {
 
     /** 销毁游戏 */
     public void destroyGame() {
-        isGameStarted = false;
-        isLoadingGame = false;
+        LogUtils.d(CALC_TAG + "调用destroy gameId:" + mGameId);
         if (mGameHandle != null) {
             mGameHandle.destroy();
         }
         onRemoveGameView();
+        mGameId = null;
+        mGameUrl = null;
+        mGamePkgVersion = null;
+        mUserId = null;
+        mGameHandle = null;
+        _isGameStateChanging = false;
+        _currentGameState = CocosGameHandleV2.GAME_STATE_UNAVAILABLE;
+        _expectGameState = CocosGameHandleV2.GAME_STATE_UNAVAILABLE;
+        _isGameInstalled = false;
+        isMute = false;
+        isGameStarted = false;
+        isLoadingGame = false;
     }
 
     /**
@@ -272,6 +298,7 @@ public abstract class BaseCocosGameViewModel {
 
         @Override
         public void onStateChanged(int fromState, int state) {
+            LogUtils.d(CALC_TAG + "状态变化 gameId:" + mGameId + " 状态为：" + getStringState(state));
             if (!isGameStarted && state == CocosGameHandleV2.GAME_STATE_PLAYING) {
                 isGameStarted = true;
                 gameStartedLiveData.setValue(null);
@@ -281,6 +308,21 @@ public abstract class BaseCocosGameViewModel {
             _currentGameState = state;
             _isGameStateChanging = false;
             _changeGameState(_expectGameState);
+        }
+
+        private String getStringState(int state) {
+            switch (state) {
+                case CocosGameHandleV2.GAME_STATE_UNAVAILABLE:
+                    return "UNAVAILABLE";
+                case CocosGameHandleV2.GAME_STATE_WAITING:
+                    return "WAITING";
+                case CocosGameHandleV2.GAME_STATE_RUNNING:
+                    return "RUNNING";
+                case CocosGameHandleV2.GAME_STATE_PLAYING:
+                    return "PLAYING";
+                default:
+                    return "UNKNOW:" + state;
+            }
         }
 
         @Override
@@ -305,6 +347,7 @@ public abstract class BaseCocosGameViewModel {
                     case CocosGameHandleV2.GAME_STATE_WAITING:
                     case CocosGameHandleV2.GAME_STATE_RUNNING:
                     case CocosGameHandleV2.GAME_STATE_PLAYING:
+                        LogUtils.d(CALC_TAG + "调用CocosGameHandleV2.create() gameId:" + mGameId);
                         _isGameStateChanging = true;
                         Bundle bundle = new Bundle();
                         bundle.putBoolean(CocosGameHandleV2.KEY_GAME_START_OPTIONS_ENABLE_THIRD_SCRIPT, true);
@@ -324,6 +367,7 @@ public abstract class BaseCocosGameViewModel {
                         break;
                     case CocosGameHandleV2.GAME_STATE_RUNNING:
                     case CocosGameHandleV2.GAME_STATE_PLAYING:
+                        LogUtils.d(CALC_TAG + "调用CocosGameHandleV2.start() gameId:" + mGameId);
                         _isGameStateChanging = true;
                         mGameHandle.start(null);
                         break;
@@ -340,6 +384,7 @@ public abstract class BaseCocosGameViewModel {
                     case CocosGameHandleV2.GAME_STATE_RUNNING:
                         break;
                     case CocosGameHandleV2.GAME_STATE_PLAYING:
+                        LogUtils.d(CALC_TAG + "调用CocosGameHandleV2.play() gameId:" + mGameId);
                         _isGameStateChanging = true;
                         mGameHandle.play();
                         break;
@@ -351,6 +396,7 @@ public abstract class BaseCocosGameViewModel {
                     case CocosGameHandleV2.GAME_STATE_UNAVAILABLE:
                     case CocosGameHandleV2.GAME_STATE_WAITING:
                     case CocosGameHandleV2.GAME_STATE_RUNNING:
+                        LogUtils.d(CALC_TAG + "调用CocosGameHandleV2.pause() gameId:" + mGameId);
                         _isGameStateChanging = true;
                         mGameHandle.pause();
                         break;

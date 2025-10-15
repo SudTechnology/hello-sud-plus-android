@@ -3,6 +3,7 @@ package tech.sud.mgp.hello.ui.scenes.ad.viewmodel;
 import android.content.Context;
 import android.os.Bundle;
 
+import com.blankj.utilcode.util.LogUtils;
 import com.cocos.game.CocosGameCoreHandle;
 import com.cocos.game.CocosGameRuntimeV2;
 import com.cocos.game.CocosGameV2;
@@ -44,9 +45,12 @@ public class SudCocosInitManager {
                 return;
             }
             isInitializingRuntime = true;
+            long start = System.currentTimeMillis();
+            LogUtils.d("CocosCalc createRuntime 开始");
             CocosGameV2.createRuntime(context, getRuntimeBundle(context), new CocosGameRuntimeV2.RuntimeCreateListener() {
                 @Override
                 public void onSuccess(CocosGameRuntimeV2 runtime) {
+                    LogUtils.d("CocosCalc createRuntime 成功耗时：" + (System.currentTimeMillis() - start));
                     sCocosGameRuntime = runtime;
                     listener.onSuccess(runtime);
                     notifyInitRuntimeOnSuccess();
@@ -55,6 +59,7 @@ public class SudCocosInitManager {
 
                 @Override
                 public void onFailure(Throwable error) {
+                    LogUtils.d("CocosCalc createRuntime 失败耗时：" + (System.currentTimeMillis() - start));
                     listener.onFailure(error);
                     notifyInitRuntimeOnFailure(error);
                     isInitializingRuntime = false;
@@ -81,10 +86,13 @@ public class SudCocosInitManager {
                 return;
             }
             isInitializingCore = true;
+            long start = System.currentTimeMillis();
+            LogUtils.d("CocosCalc loadCore 开始");
             // 不是动态core 不传 core 的 options
             sCocosGameRuntime.loadCore(null, new CocosGameRuntimeV2.CoreLoadListener() {
                 @Override
                 public void onSuccess(CocosGameCoreHandle coreHandle) {
+                    LogUtils.d("CocosCalc loadCore 成功耗时：" + (System.currentTimeMillis() - start));
                     sCocosGameCoreHandle = coreHandle;
                     listener.onSuccess(coreHandle);
                     notifyInitCoreOnSuccess();
@@ -93,6 +101,7 @@ public class SudCocosInitManager {
 
                 @Override
                 public void onFailure(Throwable error) {
+                    LogUtils.d("CocosCalc loadCore 失败耗时：" + (System.currentTimeMillis() - start));
                     listener.onFailure(error);
                     notifyInitCoreOnFailure(error);
                     isInitializingCore = false;

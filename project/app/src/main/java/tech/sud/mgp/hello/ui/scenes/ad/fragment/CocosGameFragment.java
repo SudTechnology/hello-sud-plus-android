@@ -68,6 +68,7 @@ public class CocosGameFragment extends BaseFragment {
                 mCocosGameInfo = (CocosGameInfo) cocosGameInfo;
             }
         }
+        mGameViewModel.CALC_TAG = "CocosCalc" + mPosition + " ";
         LogUtils.d("position:" + mPosition + " onCreate");
     }
 

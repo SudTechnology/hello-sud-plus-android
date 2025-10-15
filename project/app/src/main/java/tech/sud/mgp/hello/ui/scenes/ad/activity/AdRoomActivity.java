@@ -87,9 +87,10 @@ public class AdRoomActivity extends BaseActivity {
         @NonNull
         @Override
         public Fragment createFragment(int position) {
+            int srcPosition = position;
             position %= mDatas.size();
             GiAdModel giAdModel = mDatas.get(position);
-            return CocosGameFragment.newInstance(position, giAdModel.gameInfo);
+            return CocosGameFragment.newInstance(srcPosition, giAdModel.gameInfo);
         }
 
         @Override

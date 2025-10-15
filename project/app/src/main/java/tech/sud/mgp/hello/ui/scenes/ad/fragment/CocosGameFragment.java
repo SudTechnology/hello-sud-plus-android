@@ -131,6 +131,7 @@ public class CocosGameFragment extends BaseFragment {
                 if (view == null) {
                     mGameContainer.removeAllViews();
                 } else {
+                    LogUtils.d(mGameViewModel.CALC_TAG + "把游戏View添加到页面上 gameId:" + mCocosGameInfo.gameId);
                     mGameContainer.addView(view, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
                 }
             }

@@ -1,6 +1,5 @@
 package tech.sud.mgp.hello.ui.scenes.ad.viewmodel;
 
-import android.app.Activity;
 import android.content.Context;
 import android.media.AudioManager;
 import android.os.Bundle;
@@ -9,20 +8,37 @@ import android.os.Looper;
 import android.text.TextUtils;
 import android.view.View;
 
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.MutableLiveData;
 
 import com.blankj.utilcode.util.LogUtils;
-import com.cocos.game.CocosGameAudioSession;
-import com.cocos.game.CocosGameCoreHandle;
-import com.cocos.game.CocosGameHandleV2;
-import com.cocos.game.CocosGameRuntimeV2;
+import com.blankj.utilcode.util.ToastUtils;
+
+import tech.sud.cr.core.ISudCrFSMGame;
+import tech.sud.cr.core.ISudCrListenerInitSDK;
+import tech.sud.cr.core.SudCr;
+import tech.sud.cr.core.SudCrGameAudioSession;
+import tech.sud.cr.core.SudCrGameCoreHandle;
+import tech.sud.cr.core.SudCrGameHandle;
+import tech.sud.cr.core.SudCrGameRuntime;
+import tech.sud.cr.core.SudCrInitSDKParamModel;
+import tech.sud.cr.core.SudCrLoadGameParamModel;
+import tech.sud.mgp.hello.app.APPConfig;
+import tech.sud.mgp.hello.common.http.param.BaseResponse;
+import tech.sud.mgp.hello.common.http.param.RetCode;
+import tech.sud.mgp.hello.common.http.rx.RxCallback;
+import tech.sud.mgp.hello.common.model.AppData;
+import tech.sud.mgp.hello.common.model.HSUserInfo;
+import tech.sud.mgp.hello.service.game.repository.GameRepository;
+import tech.sud.mgp.hello.service.game.resp.GameLoginResp;
+import tech.sud.mgp.hello.service.main.config.SudConfig;
 
 public abstract class BaseCocosGameViewModel {
 
-    private Activity mActivity;
+    private FragmentActivity mActivity;
     public String CALC_TAG = "";
-    private CocosGameRuntimeV2 mRuntime;
-    private CocosGameCoreHandle mCoreHandle;
+    private SudCrGameRuntime mRuntime;
+    private SudCrGameCoreHandle mCoreHandle;
 
     private Handler mHandler = new Handler(Looper.getMainLooper());
     private boolean isLoadingGame;
@@ -30,10 +46,10 @@ public abstract class BaseCocosGameViewModel {
     private String mGameUrl;
     private String mGamePkgVersion;
     private String mUserId;
-    private CocosGameHandleV2 mGameHandle;
+    private SudCrGameHandle mGameHandle;
     private Boolean _isGameStateChanging = false;
-    private int _currentGameState = CocosGameHandleV2.GAME_STATE_UNAVAILABLE;
-    private int _expectGameState = CocosGameHandleV2.GAME_STATE_UNAVAILABLE;
+    private int _currentGameState = SudCrGameHandle.GAME_STATE_UNAVAILABLE;
+    private int _expectGameState = SudCrGameHandle.GAME_STATE_UNAVAILABLE;
     private Boolean _isGameInstalled = false;
     private boolean isMute;
     private boolean isGameStarted;
@@ -49,7 +65,7 @@ public abstract class BaseCocosGameViewModel {
      * @param activity 页面
      * @param gameId   游戏id
      */
-    public void startGame(Activity activity, String userId, String gameId, String gameUrl, String gamePkgVersion) {
+    public void startGame(FragmentActivity activity, String userId, String gameId, String gameUrl, String gamePkgVersion) {
         if (TextUtils.isEmpty(gameId) || TextUtils.isEmpty(gameUrl)) {
             LogUtils.d("startGame gameId or gameUrl can not be empty");
             LogUtils.file("startGame gameId or gameUrl can not be empty");
@@ -69,16 +85,15 @@ public abstract class BaseCocosGameViewModel {
         initCocosRuntime(activity, gameId, gameUrl, gamePkgVersion);
     }
 
-    private void initCocosRuntime(Activity activity, String gameId, String gameUrl, String gamePkgVersion) {
+    private void initCocosRuntime(FragmentActivity activity, String gameId, String gameUrl, String gamePkgVersion) {
         SudCocosInitManager.initCocosRuntime(activity, new SudCocosInitManager.InitRuntimeListener() {
             @Override
-            public void onSuccess(CocosGameRuntimeV2 runtime) {
+            public void onSuccess(SudCrGameRuntime runtime) {
                 if (!isLoadingGame) {
                     return;
                 }
                 mRuntime = runtime;
                 initCocosCore(activity, gameId, gameUrl, gamePkgVersion);
-                downloadAndInstallGamePkg(activity, gameId, gameUrl, gamePkgVersion);
             }
 
             @Override
@@ -90,10 +105,88 @@ public abstract class BaseCocosGameViewModel {
         });
     }
 
-    private void downloadAndInstallGamePkg(Activity activity, String gameId, String gameUrl, String gamePkgVersion) {
-        SudCocosGamePkgManager.downloadAndInstallGamePkg(mRuntime, gameId, gameUrl, gamePkgVersion, new GamePkgListener() {
+    private void login(FragmentActivity activity, String gameId, String gameUrl, String gamePkgVersion) {
+        if (activity.isDestroyed() || !isLoadingGame) {
+            return;
+        }
+        // 请求登录code
+        GameRepository.login(activity, getAppId(), new RxCallback<GameLoginResp>() {
             @Override
-            public void onSuccess(String gameId, String gamePkgVersion) {
+            public void onNext(BaseResponse<GameLoginResp> t) {
+                super.onNext(t);
+                if (!isLoadingGame || !gameId.equals(mGameId)) {
+                    return;
+                }
+                if (t.getRetCode() == RetCode.SUCCESS && t.getData() != null) {
+                    LogUtils.d("code为：" + t.getData().runtimeCode);
+                    initSdk(activity, gameId, gameUrl, gamePkgVersion, t.getData().runtimeCode);
+                } else {
+                    delayLogin(activity, gameId, gameUrl, gamePkgVersion);
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                delayLogin(activity, gameId, gameUrl, gamePkgVersion);
+            }
+        });
+    }
+
+    private void delayLogin(FragmentActivity activity, String gameId, String gameUrl, String gamePkgVersion) {
+        if (!isLoadingGame) {
+            return;
+        }
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                login(activity, gameId, gameUrl, gamePkgVersion);
+            }
+        }, 5000);
+    }
+
+    private void initSdk(FragmentActivity activity, String gameId, String gameUrl, String gamePkgVersion, String code) {
+        SudConfig sudConfig = AppData.getInstance().getSudConfig();
+        if (sudConfig == null || sudConfig.appId == null || sudConfig.appKey == null) {
+            ToastUtils.showLong("SudConfig is empty");
+            return;
+        }
+        SudCrInitSDKParamModel initSDKParamModel = new SudCrInitSDKParamModel();
+        initSDKParamModel.context = activity.getApplicationContext();
+        initSDKParamModel.appId = sudConfig.appId;
+        initSDKParamModel.appKey = sudConfig.appKey;
+        initSDKParamModel.isTestEnv = APPConfig.GAME_IS_TEST_ENV;
+        initSDKParamModel.userId = getUserId();
+        initSDKParamModel.code = code;
+
+        SudCr.initSDK(initSDKParamModel, new ISudCrListenerInitSDK() {
+            @Override
+            public void onSuccess() {
+                loadGame(activity, gameId, gamePkgVersion, gameUrl);
+            }
+
+            @Override
+            public void onFailure(int retCode, String retMsg) {
+                LogUtils.e("loadGamePkg fail(" + retCode + ")" + retMsg);
+                LogUtils.file("loadGamePkg fail(" + retCode + ")" + retMsg);
+                delayLogin(activity, gameId, gameUrl, gamePkgVersion);
+            }
+        });
+    }
+
+    private void loadGame(FragmentActivity activity, String gameId, String gamePkgVersion, String gameUrl) {
+        if (!isLoadingGame) {
+            return;
+        }
+        SudCrLoadGameParamModel loadGameParamModel = new SudCrLoadGameParamModel();
+        loadGameParamModel.activity = activity;
+        loadGameParamModel.userId = getUserId();
+        loadGameParamModel.gameId = gameId;
+        loadGameParamModel.pkgVersion = gamePkgVersion;
+        loadGameParamModel.pkgUrl = gameUrl;
+        SudCr.loadGame(loadGameParamModel, new ISudCrFSMGame() {
+            @Override
+            public void onSuccess() {
                 if (!isLoadingGame) {
                     return;
                 }
@@ -102,14 +195,15 @@ public abstract class BaseCocosGameViewModel {
             }
 
             @Override
-            public void onFailure(String gameId, String gamePkgVersion, Throwable error) {
-                LogUtils.e("downloadAndInstallGamePkg fail:" + error);
-                LogUtils.file("downloadAndInstallGamePkg fail:" + error);
+            public void onFailure(int retCode, String retMsg) {
+                LogUtils.e("loadGamePkg fail(" + retCode + ")" + retMsg);
+                LogUtils.file("loadGamePkg fail(" + retCode + ")" + retMsg);
+                delayLogin(activity, gameId, gameUrl, gamePkgVersion);
             }
         });
     }
 
-    private void delayInitCocosRuntime(Activity activity, String gameId, String gameUrl, String gamePkgVersion) {
+    private void delayInitCocosRuntime(FragmentActivity activity, String gameId, String gameUrl, String gamePkgVersion) {
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -121,14 +215,15 @@ public abstract class BaseCocosGameViewModel {
         }, 5000);
     }
 
-    private void initCocosCore(Activity activity, String gameId, String gameUrl, String gamePkgVersion) {
+    private void initCocosCore(FragmentActivity activity, String gameId, String gameUrl, String gamePkgVersion) {
         SudCocosInitManager.initCocosCore(new SudCocosInitManager.InitCoreListener() {
             @Override
-            public void onSuccess(CocosGameCoreHandle coreHandle) {
+            public void onSuccess(SudCrGameCoreHandle coreHandle) {
                 if (!isLoadingGame) {
                     return;
                 }
                 mCoreHandle = coreHandle;
+                login(activity, gameId, gameUrl, gamePkgVersion);
                 createCocosGameInstance();
             }
 
@@ -144,12 +239,12 @@ public abstract class BaseCocosGameViewModel {
     private void createCocosGameInstance() {
         // 创建游戏实例
         Bundle createOptions = new Bundle();
-        createOptions.putString(CocosGameHandleV2.KEY_GAME_USER_ID, mUserId);
+        createOptions.putString(SudCrGameHandle.KEY_GAME_USER_ID, mUserId);
         long start = System.currentTimeMillis();
         LogUtils.d(CALC_TAG + "创建GameHandle 开始 gameId:" + mGameId);
-        mRuntime.createGameHandle(mActivity, createOptions, mCoreHandle, new CocosGameRuntimeV2.GameHandleCreateListener() {
+        mRuntime.createGameHandle(mActivity, createOptions, mCoreHandle, new SudCrGameRuntime.GameHandleCreateListener() {
             @Override
-            public void onSuccess(CocosGameHandleV2 handle) {
+            public void onSuccess(SudCrGameHandle handle) {
                 LogUtils.d(CALC_TAG + "创建GameHandle 成功 gameId：" + mGameId + " 耗时：" + (System.currentTimeMillis() - start));
                 mGameHandle = handle;
                 onAddGameView(mGameHandle.getGameView());
@@ -158,7 +253,7 @@ public abstract class BaseCocosGameViewModel {
                 initListener(handle);
                 setMute(isMute);
                 handle.getGameAudioSession().setGameQueryAudioOptionsListener(_audioListener);
-                mGameHandle.setGameDrawFrameListener(new CocosGameHandleV2.GameDrawFrameListener() {
+                mGameHandle.setGameDrawFrameListener(new SudCrGameHandle.GameDrawFrameListener() {
                     @Override
                     public void onDrawFrame(long l) {
                         mGameHandle.setGameDrawFrameListener(null);
@@ -184,9 +279,9 @@ public abstract class BaseCocosGameViewModel {
         }
     };
 
-    private final CocosGameAudioSession.GameQueryAudioOptionsListener _audioListener = new CocosGameAudioSession.GameQueryAudioOptionsListener() {
+    private final SudCrGameAudioSession.GameQueryAudioOptionsListener _audioListener = new SudCrGameAudioSession.GameQueryAudioOptionsListener() {
         @Override
-        public void onQueryAudioOptions(CocosGameAudioSession.GameQueryAudioOptionsHandle gameQueryAudioOptionsHandle, Bundle bundle) {
+        public void onQueryAudioOptions(SudCrGameAudioSession.GameQueryAudioOptionsHandle gameQueryAudioOptionsHandle, Bundle bundle) {
             // bundle 中参数
             // bundle.getBoolean(CocosGameAudioSession.KEY_AUDIO_MIX_WITH_OTHER); 是否用扬声器播放，true 默认输出设备优先级：耳机 > 蓝牙 > 扬声器；false 用听筒播放
             // bundle.getBoolean(CocosGameAudioSession.KEY_AUDIO_SPEAKER_ON); 音频是否支持与其他音频混播（包含其他应用、其他游戏实例的音频）
@@ -197,10 +292,10 @@ public abstract class BaseCocosGameViewModel {
         }
     };
 
-    private void initListener(CocosGameHandleV2 handle) {
-        handle.setCustomCommandListener(new CocosGameHandleV2.CustomCommandListener() {
+    private void initListener(SudCrGameHandle handle) {
+        handle.setCustomCommandListener(new SudCrGameHandle.CustomCommandListener() {
             @Override
-            public void onCallCustomCommand(CocosGameHandleV2.CustomCommandHandle customCommandHandle, Bundle bundle) {
+            public void onCallCustomCommand(SudCrGameHandle.CustomCommandHandle customCommandHandle, Bundle bundle) {
                 LogUtils.d("onCallCustomCommand :" + bundle);
                 LogUtils.file("onCallCustomCommand :" + bundle);
                 onGameStateChange(bundle);
@@ -208,7 +303,7 @@ public abstract class BaseCocosGameViewModel {
             }
 
             @Override
-            public void onCallCustomCommandSync(CocosGameHandleV2.CustomCommandHandle customCommandHandle, Bundle bundle) {
+            public void onCallCustomCommandSync(SudCrGameHandle.CustomCommandHandle customCommandHandle, Bundle bundle) {
                 LogUtils.d("onCallCustomCommandSync :" + bundle);
                 LogUtils.file("onCallCustomCommandSync :" + bundle);
             }
@@ -230,7 +325,7 @@ public abstract class BaseCocosGameViewModel {
         gameMGCommonGameFinishLiveData.setValue(dataJson);
     }
 
-    private void delayInitCocosCore(Activity activity, String gameId, String gameUrl, String gamePkgVersion) {
+    private void delayInitCocosCore(FragmentActivity activity, String gameId, String gameUrl, String gamePkgVersion) {
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -243,19 +338,19 @@ public abstract class BaseCocosGameViewModel {
     }
 
     public void onStart() {
-        _changeGameState(CocosGameHandleV2.GAME_STATE_RUNNING);
+        _changeGameState(SudCrGameHandle.GAME_STATE_RUNNING);
     }
 
     public void onResume() {
-        _changeGameState(CocosGameHandleV2.GAME_STATE_PLAYING);
+        _changeGameState(SudCrGameHandle.GAME_STATE_PLAYING);
     }
 
     public void onPause() {
-        _changeGameState(CocosGameHandleV2.GAME_STATE_RUNNING);
+        _changeGameState(SudCrGameHandle.GAME_STATE_RUNNING);
     }
 
     public void onStop() {
-        _changeGameState(CocosGameHandleV2.GAME_STATE_WAITING);
+        _changeGameState(SudCrGameHandle.GAME_STATE_WAITING);
     }
 
     /** 销毁游戏 */
@@ -271,12 +366,13 @@ public abstract class BaseCocosGameViewModel {
         mUserId = null;
         mGameHandle = null;
         _isGameStateChanging = false;
-        _currentGameState = CocosGameHandleV2.GAME_STATE_UNAVAILABLE;
-        _expectGameState = CocosGameHandleV2.GAME_STATE_UNAVAILABLE;
+        _currentGameState = SudCrGameHandle.GAME_STATE_UNAVAILABLE;
+        _expectGameState = SudCrGameHandle.GAME_STATE_UNAVAILABLE;
         _isGameInstalled = false;
         isMute = false;
         isGameStarted = false;
         isLoadingGame = false;
+        mHandler.removeCallbacksAndMessages(null);
     }
 
     /**
@@ -291,7 +387,7 @@ public abstract class BaseCocosGameViewModel {
      */
     protected abstract void onRemoveGameView();
 
-    private final CocosGameHandleV2.GameStateChangeListener _gameStateListener = new CocosGameHandleV2.GameStateChangeListener() {
+    private final SudCrGameHandle.GameStateChangeListener _gameStateListener = new SudCrGameHandle.GameStateChangeListener() {
         @Override
         public void preStateChange(int fromState, int state) {
         }
@@ -299,7 +395,7 @@ public abstract class BaseCocosGameViewModel {
         @Override
         public void onStateChanged(int fromState, int state) {
             LogUtils.d(CALC_TAG + "状态变化 gameId:" + mGameId + " 状态为：" + getStringState(state));
-            if (!isGameStarted && state == CocosGameHandleV2.GAME_STATE_PLAYING) {
+            if (!isGameStarted && state == SudCrGameHandle.GAME_STATE_PLAYING) {
                 isGameStarted = true;
                 gameStartedLiveData.setValue(null);
             }
@@ -312,13 +408,13 @@ public abstract class BaseCocosGameViewModel {
 
         private String getStringState(int state) {
             switch (state) {
-                case CocosGameHandleV2.GAME_STATE_UNAVAILABLE:
+                case SudCrGameHandle.GAME_STATE_UNAVAILABLE:
                     return "UNAVAILABLE";
-                case CocosGameHandleV2.GAME_STATE_WAITING:
+                case SudCrGameHandle.GAME_STATE_WAITING:
                     return "WAITING";
-                case CocosGameHandleV2.GAME_STATE_RUNNING:
+                case SudCrGameHandle.GAME_STATE_RUNNING:
                     return "RUNNING";
-                case CocosGameHandleV2.GAME_STATE_PLAYING:
+                case SudCrGameHandle.GAME_STATE_PLAYING:
                     return "PLAYING";
                 default:
                     return "UNKNOW:" + state;
@@ -340,67 +436,67 @@ public abstract class BaseCocosGameViewModel {
         LogUtils.i("_changeGameState success: _currentGameState " + _currentGameState + " to " + newState);
         LogUtils.file("_changeGameState success: _currentGameState " + _currentGameState + " to " + newState);
         switch (_currentGameState) {
-            case CocosGameHandleV2.GAME_STATE_UNAVAILABLE: {
+            case SudCrGameHandle.GAME_STATE_UNAVAILABLE: {
                 switch (newState) {
-                    case CocosGameHandleV2.GAME_STATE_UNAVAILABLE:
+                    case SudCrGameHandle.GAME_STATE_UNAVAILABLE:
                         break;
-                    case CocosGameHandleV2.GAME_STATE_WAITING:
-                    case CocosGameHandleV2.GAME_STATE_RUNNING:
-                    case CocosGameHandleV2.GAME_STATE_PLAYING:
-                        LogUtils.d(CALC_TAG + "调用CocosGameHandleV2.create() gameId:" + mGameId);
+                    case SudCrGameHandle.GAME_STATE_WAITING:
+                    case SudCrGameHandle.GAME_STATE_RUNNING:
+                    case SudCrGameHandle.GAME_STATE_PLAYING:
+                        LogUtils.d(CALC_TAG + "调用SudCrGameHandle.create() gameId:" + mGameId);
                         _isGameStateChanging = true;
                         Bundle bundle = new Bundle();
-                        bundle.putBoolean(CocosGameHandleV2.KEY_GAME_START_OPTIONS_ENABLE_THIRD_SCRIPT, true);
+                        bundle.putBoolean(SudCrGameHandle.KEY_GAME_START_OPTIONS_ENABLE_THIRD_SCRIPT, true);
                         mGameHandle.setGameStartOptions(mGameId, bundle);
                         mGameHandle.create();
                         break;
                 }
                 break;
             }
-            case CocosGameHandleV2.GAME_STATE_WAITING: {
+            case SudCrGameHandle.GAME_STATE_WAITING: {
                 switch (newState) {
-                    case CocosGameHandleV2.GAME_STATE_UNAVAILABLE:
+                    case SudCrGameHandle.GAME_STATE_UNAVAILABLE:
                         _isGameStateChanging = true;
                         mGameHandle.destroy();
                         break;
-                    case CocosGameHandleV2.GAME_STATE_WAITING:
+                    case SudCrGameHandle.GAME_STATE_WAITING:
                         break;
-                    case CocosGameHandleV2.GAME_STATE_RUNNING:
-                    case CocosGameHandleV2.GAME_STATE_PLAYING:
-                        LogUtils.d(CALC_TAG + "调用CocosGameHandleV2.start() gameId:" + mGameId);
+                    case SudCrGameHandle.GAME_STATE_RUNNING:
+                    case SudCrGameHandle.GAME_STATE_PLAYING:
+                        LogUtils.d(CALC_TAG + "调用SudCrGameHandle.start() gameId:" + mGameId);
                         _isGameStateChanging = true;
                         mGameHandle.start(null);
                         break;
                 }
                 break;
             }
-            case CocosGameHandleV2.GAME_STATE_RUNNING: {
+            case SudCrGameHandle.GAME_STATE_RUNNING: {
                 switch (newState) {
-                    case CocosGameHandleV2.GAME_STATE_UNAVAILABLE:
-                    case CocosGameHandleV2.GAME_STATE_WAITING:
+                    case SudCrGameHandle.GAME_STATE_UNAVAILABLE:
+                    case SudCrGameHandle.GAME_STATE_WAITING:
                         _isGameStateChanging = true;
                         mGameHandle.stop(null);
                         break;
-                    case CocosGameHandleV2.GAME_STATE_RUNNING:
+                    case SudCrGameHandle.GAME_STATE_RUNNING:
                         break;
-                    case CocosGameHandleV2.GAME_STATE_PLAYING:
-                        LogUtils.d(CALC_TAG + "调用CocosGameHandleV2.play() gameId:" + mGameId);
+                    case SudCrGameHandle.GAME_STATE_PLAYING:
+                        LogUtils.d(CALC_TAG + "调用SudCrGameHandle.play() gameId:" + mGameId);
                         _isGameStateChanging = true;
                         mGameHandle.play();
                         break;
                 }
                 break;
             }
-            case CocosGameHandleV2.GAME_STATE_PLAYING: {
+            case SudCrGameHandle.GAME_STATE_PLAYING: {
                 switch (newState) {
-                    case CocosGameHandleV2.GAME_STATE_UNAVAILABLE:
-                    case CocosGameHandleV2.GAME_STATE_WAITING:
-                    case CocosGameHandleV2.GAME_STATE_RUNNING:
-                        LogUtils.d(CALC_TAG + "调用CocosGameHandleV2.pause() gameId:" + mGameId);
+                    case SudCrGameHandle.GAME_STATE_UNAVAILABLE:
+                    case SudCrGameHandle.GAME_STATE_WAITING:
+                    case SudCrGameHandle.GAME_STATE_RUNNING:
+                        LogUtils.d(CALC_TAG + "调用SudCrGameHandle.pause() gameId:" + mGameId);
                         _isGameStateChanging = true;
                         mGameHandle.pause();
                         break;
-                    case CocosGameHandleV2.GAME_STATE_PLAYING:
+                    case SudCrGameHandle.GAME_STATE_PLAYING:
                         break;
                 }
                 break;
@@ -414,11 +510,22 @@ public abstract class BaseCocosGameViewModel {
     public void setMute(boolean isMute) {
         this.isMute = isMute;
         if (mGameHandle != null) {
-            CocosGameAudioSession gameAudioSession = mGameHandle.getGameAudioSession();
+            SudCrGameAudioSession gameAudioSession = mGameHandle.getGameAudioSession();
             if (gameAudioSession != null) {
                 gameAudioSession.mute(isMute);
             }
         }
     }
 
+    private String getAppId() {
+        SudConfig sudConfig = AppData.getInstance().getSudConfig();
+        if (sudConfig != null) {
+            return sudConfig.appId;
+        }
+        return "";
+    }
+
+    private String getUserId() {
+        return HSUserInfo.userId + "";
+    }
 }

@@ -4,20 +4,21 @@ import android.content.Context;
 import android.os.Bundle;
 
 import com.blankj.utilcode.util.LogUtils;
-import com.cocos.game.CocosGameCoreHandle;
-import com.cocos.game.CocosGameRuntimeV2;
-import com.cocos.game.CocosGameV2;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import tech.sud.cr.core.SudCr;
+import tech.sud.cr.core.SudCrGameCoreHandle;
+import tech.sud.cr.core.SudCrGameRuntime;
+
 /** 用于初始化cocos环境 */
 public class SudCocosInitManager {
 
-    private static CocosGameRuntimeV2 sCocosGameRuntime;
-    private static CocosGameCoreHandle sCocosGameCoreHandle;
+    private static SudCrGameRuntime sGameRuntime;
+    private static SudCrGameCoreHandle sGameCoreHandle;
     private static boolean isInitializingRuntime;
     private static boolean isInitializingCore;
     private static List<InitRuntimeListener> sRuntimeListenerList;
@@ -32,8 +33,8 @@ public class SudCocosInitManager {
             listener.onFailure(new RuntimeException("context can not be empty"));
             return;
         }
-        if (sCocosGameRuntime != null) {
-            listener.onSuccess(sCocosGameRuntime);
+        if (sGameRuntime != null) {
+            listener.onSuccess(sGameRuntime);
             return;
         }
         synchronized (BaseCocosGameViewModel.class) {
@@ -47,11 +48,11 @@ public class SudCocosInitManager {
             isInitializingRuntime = true;
             long start = System.currentTimeMillis();
             LogUtils.d("CocosCalc createRuntime 开始");
-            CocosGameV2.createRuntime(context, getRuntimeBundle(context), new CocosGameRuntimeV2.RuntimeCreateListener() {
+            SudCr.createRuntime(context, getRuntimeBundle(context), new SudCrGameRuntime.RuntimeCreateListener() {
                 @Override
-                public void onSuccess(CocosGameRuntimeV2 runtime) {
+                public void onSuccess(SudCrGameRuntime runtime) {
                     LogUtils.d("CocosCalc createRuntime 成功耗时：" + (System.currentTimeMillis() - start));
-                    sCocosGameRuntime = runtime;
+                    sGameRuntime = runtime;
                     listener.onSuccess(runtime);
                     notifyInitRuntimeOnSuccess();
                     isInitializingRuntime = false;
@@ -73,8 +74,8 @@ public class SudCocosInitManager {
         if (listener == null) {
             return;
         }
-        if (sCocosGameCoreHandle != null) {
-            listener.onSuccess(sCocosGameCoreHandle);
+        if (sGameCoreHandle != null) {
+            listener.onSuccess(sGameCoreHandle);
             return;
         }
         synchronized (BaseCocosGameViewModel.class) {
@@ -89,11 +90,11 @@ public class SudCocosInitManager {
             long start = System.currentTimeMillis();
             LogUtils.d("CocosCalc loadCore 开始");
             // 不是动态core 不传 core 的 options
-            sCocosGameRuntime.loadCore(null, new CocosGameRuntimeV2.CoreLoadListener() {
+            sGameRuntime.loadCore(null, new SudCrGameRuntime.CoreLoadListener() {
                 @Override
-                public void onSuccess(CocosGameCoreHandle coreHandle) {
+                public void onSuccess(SudCrGameCoreHandle coreHandle) {
                     LogUtils.d("CocosCalc loadCore 成功耗时：" + (System.currentTimeMillis() - start));
-                    sCocosGameCoreHandle = coreHandle;
+                    sGameCoreHandle = coreHandle;
                     listener.onSuccess(coreHandle);
                     notifyInitCoreOnSuccess();
                     isInitializingCore = false;
@@ -114,11 +115,11 @@ public class SudCocosInitManager {
         Bundle bundle = new Bundle();
         String parentDir = new File(context.getFilesDir(), "sud" + File.separator + "cocos").getAbsolutePath();
         String cacheParentDir = new File(context.getCacheDir(), "sud" + File.separator + "cocos").getAbsolutePath();
-        bundle.putString(CocosGameRuntimeV2.KEY_RUNTIME_STORAGE_PATH_APP, parentDir + File.separator + "app");
-        bundle.putString(CocosGameRuntimeV2.KEY_RUNTIME_STORAGE_PATH_CACHE, cacheParentDir + File.separator + "runtime");
-        bundle.putString(CocosGameRuntimeV2.KEY_RUNTIME_STORAGE_PATH_CORE, parentDir + File.separator + "core");
-        bundle.putString(CocosGameRuntimeV2.KEY_RUNTIME_STORAGE_PATH_USER, parentDir + File.separator + "user");
-        bundle.putString(CocosGameRuntimeV2.KEY_RUNTIME_STORAGE_PATH_PLUGIN, parentDir + File.separator + "plugin");
+        bundle.putString(SudCrGameRuntime.KEY_RUNTIME_STORAGE_PATH_APP, parentDir + File.separator + "app");
+        bundle.putString(SudCrGameRuntime.KEY_RUNTIME_STORAGE_PATH_CACHE, cacheParentDir + File.separator + "runtime");
+        bundle.putString(SudCrGameRuntime.KEY_RUNTIME_STORAGE_PATH_CORE, parentDir + File.separator + "core");
+        bundle.putString(SudCrGameRuntime.KEY_RUNTIME_STORAGE_PATH_USER, parentDir + File.separator + "user");
+        bundle.putString(SudCrGameRuntime.KEY_RUNTIME_STORAGE_PATH_PLUGIN, parentDir + File.separator + "plugin");
         return bundle;
     }
 
@@ -129,7 +130,7 @@ public class SudCocosInitManager {
         Iterator<InitRuntimeListener> iterator = sRuntimeListenerList.iterator();
         while (iterator.hasNext()) {
             InitRuntimeListener next = iterator.next();
-            next.onSuccess(sCocosGameRuntime);
+            next.onSuccess(sGameRuntime);
             iterator.remove();
         }
     }
@@ -153,7 +154,7 @@ public class SudCocosInitManager {
         Iterator<InitCoreListener> iterator = sCoreListenerList.iterator();
         while (iterator.hasNext()) {
             InitCoreListener next = iterator.next();
-            next.onSuccess(sCocosGameCoreHandle);
+            next.onSuccess(sGameCoreHandle);
             iterator.remove();
         }
     }
@@ -171,13 +172,13 @@ public class SudCocosInitManager {
     }
 
     public interface InitRuntimeListener {
-        void onSuccess(CocosGameRuntimeV2 runtime);
+        void onSuccess(SudCrGameRuntime runtime);
 
         void onFailure(Throwable error);
     }
 
     public interface InitCoreListener {
-        void onSuccess(CocosGameCoreHandle coreHandle);
+        void onSuccess(SudCrGameCoreHandle coreHandle);
 
         void onFailure(Throwable error);
     }

@@ -125,16 +125,14 @@ dependencies {
     implementation(project(':SudGIPWrapper',)) {
         exclude group: "tech.sud.gip", module: "SudGIP"
     }
-    implementation 'tech.sud.gip:SudGIP-pro:1.6.5.1268'
+//    implementation 'tech.sud.gip:SudGIP-pro:1.6.5.1268'
+    implementation project(':SudGIPSDK')
 
     // 引入 SudASR
     implementation 'tech.sud.gip:SudASR:1.6.5.1268'
 
     // 引入 SudNFT
     implementation project(':SudNFT:SudNFTSDK')
-
-    // 引入CocosSDK
-    implementation project(':CocosSDK')
 
     // 引入 SudMGPRTC
     implementation project(':SudMGPRTC:SudMGPRtcAgora')

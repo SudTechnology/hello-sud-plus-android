@@ -32,6 +32,7 @@ import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.service.game.repository.GameRepository;
 import tech.sud.mgp.hello.service.game.resp.GameLoginResp;
 import tech.sud.mgp.hello.service.main.config.SudConfig;
+import tech.sud.mgp.hello.ui.scenes.base.utils.EnvUtils;
 
 public abstract class BaseCocosGameViewModel {
 
@@ -151,6 +152,7 @@ public abstract class BaseCocosGameViewModel {
             ToastUtils.showLong("SudConfig is empty");
             return;
         }
+        EnvUtils.initMgpEnv();
         SudCrInitSDKParamModel initSDKParamModel = new SudCrInitSDKParamModel();
         initSDKParamModel.context = activity.getApplicationContext();
         initSDKParamModel.appId = sudConfig.appId;

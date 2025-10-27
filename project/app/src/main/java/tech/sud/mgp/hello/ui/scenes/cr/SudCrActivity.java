@@ -15,19 +15,19 @@ import tech.sud.mgp.hello.common.base.BaseActivity;
 import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.ViewUtils;
 import tech.sud.mgp.hello.service.room.resp.CocosGameInfo;
-import tech.sud.mgp.hello.ui.scenes.ad.viewmodel.QuickStartCocosGameViewModel;
+import tech.sud.mgp.hello.ui.scenes.ad.viewmodel.QuickStartSudCrGameViewModel;
 
 public class SudCrActivity extends BaseActivity {
 
     private FrameLayout mGameContainer;
     private CocosGameInfo mCocosGameInfo;
-    private QuickStartCocosGameViewModel mGameViewModel = new QuickStartCocosGameViewModel();
+    private QuickStartSudCrGameViewModel mGameViewModel = new QuickStartSudCrGameViewModel();
 
     @Override
     protected int getLayoutId() {
         return R.layout.activity_sud_cr;
     }
-    
+
     public static void start(Context context, CocosGameInfo info) {
         Intent intent = new Intent(context, SudCrActivity.class);
         intent.putExtra("CocosGameInfo", info);

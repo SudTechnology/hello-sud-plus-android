@@ -14,8 +14,8 @@ import tech.sud.cr.core.SudCr;
 import tech.sud.cr.core.SudCrGameCoreHandle;
 import tech.sud.cr.core.SudCrGameRuntime;
 
-/** 用于初始化cocos环境 */
-public class SudCocosInitManager {
+/** 用于初始化环境 */
+public class SudCrInitManager {
 
     private static SudCrGameRuntime sGameRuntime;
     private static SudCrGameCoreHandle sGameCoreHandle;
@@ -25,7 +25,7 @@ public class SudCocosInitManager {
     private static List<InitCoreListener> sCoreListenerList;
 
     /** 初始化runtime */
-    public static void initCocosRuntime(Context context, InitRuntimeListener listener) {
+    public static void initRuntime(Context context, InitRuntimeListener listener) {
         if (listener == null) {
             return;
         }
@@ -37,7 +37,7 @@ public class SudCocosInitManager {
             listener.onSuccess(sGameRuntime);
             return;
         }
-        synchronized (BaseCocosGameViewModel.class) {
+        synchronized (BaseSudCrGameViewModel.class) {
             if (isInitializingRuntime) {
                 if (sRuntimeListenerList == null) {
                     sRuntimeListenerList = new ArrayList<>();
@@ -78,7 +78,7 @@ public class SudCocosInitManager {
             listener.onSuccess(sGameCoreHandle);
             return;
         }
-        synchronized (BaseCocosGameViewModel.class) {
+        synchronized (BaseSudCrGameViewModel.class) {
             if (isInitializingCore) {
                 if (sCoreListenerList == null) {
                     sCoreListenerList = new ArrayList<>();

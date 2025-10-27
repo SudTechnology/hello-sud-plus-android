@@ -34,7 +34,7 @@ import tech.sud.mgp.hello.service.game.resp.GameLoginResp;
 import tech.sud.mgp.hello.service.main.config.SudConfig;
 import tech.sud.mgp.hello.ui.scenes.base.utils.EnvUtils;
 
-public abstract class BaseCocosGameViewModel {
+public abstract class BaseSudCrGameViewModel {
 
     private FragmentActivity mActivity;
     public String CALC_TAG = "";
@@ -92,7 +92,7 @@ public abstract class BaseCocosGameViewModel {
     }
 
     private void initCocosRuntime(FragmentActivity activity, String gameId, String gameUrl, String gamePkgVersion) {
-        SudCocosInitManager.initCocosRuntime(activity, new SudCocosInitManager.InitRuntimeListener() {
+        SudCrInitManager.initRuntime(activity, new SudCrInitManager.InitRuntimeListener() {
             @Override
             public void onSuccess(SudCrGameRuntime runtime) {
                 if (TextUtils.isEmpty(mGameId)) {
@@ -223,7 +223,7 @@ public abstract class BaseCocosGameViewModel {
     }
 
     private void initCocosCore(FragmentActivity activity, String gameId, String gameUrl, String gamePkgVersion) {
-        SudCocosInitManager.initCocosCore(new SudCocosInitManager.InitCoreListener() {
+        SudCrInitManager.initCocosCore(new SudCrInitManager.InitCoreListener() {
             @Override
             public void onSuccess(SudCrGameCoreHandle coreHandle) {
                 if (TextUtils.isEmpty(mGameId)) {

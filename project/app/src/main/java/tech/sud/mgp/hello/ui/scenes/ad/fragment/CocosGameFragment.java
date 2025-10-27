@@ -30,7 +30,7 @@ import tech.sud.mgp.hello.ui.main.base.constant.GameIdCons;
 import tech.sud.mgp.hello.ui.main.base.constant.SceneType;
 import tech.sud.mgp.hello.ui.main.home.model.MatchRoomModel;
 import tech.sud.mgp.hello.ui.scenes.ad.activity.AdRoomActivity;
-import tech.sud.mgp.hello.ui.scenes.ad.viewmodel.QuickStartCocosGameViewModel;
+import tech.sud.mgp.hello.ui.scenes.ad.viewmodel.QuickStartSudCrGameViewModel;
 import tech.sud.mgp.hello.ui.scenes.base.utils.EnterRoomUtils;
 
 public class CocosGameFragment extends BaseFragment {
@@ -38,7 +38,7 @@ public class CocosGameFragment extends BaseFragment {
     private int mPosition;
     private FrameLayout mGameContainer;
     private CocosGameInfo mCocosGameInfo;
-    private QuickStartCocosGameViewModel mGameViewModel = new QuickStartCocosGameViewModel();
+    private QuickStartSudCrGameViewModel mGameViewModel = new QuickStartSudCrGameViewModel();
 
     private View mContainerClickPlay;
     private View mContainerGameFinish;

@@ -4,7 +4,7 @@ import android.view.View;
 
 import androidx.lifecycle.MutableLiveData;
 
-public class QuickStartCocosGameViewModel extends BaseCocosGameViewModel {
+public class QuickStartSudCrGameViewModel extends BaseSudCrGameViewModel {
 
     public final MutableLiveData<View> gameViewLiveData = new MutableLiveData<>();
 

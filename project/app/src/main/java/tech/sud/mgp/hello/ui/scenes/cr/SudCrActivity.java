@@ -20,7 +20,6 @@ import tech.sud.mgp.hello.ui.scenes.ad.viewmodel.QuickStartCocosGameViewModel;
 public class SudCrActivity extends BaseActivity {
 
     private FrameLayout mGameContainer;
-    private int mPosition;
     private CocosGameInfo mCocosGameInfo;
     private QuickStartCocosGameViewModel mGameViewModel = new QuickStartCocosGameViewModel();
 
@@ -28,12 +27,7 @@ public class SudCrActivity extends BaseActivity {
     protected int getLayoutId() {
         return R.layout.activity_sud_cr;
     }
-
-    @Override
-    protected void setStatusBar() {
-
-    }
-
+    
     public static void start(Context context, CocosGameInfo info) {
         Intent intent = new Intent(context, SudCrActivity.class);
         intent.putExtra("CocosGameInfo", info);
@@ -49,7 +43,6 @@ public class SudCrActivity extends BaseActivity {
     @Override
     protected void initWidget() {
         super.initWidget();
-        LogUtils.d("position:" + mPosition + " initWidget");
         mGameContainer = findViewById(R.id.game_container);
 
         ViewUtils.setHeight(findViewById(R.id.top_bar), ImmersionBar.getStatusBarHeight(this));
@@ -93,7 +86,6 @@ public class SudCrActivity extends BaseActivity {
     @Override
     public void onStart() {
         super.onStart();
-        LogUtils.d("position:" + mPosition + " onStart");
         mGameViewModel.onStart();
         mGameViewModel.setMute(true);
     }
@@ -101,23 +93,18 @@ public class SudCrActivity extends BaseActivity {
     @Override
     public void onResume() {
         super.onResume();
-        LogUtils.d("position:" + mPosition + " onResume");
         mGameViewModel.onResume();
-        mGameViewModel.setMute(false);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        LogUtils.d("position:" + mPosition + " onPause");
         mGameViewModel.onPause();
-        mGameViewModel.setMute(true);
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        LogUtils.d("position:" + mPosition + " onStop");
         mGameViewModel.onStop();
     }
 

@@ -42,7 +42,6 @@ public abstract class BaseCocosGameViewModel {
     private SudCrGameCoreHandle mCoreHandle;
 
     private Handler mHandler = new Handler(Looper.getMainLooper());
-    private boolean isLoadingGame;
     private String mGameId;
     private String mGameUrl;
     private String mGamePkgVersion;
@@ -72,25 +71,31 @@ public abstract class BaseCocosGameViewModel {
             LogUtils.file("startGame gameId or gameUrl can not be empty");
             return;
         }
+        if (gameId.equals(mGameId)) {
+            LogUtils.d("重复的gameId加载");
+            LogUtils.file("重复的gameId加载");
+            return;
+        }
+
         startGameTimestamp = System.currentTimeMillis();
         LogUtils.d(CALC_TAG + "开始加载游戏 gameId:" + gameId);
         if (_audioManager == null) {
             _audioManager = (AudioManager) activity.getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
         }
         mUserId = userId;
-        isLoadingGame = true;
         mActivity = activity;
         mGameId = gameId;
         mGameUrl = gameUrl;
         mGamePkgVersion = gamePkgVersion;
         initCocosRuntime(activity, gameId, gameUrl, gamePkgVersion);
+        onStart();
     }
 
     private void initCocosRuntime(FragmentActivity activity, String gameId, String gameUrl, String gamePkgVersion) {
         SudCocosInitManager.initCocosRuntime(activity, new SudCocosInitManager.InitRuntimeListener() {
             @Override
             public void onSuccess(SudCrGameRuntime runtime) {
-                if (!isLoadingGame) {
+                if (TextUtils.isEmpty(mGameId)) {
                     return;
                 }
                 mRuntime = runtime;
@@ -107,7 +112,7 @@ public abstract class BaseCocosGameViewModel {
     }
 
     private void login(FragmentActivity activity, String gameId, String gameUrl, String gamePkgVersion) {
-        if (activity.isDestroyed() || !isLoadingGame) {
+        if (activity.isDestroyed() || TextUtils.isEmpty(mGameId)) {
             return;
         }
         // 请求登录code
@@ -115,7 +120,7 @@ public abstract class BaseCocosGameViewModel {
             @Override
             public void onNext(BaseResponse<GameLoginResp> t) {
                 super.onNext(t);
-                if (!isLoadingGame || !gameId.equals(mGameId)) {
+                if (!gameId.equals(mGameId)) {
                     return;
                 }
                 if (t.getRetCode() == RetCode.SUCCESS && t.getData() != null) {
@@ -135,7 +140,7 @@ public abstract class BaseCocosGameViewModel {
     }
 
     private void delayLogin(FragmentActivity activity, String gameId, String gameUrl, String gamePkgVersion) {
-        if (!isLoadingGame) {
+        if (TextUtils.isEmpty(mGameId)) {
             return;
         }
         mHandler.postDelayed(new Runnable() {
@@ -177,7 +182,7 @@ public abstract class BaseCocosGameViewModel {
     }
 
     private void loadGame(FragmentActivity activity, String gameId, String gamePkgVersion, String gameUrl) {
-        if (!isLoadingGame) {
+        if (TextUtils.isEmpty(mGameId)) {
             return;
         }
         SudCrLoadGameParamModel loadGameParamModel = new SudCrLoadGameParamModel();
@@ -189,7 +194,7 @@ public abstract class BaseCocosGameViewModel {
         SudCr.loadGame(loadGameParamModel, new ISudCrFSMGame() {
             @Override
             public void onSuccess() {
-                if (!isLoadingGame) {
+                if (TextUtils.isEmpty(mGameId)) {
                     return;
                 }
                 _isGameInstalled = true;
@@ -209,7 +214,7 @@ public abstract class BaseCocosGameViewModel {
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (!isLoadingGame) {
+                if (TextUtils.isEmpty(mGameId)) {
                     return;
                 }
                 initCocosRuntime(activity, gameId, gameUrl, gamePkgVersion);
@@ -221,7 +226,7 @@ public abstract class BaseCocosGameViewModel {
         SudCocosInitManager.initCocosCore(new SudCocosInitManager.InitCoreListener() {
             @Override
             public void onSuccess(SudCrGameCoreHandle coreHandle) {
-                if (!isLoadingGame) {
+                if (TextUtils.isEmpty(mGameId)) {
                     return;
                 }
                 mCoreHandle = coreHandle;
@@ -331,7 +336,7 @@ public abstract class BaseCocosGameViewModel {
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (!isLoadingGame) {
+                if (TextUtils.isEmpty(mGameId)) {
                     return;
                 }
                 initCocosCore(activity, gameId, gameUrl, gamePkgVersion);
@@ -358,6 +363,9 @@ public abstract class BaseCocosGameViewModel {
     /** 销毁游戏 */
     public void destroyGame() {
         LogUtils.d(CALC_TAG + "调用destroy gameId:" + mGameId);
+        if (TextUtils.isEmpty(mGameId)) {
+            return;
+        }
         if (mGameHandle != null) {
             mGameHandle.destroy();
         }
@@ -373,7 +381,6 @@ public abstract class BaseCocosGameViewModel {
         _isGameInstalled = false;
         isMute = false;
         isGameStarted = false;
-        isLoadingGame = false;
         mHandler.removeCallbacksAndMessages(null);
     }
 

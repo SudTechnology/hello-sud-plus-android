@@ -327,9 +327,25 @@
             android:launchMode="singleTask"
             tools:ignore="LockedOrientationActivity" />
 
-        <!-- 国内钱包绑定页面 -->
+        <!-- AD 场景 -->
         <activity
             android:name=".ui.scenes.ad.activity.AdRoomActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop"
+            tools:ignore="LockedOrientationActivity" />
+
+        <!-- 测试SudCr页 -->
+        <activity
+            android:name=".ui.scenes.cr.TestSudCrListActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop"
+            tools:ignore="LockedOrientationActivity" />
+
+        <!-- 测试SudCr页 -->
+        <activity
+            android:name=".ui.scenes.cr.SudCrActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:launchMode="singleTop"

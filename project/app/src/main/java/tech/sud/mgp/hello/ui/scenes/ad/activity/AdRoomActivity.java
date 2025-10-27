@@ -117,10 +117,18 @@ public class AdRoomActivity extends BaseActivity {
         }
         isFirstPageCompleted = true;
         mViewPager2.post(() -> {
-//            mViewPager2.setOffscreenPageLimit(2);
-//            mAdapter.notifyDataSetChanged();
+            mViewPager2.setOffscreenPageLimit(2);
+            if (mAdapter != null) {
+                mAdapter.notifyDataSetChanged();
+            }
         });
         LogUtils.d("firstPageGameStarted");
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mViewPager2.setAdapter(null);
+        mAdapter = null;
+    }
 }

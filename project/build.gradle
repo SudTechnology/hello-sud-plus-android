@@ -68,3 +68,10 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+gradle.taskGraph.whenReady { graph ->
+    graph.allTasks.findAll { it.name.startsWith("ijDownloadArtifact") }.each { t ->
+        t.enabled = false
+        println "⚠️ Disabled IntelliJ download task: ${t.name}"
+    }
+}

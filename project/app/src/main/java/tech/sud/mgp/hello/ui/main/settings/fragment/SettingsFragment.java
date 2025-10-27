@@ -48,6 +48,7 @@ import tech.sud.mgp.hello.ui.main.nft.widget.dialog.NftChainDialog;
 import tech.sud.mgp.hello.ui.main.nft.widget.dialog.OverseasWalletListDialog;
 import tech.sud.mgp.hello.ui.main.settings.activity.AboutActivity;
 import tech.sud.mgp.hello.ui.main.settings.activity.SettingsActivity;
+import tech.sud.mgp.hello.ui.scenes.cr.TestSudCrListActivity;
 import tech.sud.nft.core.listener.ISudNFTListenerGetWalletList;
 import tech.sud.nft.core.model.resp.SudNFTGetWalletListModel;
 
@@ -324,6 +325,9 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         });
         walletListView.setInternalOnClickListener(v -> {
             showInternalWalletListDialog();
+        });
+        findViewById(R.id.button_test_game).setOnClickListener(v -> {
+            startActivity(new Intent(requireContext(), TestSudCrListActivity.class));
         });
     }
 

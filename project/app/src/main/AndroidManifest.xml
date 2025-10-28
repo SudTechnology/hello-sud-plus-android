@@ -337,7 +337,7 @@
 
         <!-- 测试SudCr页 -->
         <activity
-            android:name=".ui.scenes.cr.TestSudCrListActivity"
+            android:name=".ui.scenes.cr.SudCrListActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:launchMode="singleTop"

@@ -32,6 +32,7 @@ import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.service.game.repository.GameRepository;
 import tech.sud.mgp.hello.service.game.resp.GameLoginResp;
 import tech.sud.mgp.hello.service.main.config.SudConfig;
+import tech.sud.mgp.hello.ui.scenes.base.model.GameLoadingProgressModel;
 import tech.sud.mgp.hello.ui.scenes.base.utils.EnvUtils;
 
 public abstract class BaseSudCrGameViewModel {
@@ -58,6 +59,7 @@ public abstract class BaseSudCrGameViewModel {
 
     public MutableLiveData<String> gameMGCommonGameFinishLiveData = new MutableLiveData<>();
     public MutableLiveData<String> gameStartedLiveData = new MutableLiveData<>();
+    public final MutableLiveData<GameLoadingProgressModel> gameLoadingProgressLiveData = new MutableLiveData<>(); // 游戏加载进度回调
 
     /**
      * 启动游戏
@@ -206,6 +208,17 @@ public abstract class BaseSudCrGameViewModel {
                 LogUtils.e("loadGamePkg fail(" + retCode + ")" + retMsg);
                 LogUtils.file("loadGamePkg fail(" + retCode + ")" + retMsg);
                 delayLogin(activity, gameId, gameUrl, gamePkgVersion);
+            }
+
+            /**
+             * 游戏加载进度(loadMG)
+             * @param stage 阶段：start=1,loading=2,end=3
+             * @param retCode 错误码：0成功
+             * @param progress 进度：[0, 100]
+             */
+            @Override
+            public void onGameLoadingProgress(int stage, int retCode, int progress) {
+                gameLoadingProgressLiveData.setValue(new GameLoadingProgressModel(stage, retCode, progress));
             }
         });
     }

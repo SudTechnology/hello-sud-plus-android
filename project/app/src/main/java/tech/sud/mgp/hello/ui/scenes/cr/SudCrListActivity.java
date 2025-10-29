@@ -1,12 +1,14 @@
 package tech.sud.mgp.hello.ui.scenes.cr;
 
 import android.view.View;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
@@ -14,15 +16,20 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import java.util.ArrayList;
 import java.util.List;
 
+import tech.sud.cr.core.ISudCrListenerUninitSDK;
+import tech.sud.cr.core.SudCr;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseActivity;
 import tech.sud.mgp.hello.service.room.resp.CocosGameInfo;
+import tech.sud.mgp.hello.ui.common.listener.SimpleTextWatcher;
 
 public class SudCrListActivity extends BaseActivity {
 
     private List<CocosGameInfo> mDatas = new ArrayList<>();
     private MyAdapter mAdapter;
     private RecyclerView mRecyclerView;
+    private EditText mEtUserId;
+    private String mUserId;
 
     @Override
     protected int getLayoutId() {
@@ -32,6 +39,7 @@ public class SudCrListActivity extends BaseActivity {
     @Override
     protected void initWidget() {
         super.initWidget();
+        mEtUserId = findViewById(R.id.et_user_id);
         mRecyclerView = findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
     }
@@ -77,10 +85,30 @@ public class SudCrListActivity extends BaseActivity {
                 startCr(mAdapter.getItem(position));
             }
         });
+        mEtUserId.addTextChangedListener(new SimpleTextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                super.onTextChanged(s, start, before, count);
+                mUserId = s == null ? null : s.toString();
+            }
+        });
+        findViewById(R.id.btn_uninit_sdk).setOnClickListener(v -> {
+            SudCr.uninitSDK(new ISudCrListenerUninitSDK() {
+                @Override
+                public void onSuccess() {
+                    ToastUtils.showLong("uninitSDK 成功");
+                }
+
+                @Override
+                public void onFailure(int code, String msg) {
+                    ToastUtils.showLong("uninitSDK 失败：(" + code + ")" + msg);
+                }
+            });
+        });
     }
 
     private void startCr(CocosGameInfo item) {
-        SudCrActivity.start(this, item);
+        SudCrActivity.start(this, item, mUserId);
     }
 
     private class MyAdapter extends BaseQuickAdapter<CocosGameInfo, BaseViewHolder> {

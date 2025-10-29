@@ -37,7 +37,7 @@ public class SudCrInitManager {
             listener.onSuccess(sGameRuntime);
             return;
         }
-        synchronized (BaseSudCrGameViewModel.class) {
+        synchronized (BaseCrGameViewModel.class) {
             if (isInitializingRuntime) {
                 if (sRuntimeListenerList == null) {
                     sRuntimeListenerList = new ArrayList<>();
@@ -78,7 +78,7 @@ public class SudCrInitManager {
             listener.onSuccess(sGameCoreHandle);
             return;
         }
-        synchronized (BaseSudCrGameViewModel.class) {
+        synchronized (BaseCrGameViewModel.class) {
             if (isInitializingCore) {
                 if (sCoreListenerList == null) {
                     sCoreListenerList = new ArrayList<>();

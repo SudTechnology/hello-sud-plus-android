@@ -21,7 +21,6 @@ import tech.sud.mgp.hello.common.base.BaseFragment;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
-import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
 import tech.sud.mgp.hello.common.utils.ViewUtils;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
@@ -30,7 +29,7 @@ import tech.sud.mgp.hello.ui.main.base.constant.GameIdCons;
 import tech.sud.mgp.hello.ui.main.base.constant.SceneType;
 import tech.sud.mgp.hello.ui.main.home.model.MatchRoomModel;
 import tech.sud.mgp.hello.ui.scenes.ad.activity.AdRoomActivity;
-import tech.sud.mgp.hello.ui.scenes.ad.viewmodel.QuickStartSudCrGameViewModel;
+import tech.sud.mgp.hello.ui.scenes.ad.viewmodel.AppCrGameViewModel;
 import tech.sud.mgp.hello.ui.scenes.base.utils.EnterRoomUtils;
 
 public class CocosGameFragment extends BaseFragment {
@@ -38,7 +37,7 @@ public class CocosGameFragment extends BaseFragment {
     private int mPosition;
     private FrameLayout mGameContainer;
     private CocosGameInfo mCocosGameInfo;
-    private QuickStartSudCrGameViewModel mGameViewModel = new QuickStartSudCrGameViewModel();
+    private AppCrGameViewModel mGameViewModel = new AppCrGameViewModel();
 
     private View mContainerClickPlay;
     private View mContainerGameFinish;
@@ -102,11 +101,10 @@ public class CocosGameFragment extends BaseFragment {
         if (mCocosGameInfo == null) {
             return;
         }
-        String userId = HSUserInfo.userId + "";
         String gameId = mCocosGameInfo.gameId;
         String gameUrl = mCocosGameInfo.url;
         String gamePkgVersion = mCocosGameInfo.version;
-        mGameViewModel.startGame(requireActivity(), userId, gameId, gameUrl, gamePkgVersion);
+        mGameViewModel.startGame(requireActivity(), gameId, gameUrl, gamePkgVersion);
     }
 
     @Override

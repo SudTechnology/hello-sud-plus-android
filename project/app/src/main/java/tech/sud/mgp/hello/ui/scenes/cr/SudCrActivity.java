@@ -16,10 +16,8 @@ import java.util.Locale;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseActivity;
 import tech.sud.mgp.hello.common.http.param.RetCode;
-import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.ViewUtils;
 import tech.sud.mgp.hello.service.room.resp.CocosGameInfo;
-import tech.sud.mgp.hello.ui.scenes.ad.viewmodel.QuickStartSudCrGameViewModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.GameLoadingProgressModel;
 
 public class SudCrActivity extends BaseActivity {
@@ -28,22 +26,24 @@ public class SudCrActivity extends BaseActivity {
     private TextView mTvProgress;
     private FrameLayout mGameContainer;
     private CocosGameInfo mCocosGameInfo;
-    private QuickStartSudCrGameViewModel mGameViewModel = new QuickStartSudCrGameViewModel();
+    private TestCrGameViewModel mGameViewModel = new TestCrGameViewModel();
 
     @Override
     protected int getLayoutId() {
         return R.layout.activity_sud_cr;
     }
 
-    public static void start(Context context, CocosGameInfo info) {
+    public static void start(Context context, CocosGameInfo info, String userId) {
         Intent intent = new Intent(context, SudCrActivity.class);
         intent.putExtra("CocosGameInfo", info);
+        intent.putExtra("userId", userId);
         context.startActivity(intent);
     }
 
     @Override
     protected boolean beforeSetContentView() {
         mCocosGameInfo = (CocosGameInfo) getIntent().getSerializableExtra("CocosGameInfo");
+        mGameViewModel.userId = getIntent().getStringExtra("userId");
         return super.beforeSetContentView();
     }
 
@@ -64,11 +64,10 @@ public class SudCrActivity extends BaseActivity {
         if (mCocosGameInfo == null) {
             return;
         }
-        String userId = HSUserInfo.userId + "";
         String gameId = mCocosGameInfo.gameId;
         String gameUrl = mCocosGameInfo.url;
         String gamePkgVersion = mCocosGameInfo.version;
-        mGameViewModel.startGame(this, userId, gameId, gameUrl, gamePkgVersion);
+        mGameViewModel.startGame(this, gameId, gameUrl, gamePkgVersion);
     }
 
     @Override
@@ -86,7 +85,7 @@ public class SudCrActivity extends BaseActivity {
             }
         });
         findViewById(R.id.btn_load).setOnClickListener(v -> {
-            mGameViewModel.startGame(this, HSUserInfo.userId + "", mCocosGameInfo.gameId, mCocosGameInfo.url, mCocosGameInfo.version);
+            mGameViewModel.startGame(this, mCocosGameInfo.gameId, mCocosGameInfo.url, mCocosGameInfo.version);
         });
         findViewById(R.id.btn_destroy).setOnClickListener(v -> {
             mGameViewModel.destroyGame();

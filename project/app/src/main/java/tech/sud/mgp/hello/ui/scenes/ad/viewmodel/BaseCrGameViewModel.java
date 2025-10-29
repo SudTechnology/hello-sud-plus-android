@@ -45,6 +45,7 @@ public abstract class BaseCrGameViewModel {
     private boolean isGameStarted;
     private AudioManager _audioManager;
     private long startGameTimestamp;
+    private AudioManager.OnAudioFocusChangeListener afChangeListener;
 
     public MutableLiveData<String> gameMGCommonGameFinishLiveData = new MutableLiveData<>();
     public MutableLiveData<String> gameStartedLiveData = new MutableLiveData<>();
@@ -267,23 +268,24 @@ public abstract class BaseCrGameViewModel {
         });
     }
 
-    AudioManager.OnAudioFocusChangeListener afChangeListener = new AudioManager.OnAudioFocusChangeListener() {
-        @Override
-        public void onAudioFocusChange(int focusChange) {
-            // 不自动暂停音频
-        }
-    };
-
     private final SudCrGameAudioSession.GameQueryAudioOptionsListener _audioListener = new SudCrGameAudioSession.GameQueryAudioOptionsListener() {
         @Override
         public void onQueryAudioOptions(SudCrGameAudioSession.GameQueryAudioOptionsHandle gameQueryAudioOptionsHandle, Bundle bundle) {
             // bundle 中参数
             // bundle.getBoolean(CocosGameAudioSession.KEY_AUDIO_MIX_WITH_OTHER); 是否用扬声器播放，true 默认输出设备优先级：耳机 > 蓝牙 > 扬声器；false 用听筒播放
             // bundle.getBoolean(CocosGameAudioSession.KEY_AUDIO_SPEAKER_ON); 音频是否支持与其他音频混播（包含其他应用、其他游戏实例的音频）
-            _audioManager.requestAudioFocus(afChangeListener,
-                    AudioManager.STREAM_MUSIC,
-                    AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK
-            );
+            if (afChangeListener == null) {
+                afChangeListener = new AudioManager.OnAudioFocusChangeListener() {
+                    @Override
+                    public void onAudioFocusChange(int focusChange) {
+                        // 不自动暂停音频
+                    }
+                };
+                _audioManager.requestAudioFocus(afChangeListener,
+                        AudioManager.STREAM_MUSIC,
+                        AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK
+                );
+            }
         }
     };
 
@@ -369,6 +371,10 @@ public abstract class BaseCrGameViewModel {
         isMute = false;
         isGameStarted = false;
         mHandler.removeCallbacksAndMessages(null);
+        if (afChangeListener != null) {
+            _audioManager.abandonAudioFocus(afChangeListener);
+            afChangeListener = null;
+        }
     }
 
     private final SudCrGameHandle.GameStateChangeListener _gameStateListener = new SudCrGameHandle.GameStateChangeListener() {

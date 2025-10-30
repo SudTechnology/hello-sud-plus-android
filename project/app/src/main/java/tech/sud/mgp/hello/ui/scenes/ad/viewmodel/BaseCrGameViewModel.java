@@ -243,16 +243,16 @@ public abstract class BaseCrGameViewModel {
             public void onSuccess(SudCrGameHandle handle) {
                 LogUtils.d(CALC_TAG + "创建GameHandle 成功 gameId：" + mGameId + " 耗时：" + (System.currentTimeMillis() - start));
                 mGameHandle = handle;
-                onAddGameView(mGameHandle.getGameView());
-                mGameHandle.setGameStateListener(_gameStateListener);
+                onAddGameView(handle.getGameView());
+                handle.setGameStateListener(_gameStateListener);
                 _changeGameState(_expectGameState);
                 initListener(handle);
                 setMute(isMute);
                 handle.getGameAudioSession().setGameQueryAudioOptionsListener(_audioListener);
-                mGameHandle.setGameDrawFrameListener(new SudCrGameHandle.GameDrawFrameListener() {
+                handle.setGameDrawFrameListener(new SudCrGameHandle.GameDrawFrameListener() {
                     @Override
                     public void onDrawFrame(long l) {
-                        mGameHandle.setGameDrawFrameListener(null);
+                        handle.setGameDrawFrameListener(null);
                         LogUtils.d(CALC_TAG + "第一帧来了 gameId：" + mGameId + " 从开始加载到第一帧的耗时：" + (System.currentTimeMillis() - startGameTimestamp));
                     }
                 });

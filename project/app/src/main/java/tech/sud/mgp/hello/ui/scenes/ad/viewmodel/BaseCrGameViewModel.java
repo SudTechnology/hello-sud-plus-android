@@ -148,6 +148,7 @@ public abstract class BaseCrGameViewModel {
             @Override
             public void onSuccess() {
                 loadGame(activity, gameId, gamePkgVersion, gameUrl);
+                createCocosGameInstance();
             }
 
             @Override
@@ -220,7 +221,6 @@ public abstract class BaseCrGameViewModel {
                 }
                 mCoreHandle = coreHandle;
                 login(activity, gameId, gameUrl, gamePkgVersion);
-                createCocosGameInstance();
             }
 
             @Override
@@ -233,6 +233,9 @@ public abstract class BaseCrGameViewModel {
     }
 
     private void createCocosGameInstance() {
+        if (mGameHandle != null) {
+            return;
+        }
         // 创建游戏实例
         Bundle createOptions = new Bundle();
         createOptions.putString(SudCrGameHandle.KEY_GAME_USER_ID, getUserId());

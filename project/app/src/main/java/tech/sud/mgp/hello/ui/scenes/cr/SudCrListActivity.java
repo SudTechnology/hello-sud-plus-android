@@ -1,5 +1,8 @@
 package tech.sud.mgp.hello.ui.scenes.cr;
 
+import android.app.Activity;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.EditText;
 
@@ -8,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
@@ -15,6 +19,7 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import tech.sud.cr.core.ISudCrListenerUninitSDK;
 import tech.sud.cr.core.SudCr;
@@ -30,6 +35,8 @@ public class SudCrListActivity extends BaseActivity {
     private RecyclerView mRecyclerView;
     private EditText mEtUserId;
     private String mUserId;
+    private Handler mHandler = new Handler(Looper.getMainLooper());
+    private boolean isLoopSwitchGame;
 
     @Override
     protected int getLayoutId() {
@@ -105,6 +112,26 @@ public class SudCrListActivity extends BaseActivity {
                 }
             });
         });
+        findViewById(R.id.btn_start_loop).setOnClickListener(v -> {
+            isLoopSwitchGame = true;
+            startLoopGame();
+        });
+        findViewById(R.id.btn_stop_loop).setOnClickListener(v -> {
+            isLoopSwitchGame = false;
+            stopLoopGame();
+            ToastUtils.showLong("关闭循环");
+        });
+    }
+
+    private void startLoopGame() {
+        stopLoopGame();
+        int second = new Random().nextInt(20) + 1; // 1 - 20秒，随机开关
+        ToastUtils.showLong("下一次开关时间:" + second + "秒");
+        mHandler.postDelayed(mLoopSwitchGameTask, second * 1000);
+    }
+
+    private void stopLoopGame() {
+        mHandler.removeCallbacks(mLoopSwitchGameTask);
     }
 
     private void startCr(CocosGameInfo item) {
@@ -122,6 +149,32 @@ public class SudCrListActivity extends BaseActivity {
             model.setText(R.id.tv_title, info.name);
         }
 
+    }
+
+    private Runnable mLoopSwitchGameTask = new Runnable() {
+        @Override
+        public void run() {
+            switchGame();
+        }
+    };
+
+    private void switchGame() {
+        if (!isLoopSwitchGame) {
+            return;
+        }
+        Activity topActivity = ActivityUtils.getTopActivity();
+        if (topActivity instanceof SudCrActivity) {
+            topActivity.finish();
+        } else {
+            List<CocosGameInfo> list = mAdapter.getData();
+            int size = list.size();
+            if (size > 0) {
+                int position = new Random().nextInt(size);
+                CocosGameInfo cocosGameInfo = list.get(position);
+                startCr(cocosGameInfo);
+            }
+        }
+        startLoopGame();
     }
 
 }

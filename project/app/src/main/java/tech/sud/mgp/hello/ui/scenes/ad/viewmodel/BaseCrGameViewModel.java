@@ -14,6 +14,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.blankj.utilcode.util.LogUtils;
 
 import tech.sud.cr.core.ISudCrFSMGame;
+import tech.sud.cr.core.ISudCrFSTAPP;
 import tech.sud.cr.core.ISudCrListenerInitSDK;
 import tech.sud.cr.core.SudCr;
 import tech.sud.cr.core.SudCrGameAudioSession;
@@ -46,6 +47,7 @@ public abstract class BaseCrGameViewModel {
     private AudioManager _audioManager;
     private long startGameTimestamp;
     private AudioManager.OnAudioFocusChangeListener afChangeListener;
+    private ISudCrFSTAPP mISudCrFSTAPP;
 
     public MutableLiveData<String> gameMGCommonGameFinishLiveData = new MutableLiveData<>();
     public MutableLiveData<String> gameStartedLiveData = new MutableLiveData<>();
@@ -170,7 +172,7 @@ public abstract class BaseCrGameViewModel {
         loadGameParamModel.gameId = gameId;
         loadGameParamModel.pkgVersion = gamePkgVersion;
         loadGameParamModel.pkgUrl = gameUrl;
-        SudCr.loadGame(loadGameParamModel, new ISudCrFSMGame() {
+        mISudCrFSTAPP = SudCr.loadGame(loadGameParamModel, new ISudCrFSMGame() {
             @Override
             public void onSuccess() {
                 if (TextUtils.isEmpty(mGameId)) {
@@ -363,6 +365,7 @@ public abstract class BaseCrGameViewModel {
             mGameHandle.destroy();
         }
         onRemoveGameView();
+        mISudCrFSTAPP = null;
         mGameId = null;
         mGameUrl = null;
         mGamePkgVersion = null;

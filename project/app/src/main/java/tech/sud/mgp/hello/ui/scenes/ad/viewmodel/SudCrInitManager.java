@@ -21,11 +21,11 @@ public class SudCrInitManager {
     private static SudCrGameCoreHandle sGameCoreHandle;
     private static boolean isInitializingRuntime;
     private static boolean isInitializingCore;
-    private static List<InitRuntimeListener> sRuntimeListenerList;
-    private static List<InitCoreListener> sCoreListenerList;
+    private static List<CreateRuntimeListener> sRuntimeListenerList;
+    private static List<LoadCoreListener> sCoreListenerList;
 
     /** 初始化runtime */
-    public static void initRuntime(Context context, InitRuntimeListener listener) {
+    public static void createRuntime(Context context, CreateRuntimeListener listener) {
         if (listener == null) {
             return;
         }
@@ -70,7 +70,7 @@ public class SudCrInitManager {
     }
 
     /** 初始化core */
-    public static void initCocosCore(InitCoreListener listener) {
+    public static void loadCore(LoadCoreListener listener) {
         if (listener == null) {
             return;
         }
@@ -127,9 +127,9 @@ public class SudCrInitManager {
         if (sRuntimeListenerList == null) {
             return;
         }
-        Iterator<InitRuntimeListener> iterator = sRuntimeListenerList.iterator();
+        Iterator<CreateRuntimeListener> iterator = sRuntimeListenerList.iterator();
         while (iterator.hasNext()) {
-            InitRuntimeListener next = iterator.next();
+            CreateRuntimeListener next = iterator.next();
             next.onSuccess(sGameRuntime);
             iterator.remove();
         }
@@ -139,9 +139,9 @@ public class SudCrInitManager {
         if (sRuntimeListenerList == null) {
             return;
         }
-        Iterator<InitRuntimeListener> iterator = sRuntimeListenerList.iterator();
+        Iterator<CreateRuntimeListener> iterator = sRuntimeListenerList.iterator();
         while (iterator.hasNext()) {
-            InitRuntimeListener next = iterator.next();
+            CreateRuntimeListener next = iterator.next();
             next.onFailure(error);
             iterator.remove();
         }
@@ -151,9 +151,9 @@ public class SudCrInitManager {
         if (sCoreListenerList == null) {
             return;
         }
-        Iterator<InitCoreListener> iterator = sCoreListenerList.iterator();
+        Iterator<LoadCoreListener> iterator = sCoreListenerList.iterator();
         while (iterator.hasNext()) {
-            InitCoreListener next = iterator.next();
+            LoadCoreListener next = iterator.next();
             next.onSuccess(sGameCoreHandle);
             iterator.remove();
         }
@@ -163,21 +163,21 @@ public class SudCrInitManager {
         if (sCoreListenerList == null) {
             return;
         }
-        Iterator<InitCoreListener> iterator = sCoreListenerList.iterator();
+        Iterator<LoadCoreListener> iterator = sCoreListenerList.iterator();
         while (iterator.hasNext()) {
-            InitCoreListener next = iterator.next();
+            LoadCoreListener next = iterator.next();
             next.onFailure(error);
             iterator.remove();
         }
     }
 
-    public interface InitRuntimeListener {
+    public interface CreateRuntimeListener {
         void onSuccess(SudCrGameRuntime runtime);
 
         void onFailure(Throwable error);
     }
 
-    public interface InitCoreListener {
+    public interface LoadCoreListener {
         void onSuccess(SudCrGameCoreHandle coreHandle);
 
         void onFailure(Throwable error);

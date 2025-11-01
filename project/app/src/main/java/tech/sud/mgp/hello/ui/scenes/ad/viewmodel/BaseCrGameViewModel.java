@@ -83,7 +83,7 @@ public abstract class BaseCrGameViewModel {
     }
 
     private void initCocosRuntime(Activity activity, String gameId, String gameUrl, String gamePkgVersion) {
-        SudCrInitManager.initRuntime(activity, new SudCrInitManager.InitRuntimeListener() {
+        SudCrInitManager.createRuntime(activity, new SudCrInitManager.CreateRuntimeListener() {
             @Override
             public void onSuccess(SudCrGameRuntime runtime) {
                 if (TextUtils.isEmpty(mGameId)) {
@@ -213,7 +213,7 @@ public abstract class BaseCrGameViewModel {
     }
 
     private void initCocosCore(Activity activity, String gameId, String gameUrl, String gamePkgVersion) {
-        SudCrInitManager.initCocosCore(new SudCrInitManager.InitCoreListener() {
+        SudCrInitManager.loadCore(new SudCrInitManager.LoadCoreListener() {
             @Override
             public void onSuccess(SudCrGameCoreHandle coreHandle) {
                 if (TextUtils.isEmpty(mGameId)) {

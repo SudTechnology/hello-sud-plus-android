@@ -143,4 +143,9 @@ public class SudCrActivity extends BaseActivity {
         mGameViewModel.destroyGame();
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        LogUtils.d("onBackPressed");
+    }
 }

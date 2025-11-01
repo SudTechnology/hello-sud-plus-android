@@ -105,6 +105,7 @@ public class CocosGameFragment extends BaseFragment {
         String gameUrl = mCocosGameInfo.url;
         String gamePkgVersion = mCocosGameInfo.version;
         mGameViewModel.startGame(requireActivity(), gameId, gameUrl, gamePkgVersion);
+        onStart();
     }
 
     @Override

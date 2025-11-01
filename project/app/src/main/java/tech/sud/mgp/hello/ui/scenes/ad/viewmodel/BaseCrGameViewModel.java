@@ -63,9 +63,9 @@ public abstract class BaseCrGameViewModel {
             LogUtils.file("startGame gameId or gameUrl can not be empty");
             return;
         }
-        if (gameId.equals(mGameId)) {
-            LogUtils.d("重复的gameId加载");
-            LogUtils.file("重复的gameId加载");
+        if (!TextUtils.isEmpty(mGameId)) {
+            LogUtils.d("已经存在加载中的游戏:" + mGameId);
+            LogUtils.file("已经存在加载中的游戏:" + mGameId);
             return;
         }
 
@@ -79,7 +79,7 @@ public abstract class BaseCrGameViewModel {
         mGameUrl = gameUrl;
         mGamePkgVersion = gamePkgVersion;
         initCocosRuntime(activity, gameId, gameUrl, gamePkgVersion);
-        onStart();
+        onResume();
     }
 
     private void initCocosRuntime(Activity activity, String gameId, String gameUrl, String gamePkgVersion) {

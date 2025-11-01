@@ -55,7 +55,6 @@ public class SudCrActivity extends BaseActivity {
         mTvProgress = findViewById(R.id.tv_progress);
 
         ViewUtils.setHeight(findViewById(R.id.top_bar), ImmersionBar.getStatusBarHeight(this));
-        findViewById(R.id.btn_destroy);
     }
 
     @Override
@@ -118,7 +117,6 @@ public class SudCrActivity extends BaseActivity {
     public void onStart() {
         super.onStart();
         mGameViewModel.onStart();
-        mGameViewModel.setMute(true);
     }
 
     @Override

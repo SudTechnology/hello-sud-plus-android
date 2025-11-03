@@ -7,7 +7,6 @@ import android.view.View;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 
-import tech.sud.mgp.hello.app.APPConfig;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
 import tech.sud.mgp.hello.common.http.rx.RxCallback;
@@ -82,8 +81,4 @@ public class AppCrGameViewModel extends BaseCrGameViewModel {
         gameViewLiveData.setValue(null);
     }
 
-    @Override
-    protected boolean isTestEnv() {
-        return APPConfig.GAME_IS_TEST_ENV;
-    }
 }

@@ -20,7 +20,10 @@ import com.gyf.immersionbar.ImmersionBar;
 import java.util.ArrayList;
 import java.util.List;
 
+import tech.sud.gip.core.ISudCfg;
+import tech.sud.gip.core.SudGIP;
 import tech.sud.mgp.hello.R;
+import tech.sud.mgp.hello.app.APPConfig;
 import tech.sud.mgp.hello.common.base.BaseActivity;
 import tech.sud.mgp.hello.common.http.param.BaseResponse;
 import tech.sud.mgp.hello.common.http.param.RetCode;
@@ -81,6 +84,7 @@ public class MainActivity extends BaseActivity implements MainTabView.TabClickLi
     @Override
     protected void initData() {
         super.initData();
+        SudGIP.getCfg().getAdvancedConfigMap().put(ISudCfg.IS_TEST_ENV, APPConfig.GAME_IS_TEST_ENV + "");
         new NotifyChannelHelper().initChannel(this);
         getBaseConfig();
         // 预加载游戏包

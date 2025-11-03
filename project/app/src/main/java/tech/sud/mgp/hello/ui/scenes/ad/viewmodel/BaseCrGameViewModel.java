@@ -142,7 +142,6 @@ public abstract class BaseCrGameViewModel {
         initSDKParamModel.context = activity.getApplicationContext();
         initSDKParamModel.appId = getAppId();
         initSDKParamModel.appKey = getAppKey();
-        initSDKParamModel.isTestEnv = isTestEnv();
         initSDKParamModel.userId = getUserId();
         initSDKParamModel.code = code;
 
@@ -557,15 +556,6 @@ public abstract class BaseCrGameViewModel {
      * Remove the game view from the page.
      */
     protected abstract void onRemoveGameView();
-
-    /**
-     * true 加载游戏时为测试环境
-     * false 加载游戏时为生产环境
-     * <p>
-     * true for the testing environment when loading the game.
-     * false for the production environment when loading the game.
-     */
-    protected abstract boolean isTestEnv();
 
     /**
      * 游戏login(getCode)监听

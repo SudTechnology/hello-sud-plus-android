@@ -1047,6 +1047,10 @@ public abstract class BaseRoomActivity<T extends AppGameViewModel> extends BaseA
 
         // 改为走RTC通道去播放
         if (binder != null) {
+            if (playVoiceAiUidList.contains(uid)) {
+                // 业务定义，如果该uid存在正在播放的音频，则不再进行播放
+                return;
+            }
             binder.playAudio(base64Decode(audioData), new SudAudioPlayListener() {
                 @Override
                 public void onPlaying() {

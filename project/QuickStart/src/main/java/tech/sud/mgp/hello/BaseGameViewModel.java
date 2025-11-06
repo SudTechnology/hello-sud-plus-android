@@ -4,15 +4,9 @@ import android.app.Activity;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Toast;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import tech.sud.gip.SudGIPWrapper.decorator.SudFSMMGCache;
 import tech.sud.gip.SudGIPWrapper.decorator.SudFSMMGDecorator;
@@ -82,9 +76,6 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
     public GameConfigModel gameConfigModel = new GameConfigModel();
     protected final Handler handler = new Handler(Looper.getMainLooper());
 
-    private List<Long> pauseAsyncMgIdList;
-    private ExecutorService pauseAsyncSingleExecutorService;
-
     /**
      * 外部调用切换游戏，传不同的gameId即可加载不同的游戏
      * gameId传0 等同于关闭游戏
@@ -100,16 +91,24 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
      *                   Game ID, passing a different gameId will load a different game. Passing 0 is equivalent to closing the game.
      */
     public void switchGame(Activity activity, String gameRoomId, long gameId) {
+        traceMsg("call switchGame gameRoomId:" + gameRoomId + " gameId:" + gameId);
         if (TextUtils.isEmpty(gameRoomId)) {
+            traceMsg("switchGame gameRoomId can not be empty");
             Toast.makeText(activity, "gameRoomId can not be empty", Toast.LENGTH_LONG).show();
             return;
         }
         if (playingGameId == gameId && gameRoomId.equals(this.gameRoomId)) {
+            traceMsg("switchGame Repeated loading gameId:" + gameId + " gameRoomId:" + gameRoomId);
             return;
         }
         destroyMG();
         this.gameRoomId = gameRoomId;
         playingGameId = gameId;
+
+        if (gameId <= 0) {
+            traceMsg("switchGame end gameId:" + gameId);
+            return;
+        }
         login(activity, gameId);
     }
 
@@ -128,15 +127,20 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
      *                 Game ID.
      */
     private void login(Activity activity, long gameId) {
+        traceMsg("call login");
         if (activity.isDestroyed() || gameId <= 0) {
+            traceMsg("call login fail activity.isDestroyed:" + activity.isDestroyed() + " gameId:" + gameId);
             return;
         }
+        traceMsg("call getCode");
         // 请求登录code
         // Request login code
         getCode(activity, getUserId(), getAppId(), new GameGetCodeListener() {
             @Override
             public void onSuccess(String code) {
+                traceMsg("call getCode onSuccess");
                 if (gameId != playingGameId) {
+                    traceMsg("call getCode onSuccess by gameId diff gameId：" + gameId + " playingGameId:" + playingGameId);
                     return;
                 }
                 initSdk(activity, gameId, code);
@@ -144,6 +148,7 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
 
             @Override
             public void onFailed() {
+                traceMsg("call getCode onFailed");
                 delayLoadGame(activity, gameId);
             }
         });
@@ -162,6 +167,7 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
      *                 Token.
      */
     private void initSdk(Activity activity, long gameId, String code) {
+        traceMsg("call initSdk");
         String appId = getAppId();
         String appKey = getAppKey();
         // 初始化sdk
@@ -175,6 +181,7 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
         SudGIP.initSDK(params, new ISudListenerInitSDK() {
             @Override
             public void onSuccess() {
+                traceMsg("initSDK onSuccess");
                 loadGame(activity, code, gameId);
             }
 
@@ -185,7 +192,7 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
                 if (isTestEnv()) {
                     Toast.makeText(activity, "initSDK onFailure:" + errMsg + "(" + errCode + ")", Toast.LENGTH_LONG).show();
                 }
-                Log.d("BaseGameViewModel", "initSDK onFailure:" + errMsg + "(" + errCode + ")");
+                traceMsg("initSDK onFailure:" + errMsg + "(" + errCode + ")");
                 delayLoadGame(activity, gameId);
             }
         });
@@ -210,7 +217,9 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
      *                 Game ID.
      */
     private void loadGame(Activity activity, String code, long gameId) {
+        traceMsg("call loadGame");
         if (activity.isDestroyed() || gameId != playingGameId) {
+            traceMsg("call loadGame return activity.isDestroyed:" + activity.isDestroyed() + " gameId:" + gameId + " playingGameId:" + playingGameId);
             return;
         }
 
@@ -232,6 +241,7 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
         // 如果返回空，则代表参数问题或者非主线程
         // If null is returned, it indicates a parameter issue or a non-main thread.
         if (iSudFSTAPP == null) {
+            traceMsg("loadMG params error");
             Toast.makeText(activity, "loadMG params error", Toast.LENGTH_LONG).show();
             delayLoadGame(activity, gameId);
             return;
@@ -246,6 +256,7 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
         // Retrieve the game view and throw it back to the Activity for display.
         // Activity invocation：gameContainer.addView(view, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
         gameView = iSudFSTAPP.getGameView();
+        traceMsg("call onAddGameView");
         onAddGameView(gameView);
     }
 
@@ -274,6 +285,7 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
      */
     public void destroyMG() {
         if (playingGameId > 0) {
+            traceMsg("call destroyMG playingGameId:" + playingGameId);
             sudFSTAPPDecorator.destroyMG();
             sudFSMMGDecorator.destroyMG();
             gameRoomId = null;
@@ -368,6 +380,15 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
      */
     protected abstract void onRemoveGameView();
 
+
+    /**
+     * 用于跟踪游戏的加载
+     * Used for tracking the loading of the game
+     *
+     * @param msg msg
+     */
+    protected abstract void traceMsg(String msg);
+
     // endregion 子类需要实现的方法 English：Methods that need to be implemented by subclasses.
 
     // region 游戏侧回调 English：Callback from the game side
@@ -449,18 +470,22 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
     }
     // endregion 游戏侧回调 English：Callback from the game side
 
-
     /**
      * 处理code过期
      * Handle code expiration
      */
     public void processOnExpireCode(SudFSTAPPDecorator sudFSTAPPDecorator, ISudFSMStateHandle handle) {
+        traceMsg("call processOnExpireCode");
         // code过期，刷新code
         // Code expired, refresh code
         getCode(null, getUserId(), getAppId(), new GameGetCodeListener() {
             @Override
             public void onSuccess(String code) {
-                if (playingGameId <= 0) return;
+                traceMsg("call processOnExpireCode getCode onSuccess");
+                if (playingGameId <= 0) {
+                    traceMsg("call processOnExpireCode getCode onSuccess return playingGameId:" + playingGameId);
+                    return;
+                }
                 MGStateResponse mgStateResponse = new MGStateResponse();
                 mgStateResponse.ret_code = MGStateResponse.SUCCESS;
                 sudFSTAPPDecorator.updateCode(code, null);
@@ -469,6 +494,7 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
 
             @Override
             public void onFailed() {
+                traceMsg("call processOnExpireCode getCode onFailed");
                 MGStateResponse mgStateResponse = new MGStateResponse();
                 mgStateResponse.ret_code = -1;
                 handle.failure(SudJsonUtils.toJson(mgStateResponse));
@@ -539,38 +565,17 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
     }
 
     public void onPause() {
+        traceMsg("onPause");
         // playMG和pauseMG要配对
         // playMG and pauseMG should be paired.
-        if (needPauseAsync()) {
-            onPauseAsync();
-        } else {
-            sudFSTAPPDecorator.pauseMG();
-        }
+        sudFSTAPPDecorator.pauseMG();
     }
 
     public void onResume() {
+        traceMsg("onResume");
         // playMG和pauseMG要配对
         // playMG and pauseMG should be paired.
-        if (needPauseAsync()) {
-            onResumeAsync();
-        } else {
-            sudFSTAPPDecorator.playMG();
-        }
-    }
-
-    private void onPauseAsync() {
-        pauseAsyncSingleExecutorService.execute(sudFSTAPPDecorator::pauseMG);
-    }
-
-    private void onResumeAsync() {
-        pauseAsyncSingleExecutorService.execute(sudFSTAPPDecorator::playMG);
-    }
-
-    private boolean needPauseAsync() {
-        if (pauseAsyncMgIdList != null && pauseAsyncMgIdList.contains(playingGameId)) {
-            return true;
-        }
-        return false;
+        sudFSTAPPDecorator.playMG();
     }
 
     /**
@@ -602,25 +607,6 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
         return sudFSMMGDecorator.getSudFSMMGCache();
     }
 
-    /**
-     * 添加需要异步调用onPause和onResume方法的游戏id
-     * 是属于对象方法，所以每次创建ViewModel对象时都需要初始化调用一次
-     * <p>
-     * Add the game ID that requires asynchronous calls to the onPause and onResume methods.
-     * These are instance methods, so they need to be initialized and called each time a ViewModel object is created.
-     */
-    public void addPauseAsyncMgId(long gameId) {
-        if (pauseAsyncSingleExecutorService == null) {
-            pauseAsyncSingleExecutorService = Executors.newSingleThreadExecutor();
-        }
-        if (pauseAsyncMgIdList == null) {
-            pauseAsyncMgIdList = new ArrayList<>();
-        }
-        if (!pauseAsyncMgIdList.contains(gameId)) {
-            pauseAsyncMgIdList.add(gameId);
-        }
-    }
-
     /** 获取当前正在玩的游戏id */
     public long getPlayingGameId() {
         return playingGameId;
@@ -650,5 +636,6 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
     public ISudAiAgent getAiAgent() {
         return sudFSTAPPDecorator.getAiAgent();
     }
+
 
 }

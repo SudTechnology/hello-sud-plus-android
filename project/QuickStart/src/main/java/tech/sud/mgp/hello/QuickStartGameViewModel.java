@@ -1,6 +1,7 @@
 package tech.sud.mgp.hello;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.View;
 
 import androidx.lifecycle.MutableLiveData;
@@ -243,6 +244,23 @@ public class QuickStartGameViewModel extends BaseGameViewModel {
     @Override
     protected void onRemoveGameView() {
         gameViewLiveData.setValue(null);
+    }
+
+    /**
+     * 用于跟踪游戏的加载
+     * Used for tracking the loading of the game
+     *
+     * @param msg msg
+     */
+    @Override
+    protected void traceMsg(String msg) {
+        // 消息可选择增加时间
+        // The message can be optionally extended in time
+        msg = QuickStartUtils.getDateTime() + msg;
+
+        // 在这里APP可选择将消息输出到控制台，或者存到本地日志文件，或者将一段时间的打点数据上报到后端用于查看
+        // Here, the APP can choose to output messages to the console, or save them to the local log file, or report the dotting data of a certain period of time to the back end for viewing
+        Log.d("QuickStartGameViewModel", msg);
     }
 
     // ************ 上面是基础能力以及必要配置，下面讲解状态交互

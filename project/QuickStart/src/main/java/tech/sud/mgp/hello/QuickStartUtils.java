@@ -3,9 +3,15 @@ package tech.sud.mgp.hello;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 import java.util.UUID;
 
 public class QuickStartUtils {
+
+    private static SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy_MM_dd HH:mm:ss.SSS ", Locale.US);
 
     /**
      * 随机生成一个userId，用于演示
@@ -28,6 +34,24 @@ public class QuickStartUtils {
         }
 
         return md5code.substring(8, 16);
+    }
+
+    public static String getDateTime() {
+        Date d = new Date();
+        String format = sDateFormat.format(d);
+        // 时区偏移
+        TimeZone timeZone = TimeZone.getDefault();
+        String timeOffsetStr;
+        if (timeZone == null) {
+            timeOffsetStr = null;
+        } else {
+            int offsetInMillis = timeZone.getRawOffset();
+            int hours = offsetInMillis / (1000 * 60 * 60);
+            int minutes = Math.abs((offsetInMillis / (1000 * 60)) % 60);
+            String sign = hours >= 0 ? "+" : "-";
+            timeOffsetStr = "UTC" + sign + Math.abs(hours) + ":" + (minutes < 10 ? "0" : "") + minutes + " ";
+        }
+        return format + timeOffsetStr;
     }
 
 }

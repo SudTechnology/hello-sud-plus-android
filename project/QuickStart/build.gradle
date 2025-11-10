@@ -79,7 +79,7 @@ dependencies {
     implementation(project(':SudGIPWrapper',)) {
         exclude group: "tech.sud.gip", module: "SudGIP"
     }
-    implementation 'tech.sud.gip:SudGIP-pro:1.6.5.1268'
+    implementation 'tech.sud.gip:SudGIP-pro:1.6.6.1277'
 
     // --- region QuickStart使用
 

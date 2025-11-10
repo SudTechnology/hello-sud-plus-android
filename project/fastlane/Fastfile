@@ -79,12 +79,13 @@ platform :android do
         gameIsTestEnv=options[:gameIsTestEnv]
         jksPropertyPath=options[:jksPropertyPath]
         flavor=options[:flavor]
+        buildType=options[:buildType]
         puts versionCode
         # outputDir = parentOutputDir + "/fat/" + versionCode
         # puts outputDir
         gradle(
             task: ":app:assemble",
-            build_type:"Release",
+            build_type:buildType,
             flavor:flavor,
             print_command: true,
             properties: {

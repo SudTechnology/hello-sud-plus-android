@@ -29,6 +29,7 @@ import tech.sud.mgp.hello.ui.main.base.constant.GameIdCons;
 import tech.sud.mgp.hello.ui.main.base.constant.SceneType;
 import tech.sud.mgp.hello.ui.main.home.model.MatchRoomModel;
 import tech.sud.mgp.hello.ui.scenes.ad.activity.AdRoomActivity;
+import tech.sud.mgp.hello.ui.scenes.ad.utils.SudGameStopwatch;
 import tech.sud.mgp.hello.ui.scenes.ad.viewmodel.AppCrGameViewModel;
 import tech.sud.mgp.hello.ui.scenes.base.utils.EnterRoomUtils;
 
@@ -46,6 +47,10 @@ public class CocosGameFragment extends BaseFragment {
     private TextView mTvGameName;
     private ImageView mIvBack;
     private ImageView mIvClosePlay;
+    private View mContainerTime;
+    private TextView mTvTime;
+    private boolean isFirstFrameCompleted;
+    private SudGameStopwatch mSudGameStopwatch = new SudGameStopwatch();
 
     public static CocosGameFragment newInstance(int position, CocosGameInfo info) {
         Bundle args = new Bundle();
@@ -88,8 +93,9 @@ public class CocosGameFragment extends BaseFragment {
         mTvGameName = findViewById(R.id.tv_game_name);
         mIvBack = findViewById(R.id.iv_back);
         mIvClosePlay = findViewById(R.id.iv_close_play);
+        mContainerTime = findViewById(R.id.container_time);
+        mTvTime = findViewById(R.id.tv_time);
 
-        mContainerClickPlay.setVisibility(View.VISIBLE);
         setUserInputEnabled(true);
 
         ViewUtils.setHeight(findViewById(R.id.top_bar), ImmersionBar.getStatusBarHeight(this));
@@ -178,6 +184,29 @@ public class CocosGameFragment extends BaseFragment {
                 onGameStarted();
             }
         });
+        mGameViewModel.firstFrameLiveData.observe(this, o -> {
+            isFirstFrameCompleted = true;
+            stopTiming();
+            mContainerTime.setVisibility(View.GONE);
+            mContainerClickPlay.setVisibility(View.VISIBLE);
+        });
+        mSudGameStopwatch.setOnTimingListener(new SudGameStopwatch.OnTimingListener() {
+            @Override
+            public void onTiming(long millis) {
+                mTvTime.setText(millis + "");
+            }
+        });
+    }
+
+    private void startTiming() {
+        if (isFirstFrameCompleted) {
+            return;
+        }
+        mSudGameStopwatch.start();
+    }
+
+    private void stopTiming() {
+        mSudGameStopwatch.stop();
     }
 
     private void onGameStarted() {
@@ -226,6 +255,7 @@ public class CocosGameFragment extends BaseFragment {
     public void onStart() {
         super.onStart();
         LogUtils.d("position:" + mPosition + " onStart");
+        startTiming();
         mGameViewModel.onStart();
         mGameViewModel.setMute(true);
     }
@@ -250,6 +280,7 @@ public class CocosGameFragment extends BaseFragment {
     public void onStop() {
         super.onStop();
         LogUtils.d("position:" + mPosition + " onStop");
+        stopTiming();
         mGameViewModel.onStop();
     }
 
@@ -259,6 +290,7 @@ public class CocosGameFragment extends BaseFragment {
         LogUtils.d("position:" + mPosition + " onDestroyView");
         mGameViewModel.gameViewLiveData.removeObservers(this);
         mGameViewModel.destroyGame();
+        isFirstFrameCompleted = false;
     }
 
     @Override

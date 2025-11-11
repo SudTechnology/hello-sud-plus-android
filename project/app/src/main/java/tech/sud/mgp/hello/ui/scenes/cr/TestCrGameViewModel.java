@@ -38,14 +38,14 @@ public class TestCrGameViewModel extends BaseCrGameViewModel {
                 if (t.getRetCode() == RetCode.SUCCESS && t.getData() != null && !TextUtils.isEmpty(t.getData().runtimeCode)) {
                     listener.onSuccess(t.getData().runtimeCode);
                 } else {
-                    listener.onFailed();
+                    listener.onFailed(-1, "error:" + t.getRetCode());
                 }
             }
 
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
-                listener.onFailed();
+                listener.onFailed(-1, "error:" + e);
             }
         });
     }

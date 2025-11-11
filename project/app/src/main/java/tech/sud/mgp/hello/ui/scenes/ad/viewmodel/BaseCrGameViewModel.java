@@ -12,6 +12,7 @@ import android.view.View;
 import androidx.lifecycle.MutableLiveData;
 
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.ToastUtils;
 
 import tech.sud.cr.core.ISudCrFSMGame;
 import tech.sud.cr.core.ISudCrFSTAPP;
@@ -52,6 +53,7 @@ public abstract class BaseCrGameViewModel {
     public MutableLiveData<String> gameMGCommonGameFinishLiveData = new MutableLiveData<>();
     public MutableLiveData<String> gameStartedLiveData = new MutableLiveData<>();
     public final MutableLiveData<GameLoadingProgressModel> gameLoadingProgressLiveData = new MutableLiveData<>(); // 游戏加载进度回调
+    public final MutableLiveData<Object> firstFrameLiveData = new MutableLiveData<>(); // 第一帧
 
     /**
      * 启动游戏
@@ -118,7 +120,8 @@ public abstract class BaseCrGameViewModel {
             }
 
             @Override
-            public void onFailed() {
+            public void onFailed(int retCode, String retMsg) {
+                ToastUtils.showLong("onFailed:(" + retCode + ")" + retMsg);
                 delayLogin(activity, gameId, gameUrl, gamePkgVersion);
             }
         });
@@ -154,8 +157,9 @@ public abstract class BaseCrGameViewModel {
 
             @Override
             public void onFailure(int retCode, String retMsg) {
-                LogUtils.e("loadGamePkg fail(" + retCode + ")" + retMsg);
-                LogUtils.file("loadGamePkg fail(" + retCode + ")" + retMsg);
+                LogUtils.e("initSDK fail(" + retCode + ")" + retMsg);
+                LogUtils.file("initSDK fail(" + retCode + ")" + retMsg);
+                ToastUtils.showLong("initSDK fail(" + retCode + ")" + retMsg);
                 delayLogin(activity, gameId, gameUrl, gamePkgVersion);
             }
         });
@@ -185,6 +189,7 @@ public abstract class BaseCrGameViewModel {
             public void onFailure(int retCode, String retMsg) {
                 LogUtils.e("loadGamePkg fail(" + retCode + ")" + retMsg);
                 LogUtils.file("loadGamePkg fail(" + retCode + ")" + retMsg);
+                ToastUtils.showLong("loadGamePkg fail(" + retCode + ")" + retMsg);
                 delayLogin(activity, gameId, gameUrl, gamePkgVersion);
             }
 
@@ -257,6 +262,7 @@ public abstract class BaseCrGameViewModel {
                     @Override
                     public void onDrawFrame(long l) {
                         handle.setGameDrawFrameListener(null);
+                        firstFrameLiveData.setValue(null);
                         LogUtils.d(CALC_TAG + "第一帧来了 gameId：" + mGameId + " 从开始加载到第一帧的耗时：" + (System.currentTimeMillis() - startGameTimestamp));
                     }
                 });
@@ -564,7 +570,7 @@ public abstract class BaseCrGameViewModel {
     public interface GameGetCodeListener {
         void onSuccess(String code);
 
-        void onFailed();
+        void onFailed(int retCode, String retMsg);
     }
 
 }

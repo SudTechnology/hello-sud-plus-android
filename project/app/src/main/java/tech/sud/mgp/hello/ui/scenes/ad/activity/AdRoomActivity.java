@@ -19,7 +19,7 @@ import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseActivity;
 import tech.sud.mgp.hello.service.room.repository.RoomRepository;
 import tech.sud.mgp.hello.service.room.resp.GiAdModel;
-import tech.sud.mgp.hello.ui.scenes.ad.fragment.CocosGameFragment;
+import tech.sud.mgp.hello.ui.scenes.ad.fragment.AdGameFragment;
 
 public class AdRoomActivity extends BaseActivity {
 
@@ -90,7 +90,7 @@ public class AdRoomActivity extends BaseActivity {
             int srcPosition = position;
             position %= mDatas.size();
             GiAdModel giAdModel = mDatas.get(position);
-            return CocosGameFragment.newInstance(srcPosition, giAdModel.gameInfo);
+            return AdGameFragment.newInstance(srcPosition, giAdModel.gameInfo);
         }
 
         @Override

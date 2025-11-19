@@ -337,7 +337,7 @@
 
         <!-- 测试SudCr页 -->
         <activity
-            android:name=".ui.scenes.cr.SudCrListActivity"
+            android:name=".ui.scenes.runtime2.SudRuntime2ListActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:launchMode="singleTop"
@@ -345,7 +345,7 @@
 
         <!-- 测试SudCr页 -->
         <activity
-            android:name=".ui.scenes.cr.SudCrActivity"
+            android:name=".ui.scenes.runtime2.SudRuntime2Activity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:launchMode="singleTop"

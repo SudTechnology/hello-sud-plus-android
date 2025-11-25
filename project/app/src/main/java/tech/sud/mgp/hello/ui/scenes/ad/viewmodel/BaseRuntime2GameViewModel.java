@@ -367,12 +367,12 @@ public abstract class BaseRuntime2GameViewModel {
         if (TextUtils.isEmpty(mGameId)) {
             return;
         }
+        mGameId = null;
         if (mGameHandle != null) {
             mGameHandle.destroy();
         }
         onRemoveGameView();
         mISudRuntime2FSTAPP = null;
-        mGameId = null;
         mGameUrl = null;
         mGamePkgVersion = null;
         mGameHandle = null;
@@ -432,7 +432,7 @@ public abstract class BaseRuntime2GameViewModel {
 
     private void _changeGameState(int newState) {
         _expectGameState = newState;
-        if (mGameHandle == null || !_isGameInstalled || _isGameStateChanging) {
+        if (mGameId == null || mGameHandle == null || !_isGameInstalled || _isGameStateChanging) {
             return;
         }
         LogUtils.i("_changeGameState success: _currentGameState " + _currentGameState + " to " + newState);

@@ -148,6 +148,7 @@ public class SudRuntime1Activity extends BaseActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        mGameViewModel.destroyMG();
         LogUtils.d("onBackPressed");
     }
 }

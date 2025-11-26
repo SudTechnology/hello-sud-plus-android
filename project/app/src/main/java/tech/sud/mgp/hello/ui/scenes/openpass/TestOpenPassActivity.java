@@ -98,6 +98,14 @@ public class TestOpenPassActivity extends BaseActivity {
         info.url = "https://hello-sud-plus.sudden.ltd/ad/resource/rungame/performance.sp";
         info.engine = 1;
         mDatas.add(info);
+
+        info = new OpenPassGameInfo();
+        info.name = "runtime2的游戏";
+        info.gameId = "sud.tech.sud.profile";
+        info.version = "1.0.1";
+        info.url = "https://hello-sud-plus.sudden.ltd/ad/resource/rungame/PerformanceTest.cpk";
+        info.engine = 2;
+        mDatas.add(info);
     }
 
     @Override
@@ -147,6 +155,7 @@ public class TestOpenPassActivity extends BaseActivity {
                     mStartInterval = startInterval;
                     mStopInterval = stopInterval;
                     mSelectedGameInfo = info;
+                    isLoopSwitchGame = true;
                     startLoopGame();
                 }
             });

@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.scenes.runtime2;
+package tech.sud.mgp.hello.ui.scenes.openpass;
 
 import android.app.Activity;
 import android.os.Handler;
@@ -25,22 +25,28 @@ import tech.sud.gip.r2.core.ISudRuntime2ListenerUninitSDK;
 import tech.sud.gip.r2.core.SudRuntime2;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.common.base.BaseActivity;
-import tech.sud.mgp.hello.service.room.resp.CocosGameInfo;
+import tech.sud.mgp.hello.service.room.resp.OpenPassGameInfo;
 import tech.sud.mgp.hello.ui.common.listener.SimpleTextWatcher;
+import tech.sud.mgp.hello.ui.scenes.openpass.runtime1.SudRuntime1Activity;
+import tech.sud.mgp.hello.ui.scenes.openpass.runtime2.SudRuntime2Activity;
 
-public class SudRuntime2ListActivity extends BaseActivity {
+public class TestOpenPassActivity extends BaseActivity {
 
-    private List<CocosGameInfo> mDatas = new ArrayList<>();
+    private List<OpenPassGameInfo> mDatas = new ArrayList<>();
     private MyAdapter mAdapter;
     private RecyclerView mRecyclerView;
     private EditText mEtUserId;
     private String mUserId;
     private Handler mHandler = new Handler(Looper.getMainLooper());
     private boolean isLoopSwitchGame;
+    private int mStartInterval;
+    private int mStopInterval;
+    private OpenPassGameInfo mSelectedGameInfo;
+    private boolean nextLoopIsStartGame;
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_test_sud_cr;
+        return R.layout.activity_test_open_pass;
     }
 
     @Override
@@ -61,25 +67,36 @@ public class SudRuntime2ListActivity extends BaseActivity {
     }
 
     private void initList() {
-        CocosGameInfo info = new CocosGameInfo();
+        OpenPassGameInfo info = new OpenPassGameInfo();
         info.name = "游戏A";
         info.gameId = "sud.tech.test";
         info.version = "1.0.0";
         info.url = "http://test-runtime.cocos.com/cocos-runtime-demo/cpk/13/game.creator.cccshooter.13.cpk";
+        info.engine = 2;
         mDatas.add(info);
 
-        info = new CocosGameInfo();
+        info = new OpenPassGameInfo();
         info.name = "游戏B(引擎分离2.3.1)";
         info.gameId = "game.creator.duang";
         info.version = "2.3.1";
         info.url = "http://test-runtime.cocos.com/cocos-runtime-demo/cpk/13/game.creator.duang-sheep.sp.13.cpk";
+        info.engine = 2;
         mDatas.add(info);
 
-        info = new CocosGameInfo();
+        info = new OpenPassGameInfo();
         info.name = "游戏C(引擎分离3.8.7)";
         info.gameId = "game.creator.simple";
         info.version = "3.8.7";
         info.url = "http://test-runtime.cocos.com/cocos-runtime-demo/cpk/13/game.creator3d.simple-games.sp.13.cpk";
+        info.engine = 2;
+        mDatas.add(info);
+
+        info = new OpenPassGameInfo();
+        info.name = "runtime1的游戏";
+        info.gameId = "1445123";
+        info.version = "3.8.7";
+        info.url = "https://hello-sud-plus.sudden.ltd/ad/resource/rungame/performance.sp";
+        info.engine = 1;
         mDatas.add(info);
     }
 
@@ -89,7 +106,7 @@ public class SudRuntime2ListActivity extends BaseActivity {
         mAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
-                startCr(mAdapter.getItem(position));
+                startGame(mAdapter.getItem(position));
             }
         });
         mEtUserId.addTextChangedListener(new SimpleTextWatcher() {
@@ -121,11 +138,33 @@ public class SudRuntime2ListActivity extends BaseActivity {
             stopLoopGame();
             ToastUtils.showLong("关闭循环");
         });
+        findViewById(R.id.btn_select_params).setOnClickListener(v -> {
+            TestSudRuntimeDialog testSudRuntimeDialog = new TestSudRuntimeDialog();
+            testSudRuntimeDialog.setDatas(mDatas);
+            testSudRuntimeDialog.setOnStartListener(new TestSudRuntimeDialog.OnStartListener() {
+                @Override
+                public void onStart(int startInterval, int stopInterval, OpenPassGameInfo info) {
+                    mStartInterval = startInterval;
+                    mStopInterval = stopInterval;
+                    mSelectedGameInfo = info;
+                    startLoopGame();
+                }
+            });
+            testSudRuntimeDialog.show(getSupportFragmentManager(), null);
+        });
     }
 
     private void startLoopGame() {
         stopLoopGame();
-        int second = new Random().nextInt(20) + 1; // 1 - 20秒，随机开关
+        int second;
+        if (nextLoopIsStartGame && mStartInterval > 0) {
+            second = mStartInterval;
+        } else if (mStopInterval > 0) {
+            second = mStopInterval;
+        } else {
+            second = new Random().nextInt(20) + 1; // 1 - 20秒，随机开关
+        }
+
         ToastUtils.showLong("下一次开关时间:" + second + "秒");
         mHandler.postDelayed(mLoopSwitchGameTask, second * 1000);
     }
@@ -134,18 +173,22 @@ public class SudRuntime2ListActivity extends BaseActivity {
         mHandler.removeCallbacks(mLoopSwitchGameTask);
     }
 
-    private void startCr(CocosGameInfo item) {
-        SudRuntime2Activity.start(this, item, mUserId);
+    private void startGame(OpenPassGameInfo item) {
+        if (item.engine == 1) {
+            SudRuntime1Activity.start(this, item, mUserId);
+        } else {
+            SudRuntime2Activity.start(this, item, mUserId);
+        }
     }
 
-    private class MyAdapter extends BaseQuickAdapter<CocosGameInfo, BaseViewHolder> {
+    private class MyAdapter extends BaseQuickAdapter<OpenPassGameInfo, BaseViewHolder> {
 
-        public MyAdapter(@Nullable List<CocosGameInfo> data) {
+        public MyAdapter(@Nullable List<OpenPassGameInfo> data) {
             super(R.layout.item_name_list, data);
         }
 
         @Override
-        protected void convert(@NonNull BaseViewHolder model, CocosGameInfo info) {
+        protected void convert(@NonNull BaseViewHolder model, OpenPassGameInfo info) {
             model.setText(R.id.tv_title, info.name);
         }
 
@@ -163,15 +206,17 @@ public class SudRuntime2ListActivity extends BaseActivity {
             return;
         }
         Activity topActivity = ActivityUtils.getTopActivity();
-        if (topActivity instanceof SudRuntime2Activity) {
+        if (topActivity instanceof SudRuntime2Activity || topActivity instanceof SudRuntime1Activity) {
+            nextLoopIsStartGame = true;
             topActivity.finish();
         } else {
-            List<CocosGameInfo> list = mAdapter.getData();
+            nextLoopIsStartGame = false;
+            List<OpenPassGameInfo> list = mAdapter.getData();
             int size = list.size();
             if (size > 0) {
                 int position = new Random().nextInt(size);
-                CocosGameInfo cocosGameInfo = list.get(position);
-                startCr(cocosGameInfo);
+                OpenPassGameInfo openPassGameInfo = list.get(position);
+                startGame(openPassGameInfo);
             }
         }
         startLoopGame();

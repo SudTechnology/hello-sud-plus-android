@@ -24,7 +24,7 @@ import tech.sud.mgp.hello.common.http.rx.RxCallback;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
 import tech.sud.mgp.hello.common.utils.ViewUtils;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
-import tech.sud.mgp.hello.service.room.resp.CocosGameInfo;
+import tech.sud.mgp.hello.service.room.resp.OpenPassGameInfo;
 import tech.sud.mgp.hello.ui.main.base.constant.GameIdCons;
 import tech.sud.mgp.hello.ui.main.base.constant.SceneType;
 import tech.sud.mgp.hello.ui.main.home.model.MatchRoomModel;
@@ -37,7 +37,7 @@ public class AdGameFragment extends BaseFragment {
 
     private int mPosition;
     private FrameLayout mGameContainer;
-    private CocosGameInfo mCocosGameInfo;
+    private OpenPassGameInfo mOpenPassGameInfo;
     private AppRuntime2GameViewModel mGameViewModel = new AppRuntime2GameViewModel();
 
     private View mContainerClickPlay;
@@ -52,7 +52,7 @@ public class AdGameFragment extends BaseFragment {
     private boolean isFirstFrameCompleted;
     private SudGameStopwatch mSudGameStopwatch = new SudGameStopwatch();
 
-    public static AdGameFragment newInstance(int position, CocosGameInfo info) {
+    public static AdGameFragment newInstance(int position, OpenPassGameInfo info) {
         Bundle args = new Bundle();
         args.putSerializable("CocosGameInfo", info);
         args.putInt("position", position);
@@ -68,8 +68,8 @@ public class AdGameFragment extends BaseFragment {
         if (arguments != null) {
             mPosition = arguments.getInt("position");
             Serializable cocosGameInfo = arguments.getSerializable("CocosGameInfo");
-            if (cocosGameInfo instanceof CocosGameInfo) {
-                mCocosGameInfo = (CocosGameInfo) cocosGameInfo;
+            if (cocosGameInfo instanceof OpenPassGameInfo) {
+                mOpenPassGameInfo = (OpenPassGameInfo) cocosGameInfo;
             }
         }
         mGameViewModel.CALC_TAG = "CocosCalc" + mPosition + " ";
@@ -104,12 +104,12 @@ public class AdGameFragment extends BaseFragment {
     @Override
     protected void initData() {
         super.initData();
-        if (mCocosGameInfo == null) {
+        if (mOpenPassGameInfo == null) {
             return;
         }
-        String gameId = mCocosGameInfo.gameId;
-        String gameUrl = mCocosGameInfo.url;
-        String gamePkgVersion = mCocosGameInfo.version;
+        String gameId = mOpenPassGameInfo.gameId;
+        String gameUrl = mOpenPassGameInfo.url;
+        String gamePkgVersion = mOpenPassGameInfo.version;
         mGameViewModel.startGame(requireActivity(), gameId, gameUrl, gamePkgVersion);
         onStart();
     }
@@ -136,7 +136,7 @@ public class AdGameFragment extends BaseFragment {
                 if (view == null) {
                     mGameContainer.removeAllViews();
                 } else {
-                    LogUtils.d(mGameViewModel.CALC_TAG + "把游戏View添加到页面上 gameId:" + mCocosGameInfo.gameId);
+                    LogUtils.d(mGameViewModel.CALC_TAG + "把游戏View添加到页面上 gameId:" + mOpenPassGameInfo.gameId);
                     mGameContainer.addView(view, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
                 }
             }
@@ -245,9 +245,9 @@ public class AdGameFragment extends BaseFragment {
         mIvBack.setVisibility(View.VISIBLE);
         mIvClosePlay.setVisibility(View.VISIBLE);
         mContainerGameFinish.setVisibility(View.VISIBLE);
-        ImageLoader.loadImage(mIvCover, mCocosGameInfo.cover);
-        ImageLoader.loadImage(mIvIcon, mCocosGameInfo.icon);
-        mTvGameName.setText(mCocosGameInfo.name);
+        ImageLoader.loadImage(mIvCover, mOpenPassGameInfo.cover);
+        ImageLoader.loadImage(mIvIcon, mOpenPassGameInfo.icon);
+        mTvGameName.setText(mOpenPassGameInfo.name);
         setUserInputEnabled(true);
     }
 

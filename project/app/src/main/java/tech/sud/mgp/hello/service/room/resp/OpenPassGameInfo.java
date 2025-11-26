@@ -2,7 +2,7 @@ package tech.sud.mgp.hello.service.room.resp;
 
 import java.io.Serializable;
 
-public class CocosGameInfo implements Serializable {
+public class OpenPassGameInfo implements Serializable {
     public String version;
     public String url;
     public String name;
@@ -10,4 +10,5 @@ public class CocosGameInfo implements Serializable {
     public String cover;
     public String icon;
     public String link;
+    public int engine;
 }

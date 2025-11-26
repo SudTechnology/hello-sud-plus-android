@@ -1,4 +1,4 @@
-package tech.sud.mgp.hello.ui.scenes.runtime2;
+package tech.sud.mgp.hello.ui.scenes.openpass.runtime2;
 
 import android.app.Activity;
 import android.text.TextUtils;

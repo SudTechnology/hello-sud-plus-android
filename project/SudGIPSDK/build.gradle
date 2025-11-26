@@ -1,4 +1,4 @@
 configurations.maybeCreate("default")
-artifacts.add("default", file('SudGIP-v0.0.0-950-pro.aar'))
+artifacts.add("default", file('SudGIP-v0.0.0-952-pro.aar'))
 dependencies {
 }

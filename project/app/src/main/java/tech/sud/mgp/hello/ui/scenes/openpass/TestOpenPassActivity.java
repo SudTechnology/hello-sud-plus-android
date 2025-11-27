@@ -220,12 +220,16 @@ public class TestOpenPassActivity extends BaseActivity {
             topActivity.finish();
         } else {
             nextLoopIsStartGame = false;
-            List<OpenPassGameInfo> list = mAdapter.getData();
-            int size = list.size();
-            if (size > 0) {
-                int position = new Random().nextInt(size);
-                OpenPassGameInfo openPassGameInfo = list.get(position);
-                startGame(openPassGameInfo);
+            if (mSelectedGameInfo == null) {
+                List<OpenPassGameInfo> list = mAdapter.getData();
+                int size = list.size();
+                if (size > 0) {
+                    int position = new Random().nextInt(size);
+                    OpenPassGameInfo openPassGameInfo = list.get(position);
+                    startGame(openPassGameInfo);
+                }
+            } else {
+                startGame(mSelectedGameInfo);
             }
         }
         startLoopGame();

@@ -71,7 +71,7 @@ public class SudRuntime1Activity extends BaseActivity {
         String gameId = mOpenPassGameInfo.gameId;
         String gameUrl = mOpenPassGameInfo.url;
         String gamePkgVersion = mOpenPassGameInfo.version;
-        mGameViewModel.switchGame(this, mTestRoomId, Long.parseLong(gameId), gameUrl, gamePkgVersion);
+        mGameViewModel.switchGame(this, mTestRoomId, gameId, gameUrl, gamePkgVersion);
     }
 
     @Override
@@ -88,7 +88,7 @@ public class SudRuntime1Activity extends BaseActivity {
             }
         });
         findViewById(R.id.btn_load).setOnClickListener(v -> {
-            mGameViewModel.switchGame(this, mTestRoomId, Long.parseLong(mOpenPassGameInfo.gameId), mOpenPassGameInfo.url, mOpenPassGameInfo.version);
+            mGameViewModel.switchGame(this, mTestRoomId, mOpenPassGameInfo.gameId, mOpenPassGameInfo.url, mOpenPassGameInfo.version);
         });
         findViewById(R.id.btn_destroy).setOnClickListener(v -> {
             mGameViewModel.destroyMG();

@@ -93,7 +93,7 @@ public class TestOpenPassActivity extends BaseActivity {
 
         info = new OpenPassGameInfo();
         info.name = "runtime1的游戏";
-        info.gameId = "1445123";
+        info.gameId = "game.runtime1";
         info.version = "3.8.7";
         info.url = "https://hello-sud-plus.sudden.ltd/ad/resource/rungame/performance.sp";
         info.engine = 1;

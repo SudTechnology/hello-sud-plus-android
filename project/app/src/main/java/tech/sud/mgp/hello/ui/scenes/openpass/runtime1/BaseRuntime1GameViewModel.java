@@ -10,6 +10,8 @@ import android.widget.Toast;
 
 import com.blankj.utilcode.util.LogUtils;
 
+import java.util.Objects;
+
 import tech.sud.gip.SudGIPWrapper.decorator.SudFSMMGCache;
 import tech.sud.gip.SudGIPWrapper.decorator.SudFSMMGListener;
 import tech.sud.gip.SudGIPWrapper.model.GameConfigModel;
@@ -50,7 +52,7 @@ public abstract class BaseRuntime1GameViewModel implements SudFSMMGListener {
      * 当前使用的游戏id
      * The currently used game ID
      */
-    private long playingGameId;
+    private String playingGameId;
 
     /**
      * app调用sdk的封装类
@@ -94,12 +96,12 @@ public abstract class BaseRuntime1GameViewModel implements SudFSMMGListener {
      * @param gameId     游戏id，传入不同的游戏id，即可加载不同的游戏，传0等同于关闭游戏
      *                   Game ID, passing a different gameId will load a different game. Passing 0 is equivalent to closing the game.
      */
-    public void switchGame(Activity activity, String gameRoomId, long gameId, String gameUrl, String gamePkgVersion) {
+    public void switchGame(Activity activity, String gameRoomId, String gameId, String gameUrl, String gamePkgVersion) {
         if (TextUtils.isEmpty(gameRoomId)) {
             Toast.makeText(activity, "gameRoomId can not be empty", Toast.LENGTH_LONG).show();
             return;
         }
-        if (playingGameId == gameId && gameRoomId.equals(this.gameRoomId)) {
+        if (Objects.equals(playingGameId, gameId) && gameRoomId.equals(this.gameRoomId)) {
             return;
         }
         destroyMG();
@@ -124,8 +126,8 @@ public abstract class BaseRuntime1GameViewModel implements SudFSMMGListener {
      * @param gameId   游戏id
      *                 Game ID.
      */
-    private void login(Activity activity, long gameId) {
-        if (activity.isDestroyed() || gameId <= 0) {
+    private void login(Activity activity, String gameId) {
+        if (activity.isDestroyed() || TextUtils.isEmpty(gameId)) {
             return;
         }
         // 请求登录code
@@ -133,7 +135,7 @@ public abstract class BaseRuntime1GameViewModel implements SudFSMMGListener {
         getCode(activity, getUserId(), getAppId(), new GameGetCodeListener() {
             @Override
             public void onSuccess(String code) {
-                if (gameId != playingGameId) {
+                if (!Objects.equals(playingGameId, gameId)) {
                     return;
                 }
                 initSdk(activity, gameId, code);
@@ -158,7 +160,7 @@ public abstract class BaseRuntime1GameViewModel implements SudFSMMGListener {
      * @param code     令牌
      *                 Token.
      */
-    private void initSdk(Activity activity, long gameId, String code) {
+    private void initSdk(Activity activity, String gameId, String code) {
         initEnv();
         String appId = getAppId();
         String appKey = getAppKey();
@@ -212,8 +214,8 @@ public abstract class BaseRuntime1GameViewModel implements SudFSMMGListener {
      * @param gameId   游戏id
      *                 Game ID.
      */
-    private void loadGame(Activity activity, String code, long gameId) {
-        if (activity.isDestroyed() || gameId != playingGameId) {
+    private void loadGame(Activity activity, String code, String gameId) {
+        if (activity.isDestroyed() || !Objects.equals(gameId, playingGameId)) {
             return;
         }
         // 给装饰类设置回调
@@ -263,7 +265,7 @@ public abstract class BaseRuntime1GameViewModel implements SudFSMMGListener {
      * @param gameId   游戏id
      *                 Game ID.
      */
-    private void delayLoadGame(Activity activity, long gameId) {
+    private void delayLoadGame(Activity activity, String gameId) {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -277,11 +279,11 @@ public abstract class BaseRuntime1GameViewModel implements SudFSMMGListener {
      * Destroy the game.
      */
     public void destroyMG() {
-        if (playingGameId > 0) {
+        if (TextUtils.isEmpty(playingGameId)) {
             sudFSTAPPDecorator.destroyMG();
             sudFSMMGDecorator.destroyMG();
             gameRoomId = null;
-            playingGameId = 0;
+            playingGameId = null;
             gameView = null;
             onRemoveGameView();
         }

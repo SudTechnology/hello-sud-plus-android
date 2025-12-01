@@ -82,28 +82,8 @@ public abstract class BaseRuntime2GameViewModel {
         mGameId = gameId;
         mGameUrl = gameUrl;
         mGamePkgVersion = gamePkgVersion;
-        initCocosRuntime(activity, gameId, gameUrl, gamePkgVersion);
+        login(activity, gameId, gameUrl, gamePkgVersion);
         onResume();
-    }
-
-    private void initCocosRuntime(Activity activity, String gameId, String gameUrl, String gamePkgVersion) {
-        SudRuntime2InitManager.createRuntime(activity, new SudRuntime2InitManager.CreateRuntimeListener() {
-            @Override
-            public void onSuccess(SudRuntime2GameRuntime runtime) {
-                if (TextUtils.isEmpty(mGameId)) {
-                    return;
-                }
-                mRuntime = runtime;
-                initCocosCore(activity, gameId, gameUrl, gamePkgVersion);
-            }
-
-            @Override
-            public void onFailure(Throwable error) {
-                LogUtils.e("initCocosRuntime fail:" + error);
-                LogUtils.file("initCocosRuntime fail:" + error);
-                delayInitCocosRuntime(activity, gameId, gameUrl, gamePkgVersion);
-            }
-        });
     }
 
     private void login(Activity activity, String gameId, String gameUrl, String gamePkgVersion) {
@@ -151,8 +131,7 @@ public abstract class BaseRuntime2GameViewModel {
         SudRuntime2.initSDK(initSDKParamModel, new ISudRuntime2ListenerInitSDK() {
             @Override
             public void onSuccess() {
-                loadGame(activity, gameId, gamePkgVersion, gameUrl);
-                createCocosGameInstance();
+                initCocosRuntime(activity, gameId, gameUrl, gamePkgVersion);
             }
 
             @Override
@@ -161,6 +140,26 @@ public abstract class BaseRuntime2GameViewModel {
                 LogUtils.file("initSDK fail(" + retCode + ")" + retMsg);
                 ToastUtils.showLong("initSDK fail(" + retCode + ")" + retMsg);
                 delayLogin(activity, gameId, gameUrl, gamePkgVersion);
+            }
+        });
+    }
+
+    private void initCocosRuntime(Activity activity, String gameId, String gameUrl, String gamePkgVersion) {
+        SudRuntime2InitManager.createRuntime(activity, new SudRuntime2InitManager.CreateRuntimeListener() {
+            @Override
+            public void onSuccess(SudRuntime2GameRuntime runtime) {
+                if (TextUtils.isEmpty(mGameId)) {
+                    return;
+                }
+                mRuntime = runtime;
+                initCocosCore(activity, gameId, gameUrl, gamePkgVersion);
+            }
+
+            @Override
+            public void onFailure(Throwable error) {
+                LogUtils.e("initCocosRuntime fail:" + error);
+                LogUtils.file("initCocosRuntime fail:" + error);
+                delayInitCocosRuntime(activity, gameId, gameUrl, gamePkgVersion);
             }
         });
     }
@@ -226,12 +225,13 @@ public abstract class BaseRuntime2GameViewModel {
                     return;
                 }
                 mCoreHandle = coreHandle;
-                login(activity, gameId, gameUrl, gamePkgVersion);
+                loadGame(activity, gameId, gamePkgVersion, gameUrl);
+                createCocosGameInstance();
             }
 
             @Override
             public void onFailure(Throwable error) {
-                LogUtils.e("initCocos fail:" + error);
+                LogUtils.e("initCocos fail:" + tech.sud.logger.LogUtils.getErrorInfo(error));
                 LogUtils.file("initCocos fail:" + error);
                 delayInitCocosCore(activity, gameId, gameUrl, gamePkgVersion);
             }

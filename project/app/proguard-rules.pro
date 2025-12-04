@@ -107,3 +107,7 @@
 -keep class retrofit2.adapter.rxjava3.** {*;}
 -keep class retrofit2.converter.gson.** {*;}
 -keep class io.reactivex.rxjava3.** {*;}
+
+-keep class okhttp3.** {*;}
+-keep class androidx.**{ *; }
+-keep class okio.**{*;}

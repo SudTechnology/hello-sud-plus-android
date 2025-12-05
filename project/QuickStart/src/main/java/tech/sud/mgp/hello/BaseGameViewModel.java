@@ -564,6 +564,16 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
         handle.success(json);
     }
 
+    public void onStart() {
+        traceMsg("onStart");
+        sudFSTAPPDecorator.startMG();
+    }
+
+    public void onStop() {
+        traceMsg("onStop");
+        sudFSTAPPDecorator.stopMG();
+    }
+
     public void onPause() {
         traceMsg("onPause");
         // playMG和pauseMG要配对
@@ -577,6 +587,7 @@ public abstract class BaseGameViewModel implements SudFSMMGListener {
         // playMG and pauseMG should be paired.
         sudFSTAPPDecorator.playMG();
     }
+
 
     /**
      * 处理游戏配置

@@ -419,6 +419,7 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
 
     // region 生命周期相关
     public void onStart() {
+        sudFSTAPPDecorator.startMG();
     }
 
     public void onPause() {
@@ -447,6 +448,7 @@ public class AppGameViewModel implements SudFSMMGListener, SudFSTAPPDecorator.On
     }
 
     public void onStop() {
+        sudFSTAPPDecorator.stopMG();
     }
 
     public void onDestroy() {

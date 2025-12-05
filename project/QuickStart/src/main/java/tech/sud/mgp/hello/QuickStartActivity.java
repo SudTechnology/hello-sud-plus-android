@@ -180,6 +180,12 @@ public class QuickStartActivity extends BaseActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        gameViewModel.onStart();
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         updateStatusBar();
@@ -194,6 +200,12 @@ public class QuickStartActivity extends BaseActivity {
         // 注意：要在此处调用onPause()方法
         // Note: Call the onPause() method here.
         gameViewModel.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        gameViewModel.onStop();
     }
 
     @Override

@@ -516,16 +516,24 @@ public abstract class BaseRuntime1GameViewModel implements SudFSMMGListener {
         handle.success(json);
     }
 
-    public void onPause() {
-        // playMG和pauseMG要配对
-        // playMG and pauseMG should be paired.
-        sudFSTAPPDecorator.pauseMG();
+    public void onStart() {
+        sudFSTAPPDecorator.startMG();
     }
 
     public void onResume() {
         // playMG和pauseMG要配对
         // playMG and pauseMG should be paired.
         sudFSTAPPDecorator.playMG();
+    }
+
+    public void onPause() {
+        // playMG和pauseMG要配对
+        // playMG and pauseMG should be paired.
+        sudFSTAPPDecorator.pauseMG();
+    }
+
+    public void onStop() {
+        sudFSTAPPDecorator.stopMG();
     }
 
     /**

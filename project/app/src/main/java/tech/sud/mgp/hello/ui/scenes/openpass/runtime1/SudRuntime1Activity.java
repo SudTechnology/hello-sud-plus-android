@@ -120,6 +120,7 @@ public class SudRuntime1Activity extends BaseActivity {
     @Override
     public void onStart() {
         super.onStart();
+        mGameViewModel.onStart();
     }
 
     @Override
@@ -137,6 +138,7 @@ public class SudRuntime1Activity extends BaseActivity {
     @Override
     public void onStop() {
         super.onStop();
+        mGameViewModel.onStop();
     }
 
     @Override

@@ -66,7 +66,7 @@ public class SudRuntime2Activity extends BaseActivity {
         String gameId = mOpenPassGameInfo.gameId;
         String gameUrl = mOpenPassGameInfo.url;
         String gamePkgVersion = mOpenPassGameInfo.version;
-        mGameViewModel.startGame(this, gameId, gameUrl, gamePkgVersion);
+        mGameViewModel.switchGame(this, gameId, gameUrl, gamePkgVersion);
     }
 
     @Override
@@ -84,7 +84,7 @@ public class SudRuntime2Activity extends BaseActivity {
             }
         });
         findViewById(R.id.btn_load).setOnClickListener(v -> {
-            mGameViewModel.startGame(this, mOpenPassGameInfo.gameId, mOpenPassGameInfo.url, mOpenPassGameInfo.version);
+            mGameViewModel.switchGame(this, mOpenPassGameInfo.gameId, mOpenPassGameInfo.url, mOpenPassGameInfo.version);
         });
         findViewById(R.id.btn_destroy).setOnClickListener(v -> {
             mGameViewModel.destroyGame();

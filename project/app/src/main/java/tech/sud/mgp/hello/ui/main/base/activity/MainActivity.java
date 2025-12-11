@@ -41,6 +41,7 @@ import tech.sud.mgp.hello.ui.main.home.HomeFragment;
 import tech.sud.mgp.hello.ui.main.llm.LlmFragment;
 import tech.sud.mgp.hello.ui.main.room.RoomFragment;
 import tech.sud.mgp.hello.ui.main.settings.fragment.SettingsFragment;
+import tech.sud.mgp.hello.ui.scenes.ad.viewmodel.AdPreloadViewModel;
 import tech.sud.mgp.hello.ui.scenes.base.viewmodel.AppGameViewModel;
 import tech.sud.mgp.hello.ui.scenes.common.gift.manager.GiftHelper;
 
@@ -55,6 +56,7 @@ public class MainActivity extends BaseActivity implements MainTabView.TabClickLi
     private final List<TabModel> tabs = new ArrayList<>();
     private final List<MainTabView> tabViews = new ArrayList<>();
     private AppGameViewModel gameViewModel = new AppGameViewModel();
+    private AdPreloadViewModel mAdPreloadViewModel = new AdPreloadViewModel(this);
 
     @Override
     protected int getLayoutId() {
@@ -79,6 +81,7 @@ public class MainActivity extends BaseActivity implements MainTabView.TabClickLi
         }
         viewPager.setSaveEnabled(false);
         viewPager.setUserInputEnabled(false);
+        mAdPreloadViewModel.start();
     }
 
     @Override

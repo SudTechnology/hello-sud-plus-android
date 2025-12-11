@@ -110,7 +110,7 @@ public class AdGameFragment extends BaseFragment {
         String gameId = mOpenPassGameInfo.gameId;
         String gameUrl = mOpenPassGameInfo.url;
         String gamePkgVersion = mOpenPassGameInfo.version;
-        mGameViewModel.startGame(requireActivity(), gameId, gameUrl, gamePkgVersion);
+        mGameViewModel.switchGame(requireActivity(), gameId, gameUrl, gamePkgVersion);
         onStart();
     }
 

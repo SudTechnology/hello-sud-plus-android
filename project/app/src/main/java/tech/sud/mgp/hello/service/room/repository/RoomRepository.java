@@ -585,7 +585,7 @@ public class RoomRepository {
     /** 获取广告列表配置 */
     public static void getGiAdConfig(LifecycleOwner owner, Observer<List<GiAdModel>> callback) {
         AudioRequestMethodFactory.getMethod()
-                .getGiAdConfig("https://hello-sud-plus.sudden.ltd/")
+                .getGiAdConfig("https://hello-sud-plus-prod.sudden.ltd/")
                 .compose(RxUtils.schedulers(owner))
                 .subscribe(callback);
     }

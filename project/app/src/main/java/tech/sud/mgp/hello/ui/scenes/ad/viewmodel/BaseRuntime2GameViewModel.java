@@ -61,10 +61,10 @@ public abstract class BaseRuntime2GameViewModel {
      * @param activity 页面
      * @param gameId   游戏id
      */
-    public void startGame(Activity activity, String gameId, String gameUrl, String gamePkgVersion) {
+    public void switchGame(Activity activity, String gameId, String gameUrl, String gamePkgVersion) {
         if (TextUtils.isEmpty(gameId) || TextUtils.isEmpty(gameUrl)) {
-            LogUtils.d("startGame gameId or gameUrl can not be empty");
-            LogUtils.file("startGame gameId or gameUrl can not be empty");
+            LogUtils.d("switchGame gameId or gameUrl can not be empty");
+            LogUtils.file("switchGame gameId or gameUrl can not be empty");
             return;
         }
         if (!TextUtils.isEmpty(mGameId)) {
@@ -131,7 +131,7 @@ public abstract class BaseRuntime2GameViewModel {
         SudRuntime2.initSDK(initSDKParamModel, new ISudRuntime2ListenerInitSDK() {
             @Override
             public void onSuccess() {
-                initCocosRuntime(activity, gameId, gameUrl, gamePkgVersion);
+                createRuntime(activity, gameId, gameUrl, gamePkgVersion);
             }
 
             @Override
@@ -144,7 +144,7 @@ public abstract class BaseRuntime2GameViewModel {
         });
     }
 
-    private void initCocosRuntime(Activity activity, String gameId, String gameUrl, String gamePkgVersion) {
+    private void createRuntime(Activity activity, String gameId, String gameUrl, String gamePkgVersion) {
         SudRuntime2InitManager.createRuntime(activity, new SudRuntime2InitManager.CreateRuntimeListener() {
             @Override
             public void onSuccess(SudRuntime2GameRuntime runtime) {
@@ -152,14 +152,14 @@ public abstract class BaseRuntime2GameViewModel {
                     return;
                 }
                 mRuntime = runtime;
-                initCocosCore(activity, gameId, gameUrl, gamePkgVersion);
+                loadCore(activity, gameId, gameUrl, gamePkgVersion);
             }
 
             @Override
             public void onFailure(Throwable error) {
-                LogUtils.e("initCocosRuntime fail:" + error);
-                LogUtils.file("initCocosRuntime fail:" + error);
-                delayInitCocosRuntime(activity, gameId, gameUrl, gamePkgVersion);
+                LogUtils.e("createRuntime fail:" + error);
+                LogUtils.file("createRuntime fail:" + error);
+                delayCreateRuntime(activity, gameId, gameUrl, gamePkgVersion);
             }
         });
     }
@@ -205,19 +205,19 @@ public abstract class BaseRuntime2GameViewModel {
         });
     }
 
-    private void delayInitCocosRuntime(Activity activity, String gameId, String gameUrl, String gamePkgVersion) {
+    private void delayCreateRuntime(Activity activity, String gameId, String gameUrl, String gamePkgVersion) {
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 if (TextUtils.isEmpty(mGameId)) {
                     return;
                 }
-                initCocosRuntime(activity, gameId, gameUrl, gamePkgVersion);
+                createRuntime(activity, gameId, gameUrl, gamePkgVersion);
             }
         }, 5000);
     }
 
-    private void initCocosCore(Activity activity, String gameId, String gameUrl, String gamePkgVersion) {
+    private void loadCore(Activity activity, String gameId, String gameUrl, String gamePkgVersion) {
         SudRuntime2InitManager.loadCore(new SudRuntime2InitManager.LoadCoreListener() {
             @Override
             public void onSuccess(SudRuntime2GameCoreHandle coreHandle) {
@@ -226,19 +226,19 @@ public abstract class BaseRuntime2GameViewModel {
                 }
                 mCoreHandle = coreHandle;
                 loadGame(activity, gameId, gamePkgVersion, gameUrl);
-                createCocosGameInstance();
+                createGameInstance();
             }
 
             @Override
             public void onFailure(Throwable error) {
-                LogUtils.e("initCocos fail:" + tech.sud.logger.LogUtils.getErrorInfo(error));
-                LogUtils.file("initCocos fail:" + error);
-                delayInitCocosCore(activity, gameId, gameUrl, gamePkgVersion);
+                LogUtils.e("loadCore fail:" + tech.sud.logger.LogUtils.getErrorInfo(error));
+                LogUtils.file("loadCore fail:" + error);
+                delayLoadCore(activity, gameId, gameUrl, gamePkgVersion);
             }
         });
     }
 
-    private void createCocosGameInstance() {
+    private void createGameInstance() {
         if (mGameHandle != null) {
             return;
         }
@@ -273,8 +273,8 @@ public abstract class BaseRuntime2GameViewModel {
             public void onFailure(Throwable error) {
                 LogUtils.d(CALC_TAG + "创建GameHandle 失败 gameId：" + mGameId + " 耗时：" + (System.currentTimeMillis() - start));
 
-                LogUtils.e("createCocosGameInstance fail:" + error);
-                LogUtils.file("createCocosGameInstance fail:" + error);
+                LogUtils.e("createGameInstance fail:" + error);
+                LogUtils.file("createGameInstance fail:" + error);
             }
         });
     }
@@ -283,8 +283,8 @@ public abstract class BaseRuntime2GameViewModel {
         @Override
         public void onQueryAudioOptions(SudRuntime2GameAudioSession.GameQueryAudioOptionsHandle gameQueryAudioOptionsHandle, Bundle bundle) {
             // bundle 中参数
-            // bundle.getBoolean(CocosGameAudioSession.KEY_AUDIO_MIX_WITH_OTHER); 是否用扬声器播放，true 默认输出设备优先级：耳机 > 蓝牙 > 扬声器；false 用听筒播放
-            // bundle.getBoolean(CocosGameAudioSession.KEY_AUDIO_SPEAKER_ON); 音频是否支持与其他音频混播（包含其他应用、其他游戏实例的音频）
+            // bundle.getBoolean(SudRuntime2GameAudioSession.KEY_AUDIO_MIX_WITH_OTHER); 是否用扬声器播放，true 默认输出设备优先级：耳机 > 蓝牙 > 扬声器；false 用听筒播放
+            // bundle.getBoolean(SudRuntime2GameAudioSession.KEY_AUDIO_SPEAKER_ON); 音频是否支持与其他音频混播（包含其他应用、其他游戏实例的音频）
             if (afChangeListener == null) {
                 afChangeListener = new AudioManager.OnAudioFocusChangeListener() {
                     @Override
@@ -333,14 +333,14 @@ public abstract class BaseRuntime2GameViewModel {
         gameMGCommonGameFinishLiveData.setValue(dataJson);
     }
 
-    private void delayInitCocosCore(Activity activity, String gameId, String gameUrl, String gamePkgVersion) {
+    private void delayLoadCore(Activity activity, String gameId, String gameUrl, String gamePkgVersion) {
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 if (TextUtils.isEmpty(mGameId)) {
                     return;
                 }
-                initCocosCore(activity, gameId, gameUrl, gamePkgVersion);
+                loadCore(activity, gameId, gameUrl, gamePkgVersion);
             }
         }, 5000);
     }

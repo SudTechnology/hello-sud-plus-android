@@ -272,7 +272,8 @@ public class AdGameFragment extends BaseFragment {
     public void onPause() {
         super.onPause();
         LogUtils.d("position:" + mPosition + " onPause");
-        mGameViewModel.onPause();
+        stopTiming();
+        mGameViewModel.onStop();
         mGameViewModel.setMute(true);
     }
 
@@ -280,8 +281,6 @@ public class AdGameFragment extends BaseFragment {
     public void onStop() {
         super.onStop();
         LogUtils.d("position:" + mPosition + " onStop");
-        stopTiming();
-        mGameViewModel.onStop();
     }
 
     @Override

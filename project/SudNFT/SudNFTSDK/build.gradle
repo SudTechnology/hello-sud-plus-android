@@ -1,4 +1,0 @@
-configurations.maybeCreate("default")
-artifacts.add("default", file('SudNFT-v1.0.4.69.aar'))
-dependencies {
-}

@@ -66,9 +66,6 @@ public interface RequestUrl {
     /** 点单场景：主播接单 */
     String ROOM_ORDER_RECEIVE = "room/order/receive/v1";
 
-    /** 穿戴NFT */
-    String WEAR_NFT = "wear-nft-header/v1";
-
     /** 获取首页banner信息 */
     String GET_BANNER = "get-banner/v1";
 

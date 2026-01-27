@@ -130,9 +130,6 @@ dependencies {
     // 引入 SudASR
     implementation 'tech.sud.gip:SudASR:1.6.7.1286'
 
-    // 引入 SudNFT
-    implementation project(':SudNFT:SudNFTSDK')
-
     // 引入 SudMGPRTC
     implementation project(':SudMGPRTC:SudMGPRtcAgora')
     implementation project(':SudMGPRTC:SudMGPRtcAliyun')

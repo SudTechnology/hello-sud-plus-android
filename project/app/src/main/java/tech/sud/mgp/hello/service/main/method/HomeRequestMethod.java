@@ -38,7 +38,6 @@ import tech.sud.mgp.hello.service.room.req.GetAiCloneReq;
 import tech.sud.mgp.hello.service.room.req.RandomAiCloneReq;
 import tech.sud.mgp.hello.service.room.req.SaveAiCloneReq;
 import tech.sud.mgp.hello.service.room.req.UpdateAiCloneReq;
-import tech.sud.mgp.hello.service.room.req.WearNftReq;
 import tech.sud.mgp.hello.ui.main.home.model.MatchRoomModel;
 
 /**
@@ -129,12 +128,6 @@ public interface HomeRequestMethod {
      */
     @POST(RequestUrl.AUTH_MATCH_ROOM)
     Observable<BaseResponse<AuthMatchRoomResp>> authMatchRoom(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body AuthMatchRoomReq body);
-
-    /**
-     * 穿戴NFT
-     */
-    @POST(RequestUrl.WEAR_NFT)
-    Observable<BaseResponse<Object>> wearNFT(@Header(IBaseUrl.KEY_BASE_URL) String baseUrl, @Body WearNftReq req);
 
     /**
      * 跨域游戏列表

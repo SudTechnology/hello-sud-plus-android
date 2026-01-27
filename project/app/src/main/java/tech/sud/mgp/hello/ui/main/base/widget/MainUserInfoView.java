@@ -2,7 +2,6 @@ package tech.sud.mgp.hello.ui.main.base.widget;
 
 import android.app.Activity;
 import android.content.Context;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
@@ -25,12 +24,6 @@ import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.utils.ImageLoader;
 import tech.sud.mgp.hello.ui.main.home.view.CoinDialog;
-import tech.sud.mgp.hello.ui.main.nft.model.BindWalletInfoModel;
-import tech.sud.mgp.hello.ui.main.nft.model.NftModel;
-import tech.sud.mgp.hello.ui.main.nft.model.WalletInfoModel;
-import tech.sud.mgp.hello.ui.main.nft.model.ZoneType;
-import tech.sud.mgp.hello.ui.main.nft.viewmodel.NFTViewModel;
-import tech.sud.mgp.hello.ui.main.nft.widget.dialog.NftDetailDialog;
 
 /**
  * 首页顶部的个人信息弹窗
@@ -84,18 +77,7 @@ public class MainUserInfoView extends ConstraintLayout {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        BindWalletInfoModel bindWalletInfoModel = NFTViewModel.sBindWalletInfo;
-        if (bindWalletInfoModel == null) {
-            showUserId();
-        } else {
-            WalletInfoModel walletInfoModel = bindWalletInfoModel.getWalletInfoModel(bindWalletInfoModel.walletType);
-            if (walletInfoModel == null || walletInfoModel.zoneType == ZoneType.INTERNAL
-                    || TextUtils.isEmpty(walletInfoModel.walletAddress)) {
-                showUserId();
-            } else {
-                showWalletAddress(walletInfoModel.walletAddress);
-            }
-        }
+        showUserId();
     }
 
     private ImageView getShowIvIcon() {
@@ -130,20 +112,6 @@ public class MainUserInfoView extends ConstraintLayout {
                 FragmentManager fragmentManager = getFragmentManager();
                 if (fragmentManager != null) {
                     new CoinDialog().show(fragmentManager, null);
-                }
-            }
-        });
-        ivNftIcon.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentManager fragmentManager = getFragmentManager();
-                BindWalletInfoModel bindWalletInfoModel = NFTViewModel.sBindWalletInfo;
-                if (fragmentManager != null && bindWalletInfoModel != null) {
-                    NftModel wearNft = bindWalletInfoModel.getWearNft();
-                    if (wearNft != null) {
-                        NftDetailDialog dialog = NftDetailDialog.newInstance(wearNft);
-                        dialog.show(fragmentManager, null);
-                    }
                 }
             }
         });

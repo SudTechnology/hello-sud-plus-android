@@ -27,27 +27,18 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.Li
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import tech.sud.mgp.hello.BuildConfig;
 import tech.sud.mgp.hello.R;
 import tech.sud.mgp.hello.app.FlavorChannel;
 import tech.sud.mgp.hello.common.base.BaseFragment;
 import tech.sud.mgp.hello.common.base.BaseFragmentStateAdapter;
-import tech.sud.mgp.hello.common.model.HSUserInfo;
 import tech.sud.mgp.hello.common.utils.DensityUtils;
 import tech.sud.mgp.hello.common.utils.ViewUtils;
-import tech.sud.mgp.hello.service.main.repository.UserInfoRepository;
-import tech.sud.mgp.hello.service.main.resp.UserInfoResp;
-import tech.sud.mgp.hello.ui.common.utils.LifecycleUtils;
 import tech.sud.mgp.hello.ui.common.widget.ScaleTransitionPagerTitleView;
 import tech.sud.mgp.hello.ui.common.widget.ViewPager2Helper;
 import tech.sud.mgp.hello.ui.main.base.widget.MainUserInfoView;
 import tech.sud.mgp.hello.ui.main.discover.DiscoverFragment;
-import tech.sud.mgp.hello.ui.main.nft.model.BindWalletInfoModel;
-import tech.sud.mgp.hello.ui.main.nft.model.NftModel;
-import tech.sud.mgp.hello.ui.main.nft.viewmodel.CancelWearNftListener;
-import tech.sud.mgp.hello.ui.main.nft.viewmodel.NFTViewModel;
 import tech.sud.mgp.hello.ui.main.roomlist.RoomListFragment;
 import tech.sud.mgp.hello.ui.scenes.base.utils.EnterRoomUtils;
 
@@ -63,7 +54,6 @@ public class RoomFragment extends BaseFragment {
     private ViewPager2 viewPager;
 
     private final List<String> tabs = new ArrayList<>();
-    private final NFTViewModel nftViewModel = new NFTViewModel();
 
     public static RoomFragment newInstance() {
         return new RoomFragment();
@@ -211,45 +201,6 @@ public class RoomFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         userInfoView.updateUserInfo();
-        updateNftHeader();
-    }
-
-    /** 更新nft头像 */
-    private void updateNftHeader() {
-        List<Long> userIdList = new ArrayList<>();
-        userIdList.add(HSUserInfo.userId);
-        UserInfoRepository.getUserInfoList(this, userIdList, new UserInfoRepository.UserInfoListResultListener() {
-            @Override
-            public void userInfoList(List<UserInfoResp> userInfos) {
-                BindWalletInfoModel bindWalletInfoModel = nftViewModel.getBindWalletInfoByCache();
-                if (userInfos == null || userInfos.size() == 0 || bindWalletInfoModel == null) {
-                    return;
-                }
-                NftModel wearNft = bindWalletInfoModel.getWearNft();
-                if (wearNft == null) {
-                    return;
-                }
-                UserInfoResp userInfoResp = userInfos.get(0);
-                if (userInfoResp.headerType != 1 || !Objects.equals(userInfoResp.headerNftToken, wearNft.detailsToken)) {
-                    nftViewModel.cancelWearNft(new CancelWearNftListener() {
-                        @Override
-                        public void onSuccess() {
-                            LifecycleUtils.safeLifecycle(mFragment, () -> {
-                                userInfoView.updateUserInfo();
-                            });
-                        }
-
-                        @Override
-                        public void onFailure(int retCode, String retMsg) {
-                            LifecycleUtils.safeLifecycle(mFragment, () -> {
-                                nftViewModel.clearWearNft();
-                                userInfoView.updateUserInfo();
-                            });
-                        }
-                    });
-                }
-            }
-        });
     }
 
     private static class MyAdapter extends BaseFragmentStateAdapter<String> {

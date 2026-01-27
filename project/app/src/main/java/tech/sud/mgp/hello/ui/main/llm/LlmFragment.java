@@ -26,9 +26,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Random;
 
 import tech.sud.mgp.hello.R;
@@ -46,7 +44,6 @@ import tech.sud.mgp.hello.common.utils.permission.PermissionFragment;
 import tech.sud.mgp.hello.common.utils.permission.SudPermissionUtils;
 import tech.sud.mgp.hello.service.main.manager.HomeManager;
 import tech.sud.mgp.hello.service.main.repository.HomeRepository;
-import tech.sud.mgp.hello.service.main.repository.UserInfoRepository;
 import tech.sud.mgp.hello.service.main.req.GameListReq;
 import tech.sud.mgp.hello.service.main.resp.AiInfoModel;
 import tech.sud.mgp.hello.service.main.resp.CreatRoomResp;
@@ -57,7 +54,6 @@ import tech.sud.mgp.hello.service.main.resp.QuizGameListResp;
 import tech.sud.mgp.hello.service.main.resp.SaveAiCloneResp;
 import tech.sud.mgp.hello.service.main.resp.SceneModel;
 import tech.sud.mgp.hello.service.main.resp.UpdateAiCloneResp;
-import tech.sud.mgp.hello.service.main.resp.UserInfoResp;
 import tech.sud.mgp.hello.service.room.req.SaveAiCloneReq;
 import tech.sud.mgp.hello.service.room.resp.CrossAppModel;
 import tech.sud.mgp.hello.ui.common.constant.RequestKey;
@@ -77,10 +73,6 @@ import tech.sud.mgp.hello.ui.main.home.view.homeitem.GameItemListener;
 import tech.sud.mgp.hello.ui.main.home.view.homeitem.HomeItemView;
 import tech.sud.mgp.hello.ui.main.llm.widget.CreateLlmView;
 import tech.sud.mgp.hello.ui.main.llm.widget.VoiceRecordView;
-import tech.sud.mgp.hello.ui.main.nft.model.BindWalletInfoModel;
-import tech.sud.mgp.hello.ui.main.nft.model.NftModel;
-import tech.sud.mgp.hello.ui.main.nft.viewmodel.CancelWearNftListener;
-import tech.sud.mgp.hello.ui.main.nft.viewmodel.NFTViewModel;
 import tech.sud.mgp.hello.ui.scenes.base.model.EnterRoomParams;
 import tech.sud.mgp.hello.ui.scenes.base.utils.EnterRoomUtils;
 import tech.sud.mgp.hello.ui.scenes.base.utils.SafeAudioPlayer;
@@ -103,7 +95,6 @@ public class LlmFragment extends BaseFragment implements CreatRoomClickListener,
     private NewNestedScrollView scrollView;
     private ImageView menuIv;
     private MainUserInfoView userInfoView;
-    private final NFTViewModel nftViewModel = new NFTViewModel();
     private GameListResp mGameListResp;
     private MutableLiveData<JumpRocketEvent> mJumpRocketEventMutableLiveData = new MutableLiveData<>();
     private CreateLlmView mLlmView;
@@ -254,7 +245,6 @@ public class LlmFragment extends BaseFragment implements CreatRoomClickListener,
         super.onResume();
         loadList();
         userInfoView.updateUserInfo();
-        updateNftHeader();
         refreshClone();
     }
 
@@ -279,44 +269,6 @@ public class LlmFragment extends BaseFragment implements CreatRoomClickListener,
             createRoom(SceneType.AUDIO, null);
         }
     };
-
-    /** 更新nft头像 */
-    private void updateNftHeader() {
-        List<Long> userIdList = new ArrayList<>();
-        userIdList.add(HSUserInfo.userId);
-        UserInfoRepository.getUserInfoList(this, userIdList, new UserInfoRepository.UserInfoListResultListener() {
-            @Override
-            public void userInfoList(List<UserInfoResp> userInfos) {
-                BindWalletInfoModel bindWalletInfoModel = nftViewModel.getBindWalletInfoByCache();
-                if (userInfos == null || userInfos.size() == 0 || bindWalletInfoModel == null) {
-                    return;
-                }
-                NftModel wearNft = bindWalletInfoModel.getWearNft();
-                if (wearNft == null) {
-                    return;
-                }
-                UserInfoResp userInfoResp = userInfos.get(0);
-                if (userInfoResp.headerType != 1 || !Objects.equals(userInfoResp.headerNftToken, wearNft.detailsToken)) {
-                    nftViewModel.cancelWearNft(new CancelWearNftListener() {
-                        @Override
-                        public void onSuccess() {
-                            LifecycleUtils.safeLifecycle(mFragment, () -> {
-                                userInfoView.updateUserInfo();
-                            });
-                        }
-
-                        @Override
-                        public void onFailure(int retCode, String retMsg) {
-                            LifecycleUtils.safeLifecycle(mFragment, () -> {
-                                nftViewModel.clearWearNft();
-                                userInfoView.updateUserInfo();
-                            });
-                        }
-                    });
-                }
-            }
-        });
-    }
 
     @Override
     protected void setListeners() {

@@ -125,10 +125,10 @@ dependencies {
     implementation(project(':SudGIPWrapper',)) {
         exclude group: "tech.sud.gip", module: "SudGIP"
     }
-    implementation 'tech.sud.gip:SudGIP-pro:1.6.7.1286'
+    implementation 'tech.sud.gip:SudGIP-pro:1.6.8.1299'
 
     // 引入 SudASR
-    implementation 'tech.sud.gip:SudASR:1.6.7.1286'
+    implementation 'tech.sud.gip:SudASR:1.6.8.1299'
 
     // 引入 SudMGPRTC
     implementation project(':SudMGPRTC:SudMGPRtcAgora')

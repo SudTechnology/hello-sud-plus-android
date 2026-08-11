@@ -38,6 +38,7 @@ public class RoomMoreDialog extends BaseDialogFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setStyle(STYLE_NORMAL, R.style.audio_dialog_soft_input);
         Bundle arguments = getArguments();
         if (arguments != null) {
             isFullScreen = arguments.getBoolean("isFullScreen");
@@ -67,6 +68,7 @@ public class RoomMoreDialog extends BaseDialogFragment {
     @Override
     protected void customStyle(Window window) {
         super.customStyle(window);
+        ImmersionBar.with(this).init();
         window.setDimAmount(0);
         window.setWindowAnimations(R.style.TopToBottomAnim);
         if (isFullScreen) {

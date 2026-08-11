@@ -20,6 +20,7 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
+import com.gyf.immersionbar.ImmersionBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,6 +101,7 @@ public class RoomGiftDialog extends BaseDialogFragment implements SendGiftToUser
     @Override
     protected void customStyle(Window window) {
         super.customStyle(window);
+        ImmersionBar.with(this).init();
         window.setDimAmount(0f);
         window.setWindowAnimations(R.style.BottomToTopAnim);
     }

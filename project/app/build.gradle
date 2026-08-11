@@ -178,7 +178,7 @@ dependencies {
     implementation "com.github.zjupure:webpdecoder:2.7.4.16.0"
 
     // 沉浸式状态栏
-    implementation 'com.geyifeng.immersionbar:immersionbar:3.2.2'
+    implementation 'com.geyifeng.immersionbar:immersionbar:3.3.3'
 
     // 设置阴影颜色的控件:https://github.com/lihangleo2/ShadowLayout
     implementation 'com.github.lihangleo2:ShadowLayout:3.3.3'
